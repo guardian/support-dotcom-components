@@ -1,6 +1,6 @@
 {
     "projectName": "dotcom:contributions-service",
-    "vcsURL": "https://github.com/guardian/__PROJECT_NAME__",
+    "vcsURL": "https://github.com/guardian/contributions-service_",
     "actions": [
         {
             "action": "lambda",
