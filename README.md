@@ -1,18 +1,16 @@
-# Guardian TypeScript server-side starter kit
+# Contributions Service
 
-A basic starter-kit for a TypeScript server-side (only) React project.
+## Development
 
-Commands:
+### Run the dev server
 
-    $ yarn dev // run dev server
-    $ yarn test // run tests
-    $ yarn test example // test example.test.ts
+```
+$ yarn dev
+```
 
-Core technologies included:
+### Run the tests
 
--   TypeScript
--   Node
--   React
--   Emotion (CSS-in-JS library)
--   Express (HTTP server)
--   Jest (testing library)
+```
+$ yarn test
+$ yarn test path/to/specific/test.ts
+```
