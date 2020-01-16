@@ -16,4 +16,4 @@ deployments:
             prefixStack: true
             bucket: aws-frontend-contributions-service
             fileName: lambda.zip
-            functionNames: [contributions-service]
+            functionNames: [-contributions-service-]
