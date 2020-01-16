@@ -9,7 +9,11 @@
   "private": false,
   "scripts": {
     "dev": "ts-node-dev --respawn --transpileOnly src/server.tsx",
-    "test": "jest"
+    "test": "jest",
+    "prebuild": "rm -rf dist cloudformation.yaml",
+    "build": "tsc",
+    "postbuild": "./bin/package.sh",
+    "upload-artifact": "node-riffraff-artifact"
   },
   "dependencies": {
     "@guardian/src-foundations": "^0.11.0",

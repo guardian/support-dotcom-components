@@ -16,7 +16,7 @@ export class LambdaService extends cdk.Stack {
         const key = `frontend/${stage.value}/lambda/lambda.zip`;
         const functionName = `frontend-contributions-service-${stage.value}`;
 
-        const handler = new lambda.Function(this, functionName, {
+        const handler = new lambda.Function(this, 'frontend-contributions-service', {
             runtime: lambda.Runtime.NODEJS_12_X,
             code: lambda.Code.fromBucket(
                 s3.Bucket.fromBucketName(this, 'lambda-code-bucket', bucket),
@@ -38,7 +38,7 @@ export class LambdaService extends cdk.Stack {
         const restApiName = `contributions-service-${stage.value}`;
 
         // tslint:disable-next-line: no-unused-expression
-        new apigateway.LambdaRestApi(this, restApiName, {
+        new apigateway.LambdaRestApi(this, 'contributions-service', {
             restApiName,
             description: 'Service to serve contributions components',
             proxy: true,
