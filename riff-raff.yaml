@@ -1,0 +1,19 @@
+stacks: [frontend]
+regions: [eu-west-1]
+
+deployments:
+    cloudformation:
+        type: cloud-formation
+        app: contributions-service
+        parameters:
+            cloudFormationStackName: contributions-service
+            templatePath: cloudformation.yaml
+            cloudFormationStackByTags: false
+    lambda:
+        type: aws-lambda
+        dependencies: [cloudformation]
+        parameters:
+            prefixStack: true
+            bucket: aws-frontend-contributions-service
+            fileName: lambda.zip
+            functionNames: [contributions-service]

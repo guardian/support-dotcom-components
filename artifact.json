@@ -1,0 +1,16 @@
+{
+    "projectName": "dotcom:contributions-service",
+    "vcsURL": "https://github.com/guardian/__PROJECT_NAME__",
+    "actions": [
+        {
+            "action": "lambda",
+            "path": "dist",
+            "compress": "zip"
+        },
+        {
+            "action": "cloudformation",
+            "path": "cloudformation.yaml",
+            "compress": false
+        }
+    ]
+}
