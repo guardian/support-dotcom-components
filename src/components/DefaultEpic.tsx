@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import { titlepiece } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
+import { CallToAction } from './CallToAction';
 
 const wrapperStyles = css`
     margin-top: 24px;
@@ -64,6 +65,12 @@ export const DefaultEpic: React.FC<{}> = ({}) => {
                 </strong>
             </p>
             <div className={buttonWrapperStyles}>
+                <CallToAction
+                    url=""
+                    dataLinkNamePrefix={dataLinkNamePrefix}
+                    dataLinkNameSuffix="contribute-cta"
+                    linkText="Support The Guardian"
+                />
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
