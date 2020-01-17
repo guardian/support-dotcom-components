@@ -11,7 +11,6 @@ export const renderHtmlDocument = ({ html, css }: TemplateData) =>
         <title>Contributions Service Preview</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- <link rel="stylesheet" href="css/normalize.css" /> -->
         <style>
           ${css}
         </style>
