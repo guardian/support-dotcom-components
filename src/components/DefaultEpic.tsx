@@ -9,6 +9,15 @@ const wrapperStyles = css`
     padding: 4px 5px 12px;
     border-top: 1px solid ${palette.brandYellow.main};
     background-color: ${palette.neutral[97]};
+
+    * {
+        ::selection {
+            background: ${palette.brandYellow.main};
+        }
+        ::-moz-selection {
+            background: ${palette.brandYellow.main};
+        }
+    }
 `;
 
 const headingStyles = css`
