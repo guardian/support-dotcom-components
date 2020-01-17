@@ -108,7 +108,7 @@ export const renderHtmlDocument = ({ html, css }: TemplateData) =>
                 margin: 0;
             }
             .preview-wrapper {
-                max-width: 1200px;
+                max-width: 1300px;
                 margin: 0 auto;
             }
         </style>
