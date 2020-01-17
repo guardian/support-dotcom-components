@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { titlepiece } from '@guardian/src-foundations/typography';
+import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { CallToAction } from './CallToAction';
 
@@ -12,15 +12,22 @@ const wrapperStyles = css`
 `;
 
 const headingStyles = css`
-    ${titlepiece.small()}
+    ${headline.xxsmall({ fontWeight: 'bold' })}
+    margin-top: 0;
     margin-bottom: 12px;
 `;
 
 const bodyStyles = css`
     margin: 0 auto 8px;
+    ${body.medium({ lineHeight: 'regular' })};
+`;
+
+const highlightWrapperStyles = css`
+    ${body.medium({ fontWeight: 'bold' })}
 `;
 
 const highlightStyles = css`
+    padding: 2px;
     background-color: ${palette.brandYellow.main};
 `;
 
@@ -28,9 +35,13 @@ const buttonWrapperStyles = css`
     margin-top: 24px;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 `;
 
-const imageStyles = css``;
+const imageStyles = css`
+    width: auto;
+    height: 25px;
+`;
 
 export const DefaultEpic: React.FC<{}> = ({}) => {
     return (
@@ -59,16 +70,16 @@ export const DefaultEpic: React.FC<{}> = ({}) => {
                 We hope you will consider supporting us today. We need your support to keep
                 delivering quality journalism that’s open and independent. Every reader
                 contribution, however big or small, is so valuable.{' '}
-                <strong className={highlightStyles}>
-                    Support The Guardian from as little as £1 - and it only takes a minute. Thank
-                    you.
+                <strong className={highlightWrapperStyles}>
+                    <span className={highlightStyles}>
+                        Support The Guardian from as little as £1 - and it only takes a minute.
+                        Thank you.
+                    </span>
                 </strong>
             </p>
             <div className={buttonWrapperStyles}>
                 <CallToAction
-                    url=""
-                    dataLinkNamePrefix={dataLinkNamePrefix}
-                    dataLinkNameSuffix="contribute-cta"
+                    url="https://support.theguardian.com/uk/contribute"
                     linkText="Support The Guardian"
                 />
                 <img
