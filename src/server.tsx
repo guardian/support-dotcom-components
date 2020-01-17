@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 });
 
 // If local then don't wrap in serverless
-const PORT = 3030;
+const PORT = process.env.PORT || 3030;
 if (process.env.NODE_ENV === 'development') {
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 } else {

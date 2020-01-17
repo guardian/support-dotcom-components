@@ -6,6 +6,7 @@
 
 ```
 $ yarn dev
+$ PORT=8080 yarn dev # override the port to listen on
 ```
 
 ### Run the tests
