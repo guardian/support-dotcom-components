@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from 'emotion';
 import { textSans } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
-import { from, until } from '@guardian/src-foundations/mq';
 
 const link = css`
     background: ${palette.brandYellow.main};
@@ -11,15 +10,11 @@ const link = css`
     color: ${palette.neutral[7]};
     ${textSans.medium({ fontWeight: 'bold' })};
     text-decoration: none;
-    padding: 12px 21px;
+    padding: 12px 35px 12px 21px;
     line-height: 18px;
     position: relative;
-    margin-right: 10px;
+    margin: 4px 10px 4px 0;
     transition: background-color 0.3s ease-in-out;
-
-    ${from.mobileMedium} {
-        padding-right: 35px;
-    }
 
     :hover {
         background: ${palette.brandYellow.dark};
@@ -34,10 +29,6 @@ const link = css`
         width: 32px;
         transform: translate(0, -50%);
         transition: transform 0.3s ease-in-out;
-
-        ${until.mobileMedium} {
-            display: none;
-        }
     }
 
     :hover svg {

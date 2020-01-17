@@ -19,7 +19,7 @@ const headingStyles = css`
 
 const bodyStyles = css`
     margin: 0 auto 8px;
-    ${body.medium({ lineHeight: 'regular' })};
+    ${body.medium()};
 `;
 
 const highlightWrapperStyles = css`
@@ -32,15 +32,17 @@ const highlightStyles = css`
 `;
 
 const buttonWrapperStyles = css`
-    margin-top: 24px;
+    margin: 24px 10px 4px 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 `;
 
 const imageStyles = css`
+    display: inline-block;
     width: auto;
     height: 25px;
+    margin: 4px 0;
 `;
 
 export const DefaultEpic: React.FC<{}> = ({}) => {
