@@ -8,7 +8,6 @@ import { CallToAction } from './CallToAction';
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
 const wrapperStyles = css`
-    margin-top: ${space[6]}px;
     padding: ${space[1]}px ${space[1]}px ${space[3]}px;
     border-top: 1px solid ${palette.brandYellow.main};
     background-color: ${palette.neutral[97]};
