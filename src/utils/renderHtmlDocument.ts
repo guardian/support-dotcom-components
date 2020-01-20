@@ -72,8 +72,8 @@ export const renderHtmlDocument = ({ html, css }: TemplateData) =>
             }
             @font-face {
                 font-family: "GuardianTextEgyptian";
-                src: url(${CDNFontPath}/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-RegularBold.woff2) format("woff2"),
-                    url(${CDNFontPath}/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-RegularBold.woff) format("woff");
+                src: url(${CDNFontPath}/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Bold.woff2) format("woff2"),
+                    url(${CDNFontPath}/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Bold.woff) format("woff");
                 font-weight: 700;
                 font-style: normal;
             }
