@@ -2,11 +2,14 @@ import React from 'react';
 import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
+import { space } from '@guardian/src-foundations';
 import { CallToAction } from './CallToAction';
 
+// Spacing values below are multiples of 4.
+// See https://www.theguardian.design/2a1e5182b/p/449bd5
 const wrapperStyles = css`
-    margin-top: 24px;
-    padding: 4px 5px 12px;
+    margin-top: ${space[6]}px;
+    padding: ${space[1]}px ${space[1]}px ${space[3]}px;
     border-top: 1px solid ${palette.brandYellow.main};
     background-color: ${palette.neutral[97]};
 
@@ -23,11 +26,11 @@ const wrapperStyles = css`
 const headingStyles = css`
     ${headline.xxsmall({ fontWeight: 'bold' })}
     margin-top: 0;
-    margin-bottom: 12px;
+    margin-bottom: ${space[3]}px;
 `;
 
 const bodyStyles = css`
-    margin: 0 auto 8px;
+    margin: 0 auto ${space[2]}px;
     ${body.medium()};
 `;
 
@@ -41,7 +44,7 @@ const highlightStyles = css`
 `;
 
 const buttonWrapperStyles = css`
-    margin: 24px 10px 4px 0;
+    margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -51,7 +54,7 @@ const imageStyles = css`
     display: inline-block;
     width: auto;
     height: 25px;
-    margin: 4px 0;
+    margin: ${space[1]}px 0;
 `;
 
 export const DefaultEpic: React.FC<{}> = ({}) => {

@@ -2,7 +2,10 @@ import React from 'react';
 import { css } from 'emotion';
 import { textSans } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
+import { space } from '@guardian/src-foundations';
 
+// Spacing values below are multiples of 4.
+// See https://www.theguardian.design/2a1e5182b/p/449bd5
 const link = css`
     background: ${palette.brandYellow.main};
     border-radius: 21px;
@@ -10,10 +13,10 @@ const link = css`
     color: ${palette.neutral[7]};
     ${textSans.medium({ fontWeight: 'bold' })};
     text-decoration: none;
-    padding: 12px 46px 12px 21px;
+    padding: ${space[3]}px ${space[12]}px ${space[3]}px ${space[5]}px;
     line-height: 18px;
     position: relative;
-    margin: 4px 10px 4px 0;
+    margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
     transition: background-color 0.3s ease-in-out;
 
     :hover {
