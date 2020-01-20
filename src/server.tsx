@@ -6,9 +6,14 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { DefaultEpic } from './components/DefaultEpic';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
+
+// Note allows *all* cors. We may want to tighten this later.
+app.use(cors());
+app.options('*', cors());
 
 app.get('/', (req, res) => {
     const { html, css } = extractCritical(renderToStaticMarkup(<DefaultEpic />));
