@@ -4,6 +4,7 @@ import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { CallToAction } from './CallToAction';
+import { getTrackingUrl } from '../lib/tracking';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -57,6 +58,23 @@ const imageStyles = css`
 `;
 
 export const DefaultEpic: React.FC<{}> = ({}) => {
+    const dummyMeta = {
+        ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
+        ophanComponentId: 'ACQUISITIONS_EPIC',
+        platformId: 'GUARDIAN_WEB',
+        campaignCode:
+            'gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet',
+        abTestName: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
+        abTestVariant: 'v2_stay_quiet',
+        referrerUrl:
+            'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
+    };
+
+    const buttonBaseUrl = 'https://support.theguardian.com/contribute/climate-pledge-2019';
+    const buttonUrl = getTrackingUrl(buttonBaseUrl, dummyMeta);
+    console.log('=== BUTTON URL ===');
+    console.log(buttonUrl);
+
     return (
         <section className={wrapperStyles}>
             <h2 className={headingStyles}>Since you're here...</h2>
@@ -91,10 +109,7 @@ export const DefaultEpic: React.FC<{}> = ({}) => {
                 </strong>
             </p>
             <div className={buttonWrapperStyles}>
-                <CallToAction
-                    url="https://support.theguardian.com/uk/contribute"
-                    linkText="Support The Guardian"
-                />
+                <CallToAction url={buttonUrl} linkText="Support The Guardian" />
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
