@@ -6,7 +6,7 @@ import { space } from '@guardian/src-foundations';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
-const link = css`
+const linkStyles = css`
     background: ${palette.brandYellow.main};
     border-radius: 21px;
     box-sizing: border-box;
@@ -39,16 +39,17 @@ const link = css`
     }
 `;
 
-export const CallToAction: React.FC<{
+type Props = {
     url: string;
     linkText: string;
-}> = ({ url, linkText }) => {
-    return (
-        <a className={link} href={url} target="_blank">
-            {linkText}
-            <svg xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.8 14.6l-7.6-7.6-.7.7 5.5 6.6h-14v1.5h14l-5.5 6.6.7.7 7.6-7.6v-.9"></path>
-            </svg>
-        </a>
-    );
 };
+
+export const PrimaryButton: React.FC<Props> = ({ url, linkText }: Props) => (
+    // eslint-disable-next-line react/jsx-no-target-blank
+    <a className={linkStyles} href={url} target="_blank">
+        {linkText}
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.8 14.6l-7.6-7.6-.7.7 5.5 6.6h-14v1.5h14l-5.5 6.6.7.7 7.6-7.6v-.9"></path>
+        </svg>
+    </a>
+);

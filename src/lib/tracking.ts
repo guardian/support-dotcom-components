@@ -1,4 +1,4 @@
-import { EpicMetadata } from '../components/DefaultEpic';
+import { EpicMetadata } from '../components/ContributionsEpic';
 
 export const getTrackingUrl = (baseUrl: string, params: EpicMetadata): string => {
     const acquisitionData = encodeURIComponent(
