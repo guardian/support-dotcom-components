@@ -17,15 +17,31 @@ const bootApp = (content: DefaultEpicContent): void => {
     app.use(cors());
     app.options('*', cors());
 
-    app.get('/', (req, res) => {
+    // Middleware to read POST data
+    app.use(express.urlencoded());
+    app.use(express.json());
+
+    app.post('/epic', (req, res) => {
+        // Epic content props
+        const epicContent = {
+            heading: content.heading,
+            paragraphs: content.paragraphs,
+            highlighted: content.highlighted,
+        };
+
+        // Epic metadata props
+        const epicMetadata = {
+            ophanPageId: req.body.ophanPageId,
+            ophanComponentId: req.body.ophanComponentId,
+            platformId: req.body.platformId,
+            campaignCode: req.body.campaignCode,
+            abTestName: req.body.abTestName,
+            abTestVariant: req.body.abTestVariant,
+            referrerUrl: req.body.referrerUrl,
+        };
+
         const { html, css } = extractCritical(
-            renderToStaticMarkup(
-                <DefaultEpic
-                    heading={content.heading}
-                    paragraphs={content.paragraphs}
-                    highlighted={content.highlighted}
-                />,
-            ),
+            renderToStaticMarkup(<DefaultEpic content={epicContent} metadata={epicMetadata} />),
         );
         if (typeof req.query.showPreview !== 'undefined') {
             const htmlContent = renderHtmlDocument({ html, css });
