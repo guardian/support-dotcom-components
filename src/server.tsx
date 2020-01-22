@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, DefaultEpicContent } from './api/contributionsApi';
-import { DefaultEpic } from './components/DefaultEpic';
+import { ContributionsEpic } from './components/ContributionsEpic';
 import cors from 'cors';
 
 const bootApp = (content: DefaultEpicContent): void => {
@@ -20,7 +20,7 @@ const bootApp = (content: DefaultEpicContent): void => {
     app.get('/', (req, res) => {
         const { html, css } = extractCritical(
             renderToStaticMarkup(
-                <DefaultEpic
+                <ContributionsEpic
                     heading={content.heading}
                     paragraphs={content.paragraphs}
                     highlighted={content.highlighted}

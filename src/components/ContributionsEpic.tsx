@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { CallToAction } from './CallToAction';
+import { PrimaryButton } from './PrimaryButton';
 
 const currencySymbol = '£';
 
@@ -103,7 +103,7 @@ const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs }: BodyProps) =
     </>
 );
 
-export const DefaultEpic: React.FC<Props> = ({ heading, paragraphs, highlighted }: Props) => (
+export const ContributionsEpic: React.FC<Props> = ({ heading, paragraphs, highlighted }: Props) => (
     <section className={wrapperStyles}>
         {heading && (
             <h2
@@ -115,7 +115,7 @@ export const DefaultEpic: React.FC<Props> = ({ heading, paragraphs, highlighted 
         <EpicBody paragraphs={paragraphs} highlighted={highlighted} />
 
         <div className={buttonWrapperStyles}>
-            <CallToAction
+            <PrimaryButton
                 url="https://support.theguardian.com/uk/contribute"
                 linkText="Support The Guardian"
             />
