@@ -6,9 +6,14 @@ import { space } from '@guardian/src-foundations';
 import { CallToAction } from './CallToAction';
 
 const currencySymbol = '£';
+const countryName = 'the UK';
+const articleCount = 5;
 
 const replacePlaceholders = (content: string): string =>
-    content.replace(/%%CURRENCY_SYMBOL%%/g, currencySymbol);
+    content
+        .replace(/%%CURRENCY_SYMBOL%%/g, currencySymbol)
+        .replace(/%%COUNTRY_NAME%%/g, countryName)
+        .replace(/%%ARTICLE_COUNT%%/g, String(articleCount));
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
