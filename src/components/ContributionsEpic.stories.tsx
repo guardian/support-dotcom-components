@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { ContributionsEpic } from './ContributionsEpic';
-import { withKnobs, text, array } from '@storybook/addon-knobs';
+import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 
 export default {
@@ -25,8 +25,8 @@ export const defaultStory = (): ReactElement => {
         <StorybookWrapper>
             <ContributionsEpic
                 heading={text('heading', heading)}
-                paragraphs={array('paragraphs', paragraphs)}
-                highlighted={array('highlighted', highlighted)}
+                paragraphs={object('paragraphs', paragraphs)}
+                highlighted={object('highlighted', highlighted)}
             />
         </StorybookWrapper>
     );
