@@ -9,7 +9,9 @@ export type DefaultEpicContent = {
     highlighted: string[];
 };
 
-export const fetchDefaultEpicContent = async (): Promise<DefaultEpicContent> => {
+let epicContent: Promise<DefaultEpicContent> | undefined;
+
+const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicContent> => {
     const response = await fetch(defaultEpicUrl);
     if (!response.ok) {
         throw new Error(
@@ -31,4 +33,12 @@ export const fetchDefaultEpicContent = async (): Promise<DefaultEpicContent> => 
         },
         { paragraphs: [], highlighted: [] },
     );
+};
+
+export const fetchDefaultEpicContent = (): Promise<DefaultEpicContent> => {
+    if (epicContent) return epicContent;
+
+    epicContent = fetchDefaultEpicContentWithoutCaching();
+
+    return epicContent;
 };
