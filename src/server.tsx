@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
-import { ContributionsEpic } from './components/ContributionsEpic';
+import { ContributionsEpic, EpicMetadata } from './components/ContributionsEpic';
 import mocks from './components/ContributionsEpic.mocks';
 import cors from 'cors';
 
@@ -24,7 +24,7 @@ app.options('*', cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
-const epicHandler = async (req, res): any => {
+const epicHandler = (metadataBuilder: Function) => async (req: any, res: any): Promise<void> => {
     try {
         const content = await fetchDefaultEpicContent();
 
@@ -35,28 +35,8 @@ const epicHandler = async (req, res): any => {
             highlighted: content.highlighted,
         };
 
-        const {
-            ophanPageId,
-            ophanComponentId,
-            platformId,
-            campaignCode,
-            abTestName,
-            abTestVariant,
-            referrerUrl,
-        } = req.body ? req.body : mocks.metadata;
-
-        // Epic metadata props
-        const bodyMetadata = {
-            ophanPageId,
-            ophanComponentId,
-            platformId,
-            campaignCode,
-            abTestName,
-            abTestVariant,
-            referrerUrl,
-        };
-
-        const epicMetadata = req.body ? bodyMetadata : mocks.metadata;
+        // Epic metadata depends on HTTP method used
+        const epicMetadata = metadataBuilder(req);
 
         const { html, css } = extractCritical(
             renderToStaticMarkup(
@@ -75,8 +55,32 @@ const epicHandler = async (req, res): any => {
     }
 };
 
-app.get('/epic', epicHandler);
-app.post('/epic', epicHandler);
+const metadataBuilder = (req: any): EpicMetadata => {
+    const {
+        ophanPageId,
+        ophanComponentId,
+        platformId,
+        campaignCode,
+        abTestName,
+        abTestVariant,
+        referrerUrl,
+    } = req.body;
+
+    return {
+        ophanPageId,
+        ophanComponentId,
+        platformId,
+        campaignCode,
+        abTestName,
+        abTestVariant,
+        referrerUrl,
+    };
+};
+
+const mockMetadataBuilder = (): EpicMetadata => mocks.metadata;
+
+app.post('/epic', epicHandler(metadataBuilder));
+app.get('/epic', epicHandler(mockMetadataBuilder));
 
 // If local then don't wrap in serverless
 const PORT = process.env.PORT || 3030;
