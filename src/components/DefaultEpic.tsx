@@ -57,23 +57,19 @@ const imageStyles = css`
     margin: ${space[1]}px 0;
 `;
 
-export const DefaultEpic: React.FC<{}> = ({}) => {
-    const dummyMeta = {
-        ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
-        ophanComponentId: 'ACQUISITIONS_EPIC',
-        platformId: 'GUARDIAN_WEB',
-        campaignCode:
-            'gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet',
-        abTestName: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
-        abTestVariant: 'v2_stay_quiet',
-        referrerUrl:
-            'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
-    };
+export interface EpicParams {
+    ophanPageId: string;
+    ophanComponentId: string;
+    platformId: string;
+    campaignCode: string;
+    abTestName: string;
+    abTestVariant: string;
+    referrerUrl: string;
+}
 
-    const buttonBaseUrl = 'https://support.theguardian.com/contribute/climate-pledge-2019';
-    const buttonUrl = getTrackingUrl(buttonBaseUrl, dummyMeta);
-    console.log('=== BUTTON URL ===');
-    console.log(buttonUrl);
+export const DefaultEpic: React.FC<EpicParams> = props => {
+    const buttonBaseUrl = 'https://support.theguardian.com/contribute';
+    const buttonUrl = getTrackingUrl(buttonBaseUrl, props);
 
     return (
         <section className={wrapperStyles}>

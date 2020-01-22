@@ -1,12 +1,4 @@
-interface EpicParams {
-    ophanPageId: string;
-    ophanComponentId: string;
-    platformId: string;
-    campaignCode: string;
-    abTestName: string;
-    abTestVariant: string;
-    referrerUrl: string;
-}
+import { EpicParams } from '../components/DefaultEpic';
 
 export const getTrackingUrl = (baseUrl: string, params: EpicParams): string => {
     const acquisitionData = encodeURIComponent(
