@@ -20,4 +20,4 @@ export const defaultStory = (): ReactElement => {
     );
 };
 
-defaultStory.story = { name: 'Primary button with Contributions CTA' };
+defaultStory.story = { name: 'Primary buttion with Contributions CTA' };

@@ -2,6 +2,7 @@ import cdk = require('@aws-cdk/core');
 import apigateway = require('@aws-cdk/aws-apigateway');
 import lambda = require('@aws-cdk/aws-lambda');
 import s3 = require('@aws-cdk/aws-s3');
+import { Tag } from '@aws-cdk/core';
 
 export class LambdaService extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string) {
@@ -11,6 +12,11 @@ export class LambdaService extends cdk.Stack {
             type: 'String',
             default: 'CODE',
         });
+
+        Tag.add(this, 'Stack', 'frontend');
+        Tag.add(this, 'Stage', stage.value.toString());
+        Tag.add(this, 'App', 'contributions-service');
+        Tag.add(this, 'Owner', 'slot-machine');
 
         const bucket = 'aws-frontend-contributions-service';
         const key = `frontend/${stage.value}/lambda/lambda.zip`;

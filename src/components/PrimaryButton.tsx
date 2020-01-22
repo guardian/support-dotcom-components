@@ -45,8 +45,7 @@ type Props = {
 };
 
 export const PrimaryButton: React.FC<Props> = ({ url, linkText }: Props) => (
-    // eslint-disable-next-line react/jsx-no-target-blank
-    <a className={linkStyles} href={url} target="_blank">
+    <a className={linkStyles} href={url} target="_blank" rel="noopener noreferrer">
         {linkText}
         <svg xmlns="http://www.w3.org/2000/svg">
             <path d="M22.8 14.6l-7.6-7.6-.7.7 5.5 6.6h-14v1.5h14l-5.5 6.6.7.7 7.6-7.6v-.9"></path>
