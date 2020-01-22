@@ -5,11 +5,26 @@ import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
+import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 
-const currencySymbol = '£';
+const replace = (content: string, placeholder: string, replacement?: string): string => {
+    const regex = new RegExp(placeholder, 'g');
 
-const replacePlaceholders = (content: string): string =>
-    content.replace(/%%CURRENCY_SYMBOL%%/g, currencySymbol);
+    if (replacement) {
+        return content.replace(regex, replacement);
+    }
+
+    return content;
+};
+
+const replacePlaceholders = (content: string, countryCode?: string): string => {
+    let newContent = content;
+
+    newContent = replace(newContent, '%%CURRENCY_SYMBOL%%', getLocalCurrencySymbol(countryCode));
+    newContent = replace(newContent, '%%COUNTRY_CODE%%', getCountryName(countryCode));
+
+    return newContent;
+};
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -66,6 +81,7 @@ export type EpicContent = {
     heading?: string;
     paragraphs: string[];
     highlighted: string[];
+    countryCode?: string;
 };
 
 export type EpicMetadata = {
@@ -81,45 +97,57 @@ export type EpicMetadata = {
 type Props = {
     content: EpicContent;
     metadata: EpicMetadata;
+    countryCode?: string;
 };
 
 type HighlightedProps = {
     highlighted: string[];
+    countryCode?: string;
 };
 
 type BodyProps = {
     paragraphs: string[];
     highlighted: string[];
+    countryCode?: string;
 };
 
-const Highlighted: React.FC<HighlightedProps> = ({ highlighted }: HighlightedProps) => (
+const Highlighted: React.FC<HighlightedProps> = ({
+    highlighted,
+    countryCode,
+}: HighlightedProps) => (
     <strong className={highlightWrapperStyles}>
         {' '}
         {highlighted.map((highlightText, idx) => (
             <span
                 key={idx}
                 className={highlightStyles}
-                dangerouslySetInnerHTML={{ __html: replacePlaceholders(highlightText) }}
+                dangerouslySetInnerHTML={{
+                    __html: replacePlaceholders(highlightText, countryCode),
+                }}
             />
         ))}
     </strong>
 );
 
-const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs }: BodyProps) => (
+const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs, countryCode }: BodyProps) => (
     <>
         {paragraphs.map((paragraph, idx) => (
             <p key={idx} className={bodyStyles}>
-                <span dangerouslySetInnerHTML={{ __html: replacePlaceholders(paragraph) }} />
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: replacePlaceholders(paragraph, countryCode),
+                    }}
+                />
 
                 {highlighted.length > 0 && idx === paragraphs.length - 1 && (
-                    <Highlighted highlighted={highlighted} />
+                    <Highlighted highlighted={highlighted} countryCode={countryCode} />
                 )}
             </p>
         ))}
     </>
 );
 
-export const ContributionsEpic: React.FC<Props> = ({ content, metadata }: Props) => {
+export const ContributionsEpic: React.FC<Props> = ({ content, metadata, countryCode }: Props) => {
     const { heading, paragraphs, highlighted } = content;
 
     // Get button URL with tracking params in query string
@@ -131,7 +159,7 @@ export const ContributionsEpic: React.FC<Props> = ({ content, metadata }: Props)
             {heading && (
                 <h2
                     className={headingStyles}
-                    dangerouslySetInnerHTML={{ __html: replacePlaceholders(heading) }}
+                    dangerouslySetInnerHTML={{ __html: replacePlaceholders(heading, countryCode) }}
                 />
             )}
 
