@@ -99,7 +99,6 @@ export const cssResets = `
     }
     body {
         margin: 0;
-        background-color: red;
     }
 `;
 

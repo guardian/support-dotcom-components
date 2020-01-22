@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { PrimaryButton } from './PrimaryButton';
 import { withKnobs, text } from '@storybook/addon-knobs';
+import { StorybookWrapper } from '../utils/StorybookWrapper';
 
 export default {
     component: PrimaryButton,
@@ -10,13 +11,13 @@ export default {
 
 export const defaultStory = (): ReactElement => {
     return (
-        <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <StorybookWrapper>
             <PrimaryButton
                 url={text('url', 'https://support.theguardian.com/uk/contribute')}
                 linkText={text('linkText', 'Support The Guardian')}
             />
-        </div>
+        </StorybookWrapper>
     );
 };
 
-defaultStory.story = { name: 'Default epic' };
+defaultStory.story = { name: 'Primary buttion with Contributions CTA' };
