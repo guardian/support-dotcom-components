@@ -1,5 +1,4 @@
 import React from 'react';
-import { Global, css } from '@emotion/core';
 import { fontFaces, cssResets, previewStyles } from './renderHtmlDocument';
 
 type Props = {
@@ -8,13 +7,11 @@ type Props = {
 
 export const StorybookWrapper: React.FC<Props> = ({ children }: Props) => (
     <div>
-        <Global
-            styles={css`
-                ${fontFaces}
-                ${cssResets}
-                ${previewStyles}
-            `}
-        />
+        <style>
+            {fontFaces}
+            {cssResets}
+            {previewStyles}
+        </style>
         <div className="preview">{children}</div>
     </div>
 );
