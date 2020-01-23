@@ -24,41 +24,18 @@ app.options('*', cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
-const epicHandler = (metadataBuilder: Function) => async (
-    req: express.Request,
-    res: express.Response,
-): Promise<void> => {
-    try {
-        const content = await fetchDefaultEpicContent();
+interface ResponseType {
+    html: string;
+    css: string;
+}
 
-        // Epic content props
-        const epicContent = {
-            heading: content.heading,
-            paragraphs: content.paragraphs,
-            highlighted: content.highlighted,
-        };
+// interface ResponseType {
+//     (html: string): Promise<string>;
+//     (css: string): Promise<string>;
+// }
 
-        // Epic metadata depends on HTTP method used
-        const epicMetadata = metadataBuilder(req.body);
-
-        const { html, css } = extractCritical(
-            renderToStaticMarkup(
-                <ContributionsEpic content={epicContent} metadata={epicMetadata} />,
-            ),
-        );
-        if (typeof req.query.showPreview !== 'undefined') {
-            const htmlContent = renderHtmlDocument({ html, css });
-            res.send(htmlContent);
-        } else {
-            res.send({ html, css });
-        }
-    } catch (error) {
-        console.log('Something went wrong: ', error.message);
-        res.status(500).send({ error: error.message });
-    }
-};
-
-const metadataBuilder = (body: EpicMetadata): EpicMetadata => {
+// Return a metadata object safe to be consumed by the Epic component
+const buildMetadata = (req: express.Request): EpicMetadata => {
     const {
         ophanPageId,
         ophanComponentId,
@@ -67,7 +44,7 @@ const metadataBuilder = (body: EpicMetadata): EpicMetadata => {
         abTestName,
         abTestVariant,
         referrerUrl,
-    } = body;
+    } = req.body;
 
     return {
         ophanPageId,
@@ -80,10 +57,46 @@ const metadataBuilder = (body: EpicMetadata): EpicMetadata => {
     };
 };
 
-const mockMetadataBuilder = (): EpicMetadata => testData.metadata;
+// Return the HTML and CSS from rendering the Epic to static markup
+const buildEpic = async (metadata: EpicMetadata): Promise<ResponseType> => {
+    const epicContent = await fetchDefaultEpicContent();
 
-app.post('/epic', epicHandler(metadataBuilder));
-app.get('/epic', epicHandler(mockMetadataBuilder));
+    const { heading, paragraphs, highlighted } = epicContent;
+
+    const content = {
+        heading,
+        paragraphs,
+        highlighted,
+    };
+
+    const { html, css } = extractCritical(
+        renderToStaticMarkup(<ContributionsEpic content={content} metadata={metadata} />),
+    );
+
+    return { html, css };
+};
+
+app.get('/epic', async (req: express.Request, res: express.Response) => {
+    try {
+        const { html, css } = await buildEpic(testData.metadata);
+        const htmlContent = renderHtmlDocument({ html, css });
+        res.send(htmlContent);
+    } catch (error) {
+        console.log('Something went wrong: ', error.message);
+        res.status(500).send({ error: error.message });
+    }
+});
+
+app.post('/epic', async (req: express.Request, res: express.Response) => {
+    try {
+        const metadata = buildMetadata(req);
+        const { html, css } = await buildEpic(metadata);
+        res.send({ html, css });
+    } catch (error) {
+        console.log('Something went wrong: ', error.message);
+        res.status(500).send({ error: error.message });
+    }
+});
 
 // If local then don't wrap in serverless
 const PORT = process.env.PORT || 3030;
