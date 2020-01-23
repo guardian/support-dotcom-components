@@ -24,7 +24,10 @@ app.options('*', cors());
 app.use(express.urlencoded());
 app.use(express.json());
 
-const epicHandler = (metadataBuilder: Function) => async (req: any, res: any): Promise<void> => {
+const epicHandler = (metadataBuilder: Function) => async (
+    req: express.Request,
+    res: express.Response,
+): Promise<void> => {
     try {
         const content = await fetchDefaultEpicContent();
 
@@ -36,7 +39,7 @@ const epicHandler = (metadataBuilder: Function) => async (req: any, res: any): P
         };
 
         // Epic metadata depends on HTTP method used
-        const epicMetadata = metadataBuilder(req);
+        const epicMetadata = metadataBuilder(req.body);
 
         const { html, css } = extractCritical(
             renderToStaticMarkup(
@@ -55,7 +58,7 @@ const epicHandler = (metadataBuilder: Function) => async (req: any, res: any): P
     }
 };
 
-const metadataBuilder = (req: any): EpicMetadata => {
+const metadataBuilder = (body: EpicMetadata): EpicMetadata => {
     const {
         ophanPageId,
         ophanComponentId,
@@ -64,7 +67,7 @@ const metadataBuilder = (req: any): EpicMetadata => {
         abTestName,
         abTestVariant,
         referrerUrl,
-    } = req.body;
+    } = body;
 
     return {
         ophanPageId,
@@ -88,7 +91,8 @@ if (process.env.NODE_ENV === 'development') {
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 } else {
     const server = awsServerlessExpress.createServer(app);
-    exports.handler = (event: any, context: Context) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    exports.handler = (event: any, context: Context): void => {
         awsServerlessExpress.proxy(server, event, context);
     };
 }
