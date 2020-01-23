@@ -23,6 +23,6 @@ const metadata = {
         'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
 };
 
-const mocks = { content, metadata };
+const testData = { content, metadata };
 
-export default mocks;
+export default testData;

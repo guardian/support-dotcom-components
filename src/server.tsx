@@ -7,7 +7,7 @@ import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
 import { ContributionsEpic, EpicMetadata } from './components/ContributionsEpic';
-import mocks from './components/ContributionsEpic.mocks';
+import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 
 // Pre-cache API response
@@ -77,7 +77,7 @@ const metadataBuilder = (req: any): EpicMetadata => {
     };
 };
 
-const mockMetadataBuilder = (): EpicMetadata => mocks.metadata;
+const mockMetadataBuilder = (): EpicMetadata => testData.metadata;
 
 app.post('/epic', epicHandler(metadataBuilder));
 app.get('/epic', epicHandler(mockMetadataBuilder));
