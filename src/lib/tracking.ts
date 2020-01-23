@@ -1,5 +1,11 @@
 import { EpicMetadata } from '../components/ContributionsEpic';
 
+type LinkParams = {
+    REFPVID: string;
+    INTCMP: string;
+    acquisitionData: string;
+};
+
 export const getTrackingUrl = (baseUrl: string, params: EpicMetadata): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
@@ -16,5 +22,13 @@ export const getTrackingUrl = (baseUrl: string, params: EpicMetadata): string =>
         }),
     );
 
-    return `${baseUrl}?REFPVID=${params.ophanPageId}&INTCMP=${params.campaignCode}&acquisitionData=${acquisitionData}`;
+    const trackingLinkParams: LinkParams = {
+        REFPVID: params.ophanPageId,
+        INTCMP: params.campaignCode,
+        acquisitionData: acquisitionData,
+    };
+
+    const queryString = Object.entries(trackingLinkParams).map(([key, value]) => `${key}=${value}`);
+
+    return `${baseUrl}?${queryString.join('&')}`;
 };
