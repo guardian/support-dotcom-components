@@ -13,26 +13,19 @@ import cors from 'cors';
 // Pre-cache API response
 fetchDefaultEpicContent();
 
+// Use middleware
 const app = express();
+app.use(express.urlencoded());
 app.use(express.json({ limit: '50mb' }));
 
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
 app.options('*', cors());
 
-// Middleware needed to read POST data
-app.use(express.urlencoded());
-app.use(express.json());
-
 interface ResponseType {
     html: string;
     css: string;
 }
-
-// interface ResponseType {
-//     (html: string): Promise<string>;
-//     (css: string): Promise<string>;
-// }
 
 // Return a metadata object safe to be consumed by the Epic component
 const buildMetadata = (req: express.Request): EpicMetadata => {
@@ -59,10 +52,7 @@ const buildMetadata = (req: express.Request): EpicMetadata => {
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (metadata: EpicMetadata): Promise<ResponseType> => {
-    const epicContent = await fetchDefaultEpicContent();
-
-    const { heading, paragraphs, highlighted } = epicContent;
-
+    const { heading, paragraphs, highlighted } = await fetchDefaultEpicContent();
     const content = {
         heading,
         paragraphs,
