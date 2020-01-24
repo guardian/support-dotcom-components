@@ -96,6 +96,7 @@ app.post(
 // for it to run when `next()` function is called in the route handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.log('Something went wrong: ', error.message);
     res.status(500).send({ error: error.message });
 });
 
