@@ -23,8 +23,8 @@ export const getTrackingUrl = (baseUrl: string, params: EpicMetadata): string =>
     );
 
     const trackingLinkParams: LinkParams = {
-        REFPVID: params.ophanPageId,
-        INTCMP: params.campaignCode,
+        REFPVID: params.ophanPageId || 'not_found',
+        INTCMP: params.campaignCode || '',
         acquisitionData: acquisitionData,
     };
 
