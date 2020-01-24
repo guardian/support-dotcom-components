@@ -22,6 +22,11 @@ app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 app.options('*', cors());
 
+app.get('/healthcheck', (req: express.Request, res: express.Response) => {
+    res.header('Content-Type', 'text/plain');
+    res.send('OK');
+});
+
 interface ResponseType {
     html: string;
     css: string;
