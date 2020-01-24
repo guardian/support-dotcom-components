@@ -4,6 +4,7 @@ import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { PrimaryButton } from './PrimaryButton';
+import { getTrackingUrl } from '../lib/tracking';
 
 const currencySymbol = '£';
 
@@ -61,10 +62,25 @@ const imageStyles = css`
     margin: ${space[1]}px 0;
 `;
 
-type Props = {
+export type EpicContent = {
     heading?: string;
     paragraphs: string[];
     highlighted: string[];
+};
+
+export type EpicMetadata = {
+    ophanPageId: string;
+    ophanComponentId: string;
+    platformId: string;
+    campaignCode: string;
+    abTestName: string;
+    abTestVariant: string;
+    referrerUrl: string;
+};
+
+type Props = {
+    content: EpicContent;
+    metadata: EpicMetadata;
 };
 
 type HighlightedProps = {
@@ -103,27 +119,32 @@ const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs }: BodyProps) =
     </>
 );
 
-export const ContributionsEpic: React.FC<Props> = ({ heading, paragraphs, highlighted }: Props) => (
-    <section className={wrapperStyles}>
-        {heading && (
-            <h2
-                className={headingStyles}
-                dangerouslySetInnerHTML={{ __html: replacePlaceholders(heading) }}
-            />
-        )}
+export const ContributionsEpic: React.FC<Props> = ({ content, metadata }: Props) => {
+    const { heading, paragraphs, highlighted } = content;
 
-        <EpicBody paragraphs={paragraphs} highlighted={highlighted} />
+    // Get button URL with tracking params in query string
+    const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
+    const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, metadata);
 
-        <div className={buttonWrapperStyles}>
-            <PrimaryButton
-                url="https://support.theguardian.com/uk/contribute"
-                linkText="Support The Guardian"
-            />
-            <img
-                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                className={imageStyles}
-            />
-        </div>
-    </section>
-);
+    return (
+        <section className={wrapperStyles}>
+            {heading && (
+                <h2
+                    className={headingStyles}
+                    dangerouslySetInnerHTML={{ __html: replacePlaceholders(heading) }}
+                />
+            )}
+
+            <EpicBody paragraphs={paragraphs} highlighted={highlighted} />
+
+            <div className={buttonWrapperStyles}>
+                <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
+                <img
+                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                    className={imageStyles}
+                />
+            </div>
+        </section>
+    );
+};

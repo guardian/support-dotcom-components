@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@guardian/src-foundations": "^0.11.0",
+    "@storybook/addon-knobs": "^5.3.8",
+    "@storybook/preset-typescript": "^1.2.0",
     "aws-serverless-express": "^3.3.6",
     "cors": "^2.8.5",
     "emotion": "^10.0.27",
@@ -43,7 +45,7 @@
     "@storybook/preset-typescript": "^1.2.0",
     "@types/aws-serverless-express": "^3.3.2",
     "@types/cors": "^2.8.6",
-    "@types/express": "^4.17.2",
+    "@types/express": "^4.17.1",
     "@types/fetch-mock": "^7.3.2",
     "@types/jest": "^24.0.25",
     "@types/node-fetch": "^2.5.4",
