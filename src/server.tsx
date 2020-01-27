@@ -71,26 +71,38 @@ const buildEpic = async (metadata: EpicMetadata): Promise<ResponseType> => {
     return { html, css };
 };
 
-app.get('/epic', async (req: express.Request, res: express.Response) => {
-    try {
-        const { html, css } = await buildEpic(testData.metadata);
-        const htmlContent = renderHtmlDocument({ html, css });
-        res.send(htmlContent);
-    } catch (error) {
-        console.log('Something went wrong: ', error.message);
-        res.status(500).send({ error: error.message });
-    }
-});
+app.get(
+    '/epic',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const { html, css } = await buildEpic(testData.metadata);
+            const htmlContent = renderHtmlDocument({ html, css });
+            res.send(htmlContent);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
-app.post('/epic', async (req: express.Request, res: express.Response) => {
-    try {
-        const metadata = buildMetadata(req);
-        const { html, css } = await buildEpic(metadata);
-        res.send({ html, css });
-    } catch (error) {
-        console.log('Something went wrong: ', error.message);
-        res.status(500).send({ error: error.message });
-    }
+app.post(
+    '/epic',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const metadata = buildMetadata(req);
+            const { html, css } = await buildEpic(metadata);
+            res.send({ html, css });
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+// Error handling middleware in Express needs to take 4 arguments in the handler
+// for it to run when `next()` function is called in the route handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.log('Something went wrong: ', error.message);
+    res.status(500).send({ error: error.message });
 });
 
 // If local then don't wrap in serverless
