@@ -15,10 +15,9 @@ const metadata = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
     ophanComponentId: 'ACQUISITIONS_EPIC',
     platformId: 'GUARDIAN_WEB',
-    campaignCode:
-        'gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet',
-    abTestName: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
-    abTestVariant: 'v2_stay_quiet',
+    campaignCode: 'gdnwb_copts_memco_remote_epic_test_api',
+    abTestName: 'remote_epic_test',
+    abTestVariant: 'api',
     referrerUrl:
         'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
 };
