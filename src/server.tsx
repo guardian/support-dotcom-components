@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
-import { ContributionsEpic, EpicMetadata } from './components/ContributionsEpic';
+import { ContributionsEpic, EpicTracking, EpicLocalisation } from './components/ContributionsEpic';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 
@@ -33,7 +33,7 @@ interface ResponseType {
 }
 
 // Return a metadata object safe to be consumed by the Epic component
-const buildMetadata = (req: express.Request): EpicMetadata => {
+const buildTracking = (req: express.Request): EpicTracking => {
     const {
         ophanPageId,
         ophanComponentId,
@@ -42,7 +42,7 @@ const buildMetadata = (req: express.Request): EpicMetadata => {
         abTestName,
         abTestVariant,
         referrerUrl,
-    } = req.body;
+    } = req.body.tracking;
 
     return {
         ophanPageId,
@@ -55,8 +55,16 @@ const buildMetadata = (req: express.Request): EpicMetadata => {
     };
 };
 
+const buildLocalisation = (req: express.Request): EpicLocalisation => {
+    const { countryCode } = req.body.localisation;
+    return { countryCode };
+};
+
 // Return the HTML and CSS from rendering the Epic to static markup
-const buildEpic = async (metadata: EpicMetadata): Promise<ResponseType> => {
+const buildEpic = async (
+    tracking: EpicTracking,
+    localisation: EpicLocalisation,
+): Promise<ResponseType> => {
     const { heading, paragraphs, highlighted } = await fetchDefaultEpicContent();
     const content = {
         heading,
@@ -64,11 +72,9 @@ const buildEpic = async (metadata: EpicMetadata): Promise<ResponseType> => {
         highlighted,
     };
 
-    const countryCode = 'GB';
-
     const { html, css } = extractCritical(
         renderToStaticMarkup(
-            <ContributionsEpic content={content} metadata={metadata} countryCode={countryCode} />,
+            <ContributionsEpic content={content} tracking={tracking} localisation={localisation} />,
         ),
     );
 
@@ -79,7 +85,7 @@ app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const { html, css } = await buildEpic(testData.metadata);
+            const { html, css } = await buildEpic(testData.tracking, testData.localisation);
             const htmlContent = renderHtmlDocument({ html, css });
             res.send(htmlContent);
         } catch (error) {
@@ -92,8 +98,9 @@ app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const metadata = buildMetadata(req);
-            const { html, css } = await buildEpic(metadata);
+            const tracking = buildTracking(req);
+            const localisation = buildLocalisation(req);
+            const { html, css } = await buildEpic(tracking, localisation);
             res.send({ html, css });
         } catch (error) {
             next(error);

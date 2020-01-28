@@ -1,4 +1,4 @@
-import { EpicMetadata } from '../components/ContributionsEpic';
+import { EpicTracking } from '../components/ContributionsEpic';
 
 type LinkParams = {
     REFPVID: string;
@@ -6,7 +6,7 @@ type LinkParams = {
     acquisitionData: string;
 };
 
-export const getTrackingUrl = (baseUrl: string, params: EpicMetadata): string => {
+export const getTrackingUrl = (baseUrl: string, params: EpicTracking): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
             source: params.platformId,

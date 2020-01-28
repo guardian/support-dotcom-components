@@ -19,6 +19,8 @@ const replace = (content: string, placeholder: string, replacement?: string): st
 
 const replacePlaceholders = (content: string, countryCode?: string): string => {
     let newContent = content;
+    console.log('=== countryCode:');
+    console.log(countryCode);
 
     newContent = replace(newContent, '%%CURRENCY_SYMBOL%%', getLocalCurrencySymbol(countryCode));
     newContent = replace(newContent, '%%COUNTRY_CODE%%', getCountryName(countryCode));
@@ -84,7 +86,11 @@ export type EpicContent = {
     countryCode?: string;
 };
 
-export type EpicMetadata = {
+export type EpicLocalisation = {
+    countryCode: string;
+};
+
+export type EpicTracking = {
     ophanPageId: string;
     ophanComponentId: string;
     platformId: string;
@@ -96,8 +102,8 @@ export type EpicMetadata = {
 
 type Props = {
     content: EpicContent;
-    metadata: EpicMetadata;
-    countryCode?: string;
+    tracking: EpicTracking;
+    localisation: EpicLocalisation;
 };
 
 type HighlightedProps = {
@@ -147,12 +153,13 @@ const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs, countryCode }:
     </>
 );
 
-export const ContributionsEpic: React.FC<Props> = ({ content, metadata, countryCode }: Props) => {
+export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisation }: Props) => {
     const { heading, paragraphs, highlighted } = content;
+    const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
-    const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, metadata);
+    const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
 
     return (
         <section className={wrapperStyles}>
@@ -163,7 +170,7 @@ export const ContributionsEpic: React.FC<Props> = ({ content, metadata, countryC
                 />
             )}
 
-            <EpicBody paragraphs={paragraphs} highlighted={highlighted} />
+            <EpicBody paragraphs={paragraphs} highlighted={highlighted} countryCode={countryCode} />
 
             <div className={buttonWrapperStyles}>
                 <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
