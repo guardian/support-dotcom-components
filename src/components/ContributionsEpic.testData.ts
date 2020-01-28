@@ -1,3 +1,5 @@
+import { EpicTracking, EpicLocalisation } from './ContributionsEpic';
+
 const content = {
     heading: 'Since you’re here...',
     paragraphs: [
@@ -11,7 +13,7 @@ const content = {
     ],
 };
 
-const metadata = {
+const tracking: EpicTracking = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
     ophanComponentId: 'ACQUISITIONS_EPIC',
     platformId: 'GUARDIAN_WEB',
@@ -22,6 +24,10 @@ const metadata = {
         'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
 };
 
-const testData = { content, metadata };
+const localisation: EpicLocalisation = {
+    countryCode: '',
+};
+
+const testData = { content, tracking, localisation };
 
 export default testData;
