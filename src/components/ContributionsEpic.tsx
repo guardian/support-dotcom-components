@@ -19,8 +19,6 @@ const replace = (content: string, placeholder: string, replacement?: string): st
 
 const replacePlaceholders = (content: string, countryCode?: string): string => {
     let newContent = content;
-    console.log('=== countryCode:');
-    console.log(countryCode);
 
     newContent = replace(newContent, '%%CURRENCY_SYMBOL%%', getLocalCurrencySymbol(countryCode));
     newContent = replace(newContent, '%%COUNTRY_CODE%%', getCountryName(countryCode));
