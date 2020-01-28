@@ -29,6 +29,7 @@ export const defaultStory = (): ReactElement => {
         referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
     };
 
+    // Epic localisation props
     const epicLocalisation = {
         countryCode: text('referrerUrl', testData.localisation.countryCode),
     };

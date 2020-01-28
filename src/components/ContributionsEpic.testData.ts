@@ -1,4 +1,4 @@
-import { EpicTracking, EpicLocalisation } from './ContributionsEpic';
+import { EpicTracking, EpicLocalisation, EpicTargeting } from './ContributionsEpic';
 
 const content = {
     heading: 'Since you’re here...',
@@ -28,6 +28,15 @@ const localisation: EpicLocalisation = {
     countryCode: '',
 };
 
-const testData = { content, tracking, localisation };
+const targeting: EpicTargeting = {
+    contentType: 'Article',
+    sectionName: 'culture',
+    shouldHideReaderRevenue: false,
+    isMinuteArticle: false,
+    isPaidContent: false,
+    tags: [],
+};
+
+const testData = { content, tracking, localisation, targeting };
 
 export default testData;

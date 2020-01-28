@@ -6,7 +6,12 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
-import { ContributionsEpic, EpicTracking, EpicLocalisation } from './components/ContributionsEpic';
+import {
+    ContributionsEpic,
+    EpicTracking,
+    EpicLocalisation,
+    EpicTargeting,
+} from './components/ContributionsEpic';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 
@@ -60,10 +65,31 @@ const buildLocalisation = (req: express.Request): EpicLocalisation => {
     return { countryCode };
 };
 
+const buildTargeting = (req: express.Request): EpicTargeting => {
+    const {
+        contentType,
+        sectionName,
+        shouldHideReaderRevenue,
+        isMinuteArticle,
+        isPaidContent,
+        tags,
+    } = req.body.targeting;
+
+    return {
+        contentType,
+        sectionName,
+        shouldHideReaderRevenue,
+        isMinuteArticle,
+        isPaidContent,
+        tags,
+    };
+};
+
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
     tracking: EpicTracking,
     localisation: EpicLocalisation,
+    targeting: EpicTargeting,
 ): Promise<ResponseType> => {
     const { heading, paragraphs, highlighted } = await fetchDefaultEpicContent();
     const content = {
@@ -85,7 +111,11 @@ app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const { html, css } = await buildEpic(testData.tracking, testData.localisation);
+            const { html, css } = await buildEpic(
+                testData.tracking,
+                testData.localisation,
+                testData.targeting,
+            );
             const htmlContent = renderHtmlDocument({ html, css });
             res.send(htmlContent);
         } catch (error) {
@@ -100,7 +130,8 @@ app.post(
         try {
             const tracking = buildTracking(req);
             const localisation = buildLocalisation(req);
-            const { html, css } = await buildEpic(tracking, localisation);
+            const targeting = buildTargeting(req);
+            const { html, css } = await buildEpic(tracking, localisation, targeting);
             res.send({ html, css });
         } catch (error) {
             next(error);
