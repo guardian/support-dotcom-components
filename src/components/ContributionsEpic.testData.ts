@@ -25,7 +25,7 @@ const tracking: EpicTracking = {
 };
 
 const localisation: EpicLocalisation = {
-    countryCode: 'PL',
+    countryCode: 'GB',
 };
 
 const targeting: EpicTargeting = {
