@@ -1,5 +1,5 @@
 import React from 'react';
-import { EpicTargeting } from './ContributionsEpic';
+import { EpicTargeting, Tag } from './ContributionsEpic';
 
 type Props = {
     children: any;
@@ -14,6 +14,11 @@ type SuitableType = {
     shouldHideReaderRevenue: boolean;
     isMinuteArticle: boolean;
     isPaidContent: boolean;
+};
+
+type WorthwhileType = {
+    sectionName: string;
+    tags: Tag[];
 };
 
 // Determine if it's the right type of content to be considered for an epic
@@ -34,8 +39,13 @@ const isEpicSuitable = ({
     return !isNotSuitable;
 };
 
+const isEpicWorthwhile = ({ sectionName, tags }: WorthwhileType): boolean => {
+    // TODO: implement exclusion rules
+    return true;
+};
+
 export const ContributionsEpicWrapper: React.FC<Props> = ({ children, targeting }: Props) => {
-    if (isCorrectContent(targeting) && isEpicSuitable(targeting)) {
+    if (isCorrectContent(targeting) && isEpicSuitable(targeting) && isEpicWorthwhile(targeting)) {
         return children;
     }
 

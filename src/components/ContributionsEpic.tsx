@@ -71,7 +71,7 @@ const imageStyles = css`
     margin: ${space[1]}px 0;
 `;
 
-type Tag = {
+export type Tag = {
     id: string;
     type: string;
     title: string;
