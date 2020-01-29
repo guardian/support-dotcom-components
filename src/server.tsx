@@ -14,7 +14,6 @@ import {
 } from './components/ContributionsEpic';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
-import { CLICK } from '@storybook/addon-knobs';
 
 // Pre-cache API response
 fetchDefaultEpicContent();
