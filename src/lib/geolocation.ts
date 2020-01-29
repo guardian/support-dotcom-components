@@ -377,6 +377,7 @@ const defaultCurrencySymbol = '£';
 // There's an interesting issue here where the default currency symbol (£) is
 // returned if we don't have a geolocation. But if we do have a geolocation, but
 // fail to map back to a country group then we'll fall back to 'USD'.
+// We're not sure whether this is intentional or not yet but porting as is for now
 export const getLocalCurrencySymbol = (geolocation?: string): string => {
     if (geolocation) {
         const countryGroupId = countryCodeToCountryGroupId(geolocation) as CountryGroupId;
