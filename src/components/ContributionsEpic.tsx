@@ -81,6 +81,8 @@ type Tag = {
     id: string;
     type: string;
     title: string;
+    twitterHandle?: string;
+    bylineImageUrl?: string;
 };
 
 export type EpicContent = {

@@ -25,7 +25,7 @@ const tracking: EpicTracking = {
 };
 
 const localisation: EpicLocalisation = {
-    countryCode: '',
+    countryCode: 'GB',
 };
 
 const targeting: EpicTargeting = {
@@ -34,7 +34,36 @@ const targeting: EpicTargeting = {
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
-    tags: [],
+    tags: [
+        {
+            id: 'culture/david-schwimmer',
+            type: 'Keyword',
+            title: 'David Schwimmer',
+        },
+        {
+            id: 'tv-and-radio/friends',
+            type: 'Keyword',
+            title: 'Friends',
+        },
+        {
+            id: 'tone/interview',
+            type: 'Tone',
+            title: 'Interviews',
+        },
+        {
+            id: 'publication/theguardian',
+            type: 'Publication',
+            title: 'The Guardian',
+        },
+        {
+            id: 'profile/davidsmith',
+            type: 'Contributor',
+            title: 'David Smith',
+            twitterHandle: 'smithinamerica',
+            bylineImageUrl:
+                'https://i.guim.co.uk/img/uploads/2017/10/06/David-Smith,-L.png?width=300&quality=85&auto=format&fit=max&s=9aebe85c96f6f72a6ba6239cdfaed7ec',
+        },
+    ],
 };
 
 const testData = { content, tracking, localisation, targeting };
