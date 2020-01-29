@@ -64,8 +64,12 @@ const buildEpic = async (metadata: EpicMetadata): Promise<ResponseType> => {
         highlighted,
     };
 
+    const countryCode = 'GB';
+
     const { html, css } = extractCritical(
-        renderToStaticMarkup(<ContributionsEpic content={content} metadata={metadata} />),
+        renderToStaticMarkup(
+            <ContributionsEpic content={content} metadata={metadata} countryCode={countryCode} />,
+        ),
     );
 
     return { html, css };

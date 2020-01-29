@@ -31,7 +31,11 @@ export const defaultStory = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ContributionsEpic content={epicContent} metadata={epicMetadata} />
+            <ContributionsEpic
+                content={epicContent}
+                metadata={epicMetadata}
+                countryCode={text('countryCode', 'GB')}
+            />
         </StorybookWrapper>
     );
 };
