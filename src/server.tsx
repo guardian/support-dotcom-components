@@ -12,6 +12,7 @@ import {
     EpicLocalisation,
     EpicTargeting,
 } from './components/ContributionsEpic';
+import { ContributionsEpicWrapper } from './components/ContributionsEpicWrapper';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 
@@ -98,10 +99,19 @@ const buildEpic = async (
         highlighted,
     };
 
+    console.log('=== TARGETING: ');
+    console.log(targeting);
+
     // TODO - TARGETING
     const { html, css } = extractCritical(
         renderToStaticMarkup(
-            <ContributionsEpic content={content} tracking={tracking} localisation={localisation} />,
+            <ContributionsEpicWrapper targeting={targeting}>
+                <ContributionsEpic
+                    content={content}
+                    tracking={tracking}
+                    localisation={localisation}
+                />
+            </ContributionsEpicWrapper>,
         ),
     );
 
