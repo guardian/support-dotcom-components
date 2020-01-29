@@ -7,23 +7,17 @@ import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 
-const replace = (content: string, placeholder: string, replacement?: string): string => {
-    const regex = new RegExp(placeholder, 'g');
+const replacePlaceholders = (content: string, countryCode?: string): string => {
+    // Replace currency symbol placeholder with actual currency symbol
+    // Function uses default currency symbol so countryCode is not strictly required here
+    content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
 
-    if (replacement) {
-        return content.replace(regex, replacement);
-    }
+    // Replace country code placeholder with actual country name
+    // Should only replace if we were able to determine the country name from country code
+    const countryName = getCountryName(countryCode) ?? '';
+    content = countryName ? content.replace(/%%COUNTRY_CODE%%/g, countryName) : content;
 
     return content;
-};
-
-const replacePlaceholders = (content: string, countryCode?: string): string => {
-    let newContent = content;
-
-    newContent = replace(newContent, '%%CURRENCY_SYMBOL%%', getLocalCurrencySymbol(countryCode));
-    newContent = replace(newContent, '%%COUNTRY_CODE%%', getCountryName(countryCode));
-
-    return newContent;
 };
 
 // Spacing values below are multiples of 4.
@@ -163,7 +157,7 @@ export const ContributionsEpic: React.FC<Props> = ({ content, metadata, countryC
                 />
             )}
 
-            <EpicBody paragraphs={paragraphs} highlighted={highlighted} />
+            <EpicBody paragraphs={paragraphs} highlighted={highlighted} countryCode={countryCode} />
 
             <div className={buttonWrapperStyles}>
                 <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
