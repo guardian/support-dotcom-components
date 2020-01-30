@@ -71,6 +71,14 @@ const imageStyles = css`
     margin: ${space[1]}px 0;
 `;
 
+type Tag = {
+    id: string;
+    type: string;
+    title: string;
+    twitterHandle?: string;
+    bylineImageUrl?: string;
+};
+
 export type EpicContent = {
     heading?: string;
     paragraphs: string[];
@@ -78,7 +86,11 @@ export type EpicContent = {
     countryCode?: string;
 };
 
-export type EpicMetadata = {
+export type EpicLocalisation = {
+    countryCode: string;
+};
+
+export type EpicTracking = {
     ophanPageId: string;
     ophanComponentId: string;
     platformId: string;
@@ -88,10 +100,19 @@ export type EpicMetadata = {
     referrerUrl: string;
 };
 
+export type EpicTargeting = {
+    contentType: string;
+    sectionName: string;
+    shouldHideReaderRevenue: boolean;
+    isMinuteArticle: boolean;
+    isPaidContent: boolean;
+    tags: Tag[];
+};
+
 type Props = {
     content: EpicContent;
-    metadata: EpicMetadata;
-    countryCode?: string;
+    tracking: EpicTracking;
+    localisation: EpicLocalisation;
 };
 
 type HighlightedProps = {
@@ -141,12 +162,13 @@ const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs, countryCode }:
     </>
 );
 
-export const ContributionsEpic: React.FC<Props> = ({ content, metadata, countryCode }: Props) => {
+export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisation }: Props) => {
     const { heading, paragraphs, highlighted } = content;
+    const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
-    const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, metadata);
+    const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
 
     return (
         <section className={wrapperStyles}>

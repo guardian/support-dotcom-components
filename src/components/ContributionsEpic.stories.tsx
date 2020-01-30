@@ -19,22 +19,27 @@ export const defaultStory = (): ReactElement => {
     };
 
     // Epic metadata props
-    const epicMetadata = {
-        ophanPageId: text('ophanPageId', testData.metadata.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.metadata.ophanComponentId),
-        platformId: text('platformId', testData.metadata.platformId),
-        campaignCode: text('campaignCode', testData.metadata.campaignCode),
-        abTestName: text('abTestName', testData.metadata.abTestName),
-        abTestVariant: text('abTestVariant', testData.metadata.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.metadata.referrerUrl),
+    const epicTracking = {
+        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
+        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        platformId: text('platformId', testData.tracking.platformId),
+        campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        abTestName: text('abTestName', testData.tracking.abTestName),
+        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
+        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
+    };
+
+    // Epic localisation props
+    const epicLocalisation = {
+        countryCode: text('countryCode', testData.localisation.countryCode),
     };
 
     return (
         <StorybookWrapper>
             <ContributionsEpic
                 content={epicContent}
-                metadata={epicMetadata}
-                countryCode={text('countryCode', 'GB')}
+                tracking={epicTracking}
+                localisation={epicLocalisation}
             />
         </StorybookWrapper>
     );
