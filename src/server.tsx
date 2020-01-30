@@ -6,13 +6,8 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
-import {
-    ContributionsEpic,
-    EpicTracking,
-    EpicLocalisation,
-    EpicTargeting,
-} from './components/ContributionsEpic';
-import { ContributionsWrapper } from './components/ContributionsWrapper';
+import { ContributionsEpic, EpicTracking, EpicLocalisation } from './components/ContributionsEpic';
+import { ContributionsWrapper, EpicTargeting } from './components/ContributionsWrapper';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 
