@@ -31,10 +31,10 @@ export const isEpicSuitable = ({
     isMinuteArticle: boolean;
     isPaidContent: boolean;
 }): boolean => {
-    const isNotSuitable = [shouldHideReaderRevenue, isMinuteArticle, isPaidContent].some(
+    const foundUnmetCondition = [shouldHideReaderRevenue, isMinuteArticle, isPaidContent].some(
         condition => condition,
     );
-    return !isNotSuitable;
+    return !foundUnmetCondition;
 };
 
 // Determine if the content isn't blacklisted for Section, Keyword or Tone
