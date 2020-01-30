@@ -71,15 +71,9 @@ export const isEpicWorthwhile = ({
     // Determine if Content matches Section blacklist
     const isContentSectionBlacklisted = isSectionBlacklisted(sectionName);
 
-    // Determine if Content matches any of tha Tags blacklist
-    // const isContentTagBlacklisted = Object.keys(TAG_BLACKLIST).some(tagType =>
-    //     isTagBlacklisted(tags, tagType),
-    // );
-
     // Determine if Content matches Keyword blacklist
     const isContentKeywordBlacklisted = isTagBlacklisted(tags, 'Keyword');
 
     // Epic is worthwhile if it's neither blacklisted for Section, Keyword or Tone
-    // return !isContentSectionBlacklisted && !isContentTagBlacklisted;
     return !isContentSectionBlacklisted && !isContentKeywordBlacklisted;
 };
