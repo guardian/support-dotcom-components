@@ -26,9 +26,15 @@ const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicConte
             acc: DefaultEpicContent,
             item: { heading: string; paragraphs: string; highlightedText: string },
         ) => {
-            if (!acc.heading && item.heading) acc.heading = item.heading;
-            if (item.paragraphs) acc.paragraphs.push(item.paragraphs);
-            if (item.highlightedText) acc.highlighted.push(item.highlightedText);
+            if (!acc.heading && item.heading) {
+                acc.heading = item.heading;
+            }
+            if (item.paragraphs) {
+                acc.paragraphs.push(item.paragraphs);
+            }
+            if (item.highlightedText) {
+                acc.highlighted.push(item.highlightedText);
+            }
             return acc;
         },
         { paragraphs: [], highlighted: [] },
@@ -36,7 +42,9 @@ const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicConte
 };
 
 export const fetchDefaultEpicContent = (): Promise<DefaultEpicContent> => {
-    if (epicContent) return epicContent;
+    if (epicContent) {
+        return epicContent;
+    }
 
     epicContent = fetchDefaultEpicContentWithoutCaching();
 

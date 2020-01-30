@@ -1,29 +1,31 @@
 import { getCountryName, getLocalCurrencySymbol } from './geolocation';
 
 describe('getLocalCurrencySymbol', () => {
-    it('returns £ when no geolocation provided', () => {
-        expect(getLocalCurrencySymbol()).toEqual('£');
-    });
+    const currencySymbolTests = [
+        { input: undefined, output: '£' },
+        { input: 'XX', output: '$' },
+        { input: 'FR', output: '€' },
+        { input: 'NZ', output: 'NZ$' },
+    ];
 
-    it('returns $ when unknown geolocation provided', () => {
-        expect(getLocalCurrencySymbol('XX')).toEqual('$');
-    });
-
-    it('returns the correct symbol when a known geolocation is provided', () => {
-        expect(getLocalCurrencySymbol('FR')).toEqual('€');
+    currencySymbolTests.forEach(({ input, output }) => {
+        it(`returns ${output}, given ${input}`, () => {
+            expect(getLocalCurrencySymbol(input)).toEqual(output);
+        });
     });
 });
 
 describe('getCountryName', () => {
-    it('returns the expected country name', () => {
-        expect(getCountryName('CZ')).toEqual('the Czech Republic');
-    });
+    const countryNameTests = [
+        { input: 'GB', output: 'the UK' },
+        { input: 'CZ', output: 'the Czech Republic' },
+        { input: undefined, output: undefined },
+        { input: 'XX', output: undefined },
+    ];
 
-    it('returns undefined when no country code provided', () => {
-        expect(getCountryName()).toBeUndefined();
-    });
-
-    it('returns undefined when an unknown country code provided', () => {
-        expect(getCountryName('XX')).toBeUndefined();
+    countryNameTests.forEach(({ input, output }) => {
+        it(`returns ${output}, given ${input}`, () => {
+            expect(getCountryName(input)).toEqual(output);
+        });
     });
 });
