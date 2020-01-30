@@ -1,5 +1,4 @@
 import { isEpicContent, isEpicSuitable, isEpicWorthwhile } from './targeting';
-// import testData from '../components/ContributionsEpic.testData';
 
 describe('The isEpicContent function', () => {
     it('should return TRUE if content type IS Article', () => {
@@ -100,5 +99,29 @@ describe('The isEpicWorthwhile function', () => {
             ],
         };
         expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(false);
+    });
+
+    it('should return TRUE if NEITHER Section or Keywords ARE blacklisted', () => {
+        const testKeywordsWorthwhile = {
+            sectionName: 'culture',
+            tags: [
+                {
+                    id: 'culture/david-schwimmer',
+                    type: 'Keyword',
+                    title: 'This IS NOT a blacklisted keyword',
+                },
+                {
+                    id: 'tv-and-radio/friends',
+                    type: 'Keyword',
+                    title: 'This IS NOT a blacklisted keyword',
+                },
+                {
+                    id: 'environment/environment',
+                    type: 'Keyword',
+                    title: 'This IS NOT a blacklisted keyword',
+                },
+            ],
+        };
+        expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(true);
     });
 });
