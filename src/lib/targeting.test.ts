@@ -78,7 +78,6 @@ describe('The isEpicWorthwhile function', () => {
         };
         expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(true);
     });
-
     it('should return FALSE if one or more keywords ARE blacklisted', () => {
         const testKeywordsWorthwhile = {
             sectionName: '',
