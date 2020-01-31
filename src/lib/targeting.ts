@@ -24,7 +24,7 @@ type TagBlacklist = Record<TagType, string[]>;
 // The value should be an array of forbidden tags of that type
 const TAG_BLACKLIST: TagBlacklist = {
     Keyword: ['guardian-masterclasses/guardian-masterclasses'], // e.g. https://www.theguardian.com/guardian-masterclasses/2018/oct/25/get-healthy-and-live-your-best-life-with-dr-rangan-chatterjee-health-wellness-course
-    Tone: [], // Empty blacklist for tags of type Tone, allows everything
+    Tone: [], // Empty blacklist for tags of type Tone to mirror the empty (but explicitly declared) Tone blacklist in Frontend
 };
 
 // Determine if it's the right type of content to be considered for an Epic
