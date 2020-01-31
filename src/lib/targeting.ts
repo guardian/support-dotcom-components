@@ -17,12 +17,11 @@ const SECTION_BLACKLIST: string[] = [
 // The Tag types our targeting should perform checks against
 // Others could be 'Tone', 'Publication', 'Tracking', etc.
 type TagType = 'Keyword' | 'Tone';
-
 type TagBlacklist = Record<TagType, string[]>;
 
 // TAG BLACKLIST
 // The key should be the 'Type' value of the Tag
-// The value should be an array of forbidden tags
+// The value should be an array of forbidden tags of that type
 const TAG_BLACKLIST: TagBlacklist = {
     Keyword: ['guardian-masterclasses/guardian-masterclasses'], // e.g. https://www.theguardian.com/guardian-masterclasses/2018/oct/25/get-healthy-and-live-your-best-life-with-dr-rangan-chatterjee-health-wellness-course
     Tone: [], // Empty blacklist for tags of type Tone, allows everything
