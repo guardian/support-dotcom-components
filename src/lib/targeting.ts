@@ -1,10 +1,10 @@
 import { EpicTargeting, Tag } from '../components/ContributionsEpic';
 
-// Content types to be considered for an Epic
+// Content types allowed to be considered for an Epic
 const ACCEPTED_TYPES = ['Article'];
 
-// SECTION / TAG BLACKLIST
-// Candidates to be abstracted into a config layer
+// SECTION BLACKLIST
+// No content belonging to any of these Sections should be served an Epic
 const SECTION_BLACKLIST: string[] = [
     'football', // e.g. https://www.theguardian.com/football/2019/mar/27/gordon-taylor-departure-pfa-chief-executive
     'money', // e.g. https://www.theguardian.com/money/2018/dec/13/slime-toys-tested-fail-meet-eu-safety-standards-hamleys-christmas
@@ -14,16 +14,18 @@ const SECTION_BLACKLIST: string[] = [
     'careers', // e.g. https://www.theguardian.com/careers/2018/dec/06/dont-expect-a-survivor-to-tell-you-her-experience-of-undergoing-fgm
 ];
 
-// The types of tag our targeting checks support
+// The Tag types our targeting should perform checks against
 // Others could be 'Tone', 'Publication', 'Tracking', etc.
-type TagType = 'Keyword';
+type TagType = 'Keyword' | 'Tone';
 
-interface TagList {
-    Keyword: string[];
-}
+type TagBlacklist = Record<TagType, string[]>;
 
-const TAG_BLACKLIST: TagList = {
+// TAG BLACKLIST
+// The key should be the 'Type' value of the Tag
+// The value should be an array of forbidden tags
+const TAG_BLACKLIST: TagBlacklist = {
     Keyword: ['guardian-masterclasses/guardian-masterclasses'], // e.g. https://www.theguardian.com/guardian-masterclasses/2018/oct/25/get-healthy-and-live-your-best-life-with-dr-rangan-chatterjee-health-wellness-course
+    Tone: [], // Empty blacklist for tags of type Tone, allows everything
 };
 
 // Determine if it's the right type of content to be considered for an Epic
@@ -55,9 +57,7 @@ const isSectionBlacklisted = (sectionName: string): boolean => {
 // this functions returns true if the list of tags includes at least one blacklisted tag of that type
 const isTagBlacklisted = (tags: Tag[], tagType: TagType): boolean => {
     const contentTagsOfType = tags.filter(tag => tag.type === tagType).map(tag => tag.id);
-    const isTagBlacklisted = contentTagsOfType.some(tag => TAG_BLACKLIST[tagType].includes(tag));
-
-    return isTagBlacklisted;
+    return contentTagsOfType.some(tag => TAG_BLACKLIST[tagType].includes(tag));
 };
 
 // Determine if the content isn't blacklisted for Section, Keyword or Tone
@@ -71,11 +71,12 @@ export const isEpicWorthwhile = ({
     // Determine if Content matches Section blacklist
     const isContentSectionBlacklisted = isSectionBlacklisted(sectionName);
 
-    // Determine if Content matches Keyword blacklist
-    const isContentKeywordBlacklisted = isTagBlacklisted(tags, 'Keyword');
+    // Determine if Content matches any of the supported Tag's blacklist
+    const tagTypes = Object.keys(TAG_BLACKLIST) as TagType[];
+    const isContentTagBlacklisted = tagTypes.some(tagType => isTagBlacklisted(tags, tagType));
 
-    // Epic is worthwhile if it's neither blacklisted for Section, Keyword or Tone
-    return !isContentSectionBlacklisted && !isContentKeywordBlacklisted;
+    // Epic is worthwhile if it's neither blacklisted for Section or Tag
+    return !isContentSectionBlacklisted && !isContentTagBlacklisted;
 };
 
 export const shouldRenderEpic = (targeting: EpicTargeting): boolean => {
