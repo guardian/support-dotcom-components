@@ -1,6 +1,6 @@
 import { isEpicContent, isEpicSuitable, isEpicWorthwhile, shouldRenderEpic } from './targeting';
 
-describe('The isEpicContent function', () => {
+describe('isEpicContent()', () => {
     it('should return TRUE if content type IS Article', () => {
         const contentType = 'Article';
         expect(isEpicContent({ contentType })).toEqual(true);
@@ -12,7 +12,7 @@ describe('The isEpicContent function', () => {
     });
 });
 
-describe('The isEpicSuitable function', () => {
+describe('isEpicSuitable()', () => {
     it('should return TRUE if all parameters ARE FALSE', () => {
         const testSuitableFlags = {
             shouldHideReaderRevenue: false,
@@ -23,7 +23,7 @@ describe('The isEpicSuitable function', () => {
         expect(isEpicSuitable(testSuitableFlags)).toEqual(true);
     });
 
-    it('should return FALSE if one or more flags ARE TRUE', () => {
+    it('should return FALSE if one or more parameters ARE TRUE', () => {
         const testSuitableFlags1 = {
             shouldHideReaderRevenue: true,
             isMinuteArticle: false,
@@ -40,8 +40,8 @@ describe('The isEpicSuitable function', () => {
     });
 });
 
-describe('The isEpicWorthwhile function', () => {
-    it('should return TRUE if the Section IS NOT blacklisted', () => {
+describe('isEpicWorthwhile()', () => {
+    it('should return TRUE if the section IS NOT blacklisted', () => {
         const testSectionWorthwhile = {
             sectionName: 'culture',
             tags: [],
@@ -50,7 +50,7 @@ describe('The isEpicWorthwhile function', () => {
         expect(isEpicWorthwhile(testSectionWorthwhile)).toEqual(true);
     });
 
-    it('should return FALSE if the Section IS blacklisted', () => {
+    it('should return FALSE if the section IS blacklisted', () => {
         const testSectionWorthwhile = {
             sectionName: 'football',
             tags: [],
@@ -59,7 +59,7 @@ describe('The isEpicWorthwhile function', () => {
         expect(isEpicWorthwhile(testSectionWorthwhile)).toEqual(false);
     });
 
-    it('should return TRUE if keywords ARE NOT blacklisted', () => {
+    it('should return TRUE if tags ARE NOT blacklisted', () => {
         const testKeywordsWorthwhile = {
             sectionName: '',
             tags: [
@@ -73,11 +73,16 @@ describe('The isEpicWorthwhile function', () => {
                     type: 'Keyword',
                     title: 'This is NOT a blacklisted keyword',
                 },
+                {
+                    id: 'tone/interview',
+                    type: 'Tone',
+                    title: 'This is NOT a blacklisted tone',
+                },
             ],
         };
         expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(true);
     });
-    it('should return FALSE if one or more keywords ARE blacklisted', () => {
+    it('should return FALSE if one or more tags ARE blacklisted', () => {
         const testKeywordsWorthwhile = {
             sectionName: '',
             tags: [
@@ -92,16 +97,16 @@ describe('The isEpicWorthwhile function', () => {
                     title: 'This IS NOT a blacklisted keyword',
                 },
                 {
-                    id: 'environment/environment',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
+                    id: 'tone/interview',
+                    type: 'Tone',
+                    title: 'This is NOT a blacklisted tone',
                 },
             ],
         };
         expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(false);
     });
 
-    it('should return TRUE if NEITHER Section or Keywords ARE blacklisted', () => {
+    it('should return TRUE if NEITHER Section or Tags ARE blacklisted', () => {
         const testKeywordsWorthwhile = {
             sectionName: 'culture',
             tags: [
@@ -116,9 +121,9 @@ describe('The isEpicWorthwhile function', () => {
                     title: 'This IS NOT a blacklisted keyword',
                 },
                 {
-                    id: 'environment/environment',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
+                    id: 'tone/interview',
+                    type: 'Tone',
+                    title: 'This is NOT a blacklisted tone',
                 },
             ],
         };
@@ -126,8 +131,8 @@ describe('The isEpicWorthwhile function', () => {
     });
 });
 
-describe('The shouldRenderEpic function', () => {
-    it('should return TRUE if content IS of apporpriate TYPE, IS of appropriate SECTION and IS of appropriate TAGS', () => {
+describe('shouldRenderEpic()', () => {
+    it('should return TRUE if content IS of appropriate TYPE, IS of appropriate SECTION and IS of appropriate TAGS', () => {
         const testShouldRenderEpic = {
             contentType: 'Article',
             sectionName: 'culture',
@@ -146,9 +151,9 @@ describe('The shouldRenderEpic function', () => {
                     title: 'This IS NOT a blacklisted keyword',
                 },
                 {
-                    id: 'environment/environment',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
+                    id: 'tone/interview',
+                    type: 'Tone',
+                    title: 'This is NOT a blacklisted tone',
                 },
             ],
         };
