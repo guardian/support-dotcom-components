@@ -6,12 +6,12 @@ const ACCEPTED_TYPES = ['Article'];
 // SECTION / TAG BLACKLIST
 // Candidates to be abstracted into a config layer
 const SECTION_BLACKLIST: string[] = [
-    'football',
-    'money',
-    'education',
-    'games',
-    'teacher-network',
-    'careers',
+    'football', // e.g. https://www.theguardian.com/football/2019/mar/27/gordon-taylor-departure-pfa-chief-executive
+    'money', // e.g. https://www.theguardian.com/money/2018/dec/13/slime-toys-tested-fail-meet-eu-safety-standards-hamleys-christmas
+    'education', // e.g. https://www.theguardian.com/education/2018/dec/12/female-scholars-are-marginalised-on-wikipedia-because-its-written-by-men
+    'games', // e.g. https://www.theguardian.com/games/2018/dec/13/cat-condo-is-the-stupidest-most-cynical-game-in-the-app-store-so-why-cant-i-stop-playing
+    'teacher-network', // e.g. https://www.theguardian.com/teacher-network/2018/jun/02/secret-teacher-teaching-children-without-play-soul-destroying-sats-assessment
+    'careers', // e.g. https://www.theguardian.com/careers/2018/dec/06/dont-expect-a-survivor-to-tell-you-her-experience-of-undergoing-fgm
 ];
 
 // The types of tag our targeting checks support
@@ -23,7 +23,7 @@ interface TagList {
 }
 
 const TAG_BLACKLIST: TagList = {
-    Keyword: ['guardian-masterclasses/guardian-masterclasses'],
+    Keyword: ['guardian-masterclasses/guardian-masterclasses'], // e.g. https://www.theguardian.com/guardian-masterclasses/2018/oct/25/get-healthy-and-live-your-best-life-with-dr-rangan-chatterjee-health-wellness-course
 };
 
 // Determine if it's the right type of content to be considered for an Epic
