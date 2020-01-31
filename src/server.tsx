@@ -6,8 +6,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
-import { ContributionsEpic, EpicTracking, EpicLocalisation } from './components/ContributionsEpic';
-import { ContributionsWrapper, EpicTargeting } from './components/ContributionsWrapper';
+import {
+    ContributionsEpic,
+    EpicTracking,
+    EpicLocalisation,
+    EpicTargeting,
+} from './components/ContributionsEpic';
+import { shouldRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 
@@ -94,32 +99,29 @@ const buildEpic = async (
         highlighted,
     };
 
-    // Pass targeting data down to ContributionsEpicWrapper
-    // so it can determine whether to render the Epic or nothing
-    const { html, css } = extractCritical(
-        renderToStaticMarkup(
-            <ContributionsWrapper targeting={targeting}>
+    // Determine whether to render the Epic or return empty HTML and CSS
+    if (shouldRenderEpic(targeting)) {
+        const { html, css } = extractCritical(
+            renderToStaticMarkup(
                 <ContributionsEpic
                     content={content}
                     tracking={tracking}
                     localisation={localisation}
-                />
-            </ContributionsWrapper>,
-        ),
-    );
+                />,
+            ),
+        );
+        return { html, css };
+    }
 
-    return { html, css };
+    return { html: '', css: '' };
 };
 
 app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const { html, css } = await buildEpic(
-                testData.tracking,
-                testData.localisation,
-                testData.targeting,
-            );
+            const { tracking, localisation, targeting } = testData;
+            const { html, css } = await buildEpic(tracking, localisation, targeting);
             const htmlContent = renderHtmlDocument({ html, css });
             res.send(htmlContent);
         } catch (error) {

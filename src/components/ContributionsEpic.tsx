@@ -92,7 +92,24 @@ export type EpicTracking = {
     referrerUrl: string;
 };
 
-type Props = {
+export type Tag = {
+    id: string;
+    type: string;
+    title: string;
+    twitterHandle?: string;
+    bylineImageUrl?: string;
+};
+
+export type EpicTargeting = {
+    contentType: string;
+    sectionName: string;
+    shouldHideReaderRevenue: boolean;
+    isMinuteArticle: boolean;
+    isPaidContent: boolean;
+    tags: Tag[];
+};
+
+export type Props = {
     content: EpicContent;
     tracking: EpicTracking;
     localisation: EpicLocalisation;

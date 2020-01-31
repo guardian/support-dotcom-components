@@ -1,4 +1,4 @@
-import { Tag } from '../components/ContributionsWrapper';
+import { EpicTargeting, Tag } from '../components/ContributionsEpic';
 
 // Content types to be considered for an Epic
 const ACCEPTED_TYPES = ['Article'];
@@ -76,4 +76,12 @@ export const isEpicWorthwhile = ({
 
     // Epic is worthwhile if it's neither blacklisted for Section, Keyword or Tone
     return !isContentSectionBlacklisted && !isContentKeywordBlacklisted;
+};
+
+export const shouldRenderEpic = (targeting: EpicTargeting): boolean => {
+    // Should render Epic if all conditions are met:
+    // 1) The right type to be served an Epic (i.e. an Article)
+    // 2) Suitable to be served an Epic (i.e. not 'sensitive' or sponsored)
+    // 3) Worth it of an Epic (i.e. not blacklisted for section/tags)
+    return isEpicContent(targeting) && isEpicSuitable(targeting) && isEpicWorthwhile(targeting);
 };
