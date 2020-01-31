@@ -41,12 +41,7 @@ export const isEpicSuitable = ({
     shouldHideReaderRevenue: boolean;
     isMinuteArticle: boolean;
     isPaidContent: boolean;
-}): boolean => {
-    const foundUnmetCondition = [shouldHideReaderRevenue, isMinuteArticle, isPaidContent].some(
-        condition => condition,
-    );
-    return !foundUnmetCondition;
-};
+}): boolean => !(shouldHideReaderRevenue || isMinuteArticle || isPaidContent);
 
 const isSectionBlacklisted = (sectionName: string): boolean => {
     return SECTION_BLACKLIST.includes(sectionName);
