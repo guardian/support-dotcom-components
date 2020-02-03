@@ -113,7 +113,6 @@ export type Props = {
     content: EpicContent;
     tracking: EpicTracking;
     localisation: EpicLocalisation;
-    isLegacy?: boolean;
 };
 
 type HighlightedProps = {
