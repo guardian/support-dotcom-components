@@ -11,7 +11,7 @@ const linkStyles = css`
     border-radius: 21px;
     box-sizing: border-box;
     color: ${palette.neutral[7]};
-    ${textSans.medium({ fontWeight: 'bold' })};
+    ${textSans.medium({ fontWeight: 'bold', italic: true })};
     text-decoration: none;
     padding: ${space[3]}px ${space[12]}px ${space[3]}px ${space[5]}px;
     line-height: 18px;

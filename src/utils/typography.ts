@@ -1,3 +1,7 @@
+// This file provides access to the 4 typography helpers from the Guardian Design System (@src-foundations/typography)
+// with the output of each helper extended to include the font faces expected by both pre- and post-design system platforms (i.e. Frontend vs DCR)
+// This ensures we can develop our components unaware of platform differences whilst taking advance of the design system helper functions
+// TODO - meant to be used as temporary tool to abstract those differences - please don't use in the long term ;)
 import {
     titlepiece as sfTitlepiece,
     headline as sfHeadline,
@@ -6,6 +10,7 @@ import {
 } from '@guardian/src-foundations/typography';
 
 // Copied over from @src/foundations
+// Defines the FontScaleArgs argument allowed into any typography helper
 type LineHeight = 'tight' | 'regular' | 'loose';
 type FontWeight = 'light' | 'regular' | 'medium' | 'bold';
 type FontScaleArgs = {
@@ -54,7 +59,7 @@ for (let i = 0; i < bodySizes.length; i++) {
     const size = bodySizes[i] as BodyType;
     body[size] = (fontScaleArgs: FontScaleArgs): string =>
         `${sfBody[size](fontScaleArgs)};
-        font-family: Guardian Text Egyptian Web, GuardianTextEgyptian, Georgia, serif;`;
+        font-family: GuardianTextEgyptian, Guardian Text Egyptian Web, Georgia, serif;`;
 }
 
 // TEXT SANS
