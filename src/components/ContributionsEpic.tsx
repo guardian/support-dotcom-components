@@ -71,14 +71,6 @@ const imageStyles = css`
     margin: ${space[1]}px 0;
 `;
 
-type Tag = {
-    id: string;
-    type: string;
-    title: string;
-    twitterHandle?: string;
-    bylineImageUrl?: string;
-};
-
 export type EpicContent = {
     heading?: string;
     paragraphs: string[];
@@ -100,6 +92,14 @@ export type EpicTracking = {
     referrerUrl: string;
 };
 
+export type Tag = {
+    id: string;
+    type: string;
+    title: string;
+    twitterHandle?: string;
+    bylineImageUrl?: string;
+};
+
 export type EpicTargeting = {
     contentType: string;
     sectionName: string;
@@ -109,7 +109,7 @@ export type EpicTargeting = {
     tags: Tag[];
 };
 
-type Props = {
+export type Props = {
     content: EpicContent;
     tracking: EpicTracking;
     localisation: EpicLocalisation;
