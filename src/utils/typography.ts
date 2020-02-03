@@ -1,12 +1,12 @@
 // This file provides access to the 4 typography helpers from the Guardian Design System (@src-foundations/typography)
 // with the output of each helper extended to include the font faces expected by both pre- and post-design system platforms (i.e. Frontend vs DCR)
-// This ensures we can develop our components unaware of platform differences whilst taking advance of the design system helper functions
-// TODO - meant to be used as temporary tool to abstract those differences - please don't use in the long term ;)
+// This ensures we can develop our components unaware of platform differences whilst taking advantage of convenience of the design system helper functions.
+// NOTE - meant to be used as temporary tool to abstract those differences until we find a solution on the platform side.
 import {
-    titlepiece as sfTitlepiece,
-    headline as sfHeadline,
-    body as sfBody,
-    textSans as sfTextSans,
+    titlepiece as dsTitlepiece,
+    headline as dsHeadline,
+    body as dsBody,
+    textSans as dsTextSans,
 } from '@guardian/src-foundations/typography';
 
 // Copied over from @src/foundations
@@ -36,7 +36,7 @@ const titlepieceSizes = ['small', 'medium', 'large'];
 const titlepiece: TypographyHelperFunction = {};
 for (let i = 0; i < titlepieceSizes.length; i++) {
     const size = titlepieceSizes[i] as TitlepieceType;
-    titlepiece[size] = (fontScaleArgs: FontScaleArgs): string => `${sfTitlepiece[size](
+    titlepiece[size] = (fontScaleArgs: FontScaleArgs): string => `${dsTitlepiece[size](
         fontScaleArgs,
     )};
     font-family: GT Guardian Titlepiece, Guardian Titlepiece, Georgia, serif;`;
@@ -48,7 +48,7 @@ const headline: TypographyHelperFunction = {};
 for (let i = 0; i < headlineSizes.length; i++) {
     const size = headlineSizes[i] as HeadlineType;
     headline[size] = (fontScaleArgs: FontScaleArgs): string =>
-        `${sfHeadline[size](fontScaleArgs)};
+        `${dsHeadline[size](fontScaleArgs)};
         font-family: GH Guardian Headline, Guardian Egyptian Web, Georgia, serif;`;
 }
 
@@ -58,7 +58,7 @@ const body: TypographyHelperFunction = {};
 for (let i = 0; i < bodySizes.length; i++) {
     const size = bodySizes[i] as BodyType;
     body[size] = (fontScaleArgs: FontScaleArgs): string =>
-        `${sfBody[size](fontScaleArgs)};
+        `${dsBody[size](fontScaleArgs)};
         font-family: GuardianTextEgyptian, Guardian Text Egyptian Web, Georgia, serif;`;
 }
 
@@ -68,7 +68,7 @@ const textSans: TypographyHelperFunction = {};
 for (let i = 0; i < textSansSizes.length; i++) {
     const size = textSansSizes[i] as TextSansType;
     textSans[size] = (fontScaleArgs: FontScaleArgs): string =>
-        `${sfTextSans[size](fontScaleArgs)};
+        `${dsTextSans[size](fontScaleArgs)};
         font-family: GuardianTextSans, Guardian Text Sans Web, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;`;
 }
 
