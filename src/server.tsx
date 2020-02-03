@@ -91,6 +91,7 @@ const buildEpic = async (
     tracking: EpicTracking,
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
+    isLegacy: boolean,
 ): Promise<ResponseType> => {
     const { heading, paragraphs, highlighted } = await fetchDefaultEpicContent();
     const content = {
@@ -107,6 +108,7 @@ const buildEpic = async (
                     content={content}
                     tracking={tracking}
                     localisation={localisation}
+                    isLegacy={isLegacy}
                 />,
             ),
         );
@@ -121,7 +123,7 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { tracking, localisation, targeting } = testData;
-            const { html, css } = await buildEpic(tracking, localisation, targeting);
+            const { html, css } = await buildEpic(tracking, localisation, targeting, false);
             const htmlContent = renderHtmlDocument({ html, css });
             res.send(htmlContent);
         } catch (error) {
@@ -137,7 +139,8 @@ app.post(
             const tracking = buildTracking(req);
             const localisation = buildLocalisation(req);
             const targeting = buildTargeting(req);
-            const { html, css } = await buildEpic(tracking, localisation, targeting);
+            const isLegacy = req.get('X-Legacy') === 'true';
+            const { html, css } = await buildEpic(tracking, localisation, targeting, isLegacy);
             res.send({ html, css });
         } catch (error) {
             next(error);

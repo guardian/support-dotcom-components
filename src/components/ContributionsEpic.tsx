@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { body, headline } from '@guardian/src-foundations/typography';
+import { body, headline } from '../utils/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { PrimaryButton } from './PrimaryButton';
@@ -43,10 +43,12 @@ const headingStyles = css`
     margin-bottom: ${space[3]}px;
 `;
 
-const bodyStyles = css`
-    margin: 0 auto ${space[2]}px;
-    ${body.medium()};
-`;
+const bodyStyles = isLegacy => {
+    return css`
+        margin: 0 auto ${space[2]}px;
+        ${body.medium()};
+    `;
+};
 
 const highlightWrapperStyles = css`
     ${body.medium({ fontWeight: 'bold' })}
@@ -113,6 +115,7 @@ export type Props = {
     content: EpicContent;
     tracking: EpicTracking;
     localisation: EpicLocalisation;
+    isLegacy?: boolean;
 };
 
 type HighlightedProps = {
@@ -144,10 +147,15 @@ const Highlighted: React.FC<HighlightedProps> = ({
     </strong>
 );
 
-const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs, countryCode }: BodyProps) => (
+const EpicBody: React.FC<BodyProps> = ({
+    highlighted,
+    paragraphs,
+    countryCode,
+    isLegacy,
+}: BodyProps) => (
     <>
         {paragraphs.map((paragraph, idx) => (
-            <p key={idx} className={bodyStyles}>
+            <p key={idx} className={bodyStyles(isLegacy)}>
                 <span
                     dangerouslySetInnerHTML={{
                         __html: replacePlaceholders(paragraph, countryCode),
@@ -162,7 +170,12 @@ const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs, countryCode }:
     </>
 );
 
-export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisation }: Props) => {
+export const ContributionsEpic: React.FC<Props> = ({
+    content,
+    tracking,
+    localisation,
+    isLegacy = false,
+}: Props) => {
     const { heading, paragraphs, highlighted } = content;
     const { countryCode } = localisation;
 
@@ -179,7 +192,12 @@ export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisa
                 />
             )}
 
-            <EpicBody paragraphs={paragraphs} highlighted={highlighted} countryCode={countryCode} />
+            <EpicBody
+                paragraphs={paragraphs}
+                highlighted={highlighted}
+                countryCode={countryCode}
+                isLegacy={isLegacy}
+            />
 
             <div className={buttonWrapperStyles}>
                 <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
