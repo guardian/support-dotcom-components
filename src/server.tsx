@@ -33,9 +33,13 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-interface ResponseType {
+interface Epic {
     html: string;
     css: string;
+}
+
+interface ResponseType {
+    data: Epic | null;
 }
 
 // Return a metadata object safe to be consumed by the Epic component
@@ -91,7 +95,7 @@ const buildEpic = async (
     tracking: EpicTracking,
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
-): Promise<ResponseType> => {
+): Promise<Epic | null> => {
     const { heading, paragraphs, highlighted } = await fetchDefaultEpicContent();
     const content = {
         heading,
@@ -113,7 +117,7 @@ const buildEpic = async (
         return { html, css };
     }
 
-    return { html: '', css: '' };
+    return null;
 };
 
 app.get(
@@ -121,7 +125,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { tracking, localisation, targeting } = testData;
-            const { html, css } = await buildEpic(tracking, localisation, targeting);
+            const epic = await buildEpic(tracking, localisation, targeting);
+            const { html, css } = epic ?? { html: '', css: '' };
             const htmlContent = renderHtmlDocument({ html, css });
             res.send(htmlContent);
         } catch (error) {
@@ -137,8 +142,8 @@ app.post(
             const tracking = buildTracking(req);
             const localisation = buildLocalisation(req);
             const targeting = buildTargeting(req);
-            const { html, css } = await buildEpic(tracking, localisation, targeting);
-            res.send({ html, css });
+            const epic = await buildEpic(tracking, localisation, targeting);
+            res.send({ data: epic });
         } catch (error) {
             next(error);
         }
