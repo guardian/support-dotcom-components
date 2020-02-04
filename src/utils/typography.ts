@@ -53,7 +53,7 @@ const headlineSizes: HeadlineType[] = [
     'xlarge',
 ];
 headlineSizes.forEach((size): void => {
-    headline[size] = (fontScaleArgs: any): string =>
+    headline[size] = (fontScaleArgs: FontScaleArgs): string =>
         `${dsHeadline[size](fontScaleArgs)};
         font-family: GH Guardian Headline, Guardian Egyptian Web, Georgia, serif;`;
 });
