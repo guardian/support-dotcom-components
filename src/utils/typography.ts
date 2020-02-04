@@ -31,45 +31,49 @@ type HeadlineType = 'xxxsmall' | 'xxsmall' | 'xsmall' | 'small' | 'medium' | 'la
 type BodyType = 'small' | 'medium';
 type TextSansType = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
 
-// TITLEPIECE
-const titlepieceSizes = ['small', 'medium', 'large'];
+// Assigning TITLEPIECE sizing helper functions
 const titlepiece: TypographyHelperFunction = {};
-for (let i = 0; i < titlepieceSizes.length; i++) {
-    const size = titlepieceSizes[i] as TitlepieceType;
+const titlepieceSizes: TitlepieceType[] = ['small', 'medium', 'large'];
+titlepieceSizes.forEach((size): void => {
     titlepiece[size] = (fontScaleArgs: FontScaleArgs): string => `${dsTitlepiece[size](
         fontScaleArgs,
     )};
     font-family: GT Guardian Titlepiece, Guardian Titlepiece, Georgia, serif;`;
-}
+});
 
-// HEADLINE
-const headlineSizes = ['xxxsmall', 'xxsmall', 'xsmall', 'small', 'medium', 'large', 'xlarge'];
+// Assigning HEADLINE sizing helper functions
 const headline: TypographyHelperFunction = {};
-for (let i = 0; i < headlineSizes.length; i++) {
-    const size = headlineSizes[i] as HeadlineType;
-    headline[size] = (fontScaleArgs: FontScaleArgs): string =>
+const headlineSizes: HeadlineType[] = [
+    'xxxsmall',
+    'xxsmall',
+    'xsmall',
+    'small',
+    'medium',
+    'large',
+    'xlarge',
+];
+headlineSizes.forEach((size): void => {
+    headline[size] = (fontScaleArgs: any): string =>
         `${dsHeadline[size](fontScaleArgs)};
         font-family: GH Guardian Headline, Guardian Egyptian Web, Georgia, serif;`;
-}
+});
 
-// BODY
-const bodySizes = ['small', 'medium'];
+// Assigning BODY sizing helper functions
 const body: TypographyHelperFunction = {};
-for (let i = 0; i < bodySizes.length; i++) {
-    const size = bodySizes[i] as BodyType;
+const bodySizes: BodyType[] = ['small', 'medium'];
+bodySizes.forEach((size): void => {
     body[size] = (fontScaleArgs: FontScaleArgs): string =>
         `${dsBody[size](fontScaleArgs)};
         font-family: GuardianTextEgyptian, Guardian Text Egyptian Web, Georgia, serif;`;
-}
+});
 
-// TEXT SANS
-const textSansSizes = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
+// Assigning TEXT SANS sizing helper functions
 const textSans: TypographyHelperFunction = {};
-for (let i = 0; i < textSansSizes.length; i++) {
-    const size = textSansSizes[i] as TextSansType;
+const textSansSizes: TextSansType[] = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
+textSansSizes.forEach((size): void => {
     textSans[size] = (fontScaleArgs: FontScaleArgs): string =>
         `${dsTextSans[size](fontScaleArgs)};
         font-family: GuardianTextSans, Guardian Text Sans Web, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;`;
-}
+});
 
 export { titlepiece, headline, body, textSans };
