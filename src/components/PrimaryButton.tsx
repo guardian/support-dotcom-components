@@ -10,7 +10,7 @@ const linkStyles = css`
     background: ${palette.brandYellow.main};
     border-radius: 21px;
     box-sizing: border-box;
-    color: ${palette.neutral[7]};
+    color: ${palette.neutral[7]} !important;
     ${textSans.medium({ fontWeight: 'bold' })};
     text-decoration: none;
     padding: ${space[3]}px ${space[12]}px ${space[3]}px ${space[5]}px;
@@ -21,6 +21,7 @@ const linkStyles = css`
 
     :hover {
         background: ${palette.brandYellow.dark};
+        text-decoration: none;
     }
 
     svg {
