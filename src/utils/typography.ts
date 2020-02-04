@@ -7,12 +7,16 @@ import {
     headline as dsHeadline,
     body as dsBody,
     textSans as dsTextSans,
+    LineHeight,
+    FontWeight,
+    TitlepieceSizes,
+    HeadlineSizes,
+    BodySizes,
+    TextSansSizes,
 } from '@guardian/src-foundations/typography';
 
 // Copied over from @src/foundations
 // Defines the FontScaleArgs argument allowed into any typography helper
-type LineHeight = 'tight' | 'regular' | 'loose';
-type FontWeight = 'light' | 'regular' | 'medium' | 'bold';
 type FontScaleArgs = {
     lineHeight?: LineHeight;
     fontWeight?: FontWeight;
@@ -24,16 +28,9 @@ interface TypographyHelperFunction {
     [key: string]: Function;
 }
 
-// Defines the possible sizes for each typography object
-// Used to describe the keys allowed for any of those objects
-type TitlepieceType = 'small' | 'medium' | 'large';
-type HeadlineType = 'xxxsmall' | 'xxsmall' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-type BodyType = 'small' | 'medium';
-type TextSansType = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-
 // Assigning TITLEPIECE sizing helper functions
 const titlepiece: TypographyHelperFunction = {};
-const titlepieceSizes: TitlepieceType[] = ['small', 'medium', 'large'];
+const titlepieceSizes: TitlepieceSizes[] = ['small', 'medium', 'large'];
 titlepieceSizes.forEach((size): void => {
     titlepiece[size] = (fontScaleArgs: FontScaleArgs): string => `${dsTitlepiece[size](
         fontScaleArgs,
@@ -43,7 +40,7 @@ titlepieceSizes.forEach((size): void => {
 
 // Assigning HEADLINE sizing helper functions
 const headline: TypographyHelperFunction = {};
-const headlineSizes: HeadlineType[] = [
+const headlineSizes: HeadlineSizes[] = [
     'xxxsmall',
     'xxsmall',
     'xsmall',
@@ -60,7 +57,7 @@ headlineSizes.forEach((size): void => {
 
 // Assigning BODY sizing helper functions
 const body: TypographyHelperFunction = {};
-const bodySizes: BodyType[] = ['small', 'medium'];
+const bodySizes: BodySizes[] = ['small', 'medium'];
 bodySizes.forEach((size): void => {
     body[size] = (fontScaleArgs: FontScaleArgs): string =>
         `${dsBody[size](fontScaleArgs)};
@@ -69,7 +66,7 @@ bodySizes.forEach((size): void => {
 
 // Assigning TEXT SANS sizing helper functions
 const textSans: TypographyHelperFunction = {};
-const textSansSizes: TextSansType[] = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
+const textSansSizes: TextSansSizes[] = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
 textSansSizes.forEach((size): void => {
     textSans[size] = (fontScaleArgs: FontScaleArgs): string =>
         `${dsTextSans[size](fontScaleArgs)};
