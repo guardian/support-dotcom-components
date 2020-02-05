@@ -21,7 +21,6 @@ fetchDefaultEpicContent();
 
 // Use middleware
 const app = express();
-app.use(express.urlencoded());
 app.use(express.json({ limit: '50mb' }));
 
 // Note allows *all* cors. We may want to tighten this later.
@@ -169,3 +168,5 @@ if (process.env.NODE_ENV === 'development') {
         awsServerlessExpress.proxy(server, event, context);
     };
 }
+
+export { app };
