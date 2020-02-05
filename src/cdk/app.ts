@@ -1,7 +1,8 @@
 import cdk = require('@aws-cdk/core');
-import apigateway = require('@aws-cdk/aws-apigateway');
+import apigatewayv2 = require('@aws-cdk/aws-apigatewayv2');
 import lambda = require('@aws-cdk/aws-lambda');
 import s3 = require('@aws-cdk/aws-s3');
+import iam = require('@aws-cdk/aws-iam');
 import { Tag } from '@aws-cdk/core';
 
 export class LambdaService extends cdk.Stack {
@@ -32,27 +33,20 @@ export class LambdaService extends cdk.Stack {
             functionName,
         });
 
-        // If you need access to parameter store then uncomment and adjust the following:
-        // handler.addToRolePolicy(
-        //     new iam.PolicyStatement({
-        //         effect: iam.Effect.ALLOW,
-        //         resources: ['arn:aws:ssm:eu-west-1:[your account ID goes here]:parameter/*'],
-        //         actions: ['ssm:GetParameter'],
-        //     }),
-        // );
-
         const restApiName = `contributions-service-${stage.value}`;
 
-        // tslint:disable-next-line: no-unused-expression
-        new apigateway.LambdaRestApi(this, 'contributions-service', {
-            restApiName,
+        // https://aws.amazon.com/blogs/compute/announcing-http-apis-for-amazon-api-gateway/
+        const api = new apigatewayv2.CfnApi(this, 'contributions-service', {
+            name: restApiName,
             description: 'Service to serve contributions components',
-            proxy: true,
-            handler,
-            deployOptions: {
-                loggingLevel: apigateway.MethodLoggingLevel.INFO,
-                dataTraceEnabled: true,
-            },
+            protocolType: 'HTTP',
+            target: handler.functionArn,
+        });
+
+        handler.addPermission('grant-invoke', {
+            action: 'lambda:InvokeFunction',
+            principal: new iam.ServicePrincipal('apigateway.amazonaws.com'),
+            sourceArn: `arn:aws:execute-api:eu-west-1:${this.account}:${api.ref}*`,
         });
     }
 }
