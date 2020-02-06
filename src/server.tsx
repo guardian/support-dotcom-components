@@ -21,7 +21,7 @@ fetchDefaultEpicContent();
 
 // Use middleware
 const app = express();
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '50mb' }));
 
 // Note allows *all* cors. We may want to tighten this later.
