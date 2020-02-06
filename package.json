@@ -16,7 +16,8 @@
     "postbuild": "./bin/package.sh",
     "upload-artifact": "node-riffraff-artifact",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "cdk": "cdk"
   },
   "dependencies": {
     "@guardian/src-foundations": "^0.12.4",
@@ -32,9 +33,10 @@
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "@aws-cdk/aws-apigateway": "^1.21.0",
-    "@aws-cdk/aws-lambda": "^1.21.0",
-    "@aws-cdk/core": "^1.21.0",
+    "@aws-cdk/aws-apigateway": "^1.22.0",
+    "@aws-cdk/aws-apigatewayv2": "^1.22.0",
+    "@aws-cdk/aws-lambda": "^1.22.0",
+    "@aws-cdk/core": "^1.22.0",
     "@babel/core": "^7.8.3",
     "@guardian/node-riffraff-artifact": "^0.1.1",
     "@storybook/addon-actions": "^5.3.8",
@@ -54,7 +56,7 @@
     "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.16.0",
     "@typescript-eslint/parser": "^2.16.0",
-    "aws-cdk": "^1.21.0",
+    "aws-cdk": "^1.22.0",
     "aws-sdk": "^2.604.0",
     "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
