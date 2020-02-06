@@ -19,7 +19,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@guardian/src-foundations": "^0.11.0",
+    "@guardian/src-foundations": "^0.12.4",
     "@storybook/addon-knobs": "^5.3.8",
     "@storybook/preset-typescript": "^1.2.0",
     "aws-serverless-express": "^3.3.6",

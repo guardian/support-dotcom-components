@@ -1194,10 +1194,10 @@
     aws-sdk "^2.481.0"
     yaml "^1.7.2"
 
-"@guardian/src-foundations@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-0.11.0.tgz#3b05ec328f1f357dd7c61e0de14b183cd0ec856a"
-  integrity sha512-nJdwwqgXGmLuP4ropH2lnNmp1zzp6z5SbpMIJxDE6EMH26F4Uyn+yZHZzUZOJWBfVnbe4a7DvpT3swlCGKdCLA==
+"@guardian/src-foundations@^0.12.4":
+  version "0.12.4"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-0.12.4.tgz#a4c6ec8dbf86279702d78e048e2bd4eea1624c7d"
+  integrity sha512-6V/3TWL4wMxfzUHOj5MJQMQA7oRBxWlRav5m9dYGw13JAg59DFOpcfM8LWWFwWWlJ8e2nbnDHS9/sOPzGrJduw==
 
 "@icons/material@^0.2.4":
   version "0.2.4"
