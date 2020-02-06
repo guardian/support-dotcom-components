@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { body, headline } from '../utils/typography';
+import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { PrimaryButton } from './PrimaryButton';
