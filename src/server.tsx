@@ -172,9 +172,10 @@ app.use((error: Error, req: express.Request, res: express.Response, next: expres
             res.status(400).send({ error: message });
             break;
         default:
-            console.log('Something went wrong: ', message);
             res.status(500).send({ error: message });
     }
+
+    console.log('Something went wrong: ', message);
 });
 
 // If local then don't wrap in serverless
