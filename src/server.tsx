@@ -43,10 +43,6 @@ interface Epic {
     css: string;
 }
 
-interface ResponseType {
-    data: Epic | null;
-}
-
 // Return a metadata object safe to be consumed by the Epic component
 const buildTracking = (req: express.Request): EpicTracking => {
     const {
