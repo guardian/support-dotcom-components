@@ -165,13 +165,15 @@ app.post(
 // for it to run when `next()` function is called in the route handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const { message } = error;
+
     switch (error.constructor) {
         case ValidationError:
-            res.status(400).send({ error: error.message });
+            res.status(400).send({ error: message });
             break;
         default:
-            console.log('Something went wrong: ', error.message);
-            res.status(500).send({ error: error.message });
+            console.log('Something went wrong: ', message);
+            res.status(500).send({ error: message });
     }
 });
 
