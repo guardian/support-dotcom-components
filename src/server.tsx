@@ -15,9 +15,15 @@ import {
 import { shouldRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
+import { Validator } from 'jsonschema';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // Pre-cache API response
 fetchDefaultEpicContent();
+
+const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
+const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
 
 // Use middleware
 const app = express();
@@ -134,13 +140,23 @@ app.get(
     },
 );
 
+class ValidationError extends Error {}
+
 app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
+            const validator = new Validator();
+            const validation = validator.validate(req.body, epicPayloadSchema);
+
+            if (!validation.valid) {
+                throw new ValidationError(validation.toString());
+            }
+
             const tracking = buildTracking(req);
             const localisation = buildLocalisation(req);
             const targeting = buildTargeting(req);
+
             const epic = await buildEpic(tracking, localisation, targeting);
             res.send({ data: epic });
         } catch (error) {
@@ -153,8 +169,14 @@ app.post(
 // for it to run when `next()` function is called in the route handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.log('Something went wrong: ', error.message);
-    res.status(500).send({ error: error.message });
+    switch (error.constructor) {
+        case ValidationError:
+            res.status(400).send({ error: error.message });
+            break;
+        default:
+            console.log('Something went wrong: ', error.message);
+            res.status(500).send({ error: error.message });
+    }
 });
 
 // If local then don't wrap in serverless
