@@ -1,0 +1,103 @@
+{
+    "type": "object",
+    "properties": {
+        "tracking": {
+            "type": "object",
+            "properties": {
+                "ophanPageId": {
+                    "type": "string"
+                },
+                "ophanComponentId": {
+                    "type": "string"
+                },
+                "platformId": {
+                    "type": "string"
+                },
+                "campaignCode": {
+                    "type": "string"
+                },
+                "abTestName": {
+                    "type": "string"
+                },
+                "abTestVariant": {
+                    "type": "string"
+                },
+                "referrerUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "abTestName",
+                "abTestVariant",
+                "campaignCode",
+                "ophanComponentId",
+                "ophanPageId",
+                "platformId",
+                "referrerUrl"
+            ]
+        },
+        "localisation": {
+            "type": "object",
+            "properties": {
+                "countryCode": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "countryCode"
+            ]
+        },
+        "targeting": {
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                },
+                "sectionName": {
+                    "type": "string"
+                },
+                "shouldHideReaderRevenue": {
+                    "type": "boolean"
+                },
+                "isMinuteArticle": {
+                    "type": "boolean"
+                },
+                "isPaidContent": {
+                    "type": "boolean"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "type"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "contentType",
+                "isMinuteArticle",
+                "isPaidContent",
+                "sectionName",
+                "shouldHideReaderRevenue",
+                "tags"
+            ]
+        }
+    },
+    "required": [
+        "localisation",
+        "targeting",
+        "tracking"
+    ],
+    "$schema": "http://json-schema.org/draft-07/schema#"
+}
