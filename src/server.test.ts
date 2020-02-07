@@ -31,4 +31,12 @@ describe('POST /epic', () => {
         expect(res.body.data).toHaveProperty('html');
         expect(res.body.data).toHaveProperty('css');
     });
+
+    it('returns a 400 when an invalid payload is sent', async () => {
+        const res = await request(app)
+            .post('/epic')
+            .send({});
+
+        expect(res.status).toEqual(400);
+    });
 });

@@ -1,4 +1,4 @@
-import { EpicTracking } from '../components/ContributionsEpic';
+import { EpicTracking } from '../components/ContributionsEpicTypes';
 
 type LinkParams = {
     REFPVID: string;

@@ -4,6 +4,7 @@ set -e
 
 cp package.json dist/
 cp yarn.lock dist/
+cp -r src/schemas dist/
 cd dist
 yarn install --production
 cd ..

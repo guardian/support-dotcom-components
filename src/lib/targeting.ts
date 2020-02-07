@@ -1,4 +1,4 @@
-import { EpicTargeting, Tag } from '../components/ContributionsEpic';
+import { EpicTargeting, Tag } from '../components/ContributionsEpicTypes';
 
 // Content types allowed to be considered for an Epic
 const ACCEPTED_TYPES = ['Article'];
