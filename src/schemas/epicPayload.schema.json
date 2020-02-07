@@ -1,0 +1,91 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Epic Payload",
+    "type": "object",
+    "properties": {
+        "tracking": {
+            "type": "object",
+            "description": "Tracking data",
+            "properties": {
+                "ophanPageId": {
+                    "type": "string"
+                },
+                "ophanComponentId": {
+                    "type": "string"
+                },
+                "platformId": {
+                    "type": "string"
+                },
+                "campaignCode": {
+                    "type": "string"
+                },
+                "abTestName": {
+                    "type": "string"
+                },
+                "abTestVariant": {
+                    "type": "string"
+                },
+                "referrerUrl": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ophanPageId",
+                "ophanComponentId",
+                "platformId",
+                "campaignCode",
+                "abTestName",
+                "abTestVariant",
+                "referrerUrl"
+            ]
+        },
+        "localisation": {
+            "type": "object",
+            "description": "Localisation data",
+            "properties": {
+                "countryCode": {
+                    "type": "string"
+                }
+            },
+            "required": ["countryCode"]
+        },
+        "targeting": {
+            "type": "object",
+            "description": "Targeting data",
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                },
+                "sectionName": {
+                    "type": "string"
+                },
+                "shouldHideReaderRevenue": {
+                    "type": "boolean"
+                },
+                "isMinuteArticle": {
+                    "type": "boolean"
+                },
+                "isPaidContent": {
+                    "type": "boolean"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["id", "type"]
+                    }
+                }
+            },
+            "required": ["contentType", "sectionName", "shouldHideReaderRevenue", "isMinuteArticle", "tags"]
+        }
+    },
+    "required": ["tracking", "localisation", "targeting"]
+}
