@@ -15,9 +15,6 @@ export type EpicTracking = {
 export type Tag = {
     id: string;
     type: string;
-    title: string;
-    twitterHandle?: string;
-    bylineImageUrl?: string;
 };
 
 export type EpicTargeting = {
@@ -27,4 +24,10 @@ export type EpicTargeting = {
     isMinuteArticle: boolean;
     isPaidContent: boolean;
     tags: Tag[];
+};
+
+export type EpicPayload = {
+    tracking: EpicTracking;
+    localisation: EpicLocalisation;
+    targeting: EpicTargeting;
 };

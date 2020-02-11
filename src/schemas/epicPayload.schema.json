@@ -1,11 +1,8 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Epic Payload",
     "type": "object",
     "properties": {
         "tracking": {
             "type": "object",
-            "description": "Tracking data",
             "properties": {
                 "ophanPageId": {
                     "type": "string"
@@ -30,28 +27,28 @@
                 }
             },
             "required": [
-                "ophanPageId",
-                "ophanComponentId",
-                "platformId",
-                "campaignCode",
                 "abTestName",
                 "abTestVariant",
+                "campaignCode",
+                "ophanComponentId",
+                "ophanPageId",
+                "platformId",
                 "referrerUrl"
             ]
         },
         "localisation": {
             "type": "object",
-            "description": "Localisation data",
             "properties": {
                 "countryCode": {
                     "type": "string"
                 }
             },
-            "required": ["countryCode"]
+            "required": [
+                "countryCode"
+            ]
         },
         "targeting": {
             "type": "object",
-            "description": "Targeting data",
             "properties": {
                 "contentType": {
                     "type": "string"
@@ -80,12 +77,27 @@
                                 "type": "string"
                             }
                         },
-                        "required": ["id", "type"]
+                        "required": [
+                            "id",
+                            "type"
+                        ]
                     }
                 }
             },
-            "required": ["contentType", "sectionName", "shouldHideReaderRevenue", "isMinuteArticle", "tags"]
+            "required": [
+                "contentType",
+                "isMinuteArticle",
+                "isPaidContent",
+                "sectionName",
+                "shouldHideReaderRevenue",
+                "tags"
+            ]
         }
     },
-    "required": ["tracking", "localisation", "targeting"]
+    "required": [
+        "localisation",
+        "targeting",
+        "tracking"
+    ],
+    "$schema": "http://json-schema.org/draft-07/schema#"
 }
