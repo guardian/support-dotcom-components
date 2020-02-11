@@ -12,6 +12,8 @@ export type DefaultEpicContent = {
 let epicContent: Promise<DefaultEpicContent> | undefined;
 
 const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicContent> => {
+    const startTime = new Date().getTime();
+
     const response = await fetch(defaultEpicUrl);
     if (!response.ok) {
         throw new Error(
@@ -21,7 +23,7 @@ const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicConte
     const data = await response.json();
     const control = data?.sheets?.control;
 
-    return control.reduce(
+    const transformedData = control.reduce(
         (
             acc: DefaultEpicContent,
             item: { heading: string; paragraphs: string; highlightedText: string },
@@ -39,6 +41,11 @@ const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicConte
         },
         { paragraphs: [], highlighted: [] },
     );
+
+    const endTime = new Date().getTime();
+    console.log(`Fetched default epic content. Time elapsed: ${endTime - startTime}ms`);
+
+    return transformedData;
 };
 
 export const fetchDefaultEpicContent = (): Promise<DefaultEpicContent> => {
