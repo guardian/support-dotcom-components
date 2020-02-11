@@ -1,4 +1,4 @@
-import { EpicTracking, EpicLocalisation, EpicTargeting } from './ContributionsEpic';
+import { EpicTracking, EpicLocalisation, EpicTargeting } from './ContributionsEpicTypes';
 
 const content = {
     heading: 'Since you’re here...',
