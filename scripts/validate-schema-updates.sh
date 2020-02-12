@@ -5,7 +5,7 @@ then
         tput setaf 1;
         echo "The following JSON Schemas have been updated:"
         tput setaf 3;
-        echo "  ${differences}"
+        echo "    ${differences}"
         tput setaf 1;
         echo "Please review and commit the changes."
         tput sgr0;
