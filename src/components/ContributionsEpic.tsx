@@ -107,6 +107,9 @@ export type EpicTargeting = {
     isMinuteArticle: boolean;
     isPaidContent: boolean;
     tags: Tag[];
+
+    isRecurringContributor: boolean;
+    lastOneOffContributionDate?: string; // TODO possibly use a number or date format here
 };
 
 export type Props = {

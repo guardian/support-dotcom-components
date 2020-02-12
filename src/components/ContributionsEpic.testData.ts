@@ -34,6 +34,7 @@ const targeting: EpicTargeting = {
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
+    isRecurringContributor: false,
     tags: [
         {
             id: 'culture/david-schwimmer',
