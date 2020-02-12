@@ -6,3 +6,4 @@ then
         echo "  ${differences}"
         exit 1
 fi
+
