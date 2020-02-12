@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-commit": "yarn generate-schema"
+    "pre-commit": "yarn generate-schema && yarn validate-schema"
   }
 }
