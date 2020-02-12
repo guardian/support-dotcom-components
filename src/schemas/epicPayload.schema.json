@@ -85,13 +85,9 @@
                 },
                 "foo": {
                     "type": "boolean"
-                },
-                "bar": {
-                    "type": "boolean"
                 }
             },
             "required": [
-                "bar",
                 "contentType",
                 "foo",
                 "isMinuteArticle",
