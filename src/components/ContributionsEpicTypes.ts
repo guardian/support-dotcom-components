@@ -24,6 +24,7 @@ export type EpicTargeting = {
     isMinuteArticle: boolean;
     isPaidContent: boolean;
     tags: Tag[];
+    foo: boolean;
 };
 
 export type EpicPayload = {
