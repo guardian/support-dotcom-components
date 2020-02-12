@@ -9,7 +9,7 @@ then
         tput setaf 1;
         echo "Please review and commit the changes."
         tput sgr0;
-        exit 1
+        exit 1 --silent
 else
     tput setaf 2;
     echo "✅ No uncommitted JSON Schema updates."
