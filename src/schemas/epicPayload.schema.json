@@ -82,14 +82,10 @@
                             "type"
                         ]
                     }
-                },
-                "foo": {
-                    "type": "boolean"
                 }
             },
             "required": [
                 "contentType",
-                "foo",
                 "isMinuteArticle",
                 "isPaidContent",
                 "sectionName",
