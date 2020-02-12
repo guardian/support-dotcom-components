@@ -1,4 +1,4 @@
-differences=$(git diff src/schemas/)
+differences=$(git diff --name-only src/schemas/)
 
 if [ "$differences" != "" ]
 then
