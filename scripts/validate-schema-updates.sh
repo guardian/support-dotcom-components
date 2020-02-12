@@ -4,7 +4,7 @@ if [ "$differences" != "" ]
 then
         tput setab 0;
         tput setaf 1;
-        echo "The following JSON Schemas have been updated:"
+        echo "❌ The following JSON Schemas have been updated:"
         tput setab 7;
         tput setab 1;
         echo "  ${differences}"
@@ -15,7 +15,7 @@ then
         exit 1
 else
     tput setaf 2;
-    echo "No uncommitted JSON Schema updates."
+    echo "✅ No uncommitted JSON Schema updates."
     tput sgr0;
     exit 0
 fi
