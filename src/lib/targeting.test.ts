@@ -1,192 +1,71 @@
-import { isEpicContent, isEpicSuitable, isEpicWorthwhile, shouldRenderEpic } from './targeting';
+import { isRecentOneOffContributor, shouldNotRenderEpic } from './targeting';
+import { EpicTargeting } from '../components/ContributionsEpicTypes';
+import testData from '../components/ContributionsEpic.testData';
 
-describe('isEpicContent()', () => {
-    it('should return TRUE if content type IS Article', () => {
-        const contentType = 'Article';
-        expect(isEpicContent({ contentType })).toEqual(true);
+// Note, this is okay because JS is single-threaded, but will cause issues once
+// tests include async code so really it is not very robust.
+const withNowAs = <T>(now: Date, fn: () => T): T => {
+    const old = Date.now;
+    Date.now = () => now.valueOf(); // override
+    const got = fn();
+    Date.now = old;
+
+    return got;
+};
+
+describe('isRecentOneOffContributor', () => {
+    const now = new Date('2020-02-12T10:24:00');
+
+    it('returns true for recent date', () => {
+        const got = isRecentOneOffContributor(new Date('2020-02-10T10:24:00'), now);
+        expect(got).toBe(true);
     });
 
-    it('should return FALSE if content type IS NOT Article', () => {
-        const contentType = 'Feature';
-        expect(isEpicContent({ contentType })).toEqual(false);
-    });
-});
-
-describe('isEpicSuitable()', () => {
-    it('should return TRUE if all parameters ARE FALSE', () => {
-        const testSuitableFlags = {
-            shouldHideReaderRevenue: false,
-            isMinuteArticle: false,
-            isPaidContent: false,
-        };
-
-        expect(isEpicSuitable(testSuitableFlags)).toEqual(true);
+    it('returns false for older date', () => {
+        const got = isRecentOneOffContributor(new Date('2019-02-10T10:24:00'), now);
+        expect(got).toBe(false);
     });
 
-    it('should return FALSE if one or more parameters ARE TRUE', () => {
-        const testSuitableFlags1 = {
-            shouldHideReaderRevenue: true,
-            isMinuteArticle: false,
-            isPaidContent: false,
-        };
-        expect(isEpicSuitable(testSuitableFlags1)).toEqual(false);
-
-        const testSuitableFlags2 = {
-            shouldHideReaderRevenue: true,
-            isMinuteArticle: true,
-            isPaidContent: false,
-        };
-        expect(isEpicSuitable(testSuitableFlags2)).toEqual(false);
+    it('returns false for someone that has never contributed', () => {
+        const got = isRecentOneOffContributor(undefined, now);
+        expect(got).toBe(false);
     });
 });
 
-describe('isEpicWorthwhile()', () => {
-    it('should return TRUE if the section IS NOT blacklisted', () => {
-        const testSectionWorthwhile = {
-            sectionName: 'culture',
-            tags: [],
-        };
+describe('shouldNotRenderEpic', () => {
+    const meta: EpicTargeting = testData.targeting;
 
-        expect(isEpicWorthwhile(testSectionWorthwhile)).toEqual(true);
+    const test = (m: EpicTargeting, want: boolean, now?: Date) => {
+        const nowDate = now ? now : new Date();
+        const got = withNowAs(nowDate, () => shouldNotRenderEpic(m));
+        expect(got).toBe(want);
+    };
+
+    it('returns true for non-article', () => {
+        const data = { ...meta, contentType: 'Liveblog' };
+        test(data, true);
     });
 
-    it('should return FALSE if the section IS blacklisted', () => {
-        const testSectionWorthwhile = {
-            sectionName: 'football',
-            tags: [],
-        };
-
-        expect(isEpicWorthwhile(testSectionWorthwhile)).toEqual(false);
+    it('returns true for recent contributor', () => {
+        const data = { ...meta, lastOneOffContributionDate: '2019-05-10T10:24:00' };
+        test(data, true, new Date('2019-06-11T10:24:00'));
     });
 
-    it('should return TRUE if tags ARE NOT blacklisted', () => {
-        const testKeywordsWorthwhile = {
-            sectionName: '',
-            tags: [
-                {
-                    id: 'culture/david-schwimmer',
-                    type: 'Keyword',
-                    title: 'This is NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tv-and-radio/friends',
-                    type: 'Keyword',
-                    title: 'This is NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tone/interview',
-                    type: 'Tone',
-                    title: 'This is NOT a blacklisted tone',
-                },
-            ],
-        };
-        expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(true);
-    });
-    it('should return FALSE if one or more tags ARE blacklisted', () => {
-        const testKeywordsWorthwhile = {
-            sectionName: '',
-            tags: [
-                {
-                    id: 'guardian-masterclasses/guardian-masterclasses',
-                    type: 'Keyword',
-                    title: 'This IS a blacklisted keyword',
-                },
-                {
-                    id: 'tv-and-radio/friends',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tone/interview',
-                    type: 'Tone',
-                    title: 'This is NOT a blacklisted tone',
-                },
-            ],
-        };
-        expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(false);
+    it('returns true for blacklisted section', () => {
+        const data = { ...meta, sectionName: 'careers' };
+        test(data, true);
     });
 
-    it('should return TRUE if NEITHER Section or Tags ARE blacklisted', () => {
-        const testKeywordsWorthwhile = {
-            sectionName: 'culture',
-            tags: [
-                {
-                    id: 'culture/david-schwimmer',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tv-and-radio/friends',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tone/interview',
-                    type: 'Tone',
-                    title: 'This is NOT a blacklisted tone',
-                },
-            ],
-        };
-        expect(isEpicWorthwhile(testKeywordsWorthwhile)).toEqual(true);
-    });
-});
-
-describe('shouldRenderEpic()', () => {
-    it('should return TRUE if content IS of appropriate TYPE, IS of appropriate SECTION and IS of appropriate TAGS', () => {
-        const testShouldRenderEpic = {
+    it('returns false for valid data', () => {
+        const data = {
             contentType: 'Article',
             sectionName: 'culture',
             shouldHideReaderRevenue: false,
             isMinuteArticle: false,
             isPaidContent: false,
-            tags: [
-                {
-                    id: 'culture/david-schwimmer',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tv-and-radio/friends',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tone/interview',
-                    type: 'Tone',
-                    title: 'This is NOT a blacklisted tone',
-                },
-            ],
+            isRecurringContributor: false,
+            tags: [],
         };
-
-        expect(shouldRenderEpic(testShouldRenderEpic)).toEqual(true);
-    });
-
-    it('should return FALSE if content if either TYPE, SECTION or TAGS are NOT appropriate', () => {
-        const testShouldRenderEpic = {
-            contentType: 'Article',
-            sectionName: 'culture',
-            shouldHideReaderRevenue: true, // must be false to render Epic
-            isMinuteArticle: false,
-            isPaidContent: false,
-            tags: [
-                {
-                    id: 'culture/david-schwimmer',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'tv-and-radio/friends',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-                {
-                    id: 'environment/environment',
-                    type: 'Keyword',
-                    title: 'This IS NOT a blacklisted keyword',
-                },
-            ],
-        };
-
-        expect(shouldRenderEpic(testShouldRenderEpic)).toEqual(false);
+        test(data, false);
     });
 });
