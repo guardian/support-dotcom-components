@@ -2,11 +2,18 @@ differences=$(git diff --name-only src/schemas/)
 
 if [ "$differences" != "" ]
 then
-        tput setab 7;
         tput setab 0;
+        tput setaf 1;
+        echo "The following JSON Schemas have been updated:"
+        tput setab 7;
+        tput setab 1;
         echo "  ${differences}"
         tput setab 0;
         tput setaf 1;
-        echo "One or move JSON Schemas have been updated. Please review and commit the changes."
+        echo "Please review and commit the changes."
         exit 1
+else
+    tput setaf 2;
+    echo "No JSON Schema updates."
+    exit 0
 fi
