@@ -15,7 +15,7 @@ then
         exit 1
 else
     tput setaf 2;
-    echo "No JSON Schema updates."
+    echo "No uncommitted JSON Schema updates."
     tput sgr0;
     exit 0
 fi
