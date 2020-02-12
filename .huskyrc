@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-push": "yarn generate-schema && yarn validate-schema"
+    "pre-push": "yarn schemas && yarn check-schemas"
   }
 }
