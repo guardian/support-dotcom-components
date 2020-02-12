@@ -11,9 +11,11 @@ then
         tput setab 0;
         tput setaf 1;
         echo "Please review and commit the changes."
+        tput reset;
         exit 1
 else
     tput setaf 2;
     echo "No JSON Schema updates."
+    tput reset;
     exit 0
 fi
