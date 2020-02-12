@@ -25,6 +25,7 @@ export type EpicTargeting = {
     isPaidContent: boolean;
     tags: Tag[];
     foo: string;
+    bar: boolean;
 };
 
 export type EpicPayload = {
