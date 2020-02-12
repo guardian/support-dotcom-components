@@ -82,10 +82,14 @@
                             "type"
                         ]
                     }
+                },
+                "foo": {
+                    "type": "string"
                 }
             },
             "required": [
                 "contentType",
+                "foo",
                 "isMinuteArticle",
                 "isPaidContent",
                 "sectionName",
