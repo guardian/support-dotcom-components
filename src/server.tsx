@@ -20,6 +20,7 @@ fetchDefaultEpicContent();
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+console.log('Loaded epic payload JSON schema');
 
 // Use middleware
 const app = express();
