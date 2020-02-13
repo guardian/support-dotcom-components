@@ -20,7 +20,7 @@ const program = TJS.getProgramFromFiles(
 
 const schema = TJS.generateSchema(program, 'EpicPayload', settings);
 
-const schemaPath = path.join(__dirname, '../src/schemas/epicPayload.schema.json');
+const schemaPath = path.join(__dirname, '../schemas/epicPayload.schema.json');
 
 fs.writeFile(schemaPath, JSON.stringify(schema, null, 4), 'utf8', err => {
     if (err) {
