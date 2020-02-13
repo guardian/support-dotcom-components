@@ -18,8 +18,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "cdk": "cdk",
-    "schemas": "ts-node ./src/scripts/generate-json-schema.ts",
-    "check-schemas": "./src/scripts/validate-schema-updates.sh"
+    "generate-schemas": "ts-node ./src/scripts/generate-json-schema.ts",
+    "validate-schemas": "./src/scripts/validate-schema-updates.sh"
   },
   "dependencies": {
     "@guardian/src-foundations": "^0.12.4",
