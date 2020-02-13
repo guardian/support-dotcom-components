@@ -1,5 +1,5 @@
 export type EpicLocalisation = {
-    countryCode: string;
+    countryCode: string | null;
 };
 
 export type EpicTracking = {

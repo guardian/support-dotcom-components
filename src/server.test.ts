@@ -32,11 +32,31 @@ describe('POST /epic', () => {
         expect(res.body.data).toHaveProperty('css');
     });
 
+    it('should return an epic when targeting is positive and country code is null', async () => {
+        const { tracking, targeting } = testData;
+
+        const res = await request(app)
+            .post('/epic')
+            .send({
+                tracking,
+                localisation: {
+                    countryCode: null,
+                },
+                targeting,
+            });
+
+        expect(res.status).toEqual(200);
+        expect(res.body).toHaveProperty('data');
+        expect(res.body.data).toHaveProperty('html');
+        expect(res.body.data).toHaveProperty('css');
+    });
+
     it('returns a 400 when an invalid payload is sent', async () => {
         const res = await request(app)
             .post('/epic')
             .send({});
 
         expect(res.status).toEqual(400);
+        expect(res.body).toHaveProperty('error');
     });
 });
