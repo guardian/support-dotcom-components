@@ -6,6 +6,12 @@ const lowValueTags = ['guardian-masterclasses/guardian-masterclasses'];
 
 const pauseDays = 90;
 
+const daysSince = (then: Date, now: Date): number => {
+    const oneDayMs = 1000 * 60 * 60 * 24;
+    const diffMs = now.valueOf() - then.valueOf();
+    return Math.floor(diffMs / oneDayMs);
+};
+
 export const isRecentOneOffContributor = (
     lastOneOffContributionDate?: Date,
     now: Date = new Date(Date.now()), // to mock out Date.now in tests
@@ -14,13 +20,44 @@ export const isRecentOneOffContributor = (
         return false;
     }
 
-    const daysSince = (then: Date): number => {
-        const oneDayMs = 1000 * 60 * 60 * 24;
-        const diffMs = now.valueOf() - then.valueOf();
-        return Math.floor(diffMs / oneDayMs);
-    };
+    return daysSince(lastOneOffContributionDate, now) <= pauseDays;
+};
 
-    return daysSince(lastOneOffContributionDate) <= pauseDays;
+interface View {
+    date: number;
+    testId: string;
+}
+type ViewLog = View[];
+
+interface ThrottleConfig {
+    days: number;
+    count: number;
+    minDaysBetweenViews: number;
+}
+
+// Note, if testID is provided, will thottle against views only for that
+// specific test, otherwise will apply a global throttle.
+export const shouldThrottle = (
+    log: ViewLog,
+    config: ThrottleConfig,
+    testId?: string,
+    now: Date = new Date(),
+): boolean => {
+    let views = log;
+
+    if (testId) {
+        views = log.filter(view => view.testId === testId);
+    }
+
+    const viewsInThrottleWindow = views.filter(
+        view => daysSince(new Date(view.date), now) <= config.days,
+    );
+    const exceedsViewsInWindow = viewsInThrottleWindow.length >= config.count;
+    const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
+        view => daysSince(new Date(view.date), now) <= config.minDaysBetweenViews,
+    );
+
+    return exceedsViewsInWindow || withinMinDaysSinceLastView;
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {

@@ -28,6 +28,12 @@ export type EpicTargeting = {
     isPaidContent: boolean;
     tags: Tag[];
 
-    isRecurringContributor: boolean;
+    isRecurringContributor?: boolean;
     lastOneOffContributionDate?: string; // TODO possibly use a number or date format here
+};
+
+export type EpicPayload = {
+    tracking: EpicTracking;
+    localisation: EpicLocalisation;
+    targeting: EpicTargeting;
 };

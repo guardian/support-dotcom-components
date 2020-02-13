@@ -1,4 +1,4 @@
-import { isRecentOneOffContributor, shouldNotRenderEpic } from './targeting';
+import { isRecentOneOffContributor, shouldNotRenderEpic, shouldThrottle } from './targeting';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import testData from '../components/ContributionsEpic.testData';
 
@@ -67,5 +67,55 @@ describe('shouldNotRenderEpic', () => {
             tags: [],
         };
         test(data, false);
+    });
+});
+
+describe('shouldThrottle', () => {
+    it('returns true if epic was viewed too recently', () => {
+        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const viewLog = [{ date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' }];
+
+        const now = new Date('2019-06-12T10:24:00');
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(true);
+    });
+
+    it('returns false if epic was not viewed too recently', () => {
+        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const viewLog = [{ date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' }];
+
+        const now = new Date('2019-06-17T10:24:00');
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(false);
+    });
+
+    it('returns true if epic was viewed too many times', () => {
+        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const viewLog = [
+            { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' },
+            { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
+            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'A' },
+            { date: new Date('2019-07-17T10:24:00').valueOf(), testId: 'A' },
+            { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'A' },
+        ];
+
+        const now = new Date('2019-09-01T10:24:00');
+        const got = shouldThrottle(viewLog, config, 'A', now);
+        expect(got).toBe(true);
+    });
+
+    it('returns false if epic was viewed too many times but test was not', () => {
+        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const viewLog = [
+            { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' },
+            { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
+            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'A' },
+            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'B' },
+            { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'A' },
+        ];
+
+        const now = new Date('2019-09-01T10:24:00');
+        const got = shouldThrottle(viewLog, config, 'A', now);
+        expect(got).toBe(false);
     });
 });
