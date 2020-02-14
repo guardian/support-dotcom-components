@@ -65,7 +65,7 @@ const buildTracking = (req: express.Request): EpicTracking => {
 
 const buildLocalisation = (req: express.Request): EpicLocalisation => {
     const { countryCode } = req.body.localisation;
-    return { countryCode };
+    return { countryCode: countryCode || null };
 };
 
 const buildTargeting = (req: express.Request): EpicTargeting => {
