@@ -31,7 +31,7 @@ export const defaultStory = (): ReactElement => {
 
     // Epic localisation props
     const epicLocalisation = {
-        countryCode: text('countryCode', testData.localisation.countryCode),
+        countryCode: text('countryCode', testData.localisation.countryCode || ''),
     };
 
     return (

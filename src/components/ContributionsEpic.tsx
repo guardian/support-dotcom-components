@@ -8,7 +8,7 @@ import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 
-const replacePlaceholders = (content: string, countryCode?: string): string => {
+const replacePlaceholders = (content: string, countryCode: string | null): string => {
     // Replace currency symbol placeholder with actual currency symbol
     // Function uses default currency symbol so countryCode is not strictly required here
     content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
@@ -76,7 +76,6 @@ export type EpicContent = {
     heading?: string;
     paragraphs: string[];
     highlighted: string[];
-    countryCode?: string;
 };
 
 export type Props = {
@@ -87,13 +86,13 @@ export type Props = {
 
 type HighlightedProps = {
     highlighted: string[];
-    countryCode?: string;
+    countryCode: string | null;
 };
 
 type BodyProps = {
     paragraphs: string[];
     highlighted: string[];
-    countryCode?: string;
+    countryCode: string | null;
 };
 
 const Highlighted: React.FC<HighlightedProps> = ({
