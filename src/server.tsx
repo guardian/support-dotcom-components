@@ -30,6 +30,12 @@ app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 app.options('*', cors());
 
+// Logging
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    next();
+    console.log({ status: res.statusCode, method: req.method, path: req.path });
+});
+
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
     res.send('OK');
