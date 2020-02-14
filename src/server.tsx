@@ -15,6 +15,8 @@ import { Validator } from 'jsonschema';
 import * as fs from 'fs';
 import * as path from 'path';
 
+const PERFORM_JSON_SCHEMA_VALIDATION = false;
+
 // Pre-cache API response
 fetchDefaultEpicContent();
 
@@ -135,16 +137,25 @@ app.get(
 
 class ValidationError extends Error {}
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const validatePayload = (body: any): void => {
+    if (!PERFORM_JSON_SCHEMA_VALIDATION) {
+        return;
+    }
+
+    const validator = new Validator();
+    const validation = validator.validate(body, epicPayloadSchema);
+
+    if (!validation.valid) {
+        throw new ValidationError(validation.toString());
+    }
+};
+
 app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const validator = new Validator();
-            const validation = validator.validate(req.body, epicPayloadSchema);
-
-            if (!validation.valid) {
-                throw new ValidationError(validation.toString());
-            }
+            validatePayload(req.body);
 
             const tracking = buildTracking(req);
             const localisation = buildLocalisation(req);
