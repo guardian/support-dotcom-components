@@ -63,7 +63,8 @@ describe('shouldNotRenderEpic', () => {
             isRecurringContributor: false,
             tags: [],
         };
-        test(data, false);
+        const got = shouldNotRenderEpic(data);
+        expect(got).toBe(false);
     });
 });
 
