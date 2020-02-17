@@ -21,7 +21,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Pre-cache API response
-fetchDefaultEpicContent();
+fetchDefaultEpicContent().catch(error =>
+    console.log('Failed to pre-fetch default epic content:', error),
+);
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
