@@ -94,7 +94,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             if (process.env.NODE_ENV !== 'production') {
-                validatePayload(testData);
+                console.log(process.env.NODE_ENV);
+                // validatePayload(testData);
             }
 
             const { tracking, localisation, targeting } = testData;
@@ -113,7 +114,8 @@ app.post(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             if (process.env.NODE_ENV !== 'production') {
-                validatePayload(req.body);
+                console.log(process.env.NODE_ENV);
+                // validatePayload(req.body);
             }
 
             const { tracking, localisation, targeting } = req.body;
