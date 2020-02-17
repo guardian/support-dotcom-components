@@ -35,25 +35,22 @@ describe('isRecentOneOffContributor', () => {
 describe('shouldNotRenderEpic', () => {
     const meta: EpicTargeting = testData.targeting;
 
-    const test = (m: EpicTargeting, want: boolean, now?: Date) => {
-        const nowDate = now ? now : new Date();
-        const got = withNowAs(nowDate, () => shouldNotRenderEpic(m));
-        expect(got).toBe(want);
-    };
-
     it('returns true for non-article', () => {
         const data = { ...meta, contentType: 'Liveblog' };
-        test(data, true);
+        const got = shouldNotRenderEpic(data);
+        expect(got).toBe(true);
     });
 
     it('returns true for recent contributor', () => {
         const data = { ...meta, lastOneOffContributionDate: '2019-05-10T10:24:00' };
-        test(data, true, new Date('2019-06-11T10:24:00'));
+        const got = withNowAs(new Date('2019-06-11T10:24:00'), () => shouldNotRenderEpic(data));
+        expect(got).toBe(true);
     });
 
     it('returns true for blacklisted section', () => {
         const data = { ...meta, sectionName: 'careers' };
-        test(data, true);
+        const got = shouldNotRenderEpic(data);
+        expect(got).toBe(true);
     });
 
     it('returns false for valid data', () => {
