@@ -75,26 +75,6 @@ const buildEpic = async (
     return null;
 };
 
-app.get(
-    '/epic',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const { tracking, localisation, targeting } = testData;
-
-            if (process.env.NODE_ENV !== 'production') {
-                validatePayload(testData);
-            }
-
-            const epic = await buildEpic(tracking, localisation, targeting);
-            const { html, css } = epic ?? { html: '', css: '' };
-            const htmlContent = renderHtmlDocument({ html, css });
-            res.send(htmlContent);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
 class ValidationError extends Error {}
 const validator = new Validator(); // reuse as expensive to initialise
 
@@ -108,6 +88,25 @@ const validatePayload = (body: any): EpicPayload => {
 
     return body as EpicPayload;
 };
+
+app.get(
+    '/epic',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            if (process.env.NODE_ENV !== 'production') {
+                validatePayload(testData);
+            }
+
+            const { tracking, localisation, targeting } = testData;
+            const epic = await buildEpic(tracking, localisation, targeting);
+            const { html, css } = epic ?? { html: '', css: '' };
+            const htmlContent = renderHtmlDocument({ html, css });
+            res.send(htmlContent);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
 app.post(
     '/epic',
