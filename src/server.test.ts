@@ -33,7 +33,7 @@ describe('POST /epic', () => {
     });
 
     // Skip this test until JSON schema validation is configurable
-    test.skip('returns a 400 when an invalid payload is sent', async () => {
+    it('returns a 400 when an invalid payload is sent', async () => {
         const res = await request(app)
             .post('/epic')
             .send({});
