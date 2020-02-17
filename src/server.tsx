@@ -7,7 +7,12 @@ import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
 import { ContributionsEpic } from './components/ContributionsEpic';
-import { EpicTracking, EpicLocalisation, EpicTargeting } from './components/ContributionsEpicTypes';
+import {
+    EpicTracking,
+    EpicLocalisation,
+    EpicTargeting,
+    EpicPayload,
+} from './components/ContributionsEpicTypes';
 import { shouldRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
@@ -39,54 +44,6 @@ interface Epic {
     html: string;
     css: string;
 }
-
-// Return a metadata object safe to be consumed by the Epic component
-const buildTracking = (req: express.Request): EpicTracking => {
-    const {
-        ophanPageId,
-        ophanComponentId,
-        platformId,
-        campaignCode,
-        abTestName,
-        abTestVariant,
-        referrerUrl,
-    } = req.body.tracking;
-
-    return {
-        ophanPageId,
-        ophanComponentId,
-        platformId,
-        campaignCode,
-        abTestName,
-        abTestVariant,
-        referrerUrl,
-    };
-};
-
-const buildLocalisation = (req: express.Request): EpicLocalisation => {
-    const { countryCode } = req.body.localisation;
-    return { countryCode };
-};
-
-const buildTargeting = (req: express.Request): EpicTargeting => {
-    const {
-        contentType,
-        sectionName,
-        shouldHideReaderRevenue,
-        isMinuteArticle,
-        isPaidContent,
-        tags,
-    } = req.body.targeting;
-
-    return {
-        contentType,
-        sectionName,
-        shouldHideReaderRevenue,
-        isMinuteArticle,
-        isPaidContent,
-        tags,
-    };
-};
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
@@ -123,6 +80,11 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { tracking, localisation, targeting } = testData;
+
+            if (process.env.NODE_ENV !== 'production') {
+                validatePayload(testData);
+            }
+
             const epic = await buildEpic(tracking, localisation, targeting);
             const { html, css } = epic ?? { html: '', css: '' };
             const htmlContent = renderHtmlDocument({ html, css });
@@ -134,22 +96,28 @@ app.get(
 );
 
 class ValidationError extends Error {}
+const validator = new Validator(); // reuse as expensive to initialise
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const validatePayload = (body: any): EpicPayload => {
+    const validation = validator.validate(body, epicPayloadSchema);
+
+    if (!validation.valid) {
+        throw new ValidationError(validation.toString());
+    }
+
+    return body as EpicPayload;
+};
 
 app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const validator = new Validator();
-            const validation = validator.validate(req.body, epicPayloadSchema);
-
-            if (!validation.valid) {
-                throw new ValidationError(validation.toString());
+            if (process.env.NODE_ENV !== 'production') {
+                validatePayload(req.body);
             }
 
-            const tracking = buildTracking(req);
-            const localisation = buildLocalisation(req);
-            const targeting = buildTargeting(req);
-
+            const { tracking, localisation, targeting } = req.body;
             const epic = await buildEpic(tracking, localisation, targeting);
             res.send({ data: epic });
         } catch (error) {
