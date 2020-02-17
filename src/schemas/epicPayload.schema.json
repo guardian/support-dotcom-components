@@ -42,10 +42,7 @@
                 "countryCode": {
                     "type": "string"
                 }
-            },
-            "required": [
-                "countryCode"
-            ]
+            }
         },
         "targeting": {
             "type": "object",
