@@ -25,8 +25,7 @@ export type EpicTargeting = {
     isPaidContent: boolean;
     tags: Tag[];
     isRecurringContributor: boolean;
-    // isRecentOneOffContributor: boolean;
-    lastOneOffContributionDate?: string; // TODO possibly use a number or date format here
+    lastOneOffContributionDate?: string; // Platform to send undefined or date as string -> Date.now().toString()
 };
 
 export type EpicPayload = {
