@@ -1,5 +1,5 @@
 export type EpicLocalisation = {
-    countryCode: string;
+    countryCode?: string;
 };
 
 export type EpicTracking = {
@@ -24,9 +24,8 @@ export type EpicTargeting = {
     isMinuteArticle: boolean;
     isPaidContent: boolean;
     tags: Tag[];
-
-    isRecurringContributor?: boolean;
-    lastOneOffContributionDate?: string; // TODO possibly use a number or date format here
+    isRecurringContributor: boolean;
+    lastOneOffContributionDate?: string; // Platform to send undefined or date as string -> Date.now().toString()
 };
 
 export type EpicPayload = {
