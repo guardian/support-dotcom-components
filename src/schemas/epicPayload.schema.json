@@ -80,6 +80,15 @@
                         ]
                     }
                 },
+                "epicViewLog": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/View"
+                    }
+                },
+                "showSupportMessaging": {
+                    "type": "boolean"
+                },
                 "isRecurringContributor": {
                     "type": "boolean"
                 },
@@ -91,9 +100,9 @@
                 "contentType",
                 "isMinuteArticle",
                 "isPaidContent",
-                "isRecurringContributor",
                 "sectionName",
                 "shouldHideReaderRevenue",
+                "showSupportMessaging",
                 "tags"
             ]
         }
@@ -103,5 +112,22 @@
         "targeting",
         "tracking"
     ],
+    "definitions": {
+        "View": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "number"
+                },
+                "testId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "date",
+                "testId"
+            ]
+        }
+    },
     "$schema": "http://json-schema.org/draft-07/schema#"
 }

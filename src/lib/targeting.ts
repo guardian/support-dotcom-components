@@ -1,4 +1,4 @@
-import { EpicTargeting } from '../components/ContributionsEpicTypes';
+import { EpicTargeting, ViewLog } from '../components/ContributionsEpicTypes';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -23,17 +23,13 @@ export const isRecentOneOffContributor = (
     return daysSince(lastOneOffContributionDate, now) <= pauseDays;
 };
 
-interface View {
-    date: number;
-    testId: string;
-}
-type ViewLog = View[];
-
 interface ThrottleConfig {
     days: number;
     count: number;
     minDaysBetweenViews: number;
 }
+
+const defaultThrottle = { days: 90, count: 4, minDaysBetweenViews: 5 };
 
 // Note, if testID is provided, will thottle against views only for that
 // specific test, otherwise will apply a global throttle.
@@ -75,7 +71,9 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
         meta.contentType !== 'Article' ||
         meta.isMinuteArticle ||
         meta.isPaidContent ||
+        !meta.showSupportMessaging ||
         meta.isRecurringContributor ||
-        isRecentOneOffContributor(lastOneOffContributionDate)
+        isRecentOneOffContributor(lastOneOffContributionDate) ||
+        shouldThrottle(meta.epicViewLog || [], defaultThrottle)
     );
 };

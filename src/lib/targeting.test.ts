@@ -63,6 +63,7 @@ describe('shouldNotRenderEpic', () => {
             isPaidContent: false,
             isRecurringContributor: false,
             tags: [],
+            showSupportMessaging: true,
         };
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(false);

@@ -122,6 +122,7 @@ app.post(
             }
 
             const { tracking, localisation, targeting } = req.body;
+            console.log(tracking);
             const epic = await buildEpic(tracking, localisation, targeting);
             res.send({ data: epic });
         } catch (error) {
