@@ -6,6 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
+import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 
 const replacePlaceholders = (content: string, countryCode?: string): string => {
     // Replace currency symbol placeholder with actual currency symbol
@@ -78,39 +79,36 @@ export type EpicContent = {
     countryCode?: string;
 };
 
-export type EpicLocalisation = {
-    countryCode: string;
-};
+// export type EpicLocalisation = {
+//     countryCode: string;
+// };
 
-export type EpicTracking = {
-    ophanPageId: string;
-    ophanComponentId: string;
-    platformId: string;
-    campaignCode: string;
-    abTestName: string;
-    abTestVariant: string;
-    referrerUrl: string;
-};
+// export type EpicTracking = {
+//     ophanPageId: string;
+//     ophanComponentId: string;
+//     platformId: string;
+//     campaignCode: string;
+//     abTestName: string;
+//     abTestVariant: string;
+//     referrerUrl: string;
+// };
 
-export type Tag = {
-    id: string;
-    type: string;
-    title: string;
-    twitterHandle?: string;
-    bylineImageUrl?: string;
-};
+// export type Tag = {
+//     id: string;
+//     type: string;
+//     title: string;
+//     twitterHandle?: string;
+//     bylineImageUrl?: string;
+// };
 
-export type EpicTargeting = {
-    contentType: string;
-    sectionName: string;
-    shouldHideReaderRevenue: boolean;
-    isMinuteArticle: boolean;
-    isPaidContent: boolean;
-    tags: Tag[];
-
-    isRecurringContributor: boolean;
-    lastOneOffContributionDate?: string; // TODO possibly use a number or date format here
-};
+// export type EpicTargeting = {
+//     contentType: string;
+//     sectionName: string;
+//     shouldHideReaderRevenue: boolean;
+//     isMinuteArticle: boolean;
+//     isPaidContent: boolean;
+//     tags: Tag[];
+// };
 
 export type Props = {
     content: EpicContent;

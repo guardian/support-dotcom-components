@@ -1,4 +1,4 @@
-import { EpicTargeting } from '../components/ContributionsEpic';
+import { EpicTargeting } from '../components/ContributionsEpicTypes';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
 

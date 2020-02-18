@@ -6,18 +6,28 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent } from './api/contributionsApi';
+import { ContributionsEpic } from './components/ContributionsEpic';
 import {
-    ContributionsEpic,
     EpicTracking,
     EpicLocalisation,
     EpicTargeting,
-} from './components/ContributionsEpic';
+    EpicPayload,
+} from './components/ContributionsEpicTypes';
 import { shouldNotRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
+import { Validator } from 'jsonschema';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // Pre-cache API response
-fetchDefaultEpicContent();
+fetchDefaultEpicContent().catch(error =>
+    console.log('Failed to pre-fetch default epic content:', error),
+);
+
+const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
+const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+console.log('Loaded epic payload JSON schema');
 
 // Use middleware
 const app = express();
@@ -26,6 +36,12 @@ app.use(express.json({ limit: '50mb' }));
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
 app.options('*', cors());
+
+// Logging
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    next();
+    console.log(JSON.stringify({ status: res.statusCode, method: req.method, path: req.path }));
+});
 
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
@@ -36,60 +52,6 @@ interface Epic {
     html: string;
     css: string;
 }
-
-interface ResponseType {
-    data: Epic | null;
-}
-
-// Return a metadata object safe to be consumed by the Epic component
-const buildTracking = (req: express.Request): EpicTracking => {
-    const {
-        ophanPageId,
-        ophanComponentId,
-        platformId,
-        campaignCode,
-        abTestName,
-        abTestVariant,
-        referrerUrl,
-    } = req.body.tracking;
-
-    return {
-        ophanPageId,
-        ophanComponentId,
-        platformId,
-        campaignCode,
-        abTestName,
-        abTestVariant,
-        referrerUrl,
-    };
-};
-
-const buildLocalisation = (req: express.Request): EpicLocalisation => {
-    const { countryCode } = req.body.localisation;
-    return { countryCode };
-};
-
-const buildTargeting = (req: express.Request): EpicTargeting => {
-    const {
-        contentType,
-        sectionName,
-        shouldHideReaderRevenue,
-        isMinuteArticle,
-        isPaidContent,
-        tags,
-        isRecurringContributor,
-    } = req.body.targeting;
-
-    return {
-        contentType,
-        sectionName,
-        shouldHideReaderRevenue,
-        isMinuteArticle,
-        isPaidContent,
-        tags,
-        isRecurringContributor,
-    };
-};
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
@@ -118,10 +80,28 @@ const buildEpic = async (
     return { html, css };
 };
 
+class ValidationError extends Error {}
+const validator = new Validator(); // reuse as expensive to initialise
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const validatePayload = (body: any): EpicPayload => {
+    const validation = validator.validate(body, epicPayloadSchema);
+
+    if (!validation.valid) {
+        throw new ValidationError(validation.toString());
+    }
+
+    return body as EpicPayload;
+};
+
 app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
+            if (process.env.NODE_ENV !== 'production') {
+                validatePayload(testData);
+            }
+
             const { tracking, localisation, targeting } = testData;
             const epic = await buildEpic(tracking, localisation, targeting);
             const { html, css } = epic ?? { html: '', css: '' };
@@ -137,9 +117,11 @@ app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const tracking = buildTracking(req);
-            const localisation = buildLocalisation(req);
-            const targeting = buildTargeting(req);
+            if (process.env.NODE_ENV !== 'production') {
+                validatePayload(req.body);
+            }
+
+            const { tracking, localisation, targeting } = req.body;
             const epic = await buildEpic(tracking, localisation, targeting);
             res.send({ data: epic });
         } catch (error) {
@@ -152,8 +134,17 @@ app.post(
 // for it to run when `next()` function is called in the route handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.log('Something went wrong: ', error.message);
-    res.status(500).send({ error: error.message });
+    const { message } = error;
+
+    switch (error.constructor) {
+        case ValidationError:
+            res.status(400).send({ error: message });
+            break;
+        default:
+            res.status(500).send({ error: message });
+    }
+
+    console.log('Something went wrong: ', message);
 });
 
 // If local then don't wrap in serverless
