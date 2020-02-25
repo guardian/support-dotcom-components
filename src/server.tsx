@@ -13,7 +13,7 @@ import {
     EpicTargeting,
     EpicPayload,
 } from './components/ContributionsEpicTypes';
-import { shouldRenderEpic } from './lib/targeting';
+import { shouldNotRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 import { Validator } from 'jsonschema';
@@ -66,21 +66,18 @@ const buildEpic = async (
         highlighted,
     };
 
-    // Determine whether to render the Epic or return empty HTML and CSS
-    if (shouldRenderEpic(targeting)) {
-        const { html, css } = extractCritical(
-            renderToStaticMarkup(
-                <ContributionsEpic
-                    content={content}
-                    tracking={tracking}
-                    localisation={localisation}
-                />,
-            ),
-        );
-        return { html, css };
+    // Only log for now - as Frontend does this and we may have bugs
+    // We'll need to do more than log when we start our DCR test though
+    if (shouldNotRenderEpic(targeting)) {
+        console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
     }
 
-    return null;
+    const { html, css } = extractCritical(
+        renderToStaticMarkup(
+            <ContributionsEpic content={content} tracking={tracking} localisation={localisation} />,
+        ),
+    );
+    return { html, css };
 };
 
 class ValidationError extends Error {}

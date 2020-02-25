@@ -56,6 +56,9 @@ const targeting: EpicTargeting = {
             type: 'Contributor',
         },
     ],
+    showSupportMessaging: true,
+    isRecurringContributor: false,
+    lastOneOffContributionDate: '',
 };
 
 const testData = { content, tracking, localisation, targeting };
