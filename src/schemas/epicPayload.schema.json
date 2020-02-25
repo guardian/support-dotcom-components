@@ -100,10 +100,8 @@
                 "contentType",
                 "isMinuteArticle",
                 "isPaidContent",
-                "isRecurringContributor",
                 "sectionName",
                 "shouldHideReaderRevenue",
-                "showSupportMessaging",
                 "tags"
             ]
         }
