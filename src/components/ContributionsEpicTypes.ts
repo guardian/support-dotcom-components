@@ -31,12 +31,13 @@ export type EpicTargeting = {
     isPaidContent: boolean;
     tags: Tag[];
     epicViewLog?: ViewLog;
+
     // Note, it turns out that showSupportMessaging (defined in the Members Data
     // API) does not capture every case of recurring contributors or last
     // contributions (i.e. the latter two are not simply a subset of the first -
     // we need all three!).
-    showSupportMessaging: boolean;
-    isRecurringContributor: boolean;
+    showSupportMessaging?: boolean; // TODO make required once clients updated
+    isRecurringContributor?: boolean; // TODO make required once clients updated
     lastOneOffContributionDate?: string; // Platform to send undefined or date as string -> Date.now().toString()
 };
 

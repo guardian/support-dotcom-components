@@ -69,8 +69,7 @@ const buildEpic = async (
     // Only log for now - as Frontend does this and we may have bugs
     // We'll need to do more than log when we start our DCR test though
     if (shouldNotRenderEpic(targeting)) {
-        console.log(`Did not render for targeting data: ${JSON.stringify(targeting)}`);
-        return null; // TODO handle more explicitly/cleanly
+        console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
     }
 
     const { html, css } = extractCritical(
