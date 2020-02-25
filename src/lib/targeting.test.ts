@@ -43,7 +43,11 @@ describe('shouldNotRenderEpic', () => {
     });
 
     it('returns true for recent contributor', () => {
+<<<<<<< HEAD
         const data = { ...meta, lastOneOffContributionDate: 1557480240000 };
+=======
+        const data = { ...meta, lastOneOffContributionDate: '2019-05-10T10:24:00' };
+>>>>>>> master
         const got = withNowAs(new Date('2019-06-11T10:24:00'), () => shouldNotRenderEpic(data));
         expect(got).toBe(true);
     });
