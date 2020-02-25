@@ -123,10 +123,6 @@ app.post(
             }
 
             const { tracking, localisation, targeting } = req.body;
-            console.log('======');
-            console.log('showSupportMessaging: ', targeting.showSupportMessaging);
-            console.log('isRecurringContributor: ', targeting.isRecurringContributor);
-            console.log('lastOneOffContributionDate: ', targeting.lastOneOffContributionDate);
             const epic = await buildEpic(tracking, localisation, targeting);
             res.send({ data: epic });
         } catch (error) {
