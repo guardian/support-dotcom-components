@@ -70,6 +70,7 @@ const buildEpic = async (
     // We'll need to do more than log when we start our DCR test though
     if (shouldNotRenderEpic(targeting)) {
         console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
+        return null;
     }
 
     const { html, css } = extractCritical(

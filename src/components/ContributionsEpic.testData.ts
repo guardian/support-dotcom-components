@@ -58,7 +58,7 @@ const targeting: EpicTargeting = {
     ],
     showSupportMessaging: true,
     isRecurringContributor: false,
-    lastOneOffContributionDate: '',
+    lastOneOffContributionDate: 1548979200000, // 2019-02-01
 };
 
 const testData = { content, tracking, localisation, targeting };
