@@ -70,7 +70,6 @@ const buildEpic = async (
     // We'll need to do more than log when we start our DCR test though
     if (shouldNotRenderEpic(targeting)) {
         console.log(`Did not render for targeting data: ${JSON.stringify(targeting)}`);
-        return null; // TODO handle more explicitly/cleanly
     }
 
     const { html, css } = extractCritical(
@@ -123,10 +122,6 @@ app.post(
             }
 
             const { tracking, localisation, targeting } = req.body;
-            console.log('======');
-            console.log('showSupportMessaging: ', targeting.showSupportMessaging);
-            console.log('isRecurringContributor: ', targeting.isRecurringContributor);
-            console.log('lastOneOffContributionDate: ', targeting.lastOneOffContributionDate);
             const epic = await buildEpic(tracking, localisation, targeting);
             res.send({ data: epic });
         } catch (error) {
