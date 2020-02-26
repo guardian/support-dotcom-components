@@ -35,7 +35,14 @@ app.options('*', cors());
 // Logging
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.on('finish', () =>
-        console.log(JSON.stringify({ status: res.statusCode, method: req.method, path: req.path })),
+        console.log(
+            JSON.stringify({
+                status: res.statusCode,
+                method: req.method,
+                path: req.path,
+                didRenderEpic: res.locals.didRenderEpic,
+            }),
+        ),
     );
     next();
 });
@@ -120,6 +127,7 @@ app.post(
 
             const { tracking, localisation, targeting } = req.body;
             const epic = await buildEpic(tracking, localisation, targeting);
+            res.locals.didRenderEpic = !!epic;
             res.send({ data: epic });
         } catch (error) {
             next(error);
