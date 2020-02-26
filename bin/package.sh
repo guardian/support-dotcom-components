@@ -8,4 +8,4 @@ cp -r src/schemas dist/
 cd dist
 yarn install --production
 cd ..
-cdk --profile frontend synth > cloudformation.yaml
+cdk --profile frontend synth --version-reporting false > cloudformation.yaml
