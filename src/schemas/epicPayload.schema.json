@@ -93,15 +93,17 @@
                     "type": "boolean"
                 },
                 "lastOneOffContributionDate": {
-                    "type": "string"
+                    "type": "number"
                 }
             },
             "required": [
                 "contentType",
                 "isMinuteArticle",
                 "isPaidContent",
+                "isRecurringContributor",
                 "sectionName",
                 "shouldHideReaderRevenue",
+                "showSupportMessaging",
                 "tags"
             ]
         }
