@@ -6,6 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
+import { memoise } from './lib/memoise';
 import { ContributionsEpic } from './components/ContributionsEpic';
 import {
     EpicTracking,
@@ -58,13 +59,15 @@ interface Epic {
     css: string;
 }
 
+const [, fetchDefaultEpicContentCached] = memoise(fetchDefaultEpicContent);
+
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
     tracking: EpicTracking,
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
-    const { heading, paragraphs, highlighted } = await fetchDefaultEpicContent();
+    const { heading, paragraphs, highlighted } = await fetchDefaultEpicContentCached();
     const content = {
         heading,
         paragraphs,
@@ -136,6 +139,8 @@ app.post(
     },
 );
 
+const [, fetchConfiguredEpicTestsCached] = memoise(fetchConfiguredEpicTests);
+
 app.post(
     '/epic/compare-variant-decision',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -146,7 +151,7 @@ app.post(
 
         const { tracking, targeting, expectedVariant } = req.body;
 
-        const tests = await fetchConfiguredEpicTests();
+        const tests = await fetchConfiguredEpicTestsCached();
         const got = findVariant(tests, targeting);
 
         if (got !== expectedVariant) {

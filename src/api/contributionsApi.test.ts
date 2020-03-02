@@ -1,4 +1,5 @@
-import { fetchDefaultEpicContent, clearCachedEpic } from './contributionsApi';
+import { fetchDefaultEpicContent } from './contributionsApi';
+import { memoise } from '../lib/memoise';
 
 jest.mock('node-fetch', () => require('fetch-mock').sandbox());
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -26,7 +27,6 @@ const epicResponse = {
 };
 
 beforeEach(() => {
-    clearCachedEpic();
     fetchMock.resetHistory();
 });
 
@@ -34,7 +34,10 @@ describe('fetchDefaultEpic', () => {
     it('fetches and returns the data in the expected format', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
-        const epicData = await fetchDefaultEpicContent();
+        const [reset, fetchData] = memoise(fetchDefaultEpicContent);
+        reset();
+
+        const epicData = await fetchData();
 
         expect(epicData).toEqual({
             heading: 'Since you’re here...',
@@ -46,8 +49,11 @@ describe('fetchDefaultEpic', () => {
     it('caches successful epic fetches', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
-        await fetchDefaultEpicContent();
-        await fetchDefaultEpicContent();
+        const [reset, fetchData] = memoise(fetchDefaultEpicContent);
+        reset();
+
+        await fetchData();
+        await fetchData();
 
         expect(fetchMock.calls().length).toEqual(1);
     });
@@ -55,11 +61,14 @@ describe('fetchDefaultEpic', () => {
     it('does not cache unsuccessful epic fetches', async () => {
         fetchMock.get(epicUrl, { status: 500 });
 
+        const [reset, fetchData] = memoise(fetchDefaultEpicContent);
+        reset();
+
         try {
-            await fetchDefaultEpicContent();
+            await fetchData();
         } catch {}
         try {
-            await fetchDefaultEpicContent();
+            await fetchData();
         } catch {}
 
         expect(fetchMock.calls().length).toEqual(2);

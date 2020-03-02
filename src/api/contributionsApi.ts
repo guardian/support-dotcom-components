@@ -10,9 +10,7 @@ export type DefaultEpicContent = {
     highlighted: string[];
 };
 
-let cachedEpic: DefaultEpicContent | undefined;
-
-const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicContent> => {
+export const fetchDefaultEpicContent = async (): Promise<DefaultEpicContent> => {
     const startTime = new Date().getTime();
 
     const response = await fetch(defaultEpicUrl);
@@ -49,20 +47,6 @@ const fetchDefaultEpicContentWithoutCaching = async (): Promise<DefaultEpicConte
     return transformedData;
 };
 
-export const fetchDefaultEpicContent = async (): Promise<DefaultEpicContent> => {
-    if (cachedEpic) {
-        return cachedEpic;
-    }
-
-    cachedEpic = await fetchDefaultEpicContentWithoutCaching();
-
-    return cachedEpic;
-};
-
-export const clearCachedEpic = (): void => {
-    cachedEpic = undefined;
-};
-
 export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
-    return {} as EpicTests; // TODO fix and memoise
+    return {} as EpicTests;
 };
