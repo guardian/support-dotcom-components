@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { EpicTests } from '../lib/variants';
 
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
@@ -60,4 +61,8 @@ export const fetchDefaultEpicContent = async (): Promise<DefaultEpicContent> => 
 
 export const clearCachedEpic = (): void => {
     cachedEpic = undefined;
+};
+
+export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
+    return {} as EpicTests; // TODO fix and memoise
 };

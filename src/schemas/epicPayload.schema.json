@@ -80,6 +80,9 @@
                         ]
                     }
                 },
+                "mvtId": {
+                    "type": "number"
+                },
                 "epicViewLog": {
                     "type": "array",
                     "items": {
@@ -104,6 +107,7 @@
                 "isMinuteArticle",
                 "isPaidContent",
                 "isRecurringContributor",
+                "mvtId",
                 "sectionName",
                 "shouldHideReaderRevenue",
                 "showSupportMessaging",

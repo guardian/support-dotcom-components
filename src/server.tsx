@@ -5,7 +5,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
-import { fetchDefaultEpicContent } from './api/contributionsApi';
+import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
 import { ContributionsEpic } from './components/ContributionsEpic';
 import {
     EpicTracking,
@@ -19,6 +19,7 @@ import cors from 'cors';
 import { Validator } from 'jsonschema';
 import * as fs from 'fs';
 import * as path from 'path';
+import { findVariant } from './lib/variants';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -132,6 +133,31 @@ app.post(
         } catch (error) {
             next(error);
         }
+    },
+);
+
+app.post(
+    '/epic/compare-variant-decision',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        if (process.env.LOG_COMPARE_VARIANTS !== 'true') {
+            res.send('ignoring');
+            return;
+        }
+
+        const { tracking, targeting, expectedVariant } = req.body;
+
+        const tests = await fetchConfiguredEpicTests();
+        const got = findVariant(tests, targeting);
+
+        if (got !== expectedVariant) {
+            console.log(
+                `comparison failed: got (${got}, want (${expectedVariant}), for tracking data ${JSON.stringify(
+                    tracking,
+                )})`,
+            );
+        }
+
+        res.send('thanks');
     },
 );
 
