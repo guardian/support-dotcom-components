@@ -6,7 +6,7 @@ const test1: Test = {
     isOn: true,
     locations: [],
     audience: 1,
-    tagIds: ['environment/series/the-polluters', 'environment/environment'],
+    tagIds: [],
     sections: ['environment'],
     excludedTagIds: [],
     excludedSections: [],
@@ -97,8 +97,62 @@ describe('find variant', () => {
         expect(got2).toBe(undefined);
     });
 
-    it.skip('should filter by required tags', () => {});
-    it.skip('should filter by excluded sections', () => {});
-    it.skip('should filter by excluded tags', () => {});
+    it('should filter by required tags', () => {
+        const mvtId = 2; // MVT IDs are 0..10^6
+
+        const targ1 = buildTargeting(targeting, {
+            tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
+        });
+
+        const tests1 = buildTests(test1, { tagIds: ['environment/series/the-polluters'] });
+        const got1 = findVariant(tests1, targ1, mvtId);
+
+        expect(got1?.name).toBe('control-example-1');
+
+        const targ2 = buildTargeting(targeting, {
+            tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
+        });
+        const tests2 = buildTests(test1, { sections: ['football'] });
+        const got2 = findVariant(tests2, targ2, mvtId);
+
+        expect(got2).toBe(undefined);
+    });
+
+    it('should filter by excluded sections', () => {
+        const mvtId = 2; // MVT IDs are 0..10^6
+
+        const targ1 = buildTargeting(targeting, { sectionName: 'environment' });
+        const tests1 = buildTests(test1, { excludedSections: ['football'] });
+        const got1 = findVariant(tests1, targ1, mvtId);
+
+        expect(got1?.name).toBe('control-example-1');
+
+        const targ2 = buildTargeting(targeting, { sectionName: 'environment' });
+        const tests2 = buildTests(test1, { excludedSections: ['environment'] });
+        const got2 = findVariant(tests2, targ2, mvtId);
+
+        expect(got2).toBe(undefined);
+    });
+
+    it('should filter by excluded tags', () => {
+        const mvtId = 2; // MVT IDs are 0..10^6
+
+        const targ1 = buildTargeting(targeting, {
+            tags: [{ id: 'football/football', type: 'tone' }],
+        });
+
+        const tests1 = buildTests(test1, { excludedTagIds: ['environment/series/the-polluters'] });
+        const got1 = findVariant(tests1, targ1, mvtId);
+
+        expect(got1?.name).toBe('control-example-1');
+
+        const targ2 = buildTargeting(targeting, {
+            tags: [{ id: 'football/football', type: 'tone' }],
+        });
+        const tests2 = buildTests(test1, { excludedTagIds: ['football/football'] });
+        const got2 = findVariant(tests2, targ2, mvtId);
+
+        expect(got2).toBe(undefined);
+    });
     it.skip('should filter by copy is valid', () => {});
 });

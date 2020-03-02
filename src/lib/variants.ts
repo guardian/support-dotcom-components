@@ -121,12 +121,32 @@ export const findVariant = (
         },
     };
 
+    const excludeSection: Filter = {
+        id: 'excludeSection',
+        test: (test, targeting) => !test.excludedSections.includes(targeting.sectionName),
+    };
+
+    const excludeTags: Filter = {
+        id: 'excludeTags',
+        test: (test, targeting) => {
+            if (test.excludedTagIds.length < 1) {
+                return true;
+            }
+
+            const intersection = test.excludedTagIds.filter(
+                tagId => !targeting.tags.map(tag => tag.id).includes(tagId),
+            );
+
+            return intersection.length > 0;
+        },
+    };
+
     const userInTest: Filter = {
         id: 'userInTest',
         test: (test, _) => selectVariant(test, mvtId) !== undefined,
     };
 
-    const filters: Filter[] = [hasSection, hasTags, userInTest];
+    const filters: Filter[] = [hasSection, hasTags, userInTest, excludeSection, excludeTags];
     const test = data.tests.find(test =>
         filters.every(filter => {
             const got = filter.test(test, targeting);
