@@ -131,7 +131,7 @@ export const findVariant = (
         filters.every(filter => {
             const got = filter.test(test, targeting);
 
-            if (!got && process.env.NODE_ENV !== 'production') {
+            if (!got && process.env.LOG_FAILED_TEST_FILTER === 'true') {
                 console.log(`filter failed: ${test.name}; ${filter.id}`);
             }
 
