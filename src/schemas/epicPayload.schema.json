@@ -86,6 +86,9 @@
                         "$ref": "#/definitions/View"
                     }
                 },
+                "countryCode": {
+                    "type": "string"
+                },
                 "showSupportMessaging": {
                     "type": "boolean"
                 },

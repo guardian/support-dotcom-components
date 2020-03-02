@@ -31,6 +31,7 @@ export type EpicTargeting = {
     isPaidContent: boolean;
     tags: Tag[];
     epicViewLog?: ViewLog;
+    countryCode?: string;
 
     // Note, it turns out that showSupportMessaging (defined in the Members Data
     // API) does not capture every case of recurring contributors or last
