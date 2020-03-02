@@ -1,7 +1,15 @@
-import { findVariant, Test, EpicTests } from './variants';
+import {
+    findVariant,
+    Test,
+    hasCountryCode,
+    hasSection,
+    hasTags,
+    excludeSection,
+    excludeTags,
+} from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 
-const test1: Test = {
+const testDefault: Test = {
     name: 'example-1',
     isOn: true,
     locations: [],
@@ -49,7 +57,7 @@ const test1: Test = {
     },
 };
 
-const targeting: EpicTargeting = {
+const targetingDefault: EpicTargeting = {
     contentType: 'Article',
     sectionName: 'environment',
     shouldHideReaderRevenue: false,
@@ -61,97 +69,98 @@ const targeting: EpicTargeting = {
     lastOneOffContributionDate: undefined,
 };
 
-type EpicTargetingOptions = Partial<EpicTargeting>;
-type TestOptions = Partial<Test>;
-
-const buildTargeting = (
-    targeting: EpicTargeting,
-    overrides: EpicTargetingOptions,
-): EpicTargeting => {
-    return { ...targeting, ...overrides };
-};
-
-const buildTests = (test: Test, overrides: TestOptions, suite: Test[] = []): EpicTests => {
-    const updated: Test = { ...test, ...overrides };
-    const tests: Test[] = [];
-    return { tests: tests.concat([updated], suite) };
-};
-
 describe('find variant', () => {
+    it('should find the correct variant for test and targeting data', () => {
+        const mvtId = 2; // MVT IDs are 0..10^6
+        const tests = { tests: [testDefault] };
+        const targeting = targetingDefault;
+        const got = findVariant(tests, targeting, mvtId);
+
+        expect(got?.name).toBe('control-example-1');
+    });
+
+    it('should return undefined when no matching test variant', () => {
+        const mvtId = 2; // MVT IDs are 0..10^6
+        const test = { ...testDefault, excludedSections: ['news'] };
+        const tests = { tests: [test] };
+        const targeting = { ...targetingDefault, sectionName: 'news' };
+        const got = findVariant(tests, targeting, mvtId);
+
+        expect(got?.name).toBe(undefined);
+    });
+});
+
+describe('variant filters', () => {
     it.skip('should filter by max views conditions', () => {});
-    it.skip('should filter by country group match', () => {});
+
+    it('should filter by has country code', () => {
+        const test: Test = { ...testDefault, hasCountryName: true };
+        const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
+        const got = hasCountryCode.test(test, targeting2);
+        expect(got).toBe(true);
+    });
 
     it('should filter by required sections', () => {
-        const mvtId = 2; // MVT IDs are 0..10^6
+        const test1: Test = { ...testDefault, sections: ['environment'] };
+        const targeting1: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
+        const got1 = hasSection.test(test1, targeting1);
+        expect(got1).toBe(true);
 
-        const targ1 = buildTargeting(targeting, { sectionName: 'environment' });
-        const tests1 = buildTests(test1, { sections: ['environment'] });
-        const got1 = findVariant(tests1, targ1, mvtId);
-
-        expect(got1?.name).toBe('control-example-1');
-
-        const targ2 = buildTargeting(targeting, { sectionName: 'football' });
-        const tests2 = buildTests(test1, { sections: ['environment'] });
-        const got2 = findVariant(tests2, targ2, mvtId);
-
-        expect(got2).toBe(undefined);
+        const test2: Test = { ...testDefault, sections: ['environment'] };
+        const targeting2: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
+        const got2 = hasSection.test(test2, targeting2);
+        expect(got2).toBe(false);
     });
 
     it('should filter by required tags', () => {
-        const mvtId = 2; // MVT IDs are 0..10^6
+        const tags1 = [{ id: 'environment/series/the-polluters', type: 'tone' }];
 
-        const targ1 = buildTargeting(targeting, {
-            tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
-        });
+        const test1: Test = {
+            ...testDefault,
+            tagIds: tags1.map(tag => tag.id),
+        };
+        const targeting1: EpicTargeting = {
+            ...targetingDefault,
+            tags: tags1,
+        };
+        const got1 = hasTags.test(test1, targeting1);
+        expect(got1).toBe(true);
 
-        const tests1 = buildTests(test1, { tagIds: ['environment/series/the-polluters'] });
-        const got1 = findVariant(tests1, targ1, mvtId);
-
-        expect(got1?.name).toBe('control-example-1');
-
-        const targ2 = buildTargeting(targeting, {
-            tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
-        });
-        const tests2 = buildTests(test1, { sections: ['football'] });
-        const got2 = findVariant(tests2, targ2, mvtId);
-
-        expect(got2).toBe(undefined);
+        const tags2 = [{ id: 'environment/series/the-polluters', type: 'tone' }];
+        const test2: Test = { ...testDefault, tagIds: ['football/football'] };
+        const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
+        const got2 = hasTags.test(test2, targeting2);
+        expect(got2).toBe(false);
     });
 
     it('should filter by excluded sections', () => {
-        const mvtId = 2; // MVT IDs are 0..10^6
+        const test1: Test = { ...testDefault, excludedSections: ['environment'] };
+        const targeting1: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
+        const got1 = excludeSection.test(test1, targeting1);
+        expect(got1).toBe(true);
 
-        const targ1 = buildTargeting(targeting, { sectionName: 'environment' });
-        const tests1 = buildTests(test1, { excludedSections: ['football'] });
-        const got1 = findVariant(tests1, targ1, mvtId);
-
-        expect(got1?.name).toBe('control-example-1');
-
-        const targ2 = buildTargeting(targeting, { sectionName: 'environment' });
-        const tests2 = buildTests(test1, { excludedSections: ['environment'] });
-        const got2 = findVariant(tests2, targ2, mvtId);
-
-        expect(got2).toBe(undefined);
+        const test2: Test = { ...testDefault, excludedSections: ['environment'] };
+        const targeting2: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
+        const got2 = excludeSection.test(test2, targeting2);
+        expect(got2).toBe(false);
     });
 
     it('should filter by excluded tags', () => {
-        const mvtId = 2; // MVT IDs are 0..10^6
+        const test1: Test = {
+            ...testDefault,
+            excludedTagIds: ['football/football'],
+        };
+        const targeting1: EpicTargeting = {
+            ...targetingDefault,
+            tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
+        };
+        const got1 = excludeTags.test(test1, targeting1);
+        expect(got1).toBe(true);
 
-        const targ1 = buildTargeting(targeting, {
-            tags: [{ id: 'football/football', type: 'tone' }],
-        });
-
-        const tests1 = buildTests(test1, { excludedTagIds: ['environment/series/the-polluters'] });
-        const got1 = findVariant(tests1, targ1, mvtId);
-
-        expect(got1?.name).toBe('control-example-1');
-
-        const targ2 = buildTargeting(targeting, {
-            tags: [{ id: 'football/football', type: 'tone' }],
-        });
-        const tests2 = buildTests(test1, { excludedTagIds: ['football/football'] });
-        const got2 = findVariant(tests2, targ2, mvtId);
-
-        expect(got2).toBe(undefined);
+        const tags2 = [{ id: 'football/football', type: 'tone' }];
+        const test2: Test = { ...testDefault, excludedTagIds: ['football/football'] };
+        const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
+        const got2 = excludeTags.test(test2, targeting2);
+        expect(got2).toBe(false);
     });
 });

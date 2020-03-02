@@ -63,7 +63,7 @@ interface Filter {
 }
 
 // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
-const selectVariant = (test: Test, mvtId: number): Variant | undefined => {
+export const selectVariant = (test: Test, mvtId: number): Variant | undefined => {
     // Calculate range of mvtIDs for variants and return first match
     const lowest = mvtId * (test.audienceOffset || 0);
     const highest = lowest + mvtId * test.audience;
@@ -73,6 +73,62 @@ const selectVariant = (test: Test, mvtId: number): Variant | undefined => {
     }
 
     return undefined;
+};
+
+export const hasTags: Filter = {
+    id: 'hasTags',
+    test: (test, targeting) => {
+        if (test.tagIds.length < 1) {
+            return true;
+        }
+
+        const intersection = test.tagIds.filter(tagId =>
+            targeting.tags.map(tag => tag.id).includes(tagId),
+        );
+
+        return intersection.length > 0;
+    },
+};
+
+export const hasSection: Filter = {
+    id: 'hasSection',
+    test: (test, targeting) => {
+        if (test.sections.length < 1) {
+            return true;
+        }
+
+        return test.sections.includes(targeting.sectionName);
+    },
+};
+
+export const excludeSection: Filter = {
+    id: 'excludeSection',
+    test: (test, targeting) => !test.excludedSections.includes(targeting.sectionName),
+};
+
+export const excludeTags: Filter = {
+    id: 'excludeTags',
+    test: (test, targeting) => {
+        if (test.excludedTagIds.length < 1) {
+            return true;
+        }
+
+        const intersection = test.excludedTagIds.filter(
+            tagId => !targeting.tags.map(tag => tag.id).includes(tagId),
+        );
+
+        return intersection.length > 0;
+    },
+};
+
+export const userInTest = (mvtId: number): Filter => ({
+    id: 'userInTest',
+    test: (test, _) => selectVariant(test, mvtId) !== undefined,
+});
+
+export const hasCountryCode: Filter = {
+    id: 'hasCountryGroups',
+    test: (test, targeting) => (test.hasCountryName ? !!targeting.countryCode : true),
 };
 
 export const findVariant = (
@@ -85,68 +141,15 @@ export const findVariant = (
 
     // TODO include max view throttling here too
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
-    /* return (
-        (!initVariant.canRun || initVariant.canRun()) &&
-        meetsMaxViewsConditions &&
-        matchesCountryGroups &&
-        matchesTagsOrSections &&
-        noExcludedTags &&
-        notExcludedSection &&
-        copyIsValid()
-    ); */
+    const filters: Filter[] = [
+        hasSection,
+        hasTags,
+        userInTest(mvtId),
+        excludeSection,
+        excludeTags,
+        hasCountryCode,
+    ];
 
-    const hasTags: Filter = {
-        id: 'hasTags',
-        test: (test, targeting) => {
-            if (test.tagIds.length < 1) {
-                return true;
-            }
-
-            const intersection = test.tagIds.filter(tagId =>
-                targeting.tags.map(tag => tag.id).includes(tagId),
-            );
-
-            return intersection.length > 0;
-        },
-    };
-
-    const hasSection: Filter = {
-        id: 'hasSection',
-        test: (test, targeting) => {
-            if (test.sections.length < 1) {
-                return true;
-            }
-
-            return test.sections.includes(targeting.sectionName);
-        },
-    };
-
-    const excludeSection: Filter = {
-        id: 'excludeSection',
-        test: (test, targeting) => !test.excludedSections.includes(targeting.sectionName),
-    };
-
-    const excludeTags: Filter = {
-        id: 'excludeTags',
-        test: (test, targeting) => {
-            if (test.excludedTagIds.length < 1) {
-                return true;
-            }
-
-            const intersection = test.excludedTagIds.filter(
-                tagId => !targeting.tags.map(tag => tag.id).includes(tagId),
-            );
-
-            return intersection.length > 0;
-        },
-    };
-
-    const userInTest: Filter = {
-        id: 'userInTest',
-        test: (test, _) => selectVariant(test, mvtId) !== undefined,
-    };
-
-    const filters: Filter[] = [hasSection, hasTags, userInTest, excludeSection, excludeTags];
     const test = data.tests.find(test =>
         filters.every(filter => {
             const got = filter.test(test, targeting);
