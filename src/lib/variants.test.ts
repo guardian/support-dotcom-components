@@ -81,7 +81,7 @@ describe('find variant', () => {
     it.skip('should filter by max views conditions', () => {});
     it.skip('should filter by country group match', () => {});
 
-    it('should filter by required tags or sections', () => {
+    it('should filter by required sections', () => {
         const mvtId = 2; // MVT IDs are 0..10^6
 
         const targ = buildTargeting(targeting, { sectionName: 'environment' });
@@ -91,6 +91,8 @@ describe('find variant', () => {
         expect(got?.name).toBe('control-example-1');
     });
 
-    it.skip('should filter by excluded tags or sections', () => {});
+    it.skip('should filter by required tags', () => {});
+    it.skip('should filter by excluded sections', () => {});
+    it.skip('should filter by excluded tags', () => {});
     it.skip('should filter by copy is valid', () => {});
 });
