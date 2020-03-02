@@ -29,7 +29,7 @@ interface Variant {
     backgroundImageUrl?: string;
 }
 
-interface Test {
+export interface Test {
     name: string;
     isOn: boolean;
     locations: string[];
