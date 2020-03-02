@@ -84,11 +84,17 @@ describe('find variant', () => {
     it('should filter by required sections', () => {
         const mvtId = 2; // MVT IDs are 0..10^6
 
-        const targ = buildTargeting(targeting, { sectionName: 'environment' });
-        const tests = buildTests(test1, { sections: ['environment'] });
-        const got = findVariant(tests, targ, mvtId);
+        const targ1 = buildTargeting(targeting, { sectionName: 'environment' });
+        const tests1 = buildTests(test1, { sections: ['environment'] });
+        const got1 = findVariant(tests1, targ1, mvtId);
 
-        expect(got?.name).toBe('control-example-1');
+        expect(got1?.name).toBe('control-example-1');
+
+        const targ2 = buildTargeting(targeting, { sectionName: 'football' });
+        const tests2 = buildTests(test1, { sections: ['environment'] });
+        const got2 = findVariant(tests2, targ2, mvtId);
+
+        expect(got2).toBe(undefined);
     });
 
     it.skip('should filter by required tags', () => {});
