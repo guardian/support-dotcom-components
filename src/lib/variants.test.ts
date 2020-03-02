@@ -154,5 +154,4 @@ describe('find variant', () => {
 
         expect(got2).toBe(undefined);
     });
-    it.skip('should filter by copy is valid', () => {});
 });
