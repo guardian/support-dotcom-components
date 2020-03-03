@@ -25,15 +25,15 @@ const replacePlaceholders = (content: string, countryCode?: string): string => {
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[1]}px ${space[3]}px;
-    border-top: 1px solid ${palette.brandYellow.main};
+    border-top: 1px solid ${palette.brandAlt[400]};
     background-color: ${palette.neutral[97]};
 
     * {
         ::selection {
-            background: ${palette.brandYellow.main};
+            background: ${palette.brandAlt[400]};
         }
         ::-moz-selection {
-            background: ${palette.brandYellow.main};
+            background: ${palette.brandAlt[400]};
         }
     }
 `;
@@ -55,7 +55,7 @@ const highlightWrapperStyles = css`
 
 const highlightStyles = css`
     padding: 2px;
-    background-color: ${palette.brandYellow.main};
+    background-color: ${palette.brandAlt[400]};
 `;
 
 const buttonWrapperStyles = css`
