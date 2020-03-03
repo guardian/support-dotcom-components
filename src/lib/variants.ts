@@ -148,7 +148,12 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         hasCountryCode,
     ];
 
-    const test = data.tests.find(test =>
+    const priorityOrdered = ([] as Test[]).concat(
+        data.tests.filter(test => test.highPriority),
+        data.tests.filter(test => !test.highPriority),
+    );
+
+    const test = priorityOrdered.find(test =>
         filters.every(filter => {
             const got = filter.test(test, targeting);
 
