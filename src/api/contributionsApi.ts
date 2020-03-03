@@ -4,6 +4,8 @@ import { EpicTests } from '../lib/variants';
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
 
+const configuredTestsUrl = 'https://support.theguardian.com/epic-tests.json';
+
 export type DefaultEpicContent = {
     heading?: string;
     paragraphs: string[];
@@ -48,5 +50,12 @@ export const fetchDefaultEpicContent = async (): Promise<DefaultEpicContent> => 
 };
 
 export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
-    return {} as EpicTests;
+    const response = await fetch(configuredTestsUrl);
+    if (!response.ok) {
+        throw new Error(
+            `Encountered a non-ok response when fetching configured epic tests: ${response.status}`,
+        );
+    }
+
+    return response.json();
 };
