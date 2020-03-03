@@ -76,7 +76,8 @@ describe('find variant', () => {
         const targeting = targetingDefault;
         const got = findVariant(tests, targeting);
 
-        expect(got?.name).toBe('control-example-1');
+        expect(got?.test.name).toBe('example-1');
+        expect(got?.variant.name).toBe('control-example-1');
     });
 
     it('should return undefined when no matching test variant', () => {
@@ -85,7 +86,7 @@ describe('find variant', () => {
         const targeting = { ...targetingDefault, sectionName: 'news' };
         const got = findVariant(tests, targeting);
 
-        expect(got?.name).toBe(undefined);
+        expect(got).toBe(undefined);
     });
 });
 

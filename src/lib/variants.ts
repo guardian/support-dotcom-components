@@ -49,7 +49,7 @@ export interface Test {
 
     // TODO check with Contributions Team as not in current examples so perhaps
     // they are always 0 and 1?
-    audience: number;
+    audience?: number;
     audienceOffset?: number;
 }
 
@@ -62,17 +62,8 @@ interface Filter {
     test: (test: Test, targeting: EpicTargeting) => boolean;
 }
 
-// https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
-export const selectVariant = (test: Test, mvtId: number): Variant | undefined => {
-    // Calculate range of mvtIDs for variants and return first match
-    const lowest = mvtId * (test.audienceOffset || 0);
-    const highest = lowest + mvtId * test.audience;
-
-    if (mvtId > lowest && mvtId <= highest) {
-        return test.variants[mvtId % test.variants.length];
-    }
-
-    return undefined;
+export const selectVariant = (test: Test, mvtId: number): Variant => {
+    return test.variants[mvtId % test.variants.length];
 };
 
 export const hasTags: Filter = {
@@ -121,9 +112,15 @@ export const excludeTags: Filter = {
     },
 };
 
+// https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
-    test: (test, _) => selectVariant(test, mvtId) !== undefined,
+    test: (test, _) => {
+        // Calculate range of mvtIDs for variants and return first match
+        const lowest = mvtId * (test.audienceOffset || 0);
+        const highest = lowest + mvtId * (test.audience || 1);
+        return mvtId > lowest && mvtId <= highest;
+    },
 });
 
 export const hasCountryCode: Filter = {
@@ -131,7 +128,12 @@ export const hasCountryCode: Filter = {
     test: (test, targeting) => (test.hasCountryName ? !!targeting.countryCode : true),
 };
 
-export const findVariant = (data: EpicTests, targeting: EpicTargeting): Variant | undefined => {
+interface Result {
+    test: Test;
+    variant: Variant;
+}
+
+export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 
@@ -158,5 +160,9 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Variant 
         }),
     );
 
-    return test ? selectVariant(test, targeting.mvtId || 1) : undefined;
+    if (test) {
+        return { test, variant: selectVariant(test, targeting.mvtId || 1) };
+    }
+
+    return undefined;
 };

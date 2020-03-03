@@ -149,15 +149,17 @@ app.post(
             return;
         }
 
-        const { tracking, targeting, expectedVariant } = req.body;
+        const { targeting, expectedTest, expectedVariant } = req.body;
 
         const tests = await fetchConfiguredEpicTestsCached();
+
         const got = findVariant(tests, targeting);
 
-        if (got !== expectedVariant) {
+        // TODO logging the variant name is not useful, really we want the test + variant names(!)
+        if (got?.test.name !== expectedTest || got?.variant.name !== expectedVariant) {
             console.log(
-                `comparison failed: got (${got}, want (${expectedVariant}), for tracking data ${JSON.stringify(
-                    tracking,
+                `comparison failed: got (${`${got?.test.name}:${got?.variant.name}`}, want (${expectedTest}:${expectedVariant}), for targeting data ${JSON.stringify(
+                    targeting,
                 )})`,
             );
         }
