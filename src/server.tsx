@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
-import { memoise } from './lib/memoise';
+import { memoiseAsync } from './lib/memoise';
 import { ContributionsEpic } from './components/ContributionsEpic';
 import {
     EpicTracking,
@@ -59,7 +59,7 @@ interface Epic {
     css: string;
 }
 
-const [, fetchDefaultEpicContentCached] = memoise(fetchDefaultEpicContent);
+const [, fetchDefaultEpicContentCached] = memoiseAsync(fetchDefaultEpicContent);
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
@@ -139,7 +139,7 @@ app.post(
     },
 );
 
-const [, fetchConfiguredEpicTestsCached] = memoise(fetchConfiguredEpicTests);
+const [, fetchConfiguredEpicTestsCached] = memoiseAsync(fetchConfiguredEpicTests);
 
 app.post(
     '/epic/compare-variant-decision',

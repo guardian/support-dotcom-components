@@ -1,16 +1,16 @@
-export const memoise = <T>(fn: () => Promise<T>): [() => void, () => Promise<T>] => {
-    let resp: T | undefined;
+export const memoiseAsync = <T>(fn: () => Promise<T>): [() => void, () => Promise<T>] => {
+    let res: T | undefined;
 
     const retFn = async () => {
-        if (resp) {
-            return resp;
+        if (res !== undefined) {
+            return res;
         }
 
-        resp = await fn();
-        return resp;
+        res = await fn();
+        return res;
     };
 
-    const resetFn = () => (resp = undefined);
+    const resetFn = () => (res = undefined);
 
     return [resetFn, retFn];
 };
