@@ -80,6 +80,9 @@
                         ]
                     }
                 },
+                "mvtId": {
+                    "type": "number"
+                },
                 "epicViewLog": {
                     "type": "array",
                     "items": {

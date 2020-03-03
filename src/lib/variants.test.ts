@@ -67,24 +67,23 @@ const targetingDefault: EpicTargeting = {
     showSupportMessaging: true,
     isRecurringContributor: false,
     lastOneOffContributionDate: undefined,
+    mvtId: 2,
 };
 
 describe('find variant', () => {
     it('should find the correct variant for test and targeting data', () => {
-        const mvtId = 2; // MVT IDs are 0..10^6
         const tests = { tests: [testDefault] };
         const targeting = targetingDefault;
-        const got = findVariant(tests, targeting, mvtId);
+        const got = findVariant(tests, targeting);
 
         expect(got?.name).toBe('control-example-1');
     });
 
     it('should return undefined when no matching test variant', () => {
-        const mvtId = 2; // MVT IDs are 0..10^6
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = { tests: [test] };
         const targeting = { ...targetingDefault, sectionName: 'news' };
-        const got = findVariant(tests, targeting, mvtId);
+        const got = findVariant(tests, targeting);
 
         expect(got?.name).toBe(undefined);
     });

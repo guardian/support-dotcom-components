@@ -131,11 +131,7 @@ export const hasCountryCode: Filter = {
     test: (test, targeting) => (test.hasCountryName ? !!targeting.countryCode : true),
 };
 
-export const findVariant = (
-    data: EpicTests,
-    targeting: EpicTargeting,
-    mvtId: number,
-): Variant | undefined => {
+export const findVariant = (data: EpicTests, targeting: EpicTargeting): Variant | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 
@@ -144,7 +140,7 @@ export const findVariant = (
     const filters: Filter[] = [
         hasSection,
         hasTags,
-        userInTest(mvtId),
+        userInTest(targeting.mvtId || 1),
         excludeSection,
         excludeTags,
         hasCountryCode,
@@ -162,5 +158,5 @@ export const findVariant = (
         }),
     );
 
-    return test ? selectVariant(test, mvtId) : undefined;
+    return test ? selectVariant(test, targeting.mvtId || 1) : undefined;
 };
