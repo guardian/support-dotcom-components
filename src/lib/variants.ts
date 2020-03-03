@@ -140,7 +140,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Variant 
     const filters: Filter[] = [
         hasSection,
         hasTags,
-        userInTest(targeting.mvtId),
+        userInTest(targeting.mvtId || 1),
         excludeSection,
         excludeTags,
         hasCountryCode,
@@ -158,5 +158,5 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Variant 
         }),
     );
 
-    return test ? selectVariant(test, targeting.mvtId) : undefined;
+    return test ? selectVariant(test, targeting.mvtId || 1) : undefined;
 };

@@ -30,7 +30,7 @@ export type EpicTargeting = {
     isMinuteArticle: boolean;
     isPaidContent: boolean;
     tags: Tag[];
-    mvtId: number;
+    mvtId?: number;
     epicViewLog?: ViewLog;
     countryCode?: string;
 
