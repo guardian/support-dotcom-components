@@ -1,4 +1,5 @@
-import { EpicTargeting } from '../components/ContributionsEpicTypes';
+import { EpicTargeting, ViewLog } from '../components/ContributionsEpicTypes';
+import { shouldThrottle } from '../lib/targeting';
 
 interface ArticlesViewedSettings {
     minViews: number;
@@ -128,16 +129,32 @@ export const hasCountryCode: Filter = {
     test: (test, targeting) => (test.hasCountryName ? !!targeting.countryCode : true),
 };
 
+export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({
+    id: 'shouldThrottle',
+    test: (test, _) => {
+        if (test.alwaysAsk || !test.maxViews) {
+            return true;
+        }
+
+        const testId = test.useLocalViewLog ? test.name : undefined;
+
+        return !shouldThrottle(log, test.maxViews, testId, now);
+    },
+});
+
 interface Result {
     test: Test;
     variant: Variant;
 }
 
-export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result | undefined => {
+export const findVariant = (
+    data: EpicTests,
+    targeting: EpicTargeting,
+    log?: ViewLog,
+): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 
-    // TODO include max view throttling here too
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
     const filters: Filter[] = [
         hasSection,
@@ -146,6 +163,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         excludeSection,
         excludeTags,
         hasCountryCode,
+        withinMaxViews(log || []),
     ];
 
     const priorityOrdered = ([] as Test[]).concat(

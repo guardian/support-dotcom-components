@@ -23,13 +23,13 @@ export const isRecentOneOffContributor = (
     return daysSince(lastOneOffContributionDate, now) <= pauseDays;
 };
 
-interface ThrottleConfig {
-    days: number;
-    count: number;
+export interface ThrottleConfig {
+    maxViewsDays: number;
+    maxViewsCount: number;
     minDaysBetweenViews: number;
 }
 
-const defaultThrottle = { days: 90, count: 4, minDaysBetweenViews: 5 };
+const defaultThrottle = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
 
 // Note, if testID is provided, will thottle against views only for that
 // specific test, otherwise will apply a global throttle.
@@ -45,10 +45,11 @@ export const shouldThrottle = (
         views = log.filter(view => view.testId === testId);
     }
 
-    const viewsInThrottleWindow = views.filter(
-        view => daysSince(new Date(view.date), now) <= config.days,
-    );
-    const exceedsViewsInWindow = viewsInThrottleWindow.length >= config.count;
+    const viewsInThrottleWindow = views.filter(view => {
+        return daysSince(new Date(view.date), now) <= config.maxViewsDays;
+    });
+
+    const exceedsViewsInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
     const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
         view => daysSince(new Date(view.date), now) <= config.minDaysBetweenViews,
     );

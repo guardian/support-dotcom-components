@@ -72,7 +72,7 @@ describe('shouldNotRenderEpic', () => {
 
 describe('shouldThrottle', () => {
     it('returns true if epic was viewed too recently', () => {
-        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const viewLog = [{ date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' }];
 
         const now = new Date('2019-06-12T10:24:00');
@@ -81,7 +81,7 @@ describe('shouldThrottle', () => {
     });
 
     it('returns false if epic was not viewed too recently', () => {
-        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const viewLog = [{ date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' }];
 
         const now = new Date('2019-06-17T10:24:00');
@@ -90,7 +90,7 @@ describe('shouldThrottle', () => {
     });
 
     it('returns true if epic was viewed too many times', () => {
-        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const viewLog = [
             { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' },
             { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
@@ -105,7 +105,7 @@ describe('shouldThrottle', () => {
     });
 
     it('returns false if epic was viewed too many times but test was not', () => {
-        const config = { days: 90, count: 4, minDaysBetweenViews: 5 };
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const viewLog = [
             { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' },
             { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },

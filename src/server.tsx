@@ -149,11 +149,9 @@ app.post(
             return;
         }
 
-        const { targeting, expectedTest, expectedVariant } = req.body;
-
+        const { targeting, expectedTest, expectedVariant, viewLog } = req.body;
         const tests = await fetchConfiguredEpicTestsCached();
-
-        const got = findVariant(tests, targeting);
+        const got = findVariant(tests, targeting, viewLog);
 
         // TODO logging the variant name is not useful, really we want the test + variant names(!)
         if (got?.test.name !== expectedTest || got?.variant.name !== expectedVariant) {
