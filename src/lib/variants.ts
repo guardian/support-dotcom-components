@@ -113,6 +113,11 @@ export const excludeTags: Filter = {
     },
 };
 
+export const isOn: Filter = {
+    id: 'isOn',
+    test: (test, _) => test.isOn,
+};
+
 // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
@@ -157,6 +162,7 @@ export const findVariant = (
 
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
     const filters: Filter[] = [
+        isOn,
         hasSection,
         hasTags,
         userInTest(targeting.mvtId || 1),
