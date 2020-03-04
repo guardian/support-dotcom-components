@@ -7,6 +7,7 @@ import {
     excludeSection,
     excludeTags,
     withinMaxViews,
+    isContentType,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 
@@ -228,5 +229,33 @@ describe('variant filters', () => {
 
         const got = filter.test(test1, targetingDefault);
         expect(got).toBe(true);
+    });
+
+    it('should filter by content type', () => {
+        const test1 = {
+            ...testDefault,
+            isLiveBlog: true,
+        };
+
+        const targeting1 = {
+            ...targetingDefault,
+            contentType: 'LiveBlog',
+        };
+
+        const got1 = isContentType.test(test1, targeting1);
+        expect(got1).toBe(true);
+
+        const test2 = {
+            ...testDefault,
+            isLiveBlog: true,
+        };
+
+        const targeting2 = {
+            ...targetingDefault,
+            contentType: 'Article',
+        };
+
+        const got2 = isContentType.test(test2, targeting2);
+        expect(got2).toBe(false);
     });
 });

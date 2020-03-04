@@ -118,6 +118,11 @@ export const isOn: Filter = {
     test: (test, _) => test.isOn,
 };
 
+export const isContentType: Filter = {
+    id: 'isContentType',
+    test: (test, targeting) => (test.isLiveBlog ? targeting.contentType === 'LiveBlog' : true),
+};
+
 // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
@@ -170,6 +175,7 @@ export const findVariant = (
         excludeTags,
         hasCountryCode,
         withinMaxViews(log || []),
+        isContentType,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
