@@ -27,8 +27,11 @@ export type EpicTargeting = {
     contentType: string;
     sectionName: string;
     shouldHideReaderRevenue: boolean;
+
+    // TODO let's replace these with Design Type/a single property after migration
     isMinuteArticle: boolean;
     isPaidContent: boolean;
+
     tags: Tag[];
     mvtId?: number;
     epicViewLog?: ViewLog;

@@ -6,6 +6,8 @@ import {
     hasTags,
     excludeSection,
     excludeTags,
+    withinMaxViews,
+    isContentType,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 
@@ -76,7 +78,8 @@ describe('find variant', () => {
         const targeting = targetingDefault;
         const got = findVariant(tests, targeting);
 
-        expect(got?.name).toBe('control-example-1');
+        expect(got?.test.name).toBe('example-1');
+        expect(got?.variant.name).toBe('control-example-1');
     });
 
     it('should return undefined when no matching test variant', () => {
@@ -85,13 +88,11 @@ describe('find variant', () => {
         const targeting = { ...targetingDefault, sectionName: 'news' };
         const got = findVariant(tests, targeting);
 
-        expect(got?.name).toBe(undefined);
+        expect(got).toBe(undefined);
     });
 });
 
 describe('variant filters', () => {
-    it.skip('should filter by max views conditions', () => {});
-
     it('should filter by has country code', () => {
         const test: Test = { ...testDefault, hasCountryName: true };
         const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
@@ -160,6 +161,101 @@ describe('variant filters', () => {
         const test2: Test = { ...testDefault, excludedTagIds: ['football/football'] };
         const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
         const got2 = excludeTags.test(test2, targeting2);
+        expect(got2).toBe(false);
+    });
+
+    it('should filter by max views', () => {
+        const viewLog = [
+            { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
+            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-07-17T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
+        ];
+
+        const now = new Date('2019-08-17T10:24:00');
+        const filter = withinMaxViews(viewLog, now);
+
+        const test1 = {
+            ...testDefault,
+            maxViews: {
+                maxViewsCount: 4,
+                maxViewsDays: 30,
+                minDaysBetweenViews: 0,
+            },
+            alwaysAsk: false,
+        };
+
+        const got1 = filter.test(test1, targetingDefault);
+
+        expect(got1).toBe(true);
+
+        const test2 = {
+            ...testDefault,
+            maxViews: {
+                maxViewsCount: 3,
+                maxViewsDays: 90,
+                minDaysBetweenViews: 0,
+            },
+            alwaysAsk: false,
+        };
+
+        const got2 = filter.test(test2, targetingDefault);
+
+        expect(got2).toBe(false);
+    });
+
+    it('should ignore max views when alwaysAsk is true', () => {
+        const viewLog = [
+            { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
+            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-07-17T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
+        ];
+
+        const now = new Date('2019-08-17T10:24:00');
+        const filter = withinMaxViews(viewLog, now);
+
+        const test1 = {
+            ...testDefault,
+            maxViews: {
+                maxViewsCount: 3,
+                maxViewsDays: 90,
+                minDaysBetweenViews: 0,
+            },
+            alwaysAsk: true,
+        };
+
+        const got = filter.test(test1, targetingDefault);
+        expect(got).toBe(true);
+    });
+
+    it('should filter by content type', () => {
+        const test1 = {
+            ...testDefault,
+            isLiveBlog: true,
+        };
+
+        const targeting1 = {
+            ...targetingDefault,
+            contentType: 'LiveBlog',
+        };
+
+        const got1 = isContentType.test(test1, targeting1);
+        expect(got1).toBe(true);
+
+        const test2 = {
+            ...testDefault,
+            isLiveBlog: true,
+        };
+
+        const targeting2 = {
+            ...targetingDefault,
+            contentType: 'Article',
+        };
+
+        const got2 = isContentType.test(test2, targeting2);
         expect(got2).toBe(false);
     });
 });
