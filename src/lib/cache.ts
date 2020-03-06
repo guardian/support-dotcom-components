@@ -13,7 +13,6 @@ export const cacheAsync = <T>(
             return got as T;
         }
 
-        console.log('refetching cached value...');
         const res = await fn();
         myCache.set(key, res, ttl);
         return res;
