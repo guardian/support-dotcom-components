@@ -59,7 +59,8 @@ interface Epic {
     css: string;
 }
 
-const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, 60 * 5);
+const fiveMinutes = 60 * 5;
+const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (

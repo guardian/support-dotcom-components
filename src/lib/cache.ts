@@ -2,7 +2,7 @@ import NodeCache from 'node-cache';
 
 export const cacheAsync = <T>(
     fn: () => Promise<T>,
-    ttl: number,
+    ttlSec: number,
 ): [() => void, () => Promise<T>] => {
     const myCache = new NodeCache();
     const key = 'res';
@@ -14,7 +14,7 @@ export const cacheAsync = <T>(
         }
 
         const res = await fn();
-        myCache.set(key, res, ttl);
+        myCache.set(key, res, ttlSec);
         return res;
     };
 
