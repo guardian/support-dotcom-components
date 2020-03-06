@@ -136,10 +136,6 @@ export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisa
     const { heading, paragraphs, highlighted } = content;
     const { countryCode } = localisation;
 
-    if (countryCode !== 'GB') {
-        console.log('countryCode: ' + countryCode);
-    }
-
     // Get button URL with tracking params in query string
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
     const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
