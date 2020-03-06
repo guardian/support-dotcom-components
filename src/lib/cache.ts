@@ -9,7 +9,7 @@ export const cacheAsync = <T>(
 
     const retFn = async () => {
         const got = myCache.get(key);
-        if (got) {
+        if (got !== undefined) {
             return got as T;
         }
 
