@@ -74,7 +74,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
         meta.isPaidContent ||
         !meta.showSupportMessaging ||
         meta.isRecurringContributor ||
-        isRecentOneOffContributor(lastOneOffContributionDate) ||
-        shouldThrottle(meta.epicViewLog || [], defaultThrottle)
+        isRecentOneOffContributor(lastOneOffContributionDate)
     );
 };
