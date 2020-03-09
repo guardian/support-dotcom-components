@@ -50,8 +50,9 @@ export const shouldThrottle = (
     });
 
     const exceedsViewsInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
+
     const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
-        view => daysSince(new Date(view.date), now) <= config.minDaysBetweenViews,
+        view => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
     );
 
     return exceedsViewsInWindow || withinMinDaysSinceLastView;
