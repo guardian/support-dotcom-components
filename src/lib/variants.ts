@@ -1,5 +1,5 @@
 import { EpicTargeting, ViewLog } from '../components/ContributionsEpicTypes';
-import { shouldThrottle } from '../lib/targeting';
+import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 
 interface ArticlesViewedSettings {
     minViews: number;
@@ -152,6 +152,11 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
     },
 });
 
+export const shouldNotRender: Filter = {
+    id: 'shouldNotRender',
+    test: (_, targeting) => !shouldNotRenderEpic(targeting),
+};
+
 interface Result {
     test: Test;
     variant: Variant;
@@ -167,6 +172,7 @@ export const findVariant = (
 
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
     const filters: Filter[] = [
+        shouldNotRender,
         isOn,
         hasSection,
         hasTags,
