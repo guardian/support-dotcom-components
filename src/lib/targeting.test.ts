@@ -71,46 +71,49 @@ describe('shouldNotRenderEpic', () => {
 });
 
 describe('shouldThrottle', () => {
-    it('returns true if epic was viewed too recently', () => {
+    it('returns true if epic was viewed just now', () => {
         const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 2 };
+        const viewLog = [{ date: new Date('2019-06-12T10:23:59').valueOf(), testId: 'A' }];
         const now = new Date('2019-06-12T10:24:00');
-
-        // Epic viewed just now
-        const viewLog1 = [{ date: new Date('2019-06-12T10:23:59').valueOf(), testId: 'A' }];
-        const got1 = shouldThrottle(viewLog1, config, undefined, now);
-        expect(got1).toBe(true);
-
-        // Epic viewed yesterday
-        const viewLog2 = [{ date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' }];
-        const got2 = shouldThrottle(viewLog2, config, undefined, now);
-        expect(got2).toBe(true);
-
-        // Epic viewed nearly 2 days ago
-        const viewLog3 = [{ date: new Date('2019-06-10T10:24:01').valueOf(), testId: 'A' }];
-        const got3 = shouldThrottle(viewLog3, config, undefined, now);
-        expect(got3).toBe(true);
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(true);
     });
 
-    it('returns false if epic was not viewed too recently', () => {
+    it('returns true if epic was viewed yesterday', () => {
         const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 2 };
+        const viewLog = [{ date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' }];
         const now = new Date('2019-06-12T10:24:00');
-
-        // Epic viewed 2 days ago
-        const viewLog1 = [{ date: new Date('2019-06-10T10:24:00').valueOf(), testId: 'A' }];
-        const got1 = shouldThrottle(viewLog1, config, undefined, now);
-        expect(got1).toBe(false);
-
-        // Epic viewed longer ago
-        const viewLog2 = [{ date: new Date('2019-06-01T10:24:00').valueOf(), testId: 'A' }];
-        const got2 = shouldThrottle(viewLog2, config, undefined, now);
-        expect(got2).toBe(false);
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(true);
     });
 
-    it('returns true if epic was viewed too many times', () => {
+    it('returns true if epic was viewed nearly 2 days ago', () => {
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 2 };
+        const viewLog = [{ date: new Date('2019-06-10T10:24:01').valueOf(), testId: 'A' }];
+        const now = new Date('2019-06-12T10:24:00');
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(true);
+    });
+
+    it('returns false if epic was viewed 2 days ago', () => {
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 2 };
+        const viewLog = [{ date: new Date('2019-06-10T10:24:00').valueOf(), testId: 'A' }];
+        const now = new Date('2019-06-12T10:24:00');
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(false);
+    });
+
+    it('returns false if epic was viewed longer than 2 days ago', () => {
+        const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 2 };
+        const viewLog = [{ date: new Date('2019-06-01T10:24:00').valueOf(), testId: 'A' }];
+        const now = new Date('2019-06-12T10:24:00');
+        const got = shouldThrottle(viewLog, config, undefined, now);
+        expect(got).toBe(false);
+    });
+
+    it('returns true if epic was viewed just above the max number of times', () => {
         const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const now = new Date('2019-07-09T10:24:00');
-
-        // Just above the max number of views for this Epic
         const viewLog = [
             { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' },
             { date: new Date('2019-06-12T10:24:00').valueOf(), testId: 'B' },
@@ -123,11 +126,9 @@ describe('shouldThrottle', () => {
         expect(got).toBe(true);
     });
 
-    it('returns false if epic was not viewed too many times', () => {
+    it('returns false if epic was viewed exactly the max number of times', () => {
         const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const now = new Date('2019-07-09T10:24:00');
-
-        // Exactly at the max number of views for this Epic
         const viewLog = [
             { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'A' },
             { date: new Date('2019-06-12T10:24:00').valueOf(), testId: 'B' },
