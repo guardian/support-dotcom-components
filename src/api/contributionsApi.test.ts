@@ -1,10 +1,13 @@
 import { fetchDefaultEpicContent } from './contributionsApi';
-import { memoiseAsync } from '../lib/memoise';
+import { cacheAsync } from '../lib/cache';
 
 jest.mock('node-fetch', () => require('fetch-mock').sandbox());
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fetchMock = require('node-fetch');
 fetchMock.config.overwriteRoutes = true;
+
+// Deliberatly set a long cache time to avoid expiring during the test
+const oneDay = 24 * 60 * 60;
 
 const epicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
@@ -32,7 +35,7 @@ describe('fetchDefaultEpic', () => {
     it('fetches and returns the data in the expected format', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
-        const [reset, fetchData] = memoiseAsync(fetchDefaultEpicContent);
+        const [reset, fetchData] = cacheAsync(fetchDefaultEpicContent, oneDay);
         reset();
 
         const epicData = await fetchData();
@@ -47,7 +50,7 @@ describe('fetchDefaultEpic', () => {
     it('caches successful epic fetches', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
-        const [reset, fetchData] = memoiseAsync(fetchDefaultEpicContent);
+        const [reset, fetchData] = cacheAsync(fetchDefaultEpicContent, oneDay);
         reset();
 
         await fetchData();
@@ -59,7 +62,7 @@ describe('fetchDefaultEpic', () => {
     it('does not cache unsuccessful epic fetches', async () => {
         fetchMock.get(epicUrl, { status: 500 });
 
-        const [reset, fetchData] = memoiseAsync(fetchDefaultEpicContent);
+        const [reset, fetchData] = cacheAsync(fetchDefaultEpicContent, oneDay);
         reset();
 
         try {
