@@ -29,8 +29,6 @@ export interface ThrottleConfig {
     minDaysBetweenViews: number;
 }
 
-const defaultThrottle = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
-
 // Note, if testID is provided, will thottle against views only for that
 // specific test, otherwise will apply a global throttle.
 export const shouldThrottle = (
@@ -46,15 +44,16 @@ export const shouldThrottle = (
     }
 
     const viewsInThrottleWindow = views.filter(view => {
-        return daysSince(new Date(view.date), now) <= config.maxViewsDays;
+        return daysSince(new Date(view.date), now) < config.maxViewsDays;
     });
 
-    const exceedsViewsInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
+    const hasReachedViewsLimitInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
+
     const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
-        view => daysSince(new Date(view.date), now) <= config.minDaysBetweenViews,
+        view => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
     );
 
-    return exceedsViewsInWindow || withinMinDaysSinceLastView;
+    return hasReachedViewsLimitInWindow || withinMinDaysSinceLastView;
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
