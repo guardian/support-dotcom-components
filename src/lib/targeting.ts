@@ -47,13 +47,13 @@ export const shouldThrottle = (
         return daysSince(new Date(view.date), now) < config.maxViewsDays;
     });
 
-    const exceedsViewsInWindow = viewsInThrottleWindow.length > config.maxViewsCount;
+    const hasReachedViewsLimitInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
 
     const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
         view => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
     );
 
-    return exceedsViewsInWindow || withinMinDaysSinceLastView;
+    return hasReachedViewsLimitInWindow || withinMinDaysSinceLastView;
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
