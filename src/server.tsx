@@ -151,6 +151,13 @@ app.post(
         }
 
         const { targeting, expectedTest, expectedVariant } = req.body;
+
+        // This is our own test(!) so can ignore
+        if (expectedTest === 'RemoteRenderEpicRoundTwo') {
+            res.send('ignoring');
+            return;
+        }
+
         const tests = await fetchConfiguredEpicTestsCached();
         const got = findVariant(tests, targeting, targeting.epicViewLog);
 
