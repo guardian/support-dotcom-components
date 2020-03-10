@@ -126,7 +126,7 @@ describe('shouldThrottle', () => {
         expect(got).toBe(true);
     });
 
-    it('returns false if epic was viewed exactly the max number of times', () => {
+    it('returns true if epic has reached the max number of views', () => {
         const config = { maxViewsDays: 90, maxViewsCount: 4, minDaysBetweenViews: 5 };
         const now = new Date('2019-07-09T10:24:00');
         const viewLog = [
@@ -137,7 +137,7 @@ describe('shouldThrottle', () => {
             { date: new Date('2019-06-15T10:24:00').valueOf(), testId: 'A' },
         ];
         const got = shouldThrottle(viewLog, config, 'A', now);
-        expect(got).toBe(false);
+        expect(got).toBe(true);
     });
 
     it('returns false if epic was viewed too many times even though test was not', () => {
@@ -148,7 +148,6 @@ describe('shouldThrottle', () => {
             { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'A' },
             { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'B' },
             { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'A' },
-            { date: new Date('2019-08-12T10:24:00').valueOf(), testId: 'A' },
         ];
 
         const now = new Date('2019-09-01T10:24:00');
