@@ -181,11 +181,7 @@ interface Result {
     variant: Variant;
 }
 
-export const findVariant = (
-    data: EpicTests,
-    targeting: EpicTargeting,
-    // log?: ViewLog,
-): Result | undefined => {
+export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 
