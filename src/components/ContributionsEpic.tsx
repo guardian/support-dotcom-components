@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { PrimaryButton } from './PrimaryButton';
+import { Button } from './Button';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
@@ -148,7 +148,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     localisation,
     numArticles,
 }: Props) => {
-    const { heading } = variant;
+    const { heading, secondaryCta } = variant;
     const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
@@ -169,7 +169,14 @@ export const ContributionsEpic: React.FC<Props> = ({
             <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
             <div className={buttonWrapperStyles}>
-                <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
+                <Button url={buttonTrackingUrl} linkText="Support The Guardian" />
+                {secondaryCta && (
+                    <Button
+                        url={secondaryCta.baseUrl}
+                        linkText={secondaryCta.text}
+                        priority="secondary"
+                    />
+                )}
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"

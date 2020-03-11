@@ -4,10 +4,37 @@ import { textSans } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 
+const priorityOverrides = (priority: ButtonPriority): string => {
+    switch (priority) {
+        case 'primary':
+            return css`
+                background: ${palette.brandAlt.main};
+            `;
+        case 'secondary':
+            return css`
+                background: ${palette.neutral[93]};
+                border: 0.0625rem solid ${palette.neutral[86]};
+            `;
+    }
+};
+
+const priorityHoverOverrides = (priority: ButtonPriority): string => {
+    switch (priority) {
+        case 'primary':
+            return css`
+                background: ${palette.brandAlt.dark};
+            `;
+        case 'secondary':
+            return css`
+                background: ${palette.neutral[86]};
+                border: 0.0625rem solid ${palette.neutral[86]};
+            `;
+    }
+};
+
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
-const linkStyles = css`
-    background: ${palette.brandAlt.main};
+const linkStyles = (priority: ButtonPriority): string => css`
     border-radius: 21px;
     box-sizing: border-box;
     color: ${palette.neutral[7]} !important;
@@ -18,10 +45,11 @@ const linkStyles = css`
     position: relative;
     margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
     transition: background-color 0.3s ease-in-out;
+    ${priorityOverrides(priority)};
 
     :hover {
-        background: ${palette.brandAlt.dark};
         text-decoration: none;
+        ${priorityHoverOverrides(priority)};
     }
 
     svg {
@@ -40,13 +68,16 @@ const linkStyles = css`
     }
 `;
 
+type ButtonPriority = 'primary' | 'secondary';
+
 type Props = {
     url: string;
     linkText: string;
+    priority?: ButtonPriority;
 };
 
-export const PrimaryButton: React.FC<Props> = ({ url, linkText }: Props) => (
-    <a className={linkStyles} href={url} target="_blank" rel="noopener noreferrer">
+export const Button: React.FC<Props> = ({ url, linkText, priority = 'primary' }: Props) => (
+    <a className={linkStyles(priority)} href={url} target="_blank" rel="noopener noreferrer">
         {linkText}
         <svg xmlns="http://www.w3.org/2000/svg">
             <path d="M22.8 14.6l-7.6-7.6-.7.7 5.5 6.6h-14v1.5h14l-5.5 6.6.7.7 7.6-7.6v-.9"></path>
