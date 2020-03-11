@@ -68,12 +68,7 @@ const buildEpic = async (
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
-    const { heading, paragraphs, highlighted } = await fetchDefaultEpicContentCached();
-    const content = {
-        heading,
-        paragraphs,
-        highlighted,
-    };
+    const variant = await fetchDefaultEpicContentCached();
 
     // Only log for now - as Frontend does this and we may have bugs
     // We'll need to do more than log when we start our DCR test though
@@ -83,7 +78,7 @@ const buildEpic = async (
 
     const { html, css } = extractCritical(
         renderToStaticMarkup(
-            <ContributionsEpic content={content} tracking={tracking} localisation={localisation} />,
+            <ContributionsEpic variant={variant} tracking={tracking} localisation={localisation} />,
         ),
     );
     return { html, css };

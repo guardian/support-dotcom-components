@@ -18,7 +18,7 @@ interface Cta {
     baseUrl: string;
 }
 
-interface Variant {
+export interface Variant {
     name: string;
     heading?: string;
     paragraphs: string[];
