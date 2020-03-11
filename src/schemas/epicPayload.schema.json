@@ -93,19 +93,22 @@
                     "type": "string"
                 },
                 "weeklyArticleHistory": {
-                    "type": "object",
-                    "properties": {
-                        "week": {
-                            "type": "number"
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "week": {
+                                "type": "number"
+                            },
+                            "count": {
+                                "type": "number"
+                            }
                         },
-                        "count": {
-                            "type": "number"
-                        }
-                    },
-                    "required": [
-                        "count",
-                        "week"
-                    ]
+                        "required": [
+                            "count",
+                            "week"
+                        ]
+                    }
                 },
                 "showSupportMessaging": {
                     "type": "boolean"
