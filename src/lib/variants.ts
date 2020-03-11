@@ -155,9 +155,9 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
 
 export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filter => ({
     id: 'withinArticleViewedSettings',
-    test: (test): boolean => {
+    test: (test, _): boolean => {
         // Allow test to pass if no articles viewed settings have been set
-        if (!test.articlesViewedSettings || test.articlesViewedSettings.periodInWeeks) {
+        if (!test.articlesViewedSettings || !test.articlesViewedSettings.periodInWeeks) {
             return true;
         }
 

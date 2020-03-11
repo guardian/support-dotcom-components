@@ -8,6 +8,7 @@ import {
     excludeTags,
     withinMaxViews,
     isContentType,
+    withinArticleViewedSettings,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 
@@ -75,7 +76,11 @@ const targetingDefault: EpicTargeting = {
 describe('find variant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const tests = { tests: [testDefault] };
-        const targeting = targetingDefault;
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: [{ week: 18330, count: 45 }],
+        };
+
         const got = findVariant(tests, targeting);
 
         expect(got?.test.name).toBe('example-1');
@@ -162,6 +167,88 @@ describe('variant filters', () => {
         const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
         const got2 = excludeTags.test(test2, targeting2);
         expect(got2).toBe(false);
+    });
+
+    it('should filter by articles viewed settings', () => {
+        // Test 1 - below min articles viewed
+        const history1 = [{ week: 18330, count: 2 }];
+        const targeting1: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history1,
+        };
+
+        const filter1 = withinArticleViewedSettings(history1);
+
+        const got1 = filter1.test(testDefault, targeting1);
+        expect(got1).toBe(false);
+
+        // Test 2 - above (or at) min articles vieweds
+        const history2 = [{ week: 18330, count: 5 }];
+        const targeting2: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history2,
+        };
+
+        const filter2 = withinArticleViewedSettings(history2);
+
+        const got2 = filter2.test(testDefault, targeting2);
+        expect(got2).toBe(true);
+
+        // Test 3 - below (or at) max articles viewed
+        const test3: Test = {
+            ...testDefault,
+            articlesViewedSettings: {
+                minViews: 5,
+                maxViews: 20,
+                periodInWeeks: 52,
+            },
+        };
+        const history3 = [{ week: 18330, count: 20 }];
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history3,
+        };
+
+        const filter3 = withinArticleViewedSettings(history3);
+
+        const got3 = filter3.test(test3, targeting3);
+        expect(got3).toBe(true);
+
+        // Test 4 - above max articles viewed
+        const test4: Test = {
+            ...testDefault,
+            articlesViewedSettings: {
+                minViews: 5,
+                maxViews: 20,
+                periodInWeeks: 52,
+            },
+        };
+        const history4 = [{ week: 18330, count: 21 }];
+        const targeting4: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history4,
+        };
+
+        const filter4 = withinArticleViewedSettings(history4);
+
+        const got4 = filter4.test(test4, targeting4);
+        expect(got4).toBe(false);
+
+        // Test 5 - no article viewed settings
+        const test5: Test = {
+            ...testDefault,
+            articlesViewedSettings: undefined,
+        };
+        const history5 = [{ week: 18330, count: 2500 }];
+        const targeting5: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history5,
+        };
+
+        const filter5 = withinArticleViewedSettings(history5);
+
+        const got5 = filter5.test(test5, targeting5);
+        expect(got5).toBe(true);
     });
 
     it('should filter by max views', () => {
