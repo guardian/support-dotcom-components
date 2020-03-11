@@ -16,6 +16,14 @@ $ yarn test
 $ yarn test path/to/specific/test.ts
 ```
 
+### Run Storybook
+
+We use Storybook for developing React components.
+
+```
+yarn storybook
+```
+
 ## Update JSON Schema
 
 Update JSON schema based on TypeScript definitions:
