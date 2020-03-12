@@ -77,7 +77,7 @@ const buildEpic = async (
 
     // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
-        // console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
+        console.log(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
         return null;
     }
 
@@ -86,6 +86,8 @@ const buildEpic = async (
             <ContributionsEpic content={content} tracking={tracking} localisation={localisation} />,
         ),
     );
+
+    console.log(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
     return { html, css };
 };
 
