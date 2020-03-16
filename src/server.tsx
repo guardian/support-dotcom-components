@@ -21,6 +21,7 @@ import { Validator } from 'jsonschema';
 import * as fs from 'fs';
 import * as path from 'path';
 import { findVariant } from './lib/variants';
+import { getArticleViewCountForWeeks } from './lib/history';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -76,9 +77,22 @@ const buildEpic = async (
         console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
     }
 
+    // Hardcoding the number of weeks to match common values used in the tests.
+    // We know the copy refers to 'articles viewed in past 4 months' and this
+    // will show a count for the past year, but this seems to mirror Frontend
+    // and an accurate match between the view counts used for variant selection
+    // and template rendering is not necessarily essential.
+    const periodInWeeks = 52;
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
+
     const { html, css } = extractCritical(
         renderToStaticMarkup(
-            <ContributionsEpic variant={variant} tracking={tracking} localisation={localisation} />,
+            <ContributionsEpic
+                variant={variant}
+                tracking={tracking}
+                localisation={localisation}
+                numArticles={numArticles}
+            />,
         ),
     );
     return { html, css };
