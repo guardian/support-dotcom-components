@@ -11,8 +11,9 @@ export const getMondayFromDate = (date: Date): number => {
 export const getArticleViewCountForWeeks = (
     history: WeeklyArticleHistory = [],
     weeks: number,
+    rightNow: Date = new Date(),
 ): number => {
-    const mondayThisWeek = getMondayFromDate(new Date());
+    const mondayThisWeek = getMondayFromDate(rightNow);
     const cutOffWeek = mondayThisWeek - weeks * 7;
 
     // Filter only weeks within cutoff period

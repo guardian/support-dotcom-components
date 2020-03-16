@@ -21,10 +21,14 @@ describe('getMondayFromDate', () => {
 });
 
 describe('getArticleViewCountForWeeks', () => {
+    // Pass the current date into the tested function so the checks can be made
+    // against a fixed date.
+    const rightNow = new Date('2020-03-16T09:30:00');
+
     it('should count views for one week properly', () => {
         const history = [{ week: 18330, count: 45 }];
         const numWeeks = 1;
-        const got = getArticleViewCountForWeeks(history, numWeeks);
+        const got = getArticleViewCountForWeeks(history, numWeeks, rightNow);
         expect(got).toBe(45);
     });
 
@@ -35,7 +39,7 @@ describe('getArticleViewCountForWeeks', () => {
             { week: 18316, count: 5 },
         ];
         const numWeeks = 3;
-        const got = getArticleViewCountForWeeks(history, numWeeks);
+        const got = getArticleViewCountForWeeks(history, numWeeks, rightNow);
         expect(got).toBe(25);
     });
 
@@ -47,7 +51,7 @@ describe('getArticleViewCountForWeeks', () => {
             { week: 18309, count: 5 }, // not be be included as we only want 3 weeks
         ];
         const numWeeks = 3;
-        const got = getArticleViewCountForWeeks(history, numWeeks);
+        const got = getArticleViewCountForWeeks(history, numWeeks, rightNow);
         expect(got).toBe(25);
     });
 });
