@@ -5,7 +5,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
-import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
+import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import { ContributionsEpic } from './components/ContributionsEpic';
 import {
@@ -14,7 +14,6 @@ import {
     EpicTargeting,
     EpicPayload,
 } from './components/ContributionsEpicTypes';
-import { shouldNotRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 import { Validator } from 'jsonschema';
@@ -58,10 +57,11 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
 interface Epic {
     html: string;
     css: string;
+    testName: string;
+    variantName: string;
 }
 
-const fiveMinutes = 60 * 5;
-const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
+const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
@@ -69,13 +69,15 @@ const buildEpic = async (
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
-    const variant = await fetchDefaultEpicContentCached();
+    const tests = await fetchConfiguredEpicTestsCached();
+    const result = findVariant(tests, targeting);
 
-    // Only log for now - as Frontend does this and we may have bugs
-    // We'll need to do more than log when we start our DCR test though
-    if (shouldNotRenderEpic(targeting)) {
+    if (!result) {
         console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
+        return null;
     }
+
+    const { test, variant } = result;
 
     // Hardcoding the number of weeks to match common values used in the tests.
     // We know the copy refers to 'articles viewed in past 4 months' and this
@@ -95,7 +97,8 @@ const buildEpic = async (
             />,
         ),
     );
-    return { html, css };
+
+    return { html, css, testName: test.name, variantName: variant.name };
 };
 
 class ValidationError extends Error {}
@@ -148,8 +151,6 @@ app.post(
         }
     },
 );
-
-const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
 app.post(
     '/epic/compare-variant-decision',
