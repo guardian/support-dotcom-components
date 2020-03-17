@@ -1,16 +1,19 @@
-export type EpicLocalisation = {
-    countryCode?: string;
-};
-
-export type EpicTracking = {
+export type EpicPageTracking = {
     ophanPageId: string;
     ophanComponentId: string;
     platformId: string;
-    campaignCode: string;
+    referrerUrl: string;
+    clientName: string;
+};
+
+export type EpicTestTracking = {
     abTestName: string;
     abTestVariant: string;
-    referrerUrl: string;
+    campaignCode: string;
+    campaignId: string;
 };
+
+export type EpicTracking = EpicPageTracking & EpicTestTracking;
 
 export type Tag = {
     id: string;
@@ -61,7 +64,6 @@ export type EpicTargeting = {
 };
 
 export type EpicPayload = {
-    tracking: EpicTracking;
-    localisation: EpicLocalisation;
+    tracking: EpicPageTracking;
     targeting: EpicTargeting;
 };

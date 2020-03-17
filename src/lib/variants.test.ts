@@ -1,5 +1,5 @@
 import {
-    findVariant,
+    findTestAndVariant,
     getUserCohorts,
     Test,
     hasCountryCode,
@@ -138,7 +138,7 @@ describe('find variant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting);
 
         expect(got?.test.name).toBe('example-1');
         expect(got?.variant.name).toBe('control-example-1');
@@ -148,7 +148,7 @@ describe('find variant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = { tests: [test] };
         const targeting = { ...targetingDefault, sectionName: 'news' };
-        const got = findVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting);
 
         expect(got).toBe(undefined);
     });

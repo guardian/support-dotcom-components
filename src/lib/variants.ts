@@ -234,12 +234,15 @@ export const shouldNotRender: Filter = {
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
 };
 
-interface Result {
+export interface Result {
     test: Test;
     variant: Variant;
 }
 
-export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result | undefined => {
+export const findTestAndVariant = (
+    data: EpicTests,
+    targeting: EpicTargeting,
+): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 

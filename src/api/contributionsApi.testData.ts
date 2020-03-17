@@ -34,7 +34,7 @@ export const configuredTests: EpicTests = {
                 maxViewsDays: 30,
                 minDaysBetweenViews: 0,
             },
-            userCohort: 'AllNonSupporters',
+            userCohort: 'Everyone',
             isLiveBlog: false,
             hasCountryName: false,
             variants: [
