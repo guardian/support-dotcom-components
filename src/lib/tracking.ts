@@ -1,4 +1,5 @@
 import { EpicTracking } from '../components/ContributionsEpicTypes';
+import { Test, Variant } from '../lib/variants';
 
 type LinkParams = {
     REFPVID: string;
@@ -32,3 +33,8 @@ export const getTrackingUrl = (baseUrl: string, params: EpicTracking): string =>
 
     return `${baseUrl}?${queryString.join('&')}`;
 };
+
+const campaignPrefix = 'gdnwb_copts_memco';
+
+export const buildCampaignCode = (test: Test, variant: Variant): string =>
+    `${campaignPrefix}_${test.name}_${variant.name}`;
