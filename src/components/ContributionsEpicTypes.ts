@@ -23,6 +23,13 @@ interface View {
 }
 export type ViewLog = View[];
 
+export type WeeklyArticleLog = {
+    week: number;
+    count: number;
+};
+
+export type WeeklyArticleHistory = WeeklyArticleLog[];
+
 export type EpicTargeting = {
     contentType: string;
     sectionName: string;
@@ -36,6 +43,7 @@ export type EpicTargeting = {
     mvtId?: number;
     epicViewLog?: ViewLog;
     countryCode?: string;
+    weeklyArticleHistory?: WeeklyArticleHistory;
 
     // Note, it turns out that showSupportMessaging (defined in the Members Data
     // API) does not capture every case of recurring contributors or last
