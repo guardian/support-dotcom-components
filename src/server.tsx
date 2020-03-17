@@ -62,6 +62,12 @@ interface Epic {
 const fiveMinutes = 60 * 5;
 const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
 
+const logTargeting = (message: string): void => {
+    if (process.env.LOG_TARGETING === 'true') {
+        console.log(message);
+    }
+};
+
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
     tracking: EpicTracking,
@@ -77,9 +83,7 @@ const buildEpic = async (
 
     // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
-        if (process.env.LOG_TARGETING === 'true') {
-            console.log(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
-        }
+        logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
         return null;
     }
 
@@ -89,9 +93,7 @@ const buildEpic = async (
         ),
     );
 
-    if (process.env.LOG_TARGETING === 'true') {
-        console.log(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
-    }
+    logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
     return { html, css };
 };
 
