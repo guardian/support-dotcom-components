@@ -29,30 +29,18 @@ const localisation: EpicLocalisation = {
 
 const targeting: EpicTargeting = {
     contentType: 'Article',
-    sectionName: 'culture',
+    sectionName: 'environment',
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
     tags: [
         {
-            id: 'culture/david-schwimmer',
+            id: 'environment/drought',
             type: 'Keyword',
         },
         {
-            id: 'tv-and-radio/friends',
+            id: 'environment/climate-change',
             type: 'Keyword',
-        },
-        {
-            id: 'tone/interview',
-            type: 'Tone',
-        },
-        {
-            id: 'publication/theguardian',
-            type: 'Publication',
-        },
-        {
-            id: 'profile/davidsmith',
-            type: 'Contributor',
         },
     ],
     showSupportMessaging: true,
