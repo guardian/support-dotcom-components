@@ -1,6 +1,7 @@
 import { EpicTargeting, ViewLog, WeeklyArticleHistory } from '../components/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
+import { countryCodeToCountryGroupId } from '../lib/geolocation';
 
 interface ArticlesViewedSettings {
     minViews: number;
@@ -140,6 +141,25 @@ export const hasCountryCode: Filter = {
     test: (test, targeting) => (test.hasCountryName ? !!targeting.countryCode : true),
 };
 
+export const matchesCountryGroups: Filter = {
+    id: 'matchesCountryGroups',
+    test: (test, targeting): boolean => {
+        // Always YAY if no locations set for the test
+        if (!test.locations || test.locations.length === 0) {
+            return true;
+        }
+
+        // YAY or NAY depending on user being in one of the test countryGroups
+        if (targeting.countryCode) {
+            const userCountryGroup = countryCodeToCountryGroupId(targeting.countryCode);
+            return test.locations.includes(userCountryGroup);
+        }
+
+        // Always NAY if user location unknown but test has locations set
+        return false;
+    },
+};
+
 export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
     test: (test, _) => {
@@ -195,6 +215,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         excludeSection,
         excludeTags,
         hasCountryCode,
+        matchesCountryGroups,
         withinMaxViews(targeting.epicViewLog || []),
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,

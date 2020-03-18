@@ -2,6 +2,7 @@ import {
     findVariant,
     Test,
     hasCountryCode,
+    matchesCountryGroups,
     hasSection,
     hasTags,
     excludeSection,
@@ -167,6 +168,44 @@ describe('variant filters', () => {
         const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
         const got2 = excludeTags.test(test2, targeting2);
         expect(got2).toBe(false);
+    });
+
+    it('should filter by user location', () => {
+        // Test 1 - should return true if no location set in the test
+        const got1 = matchesCountryGroups.test(testDefault, targetingDefault);
+        expect(got1).toBe(true);
+
+        // Test 2 - should return false is location is set but user location unknown
+        const test2: Test = {
+            ...testDefault,
+            locations: ['GBPCountries'],
+        };
+        const got2 = matchesCountryGroups.test(test2, targetingDefault);
+        expect(got2).toBe(false);
+
+        // Test 3 - should return true if user IS in the country group
+        const test3: Test = {
+            ...testDefault,
+            locations: ['EURCountries'],
+        };
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'PT',
+        };
+        const got3 = matchesCountryGroups.test(test3, targeting3);
+        expect(got3).toBe(true);
+
+        // Test 4 - should return false if user is NOT in the country group
+        const test4: Test = {
+            ...testDefault,
+            locations: ['EURCountries'],
+        };
+        const targeting4: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'GB',
+        };
+        const got4 = matchesCountryGroups.test(test4, targeting4);
+        expect(got4).toBe(false);
     });
 
     it('should filter by articles viewed settings', () => {
