@@ -1,5 +1,6 @@
-import { EpicTargeting, ViewLog } from '../components/ContributionsEpicTypes';
+import { EpicTargeting, ViewLog, WeeklyArticleHistory } from '../components/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
+import { getArticleViewCountForWeeks } from '../lib/history';
 
 interface ArticlesViewedSettings {
     minViews: number;
@@ -18,7 +19,7 @@ interface Cta {
     baseUrl: string;
 }
 
-interface Variant {
+export interface Variant {
     name: string;
     heading?: string;
     paragraphs: string[];
@@ -152,6 +153,24 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
     },
 });
 
+export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filter => ({
+    id: 'withinArticleViewedSettings',
+    test: (test, _): boolean => {
+        // Allow test to pass if no articles viewed settings have been set
+        if (!test.articlesViewedSettings || !test.articlesViewedSettings.periodInWeeks) {
+            return true;
+        }
+
+        const { minViews, maxViews, periodInWeeks } = test.articlesViewedSettings;
+
+        const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks);
+        const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
+        const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
+
+        return minViewsOk && maxViewsOk;
+    },
+});
+
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -162,11 +181,7 @@ interface Result {
     variant: Variant;
 }
 
-export const findVariant = (
-    data: EpicTests,
-    targeting: EpicTargeting,
-    log?: ViewLog,
-): Result | undefined => {
+export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 
@@ -180,7 +195,8 @@ export const findVariant = (
         excludeSection,
         excludeTags,
         hasCountryCode,
-        withinMaxViews(log || []),
+        withinMaxViews(targeting.epicViewLog || []),
+        withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
     ];
 

@@ -3,6 +3,8 @@ import { ContributionsEpic } from './ContributionsEpic';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 import testData from './ContributionsEpic.testData';
+import { Variant } from '../lib/variants';
+import { getArticleViewCountForWeeks } from '../lib/history';
 
 export default {
     component: ContributionsEpic,
@@ -12,10 +14,12 @@ export default {
 
 export const defaultStory = (): ReactElement => {
     // Epic content props
-    const epicContent = {
+    const variant: Variant = {
+        name: 'Test Epic',
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlighted: object('highlighted', testData.content.highlighted),
+        highlightedText: text('highlightedText', testData.content.highlightedText),
+        showTicker: false,
     };
 
     // Epic metadata props
@@ -34,12 +38,21 @@ export const defaultStory = (): ReactElement => {
         countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
     };
 
+    // Number of articles viewed
+    // Used to replace the template placeholder
+    const periodInWeeks = 52;
+    const numArticles = getArticleViewCountForWeeks(
+        testData.targeting.weeklyArticleHistory,
+        periodInWeeks,
+    );
+
     return (
         <StorybookWrapper>
             <ContributionsEpic
-                content={epicContent}
+                variant={variant}
                 tracking={epicTracking}
                 localisation={epicLocalisation}
+                numArticles={numArticles}
             />
         </StorybookWrapper>
     );

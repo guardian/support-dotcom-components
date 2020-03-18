@@ -7,7 +7,7 @@ import { space } from '@guardian/src-foundations';
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
 const linkStyles = css`
-    background: ${palette.brandAlt[400]};
+    background: ${palette.brandAlt.main};
     border-radius: 21px;
     box-sizing: border-box;
     color: ${palette.neutral[7]} !important;
@@ -20,7 +20,7 @@ const linkStyles = css`
     transition: background-color 0.3s ease-in-out;
 
     :hover {
-        background: ${palette.brandAlt[200]};
+        background: ${palette.brandAlt.dark};
         text-decoration: none;
     }
 

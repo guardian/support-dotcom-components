@@ -7,11 +7,20 @@ import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
+import { Variant } from '../lib/variants';
 
-const replacePlaceholders = (content: string, countryCode?: string): string => {
+const replacePlaceholders = (
+    content: string,
+    numArticles: number,
+    countryCode?: string,
+): string => {
     // Replace currency symbol placeholder with actual currency symbol
     // Function uses default currency symbol so countryCode is not strictly required here
     content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
+
+    // Replace number of viewed articles
+    // Value could be zero but we'll replace anyway
+    content = content.replace(/%%ARTICLE_COUNT%%/g, numArticles.toString());
 
     // Replace country code placeholder with actual country name
     // Should only replace if we were able to determine the country name from country code
@@ -72,68 +81,74 @@ const imageStyles = css`
     margin: ${space[1]}px 0;
 `;
 
-export type EpicContent = {
-    heading?: string;
-    paragraphs: string[];
-    highlighted: string[];
-    countryCode?: string;
-};
-
 export type Props = {
-    content: EpicContent;
+    variant: Variant;
     tracking: EpicTracking;
     localisation: EpicLocalisation;
+    numArticles: number;
 };
 
 type HighlightedProps = {
-    highlighted: string[];
+    highlightedText: string;
     countryCode?: string;
+    numArticles: number;
 };
 
 type BodyProps = {
-    paragraphs: string[];
-    highlighted: string[];
+    variant: Variant;
     countryCode?: string;
+    numArticles: number;
 };
 
 const Highlighted: React.FC<HighlightedProps> = ({
-    highlighted,
+    highlightedText,
     countryCode,
+    numArticles,
 }: HighlightedProps) => (
     <strong className={highlightWrapperStyles}>
         {' '}
-        {highlighted.map((highlightText, idx) => (
-            <span
-                key={idx}
-                className={highlightStyles}
-                dangerouslySetInnerHTML={{
-                    __html: replacePlaceholders(highlightText, countryCode),
-                }}
-            />
-        ))}
+        <span
+            className={highlightStyles}
+            dangerouslySetInnerHTML={{
+                __html: replacePlaceholders(highlightedText, numArticles, countryCode),
+            }}
+        />
     </strong>
 );
 
-const EpicBody: React.FC<BodyProps> = ({ highlighted, paragraphs, countryCode }: BodyProps) => (
-    <>
-        {paragraphs.map((paragraph, idx) => (
-            <p key={idx} className={bodyStyles}>
-                <span
-                    dangerouslySetInnerHTML={{
-                        __html: replacePlaceholders(paragraph, countryCode),
-                    }}
-                />
+const EpicBody: React.FC<BodyProps> = ({ variant, countryCode, numArticles }: BodyProps) => {
+    const { paragraphs, highlightedText } = variant;
 
-                {highlighted.length > 0 && idx === paragraphs.length - 1 && (
-                    <Highlighted highlighted={highlighted} countryCode={countryCode} />
-                )}
-            </p>
-        ))}
-    </>
-);
+    return (
+        <>
+            {paragraphs.map((paragraph, idx) => (
+                <p key={idx} className={bodyStyles}>
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: replacePlaceholders(paragraph, numArticles, countryCode),
+                        }}
+                    />
 
-export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisation }: Props) => {
-    const { heading, paragraphs, highlighted } = content;
+                    {highlightedText && idx === paragraphs.length - 1 && (
+                        <Highlighted
+                            highlightedText={highlightedText}
+                            countryCode={countryCode}
+                            numArticles={numArticles}
+                        />
+                    )}
+                </p>
+            ))}
+        </>
+    );
+};
+
+export const ContributionsEpic: React.FC<Props> = ({
+    variant,
+    tracking,
+    localisation,
+    numArticles,
+}: Props) => {
+    const { heading } = variant;
     const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
@@ -145,11 +160,13 @@ export const ContributionsEpic: React.FC<Props> = ({ content, tracking, localisa
             {heading && (
                 <h2
                     className={headingStyles}
-                    dangerouslySetInnerHTML={{ __html: replacePlaceholders(heading, countryCode) }}
+                    dangerouslySetInnerHTML={{
+                        __html: replacePlaceholders(heading, numArticles, countryCode),
+                    }}
                 />
             )}
 
-            <EpicBody paragraphs={paragraphs} highlighted={highlighted} countryCode={countryCode} />
+            <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
             <div className={buttonWrapperStyles}>
                 <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />

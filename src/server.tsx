@@ -21,6 +21,7 @@ import { Validator } from 'jsonschema';
 import * as fs from 'fs';
 import * as path from 'path';
 import { findVariant } from './lib/variants';
+import { getArticleViewCountForWeeks } from './lib/history';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -74,12 +75,7 @@ const buildEpic = async (
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
-    const { heading, paragraphs, highlighted } = await fetchDefaultEpicContentCached();
-    const content = {
-        heading,
-        paragraphs,
-        highlighted,
-    };
+    const variant = await fetchDefaultEpicContentCached();
 
     // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
@@ -87,9 +83,22 @@ const buildEpic = async (
         return null;
     }
 
+    // Hardcoding the number of weeks to match common values used in the tests.
+    // We know the copy refers to 'articles viewed in past 4 months' and this
+    // will show a count for the past year, but this seems to mirror Frontend
+    // and an accurate match between the view counts used for variant selection
+    // and template rendering is not necessarily essential.
+    const periodInWeeks = 52;
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
+
     const { html, css } = extractCritical(
         renderToStaticMarkup(
-            <ContributionsEpic content={content} tracking={tracking} localisation={localisation} />,
+            <ContributionsEpic
+                variant={variant}
+                tracking={tracking}
+                localisation={localisation}
+                numArticles={numArticles}
+            />,
         ),
     );
 
@@ -167,7 +176,7 @@ app.post(
         }
 
         const tests = await fetchConfiguredEpicTestsCached();
-        const got = findVariant(tests, targeting, targeting.epicViewLog);
+        const got = findVariant(tests, targeting);
 
         const notBothFalsy = expectedTest || got;
         const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;

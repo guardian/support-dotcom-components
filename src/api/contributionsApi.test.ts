@@ -41,9 +41,11 @@ describe('fetchDefaultEpic', () => {
         const epicData = await fetchData();
 
         expect(epicData).toEqual({
+            name: 'remote_epic_test',
+            showTicker: false,
             heading: 'Since you’re here...',
             paragraphs: ['First paragraph', 'Second paragraph'],
-            highlighted: ['Highlighted Text'],
+            highlightedText: 'Highlighted Text',
         });
     });
 
