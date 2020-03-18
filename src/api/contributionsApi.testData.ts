@@ -18,7 +18,6 @@ export const configuredTests: EpicTests = {
                 'environment/climate-change',
                 'science/scienceofclimatechange',
                 'environment/renewableenergy',
-                'environment/renewableenergy',
                 'environment/series/our-wide-brown-land',
                 'environment/extinction-rebellion',
                 'us-news/series/toxic-america',
