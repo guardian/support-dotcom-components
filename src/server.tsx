@@ -9,6 +9,8 @@ import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import { ContributionsEpic } from './components/ContributionsEpic';
 import {
+    EpicPageTracking,
+    EpicTestTracking,
     EpicTracking,
     EpicLocalisation,
     EpicTargeting,
@@ -65,7 +67,7 @@ const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
-    tracking: EpicTracking,
+    pageTracking: EpicPageTracking,
     localisation: EpicLocalisation,
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
@@ -78,6 +80,17 @@ const buildEpic = async (
     }
 
     const { test, variant } = result;
+
+    const testTracking: EpicTestTracking = {
+        abTestName: test.name,
+        abTestVariant: variant.name,
+        campaignCode: 'FIXME', // Need to derive this from the test name
+    };
+
+    const tracking: EpicTracking = {
+        ...pageTracking,
+        ...testTracking,
+    };
 
     // Hardcoding the number of weeks to match common values used in the tests.
     // We know the copy refers to 'articles viewed in past 4 months' and this
@@ -119,12 +132,8 @@ app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (process.env.NODE_ENV !== 'production') {
-                validatePayload(testData);
-            }
-
-            const { tracking, localisation, targeting } = testData;
-            const epic = await buildEpic(tracking, localisation, targeting);
+            const { pageTracking, localisation, targeting } = testData;
+            const epic = await buildEpic(pageTracking, localisation, targeting);
             const { html, css } = epic ?? { html: '', css: '' };
             const htmlContent = renderHtmlDocument({ html, css });
             res.send(htmlContent);

@@ -1,4 +1,10 @@
-import { EpicTracking, EpicLocalisation, EpicTargeting } from './ContributionsEpicTypes';
+import {
+    EpicTestTracking,
+    EpicPageTracking,
+    EpicTracking,
+    EpicLocalisation,
+    EpicTargeting,
+} from './ContributionsEpicTypes';
 
 const content = {
     heading: 'Since you’re here...',
@@ -12,15 +18,23 @@ const content = {
         'Support The Guardian from as little as %%CURRENCY_SYMBOL%%1 - and it only takes a minute. Thank you.',
 };
 
-const tracking: EpicTracking = {
+const pageTracking: EpicPageTracking = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
     ophanComponentId: 'ACQUISITIONS_EPIC',
     platformId: 'GUARDIAN_WEB',
+    referrerUrl:
+        'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
+};
+
+const testTracking: EpicTestTracking = {
     campaignCode: 'gdnwb_copts_memco_remote_epic_test_api',
     abTestName: 'remote_epic_test',
     abTestVariant: 'api',
-    referrerUrl:
-        'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
+};
+
+const tracking: EpicTracking = {
+    ...pageTracking,
+    ...testTracking,
 };
 
 const localisation: EpicLocalisation = {
@@ -53,6 +67,6 @@ const targeting: EpicTargeting = {
     ],
 };
 
-const testData = { content, tracking, localisation, targeting };
+const testData = { content, tracking, testTracking, pageTracking, localisation, targeting };
 
 export default testData;

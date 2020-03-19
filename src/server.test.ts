@@ -13,12 +13,12 @@ jest.mock('./api/contributionsApi', () => {
 
 describe('POST /epic', () => {
     it('should return an epic when targeting is positive', async () => {
-        const { tracking, localisation, targeting } = testData;
+        const { pageTracking, localisation, targeting } = testData;
 
         const res = await request(app)
             .post('/epic')
             .send({
-                tracking,
+                tracking: pageTracking,
                 localisation,
                 targeting,
             });

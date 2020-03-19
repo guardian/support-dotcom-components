@@ -13,23 +13,11 @@
                 "platformId": {
                     "type": "string"
                 },
-                "campaignCode": {
-                    "type": "string"
-                },
-                "abTestName": {
-                    "type": "string"
-                },
-                "abTestVariant": {
-                    "type": "string"
-                },
                 "referrerUrl": {
                     "type": "string"
                 }
             },
             "required": [
-                "abTestName",
-                "abTestVariant",
-                "campaignCode",
                 "ophanComponentId",
                 "ophanPageId",
                 "platformId",
