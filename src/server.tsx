@@ -63,6 +63,12 @@ interface Epic {
 const fiveMinutes = 60 * 5;
 const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
 
+const logTargeting = (message: string): void => {
+    if (process.env.LOG_TARGETING === 'true') {
+        console.log(message);
+    }
+};
+
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
     tracking: EpicTracking,
@@ -71,10 +77,10 @@ const buildEpic = async (
 ): Promise<Epic | null> => {
     const variant = await fetchDefaultEpicContentCached();
 
-    // Only log for now - as Frontend does this and we may have bugs
-    // We'll need to do more than log when we start our DCR test though
+    // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
-        console.log(`Should not render for targeting data: ${JSON.stringify(targeting)}`);
+        logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
+        return null;
     }
 
     // Hardcoding the number of weeks to match common values used in the tests.
@@ -95,6 +101,8 @@ const buildEpic = async (
             />,
         ),
     );
+
+    logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
     return { html, css };
 };
 
