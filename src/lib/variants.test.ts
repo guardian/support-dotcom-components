@@ -100,10 +100,23 @@ describe('find variant', () => {
 
 describe('variant filters', () => {
     it('should filter by has country code', () => {
-        const test: Test = { ...testDefault, hasCountryName: true };
-        const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
-        const got = hasCountryCode.test(test, targeting2);
-        expect(got).toBe(true);
+        // Test 1 - country name is invalid/unknown
+        const test1: Test = { ...testDefault, hasCountryName: true };
+        const targeting1: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
+        const got1 = hasCountryCode.test(test1, targeting1);
+        expect(got1).toBe(false);
+
+        // Test 2 - country name is valid
+        const test2: Test = { ...testDefault, hasCountryName: true };
+        const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'GB' };
+        const got2 = hasCountryCode.test(test2, targeting2);
+        expect(got2).toBe(true);
+
+        // Test 3 - country name irrelevant if test doesnt need it
+        const test3: Test = { ...testDefault, hasCountryName: false };
+        const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
+        const got3 = hasCountryCode.test(test3, targeting3);
+        expect(got3).toBe(true);
     });
 
     it('should filter by required sections', () => {
@@ -172,7 +185,11 @@ describe('variant filters', () => {
 
     it('should filter by user location', () => {
         // Test 1 - should return true if no location set in the test
-        const got1 = matchesCountryGroups.test(testDefault, targetingDefault);
+        const test1 = {
+            ...testDefault,
+            locations: [],
+        };
+        const got1 = matchesCountryGroups.test(test1, targetingDefault);
         expect(got1).toBe(true);
 
         // Test 2 - should return false is location is set but user location unknown
@@ -180,7 +197,11 @@ describe('variant filters', () => {
             ...testDefault,
             locations: ['GBPCountries'],
         };
-        const got2 = matchesCountryGroups.test(test2, targetingDefault);
+        const targeting2 = {
+            ...targetingDefault,
+            countryCode: undefined,
+        };
+        const got2 = matchesCountryGroups.test(test2, targeting2);
         expect(got2).toBe(false);
 
         // Test 3 - should return true if user IS in the country group
