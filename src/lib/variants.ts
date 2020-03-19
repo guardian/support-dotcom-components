@@ -144,18 +144,18 @@ export const hasCountryCode: Filter = {
 export const matchesCountryGroups: Filter = {
     id: 'matchesCountryGroups',
     test: (test, targeting): boolean => {
-        // Always YAY if no locations set for the test
+        // Always True if no locations set for the test
         if (!test.locations || test.locations.length === 0) {
             return true;
         }
 
-        // YAY or NAY depending on user being in one of the test countryGroups
+        // True or False depending on user being in one of the country groups
         if (targeting.countryCode) {
             const userCountryGroup = countryCodeToCountryGroupId(targeting.countryCode);
             return test.locations.includes(userCountryGroup);
         }
 
-        // Always NAY if user location unknown but test has locations set
+        // Always False if user location unknown but test has locations set
         return false;
     },
 };
