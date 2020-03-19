@@ -192,7 +192,7 @@ describe('variant filters', () => {
         const got1 = matchesCountryGroups.test(test1, targetingDefault);
         expect(got1).toBe(true);
 
-        // Test 2 - should return false is location is set but user location unknown
+        // Test 2 - should return false if location is set but user location unknown
         const test2: Test = {
             ...testDefault,
             locations: ['GBPCountries'],
