@@ -74,11 +74,23 @@ const buttonWrapperStyles = css`
     align-items: center;
 `;
 
-const imageStyles = css`
+const paymentImageStyles = css`
     display: inline-block;
     width: auto;
     height: 25px;
     margin: ${space[1]}px 0;
+`;
+
+const imageWrapperStyles = css`
+    margin: 10px -4px 12px;
+    height: 150px;
+    width: calc(100% + 8px);
+`;
+
+const imageStyles = css`
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 `;
 
 export type Props = {
@@ -148,7 +160,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     localisation,
     numArticles,
 }: Props) => {
-    const { heading } = variant;
+    const { heading, backgroundImageUrl } = variant;
     const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
@@ -157,6 +169,16 @@ export const ContributionsEpic: React.FC<Props> = ({
 
     return (
         <section className={wrapperStyles}>
+            {backgroundImageUrl && (
+                <div className={imageWrapperStyles}>
+                    <img
+                        src={backgroundImageUrl}
+                        className={imageStyles}
+                        alt="Image for Guardian contributions message"
+                    />
+                </div>
+            )}
+
             {heading && (
                 <h2
                     className={headingStyles}
@@ -173,7 +195,7 @@ export const ContributionsEpic: React.FC<Props> = ({
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                    className={imageStyles}
+                    className={paymentImageStyles}
                 />
             </div>
         </section>
