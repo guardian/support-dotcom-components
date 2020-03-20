@@ -7,6 +7,7 @@ import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
+import { EpicReminder } from './EpicReminder';
 import { Variant } from '../lib/variants';
 
 const replacePlaceholders = (
@@ -148,7 +149,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     localisation,
     numArticles,
 }: Props) => {
-    const { heading } = variant;
+    const { heading, showReminderFields } = variant;
     const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
@@ -176,6 +177,13 @@ export const ContributionsEpic: React.FC<Props> = ({
                     className={imageStyles}
                 />
             </div>
+
+            {showReminderFields && (
+                <EpicReminder
+                    reminderDate={showReminderFields.reminderDate}
+                    reminderDateAsString={showReminderFields.reminderDateAsString}
+                />
+            )}
         </section>
     );
 };

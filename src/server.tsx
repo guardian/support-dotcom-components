@@ -77,6 +77,12 @@ const buildEpic = async (
 ): Promise<Epic | null> => {
     const variant = await fetchDefaultEpicContentCached();
 
+    // TESTING REMINDERS
+    variant.showReminderFields = {
+        reminderDateAsString: 'May',
+        reminderDate: '2020-05-18T09:30:00',
+    };
+
     // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
         logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
