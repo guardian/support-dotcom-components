@@ -107,6 +107,9 @@ export const previewStyles = `
         max-width: 1300px;
         margin: 0 auto;
     }
+    .preview * {
+        box-sizing: border-box;
+    }
 `;
 
 export const renderHtmlDocument = ({ html, css }: TemplateData): string =>
