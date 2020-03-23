@@ -147,18 +147,11 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
     reminderDate,
     reminderDateAsString,
 }: ReminderFields) => {
+    const unique = new Date().valueOf();
     return (
-        <div id="ContributionsEpicReminder" className={rootStyles}>
-            <input
-                id="contributionsEpicReminderToggle"
-                type="checkbox"
-                className={checkboxStyles}
-            />
-            <label
-                htmlFor="contributionsEpicReminderToggle"
-                className={toggleStyles}
-                data-target="toggle"
-            >
+        <div data-target="contributions-epic-reminder" className={rootStyles}>
+            <input id={`epicSwitch${unique}`} type="checkbox" className={checkboxStyles} />
+            <label htmlFor={`epicSwitch${unique}`} className={toggleStyles} data-target="toggle">
                 <div data-target="open" className={openButtonStyles}>
                     Not a good time? Remind me later
                 </div>
@@ -177,14 +170,9 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                         <h4 className={remindHeading}>Remind me in {reminderDateAsString}</h4>
                         <div className={formWrapper}>
                             <div className={inputWrapper}>
-                                <TextInput
-                                    id="contributionsEpicReminderInput"
-                                    label="Email address"
-                                    data-target="input"
-                                />
+                                <TextInput label="Email address" data-target="input" />
                             </div>
                             <Button
-                                id="contributionsEpicReminderSubmit"
                                 iconSide="right"
                                 icon={<SvgArrowRightStraight />}
                                 data-target="submit"
