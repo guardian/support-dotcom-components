@@ -7,7 +7,7 @@ import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
-import { EpicReminder } from './EpicReminder';
+import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
 
 const replacePlaceholders = (
@@ -179,7 +179,7 @@ export const ContributionsEpic: React.FC<Props> = ({
             </div>
 
             {showReminderFields && (
-                <EpicReminder
+                <ContributionsEpicReminder
                     reminderDate={showReminderFields.reminderDate}
                     reminderDateAsString={showReminderFields.reminderDateAsString}
                 />

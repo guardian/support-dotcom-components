@@ -9,20 +9,40 @@ import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-svgs';
 
 const rootStyles = css`
-    [data-target='thanks'] {
+    [data-target='success'] {
         display: none;
     }
 
-    &.submitted [data-target='thanks'] {
+    [data-target='error'] {
+        display: none;
+    }
+
+    &.success [data-target='success'] {
         display: block;
     }
 
-    &.submitted [data-target='form'] {
+    &.success [data-target='form'] {
         display: none;
     }
 
-    &.submitted [data-target='close'] {
+    &.success [data-target='close'] {
         display: none !important;
+    }
+
+    &.invalid [data-target='input'] {
+        border: 4px solid ${palette.error.main};
+        color: ${palette.error.main};
+    }
+
+    &.submitting [data-target='submit'] {
+        pointer-events: none;
+        color: ${palette.neutral[60]};
+        background-color: ${palette.neutral[93]};
+        border: 1px solid ${palette.neutral[86]};
+    }
+
+    &.error [data-target='error'] {
+        display: block;
     }
 `;
 
@@ -87,7 +107,7 @@ const remindHeading = css`
     margin: 0 25px 10px 0;
 `;
 
-const thanksTextStyles = css`
+const successTextStyles = css`
     margin: 0 auto ${space[2]}px;
     ${body.medium()};
 `;
@@ -116,14 +136,29 @@ const formTextStyles = css`
     margin-top: 5px;
 `;
 
-export const EpicReminder: React.FC<ReminderFields> = ({
+const errorTextStyles = css`
+    ${textSans.small({ fontWeight: 'bold' })};
+    color: ${palette.error.main};
+    font-style: italic;
+    margin-top: 5px;
+`;
+
+export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
     reminderDate,
     reminderDateAsString,
 }: ReminderFields) => {
     return (
-        <div id="epicReminder" className={rootStyles}>
-            <input id="epicReminderToggle" type="checkbox" className={checkboxStyles} />
-            <label htmlFor="epicReminderToggle" className={toggleStyles} data-target="toggle">
+        <div id="ContributionsEpicReminder" className={rootStyles}>
+            <input
+                id="contributionsEpicReminderToggle"
+                type="checkbox"
+                className={checkboxStyles}
+            />
+            <label
+                htmlFor="contributionsEpicReminderToggle"
+                className={toggleStyles}
+                data-target="toggle"
+            >
                 <div data-target="open" className={openButtonStyles}>
                     Not a good time? Remind me later
                 </div>
@@ -142,17 +177,26 @@ export const EpicReminder: React.FC<ReminderFields> = ({
                         <h4 className={remindHeading}>Remind me in {reminderDateAsString}</h4>
                         <div className={formWrapper}>
                             <div className={inputWrapper}>
-                                <TextInput id="epicReminderInput" label="Email address" />
+                                <TextInput
+                                    id="contributionsEpicReminderInput"
+                                    label="Email address"
+                                    data-target="input"
+                                />
                             </div>
                             <Button
-                                id="epicReminderSubmit"
+                                id="contributionsEpicReminderSubmit"
                                 iconSide="right"
                                 icon={<SvgArrowRightStraight />}
+                                data-target="submit"
                                 data-reminder-date={reminderDate}
                             >
                                 Set a reminder
                             </Button>
                         </div>
+                        <p className={errorTextStyles} data-target="error">
+                            We couldn&apos;t set a reminder for you this time. Please try again
+                            later.
+                        </p>
                         <p className={formTextStyles}>
                             We will use this to send you a single email in June. To find out what
                             personal data we collect and how we use it, please visit our{' '}
@@ -167,9 +211,9 @@ export const EpicReminder: React.FC<ReminderFields> = ({
                             .
                         </p>
                     </div>
-                    <div data-target="thanks">
+                    <div data-target="success">
                         <h4 className={remindHeading}>Thank you! Your support is so valuable.</h4>
-                        <p className={thanksTextStyles}>
+                        <p className={successTextStyles}>
                             We will be in touch to invite you to contribute. Look out for a message
                             in your inbox in {reminderDateAsString}. If you have any questions about
                             contributing, please{' '}
