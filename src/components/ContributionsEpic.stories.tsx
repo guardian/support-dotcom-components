@@ -100,3 +100,47 @@ export const backgroundImageStory = (): ReactElement => {
 };
 
 backgroundImageStory.story = { name: 'Epic with an image' };
+
+export const secondaryButtonStory = (): ReactElement => {
+    // Epic content props
+    const variant: Variant = {
+        name: 'Test Epic',
+        heading: text('heading', testData.content.heading),
+        paragraphs: object('paragraphs', testData.content.paragraphs),
+        highlightedText: text('highlightedText', testData.content.highlightedText),
+        showTicker: false,
+        secondaryCta: {
+            text: text('secondaryCta.text', testData.content.secondaryCta.text),
+            baseUrl: text('secondaryCta.baseUrl', testData.content.secondaryCta.baseUrl),
+        },
+    };
+
+    // Epic metadata props
+    const epicTracking = {
+        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
+        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        platformId: text('platformId', testData.tracking.platformId),
+        campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        abTestName: text('abTestName', testData.tracking.abTestName),
+        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
+        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
+    };
+
+    // Epic localisation props
+    const epicLocalisation = {
+        countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
+    };
+
+    return (
+        <StorybookWrapper>
+            <ContributionsEpic
+                variant={variant}
+                tracking={epicTracking}
+                localisation={epicLocalisation}
+                numArticles={numArticles}
+            />
+        </StorybookWrapper>
+    );
+};
+
+secondaryButtonStory.story = { name: 'Epic with Secondary Button' };

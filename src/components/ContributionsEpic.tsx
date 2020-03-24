@@ -8,6 +8,8 @@ import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../lib/variants';
+import { ThemeProvider } from 'emotion-theming';
+import { LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 
 const replacePlaceholders = (
     content: string,
@@ -93,6 +95,16 @@ const imageStyles = css`
     object-fit: cover;
 `;
 
+const buttonMarginStyles = css`
+    margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
+`;
+
+const secondaryButtonOverrides = css`
+    color: ${palette.neutral[60]};
+    background-color: ${palette.neutral[93]};
+    border: 1px solid ${palette.neutral[86]};
+`;
+
 export type Props = {
     variant: Variant;
     tracking: EpicTracking;
@@ -160,7 +172,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     localisation,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl } = variant;
+    const { heading, backgroundImageUrl, secondaryCta } = variant;
     const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
@@ -191,7 +203,33 @@ export const ContributionsEpic: React.FC<Props> = ({
             <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
             <div className={buttonWrapperStyles}>
-                <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
+                {/* <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" /> */}
+                <div className={buttonMarginStyles}>
+                    <ThemeProvider theme={buttonReaderRevenue}>
+                        <LinkButton
+                            href={buttonTrackingUrl}
+                            showIcon
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Support The Guardian
+                        </LinkButton>
+                    </ThemeProvider>
+                </div>
+                {secondaryCta && (
+                    <div className={buttonMarginStyles}>
+                        <ThemeProvider theme={buttonReaderRevenue}>
+                            <LinkButton
+                                href={secondaryCta.baseUrl}
+                                showIcon
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {secondaryCta.text}
+                            </LinkButton>
+                        </ThemeProvider>
+                    </div>
+                )}
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
