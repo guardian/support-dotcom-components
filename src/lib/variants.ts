@@ -72,11 +72,13 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
 export const hasTags: Filter = {
     id: 'hasTags',
     test: (test, targeting) => {
-        if (test.tagIds.length < 1) {
+        const cleanedTags = test.tagIds.filter(tagId => tagId !== '');
+
+        if (cleanedTags.length < 1) {
             return true;
         }
 
-        const intersection = test.tagIds.filter(tagId =>
+        const intersection = cleanedTags.filter(tagId =>
             targeting.tags.map(tag => tag.id).includes(tagId),
         );
 
