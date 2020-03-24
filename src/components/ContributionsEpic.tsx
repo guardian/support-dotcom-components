@@ -9,6 +9,7 @@ import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
+export { ContributionsEpicInit } from './ContributionsEpic.js';
 
 const replacePlaceholders = (
     content: string,

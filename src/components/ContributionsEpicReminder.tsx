@@ -149,7 +149,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
 }: ReminderFields) => {
     const unique = new Date().valueOf();
     return (
-        <div data-target="contributions-epic-reminder" className={rootStyles}>
+        <div data-target={`contributions-epic-reminder`} className={rootStyles}>
             <input id={`epicSwitch${unique}`} type="checkbox" className={checkboxStyles} />
             <label htmlFor={`epicSwitch${unique}`} className={toggleStyles} data-target="toggle">
                 <div data-target="open" className={openButtonStyles}>
@@ -186,8 +186,9 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                             later.
                         </p>
                         <p className={formTextStyles}>
-                            We will use this to send you a single email in June. To find out what
-                            personal data we collect and how we use it, please visit our{' '}
+                            We will use this to send you a single email in {reminderDateAsString}.
+                            To find out what personal data we collect and how we use it, please
+                            visit our{' '}
                             <a
                                 className={linkStyles}
                                 href="https://www.theguardian.com/help/privacy-policy"

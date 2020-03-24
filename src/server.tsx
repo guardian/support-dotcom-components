@@ -7,7 +7,7 @@ import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import { ContributionsEpic } from './components/ContributionsEpic';
+import { ContributionsEpic, ContributionsEpicInit } from './components/ContributionsEpic';
 import {
     EpicTracking,
     EpicLocalisation,
@@ -58,6 +58,7 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
 interface Epic {
     html: string;
     css: string;
+    js: Function | string;
 }
 
 const fiveMinutes = 60 * 5;
@@ -109,7 +110,8 @@ const buildEpic = async (
     );
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
-    return { html, css };
+    const js = ContributionsEpicInit().toString();
+    return { html, css, js };
 };
 
 class ValidationError extends Error {}
