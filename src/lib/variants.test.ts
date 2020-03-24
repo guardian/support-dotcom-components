@@ -2,6 +2,7 @@ import {
     findVariant,
     Test,
     hasCountryCode,
+    matchesCountryGroups,
     hasSection,
     hasTags,
     excludeSection,
@@ -99,10 +100,23 @@ describe('find variant', () => {
 
 describe('variant filters', () => {
     it('should filter by has country code', () => {
-        const test: Test = { ...testDefault, hasCountryName: true };
-        const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
-        const got = hasCountryCode.test(test, targeting2);
-        expect(got).toBe(true);
+        // Test 1 - country name is invalid/unknown
+        const test1: Test = { ...testDefault, hasCountryName: true };
+        const targeting1: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
+        const got1 = hasCountryCode.test(test1, targeting1);
+        expect(got1).toBe(false);
+
+        // Test 2 - country name is valid
+        const test2: Test = { ...testDefault, hasCountryName: true };
+        const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'GB' };
+        const got2 = hasCountryCode.test(test2, targeting2);
+        expect(got2).toBe(true);
+
+        // Test 3 - country name irrelevant if test doesnt need it
+        const test3: Test = { ...testDefault, hasCountryName: false };
+        const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
+        const got3 = hasCountryCode.test(test3, targeting3);
+        expect(got3).toBe(true);
     });
 
     it('should filter by required sections', () => {
@@ -167,6 +181,52 @@ describe('variant filters', () => {
         const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
         const got2 = excludeTags.test(test2, targeting2);
         expect(got2).toBe(false);
+    });
+
+    it('should filter by user location', () => {
+        // Test 1 - should return true if no location set in the test
+        const test1 = {
+            ...testDefault,
+            locations: [],
+        };
+        const got1 = matchesCountryGroups.test(test1, targetingDefault);
+        expect(got1).toBe(true);
+
+        // Test 2 - should return false if location is set but user location unknown
+        const test2: Test = {
+            ...testDefault,
+            locations: ['GBPCountries'],
+        };
+        const targeting2 = {
+            ...targetingDefault,
+            countryCode: undefined,
+        };
+        const got2 = matchesCountryGroups.test(test2, targeting2);
+        expect(got2).toBe(false);
+
+        // Test 3 - should return true if user IS in the country group
+        const test3: Test = {
+            ...testDefault,
+            locations: ['EURCountries'],
+        };
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'PT',
+        };
+        const got3 = matchesCountryGroups.test(test3, targeting3);
+        expect(got3).toBe(true);
+
+        // Test 4 - should return false if user is NOT in the country group
+        const test4: Test = {
+            ...testDefault,
+            locations: ['EURCountries'],
+        };
+        const targeting4: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'GB',
+        };
+        const got4 = matchesCountryGroups.test(test4, targeting4);
+        expect(got4).toBe(false);
     });
 
     it('should filter by articles viewed settings', () => {
