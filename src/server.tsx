@@ -78,12 +78,6 @@ const buildEpic = async (
 ): Promise<Epic | null> => {
     const variant = await fetchDefaultEpicContentCached();
 
-    // TESTING REMINDERS
-    variant.showReminderFields = {
-        reminderDateAsString: 'May',
-        reminderDate: '2020-05-18T09:30:00',
-    };
-
     // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
         logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
@@ -110,7 +104,10 @@ const buildEpic = async (
     );
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
-    const js = ContributionsEpicInit().toString();
+
+    // TODO: determine if we need init code in a more elegant fashion
+    const needsInit = !!variant.showReminderFields;
+    const js = needsInit ? ContributionsEpicInit().toString() : '';
     return { html, css, js };
 };
 

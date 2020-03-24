@@ -2,8 +2,12 @@
 // client-side after the Epic has been injected in the DOM.
 // We expect the platform to tell us which environment config it wishes to use
 // by passing a isProd flag when calling the init function here.
+type SlotConfigType = {
+    isProd?: boolean;
+};
+
 export const ContributionsEpicInit = (): Function => {
-    return (isProd: boolean): void => {
+    return ({ isProd }: SlotConfigType = {}): void => {
         // Endpoint to use depends on isProd flag sent by the platform
         const reminderEndpoint = isProd
             ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
@@ -15,8 +19,6 @@ export const ContributionsEpicInit = (): Function => {
             const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         };
-
-        console.log('::: reminderEndpoint: ', reminderEndpoint);
 
         // Check for existence of an Epic that needs initialising
         const epicReminder = document.querySelector<HTMLElement>(
