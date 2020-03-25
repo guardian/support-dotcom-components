@@ -3,7 +3,6 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
@@ -95,14 +94,29 @@ const imageStyles = css`
     object-fit: cover;
 `;
 
-const buttonMarginStyles = css`
+const buttonMargins = css`
     margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
 `;
 
-const secondaryButtonOverrides = css`
-    color: ${palette.neutral[60]};
-    background-color: ${palette.neutral[93]};
-    border: 1px solid ${palette.neutral[86]};
+// We currently need to override the LinkButton component
+// with custom styles to achieve the design we want for our
+// primary and secondary button styles.
+// The Design System team are tweaking the `buttonReaderRevenue` theme to use
+// the styles we need so that no overrides are needed.
+// Let's check with them when that may be released so we can clean up the
+// overrides and get rid of the code below.
+const primaryButtonStyles = css`
+    color: ${palette.neutral[7]} !important;
+`;
+
+const secondaryButtonStyles = css`
+    color: ${palette.neutral[7]} !important;
+    background: ${palette.neutral[93]} !important;
+    border: 1px solid ${palette.neutral[86]} !important;
+    :hover {
+        background: ${palette.neutral[86]} !important;
+        border: 1px solid ${palette.neutral[86]} !important;
+    }
 `;
 
 export type Props = {
@@ -204,32 +218,32 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             <div className={buttonWrapperStyles}>
                 {/* <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" /> */}
-                <div className={buttonMarginStyles}>
-                    <ThemeProvider theme={buttonReaderRevenue}>
+                <ThemeProvider theme={buttonReaderRevenue}>
+                    <div className={buttonMargins}>
                         <LinkButton
                             href={buttonTrackingUrl}
                             showIcon
                             target="_blank"
                             rel="noopener noreferrer"
+                            className={primaryButtonStyles}
                         >
                             Support The Guardian
                         </LinkButton>
-                    </ThemeProvider>
-                </div>
-                {secondaryCta && (
-                    <div className={buttonMarginStyles}>
-                        <ThemeProvider theme={buttonReaderRevenue}>
+                    </div>
+                    {secondaryCta && (
+                        <div className={buttonMargins}>
                             <LinkButton
                                 href={secondaryCta.baseUrl}
                                 showIcon
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                className={secondaryButtonStyles}
                             >
                                 {secondaryCta.text}
                             </LinkButton>
-                        </ThemeProvider>
-                    </div>
-                )}
+                        </div>
+                    )}
+                </ThemeProvider>
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
