@@ -65,6 +65,7 @@ const targeting: EpicTargeting = {
         { week: 18337, count: 10 },
         { week: 18330, count: 5 },
     ],
+    isSensitive: false,
 };
 
 const testData = { content, tracking, localisation, targeting };
