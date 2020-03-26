@@ -77,7 +77,7 @@
     "ts-jest": "^24.3.0",
     "ts-loader": "^6.2.1",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.7.4",
+    "typescript": "^3.8.3",
     "typescript-json-schema": "^0.42.0"
   }
 }
