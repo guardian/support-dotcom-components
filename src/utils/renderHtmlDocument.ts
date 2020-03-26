@@ -3,6 +3,7 @@ const CDNFontPath = 'https://assets.guim.co.uk/static/frontend';
 interface TemplateData {
     html: string;
     css: string;
+    js: string;
 }
 
 export const fontFaces = `
@@ -112,7 +113,7 @@ export const previewStyles = `
     }
 `;
 
-export const renderHtmlDocument = ({ html, css }: TemplateData): string =>
+export const renderHtmlDocument = ({ html, css, js }: TemplateData): string =>
     `<!DOCTYPE html>
     <html lang="en-GB">
       <head>
@@ -133,6 +134,7 @@ export const renderHtmlDocument = ({ html, css }: TemplateData): string =>
         <div class="preview">
           ${html}
         </div>
+        <script>const init = ${js}; init();</script>
       </body>
     </html>
     `;

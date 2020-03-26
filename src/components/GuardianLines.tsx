@@ -25,3 +25,8 @@ type Props = {
 export const GuardianLines: React.FC<Props> = ({ count = 4 }: Props) => {
     return <div className={lineStyles(count)} />;
 };
+
+export default {
+    name: 'Components/GuardianLines',
+    Component: GuardianLines,
+};

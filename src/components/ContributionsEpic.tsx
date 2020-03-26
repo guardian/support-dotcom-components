@@ -9,7 +9,7 @@ import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
-export { ContributionsEpicInit } from './ContributionsEpic.js';
+import { ContributionsEpicInit } from './ContributionsEpic.js';
 
 const replacePlaceholders = (
     content: string,
@@ -209,4 +209,21 @@ export const ContributionsEpic: React.FC<Props> = ({
             )}
         </section>
     );
+};
+
+export default {
+    name: 'Components/ContributionsEpic',
+    Component: ContributionsEpic,
+    getInitScript: (props: Props): string | undefined => {
+        if (props.variant.showReminderFields) {
+            const contributionsReminderUrl =
+                process.env.NODE_ENV === 'production'
+                    ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
+                    : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
+            const initScript = ContributionsEpicInit.toString();
+            return initScript.replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
+        }
+
+        return undefined;
+    },
 };

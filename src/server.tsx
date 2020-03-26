@@ -7,7 +7,7 @@ import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import { ContributionsEpic, ContributionsEpicInit } from './components/ContributionsEpic';
+import ContributionsEpic from './components/ContributionsEpic';
 import {
     EpicTracking,
     EpicLocalisation,
@@ -61,6 +61,13 @@ interface Epic {
     js: string;
 }
 
+interface ComponentDescriptor {
+    name: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Component: React.FC<any>;
+    getInitScript: Function;
+}
+
 const fiveMinutes = 60 * 5;
 const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
 
@@ -68,6 +75,19 @@ const logTargeting = (message: string): void => {
     if (process.env.LOG_TARGETING === 'true') {
         console.log(message);
     }
+};
+
+// Extract the HTML/CSS/JS? of a component
+const extractComponentData = (componentDescriptor: ComponentDescriptor, props: unknown): Epic => {
+    const { Component, getInitScript } = componentDescriptor;
+    const { html, css } = extractCritical(renderToStaticMarkup(<Component {...props} />));
+    const js = getInitScript ? getInitScript(props) : undefined;
+
+    return {
+        html,
+        css,
+        js,
+    };
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
@@ -98,22 +118,17 @@ const buildEpic = async (
     const periodInWeeks = 52;
     const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
 
-    const { html, css } = extractCritical(
-        renderToStaticMarkup(
-            <ContributionsEpic
-                variant={variant}
-                tracking={tracking}
-                localisation={localisation}
-                numArticles={numArticles}
-            />,
-        ),
-    );
+    const props = {
+        variant,
+        tracking,
+        localisation,
+        numArticles,
+    };
+
+    // Extract HTML/CSS/JS for the component
+    const { html, css, js } = extractComponentData(ContributionsEpic, props);
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
-
-    // TODO: determine if we need init code in a more elegant fashion
-    const needsInit = !!variant.showReminderFields;
-    const js = needsInit ? ContributionsEpicInit().toString() : '';
     return { html, css, js };
 };
 
@@ -141,8 +156,8 @@ app.get(
 
             const { tracking, localisation, targeting } = testData;
             const epic = await buildEpic(tracking, localisation, targeting);
-            const { html, css } = epic ?? { html: '', css: '' };
-            const htmlContent = renderHtmlDocument({ html, css });
+            const { html, css, js } = epic ?? { html: '', css: '', js: '' };
+            const htmlContent = renderHtmlDocument({ html, css, js });
             res.send(htmlContent);
         } catch (error) {
             next(error);
