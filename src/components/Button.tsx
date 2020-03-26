@@ -1,19 +1,8 @@
 import React from 'react';
-import { css } from 'emotion';
-// import { textSans } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
-// import { space } from '@guardian/src-foundations';
-// import { ThemeProvider } from 'emotion-theming';
 import { ThemeProvider } from 'emotion-theming';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-svgs';
-
-type Props = {
-    clickAction: Function | string;
-    children: React.ReactElement | string;
-    priority?: 'primary' | 'secondary';
-    showArrow?: boolean;
-};
 
 const buttonStyles = {
     textPrimary: palette.neutral[7],
@@ -30,17 +19,30 @@ const contributionsTheme = {
     link: buttonStyles,
 };
 
+type Url = string;
+
+type Props = {
+    // Accept a function or a string;
+    // A function will render a <Button>
+    // A string will render a <LinkButton>
+    // Both using the same interface
+    onClickAction: Function | Url;
+    children: React.ReactElement | string;
+    priority?: 'primary' | 'secondary';
+    showArrow?: boolean;
+};
+
 export const Button: React.FC<Props> = ({
-    clickAction,
+    onClickAction,
     children,
     showArrow = false,
     priority = 'primary',
 }: Props) => {
-    if (typeof clickAction === 'string') {
+    if (typeof onClickAction === 'string') {
         return (
             <ThemeProvider theme={contributionsTheme}>
                 <LinkButton
-                    href={clickAction}
+                    href={onClickAction}
                     showIcon={showArrow}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -56,7 +58,7 @@ export const Button: React.FC<Props> = ({
             <DSButton
                 iconSide="right"
                 icon={showArrow ? <SvgArrowRightStraight /> : undefined}
-                onClick={(): void => clickAction()}
+                onClick={(): void => onClickAction()}
                 priority={priority}
             >
                 {children}

@@ -14,7 +14,7 @@ export const defaultStory = (): ReactElement => {
     const showArrow = boolean('showArrow', false);
     return (
         <StorybookWrapper>
-            <Button clickAction={(): void => console.log('Button clicked')} showArrow={showArrow}>
+            <Button onClickAction={(): void => console.log('Button clicked')} showArrow={showArrow}>
                 {buttonText}
             </Button>
         </StorybookWrapper>
@@ -29,7 +29,7 @@ export const primaryButtonStory = (): ReactElement => {
     const showArrow = boolean('showArrow', true);
     return (
         <StorybookWrapper>
-            <Button clickAction={clickAction} showArrow={showArrow}>
+            <Button onClickAction={clickAction} showArrow={showArrow}>
                 {buttonText}
             </Button>
         </StorybookWrapper>
@@ -44,7 +44,7 @@ export const secondaryButtonStory = (): ReactElement => {
     const showArrow = boolean('showArrow', true);
     return (
         <StorybookWrapper>
-            <Button clickAction={clickAction} showArrow={showArrow} priority="secondary">
+            <Button onClickAction={clickAction} showArrow={showArrow} priority="secondary">
                 {buttonText}
             </Button>
         </StorybookWrapper>
