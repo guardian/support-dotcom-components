@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 import { ReminderFields } from '../lib/variants';
 import { GuardianLines } from './GuardianLines';
 import { TextInput } from '@guardian/src-text-input';
@@ -70,7 +71,7 @@ const toggleStyles = css`
     display: block;
     position: relative;
     text-align: right;
-    padding-right: 18px;
+    padding-right: ${space[4]}px;
 `;
 
 const openButtonStyles = css`
@@ -95,16 +96,16 @@ const paneStyles = css`
 `;
 
 const lineWrapperStyles = css`
-    margin: 10px auto;
+    margin: ${space[2]}px auto;
 `;
 
 const containerStyles = css`
-    padding: 0 5px;
+    padding: 0 ${space[1]}px;
 `;
 
 const remindHeading = css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
-    margin: 0 25px 10px 0;
+    margin: 0 ${space[5]}px ${space[2]}px 0;
 `;
 
 const successTextStyles = css`
@@ -119,28 +120,39 @@ const linkStyles = css`
 const formWrapper = css`
     width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: flex-start;
-    flex-grow: 1;
+    flex-direction: column;
+    align-items: flex-start;
+
+    ${from.tablet} {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-start;
+    }
 `;
 
 const inputWrapper = css`
-    width: calc(100% - 200px);
-    margin-right: 10px;
+    width: 100%;
+    margin-bottom: ${space[2]}px;
+    flex-grow: 1;
+
+    ${from.tablet} {
+        width: auto;
+        margin-right: ${space[2]}px;
+        margin-bottom: 0;
+    }
 `;
 
 const formTextStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
     font-style: italic;
-    margin-top: 5px;
+    margin-top: ${space[1]}px;
 `;
 
 const errorTextStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
     color: ${palette.error.main};
     font-style: italic;
-    margin-top: 5px;
+    margin-top: ${space[1]}px;
 `;
 
 export const ContributionsEpicReminder: React.FC<ReminderFields> = ({

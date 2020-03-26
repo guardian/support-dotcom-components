@@ -58,7 +58,7 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
 interface Epic {
     html: string;
     css: string;
-    js: Function | string;
+    js: string;
 }
 
 const fiveMinutes = 60 * 5;
@@ -77,6 +77,12 @@ const buildEpic = async (
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
     const variant = await fetchDefaultEpicContentCached();
+
+    // TESTING ONLY
+    // variant.showReminderFields = {
+    //     reminderDate: '2020-05-18T09:30:00',
+    //     reminderDateAsString: 'May',
+    // };
 
     // Don't render the Epic if our targeting checks fail
     if (shouldNotRenderEpic(targeting)) {
