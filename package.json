@@ -32,6 +32,7 @@
     "cors": "^2.8.5",
     "emotion": "^10.0.27",
     "emotion-server": "^10.0.27",
+    "emotion-theming": "^10.0.27",
     "express": "^4.17.1",
     "jsonschema": "^1.2.5",
     "node-cache": "^5.1.0",
@@ -80,7 +81,7 @@
     "ts-jest": "^24.3.0",
     "ts-loader": "^6.2.1",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.7.4",
+    "typescript": "^3.8.3",
     "typescript-json-schema": "^0.42.0"
   }
 }

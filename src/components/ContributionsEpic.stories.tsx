@@ -58,7 +58,7 @@ export const defaultStory = (): ReactElement => {
     );
 };
 
-defaultStory.story = { name: 'Default epic' };
+defaultStory.story = { name: 'Default Epic' };
 
 export const backgroundImageStory = (): ReactElement => {
     // Epic content props
@@ -101,7 +101,51 @@ export const backgroundImageStory = (): ReactElement => {
 
 backgroundImageStory.story = { name: 'Epic with Image' };
 
-export const reminderStory = (): ReactElement => {
+export const secondaryButtonStory = (): ReactElement => {
+    // Epic content props
+    const variant: Variant = {
+        name: 'Test Epic',
+        heading: text('heading', testData.content.heading),
+        paragraphs: object('paragraphs', testData.content.paragraphs),
+        highlightedText: text('highlightedText', testData.content.highlightedText),
+        showTicker: false,
+        secondaryCta: {
+            text: text('secondaryCta.text', testData.content.secondaryCta.text),
+            baseUrl: text('secondaryCta.baseUrl', testData.content.secondaryCta.baseUrl),
+        },
+    };
+
+    // Epic metadata props
+    const epicTracking = {
+        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
+        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        platformId: text('platformId', testData.tracking.platformId),
+        campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        abTestName: text('abTestName', testData.tracking.abTestName),
+        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
+        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
+    };
+
+    // Epic localisation props
+    const epicLocalisation = {
+        countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
+    };
+
+    return (
+        <StorybookWrapper>
+            <ContributionsEpic
+                variant={variant}
+                tracking={epicTracking}
+                localisation={epicLocalisation}
+                numArticles={numArticles}
+            />
+        </StorybookWrapper>
+    );
+};
+
+secondaryButtonStory.story = { name: 'Epic with Secondary Button' };
+
+export const epicReminderStory = (): ReactElement => {
     // Epic content props
     const variant: Variant = {
         name: 'Test Epic',
@@ -146,4 +190,4 @@ export const reminderStory = (): ReactElement => {
     );
 };
 
-reminderStory.story = { name: 'Epic with Reminder' };
+epicReminderStory.story = { name: 'Epic with Reminder' };

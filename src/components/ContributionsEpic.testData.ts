@@ -16,6 +16,11 @@ const content = {
         reminderDate: '2020-05-18T09:30:00',
         reminderDateAsString: 'May',
     },
+    secondaryCta: {
+        text: 'Read our pledge',
+        baseUrl:
+            'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
+    },
 };
 
 const tracking: EpicTracking = {

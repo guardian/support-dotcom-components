@@ -195,14 +195,18 @@ app.post(
 
         const { targeting, expectedTest, expectedVariant } = req.body;
 
-        // This is our own test(!) so can ignore
-        if (expectedTest === 'RemoteRenderEpicRoundTwo') {
+        // Ignore some manually defined tests in Frontend for now
+        if (
+            expectedTest === 'RemoteRenderEpicRoundTwo' ||
+            expectedTest === 'ContributionsEpicPrecontributionReminderRoundTwo'
+        ) {
             res.send('ignoring');
             return;
         }
 
+        const shouldNotRender = shouldNotRenderEpic(targeting);
         const tests = await fetchConfiguredEpicTestsCached();
-        const got = findVariant(tests, targeting);
+        const got = shouldNotRender ? undefined : findVariant(tests, targeting);
 
         const notBothFalsy = expectedTest || got;
         const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;

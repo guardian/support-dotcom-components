@@ -362,7 +362,7 @@ const extendedCurrencySymbol = {
     International: '$',
 };
 
-const countryCodeToCountryGroupId = (countryCode: string): CountryGroupId => {
+export const countryCodeToCountryGroupId = (countryCode: string): CountryGroupId => {
     const availableCountryGroupIds = Object.keys(countryGroups) as CountryGroupId[];
 
     const foundCountryGroupId = availableCountryGroupIds.find(countryGroupId =>
