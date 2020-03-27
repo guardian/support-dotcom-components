@@ -58,7 +58,7 @@ export const Button: React.FC<Props> = ({
             <DSButton
                 iconSide="right"
                 icon={showArrow ? <SvgArrowRightStraight /> : undefined}
-                onClick={onClickAction}
+                onClick={(): void => onClickAction()}
                 priority={priority}
             >
                 {children}
