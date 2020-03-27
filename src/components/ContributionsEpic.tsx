@@ -3,11 +3,11 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { PrimaryButton } from './PrimaryButton';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../lib/variants';
+import { Button } from './Button';
 
 const replacePlaceholders = (
     content: string,
@@ -93,6 +93,10 @@ const imageStyles = css`
     object-fit: cover;
 `;
 
+const buttonMargins = css`
+    margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
+`;
+
 export type Props = {
     variant: Variant;
     tracking: EpicTracking;
@@ -160,7 +164,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     localisation,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl } = variant;
+    const { heading, backgroundImageUrl, secondaryCta } = variant;
     const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
@@ -191,7 +195,18 @@ export const ContributionsEpic: React.FC<Props> = ({
             <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
             <div className={buttonWrapperStyles}>
-                <PrimaryButton url={buttonTrackingUrl} linkText="Support The Guardian" />
+                <div className={buttonMargins}>
+                    <Button onClickAction={buttonTrackingUrl} showArrow>
+                        Support The Guardian
+                    </Button>
+                </div>
+                {secondaryCta && (
+                    <div className={buttonMargins}>
+                        <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
+                            {secondaryCta.text}
+                        </Button>
+                    </div>
+                )}
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
