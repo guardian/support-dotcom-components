@@ -53,13 +53,27 @@ const headingStyles = css`
     margin-bottom: ${space[3]}px;
 `;
 
+// Custom styles for <a> tags in the Epic content
+const linkStyles = css`
+    a {
+        color: ${palette.news.main};
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+`;
+
 const bodyStyles = css`
     margin: 0 auto ${space[2]}px;
     ${body.medium()};
+    ${linkStyles}
 `;
 
 const highlightWrapperStyles = css`
     ${body.medium({ fontWeight: 'bold' })}
+    ${linkStyles}
 `;
 
 const highlightStyles = css`
