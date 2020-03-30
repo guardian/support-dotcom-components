@@ -38,7 +38,6 @@ export type EpicTargeting = {
     // TODO let's replace these with Design Type/a single property after migration
     isMinuteArticle: boolean;
     isPaidContent: boolean;
-    isSensitive?: boolean; // TODO make required once clients have caught up
 
     tags: Tag[];
     mvtId?: number;
