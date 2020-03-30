@@ -132,7 +132,7 @@ describe('variant filters', () => {
     });
 
     it('should filter by user cohort', () => {
-        const mockDate = new Date('2020-03-30T18:00:00');
+        const now = new Date('2020-03-30T18:00:00');
         const lessThanThreeMonthsAgo = new Date('2020-03-28T10:30:00');
         const moreThanThreeMonthsAgo = new Date('2019-12-12T10:30:00');
 
@@ -157,7 +157,7 @@ describe('variant filters', () => {
             lastOneOffContributionDate: lessThanThreeMonthsAgo.getTime(),
         };
 
-        const got3 = withNowAs(mockDate, () => inCorrectCohort.test(testDefault, targeting3));
+        const got3 = withNowAs(now, () => inCorrectCohort.test(testDefault, targeting3));
         expect(got3).toBe(false);
 
         // 'AllExistingSupporters'
