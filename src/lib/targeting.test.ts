@@ -54,6 +54,12 @@ describe('shouldNotRenderEpic', () => {
         expect(got).toBe(true);
     });
 
+    it('return true if page is sensitive', () => {
+        const data = { ...meta, isSensitive: true };
+        const got = shouldNotRenderEpic(data);
+        expect(got).toBe(true);
+    });
+
     it('returns false for valid data', () => {
         const data = {
             contentType: 'Article',
@@ -64,6 +70,7 @@ describe('shouldNotRenderEpic', () => {
             isRecurringContributor: false,
             tags: [],
             showSupportMessaging: true,
+            isSensitive: false,
         };
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(false);
