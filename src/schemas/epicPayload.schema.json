@@ -62,9 +62,6 @@
                 "isPaidContent": {
                     "type": "boolean"
                 },
-                "isSensitive": {
-                    "type": "boolean"
-                },
                 "tags": {
                     "type": "array",
                     "items": {
