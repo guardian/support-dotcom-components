@@ -74,6 +74,18 @@ const targetingDefault: EpicTargeting = {
     mvtId: 2,
 };
 
+// Note, this is okay because JS is single-threaded, but will cause issues once
+// tests include async code so really it is not very robust.
+const withNowAs = <T>(now: Date, fn: () => T): T => {
+    const old = Date.now;
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    Date.now = () => now.valueOf(); // override
+    const got = fn();
+    Date.now = old;
+
+    return got;
+};
+
 describe('find variant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const tests = { tests: [testDefault] };
@@ -143,7 +155,10 @@ describe('variant filters', () => {
             ...targetingDefault,
             lastOneOffContributionDate: lessThanThreeMonthsAgo,
         };
-        const got3 = inCorrectCohort.test(testDefault, targeting3);
+
+        const got3 = withNowAs(new Date('2020-03-30T18:00:00'), () =>
+            inCorrectCohort.test(testDefault, targeting3),
+        );
         expect(got3).toBe(false);
 
         // 'AllExistingSupporters'
