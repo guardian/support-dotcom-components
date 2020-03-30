@@ -74,6 +74,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
         !meta.showSupportMessaging ||
         meta.isRecurringContributor ||
         isRecentOneOffContributor(lastOneOffContributionDate) ||
-        meta.isSensitive
+        !!meta.isSensitive
     );
 };
