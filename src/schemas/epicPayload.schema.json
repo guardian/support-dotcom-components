@@ -128,7 +128,6 @@
                 "isMinuteArticle",
                 "isPaidContent",
                 "isRecurringContributor",
-                "isSensitive",
                 "sectionName",
                 "shouldHideReaderRevenue",
                 "showSupportMessaging",
