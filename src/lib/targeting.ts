@@ -73,7 +73,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
         meta.isPaidContent ||
         !meta.showSupportMessaging ||
         meta.isRecurringContributor ||
-        isRecentOneOffContributor(lastOneOffContributionDate) ||
-        !!meta.isSensitive
+        isRecentOneOffContributor(lastOneOffContributionDate)
     );
 };
