@@ -132,8 +132,9 @@ describe('variant filters', () => {
     });
 
     it('should filter by user cohort', () => {
-        const lessThanThreeMonthsAgo = new Date('2020-03-28T10:30:00').getTime();
-        const moreThanThreeMonthsAgo = new Date('2019-12-12T10:30:00').getTime();
+        const mockDate = new Date('2020-03-30T18:00:00');
+        const lessThanThreeMonthsAgo = new Date('2020-03-28T10:30:00');
+        const moreThanThreeMonthsAgo = new Date('2019-12-12T10:30:00');
 
         // 'AllNonSupporters'
         // Returns true if user is not a contributor
@@ -153,12 +154,10 @@ describe('variant filters', () => {
         // Returns false if user is one-off contributor
         const targeting3: EpicTargeting = {
             ...targetingDefault,
-            lastOneOffContributionDate: lessThanThreeMonthsAgo,
+            lastOneOffContributionDate: lessThanThreeMonthsAgo.getTime(),
         };
 
-        const got3 = withNowAs(new Date('2020-03-30T18:00:00'), () =>
-            inCorrectCohort.test(testDefault, targeting3),
-        );
+        const got3 = withNowAs(mockDate, () => inCorrectCohort.test(testDefault, targeting3));
         expect(got3).toBe(false);
 
         // 'AllExistingSupporters'
@@ -198,7 +197,7 @@ describe('variant filters', () => {
             ...targetingDefault,
             showSupportMessaging: true,
             isRecurringContributor: false,
-            lastOneOffContributionDate: moreThanThreeMonthsAgo,
+            lastOneOffContributionDate: moreThanThreeMonthsAgo.getTime(),
         };
         const got6 = inCorrectCohort.test(test6, targeting6);
         expect(got6).toBe(true);
@@ -213,7 +212,7 @@ describe('variant filters', () => {
             ...targetingDefault,
             showSupportMessaging: false,
             isRecurringContributor: false,
-            lastOneOffContributionDate: moreThanThreeMonthsAgo,
+            lastOneOffContributionDate: moreThanThreeMonthsAgo.getTime(),
         };
         const got7 = inCorrectCohort.test(test7, targeting7);
         expect(got7).toBe(false);
