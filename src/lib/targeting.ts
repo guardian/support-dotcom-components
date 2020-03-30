@@ -60,19 +60,12 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
     const isLowValueSection = lowValueSections.some(id => id === meta.sectionName);
     const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
 
-    const lastOneOffContributionDate = meta.lastOneOffContributionDate
-        ? new Date(meta.lastOneOffContributionDate)
-        : undefined;
-
     return (
         meta.shouldHideReaderRevenue ||
         isLowValueSection ||
         isLowValueTag ||
         meta.contentType !== 'Article' ||
         meta.isMinuteArticle ||
-        meta.isPaidContent ||
-        !meta.showSupportMessaging ||
-        meta.isRecurringContributor ||
-        isRecentOneOffContributor(lastOneOffContributionDate)
+        meta.isPaidContent
     );
 };

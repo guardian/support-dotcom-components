@@ -181,9 +181,8 @@ app.post(
             return;
         }
 
-        const shouldNotRender = shouldNotRenderEpic(targeting);
         const tests = await fetchConfiguredEpicTestsCached();
-        const got = shouldNotRender ? undefined : findVariant(tests, targeting);
+        const got = findVariant(tests, targeting);
 
         const notBothFalsy = expectedTest || got;
         const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;

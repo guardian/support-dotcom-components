@@ -2,6 +2,7 @@ import { EpicTargeting, ViewLog, WeeklyArticleHistory } from '../components/Cont
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
+import { isRecentOneOffContributor } from './targeting';
 
 interface ArticlesViewedSettings {
     minViews: number;
@@ -186,6 +187,41 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
     },
 });
 
+export const inCorrectCohort: Filter = {
+    id: 'inCorrectCohort',
+    test: (test, targeting): boolean => {
+        const { showSupportMessaging, isRecurringContributor } = targeting;
+
+        const lastOneOffContributionDate = targeting.lastOneOffContributionDate
+            ? new Date(targeting.lastOneOffContributionDate)
+            : undefined;
+
+        const isSupporter =
+            !showSupportMessaging ||
+            isRecurringContributor ||
+            isRecentOneOffContributor(lastOneOffContributionDate);
+
+        // User not currently a supporter BUT has made one-off contribution
+        // longer than 3 months ago
+        const isPostAskPauseOneOffContributor =
+            !isSupporter &&
+            lastOneOffContributionDate &&
+            !isRecentOneOffContributor(lastOneOffContributionDate);
+
+        switch (test.userCohort) {
+            case 'PostAskPauseSingleContributors':
+                return !!isPostAskPauseOneOffContributor;
+            case 'AllExistingSupporters':
+                return isSupporter;
+            case 'AllNonSupporters':
+                return !isSupporter;
+            case 'Everyone':
+            default:
+                return true;
+        }
+    },
+};
+
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -206,6 +242,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         isOn,
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
+        inCorrectCohort,
         excludeSection,
         excludeTags,
         hasCountryCode,

@@ -2,18 +2,6 @@ import { isRecentOneOffContributor, shouldNotRenderEpic, shouldThrottle } from '
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import testData from '../components/ContributionsEpic.testData';
 
-// Note, this is okay because JS is single-threaded, but will cause issues once
-// tests include async code so really it is not very robust.
-const withNowAs = <T>(now: Date, fn: () => T): T => {
-    const old = Date.now;
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    Date.now = () => now.valueOf(); // override
-    const got = fn();
-    Date.now = old;
-
-    return got;
-};
-
 describe('isRecentOneOffContributor', () => {
     const now = new Date('2020-02-12T10:24:00');
 
@@ -39,12 +27,6 @@ describe('shouldNotRenderEpic', () => {
     it('returns true for non-article', () => {
         const data = { ...meta, contentType: 'Liveblog' };
         const got = shouldNotRenderEpic(data);
-        expect(got).toBe(true);
-    });
-
-    it('returns true for recent contributor', () => {
-        const data = { ...meta, lastOneOffContributionDate: 1557480240000 };
-        const got = withNowAs(new Date('2019-06-11T10:24:00'), () => shouldNotRenderEpic(data));
         expect(got).toBe(true);
     });
 

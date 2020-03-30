@@ -17,6 +17,12 @@ export type Tag = {
     type: string;
 };
 
+export type UserCohort =
+    | 'AllExistingSupporters'
+    | 'AllNonSupporters'
+    | 'Everyone'
+    | 'PostAskPauseSingleContributors';
+
 interface View {
     date: number;
     testId: string;

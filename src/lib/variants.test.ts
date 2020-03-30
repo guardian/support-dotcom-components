@@ -5,6 +5,7 @@ import {
     matchesCountryGroups,
     hasSectionOrTags,
     excludeSection,
+    inCorrectCohort,
     excludeTags,
     withinMaxViews,
     isContentType,
@@ -116,6 +117,99 @@ describe('variant filters', () => {
         const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
         const got3 = hasCountryCode.test(test3, targeting3);
         expect(got3).toBe(true);
+    });
+
+    it('should filter by user cohort', () => {
+        const lessThanThreeMonthsAgo = new Date('2020-03-28T10:30:00').getTime();
+        const moreThanThreeMonthsAgo = new Date('2019-12-12T10:30:00').getTime();
+
+        // 'AllNonSupporters'
+        // Returns true if user is not a contributor
+        const got1 = inCorrectCohort.test(testDefault, targetingDefault);
+        expect(got1).toBe(true);
+
+        // 'AllNonSupporters'
+        // Return false if user is recurring contributor
+        const targeting2: EpicTargeting = {
+            ...targetingDefault,
+            isRecurringContributor: true,
+        };
+        const got2 = inCorrectCohort.test(testDefault, targeting2);
+        expect(got2).toBe(false);
+
+        // 'AllNonSupporters'
+        // Returns false if user is one-off contributor
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            lastOneOffContributionDate: lessThanThreeMonthsAgo,
+        };
+        const got3 = inCorrectCohort.test(testDefault, targeting3);
+        expect(got3).toBe(false);
+
+        // 'AllExistingSupporters'
+        // Returns true if user is contributor
+        const test4: Test = {
+            ...testDefault,
+            userCohort: 'AllExistingSupporters',
+        };
+        const targeting4: EpicTargeting = {
+            ...targetingDefault,
+            isRecurringContributor: true,
+        };
+        const got4 = inCorrectCohort.test(test4, targeting4);
+        expect(got4).toBe(true);
+
+        // 'AllExistingSupporters'
+        // Returns false if user is not contributor
+        const test5: Test = {
+            ...testDefault,
+            userCohort: 'AllExistingSupporters',
+        };
+        const targeting5: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+        };
+        const got5 = inCorrectCohort.test(test5, targeting5);
+        expect(got5).toBe(false);
+
+        // 'PostAskPauseSingleContributors'
+        // Returns true if user is not current contributor but has contributed
+        // longer than 3 months ago
+        const test6: Test = {
+            ...testDefault,
+            userCohort: 'PostAskPauseSingleContributors',
+        };
+        const targeting6: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: moreThanThreeMonthsAgo,
+        };
+        const got6 = inCorrectCohort.test(test6, targeting6);
+        expect(got6).toBe(true);
+
+        // 'PostAskPauseSingleContributors'
+        // Returns false if user is current contributor
+        const test7: Test = {
+            ...testDefault,
+            userCohort: 'PostAskPauseSingleContributors',
+        };
+        const targeting7: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: false,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: moreThanThreeMonthsAgo,
+        };
+        const got7 = inCorrectCohort.test(test7, targeting7);
+        expect(got7).toBe(false);
+
+        // Everyone
+        const test8: Test = {
+            ...testDefault,
+            userCohort: 'Everyone',
+        };
+        const got8 = inCorrectCohort.test(test8, targetingDefault);
+        expect(got8).toBe(true);
     });
 
     it('should filter by required sections or tags', () => {
