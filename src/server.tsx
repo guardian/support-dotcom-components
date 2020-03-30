@@ -170,10 +170,13 @@ app.post(
         const { targeting, expectedTest, expectedVariant } = req.body;
 
         // Ignore some manually defined tests in Frontend for now
-        if (
-            expectedTest === 'RemoteRenderEpicRoundTwo' ||
-            expectedTest === 'ContributionsEpicPrecontributionReminderRoundTwo'
-        ) {
+        const ignores = [
+            'FrontendDotcomRenderingEpic',
+            'RemoteRenderEpicRoundTwo',
+            'ContributionsEpicPrecontributionReminderRoundTwo',
+        ];
+
+        if (ignores.includes(expectedTest)) {
             res.send('ignoring');
             return;
         }
