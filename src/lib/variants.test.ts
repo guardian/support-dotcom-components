@@ -156,7 +156,6 @@ describe('variant filters', () => {
             ...targetingDefault,
             lastOneOffContributionDate: lessThanThreeMonthsAgo.getTime(),
         };
-
         const got3 = withNowAs(now, () => inCorrectCohort.test(testDefault, targeting3));
         expect(got3).toBe(false);
 
