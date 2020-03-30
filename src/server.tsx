@@ -189,11 +189,11 @@ app.post(
         const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;
 
         if (notBothFalsy && notTheSame) {
-            console.log(
-                `comparison failed: got (${`${got?.test.name}:${got?.variant.name}`}, want (${expectedTest}:${expectedVariant}), for targeting data ${JSON.stringify(
-                    targeting,
-                )} and frontend log data: ${JSON.stringify(frontendLog)})`,
-            );
+            console.log({
+                status: 'comparison failed',
+                targeting,
+                frontendLog,
+            });
         }
 
         res.send('thanks');
