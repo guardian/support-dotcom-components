@@ -1,25 +1,6 @@
-import { isRecentOneOffContributor, shouldNotRenderEpic, shouldThrottle } from './targeting';
+import { shouldNotRenderEpic, shouldThrottle } from './targeting';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import testData from '../components/ContributionsEpic.testData';
-
-describe('isRecentOneOffContributor', () => {
-    const now = new Date('2020-02-12T10:24:00');
-
-    it('returns true for recent date', () => {
-        const got = isRecentOneOffContributor(new Date('2020-02-10T10:24:00'), now);
-        expect(got).toBe(true);
-    });
-
-    it('returns false for older date', () => {
-        const got = isRecentOneOffContributor(new Date('2019-02-10T10:24:00'), now);
-        expect(got).toBe(false);
-    });
-
-    it('returns false for someone that has never contributed', () => {
-        const got = isRecentOneOffContributor(undefined, now);
-        expect(got).toBe(false);
-    });
-});
 
 describe('shouldNotRenderEpic', () => {
     const meta: EpicTargeting = testData.targeting;

@@ -1,27 +1,9 @@
 import { EpicTargeting, ViewLog } from '../components/ContributionsEpicTypes';
+import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
 
 const lowValueTags = ['guardian-masterclasses/guardian-masterclasses'];
-
-const pauseDays = 90;
-
-const daysSince = (then: Date, now: Date): number => {
-    const oneDayMs = 1000 * 60 * 60 * 24;
-    const diffMs = now.valueOf() - then.valueOf();
-    return Math.floor(diffMs / oneDayMs);
-};
-
-export const isRecentOneOffContributor = (
-    lastOneOffContributionDate?: Date,
-    now: Date = new Date(Date.now()), // to mock out Date.now in tests
-): boolean => {
-    if (!lastOneOffContributionDate) {
-        return false;
-    }
-
-    return daysSince(lastOneOffContributionDate, now) <= pauseDays;
-};
 
 export interface ThrottleConfig {
     maxViewsDays: number;

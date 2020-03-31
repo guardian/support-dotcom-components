@@ -2,7 +2,7 @@ import { EpicTargeting, ViewLog, WeeklyArticleHistory } from '../components/Cont
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
-import { isRecentOneOffContributor } from './targeting';
+import { isRecentOneOffContributor } from '../lib/dates';
 
 interface ArticlesViewedSettings {
     minViews: number;
