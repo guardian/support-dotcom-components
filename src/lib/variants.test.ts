@@ -78,13 +78,19 @@ const targetingDefault: EpicTargeting = {
 
 describe('getUserCohort', () => {
     it('should return "AllNonSupporters" correctly', () => {
-        const got1 = getUserCohort(targetingDefault);
+        const targeting1 = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: undefined,
+        };
+        const got1 = getUserCohort(targeting1);
         expect(got1).toBe('AllNonSupporters');
     });
 
     it('should return "AllExistingSupporters" correctly', () => {
-        const now = new Date();
-        const twoMonthsAgo = new Date(now.setMonth(now.getMonth() - 2)).getTime();
+        const now = new Date('2020-03-31T12:30:00');
+        const twoMonthsAgo = new Date(now).setMonth(now.getMonth() - 2);
 
         const targeting1: EpicTargeting = {
             ...targetingDefault,
@@ -104,21 +110,21 @@ describe('getUserCohort', () => {
             ...targetingDefault,
             lastOneOffContributionDate: twoMonthsAgo,
         };
-        const got3 = getUserCohort(targeting3);
+        const got3 = withNowAs(now, () => getUserCohort(targeting3));
         expect(got3).toBe('AllExistingSupporters');
     });
     it('should return "PostAskPauseSingleContributors" correctly', () => {
-        const now = new Date();
-        const fourMonthsAgo = new Date(now.setMonth(now.getMonth() - 4)).getTime();
+        const now = new Date('2020-03-31T12:30:00');
+        const fourMonthsAgo = new Date(now).setMonth(now.getMonth() - 4);
 
-        const targeting: EpicTargeting = {
+        const targeting1: EpicTargeting = {
             ...targetingDefault,
             showSupportMessaging: true,
             isRecurringContributor: false,
             lastOneOffContributionDate: fourMonthsAgo,
         };
-        const got = getUserCohort(targeting);
-        expect(got).toBe('PostAskPauseSingleContributors');
+        const got1 = withNowAs(now, () => getUserCohort(targeting1));
+        expect(got1).toBe('PostAskPauseSingleContributors');
     });
 });
 
