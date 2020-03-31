@@ -167,7 +167,7 @@ app.post(
             return;
         }
 
-        const { targeting, expectedTest, expectedVariant } = req.body;
+        const { targeting, expectedTest, expectedVariant, frontendLog } = req.body;
 
         // Ignore some manually defined tests in Frontend for now
         const ignores = [
@@ -191,7 +191,7 @@ app.post(
             console.log(
                 `comparison failed: got (${`${got?.test.name}:${got?.variant.name}`}, want (${expectedTest}:${expectedVariant}), for targeting data ${JSON.stringify(
                     targeting,
-                )})`,
+                )} and frontend log data: ${JSON.stringify(frontendLog)})`,
             );
         }
 
