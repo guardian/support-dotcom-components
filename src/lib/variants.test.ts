@@ -3,8 +3,7 @@ import {
     Test,
     hasCountryCode,
     matchesCountryGroups,
-    hasSection,
-    hasTags,
+    hasSectionOrTags,
     excludeSection,
     excludeTags,
     withinMaxViews,
@@ -119,37 +118,88 @@ describe('variant filters', () => {
         expect(got3).toBe(true);
     });
 
-    it('should filter by required sections', () => {
-        const test1: Test = { ...testDefault, sections: ['environment'] };
-        const targeting1: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
-        const got1 = hasSection.test(test1, targeting1);
-        expect(got1).toBe(true);
-
-        const test2: Test = { ...testDefault, sections: ['environment'] };
-        const targeting2: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
-        const got2 = hasSection.test(test2, targeting2);
-        expect(got2).toBe(false);
-    });
-
-    it('should filter by required tags', () => {
-        const tags1 = [{ id: 'environment/series/the-polluters', type: 'tone' }];
-
+    it('should filter by required sections or tags', () => {
+        // return true if section matches
         const test1: Test = {
             ...testDefault,
-            tagIds: tags1.map(tag => tag.id),
+            sections: ['environment'],
         };
         const targeting1: EpicTargeting = {
             ...targetingDefault,
-            tags: tags1,
+            sectionName: 'environment',
         };
-        const got1 = hasTags.test(test1, targeting1);
+        const got1 = hasSectionOrTags.test(test1, targeting1);
         expect(got1).toBe(true);
 
-        const tags2 = [{ id: 'environment/series/the-polluters', type: 'tone' }];
-        const test2: Test = { ...testDefault, tagIds: ['football/football'] };
-        const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
-        const got2 = hasTags.test(test2, targeting2);
+        // return false if section doesn't match and no tags defined
+        const test2: Test = {
+            ...testDefault,
+            sections: ['environment'],
+        };
+        const targeting2: EpicTargeting = {
+            ...targetingDefault,
+            sectionName: 'business',
+        };
+        const got2 = hasSectionOrTags.test(test2, targeting2);
         expect(got2).toBe(false);
+
+        // return true if sections don't match but tags match
+        const tags3 = [
+            {
+                id: 'environment/series/the-polluters',
+                type: 'tone',
+            },
+        ];
+        const test3: Test = {
+            ...testDefault,
+            sections: ['environment'],
+            tagIds: tags3.map(tag => tag.id),
+        };
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            sectionName: 'business',
+            tags: tags3,
+        };
+        const got3 = hasSectionOrTags.test(test3, targeting3);
+        expect(got3).toBe(true);
+
+        // return false if neither sections or tags match
+        const tags4 = [
+            {
+                id: 'environment/series/the-polluters',
+                type: 'tone',
+            },
+        ];
+        const test4: Test = {
+            ...testDefault,
+            sections: ['environment'],
+            tagIds: tags4.map(tag => tag.id),
+        };
+        const targeting4: EpicTargeting = {
+            ...targetingDefault,
+            sectionName: 'business',
+            tags: [
+                {
+                    id: 'business/some-business-tag',
+                    type: 'tone',
+                },
+            ],
+        };
+        const got4 = hasSectionOrTags.test(test4, targeting4);
+        expect(got4).toBe(false);
+
+        // return true if no section or tag requirements
+        const test5: Test = {
+            ...testDefault,
+            sections: [],
+            tagIds: [],
+        };
+        const targeting5: EpicTargeting = {
+            ...targetingDefault,
+            sectionName: 'business',
+        };
+        const got5 = hasSectionOrTags.test(test5, targeting5);
+        expect(got5).toBe(true);
     });
 
     it('should filter by excluded sections', () => {

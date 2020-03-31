@@ -75,31 +75,23 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
     return test.variants[mvtId % test.variants.length];
 };
 
-export const hasTags: Filter = {
-    id: 'hasTags',
+export const hasSectionOrTags: Filter = {
+    id: 'hasSectionOrTags',
     test: (test, targeting) => {
         const cleanedTags = test.tagIds.filter(tagId => tagId !== '');
 
-        if (cleanedTags.length < 1) {
+        if (cleanedTags.length === 0 && test.sections.length === 0) {
             return true;
         }
 
-        const intersection = cleanedTags.filter(tagId =>
+        const intersectingTags = cleanedTags.filter(tagId =>
             targeting.tags.map(tag => tag.id).includes(tagId),
         );
 
-        return intersection.length > 0;
-    },
-};
+        const hasSection = test.sections.includes(targeting.sectionName);
+        const hasTags = intersectingTags.length > 0;
 
-export const hasSection: Filter = {
-    id: 'hasSection',
-    test: (test, targeting) => {
-        if (test.sections.length < 1) {
-            return true;
-        }
-
-        return test.sections.includes(targeting.sectionName);
+        return hasSection || hasTags;
     },
 };
 
@@ -218,8 +210,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
     const filters: Filter[] = [
         shouldNotRender,
         isOn,
-        hasSection,
-        hasTags,
+        hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
         excludeSection,
         excludeTags,

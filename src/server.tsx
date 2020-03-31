@@ -193,13 +193,16 @@ app.post(
             return;
         }
 
-        const { targeting, expectedTest, expectedVariant } = req.body;
+        const { targeting, expectedTest, expectedVariant, frontendLog } = req.body;
 
         // Ignore some manually defined tests in Frontend for now
-        if (
-            expectedTest === 'RemoteRenderEpicRoundTwo' ||
-            expectedTest === 'ContributionsEpicPrecontributionReminderRoundTwo'
-        ) {
+        const ignores = [
+            'FrontendDotcomRenderingEpic',
+            'RemoteRenderEpicRoundTwo',
+            'ContributionsEpicPrecontributionReminderRoundTwo',
+        ];
+
+        if (ignores.includes(expectedTest)) {
             res.send('ignoring');
             return;
         }
@@ -212,11 +215,11 @@ app.post(
         const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;
 
         if (notBothFalsy && notTheSame) {
-            console.log(
-                `comparison failed: got (${`${got?.test.name}:${got?.variant.name}`}, want (${expectedTest}:${expectedVariant}), for targeting data ${JSON.stringify(
-                    targeting,
-                )})`,
-            );
+            console.log({
+                status: 'comparison failed',
+                targeting,
+                frontendLog,
+            });
         }
 
         res.send('thanks');
