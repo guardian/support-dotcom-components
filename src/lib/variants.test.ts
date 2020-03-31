@@ -121,9 +121,9 @@ describe('variant filters', () => {
     });
 
     it('should filter by user cohort', () => {
-        const now = new Date('2020-03-30T18:00:00');
-        const lessThanThreeMonthsAgo = new Date('2020-03-28T10:30:00');
-        const moreThanThreeMonthsAgo = new Date('2019-12-12T10:30:00');
+        const now = new Date();
+        const twoMonthsAgo = new Date(now.setMonth(now.getMonth() - 2)).getTime();
+        const fourMonthsAgo = new Date(now.setMonth(now.getMonth() - 4)).getTime();
 
         // 'AllNonSupporters'
         // Returns true if user is not a contributor
@@ -143,7 +143,7 @@ describe('variant filters', () => {
         // Returns false if user is one-off contributor
         const targeting3: EpicTargeting = {
             ...targetingDefault,
-            lastOneOffContributionDate: lessThanThreeMonthsAgo.getTime(),
+            lastOneOffContributionDate: twoMonthsAgo,
         };
         const got3 = withNowAs(now, () => inCorrectCohort.test(testDefault, targeting3));
         expect(got3).toBe(false);
@@ -185,7 +185,7 @@ describe('variant filters', () => {
             ...targetingDefault,
             showSupportMessaging: true,
             isRecurringContributor: false,
-            lastOneOffContributionDate: moreThanThreeMonthsAgo.getTime(),
+            lastOneOffContributionDate: fourMonthsAgo,
         };
         const got6 = inCorrectCohort.test(test6, targeting6);
         expect(got6).toBe(true);
@@ -200,7 +200,7 @@ describe('variant filters', () => {
             ...targetingDefault,
             showSupportMessaging: false,
             isRecurringContributor: false,
-            lastOneOffContributionDate: moreThanThreeMonthsAgo.getTime(),
+            lastOneOffContributionDate: fourMonthsAgo,
         };
         const got7 = inCorrectCohort.test(test7, targeting7);
         expect(got7).toBe(false);
