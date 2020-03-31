@@ -92,12 +92,12 @@ export const getUserCohort = (targeting: EpicTargeting): UserCohort => {
     // User is a past-contributor if she doesn't have an active subscription
     // or recurring donation, but has made a one-off donation longer than 3
     // months ago.
-    const isPostAskPauseOneOffContributor =
+    const isPastContributor =
         !isSupporter &&
         lastOneOffContributionDate &&
         !isRecentOneOffContributor(lastOneOffContributionDate);
 
-    if (isPostAskPauseOneOffContributor) {
+    if (isPastContributor) {
         return 'PostAskPauseSingleContributors';
     } else if (isSupporter) {
         return 'AllExistingSupporters';
