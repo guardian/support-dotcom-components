@@ -101,11 +101,9 @@ export const getUserCohort = (targeting: EpicTargeting): UserCohort => {
         return 'PostAskPauseSingleContributors';
     } else if (isSupporter) {
         return 'AllExistingSupporters';
-    } else if (!isSupporter) {
-        return 'AllNonSupporters';
-    } else {
-        return 'Everyone';
     }
+
+    return 'AllNonSupporters';
 };
 
 export const hasSectionOrTags: Filter = {
