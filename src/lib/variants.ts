@@ -1,4 +1,9 @@
-import { EpicTargeting, ViewLog, WeeklyArticleHistory } from '../components/ContributionsEpicTypes';
+import {
+    EpicTargeting,
+    ViewLog,
+    WeeklyArticleHistory,
+    UserCohort,
+} from '../components/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
@@ -68,6 +73,39 @@ interface Filter {
 
 export const selectVariant = (test: Test, mvtId: number): Variant => {
     return test.variants[mvtId % test.variants.length];
+};
+
+export const getUserCohort = (targeting: EpicTargeting): UserCohort => {
+    const { showSupportMessaging, isRecurringContributor } = targeting;
+
+    const lastOneOffContributionDate = targeting.lastOneOffContributionDate
+        ? new Date(targeting.lastOneOffContributionDate)
+        : undefined;
+
+    // User is a current supporter if she has a subscription or a recurring
+    // donation or has made a one-off contribution in the past 3 months.
+    const isSupporter =
+        !showSupportMessaging ||
+        isRecurringContributor ||
+        isRecentOneOffContributor(lastOneOffContributionDate);
+
+    // User is a past-contributor if she doesn't have an active subscription
+    // or recurring donation, but has made a one-off donation longer than 3
+    // months ago.
+    const isPostAskPauseOneOffContributor =
+        !isSupporter &&
+        lastOneOffContributionDate &&
+        !isRecentOneOffContributor(lastOneOffContributionDate);
+
+    if (isPostAskPauseOneOffContributor) {
+        return 'PostAskPauseSingleContributors';
+    } else if (isSupporter) {
+        return 'AllExistingSupporters';
+    } else if (!isSupporter) {
+        return 'AllNonSupporters';
+    } else {
+        return 'Everyone';
+    }
 };
 
 export const hasSectionOrTags: Filter = {
@@ -187,40 +225,11 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
     },
 });
 
-export const inCorrectCohort: Filter = {
+export const inCorrectCohort = (userCohort: UserCohort): Filter => ({
     id: 'inCorrectCohort',
-    test: (test, targeting): boolean => {
-        const { showSupportMessaging, isRecurringContributor } = targeting;
-
-        const lastOneOffContributionDate = targeting.lastOneOffContributionDate
-            ? new Date(targeting.lastOneOffContributionDate)
-            : undefined;
-
-        const isSupporter =
-            !showSupportMessaging ||
-            isRecurringContributor ||
-            isRecentOneOffContributor(lastOneOffContributionDate);
-
-        // User not currently a supporter BUT has made one-off contribution
-        // longer than 3 months ago
-        const isPostAskPauseOneOffContributor =
-            !isSupporter &&
-            lastOneOffContributionDate &&
-            !isRecentOneOffContributor(lastOneOffContributionDate);
-
-        switch (test.userCohort) {
-            case 'PostAskPauseSingleContributors':
-                return !!isPostAskPauseOneOffContributor;
-            case 'AllExistingSupporters':
-                return isSupporter;
-            case 'AllNonSupporters':
-                return !isSupporter;
-            case 'Everyone':
-            default:
-                return true;
-        }
-    },
-};
+    test: (test, _): boolean =>
+        test.userCohort === 'Everyone' ? true : test.userCohort === userCohort,
+});
 
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
@@ -242,7 +251,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         isOn,
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
-        inCorrectCohort,
+        inCorrectCohort(getUserCohort(targeting)),
         excludeSection,
         excludeTags,
         hasCountryCode,
