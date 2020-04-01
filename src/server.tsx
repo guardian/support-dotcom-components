@@ -192,6 +192,8 @@ app.post(
                 'comparison failed with data: ' +
                     JSON.stringify({
                         status: 'comparison failed',
+                        got: `${got?.test.name}:${got?.variant.name}`,
+                        want: `${expectedTest}:${expectedVariant}`,
                         targeting,
                         frontendLog,
                     }),
