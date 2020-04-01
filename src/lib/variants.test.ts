@@ -1,16 +1,19 @@
 import {
     findVariant,
+    getUserCohort,
     Test,
     hasCountryCode,
     matchesCountryGroups,
     hasSectionOrTags,
     excludeSection,
+    inCorrectCohort,
     excludeTags,
     withinMaxViews,
     isContentType,
     withinArticleViewedSettings,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
+import { withNowAs } from '../utils/withNowAs';
 
 const testDefault: Test = {
     name: 'example-1',
@@ -73,6 +76,58 @@ const targetingDefault: EpicTargeting = {
     mvtId: 2,
 };
 
+describe('getUserCohort', () => {
+    it('should return "AllNonSupporters" correctly', () => {
+        const targeting1 = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: undefined,
+        };
+        const got1 = getUserCohort(targeting1);
+        expect(got1).toBe('AllNonSupporters');
+    });
+
+    it('should return "AllExistingSupporters" correctly', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const twoMonthsAgo = new Date(now).setMonth(now.getMonth() - 2);
+
+        const targeting1: EpicTargeting = {
+            ...targetingDefault,
+            isRecurringContributor: true,
+        };
+        const got1 = getUserCohort(targeting1);
+        expect(got1).toBe('AllExistingSupporters');
+
+        const targeting2: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: false,
+        };
+        const got2 = getUserCohort(targeting2);
+        expect(got2).toBe('AllExistingSupporters');
+
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            lastOneOffContributionDate: twoMonthsAgo,
+        };
+        const got3 = withNowAs(now, () => getUserCohort(targeting3));
+        expect(got3).toBe('AllExistingSupporters');
+    });
+    it('should return "PostAskPauseSingleContributors" correctly', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const fourMonthsAgo = new Date(now).setMonth(now.getMonth() - 4);
+
+        const targeting1: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: fourMonthsAgo,
+        };
+        const got1 = withNowAs(now, () => getUserCohort(targeting1));
+        expect(got1).toBe('PostAskPauseSingleContributors');
+    });
+});
+
 describe('find variant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const tests = { tests: [testDefault] };
@@ -116,6 +171,48 @@ describe('variant filters', () => {
         const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
         const got3 = hasCountryCode.test(test3, targeting3);
         expect(got3).toBe(true);
+    });
+
+    it('should filter by user cohort', () => {
+        const test1 = {
+            ...testDefault,
+            userCohort: 'AllNonSupporters',
+        };
+        const filter1 = inCorrectCohort('AllNonSupporters');
+        const got1 = filter1.test(test1, targetingDefault);
+        expect(got1).toBe(true);
+
+        const test2 = {
+            ...testDefault,
+            userCohort: 'AllExistingSupporters',
+        };
+        const filter2 = inCorrectCohort('AllExistingSupporters');
+        const got2 = filter2.test(test2, targetingDefault);
+        expect(got2).toBe(true);
+
+        const test3 = {
+            ...testDefault,
+            userCohort: 'PostAskPauseSingleContributors',
+        };
+        const filter3 = inCorrectCohort('PostAskPauseSingleContributors');
+        const got3 = filter3.test(test3, targetingDefault);
+        expect(got3).toBe(true);
+
+        const test4 = {
+            ...testDefault,
+            userCohort: 'Everyone',
+        };
+        const filter4 = inCorrectCohort('AllNonSupporters');
+        const got4 = filter4.test(test4, targetingDefault);
+        expect(got4).toBe(true);
+
+        const test5 = {
+            ...testDefault,
+            userCohort: 'AllNonSupporters',
+        };
+        const filter5 = inCorrectCohort('AllExistingSupporters');
+        const got5 = filter5.test(test5, targetingDefault);
+        expect(got5).toBe(false);
     });
 
     it('should filter by required sections or tags', () => {
