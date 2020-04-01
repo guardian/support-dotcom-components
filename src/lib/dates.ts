@@ -16,3 +16,14 @@ export const isRecentOneOffContributor = (
 
     return daysSince(lastOneOffContributionDate, now) <= pauseDays;
 };
+
+export const isPostAskPauseOneOffContributor = (
+    lastOneOffContributionDate?: Date,
+    now: Date = new Date(Date.now()), // to mock out Date.now in tests
+): boolean => {
+    if (!lastOneOffContributionDate) {
+        return false;
+    }
+
+    return daysSince(lastOneOffContributionDate, now) > pauseDays;
+};

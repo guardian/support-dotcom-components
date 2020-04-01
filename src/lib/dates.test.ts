@@ -1,4 +1,8 @@
-import { daysSince, isRecentOneOffContributor } from '../lib/dates';
+import {
+    daysSince,
+    isRecentOneOffContributor,
+    isPostAskPauseOneOffContributor,
+} from '../lib/dates';
 
 describe('daysSince', () => {
     const now = new Date('2020-02-18T10:30:00');
@@ -23,6 +27,25 @@ describe('isRecentOneOffContributor', () => {
 
     it('returns false for someone that has never contributed', () => {
         const got = isRecentOneOffContributor(undefined, now);
+        expect(got).toBe(false);
+    });
+});
+
+describe('isPostAskPauseOneOffContributor', () => {
+    const now = new Date('2020-02-12T10:24:00');
+
+    it('returns false for recent date', () => {
+        const got = isPostAskPauseOneOffContributor(new Date('2020-02-10T10:24:00'), now);
+        expect(got).toBe(false);
+    });
+
+    it('returns true for older date', () => {
+        const got = isPostAskPauseOneOffContributor(new Date('2019-02-10T10:24:00'), now);
+        expect(got).toBe(true);
+    });
+
+    it('returns false for someone that has never contributed', () => {
+        const got = isPostAskPauseOneOffContributor(undefined, now);
         expect(got).toBe(false);
     });
 });
