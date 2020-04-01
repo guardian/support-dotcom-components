@@ -189,11 +189,12 @@ app.post(
 
         if (notBothFalsy && notTheSame) {
             console.log(
-                JSON.stringify({
-                    status: 'comparison failed',
-                    targeting,
-                    frontendLog,
-                }),
+                'comparison failed with data: ' +
+                    JSON.stringify({
+                        status: 'comparison failed',
+                        targeting,
+                        frontendLog,
+                    }),
             );
         }
 
