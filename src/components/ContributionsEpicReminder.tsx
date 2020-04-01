@@ -7,7 +7,7 @@ import { ReminderFields } from '../lib/variants';
 import { GuardianLines } from './GuardianLines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-svgs';
+import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
 
 const rootStyles = css`
     [data-target='success'] {
@@ -87,7 +87,7 @@ const closeButtonStyles = css`
     height: 30px;
     cursor: pointer;
     position: absolute;
-    bottom: -50px;
+    bottom: -47px;
     right: 0;
 `;
 
@@ -168,9 +168,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                     Not a good time? Remind me later
                 </div>
                 <div data-target="close" className={closeButtonStyles}>
-                    <svg width="30" height="30">
-                        <path d="M21 9.8l-.8-.8-5.2 4.8-5.2-4.8-.8.8 4.8 5.2-4.8 5.2.8.8 5.2-4.8 5.2 4.8.8-.8-4.8-5.2 4.8-5.2"></path>
-                    </svg>
+                    <SvgClose />
                 </div>
             </label>
             <div className={paneStyles} data-target="pane">
