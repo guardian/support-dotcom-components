@@ -232,8 +232,3 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
         </div>
     );
 };
-
-export default {
-    name: 'Components/ContributionsEpicReminder',
-    Component: ContributionsEpicReminder,
-};
