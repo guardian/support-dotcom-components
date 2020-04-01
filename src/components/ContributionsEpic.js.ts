@@ -1,9 +1,9 @@
 // The function returned here is going to be called on the platform and run
 // client-side after the Epic has been injected in the DOM.
-export const componentJs = (): void => {
+export const componentJs = function(): void {
     // Helper function to validate email needs to be included in this
     // function body
-    const isValidEmail = (email: string): boolean => {
+    const isValidEmail = function(email: string): boolean {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     };
@@ -17,7 +17,7 @@ export const componentJs = (): void => {
             '[data-target="submit"]',
         );
         if (epicReminderSubmit) {
-            epicReminderSubmit.addEventListener('click', () => {
+            epicReminderSubmit.addEventListener('click', function() {
                 const epicReminderInput = document.querySelector<HTMLInputElement>(
                     '[data-target="input"]',
                 );
@@ -44,26 +44,30 @@ export const componentJs = (): void => {
                         },
                         body: JSON.stringify(formValues),
                     })
-                        .then(response => {
+                        .then(function(response) {
                             if (!response.ok) {
                                 throw Error(response.statusText);
                             }
                             return response;
                         })
-                        .then(response => response.json())
-                        .then(json => {
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(json) {
                             if (json !== 'OK') {
                                 throw Error('Server error');
                             }
                             // Update form state: success
                             epicReminder.classList.add('success');
                         })
-                        .catch(error => {
+                        .catch(function(error) {
                             console.log('Error creating reminder: ', error);
                             // Update form state: error
                             epicReminder.classList.add('error');
                         })
-                        .finally(() => epicReminder.classList.remove('submitting'));
+                        .finally(function() {
+                            epicReminder.classList.remove('submitting');
+                        });
                 }
             });
         }
