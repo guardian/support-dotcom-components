@@ -1,9 +1,6 @@
 // The function returned here is going to be called on the platform and run
 // client-side after the Epic has been injected in the DOM.
-// We expect the platform to tell us which environment config it wishes to use
-// by passing a isProd flag when calling the init function here.
-
-export const ContributionsEpicInit = (): void => {
+export const componentJs = (): void => {
     // Helper function to validate email needs to be included in this
     // function body
     const isValidEmail = (email: string): boolean => {

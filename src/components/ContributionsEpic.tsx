@@ -8,7 +8,7 @@ import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
-import { ContributionsEpicInit } from './ContributionsEpic.js';
+import { componentJs } from './ContributionsEpic.js';
 import { Button } from './Button';
 
 const replacePlaceholders = (
@@ -252,7 +252,7 @@ export const contributionsEpicSlot = (props: Props): SlotComponent => {
             process.env.NODE_ENV === 'production'
                 ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
                 : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
-        const initScript = ContributionsEpicInit.toString();
+        const initScript = componentJs.toString();
         js = initScript.replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
     }
     return {
