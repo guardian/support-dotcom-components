@@ -161,8 +161,9 @@ export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
     test: (test, _) => {
         // Calculate range of mvtIDs for variants and return first match
-        const lowest = mvtId * (test.audienceOffset || 0);
-        const highest = lowest + mvtId * (test.audience || 1);
+        const maxMVTId = 1000000;
+        const lowest = maxMVTId * (test.audienceOffset || 0);
+        const highest = lowest + maxMVTId * (test.audience || 1);
         return mvtId > lowest && mvtId <= highest;
     },
 });
