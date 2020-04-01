@@ -11,6 +11,7 @@ import {
     withinMaxViews,
     isContentType,
     withinArticleViewedSettings,
+    userInTest,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -171,6 +172,18 @@ describe('variant filters', () => {
         const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
         const got3 = hasCountryCode.test(test3, targeting3);
         expect(got3).toBe(true);
+    });
+
+    it('should filter by user in test', () => {
+        const mvtId = 10;
+
+        const test1 = { ...testDefault, audience: 1, audienceOffset: 0.5 };
+        const got1 = userInTest(mvtId).test(test1, targetingDefault);
+        expect(got1).toBe(false);
+
+        const test2 = { ...testDefault, audience: 0.1, audienceOffset: 0 };
+        const got2 = userInTest(mvtId).test(test2, targetingDefault);
+        expect(got2).toBe(true);
     });
 
     it('should filter by user cohort', () => {
