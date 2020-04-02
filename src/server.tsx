@@ -180,19 +180,23 @@ app.post(
             return;
         }
 
-        const shouldNotRender = shouldNotRenderEpic(targeting);
         const tests = await fetchConfiguredEpicTestsCached();
-        const got = shouldNotRender ? undefined : findVariant(tests, targeting);
+        const got = findVariant(tests, targeting);
 
         const notBothFalsy = expectedTest || got;
         const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;
 
         if (notBothFalsy && notTheSame) {
-            console.log({
-                status: 'comparison failed',
-                targeting,
-                frontendLog,
-            });
+            console.log(
+                'comparison failed with data: ' +
+                    JSON.stringify({
+                        status: 'comparison failed',
+                        got: `${got?.test.name}:${got?.variant.name}`,
+                        want: `${expectedTest}:${expectedVariant}`,
+                        targeting,
+                        frontendLog,
+                    }),
+            );
         }
 
         res.send('thanks');

@@ -1,7 +1,13 @@
-import { EpicTargeting, ViewLog, WeeklyArticleHistory } from '../components/ContributionsEpicTypes';
+import {
+    EpicTargeting,
+    ViewLog,
+    WeeklyArticleHistory,
+    UserCohort,
+} from '../components/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
+import { isRecentOneOffContributor } from '../lib/dates';
 
 interface ArticlesViewedSettings {
     minViews: number;
@@ -48,7 +54,7 @@ export interface Test {
     excludedSections: string[];
     alwaysAsk: boolean;
     maxViews?: MaxViews;
-    userCohort: string;
+    userCohort: UserCohort;
     isLiveBlog: boolean;
     hasCountryName: boolean;
     variants: Variant[];
@@ -73,6 +79,37 @@ interface Filter {
 
 export const selectVariant = (test: Test, mvtId: number): Variant => {
     return test.variants[mvtId % test.variants.length];
+};
+
+export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
+    const { showSupportMessaging, isRecurringContributor } = targeting;
+
+    const lastOneOffContributionDate = targeting.lastOneOffContributionDate
+        ? new Date(targeting.lastOneOffContributionDate)
+        : undefined;
+
+    // User is a current supporter if she has a subscription or a recurring
+    // donation or has made a one-off contribution in the past 3 months.
+    const isSupporter =
+        !showSupportMessaging ||
+        isRecurringContributor ||
+        isRecentOneOffContributor(lastOneOffContributionDate);
+
+    // User is a past-contributor if she doesn't have an active subscription
+    // or recurring donation, but has made a one-off donation longer than 3
+    // months ago.
+    const isPastContributor =
+        !isSupporter &&
+        lastOneOffContributionDate &&
+        !isRecentOneOffContributor(lastOneOffContributionDate);
+
+    if (isPastContributor) {
+        return ['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone'];
+    } else if (isSupporter) {
+        return ['AllExistingSupporters', 'Everyone'];
+    }
+
+    return ['AllNonSupporters', 'Everyone'];
 };
 
 export const hasSectionOrTags: Filter = {
@@ -130,8 +167,9 @@ export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
     test: (test, _) => {
         // Calculate range of mvtIDs for variants and return first match
-        const lowest = mvtId * (test.audienceOffset || 0);
-        const highest = lowest + mvtId * (test.audience || 1);
+        const maxMVTId = 1000000;
+        const lowest = maxMVTId * (test.audienceOffset || 0);
+        const highest = lowest + maxMVTId * (test.audience || 1);
         return mvtId > lowest && mvtId <= highest;
     },
 });
@@ -192,6 +230,11 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
     },
 });
 
+export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
+    id: 'inCorrectCohort',
+    test: (test, _): boolean => userCohorts.includes(test.userCohort),
+});
+
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -212,6 +255,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         isOn,
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
+        inCorrectCohort(getUserCohorts(targeting)),
         excludeSection,
         excludeTags,
         hasCountryCode,
