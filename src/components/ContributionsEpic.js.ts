@@ -1,6 +1,6 @@
 // The function returned here is going to be called on the platform and run
 // client-side after the Epic has been injected in the DOM.
-export const componentJs = function(): void {
+export const componentJs = function initAutomatJs(): void {
     // Helper function to validate email needs to be included in this
     // function body
     const isValidEmail = function(email: string): boolean {
