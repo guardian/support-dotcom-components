@@ -268,18 +268,29 @@ app.post(
             return;
         }
 
-        const tests = await fetchConfiguredEpicTestsCached();
-        const got = findTestAndVariant(tests, targeting);
+        // We need these to satisfy the buildDynamicEpic interface, but it
+        // doesn't matter what values we use
+        const sampleTracking = {
+            ophanPageId: 'xxxxxxxxxxxxx',
+            ophanComponentId: 'ACQUISITIONS_EPIC',
+            platformId: 'GUARDIAN_WEB',
+            clientName: 'xxx',
+            referrerUrl: 'https://theguardian.com',
+        };
+
+        const got = await buildDynamicEpic(sampleTracking, targeting);
 
         const notBothFalsy = expectedTest || got;
-        const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;
+        const gotTestName = got?.meta?.abTestName;
+        const gotVariantName = got?.meta?.abTestVariant;
+        const notTheSame = gotTestName !== expectedTest || gotVariantName !== expectedVariant;
 
         if (notBothFalsy && notTheSame) {
             console.log(
                 'comparison failed with data: ' +
                     JSON.stringify({
                         status: 'comparison failed',
-                        got: `${got?.test.name}:${got?.variant.name}`,
+                        got: `${gotTestName}:${gotVariantName}`,
                         want: `${expectedTest}:${expectedVariant}`,
                         targeting,
                         frontendLog,
