@@ -13,6 +13,17 @@ export const componentJs = function(): void {
         '[data-target="contributions-epic-reminder"]',
     );
     if (epicReminder) {
+        // Toggle reminder form via keyboard on enter key up
+        const epicReminderToggle = document.querySelector<HTMLButtonElement>(
+            '[data-target="toggle"]',
+        );
+        if (epicReminderToggle) {
+            epicReminderToggle.addEventListener('keyup', function(event) {
+                if (event.keyCode === 13) {
+                    epicReminderToggle.click();
+                }
+            });
+        }
         const epicReminderForm = document.querySelector<HTMLButtonElement>('[data-target="form"]');
         if (epicReminderForm) {
             epicReminderForm.addEventListener('submit', function(event) {

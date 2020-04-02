@@ -167,8 +167,13 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
     return (
         <div data-target={`contributions-epic-reminder`} className={rootStyles}>
             <input id={`epicSwitch${unique}`} type="checkbox" className={checkboxStyles} />
-            <label htmlFor={`epicSwitch${unique}`} className={toggleStyles} data-target="toggle">
-                <div data-target="open" className={openButtonStyles} tabIndex={0}>
+            <label
+                htmlFor={`epicSwitch${unique}`}
+                className={toggleStyles}
+                data-target="toggle"
+                tabIndex={0}
+            >
+                <div data-target="open" className={openButtonStyles}>
                     Not a good time? Remind me later
                 </div>
                 <div data-target="close" className={closeButtonStyles} tabIndex={0}>
