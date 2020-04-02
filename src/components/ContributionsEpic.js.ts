@@ -1,6 +1,6 @@
 // The function returned here is going to be called on the platform and run
 // client-side after the Epic has been injected in the DOM.
-export const componentJs = function initAutomatJs(): void {
+export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
     // Helper function to validate email needs to be included in this
     // function body
     const isValidEmail = function(email: string): boolean {
@@ -9,13 +9,13 @@ export const componentJs = function initAutomatJs(): void {
     };
 
     // Check for existence of an Epic that needs initialising
-    const epicReminder = document.querySelector<HTMLElement>(
+    const epicReminder = epicRoot.querySelector<HTMLElement>(
         '[data-target="contributions-epic-reminder"]',
     );
 
     if (epicReminder) {
         // Toggle reminder form via keyboard on enter key up
-        const epicReminderToggle = document.querySelector<HTMLButtonElement>(
+        const epicReminderToggle = epicReminder.querySelector<HTMLButtonElement>(
             '[data-target="toggle"]',
         );
         if (epicReminderToggle) {
@@ -26,11 +26,13 @@ export const componentJs = function initAutomatJs(): void {
             };
             epicReminderToggle.addEventListener('keyup', onToggleClick);
         }
-        const epicReminderForm = document.querySelector<HTMLButtonElement>('[data-target="form"]');
+        const epicReminderForm = epicReminder.querySelector<HTMLButtonElement>(
+            '[data-target="form"]',
+        );
         if (epicReminderForm) {
             const onFormSubmit = function(event: Event): void {
                 event.preventDefault();
-                const epicReminderInput = document.querySelector<HTMLInputElement>(
+                const epicReminderInput = epicReminder.querySelector<HTMLInputElement>(
                     '[data-target="input"]',
                 );
                 if (epicReminderInput) {
