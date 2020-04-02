@@ -13,11 +13,10 @@ export const componentJs = function(): void {
         '[data-target="contributions-epic-reminder"]',
     );
     if (epicReminder) {
-        const epicReminderSubmit = document.querySelector<HTMLButtonElement>(
-            '[data-target="submit"]',
-        );
-        if (epicReminderSubmit) {
-            epicReminderSubmit.addEventListener('click', function() {
+        const epicReminderForm = document.querySelector<HTMLButtonElement>('[data-target="form"]');
+        if (epicReminderForm) {
+            epicReminderForm.addEventListener('submit', function(event) {
+                event.preventDefault();
                 const epicReminderInput = document.querySelector<HTMLInputElement>(
                     '[data-target="input"]',
                 );
@@ -33,7 +32,7 @@ export const componentJs = function(): void {
                     epicReminder.classList.remove('invalid');
                     const formValues = {
                         email: inputValue,
-                        reminderDate: epicReminderSubmit.getAttribute('data-reminder-date'),
+                        reminderDate: epicReminderForm.getAttribute('data-reminder-date'),
                         isPreContribution: true,
                     };
                     // Submit form

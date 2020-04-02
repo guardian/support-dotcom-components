@@ -180,7 +180,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                     <GuardianLines />
                 </div>
                 <div className={containerStyles}>
-                    <div data-target="form">
+                    <form data-target="form" data-reminder-date={reminderDate}>
                         <h4 className={remindHeading}>Remind me in {reminderDateAsString}</h4>
                         <div className={formWrapper}>
                             <div className={inputWrapper}>
@@ -190,7 +190,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                                 iconSide="right"
                                 icon={<SvgArrowRightStraight />}
                                 data-target="submit"
-                                data-reminder-date={reminderDate}
+                                type="submit"
                             >
                                 Set a reminder
                             </Button>
@@ -213,7 +213,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                             </a>
                             .
                         </p>
-                    </div>
+                    </form>
                     <div data-target="success">
                         <h4 className={remindHeading}>Thank you! Your support is so valuable.</h4>
                         <p className={successTextStyles}>
