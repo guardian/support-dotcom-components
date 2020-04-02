@@ -45,6 +45,10 @@ const rootStyles = css`
     &.error [data-target='error'] {
         display: block;
     }
+
+    * {
+        box-sizing: border-box;
+    }
 `;
 
 const checkboxStyles = css`
@@ -164,10 +168,10 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
         <div data-target={`contributions-epic-reminder`} className={rootStyles}>
             <input id={`epicSwitch${unique}`} type="checkbox" className={checkboxStyles} />
             <label htmlFor={`epicSwitch${unique}`} className={toggleStyles} data-target="toggle">
-                <div data-target="open" className={openButtonStyles}>
+                <div data-target="open" className={openButtonStyles} tabIndex={0}>
                     Not a good time? Remind me later
                 </div>
-                <div data-target="close" className={closeButtonStyles}>
+                <div data-target="close" className={closeButtonStyles} tabIndex={0}>
                     <SvgClose />
                 </div>
             </label>
