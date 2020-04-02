@@ -46,6 +46,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
                 method: req.method,
                 path: req.path,
                 didRenderEpic: res.locals.didRenderEpic,
+                clientName: res.locals.clientName,
             }),
         ),
     );
@@ -234,7 +235,10 @@ app.post(
                 ? await buildDynamicEpic(tracking, targeting)
                 : await buildEpic(tracking, targeting);
 
+            // for response logging
             res.locals.didRenderEpic = !!epic;
+            res.locals.clientName = targeting.clientName;
+
             res.send({ data: epic });
         } catch (error) {
             next(error);
