@@ -12,21 +12,23 @@ export const componentJs = function(): void {
     const epicReminder = document.querySelector<HTMLElement>(
         '[data-target="contributions-epic-reminder"]',
     );
+
     if (epicReminder) {
         // Toggle reminder form via keyboard on enter key up
         const epicReminderToggle = document.querySelector<HTMLButtonElement>(
             '[data-target="toggle"]',
         );
         if (epicReminderToggle) {
-            epicReminderToggle.addEventListener('keyup', function(event) {
+            const onToggleClick = function(event: KeyboardEvent): void {
                 if (event.keyCode === 13) {
                     epicReminderToggle.click();
                 }
-            });
+            };
+            epicReminderToggle.addEventListener('keyup', onToggleClick);
         }
         const epicReminderForm = document.querySelector<HTMLButtonElement>('[data-target="form"]');
         if (epicReminderForm) {
-            epicReminderForm.addEventListener('submit', function(event) {
+            const onFormSubmit = function(event: Event): void {
                 event.preventDefault();
                 const epicReminderInput = document.querySelector<HTMLInputElement>(
                     '[data-target="input"]',
@@ -79,7 +81,8 @@ export const componentJs = function(): void {
                             epicReminder.classList.remove('submitting');
                         });
                 }
-            });
+            };
+            epicReminderForm.addEventListener('submit', onFormSubmit);
         }
     }
 };
