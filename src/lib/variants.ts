@@ -226,8 +226,7 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
 
 export const inCorrectCohort = (userCohorts: string[]): Filter => ({
     id: 'inCorrectCohort',
-    test: (test, _): boolean =>
-        test.userCohort === 'Everyone' ? true : userCohorts.includes(test.userCohort),
+    test: (test, _): boolean => userCohorts.includes(test.userCohort),
 });
 
 export const shouldNotRender: Filter = {
