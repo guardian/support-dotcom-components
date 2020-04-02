@@ -188,7 +188,7 @@ describe('variant filters', () => {
     });
 
     it('should filter by user cohort', () => {
-        const test1 = {
+        const test1: Test = {
             ...testDefault,
             userCohort: 'AllNonSupporters',
         };
@@ -200,7 +200,7 @@ describe('variant filters', () => {
         const got1 = filter1.test(test1, targetingDefault);
         expect(got1).toBe(true);
 
-        const test2 = {
+        const test2: Test = {
             ...testDefault,
             userCohort: 'AllExistingSupporters',
         };

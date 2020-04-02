@@ -48,7 +48,7 @@ export interface Test {
     excludedSections: string[];
     alwaysAsk: boolean;
     maxViews?: MaxViews;
-    userCohort: string;
+    userCohort: UserCohort;
     isLiveBlog: boolean;
     hasCountryName: boolean;
     variants: Variant[];
@@ -224,7 +224,7 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
     },
 });
 
-export const inCorrectCohort = (userCohorts: string[]): Filter => ({
+export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     id: 'inCorrectCohort',
     test: (test, _): boolean => userCohorts.includes(test.userCohort),
 });
