@@ -48,7 +48,7 @@ export interface Test {
     excludedSections: string[];
     alwaysAsk: boolean;
     maxViews?: MaxViews;
-    userCohort: string;
+    userCohort: UserCohort;
     isLiveBlog: boolean;
     hasCountryName: boolean;
     variants: Variant[];
@@ -75,7 +75,7 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
     return test.variants[mvtId % test.variants.length];
 };
 
-export const getUserCohort = (targeting: EpicTargeting): UserCohort => {
+export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     const { showSupportMessaging, isRecurringContributor } = targeting;
 
     const lastOneOffContributionDate = targeting.lastOneOffContributionDate
@@ -98,12 +98,12 @@ export const getUserCohort = (targeting: EpicTargeting): UserCohort => {
         !isRecentOneOffContributor(lastOneOffContributionDate);
 
     if (isPastContributor) {
-        return 'PostAskPauseSingleContributors';
+        return ['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone'];
     } else if (isSupporter) {
-        return 'AllExistingSupporters';
+        return ['AllExistingSupporters', 'Everyone'];
     }
 
-    return 'AllNonSupporters';
+    return ['AllNonSupporters', 'Everyone'];
 };
 
 export const hasSectionOrTags: Filter = {
@@ -224,10 +224,9 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
     },
 });
 
-export const inCorrectCohort = (userCohort: UserCohort): Filter => ({
+export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     id: 'inCorrectCohort',
-    test: (test, _): boolean =>
-        test.userCohort === 'Everyone' ? true : test.userCohort === userCohort,
+    test: (test, _): boolean => userCohorts.includes(test.userCohort),
 });
 
 export const shouldNotRender: Filter = {
@@ -250,7 +249,7 @@ export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result |
         isOn,
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
-        inCorrectCohort(getUserCohort(targeting)),
+        inCorrectCohort(getUserCohorts(targeting)),
         excludeSection,
         excludeTags,
         hasCountryCode,
