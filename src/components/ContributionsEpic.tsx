@@ -247,13 +247,12 @@ export interface SlotComponent {
 export const contributionsEpicSlot = (props: Props): SlotComponent => {
     let js = '';
     if (props.variant.showReminderFields) {
-        const contributionRemindersUrl = process.env.CONTRIBUTION_REMINDERS_URL as string;
-        if (contributionRemindersUrl) {
-            const initScript = componentJs.toString();
-            js = initScript.replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionRemindersUrl);
-        } else {
-            console.log('Contribution Reminders URL not set.');
-        }
+        const contributionsReminderUrl =
+            process.env.NODE_ENV === 'production'
+                ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
+                : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
+        const initScript = componentJs.toString();
+        js = initScript.replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
     }
     return {
         component: <ContributionsEpic {...props} />,
