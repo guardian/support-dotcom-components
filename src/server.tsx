@@ -117,12 +117,6 @@ const buildEpic = async (
         ...testTracking,
     };
 
-    // TEST ONLY
-    variant.showReminderFields = {
-        reminderDate: '2020-05-18T09:30:00',
-        reminderDateAsString: 'May',
-    };
-
     // Hardcoding the number of weeks to match common values used in the tests.
     // We know the copy refers to 'articles viewed in past 4 months' and this
     // will show a count for the past year, but this seems to mirror Frontend
@@ -169,11 +163,6 @@ const buildDynamicEpic = async (
     const tracking: EpicTracking = {
         ...pageTracking,
         ...testTracking,
-    };
-
-    variant.showReminderFields = {
-        reminderDate: '2020-05-18T09:30:00',
-        reminderDateAsString: 'May',
     };
 
     // Hardcoding the number of weeks to match common values used in the tests.
