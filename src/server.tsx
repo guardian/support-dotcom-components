@@ -21,7 +21,7 @@ import cors from 'cors';
 import { Validator } from 'jsonschema';
 import * as fs from 'fs';
 import * as path from 'path';
-import { findTestAndVariant } from './lib/variants';
+import { Test, findTestAndVariant, withinMaxViews } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildCampaignCode } from './lib/tracking';
 
@@ -79,7 +79,10 @@ const buildEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
 ): Promise<Epic | null> => {
-    if (shouldNotRenderEpic(targeting)) {
+    if (
+        shouldNotRenderEpic(targeting) ||
+        !withinMaxViews(targeting.epicViewLog || []).test({} as Test, targeting) // Note {} as Test is really flaky but is just for while we run the default Epic
+    ) {
         logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
         return null;
     }
