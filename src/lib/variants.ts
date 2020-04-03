@@ -196,13 +196,19 @@ export const matchesCountryGroups: Filter = {
 export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
     test: (test, _) => {
-        if (test.alwaysAsk || !test.maxViews) {
+        const defaultMaxViews = {
+            maxViewsCount: 4,
+            maxViewsDays: 30,
+            minDaysBetweenViews: 0,
+        };
+
+        if (test.alwaysAsk) {
             return true;
         }
 
         const testId = test.useLocalViewLog ? test.name : undefined;
 
-        return !shouldThrottle(log, test.maxViews, testId, now);
+        return !shouldThrottle(log, test.maxViews || defaultMaxViews, testId, now);
     },
 });
 
