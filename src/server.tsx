@@ -1,4 +1,3 @@
-import React from 'react';
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
@@ -212,7 +211,6 @@ app.get(
                 ? await buildDynamicEpic(pageTracking, targeting)
                 : await buildEpic(pageTracking, targeting);
 
-            // const epic = await buildEpic(tracking, localisation, targeting);
             const { html, css, js } = epic ?? { html: '', css: '', js: '' };
             const htmlContent = renderHtmlDocument({ html, css, js });
             res.send(htmlContent);
