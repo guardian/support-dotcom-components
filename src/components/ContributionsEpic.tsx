@@ -215,7 +215,7 @@ export const ContributionsEpic: React.FC<Props> = ({
                         Support The Guardian
                     </Button>
                 </div>
-                {secondaryCta && secondaryCta.text && (
+                {secondaryCta && secondaryCta.baseUrl && secondaryCta.text && (
                     <div className={buttonMargins}>
                         <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
                             {secondaryCta.text}
