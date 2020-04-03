@@ -4,7 +4,7 @@ import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { ReminderFields } from '../lib/variants';
-import { GuardianLines } from './GuardianLines';
+import { Lines } from '@guardian/src-ed-lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
@@ -182,7 +182,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
             </label>
             <div className={paneStyles} data-target="pane">
                 <div className={lineWrapperStyles}>
-                    <GuardianLines />
+                    <Lines />
                 </div>
                 <div className={containerStyles}>
                     <form data-target="form" data-reminder-date={reminderDate}>

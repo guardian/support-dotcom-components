@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@guardian/src-button": "^0.15.1",
+    "@guardian/src-ed-lines": "^0.15.1-alpha.1",
     "@guardian/src-foundations": "^0.15.1",
     "@guardian/src-svgs": "^0.15.1",
     "@guardian/src-text-input": "^0.15.1",
