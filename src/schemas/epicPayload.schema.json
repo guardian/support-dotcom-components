@@ -13,36 +13,20 @@
                 "platformId": {
                     "type": "string"
                 },
-                "campaignCode": {
-                    "type": "string"
-                },
-                "abTestName": {
-                    "type": "string"
-                },
-                "abTestVariant": {
-                    "type": "string"
-                },
                 "referrerUrl": {
+                    "type": "string"
+                },
+                "clientName": {
                     "type": "string"
                 }
             },
             "required": [
-                "abTestName",
-                "abTestVariant",
-                "campaignCode",
+                "clientName",
                 "ophanComponentId",
                 "ophanPageId",
                 "platformId",
                 "referrerUrl"
             ]
-        },
-        "localisation": {
-            "type": "object",
-            "properties": {
-                "countryCode": {
-                    "type": "string"
-                }
-            }
         },
         "targeting": {
             "type": "object",
@@ -133,7 +117,6 @@
         }
     },
     "required": [
-        "localisation",
         "targeting",
         "tracking"
     ],

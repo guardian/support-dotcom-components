@@ -202,13 +202,19 @@ export const matchesCountryGroups: Filter = {
 export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
     test: (test, _) => {
-        if (test.alwaysAsk || !test.maxViews) {
+        const defaultMaxViews = {
+            maxViewsCount: 4,
+            maxViewsDays: 30,
+            minDaysBetweenViews: 0,
+        };
+
+        if (test.alwaysAsk) {
             return true;
         }
 
         const testId = test.useLocalViewLog ? test.name : undefined;
 
-        return !shouldThrottle(log, test.maxViews, testId, now);
+        return !shouldThrottle(log, test.maxViews || defaultMaxViews, testId, now);
     },
 });
 
@@ -240,12 +246,15 @@ export const shouldNotRender: Filter = {
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
 };
 
-interface Result {
+export interface Result {
     test: Test;
     variant: Variant;
 }
 
-export const findVariant = (data: EpicTests, targeting: EpicTargeting): Result | undefined => {
+export const findTestAndVariant = (
+    data: EpicTests,
+    targeting: EpicTargeting,
+): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
 

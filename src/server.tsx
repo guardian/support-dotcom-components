@@ -1,3 +1,4 @@
+import React from 'react';
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
@@ -8,8 +9,9 @@ import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contrib
 import { cacheAsync } from './lib/cache';
 import { contributionsEpicSlot, SlotComponent } from './components/ContributionsEpic';
 import {
+    EpicPageTracking,
+    EpicTestTracking,
     EpicTracking,
-    EpicLocalisation,
     EpicTargeting,
     EpicPayload,
 } from './components/ContributionsEpicTypes';
@@ -19,8 +21,9 @@ import cors from 'cors';
 import { Validator } from 'jsonschema';
 import * as fs from 'fs';
 import * as path from 'path';
-import { findVariant } from './lib/variants';
+import { Test, findTestAndVariant, withinMaxViews } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
+import { buildCampaignCode } from './lib/tracking';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -43,6 +46,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
                 method: req.method,
                 path: req.path,
                 didRenderEpic: res.locals.didRenderEpic,
+                clientName: res.locals.clientName || 'unknown',
             }),
         ),
     );
@@ -58,12 +62,20 @@ interface Response {
     html: string;
     css: string;
     js: string;
+    meta: EpicTestTracking;
 }
 
 const fiveMinutes = 60 * 5;
 const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
+const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
-const componentAsResponse = (componentWrapper: SlotComponent): Response => {
+const logTargeting = (message: string): void => {
+    if (process.env.LOG_TARGETING === 'true') {
+        console.log(message);
+    }
+};
+
+const componentAsResponse = (componentWrapper: SlotComponent, meta: EpicTestTracking): Response => {
     const { component, js } = componentWrapper;
     const { html, css } = extractCritical(renderToStaticMarkup(component));
 
@@ -71,21 +83,45 @@ const componentAsResponse = (componentWrapper: SlotComponent): Response => {
         html,
         css,
         js,
+        meta,
     };
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
-    tracking: EpicTracking,
-    localisation: EpicLocalisation,
+    pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
 ): Promise<Response | null> => {
-    const variant = await fetchDefaultEpicContentCached();
-
-    // Don't render the Epic if our targeting checks fail
-    if (shouldNotRenderEpic(targeting)) {
+    if (
+        shouldNotRenderEpic(targeting) ||
+        !withinMaxViews(targeting.epicViewLog || []).test({} as Test, targeting) // Note {} as Test is really flaky but is just for while we run the default Epic
+    ) {
+        logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
         return null;
     }
+
+    const variant = await fetchDefaultEpicContentCached();
+    const testName = 'FrontendDotcomRenderingEpic';
+    const campaign = 'frontend_dotcom_rendering_epic';
+    const variantName = pageTracking.clientName; // dcr || frontend
+
+    const testTracking: EpicTestTracking = {
+        abTestName: testName,
+        abTestVariant: variantName,
+        campaignCode: `gdnwb_copts_memco_${campaign}_${variantName}`,
+        campaignId: campaign,
+    };
+
+    const tracking: EpicTracking = {
+        ...pageTracking,
+        ...testTracking,
+    };
+
+    // TEST ONLY
+    variant.showReminderFields = {
+        reminderDate: '2020-05-18T09:30:00',
+        reminderDateAsString: 'May',
+    };
 
     // Hardcoding the number of weeks to match common values used in the tests.
     // We know the copy refers to 'articles viewed in past 4 months' and this
@@ -94,15 +130,71 @@ const buildEpic = async (
     // and template rendering is not necessarily essential.
     const periodInWeeks = 52;
     const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
+    const { countryCode } = targeting;
 
     const props = {
         variant,
         tracking,
-        localisation,
         numArticles,
+        countryCode,
     };
 
-    return componentAsResponse(contributionsEpicSlot(props));
+    logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
+
+    return componentAsResponse(contributionsEpicSlot(props), testTracking);
+};
+
+// Return the HTML and CSS from rendering the Epic to static markup
+const buildDynamicEpic = async (
+    pageTracking: EpicPageTracking,
+    targeting: EpicTargeting,
+): Promise<Response | null> => {
+    const tests = await fetchConfiguredEpicTestsCached();
+    const result = findTestAndVariant(tests, targeting);
+
+    if (!result) {
+        logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
+        return null;
+    }
+
+    const { test, variant } = result;
+
+    const testTracking: EpicTestTracking = {
+        abTestName: test.name,
+        abTestVariant: variant.name,
+        campaignCode: buildCampaignCode(test, variant),
+        campaignId: test.name,
+    };
+
+    const tracking: EpicTracking = {
+        ...pageTracking,
+        ...testTracking,
+    };
+
+    variant.showReminderFields = {
+        reminderDate: '2020-05-18T09:30:00',
+        reminderDateAsString: 'May',
+    };
+
+    // Hardcoding the number of weeks to match common values used in the tests.
+    // We know the copy refers to 'articles viewed in past 4 months' and this
+    // will show a count for the past year, but this seems to mirror Frontend
+    // and an accurate match between the view counts used for variant selection
+    // and template rendering is not necessarily essential.
+    const periodInWeeks = 52;
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
+    const { countryCode } = targeting;
+
+    const props = {
+        variant,
+        tracking,
+        numArticles,
+        countryCode,
+    };
+
+    logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
+
+    return componentAsResponse(contributionsEpicSlot(props), testTracking);
 };
 
 class ValidationError extends Error {}
@@ -119,16 +211,19 @@ const validatePayload = (body: any): EpicPayload => {
     return body as EpicPayload;
 };
 
+const shouldSelectTestDynamically = (): boolean => process.env.ENABLE_DYNAMIC_TESTS === 'true';
+
 app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (process.env.NODE_ENV !== 'production') {
-                validatePayload(testData);
-            }
+            const { pageTracking, targeting } = testData;
 
-            const { tracking, localisation, targeting } = testData;
-            const epic = await buildEpic(tracking, localisation, targeting);
+            const epic = shouldSelectTestDynamically()
+                ? await buildDynamicEpic(pageTracking, targeting)
+                : await buildEpic(pageTracking, targeting);
+
+            // const epic = await buildEpic(tracking, localisation, targeting);
             const { html, css, js } = epic ?? { html: '', css: '', js: '' };
             const htmlContent = renderHtmlDocument({ html, css, js });
             res.send(htmlContent);
@@ -146,17 +241,22 @@ app.post(
                 validatePayload(req.body);
             }
 
-            const { tracking, localisation, targeting } = req.body;
-            const epic = await buildEpic(tracking, localisation, targeting);
+            const { tracking, targeting } = req.body;
+
+            const epic = shouldSelectTestDynamically()
+                ? await buildDynamicEpic(tracking, targeting)
+                : await buildEpic(tracking, targeting);
+
+            // for response logging
             res.locals.didRenderEpic = !!epic;
+            res.locals.clientName = tracking.clientName;
+
             res.send({ data: epic });
         } catch (error) {
             next(error);
         }
     },
 );
-
-const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
 app.post(
     '/epic/compare-variant-decision',
@@ -180,18 +280,29 @@ app.post(
             return;
         }
 
-        const tests = await fetchConfiguredEpicTestsCached();
-        const got = findVariant(tests, targeting);
+        // We need these to satisfy the buildDynamicEpic interface, but it
+        // doesn't matter what values we use
+        const sampleTracking = {
+            ophanPageId: 'xxxxxxxxxxxxx',
+            ophanComponentId: 'ACQUISITIONS_EPIC',
+            platformId: 'GUARDIAN_WEB',
+            clientName: 'xxx',
+            referrerUrl: 'https://theguardian.com',
+        };
+
+        const got = await buildDynamicEpic(sampleTracking, targeting);
 
         const notBothFalsy = expectedTest || got;
-        const notTheSame = got?.test.name !== expectedTest || got?.variant.name !== expectedVariant;
+        const gotTestName = got?.meta?.abTestName;
+        const gotVariantName = got?.meta?.abTestVariant;
+        const notTheSame = gotTestName !== expectedTest || gotVariantName !== expectedVariant;
 
         if (notBothFalsy && notTheSame) {
             console.log(
                 'comparison failed with data: ' +
                     JSON.stringify({
                         status: 'comparison failed',
-                        got: `${got?.test.name}:${got?.variant.name}`,
+                        got: `${gotTestName}:${gotVariantName}`,
                         want: `${expectedTest}:${expectedVariant}`,
                         targeting,
                         frontendLog,

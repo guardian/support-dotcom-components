@@ -35,23 +35,23 @@ export const defaultStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
         platformId: text('platformId', testData.tracking.platformId),
+        clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        campaignId: text('campaignId', testData.tracking.campaignId),
         abTestName: text('abTestName', testData.tracking.abTestName),
         abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
         referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
     };
 
-    // Epic localisation props
-    const epicLocalisation = {
-        countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
-    };
+    // Epic countryCode prop
+    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
 
     return (
         <StorybookWrapper>
             <ContributionsEpic
                 variant={variant}
                 tracking={epicTracking}
-                localisation={epicLocalisation}
+                countryCode={countryCode}
                 numArticles={numArticles}
             />
         </StorybookWrapper>
@@ -76,23 +76,23 @@ export const backgroundImageStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
         platformId: text('platformId', testData.tracking.platformId),
+        clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        campaignId: text('campaignId', testData.tracking.campaignId),
         abTestName: text('abTestName', testData.tracking.abTestName),
         abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
         referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
     };
 
-    // Epic localisation props
-    const epicLocalisation = {
-        countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
-    };
+    // Epic countryCode prop
+    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
 
     return (
         <StorybookWrapper>
             <ContributionsEpic
                 variant={variant}
                 tracking={epicTracking}
-                localisation={epicLocalisation}
+                countryCode={countryCode}
                 numArticles={numArticles}
             />
         </StorybookWrapper>
@@ -120,23 +120,22 @@ export const secondaryButtonStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
         platformId: text('platformId', testData.tracking.platformId),
+        clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        campaignId: text('campaignId', testData.tracking.campaignId),
         abTestName: text('abTestName', testData.tracking.abTestName),
         abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
         referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
     };
 
-    // Epic localisation props
-    const epicLocalisation = {
-        countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
-    };
+    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
 
     return (
         <StorybookWrapper>
             <ContributionsEpic
                 variant={variant}
                 tracking={epicTracking}
-                localisation={epicLocalisation}
+                countryCode={countryCode}
                 numArticles={numArticles}
             />
         </StorybookWrapper>
@@ -167,23 +166,22 @@ export const epicReminderStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
         platformId: text('platformId', testData.tracking.platformId),
+        clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        campaignId: text('campaignId', testData.tracking.campaignId),
         abTestName: text('abTestName', testData.tracking.abTestName),
         abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
         referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
     };
 
-    // Epic localisation props
-    const epicLocalisation = {
-        countryCode: text('countryCode', testData.localisation.countryCode || 'GB'),
-    };
+    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
 
     return (
         <StorybookWrapper>
             <ContributionsEpic
                 variant={variant}
                 tracking={epicTracking}
-                localisation={epicLocalisation}
+                countryCode={countryCode}
                 numArticles={numArticles}
             />
         </StorybookWrapper>

@@ -1,4 +1,9 @@
-import { EpicTracking, EpicLocalisation, EpicTargeting } from './ContributionsEpicTypes';
+import {
+    EpicTestTracking,
+    EpicPageTracking,
+    EpicTracking,
+    EpicTargeting,
+} from './ContributionsEpicTypes';
 
 const content = {
     heading: 'Since you’re here...',
@@ -23,47 +28,41 @@ const content = {
     },
 };
 
-const tracking: EpicTracking = {
+const pageTracking: EpicPageTracking = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
     ophanComponentId: 'ACQUISITIONS_EPIC',
     platformId: 'GUARDIAN_WEB',
-    campaignCode: 'gdnwb_copts_memco_remote_epic_test_api',
-    abTestName: 'remote_epic_test',
-    abTestVariant: 'api',
+    clientName: 'dcr',
     referrerUrl:
         'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
 };
 
-const localisation: EpicLocalisation = {
-    countryCode: 'GB',
+const testTracking: EpicTestTracking = {
+    campaignCode: 'gdnwb_copts_memco_remote_epic_test_api',
+    campaignId: 'remote_epic_test',
+    abTestName: 'remote_epic_test',
+    abTestVariant: 'api',
+};
+
+const tracking: EpicTracking = {
+    ...pageTracking,
+    ...testTracking,
 };
 
 const targeting: EpicTargeting = {
     contentType: 'Article',
-    sectionName: 'culture',
+    sectionName: 'environment',
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
     tags: [
         {
-            id: 'culture/david-schwimmer',
+            id: 'environment/drought',
             type: 'Keyword',
         },
         {
-            id: 'tv-and-radio/friends',
+            id: 'environment/climate-change',
             type: 'Keyword',
-        },
-        {
-            id: 'tone/interview',
-            type: 'Tone',
-        },
-        {
-            id: 'publication/theguardian',
-            type: 'Publication',
-        },
-        {
-            id: 'profile/davidsmith',
-            type: 'Contributor',
         },
     ],
     showSupportMessaging: true,
@@ -74,8 +73,9 @@ const targeting: EpicTargeting = {
         { week: 18337, count: 10 },
         { week: 18330, count: 5 },
     ],
+    countryCode: 'GB',
 };
 
-const testData = { content, tracking, localisation, targeting };
+const testData = { content, tracking, testTracking, pageTracking, targeting };
 
 export default testData;

@@ -1,5 +1,5 @@
 import {
-    findVariant,
+    findTestAndVariant,
     getUserCohorts,
     Test,
     hasCountryCode,
@@ -138,7 +138,7 @@ describe('find variant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting);
 
         expect(got?.test.name).toBe('example-1');
         expect(got?.variant.name).toBe('control-example-1');
@@ -148,7 +148,7 @@ describe('find variant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = { tests: [test] };
         const targeting = { ...targetingDefault, sectionName: 'news' };
-        const got = findVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting);
 
         expect(got).toBe(undefined);
     });
@@ -455,9 +455,9 @@ describe('variant filters', () => {
     it('should filter by max views', () => {
         const viewLog = [
             { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
-            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-07-17T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'B' },
+            { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'example-1' },
+            { date: new Date('2019-07-21T10:24:00').valueOf(), testId: 'example-1' },
             { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
         ];
 
@@ -467,7 +467,7 @@ describe('variant filters', () => {
         const test1 = {
             ...testDefault,
             maxViews: {
-                maxViewsCount: 4,
+                maxViewsCount: 5,
                 maxViewsDays: 30,
                 minDaysBetweenViews: 0,
             },
@@ -491,6 +491,17 @@ describe('variant filters', () => {
         const got2 = filter.test(test2, targetingDefault);
 
         expect(got2).toBe(false);
+
+        // Should apply default max views if test doesn't specify
+        const test3 = {
+            ...testDefault,
+            maxViews: undefined,
+            alwaysAsk: false,
+        };
+
+        const got3 = filter.test(test3, targetingDefault);
+
+        expect(got3).toBe(false);
     });
 
     it('should ignore max views when alwaysAsk is true', () => {

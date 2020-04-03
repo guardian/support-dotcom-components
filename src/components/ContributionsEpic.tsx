@@ -5,7 +5,7 @@ import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
-import { EpicLocalisation, EpicTracking } from './ContributionsEpicTypes';
+import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
 import { componentJs } from './ContributionsEpic.js';
@@ -116,7 +116,7 @@ const buttonMargins = css`
 export type Props = {
     variant: Variant;
     tracking: EpicTracking;
-    localisation: EpicLocalisation;
+    countryCode?: string;
     numArticles: number;
 };
 
@@ -177,11 +177,10 @@ const EpicBody: React.FC<BodyProps> = ({ variant, countryCode, numArticles }: Bo
 export const ContributionsEpic: React.FC<Props> = ({
     variant,
     tracking,
-    localisation,
+    countryCode,
     numArticles,
 }: Props) => {
     const { heading, backgroundImageUrl, secondaryCta, showReminderFields } = variant;
-    const { countryCode } = localisation;
 
     // Get button URL with tracking params in query string
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
@@ -216,7 +215,7 @@ export const ContributionsEpic: React.FC<Props> = ({
                         Support The Guardian
                     </Button>
                 </div>
-                {secondaryCta && (
+                {secondaryCta && secondaryCta.text && (
                     <div className={buttonMargins}>
                         <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
                             {secondaryCta.text}

@@ -1,4 +1,6 @@
-import { getTrackingUrl } from './tracking';
+import { buildCampaignCode, getTrackingUrl } from './tracking';
+import { Test, Variant } from '../lib/variants';
+import { configuredTests } from '../api/contributionsApi.testData';
 
 describe('getTrackingUrl', () => {
     it('should return a correctly formatted URL', () => {
@@ -6,8 +8,10 @@ describe('getTrackingUrl', () => {
             ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
             ophanComponentId: 'ACQUISITIONS_EPIC',
             platformId: 'GUARDIAN_WEB',
+            clientName: 'dcr',
             campaignCode:
                 'gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet',
+            campaignId: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
             abTestName: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
             abTestVariant: 'v2_stay_quiet',
             referrerUrl:
@@ -21,5 +25,25 @@ describe('getTrackingUrl', () => {
         const got = getTrackingUrl(buttonBaseUrl, dummyMeta);
 
         expect(got).toEqual(want);
+    });
+});
+
+describe('buildCampaignCode', () => {
+    it('returns the correct campaign code for the test and variant', () => {
+        const test: Test = {
+            ...configuredTests.tests[0],
+            name: 'enviro_fossil_fuel_r2_Epic__no_article_count',
+        };
+
+        const variant: Variant = {
+            ...configuredTests.tests[0].variants[0],
+            name: 'Control',
+        };
+
+        const campaignCode = buildCampaignCode(test, variant);
+
+        expect(campaignCode).toEqual(
+            'gdnwb_copts_memco_enviro_fossil_fuel_r2_Epic__no_article_count_Control',
+        );
     });
 });
