@@ -235,6 +235,16 @@ export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     test: (test, _): boolean => userCohorts.includes(test.userCohort),
 });
 
+// This is a temporary filter to exclude tests with tickers until we have
+// support for these
+export const hasNoTicker: Filter = {
+    id: 'hasNoTicker',
+    test: (test, _) => {
+        const hasTicker = test.variants.some(variant => variant.showTicker);
+        return !hasTicker;
+    },
+};
+
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -266,6 +276,7 @@ export const findTestAndVariant = (
         withinMaxViews(targeting.epicViewLog || []),
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
+        hasNoTicker,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
