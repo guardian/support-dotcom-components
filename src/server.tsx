@@ -255,7 +255,14 @@ app.post(
             return;
         }
 
-        const { targeting, expectedTest, expectedVariant, frontendLog } = req.body;
+        const {
+            targeting,
+            expectedTest,
+            expectedVariant,
+            expectedCampaignCode,
+            expectedCampaignId,
+            frontendLog,
+        } = req.body;
 
         // Ignore some manually defined tests in Frontend for now
         const ignores = [
@@ -284,15 +291,22 @@ app.post(
         const notBothFalsy = expectedTest || got;
         const gotTestName = got?.meta?.abTestName;
         const gotVariantName = got?.meta?.abTestVariant;
-        const notTheSame = gotTestName !== expectedTest || gotVariantName !== expectedVariant;
+        const gotCampaignCode = got?.meta?.campaignCode;
+        const gotCampaignId = got?.meta?.campaignId;
+
+        const notTheSame =
+            gotTestName !== expectedTest ||
+            gotVariantName !== expectedVariant ||
+            gotCampaignCode !== expectedCampaignCode ||
+            gotCampaignId !== expectedCampaignId;
 
         if (notBothFalsy && notTheSame) {
             console.log(
                 'comparison failed with data: ' +
                     JSON.stringify({
                         status: 'comparison failed',
-                        got: `${gotTestName}:${gotVariantName}`,
-                        want: `${expectedTest}:${expectedVariant}`,
+                        got: `${gotTestName}:${gotVariantName}:${gotCampaignCode}:${gotCampaignId}`,
+                        want: `${expectedTest}:${expectedVariant}:${expectedCampaignCode}:${expectedCampaignId}`,
                         targeting,
                         frontendLog,
                     }),
