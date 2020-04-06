@@ -26,6 +26,11 @@ interface Cta {
     baseUrl: string;
 }
 
+export interface ReminderFields {
+    reminderDate: string;
+    reminderDateAsString: string;
+}
+
 export interface Variant {
     name: string;
     heading?: string;
@@ -36,6 +41,7 @@ export interface Variant {
     secondaryCta?: Cta;
     footer?: string;
     backgroundImageUrl?: string;
+    showReminderFields?: ReminderFields;
 }
 
 export interface Test {

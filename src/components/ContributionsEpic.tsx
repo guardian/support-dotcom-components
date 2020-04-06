@@ -6,7 +6,9 @@ import { space } from '@guardian/src-foundations';
 import { getTrackingUrl } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
+import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
+import { componentJs } from './ContributionsEpic.js';
 import { Button } from './Button';
 
 const replacePlaceholders = (
@@ -178,7 +180,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     countryCode,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl, secondaryCta } = variant;
+    const { heading, backgroundImageUrl, secondaryCta, showReminderFields } = variant;
 
     // Get button URL with tracking params in query string
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
@@ -213,7 +215,7 @@ export const ContributionsEpic: React.FC<Props> = ({
                         Support The Guardian
                     </Button>
                 </div>
-                {secondaryCta && (
+                {secondaryCta && secondaryCta.baseUrl && secondaryCta.text && (
                     <div className={buttonMargins}>
                         <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
                             {secondaryCta.text}
@@ -226,6 +228,34 @@ export const ContributionsEpic: React.FC<Props> = ({
                     className={paymentImageStyles}
                 />
             </div>
+
+            {showReminderFields && (
+                <ContributionsEpicReminder
+                    reminderDate={showReminderFields.reminderDate}
+                    reminderDateAsString={showReminderFields.reminderDateAsString}
+                />
+            )}
         </section>
     );
+};
+
+export interface SlotComponent {
+    component: JSX.Element;
+    js: string;
+}
+
+export const contributionsEpicSlot = (props: Props): SlotComponent => {
+    let js = '';
+    if (props.variant.showReminderFields) {
+        const contributionsReminderUrl =
+            process.env.NODE_ENV === 'production'
+                ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
+                : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
+        const initScript = componentJs.toString();
+        js = initScript.replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
+    }
+    return {
+        component: <ContributionsEpic {...props} />,
+        js,
+    };
 };

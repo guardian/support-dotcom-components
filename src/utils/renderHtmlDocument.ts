@@ -3,6 +3,7 @@ const CDNFontPath = 'https://assets.guim.co.uk/static/frontend';
 interface TemplateData {
     html: string;
     css: string;
+    js: string;
 }
 
 export const fontFaces = `
@@ -109,7 +110,7 @@ export const previewStyles = `
     }
 `;
 
-export const renderHtmlDocument = ({ html, css }: TemplateData): string =>
+export const renderHtmlDocument = ({ html, css, js }: TemplateData): string =>
     `<!DOCTYPE html>
     <html lang="en-GB">
       <head>
@@ -130,6 +131,8 @@ export const renderHtmlDocument = ({ html, css }: TemplateData): string =>
         <div class="preview">
           ${html}
         </div>
+        <script src="https://assets.guim.co.uk/polyfill.io/v3/polyfill.min.js?rum=0&features=es6,es7,es2017,es2018,default-3.6,HTMLPictureElement,IntersectionObserver,IntersectionObserverEntry,fetch,NodeList.prototype.forEach&flags=gated&callback=guardianPolyfilled&unknown=polyfill&cacheClear=1"></script>
+        <script>const init = ${js}; init(document);</script>
       </body>
     </html>
     `;
