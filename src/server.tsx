@@ -1,13 +1,12 @@
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
-import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import { ContributionsEpic } from './components/ContributionsEpic';
+import { contributionsEpicSlot, SlotComponent } from './components/ContributionsEpic';
 import {
     EpicPageTracking,
     EpicTestTracking,
@@ -58,9 +57,10 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-interface Epic {
+interface Response {
     html: string;
     css: string;
+    js: string;
     meta: EpicTestTracking;
 }
 
@@ -74,11 +74,23 @@ const logTargeting = (message: string): void => {
     }
 };
 
+const componentAsResponse = (componentWrapper: SlotComponent, meta: EpicTestTracking): Response => {
+    const { component, js } = componentWrapper;
+    const { html, css } = extractCritical(renderToStaticMarkup(component));
+
+    return {
+        html,
+        css,
+        js,
+        meta,
+    };
+};
+
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
-): Promise<Epic | null> => {
+): Promise<Response | null> => {
     if (
         shouldNotRenderEpic(targeting) ||
         !withinMaxViews(targeting.epicViewLog || []).test({} as Test, targeting) // Note {} as Test is really flaky but is just for while we run the default Epic
@@ -111,32 +123,25 @@ const buildEpic = async (
     // and template rendering is not necessarily essential.
     const periodInWeeks = 52;
     const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
+    const { countryCode } = targeting;
 
-    const { html, css } = extractCritical(
-        renderToStaticMarkup(
-            <ContributionsEpic
-                variant={variant}
-                countryCode={targeting.countryCode}
-                tracking={tracking}
-                numArticles={numArticles}
-            />,
-        ),
-    );
+    const props = {
+        variant,
+        tracking,
+        numArticles,
+        countryCode,
+    };
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
 
-    return {
-        html,
-        css,
-        meta: testTracking,
-    };
+    return componentAsResponse(contributionsEpicSlot(props), testTracking);
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
 const buildDynamicEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
-): Promise<Epic | null> => {
+): Promise<Response | null> => {
     const tests = await fetchConfiguredEpicTestsCached();
     const result = findTestAndVariant(tests, targeting);
 
@@ -166,27 +171,18 @@ const buildDynamicEpic = async (
     // and template rendering is not necessarily essential.
     const periodInWeeks = 52;
     const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
+    const { countryCode } = targeting;
 
-    const { html, css } = extractCritical(
-        renderToStaticMarkup(
-            <ContributionsEpic
-                variant={variant}
-                countryCode={targeting.countryCode}
-                tracking={tracking}
-                numArticles={numArticles}
-            />,
-        ),
-    );
+    const props = {
+        variant,
+        tracking,
+        numArticles,
+        countryCode,
+    };
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
 
-    return {
-        html,
-        css,
-        meta: {
-            ...testTracking,
-        },
-    };
+    return componentAsResponse(contributionsEpicSlot(props), testTracking);
 };
 
 class ValidationError extends Error {}
@@ -215,8 +211,8 @@ app.get(
                 ? await buildDynamicEpic(pageTracking, targeting)
                 : await buildEpic(pageTracking, targeting);
 
-            const { html, css } = epic ?? { html: '', css: '' };
-            const htmlContent = renderHtmlDocument({ html, css });
+            const { html, css, js } = epic ?? { html: '', css: '', js: '' };
+            const htmlContent = renderHtmlDocument({ html, css, js });
             res.send(htmlContent);
         } catch (error) {
             next(error);
