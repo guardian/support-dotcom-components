@@ -201,8 +201,8 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                             </Button>
                         </div>
                         <p className={errorTextStyles} data-target="error">
-                            We couldn&apos;t set a reminder for you this time. Please try again
-                            later.
+                            Sorry we couldn&apos;t set a reminder for you this time. Please try
+                            again later.
                         </p>
                         <p className={formTextStyles}>
                             We will use this to send you a single email in {reminderDateAsString}.
@@ -220,7 +220,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                         </p>
                     </form>
                     <div data-target="success">
-                        <h4 className={remindHeading}>Thank you! Your support is so valuable.</h4>
+                        <h4 className={remindHeading}>Thank you! Your reminder is set.</h4>
                         <p className={successTextStyles}>
                             We will be in touch to invite you to contribute. Look out for a message
                             in your inbox in {reminderDateAsString}. If you have any questions about
