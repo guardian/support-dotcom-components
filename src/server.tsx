@@ -164,12 +164,6 @@ const buildDynamicEpic = async (
         ...testTracking,
     };
 
-    variant.showReminderFields = {
-        reminderCTA: 'Remind me in July',
-        reminderDate: '2020-07-19 00:00:00',
-        reminderDateAsString: 'July 2020',
-    };
-
     // Hardcoding the number of weeks to match common values used in the tests.
     // We know the copy refers to 'articles viewed in past 4 months' and this
     // will show a count for the past year, but this seems to mirror Frontend
