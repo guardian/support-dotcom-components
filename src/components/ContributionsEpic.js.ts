@@ -1,5 +1,5 @@
 interface InitAutomatJsConfig {
-    epicRoot: HTMLElement | null;
+    epicRoot: HTMLElement | ShadowRoot;
     onReminderOpen?: Function;
 }
 
