@@ -1,9 +1,23 @@
+interface InitAutomatJsConfig {
+    epicRoot: HTMLElement | null;
+    onReminderOpen?: Function;
+}
+
+interface AutomatJsCallback {
+    buttonCopyAsString: string;
+}
+
 // The function returned here is going to be called on the platform and run
 // client-side after the Epic has been injected in the DOM.
-export const componentJs = function initAutomatJs(
-    epicRoot: HTMLElement,
-    onReminderOpen?: Function,
-): void {
+export const componentJs = function initAutomatJs({
+    epicRoot,
+    onReminderOpen,
+}: InitAutomatJsConfig): void {
+    // Return early if no epicRoot is set
+    if (!epicRoot) {
+        console.error('An epicRoot must be set when calling initAutomatJs()');
+        return;
+    }
     // Helper function to validate email needs to be included in this
     // function body
     const isValidEmail = function(email: string): boolean {
@@ -35,7 +49,7 @@ export const componentJs = function initAutomatJs(
                             : '';
                         onReminderOpen({
                             buttonCopyAsString,
-                        });
+                        } as AutomatJsCallback);
                     }
                 });
             }
