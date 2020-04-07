@@ -231,6 +231,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             {showReminderFields && (
                 <ContributionsEpicReminder
+                    reminderCTA={showReminderFields.reminderCTA}
                     reminderDate={showReminderFields.reminderDate}
                     reminderDateAsString={showReminderFields.reminderDateAsString}
                 />

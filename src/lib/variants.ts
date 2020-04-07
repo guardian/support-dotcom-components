@@ -27,6 +27,7 @@ interface Cta {
 }
 
 export interface ReminderFields {
+    reminderCTA: string;
     reminderDate: string;
     reminderDateAsString: string;
 }
