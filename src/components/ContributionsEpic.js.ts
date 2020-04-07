@@ -3,7 +3,7 @@
 export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
     // Helper function to validate email needs to be included in this
     // function body
-    const isValidEmail = (email: string): boolean => {
+    const isValidEmail = function(email: string): boolean {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     };
@@ -19,7 +19,7 @@ export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
             '[data-target="toggle"]',
         );
         if (epicReminderToggle) {
-            epicReminderToggle.addEventListener('keyup', (event: KeyboardEvent): void => {
+            epicReminderToggle.addEventListener('keyup', function(event: KeyboardEvent): void {
                 if (event.keyCode === 13) {
                     epicReminderToggle.click();
                 }
@@ -29,7 +29,7 @@ export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
             '[data-target="form"]',
         );
         if (epicReminderForm) {
-            epicReminderForm.addEventListener('submit', (event: Event): void => {
+            epicReminderForm.addEventListener('submit', function(event: Event): void {
                 event.preventDefault();
                 const epicReminderInput = epicReminder.querySelector<HTMLInputElement>(
                     '[data-target="input"]',
@@ -57,26 +57,30 @@ export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
                         },
                         body: JSON.stringify(formValues),
                     })
-                        .then(response => {
+                        .then(function(response) {
                             if (!response.ok) {
                                 throw Error(response.statusText);
                             }
                             return response;
                         })
-                        .then(response => response.json())
-                        .then(json => {
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(json) {
                             if (json !== 'OK') {
                                 throw Error('Server error');
                             }
                             // Update form state: success
                             epicReminder.classList.add('success');
                         })
-                        .catch(error => {
+                        .catch(function(error) {
                             console.log('Error creating reminder: ', error);
                             // Update form state: error
                             epicReminder.classList.add('error');
                         })
-                        .finally(() => epicReminder.classList.remove('submitting'));
+                        .finally(function() {
+                            epicReminder.classList.remove('submitting');
+                        });
                 }
             });
         }
