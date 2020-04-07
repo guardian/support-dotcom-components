@@ -153,6 +153,7 @@ export const epicReminderStory = (): ReactElement => {
         highlightedText: text('highlightedText', testData.content.highlightedText),
         showTicker: false,
         showReminderFields: {
+            reminderCTA: text('reminderCTA', testData.content.showReminderFields.reminderCTA),
             reminderDate: text('reminderDate', testData.content.showReminderFields.reminderDate),
             reminderDateAsString: text(
                 'reminderDateAsString',

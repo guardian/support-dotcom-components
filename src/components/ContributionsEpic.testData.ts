@@ -18,6 +18,7 @@ const content = {
     backgroundImageUrl:
         'https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixlib=rb-1.2.1&auto=format&fit=crop&w=1701&q=80',
     showReminderFields: {
+        reminderCTA: 'Remind me in May',
         reminderDate: '2020-05-18T09:30:00',
         reminderDateAsString: 'May',
     },
