@@ -12,6 +12,7 @@ import {
     isContentType,
     withinArticleViewedSettings,
     userInTest,
+    hasNoTicker,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -556,5 +557,33 @@ describe('variant filters', () => {
 
         const got2 = isContentType.test(test2, targeting2);
         expect(got2).toBe(false);
+    });
+
+    it('should filter by ticker feature', () => {
+        // Fail if there are tickers
+        const test1 = {
+            ...testDefault,
+            variants: [
+                {
+                    ...testDefault.variants[0],
+                    showTicker: true,
+                },
+            ],
+        };
+        const got1 = hasNoTicker.test(test1, targetingDefault);
+        expect(got1).toBe(false);
+
+        // Pass if there are no tickers
+        const test2 = {
+            ...testDefault,
+            variants: [
+                {
+                    ...testDefault.variants[0],
+                    showTicker: false,
+                },
+            ],
+        };
+        const got2 = hasNoTicker.test(test2, targetingDefault);
+        expect(got2).toBe(true);
     });
 });

@@ -241,6 +241,15 @@ export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     test: (test, _): boolean => userCohorts.includes(test.userCohort),
 });
 
+// Temporary filter to exclude tests with tickers until we support them
+export const hasNoTicker: Filter = {
+    id: 'hasNoTicker',
+    test: (test, _) => {
+        const hasTicker = test.variants.some(variant => variant.showTicker);
+        return !hasTicker;
+    },
+};
+
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -257,7 +266,6 @@ export const findTestAndVariant = (
 ): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
-
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
     const filters: Filter[] = [
         shouldNotRender,
@@ -272,6 +280,7 @@ export const findTestAndVariant = (
         withinMaxViews(targeting.epicViewLog || []),
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
+        hasNoTicker,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
