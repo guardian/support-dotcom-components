@@ -186,8 +186,18 @@ export const ContributionsEpic: React.FC<Props> = ({
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
     const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
 
+    // Epic Reminders
+    const reminderCTA = showReminderFields?.reminderCTA || 'Not a good time? Remind me later';
+
     return (
-        <section className={wrapperStyles}>
+        <section
+            className={wrapperStyles}
+            data-target={
+                showReminderFields && showReminderFields.reminderDate
+                    ? 'contributions-epic-with-reminder'
+                    : undefined
+            }
+        >
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
                     <img
@@ -222,6 +232,18 @@ export const ContributionsEpic: React.FC<Props> = ({
                         </Button>
                     </div>
                 )}
+                {showReminderFields && showReminderFields.reminderDate && (
+                    <div className={buttonMargins}>
+                        <Button
+                            // eslint-disable-next-line @typescript-eslint/no-empty-function
+                            onClickAction={(): void => {}}
+                            data-target="remind"
+                            priority="secondary"
+                        >
+                            {reminderCTA}
+                        </Button>
+                    </div>
+                )}
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
@@ -231,7 +253,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             {showReminderFields && (
                 <ContributionsEpicReminder
-                    reminderCTA={showReminderFields.reminderCTA}
+                    reminderCTA={reminderCTA}
                     reminderDate={showReminderFields.reminderDate}
                     reminderDateAsString={showReminderFields.reminderDateAsString}
                 />

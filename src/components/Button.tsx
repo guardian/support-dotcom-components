@@ -32,12 +32,8 @@ type Props = {
     showArrow?: boolean;
 };
 
-export const Button: React.FC<Props> = ({
-    onClickAction,
-    children,
-    showArrow = false,
-    priority = 'primary',
-}: Props) => {
+export const Button: React.FC<Props> = (props: Props) => {
+    const { onClickAction, children, showArrow = false, priority = 'primary' } = props;
     if (typeof onClickAction === 'string') {
         return (
             <ThemeProvider theme={contributionsTheme}>
@@ -47,6 +43,7 @@ export const Button: React.FC<Props> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     priority={priority}
+                    {...props}
                 >
                     {children}
                 </LinkButton>
@@ -60,6 +57,7 @@ export const Button: React.FC<Props> = ({
                 icon={showArrow ? <SvgArrowRightStraight /> : undefined}
                 onClick={(): void => onClickAction()}
                 priority={priority}
+                {...props}
             >
                 {children}
             </DSButton>

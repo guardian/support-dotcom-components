@@ -84,6 +84,7 @@ const openButtonStyles = css`
     })};
     text-decoration: underline;
     cursor: pointer;
+    display: none;
 `;
 
 const closeButtonStyles = css`
@@ -147,7 +148,7 @@ const inputWrapper = css`
 `;
 
 const formTextStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })};
+    ${textSans.small()};
     font-style: italic;
     margin-top: ${space[1]}px;
 `;
@@ -165,15 +166,14 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
     reminderDateAsString,
 }: ReminderFields) => {
     const unique = new Date().valueOf();
-    const reminderButtonCopy = reminderCTA || 'Not a good time? Remind me later';
     return (
-        <div data-target={`contributions-epic-reminder`} className={rootStyles}>
+        <div className={rootStyles} data-target="wrapper">
             <input
                 id={`epicSwitch${unique}`}
                 type="checkbox"
                 className={checkboxStyles}
                 data-target="checkbox"
-                data-button-copy={reminderButtonCopy}
+                data-button-copy={reminderCTA}
             />
             <label
                 htmlFor={`epicSwitch${unique}`}
@@ -182,7 +182,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                 tabIndex={0}
             >
                 <div data-target="open" className={openButtonStyles}>
-                    {reminderButtonCopy}
+                    {reminderCTA}
                 </div>
                 <div data-target="close" className={closeButtonStyles} tabIndex={0}>
                     <SvgClose />

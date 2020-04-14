@@ -27,7 +27,7 @@ export const componentJs = function initAutomatJs({
 
     // Check for existence of an Epic that needs initialising
     const epicReminder = epicRoot.querySelector<HTMLElement>(
-        '[data-target="contributions-epic-reminder"]',
+        '[data-target="contributions-epic-with-reminder"]',
     );
 
     if (epicReminder) {
@@ -54,31 +54,41 @@ export const componentJs = function initAutomatJs({
                 });
             }
             // Enable keyboard toggling
+            const remindButton = epicRoot.querySelector<HTMLElement>('[data-target="remind"]');
+            if (remindButton) {
+                remindButton.addEventListener('click', function(): void {
+                    console.log('Test');
+                    epicReminderToggle.click();
+                });
+            }
             epicReminderToggle.addEventListener('keyup', function(event: KeyboardEvent): void {
                 if (event.keyCode === 13) {
                     epicReminderToggle.click();
                 }
             });
         }
+        const epicReminderWrapper = epicReminder.querySelector<HTMLButtonElement>(
+            '[data-target="wrapper"]',
+        );
         const epicReminderForm = epicReminder.querySelector<HTMLButtonElement>(
             '[data-target="form"]',
         );
-        if (epicReminderForm) {
+        if (epicReminderWrapper && epicReminderForm) {
             epicReminderForm.addEventListener('submit', function(event: Event): void {
                 event.preventDefault();
-                const epicReminderInput = epicReminder.querySelector<HTMLInputElement>(
+                const epicReminderInput = epicReminderWrapper.querySelector<HTMLInputElement>(
                     '[data-target="input"]',
                 );
                 if (epicReminderInput) {
                     const inputValue = epicReminderInput.value.trim();
                     if (!inputValue || !isValidEmail(inputValue)) {
                         // Update form state: invalid
-                        epicReminder.classList.add('invalid');
+                        epicReminderWrapper.classList.add('invalid');
                         return;
                     }
                     // Update form state: submitting
-                    epicReminder.classList.add('submitting');
-                    epicReminder.classList.remove('invalid');
+                    epicReminderWrapper.classList.add('submitting');
+                    epicReminderWrapper.classList.remove('invalid');
                     const formValues = {
                         email: inputValue,
                         reminderDate: epicReminderForm.getAttribute('data-reminder-date'),
@@ -106,15 +116,15 @@ export const componentJs = function initAutomatJs({
                                 throw Error('Server error');
                             }
                             // Update form state: success
-                            epicReminder.classList.add('success');
+                            epicReminderWrapper.classList.add('success');
                         })
                         .catch(function(error) {
                             console.log('Error creating reminder: ', error);
                             // Update form state: error
-                            epicReminder.classList.add('error');
+                            epicReminderWrapper.classList.add('error');
                         })
                         .finally(function() {
-                            epicReminder.classList.remove('submitting');
+                            epicReminderWrapper.classList.remove('submitting');
                         });
                 }
             });
