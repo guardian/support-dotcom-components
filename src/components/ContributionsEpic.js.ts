@@ -1,6 +1,23 @@
+interface InitAutomatJsConfig {
+    epicRoot: HTMLElement | ShadowRoot;
+    onReminderOpen?: Function;
+}
+
+interface AutomatJsCallback {
+    buttonCopyAsString: string;
+}
+
 // The function returned here is going to be called on the platform and run
 // client-side after the Epic has been injected in the DOM.
-export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
+export const componentJs = function initAutomatJs({
+    epicRoot,
+    onReminderOpen,
+}: InitAutomatJsConfig): void {
+    // Return early if no epicRoot is set
+    if (!epicRoot) {
+        console.error('An epicRoot must be set when calling initAutomatJs()');
+        return;
+    }
     // Helper function to validate email needs to be included in this
     // function body
     const isValidEmail = function(email: string): boolean {
@@ -15,10 +32,28 @@ export const componentJs = function initAutomatJs(epicRoot: HTMLElement): void {
 
     if (epicReminder) {
         // Toggle reminder form via keyboard on enter key up
-        const epicReminderToggle = epicReminder.querySelector<HTMLButtonElement>(
+        const epicReminderToggle = epicReminder.querySelector<HTMLLabelElement>(
             '[data-target="toggle"]',
         );
         if (epicReminderToggle) {
+            // Callback for Reminder CTA clicks
+            if (typeof onReminderOpen === 'function') {
+                epicReminderToggle.addEventListener('click', function(): void {
+                    const epicReminderCheckbox = epicReminder.querySelector<HTMLInputElement>(
+                        '[data-target="checkbox"]',
+                    );
+                    if (epicReminderCheckbox && epicReminderCheckbox.checked === false) {
+                        const buttonCopy = epicReminderCheckbox.getAttribute('data-button-copy');
+                        const buttonCopyAsString = buttonCopy
+                            ? buttonCopy.toLowerCase().replace(/\s/g, '-')
+                            : '';
+                        onReminderOpen({
+                            buttonCopyAsString,
+                        } as AutomatJsCallback);
+                    }
+                });
+            }
+            // Enable keyboard toggling
             epicReminderToggle.addEventListener('keyup', function(event: KeyboardEvent): void {
                 if (event.keyCode === 13) {
                     epicReminderToggle.click();

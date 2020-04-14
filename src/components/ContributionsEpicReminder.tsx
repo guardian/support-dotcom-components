@@ -160,13 +160,21 @@ const errorTextStyles = css`
 `;
 
 export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
+    reminderCTA,
     reminderDate,
     reminderDateAsString,
 }: ReminderFields) => {
     const unique = new Date().valueOf();
+    const reminderButtonCopy = reminderCTA || 'Not a good time? Remind me later';
     return (
         <div data-target={`contributions-epic-reminder`} className={rootStyles}>
-            <input id={`epicSwitch${unique}`} type="checkbox" className={checkboxStyles} />
+            <input
+                id={`epicSwitch${unique}`}
+                type="checkbox"
+                className={checkboxStyles}
+                data-target="checkbox"
+                data-button-copy={reminderButtonCopy}
+            />
             <label
                 htmlFor={`epicSwitch${unique}`}
                 className={toggleStyles}
@@ -174,7 +182,7 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
                 tabIndex={0}
             >
                 <div data-target="open" className={openButtonStyles}>
-                    Not a good time? Remind me later
+                    {reminderButtonCopy}
                 </div>
                 <div data-target="close" className={closeButtonStyles} tabIndex={0}>
                     <SvgClose />
