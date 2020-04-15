@@ -232,10 +232,12 @@ export const ContributionsEpic: React.FC<Props> = ({
                 {showReminderFields && (
                     <div className={buttonMargins}>
                         <Button
-                            // eslint-disable-next-line @typescript-eslint/no-empty-function
-                            onClickAction={(): void => {}}
+                            // We need to pass a function into 'onClickAction'
+                            // even though it won't be called when the button is
+                            // clicked post-injection on the client side.
+                            onClickAction={(): void => undefined}
                             data-target="remind"
-                            priority="secondary"
+                            isTertiary
                         >
                             {showReminderFields.reminderCTA}
                         </Button>
