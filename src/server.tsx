@@ -23,6 +23,11 @@ import * as path from 'path';
 import { Test, findTestAndVariant, withinMaxViews } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildCampaignCode } from './lib/tracking';
+import {
+    errorHandling as errorHandlingMiddleware,
+    logging as loggingMiddleware,
+} from './middleware';
+import { ValidationError } from './errors/validationError';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -36,21 +41,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 app.options('*', cors());
 
-// Logging
-app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.on('finish', () =>
-        console.log(
-            JSON.stringify({
-                status: res.statusCode,
-                method: req.method,
-                path: req.path,
-                didRenderEpic: res.locals.didRenderEpic,
-                clientName: res.locals.clientName || 'unknown',
-            }),
-        ),
-    );
-    next();
-});
+app.use(loggingMiddleware);
 
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
@@ -197,7 +188,6 @@ const buildDynamicEpic = async (
     return componentAsResponse(contributionsEpicSlot(props), testTracking);
 };
 
-class ValidationError extends Error {}
 const validator = new Validator(); // reuse as expensive to initialise
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -327,22 +317,7 @@ app.post(
     },
 );
 
-// Error handling middleware in Express needs to take 4 arguments in the handler
-// for it to run when `next()` function is called in the route handler
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((error: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    const { message } = error;
-
-    switch (error.constructor) {
-        case ValidationError:
-            res.status(400).send({ error: message });
-            break;
-        default:
-            res.status(500).send({ error: message });
-    }
-
-    console.log('Something went wrong: ', message);
-});
+app.use(errorHandlingMiddleware);
 
 // If local then don't wrap in serverless
 const PORT = process.env.PORT || 3030;
