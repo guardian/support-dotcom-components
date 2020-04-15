@@ -8,7 +8,7 @@ import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
-import { componentJs } from './ContributionsEpic.js';
+import { componentJs } from './ContributionsEpic.script';
 import { Button } from './Button';
 
 const replacePlaceholders = (
@@ -88,6 +88,10 @@ const buttonWrapperStyles = css`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+
+    &.hidden {
+        display: none;
+    }
 `;
 
 const paymentImageStyles = css`
@@ -186,14 +190,8 @@ export const ContributionsEpic: React.FC<Props> = ({
     const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
     const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
 
-    // Epic Reminders
-    // const reminderCTA = showReminderFields.reminderCTA || 'Not a good time? Remind me later';
-
     return (
-        <section
-            className={wrapperStyles}
-            data-target={showReminderFields ? 'contributions-epic-with-reminder' : undefined}
-        >
+        <section className={wrapperStyles} data-target="contributions-epic">
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
                     <img
@@ -215,7 +213,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
-            <div className={buttonWrapperStyles}>
+            <div className={buttonWrapperStyles} data-target="epic-buttons">
                 <div className={buttonMargins}>
                     <Button onClickAction={buttonTrackingUrl} showArrow>
                         Support The Guardian
@@ -236,7 +234,7 @@ export const ContributionsEpic: React.FC<Props> = ({
                             // even though it won't be called when the button is
                             // clicked post-injection on the client side.
                             onClickAction={(): void => undefined}
-                            data-target="remind"
+                            data-target="epic-open"
                             isTertiary
                         >
                             {showReminderFields.reminderCTA}

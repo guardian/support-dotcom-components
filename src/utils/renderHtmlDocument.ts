@@ -132,7 +132,7 @@ export const renderHtmlDocument = ({ html, css, js }: TemplateData): string =>
           ${html}
         </div>
         <script src="https://assets.guim.co.uk/polyfill.io/v3/polyfill.min.js?rum=0&features=es6,es7,es2017,es2018,default-3.6,HTMLPictureElement,IntersectionObserver,IntersectionObserverEntry,fetch,NodeList.prototype.forEach&flags=gated&callback=guardianPolyfilled&unknown=polyfill&cacheClear=1"></script>
-        <script>const init = ${js}; init({ epicRoot: document });</script>
+        <script>const init = ${js}; init({ epicRoot: document, onReminderOpen: params => console.log('onReminderOpen:', params) });</script>
       </body>
     </html>
     `;
