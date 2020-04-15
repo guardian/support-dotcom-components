@@ -8,7 +8,7 @@ import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
-import { componentJs } from './ContributionsEpic.script';
+import { componentJs } from './ContributionsEpic.js';
 import { Button } from './Button';
 
 const replacePlaceholders = (
