@@ -10,6 +10,7 @@ import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
 import { componentJs } from './ContributionsEpic.script';
 import { Button } from './Button';
+import { transform } from '@babel/standalone';
 
 const replacePlaceholders = (
     content: string,
@@ -272,8 +273,15 @@ export const contributionsEpicSlot = (props: Props): SlotComponent => {
             process.env.NODE_ENV === 'production'
                 ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
                 : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
-        const initScript = componentJs.toString();
-        js = initScript.replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
+        const componentJsAsString = componentJs.toString();
+        const componentJsTranspiled = transform(componentJsAsString, {
+            presets: ['env'],
+        }).code;
+        if (componentJsTranspiled) {
+            js = componentJsTranspiled
+                .replace('"use strict";', '')
+                .replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
+        }
     }
     return {
         component: <ContributionsEpic {...props} />,

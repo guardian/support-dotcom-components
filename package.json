@@ -7,6 +7,7 @@
   "author": "The Guardian",
   "license": "MIT",
   "private": false,
+  "browserslist": "> 0.25%, not dead",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpileOnly src/server.tsx",
     "test": "jest",
@@ -22,6 +23,7 @@
     "validate-schemas": "./src/scripts/validate-schema-updates.sh"
   },
   "dependencies": {
+    "@babel/standalone": "^7.9.5",
     "@guardian/src-button": "^0.15.1",
     "@guardian/src-ed-lines": "^0.15.1-alpha.1",
     "@guardian/src-foundations": "^0.15.1",
@@ -29,6 +31,7 @@
     "@guardian/src-text-input": "^0.15.1",
     "@storybook/addon-knobs": "^5.3.8",
     "@storybook/preset-typescript": "^1.2.0",
+    "@types/babel__standalone": "^7.1.2",
     "aws-serverless-express": "^3.3.6",
     "cors": "^2.8.5",
     "emotion": "^10.0.27",
