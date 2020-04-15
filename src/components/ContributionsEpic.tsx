@@ -187,16 +187,12 @@ export const ContributionsEpic: React.FC<Props> = ({
     const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
 
     // Epic Reminders
-    const reminderCTA = showReminderFields?.reminderCTA || 'Not a good time? Remind me later';
+    // const reminderCTA = showReminderFields.reminderCTA || 'Not a good time? Remind me later';
 
     return (
         <section
             className={wrapperStyles}
-            data-target={
-                showReminderFields && showReminderFields.reminderDate
-                    ? 'contributions-epic-with-reminder'
-                    : undefined
-            }
+            data-target={showReminderFields ? 'contributions-epic-with-reminder' : undefined}
         >
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
@@ -232,7 +228,8 @@ export const ContributionsEpic: React.FC<Props> = ({
                         </Button>
                     </div>
                 )}
-                {showReminderFields && showReminderFields.reminderDate && (
+
+                {showReminderFields && (
                     <div className={buttonMargins}>
                         <Button
                             // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -240,10 +237,11 @@ export const ContributionsEpic: React.FC<Props> = ({
                             data-target="remind"
                             priority="secondary"
                         >
-                            {reminderCTA}
+                            {showReminderFields.reminderCTA}
                         </Button>
                     </div>
                 )}
+
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
@@ -253,7 +251,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             {showReminderFields && (
                 <ContributionsEpicReminder
-                    reminderCTA={reminderCTA}
+                    reminderCTA={showReminderFields.reminderCTA}
                     reminderDate={showReminderFields.reminderDate}
                     reminderDateAsString={showReminderFields.reminderDateAsString}
                 />
