@@ -10,39 +10,46 @@ import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
 
 const rootStyles = css`
-    [data-target='success'] {
-        display: none;
-    }
+    display: none;
+    position: relative;
 
-    [data-target='error'] {
-        display: none;
-    }
-
-    &.success [data-target='success'] {
+    &.visible {
         display: block;
     }
 
-    &.success [data-target='form'] {
+    [data-target='epic-success'] {
         display: none;
     }
 
-    &.success [data-target='close'] {
+    [data-target='epic-error'] {
+        display: none;
+    }
+
+    &.success [data-target='epic-success'] {
+        display: block;
+    }
+
+    &.success [data-target='epic-form'] {
+        display: none;
+    }
+
+    &.success [data-target='epic-close'] {
         display: none !important;
     }
 
-    &.invalid [data-target='input'] {
+    &.invalid [data-target='epic-input'] {
         border: 4px solid ${palette.error.main};
         color: ${palette.error.main};
     }
 
-    &.submitting [data-target='submit'] {
+    &.submitting [data-target='epic-submit'] {
         pointer-events: none;
         color: ${palette.neutral[60]};
         background-color: ${palette.neutral[93]};
         border: 1px solid ${palette.neutral[86]};
     }
 
-    &.error [data-target='error'] {
+    &.error [data-target='epic-error'] {
         display: block;
     }
 
@@ -51,56 +58,17 @@ const rootStyles = css`
     }
 `;
 
-const checkboxStyles = css`
-    display: none;
-
-    + [data-target='toggle'] [data-target='close'] {
-        display: none;
-    }
-
-    :checked ~ [data-target='pane'] {
-        display: block;
-    }
-
-    :checked + [data-target='toggle'] [data-target='close'] {
-        display: block;
-    }
-
-    :checked + [data-target='toggle'] [data-target='open'] {
-        display: none;
-    }
-`;
-
-const toggleStyles = css`
-    display: block;
-    position: relative;
-    text-align: right;
-    padding-right: ${space[4]}px;
-`;
-
-const openButtonStyles = css`
-    ${textSans.medium({
-        fontWeight: 'bold',
-    })};
-    text-decoration: underline;
-    cursor: pointer;
-`;
-
 const closeButtonStyles = css`
     width: 30px;
     height: 30px;
     cursor: pointer;
     position: absolute;
-    bottom: -47px;
+    top: 20px;
     right: 0;
 `;
 
-const paneStyles = css`
-    display: none;
-`;
-
 const lineWrapperStyles = css`
-    margin: ${space[2]}px auto;
+    margin: ${space[3]}px auto;
 `;
 
 const containerStyles = css`
@@ -147,7 +115,7 @@ const inputWrapper = css`
 `;
 
 const formTextStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })};
+    ${textSans.small()};
     font-style: italic;
     margin-top: ${space[1]}px;
 `;
@@ -163,87 +131,60 @@ export const ContributionsEpicReminder: React.FC<ReminderFields> = ({
     reminderCTA,
     reminderDate,
     reminderDateAsString,
-}: ReminderFields) => {
-    const unique = new Date().valueOf();
-    const reminderButtonCopy = reminderCTA || 'Not a good time? Remind me later';
-    return (
-        <div data-target={`contributions-epic-reminder`} className={rootStyles}>
-            <input
-                id={`epicSwitch${unique}`}
-                type="checkbox"
-                className={checkboxStyles}
-                data-target="checkbox"
-                data-button-copy={reminderButtonCopy}
-            />
-            <label
-                htmlFor={`epicSwitch${unique}`}
-                className={toggleStyles}
-                data-target="toggle"
-                tabIndex={0}
-            >
-                <div data-target="open" className={openButtonStyles}>
-                    {reminderButtonCopy}
-                </div>
-                <div data-target="close" className={closeButtonStyles} tabIndex={0}>
-                    <SvgClose />
-                </div>
-            </label>
-            <div className={paneStyles} data-target="pane">
-                <div className={lineWrapperStyles}>
-                    <Lines />
-                </div>
-                <div className={containerStyles}>
-                    <form data-target="form" data-reminder-date={reminderDate}>
-                        <h4 className={remindHeading}>Remind me in {reminderDateAsString}</h4>
-                        <div className={formWrapper}>
-                            <div className={inputWrapper}>
-                                <TextInput label="Email address" data-target="input" />
-                            </div>
-                            <Button
-                                iconSide="right"
-                                icon={<SvgArrowRightStraight />}
-                                data-target="submit"
-                                type="submit"
-                            >
-                                Set a reminder
-                            </Button>
-                        </div>
-                        <p className={errorTextStyles} data-target="error">
-                            Sorry we couldn&apos;t set a reminder for you this time. Please try
-                            again later.
-                        </p>
-                        <p className={formTextStyles}>
-                            We will use this to send you a single email in {reminderDateAsString}.
-                            To find out what personal data we collect and how we use it, please
-                            visit our{' '}
-                            <a
-                                className={linkStyles}
-                                href="https://www.theguardian.com/help/privacy-policy"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Privacy Policy
-                            </a>
-                            .
-                        </p>
-                    </form>
-                    <div data-target="success">
-                        <h4 className={remindHeading}>Thank you! Your reminder is set.</h4>
-                        <p className={successTextStyles}>
-                            We will be in touch to invite you to contribute. Look out for a message
-                            in your inbox in {reminderDateAsString}. If you have any questions about
-                            contributing, please{' '}
-                            <a
-                                href="mailto:contribution.support@theguardian.com"
-                                className={linkStyles}
-                            >
-                                contact us
-                            </a>
-                            .
-                        </p>
+}: ReminderFields) => (
+    <div className={rootStyles} data-target="epic-reminder" data-button-copy={reminderCTA}>
+        <div data-target="epic-close" className={closeButtonStyles} tabIndex={0}>
+            <SvgClose />
+        </div>
+
+        <div className={lineWrapperStyles}>
+            <Lines />
+        </div>
+        <div className={containerStyles}>
+            <form data-target="epic-form" data-reminder-date={reminderDate}>
+                <h4 className={remindHeading}>Remind me in {reminderDateAsString}</h4>
+                <div className={formWrapper}>
+                    <div className={inputWrapper}>
+                        <TextInput label="Email address" data-target="epic-input" />
                     </div>
+                    <Button
+                        iconSide="right"
+                        icon={<SvgArrowRightStraight />}
+                        data-target="epic-submit"
+                        type="submit"
+                    >
+                        Set a reminder
+                    </Button>
                 </div>
+                <p className={errorTextStyles} data-target="epic-error">
+                    Sorry we couldn&apos;t set a reminder for you this time. Please try again later.
+                </p>
+                <p className={formTextStyles}>
+                    We will use this to send you a single email in {reminderDateAsString}. To find
+                    out what personal data we collect and how we use it, please visit our{' '}
+                    <a
+                        className={linkStyles}
+                        href="https://www.theguardian.com/help/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Privacy Policy
+                    </a>
+                    .
+                </p>
+            </form>
+            <div data-target="epic-success">
+                <h4 className={remindHeading}>Thank you! Your reminder is set.</h4>
+                <p className={successTextStyles}>
+                    We will be in touch to invite you to contribute. Look out for a message in your
+                    inbox in {reminderDateAsString}. If you have any questions about contributing,
+                    please{' '}
+                    <a href="mailto:contribution.support@theguardian.com" className={linkStyles}>
+                        contact us
+                    </a>
+                    .
+                </p>
             </div>
         </div>
-    );
-};
+    </div>
+);

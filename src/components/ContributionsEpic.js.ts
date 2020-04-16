@@ -25,99 +25,122 @@ export const componentJs = function initAutomatJs({
         return re.test(String(email).toLowerCase());
     };
 
-    // Check for existence of an Epic that needs initialising
-    const epicReminder = epicRoot.querySelector<HTMLElement>(
-        '[data-target="contributions-epic-reminder"]',
+    // Define Epic root element
+    // All DOM operations are relative to this element.
+    const contributionsEpic = epicRoot.querySelector<HTMLElement>(
+        '[data-target="contributions-epic"]',
     );
 
-    if (epicReminder) {
-        // Toggle reminder form via keyboard on enter key up
-        const epicReminderToggle = epicReminder.querySelector<HTMLLabelElement>(
-            '[data-target="toggle"]',
+    if (contributionsEpic) {
+        // Define Epic Reminder root element
+        const epicReminder = contributionsEpic.querySelector<HTMLElement>(
+            '[data-target="epic-reminder"]',
         );
-        if (epicReminderToggle) {
-            // Callback for Reminder CTA clicks
-            if (typeof onReminderOpen === 'function') {
-                epicReminderToggle.addEventListener('click', function(): void {
-                    const epicReminderCheckbox = epicReminder.querySelector<HTMLInputElement>(
-                        '[data-target="checkbox"]',
+
+        // Buttons pane
+        const epicButtons = contributionsEpic.querySelector<HTMLElement>(
+            '[data-target="epic-buttons"]',
+        );
+
+        // Open button
+        const epicOpen = contributionsEpic.querySelector<HTMLElement>('[data-target="epic-open"]');
+
+        // Close button
+        const epicClose = contributionsEpic.querySelector<HTMLElement>(
+            '[data-target="epic-close"]',
+        );
+
+        // Reminder form
+        const epicForm = contributionsEpic.querySelector<HTMLButtonElement>(
+            '[data-target="epic-form"]',
+        );
+
+        // Implement toggling
+        if (epicReminder && epicOpen && epicClose && epicButtons) {
+            const applyOpenReminderStyles = function(): void {
+                epicButtons.classList.add('hidden');
+                epicReminder.classList.add('visible');
+            };
+            const applyCloseReminderStyles = function(): void {
+                epicButtons.classList.remove('hidden');
+                epicReminder.classList.remove('visible');
+            };
+
+            epicOpen.addEventListener('click', function(): void {
+                applyOpenReminderStyles();
+                if (typeof onReminderOpen === 'function') {
+                    const buttonCopy = epicReminder.getAttribute('data-button-copy');
+                    const buttonCopyAsString = buttonCopy
+                        ? buttonCopy.toLowerCase().replace(/\s/g, '-')
+                        : '';
+                    onReminderOpen({
+                        buttonCopyAsString,
+                    } as AutomatJsCallback);
+                }
+            });
+            epicClose.addEventListener('click', applyCloseReminderStyles);
+            epicClose.addEventListener('keyup', function(event: KeyboardEvent): void {
+                if (event.keyCode === 13) {
+                    applyCloseReminderStyles();
+                }
+            });
+
+            if (epicForm) {
+                epicForm.addEventListener('submit', function(event: Event): void {
+                    event.preventDefault();
+                    const epicReminderInput = epicReminder.querySelector<HTMLInputElement>(
+                        '[data-target="epic-input"]',
                     );
-                    if (epicReminderCheckbox && epicReminderCheckbox.checked === false) {
-                        const buttonCopy = epicReminderCheckbox.getAttribute('data-button-copy');
-                        const buttonCopyAsString = buttonCopy
-                            ? buttonCopy.toLowerCase().replace(/\s/g, '-')
-                            : '';
-                        onReminderOpen({
-                            buttonCopyAsString,
-                        } as AutomatJsCallback);
+                    if (epicReminderInput) {
+                        const inputValue = epicReminderInput.value.trim();
+                        if (!inputValue || !isValidEmail(inputValue)) {
+                            // Update form state: invalid
+                            epicReminder.classList.add('invalid');
+                            return;
+                        }
+                        // Update form state: submitting
+                        epicReminder.classList.add('submitting');
+                        epicReminder.classList.remove('invalid');
+                        const formValues = {
+                            email: inputValue,
+                            reminderDate: epicForm.getAttribute('data-reminder-date'),
+                            isPreContribution: true,
+                        };
+                        // Submit form
+                        fetch('%%CONTRIBUTIONS_REMINDER_URL%%', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(formValues),
+                        })
+                            .then(function(response) {
+                                if (!response.ok) {
+                                    throw Error(response.statusText);
+                                }
+                                return response;
+                            })
+                            .then(function(response) {
+                                return response.json();
+                            })
+                            .then(function(json) {
+                                if (json !== 'OK') {
+                                    throw Error('Server error');
+                                }
+                                // Update form state: success
+                                epicReminder.classList.add('success');
+                            })
+                            .catch(function(error) {
+                                console.log('Error creating reminder: ', error);
+                                // Update form state: error
+                                epicReminder.classList.add('error');
+                            })
+                            .finally(function() {
+                                epicReminder.classList.remove('submitting');
+                            });
                     }
                 });
             }
-            // Enable keyboard toggling
-            epicReminderToggle.addEventListener('keyup', function(event: KeyboardEvent): void {
-                if (event.keyCode === 13) {
-                    epicReminderToggle.click();
-                }
-            });
-        }
-        const epicReminderForm = epicReminder.querySelector<HTMLButtonElement>(
-            '[data-target="form"]',
-        );
-        if (epicReminderForm) {
-            epicReminderForm.addEventListener('submit', function(event: Event): void {
-                event.preventDefault();
-                const epicReminderInput = epicReminder.querySelector<HTMLInputElement>(
-                    '[data-target="input"]',
-                );
-                if (epicReminderInput) {
-                    const inputValue = epicReminderInput.value.trim();
-                    if (!inputValue || !isValidEmail(inputValue)) {
-                        // Update form state: invalid
-                        epicReminder.classList.add('invalid');
-                        return;
-                    }
-                    // Update form state: submitting
-                    epicReminder.classList.add('submitting');
-                    epicReminder.classList.remove('invalid');
-                    const formValues = {
-                        email: inputValue,
-                        reminderDate: epicReminderForm.getAttribute('data-reminder-date'),
-                        isPreContribution: true,
-                    };
-                    // Submit form
-                    fetch('%%CONTRIBUTIONS_REMINDER_URL%%', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formValues),
-                    })
-                        .then(function(response) {
-                            if (!response.ok) {
-                                throw Error(response.statusText);
-                            }
-                            return response;
-                        })
-                        .then(function(response) {
-                            return response.json();
-                        })
-                        .then(function(json) {
-                            if (json !== 'OK') {
-                                throw Error('Server error');
-                            }
-                            // Update form state: success
-                            epicReminder.classList.add('success');
-                        })
-                        .catch(function(error) {
-                            console.log('Error creating reminder: ', error);
-                            // Update form state: error
-                            epicReminder.classList.add('error');
-                        })
-                        .finally(function() {
-                            epicReminder.classList.remove('submitting');
-                        });
-                }
-            });
         }
     }
 };

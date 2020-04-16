@@ -88,6 +88,10 @@ const buttonWrapperStyles = css`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+
+    &.hidden {
+        display: none;
+    }
 `;
 
 const paymentImageStyles = css`
@@ -187,7 +191,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
 
     return (
-        <section className={wrapperStyles}>
+        <section className={wrapperStyles} data-target="contributions-epic">
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
                     <img
@@ -209,7 +213,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
-            <div className={buttonWrapperStyles}>
+            <div className={buttonWrapperStyles} data-target="epic-buttons">
                 <div className={buttonMargins}>
                     <Button onClickAction={buttonTrackingUrl} showArrow>
                         Support The Guardian
@@ -222,6 +226,22 @@ export const ContributionsEpic: React.FC<Props> = ({
                         </Button>
                     </div>
                 )}
+
+                {showReminderFields && (
+                    <div className={buttonMargins}>
+                        <Button
+                            // We need to pass a function into 'onClickAction'
+                            // even though it won't be called when the button is
+                            // clicked post-injection on the client side.
+                            onClickAction={(): void => undefined}
+                            data-target="epic-open"
+                            isTertiary
+                        >
+                            {showReminderFields.reminderCTA}
+                        </Button>
+                    </div>
+                )}
+
                 <img
                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
