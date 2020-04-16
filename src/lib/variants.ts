@@ -219,7 +219,10 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
     },
 });
 
-export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filter => ({
+export const withinArticleViewedSettings = (
+    history: WeeklyArticleHistory,
+    now: Date = new Date(),
+): Filter => ({
     id: 'withinArticleViewedSettings',
     test: (test, _): boolean => {
         // Allow test to pass if no articles viewed settings have been set
@@ -229,7 +232,7 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
 
         const { minViews, maxViews, periodInWeeks } = test.articlesViewedSettings;
 
-        const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks);
+        const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks, now);
         const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
         const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
 
@@ -250,6 +253,40 @@ export const hasNoTicker: Filter = {
         return !hasTicker;
     },
 };
+
+// Edge case filter to exclude any test where the combination of targeting data and variants logic
+// would allow the test to pass, but the value used to replace the article count
+// in the Epic copy is "0" (zero).
+// Prevents an Epic from ever rendering with text "...you've read 0 articles...".
+// This is needed because we use different timeframes when finding a
+// test/variant and when replacing the Epic placeholder, so we should
+// have a specific check around the logic/values used for template rendering.
+// This is intentional and in parity with Frontend.
+export const hasNoZeroArticleCount = (now: Date = new Date()): Filter => ({
+    id: 'hasNoZeroArticleCount',
+    test: (test, targeting): boolean => {
+        // Check if the test requires an article history
+        const mustHaveHistory =
+            test.articlesViewedSettings && test.articlesViewedSettings.periodInWeeks;
+
+        // Return early if no need to check article history
+        if (!mustHaveHistory) {
+            return true;
+        }
+
+        // Count number of articles viewed in 52 weeks
+        // Whereas filter 'withinArticleViewedSettings' uses a dynamic number of
+        // weeks as set in the test, we use an static value of 52 (one year) to
+        // match the value we use in the Epic to replace the placeholder with.
+        const numArticlesInWeeks = getArticleViewCountForWeeks(
+            targeting.weeklyArticleHistory || [],
+            52,
+            now,
+        );
+
+        return numArticlesInWeeks > 0;
+    },
+});
 
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
@@ -282,6 +319,7 @@ export const findTestAndVariant = (
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
         hasNoTicker,
+        hasNoZeroArticleCount(),
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
