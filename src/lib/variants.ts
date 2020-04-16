@@ -219,7 +219,10 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
     },
 });
 
-export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filter => ({
+export const withinArticleViewedSettings = (
+    history: WeeklyArticleHistory,
+    now: Date = new Date(),
+): Filter => ({
     id: 'withinArticleViewedSettings',
     test: (test, _): boolean => {
         // Allow test to pass if no articles viewed settings have been set
@@ -229,7 +232,7 @@ export const withinArticleViewedSettings = (history: WeeklyArticleHistory): Filt
 
         const { minViews, maxViews, periodInWeeks } = test.articlesViewedSettings;
 
-        const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks);
+        const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks, now);
         const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
         const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
 
@@ -250,6 +253,29 @@ export const hasNoTicker: Filter = {
         return !hasTicker;
     },
 };
+
+// Prevent cases like "...you've read 0 articles...".
+// This could happen when the article history required by the test
+// is different than the date range used by the template itself.
+export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52): Filter => ({
+    id: 'hasNoZeroArticleCount',
+    test: (test, targeting): boolean => {
+        const mustHaveHistory =
+            test.articlesViewedSettings && test.articlesViewedSettings.periodInWeeks;
+
+        if (!mustHaveHistory) {
+            return true;
+        }
+
+        const numArticlesInWeeks = getArticleViewCountForWeeks(
+            targeting.weeklyArticleHistory || [],
+            templateWeeks,
+            now,
+        );
+
+        return numArticlesInWeeks > 0;
+    },
+});
 
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
@@ -282,6 +308,7 @@ export const findTestAndVariant = (
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
         hasNoTicker,
+        hasNoZeroArticleCount(),
     ];
 
     const priorityOrdered = ([] as Test[]).concat(

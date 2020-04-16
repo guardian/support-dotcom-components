@@ -13,6 +13,7 @@ import {
     withinArticleViewedSettings,
     userInTest,
     hasNoTicker,
+    hasNoZeroArticleCount,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -372,6 +373,8 @@ describe('variant filters', () => {
     });
 
     it('should filter by articles viewed settings', () => {
+        const now = new Date('2020-03-31T12:30:00');
+
         // Test 1 - below min articles viewed
         const history1 = [{ week: 18330, count: 2 }];
         const targeting1: EpicTargeting = {
@@ -379,7 +382,7 @@ describe('variant filters', () => {
             weeklyArticleHistory: history1,
         };
 
-        const filter1 = withinArticleViewedSettings(history1);
+        const filter1 = withinArticleViewedSettings(history1, now);
 
         const got1 = filter1.test(testDefault, targeting1);
         expect(got1).toBe(false);
@@ -391,7 +394,7 @@ describe('variant filters', () => {
             weeklyArticleHistory: history2,
         };
 
-        const filter2 = withinArticleViewedSettings(history2);
+        const filter2 = withinArticleViewedSettings(history2, now);
 
         const got2 = filter2.test(testDefault, targeting2);
         expect(got2).toBe(true);
@@ -411,7 +414,7 @@ describe('variant filters', () => {
             weeklyArticleHistory: history3,
         };
 
-        const filter3 = withinArticleViewedSettings(history3);
+        const filter3 = withinArticleViewedSettings(history3, now);
 
         const got3 = filter3.test(test3, targeting3);
         expect(got3).toBe(true);
@@ -431,7 +434,7 @@ describe('variant filters', () => {
             weeklyArticleHistory: history4,
         };
 
-        const filter4 = withinArticleViewedSettings(history4);
+        const filter4 = withinArticleViewedSettings(history4, now);
 
         const got4 = filter4.test(test4, targeting4);
         expect(got4).toBe(false);
@@ -447,7 +450,7 @@ describe('variant filters', () => {
             weeklyArticleHistory: history5,
         };
 
-        const filter5 = withinArticleViewedSettings(history5);
+        const filter5 = withinArticleViewedSettings(history5, now);
 
         const got5 = filter5.test(test5, targeting5);
         expect(got5).toBe(true);
@@ -585,5 +588,39 @@ describe('variant filters', () => {
         };
         const got2 = hasNoTicker.test(test2, targetingDefault);
         expect(got2).toBe(true);
+    });
+
+    it('should filter by unreplaced or invalid article count copy', () => {
+        const now = new Date('2010-03-31T12:30:00');
+
+        // Pass if no need for article history
+        const test1: Test = {
+            ...testDefault,
+            articlesViewedSettings: undefined,
+        };
+
+        const filter1 = hasNoZeroArticleCount(now);
+        const got1 = filter1.test(test1, targetingDefault);
+        expect(got1).toBe(true);
+
+        // Pass if replacement value is greater than 0
+        const history2 = [{ week: 18330, count: 1 }];
+        const targeting2: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history2,
+        };
+        const filter2 = hasNoZeroArticleCount(now);
+        const got2 = filter2.test(testDefault, targeting2);
+        expect(got2).toBe(true);
+
+        // Fail if replacement value is 0
+        const history3 = [{ week: 18330, count: 0 }];
+        const targeting3: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history3,
+        };
+        const filter3 = hasNoZeroArticleCount(now);
+        const got3 = filter3.test(testDefault, targeting3);
+        expect(got3).toBe(false);
     });
 });
