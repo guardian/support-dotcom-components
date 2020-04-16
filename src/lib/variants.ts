@@ -254,24 +254,15 @@ export const hasNoTicker: Filter = {
     },
 };
 
-// Edge case filter to exclude any test where the combination of targeting data and variants logic
-// would allow the test to pass, but the value used to replace the article count
-// in the Epic copy is "0" (zero) due to all article views having been
-// within the`periodInWeeks` defined in the test (used for targeting)
-// but before (i.e. older) than the hardcoded `52` weeks (used for template rendering).
-// Prevents an Epic from ever rendering with text "...you've read 0 articles...".
-// This is needed because we use different timeframes when finding a
-// test/variant and when replacing the Epic placeholder, so we should
-// have a specific check around the logic/values used for template rendering.
-// This is intentional and in parity with Frontend.
+// Prevent cases like "...you've read 0 articles...".
+// This could happen when the article history required by the test
+// is different than the date range used by the template itself.
 export const hasNoZeroArticleCount = (now: Date = new Date()): Filter => ({
     id: 'hasNoZeroArticleCount',
     test: (test, targeting): boolean => {
-        // Check if the test requires an article history
         const mustHaveHistory =
             test.articlesViewedSettings && test.articlesViewedSettings.periodInWeeks;
 
-        // Return early if no need to check article history
         if (!mustHaveHistory) {
             return true;
         }
