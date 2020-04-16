@@ -111,7 +111,7 @@ export const previewStyles = `
 `;
 
 const renderComponentJs = (js: string): string => `
-    <script>const init = ${js}; init({ epicRoot: document, onReminderOpen: params => console.log('onReminderOpen: ', params) });</script>
+    <script>const init = ${js}; init({ epicRoot: document, onReminderOpen: function(params) { console.log('onReminderOpen: ', params) } });</script>
 `;
 
 export const renderHtmlDocument = ({ html, css, js = '' }: TemplateData): string =>
