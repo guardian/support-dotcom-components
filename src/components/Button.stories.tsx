@@ -52,3 +52,16 @@ export const secondaryButtonStory = (): ReactElement => {
 };
 
 secondaryButtonStory.story = { name: 'Secondary LinkButton with icon' };
+
+export const tertiaryButtonStory = (): ReactElement => {
+    const buttonText = text('buttonText', 'Remind me in May');
+    return (
+        <StorybookWrapper>
+            <Button onClickAction={(): void => undefined} isTertiary>
+                {buttonText}
+            </Button>
+        </StorybookWrapper>
+    );
+};
+
+tertiaryButtonStory.story = { name: 'Tertiary Button' };
