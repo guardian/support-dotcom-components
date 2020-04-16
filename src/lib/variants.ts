@@ -257,7 +257,7 @@ export const hasNoTicker: Filter = {
 // Prevent cases like "...you've read 0 articles...".
 // This could happen when the article history required by the test
 // is different than the date range used by the template itself.
-export const hasNoZeroArticleCount = (now: Date = new Date()): Filter => ({
+export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52): Filter => ({
     id: 'hasNoZeroArticleCount',
     test: (test, targeting): boolean => {
         const mustHaveHistory =
@@ -267,13 +267,9 @@ export const hasNoZeroArticleCount = (now: Date = new Date()): Filter => ({
             return true;
         }
 
-        // Count number of articles viewed in 52 weeks
-        // Whereas filter 'withinArticleViewedSettings' uses a dynamic number of
-        // weeks as set in the test, we use an static value of 52 (one year) to
-        // match the value we use in the Epic to replace the placeholder with.
         const numArticlesInWeeks = getArticleViewCountForWeeks(
             targeting.weeklyArticleHistory || [],
-            52,
+            templateWeeks,
             now,
         );
 
