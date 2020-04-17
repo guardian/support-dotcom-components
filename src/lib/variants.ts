@@ -68,7 +68,7 @@ export interface Test {
     audience?: number;
     audienceOffset?: number;
 
-    // These are only used by hardcoded tests
+    // These are specific to hardcoded tests
     start?: string;
     expiry?: string;
     author?: string;
