@@ -296,7 +296,7 @@ export const shouldNotRender: Filter = {
 };
 
 export interface Result {
-    test: Test | HardcodedTest;
+    test: Test;
     variant: Variant;
 }
 
