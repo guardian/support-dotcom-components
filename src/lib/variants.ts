@@ -287,10 +287,7 @@ export interface Result {
     variant: Variant;
 }
 
-export const findTestAndVariant = (
-    data: EpicTests,
-    targeting: EpicTargeting,
-): Result | undefined => {
+export const findTestAndVariant = (tests: Test[], targeting: EpicTargeting): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
@@ -312,8 +309,8 @@ export const findTestAndVariant = (
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
-        data.tests.filter(test => test.highPriority),
-        data.tests.filter(test => !test.highPriority),
+        tests.filter(test => test.highPriority),
+        tests.filter(test => !test.highPriority),
     );
 
     const test = priorityOrdered.find(test =>

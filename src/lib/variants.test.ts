@@ -134,7 +134,7 @@ describe('getUserCohort', () => {
 
 describe('find variant', () => {
     it('should find the correct variant for test and targeting data', () => {
-        const tests = { tests: [testDefault] };
+        const tests = [testDefault];
         const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
@@ -148,7 +148,7 @@ describe('find variant', () => {
 
     it('should return undefined when no matching test variant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
-        const tests = { tests: [test] };
+        const tests = [test];
         const targeting = { ...targetingDefault, sectionName: 'news' };
         const got = findTestAndVariant(tests, targeting);
 

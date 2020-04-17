@@ -133,7 +133,12 @@ const buildDynamicEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
 ): Promise<Response | null> => {
-    const tests = await fetchConfiguredEpicTestsCached();
+    const configuredTests = await fetchConfiguredEpicTestsCached();
+    // const hardcodedTests = buildHardcodedTests();
+    const tests = [
+        ...configuredTests.tests,
+        // ...hardcodedTests,
+    ];
     const result = findTestAndVariant(tests, targeting);
 
     if (!result) {
