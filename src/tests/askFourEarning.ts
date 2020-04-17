@@ -1,17 +1,14 @@
-import { HardcodedTest } from '../lib/variants';
+import { Test } from '../lib/variants';
 import { cacheAsync } from '../lib/cache';
 import { fetchDefaultEpicContent } from '../api/contributionsApi';
 
-export const askFourEarningHardcodedTest = async (): Promise<HardcodedTest> => {
+export const askFourEarningHardcodedTest = async (): Promise<Test> => {
     const fiveMinutes = 60 * 5;
     const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
     const defaultEpicVariant = await fetchDefaultEpicContentCached();
 
-    // TEST ONLY
-    defaultEpicVariant.heading = `${defaultEpicVariant.heading} (TEST)`;
     return {
         name: 'ContributionsEpicAskFourEarning',
-        // Hardcoded specific fields
         start: '2017-01-24',
         expiry: '2021-01-27',
         author: 'Jonathan Rankin',
@@ -20,8 +17,7 @@ export const askFourEarningHardcodedTest = async (): Promise<HardcodedTest> => {
         successMeasure: 'Conversion rate',
         idealOutcome: 'Acquires many Supporters',
         audienceCriteria: 'All',
-        // campaignId: 'kr1_epic_ask_four_earning',
-        //
+        campaignId: 'kr1_epic_ask_four_earning',
         isOn: true,
         locations: [],
         audience: 1,

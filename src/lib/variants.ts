@@ -68,19 +68,15 @@ export interface Test {
     audience?: number;
     audienceOffset?: number;
 
-    // These's a use case where we want the test to use a custom campaignId
-    // campaignId?: string;
+    // These are only used by hardcoded tests
+    start?: string;
     expiry?: string;
-}
-
-export interface HardcodedTest extends Test {
-    start: string;
-    expiry: string;
-    author: string;
-    description: string;
-    successMeasure: string;
-    audienceCriteria: string;
-    idealOutcome: string;
+    author?: string;
+    description?: string;
+    successMeasure?: string;
+    audienceCriteria?: string;
+    idealOutcome?: string;
+    campaignId?: string;
 }
 
 export interface EpicTests {
