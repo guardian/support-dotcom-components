@@ -20,7 +20,7 @@ export const askFourEarningHardcodedTest = async (): Promise<HardcodedTest> => {
         successMeasure: 'Conversion rate',
         idealOutcome: 'Acquires many Supporters',
         audienceCriteria: 'All',
-        campaignId: 'kr1_epic_ask_four_earning',
+        // campaignId: 'kr1_epic_ask_four_earning',
         //
         isOn: true,
         locations: [],

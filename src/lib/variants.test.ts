@@ -14,6 +14,7 @@ import {
     userInTest,
     hasNoTicker,
     hasNoZeroArticleCount,
+    isNotExpired,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -622,5 +623,37 @@ describe('variant filters', () => {
         const filter3 = hasNoZeroArticleCount(now);
         const got3 = filter3.test(testDefault, targeting3);
         expect(got3).toBe(false);
+    });
+
+    it('should filter by expiration date if set', () => {
+        const now = new Date('2020-01-18T12:30:00');
+
+        // Fail if expiration date yesterday
+        const test1 = {
+            ...testDefault,
+            expiry: '2020-01-17',
+        };
+
+        const filter1 = isNotExpired(now);
+        const got1 = filter1.test(test1, targetingDefault);
+        expect(got1).toBe(false);
+
+        // Pass if expiration date today
+        const test2 = {
+            ...testDefault,
+            expiry: '2020-01-18',
+        };
+        const filter2 = isNotExpired(now);
+        const got2 = filter2.test(test2, targetingDefault);
+        expect(got2).toBe(true);
+
+        // Pass if expiration date tomorrow
+        const test3 = {
+            ...testDefault,
+            expiry: '2020-01-19',
+        };
+        const filter3 = isNotExpired(now);
+        const got3 = filter3.test(test3, targetingDefault);
+        expect(got3).toBe(true);
     });
 });

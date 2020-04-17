@@ -70,6 +70,7 @@ export interface Test {
 
     // These's a use case where we want the test to use a custom campaignId
     // campaignId?: string;
+    expiry?: string;
 }
 
 export interface HardcodedTest extends Test {
@@ -295,6 +296,20 @@ export const shouldNotRender: Filter = {
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
 };
 
+export const isNotExpired = (now: Date = new Date()): Filter => ({
+    id: 'isNotExpired',
+    test: (test, _): boolean => {
+        if (!test.expiry) {
+            return true;
+        }
+
+        const testExpiryAsDate = new Date(test.expiry).getTime();
+        const todayMidnightAsDate = new Date(now).setHours(0, 0, 0, 0);
+
+        return testExpiryAsDate >= todayMidnightAsDate;
+    },
+});
+
 export interface Result {
     test: Test;
     variant: Variant;
@@ -307,6 +322,7 @@ export const findTestAndVariant = (tests: Test[], targeting: EpicTargeting): Res
     const filters: Filter[] = [
         shouldNotRender,
         isOn,
+        isNotExpired(),
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
         inCorrectCohort(getUserCohorts(targeting)),

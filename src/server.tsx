@@ -141,12 +141,12 @@ const buildDynamicEpic = async (
 ): Promise<Response | null> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await buildHardcodedTests();
-    // const tests = [...configuredTests.tests, ...hardcodedTests];
-    const tests = [...hardcodedTests];
+    const tests = [...configuredTests.tests, ...hardcodedTests];
+    // const tests = [...hardcodedTests];
     const result = findTestAndVariant(tests, targeting);
 
-    console.log('==== hardcodedTests: ');
-    console.log(hardcodedTests);
+    // console.log('==== hardcodedTests: ');
+    // console.log(hardcodedTests);
 
     if (!result) {
         logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
