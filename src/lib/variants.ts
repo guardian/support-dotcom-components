@@ -67,6 +67,19 @@ export interface Test {
     // they are always 0 and 1?
     audience?: number;
     audienceOffset?: number;
+
+    // These's a use case where we want the test to use a custom campaignId
+    // campaignId?: string;
+}
+
+export interface HardcodedTest extends Test {
+    start: string;
+    expiry: string;
+    author: string;
+    description: string;
+    successMeasure: string;
+    audienceCriteria: string;
+    idealOutcome: string;
 }
 
 export interface EpicTests {
@@ -283,7 +296,7 @@ export const shouldNotRender: Filter = {
 };
 
 export interface Result {
-    test: Test;
+    test: Test | HardcodedTest;
     variant: Variant;
 }
 

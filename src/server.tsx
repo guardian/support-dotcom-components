@@ -28,6 +28,7 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { ValidationError } from './errors/validationError';
+import { askFourEarningHardcodedTest } from './tests/askFourEarning';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -75,6 +76,15 @@ const componentAsResponse = (componentWrapper: SlotComponent, meta: EpicTestTrac
         js,
         meta,
     };
+};
+
+const buildHardcodedTests = async (): Promise<Test[]> => {
+    const hardcodedTests: Test[] = [];
+
+    const askFourEarning = await askFourEarningHardcodedTest();
+    hardcodedTests.push(askFourEarning);
+
+    return hardcodedTests;
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
@@ -134,12 +144,13 @@ const buildDynamicEpic = async (
     targeting: EpicTargeting,
 ): Promise<Response | null> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
-    // const hardcodedTests = buildHardcodedTests();
-    const tests = [
-        ...configuredTests.tests,
-        // ...hardcodedTests,
-    ];
+    const hardcodedTests = await buildHardcodedTests();
+    // const tests = [...configuredTests.tests, ...hardcodedTests];
+    const tests = [...hardcodedTests];
     const result = findTestAndVariant(tests, targeting);
+
+    console.log('==== hardcodedTests: ');
+    console.log(hardcodedTests);
 
     if (!result) {
         logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
