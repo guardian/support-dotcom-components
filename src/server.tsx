@@ -79,12 +79,8 @@ const componentAsResponse = (componentWrapper: SlotComponent, meta: EpicTestTrac
 };
 
 const buildHardcodedTests = async (): Promise<Test[]> => {
-    const hardcodedTests: Test[] = [];
-
     const askFourEarning = await askFourEarningHardcodedTest();
-    hardcodedTests.push(askFourEarning);
-
-    return hardcodedTests;
+    return [askFourEarning];
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
