@@ -28,7 +28,7 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { ValidationError } from './errors/validationError';
-import { askFourEarningHardcodedTest } from './tests/askFourEarning';
+import { getAllHardcodedTests } from './tests';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -76,11 +76,6 @@ const componentAsResponse = (componentWrapper: SlotComponent, meta: EpicTestTrac
         js,
         meta,
     };
-};
-
-const buildHardcodedTests = async (): Promise<Test[]> => {
-    const askFourEarning = await askFourEarningHardcodedTest();
-    return [askFourEarning];
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
@@ -140,7 +135,7 @@ const buildDynamicEpic = async (
     targeting: EpicTargeting,
 ): Promise<Response | null> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
-    const hardcodedTests = await buildHardcodedTests();
+    const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
     const result = findTestAndVariant(tests, targeting);
 
