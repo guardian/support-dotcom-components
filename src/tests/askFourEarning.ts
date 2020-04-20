@@ -2,9 +2,10 @@ import { Test } from '../lib/variants';
 import { cacheAsync } from '../lib/cache';
 import { fetchDefaultEpicContent } from '../api/contributionsApi';
 
+const fiveMinutes = 60 * 5;
+const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
+
 export const askFourEarningHardcodedTest = async (): Promise<Test> => {
-    const fiveMinutes = 60 * 5;
-    const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
     const defaultEpicVariant = await fetchDefaultEpicContentCached();
 
     return {
