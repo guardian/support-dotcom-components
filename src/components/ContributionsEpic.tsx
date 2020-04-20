@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { getTrackingUrl } from '../lib/tracking';
+import { addTrackingParams } from '../lib/tracking';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
@@ -185,11 +185,11 @@ export const ContributionsEpic: React.FC<Props> = ({
     countryCode,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl, secondaryCta, showReminderFields } = variant;
+    const { heading, backgroundImageUrl, cta, secondaryCta, showReminderFields } = variant;
 
-    // Get button URL with tracking params in query string
-    const buttonBaseUrl = 'https://support.theguardian.com/uk/contribute';
-    const buttonTrackingUrl = getTrackingUrl(buttonBaseUrl, tracking);
+    const primaryCtaText = cta?.text || 'Support The Guardian';
+    const primaryCtaBaseUrl = cta?.baseUrl || 'https://support.theguardian.com/contribute';
+    const primaryCtaUrlWithParams = addTrackingParams(primaryCtaBaseUrl, tracking);
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
@@ -216,8 +216,8 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             <div className={buttonWrapperStyles} data-target="epic-buttons">
                 <div className={buttonMargins}>
-                    <Button onClickAction={buttonTrackingUrl} showArrow>
-                        Support The Guardian
+                    <Button onClickAction={primaryCtaUrlWithParams} showArrow>
+                        {primaryCtaText}
                     </Button>
                 </div>
                 {secondaryCta && secondaryCta.baseUrl && secondaryCta.text && (
