@@ -7,7 +7,7 @@ type LinkParams = {
     acquisitionData: string;
 };
 
-export const getTrackingUrl = (baseUrl: string, params: EpicTracking): string => {
+export const addTrackingParams = (baseUrl: string, params: EpicTracking): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
             source: params.platformId,
