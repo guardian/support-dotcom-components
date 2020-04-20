@@ -1,3 +1,13 @@
+// Hardcoded test metadata - these are key/value pairs of the test in Frontend but we keep them as
+// comments as there's no business logic around them.
+// start: 2017-01-24
+// author: Jonathan Rankin
+// description: This places the epic on all articles for all users, with a limit
+// of 4 impressions in any given 30 days
+// successMeasure: Conversion rate
+// idealOutcome: Acquires many Supporters
+// audienceCriteria: All
+
 import { Test } from '../lib/variants';
 import { cacheAsync } from '../lib/cache';
 import { fetchDefaultEpicContent } from '../api/contributionsApi';
@@ -10,14 +20,7 @@ export const askFourEarningHardcodedTest = async (): Promise<Test> => {
 
     return {
         name: 'ContributionsEpicAskFourEarning',
-        start: '2017-01-24',
         expiry: '2021-01-27',
-        author: 'Jonathan Rankin',
-        description:
-            'This places the epic on all articles for all users, with a limit of 4 impressions in any given 30 days',
-        successMeasure: 'Conversion rate',
-        idealOutcome: 'Acquires many Supporters',
-        audienceCriteria: 'All',
         campaignId: 'kr1_epic_ask_four_earning',
         isOn: true,
         locations: [],

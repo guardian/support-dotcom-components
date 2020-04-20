@@ -69,13 +69,7 @@ export interface Test {
     audienceOffset?: number;
 
     // These are specific to hardcoded tests
-    start?: string;
     expiry?: string;
-    author?: string;
-    description?: string;
-    successMeasure?: string;
-    audienceCriteria?: string;
-    idealOutcome?: string;
     campaignId?: string;
 }
 
