@@ -28,6 +28,7 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { ValidationError } from './errors/validationError';
+import { getAllHardcodedTests } from './tests';
 
 const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
@@ -133,7 +134,9 @@ const buildDynamicEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
 ): Promise<Response | null> => {
-    const tests = await fetchConfiguredEpicTestsCached();
+    const configuredTests = await fetchConfiguredEpicTestsCached();
+    const hardcodedTests = await getAllHardcodedTests();
+    const tests = [...configuredTests.tests, ...hardcodedTests];
     const result = findTestAndVariant(tests, targeting);
 
     if (!result) {
@@ -147,7 +150,7 @@ const buildDynamicEpic = async (
         abTestName: test.name,
         abTestVariant: variant.name,
         campaignCode: buildCampaignCode(test, variant),
-        campaignId: test.name,
+        campaignId: test.campaignId || test.name,
     };
 
     const tracking: EpicTracking = {

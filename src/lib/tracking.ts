@@ -37,4 +37,4 @@ export const addTrackingParams = (baseUrl: string, params: EpicTracking): string
 const campaignPrefix = 'gdnwb_copts_memco';
 
 export const buildCampaignCode = (test: Test, variant: Variant): string =>
-    `${campaignPrefix}_${test.name}_${variant.name}`;
+    `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;

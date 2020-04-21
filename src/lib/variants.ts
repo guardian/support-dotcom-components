@@ -67,6 +67,10 @@ export interface Test {
     // they are always 0 and 1?
     audience?: number;
     audienceOffset?: number;
+
+    // These are specific to hardcoded tests
+    expiry?: string;
+    campaignId?: string;
 }
 
 export interface EpicTests {
@@ -282,21 +286,33 @@ export const shouldNotRender: Filter = {
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
 };
 
+export const isNotExpired = (now: Date = new Date()): Filter => ({
+    id: 'isNotExpired',
+    test: (test, _): boolean => {
+        if (!test.expiry) {
+            return true;
+        }
+
+        const testExpiryAsDate = new Date(test.expiry).getTime();
+        const todayMidnightAsDate = new Date(now).setHours(0, 0, 0, 0);
+
+        return testExpiryAsDate >= todayMidnightAsDate;
+    },
+});
+
 export interface Result {
     test: Test;
     variant: Variant;
 }
 
-export const findTestAndVariant = (
-    data: EpicTests,
-    targeting: EpicTargeting,
-): Result | undefined => {
+export const findTestAndVariant = (tests: Test[], targeting: EpicTargeting): Result | undefined => {
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
     const filters: Filter[] = [
         shouldNotRender,
         isOn,
+        isNotExpired(),
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
         inCorrectCohort(getUserCohorts(targeting)),
@@ -312,8 +328,8 @@ export const findTestAndVariant = (
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
-        data.tests.filter(test => test.highPriority),
-        data.tests.filter(test => !test.highPriority),
+        tests.filter(test => test.highPriority),
+        tests.filter(test => !test.highPriority),
     );
 
     const test = priorityOrdered.find(test =>
