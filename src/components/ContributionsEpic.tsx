@@ -196,8 +196,6 @@ export const ContributionsEpic: React.FC<Props> = ({
     const primaryCtaBaseUrlWithRegionId = addRegionIdToSupportUrl(primaryCtaBaseUrl, countryCode);
     const primaryCtaUrlWithParams = addTrackingParams(primaryCtaBaseUrlWithRegionId, tracking);
 
-    console.log('primaryCtaBaseUrlWithRegionId: ', primaryCtaBaseUrlWithRegionId);
-
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
             {backgroundImageUrl && (
