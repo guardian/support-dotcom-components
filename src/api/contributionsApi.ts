@@ -22,6 +22,10 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
         paragraphs: [],
         showTicker: false,
         name: 'remote_epic_test',
+        cta: {
+            text: 'Support The Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
     };
 
     const transformedData = control.reduce(

@@ -47,8 +47,15 @@ const tertiaryButtonOverrides = css`
     }
 `;
 
-export const Button: React.FC<Props> = (props: Props) => {
-    const { onClickAction, children, showArrow = false, priority = 'primary', isTertiary } = props;
+export const Button: React.FC<Props> = (allProps: Props) => {
+    const {
+        onClickAction,
+        children,
+        showArrow = false,
+        priority = 'primary',
+        isTertiary,
+        ...props
+    } = allProps;
 
     if (typeof onClickAction === 'string') {
         // LinkButton doesn't support 'tertiary' priority (unlike Button)

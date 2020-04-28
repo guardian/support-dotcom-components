@@ -22,6 +22,10 @@ const content = {
         reminderDate: '2020-05-18T09:30:00',
         reminderDateAsString: 'May',
     },
+    cta: {
+        text: 'Support The Guardian',
+        baseUrl: 'https://support.theguardian.com/contribute',
+    },
     secondaryCta: {
         text: 'Read our pledge',
         baseUrl:
