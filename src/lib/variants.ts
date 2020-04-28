@@ -21,7 +21,7 @@ interface MaxViews {
     minDaysBetweenViews: number;
 }
 
-interface Cta {
+export interface Cta {
     text: string;
     baseUrl: string;
 }

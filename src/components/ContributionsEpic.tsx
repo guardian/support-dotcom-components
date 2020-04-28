@@ -3,18 +3,13 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { addTrackingParams } from '../lib/tracking';
-import {
-    getCountryName,
-    getLocalCurrencySymbol,
-    addRegionIdToSupportUrl,
-} from '../lib/geolocation';
+import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
 import { componentJs } from './ContributionsEpic.js';
-import { Button } from './Button';
 import { transform } from '@babel/standalone';
+import { EpicButtons } from './EpicButtons';
 
 const replacePlaceholders = (
     content: string,
@@ -88,24 +83,6 @@ const highlightStyles = css`
     background-color: ${palette.brandAlt[400]};
 `;
 
-const buttonWrapperStyles = css`
-    margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-
-    &.hidden {
-        display: none;
-    }
-`;
-
-const paymentImageStyles = css`
-    display: inline-block;
-    width: auto;
-    height: 25px;
-    margin: ${space[1]}px 0;
-`;
-
 const imageWrapperStyles = css`
     margin: 10px -4px 12px;
     height: 150px;
@@ -116,10 +93,6 @@ const imageStyles = css`
     height: 100%;
     width: 100%;
     object-fit: cover;
-`;
-
-const buttonMargins = css`
-    margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
 `;
 
 export type Props = {
@@ -189,12 +162,7 @@ export const ContributionsEpic: React.FC<Props> = ({
     countryCode,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl, cta, secondaryCta, showReminderFields } = variant;
-
-    const primaryCtaText = cta?.text || 'Support The Guardian';
-    const primaryCtaBaseUrl = cta?.baseUrl || 'https://support.theguardian.com/contribute';
-    const primaryCtaBaseUrlWithRegionId = addRegionIdToSupportUrl(primaryCtaBaseUrl, countryCode);
-    const primaryCtaUrlWithParams = addTrackingParams(primaryCtaBaseUrlWithRegionId, tracking);
+    const { heading, backgroundImageUrl, showReminderFields } = variant;
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
@@ -219,41 +187,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
             <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
 
-            <div className={buttonWrapperStyles} data-target="epic-buttons">
-                <div className={buttonMargins}>
-                    <Button onClickAction={primaryCtaUrlWithParams} showArrow>
-                        {primaryCtaText}
-                    </Button>
-                </div>
-                {secondaryCta && secondaryCta.baseUrl && secondaryCta.text && (
-                    <div className={buttonMargins}>
-                        <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
-                            {secondaryCta.text}
-                        </Button>
-                    </div>
-                )}
-
-                {showReminderFields && (
-                    <div className={buttonMargins}>
-                        <Button
-                            // We need to pass a function into 'onClickAction'
-                            // even though it won't be called when the button is
-                            // clicked post-injection on the client side.
-                            onClickAction={(): void => undefined}
-                            data-target="epic-open"
-                            isTertiary
-                        >
-                            {showReminderFields.reminderCTA}
-                        </Button>
-                    </div>
-                )}
-
-                <img
-                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                    className={paymentImageStyles}
-                />
-            </div>
+            <EpicButtons variant={variant} tracking={tracking} countryCode={countryCode} />
 
             {showReminderFields && (
                 <ContributionsEpicReminder

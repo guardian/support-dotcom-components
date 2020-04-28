@@ -46,6 +46,10 @@ describe('fetchDefaultEpic', () => {
             heading: 'Since you’re here...',
             paragraphs: ['First paragraph', 'Second paragraph'],
             highlightedText: 'Highlighted Text',
+            cta: {
+                text: 'Support The Guardian',
+                baseUrl: 'https://support.theguardian.com/contribute',
+            },
         });
     });
 
