@@ -55,4 +55,11 @@ describe('addRegionIdToSupportUrl', () => {
         const modifiedUrl = addRegionIdToSupportUrl(originalUrl, countryCode);
         expect(modifiedUrl).toEqual('https://support.theguardian.com/contribute');
     });
+
+    it('should not modify the URL if it does not follow the expected pattern', () => {
+        const countryCode = 'GB';
+        const nonconformingUrl = 'https://www.theguardian.com/uk';
+        const modifiedUrl = addRegionIdToSupportUrl(nonconformingUrl, countryCode);
+        expect(modifiedUrl).toEqual(nonconformingUrl);
+    });
 });
