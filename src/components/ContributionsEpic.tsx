@@ -4,7 +4,11 @@ import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { addTrackingParams } from '../lib/tracking';
-import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
+import {
+    getCountryName,
+    getLocalCurrencySymbol,
+    addRegionIdToSupportUrl,
+} from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
@@ -189,7 +193,8 @@ export const ContributionsEpic: React.FC<Props> = ({
 
     const primaryCtaText = cta?.text || 'Support The Guardian';
     const primaryCtaBaseUrl = cta?.baseUrl || 'https://support.theguardian.com/contribute';
-    const primaryCtaUrlWithParams = addTrackingParams(primaryCtaBaseUrl, tracking);
+    const primaryCtaBaseUrlWithRegionId = addRegionIdToSupportUrl(primaryCtaBaseUrl, countryCode);
+    const primaryCtaUrlWithParams = addTrackingParams(primaryCtaBaseUrlWithRegionId, tracking);
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">

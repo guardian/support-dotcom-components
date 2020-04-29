@@ -7,12 +7,16 @@ type CountryGroupId =
     | 'NZDCountries'
     | 'Canada';
 
+// Used to internationalise 'Support the Guardian' links
+export type SupportRegionId = 'UK' | 'US' | 'AU' | 'EU' | 'INT' | 'NZ' | 'CA';
+
 type IsoCurrency = 'GBP' | 'USD' | 'AUD' | 'EUR' | 'NZD' | 'CAD';
 
 type CountryGroup = {
     name: string;
     currency: IsoCurrency;
     countries: string[];
+    supportRegionId: SupportRegionId;
 };
 
 type CountryGroups = Record<CountryGroupId, CountryGroup>;
@@ -22,16 +26,19 @@ const countryGroups: CountryGroups = {
         name: 'United Kingdom',
         currency: 'GBP',
         countries: ['GB', 'FK', 'GI', 'GG', 'IM', 'JE', 'SH'],
+        supportRegionId: 'UK',
     },
     UnitedStates: {
         name: 'United States',
         currency: 'USD',
         countries: ['US'],
+        supportRegionId: 'US',
     },
     AUDCountries: {
         name: 'Australia',
         currency: 'AUD',
         countries: ['AU', 'KI', 'NR', 'NF', 'TV'],
+        supportRegionId: 'AU',
     },
     EURCountries: {
         name: 'Europe',
@@ -93,6 +100,7 @@ const countryGroups: CountryGroups = {
             'VA',
             'AX',
         ],
+        supportRegionId: 'EU',
     },
     International: {
         name: 'International',
@@ -277,16 +285,19 @@ const countryGroups: CountryGroups = {
             'ZM',
             'ZW',
         ],
+        supportRegionId: 'INT',
     },
     NZDCountries: {
         name: 'New Zealand',
         currency: 'NZD',
         countries: ['NZ', 'CK'],
+        supportRegionId: 'NZ',
     },
     Canada: {
         name: 'Canada',
         currency: 'CAD',
         countries: ['CA'],
+        supportRegionId: 'CA',
     },
 };
 
@@ -393,4 +404,21 @@ export const getCountryName = (geolocation?: string): string | undefined => {
     }
 
     return undefined;
+};
+
+const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
+    countryGroups[countryCodeToCountryGroupId(countryCode)]?.supportRegionId;
+
+export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
+    if (countryCode) {
+        const supportRegionId = countryCodeToSupportRegionId(countryCode);
+        if (supportRegionId) {
+            return originalUrl.replace(
+                /(support.theguardian.com)\/(contribute|subscribe)/,
+                (_, domain, path) => `${domain}/${supportRegionId.toLowerCase()}/${path}`,
+            );
+        }
+    }
+
+    return originalUrl;
 };
