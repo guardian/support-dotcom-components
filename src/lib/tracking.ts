@@ -20,6 +20,7 @@ export const addTrackingParams = (baseUrl: string, params: EpicTracking): string
             },
             referrerPageviewId: params.ophanPageId,
             referrerUrl: params.referrerUrl,
+            isRemote: true, // Temp param to indicate served by remote service
         }),
     );
 
