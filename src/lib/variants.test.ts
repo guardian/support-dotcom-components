@@ -80,17 +80,21 @@ const targetingDefault: EpicTargeting = {
     mvtId: 2,
 };
 
-describe('getUserCohort', () => {
-    it('should return "AllNonSupporters" correctly', () => {
-        const targeting1 = {
+describe('getUserCohorts', () => {
+    it('should return "AllNonSupporters" when no contributions data', () => {
+        const targeting = {
             ...targetingDefault,
             showSupportMessaging: true,
             isRecurringContributor: false,
             lastOneOffContributionDate: undefined,
         };
-        const got1 = getUserCohorts(targeting1);
-        expect(got1).toEqual(['AllNonSupporters', 'Everyone']);
+        const got = getUserCohorts(targeting);
+        expect(got).toEqual(['AllNonSupporters', 'Everyone']);
     });
+
+    // it('should return "AllExistingSupporters" correctly', () => {});
+
+    // it('should return "AllExistingSupporters" correctly', () => {});
 
     it('should return "AllExistingSupporters" correctly', () => {
         const now = new Date('2020-03-31T12:30:00');
