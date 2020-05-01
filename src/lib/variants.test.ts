@@ -314,7 +314,7 @@ describe('hasSectionOrTags filter', () => {
     });
 });
 
-describe('excludeSection', () => {
+describe('excludeSection filter', () => {
     it('should pass if section is not in the blacklist', () => {
         const test: Test = { ...testDefault, excludedSections: ['environment'] };
         const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
@@ -330,7 +330,7 @@ describe('excludeSection', () => {
     });
 });
 
-describe('excludeTags', () => {
+describe('excludeTags filter', () => {
     it('should pass if no tags in the blacklist', () => {
         const test: Test = {
             ...testDefault,
@@ -353,7 +353,7 @@ describe('excludeTags', () => {
     });
 });
 
-describe('matchesCountryGroups', () => {
+describe('matchesCountryGroups filter', () => {
     it('should pass if no location set in the test', () => {
         const test = {
             ...testDefault,
@@ -403,7 +403,7 @@ describe('matchesCountryGroups', () => {
     });
 });
 
-describe('withinArticleViewedSettings', () => {
+describe('withinArticleViewedSettings filter', () => {
     const now = new Date('2020-03-31T12:30:00');
 
     it('should fail when below min articles viewed', () => {
@@ -487,7 +487,7 @@ describe('withinArticleViewedSettings', () => {
     });
 });
 
-describe('withinMaxViews', () => {
+describe('withinMaxViews filter', () => {
     const viewLog = [
         { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
         { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'B' },
@@ -554,7 +554,7 @@ describe('withinMaxViews', () => {
     });
 });
 
-describe('isContentType', () => {
+describe('isContentType filter', () => {
     it('should pass when is correct content type', () => {
         const test = {
             ...testDefault,
@@ -586,7 +586,7 @@ describe('isContentType', () => {
     });
 });
 
-describe('hasNoTicker', () => {
+describe('hasNoTicker filter', () => {
     it('should pass if test does not use ticker', () => {
         const test = {
             ...testDefault,
@@ -617,7 +617,7 @@ describe('hasNoTicker', () => {
 });
 
 // Avoids selecting a test that uses article count when the value would be zero
-describe('hasNoZeroArticleCount', () => {
+describe('hasNoZeroArticleCount filter', () => {
     const now = new Date('2010-03-31T12:30:00');
     it('should pass if no need for article history', () => {
         const test: Test = {
@@ -653,7 +653,7 @@ describe('hasNoZeroArticleCount', () => {
     });
 });
 
-describe('isNotExpired', () => {
+describe('isNotExpired filter', () => {
     const now = new Date('2020-01-18T12:30:00');
 
     it('should pass if expiry date today', () => {
