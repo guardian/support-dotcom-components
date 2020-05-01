@@ -40,4 +40,54 @@ describe('EpicButtons', () => {
 
         expect(queryByTestId('epic-buttons')).toBeNull();
     });
+
+    it('Does not render the reminder button when secondary CTA present', () => {
+        const variant = {
+            ...testData.content,
+            name: 'Example',
+            showTicker: false,
+            cta: {
+                text: 'Button text!',
+                baseUrl: 'https://support.theguardian.com/support',
+            },
+            secondaryCta: {
+                text: 'Secondary button!',
+                baseUrl: 'https://support.theguardian.com/support',
+            },
+            showReminderFields: {
+                reminderCTA: 'Reminder button!',
+                reminderDateAsString: 'June',
+                reminderDate: '2020-06-01T09:30:00',
+            },
+        };
+        const tracking = testData.tracking;
+
+        const { queryByText } = render(<EpicButtons variant={variant} tracking={tracking} />);
+
+        expect(screen.getByText('Secondary button!')).toBeInTheDocument();
+        expect(queryByText('Reminder button!')).toBeNull();
+    });
+
+    it('Renders the reminder button when secondary CTA is not present', () => {
+        const variant = {
+            ...testData.content,
+            name: 'Example',
+            showTicker: false,
+            cta: {
+                text: 'Button text!',
+                baseUrl: 'https://support.theguardian.com/support',
+            },
+            secondaryCta: undefined,
+            showReminderFields: {
+                reminderCTA: 'Reminder button!',
+                reminderDateAsString: 'June',
+                reminderDate: '2020-06-01T09:30:00',
+            },
+        };
+        const tracking = testData.tracking;
+
+        render(<EpicButtons variant={variant} tracking={tracking} />);
+
+        expect(screen.getByText('Reminder button!')).toBeInTheDocument();
+    });
 });
