@@ -74,27 +74,27 @@ export const EpicButtons = ({
         <div className={buttonWrapperStyles} data-target="epic-buttons" data-testid="epic=buttons">
             <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
 
-            {secondaryCta && secondaryCta.baseUrl && secondaryCta.text && (
+            {secondaryCta && secondaryCta.baseUrl && secondaryCta.text ? (
                 <div className={buttonMargins}>
                     <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
                         {secondaryCta.text}
                     </Button>
                 </div>
-            )}
-
-            {showReminderFields && (
-                <div className={buttonMargins}>
-                    <Button
-                        // We need to pass a function into 'onClickAction'
-                        // even though it won't be called when the button is
-                        // clicked post-injection on the client side.
-                        onClickAction={(): void => undefined}
-                        data-target="epic-open"
-                        isTertiary
-                    >
-                        {showReminderFields.reminderCTA}
-                    </Button>
-                </div>
+            ) : (
+                showReminderFields && (
+                    <div className={buttonMargins}>
+                        <Button
+                            // We need to pass a function into 'onClickAction'
+                            // even though it won't be called when the button is
+                            // clicked post-injection on the client side.
+                            onClickAction={(): void => undefined}
+                            data-target="epic-open"
+                            isTertiary
+                        >
+                            {showReminderFields.reminderCTA}
+                        </Button>
+                    </div>
+                )
             )}
 
             <img
