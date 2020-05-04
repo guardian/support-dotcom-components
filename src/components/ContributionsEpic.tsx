@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { body, headline } from '@guardian/src-foundations/typography';
+import { body, headline } from '@guardian/src-foundations/typography/cjs';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { css } from 'emotion';
-import { headline, textSans, body } from '@guardian/src-foundations/typography';
+import { headline, textSans, body } from '@guardian/src-foundations/typography/cjs';
 import { palette, space } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq/cjs';
 import { ReminderFields } from '../lib/variants';
 import { Lines } from '@guardian/src-ed-lines';
 import { TextInput } from '@guardian/src-text-input';
