@@ -51,7 +51,7 @@ export interface Test {
     locations: string[];
     tagIds: string[];
     sections: string[];
-    excludedTagIds: any[];
+    excludedTagIds: string[];
     excludedSections: string[];
     alwaysAsk: boolean;
     maxViews?: MaxViews;
@@ -159,7 +159,7 @@ export const excludeTags: Filter = {
 
 export const isOn: Filter = {
     id: 'isOn',
-    test: (test, _) => test.isOn,
+    test: (test): boolean => test.isOn,
 };
 
 export const isContentType: Filter = {
@@ -170,7 +170,7 @@ export const isContentType: Filter = {
 // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
-    test: (test, _) => {
+    test: (test): boolean => {
         // Calculate range of mvtIDs for variants and return first match
         const maxMVTId = 1000000;
         const lowest = maxMVTId * (test.audienceOffset || 0);
@@ -181,7 +181,7 @@ export const userInTest = (mvtId: number): Filter => ({
 
 export const hasCountryCode: Filter = {
     id: 'hasCountryGroups',
-    test: (test, targeting) =>
+    test: (test, targeting): boolean =>
         test.hasCountryName ? !!getCountryName(targeting.countryCode) : true,
 };
 
@@ -206,7 +206,7 @@ export const matchesCountryGroups: Filter = {
 
 export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
-    test: (test, _) => {
+    test: (test): boolean => {
         const defaultMaxViews = {
             maxViewsCount: 4,
             maxViewsDays: 30,
@@ -228,7 +228,7 @@ export const withinArticleViewedSettings = (
     now: Date = new Date(),
 ): Filter => ({
     id: 'withinArticleViewedSettings',
-    test: (test, _): boolean => {
+    test: (test): boolean => {
         // Allow test to pass if no articles viewed settings have been set
         if (!test.articlesViewedSettings || !test.articlesViewedSettings.periodInWeeks) {
             return true;
@@ -246,13 +246,13 @@ export const withinArticleViewedSettings = (
 
 export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     id: 'inCorrectCohort',
-    test: (test, _): boolean => userCohorts.includes(test.userCohort),
+    test: (test): boolean => userCohorts.includes(test.userCohort),
 });
 
 // Temporary filter to exclude tests with tickers until we support them
 export const hasNoTicker: Filter = {
     id: 'hasNoTicker',
-    test: (test, _) => {
+    test: test => {
         const hasTicker = test.variants.some(variant => variant.showTicker);
         return !hasTicker;
     },
@@ -288,7 +288,7 @@ export const shouldNotRender: Filter = {
 
 export const isNotExpired = (now: Date = new Date()): Filter => ({
     id: 'isNotExpired',
-    test: (test, _): boolean => {
+    test: (test): boolean => {
         if (!test.expiry) {
             return true;
         }
