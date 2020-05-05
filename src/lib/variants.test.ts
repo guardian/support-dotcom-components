@@ -80,60 +80,7 @@ const targetingDefault: EpicTargeting = {
     mvtId: 2,
 };
 
-describe('getUserCohort', () => {
-    it('should return "AllNonSupporters" correctly', () => {
-        const targeting1 = {
-            ...targetingDefault,
-            showSupportMessaging: true,
-            isRecurringContributor: false,
-            lastOneOffContributionDate: undefined,
-        };
-        const got1 = getUserCohorts(targeting1);
-        expect(got1).toEqual(['AllNonSupporters', 'Everyone']);
-    });
-
-    it('should return "AllExistingSupporters" correctly', () => {
-        const now = new Date('2020-03-31T12:30:00');
-        const twoMonthsAgo = new Date(now).setMonth(now.getMonth() - 2);
-
-        const targeting1: EpicTargeting = {
-            ...targetingDefault,
-            isRecurringContributor: true,
-        };
-        const got1 = getUserCohorts(targeting1);
-        expect(got1).toEqual(['AllExistingSupporters', 'Everyone']);
-
-        const targeting2: EpicTargeting = {
-            ...targetingDefault,
-            showSupportMessaging: false,
-        };
-        const got2 = getUserCohorts(targeting2);
-        expect(got2).toEqual(['AllExistingSupporters', 'Everyone']);
-
-        const targeting3: EpicTargeting = {
-            ...targetingDefault,
-            lastOneOffContributionDate: twoMonthsAgo,
-        };
-        const got3 = withNowAs(now, () => getUserCohorts(targeting3));
-        expect(got3).toEqual(['AllExistingSupporters', 'Everyone']);
-    });
-
-    it('should return "PostAskPauseSingleContributors" correctly', () => {
-        const now = new Date('2020-03-31T12:30:00');
-        const fourMonthsAgo = new Date(now).setMonth(now.getMonth() - 4);
-
-        const targeting1: EpicTargeting = {
-            ...targetingDefault,
-            showSupportMessaging: true,
-            isRecurringContributor: false,
-            lastOneOffContributionDate: fourMonthsAgo,
-        };
-        const got1 = withNowAs(now, () => getUserCohorts(targeting1));
-        expect(got1).toEqual(['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone']);
-    });
-});
-
-describe('find variant', () => {
+describe('findTestAndVariant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const tests = [testDefault];
         const targeting: EpicTargeting = {
@@ -151,125 +98,225 @@ describe('find variant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionName: 'news' };
+
         const got = findTestAndVariant(tests, targeting);
 
         expect(got).toBe(undefined);
     });
 });
 
-describe('variant filters', () => {
-    it('should filter by has country code', () => {
-        // Test 1 - country name is invalid/unknown
-        const test1: Test = { ...testDefault, hasCountryName: true };
-        const targeting1: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
-        const got1 = hasCountryCode.test(test1, targeting1);
-        expect(got1).toBe(false);
+describe('getUserCohort', () => {
+    const now = new Date('2020-03-31T12:30:00');
+    const twoMonthsAgo = new Date(now).setMonth(now.getMonth() - 2);
 
-        // Test 2 - country name is valid
-        const test2: Test = { ...testDefault, hasCountryName: true };
-        const targeting2: EpicTargeting = { ...targetingDefault, countryCode: 'GB' };
-        const got2 = hasCountryCode.test(test2, targeting2);
-        expect(got2).toBe(true);
+    it('should return "AllNonSupporters" when users is not contributor', () => {
+        const targeting = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: undefined,
+        };
 
-        // Test 3 - country name irrelevant if test doesnt need it
-        const test3: Test = { ...testDefault, hasCountryName: false };
-        const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
-        const got3 = hasCountryCode.test(test3, targeting3);
-        expect(got3).toBe(true);
+        const got = getUserCohorts(targeting);
+
+        expect(got).toEqual(['AllNonSupporters', 'Everyone']);
     });
 
-    it('should filter by user in test', () => {
-        const mvtId = 10;
+    it('should return "AllExistingSupporters" when user is recurring contributor', () => {
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            isRecurringContributor: true,
+        };
 
-        const test1 = { ...testDefault, audience: 1, audienceOffset: 0.5 };
-        const got1 = userInTest(mvtId).test(test1, targetingDefault);
-        expect(got1).toBe(false);
+        const got = getUserCohorts(targeting);
 
-        const test2 = { ...testDefault, audience: 0.1, audienceOffset: 0 };
-        const got2 = userInTest(mvtId).test(test2, targetingDefault);
-        expect(got2).toBe(true);
+        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
-    it('should filter by user cohort', () => {
-        const test1: Test = {
+    it('should return "AllExistingSupporters" when user has some form of paid product', () => {
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: false,
+        };
+
+        const got = getUserCohorts(targeting);
+
+        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
+    });
+
+    it('should return "AllExistingSupporters" when user has recent one-off contribution', () => {
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            lastOneOffContributionDate: twoMonthsAgo,
+        };
+
+        const got = withNowAs(now, () => getUserCohorts(targeting));
+
+        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
+    });
+
+    it('should return "PostAskPauseSingleContributors" when user has older one-off contribution', () => {
+        const now = new Date('2020-03-31T12:30:00');
+        const fourMonthsAgo = new Date(now).setMonth(now.getMonth() - 4);
+
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: true,
+            isRecurringContributor: false,
+            lastOneOffContributionDate: fourMonthsAgo,
+        };
+
+        const got = withNowAs(now, () => getUserCohorts(targeting));
+
+        expect(got).toEqual(['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone']);
+    });
+});
+
+describe('hasCountryCode filter', () => {
+    it('should fail when country name is invalid/unknown', () => {
+        const test: Test = { ...testDefault, hasCountryName: true };
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
+
+        const got = hasCountryCode.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass when country name is valid', () => {
+        const test: Test = { ...testDefault, hasCountryName: true };
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'GB' };
+
+        const got = hasCountryCode.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass when country name irrelevant if test doesnt need it', () => {
+        const test: Test = { ...testDefault, hasCountryName: false };
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: undefined };
+
+        const got = hasCountryCode.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+});
+
+describe('userInTest filter', () => {
+    const mvtId = 10;
+    it('should fail when user not in test', () => {
+        const test = { ...testDefault, audience: 1, audienceOffset: 0.5 };
+
+        const got = userInTest(mvtId).test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass when user in test', () => {
+        const test = { ...testDefault, audience: 0.1, audienceOffset: 0 };
+
+        const got = userInTest(mvtId).test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+});
+
+describe('inCorrectCohort filter', () => {
+    it('should pass when overlapping cohorts', () => {
+        const test: Test = {
             ...testDefault,
             userCohort: 'AllNonSupporters',
         };
-        const filter1 = inCorrectCohort([
+        const filter = inCorrectCohort([
             'PostAskPauseSingleContributors',
             'AllNonSupporters',
             'Everyone',
         ]);
-        const got1 = filter1.test(test1, targetingDefault);
-        expect(got1).toBe(true);
 
-        const test2: Test = {
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail when no overlapping cohorts', () => {
+        const test: Test = {
             ...testDefault,
             userCohort: 'AllExistingSupporters',
         };
-        const filter2 = inCorrectCohort(['AllNonSupporters', 'Everyone']);
-        const got2 = filter2.test(test2, targetingDefault);
-        expect(got2).toBe(false);
-    });
+        const filter = inCorrectCohort(['AllNonSupporters', 'Everyone']);
 
-    it('should filter by required sections or tags', () => {
-        // return true if section matches
-        const test1: Test = {
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('hasSectionOrTags filter', () => {
+    it('should pass if section matches', () => {
+        const test: Test = {
             ...testDefault,
             sections: ['environment'],
         };
-        const targeting1: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             sectionName: 'environment',
         };
-        const got1 = hasSectionOrTags.test(test1, targeting1);
-        expect(got1).toBe(true);
 
-        // return false if section doesn't match and no tags defined
-        const test2: Test = {
+        const got = hasSectionOrTags.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if section does not match and no tags defined', () => {
+        const test: Test = {
             ...testDefault,
             sections: ['environment'],
         };
-        const targeting2: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             sectionName: 'business',
         };
-        const got2 = hasSectionOrTags.test(test2, targeting2);
-        expect(got2).toBe(false);
 
-        // return true if sections don't match but tags match
-        const tags3 = [
+        const got = hasSectionOrTags.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if sections do not match but tags do', () => {
+        const tags = [
             {
                 id: 'environment/series/the-polluters',
                 type: 'tone',
             },
         ];
-        const test3: Test = {
+        const test: Test = {
             ...testDefault,
             sections: ['environment'],
-            tagIds: tags3.map(tag => tag.id),
+            tagIds: tags.map(tag => tag.id),
         };
-        const targeting3: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             sectionName: 'business',
-            tags: tags3,
+            tags: tags,
         };
-        const got3 = hasSectionOrTags.test(test3, targeting3);
-        expect(got3).toBe(true);
 
-        // return false if neither sections or tags match
-        const tags4 = [
+        const got = hasSectionOrTags.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if neither sections or tags match', () => {
+        const tags = [
             {
                 id: 'environment/series/the-polluters',
                 type: 'tone',
             },
         ];
-        const test4: Test = {
+        const test: Test = {
             ...testDefault,
             sections: ['environment'],
-            tagIds: tags4.map(tag => tag.id),
+            tagIds: tags.map(tag => tag.id),
         };
-        const targeting4: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             sectionName: 'business',
             tags: [
@@ -279,129 +326,165 @@ describe('variant filters', () => {
                 },
             ],
         };
-        const got4 = hasSectionOrTags.test(test4, targeting4);
-        expect(got4).toBe(false);
 
-        // return true if no section or tag requirements
-        const test5: Test = {
+        const got = hasSectionOrTags.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if no section or tag requirements', () => {
+        const test: Test = {
             ...testDefault,
             sections: [],
             tagIds: [],
         };
-        const targeting5: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             sectionName: 'business',
         };
-        const got5 = hasSectionOrTags.test(test5, targeting5);
-        expect(got5).toBe(true);
+
+        const got = hasSectionOrTags.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+});
+
+describe('excludeSection filter', () => {
+    it('should pass if section is not in the blacklist', () => {
+        const test: Test = { ...testDefault, excludedSections: ['environment'] };
+        const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
+
+        const got = excludeSection.test(test, targeting);
+
+        expect(got).toBe(true);
     });
 
-    it('should filter by excluded sections', () => {
-        const test1: Test = { ...testDefault, excludedSections: ['environment'] };
-        const targeting1: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
-        const got1 = excludeSection.test(test1, targeting1);
-        expect(got1).toBe(true);
+    it('should fail if section is in the blacklist', () => {
+        const test: Test = { ...testDefault, excludedSections: ['environment'] };
+        const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
 
-        const test2: Test = { ...testDefault, excludedSections: ['environment'] };
-        const targeting2: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
-        const got2 = excludeSection.test(test2, targeting2);
-        expect(got2).toBe(false);
+        const got = excludeSection.test(test, targeting);
+
+        expect(got).toBe(false);
     });
+});
 
-    it('should filter by excluded tags', () => {
-        const test1: Test = {
+describe('excludeTags filter', () => {
+    it('should pass if no tags in the blacklist', () => {
+        const test: Test = {
             ...testDefault,
             excludedTagIds: ['football/football'],
         };
-        const targeting1: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
         };
-        const got1 = excludeTags.test(test1, targeting1);
-        expect(got1).toBe(true);
 
-        const tags2 = [{ id: 'football/football', type: 'tone' }];
-        const test2: Test = { ...testDefault, excludedTagIds: ['football/football'] };
-        const targeting2: EpicTargeting = { ...targetingDefault, tags: tags2 };
-        const got2 = excludeTags.test(test2, targeting2);
-        expect(got2).toBe(false);
+        const got = excludeTags.test(test, targeting);
+
+        expect(got).toBe(true);
     });
 
-    it('should filter by user location', () => {
-        // Test 1 - should return true if no location set in the test
-        const test1 = {
+    it('should fail if at least one tag in the blacklist', () => {
+        const tags = [{ id: 'football/football', type: 'tone' }];
+        const test: Test = { ...testDefault, excludedTagIds: ['football/football'] };
+        const targeting: EpicTargeting = { ...targetingDefault, tags: tags };
+
+        const got = excludeTags.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('matchesCountryGroups filter', () => {
+    it('should pass if no location set in the test', () => {
+        const test = {
             ...testDefault,
             locations: [],
         };
-        const got1 = matchesCountryGroups.test(test1, targetingDefault);
-        expect(got1).toBe(true);
 
-        // Test 2 - should return false if location is set but user location unknown
-        const test2: Test = {
+        const got = matchesCountryGroups.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if location is set but user location unknown', () => {
+        const test: Test = {
             ...testDefault,
             locations: ['GBPCountries'],
         };
-        const targeting2 = {
+        const targeting = {
             ...targetingDefault,
             countryCode: undefined,
         };
-        const got2 = matchesCountryGroups.test(test2, targeting2);
-        expect(got2).toBe(false);
 
-        // Test 3 - should return true if user IS in the country group
-        const test3: Test = {
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if user in country group', () => {
+        const test: Test = {
             ...testDefault,
             locations: ['EURCountries'],
         };
-        const targeting3: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: 'PT',
         };
-        const got3 = matchesCountryGroups.test(test3, targeting3);
-        expect(got3).toBe(true);
 
-        // Test 4 - should return false if user is NOT in the country group
-        const test4: Test = {
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if user not in country group', () => {
+        const test: Test = {
             ...testDefault,
             locations: ['EURCountries'],
         };
-        const targeting4: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: 'GB',
         };
-        const got4 = matchesCountryGroups.test(test4, targeting4);
-        expect(got4).toBe(false);
+
+        const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('withinArticleViewedSettings filter', () => {
+    const now = new Date('2020-03-31T12:30:00');
+
+    it('should fail when below min articles viewed', () => {
+        const history = [{ week: 18330, count: 2 }];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history,
+        };
+        const filter = withinArticleViewedSettings(history, now);
+
+        const got = filter.test(testDefault, targeting);
+
+        expect(got).toBe(false);
     });
 
-    it('should filter by articles viewed settings', () => {
-        const now = new Date('2020-03-31T12:30:00');
-
-        // Test 1 - below min articles viewed
-        const history1 = [{ week: 18330, count: 2 }];
-        const targeting1: EpicTargeting = {
+    it('should pass when above (or at) min articles vieweds', () => {
+        const history = [{ week: 18330, count: 5 }];
+        const targeting: EpicTargeting = {
             ...targetingDefault,
-            weeklyArticleHistory: history1,
+            weeklyArticleHistory: history,
         };
+        const filter = withinArticleViewedSettings(history, now);
 
-        const filter1 = withinArticleViewedSettings(history1, now);
+        const got = filter.test(testDefault, targeting);
 
-        const got1 = filter1.test(testDefault, targeting1);
-        expect(got1).toBe(false);
+        expect(got).toBe(true);
+    });
 
-        // Test 2 - above (or at) min articles vieweds
-        const history2 = [{ week: 18330, count: 5 }];
-        const targeting2: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: history2,
-        };
-
-        const filter2 = withinArticleViewedSettings(history2, now);
-
-        const got2 = filter2.test(testDefault, targeting2);
-        expect(got2).toBe(true);
-
-        // Test 3 - below (or at) max articles viewed
-        const test3: Test = {
+    it('should pass when below (or at) max articles viewed', () => {
+        const test: Test = {
             ...testDefault,
             articlesViewedSettings: {
                 minViews: 5,
@@ -409,19 +492,20 @@ describe('variant filters', () => {
                 periodInWeeks: 52,
             },
         };
-        const history3 = [{ week: 18330, count: 20 }];
-        const targeting3: EpicTargeting = {
+        const history = [{ week: 18330, count: 20 }];
+        const targeting: EpicTargeting = {
             ...targetingDefault,
-            weeklyArticleHistory: history3,
+            weeklyArticleHistory: history,
         };
+        const filter = withinArticleViewedSettings(history, now);
 
-        const filter3 = withinArticleViewedSettings(history3, now);
+        const got = filter.test(test, targeting);
 
-        const got3 = filter3.test(test3, targeting3);
-        expect(got3).toBe(true);
+        expect(got).toBe(true);
+    });
 
-        // Test 4 - above max articles viewed
-        const test4: Test = {
+    it('should fail when above max articles viewed', () => {
+        const test: Test = {
             ...testDefault,
             articlesViewedSettings: {
                 minViews: 5,
@@ -429,47 +513,50 @@ describe('variant filters', () => {
                 periodInWeeks: 52,
             },
         };
-        const history4 = [{ week: 18330, count: 21 }];
+        const history = [{ week: 18330, count: 21 }];
         const targeting4: EpicTargeting = {
             ...targetingDefault,
-            weeklyArticleHistory: history4,
+            weeklyArticleHistory: history,
         };
+        const filter = withinArticleViewedSettings(history, now);
 
-        const filter4 = withinArticleViewedSettings(history4, now);
+        const got = filter.test(test, targeting4);
 
-        const got4 = filter4.test(test4, targeting4);
-        expect(got4).toBe(false);
+        expect(got).toBe(false);
+    });
 
-        // Test 5 - no article viewed settings
-        const test5: Test = {
+    it('should pass when no article viewed settings', () => {
+        const test: Test = {
             ...testDefault,
             articlesViewedSettings: undefined,
         };
-        const history5 = [{ week: 18330, count: 2500 }];
-        const targeting5: EpicTargeting = {
+        const history = [{ week: 18330, count: 2500 }];
+        const targeting: EpicTargeting = {
             ...targetingDefault,
-            weeklyArticleHistory: history5,
+            weeklyArticleHistory: history,
         };
+        const filter = withinArticleViewedSettings(history, now);
 
-        const filter5 = withinArticleViewedSettings(history5, now);
+        const got = filter.test(test, targeting);
 
-        const got5 = filter5.test(test5, targeting5);
-        expect(got5).toBe(true);
+        expect(got).toBe(true);
     });
+});
 
-    it('should filter by max views', () => {
-        const viewLog = [
-            { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'B' },
-            { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-07-21T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
-        ];
+describe('withinMaxViews filter', () => {
+    const viewLog = [
+        { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
+        { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'B' },
+        { date: new Date('2019-07-19T10:24:00').valueOf(), testId: 'example-1' },
+        { date: new Date('2019-07-21T10:24:00').valueOf(), testId: 'example-1' },
+        { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
+    ];
 
-        const now = new Date('2019-08-17T10:24:00');
-        const filter = withinMaxViews(viewLog, now);
+    const now = new Date('2019-08-17T10:24:00');
+    const filter = withinMaxViews(viewLog, now);
 
-        const test1 = {
+    it('should pass when number of views within the limit', () => {
+        const test = {
             ...testDefault,
             maxViews: {
                 maxViewsCount: 5,
@@ -479,11 +566,12 @@ describe('variant filters', () => {
             alwaysAsk: false,
         };
 
-        const got1 = filter.test(test1, targetingDefault);
+        const got = filter.test(test, targetingDefault);
 
-        expect(got1).toBe(true);
-
-        const test2 = {
+        expect(got).toBe(true);
+    });
+    it('should fail when number of views above the limit', () => {
+        const test = {
             ...testDefault,
             maxViews: {
                 maxViewsCount: 3,
@@ -493,35 +581,24 @@ describe('variant filters', () => {
             alwaysAsk: false,
         };
 
-        const got2 = filter.test(test2, targetingDefault);
+        const got = filter.test(test, targetingDefault);
 
-        expect(got2).toBe(false);
-
-        // Should apply default max views if test doesn't specify
-        const test3 = {
+        expect(got).toBe(false);
+    });
+    it('should fail when test does not specify rules so default settings are used', () => {
+        const test = {
             ...testDefault,
             maxViews: undefined,
             alwaysAsk: false,
         };
 
-        const got3 = filter.test(test3, targetingDefault);
+        const got = filter.test(test, targetingDefault);
 
-        expect(got3).toBe(false);
+        expect(got).toBe(false);
     });
 
-    it('should ignore max views when alwaysAsk is true', () => {
-        const viewLog = [
-            { date: new Date('2019-06-11T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-07-11T10:24:00').valueOf(), testId: 'B' },
-            { date: new Date('2019-07-15T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-07-17T10:24:00').valueOf(), testId: 'example-1' },
-            { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
-        ];
-
-        const now = new Date('2019-08-17T10:24:00');
-        const filter = withinMaxViews(viewLog, now);
-
-        const test1 = {
+    it('should pass when alwaysAsk is true regardless any view dates', () => {
+        const test = {
             ...testDefault,
             maxViews: {
                 maxViewsCount: 3,
@@ -531,54 +608,48 @@ describe('variant filters', () => {
             alwaysAsk: true,
         };
 
-        const got = filter.test(test1, targetingDefault);
+        const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
+});
 
-    it('should filter by content type', () => {
-        const test1 = {
+describe('isContentType filter', () => {
+    it('should pass when is correct content type', () => {
+        const test = {
             ...testDefault,
             isLiveBlog: true,
         };
-
-        const targeting1 = {
+        const targeting = {
             ...targetingDefault,
             contentType: 'LiveBlog',
         };
 
-        const got1 = isContentType.test(test1, targeting1);
-        expect(got1).toBe(true);
+        const got = isContentType.test(test, targeting);
 
-        const test2 = {
+        expect(got).toBe(true);
+    });
+
+    it('should fail when incorrect content type', () => {
+        const test = {
             ...testDefault,
             isLiveBlog: true,
         };
 
-        const targeting2 = {
+        const targeting = {
             ...targetingDefault,
             contentType: 'Article',
         };
 
-        const got2 = isContentType.test(test2, targeting2);
-        expect(got2).toBe(false);
+        const got = isContentType.test(test, targeting);
+
+        expect(got).toBe(false);
     });
+});
 
-    it('should filter by ticker feature', () => {
-        // Fail if there are tickers
-        const test1 = {
-            ...testDefault,
-            variants: [
-                {
-                    ...testDefault.variants[0],
-                    showTicker: true,
-                },
-            ],
-        };
-        const got1 = hasNoTicker.test(test1, targetingDefault);
-        expect(got1).toBe(false);
-
-        // Pass if there are no tickers
-        const test2 = {
+describe('hasNoTicker filter', () => {
+    it('should pass if test does not use ticker', () => {
+        const test = {
             ...testDefault,
             variants: [
                 {
@@ -587,73 +658,107 @@ describe('variant filters', () => {
                 },
             ],
         };
-        const got2 = hasNoTicker.test(test2, targetingDefault);
-        expect(got2).toBe(true);
+
+        const got = hasNoTicker.test(test, targetingDefault);
+
+        expect(got).toBe(true);
     });
 
-    it('should filter by unreplaced or invalid article count copy', () => {
-        const now = new Date('2010-03-31T12:30:00');
+    it('should fail if test uses ticker', () => {
+        const test = {
+            ...testDefault,
+            variants: [
+                {
+                    ...testDefault.variants[0],
+                    showTicker: true,
+                },
+            ],
+        };
 
-        // Pass if no need for article history
-        const test1: Test = {
+        const got = hasNoTicker.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+});
+
+// Avoids selecting a test that uses article count when the value would be zero
+describe('hasNoZeroArticleCount filter', () => {
+    const now = new Date('2010-03-31T12:30:00');
+    it('should pass if no need for article history', () => {
+        const test: Test = {
             ...testDefault,
             articlesViewedSettings: undefined,
         };
+        const filter = hasNoZeroArticleCount(now);
 
-        const filter1 = hasNoZeroArticleCount(now);
-        const got1 = filter1.test(test1, targetingDefault);
-        expect(got1).toBe(true);
+        const got = filter.test(test, targetingDefault);
 
-        // Pass if replacement value is greater than 0
-        const history2 = [{ week: 18330, count: 1 }];
-        const targeting2: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: history2,
-        };
-        const filter2 = hasNoZeroArticleCount(now);
-        const got2 = filter2.test(testDefault, targeting2);
-        expect(got2).toBe(true);
-
-        // Fail if replacement value is 0
-        const history3 = [{ week: 18330, count: 0 }];
-        const targeting3: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: history3,
-        };
-        const filter3 = hasNoZeroArticleCount(now);
-        const got3 = filter3.test(testDefault, targeting3);
-        expect(got3).toBe(false);
+        expect(got).toBe(true);
     });
 
-    it('should filter by expiration date if set', () => {
-        const now = new Date('2020-01-18T12:30:00');
-
-        // Fail if expiration date yesterday
-        const test1 = {
-            ...testDefault,
-            expiry: '2020-01-17',
+    it('should pass if replacement value is greater than 0', () => {
+        const history = [{ week: 18330, count: 1 }];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history,
         };
+        const filter = hasNoZeroArticleCount(now);
 
-        const filter1 = isNotExpired(now);
-        const got1 = filter1.test(test1, targetingDefault);
-        expect(got1).toBe(false);
+        const got = filter.test(testDefault, targeting);
 
-        // Pass if expiration date today
-        const test2 = {
+        expect(got).toBe(true);
+    });
+
+    it('should fail if replacement value is 0', () => {
+        const history = [{ week: 18330, count: 0 }];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history,
+        };
+        const filter = hasNoZeroArticleCount(now);
+
+        const got = filter.test(testDefault, targeting);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('isNotExpired filter', () => {
+    const now = new Date('2020-01-18T12:30:00');
+
+    it('should pass if expiry date today', () => {
+        const test = {
             ...testDefault,
             expiry: '2020-01-18',
         };
-        const filter2 = isNotExpired(now);
-        const got2 = filter2.test(test2, targetingDefault);
-        expect(got2).toBe(true);
+        const filter = isNotExpired(now);
 
-        // Pass if expiration date tomorrow
-        const test3 = {
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if expiry date tomorrow', () => {
+        const test = {
             ...testDefault,
             expiry: '2020-01-19',
         };
-        const filter3 = isNotExpired(now);
-        const got3 = filter3.test(test3, targetingDefault);
-        expect(got3).toBe(true);
+        const filter = isNotExpired(now);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if expiry date yesterday', () => {
+        const test = {
+            ...testDefault,
+            expiry: '2020-01-17',
+        };
+        const filter = isNotExpired(now);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
     });
 });
