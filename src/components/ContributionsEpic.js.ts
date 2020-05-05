@@ -145,7 +145,7 @@ export const componentJs = function initAutomatJs({
     }
 };
 
-export const reminderJs = () => {
+export const reminderJs = (): string => {
     const contributionsReminderUrl =
         process.env.NODE_ENV === 'production'
             ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
