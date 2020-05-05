@@ -24,6 +24,7 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { getAllHardcodedTests } from './tests';
+import { logTargeting } from './lib/logging';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -47,12 +48,6 @@ interface Response {
 }
 
 const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
-
-const logTargeting = (message: string): void => {
-    if (process.env.LOG_TARGETING === 'true') {
-        console.log(message);
-    }
-};
 
 const componentAsResponse = (componentWrapper: JsComponent, meta: EpicTestTracking): Response => {
     const { el, js } = componentWrapper;
