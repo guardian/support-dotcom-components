@@ -80,7 +80,7 @@ const targetingDefault: EpicTargeting = {
     mvtId: 2,
 };
 
-describe('find variant', () => {
+describe('findTestAndVariant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const tests = [testDefault];
         const targeting: EpicTargeting = {
@@ -98,6 +98,7 @@ describe('find variant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionName: 'news' };
+
         const got = findTestAndVariant(tests, targeting);
 
         expect(got).toBe(undefined);
@@ -115,7 +116,9 @@ describe('getUserCohort', () => {
             isRecurringContributor: false,
             lastOneOffContributionDate: undefined,
         };
+
         const got = getUserCohorts(targeting);
+
         expect(got).toEqual(['AllNonSupporters', 'Everyone']);
     });
 
@@ -124,7 +127,9 @@ describe('getUserCohort', () => {
             ...targetingDefault,
             isRecurringContributor: true,
         };
+
         const got = getUserCohorts(targeting);
+
         expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
@@ -133,7 +138,9 @@ describe('getUserCohort', () => {
             ...targetingDefault,
             showSupportMessaging: false,
         };
+
         const got = getUserCohorts(targeting);
+
         expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
@@ -142,7 +149,9 @@ describe('getUserCohort', () => {
             ...targetingDefault,
             lastOneOffContributionDate: twoMonthsAgo,
         };
+
         const got = withNowAs(now, () => getUserCohorts(targeting));
+
         expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
@@ -156,7 +165,9 @@ describe('getUserCohort', () => {
             isRecurringContributor: false,
             lastOneOffContributionDate: fourMonthsAgo,
         };
+
         const got = withNowAs(now, () => getUserCohorts(targeting));
+
         expect(got).toEqual(['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone']);
     });
 });
@@ -165,37 +176,47 @@ describe('hasCountryCode filter', () => {
     it('should fail when country name is invalid/unknown', () => {
         const test: Test = { ...testDefault, hasCountryName: true };
         const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
+
         const got = hasCountryCode.test(test, targeting);
+
         expect(got).toBe(false);
     });
 
     it('should pass when country name is valid', () => {
         const test: Test = { ...testDefault, hasCountryName: true };
         const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'GB' };
+
         const got = hasCountryCode.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
     it('should pass when country name irrelevant if test doesnt need it', () => {
-        const test3: Test = { ...testDefault, hasCountryName: false };
-        const targeting3: EpicTargeting = { ...targetingDefault, countryCode: undefined };
-        const got3 = hasCountryCode.test(test3, targeting3);
-        expect(got3).toBe(true);
+        const test: Test = { ...testDefault, hasCountryName: false };
+        const targeting: EpicTargeting = { ...targetingDefault, countryCode: undefined };
+
+        const got = hasCountryCode.test(test, targeting);
+
+        expect(got).toBe(true);
     });
 });
 
 describe('userInTest filter', () => {
     const mvtId = 10;
     it('should fail when user not in test', () => {
-        const test1 = { ...testDefault, audience: 1, audienceOffset: 0.5 };
-        const got1 = userInTest(mvtId).test(test1, targetingDefault);
-        expect(got1).toBe(false);
+        const test = { ...testDefault, audience: 1, audienceOffset: 0.5 };
+
+        const got = userInTest(mvtId).test(test, targetingDefault);
+
+        expect(got).toBe(false);
     });
 
     it('should pass when user in test', () => {
-        const test2 = { ...testDefault, audience: 0.1, audienceOffset: 0 };
-        const got2 = userInTest(mvtId).test(test2, targetingDefault);
-        expect(got2).toBe(true);
+        const test = { ...testDefault, audience: 0.1, audienceOffset: 0 };
+
+        const got = userInTest(mvtId).test(test, targetingDefault);
+
+        expect(got).toBe(true);
     });
 });
 
@@ -210,7 +231,9 @@ describe('inCorrectCohort filter', () => {
             'AllNonSupporters',
             'Everyone',
         ]);
+
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 
@@ -220,7 +243,9 @@ describe('inCorrectCohort filter', () => {
             userCohort: 'AllExistingSupporters',
         };
         const filter = inCorrectCohort(['AllNonSupporters', 'Everyone']);
+
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(false);
     });
 });
@@ -235,7 +260,9 @@ describe('hasSectionOrTags filter', () => {
             ...targetingDefault,
             sectionName: 'environment',
         };
+
         const got = hasSectionOrTags.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -248,7 +275,9 @@ describe('hasSectionOrTags filter', () => {
             ...targetingDefault,
             sectionName: 'business',
         };
+
         const got = hasSectionOrTags.test(test, targeting);
+
         expect(got).toBe(false);
     });
 
@@ -269,7 +298,9 @@ describe('hasSectionOrTags filter', () => {
             sectionName: 'business',
             tags: tags,
         };
+
         const got = hasSectionOrTags.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -295,7 +326,9 @@ describe('hasSectionOrTags filter', () => {
                 },
             ],
         };
+
         const got = hasSectionOrTags.test(test, targeting);
+
         expect(got).toBe(false);
     });
 
@@ -309,7 +342,9 @@ describe('hasSectionOrTags filter', () => {
             ...targetingDefault,
             sectionName: 'business',
         };
+
         const got = hasSectionOrTags.test(test, targeting);
+
         expect(got).toBe(true);
     });
 });
@@ -318,14 +353,18 @@ describe('excludeSection filter', () => {
     it('should pass if section is not in the blacklist', () => {
         const test: Test = { ...testDefault, excludedSections: ['environment'] };
         const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
+
         const got = excludeSection.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
     it('should fail if section is in the blacklist', () => {
         const test: Test = { ...testDefault, excludedSections: ['environment'] };
         const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
+
         const got = excludeSection.test(test, targeting);
+
         expect(got).toBe(false);
     });
 });
@@ -340,7 +379,9 @@ describe('excludeTags filter', () => {
             ...targetingDefault,
             tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
         };
+
         const got = excludeTags.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -348,7 +389,9 @@ describe('excludeTags filter', () => {
         const tags = [{ id: 'football/football', type: 'tone' }];
         const test: Test = { ...testDefault, excludedTagIds: ['football/football'] };
         const targeting: EpicTargeting = { ...targetingDefault, tags: tags };
+
         const got = excludeTags.test(test, targeting);
+
         expect(got).toBe(false);
     });
 });
@@ -359,7 +402,9 @@ describe('matchesCountryGroups filter', () => {
             ...testDefault,
             locations: [],
         };
+
         const got = matchesCountryGroups.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 
@@ -372,7 +417,9 @@ describe('matchesCountryGroups filter', () => {
             ...targetingDefault,
             countryCode: undefined,
         };
+
         const got = matchesCountryGroups.test(test, targeting);
+
         expect(got).toBe(false);
     });
 
@@ -385,7 +432,9 @@ describe('matchesCountryGroups filter', () => {
             ...targetingDefault,
             countryCode: 'PT',
         };
+
         const got = matchesCountryGroups.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -398,7 +447,9 @@ describe('matchesCountryGroups filter', () => {
             ...targetingDefault,
             countryCode: 'GB',
         };
+
         const got = matchesCountryGroups.test(test, targeting);
+
         expect(got).toBe(false);
     });
 });
@@ -412,9 +463,10 @@ describe('withinArticleViewedSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-
         const filter = withinArticleViewedSettings(history, now);
+
         const got = filter.test(testDefault, targeting);
+
         expect(got).toBe(false);
     });
 
@@ -424,9 +476,10 @@ describe('withinArticleViewedSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-
         const filter = withinArticleViewedSettings(history, now);
+
         const got = filter.test(testDefault, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -440,13 +493,14 @@ describe('withinArticleViewedSettings filter', () => {
             },
         };
         const history = [{ week: 18330, count: 20 }];
-        const targeting3: EpicTargeting = {
+        const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-
         const filter = withinArticleViewedSettings(history, now);
-        const got = filter.test(test, targeting3);
+
+        const got = filter.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -464,9 +518,10 @@ describe('withinArticleViewedSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-
         const filter = withinArticleViewedSettings(history, now);
+
         const got = filter.test(test, targeting4);
+
         expect(got).toBe(false);
     });
 
@@ -480,9 +535,10 @@ describe('withinArticleViewedSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-
         const filter = withinArticleViewedSettings(history, now);
+
         const got = filter.test(test, targeting);
+
         expect(got).toBe(true);
     });
 });
@@ -511,6 +567,7 @@ describe('withinMaxViews filter', () => {
         };
 
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
     it('should fail when number of views above the limit', () => {
@@ -525,6 +582,7 @@ describe('withinMaxViews filter', () => {
         };
 
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(false);
     });
     it('should fail when test does not specify rules so default settings are used', () => {
@@ -535,6 +593,7 @@ describe('withinMaxViews filter', () => {
         };
 
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(false);
     });
 
@@ -550,6 +609,7 @@ describe('withinMaxViews filter', () => {
         };
 
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 });
@@ -560,13 +620,13 @@ describe('isContentType filter', () => {
             ...testDefault,
             isLiveBlog: true,
         };
-
         const targeting = {
             ...targetingDefault,
             contentType: 'LiveBlog',
         };
 
         const got = isContentType.test(test, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -582,6 +642,7 @@ describe('isContentType filter', () => {
         };
 
         const got = isContentType.test(test, targeting);
+
         expect(got).toBe(false);
     });
 });
@@ -597,7 +658,9 @@ describe('hasNoTicker filter', () => {
                 },
             ],
         };
+
         const got = hasNoTicker.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 
@@ -611,7 +674,9 @@ describe('hasNoTicker filter', () => {
                 },
             ],
         };
+
         const got = hasNoTicker.test(test, targetingDefault);
+
         expect(got).toBe(false);
     });
 });
@@ -624,9 +689,10 @@ describe('hasNoZeroArticleCount filter', () => {
             ...testDefault,
             articlesViewedSettings: undefined,
         };
-
         const filter = hasNoZeroArticleCount(now);
+
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 
@@ -637,7 +703,9 @@ describe('hasNoZeroArticleCount filter', () => {
             weeklyArticleHistory: history,
         };
         const filter = hasNoZeroArticleCount(now);
+
         const got = filter.test(testDefault, targeting);
+
         expect(got).toBe(true);
     });
 
@@ -648,7 +716,9 @@ describe('hasNoZeroArticleCount filter', () => {
             weeklyArticleHistory: history,
         };
         const filter = hasNoZeroArticleCount(now);
+
         const got = filter.test(testDefault, targeting);
+
         expect(got).toBe(false);
     });
 });
@@ -662,7 +732,9 @@ describe('isNotExpired filter', () => {
             expiry: '2020-01-18',
         };
         const filter = isNotExpired(now);
+
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 
@@ -672,7 +744,9 @@ describe('isNotExpired filter', () => {
             expiry: '2020-01-19',
         };
         const filter = isNotExpired(now);
+
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(true);
     });
 
@@ -681,9 +755,10 @@ describe('isNotExpired filter', () => {
             ...testDefault,
             expiry: '2020-01-17',
         };
-
         const filter = isNotExpired(now);
+
         const got = filter.test(test, targetingDefault);
+
         expect(got).toBe(false);
     });
 });
