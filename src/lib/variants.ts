@@ -225,12 +225,12 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
 
 // Temporarily disable all epics with articlesViewedSettings, while we test a new feature in frontend:
 // https://github.com/guardian/frontend/pull/22546
-export const noArticleViewedSettings: Filter = ({
+export const noArticleViewedSettings: Filter = {
     id: 'noArticleViewedSettings',
     test: (test, _): boolean => {
-        return !test.articlesViewedSettings
-    }
-});
+        return !test.articlesViewedSettings;
+    },
+};
 
 export const withinArticleViewedSettings = (
     history: WeeklyArticleHistory,
