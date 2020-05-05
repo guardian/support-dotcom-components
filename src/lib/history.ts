@@ -10,7 +10,7 @@ export const getMondayFromDate = (date: Date): number => {
 
 export const getArticleViewCountForWeeks = (
     history: WeeklyArticleHistory = [],
-    weeks: number,
+    weeks: number = 52,
     rightNow: Date = new Date(),
 ): number => {
     const mondayThisWeek = getMondayFromDate(rightNow);
