@@ -15,7 +15,7 @@ import {
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 import { validatePayload } from './lib/validation';
-import { findTestAndVariant, Result } from './lib/variants';
+import { findTestAndVariant, Result, Debug } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildCampaignCode } from './lib/tracking';
 import {
@@ -44,45 +44,47 @@ interface Response {
     css: string;
     js: string;
     meta: EpicTestTracking;
+    debug?: Debug;
 }
 
 const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
-const asResponse = (component: JsComponent, meta: EpicTestTracking): Response => {
+const asResponse = (component: JsComponent, meta: EpicTestTracking, debug?: Debug): Response => {
     const { el, js } = component;
     const { html, css } = extractCritical(renderToStaticMarkup(el));
-    return { html, css, js, meta };
+    return { html, css, js, meta, debug };
 };
 
 const buildEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
     force?: string,
+    includeDebug?: boolean,
 ): Promise<Response | null> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
 
-    let result: Result | undefined;
+    let result: Result;
 
     if (force) {
         const [testID, variantID] = force.split(':');
         const test = tests.find(test => test.name === testID);
         const variant = test?.variants.find(v => v.name === variantID);
-        result = test && variant ? { test, variant } : undefined;
+        result = test && variant ? { test, variant } : {};
     } else {
-        result = findTestAndVariant(tests, targeting);
+        result = findTestAndVariant(tests, targeting, includeDebug);
     }
 
     logTargeting(
         `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
     );
 
-    if (!result) {
+    if (!result.test || !result.variant) {
         return null;
     }
 
-    const { test, variant } = result;
+    const { test, variant, debug } = result;
 
     const testTracking: EpicTestTracking = {
         abTestName: test.name,
@@ -98,7 +100,7 @@ const buildEpic = async (
         countryCode: targeting.countryCode,
     };
 
-    return asResponse(getEpic(props), testTracking);
+    return asResponse(getEpic(props), testTracking, debug);
 };
 
 app.get(
@@ -106,8 +108,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { pageTracking, targeting } = testData;
-            const force = req.query.force;
-            const epic = await buildEpic(pageTracking, targeting, force);
+            const { force, debug } = req.query;
+            const epic = await buildEpic(pageTracking, targeting, force, debug !== undefined);
             const { html, css, js } = epic ?? { html: '', css: '', js: '' };
             const htmlDoc = renderHtmlDocument({ html, css, js });
             res.send(htmlDoc);
@@ -126,8 +128,8 @@ app.post(
             }
 
             const { tracking, targeting } = req.body;
-            const force = req.query.force;
-            const epic = await buildEpic(tracking, targeting, force);
+            const { force, debug } = req.query;
+            const epic = await buildEpic(tracking, targeting, force, debug !== undefined);
 
             // for response logging
             res.locals.didRenderEpic = !!epic;
@@ -175,7 +177,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         referrerUrl: 'https://theguardian.com',
     };
 
-    const got = await buildEpic(fakeTracking, targeting);
+    const got = await buildEpic(fakeTracking, targeting, undefined, false);
 
     const notBothFalsy = expectedTest || got;
     const gotTestName = got?.meta?.abTestName;
