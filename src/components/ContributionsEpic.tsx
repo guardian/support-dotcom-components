@@ -7,7 +7,8 @@ import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
-import { reminderJs } from './ContributionsEpic.js';
+import { componentJs } from './ContributionsEpic.js';
+import { transform } from '@babel/standalone';
 import { EpicButtons } from './EpicButtons';
 
 const replacePlaceholders = (
@@ -199,18 +200,30 @@ export const ContributionsEpic: React.FC<Props> = ({
     );
 };
 
-export interface JsComponent {
-    el: JSX.Element;
+export interface SlotComponent {
+    component: JSX.Element;
     js: string;
 }
 
-export const getEpic = (props: Props): JsComponent => {
+export const contributionsEpicSlot = (props: Props): SlotComponent => {
     let js = '';
-    const el = <ContributionsEpic {...props} />;
-
     if (props.variant.showReminderFields) {
-        js = reminderJs();
+        const contributionsReminderUrl =
+            process.env.NODE_ENV === 'production'
+                ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
+                : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
+        const componentJsAsString = componentJs.toString();
+        const componentJsTranspiled = transform(componentJsAsString, {
+            presets: ['env'],
+        }).code;
+        if (componentJsTranspiled) {
+            js = componentJsTranspiled
+                .replace('"use strict";', '')
+                .replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
+        }
     }
-
-    return { el, js };
+    return {
+        component: <ContributionsEpic {...props} />,
+        js,
+    };
 };

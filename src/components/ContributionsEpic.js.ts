@@ -1,5 +1,3 @@
-import { transform } from '@babel/standalone';
-
 interface InitAutomatJsConfig {
     epicRoot: HTMLElement | ShadowRoot;
     onReminderOpen?: Function;
@@ -143,21 +141,4 @@ export const componentJs = function initAutomatJs({
             }
         }
     }
-};
-
-export const reminderJs = () => {
-    const contributionsReminderUrl =
-        process.env.NODE_ENV === 'production'
-            ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
-            : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
-
-    const js = componentJs.toString();
-    const transpiled =
-        transform(js, {
-            presets: ['env'],
-        }).code || '';
-
-    return transpiled
-        .replace('"use strict";', '')
-        .replace(/%%CONTRIBUTIONS_REMINDER_URL%%/g, contributionsReminderUrl);
 };
