@@ -227,7 +227,7 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
 // https://github.com/guardian/frontend/pull/22546
 export const noArticleViewedSettings: Filter = {
     id: 'noArticleViewedSettings',
-    test: (test, _): boolean => {
+    test: (test): boolean => {
         return !test.articlesViewedSettings;
     },
 };
