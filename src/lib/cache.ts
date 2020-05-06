@@ -11,7 +11,7 @@ export const cacheAsync = <T>(
     const myCache = new NodeCache();
     const key = 'res';
 
-    const retFn = async (): Promise<T> => {
+    const retFn = async () => {
         const got = myCache.get(key);
         if (got !== undefined) {
             return got as T;
@@ -22,7 +22,7 @@ export const cacheAsync = <T>(
         return res;
     };
 
-    const resetFn = (): number => myCache.del(key);
+    const resetFn = () => myCache.del(key);
 
     return [resetFn, retFn];
 };
