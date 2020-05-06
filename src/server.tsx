@@ -10,6 +10,7 @@ import { JsComponent, getEpic } from './components/ContributionsEpic';
 import {
     EpicPageTracking,
     EpicTestTracking,
+    EpicTracking,
     EpicTargeting,
 } from './components/ContributionsEpicTypes';
 import testData from './components/ContributionsEpic.testData';
@@ -48,10 +49,16 @@ interface Response {
 
 const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
-const asResponse = (component: JsComponent, meta: EpicTestTracking): Response => {
-    const { el, js } = component;
+const componentAsResponse = (componentWrapper: JsComponent, meta: EpicTestTracking): Response => {
+    const { el, js } = componentWrapper;
     const { html, css } = extractCritical(renderToStaticMarkup(el));
-    return { html, css, js, meta };
+
+    return {
+        html,
+        css,
+        js,
+        meta,
+    };
 };
 
 const buildEpic = async (
@@ -63,11 +70,8 @@ const buildEpic = async (
     const tests = [...configuredTests.tests, ...hardcodedTests];
     const result = findTestAndVariant(tests, targeting);
 
-    logTargeting(
-        `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
-    );
-
     if (!result) {
+        logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
         return null;
     }
 
@@ -80,14 +84,24 @@ const buildEpic = async (
         campaignId: test.campaignId || test.name,
     };
 
-    const props = {
-        variant,
-        tracking: { ...pageTracking, ...testTracking },
-        numArticles: getArticleViewCountForWeeks(targeting.weeklyArticleHistory),
-        countryCode: targeting.countryCode,
+    const tracking: EpicTracking = {
+        ...pageTracking,
+        ...testTracking,
     };
 
-    return asResponse(getEpic(props), testTracking);
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory);
+    const { countryCode } = targeting;
+
+    const props = {
+        variant,
+        tracking,
+        numArticles,
+        countryCode,
+    };
+
+    logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
+
+    return componentAsResponse(getEpic(props), testTracking);
 };
 
 app.get(
@@ -127,7 +141,6 @@ app.post(
     },
 );
 
-// TODO remove once migration complete
 app.post(
     '/epic/compare-variant-decision',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
