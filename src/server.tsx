@@ -24,6 +24,7 @@ import {
 } from './middleware';
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
+import { getQueryParams, Params } from './lib/params';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -58,8 +59,7 @@ const asResponse = (component: JsComponent, meta: EpicTestTracking, debug?: Debu
 const buildEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
-    force?: string,
-    includeDebug?: boolean,
+    params: Params,
 ): Promise<Response | null> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
@@ -67,13 +67,12 @@ const buildEpic = async (
 
     let result: Result;
 
-    if (force) {
-        const [testID, variantID] = force.split(':');
-        const test = tests.find(test => test.name === testID);
-        const variant = test?.variants.find(v => v.name === variantID);
+    if (params.force) {
+        const test = tests.find(test => test.name === params.force?.testName);
+        const variant = test?.variants.find(v => v.name === params.force?.variantName);
         result = test && variant ? { test, variant } : {};
     } else {
-        result = findTestAndVariant(tests, targeting, includeDebug);
+        result = findTestAndVariant(tests, targeting, params.debug);
     }
 
     logTargeting(
@@ -108,8 +107,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { pageTracking, targeting } = testData;
-            const { force, debug } = req.query;
-            const epic = await buildEpic(pageTracking, targeting, force, debug !== undefined);
+            const params = getQueryParams(req);
+            const epic = await buildEpic(pageTracking, targeting, params);
             const { html, css, js } = epic ?? { html: '', css: '', js: '' };
             const htmlDoc = renderHtmlDocument({ html, css, js });
             res.send(htmlDoc);
@@ -128,8 +127,8 @@ app.post(
             }
 
             const { tracking, targeting } = req.body;
-            const { force, debug } = req.query;
-            const epic = await buildEpic(tracking, targeting, force, debug !== undefined);
+            const params = getQueryParams(req);
+            const epic = await buildEpic(tracking, targeting, params);
 
             // for response logging
             res.locals.didRenderEpic = !!epic;
@@ -177,7 +176,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         referrerUrl: 'https://theguardian.com',
     };
 
-    const got = await buildEpic(fakeTracking, targeting, undefined, false);
+    const got = await buildEpic(fakeTracking, targeting, {});
 
     const notBothFalsy = expectedTest || got;
     const gotTestName = got?.meta?.abTestName;
