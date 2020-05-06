@@ -24,6 +24,7 @@ import {
 } from './middleware';
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
+import {ampDefaultEpic} from "./tests/ampDefaultEpic";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -191,6 +192,19 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 
     res.send('thanks');
 });
+
+app.get(
+    '/amp/epic',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const countryCode = req.header('X-GU-GeoIP-Country-Code');
+            const response = ampDefaultEpic(countryCode);
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
 app.use(errorHandlingMiddleware);
 
