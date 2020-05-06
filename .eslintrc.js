@@ -22,12 +22,6 @@ module.exports = {
                 ignoreParameters: true,
             },
         ],
-        '@typescript-eslint/no-unused-vars': [
-            'error',
-            {
-                args: 'after-used',
-            },
-        ],
     },
     settings: {
         react: {
