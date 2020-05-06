@@ -1,33 +1,21 @@
 import { shouldNotRenderEpic, shouldThrottle } from './targeting';
-import { EpicTargeting } from '../components/ContributionsEpicTypes';
-import testData from '../components/ContributionsEpic.testData';
+import { factories } from '../factories';
 
 describe('shouldNotRenderEpic', () => {
-    const meta: EpicTargeting = testData.targeting;
-
     it('returns true for non-article', () => {
-        const data = { ...meta, contentType: 'Liveblog' };
+        const data = factories.targeting.build({ contentType: 'Liveblog' });
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(true);
     });
 
     it('returns true for blacklisted section', () => {
-        const data = { ...meta, sectionName: 'careers' };
+        const data = factories.targeting.build({ sectionName: 'careers' });
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(true);
     });
 
     it('returns false for valid data', () => {
-        const data = {
-            contentType: 'Article',
-            sectionName: 'culture',
-            shouldHideReaderRevenue: false,
-            isMinuteArticle: false,
-            isPaidContent: false,
-            isRecurringContributor: false,
-            tags: [],
-            showSupportMessaging: true,
-        };
+        const data = factories.targeting.build();
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(false);
     });

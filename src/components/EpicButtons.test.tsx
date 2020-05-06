@@ -5,22 +5,18 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import testData from './ContributionsEpic.testData';
+import { factories } from '../factories';
 
 import { EpicButtons } from './EpicButtons';
 
 describe('EpicButtons', () => {
     it('Renders the primary button', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: {
                 text: 'Button text!',
-                baseUrl: 'https://support.theguardian.com/support',
             },
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         render(<EpicButtons variant={variant} tracking={tracking} />);
 
@@ -28,13 +24,14 @@ describe('EpicButtons', () => {
     });
 
     it('Renders nothing when no primary CTA', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: undefined,
-        };
-        const tracking = testData.tracking;
+            secondaryCta: {
+                text: 'Secondary button!',
+                baseUrl: 'https://support.theguardian.com/support',
+            },
+        });
+        const tracking = factories.tracking.build();
 
         const { queryByTestId } = render(<EpicButtons variant={variant} tracking={tracking} />);
 
@@ -42,10 +39,7 @@ describe('EpicButtons', () => {
     });
 
     it('Does not render the reminder button when secondary CTA present', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: {
                 text: 'Button text!',
                 baseUrl: 'https://support.theguardian.com/support',
@@ -59,8 +53,8 @@ describe('EpicButtons', () => {
                 reminderDateAsString: 'June',
                 reminderDate: '2020-06-01T09:30:00',
             },
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         const { queryByText } = render(<EpicButtons variant={variant} tracking={tracking} />);
 
@@ -69,10 +63,7 @@ describe('EpicButtons', () => {
     });
 
     it('Renders the reminder button when secondary CTA is not present', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: {
                 text: 'Button text!',
                 baseUrl: 'https://support.theguardian.com/support',
@@ -83,8 +74,8 @@ describe('EpicButtons', () => {
                 reminderDateAsString: 'June',
                 reminderDate: '2020-06-01T09:30:00',
             },
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         render(<EpicButtons variant={variant} tracking={tracking} />);
 

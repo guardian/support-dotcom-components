@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from './server';
 import testData from './components/ContributionsEpic.testData';
 import { configuredTests } from './api/contributionsApi.testData';
+import { factories } from './factories';
 
 jest.mock('./api/contributionsApi', () => {
     return {
@@ -20,7 +21,8 @@ jest.mock('./api/contributionsApi', () => {
 
 describe('POST /epic', () => {
     it('should return an epic', async () => {
-        const { pageTracking, targeting } = testData;
+        const { targeting } = testData;
+        const pageTracking = factories.pageTracking.build();
 
         const res = await request(app)
             .post('/epic')
