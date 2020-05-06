@@ -4,7 +4,7 @@ import { Context } from 'aws-lambda';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
-import { fetchConfiguredEpicTests } from './api/contributionsApi';
+import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import { JsComponent, getEpic } from './components/ContributionsEpic';
 import {
@@ -12,18 +12,27 @@ import {
     EpicTestTracking,
     EpicTracking,
     EpicTargeting,
+    EpicPayload,
 } from './components/ContributionsEpicTypes';
+import { shouldNotRenderEpic } from './lib/targeting';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
-import { validatePayload } from './lib/validation';
-import { findTestAndVariant } from './lib/variants';
+import { Validator } from 'jsonschema';
+import * as fs from 'fs';
+import * as path from 'path';
+import { Test, findTestAndVariant, withinMaxViews } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildCampaignCode } from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { ValidationError } from './errors/validationError';
 import { getAllHardcodedTests } from './tests';
+
+const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
+const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+console.log('Loaded epic payload JSON schema');
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -46,6 +55,8 @@ interface Response {
     meta: EpicTestTracking;
 }
 
+const fiveMinutes = 60 * 5;
+const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
 const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
 
 const logTargeting = (message: string): void => {
@@ -67,6 +78,50 @@ const componentAsResponse = (componentWrapper: JsComponent, meta: EpicTestTracki
 };
 
 const buildEpic = async (
+    pageTracking: EpicPageTracking,
+    targeting: EpicTargeting,
+): Promise<Response | null> => {
+    if (
+        shouldNotRenderEpic(targeting) ||
+        !withinMaxViews(targeting.epicViewLog || []).test({} as Test, targeting) // Note {} as Test is really flaky but is just for while we run the default Epic
+    ) {
+        logTargeting(`Renders Epic false for targeting: ${JSON.stringify(targeting)}`);
+        return null;
+    }
+
+    const variant = await fetchDefaultEpicContentCached();
+    const testName = 'FrontendDotcomRenderingEpic';
+    const campaign = 'frontend_dotcom_rendering_epic';
+    const variantName = pageTracking.clientName;
+
+    const testTracking: EpicTestTracking = {
+        abTestName: testName,
+        abTestVariant: variantName,
+        campaignCode: `gdnwb_copts_memco_${campaign}_${variantName}`,
+        campaignId: campaign,
+    };
+
+    const tracking: EpicTracking = {
+        ...pageTracking,
+        ...testTracking,
+    };
+
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory);
+    const { countryCode } = targeting;
+
+    const props = {
+        variant,
+        tracking,
+        numArticles,
+        countryCode,
+    };
+
+    logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
+
+    return componentAsResponse(getEpic(props), testTracking);
+};
+
+const buildDynamicEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
 ): Promise<Response | null> => {
@@ -109,15 +164,34 @@ const buildEpic = async (
     return componentAsResponse(getEpic(props), testTracking);
 };
 
+const validator = new Validator(); // reuse as expensive to initialise
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const validatePayload = (body: any): EpicPayload => {
+    const validation = validator.validate(body, epicPayloadSchema);
+
+    if (!validation.valid) {
+        throw new ValidationError(validation.toString());
+    }
+
+    return body as EpicPayload;
+};
+
+const shouldSelectTestDynamically = (): boolean => process.env.ENABLE_DYNAMIC_TESTS === 'true';
+
 app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { pageTracking, targeting } = testData;
-            const epic = await buildEpic(pageTracking, targeting);
+
+            const epic = shouldSelectTestDynamically()
+                ? await buildDynamicEpic(pageTracking, targeting)
+                : await buildEpic(pageTracking, targeting);
+
             const { html, css, js } = epic ?? { html: '', css: '', js: '' };
-            const htmlDoc = renderHtmlDocument({ html, css, js });
-            res.send(htmlDoc);
+            const htmlContent = renderHtmlDocument({ html, css, js });
+            res.send(htmlContent);
         } catch (error) {
             next(error);
         }
@@ -133,7 +207,10 @@ app.post(
             }
 
             const { tracking, targeting } = req.body;
-            const epic = await buildEpic(tracking, targeting);
+
+            const epic = shouldSelectTestDynamically()
+                ? await buildDynamicEpic(tracking, targeting)
+                : await buildEpic(tracking, targeting);
 
             // for response logging
             res.locals.didRenderEpic = !!epic;
@@ -185,7 +262,7 @@ app.post(
             referrerUrl: 'https://theguardian.com',
         };
 
-        const got = await buildEpic(sampleTracking, targeting);
+        const got = await buildDynamicEpic(sampleTracking, targeting);
 
         const notBothFalsy = expectedTest || got;
         const gotTestName = got?.meta?.abTestName;
