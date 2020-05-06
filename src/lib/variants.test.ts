@@ -82,7 +82,11 @@ const targetingDefault: EpicTargeting = {
 
 describe('findTestAndVariant', () => {
     it('should find the correct variant for test and targeting data', () => {
-        const tests = [testDefault];
+        const testWithoutArticlesViewedSettings = {
+            ...testDefault,
+            articlesViewedSettings: undefined,
+        };
+        const tests = [testWithoutArticlesViewedSettings];
         const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
@@ -92,6 +96,18 @@ describe('findTestAndVariant', () => {
 
         expect(got?.test.name).toBe('example-1');
         expect(got?.variant.name).toBe('control-example-1');
+    });
+
+    it('should return undefined if test has articlesViewedSettings', () => {
+        const tests = [testDefault];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: [{ week: 18330, count: 45 }],
+        };
+
+        const got = findTestAndVariant(tests, targeting);
+
+        expect(got).toBe(undefined);
     });
 
     it('should return undefined when no matching test variant', () => {
