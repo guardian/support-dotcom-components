@@ -6,7 +6,7 @@ import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchDefaultEpicContent, fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import { JsComponent, getEpic } from './components/ContributionsEpic';
+import { contributionsEpicSlot, SlotComponent } from './components/ContributionsEpic';
 import {
     EpicPageTracking,
     EpicTestTracking,
@@ -66,9 +66,9 @@ const logTargeting = (message: string): void => {
     }
 };
 
-const componentAsResponse = (componentWrapper: JsComponent, meta: EpicTestTracking): Response => {
-    const { el, js } = componentWrapper;
-    const { html, css } = extractCritical(renderToStaticMarkup(el));
+const componentAsResponse = (componentWrapper: SlotComponent, meta: EpicTestTracking): Response => {
+    const { component, js } = componentWrapper;
+    const { html, css } = extractCritical(renderToStaticMarkup(component));
 
     return {
         html,
@@ -126,7 +126,7 @@ const buildEpic = async (
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
 
-    return componentAsResponse(getEpic(props), testTracking);
+    return componentAsResponse(contributionsEpicSlot(props), testTracking);
 };
 
 // Return the HTML and CSS from rendering the Epic to static markup
@@ -176,7 +176,7 @@ const buildDynamicEpic = async (
 
     logTargeting(`Renders Epic true for targeting: ${JSON.stringify(targeting)}`);
 
-    return componentAsResponse(getEpic(props), testTracking);
+    return componentAsResponse(contributionsEpicSlot(props), testTracking);
 };
 
 const validator = new Validator(); // reuse as expensive to initialise
