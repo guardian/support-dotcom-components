@@ -15,7 +15,7 @@ import {
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 import { validatePayload } from './lib/validation';
-import { findTestAndVariant } from './lib/variants';
+import { findTestAndVariant, Result } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildCampaignCode } from './lib/tracking';
 import {
@@ -57,11 +57,22 @@ const asResponse = (component: JsComponent, meta: EpicTestTracking): Response =>
 const buildEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
+    force?: string,
 ): Promise<Response | null> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
-    const result = findTestAndVariant(tests, targeting);
+
+    let result: Result | undefined;
+
+    if (force) {
+        const [testID, variantID] = force.split(':');
+        const test = tests.find(test => test.name === testID);
+        const variant = test?.variants.find(v => v.name === variantID);
+        result = test && variant ? { test, variant } : undefined;
+    } else {
+        result = findTestAndVariant(tests, targeting);
+    }
 
     logTargeting(
         `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
@@ -95,7 +106,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { pageTracking, targeting } = testData;
-            const epic = await buildEpic(pageTracking, targeting);
+            const force = req.query.force;
+            const epic = await buildEpic(pageTracking, targeting, force);
             const { html, css, js } = epic ?? { html: '', css: '', js: '' };
             const htmlDoc = renderHtmlDocument({ html, css, js });
             res.send(htmlDoc);
@@ -114,7 +126,8 @@ app.post(
             }
 
             const { tracking, targeting } = req.body;
-            const epic = await buildEpic(tracking, targeting);
+            const force = req.query.force;
+            const epic = await buildEpic(tracking, targeting, force);
 
             // for response logging
             res.locals.didRenderEpic = !!epic;
