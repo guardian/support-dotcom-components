@@ -1,5 +1,5 @@
 import express from 'express';
-import { ValidationError } from '../errors/validationError';
+import { ValidationError } from '../lib/validation';
 
 export const errorHandling = (
     error: Error,
