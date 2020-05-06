@@ -34,6 +34,7 @@ const schemaPath = path.join(__dirname, 'schemas', 'epicPayload.schema.json');
 const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
 console.log('Loaded epic payload JSON schema');
 
+// Use middleware
 const app = express();
 app.use(express.json({ limit: '50mb' }));
 
@@ -77,6 +78,7 @@ const componentAsResponse = (componentWrapper: JsComponent, meta: EpicTestTracki
     };
 };
 
+// Return the HTML and CSS from rendering the Epic to static markup
 const buildEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
@@ -92,7 +94,7 @@ const buildEpic = async (
     const variant = await fetchDefaultEpicContentCached();
     const testName = 'FrontendDotcomRenderingEpic';
     const campaign = 'frontend_dotcom_rendering_epic';
-    const variantName = pageTracking.clientName;
+    const variantName = pageTracking.clientName; // dcr || frontend
 
     const testTracking: EpicTestTracking = {
         abTestName: testName,
@@ -106,7 +108,13 @@ const buildEpic = async (
         ...testTracking,
     };
 
-    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory);
+    // Hardcoding the number of weeks to match common values used in the tests.
+    // We know the copy refers to 'articles viewed in past 4 months' and this
+    // will show a count for the past year, but this seems to mirror Frontend
+    // and an accurate match between the view counts used for variant selection
+    // and template rendering is not necessarily essential.
+    const periodInWeeks = 52;
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
     const { countryCode } = targeting;
 
     const props = {
@@ -121,6 +129,7 @@ const buildEpic = async (
     return componentAsResponse(getEpic(props), testTracking);
 };
 
+// Return the HTML and CSS from rendering the Epic to static markup
 const buildDynamicEpic = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
@@ -149,7 +158,13 @@ const buildDynamicEpic = async (
         ...testTracking,
     };
 
-    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory);
+    // Hardcoding the number of weeks to match common values used in the tests.
+    // We know the copy refers to 'articles viewed in past 4 months' and this
+    // will show a count for the past year, but this seems to mirror Frontend
+    // and an accurate match between the view counts used for variant selection
+    // and template rendering is not necessarily essential.
+    const periodInWeeks = 52;
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory, periodInWeeks);
     const { countryCode } = targeting;
 
     const props = {
@@ -295,8 +310,8 @@ app.post(
 
 app.use(errorHandlingMiddleware);
 
+// If local then don't wrap in serverless
 const PORT = process.env.PORT || 3030;
-
 if (process.env.NODE_ENV === 'development') {
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 } else {
