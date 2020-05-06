@@ -1,4 +1,4 @@
-import { getLocalCurrencySymbol } from "../lib/geolocation";
+import { getLocalCurrencySymbol } from '../lib/geolocation';
 
 export const ampDefaultEpic = (geolocation?: string) => {
     const currencySymbol = getLocalCurrencySymbol(geolocation);

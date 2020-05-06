@@ -24,7 +24,7 @@ import {
 } from './middleware';
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
-import { ampDefaultEpic } from "./tests/ampDefaultEpic";
+import { ampDefaultEpic } from './tests/ampDefaultEpic';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
