@@ -143,7 +143,6 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         frontendLog,
     } = req.body;
 
-    // Ignore some manually defined tests in Frontend for now
     const ignores = [
         'FrontendDotcomRenderingEpic',
         'RemoteRenderEpicRoundTwo',
@@ -155,9 +154,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         return;
     }
 
-    // We need these to satisfy the buildDynamicEpic interface, but it
-    // doesn't matter what values we use
-    const sampleTracking = {
+    const fakeTracking = {
         ophanPageId: 'xxxxxxxxxxxxx',
         ophanComponentId: 'ACQUISITIONS_EPIC',
         platformId: 'GUARDIAN_WEB',
@@ -165,7 +162,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         referrerUrl: 'https://theguardian.com',
     };
 
-    const got = await buildEpic(sampleTracking, targeting);
+    const got = await buildEpic(fakeTracking, targeting);
 
     const notBothFalsy = expectedTest || got;
     const gotTestName = got?.meta?.abTestName;
