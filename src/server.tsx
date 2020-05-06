@@ -77,7 +77,7 @@ const buildEpic = async (
         abTestName: test.name,
         abTestVariant: variant.name,
         campaignCode: buildCampaignCode(test, variant),
-        campaignId: test.campaignId || test.name,
+        campaignId: `epic_${test.campaignId || test.name}`,
     };
 
     const props = {

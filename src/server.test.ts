@@ -39,7 +39,7 @@ describe('POST /epic', () => {
             abTestVariant: 'Control',
             campaignCode:
                 'gdnwb_copts_memco_2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count_Control',
-            campaignId: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
+            campaignId: 'epic_2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
         });
     });
 
