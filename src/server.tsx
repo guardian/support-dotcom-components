@@ -200,6 +200,9 @@ app.get(
             // We use the fastly geo header for determining the correct currency symbol
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const response = ampDefaultEpic(countryCode);
+
+            res.setHeader('Surrogate-Control', 'max-age=300');
+            res.setHeader('Cache-Control', 'max-age=60');
             res.send(response);
         } catch (error) {
             next(error);
