@@ -1,4 +1,5 @@
 import express from 'express';
+import ampCors from 'amp-toolbox-cors';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -32,6 +33,10 @@ app.use(express.json({ limit: '50mb' }));
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
 app.options('*', cors());
+
+app.use(ampCors({
+    sourceOriginPattern: /.*\/amp\/epic$/
+}));
 
 app.use(loggingMiddleware);
 
@@ -204,6 +209,7 @@ app.get(
             // The cache key in fastly is the X-GU-GeoIP-Country-Code header
             res.setHeader('Surrogate-Control', 'max-age=300');
             res.setHeader('Cache-Control', 'max-age=60');
+
             res.send(response);
         } catch (error) {
             next(error);
