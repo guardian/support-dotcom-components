@@ -34,9 +34,11 @@ app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 app.options('*', cors());
 
-app.use(ampCors({
-    sourceOriginPattern: /.*\/amp\/epic$/
-}));
+app.use(
+    ampCors({
+        sourceOriginPattern: /.*\/amp\/epic$/,
+    }),
+);
 
 app.use(loggingMiddleware);
 

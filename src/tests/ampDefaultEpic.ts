@@ -1,6 +1,6 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
 
-export const ampDefaultEpic = (geolocation?: string) => {
+export const ampDefaultEpic: object = (geolocation?: string) => {
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
         heading: 'Since you’re here...',
