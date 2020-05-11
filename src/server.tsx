@@ -1,4 +1,5 @@
 import express from 'express';
+import ampCors from 'amp-toolbox-cors';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -25,6 +26,7 @@ import {
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
 import { getQueryParams, Params } from './lib/params';
+import { ampDefaultEpic } from './tests/ampDefaultEpic';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -32,6 +34,12 @@ app.use(express.json({ limit: '50mb' }));
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
 app.options('*', cors());
+
+app.use(
+    ampCors({
+        sourceOriginPattern: /.*\/amp\/epic$/,
+    }),
+);
 
 app.use(loggingMiddleware);
 
@@ -205,6 +213,25 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 
     res.send('thanks');
 });
+
+app.get(
+    '/amp/epic',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            // We use the fastly geo header for determining the correct currency symbol
+            const countryCode = req.header('X-GU-GeoIP-Country-Code');
+            const response = ampDefaultEpic(countryCode);
+
+            // The cache key in fastly is the X-GU-GeoIP-Country-Code header
+            res.setHeader('Surrogate-Control', 'max-age=300');
+            res.setHeader('Cache-Control', 'max-age=60');
+
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
 app.use(errorHandlingMiddleware);
 
