@@ -1,8 +1,8 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
 
-export const ampDefaultEpic: object = (geolocation?: string) => {
+export function ampDefaultEpic(geolocation?: string): string {
     const currencySymbol = getLocalCurrencySymbol(geolocation);
-    return {
+    const epic = {
         heading: 'Since you’re here...',
         paragraphs: [
             '… we’re asking readers like you to support our open, independent journalism. News is under threat just when we need it the most. Growing numbers of readers are seeking authoritative, fact-based reporting on one of the biggest challenges we have faced in our lifetime. But advertising revenue is plummeting, and many news organizations are facing an existential threat. We need you to help fill the gap.',
@@ -12,4 +12,5 @@ export const ampDefaultEpic: object = (geolocation?: string) => {
         ],
         highlightedText: `Support the Guardian from as little as ${currencySymbol}1 – and it only takes a minute. Thank you.`,
     };
-};
+    return JSON.stringify(epic);
+}
