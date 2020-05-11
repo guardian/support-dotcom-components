@@ -94,8 +94,8 @@ describe('findTestAndVariant', () => {
 
         const got = findTestAndVariant(tests, targeting);
 
-        expect(got?.test.name).toBe('example-1');
-        expect(got?.variant.name).toBe('control-example-1');
+        expect(got?.result?.test.name).toBe('example-1');
+        expect(got?.result?.variant.name).toBe('control-example-1');
     });
 
     it('should return undefined if test has articlesViewedSettings', () => {
@@ -107,7 +107,7 @@ describe('findTestAndVariant', () => {
 
         const got = findTestAndVariant(tests, targeting);
 
-        expect(got).toBe(undefined);
+        expect(got.result).toBe(undefined);
     });
 
     it('should return undefined when no matching test variant', () => {
@@ -117,7 +117,7 @@ describe('findTestAndVariant', () => {
 
         const got = findTestAndVariant(tests, targeting);
 
-        expect(got).toBe(undefined);
+        expect(got.result).toBe(undefined);
     });
 });
 
