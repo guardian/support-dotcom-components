@@ -70,7 +70,7 @@ const buildEpic = async (
     if (params.force) {
         const test = tests.find(test => test.name === params.force?.testName);
         const variant = test?.variants.find(v => v.name === params.force?.variantName);
-        result = test && variant ? { test, variant } : {};
+        result = test && variant ? { result: { test, variant } } : {};
     } else {
         result = findTestAndVariant(tests, targeting, params.debug);
     }
@@ -79,11 +79,11 @@ const buildEpic = async (
         `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
     );
 
-    if (!result.test || !result.variant) {
+    if (!result.result) {
         return null;
     }
 
-    const { test, variant, debug } = result;
+    const { test, variant } = result.result;
 
     const testTracking: EpicTestTracking = {
         abTestName: test.name,
@@ -99,7 +99,7 @@ const buildEpic = async (
         countryCode: targeting.countryCode,
     };
 
-    return asResponse(getEpic(props), testTracking, debug);
+    return asResponse(getEpic(props), testTracking, result.debug);
 };
 
 app.get(

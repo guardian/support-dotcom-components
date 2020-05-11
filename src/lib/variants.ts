@@ -314,8 +314,10 @@ type FilterResults = { [filter: string]: boolean };
 export type Debug = { [test: string]: FilterResults };
 
 export interface Result {
-    test?: Test;
-    variant?: Variant;
+    result?: {
+        test: Test;
+        variant: Variant;
+    };
     debug?: Debug;
 }
 
@@ -373,8 +375,7 @@ export const findTestAndVariant = (
 
     if (test) {
         return {
-            test,
-            variant: selectVariant(test, targeting.mvtId || 1),
+            result: { test, variant: selectVariant(test, targeting.mvtId || 1) },
             debug: includeDebug ? debug : undefined,
         };
     }
