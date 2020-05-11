@@ -324,7 +324,7 @@ export const findTestAndVariant = (
     targeting: EpicTargeting,
     includeDebug: boolean = false,
 ): Result => {
-    let debug: Debug = {};
+    const debug: Debug = {};
 
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
@@ -375,9 +375,9 @@ export const findTestAndVariant = (
         return {
             test,
             variant: selectVariant(test, targeting.mvtId || 1),
-            debug,
+            debug: includeDebug ? debug : undefined,
         };
     }
 
-    return { debug };
+    return { debug: includeDebug ? debug : undefined };
 };
