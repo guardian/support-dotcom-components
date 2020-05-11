@@ -309,12 +309,25 @@ export const isNotExpired = (now: Date = new Date()): Filter => ({
     },
 });
 
+type FilterResults = { [filter: string]: boolean };
+
+export type Debug = { [test: string]: FilterResults };
+
 export interface Result {
-    test: Test;
-    variant: Variant;
+    result?: {
+        test: Test;
+        variant: Variant;
+    };
+    debug?: Debug;
 }
 
-export const findTestAndVariant = (tests: Test[], targeting: EpicTargeting): Result | undefined => {
+export const findTestAndVariant = (
+    tests: Test[],
+    targeting: EpicTargeting,
+    includeDebug: boolean = false,
+): Result => {
+    const debug: Debug = {};
+
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
@@ -346,6 +359,12 @@ export const findTestAndVariant = (tests: Test[], targeting: EpicTargeting): Res
         filters.every(filter => {
             const got = filter.test(test, targeting);
 
+            if (debug[test.name]) {
+                debug[test.name][filter.id] = got;
+            } else {
+                debug[test.name] = { [filter.id]: got };
+            }
+
             if (!got && process.env.LOG_FAILED_TEST_FILTER === 'true') {
                 console.log(`filter failed: ${test.name}; ${filter.id}`);
             }
@@ -355,8 +374,11 @@ export const findTestAndVariant = (tests: Test[], targeting: EpicTargeting): Res
     );
 
     if (test) {
-        return { test, variant: selectVariant(test, targeting.mvtId || 1) };
+        return {
+            result: { test, variant: selectVariant(test, targeting.mvtId || 1) },
+            debug: includeDebug ? debug : undefined,
+        };
     }
 
-    return undefined;
+    return { debug: includeDebug ? debug : undefined };
 };
