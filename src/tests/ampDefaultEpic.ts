@@ -8,6 +8,7 @@ interface AMPEpic {
     cta: Cta;
 }
 
+// See https://amp.dev/documentation/components/amp-list/
 interface AMPEpicResponse {
     items: AMPEpic[];
 }
