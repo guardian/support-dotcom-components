@@ -226,7 +226,7 @@ app.get(
             res.setHeader('Surrogate-Control', 'max-age=300');
             res.setHeader('Cache-Control', 'max-age=60');
 
-            res.send(response);
+            res.send(JSON.stringify(response));
         } catch (error) {
             next(error);
         }

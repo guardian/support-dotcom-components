@@ -1,8 +1,20 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
+import { Cta } from '../lib/variants';
 
-export function ampDefaultEpic(geolocation?: string): string {
+interface AMPEpic {
+    heading?: string;
+    paragraphs: string[];
+    highlightedText?: string;
+    cta: Cta;
+}
+
+interface AMPEpicResponse {
+    items: AMPEpic[];
+}
+
+export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
     const currencySymbol = getLocalCurrencySymbol(geolocation);
-    const epic = {
+    return {
         items: [
             {
                 heading: 'Since you’re here...',
@@ -13,8 +25,11 @@ export function ampDefaultEpic(geolocation?: string): string {
                     'We need your support so we can keep delivering quality journalism that’s open and independent.',
                 ],
                 highlightedText: `Support the Guardian from as little as ${currencySymbol}1 – and it only takes a minute. Thank you.`,
+                cta: {
+                    text: 'Support the Guardian',
+                    baseUrl: 'https://support.theguardian.com/contribute',
+                },
             },
         ],
     };
-    return JSON.stringify(epic);
 }
