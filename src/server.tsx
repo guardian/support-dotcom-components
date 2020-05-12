@@ -225,6 +225,7 @@ app.get(
             // The cache key in fastly is the X-GU-GeoIP-Country-Code header
             res.setHeader('Surrogate-Control', 'max-age=300');
             res.setHeader('Cache-Control', 'max-age=60');
+            res.setHeader('Content-Type', 'application/json');
 
             res.send(JSON.stringify(response));
         } catch (error) {
