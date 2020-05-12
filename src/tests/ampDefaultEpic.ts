@@ -28,6 +28,7 @@ export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
                 highlightedText: `Support the Guardian from as little as ${currencySymbol}1 – and it only takes a minute. Thank you.`,
                 cta: {
                     text: 'Support the Guardian',
+                    // TODO - get tracking code
                     baseUrl: 'https://support.theguardian.com/contribute',
                 },
             },
