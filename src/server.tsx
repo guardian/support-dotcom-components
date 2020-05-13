@@ -35,12 +35,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 app.options('*', cors());
 
-app.use(
-    ampCors({
-        sourceOriginPattern: /.*\/amp\/epic$/,
-    }),
-);
-
 app.use(loggingMiddleware);
 
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
@@ -216,6 +210,13 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 
 app.get(
     '/amp/epic',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'http://localhost:3030'
+        ],
+        credentials: true,
+    }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             // We use the fastly geo header for determining the correct currency symbol
