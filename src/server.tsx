@@ -1,5 +1,4 @@
 import express from 'express';
-import ampCors from 'amp-toolbox-cors';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -211,10 +210,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 app.get(
     '/amp/epic',
     cors({
-        origin: [
-            'https://amp-theguardian-com.cdn.ampproject.org',
-            'http://localhost:3030'
-        ],
+        origin: ['https://amp-theguardian-com.cdn.ampproject.org', 'http://localhost:3030'],
         credentials: true,
     }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
