@@ -212,6 +212,7 @@ app.get(
     cors({
         origin: ['https://amp-theguardian-com.cdn.ampproject.org', 'http://localhost:3030'],
         credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
     }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
