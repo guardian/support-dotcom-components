@@ -210,7 +210,11 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 app.get(
     '/amp/epic',
     cors({
-        origin: ['https://amp-theguardian-com.cdn.ampproject.org', 'http://localhost:3030'],
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+        ],
         credentials: true,
         allowedHeaders: ['x-gu-geoip-country-code'],
     }),
