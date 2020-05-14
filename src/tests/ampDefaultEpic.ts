@@ -14,6 +14,7 @@ interface AMPEpicResponse {
 }
 
 export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
+    const campaignCode = 'AMP_EPIC_MAY2020';
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
         items: [
@@ -29,7 +30,7 @@ export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
                 cta: {
                     text: 'Support the Guardian',
                     // TODO - get tracking code
-                    baseUrl: 'https://support.theguardian.com/contribute',
+                    baseUrl: `https://support.theguardian.com/contribute?acquisitionData=%7B%22source%22%3A%22GOOGLE_AMP%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22componentId%22%3A%22${campaignCode}%22%2C%22campaignCode%22%3A%22${campaignCode}%22%7D&INTCMP=${campaignCode}`,
                 },
             },
         ],
