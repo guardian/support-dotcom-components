@@ -1,11 +1,18 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
-import { Cta } from '../lib/variants';
+
+interface AMPCta {
+    text: string;
+    baseUrl: string; // deprecated, still here temporarily for backwards compatibility
+    url: string;
+    componentId: string;
+    campaignCode: string;
+}
 
 interface AMPEpic {
     heading?: string;
     paragraphs: string[];
     highlightedText?: string;
-    cta: Cta;
+    cta: AMPCta;
 }
 
 // See https://amp.dev/documentation/components/amp-list/
@@ -29,8 +36,10 @@ export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
                 highlightedText: `Support the Guardian from as little as ${currencySymbol}1 – and it only takes a minute. Thank you.`,
                 cta: {
                     text: 'Support the Guardian',
-                    // TODO - get tracking code
                     baseUrl: `https://support.theguardian.com/contribute?acquisitionData=%7B%22source%22%3A%22GOOGLE_AMP%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22componentId%22%3A%22${campaignCode}%22%2C%22campaignCode%22%3A%22${campaignCode}%22%7D&INTCMP=${campaignCode}`,
+                    url: 'https://support.theguardian.com/contribute',
+                    campaignCode: campaignCode,
+                    componentId: campaignCode,
                 },
             },
         ],
