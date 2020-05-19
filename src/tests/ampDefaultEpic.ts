@@ -1,11 +1,11 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
 
 interface AMPCta {
-    text: string,
-    baseUrl: string,    // deprecated, still here temporarily for backwards compatibility
-    url: string,
-    componentId: string,
-    campaignCode: string,
+    text: string;
+    baseUrl: string; // deprecated, still here temporarily for backwards compatibility
+    url: string;
+    componentId: string;
+    campaignCode: string;
 }
 
 interface AMPEpic {
