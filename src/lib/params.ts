@@ -15,7 +15,7 @@ export const getQueryParams = (req: express.Request): Params => {
     const debugNonEmpty = debug !== undefined;
     let parsedForce: TestVariant | undefined;
 
-    if (force) {
+    if (force && typeof force === 'string') {
         const [testName, variantName] = force.split(':');
         parsedForce = { testName, variantName };
     }
