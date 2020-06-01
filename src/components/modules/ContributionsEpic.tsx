@@ -113,7 +113,7 @@ type BodyProps = {
     numArticles: number;
 };
 
-interface onReminderOpen {
+interface OnReminderOpen {
     buttonCopyAsString: string;
 }
 
@@ -197,7 +197,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                     variant={variant}
                     tracking={tracking}
                     countryCode={countryCode}
-                    onOpenReminderClick={() => {
+                    onOpenReminderClick={(): void => {
                         const buttonCopyAsString = showReminderFields?.reminderCTA
                             .toLowerCase()
                             .replace(/\s/g, '-');
@@ -207,7 +207,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                         if (onReminderOpen) {
                             onReminderOpen({
                                 buttonCopyAsString,
-                            } as onReminderOpen);
+                            } as OnReminderOpen);
                         }
 
                         setIsReminderActive(true);

@@ -52,6 +52,7 @@ export default {
             babelHelpers: 'bundled',
         }),
         typescript(tsOpts),
+        // eslint-disable-next-line @typescript-eslint/camelcase
         terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
         externalGlobals(globals),
     ],

@@ -124,7 +124,7 @@ const contributionsReminderUrl =
         ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
         : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
 
-const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<any> => {
+const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<Response> => {
     return fetch(contributionsReminderUrl, {
         method: 'POST',
         headers: {
@@ -139,7 +139,6 @@ const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<any> => {
 };
 
 export const ContributionsEpicReminder: React.FC<Props> = ({
-    reminderCTA,
     reminderDate,
     reminderDateAsString,
     onCloseReminderClick,
@@ -162,7 +161,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
 
     return (
         <div className={rootStyles}>
-            <button className={closeButtonStyles} onClick={() => onCloseReminderClick()}>
+            <button className={closeButtonStyles} onClick={(): void => onCloseReminderClick()}>
                 <SvgClose />
             </button>
 
@@ -209,7 +208,9 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                                         label="Email address"
                                         error={inputError}
                                         value={emailAddress}
-                                        onChange={e => setEmailAddress(e.currentTarget.value)}
+                                        onChange={(e): void =>
+                                            setEmailAddress(e.currentTarget.value)
+                                        }
                                     />
                                 </div>
                                 <Button

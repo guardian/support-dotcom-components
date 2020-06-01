@@ -26,7 +26,7 @@ describe('EpicButtons', () => {
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={() => console.log('Reminder was clicked')}
+                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
             />,
         );
 
@@ -46,7 +46,7 @@ describe('EpicButtons', () => {
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={() => console.log('Reminder was clicked')}
+                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
             />,
         );
 
@@ -78,7 +78,7 @@ describe('EpicButtons', () => {
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={() => console.log('Reminder was clicked')}
+                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
             />,
         );
 
@@ -108,7 +108,7 @@ describe('EpicButtons', () => {
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={() => console.log('Reminder was clicked')}
+                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
             />,
         );
 
