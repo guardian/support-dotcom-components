@@ -163,7 +163,7 @@ const buildEpicData = async (
 
     const moduleUrl =
         process.env.NODE_ENV === 'production'
-            ? 'https://contributions.theguardian.com/epic.js'
+            ? 'https://contributions.guardianapis.com/epic.js'
             : 'http://localhost:3030/epic.js';
 
     return {
@@ -232,7 +232,9 @@ app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const module = await fs.promises.readFile(__dirname + '/../dist/modules/Epic.js');
+            const isProd = process.env.NODE_ENV === 'production';
+            const path = isProd ? '/modules/Epic.js' : '/../dist/modules/Epic.js';
+            const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
         } catch (error) {
