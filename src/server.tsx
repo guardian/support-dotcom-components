@@ -28,7 +28,7 @@ import { getQueryParams, Params } from './lib/params';
 import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
-import { isProd } from './lib/env';
+import { isProd, isDev } from './lib/env';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -340,7 +340,7 @@ app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3030;
 
-if (process.env.NODE_ENV === 'development') {
+if (isDev) {
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 } else {
     const server = awsServerlessExpress.createServer(app);
