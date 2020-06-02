@@ -28,6 +28,7 @@ import { getQueryParams, Params } from './lib/params';
 import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
+import { isProd } from './lib/env';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -161,10 +162,9 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl =
-        process.env.NODE_ENV === 'production'
-            ? 'https://contributions.guardianapis.com/epic.js'
-            : 'http://localhost:3030/epic.js';
+    const moduleUrl = isProd
+        ? 'https://contributions.guardianapis.com/epic.js'
+        : 'http://localhost:3030/epic.js';
 
     return {
         data: {
@@ -200,7 +200,7 @@ app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (process.env.NODE_ENV !== 'production') {
+            if (!isProd) {
                 validatePayload(req.body);
             }
 
@@ -232,7 +232,6 @@ app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const isProd = process.env.NODE_ENV === 'production';
             const path = isProd ? '/modules/Epic.js' : '/../dist/modules/Epic.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');

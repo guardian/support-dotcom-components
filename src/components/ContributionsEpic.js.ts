@@ -1,4 +1,5 @@
 import { transform } from '@babel/standalone';
+import { isProd } from '../lib/env';
 
 interface InitAutomatJsConfig {
     epicRoot: HTMLElement | ShadowRoot;
@@ -146,10 +147,9 @@ export const componentJs = function initAutomatJs({
 };
 
 export const reminderJs = (): string => {
-    const contributionsReminderUrl =
-        process.env.NODE_ENV === 'production'
-            ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
-            : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
+    const contributionsReminderUrl = isProd
+        ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
+        : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
 
     const js = componentJs.toString();
     const transpiled =
