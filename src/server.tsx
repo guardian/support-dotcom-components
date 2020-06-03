@@ -179,6 +179,30 @@ const buildEpicData = async (
     };
 };
 
+// TODO implement this stub
+const buildBannerData = async (
+    pageTracking: EpicPageTracking,
+    targeting: EpicTargeting,
+    params: Params,
+): Promise<{}> => {
+    //TODO create return types specific to the banner
+    pageTracking && targeting && params; //TODO: remove
+
+    const moduleUrl =
+        process.env.NODE_ENV === 'production'
+            ? 'https://contributions.theguardian.com/banner.js'
+            : 'http://localhost:3040/banner.js';
+
+    return {
+        data: {
+            module: {
+                url: moduleUrl,
+                props: {},
+            },
+        },
+    };
+};
+
 // Pre-ES module endpoints (expected to be removed once module approach is validated)
 app.get(
     '/epic',
@@ -227,12 +251,50 @@ app.post(
     },
 );
 
+app.post(
+    '/banner',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            // TODO: validate payload using an appropriate json schema
+            // if (process.env.NODE_ENV !== 'production') {
+            //     validatePayload(req.body);
+            // }
+
+            const { tracking, targeting } = req.body;
+            const params = getQueryParams(req);
+
+            const response = await buildBannerData(tracking, targeting, params);
+
+            // TODO for response logging
+            // res.locals.didRenderBanner = !!response;
+            // res.locals.clientName = tracking.clientName;
+
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
 // ES module endpoints
 app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const module = await fs.promises.readFile(__dirname + '/../dist/modules/Epic.js');
+            res.type('js');
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    '/banner.js',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const module = await fs.promises.readFile(__dirname + '/../dist/modules/Banner.js');
             res.type('js');
             res.send(module);
         } catch (error) {
