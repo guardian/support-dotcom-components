@@ -217,7 +217,7 @@ app.post(
             }
 
             // for response logging
-            res.locals.didRenderEpic = !!response;
+            res.locals.didRenderEpic = !!response.data;
             res.locals.clientName = tracking.clientName;
 
             res.send(response);
