@@ -18,16 +18,19 @@ const tsOpts = {
 };
 
 const globals = {
-    react: 'automat.react',
-    emotion: 'automat.emotion', // TODO remove this dependency
-    '@emotion/core': 'automat.emotionCore',
-    'emotion-theming': 'automat.emotionTheming',
+    react: 'guardian.automat.react',
+    emotion: 'guardian.automat.emotion', // TODO remove this dependency
+    '@emotion/core': 'guardian.automat.emotionCore',
+    'emotion-theming': 'guardian.automat.emotionTheming',
 };
 
 export default {
-    input: 'src/components/modules/ContributionsEpic.tsx',
+    input: {
+        Epic: 'src/components/modules/ContributionsEpic.tsx',
+        Banner: 'src/components/modules/Banner.tsx',
+    },
     output: {
-        file: 'dist/modules/Epic.js',
+        dir: 'dist/modules',
         format: 'es',
         sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
     },
@@ -49,7 +52,7 @@ export default {
                     },
                 ],
             ],
-            babelHelpers: 'bundled',
+            babelHelpers: 'inline',
         }),
         typescript(tsOpts),
         // eslint-disable-next-line @typescript-eslint/camelcase
