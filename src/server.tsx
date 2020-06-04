@@ -187,8 +187,6 @@ const buildBannerData = async (
     req: express.Request,
 ): Promise<{}> => {
     //TODO create return types specific to the banner
-    pageTracking && targeting && params; //TODO: remove
-
     const moduleUrl = `${req.protocol}://${req.hostname}/banner.js`;
 
     return {
@@ -264,7 +262,7 @@ app.post(
             const response = await buildBannerData(tracking, targeting, params, req);
 
             // TODO for response logging
-            res.locals.didRenderBanner = !!response.data;
+            // res.locals.didRenderBanner = !!response.data;
             // res.locals.clientName = tracking.clientName;
 
             res.send(response);
