@@ -9,7 +9,7 @@ import { factories } from '../factories';
 
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 
-describe('EpicButtons', () => {
+describe('ContributionsEpicButtons', () => {
     it('Renders the primary button', () => {
         const variant = factories.variant.build({
             cta: {
