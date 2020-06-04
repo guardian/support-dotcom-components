@@ -184,14 +184,12 @@ const buildBannerData = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
     params: Params,
+    req: express.Request,
 ): Promise<{}> => {
     //TODO create return types specific to the banner
     pageTracking && targeting && params; //TODO: remove
 
-    const moduleUrl =
-        process.env.NODE_ENV === 'production'
-            ? 'https://contributions.theguardian.com/banner.js'
-            : 'http://localhost:3040/banner.js';
+    const moduleUrl = `${req.protocol}://${req.hostname}/banner.js`;
 
     return {
         data: {
@@ -263,10 +261,10 @@ app.post(
             const { tracking, targeting } = req.body;
             const params = getQueryParams(req);
 
-            const response = await buildBannerData(tracking, targeting, params);
+            const response = await buildBannerData(tracking, targeting, params, req);
 
             // TODO for response logging
-            // res.locals.didRenderBanner = !!response;
+            res.locals.didRenderBanner = !!response.data;
             // res.locals.clientName = tracking.clientName;
 
             res.send(response);
