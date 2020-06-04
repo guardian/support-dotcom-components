@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { app } from './server';
-import testData from './components/ContributionsEpic.testData';
 import { configuredTests } from './api/contributionsApi.testData';
 import { factories } from './factories';
 
@@ -21,7 +20,24 @@ jest.mock('./api/contributionsApi', () => {
 
 describe('POST /epic', () => {
     it('should return an epic', async () => {
-        const { targeting } = testData;
+        const targeting = factories.targeting.build({
+            contentType: 'Article',
+            sectionName: 'environment',
+            shouldHideReaderRevenue: false,
+            isMinuteArticle: false,
+            isPaidContent: false,
+            tags: [
+                {
+                    id: 'environment/drought',
+                    type: 'Keyword',
+                },
+                {
+                    id: 'environment/climate-change',
+                    type: 'Keyword',
+                },
+            ],
+            showSupportMessaging: true,
+        });
         const pageTracking = factories.pageTracking.build();
 
         const res = await request(app)
