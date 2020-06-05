@@ -28,6 +28,7 @@ import { getQueryParams, Params } from './lib/params';
 import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
+import { isProd, isDev } from './lib/env';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -122,6 +123,7 @@ const buildEpicData = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
     params: Params,
+    baseUrl: string,
 ): Promise<DataResponse> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
@@ -161,10 +163,7 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl =
-        process.env.NODE_ENV === 'production'
-            ? 'https://contributions.theguardian.com/epic.js'
-            : 'http://localhost:3030/epic.js';
+    const moduleUrl = `${baseUrl}/epic.js`;
 
     return {
         data: {
@@ -200,7 +199,7 @@ app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (process.env.NODE_ENV !== 'production') {
+            if (!isProd) {
                 validatePayload(req.body);
             }
 
@@ -211,7 +210,8 @@ app.post(
 
             // If modules are validated, we can remove the non-data branch along with this query param
             if (req.query.dataOnly) {
-                response = await buildEpicData(tracking, targeting, params);
+                const baseUrl = req.protocol + '://' + req.get('host');
+                response = await buildEpicData(tracking, targeting, params, baseUrl);
             } else {
                 response = await buildEpic(tracking, targeting, params);
             }
@@ -232,7 +232,8 @@ app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const module = await fs.promises.readFile(__dirname + '/../dist/modules/Epic.js');
+            const path = isProd ? '/modules/Epic.js' : '/../dist/modules/Epic.js';
+            const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
         } catch (error) {
@@ -339,7 +340,7 @@ app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3030;
 
-if (process.env.NODE_ENV === 'development') {
+if (isDev) {
     app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 } else {
     const server = awsServerlessExpress.createServer(app);
