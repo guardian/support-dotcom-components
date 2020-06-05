@@ -18,10 +18,10 @@ const tsOpts = {
 };
 
 const globals = {
-    react: 'automat.react',
-    emotion: 'automat.emotion', // TODO remove this dependency
-    '@emotion/core': 'automat.emotionCore',
-    'emotion-theming': 'automat.emotionTheming',
+    react: 'guardian.automat.react',
+    emotion: 'guardian.automat.emotion', // TODO remove this dependency
+    '@emotion/core': 'guardian.automat.emotionCore',
+    'emotion-theming': 'guardian.automat.emotionTheming',
 };
 
 export default {
