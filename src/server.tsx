@@ -123,6 +123,7 @@ const buildEpicData = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
     params: Params,
+    baseUrl: string,
 ): Promise<DataResponse> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
@@ -162,9 +163,7 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl = isProd
-        ? 'https://contributions.guardianapis.com/epic.js'
-        : 'http://localhost:3030/epic.js';
+    const moduleUrl = `${baseUrl}/epic.js`;
 
     return {
         data: {
@@ -211,7 +210,8 @@ app.post(
 
             // If modules are validated, we can remove the non-data branch along with this query param
             if (req.query.dataOnly) {
-                response = await buildEpicData(tracking, targeting, params);
+                const baseUrl = req.protocol + '://' + req.get('host');
+                response = await buildEpicData(tracking, targeting, params, baseUrl);
             } else {
                 response = await buildEpic(tracking, targeting, params);
             }
