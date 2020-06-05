@@ -246,3 +246,47 @@ export const epicWithoutButtons = (): ReactElement => {
 };
 
 epicWithoutButtons.story = { name: 'Epic without buttons' };
+
+export const epicWithTicker = (): ReactElement => {
+    // Epic content props
+    const variant: Variant = {
+        name: 'Test Epic',
+        heading: text('heading', testData.content.heading),
+        paragraphs: object('paragraphs', testData.content.paragraphs),
+        highlightedText: text('highlightedText', testData.content.highlightedText),
+        showTicker: true,
+        cta: {
+            text: text('primaryCta.text', testData.content.cta.text),
+            baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
+        },
+    };
+
+    // Epic metadata props
+    const epicTracking = {
+        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
+        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        platformId: text('platformId', testData.tracking.platformId),
+        clientName: testData.tracking.clientName,
+        campaignCode: text('campaignCode', testData.tracking.campaignCode),
+        campaignId: text('campaignId', testData.tracking.campaignId),
+        abTestName: text('abTestName', testData.tracking.abTestName),
+        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
+        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
+    };
+
+    // Epic countryCode prop
+    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
+
+    return (
+        <StorybookWrapper>
+            <ContributionsEpic
+                variant={variant}
+                tracking={epicTracking}
+                countryCode={countryCode}
+                numArticles={numArticles}
+            />
+        </StorybookWrapper>
+    );
+};
+
+epicWithTicker.story = { name: 'Epic with Ticker' };

@@ -6,6 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
+import { ContributionsEpicTickerWithDataFetch } from './ContributionsEpicTickerWithDataFetch';
 import { Variant } from '../lib/variants';
 import { reminderJs } from './ContributionsEpic.js';
 import { EpicButtons } from './EpicButtons';
@@ -161,10 +162,12 @@ export const ContributionsEpic: React.FC<Props> = ({
     countryCode,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl, showReminderFields } = variant;
+    const { heading, backgroundImageUrl, showReminderFields, showTicker } = variant;
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
+            {showTicker && <ContributionsEpicTickerWithDataFetch countryCode={countryCode} />}
+
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
                     <img
