@@ -28,6 +28,7 @@ import { getQueryParams, Params } from './lib/params';
 import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
+import { isProd } from './lib/env';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -290,7 +291,8 @@ app.get(
     '/banner.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const module = await fs.promises.readFile(__dirname + '/../dist/modules/Banner.js');
+            const path = isProd ? '/modules/Banner.js' : '/../dist/modules/Banner.js';
+            const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
         } catch (error) {
