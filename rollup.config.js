@@ -24,36 +24,43 @@ const globals = {
     'emotion-theming': 'guardian.automat.emotionTheming',
 };
 
-export default {
-    input: 'src/components/modules/ContributionsEpic.tsx',
-    output: {
-        file: 'dist/modules/Epic.js',
-        format: 'es',
-        sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
-    },
-    external: id => Object.keys(globals).some(key => id.startsWith(key)),
-    plugins: [
-        resolveNode(),
-        commonjs(),
-        json(),
-        babel({
-            extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
-            plugins: [['emotion', { sourceMap: false }]],
-            presets: [
-                [
-                    '@babel/preset-env',
-                    {
-                        targets: {
-                            ie: '11',
+const config = [
+    ['src/components/modules/ContributionsEpic.tsx', 'dist/modules/Epic.js'],
+    ['src/components/modules/Banner.tsx', 'dist/modules/Banner.js'],
+].map(([entryPoint, name]) => {
+    return {
+        input: entryPoint,
+        output: {
+            file: name,
+            format: 'es',
+            sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
+        },
+        external: id => Object.keys(globals).some(key => id.startsWith(key)),
+        plugins: [
+            resolveNode(),
+            commonjs(),
+            json(),
+            babel({
+                extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
+                plugins: [['emotion', { sourceMap: false }]],
+                presets: [
+                    [
+                        '@babel/preset-env',
+                        {
+                            targets: {
+                                ie: '11',
+                            },
                         },
-                    },
+                    ],
                 ],
-            ],
-            babelHelpers: 'bundled',
-        }),
-        typescript(tsOpts),
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
-        externalGlobals(globals),
-    ],
-};
+                babelHelpers: 'bundled',
+            }),
+            typescript(tsOpts),
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
+            externalGlobals(globals),
+        ],
+    };
+});
+
+export default config;

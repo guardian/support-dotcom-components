@@ -178,6 +178,26 @@ const buildEpicData = async (
     };
 };
 
+// TODO implement this stub
+const buildBannerData = async (
+    pageTracking: EpicPageTracking,
+    targeting: EpicTargeting,
+    params: Params,
+    req: express.Request,
+): Promise<{}> => {
+    //TODO create return types specific to the banner
+    const moduleUrl = `${req.protocol}://${req.get('Host')}/banner.js`;
+
+    return {
+        data: {
+            module: {
+                url: moduleUrl,
+                props: {},
+            },
+        },
+    };
+};
+
 // Pre-ES module endpoints (expected to be removed once module approach is validated)
 app.get(
     '/epic',
@@ -227,12 +247,51 @@ app.post(
     },
 );
 
+app.post(
+    '/banner',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            // TODO: validate payload using an appropriate json schema
+            // if (process.env.NODE_ENV !== 'production') {
+            //     validatePayload(req.body);
+            // }
+
+            const { tracking, targeting } = req.body;
+            const params = getQueryParams(req);
+
+            const response = await buildBannerData(tracking, targeting, params, req);
+
+            // TODO for response logging
+            // res.locals.didRenderBanner = !!response.data;
+            // res.locals.clientName = tracking.clientName;
+
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
 // ES module endpoints
 app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isProd ? '/modules/Epic.js' : '/../dist/modules/Epic.js';
+            const module = await fs.promises.readFile(__dirname + path);
+            res.type('js');
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    '/banner.js',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isProd ? '/modules/Banner.js' : '/../dist/modules/Banner.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
