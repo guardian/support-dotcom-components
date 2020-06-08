@@ -5,48 +5,40 @@
 import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import testData from './ContributionsEpic.testData';
+import { factories } from '../factories';
 
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 
-describe('EpicButtons', () => {
+describe('ContributionsEpicButtons', () => {
     it('Renders the primary button', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: {
                 text: 'Button text!',
-                baseUrl: 'https://support.theguardian.com/support',
             },
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         render(
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
+                onOpenReminderClick={jest.fn()}
             />,
         );
 
         expect(screen.getByText('Button text!')).toBeInTheDocument();
     });
-
     it('Renders nothing when no primary CTA', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: undefined,
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         const { queryByTestId } = render(
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
+                onOpenReminderClick={jest.fn()}
             />,
         );
 
@@ -54,10 +46,7 @@ describe('EpicButtons', () => {
     });
 
     it('Does not render the reminder button when secondary CTA present', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: {
                 text: 'Button text!',
                 baseUrl: 'https://support.theguardian.com/support',
@@ -71,14 +60,14 @@ describe('EpicButtons', () => {
                 reminderDateAsString: 'June',
                 reminderDate: '2020-06-01T09:30:00',
             },
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         const { queryByText } = render(
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
-                onOpenReminderClick={(): void => console.log('Reminder was clicked')}
+                onOpenReminderClick={jest.fn()}
             />,
         );
 
@@ -87,10 +76,7 @@ describe('EpicButtons', () => {
     });
 
     it('Renders the reminder button when secondary CTA is not present', () => {
-        const variant = {
-            ...testData.content,
-            name: 'Example',
-            showTicker: false,
+        const variant = factories.variant.build({
             cta: {
                 text: 'Button text!',
                 baseUrl: 'https://support.theguardian.com/support',
@@ -101,8 +87,8 @@ describe('EpicButtons', () => {
                 reminderDateAsString: 'June',
                 reminderDate: '2020-06-01T09:30:00',
             },
-        };
-        const tracking = testData.tracking;
+        });
+        const tracking = factories.tracking.build();
 
         render(
             <ContributionsEpicButtons
