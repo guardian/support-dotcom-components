@@ -28,7 +28,7 @@ import { getQueryParams, Params } from './lib/params';
 import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
-import { isProd, isDev } from './lib/env';
+import { isProd, isDev, baseUrl } from './lib/env';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -186,7 +186,7 @@ const buildBannerData = async (
     req: express.Request,
 ): Promise<{}> => {
     //TODO create return types specific to the banner
-    const moduleUrl = `${req.protocol}://${req.get('Host')}/banner.js`;
+    const moduleUrl = `${baseUrl(req)}}/banner.js`;
 
     return {
         data: {
@@ -230,8 +230,7 @@ app.post(
 
             // If modules are validated, we can remove the non-data branch along with this query param
             if (req.query.dataOnly) {
-                const baseUrl = req.protocol + '://' + req.get('host');
-                response = await buildEpicData(tracking, targeting, params, baseUrl);
+                response = await buildEpicData(tracking, targeting, params, baseUrl(req));
             } else {
                 response = await buildEpic(tracking, targeting, params);
             }
