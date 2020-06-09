@@ -276,7 +276,7 @@ app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const path = isProd ? '/modules/Epic.js' : '/../dist/modules/Epic.js';
+            const path = isDev ? '/../dist/modules/Epic.js' : '/modules/Epic.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
@@ -290,7 +290,7 @@ app.get(
     '/banner.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const path = isProd ? '/modules/Banner.js' : '/../dist/modules/Banner.js';
+            const path = isDev ? '/../dist/modules/Banner.js' : '/modules/Banner.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
