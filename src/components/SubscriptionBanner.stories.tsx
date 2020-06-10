@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { SubscriptionsBanner } from './SubscriptionsBanner';
+import { SubscriptionsBanner } from './modules/subscriptionsBanner/SubscriptionsBanner';
 import { withKnobs } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 
@@ -12,7 +12,7 @@ export default {
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <SubscriptionsBanner />
+            <SubscriptionsBanner subscriptionUrl="/" signInUrl="/" />
         </StorybookWrapper>
     );
 };
