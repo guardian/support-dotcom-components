@@ -39,7 +39,11 @@ const topLeftComponent = css`
     button {
         margin-left: ${space[3]}px;
     }
-    ${from.leftCol} {
+    ${from.tablet} {
+        width: 53%;
+    }
+
+    ${from.wide} {
         width: 53%;
     }
 `;
@@ -77,7 +81,15 @@ const bottomRightComponent = css`
     width: 100%;
 
     ${from.tablet} {
+        justify-content: flex-end;
+        max-width: 47%;
+    }
+
+    ${from.leftCol} {
         justify-content: space-between;
+    }
+
+    ${from.wide} {
         max-width: 47%;
     }
 `;
@@ -85,10 +97,16 @@ const bottomRightComponent = css`
 const packShot = css`
     align-self: flex-end;
     max-width: 85%;
+
     ${from.tablet} {
-        max-width: 100%;
+        max-width: 90%;
     }
+
     ${from.leftCol} {
+        max-width: 80%;
+    }
+
+    ${from.wide} {
         max-width: 100%;
         width: 75%;
     }
