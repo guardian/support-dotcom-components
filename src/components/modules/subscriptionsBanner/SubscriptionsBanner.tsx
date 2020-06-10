@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral } from '@guardian/src-foundations/palette';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 import { brand } from '@guardian/src-foundations/themes';
@@ -33,19 +33,24 @@ const contentContainer = css`
 `;
 
 const topLeftComponent = css`
+    box-sizing: border-box;
     width: 100%;
     padding: ${space[4]}px;
     button {
         margin-left: ${space[3]}px;
     }
-    ${from.tablet} {
-        width: 47%;
+    ${from.leftCol} {
+        width: 53%;
     }
 `;
 
 const heading = css`
     ${headline.medium({ fontWeight: 'bold' })};
     margin: 0;
+
+    ${until.tablet} {
+        max-width: 85%;
+    }
 `;
 
 const paragraph = css`
@@ -60,7 +65,6 @@ const siteMessage = css`
     ${textSans.small()};
     color: ${neutral[100]};
     a,
-    :hover,
     :visited {
         color: ${neutral[100]};
         font-weight: bold;
@@ -74,7 +78,7 @@ const bottomRightComponent = css`
 
     ${from.tablet} {
         justify-content: space-between;
-        max-width: 52%;
+        max-width: 47%;
     }
 `;
 
@@ -83,28 +87,33 @@ const packShot = css`
     max-width: 85%;
     ${from.tablet} {
         max-width: 100%;
+    }
+    ${from.leftCol} {
+        max-width: 100%;
         width: 75%;
     }
 `;
 
 const iconPanel = css`
-    display: none;
-    ${from.tablet} {
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-        height: 100%;
-        padding: ${space[3]}px 0 ${space[4]}px;
-        margin-left: ${space[4]}px;
-    }
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 100%;
+    padding: ${space[3]}px 0 ${space[4]}px;
+    margin-left: ${space[4]}px;
 `;
 
 const logoContainer = css`
-    width: 100%;
-    img {
-        width: 85%;
+    display: none;
+
+    ${from.desktop} {
+        display: block;
+        width: 100%;
+        img {
+            width: 85%;
+        }
     }
 `;
 
@@ -115,6 +124,12 @@ const closeButton = css`
     width: 60px;
     height: 60px;
     background: transparent;
+
+    ${until.desktop} {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 `;
 
 type SubscriptionsBannerProps = {
@@ -126,6 +141,7 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
     subscriptionUrl,
     signInUrl,
 }: SubscriptionsBannerProps) => {
+    // TODO: replace this with something that works
     const closeBanner = (): null => {
         return null;
     };
