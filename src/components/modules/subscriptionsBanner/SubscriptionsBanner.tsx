@@ -40,7 +40,7 @@ const topLeftComponent = css`
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 60%;
+        width: 65%;
     }
 
     ${from.desktop} {
@@ -53,13 +53,9 @@ const topLeftComponent = css`
 `;
 
 const heading = css`
-    ${headline.medium({ fontWeight: 'bold' })};
+    ${headline.small({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
-
-    ${until.desktop} {
-        ${headline.small({ fontWeight: 'bold' })};
-    }
 
     ${until.phablet} {
         max-width: 85%;
@@ -67,6 +63,13 @@ const heading = css`
 
     ${until.mobileLandscape} {
         ${headline.xsmall({ fontWeight: 'bold' })};
+    }
+`;
+
+const headLineBreak = css`
+    display: none;
+    ${from.tablet} {
+        display: block;
     }
 `;
 
@@ -126,7 +129,7 @@ const bottomRightComponent = css`
 
     ${from.tablet} {
         align-self: flex-end;
-        max-width: 47%;
+        max-width: 35%;
         margin-top: -200px;
     }
 
@@ -151,10 +154,6 @@ const packShot = css`
 
     ${from.phablet} {
         max-width: 100%;
-    }
-
-    ${from.tablet} {
-        max-width: 87%;
     }
 
     ${from.desktop} {
@@ -231,10 +230,13 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
         >
             <div className={contentContainer}>
                 <div className={topLeftComponent}>
-                    <h3 className={heading}>Make us part of your new normal</h3>
+                    <h3 className={heading}>
+                        The world is changing by the minute. <br className={headLineBreak} />
+                        Keep up with a digital subscription.
+                    </h3>
                     <p className={paragraph}>
                         Two Guardian apps, with you every day. <strong>The Daily</strong>, joining
-                        you in time for breakfast to share politics, culture, food and opinion.{' '}
+                        you in the morning to share politics, culture, food and opinion.{' '}
                         <strong>Live</strong>, constantly by your side, keeping you connected with
                         the outside world.
                     </p>
