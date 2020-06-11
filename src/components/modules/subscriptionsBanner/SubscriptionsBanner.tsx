@@ -40,7 +40,11 @@ const topLeftComponent = css`
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 53%;
+        width: 60%;
+    }
+
+    ${from.desktop} {
+        width: 50%;
     }
 
     ${from.wide} {
@@ -51,17 +55,57 @@ const topLeftComponent = css`
 const heading = css`
     ${headline.medium({ fontWeight: 'bold' })};
     margin: 0;
+    max-width: 100%;
 
-    ${until.tablet} {
+    ${until.desktop} {
+        ${headline.small({ fontWeight: 'bold' })};
+    }
+
+    ${until.phablet} {
         max-width: 85%;
+    }
+
+    ${until.mobileLandscape} {
+        ${headline.xsmall({ fontWeight: 'bold' })};
     }
 `;
 
 const paragraph = css`
-    ${body.medium()};
-    font-size: 20px;
+    ${body.medium()}
     line-height: 135%;
-    margin: ${space[3]}px 0 ${space[9]}px;
+    margin: ${space[2]}px 0 ${space[6]}px;
+    max-width: 85%;
+    ${from.tablet} {
+        max-width: 100%;
+    }
+    ${from.desktop} {
+        font-size: 20px;
+        margin: ${space[3]}px 0 ${space[9]}px;
+    }
+`;
+
+const buttonTextDesktop = css`
+    display: none;
+    ${from.desktop} {
+        display: block;
+    }
+`;
+
+const buttonTextTablet = css`
+    display: none;
+    ${from.tablet} {
+        display: block;
+    }
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
+const buttonTextMobile = css`
+    display: block;
+    ${from.tablet} {
+        display: none;
+    }
 `;
 
 const siteMessage = css`
@@ -81,8 +125,16 @@ const bottomRightComponent = css`
     width: 100%;
 
     ${from.tablet} {
-        justify-content: flex-end;
+        align-self: flex-end;
         max-width: 47%;
+        margin-top: -200px;
+    }
+
+    ${from.desktop} {
+        height: 100%;
+        max-width: 50%;
+        justify-content: flex-end;
+        margin-top: 0;
     }
 
     ${from.leftCol} {
@@ -95,11 +147,19 @@ const bottomRightComponent = css`
 `;
 
 const packShot = css`
-    align-self: flex-end;
     max-width: 85%;
 
+    ${from.phablet} {
+        max-width: 100%;
+    }
+
     ${from.tablet} {
-        max-width: 90%;
+        max-width: 87%;
+    }
+
+    ${from.desktop} {
+        align-self: flex-end;
+        max-width: 80%;
     }
 
     ${from.leftCol} {
@@ -186,7 +246,9 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                             size="default"
                             href={subscriptionUrl}
                         >
-                            Become a digital subscriber
+                            <span className={buttonTextDesktop}>Become a digital subscriber</span>
+                            <span className={buttonTextTablet}>Become a subscriber</span>
+                            <span className={buttonTextMobile}>Subscribe now</span>
                         </LinkButton>
                     </ThemeProvider>
                     <ThemeProvider theme={brand}>
