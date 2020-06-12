@@ -1,13 +1,13 @@
 import fetch from 'node-fetch';
 import { EpicTests, Variant } from '../lib/variants';
-import {isProd} from "../lib/env";
+import { isProd } from '../lib/env';
 
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
 
-const configuredTestsUrl = isProd ?
-    'https://support.theguardian.com/epic-tests.json' :
-    'https://support.code.dev-theguardian.com/epic-tests.json';
+const configuredTestsUrl = isProd
+    ? 'https://support.theguardian.com/epic-tests.json'
+    : 'https://support.code.dev-theguardian.com/epic-tests.json';
 
 export const fetchDefaultEpicContent = async (): Promise<Variant> => {
     const startTime = new Date().getTime();

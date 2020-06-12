@@ -1,8 +1,8 @@
-import React, {ReactElement} from 'react';
-import {ContributionsEpicTicker} from './ContributionsEpicTicker';
-import {number, withKnobs} from '@storybook/addon-knobs';
-import {StorybookWrapper} from '../utils/StorybookWrapper';
-import {TickerCountType, TickerEndType} from "../lib/variants";
+import React, { ReactElement } from 'react';
+import { ContributionsEpicTicker } from './ContributionsEpicTicker';
+import { number, withKnobs } from '@storybook/addon-knobs';
+import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../lib/variants';
 
 export default {
     component: ContributionsEpicTicker,
@@ -16,9 +16,9 @@ const moneyTickerSettings = {
     currencySymbol: '£',
     copy: {
         countLabel: 'contributed',
-        goalReachedPrimary: 'We\'ve met our goal - thank you',
-        goalReachedSecondary: 'Contributions are still being accepted'
-    }
+        goalReachedPrimary: "We've met our goal - thank you",
+        goalReachedSecondary: 'Contributions are still being accepted',
+    },
 };
 
 export const defaultStory = (): ReactElement => {
@@ -27,7 +27,7 @@ export const defaultStory = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings}/>
+            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings} />
         </StorybookWrapper>
     );
 };
@@ -40,7 +40,7 @@ export const goalReached = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings}/>
+            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings} />
         </StorybookWrapper>
     );
 };
@@ -53,7 +53,7 @@ export const goalExceeded = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings}/>
+            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings} />
         </StorybookWrapper>
     );
 };
@@ -66,9 +66,9 @@ const peopleTickerSettings = {
     currencySymbol: '£',
     copy: {
         countLabel: 'supporters in Australia',
-        goalReachedPrimary: 'We\'ve hit our goal!',
-        goalReachedSecondary: 'but you can still support us'
-    }
+        goalReachedPrimary: "We've hit our goal!",
+        goalReachedSecondary: 'but you can still support us',
+    },
 };
 
 export const supportersGoalExceeded = (): ReactElement => {
@@ -77,7 +77,7 @@ export const supportersGoalExceeded = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={peopleTickerSettings}/>
+            <ContributionsEpicTicker total={total} goal={goal} settings={peopleTickerSettings} />
         </StorybookWrapper>
     );
 };

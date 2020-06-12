@@ -11,11 +11,11 @@ import { isRecentOneOffContributor } from '../lib/dates';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
-    hardstop = 'hardstop'   // currently unsupported
+    hardstop = 'hardstop', // currently unsupported
 }
 export enum TickerCountType {
     money = 'money',
-    people = 'people'
+    people = 'people',
 }
 interface TickerCopy {
     countLabel: string;
@@ -64,7 +64,7 @@ export interface Variant {
     heading?: string;
     paragraphs: string[];
     highlightedText?: string;
-    tickerSettings?: TickerSettings,
+    tickerSettings?: TickerSettings;
     cta?: Cta;
     secondaryCta?: Cta;
     footer?: string;

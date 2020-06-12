@@ -9,7 +9,7 @@ import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
 import { reminderJs } from './ContributionsEpic.js';
 import { EpicButtons } from './EpicButtons';
-import {ContributionsEpicTicker} from "./ContributionsEpicTicker";
+import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 
 const replacePlaceholders = (
     content: string,
@@ -166,14 +166,13 @@ export const ContributionsEpic: React.FC<Props> = ({
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
-            { tickerSettings && tickerSettings.tickerData &&
+            {tickerSettings && tickerSettings.tickerData && (
                 <ContributionsEpicTicker
                     settings={tickerSettings}
                     total={tickerSettings.tickerData.total}
                     goal={tickerSettings.tickerData.goal}
                 />
-            }
-
+            )}
 
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>

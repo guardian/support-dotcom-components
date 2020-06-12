@@ -1,13 +1,15 @@
-import {TickerCountType, TickerData, TickerSettings, Variant} from "./variants";
+import { TickerCountType, TickerData, TickerSettings, Variant } from './variants';
 
 const tickerUrl = (countType: TickerCountType): string =>
-    countType === TickerCountType.people ?
-        'https://support.theguardian.com/supporters-ticker.json' :
-        'https://support.theguardian.com/ticker.json';
+    countType === TickerCountType.people
+        ? 'https://support.theguardian.com/supporters-ticker.json'
+        : 'https://support.theguardian.com/ticker.json';
 
 const checkForErrors = (response: Response): Promise<Response> => {
     if (!response.ok) {
-        return Promise.reject(response.statusText || `Ticker api call returned HTTP status ${response.status}`);
+        return Promise.reject(
+            response.statusText || `Ticker api call returned HTTP status ${response.status}`,
+        );
     }
     return Promise.resolve(response);
 };
@@ -19,10 +21,10 @@ const parse = (json: any): Promise<TickerData> => {
     if (!Number.isNaN(parseInt(total)) && !Number.isNaN(parseInt(goal))) {
         return Promise.resolve({
             total,
-            goal
-        })
+            goal,
+        });
     } else {
-        return Promise.reject(`Failed to parse ticker data: ${json}`)
+        return Promise.reject(`Failed to parse ticker data: ${json}`);
     }
 };
 
@@ -36,14 +38,13 @@ export const addTickerDataToVariant = (variant: Variant): Promise<Variant> => {
     if (variant.tickerSettings) {
         const tickerSettings = variant.tickerSettings;
 
-        return fetchTickerData(tickerSettings)
-            .then((tickerData: TickerData) => ({
-                ...variant,
-                tickerSettings: {
-                    ...tickerSettings,
-                    tickerData
-                }
-            }))
+        return fetchTickerData(tickerSettings).then((tickerData: TickerData) => ({
+            ...variant,
+            tickerSettings: {
+                ...tickerSettings,
+                tickerData,
+            },
+        }));
     } else {
         return Promise.resolve(variant);
     }

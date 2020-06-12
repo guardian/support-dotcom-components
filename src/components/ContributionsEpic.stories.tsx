@@ -3,7 +3,7 @@ import { ContributionsEpic } from './ContributionsEpic';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 import testData from './ContributionsEpic.testData';
-import {TickerCountType, TickerEndType, Variant} from '../lib/variants';
+import { TickerCountType, TickerEndType, Variant } from '../lib/variants';
 import { getArticleViewCountForWeeks } from '../lib/history';
 
 export default {
@@ -255,13 +255,13 @@ export const epicWithTicker = (): ReactElement => {
             currencySymbol: '£',
             copy: {
                 countLabel: 'contributed',
-                goalReachedPrimary: 'We\'ve met our goal - thank you',
-                goalReachedSecondary: 'Contributions are still being accepted'
+                goalReachedPrimary: "We've met our goal - thank you",
+                goalReachedSecondary: 'Contributions are still being accepted',
             },
             tickerData: {
                 total: 10000,
-                goal: 100000
-            }
+                goal: 100000,
+            },
         }),
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),

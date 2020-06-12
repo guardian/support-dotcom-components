@@ -29,7 +29,7 @@ import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
-import {addTickerDataToVariant} from "./lib/fetchTickerData";
+import { addTickerDataToVariant } from './lib/fetchTickerData';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
