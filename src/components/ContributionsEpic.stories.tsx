@@ -249,7 +249,7 @@ export const epicWithTicker = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        tickerSettings: object('tickerSettings', {
+        tickerSettings: {
             countType: TickerCountType.money,
             endType: TickerEndType.unlimited,
             currencySymbol: '£',
@@ -262,7 +262,7 @@ export const epicWithTicker = (): ReactElement => {
                 total: 10000,
                 goal: 100000,
             },
-        }),
+        },
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),
             baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
