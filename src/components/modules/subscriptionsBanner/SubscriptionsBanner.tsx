@@ -11,9 +11,17 @@ import { Logo } from './Logo';
 import { Close } from './Close';
 
 const banner = css`
+    html {
+        box-sizing: border-box;
+    }
+    *,
+    *:before,
+    *:after {
+        box-sizing: inherit;
+    }
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
-    box-sizing: border-box;
     width: 100%;
     background-color: #006d67;
     color: ${neutral[100]};
@@ -33,7 +41,6 @@ const contentContainer = css`
 `;
 
 const topLeftComponent = css`
-    box-sizing: border-box;
     width: 100%;
     padding: ${space[4]}px;
     button {
@@ -172,7 +179,6 @@ const packShot = css`
 `;
 
 const iconPanel = css`
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
