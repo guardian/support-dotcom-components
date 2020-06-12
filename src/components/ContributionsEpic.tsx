@@ -6,7 +6,6 @@ import { space } from '@guardian/src-foundations';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-import { ContributionsEpicTickerWithDataFetch } from './ContributionsEpicTickerWithDataFetch';
 import { Variant } from '../lib/variants';
 import { reminderJs } from './ContributionsEpic.js';
 import { EpicButtons } from './EpicButtons';
