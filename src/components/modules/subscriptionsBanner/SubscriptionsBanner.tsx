@@ -7,8 +7,8 @@ import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 import { brand } from '@guardian/src-foundations/themes';
-import { Logo } from './Logo';
-import { Close } from './Close';
+import Logo from './Logo';
+import SvgClose from './Close';
 
 const banner = css`
     html {
@@ -64,7 +64,7 @@ const heading = css`
     margin: 0;
     max-width: 100%;
 
-    ${until.phablet} {
+    @media (max-width: 740px) {
         max-width: 85%;
     }
 
@@ -75,7 +75,7 @@ const heading = css`
 
 const headLineBreak = css`
     display: none;
-    ${from.tablet} {
+    @media (min-width: 1040px) {
         display: block;
     }
 `;
@@ -184,8 +184,8 @@ const iconPanel = css`
     justify-content: space-between;
     align-items: flex-end;
     height: 100%;
-    padding: ${space[3]}px 0 ${space[4]}px;
-    margin-left: ${space[4]}px;
+    padding: ${space[4]}px 0;
+    margin: 0 ${space[4]}px;
 `;
 
 const logoContainer = css`
@@ -194,19 +194,36 @@ const logoContainer = css`
     ${from.desktop} {
         display: block;
         width: 100%;
-        img {
-            width: 85%;
-        }
+        fill: ${neutral[100]};
+        min-width: 60px;
+    }
+
+    ${from.leftCol} {
+        min-width: 80px;
     }
 `;
 
 const closeButton = css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0;
-    border: 0;
+    border: 1px solid ${neutral[100]};
+    border-radius: 50%;
     outline: none;
-    width: 60px;
-    height: 60px;
     background: transparent;
+    cursor: pointer;
+
+    svg {
+        fill: ${neutral[100]};
+        transition: background-color 0.5s ease;
+        border-radius: 50%;
+    }
+
+    svg:hover {
+        cursor: pointer;
+        background-color: rgba(237, 237, 237, 0.5);
+    }
 
     ${until.desktop} {
         position: absolute;
@@ -293,7 +310,7 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                             data-link-name="subscription-banner : close"
                             aria-label="Close"
                         >
-                            <Close />
+                            <SvgClose />
                         </button>
                         <div className={logoContainer}>
                             <Logo />

@@ -1,15 +1,9 @@
 import React, { ReactElement } from 'react';
-import close from './close.png';
 
-export default {
-    title: 'img',
-};
+const SvgClose = (): ReactElement => (
+    <svg width="30" height="30">
+        <path d="M21 9.8l-.8-.8-5.2 4.8-5.2-4.8-.8.8 4.8 5.2-4.8 5.2.8.8 5.2-4.8 5.2 4.8.8-.8-4.8-5.2 4.8-5.2" />
+    </svg>
+);
 
-const image = {
-    src: close,
-    alt: 'Close banner',
-};
-
-export const Close = (): ReactElement => {
-    return <img src={image.src} alt={image.alt} />;
-};
+export default SvgClose;
