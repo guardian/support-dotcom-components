@@ -127,7 +127,7 @@ type Props = {
 export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal }: Props) => {
     const [runningTotal, setRunningTotal] = useState<number>(0);
     const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
-debugger
+
     const debounce = true;
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
