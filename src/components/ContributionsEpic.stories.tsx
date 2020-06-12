@@ -3,7 +3,7 @@ import { ContributionsEpic } from './ContributionsEpic';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 import testData from './ContributionsEpic.testData';
-import { Variant } from '../lib/variants';
+import {TickerCountType, TickerEndType, Variant} from '../lib/variants';
 import { getArticleViewCountForWeeks } from '../lib/history';
 
 export default {
@@ -27,7 +27,6 @@ export const defaultStory = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        showTicker: false,
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),
             baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
@@ -71,7 +70,6 @@ export const backgroundImageStory = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        showTicker: false,
         backgroundImageUrl: text('backgroundImageUrl', testData.content.backgroundImageUrl),
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),
@@ -116,7 +114,6 @@ export const secondaryButtonStory = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        showTicker: false,
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),
             baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
@@ -163,7 +160,6 @@ export const epicReminderStory = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        showTicker: false,
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),
             baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
@@ -214,7 +210,6 @@ export const epicWithoutButtons = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        showTicker: false,
     };
 
     // Epic metadata props
@@ -254,7 +249,20 @@ export const epicWithTicker = (): ReactElement => {
         heading: text('heading', testData.content.heading),
         paragraphs: object('paragraphs', testData.content.paragraphs),
         highlightedText: text('highlightedText', testData.content.highlightedText),
-        showTicker: true,
+        tickerSettings: object('tickerSettings', {
+            countType: TickerCountType.money,
+            endType: TickerEndType.unlimited,
+            currencySymbol: '£',
+            copy: {
+                countLabel: 'contributed',
+                goalReachedPrimary: 'We\'ve met our goal - thank you',
+                goalReachedSecondary: 'Contributions are still being accepted'
+            },
+            tickerData: {
+                total: 10000,
+                goal: 100000
+            }
+        }),
         cta: {
             text: text('primaryCta.text', testData.content.cta.text),
             baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),

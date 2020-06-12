@@ -50,10 +50,7 @@ export const ContributionsEpicTickerWithDataFetch: React.FC<Props> = ({ countryC
     }
 
     return (
-        <ContributionsEpicTicker
-            countryCode={countryCode}
-            total={tickerData.total}
-            goal={tickerData.goal}
-        />
+        <div>
+        </div>
     );
 };

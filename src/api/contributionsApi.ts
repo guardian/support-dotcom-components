@@ -20,7 +20,6 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
 
     const emptyVariant = {
         paragraphs: [],
-        showTicker: false,
         name: 'remote_epic_test',
         cta: {
             text: 'Support The Guardian',

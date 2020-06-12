@@ -9,6 +9,33 @@ import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
 import { isRecentOneOffContributor } from '../lib/dates';
 
+export enum TickerEndType {
+    unlimited = 'unlimited',
+    hardstop = 'hardstop'   // currently unsupported
+}
+export enum TickerCountType {
+    money = 'money',
+    people = 'people'
+}
+interface TickerCopy {
+    countLabel: string;
+    goalReachedPrimary: string;
+    goalReachedSecondary: string;
+}
+
+export interface TickerData {
+    total: number;
+    goal: number;
+}
+
+export interface TickerSettings {
+    endType: TickerEndType;
+    countType: TickerCountType;
+    currencySymbol: string;
+    copy: TickerCopy;
+    tickerData?: TickerData;
+}
+
 interface ArticlesViewedSettings {
     minViews: number;
     periodInWeeks: number;
@@ -37,7 +64,7 @@ export interface Variant {
     heading?: string;
     paragraphs: string[];
     highlightedText?: string;
-    showTicker: boolean;
+    tickerSettings?: TickerSettings,
     cta?: Cta;
     secondaryCta?: Cta;
     footer?: string;
@@ -258,15 +285,6 @@ export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     test: (test): boolean => userCohorts.includes(test.userCohort),
 });
 
-// Temporary filter to exclude tests with tickers until we support them
-export const hasNoTicker: Filter = {
-    id: 'hasNoTicker',
-    test: test => {
-        const hasTicker = test.variants.some(variant => variant.showTicker);
-        return !hasTicker;
-    },
-};
-
 // Prevent cases like "...you've read 0 articles...".
 // This could happen when the article history required by the test
 // is different than the date range used by the template itself.
@@ -346,7 +364,6 @@ export const findTestAndVariant = (
         // withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         noArticleViewedSettings,
         isContentType,
-        hasNoTicker,
         hasNoZeroArticleCount(),
     ];
 
