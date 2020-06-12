@@ -212,16 +212,14 @@ const closeButton = css`
 type SubscriptionsBannerProps = {
     subscriptionUrl: string;
     signInUrl: string;
+    closeBanner: () => void;
 };
 
 export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
     subscriptionUrl,
     signInUrl,
+    closeBanner,
 }: SubscriptionsBannerProps) => {
-    // TODO: replace this with something that works
-    const closeBanner = (): null => {
-        return null;
-    };
     return (
         <section
             id="js-site-message--subscription-banner"
@@ -283,6 +281,7 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                     />
                     <div className={iconPanel}>
                         <button
+                            onClick={closeBanner}
                             className={closeButton}
                             id="js-site-message--subscription-banner__close-button"
                             data-link-name="subscription-banner : close"
