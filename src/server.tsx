@@ -186,7 +186,7 @@ const buildBannerData = async (
     req: express.Request,
 ): Promise<{}> => {
     //TODO create return types specific to the banner
-    const moduleUrl = `${baseUrl(req)}}/banner.js`;
+    const moduleUrl = `${baseUrl(req)}/banner.js`;
 
     return {
         data: {
