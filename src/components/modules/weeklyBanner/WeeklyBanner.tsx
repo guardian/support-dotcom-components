@@ -28,6 +28,7 @@ const banner = css`
 `;
 
 const contentContainer = css`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     max-width: 100%;
@@ -42,11 +43,12 @@ const contentContainer = css`
 
 const topLeftComponent = css`
     width: 100%;
-    padding: ${space[4]}px;
+    padding: ${space[4]}px ${space[4]}px 0 ${space[4]}px;
     button {
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
+        padding: ${space[4]}px;
         width: 65%;
     }
 
@@ -113,46 +115,53 @@ const siteMessage = css`
 `;
 
 const bottomRightComponent = css`
-    display: flex;
-    justify-content: center;
-    width: 100%;
+    max-height: 215px;
+    overflow: hidden;
+    margin-top: -25px;
+
+    ${from.mobileMedium} {
+        max-height: 280px;
+        margin-top: -15px;
+    }
 
     ${from.tablet} {
-        align-self: flex-end;
-        max-width: 35%;
-        margin-top: -200px;
+        max-width: 55%;
+        margin-top: 10px;
     }
 
     ${from.desktop} {
-        height: 100%;
+        display: flex;
+        align-items: center;
         max-width: 50%;
-        justify-content: flex-end;
         margin-top: 0;
+        max-height: 100%;
     }
 
     ${from.leftCol} {
-        justify-content: space-between;
+        max-height: 290px;
+        justify-content: space-around;
     }
 
     ${from.wide} {
         max-width: 47%;
+        max-height: 290px;
     }
 `;
 
 const packShot = css`
-    max-width: 85%;
+    max-width: 100%;
 
-    ${from.phablet} {
-        max-width: 100%;
+    ${from.tablet} {
+        max-width: 90%;
     }
 
     ${from.desktop} {
-        align-self: flex-end;
-        max-width: 80%;
+        max-width: 75%;
+        margin-bottom: -55px;
     }
 
     ${from.leftCol} {
-        max-width: 80%;
+        max-width: 65%;
     }
 
     ${from.wide} {
