@@ -1,4 +1,5 @@
 import { TickerCountType, TickerData, TickerSettings, Variant } from './variants';
+import fetch from 'node-fetch';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people
