@@ -8,6 +8,7 @@ import { EpicTracking } from '../ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
+import { ContributionsEpicTicker } from '../ContributionsEpicTicker';
 
 const replacePlaceholders = (
     content: string,
@@ -167,10 +168,19 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     onReminderOpen,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
-    const { heading, backgroundImageUrl, showReminderFields } = variant;
+    const { heading, backgroundImageUrl, showReminderFields, tickerSettings } = variant;
+    console.log('ContributionsEpic tickerSettings', tickerSettings);
 
     return (
         <section className={wrapperStyles}>
+            {tickerSettings && tickerSettings.tickerData && (
+                <ContributionsEpicTicker
+                    settings={tickerSettings}
+                    total={tickerSettings.tickerData.total}
+                    goal={tickerSettings.tickerData.goal}
+                />
+            )}
+
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
                     <img
