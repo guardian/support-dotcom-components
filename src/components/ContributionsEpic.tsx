@@ -163,7 +163,6 @@ export const ContributionsEpic: React.FC<Props> = ({
     numArticles,
 }: Props) => {
     const { heading, backgroundImageUrl, showReminderFields, tickerSettings } = variant;
-    console.log('ContributionsEpic tickerSettings', tickerSettings);
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">

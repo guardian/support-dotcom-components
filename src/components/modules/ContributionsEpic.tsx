@@ -169,7 +169,6 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { heading, backgroundImageUrl, showReminderFields, tickerSettings } = variant;
-    console.log('ContributionsEpic tickerSettings', tickerSettings);
 
     return (
         <section className={wrapperStyles}>

@@ -128,8 +128,6 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
     const [runningTotal, setRunningTotal] = useState<number>(0);
     const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
 
-    console.log('ContributionsEpicTicker', settings, total, goal);
-
     const debounce = true;
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
@@ -141,19 +139,16 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
 
     useEffect(() => {
         if (hasBeenSeen) {
-            console.log('ticker has been seen');
             setTimeout(() => setReadyToAnimate(true), 500);
         }
     }, [hasBeenSeen]);
 
     useEffect(() => {
         if (readyToAnimate && runningTotal < total) {
-            console.log('readyToAnimate');
             window.requestAnimationFrame(() => {
                 setRunningTotal(prevRunningTotal => {
                     const newRunningTotal = prevRunningTotal + Math.floor(total / 100);
 
-                    console.log('setting running total', newRunningTotal);
                     if (newRunningTotal > total) {
                         return total;
                     }
