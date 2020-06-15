@@ -17,10 +17,10 @@ const checkForErrors = (response: Response): Promise<Response> => {
 };
 
 const parse = (json: any): Promise<TickerData> => {
-    const total = json.total;
-    const goal = json.goal;
+    const total = parseInt(json.total);
+    const goal = parseInt(json.goal);
 
-    if (!Number.isNaN(parseInt(total)) && !Number.isNaN(parseInt(goal))) {
+    if (!Number.isNaN(total) && !Number.isNaN(goal)) {
         return Promise.resolve({
             total,
             goal,
