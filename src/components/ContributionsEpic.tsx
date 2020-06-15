@@ -167,6 +167,7 @@ export const ContributionsEpic: React.FC<Props> = ({
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
+            <div>TESTING!</div>
             {tickerSettings && tickerSettings.tickerData && (
                 <ContributionsEpicTicker
                     settings={tickerSettings}
