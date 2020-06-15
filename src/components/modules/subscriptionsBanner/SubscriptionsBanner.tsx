@@ -207,12 +207,14 @@ const closeButton = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: ${space[1]}px;
+    padding: 0;
     border: 1px solid ${neutral[100]};
     border-radius: 50%;
     outline: none;
     background: transparent;
     cursor: pointer;
+    width: 35px;
+    height: 35px;
 
     svg {
         width: 25px;
@@ -222,7 +224,7 @@ const closeButton = css`
         border-radius: 50%;
     }
 
-    svg:hover {
+    :hover {
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
     }
