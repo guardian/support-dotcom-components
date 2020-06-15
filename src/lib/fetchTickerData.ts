@@ -1,5 +1,6 @@
 import { TickerCountType, TickerData, TickerSettings, Variant } from './variants';
 import fetch from 'node-fetch';
+import { Response } from 'node-fetch';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people
@@ -31,7 +32,7 @@ const parse = (json: any): Promise<TickerData> => {
 
 const fetchTickerData = (tickerSettings: TickerSettings): Promise<TickerData> =>
     fetch(tickerUrl(tickerSettings.countType))
-        .then(checkForErrors)
+        .then(response => checkForErrors(response))
         .then(response => response.json())
         .then(parse);
 
