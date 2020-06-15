@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { WeeklyBanner } from './modules/weeklyBanner/WeeklyBanner';
 import { withKnobs } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
@@ -10,18 +10,9 @@ export default {
 };
 
 export const defaultStory = (): ReactElement => {
-    const [showBanner, toggleBanner] = useState(true);
     return (
         <StorybookWrapper>
-            <>
-                {showBanner && (
-                    <WeeklyBanner
-                        subscriptionUrl="/"
-                        signInUrl="/"
-                        closeBanner={(): void => toggleBanner(false)}
-                    />
-                )}
-            </>
+            <WeeklyBanner subscriptionUrl="/" signInUrl="/" />
         </StorybookWrapper>
     );
 };
