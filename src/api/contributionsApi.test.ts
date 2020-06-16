@@ -42,7 +42,6 @@ describe('fetchDefaultEpic', () => {
 
         expect(epicData).toEqual({
             name: 'remote_epic_test',
-            showTicker: false,
             heading: 'Since you’re here...',
             paragraphs: ['First paragraph', 'Second paragraph'],
             highlightedText: 'Highlighted Text',

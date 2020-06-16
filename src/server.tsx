@@ -29,6 +29,7 @@ import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
+import { addTickerDataToVariant } from './lib/fetchTickerData';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -149,6 +150,8 @@ const buildEpicData = async (
 
     const { test, variant } = result.result;
 
+    const variantWithTickerData = await addTickerDataToVariant(variant);
+
     const testTracking: EpicTestTracking = {
         abTestName: test.name,
         abTestVariant: variant.name,
@@ -157,7 +160,7 @@ const buildEpicData = async (
     };
 
     const props: EpicProps = {
-        variant,
+        variant: variantWithTickerData,
         tracking: { ...pageTracking, ...testTracking },
         numArticles: getArticleViewCountForWeeks(targeting.weeklyArticleHistory),
         countryCode: targeting.countryCode,
@@ -167,7 +170,7 @@ const buildEpicData = async (
 
     return {
         data: {
-            variant,
+            variant: variantWithTickerData,
             meta: testTracking,
             module: {
                 url: moduleUrl,
