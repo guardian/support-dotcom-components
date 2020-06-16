@@ -56,7 +56,6 @@ export const configuredTests: EpicTests = {
                     ],
                     highlightedText:
                         'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
-                    showTicker: false,
                     cta: {
                         text: 'Support The Guardian',
                         baseUrl: 'https://support.theguardian.com/contribute',

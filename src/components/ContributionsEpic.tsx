@@ -6,10 +6,10 @@ import { space } from '@guardian/src-foundations';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-import { ContributionsEpicTickerWithDataFetch } from './ContributionsEpicTickerWithDataFetch';
 import { Variant } from '../lib/variants';
 import { reminderJs } from './ContributionsEpic.js';
 import { EpicButtons } from './EpicButtons';
+import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 
 const replacePlaceholders = (
     content: string,
@@ -162,11 +162,17 @@ export const ContributionsEpic: React.FC<Props> = ({
     countryCode,
     numArticles,
 }: Props) => {
-    const { heading, backgroundImageUrl, showReminderFields, showTicker } = variant;
+    const { heading, backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
     return (
         <section className={wrapperStyles} data-target="contributions-epic">
-            {showTicker && <ContributionsEpicTickerWithDataFetch countryCode={countryCode} />}
+            {tickerSettings && tickerSettings.tickerData && (
+                <ContributionsEpicTicker
+                    settings={tickerSettings}
+                    total={tickerSettings.tickerData.total}
+                    goal={tickerSettings.tickerData.goal}
+                />
+            )}
 
             {backgroundImageUrl && (
                 <div className={imageWrapperStyles}>
