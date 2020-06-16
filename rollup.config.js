@@ -5,6 +5,7 @@ import json from '@rollup/plugin-json';
 import { terser } from 'rollup-plugin-terser';
 import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
+import filesize from 'rollup-plugin-filesize';
 
 const tsOpts = {
     target: 'es2018',
@@ -63,6 +64,7 @@ const config = [
             // eslint-disable-next-line @typescript-eslint/camelcase
             terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
             externalGlobals(globals),
+            filesize(),
         ],
     };
 });
