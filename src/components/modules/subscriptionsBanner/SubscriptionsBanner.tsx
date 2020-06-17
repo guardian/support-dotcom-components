@@ -7,8 +7,8 @@ import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 import { brand } from '@guardian/src-foundations/themes';
-import Logo from '../guardianLogo/Logo';
-import Close from '../closeButton/Close';
+import { SvgGuardianLogo } from '@guardian/src-brand';
+import { SvgClose } from '@guardian/src-icons';
 
 const banner = css`
     html {
@@ -318,10 +318,10 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                                     data-link-name="subscription-banner : close"
                                     aria-label="Close"
                                 >
-                                    <Close />
+                                    <SvgClose />
                                 </button>
                                 <div className={logoContainer}>
-                                    <Logo />
+                                    <SvgGuardianLogo />
                                 </div>
                             </div>
                         </div>
