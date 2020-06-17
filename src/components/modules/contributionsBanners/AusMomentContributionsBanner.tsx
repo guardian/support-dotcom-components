@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { css } from 'emotion';
+import { SerializedStyles } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
 import { body, titlepiece, headline, textSans } from '@guardian/src-foundations/typography';
 import { neutral, brandAlt, opinion } from '@guardian/src-foundations/palette';
@@ -11,7 +12,8 @@ import Logo from '../guardianLogo/Logo';
 import Close from '../closeButton/Close';
 
 const banner = css`
-    width: 1440px;
+    width: 100%;
+    max-width: 1440px;
     margin: 0;
     padding: 0;
     position: relative;
@@ -26,15 +28,13 @@ const banner = css`
     } */
     box-sizing: border-box;
     display: flex;
-    /* justify-content: center; */
-    /* color: ${neutral[100]}; */
     --percentage: 20%;
     background: radial-gradient(
         circle at center,
         ${brandAlt[400]} var(--percentage),
         ${brandAlt[200]} var(--percentage),
-        ${brandAlt[200]} 60%,
-        ${opinion[500]} 60%
+        ${brandAlt[200]} 65%,
+        ${opinion[500]} 65%
     ) !important;
 `;
 
@@ -53,7 +53,7 @@ const closeButton = css`
     align-items: center;
     justify-content: center;
     padding: 0;
-    border: 1px solid ${neutral[100]};
+    border: 1px solid ${neutral[7]};
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -63,7 +63,7 @@ const closeButton = css`
     svg {
         width: 25px;
         height: 25px;
-        fill: ${neutral[100]};
+        fill: ${neutral[7]};
         transition: background-color 0.5s ease;
         border-radius: 50%;
     }
@@ -79,8 +79,8 @@ const closeButton = css`
         right: 10px;
     } */
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: ${space[3]}px;
+    right: ${space[24]}px;
 `;
 
 const contentContainer = css`
@@ -93,11 +93,48 @@ const contentContainer = css`
 `;
 
 const topContentContainer = css`
-    display: flex;
+    position: relative;
     height: 50%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    width: 100%;
+`;
+
+const actualNumber = css`
+    margin: 0 auto;
+    padding-top: 115px;
+    color: ${neutral[7]};
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+`;
+
+const actualNumberFigure = css`
+    ${titlepiece.medium({ fontWeight: 'bold' })};
+    margin: 0;
+`;
+
+const textUnderNumber = css`
+    ${body.medium({ fontStyle: 'italic' })};
+    margin: 0;
+`;
+
+const goal = css`
+    position: absolute;
+    bottom: ${space[2]}px;
+    right: ${space[24]}px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: ${neutral[7]};
+`;
+
+const goalNumber = css`
+    ${titlepiece.small({ fontWeight: 'bold' })};
+    font-size: 28px;
+    margin: 0;
 `;
 
 const bottomContentContainer = css`
@@ -123,7 +160,7 @@ const headingAndCta = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: ${space[4]}px 0 0 90px;
+    padding: ${space[4]}px 0 0 ${space[24]}px;
     margin: 0;
     width: 50%;
 `;
@@ -140,14 +177,23 @@ const heading = css`
 const ctaContainer = css`
     display: flex;
     padding-bottom: ${space[6]}px;
-    outline: 1px solid green;
     align-items: center;
 `;
 
-const cta = css`
-    background-color: ${opinion[400]};
-    color: ${neutral[100]};
-`;
+// TODO: sort out cssOverrides on cta
+
+// const cta = css`
+//     background-color: ${opinion[400]};
+//     color: ${neutral[100]};
+// `;
+
+const cta: SerializedStyles = {
+    name: 'cta',
+    styles: `
+        background-color: ${opinion[400]};
+        color: ${neutral[100]};
+    `,
+};
 
 const secondCta = css`
     ${textSans.medium()}
@@ -159,7 +205,7 @@ const secondCta = css`
 
 const messageContainer = css`
     width: 50%;
-    padding: ${space[4]}px 90px 0 0;
+    padding: ${space[2]}px ${space[24]}px 0 0;
 `;
 
 const message = css`
@@ -188,14 +234,13 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                 <section className={banner}>
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
-                            <div>
-                                2339093
-                                <br /> supporters
+                            <div className={actualNumber}>
+                                <p className={actualNumberFigure}>120,001</p>
+                                <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
-                            <div>
-                                150,000
-                                <br />
-                                Our goal
+                            <div className={goal}>
+                                <p className={goalNumber}>150,000</p>
+                                <p className={textUnderNumber}>our goal</p>
                             </div>
                             <div>
                                 <button
@@ -213,16 +258,16 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                     Our supporters are doing something powerful
                                 </h3>
                                 <div className={ctaContainer}>
-                                    <ThemeProvider theme={brandAlt}>
-                                        <LinkButton
-                                            // cssOverrides={cta}
-                                            // priority="primary"
-                                            size="default"
-                                            href="https://support.theguardian.com/contribute"
-                                        >
-                                            <span>Support the Guardian</span>
-                                        </LinkButton>
-                                    </ThemeProvider>
+                                    {/* <ThemeProvider theme={brandAlt}> */}
+                                    <LinkButton
+                                        cssOverrides={cta}
+                                        // priority="primary"
+                                        size="default"
+                                        href="https://support.theguardian.com/contribute" // TODO: campaign code?
+                                    >
+                                        <span>Support the Guardian</span>
+                                    </LinkButton>
+                                    {/* </ThemeProvider> */}
                                     <div className={secondCta}>
                                         <a href="#">View our pledge</a>
                                     </div>
