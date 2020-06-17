@@ -5,16 +5,16 @@ import { body, titlepiece, headline, textSans } from '@guardian/src-foundations/
 import { neutral, brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
+import { LinkButton } from '@guardian/src-button';
 import { brand } from '@guardian/src-foundations/themes';
 import Logo from '../guardianLogo/Logo';
 import Close from '../closeButton/Close';
 
 const banner = css`
+    width: 1440px;
     margin: 0;
     padding: 0;
     position: relative;
-    width: 100%;
     height: 420px !important;
     /* html {
         box-sizing: border-box;
@@ -85,11 +85,9 @@ const closeButton = css`
 
 const contentContainer = css`
     position: relative;
-    /* max-width: 1440px;
-    min-width: 1440px; */
-    width: 1440px;
-    /* height: 100%; */
-    margin: 0 auto;
+    width: 100%;
+    /* margin: 0 auto; */
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 `;
@@ -124,20 +122,44 @@ const bottomContentContainer = css`
 const headingAndCta = css`
     display: flex;
     flex-direction: column;
-    padding: 0 90px;
+    justify-content: space-between;
+    padding: ${space[4]}px 0 0 90px;
     margin: 0;
-    max-width: 30%;
+    width: 50%;
 `;
 
 const heading = css`
-    /* ${titlepiece.small({ fontWeight: 'bold' })}; */
-    ${headline.small()}
+    ${titlepiece.small({ fontWeight: 'bold' })};
+    font-size: 42px;
     color: ${neutral[100]};
     line-height: 115%;
+    padding: 0;
+    margin: 0;
+`;
+
+const ctaContainer = css`
+    display: flex;
+    padding-bottom: ${space[6]}px;
+    outline: 1px solid green;
+    align-items: center;
+`;
+
+const cta = css`
+    background-color: ${opinion[400]};
+    color: ${neutral[100]};
+`;
+
+const secondCta = css`
+    ${textSans.medium()}
+    margin-left: ${space[4]}px;
+    a {
+        color: ${neutral[86]};
+    }
 `;
 
 const messageContainer = css`
-    width: 65%;
+    width: 50%;
+    padding: ${space[4]}px 90px 0 0;
 `;
 
 const message = css`
@@ -190,16 +212,20 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                 <h3 className={heading}>
                                     Our supporters are doing something powerful
                                 </h3>
-                                <div>
-                                    <ThemeProvider theme={buttonReaderRevenue}>
+                                <div className={ctaContainer}>
+                                    <ThemeProvider theme={brandAlt}>
                                         <LinkButton
-                                            priority="primary"
+                                            // cssOverrides={cta}
+                                            // priority="primary"
                                             size="default"
                                             href="https://support.theguardian.com/contribute"
                                         >
                                             <span>Support the Guardian</span>
                                         </LinkButton>
                                     </ThemeProvider>
+                                    <div className={secondCta}>
+                                        <a href="#">View our pledge</a>
+                                    </div>
                                 </div>
                             </div>
                             <div className={messageContainer}>
