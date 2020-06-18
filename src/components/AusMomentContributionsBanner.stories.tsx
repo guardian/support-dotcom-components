@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs, boolean, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 
 export default {
@@ -11,11 +11,13 @@ export default {
 
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
+    const totalSupporters = number('totalSuppoters', 120001);
 
     return (
         <StorybookWrapper>
             <AusMomentContributionsBanner
                 isSupporter={isSupporter}
+                totalSupporters={totalSupporters}
                 showSupportMessaging
                 isRecurringContributor={false}
                 numberOfSupporters={33423}

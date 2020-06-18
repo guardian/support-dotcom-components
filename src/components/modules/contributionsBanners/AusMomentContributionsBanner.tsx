@@ -6,10 +6,74 @@ import { body, titlepiece, headline, textSans } from '@guardian/src-foundations/
 import { neutral, brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import { LinkButton } from '@guardian/src-button';
+import { LinkButton, Button } from '@guardian/src-button';
+import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
 import Logo from '../guardianLogo/Logo';
 import Close from '../closeButton/Close';
+
+const FacebookLogoSvg: React.FC = () => {
+    return (
+        <svg
+            className={css`
+                color: ${neutral[97]};
+            `}
+            viewBox="0 0 30 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M11.425 9.12498V12.25H8V15.7H11.425V25.9999H15.55V15.7H18.925L19.675 12.25H15.55V9.49998C15.55 7.97499 16.45 7.44999 17.625 7.44999H19.675L19.55 4.175C18.525 4.075 17.725 4 16.55 4C13.625 4 11.425 5.82499 11.425 9.12498Z"
+            />
+        </svg>
+    );
+};
+
+const TwitterLogoSvg: React.FC = () => {
+    return (
+        <svg
+            className={css`
+                color: ${neutral[97]};
+            `}
+            width="30"
+            height="30"
+            viewBox="0 0 30 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M25.9999 8.09999C25.1249 8.47499 24.3499 8.69999 23.3749 8.82499C24.3999 8.24999 25.0749 7.4 25.3999 6.325C24.5249 6.75 23.4999 7.325 22.5249 7.4C21.6999 6.575 20.5999 6 19.1999 6C16.75 6 14.7 8.04999 14.7 10.5C14.7 10.775 14.725 11.25 14.825 11.525C11 11.325 7.87499 9.57499 5.49999 6.8C5.175 7.47499 4.9 8.27499 4.9 9.07499C4.9 10.575 5.69999 12.1 6.92499 12.825C6.52499 12.9 5.25 12.5 4.85 12.3C4.85 14.625 6.47499 16.3 8.49998 16.775C7.72499 16.975 7.12499 17.025 6.44999 16.85C7.07499 18.65 8.64998 19.95 10.65 19.95C9.14998 21.2249 7.17499 21.8999 5.075 21.9249C4.7 21.8499 4.3 21.9249 4 21.8499C5.92499 23.1249 8.42498 23.8249 10.925 23.8249C19.1999 23.8249 23.7749 16.975 23.7749 11.025C23.7749 10.85 23.7249 10.625 23.7249 10.45C24.6249 9.77499 25.3999 8.97499 25.9999 8.09999Z"
+            />
+        </svg>
+    );
+};
+
+const EnvelopeSvg: React.FC = () => {
+    return (
+        <svg
+            width="21"
+            height="20"
+            viewBox="0 0 21 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M18.632 5.4248L11.8533 10.8236H10.6174L3.83873 5.4248L4.55822 4.64712H17.9125L18.632 5.4248Z"
+                fill="#F6F6F6"
+                stroke="#F6F6F6"
+                strokeWidth="0.823529"
+            />
+            <path
+                d="M3.23535 14.1444V7.23535L10.4734 12.3263H11.9973L19.2354 7.23535V14.1444L18.0925 15.2354H4.37821L3.23535 14.1444Z"
+                fill="#F6F6F6"
+            />
+        </svg>
+    );
+};
 
 const banner = css`
     width: 100%;
@@ -159,8 +223,8 @@ const bottomContentContainer = css`
 const headingAndCta = css`
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
-    padding: ${space[4]}px 0 0 ${space[24]}px;
+    justify-content: space-between;
+    padding: ${space[4]}px 0 0 6%;
     margin: 0;
     width: 50%;
 `;
@@ -176,44 +240,36 @@ const heading = css`
 
 const ctaContainer = css`
     display: flex;
-    margin-top: ${space[4]}px;
+    margin-left: -${space[2]}px;
     padding-bottom: ${space[6]}px;
     align-items: center;
 `;
 
-// TODO: sort out cssOverrides on cta
+const cta = css`
+    margin-left: ${space[2]}px;
+    background-color: ${opinion[400]} !important;
+    color: ${neutral[100]};
 
-// const cta = css`
-//     background-color: ${opinion[400]};
-//     color: ${neutral[100]};
-// `;
-
-const cta: SerializedStyles = {
-    name: 'cta',
-    styles: `
-        background-color: ${opinion[400]};
-        color: ${neutral[100]};
-    `,
-};
+    :hover {
+        background-color: ${opinion[300]} !important;
+    }
+`;
 
 const secondCta = css`
-    ${textSans.medium()}
+    // ${textSans.medium()}
     margin-left: ${space[4]}px;
-    a {
-        color: ${neutral[86]};
-    }
 `;
 
 const messageContainer = css`
     width: 50%;
-    padding: ${space[2]}px ${space[24]}px 0 0;
+    padding: ${space[2]}px 6% 0 0;
 `;
 
 const message = css`
     ${body.small()}
     color: ${neutral[97]};
     line-height: 135%;
-    margin-bottom: ${space[2]}px;
+    margin-bottom: ${space[1]}px;
 `;
 
 const messagePartTwo = css`
@@ -225,6 +281,7 @@ const messagePartTwo = css`
 
 type AusMomentContributionsBannerProps = {
     isSupporter: boolean;
+    totalSupporters: number;
     showSupportMessaging: boolean;
     isRecurringContributor: boolean;
     lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
@@ -233,6 +290,7 @@ type AusMomentContributionsBannerProps = {
 
 export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBannerProps> = ({
     isSupporter,
+    totalSupporters,
     showSupportMessaging,
     isRecurringContributor,
     lastOneOffContributionDate,
@@ -246,7 +304,9 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
-                                <p className={actualNumberFigure}>120,001</p>
+                                <p className={actualNumberFigure}>
+                                    {totalSupporters.toLocaleString()}
+                                </p>
                                 <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
                             <div className={goal}>
@@ -267,70 +327,28 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                             <div className={headingAndCta}>
                                 <h3 className={heading}>
                                     {isSupporter
-                                        ? 'Our supporters are doing something powerful'
-                                        : 'Help us reach more people across Australia'}
+                                        ? 'Help us reach more people across Australia'
+                                        : 'Our supporters are doing something powerful'}
                                 </h3>
                                 {isSupporter ? (
-                                    <div
-                                        className={css`
-                                            margin-top: ${space[4]}px;
-                                            display: flex;
-                                            align-items: center;
-                                        `}
-                                    >
-                                        <svg
-                                            width="36"
-                                            height="36"
-                                            viewBox="0 0 36 36"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <circle cx="18" cy="18" r="18" fill="#E05E00" />
-                                            <path
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M16.3469 13.9626V16.2354H14V18.7444H16.3469V26.2354H19.1734V18.7444H21.4861L22 16.2354H19.1734V14.2354C19.1734 13.1263 19.7902 12.7444 20.5953 12.7444H22L21.9143 10.3626C21.212 10.2899 20.6638 10.2354 19.8587 10.2354C17.8544 10.2354 16.3469 11.5626 16.3469 13.9626Z"
-                                                fill="#F6F6F6"
-                                            />
-                                        </svg>
-                                        <svg
-                                            className={css`
-                                                margin-left: ${space[2]}px;
-                                            `}
-                                            width="36"
-                                            height="36"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <circle cx="18" cy="18" r="18" fill="#E05E00" />
-                                            <path
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M26.706 13.767a6.74 6.74 0 01-1.91.529 3.046 3.046 0 001.474-1.824c-.637.31-1.382.73-2.091.784-.6-.601-1.4-1.02-2.418-1.02-1.782 0-3.273 1.494-3.273 3.281 0 .2.018.547.09.748-2.781-.146-5.054-1.422-6.781-3.446-.237.492-.437 1.075-.437 1.659 0 1.094.582 2.206 1.473 2.735-.29.055-1.218-.237-1.509-.383 0 1.696 1.182 2.917 2.655 3.264-.564.146-1 .182-1.491.054.454 1.313 1.6 2.261 3.054 2.261-1.09.93-2.527 1.422-4.054 1.44-.273-.054-.564 0-.782-.054 1.4.93 3.218 1.44 5.036 1.44 6.018 0 9.346-4.995 9.346-9.335 0-.127-.037-.292-.037-.42a7.37 7.37 0 001.655-1.713z"
-                                                fill="#F6F6F6"
-                                            />
-                                        </svg>
-                                        <svg
-                                            className={css`
-                                                margin-left: ${space[2]}px;
-                                            `}
-                                            width="36"
-                                            height="36"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <circle cx="18" cy="18" r="18" fill="#E05E00" />
-                                            <path
-                                                d="M25.632 13.425l-6.779 5.399h-1.236l-6.778-5.4.72-.777h13.354l.719.778z"
-                                                fill="#F6F6F6"
-                                                stroke="#F6F6F6"
-                                                strokeWidth=".824"
-                                            />
-                                            <path
-                                                d="M10.235 22.144v-6.909l7.238 5.091h1.524l7.238-5.09v6.908l-1.142 1.091H11.378l-1.143-1.09z"
-                                                fill="#F6F6F6"
-                                            />
-                                        </svg>
+                                    <div className={ctaContainer}>
+                                        <Button
+                                            className={cta}
+                                            icon={<FacebookLogoSvg />}
+                                            size="small"
+                                        ></Button>
+
+                                        <Button
+                                            className={cta}
+                                            icon={<TwitterLogoSvg />}
+                                            size="small"
+                                        ></Button>
+
+                                        <Button
+                                            className={cta}
+                                            icon={<EnvelopeSvg />}
+                                            size="small"
+                                        ></Button>
                                         <div
                                             className={css`
                                             ${textSans.medium()}
@@ -338,14 +356,14 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                             margin-left: ${space[4]}px;
                                         `}
                                         >
-                                            Share you support
+                                            Share your support
                                         </div>
                                     </div>
                                 ) : (
                                     <div className={ctaContainer}>
                                         {/* <ThemeProvider theme={brandAlt}> */}
                                         <LinkButton
-                                            cssOverrides={cta}
+                                            className={cta}
                                             // priority="primary"
                                             size="default"
                                             href="https://support.theguardian.com/contribute" // TODO: campaign code?
@@ -354,7 +372,12 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                         </LinkButton>
                                         {/* </ThemeProvider> */}
                                         <div className={secondCta}>
-                                            <a href="#">View our pledge</a>
+                                            <ThemeProvider theme={brand}>
+                                                {/* TODO: Add link */}
+                                                <Link priority="primary" href="#">
+                                                    View our pledge
+                                                </Link>
+                                            </ThemeProvider>
                                         </div>
                                     </div>
                                 )}
