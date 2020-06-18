@@ -2,21 +2,32 @@ import { EpicPayload } from '../components/ContributionsEpicTypes';
 import { Validator } from 'jsonschema';
 import * as path from 'path';
 import * as fs from 'fs';
+import {BannerPayload} from "../components/BannerTypes";
 
 const validator = new Validator(); // reuse as expensive to initialise
-const schemaPath = path.join(__dirname, '../schemas', 'epicPayload.schema.json');
-const epicPayloadSchema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+const epicSchemaPath = path.join(__dirname, '../schemas', 'epicPayload.schema.json');
+const epicPayloadSchema = JSON.parse(fs.readFileSync(epicSchemaPath, 'utf8'));
 console.log('Loaded epic payload JSON schema');
+
+const bannerSchemaPath = path.join(__dirname, '../schemas', 'bannerPayload.schema.json');
+const bannerPayloadSchema = JSON.parse(fs.readFileSync(epicSchemaPath, 'utf8'));
+console.log('Loaded banner payload JSON schema');
 
 export class ValidationError extends Error {}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const validatePayload = (body: any): EpicPayload => {
-    const validation = validator.validate(body, epicPayloadSchema);
+const validatePayload = <T>(body: any, schema: any): T => {
+    const validation = validator.validate(body, schema);
 
     if (!validation.valid) {
         throw new ValidationError(validation.toString());
     }
 
-    return body as EpicPayload;
+    return body as T;
 };
+
+export const validateEpicPayload = (body: any): EpicPayload =>
+    validatePayload<EpicPayload>(body, epicPayloadSchema);
+
+export const validateBannerPayload = (body: any): BannerPayload =>
+    validatePayload<BannerPayload>(body, bannerPayloadSchema);

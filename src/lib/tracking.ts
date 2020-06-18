@@ -1,5 +1,6 @@
 import { EpicTracking } from '../components/ContributionsEpicTypes';
 import { Test, Variant } from '../lib/variants';
+import {BannerTest, BannerVariant} from "../components/BannerTypes";
 
 type LinkParams = {
     REFPVID: string;
@@ -38,4 +39,7 @@ export const addTrackingParams = (baseUrl: string, params: EpicTracking): string
 const campaignPrefix = 'gdnwb_copts_memco';
 
 export const buildCampaignCode = (test: Test, variant: Variant): string =>
+    `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;
+
+export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
     `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;

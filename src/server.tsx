@@ -14,10 +14,19 @@ import {
 } from './components/ContributionsEpicTypes';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
-import { validatePayload } from './lib/validation';
-import { findTestAndVariant, Result, Debug, Variant } from './lib/variants';
+import { validateEpicPayload, validateBannerPayload } from './lib/validation';
+import {
+    findTestAndVariant,
+    Result,
+    Debug,
+    Variant,
+    TickerEndType,
+    TickerCountType,
+    TickerData,
+    TickerSettings
+} from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
-import { buildCampaignCode } from './lib/tracking';
+import {buildBannerCampaignCode, buildCampaignCode} from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
@@ -29,7 +38,9 @@ import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
-import { addTickerDataToVariant } from './lib/fetchTickerData';
+import {addTickerData, addTickerDataToVariant, fetchTickerData} from './lib/fetchTickerData';
+import {BannerPageTracking, BannerTargeting, BannerTestResult} from "./components/BannerTypes";
+import {BannerProps, BannerTestTracking} from "./components/modules/Banner";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -45,7 +56,7 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-interface DataResponse {
+interface EpicDataResponse {
     data?: {
         module: {
             url: string;
@@ -53,6 +64,17 @@ interface DataResponse {
         };
         variant: Variant;
         meta: EpicTestTracking;
+    };
+    debug?: Debug;
+}
+
+interface BannerDataResponse {
+    data?: {
+        module: {
+            url: string;
+            props: BannerProps;
+        };
+        meta: BannerTestTracking;
     };
     debug?: Debug;
 }
@@ -125,7 +147,7 @@ const buildEpicData = async (
     targeting: EpicTargeting,
     params: Params,
     baseUrl: string,
-): Promise<DataResponse> => {
+): Promise<EpicDataResponse> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
@@ -181,24 +203,84 @@ const buildEpicData = async (
     };
 };
 
-// TODO implement this stub
-const buildBannerData = async (
-    pageTracking: EpicPageTracking,
-    targeting: EpicTargeting,
-    params: Params,
-    req: express.Request,
-): Promise<{}> => {
-    //TODO create return types specific to the banner
-    const moduleUrl = `${baseUrl(req)}/banner.js`;
+type GetBannerVariant = (
+    targeting: BannerTargeting,
+    pageTracking: BannerPageTracking,
+    req: express.Request) => BannerTestResult | null;
 
+interface Banner {
+    getVariant: GetBannerVariant,
+    moduleUrl: string,
+}
+
+// TODO - move somewhere and implement properly
+const getBannerTest = (
+    targeting: BannerTargeting,
+    pageTracking: BannerPageTracking,
+    req: express.Request,
+): BannerTestResult | null => {
     return {
-        data: {
-            module: {
-                url: moduleUrl,
-                props: {},
+        test: {
+            name: '',
+            campaignId: '',
+        },
+        variant: {
+            name: '',
+            tickerSettings: {
+                countType: TickerCountType.money,
+                endType: TickerEndType.unlimited,
+                currencySymbol: '£',
+                copy: {
+                    countLabel: 'contributed',
+                    goalReachedPrimary: "We've met our goal - thank you",
+                    goalReachedSecondary: 'Contributions are still being accepted',
+                },
             },
         },
-    };
+        moduleUrl: `${baseUrl(req)}/banner.js`,
+    }
+};
+
+const buildBannerData = async (
+    pageTracking: BannerPageTracking,
+    targeting: BannerTargeting,
+    params: Params,
+    req: express.Request,
+): Promise<BannerDataResponse> => {
+    const testResult = getBannerTest(targeting, pageTracking, req);
+
+    if (testResult) {
+        const {test, variant, moduleUrl} = testResult;
+
+        const testTracking: BannerTestTracking = {
+            abTestName: test.name,
+            abTestVariant: variant.name,
+            campaignCode: buildBannerCampaignCode(test, variant),
+            campaignId: `banner_${test.campaignId || test.name}`,
+        };
+
+        const tickerSettings =
+            await (variant.tickerSettings && addTickerData(variant.tickerSettings));
+
+        const props: BannerProps = {
+            tracking: {...pageTracking, ...testTracking},
+            isSupporter: targeting.shouldHideReaderRevenue,
+            tickerSettings,
+        };
+
+        return {
+            data: {
+                module: {
+                    url: moduleUrl,
+                    props: props,
+                },
+                meta: testTracking,
+            },
+        };
+    } else {
+        // TODO
+        return { data: undefined };
+    }
 };
 
 // Pre-ES module endpoints (expected to be removed once module approach is validated)
@@ -223,7 +305,7 @@ app.post(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             if (!isProd) {
-                validatePayload(req.body);
+                validateEpicPayload(req.body);
             }
 
             const { tracking, targeting } = req.body;
@@ -253,10 +335,9 @@ app.post(
     '/banner',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            // TODO: validate payload using an appropriate json schema
-            // if (process.env.NODE_ENV !== 'production') {
-            //     validatePayload(req.body);
-            // }
+            if (!isProd) {
+                validateBannerPayload(req.body);
+            }
 
             const { tracking, targeting } = req.body;
             const params = getQueryParams(req);

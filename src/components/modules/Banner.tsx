@@ -1,5 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
+import {TickerSettings} from "../../lib/variants";
+import {BannerTracking} from "../BannerTypes";
 
 const bannerStyles = css`
     background-color: rgb(5, 41, 98);
@@ -12,6 +14,19 @@ const bannerStyles = css`
     z-index: 9999;
     border-top: 1px solid;
 `;
+
+export type BannerProps = {
+    tracking: BannerTracking;
+    isSupporter?: boolean;
+    tickerSettings?: TickerSettings;
+};
+
+export type BannerTestTracking = {
+    abTestName: string;
+    abTestVariant: string;
+    campaignCode: string;
+    campaignId: string;
+};
 
 export const Banner: React.FC = ({}) => {
     return (
