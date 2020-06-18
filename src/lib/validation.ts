@@ -2,7 +2,7 @@ import { EpicPayload } from '../components/ContributionsEpicTypes';
 import { Validator } from 'jsonschema';
 import * as path from 'path';
 import * as fs from 'fs';
-import { BannerPayload } from '../components/BannerTypes';
+import { BannerDataRequestPayload } from '../components/BannerTypes';
 
 const validator = new Validator(); // reuse as expensive to initialise
 const epicSchemaPath = path.join(__dirname, '../schemas', 'epicPayload.schema.json');
@@ -29,5 +29,5 @@ const validatePayload = <T>(body: any, schema: any): T => {
 export const validateEpicPayload = (body: any): EpicPayload =>
     validatePayload<EpicPayload>(body, epicPayloadSchema);
 
-export const validateBannerPayload = (body: any): BannerPayload =>
-    validatePayload<BannerPayload>(body, bannerPayloadSchema);
+export const validateBannerPayload = (body: any): BannerDataRequestPayload =>
+    validatePayload<BannerDataRequestPayload>(body, bannerPayloadSchema);

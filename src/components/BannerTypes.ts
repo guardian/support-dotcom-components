@@ -28,14 +28,14 @@ export type BannerPageTracking = {
 
 export type BannerTracking = BannerTestTracking & BannerPageTracking;
 
-export type BannerPayload = {
+export type BannerDataRequestPayload = {
     tracking: BannerPageTracking;
     targeting: BannerTargeting;
 };
 
 export interface BannerVariant {
     name: string;
-    tickerSettings: TickerSettings;
+    tickerSettings?: TickerSettings;
     modulePath: string;
 }
 

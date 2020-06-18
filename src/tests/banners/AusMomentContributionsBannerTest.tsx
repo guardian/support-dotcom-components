@@ -16,7 +16,7 @@ export const AusMomentContributionsBanner: BannerTest = {
                 // Usually we need the ticker copy, but this banner has a very custom ticker
                 copy: {
                     countLabel: '',
-                    goalReachedPrimary: "",
+                    goalReachedPrimary: '',
                     goalReachedSecondary: '',
                 },
             },
