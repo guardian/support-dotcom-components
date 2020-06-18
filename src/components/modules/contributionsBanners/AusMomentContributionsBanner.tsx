@@ -213,6 +213,14 @@ const message = css`
     ${body.small()}
     color: ${neutral[97]};
     line-height: 135%;
+    margin-bottom: ${space[2]}px;
+`;
+
+const messagePartTwo = css`
+    ${body.small()}
+    color: ${neutral[97]};
+    line-height: 135%;
+    margin: 0px;
 `;
 
 type AusMomentContributionsBannerProps = {
@@ -353,34 +361,42 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                             </div>
                             <div className={messageContainer}>
                                 {isSupporter ? (
-                                    <p className={message}>
-                                        Thanks to the support of thousands of readers like you,
-                                        Guardian Australia has grown and is now read by one in three
-                                        people. Your support has helped us deliver our independent
-                                        quality journalism when it’s never been so vital. And you’ve
-                                        helped us remain open to everyone. Right now, you can help
-                                        <br />
-                                        us grow our community even further in Australia. To reach
-                                        our ambitious goal of 150,000 supporters, we hope you will
-                                        champion our mission and encourage more people to read and
-                                        support our work. Your support has an impact – and so does
-                                        your voice. Thank you.
-                                    </p>
+                                    <div>
+                                        <p className={message}>
+                                            Thanks to the support of thousands of readers like you,
+                                            Guardian Australia has grown and is now read by one in
+                                            three people. Your support has helped us deliver our
+                                            independent quality journalism when it’s never been so
+                                            vital. And you’ve helped us remain open to everyone.
+                                        </p>
+                                        <p className={messagePartTwo}>
+                                            Right now, you can help us grow our community even
+                                            further in Australia. To reach our ambitious goal of
+                                            150,000 supporters, we hope you will champion our
+                                            mission and encourage more people to read and support
+                                            our work. Your support has an impact – and so does your
+                                            voice. Thank you.
+                                        </p>
+                                    </div>
                                 ) : (
-                                    <p className={message}>
-                                        One in three people in Australia read the Guardian in the
-                                        last year. We need to keep growing our readership and
-                                        gaining your support so we can provide high quality,
-                                        independent journalism that’s open to everyone. Now more
-                                        than ever, we all deserve access to factual information, and
-                                        to trust the stories we read.
-                                        <br />
-                                        Right now, you can help us grow our community in Australia.
-                                        To reach our ambitious goal of 150,000 supporters, we hope
-                                        more readers like you will support us for the first time,
-                                        and shareour work widely. Your support has an impact – and
-                                        so does your voice. Thank you.
-                                    </p>
+                                    <div>
+                                        <p className={message}>
+                                            One in three people in Australia read the Guardian in
+                                            the last year. We need to keep growing our readership
+                                            and gaining your financial support so we can provide
+                                            high quality, independent journalism that’s open to
+                                            everyone. Now more than ever, we all deserve access to
+                                            factual information, and to trust the stories we read.
+                                        </p>
+                                        <p className={messagePartTwo}>
+                                            Right now, you can help us grow our community in
+                                            Australia. To reach our ambitious goal of 150,000
+                                            supporters, we hope more readers like you will support
+                                            us for the first time, and shareour work widely. Your
+                                            support has an impact – and so does your voice. Thank
+                                            you.
+                                        </p>
+                                    </div>
                                 )}
                             </div>
                         </div>
