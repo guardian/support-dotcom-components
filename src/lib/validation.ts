@@ -2,7 +2,7 @@ import { EpicPayload } from '../components/ContributionsEpicTypes';
 import { Validator } from 'jsonschema';
 import * as path from 'path';
 import * as fs from 'fs';
-import {BannerPayload} from "../components/BannerTypes";
+import { BannerPayload } from '../components/BannerTypes';
 
 const validator = new Validator(); // reuse as expensive to initialise
 const epicSchemaPath = path.join(__dirname, '../schemas', 'epicPayload.schema.json');
@@ -10,7 +10,7 @@ const epicPayloadSchema = JSON.parse(fs.readFileSync(epicSchemaPath, 'utf8'));
 console.log('Loaded epic payload JSON schema');
 
 const bannerSchemaPath = path.join(__dirname, '../schemas', 'bannerPayload.schema.json');
-const bannerPayloadSchema = JSON.parse(fs.readFileSync(epicSchemaPath, 'utf8'));
+const bannerPayloadSchema = JSON.parse(fs.readFileSync(bannerSchemaPath, 'utf8'));
 console.log('Loaded banner payload JSON schema');
 
 export class ValidationError extends Error {}

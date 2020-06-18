@@ -1,4 +1,6 @@
-import {TickerSettings} from "../lib/variants";
+import { TickerSettings } from '../lib/variants';
+
+// TODO - it may be worth sharing some types with Epic tests
 
 export type BannerTargeting = {
     alreadyVisitedCount: number;
@@ -8,15 +10,13 @@ export type BannerTargeting = {
     engagementBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
-}
+};
 
 export type BannerTestTracking = {
     abTestName: string;
     abTestVariant: string;
     campaignCode: string;
-    campaignId: string;
 };
-
 
 export type BannerPageTracking = {
     ophanPageId: string;
@@ -24,7 +24,7 @@ export type BannerPageTracking = {
     platformId: string;
     referrerUrl: string;
     clientName: string;
-}
+};
 
 export type BannerTracking = BannerTestTracking & BannerPageTracking;
 
@@ -34,17 +34,22 @@ export type BannerPayload = {
 };
 
 export interface BannerVariant {
-    name: string,
-    tickerSettings: TickerSettings,
+    name: string;
+    tickerSettings: TickerSettings;
+    modulePath: string;
 }
+
+export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 
 export interface BannerTest {
-    name: string,
-    campaignId: string,
+    name: string;
+    canRun: CanRun;
+    variants: BannerVariant[];
 }
 
-export interface BannerTestResult {
-    test: BannerTest,
-    variant: BannerVariant,
-    moduleUrl: string,
+// The result of selecting a test+variant for a user
+export interface BannerTestSelection {
+    test: BannerTest;
+    variant: BannerVariant;
+    moduleUrl: string;
 }

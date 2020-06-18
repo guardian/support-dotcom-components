@@ -15,18 +15,9 @@ import {
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 import { validateEpicPayload, validateBannerPayload } from './lib/validation';
-import {
-    findTestAndVariant,
-    Result,
-    Debug,
-    Variant,
-    TickerEndType,
-    TickerCountType,
-    TickerData,
-    TickerSettings
-} from './lib/variants';
+import { findTestAndVariant, Result, Debug, Variant } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
-import {buildBannerCampaignCode, buildCampaignCode} from './lib/tracking';
+import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
@@ -38,9 +29,16 @@ import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
-import {addTickerData, addTickerDataToVariant, fetchTickerData} from './lib/fetchTickerData';
-import {BannerPageTracking, BannerTargeting, BannerTestResult} from "./components/BannerTypes";
-import {BannerProps, BannerTestTracking} from "./components/modules/Banner";
+import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
+import {
+    BannerPageTracking,
+    BannerTestTracking,
+    BannerTargeting,
+    BannerVariant,
+} from './components/BannerTypes';
+import { BannerProps } from './components/modules/Banner';
+import { selectBannerTest } from './tests/banners/bannerSelection';
+import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -74,6 +72,7 @@ interface BannerDataResponse {
             url: string;
             props: BannerProps;
         };
+        variant: BannerVariant;
         meta: BannerTestTracking;
     };
     debug?: Debug;
@@ -203,67 +202,28 @@ const buildEpicData = async (
     };
 };
 
-type GetBannerVariant = (
-    targeting: BannerTargeting,
-    pageTracking: BannerPageTracking,
-    req: express.Request) => BannerTestResult | null;
-
-interface Banner {
-    getVariant: GetBannerVariant,
-    moduleUrl: string,
-}
-
-// TODO - move somewhere and implement properly
-const getBannerTest = (
-    targeting: BannerTargeting,
-    pageTracking: BannerPageTracking,
-    req: express.Request,
-): BannerTestResult | null => {
-    return {
-        test: {
-            name: '',
-            campaignId: '',
-        },
-        variant: {
-            name: '',
-            tickerSettings: {
-                countType: TickerCountType.money,
-                endType: TickerEndType.unlimited,
-                currencySymbol: '£',
-                copy: {
-                    countLabel: 'contributed',
-                    goalReachedPrimary: "We've met our goal - thank you",
-                    goalReachedSecondary: 'Contributions are still being accepted',
-                },
-            },
-        },
-        moduleUrl: `${baseUrl(req)}/banner.js`,
-    }
-};
-
 const buildBannerData = async (
     pageTracking: BannerPageTracking,
     targeting: BannerTargeting,
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
-    const testResult = getBannerTest(targeting, pageTracking, req);
+    const selectedTest = selectBannerTest(targeting, pageTracking, baseUrl(req));
 
-    if (testResult) {
-        const {test, variant, moduleUrl} = testResult;
+    if (selectedTest) {
+        const { test, variant, moduleUrl } = selectedTest;
 
         const testTracking: BannerTestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
-            campaignId: `banner_${test.campaignId || test.name}`,
         };
 
-        const tickerSettings =
-            await (variant.tickerSettings && addTickerData(variant.tickerSettings));
+        const tickerSettings = await (variant.tickerSettings &&
+            addTickerDataToSettings(variant.tickerSettings));
 
         const props: BannerProps = {
-            tracking: {...pageTracking, ...testTracking},
+            tracking: { ...pageTracking, ...testTracking },
             isSupporter: targeting.shouldHideReaderRevenue,
             tickerSettings,
         };
@@ -274,11 +234,12 @@ const buildBannerData = async (
                     url: moduleUrl,
                     props: props,
                 },
+                variant: variant,
                 meta: testTracking,
             },
         };
     } else {
-        // TODO
+        // TODO - is this ok?
         return { data: undefined };
     }
 };
@@ -335,18 +296,16 @@ app.post(
     '/banner',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (!isProd) {
-                validateBannerPayload(req.body);
-            }
+            const payload = validateBannerPayload(req.body);
 
-            const { tracking, targeting } = req.body;
+            const { tracking, targeting } = payload;
             const params = getQueryParams(req);
 
             const response = await buildBannerData(tracking, targeting, params, req);
 
-            // TODO for response logging
-            // res.locals.didRenderBanner = !!response.data;
-            // res.locals.clientName = tracking.clientName;
+            // for response logging
+            res.locals.didRenderBanner = !!response.data;
+            res.locals.clientName = tracking.clientName;
 
             res.send(response);
         } catch (error) {
@@ -375,6 +334,22 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev ? '/../dist/modules/Banner.js' : '/modules/Banner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+            res.type('js');
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${AusMomentContributionsBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/AusMomentContributionsBanner.js'
+                : '/modules/AusMomentContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);

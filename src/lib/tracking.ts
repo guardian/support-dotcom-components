@@ -1,6 +1,6 @@
 import { EpicTracking } from '../components/ContributionsEpicTypes';
 import { Test, Variant } from '../lib/variants';
-import {BannerTest, BannerVariant} from "../components/BannerTypes";
+import { BannerTest, BannerVariant } from '../components/BannerTypes';
 
 type LinkParams = {
     REFPVID: string;
@@ -42,4 +42,4 @@ export const buildCampaignCode = (test: Test, variant: Variant): string =>
     `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;
 
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
-    `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;
+    `${test.name}_${variant.name}`;

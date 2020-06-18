@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
-import {TickerSettings} from "../../lib/variants";
-import {BannerTracking} from "../BannerTypes";
+import { TickerSettings } from '../../lib/variants';
+import { BannerTracking } from '../BannerTypes';
 
 const bannerStyles = css`
     background-color: rgb(5, 41, 98);
@@ -21,14 +21,8 @@ export type BannerProps = {
     tickerSettings?: TickerSettings;
 };
 
-export type BannerTestTracking = {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
-    campaignId: string;
-};
-
-export const Banner: React.FC = ({}) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const Banner: React.FC<BannerProps> = (props: BannerProps) => {
     return (
         <div className={bannerStyles}>
             <p>This is a banner</p>

@@ -58,7 +58,7 @@
                 "isPaidContent",
                 "isRecurringContributor",
                 "shouldHideReaderRevenue",
-                "showSupportMessaging",
+                "showSupportMessaging"
             ]
         }
     },
