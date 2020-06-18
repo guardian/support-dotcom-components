@@ -176,21 +176,33 @@ const topContentContainer = css`
 
 const actualNumber = css`
     margin: 0 auto;
-    padding-top: 115px;
     color: ${neutral[7]};
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+
+    padding-top: 150px;
+    ${from.tablet} {
+        padding-top: 115px;
+    }
 `;
 
 const actualNumberFigure = css`
     ${titlepiece.medium({ fontWeight: 'bold' })};
+    font-size: 34px;
+    ${from.tablet} {
+        font-size: 54px;
+    }
     margin: 0;
 `;
 
 const textUnderNumber = css`
     ${body.medium({ fontStyle: 'italic' })};
+    font-size: 12px;
+    ${from.tablet} {
+        font-size: 17px;
+    }
     margin: 0;
 `;
 
