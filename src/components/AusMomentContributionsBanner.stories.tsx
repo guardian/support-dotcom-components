@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 
 export default {
@@ -10,9 +10,12 @@ export default {
 };
 
 export const defaultStory = (): ReactElement => {
+    const isSupporter = boolean('isSupporter', false);
+
     return (
         <StorybookWrapper>
             <AusMomentContributionsBanner
+                isSupporter={isSupporter}
                 showSupportMessaging
                 isRecurringContributor={false}
                 numberOfSupporters={33423}
@@ -21,18 +24,4 @@ export const defaultStory = (): ReactElement => {
     );
 };
 
-defaultStory.story = { name: 'Aus Moment - non-supporters' };
-
-export const supporter = (): ReactElement => {
-    return (
-        <StorybookWrapper>
-            <AusMomentContributionsBanner
-                showSupportMessaging
-                isRecurringContributor
-                numberOfSupporters={23431}
-            />
-        </StorybookWrapper>
-    );
-};
-
-supporter.story = { name: 'Aus Moment - supporters' };
+defaultStory.story = { name: 'Aus Moment' };
