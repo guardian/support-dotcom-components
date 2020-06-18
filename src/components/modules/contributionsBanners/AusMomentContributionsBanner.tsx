@@ -117,7 +117,7 @@ const closeButton = css`
     align-items: center;
     justify-content: center;
     padding: 0;
-    border: 1px solid ${neutral[7]};
+    border: 0;
     border-radius: 50%;
     background: transparent;
     cursor: pointer;
@@ -144,7 +144,16 @@ const closeButton = css`
     } */
     position: absolute;
     top: ${space[3]}px;
-    right: ${space[24]}px;
+    right: ${space[3]}px;
+
+    ${from.tablet} {
+        right: ${space[9]}px;
+        border: 1px solid ${neutral[7]};
+    }
+
+    ${from.desktop} {
+        right: ${space[24]}px;
+    }
 `;
 
 const contentContainer = css`
@@ -187,18 +196,46 @@ const textUnderNumber = css`
 
 const goal = css`
     position: absolute;
-    bottom: ${space[2]}px;
-    right: ${space[24]}px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     color: ${neutral[7]};
+    align-items: flex-start;
+
+    ${until.tablet} {
+        top: ${space[1]}px !important;
+        left: ${space[3]}px !important;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    ${until.desktop} {
+        top: ${space[3]}px;
+        left: ${space[6]}px;
+    }
+
+    ${from.desktop} {
+        bottom: ${space[2]}px;
+        right: ${space[24]}px;
+    }
 `;
 
 const goalNumber = css`
     ${titlepiece.small({ fontWeight: 'bold' })};
-    font-size: 28px;
+    font-size: 15px;
     margin: 0;
+
+    ${from.tablet} {
+        font-size: 28px;
+    }
+`;
+
+const goalText = css`
+    ${body.small({ fontStyle: 'italic' })};
+    margin-left: ${space[1]}px;
+    ${from.tablet} {
+        ${body.medium({ fontStyle: 'italic' })};
+        margin: 0;
+    }
 `;
 
 const bottomContentContainer = css`
@@ -311,7 +348,7 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                             </div>
                             <div className={goal}>
                                 <p className={goalNumber}>150,000</p>
-                                <p className={textUnderNumber}>our goal</p>
+                                <p className={goalText}>our goal</p>
                             </div>
                             <div>
                                 <button
