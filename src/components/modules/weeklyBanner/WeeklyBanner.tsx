@@ -125,8 +125,11 @@ const bottomRightComponent = css`
     }
 
     ${from.tablet} {
-        max-width: 55%;
-        margin-top: 10px;
+        display: flex;
+        align-items: flex-end;
+        margin-top: 0;
+        max-width: 50%;
+        max-height: 100%;
     }
 
     ${from.desktop} {
@@ -138,8 +141,7 @@ const bottomRightComponent = css`
     }
 
     ${from.leftCol} {
-        max-height: 290px;
-        justify-content: space-around;
+        justify-content: space-between;
     }
 
     ${from.wide} {
@@ -152,7 +154,8 @@ const packShot = css`
     max-width: 100%;
 
     ${from.tablet} {
-        max-width: 90%;
+        max-width: 100%;
+        margin-bottom: -40px;
     }
 
     ${from.desktop} {
@@ -161,7 +164,8 @@ const packShot = css`
     }
 
     ${from.leftCol} {
-        max-width: 65%;
+        max-width: 75%;
+        margin-bottom: -80px;
     }
 
     ${from.wide} {
