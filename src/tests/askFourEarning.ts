@@ -13,7 +13,11 @@ import { cacheAsync } from '../lib/cache';
 import { fetchDefaultEpicContent } from '../api/contributionsApi';
 
 const fiveMinutes = 60 * 5;
-const [, fetchDefaultEpicContentCached] = cacheAsync(fetchDefaultEpicContent, fiveMinutes);
+const [, fetchDefaultEpicContentCached] = cacheAsync(
+    fetchDefaultEpicContent,
+    fiveMinutes,
+    'fetchDefaultEpicContent',
+);
 
 export const askFourEarningHardcodedTest = async (): Promise<Test> => {
     const defaultEpicVariant = await fetchDefaultEpicContentCached();
