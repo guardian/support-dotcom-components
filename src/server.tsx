@@ -30,11 +30,7 @@ import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
 import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
-import {
-    BannerPageTracking,
-    BannerTestTracking,
-    BannerTargeting,
-} from './components/BannerTypes';
+import { BannerPageTracking, BannerTestTracking, BannerTargeting } from './components/BannerTypes';
 import { BannerProps } from './components/modules/Banner';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
