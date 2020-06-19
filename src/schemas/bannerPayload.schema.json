@@ -56,7 +56,6 @@
             "required": [
                 "alreadyVisitedCount",
                 "isPaidContent",
-                "isRecurringContributor",
                 "shouldHideReaderRevenue",
                 "showSupportMessaging"
             ]
