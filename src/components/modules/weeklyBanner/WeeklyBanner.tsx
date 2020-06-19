@@ -162,7 +162,6 @@ const packShot = css`
     }
 
     ${from.leftCol} {
-        max-width: 75%;
         margin-bottom: -80px;
     }
 
