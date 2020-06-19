@@ -202,7 +202,7 @@ const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
-    const selectedTest = selectBannerTest(targeting, pageTracking, baseUrl(req));
+    const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
 
     if (selectedTest) {
         const { test, variant, moduleUrl } = selectedTest;
