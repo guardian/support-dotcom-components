@@ -1314,6 +1314,11 @@
     yaml "^1.7.2"
     yargs "^15.1.0"
 
+"@guardian/src-brand@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-brand/-/src-brand-1.5.0.tgz#49c76b75ef55927b5e91d919b5f6248b11444770"
+  integrity sha512-K3dU03DW1qJeDnSCSFFYI8rQuQFuEOvjA1Ynp8drcrZDaaVk+hXOJl04gYnzx+0mkhIUMS9Tvb57Qp2TfaRwMw==
+
 "@guardian/src-button@^0.18.1":
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-0.18.1.tgz#d3008c03eaddfd931d9e44ff91e311855ee20d9c"

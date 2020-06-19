@@ -32,6 +32,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/standalone": "^7.9.5",
     "@emotion/core": "^10.0.27",
+    "@guardian/src-brand": "^1.5.0",
     "@guardian/src-button": "^0.18.1",
     "@guardian/src-ed-lines": "^0.18.1",
     "@guardian/src-foundations": "^0.18.1",
