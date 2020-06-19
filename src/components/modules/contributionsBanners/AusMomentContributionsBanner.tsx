@@ -1,16 +1,38 @@
 import React, { useState } from 'react';
 import { css } from 'emotion';
-import { SerializedStyles } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
-import { body, titlepiece, headline, textSans } from '@guardian/src-foundations/typography';
+import { body, titlepiece, textSans } from '@guardian/src-foundations/typography';
 import { neutral, brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { LinkButton, Button } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
-import Logo from '../guardianLogo/Logo';
 import Close from '../closeButton/Close';
+
+const targetIncrease = 30_000;
+const startingAmt = 120_000;
+const haloSize = 65;
+const startPercent = 20;
+
+const calculateCircumference = (supporters: number): number => {
+    const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
+    const percentageGained = startToCurrentDiff / targetIncrease;
+
+    return startPercent * (1 - percentageGained) + percentageGained * haloSize;
+};
+
+const sunBackground = (supporters: number): string => {
+    const circumference = calculateCircumference(supporters);
+    return `radial-gradient(
+        circle at center,
+        ${brandAlt[400]} 20%,
+        ${brandAlt[400]} ${circumference}%,
+        ${brandAlt[200]} ${circumference}%,
+        ${brandAlt[200]} ${haloSize}%,
+        ${opinion[500]} ${haloSize}%
+    ) !important`;
+};
 
 const FacebookLogoSvg: React.FC = () => {
     return (
@@ -75,43 +97,6 @@ const EnvelopeSvg: React.FC = () => {
     );
 };
 
-const banner = css`
-    width: 100%;
-    max-width: 1440px;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    height: 420px !important;
-    /* html {
-        box-sizing: border-box;
-    }
-    *,
-    *:before,
-    *:after {
-        box-sizing: inherit;
-    } */
-    box-sizing: border-box;
-    display: flex;
-    --percentage: 20%;
-    background: radial-gradient(
-        circle at center,
-        ${brandAlt[400]} var(--percentage),
-        ${brandAlt[200]} var(--percentage),
-        ${brandAlt[200]} 65%,
-        ${opinion[500]} 65%
-    ) !important;
-`;
-
-const horizon = css`
-    position: absolute;
-    bottom: 0 !important;
-    left: 0;
-    width: 100%;
-    height: auto;
-    min-height: 50%;
-    fill: ${neutral[7]};
-`;
-
 const closeButton = css`
     display: flex;
     align-items: center;
@@ -167,7 +152,7 @@ const contentContainer = css`
 
 const topContentContainer = css`
     position: relative;
-    height: 50%;
+    min-height: 230px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -250,6 +235,26 @@ const goalText = css`
     }
 `;
 
+const svgAndBottomContentContainer = css`
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+`;
+
+const horizonContainer = css`
+    margin: 0;
+    padding: 0;
+`;
+
+const horizon = css`
+    bottom: 0 !important;
+    left: 0;
+    width: 100%;
+    fill: ${neutral[7]};
+    margin: 0;
+    padding: 0;
+`;
+
 const bottomContentContainer = css`
     display: flex;
     justify-content: space-between;
@@ -260,31 +265,67 @@ const bottomContentContainer = css`
     ${from.wide} {
         max-width: 1250px;
     } */
-    position: absolute;
-    bottom: 0;
-    z-index: 100;
-    height: 50%;
-    margin: 0;
-    padding: 0;
+    /* position: absolute; */
+    /* bottom: 0; */
+    /* z-index: 100; */
+    /* height: 50%; */
+    margin-top: -6px;
+    /* padding: 0 ${space[24]}px; */
+    padding: 0 ${space[3]}px;
     box-sizing: border-box;
+    background-color: ${neutral[7]};
+    min-height: 211px;
+    width: 100%;
+
+    ${from.tablet} {
+        padding: 0 ${space[5]}px;
+    }
+
+    ${from.wide} {
+        padding: 0 ${space[24]}px;
+    }
 `;
 
 const headingAndCta = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: ${space[4]}px 0 0 6%;
+    padding: ${space[1]}px 0 0 0;
     margin: 0;
-    width: 50%;
+    width: 100%;
+
+    ${from.tablet} {
+        width: 33%;
+    }
+
+    ${from.desktop} {
+        width: 50%;
+    }
 `;
 
 const heading = css`
-    ${titlepiece.small({ fontWeight: 'bold' })};
-    font-size: 42px;
     color: ${neutral[100]};
     line-height: 115%;
     padding: 0;
     margin: 0;
+    ${titlepiece.small({ fontWeight: 'bold' })};
+    font-size: 24px;
+
+    ${from.tablet} {
+        font-size: 28px;
+    }
+
+    ${from.desktop} {
+        font-size: 42px;
+    }
+`;
+
+const mobileMessage = css`
+    margin-bottom: ${space[5]}px;
+
+    ${from.tablet} {
+        display: none;
+    }
 `;
 
 const ctaContainer = css`
@@ -305,13 +346,27 @@ const cta = css`
 `;
 
 const secondCta = css`
-    // ${textSans.medium()}
+    display: none;
+    ${textSans.medium()};
     margin-left: ${space[4]}px;
+
+    ${from.desktop} {
+        display: block;
+    }
 `;
 
 const messageContainer = css`
-    width: 50%;
-    padding: ${space[2]}px 6% 0 0;
+    display: none;
+    padding: 0;
+
+    ${from.tablet} {
+        display: block;
+        width: 60%;
+    }
+
+    ${from.desktop} {
+        width: 50%;
+    }
 `;
 
 const message = css`
@@ -327,6 +382,82 @@ const messagePartTwo = css`
     line-height: 135%;
     margin: 0px;
 `;
+
+const messageSupporter = (
+    <div>
+        <p className={message}>
+            Thanks to the support of thousands of readers like you, Guardian Australia has grown and
+            is now read by one in three people. Your support has helped us deliver our independent
+            quality journalism when it’s never been so vital. And you’ve helped us remain open to
+            everyone.
+        </p>
+        <p className={messagePartTwo}>
+            Right now, you can help us grow our community even further in Australia. To reach our
+            ambitious goal of 150,000 supporters, we hope you will champion our mission and
+            encourage more people to read and support our work. Your support has an impact – and so
+            does your voice. Thank you.
+        </p>
+    </div>
+);
+
+const messageNonSupporter = (
+    <div>
+        <p className={message}>
+            One in three people in Australia read the Guardian in the last year. We need to keep
+            growing our readership and gaining your financial support so we can provide high
+            quality, independent journalism that’s open to everyone. Now more than ever, we all
+            deserve access to factual information, and to trust the stories we read.
+        </p>
+        <p className={messagePartTwo}>
+            Right now, you can help us grow our community in Australia. To reach our ambitious goal
+            of 150,000 supporters, we hope more readers like you will support us for the first time,
+            and shareour work widely. Your support has an impact – and so does your voice. Thank
+            you.
+        </p>
+    </div>
+);
+
+const socialShare = (
+    <div className={ctaContainer}>
+        <Button className={cta} icon={<FacebookLogoSvg />} size="small"></Button>
+
+        <Button className={cta} icon={<TwitterLogoSvg />} size="small"></Button>
+
+        <Button className={cta} icon={<EnvelopeSvg />} size="small"></Button>
+        <div
+            className={css`
+        ${textSans.medium()}
+        color: ${neutral[86]};
+        margin-left: ${space[4]}px;
+    `}
+        >
+            Share your support
+        </div>
+    </div>
+);
+
+const support = (
+    <div className={ctaContainer}>
+        {/* <ThemeProvider theme={brandAlt}> */}
+        <LinkButton
+            className={cta}
+            // priority="primary"
+            size="default"
+            href="https://support.theguardian.com/contribute" // TODO: campaign code?
+        >
+            <span>Support the Guardian</span>
+        </LinkButton>
+        {/* </ThemeProvider> */}
+        <div className={secondCta}>
+            <ThemeProvider theme={brand}>
+                {/* TODO: Add link */}
+                <Link priority="primary" href="#">
+                    View our pledge
+                </Link>
+            </ThemeProvider>
+        </div>
+    </div>
+);
 
 type AusMomentContributionsBannerProps = {
     isSupporter: boolean;
@@ -349,7 +480,18 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
     return (
         <>
             {showBanner ? (
-                <section className={banner}>
+                <section
+                    className={css`
+                        background: ${sunBackground(totalSupporters)};
+                        width: 100%;
+                        max-width: 1440px;
+                        margin: 0;
+                        padding: 0;
+                        position: relative;
+                        height: 460px !important;
+                        box-sizing: border-box;
+                    `}
+                >
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
@@ -372,115 +514,42 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                 </button>
                             </div>
                         </div>
-                        <div className={bottomContentContainer}>
-                            <div className={headingAndCta}>
-                                <h3 className={heading}>
-                                    {isSupporter
-                                        ? 'Help us reach more people across Australia'
-                                        : 'Our supporters are doing something powerful'}
-                                </h3>
-                                {isSupporter ? (
-                                    <div className={ctaContainer}>
-                                        <Button
-                                            className={cta}
-                                            icon={<FacebookLogoSvg />}
-                                            size="small"
-                                        ></Button>
 
-                                        <Button
-                                            className={cta}
-                                            icon={<TwitterLogoSvg />}
-                                            size="small"
-                                        ></Button>
-
-                                        <Button
-                                            className={cta}
-                                            icon={<EnvelopeSvg />}
-                                            size="small"
-                                        ></Button>
-                                        <div
-                                            className={css`
-                                            ${textSans.medium()}
-                                            color: ${neutral[86]};
-                                            margin-left: ${space[4]}px;
-                                        `}
-                                        >
-                                            Share your support
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className={ctaContainer}>
-                                        {/* <ThemeProvider theme={brandAlt}> */}
-                                        <LinkButton
-                                            className={cta}
-                                            // priority="primary"
-                                            size="default"
-                                            href="https://support.theguardian.com/contribute" // TODO: campaign code?
-                                        >
-                                            <span>Support the Guardian</span>
-                                        </LinkButton>
-                                        {/* </ThemeProvider> */}
-                                        <div className={secondCta}>
-                                            <ThemeProvider theme={brand}>
-                                                {/* TODO: Add link */}
-                                                <Link priority="primary" href="#">
-                                                    View our pledge
-                                                </Link>
-                                            </ThemeProvider>
-                                        </div>
-                                    </div>
-                                )}
+                        <div className={svgAndBottomContentContainer}>
+                            <div className={horizonContainer}>
+                                <svg
+                                    className={horizon}
+                                    width="1300"
+                                    height="19"
+                                    viewBox="0 0 1300 19"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
+                                    />
+                                </svg>
                             </div>
-                            <div className={messageContainer}>
-                                {isSupporter ? (
-                                    <div>
-                                        <p className={message}>
-                                            Thanks to the support of thousands of readers like you,
-                                            Guardian Australia has grown and is now read by one in
-                                            three people. Your support has helped us deliver our
-                                            independent quality journalism when it’s never been so
-                                            vital. And you’ve helped us remain open to everyone.
-                                        </p>
-                                        <p className={messagePartTwo}>
-                                            Right now, you can help us grow our community even
-                                            further in Australia. To reach our ambitious goal of
-                                            150,000 supporters, we hope you will champion our
-                                            mission and encourage more people to read and support
-                                            our work. Your support has an impact – and so does your
-                                            voice. Thank you.
-                                        </p>
+                            <div className={bottomContentContainer}>
+                                <div className={headingAndCta}>
+                                    <h3 className={heading}>
+                                        {isSupporter
+                                            ? 'Help us reach more people across Australia'
+                                            : 'Our supporters are doing something powerful'}
+                                    </h3>
+                                    <div className={mobileMessage}>
+                                        {isSupporter ? messageSupporter : messageNonSupporter}
                                     </div>
-                                ) : (
-                                    <div>
-                                        <p className={message}>
-                                            One in three people in Australia read the Guardian in
-                                            the last year. We need to keep growing our readership
-                                            and gaining your financial support so we can provide
-                                            high quality, independent journalism that’s open to
-                                            everyone. Now more than ever, we all deserve access to
-                                            factual information, and to trust the stories we read.
-                                        </p>
-                                        <p className={messagePartTwo}>
-                                            Right now, you can help us grow our community in
-                                            Australia. To reach our ambitious goal of 150,000
-                                            supporters, we hope more readers like you will support
-                                            us for the first time, and shareour work widely. Your
-                                            support has an impact – and so does your voice. Thank
-                                            you.
-                                        </p>
-                                    </div>
-                                )}
+                                    {isSupporter ? socialShare : support}
+                                </div>
+
+                                <div className={messageContainer}>
+                                    {isSupporter ? messageSupporter : messageNonSupporter}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <svg className={horizon} fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M0 8.53333L69.5 0H106.5H169L246.25 12H511.897L690.358 5H791.7H962.886L1103.94 12H1324.34L1389.5 4H1426.5H1440V12V20V215H0V16V12V8.53333Z"
-                            />
-                        </svg>
                     </div>
                 </section>
             ) : null}
