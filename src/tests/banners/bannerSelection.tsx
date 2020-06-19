@@ -87,6 +87,7 @@ export const selectBannerTest = (
                     test: testToRun,
                     variant,
                     moduleUrl: `${baseUrl}/${variant.modulePath}`,
+                    moduleName: variant.moduleName,
                 };
             }
         }

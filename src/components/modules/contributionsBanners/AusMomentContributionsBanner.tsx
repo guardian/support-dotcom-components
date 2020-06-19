@@ -10,6 +10,7 @@ import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
+import {BannerProps} from "../Banner";
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -462,16 +463,21 @@ type AusMomentContributionsBannerProps = {
     numberOfSupporters: number;
 };
 
-export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBannerProps> = ({
+export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
+    tracking,
     isSupporter,
-    totalSupporters,
-    showSupportMessaging,
-    isRecurringContributor,
-    lastOneOffContributionDate,
-    numberOfSupporters,
-}: AusMomentContributionsBannerProps) => {
+    tickerSettings,
+}: BannerProps) => {
+    console.log("AusMomentContributionsBanner")
+    if (!(tickerSettings && tickerSettings.tickerData)) {
+        return null;
+    }
+
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
+
+    const totalSupporters = tickerSettings.tickerData.total;
+    const supportersGoal = tickerSettings.tickerData.goal;
 
     const animateSunrise = (): void => {
         const increment = 15;
@@ -493,7 +499,7 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                 <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
                             <div className={goal}>
-                                <p className={goalNumber}>150,000</p>
+                                <p className={goalNumber}>{supportersGoal}</p>
                                 <p className={goalText}>our goal</p>
                             </div>
                             <div>
