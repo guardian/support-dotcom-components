@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
 import { body, titlepiece, textSans } from '@guardian/src-foundations/typography';
@@ -9,6 +9,7 @@ import { LinkButton, Button } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
+import ExpandableText from './expandableText';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -18,7 +19,6 @@ const startPercent = 20;
 const calculateCircumference = (supporters: number): number => {
     const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
     const percentageGained = startToCurrentDiff / targetIncrease;
-
     return startPercent * (1 - percentageGained) + percentageGained * haloSize;
 };
 
@@ -477,12 +477,20 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
     numberOfSupporters,
 }: AusMomentContributionsBannerProps) => {
     const [showBanner, closeBanner] = useState(true);
+    const [supporters, setSupporters] = useState(0);
+
+    const animateSunrise = (): void => {
+        supporters < totalSupporters ? setSupporters(supporters + 100) : null;
+    };
+
+    useEffect(animateSunrise);
+
     return (
         <>
             {showBanner ? (
                 <section
                     className={css`
-                        background: ${sunBackground(totalSupporters)};
+                        background: ${sunBackground(supporters)};
                         width: 100%;
                         max-width: 1440px;
                         margin: 0;
@@ -540,7 +548,12 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                             : 'Our supporters are doing something powerful'}
                                     </h3>
                                     <div className={mobileMessage}>
-                                        {isSupporter ? messageSupporter : messageNonSupporter}
+                                        <ExpandableText
+                                            text={
+                                                isSupporter ? messageSupporter : messageNonSupporter
+                                            }
+                                            initialHeight={58}
+                                        />
                                     </div>
                                     {isSupporter ? socialShare : support}
                                 </div>
