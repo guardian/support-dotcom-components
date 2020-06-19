@@ -10,12 +10,12 @@ import { cacheAsync } from '../../lib/cache';
 type ReaderRevenueRegion = 'united-kingdom' | 'united-states' | 'australia' | 'rest-of-world';
 
 const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
-    switch (countryCode) {
-        case 'GB':
+    switch (countryCode.toLowerCase()) {
+        case 'gb':
             return 'united-kingdom';
-        case 'US':
+        case 'us':
             return 'united-states';
-        case 'AU':
+        case 'au':
             return 'australia';
         default:
             return 'rest-of-world';
