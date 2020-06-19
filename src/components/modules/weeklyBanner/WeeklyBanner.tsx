@@ -33,7 +33,6 @@ const contentContainer = css`
     flex-direction: column;
     max-width: 100%;
     ${from.tablet} {
-        display: flex;
         flex-direction: row;
     }
     ${from.wide} {
@@ -133,7 +132,6 @@ const bottomRightComponent = css`
     }
 
     ${from.desktop} {
-        display: flex;
         align-items: center;
         max-width: 50%;
         margin-top: 0;
