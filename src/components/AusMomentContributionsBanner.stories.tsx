@@ -11,7 +11,7 @@ export default {
 
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
-    const totalSupporters = number('totalSuppoters', 120001);
+    const totalSupporters = number('totalSuppoters', 150000);
 
     return (
         <StorybookWrapper>

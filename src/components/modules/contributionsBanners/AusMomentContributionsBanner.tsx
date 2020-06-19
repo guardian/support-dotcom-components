@@ -26,7 +26,6 @@ const sunBackground = (supporters: number): string => {
     const circumference = calculateCircumference(supporters);
     return `radial-gradient(
         circle at center,
-        ${brandAlt[400]} 20%,
         ${brandAlt[400]} ${circumference}%,
         ${brandAlt[200]} ${circumference}%,
         ${brandAlt[200]} ${haloSize}%,
@@ -97,6 +96,18 @@ const EnvelopeSvg: React.FC = () => {
     );
 };
 
+const banner = (supporters: number): string => css`
+    width: 100%;
+    max-width: 1440px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    height: 420px !important;
+    box-sizing: border-box;
+    display: flex;
+    background: ${sunBackground(supporters)};
+`;
+
 const closeButton = css`
     display: flex;
     align-items: center;
@@ -122,11 +133,6 @@ const closeButton = css`
         background-color: rgba(237, 237, 237, 0.5);
     }
 
-    /* ${until.desktop} {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    } */
     position: absolute;
     top: ${space[3]}px;
     right: ${space[3]}px;
@@ -258,19 +264,7 @@ const horizon = css`
 const bottomContentContainer = css`
     display: flex;
     justify-content: space-between;
-    /* ${from.tablet} {
-        display: flex;
-        flex-direction: row;
-    }
-    ${from.wide} {
-        max-width: 1250px;
-    } */
-    /* position: absolute; */
-    /* bottom: 0; */
-    /* z-index: 100; */
-    /* height: 50%; */
     margin-top: -6px;
-    /* padding: 0 ${space[24]}px; */
     padding: 0 ${space[3]}px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
@@ -477,10 +471,13 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
     numberOfSupporters,
 }: AusMomentContributionsBannerProps) => {
     const [showBanner, closeBanner] = useState(true);
-    const [supporters, setSupporters] = useState(0);
+    const [supporters, setSupporters] = useState(120_000);
 
     const animateSunrise = (): void => {
-        supporters < totalSupporters ? setSupporters(supporters + 100) : null;
+        const increment = 15;
+        supporters + increment < totalSupporters
+            ? setSupporters(supporters + increment)
+            : setSupporters(totalSupporters);
     };
 
     useEffect(animateSunrise);
@@ -488,24 +485,11 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
     return (
         <>
             {showBanner ? (
-                <section
-                    className={css`
-                        background: ${sunBackground(supporters)};
-                        width: 100%;
-                        max-width: 1440px;
-                        margin: 0;
-                        padding: 0;
-                        position: relative;
-                        height: 460px !important;
-                        box-sizing: border-box;
-                    `}
-                >
+                <section className={banner(supporters)}>
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
-                                <p className={actualNumberFigure}>
-                                    {totalSupporters.toLocaleString()}
-                                </p>
+                                <p className={actualNumberFigure}>{supporters.toLocaleString()}</p>
                                 <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
                             <div className={goal}>
