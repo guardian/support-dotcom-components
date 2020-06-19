@@ -77,7 +77,11 @@ interface MarkupResponse {
     debug?: Debug;
 }
 
-const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
+const [, fetchConfiguredEpicTestsCached] = cacheAsync(
+    fetchConfiguredEpicTests,
+    60,
+    'fetchConfiguredEpicTests',
+);
 
 const asResponse = (
     component: JsComponent,
