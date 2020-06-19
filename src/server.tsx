@@ -34,7 +34,6 @@ import {
     BannerPageTracking,
     BannerTestTracking,
     BannerTargeting,
-    BannerVariant,
 } from './components/BannerTypes';
 import { BannerProps } from './components/modules/Banner';
 import { selectBannerTest } from './tests/banners/bannerSelection';

@@ -1,11 +1,13 @@
-import { BannerTest } from '../../components/BannerTypes';
+import { BannerPageTracking, BannerTargeting, BannerTest } from '../../components/BannerTypes';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
 export const AusMomentContributionsBannerPath = 'aus-moment-banner.js';
 
 export const AusMomentContributionsBanner: BannerTest = {
     name: 'AusMomentContributionsBanner',
-    canRun: () => true,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
+        targeting.countryCode === 'AU',
     variants: [
         {
             name: 'control',
