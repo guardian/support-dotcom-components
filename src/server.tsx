@@ -14,10 +14,10 @@ import {
 } from './components/ContributionsEpicTypes';
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
-import { validatePayload } from './lib/validation';
+import { validateEpicPayload, validateBannerPayload } from './lib/validation';
 import { findTestAndVariant, Result, Debug, Variant } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
-import { buildCampaignCode } from './lib/tracking';
+import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
@@ -29,7 +29,11 @@ import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
-import { addTickerDataToVariant } from './lib/fetchTickerData';
+import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
+import { BannerPageTracking, BannerTestTracking, BannerTargeting } from './components/BannerTypes';
+import { BannerProps } from './components/modules/Banner';
+import { selectBannerTest } from './tests/banners/bannerSelection';
+import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -45,7 +49,7 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-interface DataResponse {
+interface EpicDataResponse {
     data?: {
         module: {
             url: string;
@@ -53,6 +57,17 @@ interface DataResponse {
         };
         variant: Variant;
         meta: EpicTestTracking;
+    };
+    debug?: Debug;
+}
+
+interface BannerDataResponse {
+    data?: {
+        module: {
+            url: string;
+            props: BannerProps;
+        };
+        meta: BannerTestTracking;
     };
     debug?: Debug;
 }
@@ -125,7 +140,7 @@ const buildEpicData = async (
     targeting: EpicTargeting,
     params: Params,
     baseUrl: string,
-): Promise<DataResponse> => {
+): Promise<EpicDataResponse> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
@@ -181,24 +196,45 @@ const buildEpicData = async (
     };
 };
 
-// TODO implement this stub
 const buildBannerData = async (
-    pageTracking: EpicPageTracking,
-    targeting: EpicTargeting,
+    pageTracking: BannerPageTracking,
+    targeting: BannerTargeting,
     params: Params,
     req: express.Request,
-): Promise<{}> => {
-    //TODO create return types specific to the banner
-    const moduleUrl = `${baseUrl(req)}/banner.js`;
+): Promise<BannerDataResponse> => {
+    const selectedTest = selectBannerTest(targeting, pageTracking, baseUrl(req));
 
-    return {
-        data: {
-            module: {
-                url: moduleUrl,
-                props: {},
+    if (selectedTest) {
+        const { test, variant, moduleUrl } = selectedTest;
+
+        const testTracking: BannerTestTracking = {
+            abTestName: test.name,
+            abTestVariant: variant.name,
+            campaignCode: buildBannerCampaignCode(test, variant),
+        };
+
+        const tickerSettings = await (variant.tickerSettings &&
+            addTickerDataToSettings(variant.tickerSettings));
+
+        const props: BannerProps = {
+            tracking: { ...pageTracking, ...testTracking },
+            isSupporter: targeting.shouldHideReaderRevenue,
+            tickerSettings,
+        };
+
+        return {
+            data: {
+                module: {
+                    url: moduleUrl,
+                    props: props,
+                },
+                meta: testTracking,
             },
-        },
-    };
+        };
+    } else {
+        // No banner
+        return { data: undefined };
+    }
 };
 
 // Pre-ES module endpoints (expected to be removed once module approach is validated)
@@ -223,7 +259,7 @@ app.post(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             if (!isProd) {
-                validatePayload(req.body);
+                validateEpicPayload(req.body);
             }
 
             const { tracking, targeting } = req.body;
@@ -253,19 +289,16 @@ app.post(
     '/banner',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            // TODO: validate payload using an appropriate json schema
-            // if (process.env.NODE_ENV !== 'production') {
-            //     validatePayload(req.body);
-            // }
+            const payload = validateBannerPayload(req.body);
 
-            const { tracking, targeting } = req.body;
+            const { tracking, targeting } = payload;
             const params = getQueryParams(req);
 
             const response = await buildBannerData(tracking, targeting, params, req);
 
-            // TODO for response logging
-            // res.locals.didRenderBanner = !!response.data;
-            // res.locals.clientName = tracking.clientName;
+            // for response logging
+            res.locals.didRenderBanner = !!response.data;
+            res.locals.clientName = tracking.clientName;
 
             res.send(response);
         } catch (error) {
@@ -294,6 +327,22 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev ? '/../dist/modules/Banner.js' : '/modules/Banner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+            res.type('js');
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${AusMomentContributionsBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/AusMomentContributionsBanner.js'
+                : '/modules/AusMomentContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
