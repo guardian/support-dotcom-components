@@ -72,7 +72,6 @@ interface BannerDataResponse {
             url: string;
             props: BannerProps;
         };
-        variant: BannerVariant;
         meta: BannerTestTracking;
     };
     debug?: Debug;
@@ -234,12 +233,11 @@ const buildBannerData = async (
                     url: moduleUrl,
                     props: props,
                 },
-                variant: variant,
                 meta: testTracking,
             },
         };
     } else {
-        // TODO - is this ok?
+        // No banner
         return { data: undefined };
     }
 };
