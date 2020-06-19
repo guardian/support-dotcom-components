@@ -30,11 +30,18 @@ const parse = (json: any): Promise<TickerData> => {
     }
 };
 
-const fetchTickerData = (tickerSettings: TickerSettings): Promise<TickerData> =>
+// TODO - cache
+export const fetchTickerData = (tickerSettings: TickerSettings): Promise<TickerData> =>
     fetch(tickerUrl(tickerSettings.countType))
         .then(response => checkForErrors(response))
         .then(response => response.json())
         .then(parse);
+
+export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise<TickerSettings> =>
+    fetchTickerData(tickerSettings).then(tickerData => ({
+        ...tickerSettings,
+        tickerData: tickerData,
+    }));
 
 export const addTickerDataToVariant = (variant: Variant): Promise<Variant> => {
     if (variant.tickerSettings) {
