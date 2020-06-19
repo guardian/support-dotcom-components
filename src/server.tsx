@@ -77,7 +77,11 @@ interface MarkupResponse {
     debug?: Debug;
 }
 
-const [, fetchConfiguredEpicTestsCached] = cacheAsync(fetchConfiguredEpicTests, 60);
+const [, fetchConfiguredEpicTestsCached] = cacheAsync(
+    fetchConfiguredEpicTests,
+    60,
+    'fetchConfiguredEpicTests',
+);
 
 const asResponse = (
     component: JsComponent,
@@ -202,7 +206,7 @@ const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
-    const selectedTest = selectBannerTest(targeting, pageTracking, baseUrl(req));
+    const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
 
     if (selectedTest) {
         const { test, variant, moduleUrl } = selectedTest;
