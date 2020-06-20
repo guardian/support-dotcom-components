@@ -27,7 +27,10 @@ const globals = {
 const config = [
     ['src/components/modules/ContributionsEpic.tsx', 'dist/modules/Epic.js'],
     ['src/components/modules/Banner.tsx', 'dist/modules/Banner.js'],
-    ['src/components/modules/contributionsBanners/AusMomentContributionsBanner.tsx', 'dist/modules/contributionsBanners/AusMomentContributionsBanner.js'],
+    [
+        'src/components/modules/contributionsBanners/AusMomentContributionsBanner.tsx',
+        'dist/modules/contributionsBanners/AusMomentContributionsBanner.js',
+    ],
 ].map(([entryPoint, name]) => {
     return {
         input: entryPoint,

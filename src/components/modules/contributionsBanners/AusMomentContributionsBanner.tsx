@@ -11,6 +11,7 @@ import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
 import {BannerProps} from "../Banner";
+import { setContributionsBannerClosedTimestamp } from './localStorage';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -504,7 +505,10 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                             <div>
                                 <button
-                                    onClick={(): void => closeBanner(false)}
+                                    onClick={(): void => {
+                                        setContributionsBannerClosedTimestamp();
+                                        closeBanner(false);
+                                    }}
                                     className={closeButton}
                                     aria-label="Close"
                                 >
