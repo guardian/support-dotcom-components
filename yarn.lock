@@ -1346,7 +1346,6 @@
   dependencies:
     "@guardian/src-foundations" "^0.18.1"
 
-<<<<<<< HEAD
 "@guardian/src-helpers@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-1.4.0.tgz#137aac157fdf493e4ccfcabe517dd2cd5d7bd927"
@@ -1354,8 +1353,6 @@
   dependencies:
     "@guardian/src-foundations" "^1.4.0"
 
-=======
->>>>>>> Initial setup for gw banner
 "@guardian/src-icons@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.4.0.tgz#3159d034a3c42bf94bdf88384dac95f9c8708173"
