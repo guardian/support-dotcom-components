@@ -10,7 +10,7 @@ import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
-import {BannerProps} from "../Banner";
+import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
 
 const targetIncrease = 30_000;
@@ -465,11 +465,12 @@ type AusMomentContributionsBannerProps = {
 };
 
 export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     tracking,
     isSupporter,
     tickerSettings,
 }: BannerProps) => {
-    console.log("AusMomentContributionsBanner")
+    console.log('AusMomentContributionsBanner');
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }

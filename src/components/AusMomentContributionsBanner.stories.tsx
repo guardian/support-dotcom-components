@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../lib/variants';
 
