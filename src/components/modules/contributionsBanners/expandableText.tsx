@@ -27,7 +27,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
         <>
             <div
                 className={css`
-                    height: ${isExpanded ? '100%' : `${initialHeight}px`};
+                    height: ${isExpanded ? '75%' : `${initialHeight}px`};
                     overflow: hidden;
                 `}
             >
@@ -40,6 +40,8 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
                     icon={isExpanded ? <SvgChevronUpSingle /> : <SvgChevronDownSingle />}
                     onClick={(): void => onClick()}
                     className={css`
+                        position: absolute;
+                        bottom: 15px;
                         color: ${neutral[97]} !important;
                         font-family: ${body.small()} !important;
                     `}

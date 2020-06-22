@@ -98,21 +98,21 @@ const EnvelopeSvg: React.FC = () => {
     );
 };
 
-const horizonSvg = (
-    <svg
-        width="1300"
-        height="19"
-        viewBox="0 0 1300 19"
-        fill="#99999"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
-        />
-    </svg>
-);
+// const horizonSvg = (
+//     <svg
+//         width="1300"
+//         height="19"
+//         viewBox="0 0 1300 19"
+//         fill="#99999"
+//         xmlns="http://www.w3.org/2000/svg"
+//     >
+//         <path
+//             fillRule="evenodd"
+//             clipRule="evenodd"
+//             d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
+//         />
+//     </svg>
+// );
 
 const banner = (supporters: number): string => css`
     width: 100%;
@@ -260,22 +260,20 @@ const goalText = css`
 `;
 
 const svgAndBottomContentContainer = css`
-    outline: 1px solid green;
     display: flex;
     align-items: stretch;
     flex-direction: column;
 `;
 
 const horizonContainer = css`
-    outline: 1px solid purple;
     margin: 0;
     padding: 0;
 
-    &:before {
-        content: url("data:image/svg+xml;charset=UTF-8,  <svg width='1300' height='19' viewBox='0 0 1300 19' fill='#99999' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' clipRule='evenodd' d='M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z'/></svg>");
-        /* content: 'TEST'; */
-        position: absolute;
-    }
+<!--    &:before {-->
+<!--        content: url("data:image/svg+xml;charset=UTF-8,  <svg width='1300' height='19' viewBox='0 0 1300 19' fill='#99999' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' clipRule='evenodd' d='M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z'/></svg>");-->
+<!--        /* content: 'TEST'; */-->
+<!--        position: absolute;-->
+<!--    }-->
 `;
 
 // const horizon = css`
@@ -288,8 +286,10 @@ const horizonContainer = css`
 // `;
 
 const bottomContentContainer = css`
-    outline: 1px solid red;
     display: flex;
+    position: absolute;
+    bottom: 0;
+    height: auto;
     justify-content: space-between;
     margin-top: -6px;
     padding: 0 ${space[3]}px;
@@ -309,7 +309,7 @@ const bottomContentContainer = css`
 
 const bottomContentContainerTabletExpanded = css`
     ${bottomContentContainer};
-    height: 800px;
+    height: 75%;
 `;
 
 const headingAndCta = css`
@@ -497,7 +497,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
-    const [tabletExpanded, setTabletExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
@@ -512,11 +512,11 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     useEffect(animateSunrise);
 
     const onMobileReadMoreClick = (): void => {
-        console.log('onMobileReadMoreClick called');
+        setExpanded(prevState => !prevState);
     };
 
     const onTabletReadMoreClick = (): void => {
-        setTabletExpanded(prevState => !prevState);
+        setExpanded(prevState => !prevState);
     };
 
     return (
@@ -548,16 +548,16 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                         </div>
 
                         <div className={svgAndBottomContentContainer}>
-                            <div className={horizonContainer}>horizon container</div>
+                            <div className={horizonContainer}></div>
                             <div
                                 className={
-                                    tabletExpanded
+                                    expanded
                                         ? bottomContentContainerTabletExpanded
                                         : bottomContentContainer
                                 }
                             >
                                 <div className={headingAndCta}>
-                                    <h3 className={heading}>
+                                    <h3 id="heading" className={heading}>
                                         {isSupporter
                                             ? 'Help us reach more people across Australia'
                                             : 'Our supporters are doing something powerful'}
