@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { css } from 'emotion';
-import { ThemeProvider } from 'emotion-theming';
-import { body, titlepiece, textSans } from '@guardian/src-foundations/typography';
-import { neutral, brandAlt, opinion } from '@guardian/src-foundations/palette';
-import { from, until } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
-import { LinkButton, Button } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
-import { brand } from '@guardian/src-foundations/themes';
+import React, {useEffect, useState} from 'react';
+import {css} from 'emotion';
+import {ThemeProvider} from 'emotion-theming';
+import {body, textSans, titlepiece} from '@guardian/src-foundations/typography';
+import {brandAlt, neutral, opinion} from '@guardian/src-foundations/palette';
+import {from, until} from '@guardian/src-foundations/mq';
+import {space} from '@guardian/src-foundations';
+import {Button, LinkButton} from '@guardian/src-button';
+import {Link} from '@guardian/src-link';
+import {brand} from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
-import { BannerProps } from '../Banner';
-import { setContributionsBannerClosedTimestamp } from './localStorage';
-import {tracking} from "../../../factories/tracking";
-import {BannerTracking} from "../../BannerTypes";
+import {BannerProps} from '../Banner';
+import {setContributionsBannerClosedTimestamp} from './localStorage';
+import {BannerTracking} from '../../BannerTypes';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -458,7 +457,7 @@ const support = (tracking: BannerTracking) => {
                 </Link>
             </ThemeProvider>
         </div>
-    </div>
+    </div>;
 };
 
 export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
