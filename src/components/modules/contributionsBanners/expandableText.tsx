@@ -8,13 +8,20 @@ import { body } from '@guardian/src-foundations/typography';
 type ExpandableTextProps = {
     text: JSX.Element;
     initialHeight: number;
+    onReadMoreClick: () => void;
 };
 
 const ExpandableText: React.FC<ExpandableTextProps> = ({
     text,
     initialHeight,
+    onReadMoreClick,
 }: ExpandableTextProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const onClick = () => {
+        setIsExpanded(prevState => !prevState);
+        onReadMoreClick();
+    };
 
     return (
         <>
@@ -31,7 +38,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
                     priority="subdued"
                     iconSide="right"
                     icon={isExpanded ? <SvgChevronUpSingle /> : <SvgChevronDownSingle />}
-                    onClick={(): void => setIsExpanded(!isExpanded)}
+                    onClick={(): void => onClick()}
                     className={css`
                         color: ${neutral[97]} !important;
                         font-family: ${body.small()} !important;
