@@ -42,7 +42,7 @@ export const topLeftComponent = css`
     }
     ${from.tablet} {
         padding: ${space[4]}px;
-        width: 65%;
+        width: 80%;
     }
     ${from.desktop} {
         width: 50%;
@@ -56,22 +56,31 @@ export const heading = css`
     ${headline.small({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
-    @media (max-width: 740px) {
-        max-width: 85%;
-    }
+
     ${until.mobileLandscape} {
+        ${headline.xxsmall({ fontWeight: 'bold' })};
+    }
+
+    ${until.mobileMedium} {
         ${headline.xsmall({ fontWeight: 'bold' })};
+        max-width: 85%;
     }
 `;
 
 export const paragraph = css`
-    ${body.medium()}
+    ${body.small()};
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
-    max-width: 85%;
-    ${from.tablet} {
-        max-width: 100%;
+    max-width: 100%;
+
+    ${from.mobileMedium} {
+        max-width: 90%;
     }
+
+    ${from.mobileLandscape} {
+        ${body.medium()};
+    }
+
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
