@@ -18,6 +18,11 @@ const startingAmt = 120_000;
 const haloSize = 65;
 const startPercent = 20;
 
+const calculatePercentage = (supporters: number): number => {
+    const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
+    return startToCurrentDiff / targetIncrease;
+};
+
 const calculateCircumference = (supporters: number): number => {
     const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
     const percentageGained = startToCurrentDiff / targetIncrease;
@@ -119,9 +124,31 @@ const sunSVG = css`
     background-color: ${opinion[500]};
 `;
 
-const innnerCircle = css`
-    color: ${brandAlt[400]};
-`;
+function getInnerCircleFill(percentage: number): number {
+    const startingFill = 15;
+    const finalFill = 50;
+
+    return startingFill * (1 - percentage) + finalFill * percentage;
+}
+
+const innnerCircle = (percentage: number): string => {
+    return css`
+        clip-path: circle(${getInnerCircleFill(percentage)}%);
+        @keyframes grow {
+            0% {
+                clip-path: circle(15%);
+            }
+            100% {
+                clip-path: circle(${getInnerCircleFill(percentage)}%);
+            }
+        }
+        color: ${brandAlt[400]};
+        animation-name: grow;
+        animation-duration: 2s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+    `;
+};
 
 const outerCircle = css`
     color: ${brandAlt[200]};
@@ -507,6 +534,8 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         };
     }, [supporters, totalSupporters]);
 
+    const percentage = calculatePercentage(totalSupporters);
+
     return (
         <>
             {showBanner ? (
@@ -520,10 +549,10 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             fill="currentColor"
                         />
                         <circle
-                            className={innnerCircle}
+                            className={innnerCircle(percentage)}
                             cx="50%"
                             cy="75%"
-                            r="15%"
+                            r="40%"
                             fill="currentColor"
                         />
                     </svg>
