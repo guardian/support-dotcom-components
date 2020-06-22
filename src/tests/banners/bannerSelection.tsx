@@ -79,7 +79,11 @@ export const selectBannerTest = (
     return redeployedSinceLastClosed(targeting).then(hasRedeployed => {
         if (hasRedeployed) {
             const tests = [AusMomentContributionsBanner];
-            const testToRun = tests.find(test => test.canRun(targeting, pageTracking));
+            const testToRun = tests.find(
+                test =>
+                    targeting.alreadyVisitedCount >= test.minPageViews &&
+                    test.canRun(targeting, pageTracking),
+            );
 
             if (testToRun) {
                 const variant = testToRun.variants[0]; // TODO - use mvt
