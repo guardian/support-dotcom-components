@@ -100,14 +100,31 @@ const EnvelopeSvg: React.FC = () => {
 
 const banner = (supporters: number): string => css`
     width: 100%;
-    max-width: 1440px;
     margin: 0;
     padding: 0;
     position: relative;
     height: 420px !important;
     box-sizing: border-box;
     display: flex;
-    background: ${sunBackground(supporters)};
+    // background: ${sunBackground(supporters)};
+`;
+
+// TODO: better way to fill screen? (view box?)
+const sunSVG = css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 230px;
+    background-color: ${opinion[500]};
+`;
+
+const innnerCircle = css`
+    color: ${brandAlt[400]};
+`;
+
+const outerCircle = css`
+    color: ${brandAlt[200]};
 `;
 
 const closeButton = css`
@@ -247,6 +264,7 @@ const svgAndBottomContentContainer = css`
     display: flex;
     align-items: stretch;
     flex-direction: column;
+    margin-top: -20px;
 `;
 
 const horizonContainer = css`
@@ -493,6 +511,22 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <section className={banner(supporters)}>
+                    <svg className={sunSVG}>
+                        <circle
+                            className={outerCircle}
+                            cx="50%"
+                            cy="75%"
+                            r="40%"
+                            fill="currentColor"
+                        />
+                        <circle
+                            className={innnerCircle}
+                            cx="50%"
+                            cy="75%"
+                            r="15%"
+                            fill="currentColor"
+                        />
+                    </svg>
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
