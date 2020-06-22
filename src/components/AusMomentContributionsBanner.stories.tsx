@@ -31,6 +31,10 @@ const tickerSettings = {
         goalReachedPrimary: '',
         goalReachedSecondary: '',
     },
+    tickerData: {
+        total: 120_000,
+        goal: 150_000,
+    },
 };
 
 export const defaultStory = (): ReactElement => {
