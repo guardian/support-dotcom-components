@@ -461,7 +461,6 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     isSupporter,
     tickerSettings,
 }: BannerProps) => {
-    console.log('AusMomentContributionsBanner');
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }
