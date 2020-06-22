@@ -225,7 +225,7 @@ const innnerCircleWide = (percentage: number): string => {
     const fill = getInnerCircleFill(start, stop, percentage);
     return css`
         clip-path: circle(${fill}%);
-        @keyframes grow-desktop {
+        @keyframes grow-wide {
             0% {
                 clip-path: circle(${start}%);
             }
@@ -234,7 +234,7 @@ const innnerCircleWide = (percentage: number): string => {
             }
         }
         color: ${brandAlt[400]};
-        animation-name: grow-desktop;
+        animation-name: grow-wide;
         animation-duration: 2s;
         animation-timing-function: ease;
         animation-iteration-count: 1;
