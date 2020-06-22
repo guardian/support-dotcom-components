@@ -516,22 +516,22 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
 
-    useEffect(() => {
-        if (supporters) {
-            const increment = 250;
-            const interval = setInterval(() => {
-                supporters + increment < totalSupporters
-                    ? setSupporters(supporters + increment)
-                    : setSupporters(totalSupporters);
-            }, 20);
+    const animationDurationInMS = 2000;
+    const [animationStartTime, _] = useState(Date.now());
 
-            return (): void => {
-                clearInterval(interval);
-            };
+    const getSupportersForAnimation = (): number => {
+        const elapsedTimeInMS = Math.min(Date.now() - animationStartTime, animationDurationInMS);
+        const percentageCompleted = elapsedTimeInMS / animationDurationInMS;
+
+        return startingAmt * (1 - percentageCompleted) + totalSupporters * percentageCompleted;
+    };
+
+    useEffect(() => {
+        if (supporters < totalSupporters) {
+            window.requestAnimationFrame(() => {
+                setSupporters(getSupportersForAnimation());
+            });
         }
-        return (): void => {
-            null;
-        };
     }, [supporters, totalSupporters]);
 
     const percentage = calculatePercentage(totalSupporters);
