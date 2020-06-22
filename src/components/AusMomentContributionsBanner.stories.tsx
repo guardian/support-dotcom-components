@@ -47,7 +47,7 @@ export const defaultStory = (): ReactElement => {
         <StorybookWrapper>
             <AusMomentContributionsBanner
                 isSupporter={isSupporter}
-                tickerSettings={tickerSettings}
+                tickerSettings={{ ...tickerSettings }}
                 tracking={tracking}
             />
         </StorybookWrapper>

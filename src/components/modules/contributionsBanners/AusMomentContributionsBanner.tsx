@@ -471,14 +471,23 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
 
-    const animateSunrise = (): void => {
-        const increment = 15;
-        supporters + increment < totalSupporters
-            ? setSupporters(supporters + increment)
-            : setSupporters(totalSupporters);
-    };
+    useEffect(() => {
+        if (supporters) {
+            const increment = 250;
+            const interval = setInterval(() => {
+                supporters + increment < totalSupporters
+                    ? setSupporters(supporters + increment)
+                    : setSupporters(totalSupporters);
+            }, 20);
 
-    useEffect(animateSunrise);
+            return (): void => {
+                clearInterval(interval);
+            };
+        }
+        return (): void => {
+            null;
+        };
+    }, [supporters, totalSupporters]);
 
     return (
         <>
