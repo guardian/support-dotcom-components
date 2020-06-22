@@ -39,7 +39,7 @@ const tickerSettings = {
 
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
-    const total = number('total', 120_000);
+    const total = number('total', 140_000);
 
     tickerSettings.tickerData.total = total;
 
@@ -47,7 +47,7 @@ export const defaultStory = (): ReactElement => {
         <StorybookWrapper>
             <AusMomentContributionsBanner
                 isSupporter={isSupporter}
-                tickerSettings={{ ...tickerSettings }}
+                tickerSettings={tickerSettings}
                 tracking={tracking}
             />
         </StorybookWrapper>
