@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs, boolean, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../lib/variants';
 
@@ -39,6 +39,9 @@ const tickerSettings = {
 
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
+    const total = number('total', 120_000);
+
+    tickerSettings.tickerData.total = total;
 
     return (
         <StorybookWrapper>
