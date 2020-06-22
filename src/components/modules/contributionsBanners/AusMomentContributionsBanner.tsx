@@ -10,6 +10,8 @@ import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
+import { BannerProps } from '../Banner';
+import { setContributionsBannerClosedTimestamp } from './localStorage';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -453,25 +455,21 @@ const support = (
     </div>
 );
 
-type AusMomentContributionsBannerProps = {
-    isSupporter: boolean;
-    totalSupporters: number;
-    showSupportMessaging: boolean;
-    isRecurringContributor: boolean;
-    lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
-    numberOfSupporters: number;
-};
-
-export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBannerProps> = ({
+export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    tracking,
     isSupporter,
-    totalSupporters,
-    showSupportMessaging,
-    isRecurringContributor,
-    lastOneOffContributionDate,
-    numberOfSupporters,
-}: AusMomentContributionsBannerProps) => {
+    tickerSettings,
+}: BannerProps) => {
+    if (!(tickerSettings && tickerSettings.tickerData)) {
+        return null;
+    }
+
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
+
+    const totalSupporters = tickerSettings.tickerData.total;
+    const supportersGoal = tickerSettings.tickerData.goal;
 
     const animateSunrise = (): void => {
         const increment = 15;
@@ -493,12 +491,15 @@ export const AusMomentContributionsBanner: React.FC<AusMomentContributionsBanner
                                 <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
                             <div className={goal}>
-                                <p className={goalNumber}>150,000</p>
+                                <p className={goalNumber}>{supportersGoal}</p>
                                 <p className={goalText}>our goal</p>
                             </div>
                             <div>
                                 <button
-                                    onClick={(): void => closeBanner(false)}
+                                    onClick={(): void => {
+                                        setContributionsBannerClosedTimestamp();
+                                        closeBanner(false);
+                                    }}
                                     className={closeButton}
                                     aria-label="Close"
                                 >

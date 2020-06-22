@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../lib/variants';
 
 export default {
     component: AusMomentContributionsBanner,
@@ -9,18 +10,38 @@ export default {
     decorators: [withKnobs],
 };
 
+const tracking = {
+    ophanPageId: 'kbluzw2csbf83eabedel',
+    ophanComponentId: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    platformId: 'GUARDIAN_WEB',
+    clientName: 'dcr',
+    referrerUrl: 'http://localhost:3030/Article',
+    abTestName: 'AusMomentContributionsBanner',
+    abTestVariant: 'control',
+    campaignCode: 'AusMomentContributionsBanner_control',
+};
+
+const tickerSettings = {
+    countType: TickerCountType.people,
+    endType: TickerEndType.unlimited,
+    currencySymbol: '$',
+    // Usually we need the ticker copy, but this banner has a very custom ticker
+    copy: {
+        countLabel: '',
+        goalReachedPrimary: '',
+        goalReachedSecondary: '',
+    },
+};
+
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
-    const totalSupporters = number('totalSuppoters', 150000);
 
     return (
         <StorybookWrapper>
             <AusMomentContributionsBanner
                 isSupporter={isSupporter}
-                totalSupporters={totalSupporters}
-                showSupportMessaging
-                isRecurringContributor={false}
-                numberOfSupporters={33423}
+                tickerSettings={tickerSettings}
+                tracking={tracking}
             />
         </StorybookWrapper>
     );

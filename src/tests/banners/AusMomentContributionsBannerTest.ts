@@ -23,6 +23,7 @@ export const AusMomentContributionsBanner: BannerTest = {
                 },
             },
             modulePath: AusMomentContributionsBannerPath,
+            moduleName: 'AusMomentContributionsBanner',
         },
     ],
 };
