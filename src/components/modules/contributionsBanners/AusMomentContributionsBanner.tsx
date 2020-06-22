@@ -435,7 +435,7 @@ const socialShare = (
 );
 
 const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
-    return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.abTestName}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
+    return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.abTestName}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
 };
 
 const support = (tracking: BannerTracking) => {
