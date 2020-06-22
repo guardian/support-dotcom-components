@@ -111,14 +111,15 @@ const banner = (supporters: number): string => css`
     height: 420px !important;
     box-sizing: border-box;
     display: flex;
+    flex-direction: column;
     // background: ${sunBackground(supporters)};
 `;
 
-// TODO: better way to fill screen? (view box?)
-const sunSVG = css`
+const sunSVGContainer = css`
     position: fixed;
-    top: 0;
-    left: 0;
+`;
+
+const sunSVG = css`
     width: 100%;
     height: 230px;
     background-color: ${opinion[500]};
@@ -675,68 +676,70 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <section className={banner(supporters)}>
-                    <svg className={sunSVG} viewBox="0 0 1300 230">
-                        {/* wide */}
-                        <circle
-                            className={outerCircleWide}
-                            cx="50%"
-                            cy="90%"
-                            r="45%"
-                            fill="currentColor"
-                        />
-                        <circle
-                            className={innnerCircleWide(percentage)}
-                            cx="50%"
-                            cy="90%"
-                            r="45%"
-                            fill="currentColor"
-                        />
-                        {/* desktop */}
-                        <circle
-                            className={outerCircleDesktop}
-                            cx="50%"
-                            cy="90%"
-                            r="55%"
-                            fill="currentColor"
-                        />
-                        <circle
-                            className={innnerCircleDesktop(percentage)}
-                            cx="50%"
-                            cy="90%"
-                            r="55%"
-                            fill="currentColor"
-                        />
-                        {/* tablet */}
-                        <circle
-                            className={outerCircleTablet}
-                            cx="50%"
-                            cy="120%"
-                            r="55%"
-                            fill="currentColor"
-                        />
-                        <circle
-                            className={innnerCircleTablet(percentage)}
-                            cx="50%"
-                            cy="120%"
-                            r="55%"
-                            fill="currentColor"
-                        />
-                        {/* mobile */}
-                        <circle
-                            className={outerCircleMobile}
-                            cx="50%"
-                            cy="250%"
-                            r="65%"
-                            fill="currentColor"
-                        />
-                        <circle
-                            className={innnerCircleMobile(percentage)}
-                            cx="50%"
-                            cy="250%"
-                            r="65%"
-                            fill="currentColor"
-                        />
-                    </svg>
+                    <div className={sunSVGContainer}>
+                        <svg className={sunSVG} viewBox="0 0 1300 230">
+                            {/* wide */}
+                            <circle
+                                className={outerCircleWide}
+                                cx="50%"
+                                cy="90%"
+                                r="45%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleWide(percentage)}
+                                cx="50%"
+                                cy="90%"
+                                r="45%"
+                                fill="currentColor"
+                            />
+                            {/* desktop */}
+                            <circle
+                                className={outerCircleDesktop}
+                                cx="50%"
+                                cy="90%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleDesktop(percentage)}
+                                cx="50%"
+                                cy="90%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            {/* tablet */}
+                            <circle
+                                className={outerCircleTablet}
+                                cx="50%"
+                                cy="120%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleTablet(percentage)}
+                                cx="50%"
+                                cy="120%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            {/* mobile */}
+                            <circle
+                                className={outerCircleMobile}
+                                cx="50%"
+                                cy="250%"
+                                r="65%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleMobile(percentage)}
+                                cx="50%"
+                                cy="250%"
+                                r="65%"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </div>
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
