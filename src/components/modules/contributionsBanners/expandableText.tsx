@@ -4,22 +4,22 @@ import { Button } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
 import { SvgChevronDownSingle, SvgChevronUpSingle } from '@guardian/src-svgs';
 import { body } from '@guardian/src-foundations/typography';
+import { space } from '@guardian/src-foundations';
 
 type ExpandableTextProps = {
     text: JSX.Element;
     initialHeight: number;
     onReadMoreClick: () => void;
+    isExpanded: boolean;
 };
 
 const ExpandableText: React.FC<ExpandableTextProps> = ({
     text,
     initialHeight,
     onReadMoreClick,
+    isExpanded,
 }: ExpandableTextProps) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const onClick = () => {
-        setIsExpanded(prevState => !prevState);
+    const onClick = (): void => {
         onReadMoreClick();
     };
 
@@ -27,8 +27,8 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
         <>
             <div
                 className={css`
-                    height: ${isExpanded ? '100%' : `${initialHeight}px`};
-                    overflow: hidden;
+                    height: ${isExpanded ? '80%' : `${initialHeight}px`};
+                    overflow: ${isExpanded ? 'auto' : 'hidden'};
                 `}
             >
                 {text}
@@ -40,6 +40,8 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
                     icon={isExpanded ? <SvgChevronUpSingle /> : <SvgChevronDownSingle />}
                     onClick={(): void => onClick()}
                     className={css`
+                        position: absolute;
+                        bottom: ${space[4]};
                         color: ${neutral[97]} !important;
                         font-family: ${body.small()} !important;
                     `}

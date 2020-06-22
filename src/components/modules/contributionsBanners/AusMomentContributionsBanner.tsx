@@ -98,8 +98,18 @@ const EnvelopeSvg: React.FC = () => {
     );
 };
 
+const horizon = css`
+    bottom: 0 !important;
+    left: 0;
+    width: 100%;
+    fill: ${neutral[7]};
+    margin: 0;
+    padding: 0;
+`;
+
 const horizonSvg = (
     <svg
+        className={horizon}
         width="1300"
         height="19"
         viewBox="0 0 1300 19"
@@ -168,7 +178,6 @@ const closeButton = css`
 const contentContainer = css`
     position: relative;
     width: 100%;
-    /* margin: 0 auto; */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -260,43 +269,35 @@ const goalText = css`
 `;
 
 const svgAndBottomContentContainer = css`
-    outline: 1px solid green;
+    position: absolute;
+    bottom: 0;
     display: flex;
     align-items: stretch;
     flex-direction: column;
+    height: 50%;
+`;
+
+const svgAndBottomContentContainerExpanded = css`
+    ${svgAndBottomContentContainer};
+    height: 80%;
 `;
 
 const horizonContainer = css`
-    outline: 1px solid purple;
     margin: 0;
     padding: 0;
-
-    &:before {
-        content: url("data:image/svg+xml;charset=UTF-8,  <svg width='1300' height='19' viewBox='0 0 1300 19' fill='#99999' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' clipRule='evenodd' d='M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z'/></svg>");
-        /* content: 'TEST'; */
-        position: absolute;
-    }
 `;
 
-// const horizon = css`
-//     bottom: 0 !important;
-//     left: 0;
-//     width: 100%;
-//     fill: ${neutral[7]};
-//     margin: 0;
-//     padding: 0;
-// `;
-
 const bottomContentContainer = css`
-    outline: 1px solid red;
     display: flex;
+    /* height: auto; */
     justify-content: space-between;
     margin-top: -6px;
     padding: 0 ${space[3]}px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
-    min-height: 211px;
+    /* min-height: 211px; */
     width: 100%;
+    height: 100%;
 
     ${from.tablet} {
         padding: 0 ${space[5]}px;
@@ -305,11 +306,6 @@ const bottomContentContainer = css`
     ${from.wide} {
         padding: 0 ${space[24]}px;
     }
-`;
-
-const bottomContentContainerTabletExpanded = css`
-    ${bottomContentContainer};
-    height: 800px;
 `;
 
 const headingAndCta = css`
@@ -347,7 +343,7 @@ const heading = css`
 `;
 
 const mobileMessage = css`
-    margin-bottom: ${space[5]}px;
+    /* margin-bottom: ${space[5]}px; */
 
     ${from.tablet} {
         display: none;
@@ -395,17 +391,35 @@ const messageContainer = css`
     }
 `;
 
+const messageDesktop = css`
+    display: none;
+
+    ${from.desktop} {
+        display: block;
+    }
+`;
+
+const messageTablet = css`
+    display: none;
+
+    ${from.tablet} {
+        display: block;
+    }
+
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
 const message = css`
-    ${body.small()}
+    ${body.small()};
     color: ${neutral[97]};
     line-height: 135%;
     margin-bottom: ${space[1]}px;
 `;
 
 const messagePartTwo = css`
-    ${body.small()}
-    color: ${neutral[97]};
-    line-height: 135%;
+    ${message};
     margin: 0px;
 `;
 
@@ -497,7 +511,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
-    const [tabletExpanded, setTabletExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
@@ -512,11 +526,11 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     useEffect(animateSunrise);
 
     const onMobileReadMoreClick = (): void => {
-        console.log('onMobileReadMoreClick called');
+        setExpanded(prevState => !prevState);
     };
 
     const onTabletReadMoreClick = (): void => {
-        setTabletExpanded(prevState => !prevState);
+        setExpanded(prevState => !prevState);
     };
 
     return (
@@ -547,17 +561,17 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
 
-                        <div className={svgAndBottomContentContainer}>
-                            <div className={horizonContainer}>horizon container</div>
-                            <div
-                                className={
-                                    tabletExpanded
-                                        ? bottomContentContainerTabletExpanded
-                                        : bottomContentContainer
-                                }
-                            >
+                        <div
+                            className={
+                                expanded
+                                    ? svgAndBottomContentContainerExpanded
+                                    : svgAndBottomContentContainer
+                            }
+                        >
+                            <div className={horizonContainer}>{horizonSvg}</div>
+                            <div className={bottomContentContainer}>
                                 <div className={headingAndCta}>
-                                    <h3 className={heading}>
+                                    <h3 id="heading" className={heading}>
                                         {isSupporter
                                             ? 'Help us reach more people across Australia'
                                             : 'Our supporters are doing something powerful'}
@@ -569,17 +583,26 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                             }
                                             initialHeight={58}
                                             onReadMoreClick={onMobileReadMoreClick}
+                                            isExpanded={expanded}
                                         />
                                     </div>
                                     {isSupporter ? socialShare : support}
                                 </div>
 
                                 <div className={messageContainer}>
-                                    <ExpandableText
-                                        text={isSupporter ? messageSupporter : messageNonSupporter}
-                                        initialHeight={120}
-                                        onReadMoreClick={onTabletReadMoreClick}
-                                    />
+                                    <div className={messageDesktop}>
+                                        {isSupporter ? messageSupporter : messageNonSupporter}
+                                    </div>
+                                    <div className={messageTablet}>
+                                        <ExpandableText
+                                            text={
+                                                isSupporter ? messageSupporter : messageNonSupporter
+                                            }
+                                            initialHeight={120}
+                                            onReadMoreClick={onTabletReadMoreClick}
+                                            isExpanded={expanded}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
