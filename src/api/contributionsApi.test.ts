@@ -35,14 +35,17 @@ describe('fetchDefaultEpic', () => {
     it('fetches and returns the data in the expected format', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
-        const [reset, fetchData] = cacheAsync(fetchDefaultEpicContent, oneDay);
+        const [reset, fetchData] = cacheAsync(
+            fetchDefaultEpicContent,
+            oneDay,
+            'fetchDefaultEpicContent',
+        );
         reset();
 
         const epicData = await fetchData();
 
         expect(epicData).toEqual({
             name: 'remote_epic_test',
-            showTicker: false,
             heading: 'Since you’re here...',
             paragraphs: ['First paragraph', 'Second paragraph'],
             highlightedText: 'Highlighted Text',
@@ -56,7 +59,11 @@ describe('fetchDefaultEpic', () => {
     it('caches successful epic fetches', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
-        const [reset, fetchData] = cacheAsync(fetchDefaultEpicContent, oneDay);
+        const [reset, fetchData] = cacheAsync(
+            fetchDefaultEpicContent,
+            oneDay,
+            'fetchDefaultEpicContent',
+        );
         reset();
 
         await fetchData();
@@ -68,7 +75,11 @@ describe('fetchDefaultEpic', () => {
     it('does not cache unsuccessful epic fetches', async () => {
         fetchMock.get(epicUrl, { status: 500 });
 
-        const [reset, fetchData] = cacheAsync(fetchDefaultEpicContent, oneDay);
+        const [reset, fetchData] = cacheAsync(
+            fetchDefaultEpicContent,
+            oneDay,
+            'fetchDefaultEpicContent',
+        );
         reset();
 
         try {

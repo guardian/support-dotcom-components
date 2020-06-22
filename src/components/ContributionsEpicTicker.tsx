@@ -4,7 +4,7 @@ import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq/cjs';
 import { headline } from '@guardian/src-foundations/typography/cjs';
 import { useHasBeenSeen, HasBeenSeen } from '../hooks/useHasBeenSeen';
-import { getLocalCurrencySymbol } from '../lib/geolocation';
+import { TickerSettings } from '../lib/variants';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -119,12 +119,12 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
 };
 
 type Props = {
-    countryCode?: string;
+    settings: TickerSettings;
     total: number;
     goal: number;
 };
 
-export const ContributionsEpicTicker: React.FC<Props> = ({ countryCode, total, goal }: Props) => {
+export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal }: Props) => {
     const [runningTotal, setRunningTotal] = useState<number>(0);
     const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
 
@@ -160,7 +160,7 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ countryCode, total, g
     }, [runningTotal, readyToAnimate, total]);
 
     const goalReached = total >= goal;
-    const currencySymbol = getLocalCurrencySymbol(countryCode);
+    const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';
 
     // If we've exceeded the goal then extend the bar 15% beyond the total
     const end = total > goal ? total + total * 0.15 : goal;
@@ -171,11 +171,13 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ countryCode, total, g
                 <div className={soFarContainerStyles}>
                     <div className={soFarCountStyles}>
                         {goalReached
-                            ? 'We’ve met our goal — thank you'
+                            ? settings.copy.goalReachedPrimary
                             : `${currencySymbol}${runningTotal.toLocaleString()}`}
                     </div>
                     <div className={countLabelStyles}>
-                        {goalReached ? 'Contributions are still being accepted' : 'contributed'}
+                        {goalReached
+                            ? settings.copy.goalReachedSecondary
+                            : settings.copy.countLabel}
                     </div>
                 </div>
 
@@ -186,7 +188,7 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ countryCode, total, g
                             : `${currencySymbol}${goal.toLocaleString()}`}
                     </div>
                     <div className={countLabelStyles}>
-                        {goalReached ? 'contributed' : 'our goal'}
+                        {goalReached ? settings.copy.countLabel : 'our goal'}
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@ import {
     isContentType,
     withinArticleViewedSettings,
     userInTest,
-    hasNoTicker,
     hasNoZeroArticleCount,
     isNotExpired,
 } from './variants';
@@ -47,7 +46,6 @@ const testDefault: Test = {
             ],
             highlightedText:
                 'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
-            showTicker: false,
             cta: {
                 text: 'Support The Guardian',
                 baseUrl: 'https://support.theguardian.com/contribute',
@@ -658,40 +656,6 @@ describe('isContentType filter', () => {
         };
 
         const got = isContentType.test(test, targeting);
-
-        expect(got).toBe(false);
-    });
-});
-
-describe('hasNoTicker filter', () => {
-    it('should pass if test does not use ticker', () => {
-        const test = {
-            ...testDefault,
-            variants: [
-                {
-                    ...testDefault.variants[0],
-                    showTicker: false,
-                },
-            ],
-        };
-
-        const got = hasNoTicker.test(test, targetingDefault);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail if test uses ticker', () => {
-        const test = {
-            ...testDefault,
-            variants: [
-                {
-                    ...testDefault.variants[0],
-                    showTicker: true,
-                },
-            ],
-        };
-
-        const got = hasNoTicker.test(test, targetingDefault);
 
         expect(got).toBe(false);
     });
