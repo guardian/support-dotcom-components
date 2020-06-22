@@ -448,7 +448,7 @@ const support = (
             <ThemeProvider theme={brand}>
                 {/* TODO: Add link */}
                 <Link priority="primary" href="#">
-                    View our pledge
+                    Hear from our editor
                 </Link>
             </ThemeProvider>
         </div>
