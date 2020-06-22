@@ -455,15 +455,6 @@ const support = (
     </div>
 );
 
-type AusMomentContributionsBannerProps = {
-    isSupporter: boolean;
-    totalSupporters: number;
-    showSupportMessaging: boolean;
-    isRecurringContributor: boolean;
-    lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
-    numberOfSupporters: number;
-};
-
 export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     tracking,
