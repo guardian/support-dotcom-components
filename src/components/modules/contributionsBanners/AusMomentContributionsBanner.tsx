@@ -12,6 +12,8 @@ import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
 import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
+import {tracking} from "../../../factories/tracking";
+import {BannerTracking} from "../../BannerTypes";
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -432,14 +434,18 @@ const socialShare = (
     </div>
 );
 
-const support = (
+const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
+    return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.abTestName}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
+};
+
+const support = (tracking: BannerTracking) => {
     <div className={ctaContainer}>
         {/* <ThemeProvider theme={brandAlt}> */}
         <LinkButton
             className={cta}
             // priority="primary"
             size="default"
-            href="https://support.theguardian.com/contribute" // TODO: campaign code?
+            href={urlWithTracking('https://support.theguardian.com/contribute', tracking)}
         >
             <span>Support the Guardian</span>
         </LinkButton>
@@ -453,7 +459,7 @@ const support = (
             </ThemeProvider>
         </div>
     </div>
-);
+};
 
 export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -540,7 +546,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                             initialHeight={58}
                                         />
                                     </div>
-                                    {isSupporter ? socialShare : support}
+                                    {isSupporter ? socialShare : support(tracking)}
                                 </div>
 
                                 <div className={messageContainer}>
