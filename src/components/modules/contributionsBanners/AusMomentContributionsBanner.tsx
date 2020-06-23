@@ -317,11 +317,6 @@ const closeButton = css`
         border-radius: 50%;
     }
 
-    :hover {
-        cursor: pointer;
-        background-color: rgba(237, 237, 237, 0.5);
-    }
-
     position: absolute;
     top: ${space[3]}px;
     right: ${space[3]}px;
