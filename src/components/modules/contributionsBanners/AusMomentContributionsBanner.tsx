@@ -16,24 +16,10 @@ import { BannerTracking } from '../../BannerTypes';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
-const haloSize = 65;
-const startPercent = 20;
 
-const calculateCircumference = (supporters: number): number => {
+const calculatePercentage = (supporters: number): number => {
     const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
-    const percentageGained = startToCurrentDiff / targetIncrease;
-    return startPercent * (1 - percentageGained) + percentageGained * haloSize;
-};
-
-const sunBackground = (supporters: number): string => {
-    const circumference = calculateCircumference(supporters);
-    return `radial-gradient(
-        circle at center,
-        ${brandAlt[400]} ${circumference}%,
-        ${brandAlt[200]} ${circumference}%,
-        ${brandAlt[200]} ${haloSize}%,
-        ${opinion[500]} ${haloSize}%
-    ) !important`;
+    return startToCurrentDiff / targetIncrease;
 };
 
 const FacebookLogoSvg: React.FC = () => {
@@ -125,16 +111,190 @@ const horizonSvg = (
     </svg>
 );
 
-const banner = (supporters: number): string => css`
+const banner = css`
     width: 100%;
-    max-width: 1440px;
     margin: 0;
     padding: 0;
     position: relative;
     height: 420px !important;
     box-sizing: border-box;
     display: flex;
-    background: ${sunBackground(supporters)};
+    flex-direction: column;
+`;
+
+const sunSVGContainer = css`
+    position: fixed;
+`;
+
+const sunSVG = css`
+    width: 100%;
+    height: 230px;
+    background-color: ${opinion[500]};
+`;
+
+function getInnerCircleFill(start: number, stop: number, percentage: number): number {
+    return start * (1 - percentage) + stop * percentage;
+}
+
+const innnerCircleMobile = (percentage: number): string => {
+    const start = 30;
+    const stop = 50;
+    const fill = getInnerCircleFill(start, stop, percentage);
+    return css`
+        clip-path: circle(${fill}%);
+        @keyframes grow-mobile {
+            0% {
+                clip-path: circle(${start}%);
+            }
+            100% {
+                clip-path: circle(${fill}%);
+            }
+        }
+        color: ${brandAlt[400]};
+        animation-name: grow-mobile;
+        animation-duration: 2s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+
+        ${from.tablet} {
+            display: none;
+        }
+    `;
+};
+
+const innnerCircleTablet = (percentage: number): string => {
+    const start = 20;
+    const stop = 50;
+    const fill = getInnerCircleFill(start, stop, percentage);
+    return css`
+        clip-path: circle(${fill}%);
+        @keyframes grow-tablet {
+            0% {
+                clip-path: circle(${start}%);
+            }
+            100% {
+                clip-path: circle(${fill}%);
+            }
+        }
+        color: ${brandAlt[400]};
+        animation-name: grow-tablet;
+        animation-duration: 2s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+
+        display: none;
+
+        ${from.tablet} {
+            display: block;
+        }
+
+        ${from.desktop} {
+            display: none;
+        }
+    `;
+};
+
+const innnerCircleDesktop = (percentage: number): string => {
+    const start = 18;
+    const stop = 50;
+    const fill = getInnerCircleFill(start, stop, percentage);
+    return css`
+        clip-path: circle(${fill}%);
+        @keyframes grow-desktop {
+            0% {
+                clip-path: circle(${start}%);
+            }
+            100% {
+                clip-path: circle(${fill}%);
+            }
+        }
+        color: ${brandAlt[400]};
+        animation-name: grow-desktop;
+        animation-duration: 2s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+
+        display: none;
+
+        ${from.desktop} {
+            display: block;
+        }
+
+        ${from.wide} {
+            display: none;
+        }
+    `;
+};
+
+const innnerCircleWide = (percentage: number): string => {
+    const start = 18;
+    const stop = 50;
+    const fill = getInnerCircleFill(start, stop, percentage);
+    return css`
+        clip-path: circle(${fill}%);
+        @keyframes grow-wide {
+            0% {
+                clip-path: circle(${start}%);
+            }
+            100% {
+                clip-path: circle(${fill}%);
+            }
+        }
+        color: ${brandAlt[400]};
+        animation-name: grow-wide;
+        animation-duration: 2s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+
+        display: none;
+
+        ${from.desktop} {
+            display: block;
+        }
+    `;
+};
+
+const outerCircleMobile = css`
+    color: ${brandAlt[200]};
+
+    ${from.tablet} {
+        display: none;
+    }
+`;
+
+const outerCircleTablet = css`
+    color: ${brandAlt[200]};
+    display: none;
+
+    ${from.tablet} {
+        display: block;
+    }
+
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
+const outerCircleDesktop = css`
+    color: ${brandAlt[200]};
+    display: none;
+
+    ${from.desktop} {
+        display: block;
+    }
+
+    ${from.wide} {
+        display: none;
+    }
+`;
+
+const outerCircleWide = css`
+    color: ${brandAlt[200]};
+    display: none;
+
+    ${from.wide} {
+        display: block;
+    }
 `;
 
 const closeButton = css`
@@ -270,11 +430,11 @@ const goalText = css`
 `;
 
 const svgAndBottomContentContainer = css`
-    position: absolute;
     bottom: 0;
     display: flex;
     align-items: stretch;
     flex-direction: column;
+    margin-top: -20px;
     height: 50%;
 `;
 
@@ -520,14 +680,25 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
 
-    const animateSunrise = (): void => {
-        const increment = 15;
-        supporters + increment < totalSupporters
-            ? setSupporters(supporters + increment)
-            : setSupporters(totalSupporters);
+    const animationDurationInMS = 2000;
+    const [animationStartTime, ,] = useState(Date.now());
+
+    const getSupportersForAnimation = (): number => {
+        const elapsedTimeInMS = Math.min(Date.now() - animationStartTime, animationDurationInMS);
+        const percentageCompleted = elapsedTimeInMS / animationDurationInMS;
+
+        return startingAmt * (1 - percentageCompleted) + totalSupporters * percentageCompleted;
     };
 
-    useEffect(animateSunrise);
+    useEffect(() => {
+        if (supporters < totalSupporters) {
+            window.requestAnimationFrame(() => {
+                setSupporters(getSupportersForAnimation());
+            });
+        }
+    }, [supporters, totalSupporters]);
+
+    const percentage = calculatePercentage(totalSupporters);
 
     const onMobileReadMoreClick = (): void => {
         setExpanded(prevState => !prevState);
@@ -540,7 +711,71 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner(supporters)}>
+                <section className={banner}>
+                    <div className={sunSVGContainer}>
+                        <svg className={sunSVG} viewBox="0 0 1300 230">
+                            {/* wide */}
+                            <circle
+                                className={outerCircleWide}
+                                cx="50%"
+                                cy="90%"
+                                r="45%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleWide(percentage)}
+                                cx="50%"
+                                cy="90%"
+                                r="45%"
+                                fill="currentColor"
+                            />
+                            {/* desktop */}
+                            <circle
+                                className={outerCircleDesktop}
+                                cx="50%"
+                                cy="90%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleDesktop(percentage)}
+                                cx="50%"
+                                cy="90%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            {/* tablet */}
+                            <circle
+                                className={outerCircleTablet}
+                                cx="50%"
+                                cy="120%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleTablet(percentage)}
+                                cx="50%"
+                                cy="120%"
+                                r="55%"
+                                fill="currentColor"
+                            />
+                            {/* mobile */}
+                            <circle
+                                className={outerCircleMobile}
+                                cx="50%"
+                                cy="250%"
+                                r="65%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={innnerCircleMobile(percentage)}
+                                cx="50%"
+                                cy="250%"
+                                r="65%"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </div>
                     <div className={contentContainer}>
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
