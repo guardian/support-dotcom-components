@@ -8,17 +8,6 @@ interface TemplateData {
 
 export const fontFaces = `
     @font-face {
-        font-family: "GT Guardian Titlepiece";
-        src: url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GTGuardianTitlepiece-Bold.woff2")
-                format("woff2"),
-            url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GTGuardianTitlepiece-Bold.woff")
-                format("woff"),
-            url("https://pasteup.guim.co.uk/webfonts/1.0.0/noalts-not-hinted/GTGuardianTitlepiece-Bold.ttf")
-                format("truetype");
-        font-weight: 700;
-        font-style: normal;
-    }
-    @font-face {
         font-family: "GH Guardian Headline";
         src: url(${CDNFontPath}/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Light.woff2) format("woff2"),
             url(${CDNFontPath}/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Light.woff) format("woff");

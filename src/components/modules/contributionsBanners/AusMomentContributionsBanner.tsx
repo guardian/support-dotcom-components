@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
-import { body, textSans, titlepiece } from '@guardian/src-foundations/typography';
+import { body, textSans, headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
@@ -342,6 +342,7 @@ const contentContainer = css`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    height: 100%;
 `;
 
 const topContentContainer = css`
@@ -368,7 +369,7 @@ const actualNumber = css`
 `;
 
 const actualNumberFigure = css`
-    ${titlepiece.medium({ fontWeight: 'bold' })};
+    ${headline.medium({ fontWeight: 'bold' })};
     font-size: 34px;
     ${from.tablet} {
         font-size: 54px;
@@ -411,7 +412,7 @@ const goal = css`
 `;
 
 const goalNumber = css`
-    ${titlepiece.small({ fontWeight: 'bold' })};
+    ${headline.small({ fontWeight: 'bold' })};
     font-size: 15px;
     margin: 0;
 
@@ -430,6 +431,7 @@ const goalText = css`
 `;
 
 const svgAndBottomContentContainer = css`
+    position: absolute;
     bottom: 0;
     display: flex;
     align-items: stretch;
@@ -440,7 +442,7 @@ const svgAndBottomContentContainer = css`
 
 const svgAndBottomContentContainerExpanded = css`
     ${svgAndBottomContentContainer};
-    height: 80%;
+    height: inherit;
 `;
 
 const horizonContainer = css`
@@ -456,7 +458,7 @@ const bottomContentContainer = css`
     padding: 0 ${space[3]}px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
-    /* min-height: 211px; */
+    /* min-height: 2 11px; */
     width: 100%;
     height: 100%;
 
@@ -491,7 +493,7 @@ const heading = css`
     line-height: 115%;
     padding: 0;
     margin: 0;
-    ${titlepiece.small({ fontWeight: 'bold' })};
+    ${headline.small({ fontWeight: 'bold' })};
     font-size: 24px;
 
     ${from.tablet} {
@@ -712,71 +714,72 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <section className={banner}>
-                    <div className={sunSVGContainer}>
-                        <svg className={sunSVG} viewBox="0 0 1300 230">
-                            {/* wide */}
-                            <circle
-                                className={outerCircleWide}
-                                cx="50%"
-                                cy="90%"
-                                r="45%"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={innnerCircleWide(percentage)}
-                                cx="50%"
-                                cy="90%"
-                                r="45%"
-                                fill="currentColor"
-                            />
-                            {/* desktop */}
-                            <circle
-                                className={outerCircleDesktop}
-                                cx="50%"
-                                cy="90%"
-                                r="55%"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={innnerCircleDesktop(percentage)}
-                                cx="50%"
-                                cy="90%"
-                                r="55%"
-                                fill="currentColor"
-                            />
-                            {/* tablet */}
-                            <circle
-                                className={outerCircleTablet}
-                                cx="50%"
-                                cy="120%"
-                                r="55%"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={innnerCircleTablet(percentage)}
-                                cx="50%"
-                                cy="120%"
-                                r="55%"
-                                fill="currentColor"
-                            />
-                            {/* mobile */}
-                            <circle
-                                className={outerCircleMobile}
-                                cx="50%"
-                                cy="250%"
-                                r="65%"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={innnerCircleMobile(percentage)}
-                                cx="50%"
-                                cy="250%"
-                                r="65%"
-                                fill="currentColor"
-                            />
-                        </svg>
-                    </div>
                     <div className={contentContainer}>
+                        <div className={sunSVGContainer}>
+                            <svg className={sunSVG} viewBox="0 0 1300 230">
+                                {/* wide */}
+                                <circle
+                                    className={outerCircleWide}
+                                    cx="50%"
+                                    cy="90%"
+                                    r="45%"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={innnerCircleWide(percentage)}
+                                    cx="50%"
+                                    cy="90%"
+                                    r="45%"
+                                    fill="currentColor"
+                                />
+                                {/* desktop */}
+                                <circle
+                                    className={outerCircleDesktop}
+                                    cx="50%"
+                                    cy="90%"
+                                    r="55%"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={innnerCircleDesktop(percentage)}
+                                    cx="50%"
+                                    cy="90%"
+                                    r="55%"
+                                    fill="currentColor"
+                                />
+                                {/* tablet */}
+                                <circle
+                                    className={outerCircleTablet}
+                                    cx="50%"
+                                    cy="120%"
+                                    r="55%"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={innnerCircleTablet(percentage)}
+                                    cx="50%"
+                                    cy="120%"
+                                    r="55%"
+                                    fill="currentColor"
+                                />
+                                {/* mobile */}
+                                <circle
+                                    className={outerCircleMobile}
+                                    cx="50%"
+                                    cy="250%"
+                                    r="65%"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={innnerCircleMobile(percentage)}
+                                    cx="50%"
+                                    cy="250%"
+                                    r="65%"
+                                    fill="currentColor"
+                                />
+                            </svg>
+                        </div>
+
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
                                 <p className={actualNumberFigure}>{supporters.toLocaleString()}</p>
