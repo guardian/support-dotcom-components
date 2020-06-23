@@ -122,7 +122,7 @@ const sunSVGContainer = css`
 
 const sunSVG = css`
     width: 100%;
-    height: 230px;
+    height: 420px;
     background-color: ${opinion[500]};
 `;
 
@@ -350,10 +350,9 @@ const actualNumber = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
     padding-top: 150px;
     ${from.tablet} {
-        padding-top: 115px;
+        padding-top: 100px;
     }
 `;
 
@@ -395,7 +394,7 @@ const goal = css`
     }
 
     ${from.desktop} {
-        bottom: ${space[2]}px;
+        bottom: ${space[6] * 1.55}px;
         right: ${space[24]}px;
     }
 `;
@@ -425,7 +424,6 @@ const svgAndBottomContentContainer = css`
     display: flex;
     align-items: stretch;
     flex-direction: column;
-    height: 50%;
 `;
 
 const horizonContainer = css`
@@ -434,23 +432,23 @@ const horizonContainer = css`
 `;
 
 const bottomContentContainer = css`
+    min-height: 100%;
     display: flex;
-    /* height: auto; */
+    flex: 1;
     justify-content: space-between;
     margin-top: -6px;
-    padding: 0 ${space[3]}px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
-    /* min-height: 2 11px; */
     width: 100%;
     height: 100%;
+    padding: ${space[3]}px;
 
     ${from.tablet} {
-        padding: 0 ${space[5]}px;
+        padding: 0 ${space[5]}px ${space[4]}px;
     }
 
     ${from.wide} {
-        padding: 0 ${space[24]}px;
+        padding: 0 ${space[24]}px ${space[4]}px;
     }
 `;
 
@@ -458,7 +456,7 @@ const headingAndCta = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: ${space[1]}px 0 0 0;
+    padding: ${space[4]}px 0 0 0;
     margin: 0;
     width: 100%;
 
@@ -501,6 +499,37 @@ const ctaContainer = css`
     margin-left: -${space[2]}px;
     padding-bottom: ${space[6]}px;
     align-items: center;
+    margin-top: ${space[4]}px;
+`;
+
+const button = css`
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 1.3125rem;
+    color: ${neutral[100]};
+    font-family: 'Guardian Text Sans', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 5px 20px;
+    line-height: 30px;
+    background-color: ${opinion[400]};
+    box-sizing: border-box;
+    &:hover {
+        background-color: ${opinion[300]};
+    }
+`;
+
+const ctaSubtitle = css`
+    margin-left: ${space[4]}px;
+    line-height: 21px;
+    color: ${neutral[86]};
+    ${textSans.medium()};
+    display: none;
+    ${from.desktop} {
+        display: block;
+    }
 `;
 
 const cta = css`
@@ -510,16 +539,6 @@ const cta = css`
 
     :hover {
         background-color: ${opinion[300]} !important;
-    }
-`;
-
-const secondCta = css`
-    display: none;
-    ${textSans.medium()};
-    margin-left: ${space[4]}px;
-
-    ${from.desktop} {
-        display: block;
     }
 `;
 
@@ -626,26 +645,23 @@ const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
     return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.campaignCode}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
 };
 
-const support = (tracking: BannerTracking): void => {
-    <div className={ctaContainer}>
-        <LinkButton
-            className={cta}
-            size="default"
-            href={urlWithTracking('https://support.theguardian.com/contribute', tracking)}
-        >
-            <span>Support the Guardian</span>
-        </LinkButton>
-        <div className={secondCta}>
-            <ThemeProvider theme={brand}>
-                <Link
-                    priority="primary"
-                    href="https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters"
-                >
-                    Hear from our editor
-                </Link>
-            </ThemeProvider>
+const support = (tracking: BannerTracking) => {
+    const supportTheGuardianUrl = urlWithTracking(
+        'https://support.theguardian.com/contribute',
+        tracking,
+    );
+    const hearFromOurEditorUrl =
+        'https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters';
+    return (
+        <div className={ctaContainer}>
+            <a className={button} href={supportTheGuardianUrl}>
+                Support the Guardian
+            </a>
+            <a className={ctaSubtitle} href={hearFromOurEditorUrl}>
+                Hear from our editor
+            </a>
         </div>
-    </div>;
+    );
 };
 
 export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
@@ -736,14 +752,14 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <circle
                                     className={outerCircleTablet}
                                     cx="50%"
-                                    cy="120%"
+                                    cy="90%"
                                     r="55%"
                                     fill="currentColor"
                                 />
                                 <circle
                                     className={innnerCircleTablet(percentage)}
                                     cx="50%"
-                                    cy="120%"
+                                    cy="90%"
                                     r="55%"
                                     fill="currentColor"
                                 />
@@ -751,14 +767,14 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <circle
                                     className={outerCircleMobile}
                                     cx="50%"
-                                    cy="250%"
+                                    cy="100%"
                                     r="65%"
                                     fill="currentColor"
                                 />
                                 <circle
                                     className={innnerCircleMobile(percentage)}
                                     cx="50%"
-                                    cy="250%"
+                                    cy="100%"
                                     r="65%"
                                     fill="currentColor"
                                 />
@@ -771,7 +787,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
                             <div className={goal}>
-                                <p className={goalNumber}>{supportersGoal}</p>
+                                <p className={goalNumber}>{supportersGoal.toLocaleString()}</p>
                                 <p className={goalText}>our goal</p>
                             </div>
                             <div>
