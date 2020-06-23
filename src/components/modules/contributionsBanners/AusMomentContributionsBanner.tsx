@@ -426,16 +426,12 @@ const goalText = css`
 
 const svgAndBottomContentContainer = css`
     position: absolute;
-    bottom: 20px;
+    bottom: 0;
     display: flex;
     align-items: stretch;
     flex-direction: column;
-    margin-top: -20px;
+    height: 50%;
 `;
-
-// const svgAndBottomContentContainerExpanded = css`
-//     ${svgAndBottomContentContainer};
-// `;
 
 const horizonContainer = css`
     margin: 0;
@@ -681,7 +677,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         const elapsedTimeInMS = Math.min(Date.now() - animationStartTime, animationDurationInMS);
         const percentageCompleted = elapsedTimeInMS / animationDurationInMS;
 
-        return startingAmt * (1 - percentageCompleted) + totalSupporters * percentageCompleted;
+        return Math.floor(startingAmt * (1 - percentageCompleted) + totalSupporters * percentageCompleted);
     };
 
     useEffect(() => {
