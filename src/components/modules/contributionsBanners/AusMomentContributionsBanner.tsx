@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
-import { ThemeProvider } from 'emotion-theming';
 import { body, textSans, headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import { Button, LinkButton } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
-import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
 import { BannerProps } from '../Banner';
@@ -448,11 +444,20 @@ const ctaContainer = css`
     }
 `;
 
+const readMore = css`
+    padding-bottom: 0;
+    display: inline-block;
+    cursor: pointer;
+    color: ${neutral[86]};
+    ${body.medium()};
+    border-bottom: 1px solid ${neutral[86]};
+`;
+
 const button = css`
     text-decoration: none;
     cursor: pointer;
     text-align: center;
-    border-radius: 1.3125rem;
+    border-radius: 20px;
     color: ${neutral[100]};
     font-family: 'Guardian Text Sans', sans-serif;
     font-style: normal;
@@ -503,47 +508,78 @@ const messageContainer = css`
     }
 `;
 
-const messageDesktop = css`
-    display: none;
-
-    ${from.desktop} {
-        display: block;
-    }
-`;
-
-const messageTablet = css`
-    display: none;
-
-    ${from.tablet} {
-        display: block;
-    }
-
-    ${from.desktop} {
-        display: none;
-    }
+const chevron = css`
+    position: relative;
+    top: 5px;
+    padding-left: 4px;
 `;
 
 const message = css`
+    overflow: hidden;
+    max-height: 120px;
+    display: none;
+    ${from.tablet} {
+        display: block;
+    }
+`;
+
+const messageExpanded = css`
+    display: none;
+    ${from.tablet} {
+        display: block;
+    }
+`;
+
+const messageText = css`
     ${body.small()};
     color: ${neutral[97]};
     line-height: 135%;
     margin-bottom: ${space[1]}px;
 `;
 
-const messagePartTwo = css`
-    ${message};
-    margin: 0px;
-`;
+const chevronUp = (
+    <svg
+        className={chevron}
+        viewBox="0 0 30 30"
+        xmlns="http://www.w3.org/2000/svg"
+        height="20px"
+        width="20px"
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M4 9.95L14.45 20.4H15.45L25.8999 9.95L24.9249 9L14.95 17.4L4.975 9L4 9.95Z"
+            fill={neutral[86]}
+        />
+    </svg>
+);
+
+const chevronDown = (
+    <svg
+        className={chevron}
+        viewBox="0 0 30 30"
+        xmlns="http://www.w3.org/2000/svg"
+        height="20px"
+        width="20px"
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M25.8999 19.45L15.45 9H14.45L4 19.45L4.975 20.4L14.95 12L24.9249 20.4L25.8999 19.45Z"
+            fill={neutral[86]}
+        />
+    </svg>
+);
 
 const messageSupporter = (
-    <div>
-        <p className={message}>
+    <div className={messageText}>
+        <p>
             Thanks to the support of thousands of readers like you, Guardian Australia has grown and
             is now read by one in three people. Your support has helped us deliver our independent
             quality journalism when it’s never been so vital. And you’ve helped us remain open to
             everyone.
         </p>
-        <p className={messagePartTwo}>
+        <p>
             Right now, you can help us grow our community even further in Australia. To reach our
             ambitious goal of 150,000 supporters, we hope you will champion our mission and
             encourage more people to read and support our work. Your support has an impact – and so
@@ -553,17 +589,17 @@ const messageSupporter = (
 );
 
 const messageNonSupporter = (
-    <div>
-        <p className={message}>
+    <div className={messageText}>
+        <p>
             One in three people in Australia read the Guardian in the last year. We need to keep
             growing our readership and gaining your financial support so we can provide high
             quality, independent journalism that’s open to everyone. Now more than ever, we all
             deserve access to factual information, and to trust the stories we read.
         </p>
-        <p className={messagePartTwo}>
+        <p>
             Right now, you can help us grow our community in Australia. To reach our ambitious goal
             of 150,000 supporters, we hope more readers like you will support us for the first time,
-            and shareour work widely. Your support has an impact – and so does your voice. Thank
+            and share our work widely. Your support has an impact – and so does your voice. Thank
             you.
         </p>
     </div>
@@ -613,6 +649,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
+    const [overflowing, setOverflowing] = useState(false);
     const [expanded, setExpanded] = useState(false);
 
     const totalSupporters = tickerSettings.tickerData.total;
@@ -620,6 +657,18 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const animationDurationInMS = 2000;
     const [animationStartTime, ,] = useState(Date.now());
+
+    const messageIsOverflowing = (): boolean => {
+        const message = document.querySelector('#message');
+        return message
+            ? message.scrollHeight > message.clientHeight ||
+                  message.scrollWidth > message.clientWidth
+            : false;
+    };
+
+    const toggleReadMore = (): void => {
+        setExpanded(!expanded);
+    };
 
     const getSupportersForAnimation = (): number => {
         const elapsedTimeInMS = Math.min(Date.now() - animationStartTime, animationDurationInMS);
@@ -638,14 +687,14 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         }
     }, [supporters, totalSupporters]);
 
+    useEffect(() => {
+        setOverflowing(messageIsOverflowing());
+    });
+
     const percentage = calculatePercentage(totalSupporters);
 
     const onMobileReadMoreClick = (): void => {
-        setExpanded(prevState => !prevState);
-    };
-
-    const onTabletReadMoreClick = (): void => {
-        setExpanded(prevState => !prevState);
+        setExpanded(!expanded);
     };
 
     return (
@@ -764,19 +813,19 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 </div>
 
                                 <div className={messageContainer}>
-                                    <div className={messageDesktop}>
+                                    <div
+                                        id="message"
+                                        className={expanded ? messageExpanded : message}
+                                        onClick={toggleReadMore}
+                                    >
                                         {isSupporter ? messageSupporter : messageNonSupporter}
                                     </div>
-                                    <div className={messageTablet}>
-                                        <ExpandableText
-                                            text={
-                                                isSupporter ? messageSupporter : messageNonSupporter
-                                            }
-                                            initialHeight={120}
-                                            onReadMoreClick={onTabletReadMoreClick}
-                                            isExpanded={expanded}
-                                        />
-                                    </div>
+                                    {(overflowing || expanded) && (
+                                        <p onClick={toggleReadMore} className={readMore}>
+                                            Read {expanded ? 'less' : 'more'}
+                                            {expanded ? chevronUp : chevronDown}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                         </div>
