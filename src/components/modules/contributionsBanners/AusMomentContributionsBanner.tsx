@@ -308,6 +308,11 @@ const bottomContentContainer = css`
     }
 `;
 
+const bottomContentContainerTabletExpanded = css`
+    ${bottomContentContainer};
+    height: 75%;gi
+`;
+
 const headingAndCta = css`
     display: flex;
     flex-direction: column;
@@ -561,15 +566,15 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
 
-                        <div
-                            className={
-                                expanded
-                                    ? svgAndBottomContentContainerExpanded
-                                    : svgAndBottomContentContainer
-                            }
-                        >
-                            <div className={horizonContainer}>{horizonSvg}</div>
-                            <div className={bottomContentContainer}>
+                        <div className={svgAndBottomContentContainer}>
+                            <div className={horizonContainer}></div>
+                            <div
+                                className={
+                                    expanded
+                                        ? bottomContentContainerTabletExpanded
+                                        : bottomContentContainer
+                                }
+                            >
                                 <div className={headingAndCta}>
                                     <h3 id="heading" className={heading}>
                                         {isSupporter
