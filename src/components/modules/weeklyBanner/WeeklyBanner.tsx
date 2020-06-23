@@ -9,69 +9,55 @@ import {
     contentContainer,
     topLeftComponent,
     heading,
-    headLineBreak,
     paragraph,
     buttonTextDesktop,
-    buttonTextTablet,
-    buttonTextMobile,
+    buttonTextMobileTablet,
     siteMessage,
     bottomRightComponent,
     packShot,
     iconPanel,
     closeButton,
     logoContainer,
-} from './subscriptionsBannerStyles';
+} from './weeklyBannerStyles';
 
-type SubscriptionsBannerProps = {
+type WeeklyBannerProps = {
     subscriptionUrl: string;
     signInUrl: string;
 };
 
-export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
+export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
     subscriptionUrl,
     signInUrl,
-}: SubscriptionsBannerProps) => {
+}: WeeklyBannerProps) => {
     const [showBanner, closeBanner] = useState(true);
     return (
         <>
             {showBanner ? (
-                <section
-                    id="js-site-message--subscription-banner"
-                    className={banner}
-                    data-target="subscriptions-banner"
-                >
+                <section className={banner} data-target="weekly-banner">
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
-                            <h3 className={heading}>
-                                The world is changing by the minute.{' '}
-                                <br className={headLineBreak} />
-                                Keep up with a digital subscription.
-                            </h3>
+                            <h3 className={heading}>Read The Guardian in print</h3>
                             <p className={paragraph}>
-                                Two Guardian apps, with you every day. <strong>The Daily</strong>,
-                                joining you in the morning to share politics, culture, food and
-                                opinion. <strong>Live</strong>, constantly by your side, keeping you
-                                connected with the outside world.
+                                Support The Guardian&apos;s independent journalism by subscribing to
+                                The Guardian Weekly, our essential world news magazine. Home
+                                delivery available wherever you are.
                             </p>
                             <ThemeProvider theme={buttonReaderRevenue}>
                                 <LinkButton
-                                    id="js-site-message--subscription-banner__cta"
-                                    data-link-name="subscription-banner : cta"
+                                    data-link-name="weekly-banner : cta"
                                     priority="primary"
                                     size="default"
                                     href={subscriptionUrl}
                                 >
                                     <span className={buttonTextDesktop}>
-                                        Become a digital subscriber
+                                        Become a Guardian Weekly subscriber
                                     </span>
-                                    <span className={buttonTextTablet}>Become a subscriber</span>
-                                    <span className={buttonTextMobile}>Subscribe now</span>
+                                    <span className={buttonTextMobileTablet}>Subscribe now</span>
                                 </LinkButton>
                             </ThemeProvider>
                             <ThemeProvider theme={brand}>
                                 <Button
-                                    id="js-site-message--subscription-banner__cta-dismiss"
-                                    data-link-name="subscription-banner : not now"
+                                    data-link-name="weekly-banner : not now"
                                     onClick={(): void => closeBanner(false)}
                                     priority="subdued"
                                 >
@@ -80,11 +66,7 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                             </ThemeProvider>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a
-                                    id="js-site-message--subscription-banner__sign-in"
-                                    href={signInUrl}
-                                    data-link-name="subscription-banner : sign in"
-                                >
+                                <a href={signInUrl} data-link-name="weekly-banner : sign in">
                                     Sign in
                                 </a>{' '}
                                 to not see this again
@@ -93,15 +75,14 @@ export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                         <div className={bottomRightComponent}>
                             <img
                                 className={packShot}
-                                src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
+                                src="https://i.guim.co.uk/img/media/f5c66a31a7d352acaee1c574e5cc009909f25119/0_0_2210_2062/500.png?quality=85&s=46fb180930f0ec0dc2f6b34a4e94cb06"
                                 alt=""
                             />
                             <div className={iconPanel}>
                                 <button
                                     onClick={(): void => closeBanner(false)}
                                     className={closeButton}
-                                    id="js-site-message--subscription-banner__close-button"
-                                    data-link-name="subscription-banner : close"
+                                    data-link-name="weekly-banner : close"
                                     aria-label="Close"
                                 >
                                     <SvgClose />
