@@ -309,11 +309,6 @@ const bottomContentContainer = css`
     }
 `;
 
-const bottomContentContainerTabletExpanded = css`
-    ${bottomContentContainer};
-    height: 75%;gi
-`;
-
 const headingAndCta = css`
     display: flex;
     flex-direction: column;
@@ -486,22 +481,21 @@ const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
     return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.ophanComponentId}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
 };
 
-const support = (tracking: BannerTracking) => {
+const support = (tracking: BannerTracking): void => {
     <div className={ctaContainer}>
-        {/* <ThemeProvider theme={brandAlt}> */}
         <LinkButton
             className={cta}
-            // priority="primary"
             size="default"
             href={urlWithTracking('https://support.theguardian.com/contribute', tracking)}
         >
             <span>Support the Guardian</span>
         </LinkButton>
-        {/* </ThemeProvider> */}
         <div className={secondCta}>
             <ThemeProvider theme={brand}>
-                {/* TODO: Add link */}
-                <Link priority="primary" href="#">
+                <Link
+                    priority="primary"
+                    href="https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters"
+                >
                     Hear from our editor
                 </Link>
             </ThemeProvider>
@@ -571,15 +565,15 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
 
-                        <div className={svgAndBottomContentContainer}>
-                            <div className={horizonContainer}></div>
-                            <div
-                                className={
-                                    expanded
-                                        ? bottomContentContainerTabletExpanded
-                                        : bottomContentContainer
-                                }
-                            >
+                        <div
+                            className={
+                                expanded
+                                    ? svgAndBottomContentContainerExpanded
+                                    : svgAndBottomContentContainer
+                            }
+                        >
+                            <div className={horizonContainer}>{horizonSvg}</div>
+                            <div className={bottomContentContainer}>
                                 <div className={headingAndCta}>
                                     <h3 id="heading" className={heading}>
                                         {isSupporter

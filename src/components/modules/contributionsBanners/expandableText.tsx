@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { css } from 'emotion';
 import { Button } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
@@ -41,7 +41,7 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({
                     onClick={(): void => onClick()}
                     className={css`
                         position: absolute;
-                        bottom: ${space[4]};
+                        /* bottom: ${space[4]}; */
                         color: ${neutral[97]} !important;
                         font-family: ${body.small()} !important;
                     `}
