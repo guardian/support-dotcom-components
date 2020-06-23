@@ -95,12 +95,7 @@ const horizon = css`
 `;
 
 const horizonSvg = (
-    <svg
-        className={horizon}
-        viewBox="0 0 1300 19"
-        fill="#99999"
-        xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg className={horizon} viewBox="0 0 1300 19" fill="#99999" xmlns="http://www.w3.org/2000/svg">
         <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -677,7 +672,9 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         const elapsedTimeInMS = Math.min(Date.now() - animationStartTime, animationDurationInMS);
         const percentageCompleted = elapsedTimeInMS / animationDurationInMS;
 
-        return Math.floor(startingAmt * (1 - percentageCompleted) + totalSupporters * percentageCompleted);
+        return Math.floor(
+            startingAmt * (1 - percentageCompleted) + totalSupporters * percentageCompleted,
+        );
     };
 
     useEffect(() => {
