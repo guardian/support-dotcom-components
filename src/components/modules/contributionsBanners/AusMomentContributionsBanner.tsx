@@ -15,29 +15,10 @@ import { setContributionsBannerClosedTimestamp } from './localStorage';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
-const haloSize = 65;
-const startPercent = 20;
 
 const calculatePercentage = (supporters: number): number => {
     const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
     return startToCurrentDiff / targetIncrease;
-};
-
-const calculateCircumference = (supporters: number): number => {
-    const startToCurrentDiff = Math.min(Math.max(supporters - startingAmt, 0), targetIncrease);
-    const percentageGained = startToCurrentDiff / targetIncrease;
-    return startPercent * (1 - percentageGained) + percentageGained * haloSize;
-};
-
-const sunBackground = (supporters: number): string => {
-    const circumference = calculateCircumference(supporters);
-    return `radial-gradient(
-        circle at center,
-        ${brandAlt[400]} ${circumference}%,
-        ${brandAlt[200]} ${circumference}%,
-        ${brandAlt[200]} ${haloSize}%,
-        ${opinion[500]} ${haloSize}%
-    ) !important`;
 };
 
 const FacebookLogoSvg: React.FC = () => {
@@ -103,7 +84,7 @@ const EnvelopeSvg: React.FC = () => {
     );
 };
 
-const banner = (supporters: number): string => css`
+const banner = css`
     width: 100%;
     margin: 0;
     padding: 0;
@@ -112,7 +93,6 @@ const banner = (supporters: number): string => css`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    // background: ${sunBackground(supporters)};
 `;
 
 const sunSVGContainer = css`
@@ -675,7 +655,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner(supporters)}>
+                <section className={banner}>
                     <div className={sunSVGContainer}>
                         <svg className={sunSVG} viewBox="0 0 1300 230">
                             {/* wide */}
