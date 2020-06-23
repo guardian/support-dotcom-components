@@ -334,10 +334,10 @@ const closeButton = css`
 const contentContainer = css`
     position: relative;
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    height: 100%;
 `;
 
 const topContentContainer = css`
@@ -427,18 +427,16 @@ const goalText = css`
 
 const svgAndBottomContentContainer = css`
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     display: flex;
     align-items: stretch;
     flex-direction: column;
     margin-top: -20px;
-    height: 50%;
 `;
 
-const svgAndBottomContentContainerExpanded = css`
-    ${svgAndBottomContentContainer};
-    height: inherit;
-`;
+// const svgAndBottomContentContainerExpanded = css`
+//     ${svgAndBottomContentContainer};
+// `;
 
 const horizonContainer = css`
     margin: 0;
@@ -798,13 +796,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
 
-                        <div
-                            className={
-                                expanded
-                                    ? svgAndBottomContentContainerExpanded
-                                    : svgAndBottomContentContainer
-                            }
-                        >
+                        <div className={svgAndBottomContentContainer}>
                             <div className={horizonContainer}>{horizonSvg}</div>
                             <div className={bottomContentContainer}>
                                 <div className={headingAndCta}>
