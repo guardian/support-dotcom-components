@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
 import { ThemeProvider } from 'emotion-theming';
-import { body, titlepiece, textSans } from '@guardian/src-foundations/typography';
-import { neutral, brandAlt, opinion } from '@guardian/src-foundations/palette';
+import { body, textSans, titlepiece } from '@guardian/src-foundations/typography';
+import { brandAlt, neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import { LinkButton, Button } from '@guardian/src-button';
+import { Button, LinkButton } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
 import { brand } from '@guardian/src-foundations/themes';
 import Close from '../closeButton/Close';
 import ExpandableText from './expandableText';
 import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
+import { BannerTracking } from '../../BannerTypes';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -413,19 +414,28 @@ const svgAndBottomContentContainer = css`
 const horizonContainer = css`
     margin: 0;
     padding: 0;
+
+<!--    &:before {-->
+<!--        content: url("data:image/svg+xml;charset=UTF-8,  <svg width='1300' height='19' viewBox='0 0 1300 19' fill='#99999' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' clipRule='evenodd' d='M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z'/></svg>");-->
+<!--        /* content: 'TEST'; */-->
+<!--        position: absolute;-->
+<!--    }-->
 `;
 
-const horizon = css`
-    bottom: 0 !important;
-    left: 0;
-    width: 100%;
-    fill: ${neutral[7]};
-    margin: 0;
-    padding: 0;
-`;
+// const horizon = css`
+//     bottom: 0 !important;
+//     left: 0;
+//     width: 100%;
+//     fill: ${neutral[7]};
+//     margin: 0;
+//     padding: 0;
+// `;
 
 const bottomContentContainer = css`
     display: flex;
+    position: absolute;
+    bottom: 0;
+    height: auto;
     justify-content: space-between;
     margin-top: -6px;
     padding: 0 ${space[3]}px;
@@ -441,6 +451,11 @@ const bottomContentContainer = css`
     ${from.wide} {
         padding: 0 ${space[24]}px;
     }
+`;
+
+const bottomContentContainerTabletExpanded = css`
+    ${bottomContentContainer};
+    height: 75%;
 `;
 
 const headingAndCta = css`
@@ -593,14 +608,18 @@ const socialShare = (
     </div>
 );
 
-const support = (
+const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
+    return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.campaignCode}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
+};
+
+const support = (tracking: BannerTracking) => {
     <div className={ctaContainer}>
         {/* <ThemeProvider theme={brandAlt}> */}
         <LinkButton
             className={cta}
             // priority="primary"
             size="default"
-            href="https://support.theguardian.com/contribute" // TODO: campaign code?
+            href={urlWithTracking('https://support.theguardian.com/contribute', tracking)}
         >
             <span>Support the Guardian</span>
         </LinkButton>
@@ -609,12 +628,12 @@ const support = (
             <ThemeProvider theme={brand}>
                 {/* TODO: Add link */}
                 <Link priority="primary" href="#">
-                    View our pledge
+                    Hear from our editor
                 </Link>
             </ThemeProvider>
         </div>
-    </div>
-);
+    </div>;
+};
 
 export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -628,6 +647,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
+    const [expanded, setExpanded] = useState(false);
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
@@ -651,6 +671,14 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     }, [supporters, totalSupporters]);
 
     const percentage = calculatePercentage(totalSupporters);
+
+    const onMobileReadMoreClick = (): void => {
+        setExpanded(prevState => !prevState);
+    };
+
+    const onTabletReadMoreClick = (): void => {
+        setExpanded(prevState => !prevState);
+    };
 
     return (
         <>
@@ -745,25 +773,16 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                         </div>
 
                         <div className={svgAndBottomContentContainer}>
-                            <div className={horizonContainer}>
-                                <svg
-                                    className={horizon}
-                                    width="1300"
-                                    height="19"
-                                    viewBox="0 0 1300 19"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
-                                    />
-                                </svg>
-                            </div>
-                            <div className={bottomContentContainer}>
+                            <div className={horizonContainer}></div>
+                            <div
+                                className={
+                                    expanded
+                                        ? bottomContentContainerTabletExpanded
+                                        : bottomContentContainer
+                                }
+                            >
                                 <div className={headingAndCta}>
-                                    <h3 className={heading}>
+                                    <h3 id="heading" className={heading}>
                                         {isSupporter
                                             ? 'Help us reach more people across Australia'
                                             : 'Our supporters are doing something powerful'}
@@ -774,13 +793,18 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                                 isSupporter ? messageSupporter : messageNonSupporter
                                             }
                                             initialHeight={58}
+                                            onReadMoreClick={onMobileReadMoreClick}
                                         />
                                     </div>
-                                    {isSupporter ? socialShare : support}
+                                    {isSupporter ? socialShare : support(tracking)}
                                 </div>
 
                                 <div className={messageContainer}>
-                                    {isSupporter ? messageSupporter : messageNonSupporter}
+                                    <ExpandableText
+                                        text={isSupporter ? messageSupporter : messageNonSupporter}
+                                        initialHeight={120}
+                                        onReadMoreClick={onTabletReadMoreClick}
+                                    />
                                 </div>
                             </div>
                         </div>

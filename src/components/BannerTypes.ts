@@ -45,6 +45,7 @@ export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracki
 export interface BannerTest {
     name: string;
     canRun: CanRun;
+    minPageViews: number;
     variants: BannerVariant[];
 }
 
