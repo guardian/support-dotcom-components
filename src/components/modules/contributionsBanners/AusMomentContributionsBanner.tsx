@@ -5,7 +5,6 @@ import { brandAlt, neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import Close from '../closeButton/Close';
-import ExpandableText from './expandableText';
 import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
 import { BannerTracking } from '../../BannerTypes';
@@ -43,10 +42,13 @@ const banner = css`
     margin: 0;
     padding: 0;
     position: relative;
-    height: 420px !important;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    height: 460px;
+    ${from.tablet} {
+        height: 420px;
+    }
 `;
 
 const sunSVGContainer = css`
@@ -284,7 +286,7 @@ const actualNumber = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 150px;
+    padding-top: 135px;
     ${from.tablet} {
         padding-top: 100px;
     }
@@ -424,9 +426,23 @@ const heading = css`
     }
 `;
 
-const mobileMessage = css`
-    /* margin-bottom: ${space[5]}px; */
+const mobileMessageContainer = css`
+    ${from.tablet} {
+        display: none;
+    }
+`;
 
+const mobileMessage = css`
+    overflow: hidden;
+    max-height: 55px;
+    display: block;
+    ${from.tablet} {
+        display: none;
+    }
+`;
+
+const mobileMessageExpanded = css`
+    display: block;
     ${from.tablet} {
         display: none;
     }
@@ -442,8 +458,8 @@ const ctaContainer = css`
         flex-direction: column;
     }
     ${from.desktop} {
-        padding-bottom: ${space[6]}px;
-        margin-top: ${space[4]}px;
+        padding-bottom: ${space[4]}px;
+        margin-top: ${space[3]}px;
         align-items: center;
         flex-direction: row;
     }
@@ -758,15 +774,15 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <circle
                                     className={outerCircleMobile}
                                     cx="50%"
-                                    cy="100%"
-                                    r="65%"
+                                    cy="75%"
+                                    r="66%"
                                     fill="currentColor"
                                 />
                                 <circle
                                     className={innnerCircleMobile(percentage)}
                                     cx="50%"
-                                    cy="100%"
-                                    r="65%"
+                                    cy="75%"
+                                    r="66%"
                                     fill="currentColor"
                                 />
                             </svg>
@@ -804,15 +820,18 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                             ? 'Help us reach more people across Australia'
                                             : 'Our supporters are doing something powerful'}
                                     </h3>
-                                    <div className={mobileMessage}>
-                                        <ExpandableText
-                                            text={
-                                                isSupporter ? messageSupporter : messageNonSupporter
+                                    <div className={mobileMessageContainer}>
+                                        <div
+                                            className={
+                                                expanded ? mobileMessageExpanded : mobileMessage
                                             }
-                                            initialHeight={58}
-                                            onReadMoreClick={onMobileReadMoreClick}
-                                            isExpanded={expanded}
-                                        />
+                                        >
+                                            {isSupporter ? messageSupporter : messageNonSupporter}
+                                        </div>
+                                        <p onClick={toggleReadMore} className={readMore}>
+                                            Read {expanded ? 'less' : 'more'}
+                                            {expanded ? chevronUp : chevronDown}
+                                        </p>
                                     </div>
                                     {isSupporter ? socialShare() : support(tracking)}
                                 </div>
