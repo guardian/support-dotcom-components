@@ -33,11 +33,7 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section
-                    id="js-site-message--subscription-banner"
-                    className={banner}
-                    data-target="subscriptions-banner"
-                >
+                <section className={banner} data-target="weekly-banner">
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>Read The Guardian in print</h3>
@@ -48,8 +44,7 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
                             </p>
                             <ThemeProvider theme={buttonReaderRevenue}>
                                 <LinkButton
-                                    id="js-site-message--subscription-banner__cta"
-                                    data-link-name="subscription-banner : cta"
+                                    data-link-name="weekly-banner : cta"
                                     priority="primary"
                                     size="default"
                                     href={subscriptionUrl}
@@ -62,8 +57,7 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
                             </ThemeProvider>
                             <ThemeProvider theme={brand}>
                                 <Button
-                                    id="js-site-message--subscription-banner__cta-dismiss"
-                                    data-link-name="subscription-banner : not now"
+                                    data-link-name="weekly-banner : not now"
                                     onClick={(): void => closeBanner(false)}
                                     priority="subdued"
                                 >
@@ -72,11 +66,7 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
                             </ThemeProvider>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a
-                                    id="js-site-message--subscription-banner__sign-in"
-                                    href={signInUrl}
-                                    data-link-name="subscription-banner : sign in"
-                                >
+                                <a href={signInUrl} data-link-name="weekly-banner : sign in">
                                     Sign in
                                 </a>{' '}
                                 to not see this again
@@ -92,8 +82,7 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
                                 <button
                                     onClick={(): void => closeBanner(false)}
                                     className={closeButton}
-                                    id="js-site-message--subscription-banner__close-button"
-                                    data-link-name="subscription-banner : close"
+                                    data-link-name="weekly-banner : close"
                                     aria-label="Close"
                                 >
                                     <SvgClose />
