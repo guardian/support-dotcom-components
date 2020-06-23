@@ -1,6 +1,6 @@
 import { TickerCountType, TickerData, TickerSettings, Variant } from './variants';
-import fetch from 'node-fetch';
-import { Response } from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
+import { cacheAsync } from './cache';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people
@@ -30,15 +30,23 @@ const parse = (json: any): Promise<TickerData> => {
     }
 };
 
-// TODO - cache
-export const fetchTickerData = (tickerSettings: TickerSettings): Promise<TickerData> =>
-    fetch(tickerUrl(tickerSettings.countType))
-        .then(response => checkForErrors(response))
-        .then(response => response.json())
-        .then(parse);
+export const fetchTickerDataCached = async (
+    tickerSettings: TickerSettings,
+): Promise<TickerData> => {
+    const fetchForType = (): Promise<TickerData> => {
+        return fetch(tickerUrl(tickerSettings.countType))
+            .then(response => checkForErrors(response))
+            .then(response => response.json())
+            .then(parse);
+    };
+
+    const [, cachedRes] = cacheAsync(fetchForType, 60, 'fetchTickerData');
+
+    return cachedRes();
+};
 
 export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise<TickerSettings> =>
-    fetchTickerData(tickerSettings).then(tickerData => ({
+    fetchTickerDataCached(tickerSettings).then(tickerData => ({
         ...tickerSettings,
         tickerData: tickerData,
     }));
@@ -47,7 +55,7 @@ export const addTickerDataToVariant = (variant: Variant): Promise<Variant> => {
     if (variant.tickerSettings) {
         const tickerSettings = variant.tickerSettings;
 
-        return fetchTickerData(tickerSettings).then((tickerData: TickerData) => ({
+        return fetchTickerDataCached(tickerSettings).then((tickerData: TickerData) => ({
             ...variant,
             tickerSettings: {
                 ...tickerSettings,
