@@ -430,15 +430,16 @@ const mobileMessage = css`
 
 const ctaContainer = css`
     display: flex;
-
-    padding-bottom: ${space[6]}px;
     align-items: center;
-    margin-top: ${space[4]}px;
     ${from.tablet} {
+        padding-bottom: ${space[4]}px;
+        margin-top: ${space[4]}px;
         align-items: flex-start;
         flex-direction: column;
     }
     ${from.desktop} {
+        padding-bottom: ${space[6]}px;
+        margin-top: ${space[4]}px;
         align-items: center;
         flex-direction: row;
     }
@@ -816,7 +817,6 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                     <div
                                         id="message"
                                         className={expanded ? messageExpanded : message}
-                                        onClick={toggleReadMore}
                                     >
                                         {isSupporter ? messageSupporter : messageNonSupporter}
                                     </div>
