@@ -36,7 +36,7 @@ export const contentContainer = css`
 
 export const topLeftComponent = css`
     width: 100%;
-    padding: ${space[4]}px ${space[4]}px 0 ${space[4]}px;
+    padding: ${space[3]}px ${space[3]}px 0 ${space[3]}px;
     button {
         margin-left: ${space[3]}px;
     }
@@ -58,28 +58,19 @@ export const heading = css`
     max-width: 100%;
 
     ${until.mobileLandscape} {
-        ${headline.xxsmall({ fontWeight: 'bold' })};
+        max-width: 80%;
     }
 
     ${until.mobileMedium} {
         ${headline.xsmall({ fontWeight: 'bold' })};
-        max-width: 85%;
     }
 `;
 
 export const paragraph = css`
-    ${body.small()};
+    ${body.medium()};
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
-
-    ${from.mobileMedium} {
-        max-width: 90%;
-    }
-
-    ${from.mobileLandscape} {
-        ${body.medium()};
-    }
 
     ${from.desktop} {
         font-size: 20px;
