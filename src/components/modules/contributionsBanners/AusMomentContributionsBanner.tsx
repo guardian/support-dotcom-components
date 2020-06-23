@@ -85,6 +85,32 @@ const EnvelopeSvg: React.FC = () => {
     );
 };
 
+const horizon = css`
+    bottom: 0 !important;
+    left: 0;
+    width: 100%;
+    fill: ${neutral[7]};
+    margin: 0;
+    padding: 0;
+`;
+
+const horizonSvg = (
+    <svg
+        className={horizon}
+        width="1300"
+        height="19"
+        viewBox="0 0 1300 19"
+        fill="#99999"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
+        />
+    </svg>
+);
+
 const banner = css`
     width: 100%;
     margin: 0;
@@ -313,7 +339,6 @@ const closeButton = css`
 const contentContainer = css`
     position: relative;
     width: 100%;
-    /* margin: 0 auto; */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -405,44 +430,35 @@ const goalText = css`
 `;
 
 const svgAndBottomContentContainer = css`
+    bottom: 0;
     display: flex;
     align-items: stretch;
     flex-direction: column;
     margin-top: -20px;
+    height: 50%;
+`;
+
+const svgAndBottomContentContainerExpanded = css`
+    ${svgAndBottomContentContainer};
+    height: 80%;
 `;
 
 const horizonContainer = css`
     margin: 0;
     padding: 0;
-
-<!--    &:before {-->
-<!--        content: url("data:image/svg+xml;charset=UTF-8,  <svg width='1300' height='19' viewBox='0 0 1300 19' fill='#99999' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' clipRule='evenodd' d='M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z'/></svg>");-->
-<!--        /* content: 'TEST'; */-->
-<!--        position: absolute;-->
-<!--    }-->
 `;
-
-// const horizon = css`
-//     bottom: 0 !important;
-//     left: 0;
-//     width: 100%;
-//     fill: ${neutral[7]};
-//     margin: 0;
-//     padding: 0;
-// `;
 
 const bottomContentContainer = css`
     display: flex;
-    position: absolute;
-    bottom: 0;
-    height: auto;
+    /* height: auto; */
     justify-content: space-between;
     margin-top: -6px;
     padding: 0 ${space[3]}px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
-    min-height: 211px;
+    /* min-height: 211px; */
     width: 100%;
+    height: 100%;
 
     ${from.tablet} {
         padding: 0 ${space[5]}px;
@@ -451,11 +467,6 @@ const bottomContentContainer = css`
     ${from.wide} {
         padding: 0 ${space[24]}px;
     }
-`;
-
-const bottomContentContainerTabletExpanded = css`
-    ${bottomContentContainer};
-    height: 75%;
 `;
 
 const headingAndCta = css`
@@ -493,7 +504,7 @@ const heading = css`
 `;
 
 const mobileMessage = css`
-    margin-bottom: ${space[5]}px;
+    /* margin-bottom: ${space[5]}px; */
 
     ${from.tablet} {
         display: none;
@@ -541,17 +552,35 @@ const messageContainer = css`
     }
 `;
 
+const messageDesktop = css`
+    display: none;
+
+    ${from.desktop} {
+        display: block;
+    }
+`;
+
+const messageTablet = css`
+    display: none;
+
+    ${from.tablet} {
+        display: block;
+    }
+
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
 const message = css`
-    ${body.small()}
+    ${body.small()};
     color: ${neutral[97]};
     line-height: 135%;
     margin-bottom: ${space[1]}px;
 `;
 
 const messagePartTwo = css`
-    ${body.small()}
-    color: ${neutral[97]};
-    line-height: 135%;
+    ${message};
     margin: 0px;
 `;
 
@@ -612,22 +641,21 @@ const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
     return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.campaignCode}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
 };
 
-const support = (tracking: BannerTracking) => {
+const support = (tracking: BannerTracking): void => {
     <div className={ctaContainer}>
-        {/* <ThemeProvider theme={brandAlt}> */}
         <LinkButton
             className={cta}
-            // priority="primary"
             size="default"
             href={urlWithTracking('https://support.theguardian.com/contribute', tracking)}
         >
             <span>Support the Guardian</span>
         </LinkButton>
-        {/* </ThemeProvider> */}
         <div className={secondCta}>
             <ThemeProvider theme={brand}>
-                {/* TODO: Add link */}
-                <Link priority="primary" href="#">
+                <Link
+                    priority="primary"
+                    href="https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters"
+                >
                     Hear from our editor
                 </Link>
             </ThemeProvider>
@@ -772,15 +800,15 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
 
-                        <div className={svgAndBottomContentContainer}>
-                            <div className={horizonContainer}></div>
-                            <div
-                                className={
-                                    expanded
-                                        ? bottomContentContainerTabletExpanded
-                                        : bottomContentContainer
-                                }
-                            >
+                        <div
+                            className={
+                                expanded
+                                    ? svgAndBottomContentContainerExpanded
+                                    : svgAndBottomContentContainer
+                            }
+                        >
+                            <div className={horizonContainer}>{horizonSvg}</div>
+                            <div className={bottomContentContainer}>
                                 <div className={headingAndCta}>
                                     <h3 id="heading" className={heading}>
                                         {isSupporter
@@ -794,17 +822,26 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                             }
                                             initialHeight={58}
                                             onReadMoreClick={onMobileReadMoreClick}
+                                            isExpanded={expanded}
                                         />
                                     </div>
                                     {isSupporter ? socialShare : support(tracking)}
                                 </div>
 
                                 <div className={messageContainer}>
-                                    <ExpandableText
-                                        text={isSupporter ? messageSupporter : messageNonSupporter}
-                                        initialHeight={120}
-                                        onReadMoreClick={onTabletReadMoreClick}
-                                    />
+                                    <div className={messageDesktop}>
+                                        {isSupporter ? messageSupporter : messageNonSupporter}
+                                    </div>
+                                    <div className={messageTablet}>
+                                        <ExpandableText
+                                            text={
+                                                isSupporter ? messageSupporter : messageNonSupporter
+                                            }
+                                            initialHeight={120}
+                                            onReadMoreClick={onTabletReadMoreClick}
+                                            isExpanded={expanded}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
