@@ -97,8 +97,6 @@ const horizon = css`
 const horizonSvg = (
     <svg
         className={horizon}
-        width="1300"
-        height="19"
         viewBox="0 0 1300 19"
         fill="#99999"
         xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +121,8 @@ const banner = css`
 `;
 
 const sunSVGContainer = css`
-    position: fixed;
+    position: absolute;
+    width: 100%;
 `;
 
 const sunSVG = css`
