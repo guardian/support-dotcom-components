@@ -342,6 +342,16 @@ app.get(
     },
 );
 
+/**
+ * For component endpoints only. Data endpoints must never be cached.
+ * Tell fastly to cache for 5 mins
+ * Tell clients to cache for 2 mins
+ */
+const setComponentCacheHeaders = (res: express.Response) => {
+    res.setHeader('Surrogate-Control', 'max-age=300');
+    res.setHeader('Cache-Control', 'max-age=120');
+};
+
 app.get(
     `/${AusMomentContributionsBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -350,7 +360,10 @@ app.get(
                 ? '/../dist/modules/contributionsBanners/AusMomentContributionsBanner.js'
                 : '/modules/contributionsBanners/AusMomentContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
+
             res.type('js');
+            setComponentCacheHeaders(res);
+
             res.send(module);
         } catch (error) {
             next(error);
