@@ -346,9 +346,13 @@ const goalNumber = css`
 const goalText = css`
     ${body.small({ fontStyle: 'italic' })};
     margin-left: ${space[1]}px;
+
     ${from.tablet} {
         ${body.medium({ fontStyle: 'italic' })};
         margin: 0;
+        &:before {
+            content: 'our ';
+        }
     }
 `;
 
@@ -775,7 +779,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                             <div className={goal}>
                                 <p className={goalNumber}>{supportersGoal.toLocaleString()}</p>
-                                <p className={goalText}>our goal</p>
+                                <p className={goalText}>goal</p>
                             </div>
                             <div>
                                 <button
