@@ -653,7 +653,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const supportersGoal = tickerSettings.tickerData.goal;
 
     const animationDurationInMS = 2000;
-    const [animationStartTime, _] = useState(Date.now());
+    const [animationStartTime, ,] = useState(Date.now());
 
     const getSupportersForAnimation = (): number => {
         const elapsedTimeInMS = Math.min(Date.now() - animationStartTime, animationDurationInMS);
