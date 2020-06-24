@@ -9,6 +9,7 @@ import { setContributionsBannerClosedTimestamp } from './localStorage';
 import { BannerTracking } from '../../BannerTypes';
 import { SocialLinks } from './social-links';
 import { SvgClose } from '@guardian/src-icons';
+import { useWindowSize } from './useWindowSize';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -567,7 +568,7 @@ const message = css`
         display: block;
     }
     ${from.desktop} {
-        max-height: 140px;
+        max-height: 210px;
     }
 `;
 
@@ -693,7 +694,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }
-
+    useWindowSize();
     const [showBanner, closeBanner] = useState(true);
     const [supporters, setSupporters] = useState(120_000);
     const [overflowing, setOverflowing] = useState(false);
