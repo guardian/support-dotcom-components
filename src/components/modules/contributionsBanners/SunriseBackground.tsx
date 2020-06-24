@@ -18,15 +18,23 @@ function getInnerCircleFill(start: number, stop: number, percentage: number): nu
     return start * (1 - percentage) + stop * percentage;
 }
 
+const INNER_CIRCLE_MOBILE_START_FILL = 30;
+const INNER_CIRCLE_TABLET_START_FILL = 20;
+const INNER_CIRCLE_DESKTOP_START_FILL = 18;
+const INNER_CIRCLE_WIDE_START_FILL = 18;
+const INNER_CIRCLE_FINAL_FILL = 50;
+
 const innnerCircleMobile = (percentage: number): string => {
-    const start = 30;
-    const stop = 50;
-    const fill = getInnerCircleFill(start, stop, percentage);
+    const fill = getInnerCircleFill(
+        INNER_CIRCLE_MOBILE_START_FILL,
+        INNER_CIRCLE_FINAL_FILL,
+        percentage,
+    );
     return css`
         clip-path: circle(${fill}%);
         @keyframes grow-mobile {
             0% {
-                clip-path: circle(${start}%);
+                clip-path: circle(${INNER_CIRCLE_MOBILE_START_FILL}%);
             }
             100% {
                 clip-path: circle(${fill}%);
@@ -45,14 +53,16 @@ const innnerCircleMobile = (percentage: number): string => {
 };
 
 const innnerCircleTablet = (percentage: number): string => {
-    const start = 20;
-    const stop = 50;
-    const fill = getInnerCircleFill(start, stop, percentage);
+    const fill = getInnerCircleFill(
+        INNER_CIRCLE_TABLET_START_FILL,
+        INNER_CIRCLE_FINAL_FILL,
+        percentage,
+    );
     return css`
         clip-path: circle(${fill}%);
         @keyframes grow-tablet {
             0% {
-                clip-path: circle(${start}%);
+                clip-path: circle(${INNER_CIRCLE_TABLET_START_FILL}%);
             }
             100% {
                 clip-path: circle(${fill}%);
@@ -77,14 +87,16 @@ const innnerCircleTablet = (percentage: number): string => {
 };
 
 const innnerCircleDesktop = (percentage: number): string => {
-    const start = 18;
-    const stop = 50;
-    const fill = getInnerCircleFill(start, stop, percentage);
+    const fill = getInnerCircleFill(
+        INNER_CIRCLE_DESKTOP_START_FILL,
+        INNER_CIRCLE_FINAL_FILL,
+        percentage,
+    );
     return css`
         clip-path: circle(${fill}%);
         @keyframes grow-desktop {
             0% {
-                clip-path: circle(${start}%);
+                clip-path: circle(${INNER_CIRCLE_DESKTOP_START_FILL}%);
             }
             100% {
                 clip-path: circle(${fill}%);
@@ -109,14 +121,16 @@ const innnerCircleDesktop = (percentage: number): string => {
 };
 
 const innnerCircleWide = (percentage: number): string => {
-    const start = 18;
-    const stop = 50;
-    const fill = getInnerCircleFill(start, stop, percentage);
+    const fill = getInnerCircleFill(
+        INNER_CIRCLE_WIDE_START_FILL,
+        INNER_CIRCLE_FINAL_FILL,
+        percentage,
+    );
     return css`
         clip-path: circle(${fill}%);
         @keyframes grow-wide {
             0% {
-                clip-path: circle(${start}%);
+                clip-path: circle(${INNER_CIRCLE_WIDE_START_FILL}%);
             }
             100% {
                 clip-path: circle(${fill}%);
