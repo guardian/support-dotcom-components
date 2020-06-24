@@ -296,7 +296,7 @@ const actualNumber = css`
         padding-top: 100px;
     }
     ${from.desktop} {
-        padding-top: 90px;
+        padding-top: 85px;
     }
 `;
 
@@ -338,7 +338,7 @@ const goal = css`
     }
 
     ${from.desktop} {
-        bottom: ${space[6] * 1.55}px;
+        bottom: 50px;
         right: ${space[24]}px;
     }
 `;
