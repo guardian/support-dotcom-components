@@ -9,7 +9,7 @@ const links = {
     twitter:
         'https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20support%20the%20Guardian%20because%20I%20believe%20their%20vital%2C%20independent%20journalism%20should%20be%20open%20and%20free%20to%20all.%20Join%20me.%20With%20your%20support%2C%20we%20can%20do%20more.',
     email:
-        'mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20support%20the%20Guardian%20because%20I%20believe%20their%20vital%2C%20independent%20journalism%20should%20be%20open%20and%20free%20to%20all.%20Join%20me.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email',
+        'mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20support%20the%20Guardian%20because%20I%20believe%20their%20vital%2C%20independent%20journalism%20should%20be%20open%20and%20free%20to%20all.%20Join%20me.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email',
 };
 
 const linksWrapper = css`
