@@ -40,7 +40,11 @@ export const fetchTickerDataCached = async (
             .then(parse);
     };
 
-    const [, cachedRes] = cacheAsync(fetchForType, 60, `fetchTickerData_${tickerSettings.countType}`);
+    const [, cachedRes] = cacheAsync(
+        fetchForType,
+        60,
+        `fetchTickerData_${tickerSettings.countType}`,
+    );
 
     return cachedRes();
 };
