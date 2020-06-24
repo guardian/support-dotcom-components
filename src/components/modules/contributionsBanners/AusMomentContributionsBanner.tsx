@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { css } from 'emotion';
-import { body, textSans, headline } from '@guardian/src-foundations/typography';
+import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
@@ -37,19 +37,26 @@ const horizonSvg = (
     </svg>
 );
 
-const banner = css`
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    height: 460px;
-    ${from.tablet} {
-        height: 420px;
-    }
-`;
+const banner = (isExpanded: boolean = false): string => {
+    return css`
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        height: 460px;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        ${isExpanded ? 'overflow-y: scroll;' : null}
+        ${from.tablet} {
+            height: 420px;
+        }
+    `;
+};
 
 const sunSVGContainer = css`
     position: absolute;
@@ -290,6 +297,9 @@ const actualNumber = css`
     ${from.tablet} {
         padding-top: 100px;
     }
+    ${from.desktop} {
+        padding-top: 90px;
+    }
 `;
 
 const actualNumberFigure = css`
@@ -432,21 +442,25 @@ const mobileMessageContainer = css`
     }
 `;
 
-const mobileMessage = css`
-    overflow: hidden;
-    max-height: 55px;
-    display: block;
-    ${from.tablet} {
-        display: none;
+const mobileMessage = (isExpanded: boolean = false): string => {
+    if (isExpanded) {
+        return css`
+            display: block;
+            ${from.tablet} {
+                display: none;
+            }
+        `;
+    } else {
+        return css`
+            overflow: hidden;
+            max-height: 55px;
+            display: block;
+            ${from.tablet} {
+                display: none;
+            }
+        `;
     }
-`;
-
-const mobileMessageExpanded = css`
-    display: block;
-    ${from.tablet} {
-        display: none;
-    }
-`;
+};
 
 const ctaContainer = css`
     display: flex;
@@ -546,10 +560,14 @@ const chevron = css`
 
 const message = css`
     overflow: hidden;
-    max-height: 120px;
     display: none;
+    max-height: 70px;
     ${from.tablet} {
+        max-height: 140px;
         display: block;
+    }
+    ${from.desktop} {
+        max-height: 140px;
     }
 `;
 
@@ -563,8 +581,7 @@ const messageExpanded = css`
 const messageText = css`
     ${body.small()};
     color: ${neutral[97]};
-    line-height: 135%;
-    margin-bottom: ${space[1]}px;
+    line-height: 125%;
 `;
 
 const chevronUp = (
@@ -681,20 +698,13 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const [supporters, setSupporters] = useState(120_000);
     const [overflowing, setOverflowing] = useState(false);
     const [expanded, setExpanded] = useState(false);
+    const messageElement = useRef(null);
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
 
     const animationDurationInMS = 2000;
     const [animationStartTime, ,] = useState(Date.now());
-
-    const messageIsOverflowing = (): boolean => {
-        const message = document.querySelector('#message');
-        return message
-            ? message.scrollHeight > message.clientHeight ||
-                  message.scrollWidth > message.clientWidth
-            : false;
-    };
 
     const toggleReadMore = (): void => {
         setExpanded(!expanded);
@@ -717,6 +727,14 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         }
     }, [supporters, totalSupporters]);
 
+    const messageIsOverflowing = (): boolean => {
+        const message = document.querySelector('#message');
+        return message
+            ? message.scrollHeight > message.clientHeight ||
+                  message.scrollWidth > message.clientWidth
+            : false;
+    };
+
     useEffect(() => {
         setOverflowing(messageIsOverflowing());
     });
@@ -726,7 +744,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner}>
+                <section className={banner(expanded)}>
                     <div className={contentContainer}>
                         <div className={sunSVGContainer}>
                             <svg className={sunSVG} viewBox="0 0 1300 230">
@@ -826,11 +844,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                             : 'Our supporters are doing something powerful'}
                                     </h3>
                                     <div className={mobileMessageContainer}>
-                                        <div
-                                            className={
-                                                expanded ? mobileMessageExpanded : mobileMessage
-                                            }
-                                        >
+                                        <div className={mobileMessage(expanded)}>
                                             {isSupporter ? messageSupporter : messageNonSupporter}
                                         </div>
                                         <p onClick={toggleReadMore} className={readMore}>
@@ -843,6 +857,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
                                 <div className={messageContainer}>
                                     <div
+                                        ref={messageElement}
                                         id="message"
                                         className={expanded ? messageExpanded : message}
                                     >
