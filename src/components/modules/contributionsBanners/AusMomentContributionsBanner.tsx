@@ -4,11 +4,11 @@ import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import Close from '../closeButton/Close';
 import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
 import { BannerTracking } from '../../BannerTypes';
 import { SocialLinks } from './social-links';
+import {SvgClose} from "@guardian/src-icons/cross";
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -829,7 +829,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                     className={closeButton}
                                     aria-label="Close"
                                 >
-                                    <Close />
+                                    <SvgClose />
                                 </button>
                             </div>
                         </div>
