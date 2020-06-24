@@ -525,6 +525,7 @@ const hearFromOurEditor = css`
     ${from.desktop} {
         display: block;
     }
+    text-decoration: underline;
 `;
 
 const shareYourSupport = css`
