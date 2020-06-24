@@ -569,7 +569,7 @@ const message = css`
         display: block;
     }
     ${from.wide} {
-        max-height: 210px;
+        max-height: 180px;
     }
 `;
 
