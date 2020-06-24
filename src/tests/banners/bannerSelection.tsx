@@ -82,6 +82,7 @@ export const selectBannerTest = (
             const testToRun = tests.find(
                 test =>
                     targeting.alreadyVisitedCount >= test.minPageViews &&
+                    !targeting.shouldHideReaderRevenue &&
                     test.canRun(targeting, pageTracking),
             );
 
