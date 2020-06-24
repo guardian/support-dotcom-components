@@ -38,25 +38,23 @@ const horizonSvg = (
     </svg>
 );
 
-const banner = (isExpanded: boolean = false): string => {
-    return css`
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        height: 460px;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-        ${from.tablet} {
-            height: 420px;
-        }
-    `;
-};
+const banner = css`
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 460px;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    ${from.tablet} {
+        height: 420px;
+    }
+`;
 
 const sunSVGContainer = css`
     position: absolute;
@@ -582,10 +580,10 @@ const messageText = css`
     ${body.small()};
     color: ${neutral[97]};
     line-height: 125%;
-    
+
     p:first-child {
-      margin-top: 1em;
-      margin-bottom: 1em;
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
 `;
 
@@ -749,7 +747,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner(expanded)}>
+                <section className={banner}>
                     <div className={contentContainer}>
                         <div className={sunSVGContainer}>
                             <svg className={sunSVG} viewBox="0 0 1300 230">
