@@ -8,7 +8,7 @@ import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
 import { BannerTracking } from '../../BannerTypes';
 import { SocialLinks } from './social-links';
-import { SvgClose } from '@guardian/src-icons/cross';
+import { SvgClose } from '@guardian/src-icons';
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
