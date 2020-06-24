@@ -10,10 +10,6 @@ import { BannerTracking } from '../../BannerTypes';
 import { SocialLinks } from './social-links';
 import { SvgClose } from '@guardian/src-icons';
 import { useWindowSize } from './useWindowSize';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import { Style } from 'react-style-tag';
-import { dcrStyles } from "./dcr-styles";
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -42,26 +38,23 @@ const horizonSvg = (
     </svg>
 );
 
-const banner = (isExpanded: boolean = false): string => {
-    return css`
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        height: 460px;
-        -ms-overflow-style: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-        ${isExpanded ? 'overflow-y: scroll;' : null}
-        ${from.tablet} {
-            height: 420px;
-        }
-    `;
-};
+const banner = css`
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 460px;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    ${from.tablet} {
+        height: 420px;
+    }
+`;
 
 const sunSVGContainer = css`
     position: absolute;
@@ -319,7 +312,7 @@ const actualNumberFigure = css`
 const textUnderNumber = css`
     ${body.medium({ fontStyle: 'italic' })};
     font-size: 12px;
-    ${from.tablet} {
+    ${from.phablet} {
         font-size: 17px;
     }
     margin: 0;
@@ -412,7 +405,7 @@ const headingAndCta = css`
     flex-direction: column;
     justify-content: space-between;
     padding: ${space[4]}px 0 0 0;
-    margin: 0;
+    margin: 0 ${space[3]}px 0 0;
     width: 100%;
 
     ${from.tablet} {
@@ -432,12 +425,16 @@ const heading = css`
     ${headline.small({ fontWeight: 'bold' })};
     font-size: 24px;
 
+    ${from.phablet} {
+        font-size: 24px;
+    }
+
     ${from.tablet} {
-        font-size: 28px;
+        font-size: 26px;
     }
 
     ${from.desktop} {
-        font-size: 42px;
+        font-size: 38px;
     }
 `;
 
@@ -469,7 +466,6 @@ const mobileMessage = (isExpanded: boolean = false): string => {
 
 const ctaContainer = css`
     display: flex;
-    align-items: center;
     padding: 0;
     margin: 0;
     max-height: 40px;
@@ -482,7 +478,7 @@ const ctaContainer = css`
     }
     ${from.desktop} {
         padding-bottom: ${space[4]}px;
-        margin-top: ${space[3]}px;
+        margin-top: ${space[6]}px;
         align-items: center;
         flex-direction: row;
         max-height: auto;
@@ -588,6 +584,11 @@ const messageText = css`
     ${body.small()};
     color: ${neutral[97]};
     line-height: 125%;
+
+    p:first-child {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
 `;
 
 const chevronUp = (
@@ -749,9 +750,8 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     return (
         <>
-            <Style>{dcrStyles}</Style>
             {showBanner ? (
-                <section className={banner(expanded)}>
+                <section className={banner}>
                     <div className={contentContainer}>
                         <div className={sunSVGContainer}>
                             <svg className={sunSVG} viewBox="0 0 1300 230">
