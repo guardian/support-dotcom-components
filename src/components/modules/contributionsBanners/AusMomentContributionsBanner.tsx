@@ -436,10 +436,6 @@ const heading = css`
     ${from.desktop} {
         font-size: 38px;
     }
-
-    ${from.wide} {
-        font-size: 42px;
-    }
 `;
 
 const mobileMessageContainer = css`
