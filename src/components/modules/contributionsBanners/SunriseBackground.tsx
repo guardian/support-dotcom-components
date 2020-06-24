@@ -3,12 +3,12 @@ import { css } from 'emotion';
 import { brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 
-const sunSVGContainer = css`
+const svgContainer = css`
     position: absolute;
     width: 100%;
 `;
 
-const sunSVG = css`
+const svg = css`
     width: 100%;
     height: 420px;
     background-color: ${opinion[500]};
@@ -187,8 +187,8 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
     percentage,
 }: SunriseBackgroundProps) => {
     return (
-        <div className={sunSVGContainer}>
-            <svg className={sunSVG} viewBox="0 0 1300 230">
+        <div className={svgContainer}>
+            <svg className={svg} viewBox="0 0 1300 230">
                 {/* wide */}
                 <circle className={outerCircleWide} cx="50%" cy="90%" r="45%" fill="currentColor" />
                 <circle
