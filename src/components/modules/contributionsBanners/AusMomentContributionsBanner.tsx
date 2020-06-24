@@ -312,7 +312,7 @@ const actualNumberFigure = css`
 const textUnderNumber = css`
     ${body.medium({ fontStyle: 'italic' })};
     font-size: 12px;
-    ${from.tablet} {
+    ${from.phablet} {
         font-size: 17px;
     }
     margin: 0;
@@ -425,11 +425,19 @@ const heading = css`
     ${headline.small({ fontWeight: 'bold' })};
     font-size: 24px;
 
+    ${from.phablet} {
+        font-size: 24px;
+    }
+
     ${from.tablet} {
-        font-size: 28px;
+        font-size: 26px;
     }
 
     ${from.desktop} {
+        font-size: 38px;
+    }
+
+    ${from.wide} {
         font-size: 42px;
     }
 `;
