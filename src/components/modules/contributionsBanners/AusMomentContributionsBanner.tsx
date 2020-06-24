@@ -286,7 +286,7 @@ const actualNumber = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 135px;
+    padding-top: 125px;
     ${from.tablet} {
         padding-top: 100px;
     }
@@ -451,21 +451,30 @@ const mobileMessageExpanded = css`
 const ctaContainer = css`
     display: flex;
     align-items: center;
+    padding: 0;
+    margin: 0;
+    max-height: 40px;
     ${from.tablet} {
         padding-bottom: ${space[4]}px;
         margin-top: ${space[4]}px;
         align-items: flex-start;
         flex-direction: column;
+        max-height: auto;
     }
     ${from.desktop} {
         padding-bottom: ${space[4]}px;
         margin-top: ${space[3]}px;
         align-items: center;
         flex-direction: row;
+        max-height: auto;
     }
 `;
 
 const readMore = css`
+    ${until.tablet} {
+        margin-top: ${space[1] * 0.75}px;
+        margin-bottom: ${space[4] * 1.5}px;
+    }
     padding-bottom: 0;
     display: inline-block;
     cursor: pointer;
@@ -630,7 +639,7 @@ const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
     return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.campaignCode}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
 };
 
-const socialShare = () => {
+const socialShare = (): JSX.Element => {
     return (
         <div className={ctaContainer}>
             <SocialLinks />
@@ -639,7 +648,7 @@ const socialShare = () => {
     );
 };
 
-const support = (tracking: BannerTracking) => {
+const support = (tracking: BannerTracking): JSX.Element => {
     const supportTheGuardianUrl = urlWithTracking(
         'https://support.theguardian.com/contribute',
         tracking,
@@ -713,10 +722,6 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     });
 
     const percentage = calculatePercentage(totalSupporters);
-
-    const onMobileReadMoreClick = (): void => {
-        setExpanded(!expanded);
-    };
 
     return (
         <>

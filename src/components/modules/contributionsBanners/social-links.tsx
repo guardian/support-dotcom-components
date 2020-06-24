@@ -26,7 +26,7 @@ const socialLinkButton = css`
     }
 `;
 
-export const SocialLinks = () => (
+export const SocialLinks = (): JSX.Element => (
     <div className={linksWrapper}>
         <a href={links.facebook} className={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
