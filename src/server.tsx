@@ -223,7 +223,7 @@ const buildBannerData = async (
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
-            isSupporter: targeting.shouldHideReaderRevenue,
+            isSupporter: !targeting.showSupportMessaging,
             tickerSettings,
         };
 
