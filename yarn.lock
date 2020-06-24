@@ -1339,12 +1339,24 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-0.18.1.tgz#b49f74c650eccaf33c05413e0c192102dc939ad0"
   integrity sha512-745xKtD818+dkHxoROgL+0y3NWIUaMBUxZWEa6cNOlDBgU/oj2WrNSVAEKojMiwii2AA5GODXxFfoSNXyVWZUg==
 
+"@guardian/src-foundations@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.4.0.tgz#f26e3fb6d2da1d08dcb8042d00bec3bcc8cddbc3"
+  integrity sha512-FH9TBLVQph13bfY0jfqXetXWCxDHIhOUHVuSsdEgxVGAIKgdv0ocju9JoYwRnZvk+RJlekXO/EEESnS+u8yYgQ==
+
 "@guardian/src-helpers@^0.18.1":
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-0.18.1.tgz#e62aab928c92bd03d67df05ca30306294a4911e5"
   integrity sha512-tFdrvWctRSpSnPcMjyCg2PW3o2F97g/23iY8krbjA4Fn8E3Qdiqo0JDj5Rs1TDu4a2+fmEciE0gb/hRClDZzeQ==
   dependencies:
     "@guardian/src-foundations" "^0.18.1"
+
+"@guardian/src-helpers@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-1.4.0.tgz#137aac157fdf493e4ccfcabe517dd2cd5d7bd927"
+  integrity sha512-5yEvkMgDpd+iI58HmwCcBlLkKSf9u0bJSJILSdsupcOvZB6g1e9HtDZdKb+BsQN/jNp5kz9qbylZZHJ5aFIhpQ==
+  dependencies:
+    "@guardian/src-foundations" "^1.4.0"
 
 "@guardian/src-icons@^1.4.0":
   version "1.4.0"
@@ -1358,6 +1370,13 @@
   dependencies:
     "@guardian/src-helpers" "^0.18.1"
     "@guardian/src-svgs" "^0.18.1"
+
+"@guardian/src-link@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-link/-/src-link-1.4.0.tgz#a296a31e93b0560a12a658746f57cb381bbc3d4a"
+  integrity sha512-7+N0KnCKG7AHMlihqWIyj5DoNM5911yOBHkbq5IZmA3Uhd91HBeGAyY0qjLAHNWpUFSWipXz3L4Vg7Qj86u83A==
+  dependencies:
+    "@guardian/src-helpers" "^1.4.0"
 
 "@guardian/src-svgs@^0.18.1":
   version "0.18.1"
@@ -4921,6 +4940,11 @@ css@^2.2.4:
     source-map "^0.6.1"
     source-map-resolve "^0.5.2"
     urix "^0.1.0"
+
+cssbeautify@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/cssbeautify/-/cssbeautify-0.3.1.tgz#12dd1f734035c2e6faca67dcbdcef74e42811397"
+  integrity sha1-Et0fc0A1wub6ymfcvc73TkKBE5c=
 
 cssesc@^3.0.0:
   version "3.0.0"
@@ -10430,6 +10454,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-parm@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-parm/-/react-parm-1.1.1.tgz#a88af214ff942aac517ec21a4aea8a57104512d3"
+  integrity sha512-fei1OHIwwYWTdAeiJSCz8VHCIIeZTI65fmtFRtoejwYMOQGgJcim0K1RTz69kTnvwviQI+a9vU3t0MZR52hSLQ==
+
 react-popper-tooltip@^2.8.3:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/react-popper-tooltip/-/react-popper-tooltip-2.11.1.tgz#3c4bdfd8bc10d1c2b9a162e859bab8958f5b2644"
@@ -10474,6 +10503,15 @@ react-sizeme@^2.6.7:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
+
+react-style-tag@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-style-tag/-/react-style-tag-2.0.1.tgz#e055a320dcd40ba0fcbab16e1991734f4a6c3d41"
+  integrity sha512-KwNLha72FDlgEvQiKClPEZCMyFqoU8M7LCpJH8eCYcb7wr1BWsKrtO+ZGoEGhrGepvLlL4RlSj7lwOU4DsmTiw==
+  dependencies:
+    cssbeautify "^0.3.1"
+    react-parm "^1.0.0"
+    stylis "^3.5.0"
 
 react-syntax-highlighter@^11.0.2:
   version "11.0.2"
@@ -11813,6 +11851,11 @@ style-loader@^1.0.0:
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^2.6.6"
+
+stylis@^3.5.0:
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
+  integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
 
 superagent@^3.8.3:
   version "3.8.3"

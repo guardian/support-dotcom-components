@@ -37,6 +37,7 @@ export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePath: string;
+    moduleName: string;
 }
 
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
@@ -44,6 +45,7 @@ export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracki
 export interface BannerTest {
     name: string;
     canRun: CanRun;
+    minPageViews: number;
     variants: BannerVariant[];
 }
 
@@ -52,4 +54,5 @@ export interface BannerTestSelection {
     test: BannerTest;
     variant: BannerVariant;
     moduleUrl: string;
+    moduleName: string;
 }

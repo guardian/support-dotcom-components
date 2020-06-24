@@ -8,6 +8,7 @@ export const AusMomentContributionsBanner: BannerTest = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
         targeting.countryCode === 'AU',
+    minPageViews: 2,
     variants: [
         {
             name: 'control',
@@ -23,6 +24,7 @@ export const AusMomentContributionsBanner: BannerTest = {
                 },
             },
             modulePath: AusMomentContributionsBannerPath,
+            moduleName: 'AusMomentContributionsBanner',
         },
     ],
 };
