@@ -10,6 +10,10 @@ import { BannerTracking } from '../../BannerTypes';
 import { SocialLinks } from './social-links';
 import { SvgClose } from '@guardian/src-icons';
 import { useWindowSize } from './useWindowSize';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { Style } from 'react-style-tag';
+import { dcrStyles } from "./dcr-styles";
 
 const targetIncrease = 30_000;
 const startingAmt = 120_000;
@@ -744,6 +748,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     return (
         <>
+            <Style>{dcrStyles}</Style>
             {showBanner ? (
                 <section className={banner(expanded)}>
                     <div className={contentContainer}>

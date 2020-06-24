@@ -53,7 +53,8 @@
     "node-cache": "^5.1.0",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "react-style-tag": "^2.0.1"
   },
   "devDependencies": {
     "@aws-cdk/aws-apigateway": "^1.22.0",
