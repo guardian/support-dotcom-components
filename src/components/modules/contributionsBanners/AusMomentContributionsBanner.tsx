@@ -306,7 +306,7 @@ const actualNumber = css`
 const actualNumberFigure = css`
     ${headline.medium({ fontWeight: 'bold' })};
     font-size: 34px;
-    ${from.tablet} {
+    ${from.phablet} {
         font-size: 54px;
     }
     margin: 0;
@@ -564,10 +564,10 @@ const message = css`
     display: none;
     max-height: 70px;
     ${from.tablet} {
-        max-height: 140px;
+        max-height: 130px;
         display: block;
     }
-    ${from.desktop} {
+    ${from.wide} {
         max-height: 210px;
     }
 `;
