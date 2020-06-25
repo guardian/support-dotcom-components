@@ -58,7 +58,7 @@ const innerCircleAnimation = (
         animation-name: grow-${nameSuffix}, pulse-${nameSuffix};
         animation-duration: 2s, 2s;
         animation-delay: 0s, 2.2s;
-        animation-timing-function: ease, ease-in-out;
+        animation-timing-function: ease, cubic-bezier(0.45, 0.26, 0.22, 0.79);
         animation-iteration-count: 1, infinite;
         animation-direction: normal, alternate;
     `;
