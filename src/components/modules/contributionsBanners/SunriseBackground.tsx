@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from 'emotion';
 import { brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
@@ -23,6 +23,7 @@ const INNER_CIRCLE_TABLET_START_FILL = 20;
 const INNER_CIRCLE_DESKTOP_START_FILL = 18;
 const INNER_CIRCLE_WIDE_START_FILL = 18;
 const INNER_CIRCLE_FINAL_FILL = 50;
+const INNER_CIRCLE_ANIMATION_DURATION_IN_MS = 2000;
 
 const innerCircle = css`
     color: ${brandAlt[400]};
@@ -274,79 +275,95 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
     percentage,
 }: SunriseBackgroundProps) => {
     const isGoalReached = percentage >= 1.0;
+
+    const [showOuterCircle, setShowOuterCircle] = useState(true);
+
+    if (isGoalReached) {
+        setTimeout(() => {
+            setShowOuterCircle(false);
+        }, INNER_CIRCLE_ANIMATION_DURATION_IN_MS);
+    }
     return (
         <div className={svgContainer}>
             <svg className={svg} viewBox="0 0 1300 230">
-                {/* wide */}
-                <circle className={outerCircleWide} cx="50%" cy="90%" r="45%" fill="currentColor" />
-                <circle
-                    className={
-                        isGoalReached
-                            ? innerCircleWideGoalReached
-                            : innerCircleWideGoalNotReached(percentage)
-                    }
-                    cx="50%"
-                    cy="90%"
-                    r="45%"
-                    fill="currentColor"
-                />
-                {/* desktop */}
-                <circle
-                    className={outerCircleDesktop}
-                    cx="50%"
-                    cy="90%"
-                    r="55%"
-                    fill="currentColor"
-                />
-                <circle
-                    className={
-                        isGoalReached
-                            ? innerCircleDesktopGoalReached
-                            : innerCircleDesktopGoalNotReached(percentage)
-                    }
-                    cx="50%"
-                    cy="90%"
-                    r="55%"
-                    fill="currentColor"
-                />
-                {/* tablet */}
-                <circle
-                    className={outerCircleTablet}
-                    cx="50%"
-                    cy="90%"
-                    r="55%"
-                    fill="currentColor"
-                />
-                <circle
-                    className={
-                        isGoalReached
-                            ? innerCircleTabletGoalReached
-                            : innerCircleTabletGoalNotReached(percentage)
-                    }
-                    cx="50%"
-                    cy="90%"
-                    r="55%"
-                    fill="currentColor"
-                />
-                {/* mobile */}
-                <circle
-                    className={outerCircleMobile}
-                    cx="50%"
-                    cy="75%"
-                    r="66%"
-                    fill="currentColor"
-                />
-                <circle
-                    className={
-                        isGoalReached
-                            ? innerCircleMobileGoalReached
-                            : innerCircleMobileGoalNotReached(percentage)
-                    }
-                    cx="50%"
-                    cy="75%"
-                    r="66%"
-                    fill="currentColor"
-                />
+                {showOuterCircle && (
+                    <g>
+                        <circle
+                            className={outerCircleWide}
+                            cx="50%"
+                            cy="90%"
+                            r="45%"
+                            fill="currentColor"
+                        />
+                        <circle
+                            className={outerCircleDesktop}
+                            cx="50%"
+                            cy="90%"
+                            r="55%"
+                            fill="currentColor"
+                        />
+                        <circle
+                            className={outerCircleTablet}
+                            cx="50%"
+                            cy="90%"
+                            r="55%"
+                            fill="currentColor"
+                        />
+                        <circle
+                            className={outerCircleMobile}
+                            cx="50%"
+                            cy="75%"
+                            r="66%"
+                            fill="currentColor"
+                        />
+                    </g>
+                )}
+                <g>
+                    <circle
+                        className={
+                            isGoalReached
+                                ? innerCircleWideGoalReached
+                                : innerCircleWideGoalNotReached(percentage)
+                        }
+                        cx="50%"
+                        cy="90%"
+                        r="45%"
+                        fill="currentColor"
+                    />
+                    <circle
+                        className={
+                            isGoalReached
+                                ? innerCircleDesktopGoalReached
+                                : innerCircleDesktopGoalNotReached(percentage)
+                        }
+                        cx="50%"
+                        cy="90%"
+                        r="55%"
+                        fill="currentColor"
+                    />
+                    <circle
+                        className={
+                            isGoalReached
+                                ? innerCircleTabletGoalReached
+                                : innerCircleTabletGoalNotReached(percentage)
+                        }
+                        cx="50%"
+                        cy="90%"
+                        r="55%"
+                        fill="currentColor"
+                    />
+                    <circle
+                        className={
+                            isGoalReached
+                                ? innerCircleMobileGoalReached
+                                : innerCircleMobileGoalNotReached(percentage)
+                        }
+                        cx="50%"
+                        cy="75%"
+                        r="66%"
+                        fill="currentColor"
+                    />
+                </g>
             </svg>
         </div>
     );
