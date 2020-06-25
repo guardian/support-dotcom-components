@@ -224,8 +224,12 @@ const innerCircleWideGoalReached = css`
     )}
 `;
 
-const outerCircleMobile = css`
+const outerCircle = css`
     color: ${brandAlt[200]};
+`;
+
+const outerCircleMobile = css`
+    ${outerCircle}
 
     ${from.tablet} {
         display: none;
@@ -233,7 +237,8 @@ const outerCircleMobile = css`
 `;
 
 const outerCircleTablet = css`
-    color: ${brandAlt[200]};
+    ${outerCircle}
+
     display: none;
 
     ${from.tablet} {
@@ -246,7 +251,8 @@ const outerCircleTablet = css`
 `;
 
 const outerCircleDesktop = css`
-    color: ${brandAlt[200]};
+    ${outerCircle}
+
     display: none;
 
     ${from.desktop} {
@@ -259,7 +265,8 @@ const outerCircleDesktop = css`
 `;
 
 const outerCircleWide = css`
-    color: ${brandAlt[200]};
+    ${outerCircle}
+
     display: none;
 
     ${from.wide} {
