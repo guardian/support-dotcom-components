@@ -280,7 +280,7 @@ const mobileMessage = (isExpanded: boolean = false): string => {
     } else {
         return css`
             overflow: hidden;
-            max-height: 55px;
+            max-height: 52px;
             display: block;
             ${from.tablet} {
                 display: none;
@@ -311,10 +311,10 @@ const ctaContainer = css`
 `;
 
 const readMore = css`
-    ${until.tablet} {
-        margin-top: ${space[1] * 0.75}px;
-        margin-bottom: ${space[4] * 1.5}px;
-    }
+    // margin-block-start: 1em;
+    // margin-block-end: 1em;
+    // margin-inline-start: 0px;
+    // margin-inline-end: 0px;
     padding-bottom: 0;
     display: inline-block;
     cursor: pointer;
@@ -385,16 +385,14 @@ const chevron = css`
     padding-left: 4px;
 `;
 
-const message = css`
+const messageMaxHeight = 210;
+const message = (isOverflowing: boolean): string => css`
     overflow: hidden;
     display: none;
     max-height: 70px;
     ${from.tablet} {
-        max-height: 130px;
+        max-height: ${isOverflowing ? 120 : messageMaxHeight}px;
         display: block;
-    }
-    ${from.wide} {
-        max-height: 210px;
     }
 `;
 
@@ -561,12 +559,20 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const messageIsOverflowing = (): boolean => {
         const message = messageElement.current;
-        return message ? message.scrollHeight > message.clientHeight : false;
+        if (message) {
+            return message.scrollHeight > messageMaxHeight;
+        }
+        return false;
     };
 
     useEffect(() => {
-        setOverflowing(messageIsOverflowing());
+        const isOverflowing = messageIsOverflowing();
+        setOverflowing(isOverflowing);
     });
+
+    // const displayShowMore = (): boolean => {
+    //
+    // };
 
     const percentage = calculatePercentage(totalSupporters);
 
@@ -623,7 +629,9 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <div className={messageContainer}>
                                     <div
                                         ref={messageElement}
-                                        className={expanded ? messageExpanded : message}
+                                        className={
+                                            expanded ? messageExpanded : message(overflowing)
+                                        }
                                     >
                                         {isSupporter ? messageSupporter : messageNonSupporter}
                                     </div>
