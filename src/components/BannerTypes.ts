@@ -5,7 +5,7 @@ import { TickerSettings } from '../lib/variants';
 export type BannerTargeting = {
     alreadyVisitedCount: number;
     shouldHideReaderRevenue?: boolean;
-    isPaidContent: boolean;
+    isPaidContent?: boolean;
     showSupportMessaging: boolean;
     engagementBannerLastClosedAt?: string;
     mvtId: number;
