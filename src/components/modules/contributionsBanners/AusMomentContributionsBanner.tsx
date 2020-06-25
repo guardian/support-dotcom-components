@@ -394,7 +394,7 @@ const message = css`
         display: block;
     }
     ${from.wide} {
-        max-height: 180px;
+        max-height: 210px;
     }
 `;
 
@@ -530,7 +530,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const [supporters, setSupporters] = useState(120_000);
     const [overflowing, setOverflowing] = useState(false);
     const [expanded, setExpanded] = useState(false);
-    const messageElement = useRef(null);
+    const messageElement = useRef<HTMLDivElement>(null);
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
@@ -560,11 +560,8 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     }, [supporters, totalSupporters]);
 
     const messageIsOverflowing = (): boolean => {
-        const message = document.querySelector('#message');
-        return message
-            ? message.scrollHeight > message.clientHeight ||
-                  message.scrollWidth > message.clientWidth
-            : false;
+        const message = messageElement.current;
+        return message ? message.scrollHeight > message.clientHeight : false;
     };
 
     useEffect(() => {
@@ -626,7 +623,6 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <div className={messageContainer}>
                                     <div
                                         ref={messageElement}
-                                        id="message"
                                         className={expanded ? messageExpanded : message}
                                     >
                                         {isSupporter ? messageSupporter : messageNonSupporter}
