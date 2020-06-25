@@ -23,13 +23,13 @@ const INNER_CIRCLE_TABLET_START_FILL = 20;
 const INNER_CIRCLE_DESKTOP_START_FILL = 18;
 const INNER_CIRCLE_WIDE_START_FILL = 18;
 const INNER_CIRCLE_FINAL_FILL = 50;
+const INNER_CIRCLE_PULSE_FILL_DIFF = 2;
 const INNER_CIRCLE_ANIMATION_DURATION_IN_MS = 2000;
 
 const innerCircle = css`
     color: ${brandAlt[400]};
 `;
-
-const innerCircleGoalNotReachedAnimation = (
+const innerCircleAnimation = (
     startFill: number,
     finalFill: number,
     percentage: number,
@@ -46,38 +46,16 @@ const innerCircleGoalNotReachedAnimation = (
                 clip-path: circle(${fill}%);
             }
         }
-        animation-name: grow-${nameSuffix};
-        animation-duration: 2s;
-        animation-timing-function: ease;
-        animation-iteration-count: 1;
-    `;
-};
-
-const innerCircleGoalReachedAnimation = (
-    startFill: number,
-    finalFill: number,
-    nameSuffix: string,
-): string => {
-    return css`
-        clip-path: circle(${finalFill}%);
-        @keyframes grow-reached-${nameSuffix} {
-            0% {
-                clip-path: circle(${startFill}%);
-            }
-            100% {
-                clip-path: circle(${finalFill}%);
-            }
-        }
         @keyframes pulse-${nameSuffix} {
             0% {
-                clip-path: circle(${finalFill}%);
+                clip-path: circle(${fill}%);
             }
             100% {
-                clip-path: circle(48%);
+                clip-path: circle(${fill - INNER_CIRCLE_PULSE_FILL_DIFF}%);
             }
         }
 
-        animation-name: grow-reached-${nameSuffix}, pulse-${nameSuffix};
+        animation-name: grow-${nameSuffix}, pulse-${nameSuffix};
         animation-duration: 2s, 2s;
         animation-delay: 0s, 2.2s;
         animation-timing-function: ease, ease-in-out;
@@ -86,143 +64,86 @@ const innerCircleGoalReachedAnimation = (
     `;
 };
 
-const innerCircleMobile = css`
+const innerCircleMobile = (percentage: number): string => {
+    return css`
     ${innerCircle}
 
-    ${from.tablet} {
-        display: none;
-    }
-`;
-
-const innerCircleMobileGoalNotReached = (percentage: number): string => {
-    return css`
-        ${innerCircleMobile}
-
-        ${innerCircleGoalNotReachedAnimation(
-            INNER_CIRCLE_MOBILE_START_FILL,
-            INNER_CIRCLE_FINAL_FILL,
-            percentage,
-            'mobile',
-        )}
-    `;
-};
-
-const innerCircleMobileGoalReached = css`
-    ${innerCircleMobile}
-
-    ${innerCircleGoalReachedAnimation(
+    ${innerCircleAnimation(
         INNER_CIRCLE_MOBILE_START_FILL,
         INNER_CIRCLE_FINAL_FILL,
+        percentage,
         'mobile',
     )}
-`;
-
-const innerCircleTablet = css`
-    ${innerCircle}
-
-    display: none;
 
     ${from.tablet} {
-        display: block;
-    }
-
-    ${from.desktop} {
         display: none;
     }
 `;
+};
 
-const innerCircleTabletGoalNotReached = (percentage: number): string => {
+const innerCircleTablet = (percentage: number): string => {
     return css`
-        ${innerCircleTablet}
+        ${innerCircle}
 
-        ${innerCircleGoalNotReachedAnimation(
+        ${innerCircleAnimation(
             INNER_CIRCLE_TABLET_START_FILL,
             INNER_CIRCLE_FINAL_FILL,
             percentage,
             'tablet',
         )}
+    display: none;
+
+        ${from.tablet} {
+            display: block;
+        }
+
+        ${from.desktop} {
+            display: none;
+        }
     `;
 };
 
-const innerCircleTabletGoalReached = css`
-    ${innerCircleTablet}
-
-    ${innerCircleGoalReachedAnimation(
-        INNER_CIRCLE_TABLET_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        'tablet',
-    )}
-`;
-
-const innnerCircleDesktop = css`
-    ${innerCircle}
-
-    display: none;
-
-    ${from.desktop} {
-        display: block;
-    }
-
-    ${from.wide} {
-        display: none;
-    }
-`;
-
-const innerCircleDesktopGoalNotReached = (percentage: number): string => {
+const innerCircleDesktop = (percentage: number): string => {
     return css`
-        ${innnerCircleDesktop}
+        ${innerCircle}
 
-        ${innerCircleGoalNotReachedAnimation(
+        ${innerCircleAnimation(
             INNER_CIRCLE_DESKTOP_START_FILL,
             INNER_CIRCLE_FINAL_FILL,
             percentage,
             'desktop',
         )}
+        
+    display: none;
+
+        ${from.desktop} {
+            display: block;
+        }
+
+        ${from.wide} {
+            display: none;
+        }
     `;
 };
 
-const innerCircleDesktopGoalReached = css`
-    ${innnerCircleDesktop}
-
-    ${innerCircleGoalReachedAnimation(
-        INNER_CIRCLE_DESKTOP_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        'desktop',
-    )}
-`;
-
-const innerCircleWide = css`
-    ${innerCircle}
-
-    display: none;
-
-    ${from.desktop} {
-        display: block;
-    }
-`;
-
-const innerCircleWideGoalNotReached = (percentage: number): string => {
+const innerCircleWide = (percentage: number): string => {
     return css`
-        ${innerCircleWide}
+        ${innerCircle}
 
-        ${innerCircleGoalNotReachedAnimation(
+        ${innerCircleAnimation(
             INNER_CIRCLE_WIDE_START_FILL,
             INNER_CIRCLE_FINAL_FILL,
             percentage,
             'wide',
         )}
+
+        display: none;
+
+        ${from.desktop} {
+            display: block;
+        }
     `;
 };
-
-const innerCircleWideGoalReached = css`
-    ${innerCircleWide}
-
-    ${innerCircleGoalReachedAnimation(
-        INNER_CIRCLE_WIDE_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        'wide',
-    )}
-`;
 
 const outerCircle = css`
     color: ${brandAlt[200]};
@@ -327,44 +248,28 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
                 )}
                 <g>
                     <circle
-                        className={
-                            isGoalReached
-                                ? innerCircleWideGoalReached
-                                : innerCircleWideGoalNotReached(percentage)
-                        }
+                        className={innerCircleWide(percentage)}
                         cx="50%"
                         cy="90%"
                         r="45%"
                         fill="currentColor"
                     />
                     <circle
-                        className={
-                            isGoalReached
-                                ? innerCircleDesktopGoalReached
-                                : innerCircleDesktopGoalNotReached(percentage)
-                        }
+                        className={innerCircleDesktop(percentage)}
                         cx="50%"
                         cy="90%"
                         r="55%"
                         fill="currentColor"
                     />
                     <circle
-                        className={
-                            isGoalReached
-                                ? innerCircleTabletGoalReached
-                                : innerCircleTabletGoalNotReached(percentage)
-                        }
+                        className={innerCircleTablet(percentage)}
                         cx="50%"
                         cy="90%"
                         r="55%"
                         fill="currentColor"
                     />
                     <circle
-                        className={
-                            isGoalReached
-                                ? innerCircleMobileGoalReached
-                                : innerCircleMobileGoalNotReached(percentage)
-                        }
+                        className={innerCircleMobile(percentage)}
                         cx="50%"
                         cy="75%"
                         r="66%"
