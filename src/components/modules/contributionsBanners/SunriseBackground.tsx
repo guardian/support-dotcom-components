@@ -24,27 +24,44 @@ const INNER_CIRCLE_DESKTOP_START_FILL = 18;
 const INNER_CIRCLE_WIDE_START_FILL = 18;
 const INNER_CIRCLE_FINAL_FILL = 50;
 
-const innnerCircleMobile = (percentage: number): string => {
-    const fill = getInnerCircleFill(
-        INNER_CIRCLE_MOBILE_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        percentage,
-    );
+const innerCircle = css`
+    color: ${brandAlt[400]};
+`;
+
+const innerCircleGoalNotReachedAnimation = (
+    startFill: number,
+    finalFill: number,
+    percentage: number,
+    nameSuffix: string,
+): string => {
+    const fill = getInnerCircleFill(startFill, finalFill, percentage);
     return css`
         clip-path: circle(${fill}%);
-        @keyframes grow-mobile {
+        @keyframes grow-${nameSuffix} {
             0% {
-                clip-path: circle(${INNER_CIRCLE_MOBILE_START_FILL}%);
+                clip-path: circle(${startFill}%);
             }
             100% {
                 clip-path: circle(${fill}%);
             }
         }
-        color: ${brandAlt[400]};
-        animation-name: grow-mobile;
+        animation-name: grow-${nameSuffix};
         animation-duration: 2s;
         animation-timing-function: ease;
         animation-iteration-count: 1;
+    `;
+};
+
+const innnerCircleMobile = (percentage: number): string => {
+    return css`
+        ${innerCircle}
+
+        ${innerCircleGoalNotReachedAnimation(
+            INNER_CIRCLE_MOBILE_START_FILL,
+            INNER_CIRCLE_FINAL_FILL,
+            percentage,
+            'mobile',
+        )}
 
         ${from.tablet} {
             display: none;
@@ -53,26 +70,15 @@ const innnerCircleMobile = (percentage: number): string => {
 };
 
 const innnerCircleTablet = (percentage: number): string => {
-    const fill = getInnerCircleFill(
-        INNER_CIRCLE_TABLET_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        percentage,
-    );
     return css`
-        clip-path: circle(${fill}%);
-        @keyframes grow-tablet {
-            0% {
-                clip-path: circle(${INNER_CIRCLE_TABLET_START_FILL}%);
-            }
-            100% {
-                clip-path: circle(${fill}%);
-            }
-        }
-        color: ${brandAlt[400]};
-        animation-name: grow-tablet;
-        animation-duration: 2s;
-        animation-timing-function: ease;
-        animation-iteration-count: 1;
+        ${innerCircle}
+
+        ${innerCircleGoalNotReachedAnimation(
+            INNER_CIRCLE_TABLET_START_FILL,
+            INNER_CIRCLE_FINAL_FILL,
+            percentage,
+            'tablet',
+        )}
 
         display: none;
 
@@ -87,26 +93,15 @@ const innnerCircleTablet = (percentage: number): string => {
 };
 
 const innnerCircleDesktop = (percentage: number): string => {
-    const fill = getInnerCircleFill(
-        INNER_CIRCLE_DESKTOP_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        percentage,
-    );
     return css`
-        clip-path: circle(${fill}%);
-        @keyframes grow-desktop {
-            0% {
-                clip-path: circle(${INNER_CIRCLE_DESKTOP_START_FILL}%);
-            }
-            100% {
-                clip-path: circle(${fill}%);
-            }
-        }
-        color: ${brandAlt[400]};
-        animation-name: grow-desktop;
-        animation-duration: 2s;
-        animation-timing-function: ease;
-        animation-iteration-count: 1;
+        ${innerCircle}
+
+        ${innerCircleGoalNotReachedAnimation(
+            INNER_CIRCLE_DESKTOP_START_FILL,
+            INNER_CIRCLE_FINAL_FILL,
+            percentage,
+            'desktop',
+        )}
 
         display: none;
 
@@ -121,26 +116,15 @@ const innnerCircleDesktop = (percentage: number): string => {
 };
 
 const innnerCircleWide = (percentage: number): string => {
-    const fill = getInnerCircleFill(
-        INNER_CIRCLE_WIDE_START_FILL,
-        INNER_CIRCLE_FINAL_FILL,
-        percentage,
-    );
     return css`
-        clip-path: circle(${fill}%);
-        @keyframes grow-wide {
-            0% {
-                clip-path: circle(${INNER_CIRCLE_WIDE_START_FILL}%);
-            }
-            100% {
-                clip-path: circle(${fill}%);
-            }
-        }
-        color: ${brandAlt[400]};
-        animation-name: grow-wide;
-        animation-duration: 2s;
-        animation-timing-function: ease;
-        animation-iteration-count: 1;
+        ${innerCircle}
+
+        ${innerCircleGoalNotReachedAnimation(
+            INNER_CIRCLE_WIDE_START_FILL,
+            INNER_CIRCLE_FINAL_FILL,
+            percentage,
+            'wide',
+        )}
 
         display: none;
 
