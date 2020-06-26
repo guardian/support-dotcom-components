@@ -7,7 +7,7 @@ import { space } from '@guardian/src-foundations';
 import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
 import { BannerTracking } from '../../BannerTypes';
-import { SocialLinks } from './social-links';
+import SocialLinks from './SocialLinks';
 import { SvgClose } from '@guardian/src-icons';
 import SunriseBackground from './SunriseBackground';
 import { useWindowSize } from './useWindowSize';
@@ -293,6 +293,7 @@ const mobileMessage = (isExpanded: boolean = false): string => {
 
 const ctaContainer = css`
     display: flex;
+    align-items: center;
     padding: 0;
     margin: 0;
     max-height: 40px;
@@ -355,11 +356,14 @@ const shareYourSupport = css`
     margin-left: ${space[4]}px;
     color: ${neutral[86]};
     ${textSans.medium()};
+    font-size: 15px;
     ${from.tablet} {
-        margin: 0;
+        margin-left: 0;
+        margin-top: ${space[1]}px;
     }
     ${from.desktop} {
-        margin-left: ${space[4]}px;
+        margin: auto 0 auto ${space[4]}px;
+        font-size: 17px;
     }
 `;
 
