@@ -282,7 +282,7 @@ const mobileMessage = (isExpanded: boolean = false): string => {
     } else {
         return css`
             overflow: hidden;
-            max-height: 55px;
+            max-height: 52px;
             display: block;
             ${from.tablet} {
                 display: none;
@@ -313,10 +313,6 @@ const ctaContainer = css`
 `;
 
 const readMore = css`
-    ${until.tablet} {
-        margin-top: ${space[1] * 0.75}px;
-        margin-bottom: ${space[4] * 1.5}px;
-    }
     padding-bottom: 0;
     display: inline-block;
     cursor: pointer;
@@ -387,16 +383,14 @@ const chevron = css`
     padding-left: 4px;
 `;
 
-const message = css`
+const messageMaxHeight = 210;
+const message = (isOverflowing: boolean): string => css`
     overflow: hidden;
     display: none;
     max-height: 70px;
     ${from.tablet} {
-        max-height: 130px;
+        max-height: ${isOverflowing ? 120 : messageMaxHeight}px;
         display: block;
-    }
-    ${from.wide} {
-        max-height: 180px;
     }
 `;
 
@@ -532,7 +526,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     const [supporters, setSupporters] = useState(120_000);
     const [overflowing, setOverflowing] = useState(false);
     const [expanded, setExpanded] = useState(false);
-    const messageElement = useRef(null);
+    const messageElement = useRef<HTMLDivElement>(null);
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
@@ -562,15 +556,16 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     }, [supporters, totalSupporters]);
 
     const messageIsOverflowing = (): boolean => {
-        const message = document.querySelector('#message');
-        return message
-            ? message.scrollHeight > message.clientHeight ||
-                  message.scrollWidth > message.clientWidth
-            : false;
+        const message = messageElement.current;
+        if (message) {
+            return message.scrollHeight > messageMaxHeight;
+        }
+        return false;
     };
 
     useEffect(() => {
-        setOverflowing(messageIsOverflowing());
+        const isOverflowing = messageIsOverflowing();
+        setOverflowing(isOverflowing);
     });
 
     const percentage = calculatePercentage(totalSupporters);
@@ -628,8 +623,9 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                 <div className={messageContainer}>
                                     <div
                                         ref={messageElement}
-                                        id="message"
-                                        className={expanded ? messageExpanded : message}
+                                        className={
+                                            expanded ? messageExpanded : message(overflowing)
+                                        }
                                     >
                                         {isSupporter ? messageSupporter : messageNonSupporter}
                                     </div>
