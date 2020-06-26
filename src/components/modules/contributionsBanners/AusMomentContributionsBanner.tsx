@@ -20,25 +20,6 @@ const calculatePercentage = (supporters: number): number => {
     return startToCurrentDiff / targetIncrease;
 };
 
-const horizon = css`
-    bottom: 0 !important;
-    left: 0;
-    width: 100%;
-    fill: ${neutral[7]};
-    margin: 0;
-    padding: 0;
-`;
-
-const horizonSvg = (
-    <svg className={horizon} viewBox="0 0 1300 19" fill="#99999" xmlns="http://www.w3.org/2000/svg">
-        <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
-        />
-    </svg>
-);
-
 const banner = css`
     width: 100%;
     margin: 0;
@@ -196,6 +177,7 @@ const svgAndBottomContentContainer = css`
     bottom: 0;
     display: flex;
     align-items: stretch;
+    flex-grow: 1;
     flex-direction: column;
 `;
 
@@ -204,12 +186,32 @@ const horizonContainer = css`
     padding: 0;
 `;
 
+const horizon = css`
+    display: block;
+    fill: ${neutral[7]};
+`;
+
+const horizonSvg = (
+    <svg
+        className={horizon}
+        viewBox="0 0 1300 19"
+        preserveAspectRatio="none"
+        fill="${neutral[7]}"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M-1 10.1209L61.7913 0H95.2198H151.687L225.243 15H450.736V14.7865L622.72 5.93066H714.28H868.941L1008.16 15H1191.58V14.8651L1254.37 4.74414H1287.8H1300V15H1301V246H0V18.9767H-1V10.1209Z"
+        />
+    </svg>
+);
+
 const bottomContentContainer = css`
     min-height: 100%;
     display: flex;
     flex: 1;
     justify-content: space-between;
-    margin-top: -6px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
     width: 100%;
