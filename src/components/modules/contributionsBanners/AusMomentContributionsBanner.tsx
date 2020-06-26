@@ -188,6 +188,7 @@ const horizonContainer = css`
 
 const horizon = css`
     display: block;
+    fill: ${neutral[7]};
 `;
 
 const horizonSvg = (
