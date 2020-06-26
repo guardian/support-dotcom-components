@@ -184,13 +184,10 @@ const svgAndBottomContentContainer = css`
 const horizonContainer = css`
     margin: 0;
     padding: 0;
-    width: 100% !important;
-    height: 19px;
 `;
 
 const horizon = css`
-    margin: 0;
-    padding: 0;
+    display: block;
 `;
 
 const horizonSvg = (
@@ -214,7 +211,6 @@ const bottomContentContainer = css`
     display: flex;
     flex: 1;
     justify-content: space-between;
-    margin-top: -6px;
     box-sizing: border-box;
     background-color: ${neutral[7]};
     width: 100%;
