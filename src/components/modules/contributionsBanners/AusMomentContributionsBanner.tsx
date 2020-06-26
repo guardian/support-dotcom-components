@@ -566,10 +566,6 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
         setOverflowing(isOverflowing);
     });
 
-    // const displayShowMore = (): boolean => {
-    //
-    // };
-
     const percentage = calculatePercentage(totalSupporters);
 
     return (
