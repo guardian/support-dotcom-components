@@ -2,17 +2,19 @@ stacks: [frontend]
 regions: [eu-west-1]
 
 deployments:
-    cloudformation:
+    cfn:
         type: cloud-formation
         app: contributions-service
         parameters:
             cloudFormationStackName: contributions-service
             templatePath: cloudformation.yaml
             cloudFormationStackByTags: false
-    lambda:
-        type: aws-lambda
-        dependencies: [cloudformation]
+            amiTags:
+                Recipe: frontend-base
+                AmigoStage: PROD
+            amiEncrypted: true
+    contributions-service:
+        type: autoscaling
+        dependencies: [cfn]
         parameters:
-            bucket: aws-frontend-contributions-service
-            fileName: lambda.zip
-            functionNames: [-contributions-service-]
+            bucket: aws-frontend-artifacts

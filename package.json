@@ -55,10 +55,10 @@
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "@aws-cdk/aws-apigateway": "^1.22.0",
-    "@aws-cdk/aws-apigatewayv2": "^1.22.0",
-    "@aws-cdk/aws-lambda": "^1.22.0",
-    "@aws-cdk/core": "^1.22.0",
+    "@aws-cdk/aws-autoscaling": "^1.47.0",
+    "@aws-cdk/aws-ec2": "^1.47.0",
+    "@aws-cdk/aws-elasticloadbalancingv2": "^1.47.0",
+    "@aws-cdk/core": "^1.47.0",
     "@babel/core": "^7.8.3",
     "@guardian/node-riffraff-artifact": "^0.1.1",
     "@rollup/plugin-babel": "^5.0.2",
