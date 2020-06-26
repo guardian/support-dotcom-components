@@ -11,10 +11,10 @@ export const logging = (
                 status: res.statusCode,
                 method: req.method,
                 path: req.path,
-                body: req.body,
                 didRenderEpic: res.locals.didRenderEpic,
                 didRenderBanner: res.locals.didRenderBanner,
                 clientName: res.locals.clientName || 'unknown',
+                bannerTargeting: res.locals.bannerTargeting,
             }),
         ),
     );
