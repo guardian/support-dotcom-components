@@ -305,6 +305,15 @@ app.post(
             // for response logging
             res.locals.didRenderBanner = !!response.data;
             res.locals.clientName = tracking.clientName;
+            // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
+            res.locals.bannerTargeting = {
+                shouldHideReaderRevenue: payload.targeting.shouldHideReaderRevenue,
+                showSupportMessaging: payload.targeting.showSupportMessaging,
+                alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
+                countryCode: payload.targeting.countryCode,
+                engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
+                isPaidContent: payload.targeting.isPaidContent,
+            };
 
             res.send(response);
         } catch (error) {

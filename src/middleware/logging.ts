@@ -12,7 +12,9 @@ export const logging = (
                 method: req.method,
                 path: req.path,
                 didRenderEpic: res.locals.didRenderEpic,
+                didRenderBanner: res.locals.didRenderBanner,
                 clientName: res.locals.clientName || 'unknown',
+                bannerTargeting: res.locals.bannerTargeting,
             }),
         ),
     );
