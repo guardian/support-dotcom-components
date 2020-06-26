@@ -319,6 +319,7 @@ const readMore = css`
     cursor: pointer;
     color: ${neutral[86]};
     ${body.medium()};
+    font-size: 15px;
     border-bottom: 1px solid ${neutral[86]};
 `;
 
