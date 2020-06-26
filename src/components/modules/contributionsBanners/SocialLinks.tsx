@@ -1,4 +1,3 @@
-// @flow
 import React from 'react';
 import { css } from 'emotion';
 import { neutral, opinion } from '@guardian/src-foundations/palette';
@@ -32,7 +31,7 @@ const socialLinkSvg = css`
     }
 `;
 
-export const SocialLinks = (): JSX.Element => (
+const SocialLinks = (): JSX.Element => (
     <div className={socialLinksWrapper}>
         <a href={links.facebook} className={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
@@ -96,3 +95,5 @@ export const SocialLinks = (): JSX.Element => (
         </a>
     </div>
 );
+
+export default SocialLinks;

@@ -7,7 +7,7 @@ import { space } from '@guardian/src-foundations';
 import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
 import { BannerTracking } from '../../BannerTypes';
-import { SocialLinks } from './social-links';
+import SocialLinks from './SocialLinks';
 import { SvgClose } from '@guardian/src-icons';
 import SunriseBackground from './SunriseBackground';
 import { useWindowSize } from './useWindowSize';
