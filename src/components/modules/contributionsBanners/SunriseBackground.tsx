@@ -219,7 +219,7 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
                         <circle
                             className={outerCircleWide}
                             cx="50%"
-                            cy="90%"
+                            cy="50%"
                             r="45%"
                             fill="currentColor"
                         />
@@ -250,7 +250,7 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
                     <circle
                         className={innerCircleWide(percentage)}
                         cx="50%"
-                        cy="90%"
+                        cy="50%"
                         r="45%"
                         fill="currentColor"
                     />
