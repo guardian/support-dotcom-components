@@ -76,8 +76,8 @@ export class ContributionsServiceStack extends cdk.Stack {
         const userData = ec2.UserData.forLinux();
         userData.addCommands(
             'mkdir /etc/gu',
-            `aws s3 cp s3://${confBucket.valueAsString}/${stage.valueAsString}/automat-api.private.conf /etc/gu`,
-            'aws s3 cp s3://aws-frontend-artifacts/frontend/PROD/contributions-service/contributions-service_1.0-SNAPSHOT_all.deb /tmp',
+            `aws s3 cp s3://${confBucket.valueAsString}/${stage.valueAsString}/contributions-service.private.conf /etc/gu`,
+            `aws s3 cp s3://aws-frontend-artifacts/frontend/${stage.valueAsString}/contributions-service/contributions-service_1.0-SNAPSHOT_all.deb /tmp`,
             'dpkg -i /tmp/contributions-service_1.0-SNAPSHOT_all.deb',
         );
 
