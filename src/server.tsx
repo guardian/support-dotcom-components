@@ -1,6 +1,4 @@
 import express from 'express';
-import awsServerlessExpress from 'aws-serverless-express';
-import { Context } from 'aws-lambda';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
@@ -396,15 +394,4 @@ app.get(
 app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3030;
-
-if (isDev) {
-    app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-} else {
-    const server = awsServerlessExpress.createServer(app);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    exports.handler = (event: any, context: Context): void => {
-        awsServerlessExpress.proxy(server, event, context);
-    };
-}
-
-export { app };
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
