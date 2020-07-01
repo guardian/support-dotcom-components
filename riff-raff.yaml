@@ -2,7 +2,7 @@ stacks: [frontend]
 regions: [eu-west-1]
 
 deployments:
-    cfn:
+    cloudformation:
         type: cloud-formation
         app: contributions-service
         parameters:
@@ -15,6 +15,6 @@ deployments:
             amiEncrypted: true
     contributions-service:
         type: autoscaling
-        dependencies: [cfn]
+        dependencies: [cloudformation]
         parameters:
             bucket: aws-frontend-artifacts
