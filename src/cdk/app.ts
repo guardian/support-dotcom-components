@@ -33,10 +33,10 @@ export class ContributionsServiceStack extends cdk.Stack {
             description: 'List of AZs',
         });
 
-        const confBucket = new cdk.CfnParameter(this, 'ConfBucket', {
-            type: 'String',
-            description: 'Bucket containing PROD conf file for app',
-        });
+        // const confBucket = new cdk.CfnParameter(this, 'ConfBucket', {
+        //     type: 'String',
+        //     description: 'Bucket containing PROD conf file for app',
+        // });
 
         const ami = new cdk.CfnParameter(this, 'AMI', {
             type: 'AWS::EC2::Image::Id',
@@ -59,7 +59,7 @@ export class ContributionsServiceStack extends cdk.Stack {
                             effect: iam.Effect.ALLOW,
                             resources: [
                                 'arn:aws:s3:::aws-frontend-artifacts/*',
-                                `arn:aws:s3:::${confBucket.valueAsString}/*`,
+                                // `arn:aws:s3:::${confBucket.valueAsString}/*`,
                             ],
                             actions: ['s3:GetObject', 's3:HeadObject', 's3:List*'],
                         }),
