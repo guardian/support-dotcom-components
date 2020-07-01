@@ -15,7 +15,7 @@ export class ContributionsServiceStack extends cdk.Stack {
 
         cdk.Tag.add(this, 'Stack', 'frontend');
         cdk.Tag.add(this, 'Stage', stage.value.toString());
-        cdk.Tag.add(this, 'App', 'contributions-service');
+        cdk.Tag.add(this, 'App', 'contributions-service-ec2');
         cdk.Tag.add(this, 'Owner', 'slot-machine');
 
         const vpcId = new cdk.CfnParameter(this, 'VpcId', {
@@ -106,4 +106,4 @@ export class ContributionsServiceStack extends cdk.Stack {
 
 const app = new cdk.App();
 // tslint:disable-next-line: no-unused-expression
-new ContributionsServiceStack(app, 'contributions-service');
+new ContributionsServiceStack(app, 'contributions-service-ec2');
