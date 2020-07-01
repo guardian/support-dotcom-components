@@ -10,7 +10,7 @@ deployments:
             templatePath: cloudformation.yaml
             cloudFormationStackByTags: false
             amiTags:
-                Recipe: frontend-base
+                Recipe: contributions-service
                 AmigoStage: PROD
             amiEncrypted: true
     contributions-service:
