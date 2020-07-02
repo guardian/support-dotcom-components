@@ -1,48 +1,44 @@
+// @flow
 import React from 'react';
 import { css } from 'emotion';
 import { neutral, opinion } from '@guardian/src-foundations/palette';
-import { space } from '@guardian/src-foundations';
 
 const links = {
     facebook:
         'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook',
     twitter:
-        'https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20support%20the%20Guardian%20because%20I%20believe%20their%20vital%2C%20independent%20journalism%20should%20be%20open%20and%20free%20to%20all.%20Join%20me.%20With%20your%20support%2C%20we%20can%20do%20more.',
+        'https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.',
     email:
-        'mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful%0AI%20support%20the%20Guardian%20because%20I%20believe%20their%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email',
+        'mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email',
 };
 
-const socialLinksWrapper = css`
-    display: flex;
-    margin-left: -${space[2]}px;
+const linksWrapper = css`
+    margin: 0 -3px;
     padding-bottom: -10px;
 `;
 
 const socialLink = css`
-    margin-left: ${space[2]}px;
+    margin: 0 3px;
 `;
 
-const socialLinkSvg = css`
-    display: block;
-
+const socialLinkButton = css`
     fill: ${opinion[400]};
     &:hover {
         fill: ${opinion[300]};
     }
 `;
 
-const SocialLinks = (): JSX.Element => (
-    <div className={socialLinksWrapper}>
+export const SocialLinks = (): JSX.Element => (
+    <div className={linksWrapper}>
         <a href={links.facebook} className={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
-                className={socialLinkSvg}
                 width="36"
                 height="36"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                <circle cx="18" cy="18" r="18" />
+                <circle cx="18" cy="18" r="18" className={socialLinkButton} />
                 <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -54,14 +50,13 @@ const SocialLinks = (): JSX.Element => (
 
         <a href={links.twitter} className={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
-                className={socialLinkSvg}
                 width="36"
                 height="36"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                <circle cx="18" cy="18" r="18" />
+                <circle cx="18" cy="18" r="18" className={socialLinkButton} />
                 <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -73,14 +68,13 @@ const SocialLinks = (): JSX.Element => (
 
         <a href={links.email} className={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
-                className={socialLinkSvg}
                 width="36"
                 height="36"
                 viewBox="0 0 36 36"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
-                <circle cx="18" cy="18" r="18" />
+                <circle cx="18" cy="18" r="18" className={socialLinkButton} />
                 <path
                     d="M25.632 13.4248L18.8533 18.8236H17.6174L10.8387 13.4248L11.5582 12.6471H24.9125L25.632 13.4248Z"
                     fill="#F6F6F6"
@@ -95,5 +89,3 @@ const SocialLinks = (): JSX.Element => (
         </a>
     </div>
 );
-
-export default SocialLinks;
