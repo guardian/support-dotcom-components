@@ -4,9 +4,9 @@ regions: [eu-west-1]
 deployments:
     cloudformation:
         type: cloud-formation
-        app: contributions-service
+        app: contributions-service-ec2
         parameters:
-            cloudFormationStackName: contributions-service
+            cloudFormationStackName: contributions-service-ec2
             templatePath: cloudformation.yaml
             cloudFormationStackByTags: false
             amiTags:
