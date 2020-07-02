@@ -96,10 +96,19 @@ export class ContributionsServiceStack extends cdk.Stack {
 
         asg.scaleOnCpuUtilization('GT80CPU', { targetUtilizationPercent: 80 });
 
-        // tslint:disable-next-line: no-unused-expression
-        new elbv2.ApplicationLoadBalancer(this, 'LB', {
+        const lb = new elbv2.ApplicationLoadBalancer(this, 'LB', {
             vpc,
             internetFacing: true,
+        });
+
+        const listener = lb.addListener('Listener', {
+            port: 80,
+        });
+
+        listener.addTargets('Target', {
+            port: 3030,
+            protocol: elbv2.ApplicationProtocol.HTTP,
+            targets: [asg],
         });
     }
 }
