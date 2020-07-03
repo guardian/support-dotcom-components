@@ -13,9 +13,19 @@ export class ContributionsServiceStack extends cdk.Stack {
             default: 'CODE',
         });
 
-        cdk.Tag.add(this, 'Stack', 'frontend');
+        const app = new cdk.CfnParameter(this, 'App', {
+            type: 'String',
+            default: 'contributions-service-ec2',
+        });
+
+        const stack = new cdk.CfnParameter(this, 'Stack', {
+            type: 'String',
+            default: 'frontend',
+        });
+
+        cdk.Tag.add(this, 'Stack', stack.value.toString());
         cdk.Tag.add(this, 'Stage', stage.value.toString());
-        cdk.Tag.add(this, 'App', 'contributions-service-ec2');
+        cdk.Tag.add(this, 'App', app.value.toString());
         cdk.Tag.add(this, 'Owner', 'slot-machine');
 
         const vpcId = new cdk.CfnParameter(this, 'VpcId', {
@@ -74,11 +84,27 @@ export class ContributionsServiceStack extends cdk.Stack {
         });
 
         const userData = ec2.UserData.forLinux();
+        const App = app.value.toString();
+        const Stack = stack.value.toString();
+        const Stage = stage.value.toString();
+
         userData.addCommands(
-            'mkdir /etc/gu',
-            // `aws s3 cp s3://${confBucket.valueAsString}/${stage.valueAsString}/contributions-service.private.conf /etc/gu`,
-            // `aws s3 cp s3://aws-frontend-artifacts/frontend/${stage.valueAsString}/contributions-service/contributions-service_1.0-SNAPSHOT_all.deb /tmp`,
-            'dpkg -i /tmp/contributions-service_1.0-SNAPSHOT_all.deb',
+            `groupadd frontend`,
+            `useradd -r -m -s /usr/bin/nologin -g frontend ${App}`,
+
+            `export App=${App}`,
+            `export Stack=${Stack}`,
+            `export Stage=${Stage}`,
+            `export NODE_ENV=production`,
+
+            `aws s3 cp s3://aws-frontend-contributions-service/frontend/${Stage}/lambda/lambda.zip /tmp/${App}`,
+            `mkdir -p /opt/${App}`,
+            `unzip /tmp/${App}.zip -d /opt/${App}`,
+            `chown -R ${App}:frontend /opt/${App}`,
+
+            `export PM2_HOME="/usr/share/${App}"`,
+
+            `/usr/local/node/pm2 start --name ${App} --uid ${App} --gid frontend /opt/${App}/server.js`,
         );
 
         const asg = new autoscaling.AutoScalingGroup(this, 'ASG', {
