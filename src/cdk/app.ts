@@ -68,7 +68,7 @@ export class ContributionsServiceStack extends cdk.Stack {
                         new iam.PolicyStatement({
                             effect: iam.Effect.ALLOW,
                             resources: [
-                                'arn:aws:s3:::aws-frontend-artifacts/*',
+                                'arn:aws:s3:::aws-frontend-contributions-service/*',
                                 // `arn:aws:s3:::${confBucket.valueAsString}/*`,
                             ],
                             actions: ['s3:GetObject', 's3:HeadObject', 's3:List*'],
