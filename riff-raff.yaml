@@ -13,7 +13,7 @@ deployments:
                 Recipe: contributions-service
                 AmigoStage: PROD
             amiEncrypted: true
-    contributions-service:
+    lambda:
         type: autoscaling
         dependencies: [cloudformation]
         parameters:
