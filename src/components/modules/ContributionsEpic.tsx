@@ -26,7 +26,7 @@ const replacePlaceholders = (
     // Replace country code placeholder with actual country name
     // Should only replace if we were able to determine the country name from country code
     const countryName = getCountryName(countryCode) ?? '';
-    content = countryName ? content.replace(/%%COUNTRY_CODE%%/g, countryName) : content;
+    content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
 
     return content;
 };
