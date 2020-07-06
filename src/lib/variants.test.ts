@@ -14,6 +14,8 @@ import {
     userInTest,
     hasNoZeroArticleCount,
     isNotExpired,
+    hasNoPlaceholders,
+    populatePlaceholders,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -45,7 +47,7 @@ const testDefault: Test = {
                 '',
             ],
             highlightedText:
-                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
+                'Support the Guardian from as little as £1 – and it only takes a minute. Thank you.',
             cta: {
                 text: 'Support The Guardian',
                 baseUrl: 'https://support.theguardian.com/contribute',
@@ -738,6 +740,25 @@ describe('isNotExpired filter', () => {
         const filter = isNotExpired(now);
 
         const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('hasNoPlaceholders filter', () => {
+    it('should pass if no placeholders found', () => {
+        // nb. value of numArticles (set here to 3) is required but irrelevant to test
+        const populatedTest = populatePlaceholders(testDefault, 3, targetingDefault.countryCode);
+        const got = hasNoPlaceholders.test(populatedTest, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if placeholders found', () => {
+        const variant = testDefault.variants[0];
+        variant.heading = 'With placeholder %%CURRENCY_SYMBOL%%';
+        const test: Test = { ...testDefault, variants: [variant] };
+        const got = hasNoPlaceholders.test(test, targetingDefault);
 
         expect(got).toBe(false);
     });

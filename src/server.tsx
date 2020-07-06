@@ -15,7 +15,7 @@ import {
 import testData from './components/ContributionsEpic.testData';
 import cors from 'cors';
 import { validateEpicPayload, validateBannerPayload } from './lib/validation';
-import { findTestAndVariant, Result, Debug, Variant } from './lib/variants';
+import { findTestAndVariant, Result, Debug, Variant, populatePlaceholders } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import {
@@ -102,6 +102,7 @@ const buildEpic = async (
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory);
 
     let result: Result;
 
@@ -110,7 +111,11 @@ const buildEpic = async (
         const variant = test?.variants.find(v => v.name === params.force?.variantName);
         result = test && variant ? { result: { test, variant } } : {};
     } else {
-        result = findTestAndVariant(tests, targeting, params.debug);
+        const cleanedTests = tests.map(test =>
+            populatePlaceholders(test, numArticles, targeting.countryCode),
+        );
+
+        result = findTestAndVariant(cleanedTests, targeting, params.debug);
     }
 
     logTargeting(
@@ -149,6 +154,7 @@ const buildEpicData = async (
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
     const tests = [...configuredTests.tests, ...hardcodedTests];
+    const numArticles = getArticleViewCountForWeeks(targeting.weeklyArticleHistory);
 
     let result: Result;
 
@@ -157,7 +163,10 @@ const buildEpicData = async (
         const variant = test?.variants.find(v => v.name === params.force?.variantName);
         result = test && variant ? { result: { test, variant } } : {};
     } else {
-        result = findTestAndVariant(tests, targeting, params.debug);
+        const cleanedTests = tests.map(test =>
+            populatePlaceholders(test, numArticles, targeting.countryCode),
+        );
+        result = findTestAndVariant(cleanedTests, targeting, params.debug);
     }
 
     logTargeting(
@@ -182,7 +191,6 @@ const buildEpicData = async (
     const props: EpicProps = {
         variant: variantWithTickerData,
         tracking: { ...pageTracking, ...testTracking },
-        numArticles: getArticleViewCountForWeeks(targeting.weeklyArticleHistory),
         countryCode: targeting.countryCode,
     };
 

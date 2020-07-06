@@ -8,6 +8,7 @@ import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
 import { isRecentOneOffContributor } from '../lib/dates';
+import { containsPlaceholder, replacePlaceholders } from './placeholders';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -108,6 +109,33 @@ interface Filter {
     id: string;
     test: (test: Test, targeting: EpicTargeting) => boolean;
 }
+
+export const populatePlaceholders = (
+    test: Test,
+    numArticlesInWeeks: number,
+    countryCode?: string,
+): Test => {
+    const variants = test.variants.map(variant => {
+        const heading = replacePlaceholders(variant.heading, numArticlesInWeeks, countryCode);
+        const highlightedText = replacePlaceholders(
+            variant.highlightedText,
+            numArticlesInWeeks,
+            countryCode,
+        );
+        const paragraphs = variant.paragraphs.map(para =>
+            replacePlaceholders(para, numArticlesInWeeks, countryCode),
+        );
+
+        return {
+            ...variant,
+            heading,
+            highlightedText,
+            paragraphs,
+        };
+    });
+
+    return { ...test, variants };
+};
 
 export const selectVariant = (test: Test, mvtId: number): Variant => {
     return test.variants[mvtId % test.variants.length];
@@ -308,6 +336,17 @@ export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52
     },
 });
 
+export const hasNoPlaceholders: Filter = {
+    id: 'hasNoPlaceholders',
+    test: (test): boolean => {
+        const headings = test.variants.map(v => v.heading || '');
+        const highlighted = test.variants.map(v => v.highlightedText || '');
+        const paras = test.variants.map(v => v.paragraphs.join());
+
+        return ![...headings, ...highlighted, ...paras].some(str => containsPlaceholder(str));
+    },
+};
+
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -365,6 +404,7 @@ export const findTestAndVariant = (
         noArticleViewedSettings,
         isContentType,
         hasNoZeroArticleCount(),
+        hasNoPlaceholders,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
