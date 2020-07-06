@@ -5,7 +5,7 @@ export const SubscriptionsBannerPath = 'subscriptions-banner.js';
 
 export const SubscriptionsBanner: BannerTest = {
     name: 'SubscriptionsBanner',
-    modulePath: SubscriptionsBannerPath,
+    path: SubscriptionsBannerPath,
     bannerType: 'subscriptions',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {

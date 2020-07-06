@@ -152,7 +152,7 @@ export const selectBannerTest = (
                 !targeting.isPaidContent &&
                 test.canRun(targeting, pageTracking)
             ) {
-                const variant = test.variants[0] || null; // TODO - use mvt
+                const variant = test.variants[0]; // TODO - use mvt
                 return {
                     test,
                     variant,

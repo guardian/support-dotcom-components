@@ -5,7 +5,7 @@ export const WeeklyBannerPath = 'weekly-banner.js';
 
 export const WeeklyBanner: BannerTest = {
     name: 'WeeklyBanner',
-    modulePath: WeeklyBannerPath,
+    path: WeeklyBannerPath,
     bannerType: 'subscriptions',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
