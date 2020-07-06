@@ -14,6 +14,7 @@ import {
     userInTest,
     hasNoZeroArticleCount,
     isNotExpired,
+    hasNoUnexpectedPlaceholders,
 } from './variants';
 import { EpicTargeting } from '../components/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -738,6 +739,26 @@ describe('isNotExpired filter', () => {
         const filter = isNotExpired(now);
 
         const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('hasNoUnexpectedPlaceholders filter', () => {
+    it('should pass if present placeholders are expected', () => {
+        const variant = testDefault.variants[0];
+        variant.heading = 'With expected placeholder &&CURRENCY_SYMBOL%%';
+        const test: Test = { ...testDefault, variants: [variant] };
+        const got = excludeSection.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if unexpected placeholders found', () => {
+        const variant = testDefault.variants[0];
+        variant.heading = 'With unexpected placeholder %%UNKNOWN%%';
+        const test: Test = { ...testDefault, variants: [variant] };
+        const got = hasNoUnexpectedPlaceholders.test(test, targetingDefault);
 
         expect(got).toBe(false);
     });

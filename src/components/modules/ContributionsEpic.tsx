@@ -3,33 +3,12 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { getCountryName, getLocalCurrencySymbol } from '../../lib/geolocation';
+import { replacePlaceholders } from '../../lib/placeholders';
 import { EpicTracking } from '../ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from '../ContributionsEpicTicker';
-
-const replacePlaceholders = (
-    content: string,
-    numArticles: number,
-    countryCode?: string,
-): string => {
-    // Replace currency symbol placeholder with actual currency symbol
-    // Function uses default currency symbol so countryCode is not strictly required here
-    content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
-
-    // Replace number of viewed articles
-    // Value could be zero but we'll replace anyway
-    content = content.replace(/%%ARTICLE_COUNT%%/g, numArticles.toString());
-
-    // Replace country code placeholder with actual country name
-    // Should only replace if we were able to determine the country name from country code
-    const countryName = getCountryName(countryCode) ?? '';
-    content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
-
-    return content;
-};
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -109,7 +88,8 @@ type HighlightedProps = {
 };
 
 type BodyProps = {
-    variant: Variant;
+    paragraphs: string[];
+    highlightedText?: string;
     countryCode?: string;
     numArticles: number;
 };
@@ -118,32 +98,31 @@ interface OnReminderOpen {
     buttonCopyAsString: string;
 }
 
-const Highlighted: React.FC<HighlightedProps> = ({
-    highlightedText,
-    countryCode,
-    numArticles,
-}: HighlightedProps) => (
+const Highlighted: React.FC<HighlightedProps> = ({ highlightedText }: HighlightedProps) => (
     <strong className={highlightWrapperStyles}>
         {' '}
         <span
             className={highlightStyles}
             dangerouslySetInnerHTML={{
-                __html: replacePlaceholders(highlightedText, numArticles, countryCode),
+                __html: highlightedText,
             }}
         />
     </strong>
 );
 
-const EpicBody: React.FC<BodyProps> = ({ variant, countryCode, numArticles }: BodyProps) => {
-    const { paragraphs, highlightedText } = variant;
-
+const EpicBody: React.FC<BodyProps> = ({
+    countryCode,
+    numArticles,
+    paragraphs,
+    highlightedText,
+}: BodyProps) => {
     return (
         <>
             {paragraphs.map((paragraph, idx) => (
                 <p key={idx} className={bodyStyles}>
                     <span
                         dangerouslySetInnerHTML={{
-                            __html: replacePlaceholders(paragraph, numArticles, countryCode),
+                            __html: paragraph,
                         }}
                     />
 
@@ -168,7 +147,14 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     onReminderOpen,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
-    const { heading, backgroundImageUrl, showReminderFields, tickerSettings } = variant;
+    const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
+
+    const cleanHighlighted = replacePlaceholders(variant.highlightedText, numArticles, countryCode);
+    const cleanHeading = replacePlaceholders(variant.heading, numArticles, countryCode);
+
+    const cleanParagraphs = variant.paragraphs.map(paragraph =>
+        replacePlaceholders(paragraph, numArticles, countryCode),
+    );
 
     return (
         <section className={wrapperStyles}>
@@ -190,16 +176,21 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                 </div>
             )}
 
-            {heading && (
+            {cleanHeading && (
                 <h2
                     className={headingStyles}
                     dangerouslySetInnerHTML={{
-                        __html: replacePlaceholders(heading, numArticles, countryCode),
+                        __html: cleanHeading,
                     }}
                 />
             )}
 
-            <EpicBody variant={variant} countryCode={countryCode} numArticles={numArticles} />
+            <EpicBody
+                paragraphs={cleanParagraphs}
+                highlightedText={cleanHighlighted}
+                countryCode={countryCode}
+                numArticles={numArticles}
+            />
 
             {!isReminderActive && (
                 <ContributionsEpicButtons
