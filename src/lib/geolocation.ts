@@ -1,4 +1,4 @@
-type CountryGroupId =
+export type CountryGroupId =
     | 'GBPCountries'
     | 'UnitedStates'
     | 'AUDCountries'

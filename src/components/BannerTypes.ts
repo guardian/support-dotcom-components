@@ -44,6 +44,8 @@ export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracki
 
 export interface BannerTest {
     name: string;
+    path: string;
+    bannerType: 'contributions' | 'subscriptions';
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
@@ -52,7 +54,7 @@ export interface BannerTest {
 // The result of selecting a test+variant for a user
 export interface BannerTestSelection {
     test: BannerTest;
-    variant: BannerVariant;
+    variant: BannerVariant | null;
     moduleUrl: string;
     moduleName: string;
 }
