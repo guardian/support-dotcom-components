@@ -1,7 +1,5 @@
 import { getCountryName, getLocalCurrencySymbol } from './geolocation';
 
-const expectedPlaceholders = ['%%CURRENCY_SYMBOL%%', '%%ARTICLE_COUNT%%', '%%COUNTRY_NAME%%'];
-
 export const replacePlaceholders = (
     content: string | undefined,
     numArticles: number,
@@ -21,16 +19,3 @@ export const replacePlaceholders = (
 };
 
 export const containsPlaceholder = (text: string): boolean => text.includes('%%');
-
-export const containsUnexpectedPlaceholder = (
-    text: string,
-    placeholders: string[] = expectedPlaceholders,
-): boolean => {
-    const matches = text.match(/%%.*%%/);
-
-    if (!matches) {
-        return false;
-    }
-
-    return matches.some(match => !placeholders.includes(match));
-};

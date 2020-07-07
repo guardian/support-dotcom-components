@@ -8,7 +8,6 @@ import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
 import { isRecentOneOffContributor } from '../lib/dates';
-import { containsUnexpectedPlaceholder } from './placeholders';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -309,19 +308,6 @@ export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52
     },
 });
 
-export const hasNoUnexpectedPlaceholders: Filter = {
-    id: 'hasNoUnexpectedPlaceholders',
-    test: (test): boolean => {
-        const headings = test.variants.map(v => v.heading || '');
-        const highlighted = test.variants.map(v => v.highlightedText || '');
-        const paras = test.variants.map(v => v.paragraphs.join());
-
-        return ![...headings, ...highlighted, ...paras].some(str =>
-            containsUnexpectedPlaceholder(str),
-        );
-    },
-};
-
 export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
     test: (_, targeting) => !shouldNotRenderEpic(targeting),
@@ -379,7 +365,6 @@ export const findTestAndVariant = (
         noArticleViewedSettings,
         isContentType,
         hasNoZeroArticleCount(),
-        hasNoUnexpectedPlaceholders,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(

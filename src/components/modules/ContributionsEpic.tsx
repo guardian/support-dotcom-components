@@ -3,7 +3,7 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { replacePlaceholders } from '../../lib/placeholders';
+import { replacePlaceholders, containsPlaceholder } from '../../lib/placeholders';
 import { EpicTracking } from '../ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../lib/variants';
@@ -155,6 +155,10 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replacePlaceholders(paragraph, numArticles, countryCode),
     );
+
+    if ([cleanHighlighted, cleanHighlighted, ...cleanParagraphs].some(containsPlaceholder)) {
+        return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
+    }
 
     return (
         <section className={wrapperStyles}>
