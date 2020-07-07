@@ -1,4 +1,6 @@
-import { readerRevenueRegionFromCountryCode, redeployedSinceLastClosed } from './bannerSelection';
+import { readerRevenueRegionFromCountryCode } from './bannerSelection';
+import { SubscriptionsBanner } from './SubscriptionsBannerTest';
+import { WeeklyBanner } from './WeeklyBannerTest';
 
 describe('readerRevenueRegionFromCountryCode', () => {
     it('should return a region', () => {
@@ -19,9 +21,9 @@ describe('readerRevenueRegionFromCountryCode', () => {
     });
 });
 
-describe('redeployedSinceLastClosed', () => {
+describe('SubscriptionsBanner canRun', () => {
     it('should return a boolean', () => {
-        const targeting = {
+        const targetingTrue = {
             alreadyVisitedCount: 3,
             shouldHideReaderRevenue: false,
             isPaidContent: false,
@@ -30,10 +32,59 @@ describe('redeployedSinceLastClosed', () => {
             mvtId: 3,
             countryCode: 'US',
         };
-        return redeployedSinceLastClosed(targeting, 'subscriptions').then(
-            (hasRedeployed: boolean) => {
-                expect(hasRedeployed).toBe(false);
-            },
-        );
+        const targetingFalse = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            engagementBannerLastClosedAt: '1594059610944',
+            mvtId: 3,
+            countryCode: 'FJ',
+        };
+        const tracking = {
+            ophanPageId: '',
+            ophanComponentId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
+        const canRun1 = SubscriptionsBanner.canRun(targetingTrue, tracking);
+        expect(canRun1).toBe(true);
+        const canRun2 = SubscriptionsBanner.canRun(targetingFalse, tracking);
+        expect(canRun2).toBe(false);
+    });
+});
+
+describe('WeeklyBanner canRun', () => {
+    it('should return a boolean', () => {
+        const targetingTrue = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            engagementBannerLastClosedAt: '1594059610944',
+            mvtId: 3,
+            countryCode: 'AU',
+        };
+        const targetingFalse = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            engagementBannerLastClosedAt: '1594059610944',
+            mvtId: 3,
+            countryCode: 'US',
+        };
+        const tracking = {
+            ophanPageId: '',
+            ophanComponentId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
+        const canRun1 = WeeklyBanner.canRun(targetingTrue, tracking);
+        expect(canRun1).toBe(true);
+        const canRun2 = WeeklyBanner.canRun(targetingFalse, tracking);
+        expect(canRun2).toBe(false);
     });
 });

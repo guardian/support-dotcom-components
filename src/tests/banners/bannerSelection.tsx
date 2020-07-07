@@ -47,7 +47,9 @@ const fetchContributionsBannerDeployTime = (region: ReaderRevenueRegion) => (): 
  * Subscriptions is temporarily using the "/united-kingdom" route
  * for users in the "european-union" region.
  */
-const fetchSubscriptionsBannerDeployTime = (region: ReaderRevenueRegion) => (): Promise<Date> => {
+export const fetchSubscriptionsBannerDeployTime = (region: ReaderRevenueRegion) => (): Promise<
+    Date
+> => {
     return fetch(
         `https://www.theguardian.com/reader-revenue/subscriptions-banner-deploy-log/${
             region === 'european-union' ? 'united-kingdom' : region

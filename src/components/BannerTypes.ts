@@ -54,7 +54,7 @@ export interface BannerTest {
 // The result of selecting a test+variant for a user
 export interface BannerTestSelection {
     test: BannerTest;
-    variant: BannerVariant | null;
+    variant: BannerVariant;
     moduleUrl: string;
     moduleName: string;
 }
