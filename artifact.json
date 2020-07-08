@@ -3,7 +3,7 @@
     "vcsURL": "https://github.com/guardian/contributions-service_",
     "actions": [
         {
-            "action": "lambda",
+            "action": "contributions-service-ec2",
             "path": "dist",
             "compress": "zip"
         },
