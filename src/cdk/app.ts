@@ -135,6 +135,13 @@ export class ContributionsServiceStack extends cdk.Stack {
             port: 3030,
             protocol: elbv2.ApplicationProtocol.HTTP,
             targets: [asg],
+            healthCheck: {
+                path: '/healthcheck',
+                healthyThresholdCount: 2,
+                unhealthyThresholdCount: 5,
+                interval: cdk.Duration.seconds(30),
+                timeout: cdk.Duration.seconds(10),
+            },
         });
     }
 }
