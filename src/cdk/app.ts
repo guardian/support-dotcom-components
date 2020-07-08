@@ -124,6 +124,7 @@ export class ContributionsServiceStack extends cdk.Stack {
         const lb = new elbv2.ApplicationLoadBalancer(this, 'LB', {
             vpc,
             internetFacing: true,
+            loadBalancerName: `contributions-service-${Stage}`,
         });
 
         const listener = lb.addListener('Listener', {
