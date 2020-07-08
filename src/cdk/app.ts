@@ -97,7 +97,7 @@ export class ContributionsServiceStack extends cdk.Stack {
             `export Stage=${Stage}`,
             `export NODE_ENV=production`,
 
-            `aws s3 cp s3://aws-frontend-contributions-service/frontend/${Stage}/lambda/lambda.zip /tmp/${App}.zip`,
+            `aws s3 cp s3://aws-frontend-contributions-service/frontend/${Stage}/contributions-service-ec2/contributions-service-ec2.zip /tmp/${App}.zip`,
             `mkdir -p /opt/${App}`,
             `unzip /tmp/${App}.zip -d /opt/${App}`,
             `chown -R ${App}:frontend /opt/${App}`,
