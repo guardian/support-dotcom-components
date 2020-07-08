@@ -128,7 +128,7 @@ export class ContributionsServiceStack extends cdk.Stack {
         });
 
         const listener = lb.addListener('Listener', {
-            port: 80,
+            port: 443,
         });
 
         listener.addTargets('Target', {
