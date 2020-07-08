@@ -51,7 +51,7 @@ export class ContributionsServiceStack extends cdk.Stack {
         const ami = new cdk.CfnParameter(this, 'AMI', {
             type: 'AWS::EC2::Image::Id',
             description: 'AMI ID to be provded by RiffRaff',
-            default: 'ami-09455f2a9ec7c31a0',
+            default: 'ami-0a0771184b59ce8e3',
         });
 
         const vpc = ec2.Vpc.fromVpcAttributes(this, 'vpc', {
