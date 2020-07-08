@@ -17,4 +17,4 @@ deployments:
         type: autoscaling
         dependencies: [cloudformation]
         parameters:
-            bucket: aws-frontend-artifacts
+            bucket: aws-frontend-contributions-service
