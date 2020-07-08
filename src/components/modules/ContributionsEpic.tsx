@@ -156,7 +156,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         replacePlaceholders(paragraph, numArticles, countryCode),
     );
 
-    if ([cleanHighlighted, cleanHighlighted, ...cleanParagraphs].some(containsPlaceholder)) {
+    if ([cleanHighlighted, cleanHeading, ...cleanParagraphs].some(containsPlaceholder)) {
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
