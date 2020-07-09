@@ -1,0 +1,2762 @@
+{
+  "tests" : [
+    {
+      "name" : "2020-22-06_AUS_MOMENT_LAUNCH_EPIC__WITH_ARTICLE_COUNT",
+      "nickname" : "AUS MOMENT LAUNCH EPIC AC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : true,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "We can see the power in numbers ...",
+          "paragraphs" : [
+            "… as our community grows in Australia. Across the country, more people are reading and supporting our open, independent journalism than ever before. Many of you have told us how much you value, and turn to our quality reporting on the most critical issues of our times – from the climate emergency to government accountability to Indigenous affairs.",
+            "",
+            "The crises we’ve experienced in 2020 have underlined why factual information is indispensable. We believe everyone deserves access to it, and analysis that has authority and integrity. Guardian Australia has high editorial standards, providing accurate, reliable news that holds firm against the spread of misinformation and sensationalism. Your support is crucial to what we do and it sustains us so, unlike many others, we can keep our journalism open to all. ",
+            "",
+            "As an independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "You've read %%ARTICLE_COUNT%% articles in the last nine months. And you’re not alone; one in three people in Australia have read the Guardian in the last year, and we want to grow further.",
+            "",
+            "Do something powerful today and help us reach our ambitious goal of 150,000 supporters in Australia. Every contribution, however big or small, has a lasting impact and helps assure our future."
+          ],
+          "highlightedText" : "From as little as %%CURRENCY_SYMBOL%%1 you can show your support for our work. Thank you.",
+          "footer" : "Do something powerful today",
+          "showTicker" : false,
+          "tickerSettings" : {
+            "endType" : "unlimited",
+            "countType" : "people",
+            "currencySymbol" : "$",
+            "copy" : {
+              "countLabel" : "supporters in Australia",
+              "goalReachedPrimary" : "We've hit our goal!",
+              "goalReachedSecondary" : "but you can still support us"
+            }
+          },
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          },
+          "secondaryCta" : {
+            "text" : "Hear from our editor",
+            "baseUrl" : "https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters?INTCMP=aus_moment_2020_epic_article"
+          }
+        },
+        {
+          "name" : "V2_ADREVS",
+          "heading" : "We can see the power in numbers …",
+          "paragraphs" : [
+            "… as our community grows in Australia. Many of us are emerging from lockdown with more questions and an urgency to find solutions, so the need for Guardian Australia has never been greater. More of you are turning to our open, independent journalism each and every day. But this is the paradox of the pandemic: we are reaching more people than ever, yet the revenue we receive from advertising continues to fall dramatically. We need your help to fill the gap.",
+            "",
+            "The crises we’ve experienced in 2020 have underlined why factual information is indispensable. We believe everyone deserves access to it, and analysis that has authority and integrity. Guardian Australia has high editorial standards, providing accurate, reliable news that holds firm against the spread of misinformation and sensationalism. Your support is crucial to what we do and it sustains us so, unlike many others, we can keep our journalism open to all. ",
+            "",
+            "As an independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last six months. And you’re not alone; one in three people in Australia have read the Guardian in the last year, and we want to grow further.",
+            "",
+            "Do something powerful today and help us reach our ambitious goal of 150,000 supporters in Australia. Every contribution, however big or small, has a lasting impact and helps assure our future."
+          ],
+          "highlightedText" : "From as little as $1 you can show your support for our work. Thank you.",
+          "footer" : "Do something powerful today",
+          "showTicker" : false,
+          "tickerSettings" : {
+            "endType" : "unlimited",
+            "countType" : "people",
+            "currencySymbol" : "$",
+            "copy" : {
+              "countLabel" : "supporters in Australia",
+              "goalReachedPrimary" : "We've hit our goal!",
+              "goalReachedSecondary" : "but you can still support us"
+            }
+          },
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          },
+          "secondaryCta" : {
+            "text" : "Hear from our editor",
+            "baseUrl" : "https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters?INTCMP=aus_moment_2020_epic_article"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-22-06_AUS_MOMENT_LAUNCH_EPIC__NO_ARTICLE_COUNT",
+      "nickname" : "AUS MOMENT LAUNCH EPIC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : true,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "We can see the power in numbers ...",
+          "paragraphs" : [
+            "… as our community grows in Australia. Across the country, more people are reading and supporting our open, independent journalism than ever before. Many of you have told us how much you value, and turn to our quality reporting on the most critical issues of our times – from the climate emergency to government accountability to Indigenous affairs.",
+            "",
+            "The crises we’ve experienced in 2020 have underlined why factual information is indispensable. We believe everyone deserves access to it, and analysis that has authority and integrity. Guardian Australia has high editorial standards, providing accurate, reliable news that holds firm against the spread of misinformation and sensationalism. Your support is crucial to what we do and it sustains us so, unlike many others, we can keep our journalism open to all. ",
+            "",
+            "As an independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "One in three people in Australia have read the Guardian in the last year, and we want to grow further. You can do something powerful today and help us reach our ambitious goal of 150,000 supporters in Australia. ",
+            "",
+            "Every contribution, however big or small, has a lasting impact and helps assure our future."
+          ],
+          "highlightedText" : "From as little as %%CURRENCY_SYMBOL%%1 you can show your support for our work. Thank you.",
+          "footer" : "Do something powerful today",
+          "showTicker" : false,
+          "tickerSettings" : {
+            "endType" : "unlimited",
+            "countType" : "people",
+            "currencySymbol" : "$",
+            "copy" : {
+              "countLabel" : "supporters in Australia",
+              "goalReachedPrimary" : "We've hit our goal!",
+              "goalReachedSecondary" : "but you can still support us"
+            }
+          },
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          },
+          "secondaryCta" : {
+            "text" : "Hear from our editor",
+            "baseUrl" : "https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters?INTCMP=aus_moment_2020_epic_article"
+          }
+        },
+        {
+          "name" : "V2_ADREVS",
+          "heading" : "We can see the power in numbers …",
+          "paragraphs" : [
+            "… as our community grows in Australia. Many of us are emerging from lockdown with more questions and an urgency to find solutions, so the need for Guardian Australia has never been greater. More of you are turning to our open, independent journalism each and every day. But this is the paradox of the pandemic: we are reaching more people than ever, yet the revenue we receive from advertising continues to fall dramatically. We need your help to fill the gap.",
+            "",
+            "The crises we’ve experienced in 2020 have underlined why factual information is indispensable. We believe everyone deserves access to it, and analysis that has authority and integrity. Guardian Australia has high editorial standards, providing accurate, reliable news that holds firm against the spread of misinformation and sensationalism. Your support is crucial to what we do and it sustains us so, unlike many others, we can keep our journalism open to all. ",
+            "",
+            "As an independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "One in three people in Australia have read the Guardian in the last year, and we want to grow further. You can do something powerful today and help us reach our ambitious goal of 150,000 supporters in Australia. ",
+            "",
+            "Every contribution, however big or small, has a lasting impact and helps assure our future."
+          ],
+          "highlightedText" : "From as little as $1 you can show your support for our work. Thank you.",
+          "footer" : "Do something powerful today",
+          "showTicker" : false,
+          "tickerSettings" : {
+            "endType" : "unlimited",
+            "countType" : "people",
+            "currencySymbol" : "$",
+            "copy" : {
+              "countLabel" : "supporters in Australia",
+              "goalReachedPrimary" : "We've hit our goal!",
+              "goalReachedSecondary" : "but you can still support us"
+            }
+          },
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          },
+          "secondaryCta" : {
+            "text" : "Hear from our editor",
+            "baseUrl" : "https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters?INTCMP=aus_moment_2020_epic_article"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "AUS_MOMENT_LIVEBLOG_EPIC",
+      "nickname" : "AUS MOMENT LIVEBLOG EPIC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : true,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : true,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "MOMENT_CONTROL_ADREVS",
+          "heading" : "We can see the power in numbers …",
+          "paragraphs" : [
+            "We can see the power in numbers as our community grows. Many of us are emerging from lockdown with more questions and an urgency to find solutions, so the need for Guardian Australia has never been greater. More of you are turning to our open, independent journalism each and every day. But this is the paradox of the pandemic: we are reaching more people than ever, yet the revenue we receive from advertising continues to fall dramatically. We need your help to fill the gap.",
+            "",
+            "Do something powerful today and help us reach our ambitious goal of 150,000 supporters in Australia. Every contribution, however big or small, has a lasting impact and helps assure our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-22-06_AUS_MOMENT_SUPPORTERS_EPIC__WITH_ARTICLE_COUNT",
+      "nickname" : "AUS MOMENT SUPPORTERS EPIC AC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllExistingSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "Thanks to the support from readers like you …",
+          "paragraphs" : [
+            "… Guardian Australia is growing its community and its impact. Did you know you've read %%ARTICLE_COUNT%% articles in the last nine months.? And you’re not alone; one in three people across the country have read our open, independent journalism in the last year, and thousands have supported us financially. Your support has helped us provide independent, quality journalism when it’s never been so vital.",
+            "",
+            "The crises we’ve experienced in 2020 have underlined why factual information is indispensable. We believe everyone deserves access to it, and analysis that has authority and integrity. Guardian Australia has high editorial standards, providing accurate, reliable news that holds firm against the spread of misinformation and sensationalism. Your support is crucial to what we do and it sustains us so, unlike many others, we can keep our journalism open to all. ",
+            "",
+            "As an independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "Right now, growing our readership and gaining your financial support means more high quality, independent journalism open to everyone. To reach our ambitious goal of 150,000 supporters, we hope you will champion our mission and encourage more people to read and support our work. "
+          ],
+          "highlightedText" : "Your support has an impact – and so does your voice. Thank you.",
+          "showTicker" : false,
+          "tickerSettings" : {
+            "endType" : "unlimited",
+            "countType" : "people",
+            "currencySymbol" : "$",
+            "copy" : {
+              "countLabel" : "supporters in Australia",
+              "goalReachedPrimary" : "We've hit our goal!",
+              "goalReachedSecondary" : "but you can still support us"
+            }
+          },
+          "cta" : {
+            "text" : "Hear from our editor",
+            "baseUrl" : "https://www.theguardian.com/media/video/2020/jun/22/lenore-taylor-why-guardian-australia-has-set-a-goal-of-150000-supporters"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-22-06_AUS_MOMENT_SUPPORTERS_EPIC__NO_ARTICLE_COUNT",
+      "nickname" : "AUS MOMENT SUPPORTERS EPIC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllExistingSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "Thanks to the support from readers like you …",
+          "paragraphs" : [
+            "… Guardian Australia is growing its community and its impact. One in three people across the country have read our open, independent journalism in the last year, and thousands have supported us financially. Your support has helped us provide independent, quality journalism when it’s never been so vital.",
+            "",
+            "The crises we’ve experienced in 2020 have underlined why factual information is indispensable. We believe everyone deserves access to it, and analysis that has authority and integrity. Guardian Australia has high editorial standards, providing accurate, reliable news that holds firm against the spread of misinformation and sensationalism. Your support is crucial to what we do and it sustains us so, unlike many others, we can keep our journalism open to all. ",
+            "",
+            "As an independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "Right now, growing our readership and gaining your financial support means more high quality, independent journalism open to everyone. To reach our ambitious goal of 150,000 supporters, we hope you will champion our mission and encourage more people to read and support our work. "
+          ],
+          "highlightedText" : "Your support has an impact – and so does your voice. Thank you.",
+          "showTicker" : false,
+          "tickerSettings" : {
+            "endType" : "unlimited",
+            "countType" : "people",
+            "currencySymbol" : "$",
+            "copy" : {
+              "countLabel" : "supporters in Australia",
+              "goalReachedPrimary" : "We've hit our goal!",
+              "goalReachedSecondary" : "but you can still support us"
+            }
+          },
+          "cta" : {
+            "text" : "Hear from our editor",
+            "baseUrl" : "https://www.theguardian.com/media/video/2020/jun/22/lenore-taylor-why-guardian-australia-has-set-a-goal-of-150000-supporters"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-06-05_EPIC_PROTESTS__UK_WITH_ARTICLECOUNT",
+      "nickname" : "UK PROTESTS AC",
+      "isOn" : true,
+      "locations" : [
+        "GBPCountries"
+      ],
+      "tagIds" : [
+        "us-news/george-floyd",
+        "us-news/black-lives-matter-movement",
+        "world/protest",
+        "us-news/us-police",
+        "inequality",
+        "world/race"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_PROTESTS",
+          "heading" : "As the world speaks out ...",
+          "paragraphs" : [
+            "… against police violence and racism, the Guardian stands in solidarity with the struggle for truth, humanity and justice. For decades, we have reported on the brutality that has destroyed the lives of black and minority ethnic citizens around the world. Justice starts with uncovering the truth. That is what we try to do.",
+            "",
+            "It’s not just police violence. The racial inequalities of the coronavirus are clear, as it disproportionately devastates minority communities – from severity of infection and scale of the loss of life, to the catastrophic economic consequences for individuals and businesses.",
+            "",
+            "We are not perfect. But as an open, independent news organisation we are able to adapt and confront prejudice – our own and others’. Our independence means we can challenge the powerful without fear and give a voice to the oppressed and marginalised. Our journalism is free from commercial and political bias, never influenced by billionaire owners or shareholders. This makes us different.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last nine months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where you live or what you can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-06-05_EPIC_PROTESTS__UK_NO_ARTICLECOUNT",
+      "nickname" : "UK PROTESTS",
+      "isOn" : true,
+      "locations" : [
+        "GBPCountries"
+      ],
+      "tagIds" : [
+        "us-news/george-floyd",
+        "us-news/black-lives-matter-movement",
+        "world/protest",
+        "us-news/us-police",
+        "inequality",
+        "world/race"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_PROTESTS",
+          "heading" : "As the world speaks out ...",
+          "paragraphs" : [
+            "… against police violence and racism, the Guardian stands in solidarity with the struggle for truth, humanity and justice. For decades, we have reported on the brutality that has destroyed the lives of black and minority ethnic citizens around the world. Justice starts with uncovering the truth. That is what we try to do.",
+            "",
+            "It’s not just police violence. The racial inequalities of the coronavirus are clear, as it disproportionately devastates minority communities – from severity of infection and scale of the loss of life, to the catastrophic economic consequences for individuals and businesses.",
+            "",
+            "We are not perfect. But as an open, independent news organisation we are able to adapt and confront prejudice – our own and others’. Our independence means we can challenge the powerful without fear and give a voice to the oppressed and marginalised. Our journalism is free from commercial and political bias, never influenced by billionaire owners or shareholders. This makes us different.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where you live or what you can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-06-05_EPIC_PROTESTS__INT_WITH_ARTICLECOUNT",
+      "nickname" : "INT PROTESTS AC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "International"
+      ],
+      "tagIds" : [
+        "us-news/george-floyd",
+        "us-news/black-lives-matter-movement",
+        "world/protest",
+        "us-news/us-police",
+        "inequality",
+        "world/race"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_PROTESTS",
+          "heading" : "As the world speaks out ...",
+          "paragraphs" : [
+            "… against police violence and racism, the Guardian stands in solidarity with the struggle for truth, humanity and justice. For decades, we have reported on the brutality that has destroyed the lives of black and minority ethnic citizens around the world. Justice starts with uncovering the truth. That is what we try to do.",
+            "",
+            "It’s not just police violence. The racial inequalities of the coronavirus are clear, as it disproportionately devastates minority communities – from severity of infection and scale of the loss of life, to the catastrophic economic consequences for individuals and businesses.",
+            "",
+            "We are not perfect. But as an open, independent news organisation we are able to adapt and confront prejudice – our own and others’. Our independence means we can challenge the powerful without fear and give a voice to the oppressed and marginalised. Our journalism is free from commercial and political bias, never influenced by billionaire owners or shareholders. This makes us different.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last nine months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where you live or what you can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-06-05_EPIC_PROTESTS__INT_NO_ARTICLECOUNT",
+      "nickname" : "INT PROTESTS",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "International"
+      ],
+      "tagIds" : [
+        "us-news/george-floyd",
+        "us-news/black-lives-matter-movement",
+        "world/protest",
+        "us-news/us-police",
+        "inequality",
+        "world/race"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_PROTESTS",
+          "heading" : "As the world speaks out ...",
+          "paragraphs" : [
+            "… against police violence and racism, the Guardian stands in solidarity with the struggle for truth, humanity and justice. For decades, we have reported on the brutality that has destroyed the lives of black and minority ethnic citizens around the world. Justice starts with uncovering the truth. That is what we try to do.",
+            "",
+            "It’s not just police violence. The racial inequalities of the coronavirus are clear, as it disproportionately devastates minority communities – from severity of infection and scale of the loss of life, to the catastrophic economic consequences for individuals and businesses.",
+            "",
+            "We are not perfect. But as an open, independent news organisation we are able to adapt and confront prejudice – our own and others’. Our independence means we can challenge the powerful without fear and give a voice to the oppressed and marginalised. Our journalism is free from commercial and political bias, never influenced by billionaire owners or shareholders. This makes us different.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where you live or what you can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-16-06_EPIC_ENVIRONMENT__WITH_ARTICLECOUNT",
+      "nickname" : "ENVIRONMENT UPDATE AC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "UnitedStates",
+        "International"
+      ],
+      "tagIds" : [
+        "environment/series/the-polluters",
+        "environment/environment",
+        "environment/the-forgotten-climate-change-crises",
+        "environment/drought",
+        "environment/endangered-habitats",
+        "environment/endangeredspecies",
+        "environment/climate-change",
+        "environment/activism",
+        "environment/climate-change",
+        "science/scienceofclimatechange",
+        "environment/renewableenergy",
+        "environment/renewableenergy",
+        "environment/series/our-wide-brown-land",
+        "environment/extinction-rebellion",
+        " us-news/series/toxic-america",
+        "us-news/series/cancer-town",
+        "us-news/series/united-states-of-plastic",
+        "world/natural-disasters",
+        "environment/series/the-green-recovery"
+      ],
+      "sections" : [
+        "environment"
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+        "sport"
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "We've never had a better chance ...",
+          "paragraphs" : [
+            "… to make a greener world. Covid-19 has delivered unusual environmental benefits: cleaner air, lower carbon emissions, a respite for wildlife. Now the big question is whether we can capitalise on this moment. The Guardian aims to lead the debate from the front.",
+            "In the weeks and months ahead, our journalism will investigate the prospects for a new green settlement. We will showcase the big thinkers and protagonists and amplify the arguments for authorities everywhere to consider as they lead us out of coronavirus.",
+            "",
+            "Our credentials suit us well to the task: we are independent, we have no owners, no paymasters or oligarchs pulling the strings. <a href=\"https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019\">We have committed to carbon neutrality by 2030, divested from the oil and gas sectors and renounced fossil fuel advertising</a>. But at this crucial moment, news organisations like ours are facing a daunting financial challenge. As businesses everywhere feel the pinch, the advertising revenue that has long helped to sustain our work has plummeted. We need you to help fill the gap.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last nine months. Our journalism is open to all because we believe everyone deserves access to factual information, regardless of where they live or what they can afford to pay. If you can afford to, we hope you will consider supporting our journalism today.",
+            "",
+            "The Guardian believes that the climate crisis we face is systemic. We will inform our readers about threats to the environment based on scientific facts, not driven by commercial or political interests. We will keep reporting on the efforts of individuals and communities around the world who are fearlessly taking a stand for future generations and the preservation of human life on earth. We want their stories to inspire hope.",
+            "",
+            "We need your support to keep delivering this kind of open, committed independent journalism. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-16-06_EPIC_ENVIRONMENT__NO_ARTICLECOUNT",
+      "nickname" : "ENVIRONMENT UPDATE",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "UnitedStates",
+        "International"
+      ],
+      "tagIds" : [
+        "environment/series/the-polluters",
+        "environment/environment",
+        "environment/the-forgotten-climate-change-crises",
+        "environment/drought",
+        "environment/endangered-habitats",
+        "environment/endangeredspecies",
+        "environment/climate-change",
+        "environment/activism",
+        "environment/climate-change",
+        "science/scienceofclimatechange",
+        "environment/renewableenergy",
+        "environment/renewableenergy",
+        "environment/series/our-wide-brown-land",
+        "environment/extinction-rebellion",
+        " us-news/series/toxic-america",
+        "us-news/series/cancer-town",
+        "us-news/series/united-states-of-plastic",
+        "world/natural-disasters",
+        "environment/series/the-green-recovery"
+      ],
+      "sections" : [
+        "environment"
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+        "sport"
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "We've never had a better chance ...",
+          "paragraphs" : [
+            "… to make a greener world. Covid-19 has delivered unusual environmental benefits: cleaner air, lower carbon emissions, a respite for wildlife. Now the big question is whether we can capitalise on this moment. The Guardian aims to lead the debate from the front.",
+            "In the weeks and months ahead, our journalism will investigate the prospects for a new green settlement. We will showcase the big thinkers and protagonists and amplify the arguments for authorities everywhere to consider as they lead us out of coronavirus.",
+            "",
+            "Our credentials suit us well to the task: we are independent, we have no owners, no paymasters or oligarchs pulling the strings. <a href=\"https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019\">We have committed to carbon neutrality by 2030, divested from the oil and gas sectors and renounced fossil fuel advertising</a>. But at this crucial moment, news organisations like ours are facing a daunting financial challenge. As businesses everywhere feel the pinch, the advertising revenue that has long helped to sustain our work has plummeted. We need you to help fill the gap.",
+            "",
+            "Our journalism is open to all because we believe everyone deserves access to factual information, regardless of where they live or what they can afford to pay. If you can afford to, we hope you will consider supporting our journalism today.",
+            "",
+            "The Guardian believes that the climate crisis we face is systemic. We will inform our readers about threats to the environment based on scientific facts, not driven by commercial or political interests. We will keep reporting on the efforts of individuals and communities around the world who are fearlessly taking a stand for future generations and the preservation of human life on earth. We want their stories to inspire hope.",
+            "",
+            "We need your support to keep delivering this kind of open, committed independent journalism. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-30-06_EPIC_COUNTRY_NAME__WITH_ARTICLECOUNT",
+      "nickname" : "COUNTRY NAME AC",
+      "isOn" : false,
+      "locations" : [
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : true,
+      "variants" : [
+        {
+          "name" : "V2_JOINING",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "… joining us from %%COUNTRY_NAME%%, we have a small favour to ask. You've read %%ARTICLE_COUNT%% articles in the last nine months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "As an open, independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-30-06_EPIC_COUNTRY_NAME__NO_ARTICLECOUNT",
+      "nickname" : "COUNTRY NAME",
+      "isOn" : false,
+      "locations" : [
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : true,
+      "variants" : [
+        {
+          "name" : "V2_JOINING",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "… joining us from %%COUNTRY_NAME%%, we have a small favour to ask. Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "As an open, independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-05-15_ENVIRON_EPIC_ROUND1__WITH_ARTICLE_COUNT",
+      "nickname" : "ENVIRON CV19 AC",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "UnitedStates",
+        "International"
+      ],
+      "tagIds" : [
+        "environment/series/the-polluters",
+        "environment/environment",
+        "environment/the-forgotten-climate-change-crises",
+        "environment/drought",
+        "environment/endangered-habitats",
+        "environment/endangeredspecies",
+        "environment/climate-change",
+        "environment/activism",
+        "environment/climate-change",
+        "science/scienceofclimatechange",
+        "environment/renewableenergy",
+        "environment/renewableenergy",
+        "environment/series/our-wide-brown-land",
+        "environment/extinction-rebellion",
+        " us-news/series/toxic-america",
+        "us-news/series/cancer-town",
+        "us-news/series/united-states-of-plastic",
+        "world/natural-disasters",
+        "environment/series/the-green-recovery"
+      ],
+      "sections" : [
+        "environment"
+      ],
+      "excludedTagIds" : [
+        "sport/mike-tyson"
+      ],
+      "excludedSections" : [
+        "sport"
+      ],
+      "alwaysAsk" : true,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_GREENER_WORLD",
+          "heading" : "We’ve never had a better chance …",
+          "paragraphs" : [
+            "… to make a greener world. Covid-19 has delivered unusual environmental benefits: cleaner air, lower carbon emissions, a respite for wildlife. Now the big question is whether we can capitalise on this moment. The Guardian aims to lead the debate from the front.",
+            "In the weeks and months ahead, our journalism will investigate the prospects for a new green settlement. We will showcase the big thinkers and protagonists and amplify the arguments for authorities everywhere to consider as they lead us out of coronavirus.",
+            "",
+            "Our credentials suit us well to the task: we are independent, we have no owners, no paymasters or oligarchs pulling the strings. <a href=\"https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019\">We have committed to carbon neutrality, divested from the oil and gas sectors and renounced fossil fuel advertising</a>. But at this crucial moment, news organisations like ours are facing a daunting financial challenge. As businesses everywhere feel the pinch, the advertising revenue that has long helped to sustain our work has plummeted. We need you to help fill the gap.",
+            "",
+            "You've read %%ARTICLE_COUNT%% articles in the last six months. Our journalism is open to all because we believe everyone deserves access to factual information, regardless of where they live or what they can afford to pay. If you can afford to, we hope you will consider supporting our journalism today.",
+            "",
+            "The Guardian believes that the climate crisis we face is systemic. We will inform our readers about threats to the environment based on scientific facts, not driven by commercial or political interests. We will keep reporting on the efforts of individuals and communities around the world who are fearlessly taking a stand for future generations and the preservation of human life on earth. We want their stories to inspire hope.",
+            "",
+            "We need your support to keep delivering this kind of open, committed independent journalism. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-05-15_ENVIRON_EPIC_ROUND1__NO_ARTICLE_COUNT",
+      "nickname" : "ENVIRON CV19 NO  AC",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "UnitedStates",
+        "International"
+      ],
+      "tagIds" : [
+        "environment/series/the-polluters",
+        "environment/environment",
+        "environment/the-forgotten-climate-change-crises",
+        "environment/drought",
+        "environment/endangered-habitats",
+        "environment/endangeredspecies",
+        "environment/climate-change",
+        "environment/activism",
+        "environment/climate-change",
+        "science/scienceofclimatechange",
+        "environment/renewableenergy",
+        "environment/renewableenergy",
+        "environment/series/our-wide-brown-land",
+        "environment/extinction-rebellion",
+        " us-news/series/toxic-america",
+        "us-news/series/cancer-town",
+        "us-news/series/united-states-of-plastic",
+        "world/natural-disasters",
+        "environment/series/the-green-recovery"
+      ],
+      "sections" : [
+        "environment"
+      ],
+      "excludedTagIds" : [
+        "sport/mike-tyson"
+      ],
+      "excludedSections" : [
+        "sport"
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_GREENER_WORLD",
+          "heading" : "We’ve never had a better chance …",
+          "paragraphs" : [
+            "… to make a greener world. Covid-19 has delivered unusual environmental benefits: cleaner air, lower carbon emissions, a respite for wildlife. Now the big question is whether we can capitalise on this moment. The Guardian aims to lead the debate from the front.",
+            "In the weeks and months ahead, our journalism will investigate the prospects for a new green settlement. We will showcase the big thinkers and protagonists and amplify the arguments for authorities everywhere to consider as they lead us out of coronavirus.",
+            "",
+            "Our credentials suit us well to the task: we are independent, we have no owners, no paymasters or oligarchs pulling the strings. <a href=\"https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019\">We have committed to carbon neutrality, divested from the oil and gas sectors and renounced fossil fuel advertising</a>. But at this crucial moment, news organisations like ours are facing a daunting financial challenge. As businesses everywhere feel the pinch, the advertising revenue that has long helped to sustain our work has plummeted. We need you to help fill the gap.",
+            "",
+            "Our journalism is open to all because we believe everyone deserves access to factual information, regardless of where they live or what they can afford to pay. If you can afford to, we hope you will consider supporting our journalism today.",
+            "",
+            "The Guardian believes that the climate crisis we face is systemic. We will inform our readers about threats to the environment based on scientific facts, not driven by commercial or political interests. We will keep reporting on the efforts of individuals and communities around the world who are fearlessly taking a stand for future generations and the preservation of human life on earth. We want their stories to inspire hope.",
+            "",
+            "We need your support to keep delivering this kind of open, committed independent journalism. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-19-06_EPIC_NO_AD_REVS__WITH_ARTICLECOUNT",
+      "nickname" : "NO AD REVS AC",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the covid pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, leaders are gambling with public health, safety and the future of younger generations. Lacking in honesty and transparency, poor at crisis management, and given to narcissism, our leaders unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last six months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_NO_ADREVS",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the covid pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, leaders are gambling with public health, safety and the future of younger generations. Lacking in honesty and transparency, poor at crisis management, and given to narcissism, our leaders unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last six months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V2_TONE",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the covid pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Lacking sensitivity to the real lives of their people, leaders are gambling with public health, safety, community cohesion and the future of younger generations. Divisive and poor at crisis management, they sometimes appear more interested in serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last six months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-19-06_EPIC_NO_AD_REVS__NO_ARTICLECOUNT",
+      "nickname" : "NO AD REVS",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the covid pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, leaders are gambling with public health, safety and the future of younger generations. Lacking in honesty and transparency, poor at crisis management, and given to narcissism, our leaders unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_NO_ADREVS",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the covid pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, leaders are gambling with public health, safety and the future of younger generations. Lacking in honesty and transparency, poor at crisis management, and given to narcissism, our leaders unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V2_TONE",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the covid pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Lacking sensitivity to the real lives of their people, leaders are gambling with public health, safety, community cohesion and the future of younger generations. Divisive and poor at crisis management, they sometimes appear more interested in serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to information that is fact-checked, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-12-06_EPIC_LEADERS__UK_WITH_ARTICLECOUNT",
+      "nickname" : "UK LEADERS AC",
+      "isOn" : false,
+      "locations" : [
+        "GBPCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_POWER",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the coronavirus pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, and given to narcissism, leaders are gambling with public health, safety and the future of younger generations. They unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last six months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-12-06_EPIC_LEADERS__UK_NO_ARTICLECOUNT",
+      "nickname" : "UK LEADERS",
+      "isOn" : false,
+      "locations" : [
+        "GBPCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_POWER",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the coronavirus pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, and given to narcissism, leaders are gambling with public health, safety and the future of younger generations. They unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-12-06_EPIC_LEADERS__INT_WITH_ARTICLECOUNT",
+      "nickname" : "INT LEADERS AC",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_POWER",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the coronavirus pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, and given to narcissism, leaders are gambling with public health, safety and the future of younger generations. They unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last six months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-12-06_EPIC_LEADERS__INT_NO_ARTICLECOUNT",
+      "nickname" : "INT LEADERS",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "V1_POWER",
+          "heading" : "With those in power failing us …",
+          "paragraphs" : [
+            "… at this historic moment, we demand better. From the coronavirus pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Devoid of the humility and inclusivity we so desperately need, and given to narcissism, leaders are gambling with public health, safety and the future of younger generations. They unapologetically prioritise serving themselves over the people they were elected to serve. We have to make them raise their game.",
+            "",
+            "That’s what the Guardian’s here for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can bring about improvement.",
+            "",
+            "Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting – investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-16-06_LIVEBLOG_EPIC_LEADERS__US",
+      "nickname" : "US LIVEBLOG LEADERS",
+      "isOn" : false,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : true,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "paragraphs" : [
+            "In these extraordinary times, the Guardian’s editorial independence has never been more important. Because no one sets our agenda, or edits our editor, we can keep delivering quality, trustworthy, fact-checked journalism each and every day. Free from commercial or political bias, we can report fearlessly on world events and challenge those in power. ",
+            "",
+            "Your support protects the Guardian’s independence. We believe every one of us deserves equal access to accurate news and calm explanation. No matter how unpredictable the future feels, we will remain with you, delivering high quality news so we can all make critical decisions about our lives, health and security – based on fact, not fiction."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_BROKEN",
+          "paragraphs" : [
+            "Leadership is broken. From the coronavirus pandemic and police brutality to the marginalisation of communities of color around the world, our leaders are failing us. Self-serving and divisive, they are gambling with public health and the future of younger generations. We have to make them raise their game.",
+            "",
+            "This is what the Guardian is for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power. Your support helps us produce quality, trustworthy, fact-checked journalism every day - and publish it free so everyone can read. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V2_INDEPENDENCE",
+          "paragraphs" : [
+            "In these extraordinary times, with those in power failing us, the Guardian’s independence has never been more important. From the coronavirus pandemic and police brutality to the marginalisation of communities of color around the world, leadership is broken. Now more than ever, we all deserve access to trustworthy, reliable, fact-checked journalism. ",
+            "",
+            "That’s what the Guardian’s here for, and what our independence allows us to do. We can investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Your support protects our independence, and means we can keep our quality reporting open to all, just when we need it the most. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-16-06_LIVEBLOG_EPIC_LEADERS__GLOBAL_NO_ARTICLECOUNT",
+      "nickname" : "GLOBAL LIVEBLOG LEADERS",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : true,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "paragraphs" : [
+            "In these extraordinary times, the Guardian’s editorial independence has never been more important. Because no one sets our agenda, or edits our editor, we can keep delivering quality, trustworthy, fact-checked journalism each and every day. Free from commercial or political bias, we can report fearlessly on world events and challenge those in power. ",
+            "",
+            "Your support protects the Guardian’s independence. We believe every one of us deserves equal access to accurate news and calm explanation. No matter how unpredictable the future feels, we will remain with you, delivering high quality news so we can all make critical decisions about our lives, health and security – based on fact, not fiction."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_BROKEN",
+          "paragraphs" : [
+            "Leadership is broken. From the coronavirus pandemic and police brutality to the marginalisation of minority communities around the world, our leaders are failing us. Self-serving and divisive, they are gambling with public health and the future of younger generations. We have to make them raise their game.",
+            "",
+            "This is what the Guardian is for. As an open, independent news organisation we investigate, interrogate and expose the incompetence and indifference of those in power. Your support helps us produce quality, trustworthy, fact-checked journalism every day - and publish it free so everyone can read. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V2_INDEPENDENCE",
+          "paragraphs" : [
+            "In these extraordinary times, with those in power failing us, the Guardian’s independence has never been more important. From the coronavirus pandemic and police brutality to the marginalisation of minority communities around the world, leadership is broken. Now more than ever, we all deserve access to trustworthy, reliable, fact-checked journalism. ",
+            "",
+            "That’s what the Guardian’s here for, and what our independence allows us to do. We can investigate, interrogate and expose the incompetence and indifference of those in power, without fear. Your support protects our independence, and means we can keep our quality reporting open to all, just when we need it the most. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-22-06_GLOBAL_FALLBACK_EPIC__WITH_ARTICLE_COUNT",
+      "nickname" : "GLOBAL FALLBACK EPIC AC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "… we have a small favour to ask. You've read %%ARTICLE_COUNT%% articles in the last nine months. And you’re not alone; millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "As an open, independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-22-06_GLOBAL_FALLBACK_EPIC__NO_ARTICLE_COUNT",
+      "nickname" : "GLOBAL FALLBACK EPIC",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "... we have a small favour to ask. Millions are flocking to the Guardian for quality news every day. We believe everyone deserves access to factual information, and analysis that has authority and integrity. That’s why, unlike many others, we made a choice: to keep Guardian reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "As an open, independent news organisation we investigate, interrogate and expose the actions of those in power, without fear. With no shareholders or billionaire owner, our journalism is free from political and commercial bias – this makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future. With your help we can make a difference.",
+            "",
+            "We’re determined to provide journalism that helps each of us better understand the world, and take actions that challenge, unite, and inspire change – in times of crisis and beyond. Our work would not be possible without our readers, who now support our work from 180 countries around the world.",
+            "",
+            "But news organisations are facing an existential threat. With advertising revenues plummeting, the Guardian risks losing a major source of its funding. More than ever before, we’re reliant on financial support from readers to fill the gap. Your support keeps us independent, open, and means we can maintain our high quality reporting –  investigating, disentangling and interrogating.",
+            "",
+            "Every reader contribution, however big or small, is so valuable for our future. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-05-15_ENVIRONMENT_EPIC_ROUND1__NO_ARTICLE_COUNT",
+      "nickname" : "ENVIRON CV19 NO AC",
+      "isOn" : false,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "UnitedStates",
+        "International"
+      ],
+      "tagIds" : [
+        "environment/series/the-polluters",
+        "environment/environment",
+        "environment/the-forgotten-climate-change-crises",
+        "environment/drought",
+        "environment/endangered-habitats",
+        "environment/endangeredspecies",
+        "environment/climate-change",
+        "environment/activism",
+        "environment/climate-change",
+        "science/scienceofclimatechange",
+        "environment/renewableenergy",
+        "environment/renewableenergy",
+        "environment/series/our-wide-brown-land",
+        "environment/extinction-rebellion",
+        " us-news/series/toxic-america",
+        "us-news/series/cancer-town",
+        "us-news/series/united-states-of-plastic",
+        "world/natural-disasters",
+        "environment/series/the-green-recovery"
+      ],
+      "sections" : [
+        "environment"
+      ],
+      "excludedTagIds" : [
+        ""
+      ],
+      "excludedSections" : [
+        ""
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "We've got an announcement …",
+          "paragraphs" : [
+            "… on our progress as an organisation. In service of the escalating climate emergency, we have made an important decision – <a href=\"https://www.theguardian.com/media/2020/jan/29/guardian-to-ban-advertising-from-fossil-fuel-firms-climate-crisis\">to renounce fossil fuel advertising</a>, becoming the first major global news organisation to institute an outright ban on taking money from companies that extract fossil fuels.",
+            "",
+            "In October we outlined our pledge: that the Guardian will give global heating, wildlife extinction and pollution the urgent attention and prominence they demand. This resonated with so many readers around the world. We promise to update you on the steps we take to hold ourselves accountable at this defining point in our lifetimes. With climate misinformation rife, and never more dangerous than now, the Guardian's accurate, authoritative reporting is vital – and we will not stay quiet.",
+            "",
+            "We chose a different approach: to keep Guardian journalism open for all. We don't have a paywall because we believe everyone deserves access to factual information, regardless of where they live or what they can afford to pay.",
+            "",
+            "Our editorial independence means we are free to investigate and challenge inaction by those in power. We will inform our readers about threats to the environment based on scientific facts, not driven by commercial or political interests. And we have made several important changes to our style guide to ensure the language we use accurately reflects the environmental emergency. ",
+            "",
+            "The Guardian believes that the problems we face on the climate crisis are systemic and that fundamental societal change is needed. We will keep reporting on the efforts of individuals and communities around the world who are fearlessly taking a stand for future generations and the preservation of human life on earth. We want their stories to inspire hope.",
+            "",
+            "We hope you will consider supporting us today. We need your support to keep delivering quality journalism that’s open and independent. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          },
+          "secondaryCta" : {
+            "text" : "Read our pledge",
+            "baseUrl" : "https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020"
+          }
+        },
+        {
+          "name" : "V1_GREENER_WORLD",
+          "heading" : "We’ve never had a better chance …",
+          "paragraphs" : [
+            "… to make a greener world. Covid-19 has delivered unusual environmental benefits: cleaner air, lower carbon emissions, a respite for wildlife. Now the big question is whether we can capitalise on this moment. The Guardian aims to lead the debate from the front.",
+            "In the weeks and months ahead, our journalism will investigate the prospects for a new green settlement. We will showcase the big thinkers and protagonists and amplify the arguments for authorities everywhere to consider as they lead us out of coronavirus.",
+            "",
+            "Our credentials suit us well to the task: we are independent, we have no owners, no paymasters or oligarchs pulling the strings. <a href=\"https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019\">We have committed to carbon neutrality, divested from the oil and gas sectors and renounced fossil fuel advertising</a>. But at this crucial moment, news organisations like ours are facing a daunting financial challenge. As businesses everywhere feel the pinch, the advertising revenue that has long helped to sustain our work has plummeted. We need you to help fill the gap.",
+            "",
+            "Our journalism is open to all because we believe everyone deserves access to factual information, regardless of where they live or what they can afford to pay. If you can afford to, we hope you will consider supporting our journalism today.",
+            "",
+            "The Guardian believes that the climate crisis we face is systemic. We will inform our readers about threats to the environment based on scientific facts, not driven by commercial or political interests. We will keep reporting on the efforts of individuals and communities around the world who are fearlessly taking a stand for future generations and the preservation of human life on earth. We want their stories to inspire hope.",
+            "",
+            "We need your support to keep delivering this kind of open, committed independent journalism. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : true
+    },
+    {
+      "name" : "2020-01-22_US_EOY_Epic_reproductiverights__with_articlecount",
+      "isOn" : true,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        "abortion"
+      ],
+      "sections" : [
+        ""
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. This US administration is establishing new norms of behaviour. Anger and cruelty disfigure public discourse and lying is commonplace. Truth is being chased away. But with your help we can continue to put it center stage.",
+            "",
+            "Rampant disinformation, partisan news sources and social media's tsunami of fake news is no basis on which to inform the American public in 2020. The need for a robust, independent press has never been greater, and with your support we can continue to provide fact-based reporting that offers public scrutiny and oversight.  You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months.Our journalism is free and open for all, but it's made possible thanks to the support we receive from readers like you across America in all 50 states.",
+            "",
+            "On the occasion of its 100th birthday in 1921 the editor of the Guardian said, \"Perhaps the chief virtue of a newspaper is its independence. It should have a soul of its own.\" That is more true than ever. Freed from the influence of an owner or shareholders, the Guardian's editorial independence is our unique driving force and guiding principle.",
+            "",
+            "We also want to say a huge thank you to everyone who has generously supported the Guardian in the past. You provide us with the motivation and financial support to keep doing what we do. Every contribution, big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 - it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "v1_RightToChoose",
+          "heading" : "A woman's right to choose ...",
+          "paragraphs" : [
+            "... is under serious threat for the first time in generations. On the heels of an unprecedented wave of anti-abortion laws passed last year, the Supreme Court will consider a case this year that could dramatically curtail reproductive freedom. Meanwhile, the current administration continues to fill federal courts with judges likely to undermine Roe v Wade, the landmark 1973 decision securing the right to abortion. ",
+            "",
+            "The Guardian views reproductive freedom as fundamental to women’s health and human rights, and is committed to reporting rigorously on behalf of the women in America who need access to reliable, high quality healthcare. ",
+            "",
+            "The stakes couldn’t be higher in 2020, the need for a robust, independent press has never been greater. With your support we can continue to provide fact-based reporting that offers public scrutiny and oversight. You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months. Our journalism is free and open for all, but it's made possible thanks to the support we receive from readers like you across America in all 50 states.",
+            "",
+            "On the occasion of its 100th birthday in 1921 the editor of the Guardian said, \"Perhaps the chief virtue of a newspaper is its independence. It should have a soul of its own.\" That is more true than ever. Freed from the influence of an owner or shareholders, the Guardian's editorial independence is our unique driving force and guiding principle.",
+            "",
+            "We also want to say a huge thank you to everyone who generously supports the Guardian. You provide us with the motivation and financial support to keep doing what we do. Every contribution, big or small, is so valuable."
+          ],
+          "highlightedText" : "To support our rigorous journalism, make a gift from as little as %%CURRENCY_SYMBOL%%1. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-01-22_US_EOY_Epic_reproductiverights__non_articlecount",
+      "isOn" : true,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        "abortion"
+      ],
+      "sections" : [
+        ""
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. This US administration is establishing new norms of behaviour. Anger and cruelty disfigure public discourse and lying is commonplace. Truth is being chased away. But with your help we can continue to put it center stage.",
+            "",
+            "Rampant disinformation, partisan news sources and social media's tsunami of fake news is no basis on which to inform the American public in 2020. The need for a robust, independent press has never been greater, and with your support we can continue to provide fact-based reporting that offers public scrutiny and oversight. Our journalism is free and open for all, but it's made possible thanks to the support we receive from readers like you across America in all 50 states.",
+            "",
+            "On the occasion of its 100th birthday in 1921 the editor of the Guardian said, \"Perhaps the chief virtue of a newspaper is its independence. It should have a soul of its own.\" That is more true than ever. Freed from the influence of an owner or shareholders, the Guardian's editorial independence is our unique driving force and guiding principle.",
+            "",
+            "We also want to say a huge thank you to everyone who has generously supported the Guardian in the past. You provide us with the motivation and financial support to keep doing what we do. Every contribution, big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 - it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "v1_RightToChoose",
+          "heading" : "A woman's right to choose ...",
+          "paragraphs" : [
+            "... is under serious threat for the first time in generations. On the heels of an unprecedented wave of anti-abortion laws passed last year, the Supreme Court will consider a case this year that could dramatically curtail reproductive freedom. Meanwhile, the current administration continues to fill federal courts with judges likely to undermine Roe v Wade, the landmark 1973 decision securing the right to abortion. ",
+            "",
+            "The Guardian views reproductive freedom as fundamental to women’s health and human rights, and is committed to reporting rigorously on behalf of the women in America who need access to reliable, high quality healthcare. ",
+            "",
+            "The stakes couldn’t be higher in 2020, the need for a robust, independent press has never been greater. With your support we can continue to provide fact-based reporting that offers public scrutiny and oversight. Our journalism is free and open for all, but it's made possible thanks to the support we receive from readers like you across America in all 50 states.",
+            "",
+            "On the occasion of its 100th birthday in 1921 the editor of the Guardian said, \"Perhaps the chief virtue of a newspaper is its independence. It should have a soul of its own.\" That is more true than ever. Freed from the influence of an owner or shareholders, the Guardian's editorial independence is our unique driving force and guiding principle.",
+            "",
+            "We also want to say a huge thank you to everyone who generously supports the Guardian. You provide us with the motivation and financial support to keep doing what we do. Every contribution, big or small, is so valuable."
+          ],
+          "highlightedText" : "To support our rigorous journalism, make a gift from as little as %%CURRENCY_SYMBOL%%1. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "2020-06-17_US_EPIC_JUSTICEV2__WITH_ARTICLECOUNT",
+      "nickname" : "US JUSTICE V2 AC",
+      "isOn" : true,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        "world/race",
+        "us-news/us-police",
+        "us-news/george-floyd",
+        "world/protest",
+        "world/black-lives-matter-movement"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "Americans have had enough ...",
+          "paragraphs" : [
+            "... and are marching for justice in unprecedented numbers. In small towns and big cities across the country, thousands of people are giving voice to the grief and anger that generations of black Americans have suffered at the hands of the criminal justice system. Young and old, black and white, family and friends have joined together to say: enough.",
+            "",
+            "The unconscionable examples of racism over the last weeks and months come as America's communities of color have been hit hardest by the coronavirus and catastrophic job losses. This is a perfect storm hitting black Americans. Meanwhile, the political leadership suggests that “when the looting starts, the shooting starts”. The president who promised to end the “American carnage” is in danger of making it worse.",
+            "",
+            "At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months. Our business model is coming under great pressure from an unprecedented collapse in advertising revenues, and we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_UPDATE",
+          "heading" : "Americans have had enough ...",
+          "paragraphs" : [
+            "... and are marching for justice in unprecedented numbers. They are responding to generations of police brutality and systemic racism, a desperation fueled by a pandemic and an economic crisis that have hit black Americans disproportionately. A mass movement has come together to say: we've had enough.",
+            "",
+            "It's not just Americans. All over the world, citizens are protesting the marginalization of communities of color. Still, virtually nothing has been done to address racial and economic inequality in decades. Words, yes; action, not so much. Those who have the power to effect meaningful change have failed to do so.",
+            "",
+            "At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months. Our business model is coming under great pressure from an unprecedented collapse in advertising revenues, and we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-06-17_US_EPIC_JUSTICEV2__NO_ARTICLECOUNT",
+      "nickname" : "US JUSTICE V2 NO AC",
+      "isOn" : true,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        "world/race",
+        "us-news/us-police",
+        "us-news/george-floyd",
+        "world/protest",
+        "world/black-lives-matter-movement"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "heading" : "Americans have had enough ...",
+          "paragraphs" : [
+            "... and are marching for justice in unprecedented numbers. In small towns and big cities across the country, thousands of people are giving voice to the grief and anger that generations of black Americans have suffered at the hands of the criminal justice system. Young and old, black and white, family and friends have joined together to say: enough.",
+            "",
+            "The unconscionable examples of racism over the last weeks and months come as America's communities of color have been hit hardest by the coronavirus and catastrophic job losses. This is a perfect storm hitting black Americans. Meanwhile, the political leadership suggests that “when the looting starts, the shooting starts”. The president who promised to end the “American carnage” is in danger of making it worse.",
+            "",
+            "At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "Our business model is coming under great pressure from an unprecedented collapse in advertising revenues, and we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_UPDATE",
+          "heading" : "Americans have had enough ...",
+          "paragraphs" : [
+            "... and are marching for justice in unprecedented numbers. They are responding to generations of police brutality and systemic racism, a desperation fueled by a pandemic and an economic crisis that have hit black Americans disproportionately. A mass movement has come together to say: we've had enough.",
+            "",
+            "It's not just Americans. All over the world, citizens are protesting the marginalization of communities of color. Still, virtually nothing has been done to address racial and economic inequality in decades. Words, yes; action, not so much. Those who have the power to effect meaningful change have failed to do so.",
+            "",
+            "At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "Our business model is coming under great pressure from an unprecedented collapse in advertising revenues, and we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "2020-07-01_US_EPIC_INEQUITIES__WITH_ARTICLECOUNT",
+      "nickname" : "US EPIC INEQUITIES AC",
+      "isOn" : true,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        ""
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. ",
+            "",
+            "Science and reason are in a battle with conjecture and instinct to determine public policy in this time of a pandemic. Partisanship and economic interests are playing their part, too. Meanwhile, misinformation and falsehoods are routine. At a time like this, an independent news organisation that fights for data over dogma, and fact over fake, is not just optional. It is essential.",
+            "",
+            "The Guardian has been significantly impacted by the pandemic. Like many other news organisations, we are facing an unprecedented collapse in advertising revenues. We rely to an ever greater extent on our readers, both for the moral force to continue doing journalism at a time like this and for the financial strength to facilitate that reporting.",
+            "",
+            "You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months. We believe every one of us deserves equal access to fact-based news and analysis. We’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "As our business model comes under even greater pressure, we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 - it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_INEQUITIES",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. ",
+            "",
+            "The country is at a critical crossroads. Science and reason are in a battle to be heard and to try to drive public policy in the middle of a pandemic. At the same time, the US is in the midst of a historic reckoning with centuries of racial injustice – even as the White House stokes division along racial lines. Meanwhile the pandemic has exposed the painful inequities underlying American life. The coming months will determine whether they might finally be addressed. ",
+            "",
+            "At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. The Guardian has been significantly impacted by the pandemic. Like many other news organisations, we are facing an unprecedented collapse in advertising revenues. We rely to an ever greater extent on our readers, both for the moral force to continue doing journalism at a time like this and for the financial strength to facilitate that reporting.",
+            "",
+            "You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months. We believe every one of us deserves equal access to fact-based news and analysis. We’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "As our business model comes under even greater pressure, we’d love your help so that we can carry on our essential work. "
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-07-01_US_EPIC_INEQUITIES__NO_ARTICLECOUNT",
+      "nickname" : "US EPIC INEQUITIES NO AC",
+      "isOn" : true,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        ""
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. ",
+            "",
+            "Science and reason are in a battle with conjecture and instinct to determine public policy in this time of a pandemic. Partisanship and economic interests are playing their part, too. Meanwhile, misinformation and falsehoods are routine. At a time like this, an independent news organisation that fights for data over dogma, and fact over fake, is not just optional. It is essential.",
+            "",
+            "The Guardian has been significantly impacted by the pandemic. Like many other news organisations, we are facing an unprecedented collapse in advertising revenues. We rely to an ever greater extent on our readers, both for the moral force to continue doing journalism at a time like this and for the financial strength to facilitate that reporting.",
+            "",
+            "We believe every one of us deserves equal access to fact-based news and analysis. We’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "As our business model comes under even greater pressure, we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 - it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        },
+        {
+          "name" : "V1_INEQUITIES",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. ",
+            "",
+            "The country is at a critical crossroads. Science and reason are in a battle to be heard and to try to drive public policy in the middle of a pandemic. At the same time, the US is in the midst of a historic reckoning with centuries of racial injustice – even as the White House stokes division along racial lines. Meanwhile the pandemic has exposed the painful inequities underlying American life. The coming months will determine whether they might finally be addressed. ",
+            "",
+            "At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. The Guardian has been significantly impacted by the pandemic. Like many other news organisations, we are facing an unprecedented collapse in advertising revenues. We rely to an ever greater extent on our readers, both for the moral force to continue doing journalism at a time like this and for the financial strength to facilitate that reporting.",
+            "",
+            "We believe every one of us deserves equal access to fact-based news and analysis. We’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "As our business model comes under even greater pressure, we’d love your help so that we can carry on our essential work. "
+          ],
+          "highlightedText" : "If you can, support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "2020-05-21_US_EPIC_JOHNLANGV2__WITH_ARTICLECOUNT",
+      "nickname" : "US EPIC JOHN LANG V2 WITH AC",
+      "isOn" : false,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        ""
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. ",
+            "",
+            "Science and reason are in a battle with conjecture and instinct to determine public policy in this time of a pandemic. Partisanship and economic interests are playing their part, too. Meanwhile, misinformation and falsehoods are routine. At a time like this, an independent news organisation that fights for data over dogma, and fact over fake, is not just optional. It is essential.",
+            "",
+            "The Guardian has been significantly impacted by the pandemic. Like many other news organisations, we are facing an unprecedented collapse in advertising revenues. We rely to an ever greater extent on our readers, both for the moral force to continue doing journalism at a time like this and for the financial strength to facilitate that reporting.",
+            "",
+            "You’ve read more than %%ARTICLE_COUNT%% articles in the last nine months. We believe every one of us deserves equal access to fact-based news and analysis. We’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "As our business model comes under even greater pressure, we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 - it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-05-21_US_EPIC_JOHNLANGV2__NO_ARTICLECOUNT",
+      "nickname" : "US EPIC JOHN LANG V2 NO AC",
+      "isOn" : false,
+      "locations" : [
+        "UnitedStates"
+      ],
+      "tagIds" : [
+        ""
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "Control",
+          "heading" : "America faces an epic choice ...",
+          "paragraphs" : [
+            "... in the coming year, and the results will define the country for a generation. These are perilous times. Over the last three years, much of what the Guardian holds dear has been threatened – democracy, civility, truth. ",
+            "",
+            "Science and reason are in a battle with conjecture and instinct to determine public policy in this time of a pandemic. Partisanship and economic interests are playing their part, too. Meanwhile, misinformation and falsehoods are routine. At a time like this, an independent news organisation that fights for data over dogma, and fact over fake, is not just optional. It is essential.",
+            "",
+            "The Guardian has been significantly impacted by the pandemic. Like many other news organisations, we are facing an unprecedented collapse in advertising revenues. We rely to an ever greater extent on our readers, both for the moral force to continue doing journalism at a time like this and for the financial strength to facilitate that reporting.",
+            "",
+            "We believe every one of us deserves equal access to fact-based news and analysis. We’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers across America in all 50 states.",
+            "",
+            "As our business model comes under even greater pressure, we’d love your help so that we can carry on our essential work."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 - it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "2020-16-06_LIVEBLOG_EPIC_FALLBACK_GLOBAL",
+      "nickname" : "LIVEBLOG GLOBAL CONTROL",
+      "isOn" : true,
+      "locations" : [
+        "AUDCountries",
+        "Canada",
+        "EURCountries",
+        "NZDCountries",
+        "GBPCountries",
+        "UnitedStates",
+        "International"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : true,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "CONTROL",
+          "paragraphs" : [
+            "In these extraordinary times, the Guardian’s editorial independence has never been more important. Because no one sets our agenda, or edits our editor, we can keep delivering quality, trustworthy, fact-checked journalism each and every day. Free from commercial or political bias, we can report fearlessly on world events and challenge those in power. ",
+            "",
+            "Your support protects the Guardian’s independence. We believe every one of us deserves equal access to accurate news and calm explanation. No matter how unpredictable the future feels, we will remain with you, delivering high quality news so we can all make critical decisions about our lives, health and security – based on fact, not fiction."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support The Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "2020-01-31_global_control_epic_alwaysask__with_article_count",
+      "isOn" : true,
+      "locations" : [
+      ],
+      "tagIds" : [
+        "media/theguardian",
+        "media/pressandpublishing",
+        "media/national-newspapers",
+        "media/newspapers"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : true,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "control",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "… we’re asking readers like you to make a contribution in support of our open, independent journalism. In these frightening and uncertain times, the expertise, scientific knowledge and careful judgment in our reporting has never been so vital. No matter how unpredictable the future feels, we will remain with you, delivering high quality news so we can all make critical decisions about our lives, health and security. Together we can find a way through this.",
+            "",
+            "You’ve read %%ARTICLE_COUNT%% articles in the last nine months. We believe every one of us deserves equal access to accurate news and calm explanation. So, unlike many others, we made a different choice: to keep Guardian journalism open for all, regardless of where they live or what they can afford to pay. This would not be possible without the generosity of readers, who now support our work from 180 countries around the world.",
+            "",
+            "We have upheld our editorial independence in the face of the disintegration of traditional media – with social platforms giving rise to misinformation, the seemingly unstoppable rise of big tech and independent voices being squashed by commercial ownership. The Guardian’s independence means we can set our own agenda and voice our own opinions. Our journalism is free from commercial and political bias – never influenced by billionaire owners or shareholders. This makes us different. It means we can challenge the powerful without fear and give a voice to those less heard.",
+            "",
+            "Your financial support has meant we can keep investigating, disentangling and interrogating. It has protected our independence, which has never been so critical. We are so grateful. ",
+            "",
+            "We need your support so we can keep delivering quality journalism that’s open and independent. And that is here for the long term. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2020-01-31_global_control_epic_alwaysask__no_articlecount",
+      "isOn" : true,
+      "locations" : [
+      ],
+      "tagIds" : [
+        "media/theguardian",
+        "media/pressandpublishing",
+        "media/national-newspapers",
+        "media/newspapers"
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : true,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "control",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "… we’re asking readers like you to make a contribution in support of our open, independent journalism. In these frightening and uncertain times, the expertise, scientific knowledge and careful judgment in our reporting has never been so vital. No matter how unpredictable the future feels, we will remain with you, delivering high quality news so we can all make critical decisions about our lives, health and security. Together we can find a way through this.",
+            "",
+            "We believe every one of us deserves equal access to accurate news and calm explanation. So, unlike many others, we made a different choice: to keep Guardian journalism open for all, regardless of where they live or what they can afford to pay. This would not be possible without the generosity of readers, who now support our work from 180 countries around the world.",
+            "",
+            "We have upheld our editorial independence in the face of the disintegration of traditional media – with social platforms giving rise to misinformation, the seemingly unstoppable rise of big tech and independent voices being squashed by commercial ownership. The Guardian’s independence means we can set our own agenda and voice our own opinions. Our journalism is free from commercial and political bias – never influenced by billionaire owners or shareholders. This makes us different. It means we can challenge the powerful without fear and give a voice to those less heard.",
+            "",
+            "Your financial support has meant we can keep investigating, disentangling and interrogating. It has protected our independence, which has never been so critical. We are so grateful. ",
+            "",
+            "We need your support so we can keep delivering quality journalism that’s open and independent. And that is here for the long term. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "acquisitions-epic__thank_you_europe",
+      "isOn" : true,
+      "locations" : [
+        "EURCountries"
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 1,
+        "maxViewsDays" : 365,
+        "minDaysBetweenViews" : 30
+      },
+      "userCohort" : "AllExistingSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "control",
+          "heading" : "Thank you for your generous support",
+          "paragraphs" : [
+            "More people from Europe are reading and supporting the Guardian's open, independent journalism than ever before. Every contribution you make, big or small, means that we can keep committed to Europe, doubling down on the ideas and interests that we share. Thank you.",
+            "",
+            "This is Europe is the brand new series from the Guardian, reporting on every aspect of Europe – the continent, its people, its politics, institutions, economy and culture.",
+            "",
+            "Support from European readers like you protects the Guardian's editorial independence – meaning we can set our own agenda and voice our own opinions, free from any commercial or political bias. It also ensures we can keep our journalism open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "If you would like to keep up to date with This is Europe please sign up to our newsletter where you’ll get a weekly update on all the latest from this brand new series.",
+            "",
+            "With your ongoing support, we will continue to deliver open, independent journalism for the years to come. Thank you again."
+          ],
+          "footer" : "",
+          "showTicker" : false,
+          "backgroundImageUrl" : "",
+          "cta" : {
+            "text" : "Sign up to This is Europe",
+            "baseUrl" : "https://www.theguardian.com/commentisfree/2018/mar/22/this-is-europe-sign-up-guardian-email-updates"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "2019-11-26_global_control_epic__with_article_count",
+      "isOn" : false,
+      "locations" : [
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "control",
+          "heading" : "You've read %%ARTICLE_COUNT%% articles ...",
+          "paragraphs" : [
+            "...  in the last six months, so we hope you will consider supporting our independent journalism today. More people, like you, are reading and supporting the Guardian’s independent, investigative journalism than ever before. Unlike many news organisations, we made the choice to keep our reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "The Guardian will engage with the most critical issues of our time – from the escalating climate catastrophe to widespread inequality to the influence of big tech on our lives. At a time when factual information is a necessity, we believe that each of us, around the world, deserves access to accurate reporting with integrity at its heart.",
+            "",
+            "Our editorial independence means we set our own agenda and voice our own opinions. Guardian journalism is free from commercial and political bias and not influenced by billionaire owners or shareholders. This means we can give a voice to those less heard, explore where others turn away, and rigorously challenge those in power.",
+            "",
+            "With your support we can keep delivering quality journalism that’s open and independent. Every reader contribution, however big or small, is so valuable."
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false,
+      "articlesViewedSettings" : {
+        "minViews" : 5,
+        "periodInWeeks" : 52
+      }
+    },
+    {
+      "name" : "2019-11-29_global_control_epic__no_articlecount",
+      "isOn" : false,
+      "locations" : [
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 4,
+        "maxViewsDays" : 30,
+        "minDaysBetweenViews" : 0
+      },
+      "userCohort" : "AllNonSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "control",
+          "heading" : "Since you're here ...",
+          "paragraphs" : [
+            "… we have a small favour to ask. More people, like you, are reading and supporting the Guardian’s independent, investigative journalism than ever before. And unlike many news organisations, we made the choice to keep our reporting open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "The Guardian will engage with the most critical issues of our time – from the escalating climate catastrophe to widespread inequality to the influence of big tech on our lives. At a time when factual information is a necessity, we believe that each of us, around the world, deserves access to accurate reporting with integrity at its heart.",
+            "",
+            "Our editorial independence means we set our own agenda and voice our own opinions. Guardian journalism is free from commercial and political bias and not influenced by billionaire owners or shareholders. This means we can give a voice to those less heard, explore where others turn away, and rigorously challenge those in power.",
+            "",
+            "We hope you will consider supporting us today. We need your support to keep delivering quality journalism that’s open and independent. Every reader contribution, however big or small, is so valuable. "
+          ],
+          "highlightedText" : "Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.",
+          "showTicker" : false,
+          "cta" : {
+            "text" : "Support the Guardian",
+            "baseUrl" : "https://support.theguardian.com/contribute"
+          }
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    },
+    {
+      "name" : "acquisitions-epic__thank_you",
+      "isOn" : true,
+      "locations" : [
+      ],
+      "tagIds" : [
+      ],
+      "sections" : [
+      ],
+      "excludedTagIds" : [
+      ],
+      "excludedSections" : [
+      ],
+      "alwaysAsk" : false,
+      "maxViews" : {
+        "maxViewsCount" : 1,
+        "maxViewsDays" : 365,
+        "minDaysBetweenViews" : 30
+      },
+      "userCohort" : "AllExistingSupporters",
+      "isLiveBlog" : false,
+      "hasCountryName" : false,
+      "variants" : [
+        {
+          "name" : "control",
+          "heading" : "Thank you for your generous support",
+          "paragraphs" : [
+            "More people are reading and supporting the Guardian's open, independent journalism than ever before. Every contribution you make, big or small, means we can keep working as we do.",
+            "",
+            "The Guardian will engage with the most critical issues of our times – from the escalating climate emergency to widespread inequality, to the influence of big tech on our lives. At a time when factual information is a necessity, we believe that each of us deserves access to accurate reporting with integrity at its heart.",
+            "",
+            "Support from readers like you protects the Guardian's editorial independence – meaning we can set our own agenda and voice our own opinions, free from any commercial or political bias. It also ensures we can keep our journalism open for all, regardless of where they live or what they can afford to pay.",
+            "",
+            "With your ongoing support, we will continue to deliver open, independent journalism for the years to come. Thank you again."
+          ],
+          "footer" : "",
+          "showTicker" : false,
+          "backgroundImageUrl" : ""
+        }
+      ],
+      "highPriority" : false,
+      "useLocalViewLog" : false
+    }
+  ]
+}

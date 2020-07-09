@@ -23,6 +23,10 @@ export class ContributionsServiceStack extends cdk.Stack {
             default: 'frontend',
         });
 
+        const certificate = new cdk.CfnParameter(this, 'Certificate', {
+            type: 'String',
+        });
+
         cdk.Tag.add(this, 'Stack', stack.value.toString());
         cdk.Tag.add(this, 'Stage', stage.value.toString());
         cdk.Tag.add(this, 'App', app.value.toString());
