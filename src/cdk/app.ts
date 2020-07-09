@@ -23,7 +23,7 @@ export class ContributionsServiceStack extends cdk.Stack {
             default: 'frontend',
         });
 
-        const certificate = new cdk.CfnParameter(this, 'Certificate', {
+        const certificateArn = new cdk.CfnParameter(this, 'CertificateArn', {
             type: 'String',
         });
 
@@ -133,6 +133,7 @@ export class ContributionsServiceStack extends cdk.Stack {
 
         const listener = lb.addListener('Listener', {
             port: 443,
+            certificateArns: [certificateArn.value.toString()],
         });
 
         listener.addTargets('Target', {
