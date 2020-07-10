@@ -89,22 +89,22 @@ export class ContributionsServiceStack extends cdk.Stack {
 
         const baseUrl = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${Stage.toLowerCase()}/base_url`,
+            `/contributions-service/${stage.value.toString().toLowerCase()}/base_url`,
         );
 
         const logTargeting = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${Stage.toLowerCase()}/log_targeting`,
+            `/contributions-service/${stage.value.toString().toLowerCase()}/log_targeting`,
         );
 
         const logCompareVariants = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${Stage.toLowerCase()}/log_compare_variants`,
+            `/contributions-service/${stage.value.toString().toLowerCase()}/log_compare_variants`,
         );
 
         const logFailedTestFilter = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${Stage.toLowerCase()}/log_failed_test_filter`,
+            `/contributions-service/${stage.value.toString().toLowerCase()}/log_failed_test_filter`,
         );
 
         userData.addCommands(
