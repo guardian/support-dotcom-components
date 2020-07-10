@@ -89,7 +89,7 @@ export class ContributionsServiceStack extends cdk.Stack {
 
         const baseUrl = ssm.StringParameter.valueForStringParameter(
             this,
-            '/contributions-service/code/base_url',
+            `/contributions-service/${Stage.toLowerCase()}/base_url`,
         );
 
         userData.addCommands(
