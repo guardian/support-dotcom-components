@@ -92,6 +92,21 @@ export class ContributionsServiceStack extends cdk.Stack {
             `/contributions-service/${Stage.toLowerCase()}/base_url`,
         );
 
+        const logTargeting = ssm.StringParameter.valueForStringParameter(
+            this,
+            `/contributions-service/${Stage.toLowerCase()}/log_targeting`,
+        );
+
+        const logCompareVariants = ssm.StringParameter.valueForStringParameter(
+            this,
+            `/contributions-service/${Stage.toLowerCase()}/log_compare_variants`,
+        );
+
+        const logFailedTestFilter = ssm.StringParameter.valueForStringParameter(
+            this,
+            `/contributions-service/${Stage.toLowerCase()}/log_failed_test_filter`,
+        );
+
         userData.addCommands(
             `groupadd frontend`,
             `useradd -r -m -s /usr/bin/nologin -g frontend ${App}`,
@@ -101,6 +116,9 @@ export class ContributionsServiceStack extends cdk.Stack {
             `export Stage=${Stage}`,
             `export NODE_ENV=production`,
             `export BASE_URL=${baseUrl}`,
+            `export LOG_TARGETING=${logTargeting}`,
+            `export LOG_COMPARE_VARIANTS=${logCompareVariants}`,
+            `export LOG_FAILED_TEST_FILTER=${logFailedTestFilter}`,
 
             `aws s3 cp s3://aws-frontend-contributions-service/frontend/${Stage}/contributions-service-ec2/contributions-service-ec2.zip /tmp/${App}.zip`,
             `mkdir -p /opt/${App}`,
