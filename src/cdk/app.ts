@@ -3,6 +3,7 @@ import * as iam from '@aws-cdk/aws-iam';
 import * as autoscaling from '@aws-cdk/aws-autoscaling';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
+import * as ssm from '@aws-cdk/aws-ssm';
 
 export class ContributionsServiceStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string) {
@@ -86,6 +87,11 @@ export class ContributionsServiceStack extends cdk.Stack {
         const Stack = stack.value.toString();
         const Stage = stage.value.toString();
 
+        const baseUrl = ssm.StringParameter.valueForStringParameter(
+            this,
+            '/contributions-service/code/base_url',
+        );
+
         userData.addCommands(
             `groupadd frontend`,
             `useradd -r -m -s /usr/bin/nologin -g frontend ${App}`,
@@ -94,6 +100,7 @@ export class ContributionsServiceStack extends cdk.Stack {
             `export Stack=${Stack}`,
             `export Stage=${Stage}`,
             `export NODE_ENV=production`,
+            `export BASE_URL=${baseUrl}`,
 
             `aws s3 cp s3://aws-frontend-contributions-service/frontend/${Stage}/contributions-service-ec2/contributions-service-ec2.zip /tmp/${App}.zip`,
             `mkdir -p /opt/${App}`,
