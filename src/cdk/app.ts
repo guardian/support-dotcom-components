@@ -47,11 +47,6 @@ export class ContributionsServiceStack extends cdk.Stack {
             description: 'List of AZs',
         });
 
-        // const confBucket = new cdk.CfnParameter(this, 'ConfBucket', {
-        //     type: 'String',
-        //     description: 'Bucket containing PROD conf file for app',
-        // });
-
         const ami = new cdk.CfnParameter(this, 'AMI', {
             type: 'AWS::EC2::Image::Id',
             description: 'AMI ID to be provded by RiffRaff',
