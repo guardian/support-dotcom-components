@@ -1,90 +1,244 @@
-import { readerRevenueRegionFromCountryCode } from './bannerSelection';
-import { SubscriptionsBanner } from './SubscriptionsBannerTest';
-import { WeeklyBanner } from './WeeklyBannerTest';
+import { selectBannerTest, _ } from './bannerSelection';
+import { BannerTargeting, BannerPageTracking } from '../../components/BannerTypes';
+import { cacheAsync as _cacheAsync } from '../../lib/cache';
 
-describe('readerRevenueRegionFromCountryCode', () => {
-    it('should return a region', () => {
-        const unitedKingdom = readerRevenueRegionFromCountryCode('GB');
-        expect(unitedKingdom).toBe('united-kingdom');
+const cacheAsync = _cacheAsync;
 
-        const germany = readerRevenueRegionFromCountryCode('DE');
-        expect(germany).toBe('european-union');
+jest.mock('../../lib/cache', () => ({
+    cacheAsync: jest.fn(),
+}));
 
-        const australia = readerRevenueRegionFromCountryCode('AU');
-        expect(australia).toBe('australia');
-
-        const fiji = readerRevenueRegionFromCountryCode('FJ');
-        expect(fiji).toBe('rest-of-world');
-
-        const usa = readerRevenueRegionFromCountryCode('US');
-        expect(usa).toBe('united-states');
+describe('selectBannerTest', () => {
+    afterEach(() => {
+        jest.resetAllMocks();
     });
-});
 
-describe('SubscriptionsBanner canRun', () => {
-    it('should return a boolean', () => {
-        const targetingTrue = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            engagementBannerLastClosedAt: '1594059610944',
-            mvtId: 3,
-            countryCode: 'US',
-        };
-        const targetingFalse = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            engagementBannerLastClosedAt: '1594059610944',
-            mvtId: 3,
-            countryCode: 'FJ',
-        };
-        const tracking = {
-            ophanPageId: '',
-            ophanComponentId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-        const canRun1 = SubscriptionsBanner.canRun(targetingTrue, tracking);
-        expect(canRun1).toBe(true);
-        const canRun2 = SubscriptionsBanner.canRun(targetingFalse, tracking);
-        expect(canRun2).toBe(false);
+    const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
+    const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
+
+    describe('Australia Moment', () => {
+        let targeting: BannerTargeting;
+        let tracking: BannerPageTracking;
+
+        beforeEach(() => {
+            targeting = {
+                alreadyVisitedCount: 3,
+                shouldHideReaderRevenue: false,
+                isPaidContent: false,
+                showSupportMessaging: true,
+                mvtId: 3,
+                countryCode: 'AU',
+                engagementBannerLastClosedAt: firstDate,
+            };
+            tracking = {
+                ophanPageId: '',
+                ophanComponentId: '',
+                platformId: '',
+                referrerUrl: '',
+                clientName: '',
+            };
+        });
+
+        it('returns banner if it has never been dismissed', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            targeting.engagementBannerLastClosedAt = undefined;
+
+            _.resetCache('contributions', 'australia');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('AusMomentContributionsBanner');
+            });
+        });
+
+        it('returns banner if has been redeployed', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            _.resetCache('contributions', 'australia');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('AusMomentContributionsBanner');
+            });
+        });
+
+        it('returns null if article is paid content', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            _.resetCache('contributions', 'australia');
+
+            targeting.isPaidContent = true;
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result).toBe(null);
+            });
+        });
     });
-});
 
-describe('WeeklyBanner canRun', () => {
-    it('should return a boolean', () => {
-        const targetingTrue = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            engagementBannerLastClosedAt: '1594059610944',
-            mvtId: 3,
-            countryCode: 'AU',
-        };
-        const targetingFalse = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            engagementBannerLastClosedAt: '1594059610944',
-            mvtId: 3,
-            countryCode: 'US',
-        };
-        const tracking = {
-            ophanPageId: '',
-            ophanComponentId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-        const canRun1 = WeeklyBanner.canRun(targetingTrue, tracking);
-        expect(canRun1).toBe(true);
-        const canRun2 = WeeklyBanner.canRun(targetingFalse, tracking);
-        expect(canRun2).toBe(false);
+    describe('Subs Banner', () => {
+        let targeting: BannerTargeting;
+        let tracking: BannerPageTracking;
+
+        beforeEach(() => {
+            targeting = {
+                alreadyVisitedCount: 3,
+                shouldHideReaderRevenue: false,
+                isPaidContent: false,
+                showSupportMessaging: true,
+                mvtId: 3,
+                countryCode: 'US',
+                engagementBannerLastClosedAt: secondDate,
+            };
+            tracking = {
+                ophanPageId: '',
+                ophanComponentId: '',
+                platformId: '',
+                referrerUrl: '',
+                clientName: '',
+            };
+        });
+
+        it('returns banner if it has never been dismissed', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            targeting.subscriptionsBannerLastClosedAt = undefined;
+
+            _.resetCache('subscriptions', 'united-states');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('SubscriptionsBanner');
+            });
+        });
+
+        it('returns banner if has been redeployed', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(firstDate)),
+            ]);
+
+            _.resetCache('subscriptions', 'united-states');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('SubscriptionsBanner');
+            });
+        });
+
+        it('returns null if there are insufficient page views', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(firstDate)),
+            ]);
+
+            _.resetCache('subscriptions', 'united-states');
+
+            targeting.alreadyVisitedCount = 1;
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result).toBe(null);
+            });
+        });
+
+        it('returns null if user is logged in and has a subscription', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(firstDate)),
+            ]);
+
+            _.resetCache('subscriptions', 'united-states');
+
+            targeting.showSupportMessaging = false;
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result).toBe(null);
+            });
+        });
+    });
+
+    describe('Weekly Banner', () => {
+        let targeting: BannerTargeting;
+        let tracking: BannerPageTracking;
+
+        beforeEach(() => {
+            targeting = {
+                alreadyVisitedCount: 3,
+                shouldHideReaderRevenue: false,
+                isPaidContent: false,
+                showSupportMessaging: true,
+                mvtId: 3,
+                countryCode: 'AU',
+                engagementBannerLastClosedAt: secondDate,
+            };
+            tracking = {
+                ophanPageId: '',
+                ophanComponentId: '',
+                platformId: '',
+                referrerUrl: '',
+                clientName: '',
+            };
+        });
+
+        it('returns banner if it has never been dismissed', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            targeting.subscriptionsBannerLastClosedAt = undefined;
+
+            _.resetCache('subscriptions', 'australia');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('WeeklyBanner');
+            });
+        });
+
+        it('returns banner if has been redeployed', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(firstDate)),
+            ]);
+
+            _.resetCache('subscriptions', 'australia');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('WeeklyBanner');
+            });
+        });
+
+        it('returns null if shouldHideReaderRevenue', () => {
+            // // @ts-ignore
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(firstDate)),
+            ]);
+
+            _.resetCache('subscriptions', 'australia');
+
+            targeting.shouldHideReaderRevenue = true;
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result).toBe(null);
+            });
+        });
     });
 });

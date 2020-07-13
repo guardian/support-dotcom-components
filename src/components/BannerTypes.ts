@@ -8,6 +8,7 @@ export type BannerTargeting = {
     isPaidContent?: boolean;
     showSupportMessaging: boolean;
     engagementBannerLastClosedAt?: string;
+    subscriptionsBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
 };
@@ -48,7 +49,7 @@ export interface BannerTest {
     bannerType: 'contributions' | 'subscriptions';
     canRun: CanRun;
     minPageViews: number;
-    variants: BannerVariant[];
+    variants: BannerVariant[] | [];
 }
 
 // The result of selecting a test+variant for a user
