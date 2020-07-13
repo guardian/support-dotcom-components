@@ -1,5 +1,5 @@
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
-import { SubscriptionsBanner } from './SubscriptionsBannerTest';
+import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
 import { WeeklyBanner } from './WeeklyBannerTest';
 
 describe('readerRevenueRegionFromCountryCode', () => {
@@ -22,7 +22,7 @@ describe('readerRevenueRegionFromCountryCode', () => {
 });
 
 describe('SubscriptionsBanner canRun', () => {
-    it('should return a boolean', () => {
+    it('should return the correct targeting result', () => {
         const targetingTrue = {
             alreadyVisitedCount: 3,
             shouldHideReaderRevenue: false,
@@ -48,9 +48,9 @@ describe('SubscriptionsBanner canRun', () => {
             referrerUrl: '',
             clientName: '',
         };
-        const canRun1 = SubscriptionsBanner.canRun(targetingTrue, tracking);
+        const canRun1 = DigitalSubscriptionBanner.canRun(targetingTrue, tracking);
         expect(canRun1).toBe(true);
-        const canRun2 = SubscriptionsBanner.canRun(targetingFalse, tracking);
+        const canRun2 = DigitalSubscriptionBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
     });
 });

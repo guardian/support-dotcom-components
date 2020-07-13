@@ -5,7 +5,7 @@ import {
     BannerTest,
 } from '../../components/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
-import { SubscriptionsBanner } from './SubscriptionsBannerTest';
+import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
 import { WeeklyBanner } from './WeeklyBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
@@ -150,7 +150,11 @@ export const selectBannerTest = async (
     pageTracking: BannerPageTracking,
     baseUrl: string,
 ): Promise<BannerTestSelection | null> => {
-    const tests: BannerTest[] = [AusMomentContributionsBanner, SubscriptionsBanner, WeeklyBanner];
+    const tests: BannerTest[] = [
+        AusMomentContributionsBanner,
+        DigitalSubscriptionBanner,
+        WeeklyBanner,
+    ];
 
     for (const test of tests) {
         if (
