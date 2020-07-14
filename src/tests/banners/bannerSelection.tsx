@@ -174,7 +174,7 @@ export const selectBannerTest = async (
             test.canRun(targeting, pageTracking) &&
             (await redeployedSinceLastClosed(targeting, test.bannerType))
         ) {
-            const variant = test.variants ? test.variants[0] : null;
+            const variant = test.variants ? test.variants[0] : null; // TODO - use mvt
 
             const bannerTestSelection = {
                 test,
