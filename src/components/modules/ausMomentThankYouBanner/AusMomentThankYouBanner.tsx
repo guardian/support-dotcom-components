@@ -41,6 +41,11 @@ const sunSvgAndMessagesContainer = css`
         width: 50%;
         padding: ${space[1]}px ${space[1]}px 0 0;
     }
+
+    ${from.desktop} {
+        margin-top: -${space[12]}px;
+        padding: 0 ${space[12]}px 0 0;
+    }
 `;
 
 const slideUpContainer = css`
@@ -59,6 +64,9 @@ const slideUpContainerExpanded = css`
 
 const sunSvgAndThankYouContainer = css`
     position: relative;
+    ${from.desktop} {
+        max-width: 400px;
+    }
 `;
 
 const sunSvg = css`
@@ -103,6 +111,17 @@ const sunSvgTablet = css`
     ${sunSvg}
     display: none;
     ${from.tablet} {
+        display: block;
+    }
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
+const sunSvgDesktop = css`
+    ${sunSvg}
+    display: none;
+    ${from.desktop} {
         display: block;
     }
 `;
@@ -220,6 +239,10 @@ const thankYouMessageMainHeader = css`
         font-size: 32px;
         padding-bottom: 0px;
     }
+
+    ${from.desktop} {
+        font-size: 42px;
+    }
 `;
 
 const thankYouMessageMainHeaderThreeLines = css`
@@ -231,6 +254,10 @@ const thankYouMessageMainHeaderThreeLines = css`
     ${from.tablet} {
         display: block;
     }
+
+    ${from.desktop} {
+        display: none;
+    }
 `;
 
 const thankYouMessageMainHeaderTwoLines = css`
@@ -241,6 +268,10 @@ const thankYouMessageMainHeaderTwoLines = css`
 
     ${from.tablet} {
         display: none;
+    }
+
+    ${from.desktop} {
+        display: block;
     }
 `;
 
@@ -263,6 +294,10 @@ const thankYouMessageMainBody = css`
         top: 0px;
         height: auto;
         margin-top: ${space[2]}px;
+    }
+
+    ${from.desktop} {
+        margin-top: ${space[3]}px;
     }
 `;
 
@@ -305,6 +340,11 @@ const buttonsContainer = css`
     ${from.tablet} {
         width: 60%;
         padding: 0 ${space[5]}px ${space[5]}px;
+    }
+
+    ${from.desktop} {
+        width: 75%;
+        padding: 0 0 ${space[5]}px ${space[5]}px;
     }
 `;
 
@@ -400,6 +440,22 @@ export const AusMomentThankYouBanner: React.FC = () => {
                             <circle
                                 className={sunSvgInnerSun}
                                 r="13.25"
+                                cx="50%"
+                                cy="50%"
+                                fill="currentColor"
+                            />
+                        </svg>
+                        <svg className={sunSvgDesktop} viewBox="0 0 32 32">
+                            <circle
+                                className={sunSvgOuterSun}
+                                r="15.5"
+                                cx="50%"
+                                cy="50%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={sunSvgInnerSun}
+                                r="14.75"
                                 cx="50%"
                                 cy="50%"
                                 fill="currentColor"
