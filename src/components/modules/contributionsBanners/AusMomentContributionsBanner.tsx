@@ -99,10 +99,10 @@ const actualNumber = css`
     align-items: center;
     padding-top: 120px;
     ${from.tablet} {
-        padding-top: 80px;
+        padding-top: 70px;
     }
     ${from.desktop} {
-        padding-top: 75px;
+        padding-top: 70px;
     }
 `;
 
@@ -323,7 +323,6 @@ const ctaContainer = css`
 `;
 
 const readMore = css`
-    margin-top: 5px;
     padding-bottom: 0;
     display: inline-block;
     cursor: pointer;
@@ -403,7 +402,7 @@ const message = (isOverflowing: boolean): string => css`
     display: none;
     max-height: 70px;
     ${from.tablet} {
-        max-height: ${isOverflowing ? 140 : messageMaxHeight}px;
+        max-height: ${isOverflowing ? 120 : messageMaxHeight}px;
         display: block;
     }
 `;
