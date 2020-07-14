@@ -1,5 +1,4 @@
 import { selectBannerTest, _ } from './bannerSelection';
-import { BannerTargeting, BannerPageTracking } from '../../components/BannerTypes';
 import { cacheAsync as _cacheAsync } from '../../lib/cache';
 
 const cacheAsync = _cacheAsync;
@@ -17,27 +16,23 @@ describe('selectBannerTest', () => {
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
 
     describe('Australia Moment', () => {
-        let targeting: BannerTargeting;
-        let tracking: BannerPageTracking;
+        const targeting = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'AU',
+            engagementBannerLastClosedAt: firstDate,
+        };
 
-        beforeEach(() => {
-            targeting = {
-                alreadyVisitedCount: 3,
-                shouldHideReaderRevenue: false,
-                isPaidContent: false,
-                showSupportMessaging: true,
-                mvtId: 3,
-                countryCode: 'AU',
-                engagementBannerLastClosedAt: firstDate,
-            };
-            tracking = {
-                ophanPageId: '',
-                ophanComponentId: '',
-                platformId: '',
-                referrerUrl: '',
-                clientName: '',
-            };
-        });
+        const tracking = {
+            ophanPageId: '',
+            ophanComponentId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
 
         it('returns banner if it has never been dismissed', () => {
             // // @ts-ignore
@@ -46,11 +41,15 @@ describe('selectBannerTest', () => {
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
             ]);
 
-            targeting.engagementBannerLastClosedAt = undefined;
-
             _.resetCache('contributions', 'australia');
 
-            return selectBannerTest(targeting, tracking, '').then(result => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    engagementBannerLastClosedAt: undefined,
+                }),
+                tracking,
+                '',
+            ).then(result => {
                 expect(result && result.test.name).toBe('AusMomentContributionsBanner');
             });
         });
@@ -78,36 +77,36 @@ describe('selectBannerTest', () => {
 
             _.resetCache('contributions', 'australia');
 
-            targeting.isPaidContent = true;
-
-            return selectBannerTest(targeting, tracking, '').then(result => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    isPaidContent: true,
+                }),
+                tracking,
+                '',
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
     });
 
     describe('Subs Banner', () => {
-        let targeting: BannerTargeting;
-        let tracking: BannerPageTracking;
+        const targeting = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'US',
+            engagementBannerLastClosedAt: secondDate,
+        };
 
-        beforeEach(() => {
-            targeting = {
-                alreadyVisitedCount: 3,
-                shouldHideReaderRevenue: false,
-                isPaidContent: false,
-                showSupportMessaging: true,
-                mvtId: 3,
-                countryCode: 'US',
-                engagementBannerLastClosedAt: secondDate,
-            };
-            tracking = {
-                ophanPageId: '',
-                ophanComponentId: '',
-                platformId: '',
-                referrerUrl: '',
-                clientName: '',
-            };
-        });
+        const tracking = {
+            ophanPageId: '',
+            ophanComponentId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
 
         it('returns banner if it has never been dismissed', () => {
             // // @ts-ignore
@@ -115,8 +114,6 @@ describe('selectBannerTest', () => {
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
             ]);
-
-            targeting.subscriptionsBannerLastClosedAt = undefined;
 
             _.resetCache('subscriptions', 'united-states');
 
@@ -148,9 +145,13 @@ describe('selectBannerTest', () => {
 
             _.resetCache('subscriptions', 'united-states');
 
-            targeting.alreadyVisitedCount = 1;
-
-            return selectBannerTest(targeting, tracking, '').then(result => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    alreadyVisitedCount: 1,
+                }),
+                tracking,
+                '',
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
@@ -164,36 +165,36 @@ describe('selectBannerTest', () => {
 
             _.resetCache('subscriptions', 'united-states');
 
-            targeting.showSupportMessaging = false;
-
-            return selectBannerTest(targeting, tracking, '').then(result => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    showSupportMessaging: false,
+                }),
+                tracking,
+                '',
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
     });
 
     describe('Weekly Banner', () => {
-        let targeting: BannerTargeting;
-        let tracking: BannerPageTracking;
+        const targeting = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'AU',
+            engagementBannerLastClosedAt: secondDate,
+        };
 
-        beforeEach(() => {
-            targeting = {
-                alreadyVisitedCount: 3,
-                shouldHideReaderRevenue: false,
-                isPaidContent: false,
-                showSupportMessaging: true,
-                mvtId: 3,
-                countryCode: 'AU',
-                engagementBannerLastClosedAt: secondDate,
-            };
-            tracking = {
-                ophanPageId: '',
-                ophanComponentId: '',
-                platformId: '',
-                referrerUrl: '',
-                clientName: '',
-            };
-        });
+        const tracking = {
+            ophanPageId: '',
+            ophanComponentId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
 
         it('returns banner if it has never been dismissed', () => {
             // // @ts-ignore
@@ -201,8 +202,6 @@ describe('selectBannerTest', () => {
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
             ]);
-
-            targeting.subscriptionsBannerLastClosedAt = undefined;
 
             _.resetCache('subscriptions', 'australia');
 
@@ -234,9 +233,13 @@ describe('selectBannerTest', () => {
 
             _.resetCache('subscriptions', 'australia');
 
-            targeting.shouldHideReaderRevenue = true;
-
-            return selectBannerTest(targeting, tracking, '').then(result => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    shouldHideReaderRevenue: true,
+                }),
+                tracking,
+                '',
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
