@@ -11,6 +11,19 @@ import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 const banner = css`
     position: relative;
     background-color: ${opinion[500]};
+
+    @keyframes sun-rise-banner {
+        0% {
+            background-color: ${opinion[400]};
+        }
+        100% {
+            background-color: ${opinion[500]};
+        }
+    }
+
+    animation-name: sun-rise-banner;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 `;
 
 const sunSvgAndMessagesContainer = css`
@@ -32,8 +45,33 @@ const sunSvg = css`
     display: block;
 `;
 
-const sunSvgBackground = css`
-    color: ${opinion[500]};
+const sunSvgSun = css`
+    @keyframes sun-rise-sun-svg--delay {
+        0% {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+    }
+
+    @keyframes sun-rise-sun-svg {
+        0% {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    animation-name: sun-rise-sun-svg--delay, sun-rise-sun-svg;
+    animation-delay: 0s, 0.7s;
+    animation-duration: 0.7s, 1.3s;
+    animation-timing-function: ease-in-out;
 `;
 
 const sunSvgOuterSun = css`
@@ -51,6 +89,35 @@ const thankYouMessageInSun = css`
     padding-top: 15%;
     color: ${neutral[7]};
     text-align: center;
+
+    @keyframes sun-rise-thank-you--delay {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes sun-rise-thank-you {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    animation-name: sun-rise-thank-you--delay, sun-rise-thank-you;
+    animation-delay: 0s, 1.5s;
+    animation-duration: 1.5s, 0.5s;
+    animation-timing-function: ease-in-out;
+
+    // turn off the opacity animation in ff due to flickering bug
+    -moz-animation-name: sun-rise-thank-you--delay;
+    -moz-animation-delay: 0s;
+    -moz-animation-duration: 2s;
+    -moz-animation-timing-function: ease-in-out;
 `;
 
 const thankYouMessageInSunThankYou = css`
@@ -71,9 +138,11 @@ const thankYouMessageInSunTagLine = css`
 `;
 
 const thankYouMessageMain = css`
+    position: relative;
     margin-top: -${space[12]}px;
     color: ${neutral[7]};
     padding: 0 ${space[3]}px;
+    z-index: 100;
 `;
 
 const thankYouMessageMainHeader = css`
@@ -154,26 +223,22 @@ export const AusMomentThankYouBanner: React.FC = () => {
             <div className={sunSvgAndMessagesContainer}>
                 <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
                     <svg className={sunSvg} viewBox="0 0 32 20">
-                        <rect
-                            className={sunSvgBackground}
-                            height="40"
-                            width="32"
-                            fill="currentColor"
-                        />
-                        <circle
-                            className={sunSvgOuterSun}
-                            r="9"
-                            cx="16"
-                            cy="10"
-                            fill="currentColor"
-                        />
-                        <circle
-                            className={sunSvgInnerSun}
-                            r="8.5"
-                            cx="16"
-                            cy="10"
-                            fill="currentColor"
-                        />
+                        <g className={sunSvgSun}>
+                            <circle
+                                className={sunSvgOuterSun}
+                                r="9"
+                                cx="16"
+                                cy="10"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={sunSvgInnerSun}
+                                r="8.5"
+                                cx="16"
+                                cy="10"
+                                fill="currentColor"
+                            />
+                        </g>
                     </svg>
                     <div className={thankYouMessageInSun}>
                         <div className={thankYouMessageInSunThankYou}>Thank you!</div>
