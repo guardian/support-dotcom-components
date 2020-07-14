@@ -48,7 +48,7 @@ export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
 export interface BannerTest {
     name: string;
     path: string;
-    bannerType: 'contributions' | 'subscriptions';
+    bannerType: BannerType;
     testAudience: BannerAudience;
     canRun: CanRun;
     minPageViews: number;
