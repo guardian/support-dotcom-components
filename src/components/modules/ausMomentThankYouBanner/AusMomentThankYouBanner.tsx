@@ -203,9 +203,12 @@ const readMoreButtonText = css`
 `;
 
 const readMoreButtonIconContainer = css`
-    display: flex;
-    width: 16px;
     transition: transform 0.5s ease-in-out;
+
+    svg {
+        display: block;
+        width: 16px;
+    }
 `;
 
 const readMoreButtonIconContainerExpanded = css`
