@@ -27,7 +27,6 @@ const banner = css`
 `;
 
 const sunSvgAndMessagesContainer = css`
-    height: 260px;
     overflow: hidden;
 `;
 
@@ -38,7 +37,7 @@ const slideUpContainer = css`
 
 const slideUpContainerExpanded = css`
     ${slideUpContainer}
-    transform: translateY(-35%);
+    transform: translateY(-140px);
 `;
 
 const sunSvg = css`
@@ -148,13 +147,16 @@ const thankYouMessageMain = css`
 const thankYouMessageMainHeader = css`
     ${headline.xsmall()}
     font-weight: bold;
+    padding-bottom: 28px;
 `;
 
 const thankYouMessageMainBody = css`
+    position: absolute;
+    top: 84px;
     ${body.small()}
     margin-top: ${space[1]}px;
-    height: 160px;
     overflow: hidden;
+    height: 160px;
 `;
 
 const thankYouMessageMainBodyExpanded = css`
