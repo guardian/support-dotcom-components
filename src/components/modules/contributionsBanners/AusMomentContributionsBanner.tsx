@@ -125,7 +125,7 @@ const textUnderNumber = css`
 `;
 
 const textAboveNumber = css`
-    ${headline.medium({ fontWeight: 'regular' })};
+    ${body.medium({ fontWeight: 'regular' })};
     font-size: 12px;
     ${from.phablet} {
         font-size: 20px;
@@ -323,6 +323,7 @@ const ctaContainer = css`
 `;
 
 const readMore = css`
+    margin-top: 5px;
     padding-bottom: 0;
     display: inline-block;
     cursor: pointer;
@@ -402,7 +403,7 @@ const message = (isOverflowing: boolean): string => css`
     display: none;
     max-height: 70px;
     ${from.tablet} {
-        max-height: ${isOverflowing ? 120 : messageMaxHeight}px;
+        max-height: ${isOverflowing ? 140 : messageMaxHeight}px;
         display: block;
     }
 `;
