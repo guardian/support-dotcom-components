@@ -143,7 +143,6 @@ export const redeployedSinceLastClosed = (
     return Promise.resolve(true);
 };
 
-// TODO - implement test selection properly
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: BannerPageTracking,
