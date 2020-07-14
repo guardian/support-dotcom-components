@@ -214,17 +214,18 @@ const buildBannerData = async (
 
         const testTracking: BannerTestTracking = {
             abTestName: test.name,
-            abTestVariant: variant.name,
-            campaignCode: buildBannerCampaignCode(test, variant),
+            abTestVariant: variant ? variant.name : null,
+            campaignCode: variant ? buildBannerCampaignCode(test, variant) : null,
         };
 
-        const tickerSettings = await (variant.tickerSettings &&
+        const tickerSettings = await (variant &&
+            variant.tickerSettings &&
             addTickerDataToSettings(variant.tickerSettings));
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
             isSupporter: !targeting.showSupportMessaging,
-            tickerSettings,
+            tickerSettings: variant ? tickerSettings : null,
         };
 
         return {

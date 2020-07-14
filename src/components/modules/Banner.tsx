@@ -18,7 +18,7 @@ const bannerStyles = css`
 export type BannerProps = {
     tracking: BannerTracking;
     isSupporter?: boolean;
-    tickerSettings?: TickerSettings;
+    tickerSettings?: TickerSettings | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
