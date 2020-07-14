@@ -418,6 +418,65 @@ const secondaryCtaContainer = css`
     }
 `;
 
+interface ThankYouMessageMainProps {
+    isExpanded: boolean;
+    isSupporter: boolean;
+}
+
+const ThankYouMessageMain: React.FC<ThankYouMessageMainProps> = ({
+    isExpanded,
+    isSupporter,
+}: ThankYouMessageMainProps) => {
+    return (
+        <div className={thankYouMessageMain}>
+            <div className={thankYouMessageMainHeader}>
+                <div className={thankYouMessageMainHeaderThreeLines}>
+                    <div>Our supporters</div>
+                    <div>have done something</div>
+                    <div>powerful</div>
+                </div>
+                <div className={thankYouMessageMainHeaderTwoLines}>
+                    <div>Our supporters have done</div>
+                    <div>something powerful</div>
+                </div>
+            </div>
+            <div className={isExpanded ? thankYouMessageMainBodyExpanded : thankYouMessageMainBody}>
+                {isSupporter ? (
+                    <>
+                        <div>
+                            Thanks to supporters like you, including the more than 10,000 who have
+                            just joined us for the first time, and everyone who’s spread the word
+                            about our work. We’ve surpassed our ambitious goal and grown our
+                            community in Australia.
+                        </div>
+                        <div>
+                            Reader support powers our work – it helps us provide independent,
+                            quality journalism every day. You enable us to remain open to everyone.
+                            To reach even further, we hope you will continue to champion our
+                            mission. Together we can do more.
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div>
+                            Thank you to all who support us financially, including more than 10,000
+                            who have just joined us for the first time, and everyone who’s spread
+                            the word about our work. We’ve surpassed our ambitious goal and grown
+                            our community in Australia.
+                        </div>
+                        <div>
+                            Reader support powers our work – it helps us provide independent,
+                            quality journalism every day. You enable us to remain open to everyone.
+                            To reach even further, we hope you will champion our mission. Together
+                            we can do more.
+                        </div>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+};
+
 export const AusMomentThankYouBanner: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -486,39 +545,7 @@ export const AusMomentThankYouBanner: React.FC = () => {
                     </div>
 
                     <div className={thankYouMessageMainMobileContainer}>
-                        <div className={thankYouMessageMain}>
-                            <div className={thankYouMessageMainHeader}>
-                                <div className={thankYouMessageMainHeaderThreeLines}>
-                                    <div>Our supporters</div>
-                                    <div>have done something</div>
-                                    <div>powerful</div>
-                                </div>
-                                <div className={thankYouMessageMainHeaderTwoLines}>
-                                    <div>Our supporters have done</div>
-                                    <div>something powerful</div>
-                                </div>
-                            </div>
-                            <div
-                                className={
-                                    isExpanded
-                                        ? thankYouMessageMainBodyExpanded
-                                        : thankYouMessageMainBody
-                                }
-                            >
-                                <div>
-                                    Thank you to all who support us financially, including more than
-                                    10,000 who have just joined us for the first time, and everyone
-                                    who’s spread the word about our work. We’ve surpassed our
-                                    ambitious goal and grown our community in Australia.
-                                </div>
-                                <div>
-                                    Reader support powers our work – it helps us provide
-                                    independent, quality journalism every day. You enable us to
-                                    remain open to everyone. To reach even further, we hope you will
-                                    champion our mission. Together we can do more.
-                                </div>
-                            </div>
-                        </div>
+                        <ThankYouMessageMain isExpanded={isExpanded} isSupporter={false} />
                     </div>
                 </div>
                 <div className={closeButtonContainer}>
@@ -552,39 +579,7 @@ export const AusMomentThankYouBanner: React.FC = () => {
                 </button>
 
                 <div className={thankYouMessageMainTabletContainer}>
-                    <div className={thankYouMessageMain}>
-                        <div className={thankYouMessageMainHeader}>
-                            <div className={thankYouMessageMainHeaderThreeLines}>
-                                <div>Our supporters</div>
-                                <div>have done something</div>
-                                <div>powerful</div>
-                            </div>
-                            <div className={thankYouMessageMainHeaderTwoLines}>
-                                <div>Our supporters have done</div>
-                                <div>something powerful</div>
-                            </div>
-                        </div>
-                        <div
-                            className={
-                                isExpanded
-                                    ? thankYouMessageMainBodyExpanded
-                                    : thankYouMessageMainBody
-                            }
-                        >
-                            <div>
-                                Thank you to all who support us financially, including more than
-                                10,000 who have just joined us for the first time, and everyone
-                                who’s spread the word about our work. We’ve surpassed our ambitious
-                                goal and grown our community in Australia.
-                            </div>
-                            <div>
-                                Reader support powers our work – it helps us provide independent,
-                                quality journalism every day. You enable us to remain open to
-                                everyone. To reach even further, we hope you will champion our
-                                mission. Together we can do more.
-                            </div>
-                        </div>
-                    </div>
+                    <ThankYouMessageMain isExpanded={isExpanded} isSupporter={false} />
                 </div>
 
                 <div className={ctaButtonContainer}>
