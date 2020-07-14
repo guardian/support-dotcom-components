@@ -72,11 +72,6 @@ interface BannerDataResponse {
     debug?: Debug;
 }
 
-interface MarkupResponse {
-    data?: { html: string; css: string; js: string; meta: EpicTestTracking };
-    debug?: Debug;
-}
-
 const [, fetchConfiguredEpicTestsCached] = cacheAsync(
     fetchConfiguredEpicTests,
     60,
@@ -186,15 +181,18 @@ const buildBannerData = async (
     }
 };
 
-// Pre-ES module endpoints (expected to be removed once module approach is validated)
+// TODO replace with module-friendly solution
 /* app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { pageTracking, targeting } = testData;
             const params = getQueryParams(req);
-            const epic = await buildEpic(pageTracking, targeting, params);
-            const { html, css, js } = epic.data ?? { html: '', css: '', js: '' };
+            const data = await buildEpicData(pageTracking, targeting, params, baseUrl(req));
+            const moduleUrl = data.data?.module.url;
+            const js = import(moduleUrl);
+
+            // server-side render react
             const htmlDoc = renderHtmlDocument({ html, css, js });
             res.send(htmlDoc);
         } catch (error) {
@@ -364,7 +362,7 @@ app.get(
     }
 
     res.send('thanks');
-});
+});*/
 
 app.get(
     '/amp/epic',
@@ -394,7 +392,7 @@ app.get(
         }
     },
 );
- */
+
 app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3030;
