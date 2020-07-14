@@ -35,7 +35,6 @@ describe('selectBannerTest', () => {
         };
 
         it('returns banner if it has never been dismissed', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
@@ -55,7 +54,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns banner if has been redeployed', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
@@ -69,7 +67,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if article is paid content', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
@@ -109,7 +106,6 @@ describe('selectBannerTest', () => {
         };
 
         it('returns banner if it has never been dismissed', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
@@ -123,7 +119,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns banner if has been redeployed', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(firstDate)),
@@ -137,7 +132,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if there are insufficient page views', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(firstDate)),
@@ -157,7 +151,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if user is logged in and has a subscription', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(firstDate)),
@@ -197,7 +190,6 @@ describe('selectBannerTest', () => {
         };
 
         it('returns banner if it has never been dismissed', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
@@ -211,7 +203,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns banner if has been redeployed', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(firstDate)),
@@ -225,7 +216,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if shouldHideReaderRevenue', () => {
-            // // @ts-ignore
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
                 (): Promise<Date> => Promise.resolve(new Date(firstDate)),
