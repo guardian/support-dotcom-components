@@ -263,20 +263,18 @@ export const AusMomentThankYouBanner: React.FC = () => {
                                     : thankYouMessageMainBody
                             }
                         >
-                            Thank you to all who support us financially, and more than 10,000 who
-                            have joined for the first time this month. We’ve surpassed our ambitious
-                            goal and grown our support in Australia. In these challenging times, we
-                            all need a strong community. Reader support powers our work – it helps
-                            us provide independent, quality journalism every day. You enable us to
-                            remain open to everyone around the world. To reach even further, we hope
-                            you will champion our mission. Your support has an impact – and so does
-                            your voice. In these unsettling times, we all need a strong community.
-                            More of you are reading, supporting and sharing our work than ever
-                            before. The Guardian will remain with you, providing reliable,
-                            independent, high quality reporting. Your support means we can keep our
-                            journalism open to everyone, with no exception. Your support has an
-                            impact, and so does your voice. Together we can help independent
-                            journalism flourish in Australia for the years to come. Thank you.
+                            <div>
+                                Thank you to all who support us financially, including more than
+                                10,000 who have just joined us for the first time, and everyone
+                                who’s spread the word about our work. We’ve surpassed our ambitious
+                                goal and grown our community in Australia.
+                            </div>
+                            <div>
+                                Reader support powers our work – it helps us provide independent,
+                                quality journalism every day. You enable us to remain open to
+                                everyone. To reach even further, we hope you will champion our
+                                mission. Together we can do more.
+                            </div>
                         </div>
                     </div>
                 </div>
