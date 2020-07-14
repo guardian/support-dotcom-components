@@ -49,13 +49,13 @@ export interface BannerTest {
     bannerType: 'contributions' | 'subscriptions';
     canRun: CanRun;
     minPageViews: number;
-    variants: BannerVariant[] | [];
+    variants?: BannerVariant[];
 }
 
 // The result of selecting a test+variant for a user
 export interface BannerTestSelection {
     test: BannerTest;
-    variant: BannerVariant;
+    variant: BannerVariant | null;
     moduleUrl: string;
     moduleName: string;
 }

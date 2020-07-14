@@ -165,7 +165,7 @@ export const selectBannerTest = async (
             test.canRun(targeting, pageTracking) &&
             (await redeployedSinceLastClosed(targeting, test.bannerType))
         ) {
-            const variant = test.variants[0];
+            const variant = test.variants ? test.variants[0] : null;
 
             const bannerTestSelection = {
                 test,

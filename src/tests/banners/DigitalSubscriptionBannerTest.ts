@@ -13,5 +13,4 @@ export const DigitalSubscriptionBanner: BannerTest = {
         return region === 'united-kingdom' || region === 'united-states';
     },
     minPageViews: 2,
-    variants: [],
 };

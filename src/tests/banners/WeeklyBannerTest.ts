@@ -13,5 +13,4 @@ export const WeeklyBanner: BannerTest = {
         return region === 'australia' || region === 'rest-of-world';
     },
     minPageViews: 2,
-    variants: [],
 };
