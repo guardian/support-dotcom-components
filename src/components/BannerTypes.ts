@@ -41,12 +41,15 @@ export interface BannerVariant {
     moduleName: string;
 }
 
+export type BannerType = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
+export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
 
 export interface BannerTest {
     name: string;
     path: string;
     bannerType: 'contributions' | 'subscriptions';
+    testAudience: BannerAudience;
     canRun: CanRun;
     minPageViews: number;
     variants?: BannerVariant[];

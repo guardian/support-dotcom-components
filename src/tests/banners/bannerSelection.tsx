@@ -3,6 +3,8 @@ import {
     BannerTargeting,
     BannerTestSelection,
     BannerTest,
+    BannerType,
+    BannerAudience,
 } from '../../components/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
@@ -17,8 +19,6 @@ type ReaderRevenueRegion =
     | 'australia'
     | 'rest-of-world'
     | 'european-union';
-
-type BannerType = 'contributions' | 'subscriptions';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -143,6 +143,17 @@ export const redeployedSinceLastClosed = (
     return Promise.resolve(true);
 };
 
+const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudience): boolean => {
+    switch (testAudience) {
+        case 'NonSupporters':
+            return showSupportMessaging;
+        case 'Supporters':
+            return !showSupportMessaging;
+        default:
+            return true;
+    }
+};
+
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: BannerPageTracking,
@@ -158,7 +169,7 @@ export const selectBannerTest = async (
         if (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
-            targeting.showSupportMessaging &&
+            audienceMatches(targeting.showSupportMessaging, test.testAudience) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             test.canRun(targeting, pageTracking) &&
             (await redeployedSinceLastClosed(targeting, test.bannerType))

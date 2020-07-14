@@ -7,6 +7,7 @@ export const AusMomentContributionsBanner: BannerTest = {
     name: 'AusMomentContributionsBanner',
     path: AusMomentContributionsBannerPath,
     bannerType: 'contributions',
+    testAudience: 'All',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
         targeting.countryCode === 'AU',
