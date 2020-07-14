@@ -51,23 +51,21 @@ const sunSvgAndThankYouContainer = css`
 
 const sunSvg = css`
     display: block;
-`;
 
-const sunSvgSun = css`
     @keyframes sun-rise-sun-svg--delay {
         0% {
-            transform: translateY(20px);
+            transform: translateY(55px);
             opacity: 0;
         }
         100% {
-            transform: translateY(20px);
+            transform: translateY(55px);
             opacity: 0;
         }
     }
 
     @keyframes sun-rise-sun-svg {
         0% {
-            transform: translateY(20px);
+            transform: translateY(55px);
             opacity: 0;
         }
         100% {
@@ -137,15 +135,12 @@ const thankYouMessageInSun = css`
 `;
 
 const thankYouMessageInSunThankYou = css`
-    ${headline.xsmall()}
-    font-size: 15px;
-    font-weight: normal;
+    ${body.small()}
 `;
 
 const thankYouMessageInSunSupportersCount = css`
     ${headline.xsmall()}
     font-weight: bold;
-    margin-top: ${space[1]}px;
 `;
 
 const thankYouMessageInSunTagLine = css`
@@ -266,22 +261,20 @@ export const AusMomentThankYouBanner: React.FC = () => {
                 <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
                     <div className={sunSvgAndThankYouContainer}>
                         <svg className={sunSvg} viewBox="0 0 32 20">
-                            <g className={sunSvgSun}>
-                                <circle
-                                    className={sunSvgOuterSun}
-                                    r="9"
-                                    cx="16"
-                                    cy="10"
-                                    fill="currentColor"
-                                />
-                                <circle
-                                    className={sunSvgInnerSun}
-                                    r="8.5"
-                                    cx="16"
-                                    cy="10"
-                                    fill="currentColor"
-                                />
-                            </g>
+                            <circle
+                                className={sunSvgOuterSun}
+                                r="9"
+                                cx="16"
+                                cy="10"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={sunSvgInnerSun}
+                                r="8.5"
+                                cx="16"
+                                cy="10"
+                                fill="currentColor"
+                            />
                         </svg>
                         <div className={thankYouMessageInSunContainer}>
                             <div className={thankYouMessageInSun}>
