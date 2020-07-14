@@ -4,12 +4,15 @@ import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
+import { Link } from '@guardian/src-link';
 import { SvgChevronDownSingle, SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 
 const banner = css`
+    display: flex;
+    flex-direction: column;
     position: relative;
     background-color: ${opinion[500]};
 
@@ -25,10 +28,19 @@ const banner = css`
     animation-name: sun-rise-banner;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
+
+    ${from.tablet} {
+        flex-direction: row-reverse;
+    }
 `;
 
 const sunSvgAndMessagesContainer = css`
     overflow: hidden;
+
+    ${from.tablet} {
+        width: 50%;
+        padding: ${space[1]}px ${space[1]}px 0 0;
+    }
 `;
 
 const slideUpContainer = css`
@@ -80,6 +92,20 @@ const sunSvg = css`
     animation-timing-function: ease-in-out;
 `;
 
+const sunSvgMobile = css`
+    ${sunSvg}
+    display: block;
+    ${from.tablet} {
+        display: none;
+    }
+`;
+const sunSvgTablet = css`
+    ${sunSvg}
+    display: none;
+    ${from.tablet} {
+        display: block;
+    }
+`;
 const sunSvgOuterSun = css`
     color: ${brandAlt[200]};
 `;
@@ -136,30 +162,64 @@ const thankYouMessageInSun = css`
 
 const thankYouMessageInSunThankYou = css`
     ${body.small()}
+
+    ${from.tablet} {
+        font-size: 17px;
+    }
 `;
 
 const thankYouMessageInSunSupportersCount = css`
     ${headline.xsmall()}
     font-weight: bold;
+
+    ${from.tablet} {
+        font-size: 42px;
+    }
 `;
 
 const thankYouMessageInSunTagLine = css`
     ${body.small()}
     font-size: 12px;
+
+    ${from.tablet} {
+        font-size: 15px;
+    }
 `;
 
-const thankYouMessageMain = css`
+const thankYouMessageMainMobileContainer = css`
     position: relative;
     margin-top: -${space[12]}px;
     color: ${neutral[7]};
     padding: 0 ${space[3]}px;
     z-index: 100;
+
+    ${from.tablet} {
+        display: none;
+    }
+`;
+
+const thankYouMessageMainTabletContainer = css`
+    display: none;
+
+    ${from.tablet} {
+        display: block;
+        margin-top: ${space[1]}px;
+    }
+`;
+
+const thankYouMessageMain = css`
+    color: ${neutral[7]};
 `;
 
 const thankYouMessageMainHeader = css`
     ${headline.xsmall()}
     font-weight: bold;
     padding-bottom: 28px;
+
+    ${from.tablet} {
+        font-size: 32px;
+        padding-bottom: 0px;
+    }
 `;
 
 const thankYouMessageMainHeaderThreeLines = css`
@@ -167,12 +227,20 @@ const thankYouMessageMainHeaderThreeLines = css`
     ${from.mobileMedium} {
         display: none;
     }
+
+    ${from.tablet} {
+        display: block;
+    }
 `;
 
 const thankYouMessageMainHeaderTwoLines = css`
     display: none;
     ${from.mobileMedium} {
         display: block;
+    }
+
+    ${from.tablet} {
+        display: none;
     }
 `;
 
@@ -189,6 +257,13 @@ const thankYouMessageMainBody = css`
         top: 54px;
         height: 185px;
     }
+
+    ${from.tablet} {
+        position: relative;
+        top: 0px;
+        height: auto;
+        margin-top: ${space[2]}px;
+    }
 `;
 
 const thankYouMessageMainBodyExpanded = css`
@@ -200,6 +275,25 @@ const closeButtonContainer = css`
     position: absolute;
     top: 0;
     right: 0;
+
+    ${from.tablet} {
+        top: ${space[5]}px;
+        right: ${space[5]}px;
+    }
+`;
+
+const closeButtonContainerMobile = css`
+    display: block;
+    ${from.tablet} {
+        display: none;
+    }
+`;
+
+const closeButtonContainerTablet = css`
+    display: none;
+    ${from.tablet} {
+        display: block;
+    }
 `;
 
 const buttonsContainer = css`
@@ -207,6 +301,11 @@ const buttonsContainer = css`
     flex-direction: column;
     align-items: flex-start;
     padding: 0 ${space[3]}px ${space[3]}px;
+
+    ${from.tablet} {
+        width: 60%;
+        padding: 0 ${space[5]}px ${space[5]}px;
+    }
 `;
 
 const readMoreButton = css`
@@ -226,6 +325,10 @@ const readMoreButton = css`
         right: 0;
         bottom: 0;
         border-bottom: 1px solid #000;
+    }
+
+    ${from.tablet} {
+        display: none;
     }
 `;
 
@@ -250,6 +353,16 @@ const readMoreButtonIconContainerExpanded = css`
 
 const ctaButtonContainer = css`
     margin-top: ${space[4]}px;
+    display: flex;
+    align-items: center;
+`;
+
+const secondaryCtaContainer = css`
+    display: none;
+    margin-left: ${space[4]}px;
+    ${from.tablet} {
+        display: block;
+    }
 `;
 
 export const AusMomentThankYouBanner: React.FC = () => {
@@ -260,7 +373,7 @@ export const AusMomentThankYouBanner: React.FC = () => {
             <div className={sunSvgAndMessagesContainer}>
                 <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
                     <div className={sunSvgAndThankYouContainer}>
-                        <svg className={sunSvg} viewBox="0 0 32 20">
+                        <svg className={sunSvgMobile} viewBox="0 0 32 20">
                             <circle
                                 className={sunSvgOuterSun}
                                 r="9"
@@ -276,6 +389,22 @@ export const AusMomentThankYouBanner: React.FC = () => {
                                 fill="currentColor"
                             />
                         </svg>
+                        <svg className={sunSvgTablet} viewBox="0 0 32 32">
+                            <circle
+                                className={sunSvgOuterSun}
+                                r="14"
+                                cx="50%"
+                                cy="50%"
+                                fill="currentColor"
+                            />
+                            <circle
+                                className={sunSvgInnerSun}
+                                r="13.25"
+                                cx="50%"
+                                cy="50%"
+                                fill="currentColor"
+                            />
+                        </svg>
                         <div className={thankYouMessageInSunContainer}>
                             <div className={thankYouMessageInSun}>
                                 <div className={thankYouMessageInSunThankYou}>Thank you!</div>
@@ -286,6 +415,74 @@ export const AusMomentThankYouBanner: React.FC = () => {
                             </div>
                         </div>
                     </div>
+
+                    <div className={thankYouMessageMainMobileContainer}>
+                        <div className={thankYouMessageMain}>
+                            <div className={thankYouMessageMainHeader}>
+                                <div className={thankYouMessageMainHeaderThreeLines}>
+                                    <div>Our supporters</div>
+                                    <div>have done something</div>
+                                    <div>powerful</div>
+                                </div>
+                                <div className={thankYouMessageMainHeaderTwoLines}>
+                                    <div>Our supporters have done</div>
+                                    <div>something powerful</div>
+                                </div>
+                            </div>
+                            <div
+                                className={
+                                    isExpanded
+                                        ? thankYouMessageMainBodyExpanded
+                                        : thankYouMessageMainBody
+                                }
+                            >
+                                <div>
+                                    Thank you to all who support us financially, including more than
+                                    10,000 who have just joined us for the first time, and everyone
+                                    who’s spread the word about our work. We’ve surpassed our
+                                    ambitious goal and grown our community in Australia.
+                                </div>
+                                <div>
+                                    Reader support powers our work – it helps us provide
+                                    independent, quality journalism every day. You enable us to
+                                    remain open to everyone. To reach even further, we hope you will
+                                    champion our mission. Together we can do more.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={closeButtonContainer}>
+                    <div className={closeButtonContainerMobile}>
+                        <ThemeProvider theme={brandAltTheme}>
+                            <Button icon={<SvgCross />} priority="subdued" />
+                        </ThemeProvider>
+                    </div>
+                    <div className={closeButtonContainerTablet}>
+                        <ThemeProvider theme={brandAltTheme}>
+                            <Button icon={<SvgCross />} priority="tertiary" />
+                        </ThemeProvider>
+                    </div>
+                </div>
+            </div>
+
+            <div className={buttonsContainer}>
+                <button className={readMoreButton} onClick={(): void => setIsExpanded(!isExpanded)}>
+                    <div className={readMoreButtonText}>
+                        {isExpanded ? 'Read less' : 'Read more'}
+                    </div>
+                    <div
+                        className={
+                            isExpanded
+                                ? readMoreButtonIconContainerExpanded
+                                : readMoreButtonIconContainer
+                        }
+                    >
+                        <SvgChevronDownSingle />
+                    </div>
+                </button>
+
+                <div className={thankYouMessageMainTabletContainer}>
                     <div className={thankYouMessageMain}>
                         <div className={thankYouMessageMainHeader}>
                             <div className={thankYouMessageMainHeaderThreeLines}>
@@ -320,32 +517,16 @@ export const AusMomentThankYouBanner: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <div className={closeButtonContainer}>
-                    <ThemeProvider theme={brandAltTheme}>
-                        <Button icon={<SvgCross />} priority="subdued" />
-                    </ThemeProvider>
-                </div>
-            </div>
 
-            <div className={buttonsContainer}>
-                <button className={readMoreButton} onClick={(): void => setIsExpanded(!isExpanded)}>
-                    <div className={readMoreButtonText}>
-                        {isExpanded ? 'Read less' : 'Read more'}
-                    </div>
-                    <div
-                        className={
-                            isExpanded
-                                ? readMoreButtonIconContainerExpanded
-                                : readMoreButtonIconContainer
-                        }
-                    >
-                        <SvgChevronDownSingle />
-                    </div>
-                </button>
                 <div className={ctaButtonContainer}>
                     <ThemeProvider theme={brandAltTheme}>
                         <Button size="small">Support the Guardian</Button>
                     </ThemeProvider>
+                    <div className={secondaryCtaContainer}>
+                        <ThemeProvider theme={brandAltTheme}>
+                            <Link href="#">Hear from our editor</Link>
+                        </ThemeProvider>
+                    </div>
                 </div>
             </div>
         </div>
