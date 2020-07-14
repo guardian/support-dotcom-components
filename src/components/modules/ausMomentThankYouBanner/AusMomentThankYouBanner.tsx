@@ -46,6 +46,11 @@ const sunSvgAndMessagesContainer = css`
         margin-top: -${space[12]}px;
         padding: 0 ${space[12]}px 0 0;
     }
+
+    ${from.wide} {
+        margin-top: -${space[24]}px;
+        padding: 0 ${space[24]}px 0 0;
+    }
 `;
 
 const slideUpContainer = css`
@@ -315,6 +320,10 @@ const closeButtonContainer = css`
         top: ${space[5]}px;
         right: ${space[5]}px;
     }
+
+    ${from.wide} {
+        right: ${space[24]}px;
+    }
 `;
 
 const closeButtonContainerMobile = css`
@@ -345,6 +354,10 @@ const buttonsContainer = css`
     ${from.desktop} {
         width: 75%;
         padding: 0 0 ${space[5]}px ${space[5]}px;
+    }
+
+    ${from.wide} {
+        padding: 0 0 ${space[5]}px ${space[24]}px;
     }
 `;
 
