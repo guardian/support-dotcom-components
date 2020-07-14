@@ -1,4 +1,4 @@
-import { EpicTargeting, ViewLog } from '../components/ContributionsEpicTypes';
+import { EpicTargeting, ViewLog } from '../components/modules/epics/ContributionsEpicTypes';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];

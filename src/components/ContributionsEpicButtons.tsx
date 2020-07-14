@@ -1,8 +1,8 @@
 import React from 'react';
 import { css } from 'emotion';
 import { space } from '@guardian/src-foundations';
-import { Button } from './Button';
-import { EpicTracking } from './ContributionsEpicTypes';
+import { Button } from './modules/epics/Button';
+import { EpicTracking } from './modules/epics/ContributionsEpicTypes';
 import { Cta, Variant } from '../lib/variants';
 import { addTrackingParams } from '../lib/tracking';
 import { addRegionIdToSupportUrl } from '../lib/geolocation';

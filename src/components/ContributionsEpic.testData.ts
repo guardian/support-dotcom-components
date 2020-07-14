@@ -3,7 +3,7 @@ import {
     EpicPageTracking,
     EpicTracking,
     EpicTargeting,
-} from './ContributionsEpicTypes';
+} from './modules/epics/ContributionsEpicTypes';
 
 const content = {
     heading: 'Since you’re here...',

@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { number, withKnobs } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
-import { TickerCountType, TickerEndType } from '../lib/variants';
+import { StorybookWrapper } from '../../../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../../../lib/variants';
 
 export default {
     component: ContributionsEpicTicker,

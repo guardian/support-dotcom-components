@@ -4,12 +4,12 @@ import { body, headline } from '@guardian/src-foundations/typography/cjs';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
 import { getCountryName, getLocalCurrencySymbol } from '../lib/geolocation';
-import { EpicTracking } from './ContributionsEpicTypes';
+import { EpicTracking } from './modules/epics/ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../lib/variants';
 import { reminderJs } from './ContributionsEpic.js';
 import { EpicButtons } from './EpicButtons';
-import { ContributionsEpicTicker } from './ContributionsEpicTicker';
+import { ContributionsEpicTicker } from './modules/epics/ContributionsEpicTicker';
 
 const replacePlaceholders = (
     content: string,

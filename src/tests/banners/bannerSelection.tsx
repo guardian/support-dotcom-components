@@ -2,7 +2,7 @@ import {
     BannerPageTracking,
     BannerTargeting,
     BannerTestSelection,
-} from '../../components/BannerTypes';
+} from '../../components/modules/banners/contributions/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
