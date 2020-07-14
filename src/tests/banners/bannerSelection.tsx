@@ -115,9 +115,8 @@ export const redeployedSinceLastClosed = (
     const { subscriptionsBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
     if (
-        (bannerType === 'subscriptions' &&
-            typeof subscriptionsBannerLastClosedAt === 'undefined') ||
-        (bannerType === 'contributions' && typeof engagementBannerLastClosedAt === 'undefined')
+        (bannerType === 'subscriptions' && !subscriptionsBannerLastClosedAt) ||
+        (bannerType === 'contributions' && !engagementBannerLastClosedAt)
     ) {
         return Promise.resolve(true);
     }
