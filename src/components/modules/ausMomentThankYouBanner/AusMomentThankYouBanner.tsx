@@ -7,6 +7,7 @@ import { Button } from '@guardian/src-button';
 import { SvgChevronDownSingle, SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
+import { from } from '@guardian/src-foundations/mq';
 
 const banner = css`
     position: relative;
@@ -38,6 +39,14 @@ const slideUpContainer = css`
 const slideUpContainerExpanded = css`
     ${slideUpContainer}
     transform: translateY(-140px);
+
+    ${from.mobileMedium} {
+        transform: translateY(-180px);
+    }
+`;
+
+const sunSvgAndThankYouContainer = css`
+    position: relative;
 `;
 
 const sunSvg = css`
@@ -81,11 +90,19 @@ const sunSvgInnerSun = css`
     color: ${brandAlt[400]};
 `;
 
-const thankYouMessageInSun = css`
+const thankYouMessageInSunContainer = css`
     position: absolute;
     top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+`;
+
+const thankYouMessageInSun = css`
     width: 100%;
-    padding-top: 15%;
     color: ${neutral[7]};
     text-align: center;
 
@@ -150,13 +167,33 @@ const thankYouMessageMainHeader = css`
     padding-bottom: 28px;
 `;
 
+const thankYouMessageMainHeaderThreeLines = css`
+    display: block;
+    ${from.mobileMedium} {
+        display: none;
+    }
+`;
+
+const thankYouMessageMainHeaderTwoLines = css`
+    display: none;
+    ${from.mobileMedium} {
+        display: block;
+    }
+`;
+
 const thankYouMessageMainBody = css`
     position: absolute;
     top: 84px;
     ${body.small()}
     margin-top: ${space[1]}px;
+    padding-right: ${space[3]}px;
     overflow: hidden;
     height: 160px;
+
+    ${from.mobileMedium} {
+        top: 54px;
+        height: 185px;
+    }
 `;
 
 const thankYouMessageMainBodyExpanded = css`
@@ -227,34 +264,46 @@ export const AusMomentThankYouBanner: React.FC = () => {
         <div className={banner}>
             <div className={sunSvgAndMessagesContainer}>
                 <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
-                    <svg className={sunSvg} viewBox="0 0 32 20">
-                        <g className={sunSvgSun}>
-                            <circle
-                                className={sunSvgOuterSun}
-                                r="9"
-                                cx="16"
-                                cy="10"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={sunSvgInnerSun}
-                                r="8.5"
-                                cx="16"
-                                cy="10"
-                                fill="currentColor"
-                            />
-                        </g>
-                    </svg>
-                    <div className={thankYouMessageInSun}>
-                        <div className={thankYouMessageInSunThankYou}>Thank you!</div>
-                        <div className={thankYouMessageInSunSupportersCount}>177,976</div>
-                        <div className={thankYouMessageInSunTagLine}>supporters in Australia</div>
+                    <div className={sunSvgAndThankYouContainer}>
+                        <svg className={sunSvg} viewBox="0 0 32 20">
+                            <g className={sunSvgSun}>
+                                <circle
+                                    className={sunSvgOuterSun}
+                                    r="9"
+                                    cx="16"
+                                    cy="10"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={sunSvgInnerSun}
+                                    r="8.5"
+                                    cx="16"
+                                    cy="10"
+                                    fill="currentColor"
+                                />
+                            </g>
+                        </svg>
+                        <div className={thankYouMessageInSunContainer}>
+                            <div className={thankYouMessageInSun}>
+                                <div className={thankYouMessageInSunThankYou}>Thank you!</div>
+                                <div className={thankYouMessageInSunSupportersCount}>177,976</div>
+                                <div className={thankYouMessageInSunTagLine}>
+                                    supporters in Australia
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className={thankYouMessageMain}>
                         <div className={thankYouMessageMainHeader}>
-                            <div>Our supporters</div>
-                            <div>have done something</div>
-                            <div>powerful</div>
+                            <div className={thankYouMessageMainHeaderThreeLines}>
+                                <div>Our supporters</div>
+                                <div>have done something</div>
+                                <div>powerful</div>
+                            </div>
+                            <div className={thankYouMessageMainHeaderTwoLines}>
+                                <div>Our supporters have done</div>
+                                <div>something powerful</div>
+                            </div>
                         </div>
                         <div
                             className={
