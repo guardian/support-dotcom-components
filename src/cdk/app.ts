@@ -87,24 +87,24 @@ export class ContributionsServiceStack extends cdk.Stack {
         const Stack = stack.value.toString();
         const Stage = stage.value.toString();
 
-        const baseUrl = ssm.StringParameter.valueForStringParameter(
-            this,
-            `/contributions-service/${stage.valueAsString}/base_url`,
-        );
+        // const baseUrl = ssm.StringParameter.valueForStringParameter(
+        //     this,
+        //     `/contributions-service/${'code'}/base_url`,
+        // );
 
         const logTargeting = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${stage.valueAsString}/log_targeting`,
+            `/contributions-service/code/log_targeting`,
         );
 
         const logCompareVariants = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${stage.valueAsString}/log_compare_variants`,
+            `/contributions-service/code/log_compare_variants`,
         );
 
         const logFailedTestFilter = ssm.StringParameter.valueForStringParameter(
             this,
-            `/contributions-service/${stage.valueAsString}/log_failed_test_filter`,
+            `/contributions-service/code/log_failed_test_filter`,
         );
 
         userData.addCommands(
@@ -115,7 +115,7 @@ export class ContributionsServiceStack extends cdk.Stack {
             `export Stack=${Stack}`,
             `export Stage=${Stage}`,
             `export NODE_ENV=production`,
-            `export BASE_URL=${baseUrl}`,
+            `export BASE_URL={{resolve:ssm:/contributions-service/code/base_url:1}}`,
             `export LOG_TARGETING=${logTargeting}`,
             `export LOG_COMPARE_VARIANTS=${logCompareVariants}`,
             `export LOG_FAILED_TEST_FILTER=${logFailedTestFilter}`,
