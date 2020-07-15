@@ -3,7 +3,6 @@ import * as iam from '@aws-cdk/aws-iam';
 import * as autoscaling from '@aws-cdk/aws-autoscaling';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as elbv2 from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as ssm from '@aws-cdk/aws-ssm';
 
 export class ContributionsServiceStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string) {
@@ -87,28 +86,6 @@ export class ContributionsServiceStack extends cdk.Stack {
         const Stack = stack.value.toString();
         const Stage = stage.value.toString();
 
-        const baseUrl = ssm.StringParameter.valueForStringParameter(
-            this,
-            Stage === 'CODE'
-                ? '/contributions-service/code/base_url'
-                : '/contributions-service/prod/base_url',
-        );
-
-        const logTargeting = ssm.StringParameter.valueForStringParameter(
-            this,
-            `/contributions-service/code/log_targeting`,
-        );
-
-        const logCompareVariants = ssm.StringParameter.valueForStringParameter(
-            this,
-            `/contributions-service/code/log_compare_variants`,
-        );
-
-        const logFailedTestFilter = ssm.StringParameter.valueForStringParameter(
-            this,
-            `/contributions-service/code/log_failed_test_filter`,
-        );
-
         userData.addCommands(
             `groupadd frontend`,
             `useradd -r -m -s /usr/bin/nologin -g frontend ${App}`,
@@ -117,10 +94,10 @@ export class ContributionsServiceStack extends cdk.Stack {
             `export Stack=${Stack}`,
             `export Stage=${Stage}`,
             `export NODE_ENV=production`,
-            `export BASE_URL=${baseUrl}`,
-            `export LOG_TARGETING=${logTargeting}`,
-            `export LOG_COMPARE_VARIANTS=${logCompareVariants}`,
-            `export LOG_FAILED_TEST_FILTER=${logFailedTestFilter}`,
+            `export BASE_URL=\`aws ssm get-parameter --name "/contributions-service/${Stage.toLowerCase()}/base_url" --region eu-west-1 | jq ".Parameter.Value"\``,
+            `export LOG_TARGETING=\`aws ssm get-parameter --name "/contributions-service/${Stage.toLowerCase()}/log_targeting" --region eu-west-1 | jq ".Parameter.Value"\``,
+            `export LOG_COMPARE_VARIANTS=\`aws ssm get-parameter --name "/contributions-service/${Stage.toLowerCase()}/log_compare_variants" --region eu-west-1 | jq ".Parameter.Value"\``,
+            `export LOG_FAILED_TEST_FILTER=\`aws ssm get-parameter --name "/contributions-service/${Stage.toLowerCase()}/log_failed_test_filter" --region eu-west-1 | jq ".Parameter.Value"\``,
 
             `aws s3 cp s3://aws-frontend-contributions-service/frontend/${Stage}/contributions-service-ec2/contributions-service-ec2.zip /tmp/${App}.zip`,
             `mkdir -p /opt/${App}`,
