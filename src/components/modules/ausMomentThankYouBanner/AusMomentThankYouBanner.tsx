@@ -551,12 +551,12 @@ export const AusMomentThankYouBanner: React.FC = () => {
                 <div className={closeButtonContainer}>
                     <div className={closeButtonContainerMobile}>
                         <ThemeProvider theme={brandAltTheme}>
-                            <Button icon={<SvgCross />} priority="subdued" />
+                            <Button icon={<SvgCross />} priority="subdued" hideLabel />
                         </ThemeProvider>
                     </div>
                     <div className={closeButtonContainerTablet}>
                         <ThemeProvider theme={brandAltTheme}>
-                            <Button icon={<SvgCross />} priority="tertiary" />
+                            <Button icon={<SvgCross />} priority="tertiary" hideLabel />
                         </ThemeProvider>
                     </div>
                 </div>

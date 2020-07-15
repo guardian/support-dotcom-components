@@ -1319,13 +1319,13 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-brand/-/src-brand-1.5.0.tgz#49c76b75ef55927b5e91d919b5f6248b11444770"
   integrity sha512-K3dU03DW1qJeDnSCSFFYI8rQuQFuEOvjA1Ynp8drcrZDaaVk+hXOJl04gYnzx+0mkhIUMS9Tvb57Qp2TfaRwMw==
 
-"@guardian/src-button@^0.18.1":
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-0.18.1.tgz#d3008c03eaddfd931d9e44ff91e311855ee20d9c"
-  integrity sha512-2w+8xGAOlXSxAAqD44grGCJUI0ki7FWjoVPUM2e6vBNZvEjx/axtPX2toH4tFykq7Cz+lsJic/Mxgufg7CGUAg==
+"@guardian/src-button@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-button/-/src-button-1.8.0.tgz#fbccba84deb4d1c4bc061bf7136efaf3b35a7dd6"
+  integrity sha512-7Ak0G4LXHkljB+vcZXULKMM0s29io834Wi71XKSPkGDxdixgxeeV267DNlflBO+GqrdUomyNayEQFN4A1aOKCg==
   dependencies:
-    "@guardian/src-helpers" "^0.18.1"
-    "@guardian/src-svgs" "^0.18.1"
+    "@guardian/src-helpers" "^1.8.0"
+    "@guardian/src-icons" "^1.8.0"
 
 "@guardian/src-ed-lines@^0.18.1":
   version "0.18.1"
@@ -1344,6 +1344,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.4.0.tgz#f26e3fb6d2da1d08dcb8042d00bec3bcc8cddbc3"
   integrity sha512-FH9TBLVQph13bfY0jfqXetXWCxDHIhOUHVuSsdEgxVGAIKgdv0ocju9JoYwRnZvk+RJlekXO/EEESnS+u8yYgQ==
 
+"@guardian/src-foundations@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.8.0.tgz#4b2276d849917471c3cc46e25fd952eb35c3e40a"
+  integrity sha512-BACintj3ECSejTrl+HHoyflnXKbDvmgh3VrzZLy6NDTOT/LIk0SH0m7k2jwEpcABAaQpa1qyTtPAgehCJuaj3g==
+
 "@guardian/src-helpers@^0.18.1":
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-0.18.1.tgz#e62aab928c92bd03d67df05ca30306294a4911e5"
@@ -1358,10 +1363,22 @@
   dependencies:
     "@guardian/src-foundations" "^1.4.0"
 
+"@guardian/src-helpers@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-1.8.0.tgz#8c4ad4689cf1725e758aec66da1fc2252f3127a3"
+  integrity sha512-F5Zen4o2y/3lqMTZk76GGgkM4r6of7vBL8Ce9s/tjMwuG2wKQ+esNR5fOeb0gmsbC4JVJKi0F05poZAlZGdewQ==
+  dependencies:
+    "@guardian/src-foundations" "^1.8.0"
+
 "@guardian/src-icons@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.4.0.tgz#3159d034a3c42bf94bdf88384dac95f9c8708173"
   integrity sha512-0j2QRPNjhRePicB/2aZp79OyRtPA3ftf1e/9oareisHUfn3jcvDDFeP3xkHXmv5SoMobG4GwWUepb0VNYvELnQ==
+
+"@guardian/src-icons@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.8.0.tgz#fdfc1d8164c74f0586198a11c8b64ad1f545c602"
+  integrity sha512-ZRLEfKXrNXO6Ol4WM8KYzvmnQFu1XmcHk3ZLleFpkgjM9bDJb+dAHbq4qzVDDNPv/6BqR3UyE0aoIANcgNpoHQ==
 
 "@guardian/src-inline-error@^0.18.1":
   version "0.18.1"
@@ -5060,11 +5077,6 @@ css@^2.2.4:
     source-map "^0.6.1"
     source-map-resolve "^0.5.2"
     urix "^0.1.0"
-
-cssbeautify@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/cssbeautify/-/cssbeautify-0.3.1.tgz#12dd1f734035c2e6faca67dcbdcef74e42811397"
-  integrity sha1-Et0fc0A1wub6ymfcvc73TkKBE5c=
 
 cssesc@^3.0.0:
   version "3.0.0"
@@ -10884,11 +10896,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-parm@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-parm/-/react-parm-1.1.1.tgz#a88af214ff942aac517ec21a4aea8a57104512d3"
-  integrity sha512-fei1OHIwwYWTdAeiJSCz8VHCIIeZTI65fmtFRtoejwYMOQGgJcim0K1RTz69kTnvwviQI+a9vU3t0MZR52hSLQ==
-
 react-popper-tooltip@^2.8.3:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/react-popper-tooltip/-/react-popper-tooltip-2.11.1.tgz#3c4bdfd8bc10d1c2b9a162e859bab8958f5b2644"
@@ -10933,15 +10940,6 @@ react-sizeme@^2.6.7:
     invariant "^2.2.4"
     shallowequal "^1.1.0"
     throttle-debounce "^2.1.0"
-
-react-style-tag@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-style-tag/-/react-style-tag-2.0.1.tgz#e055a320dcd40ba0fcbab16e1991734f4a6c3d41"
-  integrity sha512-KwNLha72FDlgEvQiKClPEZCMyFqoU8M7LCpJH8eCYcb7wr1BWsKrtO+ZGoEGhrGepvLlL4RlSj7lwOU4DsmTiw==
-  dependencies:
-    cssbeautify "^0.3.1"
-    react-parm "^1.0.0"
-    stylis "^3.5.0"
 
 react-syntax-highlighter@^11.0.2:
   version "11.0.2"
@@ -12341,11 +12339,6 @@ style-loader@^1.0.0:
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^2.6.6"
-
-stylis@^3.5.0:
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
-  integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
 
 superagent@^3.8.3:
   version "3.8.3"
