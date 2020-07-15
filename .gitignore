@@ -5,3 +5,4 @@ dist/
 cloudformation.yaml
 cdk.out/
 .idea/
+stats/
