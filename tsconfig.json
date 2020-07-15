@@ -9,7 +9,7 @@
         "outDir": "dist",
         "typeRoots": ["./src/@types", "./node_modules/@types"],
         "rootDirs": ["src", "stories"],
-        "baseUrl": "src",
+        "baseUrl": "src"
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "src/**/*.test.ts", "src/factories/*", "src/tests/banners/*.tests.ts"]

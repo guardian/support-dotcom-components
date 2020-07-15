@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Button } from './Button';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 
 export default {
     component: Button,

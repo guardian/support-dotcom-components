@@ -3,8 +3,8 @@ import { css } from 'emotion';
 import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq/cjs';
 import { headline } from '@guardian/src-foundations/typography/cjs';
-import { useHasBeenSeen, HasBeenSeen } from '../hooks/useHasBeenSeen';
-import { TickerSettings } from '../lib/variants';
+import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { TickerSettings } from '../../../lib/variants';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.

@@ -3,12 +3,12 @@ import { css } from 'emotion';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { ReminderFields } from '../../lib/variants';
-import { Lines } from '@guardian/src-ed-lines';
+import { ReminderFields } from '../../../lib/variants';
+import { Lines } from '@guardian/src-ed-lines'; // TODO remove as too big
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
-import { isProd } from '../../lib/env';
+import { isProd } from '../../../lib/env';
 
 const rootStyles = css`
     position: relative;
