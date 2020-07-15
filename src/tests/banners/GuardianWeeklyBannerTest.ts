@@ -5,7 +5,7 @@ import {
 } from '../../components/modules/banners/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
-export const GuardianWeeklyBannerPath = 'weekly-banner.js';
+export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
 
 export const GuardianWeeklyBanner: BannerTest = {
     name: 'GuardianWeeklyBanner',
