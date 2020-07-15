@@ -36,8 +36,8 @@ const config = [
         'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionBanner.js',
     ],
     [
-        'src/components/modules/banners/guardianWeekly/WeeklyBanner.tsx',
-        'dist/modules/banners/guardianWeekly/WeeklyBanner.js',
+        'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
+        'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
     ],
 ].map(([entryPoint, name]) => {
     return {
