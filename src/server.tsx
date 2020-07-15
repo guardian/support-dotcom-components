@@ -251,6 +251,8 @@ app.post(
                 engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
                 subscriptionsBannerLastClosedAt: payload.targeting.subscriptionsBannerLastClosedAt,
                 isPaidContent: payload.targeting.isPaidContent,
+                remoteSubscriptionsBannerSwitchIsOn:
+                    payload.targeting.remoteSubscriptionsBannerSwitchIsOn,
             };
 
             res.send(response);

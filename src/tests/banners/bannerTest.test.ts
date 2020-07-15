@@ -31,6 +31,7 @@ describe('SubscriptionsBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -40,6 +41,7 @@ describe('SubscriptionsBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'FJ',
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
         const tracking = {
             ophanPageId: '',
@@ -65,6 +67,7 @@ describe('WeeklyBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'AU',
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -74,6 +77,7 @@ describe('WeeklyBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
         const tracking = {
             ophanPageId: '',

@@ -11,6 +11,7 @@ export type BannerTargeting = {
     subscriptionsBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
+    remoteSubscriptionsBannerSwitchIsOn: boolean;
 };
 
 export type BannerTestTracking = {

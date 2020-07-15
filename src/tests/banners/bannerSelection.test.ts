@@ -24,6 +24,7 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'AU',
             engagementBannerLastClosedAt: firstDate,
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
 
         const tracking = {
@@ -95,6 +96,7 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'US',
             engagementBannerLastClosedAt: secondDate,
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
 
         const tracking = {
@@ -179,6 +181,7 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'AU',
             engagementBannerLastClosedAt: secondDate,
+            remoteSubscriptionsBannerSwitchIsOn: true,
         };
 
         const tracking = {
@@ -188,7 +191,6 @@ describe('selectBannerTest', () => {
             referrerUrl: '',
             clientName: '',
         };
-
         it('returns banner if it has never been dismissed', () => {
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
@@ -202,6 +204,25 @@ describe('selectBannerTest', () => {
             });
         });
 
+        it('returns null if other contributions banner was dismissed and subs switch is off', () => {
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            _.resetCache('subscriptions', 'australia');
+
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    remoteSubscriptionsBannerSwitchIsOn: false,
+                }),
+                tracking,
+                '',
+            ).then(result => {
+                expect(result && result.test.name).toBe(null);
+            });
+        });
+
         it('returns banner if has been redeployed', () => {
             (cacheAsync as jest.Mock).mockReturnValue([
                 null,
@@ -210,7 +231,13 @@ describe('selectBannerTest', () => {
 
             _.resetCache('subscriptions', 'australia');
 
-            return selectBannerTest(targeting, tracking, '').then(result => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    remoteSubscriptionsBannerSwitchIsOn: true,
+                }),
+                tracking,
+                '',
+            ).then(result => {
                 expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });

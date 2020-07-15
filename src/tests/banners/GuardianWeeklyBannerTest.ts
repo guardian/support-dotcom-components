@@ -14,8 +14,11 @@ export const GuardianWeeklyBanner: BannerTest = {
     testAudience: 'NonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
-        const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-        return region === 'australia' || region === 'rest-of-world';
+        if (targeting.remoteSubscriptionsBannerSwitchIsOn) {
+            const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
+            return region === 'australia' || region === 'rest-of-world';
+        }
+        return false;
     },
     minPageViews: 2,
 };
