@@ -40,8 +40,20 @@ describe('SubscriptionsBanner canRun', () => {
             showSupportMessaging: true,
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
+            // Should not show banner in Fiji
             countryCode: 'FJ',
             remoteSubscriptionsBannerSwitchIsOn: true,
+        };
+        const targetingFalse2 = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            subscriptionsBannerLastClosedAt: '1594059610944',
+            mvtId: 3,
+            countryCode: 'GB',
+            // Should not show banner if switch is off
+            remoteSubscriptionsBannerSwitchIsOn: false,
         };
         const tracking = {
             ophanPageId: '',
@@ -54,11 +66,13 @@ describe('SubscriptionsBanner canRun', () => {
         expect(canRun1).toBe(true);
         const canRun2 = DigitalSubscriptionBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
+        const canRun3 = DigitalSubscriptionBanner.canRun(targetingFalse2, tracking);
+        expect(canRun3).toBe(false);
     });
 });
 
 describe('WeeklyBanner canRun', () => {
-    it('should return a boolean', () => {
+    it('should return the correct targeting result', () => {
         const targetingTrue = {
             alreadyVisitedCount: 3,
             shouldHideReaderRevenue: false,
