@@ -300,7 +300,7 @@ app.get(
 );
 
 // TODO remove once migration complete
-/* app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
+app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
     if (process.env.LOG_COMPARE_VARIANTS !== 'true') {
         res.send('ignoring');
         return;
@@ -334,7 +334,7 @@ app.get(
         referrerUrl: 'https://theguardian.com',
     };
 
-    const got = await buildEpic(fakeTracking, targeting, {});
+    const got = await buildEpicData(fakeTracking, targeting, {}, baseUrl(req));
 
     const notBothFalsy = expectedTest || got;
     const gotTestName = got.data?.meta?.abTestName;
@@ -362,7 +362,7 @@ app.get(
     }
 
     res.send('thanks');
-});*/
+});
 
 app.get(
     '/amp/epic',
