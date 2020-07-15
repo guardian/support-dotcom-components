@@ -1,4 +1,8 @@
-import { BannerPageTracking, BannerTargeting, BannerTest } from '../../components/BannerTypes';
+import {
+    BannerPageTracking,
+    BannerTargeting,
+    BannerTest,
+} from '../../components/modules/banners/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
 export const WeeklyBannerPath = 'weekly-banner.js';

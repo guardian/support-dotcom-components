@@ -1,4 +1,4 @@
-import { TickerSettings } from '../../../../lib/variants';
+import { TickerSettings } from '../../../lib/variants';
 
 // TODO - it may be worth sharing some types with Epic tests
 

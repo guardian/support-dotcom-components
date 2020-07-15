@@ -5,7 +5,7 @@ import {
     BannerTest,
     BannerType,
     BannerAudience,
-} from '../../components/BannerTypes';
+} from '../../components/modules/banners/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
 import { WeeklyBanner } from './WeeklyBannerTest';

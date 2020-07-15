@@ -2,7 +2,7 @@ import {
     BannerPageTracking,
     BannerTargeting,
     BannerTest,
-} from '../../components/modules/banners/contributions/BannerTypes';
+} from '../../components/modules/banners/BannerTypes';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
 export const AusMomentContributionsBannerPath = 'aus-moment-banner.js';

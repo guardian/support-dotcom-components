@@ -30,7 +30,7 @@ import {
     BannerTestTracking,
     BannerTargeting,
     BannerProps,
-} from './components/modules/banners/contributions/BannerTypes';
+} from './components/modules/banners/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 
@@ -156,14 +156,15 @@ const buildBannerData = async (
             campaignCode: variant ? buildBannerCampaignCode(test, variant) : null,
         };
 
-        const tickerSettings = await (variant &&
-            variant.tickerSettings &&
-            addTickerDataToSettings(variant.tickerSettings));
+        const tickerSettings =
+            variant && variant.tickerSettings
+                ? await addTickerDataToSettings(variant.tickerSettings)
+                : undefined;
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
             isSupporter: !targeting.showSupportMessaging,
-            tickerSettings: tickerSettings || null,
+            tickerSettings,
         };
 
         return {
