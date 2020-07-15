@@ -89,9 +89,9 @@ export class ContributionsServiceStack extends cdk.Stack {
 
         const baseUrl = ssm.StringParameter.valueForStringParameter(
             this,
-            Stage === 'PROD'
-                ? '/contributions-service/prod/base_url'
-                : '/contributions-service/code/base_url',
+            Stage === 'CODE'
+                ? '/contributions-service/code/base_url'
+                : '/contributions-service/prod/base_url',
         );
 
         const logTargeting = ssm.StringParameter.valueForStringParameter(
