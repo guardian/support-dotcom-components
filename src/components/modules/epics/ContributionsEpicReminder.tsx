@@ -4,7 +4,7 @@ import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { ReminderFields } from '../../../lib/variants';
-import { Lines } from '@guardian/src-ed-lines'; // TODO remove as too big
+import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';

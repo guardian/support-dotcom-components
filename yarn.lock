@@ -1327,13 +1327,6 @@
     "@guardian/src-helpers" "^1.8.0"
     "@guardian/src-icons" "^1.8.0"
 
-"@guardian/src-ed-lines@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-ed-lines/-/src-ed-lines-1.8.0.tgz#875769d207f6346a977121c1e642354fe7d7b003"
-  integrity sha512-EWJoTRSOjM/xoS3VM5BsbDfJVpnMkUX8bEuoscOqa7RZSHyL7+rJWvehbAoyd+L1ubvDoGrDf3JVoBwqohWT+g==
-  dependencies:
-    "@guardian/src-helpers" "^1.8.0"
-
 "@guardian/src-foundations@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-1.8.0.tgz#4b2276d849917471c3cc46e25fd952eb35c3e40a"
