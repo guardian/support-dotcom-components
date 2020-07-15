@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
+import visualizer from 'rollup-plugin-visualizer';
 
 const tsOpts = {
     target: 'es2018',
@@ -26,18 +27,21 @@ const globals = {
 };
 
 const config = [
-    ['src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
+    ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
     [
+        'aus-banner',
         'src/components/modules/banners/contributions/AusMomentContributionsBanner.tsx',
         'dist/modules/banners/contributions/AusMomentContributionsBanner.js',
     ],
-].map(([entryPoint, name]) => {
+].map(([name, entryPoint, target]) => {
+    const isProd = process.env.NODE_ENV === 'production';
+
     return {
         input: entryPoint,
         output: {
-            file: name,
+            file: target,
             format: 'es',
-            sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
+            sourcemap: isProd ? false : 'inline',
         },
         external: id => Object.keys(globals).some(key => id.startsWith(key)),
         plugins: [
@@ -64,6 +68,10 @@ const config = [
             terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
             externalGlobals(globals),
             filesize(),
+
+            // Note, visualizer is useful for *relative* sizes, but reports
+            // pre-minification.
+            visualizer({ sourcemap: !isProd, gzipSize: true, filename: `stats/${name}.html` }),
         ],
     };
 });
