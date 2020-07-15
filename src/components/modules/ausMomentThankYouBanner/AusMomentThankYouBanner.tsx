@@ -125,7 +125,27 @@ const sunSvgTablet = css`
 
 const sunSvgDesktop = css`
     ${sunSvg}
+
+    @keyframes sun-rise-sun-svg-desktop {
+        0% {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        40% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    animation-name: sun-rise-sun-svg--delay, sun-rise-sun-svg-desktop;
+    animation-delay: 0s, 0.7s;
+    animation-duration: 0.7s, 1.3s;
+    animation-timing-function: ease-in-out;
     display: none;
+
     ${from.desktop} {
         display: block;
     }
@@ -138,12 +158,12 @@ const sunSvgOuterSun = css`
             transform: scale(1);
         }
         100% {
-            transform: scale(1.05);
+            transform: scale(0.95);
         }
     }
 
     animation-name: sun-pulsing-inner;
-    animation-delay: 2.13s;
+    animation-delay: 2.25s;
     animation-duration: 2s;
     animation-direction: alternate;
     animation-iteration-count: infinite;
@@ -158,7 +178,7 @@ const sunSvgInnerSun = css`
             transform: scale(1);
         }
         100% {
-            transform: scale(1.05);
+            transform: scale(0.95);
         }
     }
 
