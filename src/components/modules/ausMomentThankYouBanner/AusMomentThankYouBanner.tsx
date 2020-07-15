@@ -132,10 +132,42 @@ const sunSvgDesktop = css`
 `;
 const sunSvgOuterSun = css`
     color: ${brandAlt[200]};
+
+    @keyframes sun-pulsing-inner {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1.05);
+        }
+    }
+
+    animation-name: sun-pulsing-inner;
+    animation-delay: 2.13s;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timinig-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
 `;
 
 const sunSvgInnerSun = css`
     color: ${brandAlt[400]};
+
+    @keyframes sun-pulsing-inner {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1.05);
+        }
+    }
+
+    animation-name: sun-pulsing-inner;
+    animation-delay: 2s;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timinig-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
 `;
 
 const thankYouMessageInSunContainer = css`
@@ -485,51 +517,51 @@ export const AusMomentThankYouBanner: React.FC = () => {
             <div className={sunSvgAndMessagesContainer}>
                 <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
                     <div className={sunSvgAndThankYouContainer}>
-                        <svg className={sunSvgMobile} viewBox="0 0 32 20">
+                        <svg className={sunSvgMobile} viewBox="-16 -10 32 20">
                             <circle
                                 className={sunSvgOuterSun}
                                 r="9"
-                                cx="16"
-                                cy="10"
+                                cx="0"
+                                cy="0"
                                 fill="currentColor"
                             />
                             <circle
                                 className={sunSvgInnerSun}
                                 r="8.5"
-                                cx="16"
-                                cy="10"
+                                cx="0"
+                                cy="0"
                                 fill="currentColor"
                             />
                         </svg>
-                        <svg className={sunSvgTablet} viewBox="0 0 32 32">
+                        <svg className={sunSvgTablet} viewBox="-16 -16 32 32">
                             <circle
                                 className={sunSvgOuterSun}
                                 r="14"
-                                cx="50%"
-                                cy="50%"
+                                cx="0"
+                                cy="0"
                                 fill="currentColor"
                             />
                             <circle
                                 className={sunSvgInnerSun}
                                 r="13.25"
-                                cx="50%"
-                                cy="50%"
+                                cx="0"
+                                cy="0"
                                 fill="currentColor"
                             />
                         </svg>
-                        <svg className={sunSvgDesktop} viewBox="0 0 32 32">
+                        <svg className={sunSvgDesktop} viewBox="-16 -16 32 32">
                             <circle
                                 className={sunSvgOuterSun}
-                                r="15.5"
-                                cx="50%"
-                                cy="50%"
+                                r="14.75"
+                                cx="0"
+                                cy="0"
                                 fill="currentColor"
                             />
                             <circle
                                 className={sunSvgInnerSun}
-                                r="14.75"
-                                cx="50%"
-                                cy="50%"
+                                r="14.25"
+                                cx="0"
+                                cy="0"
                                 fill="currentColor"
                             />
                         </svg>
