@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
 import { palette } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq/cjs';
-import { headline } from '@guardian/src-foundations/typography/cjs';
+import { from } from '@guardian/src-foundations/mq';
+import { headline } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { TickerSettings } from '../../../lib/variants';
 
