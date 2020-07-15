@@ -20,14 +20,14 @@ import {
     iconPanel,
     closeButton,
     logoContainer,
-} from './subscriptionsBannerStyles';
+} from './digitalSubscriptionsBannerStyles';
 
 type SubscriptionsBannerProps = {
     subscriptionUrl: string;
     signInUrl: string;
 };
 
-export const SubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
+export const DigitalSubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
     subscriptionUrl,
     signInUrl,
 }: SubscriptionsBannerProps) => {

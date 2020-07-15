@@ -18,14 +18,14 @@ import {
     iconPanel,
     closeButton,
     logoContainer,
-} from './weeklyBannerStyles';
+} from './guardianWeeklyBannerStyles';
 
 type WeeklyBannerProps = {
     subscriptionUrl: string;
     signInUrl: string;
 };
 
-export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
+export const GuardianWeeklyBanner: React.FC<WeeklyBannerProps> = ({
     subscriptionUrl,
     signInUrl,
 }: WeeklyBannerProps) => {

@@ -34,7 +34,7 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DigitalSubscriptionBannerPath } from './tests/banners/DigitalSubscriptionBannerTest';
-import { WeeklyBannerPath } from './tests/banners/WeeklyBannerTest';
+import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -309,8 +309,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/banners/subscriptions/DigitalSubscriptionBanner.js'
-                : '/modules/banners/subscriptions/DigitalSubscriptionBanner.js';
+                ? '/../dist/modules/banners/digitalSubscriptions/DigitalSubscriptionBanner.js'
+                : '/modules/banners/digitalSubscriptions/DigitalSubscriptionBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
@@ -324,12 +324,12 @@ app.get(
 );
 
 app.get(
-    `/${WeeklyBannerPath}`,
+    `/${GuardianWeeklyBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/banners/subscriptions/WeeklyBanner.js'
-                : '/modules/banners/subscriptions/WeeklyBanner.js';
+                ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
+                : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');

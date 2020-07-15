@@ -198,7 +198,7 @@ describe('selectBannerTest', () => {
             _.resetCache('subscriptions', 'australia');
 
             return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('WeeklyBanner');
+                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });
 
@@ -211,7 +211,7 @@ describe('selectBannerTest', () => {
             _.resetCache('subscriptions', 'australia');
 
             return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('WeeklyBanner');
+                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });
 

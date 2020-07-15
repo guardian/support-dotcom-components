@@ -5,7 +5,7 @@ import {
 } from '../../components/modules/banners/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
-export const DigitalSubscriptionBannerPath = 'subscriptions-banner.js';
+export const DigitalSubscriptionBannerPath = 'digital-subscriptions-banner.js';
 
 export const DigitalSubscriptionBanner: BannerTest = {
     name: 'DigitalSubscriptionBanner',

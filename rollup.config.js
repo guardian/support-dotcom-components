@@ -31,6 +31,14 @@ const config = [
         'src/components/modules/banners/contributions/AusMomentContributionsBanner.tsx',
         'dist/modules/banners/contributions/AusMomentContributionsBanner.js',
     ],
+    [
+        'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionBanner.tsx',
+        'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionBanner.js',
+    ],
+    [
+        'src/components/modules/banners/guardianWeekly/WeeklyBanner.tsx',
+        'dist/modules/banners/guardianWeekly/WeeklyBanner.js',
+    ],
 ].map(([entryPoint, name]) => {
     return {
         input: entryPoint,

@@ -1,6 +1,6 @@
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
-import { WeeklyBanner } from './WeeklyBannerTest';
+import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 
 describe('readerRevenueRegionFromCountryCode', () => {
     it('should return a region', () => {
@@ -82,9 +82,9 @@ describe('WeeklyBanner canRun', () => {
             referrerUrl: '',
             clientName: '',
         };
-        const canRun1 = WeeklyBanner.canRun(targetingTrue, tracking);
+        const canRun1 = GuardianWeeklyBanner.canRun(targetingTrue, tracking);
         expect(canRun1).toBe(true);
-        const canRun2 = WeeklyBanner.canRun(targetingFalse, tracking);
+        const canRun2 = GuardianWeeklyBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
     });
 });

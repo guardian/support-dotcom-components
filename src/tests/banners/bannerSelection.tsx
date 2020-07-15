@@ -8,7 +8,7 @@ import {
 } from '../../components/modules/banners/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
-import { WeeklyBanner } from './WeeklyBannerTest';
+import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
@@ -162,7 +162,7 @@ export const selectBannerTest = async (
     const tests: BannerTest[] = [
         AusMomentContributionsBanner,
         DigitalSubscriptionBanner,
-        WeeklyBanner,
+        GuardianWeeklyBanner,
     ];
 
     for (const test of tests) {
