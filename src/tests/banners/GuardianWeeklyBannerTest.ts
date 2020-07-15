@@ -14,7 +14,7 @@ export const GuardianWeeklyBanner: BannerTest = {
     testAudience: 'NonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
-        if (targeting.remoteSubscriptionsBannerSwitchIsOn) {
+        if (targeting.switches.remoteSubscriptionsBanner) {
             const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
             return region === 'australia' || region === 'rest-of-world';
         }

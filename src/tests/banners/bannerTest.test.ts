@@ -31,7 +31,9 @@ describe('SubscriptionsBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -42,7 +44,9 @@ describe('SubscriptionsBanner canRun', () => {
             mvtId: 3,
             // Should not show banner in Fiji
             countryCode: 'FJ',
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
         const targetingFalse2 = {
             alreadyVisitedCount: 3,
@@ -53,7 +57,9 @@ describe('SubscriptionsBanner canRun', () => {
             mvtId: 3,
             countryCode: 'GB',
             // Should not show banner if switch is off
-            remoteSubscriptionsBannerSwitchIsOn: false,
+            switches: {
+                remoteSubscriptionsBanner: false,
+            },
         };
         const tracking = {
             ophanPageId: '',
@@ -81,7 +87,9 @@ describe('WeeklyBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'AU',
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -91,7 +99,9 @@ describe('WeeklyBanner canRun', () => {
             subscriptionsBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
         const tracking = {
             ophanPageId: '',

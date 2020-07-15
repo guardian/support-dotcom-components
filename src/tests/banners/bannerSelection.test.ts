@@ -24,7 +24,9 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'AU',
             engagementBannerLastClosedAt: firstDate,
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
 
         const tracking = {
@@ -96,7 +98,9 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'US',
             engagementBannerLastClosedAt: secondDate,
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
 
         const tracking = {
@@ -181,7 +185,9 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'AU',
             engagementBannerLastClosedAt: secondDate,
-            remoteSubscriptionsBannerSwitchIsOn: true,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
         };
 
         const tracking = {
@@ -214,7 +220,9 @@ describe('selectBannerTest', () => {
 
             return selectBannerTest(
                 Object.assign(targeting, {
-                    remoteSubscriptionsBannerSwitchIsOn: false,
+                    switches: {
+                        remoteSubscriptionsBanner: false,
+                    },
                 }),
                 tracking,
                 '',
@@ -233,7 +241,9 @@ describe('selectBannerTest', () => {
 
             return selectBannerTest(
                 Object.assign(targeting, {
-                    remoteSubscriptionsBannerSwitchIsOn: true,
+                    switches: {
+                        remoteSubscriptionsBanner: true,
+                    },
                 }),
                 tracking,
                 '',
