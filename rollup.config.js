@@ -34,12 +34,14 @@ const config = [
         'dist/modules/banners/contributions/AusMomentContributionsBanner.js',
     ],
 ].map(([name, entryPoint, target]) => {
+    const isProd = process.env.NODE_ENV === 'production';
+
     return {
         input: entryPoint,
         output: {
             file: target,
             format: 'es',
-            sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
+            sourcemap: isProd ? false : 'inline',
         },
         external: id => Object.keys(globals).some(key => id.startsWith(key)),
         plugins: [
@@ -69,7 +71,7 @@ const config = [
 
             // Note, visualizer is useful for *relative* sizes, but reports
             // pre-minification.
-            visualizer({ sourcemap: true, gzipSize: true, filename: `stats/${name}.html` }),
+            visualizer({ sourcemap: !isProd, gzipSize: true, filename: `stats/${name}.html` }),
         ],
     };
 });
