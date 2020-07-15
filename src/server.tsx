@@ -286,7 +286,7 @@ app.get(
         try {
             const path = isDev
                 ? '/../dist/modules/banners/contributions/AusMomentContributionsBanner.js'
-                : '/modules/anners/contributions/AusMomentContributionsBanner.js';
+                : '/modules/banners/contributions/AusMomentContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
