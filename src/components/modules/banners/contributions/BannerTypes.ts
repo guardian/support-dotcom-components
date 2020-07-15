@@ -1,4 +1,4 @@
-import { TickerSettings } from '../lib/variants';
+import { TickerSettings } from '../../../../lib/variants';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -56,3 +56,9 @@ export interface BannerTestSelection {
     moduleUrl: string;
     moduleName: string;
 }
+
+export type BannerProps = {
+    tracking: BannerTracking;
+    isSupporter?: boolean;
+    tickerSettings?: TickerSettings;
+};

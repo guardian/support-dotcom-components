@@ -1,11 +1,11 @@
 import React from 'react';
 import { css } from 'emotion';
 import { space } from '@guardian/src-foundations';
-import { Button } from '../Button';
-import { EpicTracking } from '../ContributionsEpicTypes';
-import { Cta, Variant } from '../../lib/variants';
-import { addTrackingParams } from '../../lib/tracking';
-import { addRegionIdToSupportUrl } from '../../lib/geolocation';
+import { Button } from './Button';
+import { EpicTracking } from './ContributionsEpicTypes';
+import { Cta, Variant } from '../../../lib/variants';
+import { addTrackingParams } from '../../../lib/tracking';
+import { addRegionIdToSupportUrl } from '../../../lib/geolocation';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;

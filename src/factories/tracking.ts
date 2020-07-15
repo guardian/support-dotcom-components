@@ -3,7 +3,7 @@ import {
     EpicTestTracking,
     EpicPageTracking,
     EpicTracking,
-} from '../components/ContributionsEpicTypes';
+} from '../components/modules/epics/ContributionsEpicTypes';
 
 export const pageTracking = Factory.define<EpicPageTracking>(() => ({
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
