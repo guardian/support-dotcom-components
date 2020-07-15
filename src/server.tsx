@@ -313,6 +313,7 @@ app.post(
                 alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
                 countryCode: payload.targeting.countryCode,
                 engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
+                subscriptionsBannerLastClosedAt: payload.targeting.subscriptionsBannerLastClosedAt,
                 isPaidContent: payload.targeting.isPaidContent,
             };
 
