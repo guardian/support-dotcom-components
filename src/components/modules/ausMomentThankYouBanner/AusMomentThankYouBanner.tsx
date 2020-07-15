@@ -3,12 +3,14 @@ import { css } from 'emotion';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { Button } from '@guardian/src-button';
+import { Button, LinkButton } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
 import { SvgChevronDownSingle, SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
+import { BannerProps } from '../Banner';
+import { addTrackingParams } from '../../../lib/tracking';
 
 const banner = css`
     display: flex;
@@ -529,8 +531,17 @@ const ThankYouMessageMain: React.FC<ThankYouMessageMainProps> = ({
     );
 };
 
-export const AusMomentThankYouBanner: React.FC = () => {
+export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
+    tracking,
+    isSupporter,
+    tickerSettings,
+}: BannerProps) => {
+    if (!(tickerSettings && tickerSettings.tickerData)) {
+        return null;
+    }
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const supportersCount = tickerSettings.tickerData.total;
 
     return (
         <div className={banner}>
@@ -588,7 +599,9 @@ export const AusMomentThankYouBanner: React.FC = () => {
                         <div className={thankYouMessageInSunContainer}>
                             <div className={thankYouMessageInSun}>
                                 <div className={thankYouMessageInSunThankYou}>Thank you!</div>
-                                <div className={thankYouMessageInSunSupportersCount}>177,976</div>
+                                <div className={thankYouMessageInSunSupportersCount}>
+                                    {supportersCount.toLocaleString()}
+                                </div>
                                 <div className={thankYouMessageInSunTagLine}>
                                     supporters in Australia
                                 </div>
@@ -597,7 +610,7 @@ export const AusMomentThankYouBanner: React.FC = () => {
                     </div>
 
                     <div className={thankYouMessageMainMobileContainer}>
-                        <ThankYouMessageMain isExpanded={isExpanded} isSupporter={false} />
+                        <ThankYouMessageMain isExpanded={isExpanded} isSupporter={!!isSupporter} />
                     </div>
                 </div>
                 <div className={closeButtonContainer}>
@@ -631,14 +644,23 @@ export const AusMomentThankYouBanner: React.FC = () => {
                 </button>
 
                 <div className={thankYouMessageMainTabletContainer}>
-                    <ThankYouMessageMain isExpanded={isExpanded} isSupporter={false} />
+                    <ThankYouMessageMain isExpanded={isExpanded} isSupporter={!!isSupporter} />
                 </div>
 
                 <div className={ctaButtonContainer}>
                     <ThemeProvider theme={brandAltTheme}>
-                        <Button size="small">Support the Guardian</Button>
+                        <LinkButton
+                            href={addTrackingParams(
+                                'https://support.theguardian.com/contribute',
+                                tracking,
+                            )}
+                            size="small"
+                        >
+                            Support the Guardian
+                        </LinkButton>
                     </ThemeProvider>
                     <div className={secondaryCtaContainer}>
+                        {/* TODO: Add link to article with tracking */}
                         <ThemeProvider theme={brandAltTheme}>
                             <Link href="#">Hear from our editor</Link>
                         </ThemeProvider>

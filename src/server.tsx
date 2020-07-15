@@ -34,6 +34,7 @@ import { BannerPageTracking, BannerTestTracking, BannerTargeting } from './compo
 import { BannerProps } from './components/modules/Banner';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
+import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -368,6 +369,25 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/contributionsBanners/AusMomentContributionsBanner.js'
                 : '/modules/contributionsBanners/AusMomentContributionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${AusMomentThankYouBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
+                : '/modules/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');

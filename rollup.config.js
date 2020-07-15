@@ -32,6 +32,10 @@ const config = [
         'src/components/modules/contributionsBanners/AusMomentContributionsBanner.tsx',
         'dist/modules/contributionsBanners/AusMomentContributionsBanner.js',
     ],
+    [
+        'src/components/modules/ausMomentThankYouBanner/AusMomentThankYouBanner.tsx',
+        'dist/modules/ausMomentThankYouBanner/AusMomentThankYouBanner.js',
+    ],
 ].map(([entryPoint, name]) => {
     return {
         input: entryPoint,

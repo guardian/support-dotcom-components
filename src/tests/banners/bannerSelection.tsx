@@ -3,7 +3,7 @@ import {
     BannerTargeting,
     BannerTestSelection,
 } from '../../components/BannerTypes';
-import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
+import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 
@@ -78,7 +78,7 @@ export const selectBannerTest = (
 ): Promise<BannerTestSelection | null> => {
     return redeployedSinceLastClosed(targeting).then(hasRedeployed => {
         if (hasRedeployed) {
-            const tests = [AusMomentContributionsBanner];
+            const tests = [AusMomentThankYouBanner];
             const testToRun = tests.find(
                 test =>
                     targeting.alreadyVisitedCount >= test.minPageViews &&
