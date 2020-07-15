@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from './server';
 import { configuredTests } from './api/contributionsApi.testData';
-// import { factories } from './factories';
+import { factories } from './factories';
 
 jest.mock('./api/contributionsApi', () => {
     return {
@@ -19,7 +19,7 @@ jest.mock('./api/contributionsApi', () => {
 });
 
 describe('POST /epic', () => {
-    /*     it('should return an epic', async () => {
+    it('should return epic data', async () => {
         const targeting = factories.targeting.build({
             contentType: 'Article',
             sectionName: 'environment',
@@ -49,8 +49,6 @@ describe('POST /epic', () => {
 
         expect(res.status).toEqual(200);
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data).toHaveProperty('html');
-        expect(res.body.data).toHaveProperty('css');
         expect(res.body.data).toHaveProperty('meta');
         expect(res.body.data.meta).toEqual({
             abTestName: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
@@ -59,7 +57,7 @@ describe('POST /epic', () => {
                 'gdnwb_copts_memco_2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count_Control',
             campaignId: 'epic_2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
         });
-    }); */
+    });
 
     it('returns a 400 when an invalid payload is sent', async () => {
         const res = await request(app)
