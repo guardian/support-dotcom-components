@@ -55,3 +55,22 @@ export const defaultStory = (): ReactElement => {
 };
 
 defaultStory.story = { name: 'Aus Moment' };
+
+export const goalReachedStory = (): ReactElement => {
+    const isSupporter = boolean('isSupporter', true);
+    const total = number('total', 151_000);
+
+    tickerSettings.tickerData.total = total;
+
+    return (
+        <StorybookWrapper>
+            <AusMomentContributionsBanner
+                isSupporter={isSupporter}
+                tickerSettings={tickerSettings}
+                tracking={tracking}
+            />
+        </StorybookWrapper>
+    );
+};
+
+goalReachedStory.story = { name: 'Aus Moment - goal reached' };
