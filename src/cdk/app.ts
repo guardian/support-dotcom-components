@@ -87,10 +87,12 @@ export class ContributionsServiceStack extends cdk.Stack {
         const Stack = stack.value.toString();
         const Stage = stage.value.toString();
 
-        // const baseUrl = ssm.StringParameter.valueForStringParameter(
-        //     this,
-        //     `/contributions-service/${'code'}/base_url`,
-        // );
+        const baseUrl = ssm.StringParameter.valueForStringParameter(
+            this,
+            Stage === 'PROD'
+                ? '/contributions-service/prod/base_url'
+                : '/contributions-service/code/base_url',
+        );
 
         const logTargeting = ssm.StringParameter.valueForStringParameter(
             this,
@@ -115,7 +117,7 @@ export class ContributionsServiceStack extends cdk.Stack {
             `export Stack=${Stack}`,
             `export Stage=${Stage}`,
             `export NODE_ENV=production`,
-            `export BASE_URL={{resolve:ssm:/contributions-service/code/base_url:1}}`,
+            `export BASE_URL=${baseUrl}`,
             `export LOG_TARGETING=${logTargeting}`,
             `export LOG_COMPARE_VARIANTS=${logCompareVariants}`,
             `export LOG_FAILED_TEST_FILTER=${logFailedTestFilter}`,
