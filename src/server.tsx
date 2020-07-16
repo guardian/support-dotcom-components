@@ -305,8 +305,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
-                : '/modules/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
+                ? '/../dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
+                : '/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
