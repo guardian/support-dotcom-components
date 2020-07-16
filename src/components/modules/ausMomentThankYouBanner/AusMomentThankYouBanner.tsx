@@ -200,6 +200,8 @@ const sunSvgInnerSun = css`
     &:hover {
         color: ${brandAlt[200]};
     }
+
+    transition: color 0.3s ease-in-out;
 `;
 
 const thankYouMessageInSunContainer = css`
