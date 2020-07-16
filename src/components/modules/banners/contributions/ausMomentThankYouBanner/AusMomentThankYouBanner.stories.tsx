@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
-import { AusMomentThankYouBanner } from './modules/ausMomentThankYouBanner/AusMomentThankYouBanner';
+import { AusMomentThankYouBanner } from './AusMomentThankYouBanner';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
-import { TickerCountType, TickerEndType } from '../lib/variants';
+import { StorybookWrapper } from '../../../../../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../../../../../lib/variants';
 
 export default {
     component: AusMomentThankYouBanner,

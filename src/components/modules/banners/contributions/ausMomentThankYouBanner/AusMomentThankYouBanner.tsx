@@ -15,9 +15,9 @@ import {
 import { ThemeProvider } from 'emotion-theming';
 import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
-import { BannerProps } from '../Banner';
-import { addTrackingParams } from '../../../lib/tracking';
-import { setContributionsBannerClosedTimestamp } from '../contributionsBanners/localStorage';
+import { BannerProps } from '../BannerTypes';
+import { addTrackingParams } from '../../../../../lib/tracking';
+import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const banner = css`
     display: flex;

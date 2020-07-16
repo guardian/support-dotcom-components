@@ -19,7 +19,7 @@ jest.mock('./api/contributionsApi', () => {
 });
 
 describe('POST /epic', () => {
-    it('should return an epic', async () => {
+    it('should return epic data', async () => {
         const targeting = factories.targeting.build({
             contentType: 'Article',
             sectionName: 'environment',
@@ -49,8 +49,6 @@ describe('POST /epic', () => {
 
         expect(res.status).toEqual(200);
         expect(res.body).toHaveProperty('data');
-        expect(res.body.data).toHaveProperty('html');
-        expect(res.body.data).toHaveProperty('css');
         expect(res.body.data).toHaveProperty('meta');
         expect(res.body.data.meta).toEqual({
             abTestName: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',

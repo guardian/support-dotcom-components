@@ -3,7 +3,7 @@ import {
     ViewLog,
     WeeklyArticleHistory,
     UserCohort,
-} from '../components/ContributionsEpicTypes';
+} from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';

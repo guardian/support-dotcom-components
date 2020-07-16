@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
-import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
+import { AusMomentContributionsBanner } from './AusMomentContributionsBanner';
 import { withKnobs, boolean, number } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
-import { TickerCountType, TickerEndType } from '../lib/variants';
+import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 
 export default {
     component: AusMomentContributionsBanner,
@@ -55,3 +55,22 @@ export const defaultStory = (): ReactElement => {
 };
 
 defaultStory.story = { name: 'Aus Moment' };
+
+export const goalReachedStory = (): ReactElement => {
+    const isSupporter = boolean('isSupporter', true);
+    const total = number('total', 151_000);
+
+    tickerSettings.tickerData.total = total;
+
+    return (
+        <StorybookWrapper>
+            <AusMomentContributionsBanner
+                isSupporter={isSupporter}
+                tickerSettings={tickerSettings}
+                tracking={tracking}
+            />
+        </StorybookWrapper>
+    );
+};
+
+goalReachedStory.story = { name: 'Aus Moment - goal reached' };

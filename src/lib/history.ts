@@ -1,4 +1,7 @@
-import { WeeklyArticleLog, WeeklyArticleHistory } from '../components/ContributionsEpicTypes';
+import {
+    WeeklyArticleLog,
+    WeeklyArticleHistory,
+} from '../components/modules/epics/ContributionsEpicTypes';
 
 export const getMondayFromDate = (date: Date): number => {
     const day = date.getDay() || 7;

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { WeeklyBanner } from './modules/weeklyBanner/WeeklyBanner';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { WeeklyBanner } from './WeeklyBanner';
+import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 
 export default {
     component: WeeklyBanner,

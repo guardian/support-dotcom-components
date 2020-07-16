@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 import { ContributionsEpic } from './ContributionsEpic';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import testData from './ContributionsEpic.testData';
-import { TickerCountType, TickerEndType, Variant } from '../lib/variants';
-import { getArticleViewCountForWeeks } from '../lib/history';
+import { TickerCountType, TickerEndType, Variant } from '../../../lib/variants';
+import { getArticleViewCountForWeeks } from '../../../lib/history';
 
 export default {
     component: ContributionsEpic,

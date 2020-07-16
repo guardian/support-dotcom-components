@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
-import { SubscriptionsBanner } from './modules/subscriptionsBanner/SubscriptionsBanner';
+import { SubscriptionsBanner } from './SubscriptionsBanner';
 import { withKnobs } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 
 export default {
     component: SubscriptionsBanner,

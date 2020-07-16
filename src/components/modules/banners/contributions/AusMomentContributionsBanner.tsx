@@ -4,9 +4,8 @@ import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import { BannerProps } from '../Banner';
 import { setContributionsBannerClosedTimestamp } from './localStorage';
-import { BannerTracking } from '../../BannerTypes';
+import { BannerTracking, BannerProps } from './BannerTypes';
 import SocialLinks from './SocialLinks';
 import { SvgClose } from '@guardian/src-icons';
 import SunriseBackground from './SunriseBackground';
@@ -97,12 +96,12 @@ const actualNumber = css`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 125px;
+    padding-top: 120px;
     ${from.tablet} {
-        padding-top: 100px;
+        padding-top: 70px;
     }
     ${from.desktop} {
-        padding-top: 85px;
+        padding-top: 70px;
     }
 `;
 
@@ -120,6 +119,15 @@ const textUnderNumber = css`
     font-size: 12px;
     ${from.phablet} {
         font-size: 17px;
+    }
+    margin: 0;
+`;
+
+const textAboveNumber = css`
+    ${body.medium({ fontWeight: 'regular' })};
+    font-size: 12px;
+    ${from.phablet} {
+        font-size: 20px;
     }
     margin: 0;
 `;
@@ -451,39 +459,82 @@ const chevronDown = (
     </svg>
 );
 
-const messageSupporter = (
-    <div className={messageText}>
-        <p>
-            Thanks to the support of thousands of readers like you, Guardian Australia has grown and
-            is now read by one in three people. Your support has helped us deliver our independent
-            quality journalism when it’s never been so vital. And you’ve helped us remain open to
-            everyone.
-        </p>
-        <p>
-            Right now, you can help us grow our community even further in Australia. To reach our
-            ambitious goal of 150,000 supporters, we hope you will champion our mission and
-            encourage more people to read and support our work. Your support has an impact – and so
-            does your voice. Thank you.
-        </p>
-    </div>
-);
+const messageSupporter = (goalReached: boolean) => {
+    if (goalReached) {
+        return (
+            <div className={messageText}>
+                <p>
+                    Thanks to the support of thousands of readers like you, Guardian Australia has
+                    grown and is now read by one in three people. We’ve reached our first goal, and
+                    our community is larger than ever before. You’re helping us deliver our
+                    independent, quality journalism when it’s never been so vital. And you’ve
+                    enabled us to remain open to all.
+                </p>
+                <p>
+                    To reach even further, we hope you will champion our mission and encourage more
+                    people across Australia to read and support our work. Your support has an impact
+                    – and so does your voice. Thank you.
+                </p>
+            </div>
+        );
+    } else {
+        return (
+            <div className={messageText}>
+                <p>
+                    Thanks to the support of thousands of readers like you, Guardian Australia has
+                    grown and is now read by one in three people. Your support has helped us deliver
+                    our independent quality journalism when it’s never been so vital. And you’ve
+                    helped us remain open to everyone.
+                </p>
+                <p>
+                    Right now, you can help us grow our community even further in Australia. To
+                    reach our ambitious goal of 150,000 supporters, we hope you will champion our
+                    mission and encourage more people to read and support our work. Your support has
+                    an impact – and so does your voice. Thank you.
+                </p>
+            </div>
+        );
+    }
+};
 
-const messageNonSupporter = (
-    <div className={messageText}>
-        <p>
-            One in three people in Australia read the Guardian in the last year. We need to keep
-            growing our readership and gaining your financial support so we can provide high
-            quality, independent journalism that’s open to everyone. Now more than ever, we all
-            deserve access to factual information, and to trust the stories we read.
-        </p>
-        <p>
-            Right now, you can help us grow our community in Australia. To reach our ambitious goal
-            of 150,000 supporters, we hope more readers like you will support us for the first time,
-            and share our work widely. Your support has an impact – and so does your voice. Thank
-            you.
-        </p>
-    </div>
-);
+const messageNonSupporter = (targetReached: boolean) => {
+    if (targetReached) {
+        return (
+            <div className={messageText}>
+                <p>
+                    One in three people in Australia read the Guardian in the last year. We need to
+                    keep growing our readership and gaining your support so we can provide high
+                    quality, independent journalism that’s open to everyone. Now more than ever, we
+                    all deserve access to factual information, and to trust the stories we read.
+                </p>
+                <p>
+                    Thanks to your financial support, we’ve reached our goal. You’ve also inspired
+                    us with your ideas. There are many more urgent questions to answer and solutions
+                    to find. By growing a larger community in Australia, together we can expand and
+                    have a greater impact. Thank you.
+                </p>
+            </div>
+        );
+    } else {
+        return (
+            <div className={messageText}>
+                <p>
+                    One in three people in Australia read the Guardian in the last year. We need to
+                    keep growing our readership and gaining your financial support so we can provide
+                    high quality, independent journalism that’s open to everyone. Now more than
+                    ever, we all deserve access to factual information, and to trust the stories we
+                    read.
+                </p>
+                <p>
+                    Right now, you can help us grow our community in Australia. To reach our
+                    ambitious goal of 150,000 supporters, we hope more readers like you will support
+                    us for the first time, and share our work widely. Your support has an impact –
+                    and so does your voice. Thank you.
+                </p>
+            </div>
+        );
+    }
+};
 
 const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
     return `${baseUrl}?acquisitionData=%7B%22source%22%3A%22${tracking.platformId}%22%2C%22componentType%22%3A%22ACQUISITIONS_ENGAGEMENT_BANNER%22%2C%22componentId%22%3A%22${tracking.campaignCode}%22%2C%22campaignCode%22%3A%22${tracking.campaignCode}%22%7D&INTCMP=${tracking.campaignCode}}`;
@@ -535,6 +586,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
 
     const totalSupporters = tickerSettings.tickerData.total;
     const supportersGoal = tickerSettings.tickerData.goal;
+    const goalReached = totalSupporters >= supportersGoal;
 
     const animationDurationInMS = 2000;
     const [animationStartTime, ,] = useState(Date.now());
@@ -583,6 +635,9 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                         <SunriseBackground percentage={percentage} />
                         <div className={topContentContainer}>
                             <div className={actualNumber}>
+                                {goalReached && (
+                                    <p className={textAboveNumber}>Help us grow even further</p>
+                                )}
                                 <p className={actualNumberFigure}>{supporters.toLocaleString()}</p>
                                 <p className={textUnderNumber}>supporters in Australia</p>
                             </div>
@@ -615,7 +670,9 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                     </h3>
                                     <div className={mobileMessageContainer}>
                                         <div className={mobileMessage(expanded)}>
-                                            {isSupporter ? messageSupporter : messageNonSupporter}
+                                            {isSupporter
+                                                ? messageSupporter(goalReached)
+                                                : messageNonSupporter(goalReached)}
                                         </div>
                                         <p onClick={toggleReadMore} className={readMore}>
                                             Read {expanded ? 'less' : 'more'}
@@ -632,7 +689,9 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                             expanded ? messageExpanded : message(overflowing)
                                         }
                                     >
-                                        {isSupporter ? messageSupporter : messageNonSupporter}
+                                        {isSupporter
+                                            ? messageSupporter(goalReached)
+                                            : messageNonSupporter(goalReached)}
                                     </div>
                                     {(overflowing || expanded) && (
                                         <p onClick={toggleReadMore} className={readMore}>
