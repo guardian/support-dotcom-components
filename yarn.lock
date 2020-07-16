@@ -1370,11 +1370,6 @@
   dependencies:
     "@guardian/src-foundations" "^1.8.0"
 
-"@guardian/src-icons@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.4.0.tgz#3159d034a3c42bf94bdf88384dac95f9c8708173"
-  integrity sha512-0j2QRPNjhRePicB/2aZp79OyRtPA3ftf1e/9oareisHUfn3jcvDDFeP3xkHXmv5SoMobG4GwWUepb0VNYvELnQ==
-
 "@guardian/src-icons@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-icons/-/src-icons-1.8.0.tgz#fdfc1d8164c74f0586198a11c8b64ad1f545c602"

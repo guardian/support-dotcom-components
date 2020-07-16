@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { css } from 'emotion';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
-import { headline, body } from '@guardian/src-foundations/typography';
+import { headline, body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button, LinkButton } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
-import { SvgChevronDownSingle, SvgCross } from '@guardian/src-icons';
+import {
+    SvgChevronDownSingle,
+    SvgCross,
+    SvgFacebook,
+    SvgTwitter,
+    SvgEnvelope,
+} from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
@@ -190,6 +196,10 @@ const sunSvgInnerSun = css`
     animation-direction: alternate;
     animation-iteration-count: infinite;
     animation-timinig-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
+
+    &:hover {
+        color: ${brandAlt[200]};
+    }
 `;
 
 const thankYouMessageInSunContainer = css`
@@ -201,6 +211,8 @@ const thankYouMessageInSunContainer = css`
 
     display: flex;
     align-items: center;
+
+    pointer-events: none;
 `;
 
 const thankYouMessageInSun = css`
@@ -459,6 +471,7 @@ const readMoreButtonIconContainerExpanded = css`
 `;
 
 const ctaButtonContainer = css`
+    width: 100%;
     margin-top: ${space[4]}px;
     display: flex;
     align-items: center;
@@ -466,9 +479,65 @@ const ctaButtonContainer = css`
 
 const secondaryCtaContainer = css`
     display: none;
-    margin-left: ${space[4]}px;
     ${from.tablet} {
         display: block;
+    }
+`;
+
+const socialShareContainer = css`
+    display: flex;
+    align-items: center;
+
+    > * + * {
+        margin-left: ${space[3]}px;
+    }
+`;
+
+const socialShareLinksContainer = css`
+    > * + * {
+        margin-left: ${space[2]}px;
+    }
+`;
+
+const socialShareMessage = css`
+    ${textSans.small()}
+`;
+
+const hearFromSupportersCtaContainer = css`
+    display: none;
+
+    ${from.tablet} {
+        display: block;
+    }
+`;
+
+const supporterCtaContainer = css`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > * + * {
+        margin-top: ${space[3]}px;
+    }
+
+    ${from.desktop} {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        > * + * {
+            margin-top: 0;
+        }
+    }
+`;
+
+const nonSupporterCtaContainer = css`
+    display: flex;
+    align-items: center;
+
+    > * + * {
+        margin-left: ${space[4]}px;
     }
 `;
 
@@ -549,52 +618,76 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                 <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
                     <div className={sunSvgAndThankYouContainer}>
                         <svg className={sunSvgMobile} viewBox="-16 -10 32 20">
-                            <circle
-                                className={sunSvgOuterSun}
-                                r="9"
-                                cx="0"
-                                cy="0"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={sunSvgInnerSun}
-                                r="8.5"
-                                cx="0"
-                                cy="0"
-                                fill="currentColor"
-                            />
+                            {/* Todo: add sun specific tracking? */}
+                            <a
+                                href={addTrackingParams(
+                                    'https://support.theguardian.com/aus-2020-map',
+                                    tracking,
+                                )}
+                            >
+                                <circle
+                                    className={sunSvgOuterSun}
+                                    r="9"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={sunSvgInnerSun}
+                                    r="8.5"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                            </a>
                         </svg>
                         <svg className={sunSvgTablet} viewBox="-16 -16 32 32">
-                            <circle
-                                className={sunSvgOuterSun}
-                                r="14"
-                                cx="0"
-                                cy="0"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={sunSvgInnerSun}
-                                r="13.25"
-                                cx="0"
-                                cy="0"
-                                fill="currentColor"
-                            />
+                            {/* Todo: add sun specific tracking? */}
+                            <a
+                                href={addTrackingParams(
+                                    'https://support.theguardian.com/aus-2020-map',
+                                    tracking,
+                                )}
+                            >
+                                <circle
+                                    className={sunSvgOuterSun}
+                                    r="14"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={sunSvgInnerSun}
+                                    r="13.25"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                            </a>
                         </svg>
                         <svg className={sunSvgDesktop} viewBox="-16 -16 32 32">
-                            <circle
-                                className={sunSvgOuterSun}
-                                r="14.75"
-                                cx="0"
-                                cy="0"
-                                fill="currentColor"
-                            />
-                            <circle
-                                className={sunSvgInnerSun}
-                                r="14.25"
-                                cx="0"
-                                cy="0"
-                                fill="currentColor"
-                            />
+                            {/* Todo: add sun specific tracking? */}
+                            <a
+                                href={addTrackingParams(
+                                    'https://support.theguardian.com/aus-2020-map',
+                                    tracking,
+                                )}
+                            >
+                                <circle
+                                    className={sunSvgOuterSun}
+                                    r="14.75"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    className={sunSvgInnerSun}
+                                    r="14.25"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                            </a>
                         </svg>
                         <div className={thankYouMessageInSunContainer}>
                             <div className={thankYouMessageInSun}>
@@ -648,23 +741,73 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                 </div>
 
                 <div className={ctaButtonContainer}>
-                    <ThemeProvider theme={brandAltTheme}>
-                        <LinkButton
-                            href={addTrackingParams(
-                                'https://support.theguardian.com/contribute',
-                                tracking,
-                            )}
-                            size="small"
-                        >
-                            Support the Guardian
-                        </LinkButton>
-                    </ThemeProvider>
-                    <div className={secondaryCtaContainer}>
-                        {/* TODO: Add link to article with tracking */}
-                        <ThemeProvider theme={brandAltTheme}>
-                            <Link href="#">Hear from our editor</Link>
-                        </ThemeProvider>
-                    </div>
+                    {isSupporter ? (
+                        <div className={supporterCtaContainer}>
+                            <div className={socialShareContainer}>
+                                <div className={socialShareLinksContainer}>
+                                    {/* TODO: give proper link */}
+                                    <ThemeProvider theme={brandAltTheme}>
+                                        <LinkButton
+                                            icon={<SvgFacebook />}
+                                            priority="primary"
+                                            hideLabel
+                                        />
+                                    </ThemeProvider>
+                                    {/* TODO: give proper link */}
+                                    <ThemeProvider theme={brandAltTheme}>
+                                        <LinkButton
+                                            icon={<SvgTwitter />}
+                                            priority="primary"
+                                            hideLabel
+                                        />
+                                    </ThemeProvider>
+                                    {/* TODO: give proper link */}
+                                    <ThemeProvider theme={brandAltTheme}>
+                                        <LinkButton
+                                            icon={<SvgEnvelope />}
+                                            priority="primary"
+                                            hideLabel
+                                        />
+                                    </ThemeProvider>
+                                </div>
+                                <div className={socialShareMessage}>Share you support</div>
+                            </div>
+                            <div className={hearFromSupportersCtaContainer}>
+                                <ThemeProvider theme={brandAltTheme}>
+                                    {/* TODO: add button specific tracking? */}
+                                    <LinkButton
+                                        href={addTrackingParams(
+                                            'https://support.theguardian.com/aus-2020-map',
+                                            tracking,
+                                        )}
+                                        priority="tertiary"
+                                    >
+                                        Hear from supporters
+                                    </LinkButton>
+                                </ThemeProvider>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={nonSupporterCtaContainer}>
+                            <ThemeProvider theme={brandAltTheme}>
+                                <LinkButton
+                                    href={addTrackingParams(
+                                        'https://support.theguardian.com/contribute',
+                                        tracking,
+                                    )}
+                                    size="small"
+                                >
+                                    Support the Guardian
+                                </LinkButton>
+                            </ThemeProvider>
+                            <div className={secondaryCtaContainer}>
+                                {/* TODO: Add link to article with tracking */}
+                                <ThemeProvider theme={brandAltTheme}>
+                                    <Link href="#">Hear from our editor</Link>
+                                </ThemeProvider>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
