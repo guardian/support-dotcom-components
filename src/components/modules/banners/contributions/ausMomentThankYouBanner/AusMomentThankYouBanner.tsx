@@ -176,7 +176,7 @@ const sunSvgOuterSun = css`
     animation-duration: 2s;
     animation-direction: alternate;
     animation-iteration-count: infinite;
-    animation-timinig-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
+    animation-timing-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
 `;
 
 const sunSvgInnerSun = css`
@@ -196,7 +196,7 @@ const sunSvgInnerSun = css`
     animation-duration: 2s;
     animation-direction: alternate;
     animation-iteration-count: infinite;
-    animation-timinig-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
+    animation-timing-function: cubic-bezier(0.45, 0.26, 0.22, 0.79);
 
     &:hover {
         color: ${brandAlt[200]};
