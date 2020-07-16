@@ -460,18 +460,16 @@ const readMoreButtonText = css`
     text-align: start;
     white-space: nowrap;
 
-    transition: none;
+    transition: width 0.3s ease-in-out;
 `;
 
 const readMoreButtonTextExpanded = css`
     ${readMoreButtonText}
     width: 70px;
-
-    transition: width 0.3s ease-in-out;
 `;
 
 const readMoreButtonIconContainer = css`
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out;
 
     svg {
         display: block;
@@ -628,6 +626,39 @@ const ThankYouMessageMain: React.FC<ThankYouMessageMainProps> = ({
     );
 };
 
+interface ReadMoreButtonProps {
+    isExpanded: boolean;
+    onClick: () => void;
+}
+
+const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
+    isExpanded,
+    onClick,
+}: ReadMoreButtonProps) => {
+    const [readMoreText, setReadMoreText] = useState('Read more');
+
+    useEffect(() => {
+        setTimeout(() => {
+            setReadMoreText(isExpanded ? 'Read less' : 'Read more');
+        }, 150);
+    });
+
+    return (
+        <button className={readMoreButton} onClick={onClick}>
+            <div className={isExpanded ? readMoreButtonTextExpanded : readMoreButtonText}>
+                {readMoreText}
+            </div>
+            <div
+                className={
+                    isExpanded ? readMoreButtonIconContainerExpanded : readMoreButtonIconContainer
+                }
+            >
+                <SvgChevronDownSingle />
+            </div>
+        </button>
+    );
+};
+
 export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
     tracking,
     isSupporter,
@@ -766,27 +797,10 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                     </div>
 
                     <div className={buttonsContainer}>
-                        <button
-                            className={readMoreButton}
+                        <ReadMoreButton
+                            isExpanded={isExpanded}
                             onClick={(): void => setIsExpanded(!isExpanded)}
-                        >
-                            <div
-                                className={
-                                    isExpanded ? readMoreButtonTextExpanded : readMoreButtonText
-                                }
-                            >
-                                {isExpanded ? 'Read less' : 'Read more'}
-                            </div>
-                            <div
-                                className={
-                                    isExpanded
-                                        ? readMoreButtonIconContainerExpanded
-                                        : readMoreButtonIconContainer
-                                }
-                            >
-                                <SvgChevronDownSingle />
-                            </div>
-                        </button>
+                        />
 
                         <div className={thankYouMessageMainTabletContainer}>
                             <ThankYouMessageMain
