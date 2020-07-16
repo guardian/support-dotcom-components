@@ -457,6 +457,16 @@ const readMoreButton = css`
 const readMoreButtonText = css`
     width: 80px;
     text-align: start;
+    white-space: nowrap;
+
+    transition: none;
+`;
+
+const readMoreButtonTextExpanded = css`
+    ${readMoreButtonText}
+    width: 70px;
+
+    transition: width 0.3s ease-in-out;
 `;
 
 const readMoreButtonIconContainer = css`
@@ -733,7 +743,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
 
             <div className={buttonsContainer}>
                 <button className={readMoreButton} onClick={(): void => setIsExpanded(!isExpanded)}>
-                    <div className={readMoreButtonText}>
+                    <div className={isExpanded ? readMoreButtonTextExpanded : readMoreButtonText}>
                         {isExpanded ? 'Read less' : 'Read more'}
                     </div>
                     <div
