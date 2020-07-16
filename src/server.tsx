@@ -4,7 +4,7 @@ import { Context } from 'aws-lambda';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { renderHtmlDocument } from './utils/renderHtmlDocument';
-import { fetchConfiguredEpicTests } from './api/contributionsApi';
+import { fetchConfiguredEpicTests, fetchDefaultBannerContent } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import { JsComponent, getEpic } from './components/ContributionsEpic';
 import {
@@ -31,9 +31,10 @@ import { EpicProps } from './components/modules/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
 import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
 import { BannerPageTracking, BannerTestTracking, BannerTargeting } from './components/BannerTypes';
-import { BannerProps } from './components/modules/Banner';
+import { BannerProps } from './components/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
+import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -201,6 +202,12 @@ const buildEpicData = async (
     };
 };
 
+const [, fetchDefaultBannerContentCached] = cacheAsync(
+    fetchDefaultBannerContent,
+    60,
+    'fetchDefaultBannerContent',
+);
+
 const buildBannerData = async (
     pageTracking: BannerPageTracking,
     targeting: BannerTargeting,
@@ -208,6 +215,7 @@ const buildBannerData = async (
     req: express.Request,
 ): Promise<BannerDataResponse> => {
     const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
+    const bannerData = await fetchDefaultBannerContentCached();
 
     if (selectedTest) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;
@@ -224,6 +232,8 @@ const buildBannerData = async (
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
             isSupporter: !targeting.showSupportMessaging,
+            countryCode: targeting.countryCode,
+            data: bannerData,
             tickerSettings,
         };
 
@@ -360,6 +370,25 @@ const setComponentCacheHeaders = (res: express.Response) => {
     res.setHeader('Surrogate-Control', 'max-age=300');
     res.setHeader('Cache-Control', 'max-age=120');
 };
+
+app.get(
+    `/${DefaultContributionsBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/contributionsBanners/ContributionsBanner.js'
+                : '/modules/contributionsBanners/ContributionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
 app.get(
     `/${AusMomentContributionsBannerPath}`,

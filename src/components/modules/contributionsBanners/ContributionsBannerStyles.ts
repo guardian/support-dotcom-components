@@ -15,6 +15,7 @@ export const styles = {
         padding: 5px;
         display: block;
         margin: 0 auto;
+        max-width: 50%;
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
