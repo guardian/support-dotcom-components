@@ -17,6 +17,7 @@ import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerProps } from '../Banner';
 import { addTrackingParams } from '../../../lib/tracking';
+import { setContributionsBannerClosedTimestamp } from '../contributionsBanners/localStorage';
 
 const banner = css`
     display: flex;
@@ -635,200 +636,235 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }
+    const [showBanner, setShowBanner] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
 
     const supportersCount = tickerSettings.tickerData.total;
 
+    const closeBanner = (): void => {
+        setContributionsBannerClosedTimestamp();
+        setShowBanner(false);
+    };
+
     return (
-        <div className={banner}>
-            <div className={sunSvgAndMessagesContainer}>
-                <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
-                    <div className={sunSvgAndThankYouContainer}>
-                        <svg className={sunSvgMobile} viewBox="-16 -10 32 20">
-                            <a
-                                href={
-                                    'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
-                                }
-                            >
-                                <circle
-                                    className={sunSvgOuterSun}
-                                    r="9"
-                                    cx="0"
-                                    cy="0"
-                                    fill="currentColor"
-                                />
-                                <circle
-                                    className={sunSvgInnerSun}
-                                    r="8.5"
-                                    cx="0"
-                                    cy="0"
-                                    fill="currentColor"
-                                />
-                            </a>
-                        </svg>
-                        <svg className={sunSvgTablet} viewBox="-16 -16 32 32">
-                            <a
-                                href={
-                                    'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
-                                }
-                            >
-                                <circle
-                                    className={sunSvgOuterSun}
-                                    r="14"
-                                    cx="0"
-                                    cy="0"
-                                    fill="currentColor"
-                                />
-                                <circle
-                                    className={sunSvgInnerSun}
-                                    r="13.25"
-                                    cx="0"
-                                    cy="0"
-                                    fill="currentColor"
-                                />
-                            </a>
-                        </svg>
-                        <svg className={sunSvgDesktop} viewBox="-16 -16 32 32">
-                            <a
-                                href={
-                                    'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
-                                }
-                            >
-                                <circle
-                                    className={sunSvgOuterSun}
-                                    r="14.75"
-                                    cx="0"
-                                    cy="0"
-                                    fill="currentColor"
-                                />
-                                <circle
-                                    className={sunSvgInnerSun}
-                                    r="14.25"
-                                    cx="0"
-                                    cy="0"
-                                    fill="currentColor"
-                                />
-                            </a>
-                        </svg>
-                        <div className={thankYouMessageInSunContainer}>
-                            <div className={thankYouMessageInSun}>
-                                <div className={thankYouMessageInSunThankYou}>Thank you!</div>
-                                <div className={thankYouMessageInSunSupportersCount}>
-                                    {supportersCount.toLocaleString()}
-                                </div>
-                                <div className={thankYouMessageInSunTagLine}>
-                                    supporters in Australia
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={thankYouMessageMainMobileContainer}>
-                        <ThankYouMessageMain isExpanded={isExpanded} isSupporter={!!isSupporter} />
-                    </div>
-                </div>
-                <div className={closeButtonContainer}>
-                    <div className={closeButtonContainerMobile}>
-                        <ThemeProvider theme={brandAltTheme}>
-                            <Button icon={<SvgCross />} priority="subdued" hideLabel />
-                        </ThemeProvider>
-                    </div>
-                    <div className={closeButtonContainerTablet}>
-                        <ThemeProvider theme={brandAltTheme}>
-                            <Button icon={<SvgCross />} priority="tertiary" hideLabel />
-                        </ThemeProvider>
-                    </div>
-                </div>
-            </div>
-
-            <div className={buttonsContainer}>
-                <button className={readMoreButton} onClick={(): void => setIsExpanded(!isExpanded)}>
-                    <div className={isExpanded ? readMoreButtonTextExpanded : readMoreButtonText}>
-                        {isExpanded ? 'Read less' : 'Read more'}
-                    </div>
-                    <div
-                        className={
-                            isExpanded
-                                ? readMoreButtonIconContainerExpanded
-                                : readMoreButtonIconContainer
-                        }
-                    >
-                        <SvgChevronDownSingle />
-                    </div>
-                </button>
-
-                <div className={thankYouMessageMainTabletContainer}>
-                    <ThankYouMessageMain isExpanded={isExpanded} isSupporter={!!isSupporter} />
-                </div>
-
-                <div className={ctaButtonContainer}>
-                    {isSupporter ? (
-                        <div className={supporterCtaContainer}>
-                            <div className={socialShareContainer}>
-                                <div className={socialShareLinksContainer}>
-                                    <ThemeProvider theme={brandAltTheme}>
-                                        <LinkButton
-                                            icon={<SvgFacebook />}
-                                            priority="primary"
-                                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
-                                            hideLabel
-                                        />
-                                    </ThemeProvider>
-                                    <ThemeProvider theme={brandAltTheme}>
-                                        <LinkButton
-                                            icon={<SvgTwitter />}
-                                            priority="primary"
-                                            href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
-                                            hideLabel
-                                        />
-                                    </ThemeProvider>
-                                    <ThemeProvider theme={brandAltTheme}>
-                                        <LinkButton
-                                            icon={<SvgEnvelope />}
-                                            priority="primary"
-                                            href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
-                                            hideLabel
-                                        />
-                                    </ThemeProvider>
-                                </div>
-                                <div className={socialShareMessage}>Share you support</div>
-                            </div>
-                            <div className={hearFromSupportersCtaContainer}>
-                                <ThemeProvider theme={brandAltTheme}>
-                                    <LinkButton
+        <>
+            {showBanner ? (
+                <div className={banner}>
+                    <div className={sunSvgAndMessagesContainer}>
+                        <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
+                            <div className={sunSvgAndThankYouContainer}>
+                                <svg className={sunSvgMobile} viewBox="-16 -10 32 20">
+                                    <a
                                         href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_button'
+                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
                                         }
-                                        priority="tertiary"
                                     >
-                                        Hear from supporters
-                                    </LinkButton>
-                                </ThemeProvider>
+                                        <circle
+                                            className={sunSvgOuterSun}
+                                            r="9"
+                                            cx="0"
+                                            cy="0"
+                                            fill="currentColor"
+                                        />
+                                        <circle
+                                            className={sunSvgInnerSun}
+                                            r="8.5"
+                                            cx="0"
+                                            cy="0"
+                                            fill="currentColor"
+                                        />
+                                    </a>
+                                </svg>
+                                <svg className={sunSvgTablet} viewBox="-16 -16 32 32">
+                                    <a
+                                        href={
+                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
+                                        }
+                                    >
+                                        <circle
+                                            className={sunSvgOuterSun}
+                                            r="14"
+                                            cx="0"
+                                            cy="0"
+                                            fill="currentColor"
+                                        />
+                                        <circle
+                                            className={sunSvgInnerSun}
+                                            r="13.25"
+                                            cx="0"
+                                            cy="0"
+                                            fill="currentColor"
+                                        />
+                                    </a>
+                                </svg>
+                                <svg className={sunSvgDesktop} viewBox="-16 -16 32 32">
+                                    <a
+                                        href={
+                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
+                                        }
+                                    >
+                                        <circle
+                                            className={sunSvgOuterSun}
+                                            r="14.75"
+                                            cx="0"
+                                            cy="0"
+                                            fill="currentColor"
+                                        />
+                                        <circle
+                                            className={sunSvgInnerSun}
+                                            r="14.25"
+                                            cx="0"
+                                            cy="0"
+                                            fill="currentColor"
+                                        />
+                                    </a>
+                                </svg>
+                                <div className={thankYouMessageInSunContainer}>
+                                    <div className={thankYouMessageInSun}>
+                                        <div className={thankYouMessageInSunThankYou}>
+                                            Thank you!
+                                        </div>
+                                        <div className={thankYouMessageInSunSupportersCount}>
+                                            {supportersCount.toLocaleString()}
+                                        </div>
+                                        <div className={thankYouMessageInSunTagLine}>
+                                            supporters in Australia
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={thankYouMessageMainMobileContainer}>
+                                <ThankYouMessageMain
+                                    isExpanded={isExpanded}
+                                    isSupporter={!!isSupporter}
+                                />
                             </div>
                         </div>
-                    ) : (
-                        <div className={nonSupporterCtaContainer}>
-                            <ThemeProvider theme={brandAltTheme}>
-                                <LinkButton
-                                    href={addTrackingParams(
-                                        'https://support.theguardian.com/contribute',
-                                        tracking,
-                                    )}
-                                    size="small"
-                                >
-                                    Support the Guardian
-                                </LinkButton>
-                            </ThemeProvider>
-                            <div className={secondaryCtaContainer}>
-                                {/* TODO: Add link to article with tracking */}
+                        <div className={closeButtonContainer}>
+                            <div className={closeButtonContainerMobile}>
                                 <ThemeProvider theme={brandAltTheme}>
-                                    <Link href="#">Hear from our editor</Link>
+                                    <Button
+                                        icon={<SvgCross />}
+                                        priority="subdued"
+                                        hideLabel
+                                        onClick={closeBanner}
+                                    />
+                                </ThemeProvider>
+                            </div>
+                            <div className={closeButtonContainerTablet}>
+                                <ThemeProvider theme={brandAltTheme}>
+                                    <Button
+                                        icon={<SvgCross />}
+                                        priority="tertiary"
+                                        hideLabel
+                                        onClick={closeBanner}
+                                    />
                                 </ThemeProvider>
                             </div>
                         </div>
-                    )}
+                    </div>
+
+                    <div className={buttonsContainer}>
+                        <button
+                            className={readMoreButton}
+                            onClick={(): void => setIsExpanded(!isExpanded)}
+                        >
+                            <div
+                                className={
+                                    isExpanded ? readMoreButtonTextExpanded : readMoreButtonText
+                                }
+                            >
+                                {isExpanded ? 'Read less' : 'Read more'}
+                            </div>
+                            <div
+                                className={
+                                    isExpanded
+                                        ? readMoreButtonIconContainerExpanded
+                                        : readMoreButtonIconContainer
+                                }
+                            >
+                                <SvgChevronDownSingle />
+                            </div>
+                        </button>
+
+                        <div className={thankYouMessageMainTabletContainer}>
+                            <ThankYouMessageMain
+                                isExpanded={isExpanded}
+                                isSupporter={!!isSupporter}
+                            />
+                        </div>
+
+                        <div className={ctaButtonContainer}>
+                            {isSupporter ? (
+                                <div className={supporterCtaContainer}>
+                                    <div className={socialShareContainer}>
+                                        <div className={socialShareLinksContainer}>
+                                            <ThemeProvider theme={brandAltTheme}>
+                                                <LinkButton
+                                                    icon={<SvgFacebook />}
+                                                    priority="primary"
+                                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
+                                                    hideLabel
+                                                />
+                                            </ThemeProvider>
+                                            <ThemeProvider theme={brandAltTheme}>
+                                                <LinkButton
+                                                    icon={<SvgTwitter />}
+                                                    priority="primary"
+                                                    href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
+                                                    hideLabel
+                                                />
+                                            </ThemeProvider>
+                                            <ThemeProvider theme={brandAltTheme}>
+                                                <LinkButton
+                                                    icon={<SvgEnvelope />}
+                                                    priority="primary"
+                                                    href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
+                                                    hideLabel
+                                                />
+                                            </ThemeProvider>
+                                        </div>
+                                        <div className={socialShareMessage}>Share you support</div>
+                                    </div>
+                                    <div className={hearFromSupportersCtaContainer}>
+                                        <ThemeProvider theme={brandAltTheme}>
+                                            <LinkButton
+                                                href={
+                                                    'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_button'
+                                                }
+                                                priority="tertiary"
+                                            >
+                                                Hear from supporters
+                                            </LinkButton>
+                                        </ThemeProvider>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={nonSupporterCtaContainer}>
+                                    <ThemeProvider theme={brandAltTheme}>
+                                        <LinkButton
+                                            href={addTrackingParams(
+                                                'https://support.theguardian.com/contribute',
+                                                tracking,
+                                            )}
+                                            size="small"
+                                        >
+                                            Support the Guardian
+                                        </LinkButton>
+                                    </ThemeProvider>
+                                    <div className={secondaryCtaContainer}>
+                                        {/* TODO: Add link to article with tracking */}
+                                        <ThemeProvider theme={brandAltTheme}>
+                                            <Link href="#">Hear from our editor</Link>
+                                        </ThemeProvider>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            ) : null}
+        </>
     );
 };
