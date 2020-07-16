@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { css } from 'emotion';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body, textSans } from '@guardian/src-foundations/typography';
@@ -551,6 +551,17 @@ const ThankYouMessageMain: React.FC<ThankYouMessageMainProps> = ({
     isExpanded,
     isSupporter,
 }: ThankYouMessageMainProps) => {
+    const bodyRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (bodyRef.current && !isExpanded) {
+            bodyRef.current.scroll({
+                top: 0,
+                behavior: 'smooth',
+            });
+        }
+    }, [isExpanded]);
+
     return (
         <div className={thankYouMessageMain}>
             <div className={thankYouMessageMainHeader}>
@@ -564,7 +575,10 @@ const ThankYouMessageMain: React.FC<ThankYouMessageMainProps> = ({
                     <div>something powerful</div>
                 </div>
             </div>
-            <div className={isExpanded ? thankYouMessageMainBodyExpanded : thankYouMessageMainBody}>
+            <div
+                ref={bodyRef}
+                className={isExpanded ? thankYouMessageMainBodyExpanded : thankYouMessageMainBody}
+            >
                 {isSupporter ? (
                     <>
                         <div>
