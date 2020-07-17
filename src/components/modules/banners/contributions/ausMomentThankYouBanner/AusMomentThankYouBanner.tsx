@@ -489,13 +489,6 @@ const ctaButtonContainer = css`
     align-items: center;
 `;
 
-const secondaryCtaContainer = css`
-    display: none;
-    ${from.tablet} {
-        display: block;
-    }
-`;
-
 const supportTheGuardianLink = css`
     ${textSans.medium()}
     font-weight: 700;
@@ -902,13 +895,6 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                     >
                                         Support the Guardian
                                     </a>
-                                    <div className={secondaryCtaContainer}>
-                                        <ThemeProvider theme={brandAltTheme}>
-                                            <Link href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters">
-                                                Hear from our editor
-                                            </Link>
-                                        </ThemeProvider>
-                                    </div>
                                 </div>
                             )}
                         </div>
