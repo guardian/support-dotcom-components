@@ -3,8 +3,7 @@ import { css } from 'emotion';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { Button, LinkButton } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
+import { Button } from '@guardian/src-button';
 import {
     SvgChevronDownSingle,
     SvgCross,
@@ -510,6 +509,28 @@ const supportTheGuardianLink = css`
     }
 `;
 
+const hearFromOurSupportersLink = css`
+    ${textSans.medium()}
+    font-weight: 700;
+    padding: 0 ${space[5]}px;
+    padding-bottom: 2px;
+    height: 44px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 44px;
+    border: 1px solid ${neutral[7]};
+    color: ${neutral[7]};
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background-color: ${brandAlt[300]};
+    }
+`;
+
 const socialShareContainer = css`
     display: flex;
     align-items: center;
@@ -873,16 +894,14 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         <div className={socialShareMessage}>Share you support</div>
                                     </div>
                                     <div className={hearFromSupportersCtaContainer}>
-                                        <ThemeProvider theme={brandAltTheme}>
-                                            <LinkButton
-                                                href={
-                                                    'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_button'
-                                                }
-                                                priority="tertiary"
-                                            >
-                                                Hear from supporters
-                                            </LinkButton>
-                                        </ThemeProvider>
+                                        <a
+                                            className={hearFromOurSupportersLink}
+                                            href={
+                                                'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_button'
+                                            }
+                                        >
+                                            Hear from supporters
+                                        </a>
                                     </div>
                                 </div>
                             ) : (
