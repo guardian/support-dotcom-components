@@ -3,7 +3,6 @@ import { css } from 'emotion';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { Button } from '@guardian/src-button';
 import {
     SvgChevronDownSingle,
     SvgCross,
@@ -11,8 +10,6 @@ import {
     SvgTwitter,
     SvgEnvelope,
 } from '@guardian/src-icons';
-import { ThemeProvider } from 'emotion-theming';
-import { brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerProps } from '../BannerTypes';
 import { addTrackingParams } from '../../../../../lib/tracking';
@@ -395,20 +392,6 @@ const closeButtonContainer = css`
     }
 `;
 
-const closeButtonContainerMobile = css`
-    display: block;
-    ${from.tablet} {
-        display: none;
-    }
-`;
-
-const closeButtonContainerTablet = css`
-    display: none;
-    ${from.tablet} {
-        display: block;
-    }
-`;
-
 const buttonsContainer = css`
     display: flex;
     flex-direction: column;
@@ -528,6 +511,38 @@ const hearFromOurSupportersLink = css`
 
     &:hover {
         background-color: #e26520;
+    }
+`;
+
+const closeButton = css`
+    ${textSans.medium()}
+    font-weight: 700;
+    height: 44px;
+    width: 44px;
+    padding: 0;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 44px;
+    border: none;
+    color: ${neutral[7]};
+    background: none;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+
+    svg {
+        display: block;
+        width: 30px;
+        height: auto;
+    }
+
+    ${from.tablet} {
+        border: 1px solid ${neutral[7]};
+        &:hover {
+            background-color: #e26520;
+        }
     }
 `;
 
@@ -831,26 +846,9 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
                         <div className={closeButtonContainer}>
-                            <div className={closeButtonContainerMobile}>
-                                <ThemeProvider theme={brandAltTheme}>
-                                    <Button
-                                        icon={<SvgCross />}
-                                        priority="subdued"
-                                        hideLabel
-                                        onClick={closeBanner}
-                                    />
-                                </ThemeProvider>
-                            </div>
-                            <div className={closeButtonContainerTablet}>
-                                <ThemeProvider theme={brandAltTheme}>
-                                    <Button
-                                        icon={<SvgCross />}
-                                        priority="tertiary"
-                                        hideLabel
-                                        onClick={closeBanner}
-                                    />
-                                </ThemeProvider>
-                            </div>
+                            <button className={closeButton} onClick={closeBanner}>
+                                <SvgCross />
+                            </button>
                         </div>
                     </div>
 
