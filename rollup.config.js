@@ -33,9 +33,13 @@ const config = [
         'src/components/modules/banners/contributions/AusMomentContributionsBanner.tsx',
         'dist/modules/banners/contributions/AusMomentContributionsBanner.js',
     ],
+    [
+        'aus-thank-you-banner',
+        'src/components/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.tsx',
+        'dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js',
+    ],
 ].map(([name, entryPoint, target]) => {
     const isProd = process.env.NODE_ENV === 'production';
-
     return {
         input: entryPoint,
         output: {

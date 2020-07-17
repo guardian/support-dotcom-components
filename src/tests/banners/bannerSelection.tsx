@@ -4,6 +4,7 @@ import {
     BannerTestSelection,
 } from '../../components/modules/banners/contributions/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
+import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 
@@ -70,6 +71,8 @@ const redeployedSinceLastClosed = (targeting: BannerTargeting): Promise<boolean>
     }
 };
 
+const AUS_MOMENT_THANK_YOU_BANNER_LAUNCH_DATE = new Date('2020-07-19T23:30:00Z');
+
 // TODO - implement test selection properly
 export const selectBannerTest = (
     targeting: BannerTargeting,
@@ -78,7 +81,12 @@ export const selectBannerTest = (
 ): Promise<BannerTestSelection | null> => {
     return redeployedSinceLastClosed(targeting).then(hasRedeployed => {
         if (hasRedeployed) {
-            const tests = [AusMomentContributionsBanner];
+            const now = new Date();
+            const tests = [
+                now < AUS_MOMENT_THANK_YOU_BANNER_LAUNCH_DATE
+                    ? AusMomentContributionsBanner
+                    : AusMomentThankYouBanner,
+            ];
             const testToRun = tests.find(
                 test =>
                     targeting.alreadyVisitedCount >= test.minPageViews &&
