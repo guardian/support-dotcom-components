@@ -687,7 +687,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                 <svg className={sunSvgMobile} viewBox="-16 -10 32 20">
                                     <a
                                         href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
+                                            'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
                                         }
                                     >
                                         <circle
@@ -709,7 +709,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                 <svg className={sunSvgTablet} viewBox="-16 -16 32 32">
                                     <a
                                         href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
+                                            'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
                                         }
                                     >
                                         <circle
@@ -731,7 +731,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                 <svg className={sunSvgDesktop} viewBox="-16 -16 32 32">
                                     <a
                                         href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_sun'
+                                            'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
                                         }
                                     >
                                         <circle
@@ -845,7 +845,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         <ThemeProvider theme={brandAltTheme}>
                                             <LinkButton
                                                 href={
-                                                    'https://support.theguardian.com/aus-2020-map?INTCMP=AusMomentContributionsBanner_control_button'
+                                                    'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_button'
                                                 }
                                                 priority="tertiary"
                                             >
