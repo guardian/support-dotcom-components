@@ -868,9 +868,10 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         </LinkButton>
                                     </ThemeProvider>
                                     <div className={secondaryCtaContainer}>
-                                        {/* TODO: Add link to article with tracking */}
                                         <ThemeProvider theme={brandAltTheme}>
-                                            <Link href="#">Hear from our editor</Link>
+                                            <Link href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters">
+                                                Hear from our editor
+                                            </Link>
                                         </ThemeProvider>
                                     </div>
                                 </div>
