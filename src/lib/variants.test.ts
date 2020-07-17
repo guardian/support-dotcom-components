@@ -76,6 +76,7 @@ const targetingDefault: EpicTargeting = {
     isRecurringContributor: false,
     lastOneOffContributionDate: undefined,
     mvtId: 2,
+    hasOptedOutOfArticleCount: false,
 };
 
 describe('findTestAndVariant', () => {
@@ -96,11 +97,12 @@ describe('findTestAndVariant', () => {
         expect(got?.result?.variant.name).toBe('control-example-1');
     });
 
-    it('should return undefined if test has articlesViewedSettings', () => {
+    it('should return undefined if test has articlesViewedSettings and user has opted out of article count', () => {
         const tests = [testDefault];
         const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
+            hasOptedOutOfArticleCount: true,
         };
 
         const got = findTestAndVariant(tests, targeting);

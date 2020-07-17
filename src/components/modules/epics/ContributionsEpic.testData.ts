@@ -78,6 +78,7 @@ const targeting: EpicTargeting = {
         { week: 18337, count: 10 },
         { week: 18330, count: 5 },
     ],
+    hasOptedOutOfArticleCount: false,
     countryCode: 'GB',
 };
 

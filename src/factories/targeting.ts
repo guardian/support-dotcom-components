@@ -10,4 +10,5 @@ export default Factory.define<EpicTargeting>(() => ({
     isRecurringContributor: false,
     tags: [],
     showSupportMessaging: true,
+    hasOptedOutOfArticleCount: false,
 }));
