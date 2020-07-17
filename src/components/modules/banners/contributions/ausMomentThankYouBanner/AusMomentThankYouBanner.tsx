@@ -511,6 +511,29 @@ const socialShareLinksContainer = css`
     }
 `;
 
+const socialShareLink = css`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 44px;
+    background-color: ${neutral[7]};
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background-color: ${neutral[20]};
+    }
+
+    svg {
+        fill: currentColor;
+        color: ${neutral[100]};
+        display: block;
+        width: 30px;
+    }
+`;
+
 const socialShareMessage = css`
     ${textSans.small()}
 `;
@@ -814,30 +837,24 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                 <div className={supporterCtaContainer}>
                                     <div className={socialShareContainer}>
                                         <div className={socialShareLinksContainer}>
-                                            <ThemeProvider theme={brandAltTheme}>
-                                                <LinkButton
-                                                    icon={<SvgFacebook />}
-                                                    priority="primary"
-                                                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
-                                                    hideLabel
-                                                />
-                                            </ThemeProvider>
-                                            <ThemeProvider theme={brandAltTheme}>
-                                                <LinkButton
-                                                    icon={<SvgTwitter />}
-                                                    priority="primary"
-                                                    href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
-                                                    hideLabel
-                                                />
-                                            </ThemeProvider>
-                                            <ThemeProvider theme={brandAltTheme}>
-                                                <LinkButton
-                                                    icon={<SvgEnvelope />}
-                                                    priority="primary"
-                                                    href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
-                                                    hideLabel
-                                                />
-                                            </ThemeProvider>
+                                            <a
+                                                className={socialShareLink}
+                                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
+                                            >
+                                                <SvgFacebook />
+                                            </a>
+                                            <a
+                                                className={socialShareLink}
+                                                href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
+                                            >
+                                                <SvgTwitter />
+                                            </a>
+                                            <a
+                                                className={socialShareLink}
+                                                href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
+                                            >
+                                                <SvgEnvelope />
+                                            </a>
                                         </div>
                                         <div className={socialShareMessage}>Share you support</div>
                                     </div>
