@@ -496,6 +496,26 @@ const secondaryCtaContainer = css`
     }
 `;
 
+const supportTheGuardianLink = css`
+    ${textSans.medium()}
+    font-weight: 700;
+    padding: 0 ${space[4]}px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 36px;
+    color: ${neutral[100]};
+    text-decoration: none;
+    background-color: ${neutral[7]};
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background-color: ${neutral[20]};
+    }
+`;
+
 const socialShareContainer = css`
     display: flex;
     align-items: center;
@@ -873,17 +893,15 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                 </div>
                             ) : (
                                 <div className={nonSupporterCtaContainer}>
-                                    <ThemeProvider theme={brandAltTheme}>
-                                        <LinkButton
-                                            href={addTrackingParams(
-                                                'https://support.theguardian.com/contribute',
-                                                tracking,
-                                            )}
-                                            size="small"
-                                        >
-                                            Support the Guardian
-                                        </LinkButton>
-                                    </ThemeProvider>
+                                    <a
+                                        className={supportTheGuardianLink}
+                                        href={addTrackingParams(
+                                            'https://support.theguardian.com/contribute',
+                                            tracking,
+                                        )}
+                                    >
+                                        Support the Guardian
+                                    </a>
                                     <div className={secondaryCtaContainer}>
                                         <ThemeProvider theme={brandAltTheme}>
                                             <Link href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters">
