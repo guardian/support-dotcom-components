@@ -492,13 +492,14 @@ const ctaButtonContainer = css`
 const supportTheGuardianLink = css`
     ${textSans.medium()}
     font-weight: 700;
-    padding: 0 ${space[4]}px;
-    height: 36px;
+    padding: 0 ${space[5]}px;
+    padding-bottom: 2px;
+    height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border-radius: 36px;
+    border-radius: 44px;
     color: ${neutral[100]};
     text-decoration: none;
     background-color: ${neutral[7]};
