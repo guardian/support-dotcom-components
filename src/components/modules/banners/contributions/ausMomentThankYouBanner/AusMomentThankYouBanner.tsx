@@ -483,7 +483,7 @@ const supportTheGuardianLink = css`
     cursor: pointer;
     border-radius: 44px;
     color: ${neutral[100]};
-    text-decoration: none;
+    text-decoration: none !important;
     background-color: ${neutral[7]};
     transition: 0.3s ease-in-out;
 
@@ -506,7 +506,7 @@ const hearFromOurSupportersLink = css`
     border-radius: 44px;
     border: 1px solid ${neutral[7]};
     color: ${neutral[7]};
-    text-decoration: none;
+    text-decoration: none !important;
     transition: 0.3s ease-in-out;
 
     &:hover {
@@ -529,7 +529,7 @@ const closeButton = css`
     border: none;
     color: ${neutral[7]};
     background: none;
-    text-decoration: none;
+    text-decoration: none !important;
     transition: 0.3s ease-in-out;
 
     svg {
