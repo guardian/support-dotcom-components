@@ -527,7 +527,7 @@ const hearFromOurSupportersLink = css`
     transition: 0.3s ease-in-out;
 
     &:hover {
-        background-color: ${brandAlt[300]};
+        background-color: #e26520;
     }
 `;
 
