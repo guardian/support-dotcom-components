@@ -510,7 +510,7 @@ const hearFromOurSupportersLink = css`
     transition: 0.3s ease-in-out;
 
     &:hover {
-        background-color: #e26520;
+        background-color: #ee6f19;
     }
 `;
 
@@ -541,7 +541,7 @@ const closeButton = css`
     ${from.tablet} {
         border: 1px solid ${neutral[7]};
         &:hover {
-            background-color: #e26520;
+            background-color: #ee6f19;
         }
     }
 `;
