@@ -41,9 +41,18 @@ app.options('*', cors());
 
 app.use(loggingMiddleware);
 
+const REQUIRED_ENV_VARS = ['BASE_URL'];
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
-    res.header('Content-Type', 'text/plain');
-    res.send('OK');
+    const allRequiredEnvVarsSet = REQUIRED_ENV_VARS.every(name => !!process.env[name]);
+
+    if (allRequiredEnvVarsSet) {
+        res.header('Content-Type', 'text/plain');
+        res.send('OK');
+    } else {
+        res.status(500);
+        res.header('Content-Type', 'text/plain');
+        res.send('NOT OK: Some required env vars not set');
+    }
 });
 
 interface EpicDataResponse {

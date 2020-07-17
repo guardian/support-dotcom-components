@@ -67,3 +67,27 @@ describe('POST /epic', () => {
         expect(res.status).toEqual(400);
     });
 });
+
+describe('GET /healthcheck', () => {
+    it('returns a 200 when required env vars are set', async () => {
+        const oldEnv = { ...process.env };
+        process.env.BASE_URL = 'https://contributions.guardianapis.com';
+
+        const res = await request(app).get('/healthcheck');
+
+        expect(res.status).toEqual(200);
+
+        process.env = oldEnv;
+    });
+
+    it('returns a 500 when required env vars are not set', async () => {
+        const oldEnv = { ...process.env };
+        process.env.BASE_URL = undefined;
+
+        const res = await request(app).get('/healthcheck');
+
+        expect(res.status).toEqual(500);
+
+        process.env = oldEnv;
+    });
+});
