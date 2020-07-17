@@ -6,10 +6,10 @@ import {
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
 export const DigitalSubscriptionBannerPath = 'digital-subscriptions-banner.js';
+const name = 'DigitalSubscriptionBanner';
 
 export const DigitalSubscriptionBanner: BannerTest = {
-    name: 'DigitalSubscriptionBanner',
-    path: DigitalSubscriptionBannerPath,
+    name,
     bannerType: 'subscriptions',
     testAudience: 'NonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,4 +21,11 @@ export const DigitalSubscriptionBanner: BannerTest = {
         return false;
     },
     minPageViews: 2,
+    variants: [
+        {
+            name: 'control',
+            modulePath: DigitalSubscriptionBannerPath,
+            moduleName: name,
+        },
+    ],
 };

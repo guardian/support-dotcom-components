@@ -174,13 +174,13 @@ export const selectBannerTest = async (
             test.canRun(targeting, pageTracking) &&
             (await redeployedSinceLastClosed(targeting, test.bannerType))
         ) {
-            const variant = test.variants ? test.variants[0] : null; // TODO - use mvt
+            const variant = test.variants[0]; // TODO - use mvt
 
             const bannerTestSelection = {
                 test,
                 variant,
-                moduleUrl: variant ? `${baseUrl}/${variant.modulePath}` : `${baseUrl}/${test.path}`,
-                moduleName: variant ? variant.moduleName : test.name,
+                moduleUrl: `${baseUrl}/${variant.modulePath}`,
+                moduleName: variant.moduleName,
             };
 
             return Promise.resolve(bannerTestSelection);

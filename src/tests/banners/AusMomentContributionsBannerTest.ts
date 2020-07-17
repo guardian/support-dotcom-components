@@ -6,10 +6,10 @@ import {
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
 export const AusMomentContributionsBannerPath = 'aus-moment-banner.js';
+const name = 'AusMomentContributionsBanner';
 
 export const AusMomentContributionsBanner: BannerTest = {
-    name: 'AusMomentContributionsBanner',
-    path: AusMomentContributionsBannerPath,
+    name,
     bannerType: 'contributions',
     testAudience: 'All',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,7 +31,7 @@ export const AusMomentContributionsBanner: BannerTest = {
                 },
             },
             modulePath: AusMomentContributionsBannerPath,
-            moduleName: 'AusMomentContributionsBanner',
+            moduleName: name,
         },
     ],
 };

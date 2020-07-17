@@ -50,18 +50,17 @@ export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
 
 export interface BannerTest {
     name: string;
-    path: string;
     bannerType: BannerType;
     testAudience: BannerAudience;
     canRun: CanRun;
     minPageViews: number;
-    variants?: BannerVariant[];
+    variants: BannerVariant[];
 }
 
 // The result of selecting a test+variant for a user
 export interface BannerTestSelection {
     test: BannerTest;
-    variant: BannerVariant | null;
+    variant: BannerVariant;
     moduleUrl: string;
     moduleName: string;
 }

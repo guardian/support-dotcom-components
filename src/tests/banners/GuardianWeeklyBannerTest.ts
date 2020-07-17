@@ -6,10 +6,10 @@ import {
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
 export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
+const name = 'GuardianWeeklyBanner';
 
 export const GuardianWeeklyBanner: BannerTest = {
-    name: 'GuardianWeeklyBanner',
-    path: GuardianWeeklyBannerPath,
+    name,
     bannerType: 'subscriptions',
     testAudience: 'NonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,4 +21,11 @@ export const GuardianWeeklyBanner: BannerTest = {
         return false;
     },
     minPageViews: 2,
+    variants: [
+        {
+            name: 'control',
+            modulePath: GuardianWeeklyBannerPath,
+            moduleName: name,
+        },
+    ],
 };

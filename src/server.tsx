@@ -154,14 +154,13 @@ const buildBannerData = async (
 
         const testTracking: BannerTestTracking = {
             abTestName: test.name,
-            abTestVariant: variant ? variant.name : null,
-            campaignCode: variant ? buildBannerCampaignCode(test, variant) : null,
+            abTestVariant: variant.name,
+            campaignCode: buildBannerCampaignCode(test, variant),
         };
 
-        const tickerSettings =
-            variant && variant.tickerSettings
-                ? await addTickerDataToSettings(variant.tickerSettings)
-                : undefined;
+        const tickerSettings = variant.tickerSettings
+            ? await addTickerDataToSettings(variant.tickerSettings)
+            : undefined;
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
