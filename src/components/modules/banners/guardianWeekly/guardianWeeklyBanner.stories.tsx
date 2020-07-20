@@ -7,10 +7,21 @@ export default {
     title: 'Components/GuardianWeeklyBanner',
 };
 
+const tracking = {
+    ophanPageId: 'kbluzw2csbf83eabettt',
+    ophanComponentId: 'SUBSCRIPTIONS_BANNER',
+    platformId: 'GUARDIAN_WEB',
+    clientName: 'dcr',
+    referrerUrl: 'http://localhost:3030/Article',
+    abTestName: 'GuardianWeeklyBanner',
+    abTestVariant: 'control',
+    campaignCode: null,
+};
+
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <GuardianWeeklyBanner subscriptionUrl="/" signInUrl="/" />
+            <GuardianWeeklyBanner tracking={tracking} isSupporter={false} />
         </StorybookWrapper>
     );
 };

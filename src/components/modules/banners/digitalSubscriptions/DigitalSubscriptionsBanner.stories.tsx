@@ -9,10 +9,21 @@ export default {
     decorators: [withKnobs],
 };
 
+const tracking = {
+    ophanPageId: 'kbluzw2csbf83eaberrr',
+    ophanComponentId: 'SUBSCRIPTIONS_BANNER',
+    platformId: 'GUARDIAN_WEB',
+    clientName: 'dcr',
+    referrerUrl: 'http://localhost:3030/Article',
+    abTestName: 'DigitalSubscriptionsBanner',
+    abTestVariant: 'control',
+    campaignCode: null,
+};
+
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <DigitalSubscriptionsBanner subscriptionUrl="/" signInUrl="/" />
+            <DigitalSubscriptionsBanner tracking={tracking} isSupporter={false} />
         </StorybookWrapper>
     );
 };

@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from 'emotion-theming';
-import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
-import { brand } from '@guardian/src-foundations/themes';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
 import {
@@ -20,17 +17,18 @@ import {
     iconPanel,
     closeButton,
     logoContainer,
+    notNowButton,
+    becomeASubscriberButton,
+    linkStyle,
 } from './digitalSubscriptionsBannerStyles';
+import { BannerProps } from '../BannerTypes';
 
-type SubscriptionsBannerProps = {
-    subscriptionUrl: string;
-    signInUrl: string;
-};
-
-export const DigitalSubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
-    subscriptionUrl,
-    signInUrl,
-}: SubscriptionsBannerProps) => {
+export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    tracking,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    isSupporter,
+}: BannerProps) => {
     const [showBanner, closeBanner] = useState(true);
     return (
         <>
@@ -53,36 +51,35 @@ export const DigitalSubscriptionsBanner: React.FC<SubscriptionsBannerProps> = ({
                                 opinion. <strong>Live</strong>, constantly by your side, keeping you
                                 connected with the outside world.
                             </p>
-                            <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
+                            <a
+                                className={linkStyle}
+                                href="https://support.theguardian.com/uk/subscribe"
+                            >
+                                <div
                                     id="js-site-message--subscription-banner__cta"
                                     data-link-name="subscription-banner : cta"
-                                    priority="primary"
-                                    size="default"
-                                    href={subscriptionUrl}
+                                    className={becomeASubscriberButton}
                                 >
                                     <span className={buttonTextDesktop}>
                                         Become a digital subscriber
                                     </span>
                                     <span className={buttonTextTablet}>Become a subscriber</span>
                                     <span className={buttonTextMobile}>Subscribe now</span>
-                                </LinkButton>
-                            </ThemeProvider>
-                            <ThemeProvider theme={brand}>
-                                <Button
-                                    id="js-site-message--subscription-banner__cta-dismiss"
-                                    data-link-name="subscription-banner : not now"
-                                    onClick={(): void => closeBanner(false)}
-                                    priority="subdued"
-                                >
-                                    Not now
-                                </Button>
-                            </ThemeProvider>
+                                </div>
+                            </a>
+                            <button
+                                className={notNowButton}
+                                id="js-site-message--subscription-banner__cta-dismiss"
+                                data-link-name="subscription-banner : not now"
+                                onClick={(): void => closeBanner(false)}
+                            >
+                                Not now
+                            </button>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
                                 <a
                                     id="js-site-message--subscription-banner__sign-in"
-                                    href={signInUrl}
+                                    href="https://support.theguardian.com/uk/subscribe"
                                     data-link-name="subscription-banner : sign in"
                                 >
                                     Sign in

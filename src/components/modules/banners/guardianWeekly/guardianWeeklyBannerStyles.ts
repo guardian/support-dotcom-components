@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral, text, brandAlt } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
@@ -90,6 +90,36 @@ export const buttonTextMobileTablet = css`
     ${from.desktop} {
         display: none;
     }
+`;
+
+export const linkStyle = css`
+    text-decoration: none;
+    :visited {
+        color: ${text.primary};
+    }
+`;
+
+export const becomeASubscriberButton = css`
+    display: inline-block;
+    border-radius: 1.875rem;
+    background-color: ${brandAlt[400]};
+    padding: ${space[2]}px ${space[6]}px;
+    color: ${text.primary};
+    ${textSans.medium()};
+    font-weight: bold;
+`;
+
+export const notNowButton = css`
+    ${textSans.medium()};
+    font-weight: bold;
+    color: ${text.ctaPrimary};
+    border: 0;
+    border-radius: 0.25rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: inherit;
 `;
 
 export const siteMessage = css`

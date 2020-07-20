@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from 'emotion-theming';
-import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
-import { brand } from '@guardian/src-foundations/themes';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
 import {
@@ -18,17 +15,18 @@ import {
     iconPanel,
     closeButton,
     logoContainer,
+    notNowButton,
+    becomeASubscriberButton,
+    linkStyle,
 } from './guardianWeeklyBannerStyles';
+import { BannerProps } from '../BannerTypes';
 
-type WeeklyBannerProps = {
-    subscriptionUrl: string;
-    signInUrl: string;
-};
-
-export const GuardianWeeklyBanner: React.FC<WeeklyBannerProps> = ({
-    subscriptionUrl,
-    signInUrl,
-}: WeeklyBannerProps) => {
+export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    tracking,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    isSupporter,
+}: BannerProps) => {
     const [showBanner, closeBanner] = useState(true);
     return (
         <>
@@ -42,31 +40,35 @@ export const GuardianWeeklyBanner: React.FC<WeeklyBannerProps> = ({
                                 The Guardian Weekly, our essential world news magazine. Home
                                 delivery available wherever you are.
                             </p>
-                            <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
+                            <a
+                                className={linkStyle}
+                                href="https://support.theguardian.com/uk/subscribe"
+                            >
+                                <div
+                                    id="js-site-message--weekly-banner__cta"
                                     data-link-name="weekly-banner : cta"
-                                    priority="primary"
-                                    size="default"
-                                    href={subscriptionUrl}
+                                    className={becomeASubscriberButton}
                                 >
                                     <span className={buttonTextDesktop}>
                                         Become a Guardian Weekly subscriber
                                     </span>
                                     <span className={buttonTextMobileTablet}>Subscribe now</span>
-                                </LinkButton>
-                            </ThemeProvider>
-                            <ThemeProvider theme={brand}>
-                                <Button
-                                    data-link-name="weekly-banner : not now"
-                                    onClick={(): void => closeBanner(false)}
-                                    priority="subdued"
-                                >
-                                    Not now
-                                </Button>
-                            </ThemeProvider>
+                                </div>
+                            </a>
+                            <button
+                                className={notNowButton}
+                                id="js-site-message--weekly-banner__cta-dismiss"
+                                data-link-name="weekly-banner : not now"
+                                onClick={(): void => closeBanner(false)}
+                            >
+                                Not now
+                            </button>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a href={signInUrl} data-link-name="weekly-banner : sign in">
+                                <a
+                                    href="https://www.theguardian.com"
+                                    data-link-name="weekly-banner : sign in"
+                                >
                                     Sign in
                                 </a>{' '}
                                 to not see this again
