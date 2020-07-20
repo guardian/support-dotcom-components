@@ -19,7 +19,7 @@ const tracking = {
     abTestVariant: 'control',
     campaignCode: 'AusMomentContributionsBanner_control',
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER']
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };
 
 const tickerSettings = {

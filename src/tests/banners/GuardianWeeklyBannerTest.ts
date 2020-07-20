@@ -28,5 +28,5 @@ export const GuardianWeeklyBanner: BannerTest = {
             moduleName: name,
         },
     ],
-    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'
+    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
 };
