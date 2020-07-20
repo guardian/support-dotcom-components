@@ -86,8 +86,8 @@ const overlayNote = css`
     }
 
     a {
-        color: #ffffff;
-        text-decoration: underline;
+        color: #ffffff !important;
+        text-decoration: underline !important;
     }
 `;
 
