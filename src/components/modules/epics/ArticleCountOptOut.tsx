@@ -4,6 +4,7 @@ import { brand } from '@guardian/src-foundations/palette';
 import { textSans, body } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
+import { SvgClose } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brand as brandTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
@@ -43,6 +44,12 @@ const overlayContainer = css`
 `;
 
 const overlayHeader = css`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const overlayHeaderText = css`
     font-size: 17px;
     font-weight: bold;
 `;
@@ -77,6 +84,11 @@ const overlayNote = css`
     ${from.tablet} {
         display: block;
     }
+
+    a {
+        color: #ffffff;
+        text-decoration: underline;
+    }
 `;
 
 export interface ArticleCountOptOutProps {
@@ -87,36 +99,65 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     numArticles,
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [hasOptedOut, setHasOptedOut] = useState(false);
 
     return (
         <div className={optOutContainer}>
-            <button className={articleCountButton} onClick={() => setIsOpen(!isOpen)}>
+            <button className={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {numArticles} articles
             </button>
             {isOpen && (
                 <div className={overlayContainer}>
-                    <div className={overlayHeader}>What's this?</div>
+                    <div className={overlayHeader}>
+                        <div className={overlayHeaderText}>
+                            {hasOptedOut ? "You've opted out" : "What's this?"}
+                        </div>
+                        {hasOptedOut && (
+                            <Button
+                                onClick={(): void => setIsOpen(false)}
+                                icon={<SvgClose />}
+                                hideLabel
+                                size="small"
+                            ></Button>
+                        )}
+                    </div>
 
                     <div className={overlayBody}>
-                        We would like to remind you how many Guardian articles you’ve enjoyed on
-                        this device. Can we continue showing you this?
+                        {hasOptedOut
+                            ? "Starting from your next page view, we won't count the articles you read or show you this message for three months."
+                            : 'We would like to remind you how many Guardian articles you’ve enjoyed on this device. Can we continue showing you this?'}
                     </div>
 
-                    <div className={overlayCtaContainer}>
-                        <ThemeProvider theme={brandTheme}>
-                            <Button priority="tertiary" size="small">
-                                Yes, that's OK
-                            </Button>
-                        </ThemeProvider>
-                        <ThemeProvider theme={brandTheme}>
-                            <Button priority="primary" size="small">
-                                No, opt me out
-                            </Button>
-                        </ThemeProvider>
-                    </div>
+                    {!hasOptedOut && (
+                        <div className={overlayCtaContainer}>
+                            <ThemeProvider theme={brandTheme}>
+                                <Button priority="tertiary" size="small">
+                                    Yes, that&apos;s OK
+                                </Button>
+                            </ThemeProvider>
+                            <ThemeProvider theme={brandTheme}>
+                                <Button
+                                    onClick={(): void => setHasOptedOut(true)}
+                                    priority="primary"
+                                    size="small"
+                                >
+                                    No, opt me out
+                                </Button>
+                            </ThemeProvider>
+                        </div>
+                    )}
 
                     <div className={overlayNote}>
-                        Please note you cannot undo this action or opt back in
+                        {hasOptedOut ? (
+                            <span>
+                                If you have any questions, please{' '}
+                                <a href="https://www.theguardian.com/help/contact-us">
+                                    contact us.
+                                </a>
+                            </span>
+                        ) : (
+                            'Please note you cannot undo this action or opt back in.'
+                        )}
                     </div>
                 </div>
             )}
