@@ -52,7 +52,7 @@ describe('selectBannerTest', () => {
                 tracking,
                 '',
             ).then(result => {
-                expect(result && result.test.name).toBe('AusMomentContributionsBanner');
+                expect(result && result.test.name).toBe('AusMomentThankYouBanner');
             });
         });
 
@@ -65,7 +65,7 @@ describe('selectBannerTest', () => {
             _.resetCache('contributions', 'australia');
 
             return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('AusMomentContributionsBanner');
+                expect(result && result.test.name).toBe('AusMomentThankYouBanner');
             });
         });
 

@@ -18,8 +18,8 @@ export type BannerTargeting = {
 
 export type BannerTestTracking = {
     abTestName: string;
-    abTestVariant: string | null;
-    campaignCode: string | null;
+    abTestVariant: string;
+    campaignCode: string;
 };
 
 export type BannerPageTracking = {

@@ -35,6 +35,7 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
+import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -332,6 +333,25 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
                 : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${AusMomentThankYouBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
+                : '/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');

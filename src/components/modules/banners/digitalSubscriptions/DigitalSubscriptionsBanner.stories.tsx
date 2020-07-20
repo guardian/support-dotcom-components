@@ -17,7 +17,7 @@ const tracking = {
     referrerUrl: 'http://localhost:3030/Article',
     abTestName: 'DigitalSubscriptionsBanner',
     abTestVariant: 'control',
-    campaignCode: null,
+    campaignCode: '',
 };
 
 export const defaultStory = (): ReactElement => {

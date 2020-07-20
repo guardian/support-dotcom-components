@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
+import visualizer from 'rollup-plugin-visualizer';
 
 const tsOpts = {
     target: 'es2018',
@@ -26,16 +27,24 @@ const globals = {
 };
 
 const config = [
-    ['src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
+    ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
     [
+        'aus-banner',
         'src/components/modules/banners/contributions/AusMomentContributionsBanner.tsx',
         'dist/modules/banners/contributions/AusMomentContributionsBanner.js',
     ],
     [
+        'aus-thank-you-banner',
+        'src/components/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.tsx',
+        'dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js',
+    ],
+    [
+        'digital-subscriptions-banner',
         'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.tsx',
         'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js',
     ],
     [
+        'guardian-weekly-banner',
         'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
         'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
     ],
@@ -43,9 +52,9 @@ const config = [
     return {
         input: entryPoint,
         output: {
-            file: name,
+            file: target,
             format: 'es',
-            sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
+            sourcemap: isProd ? false : 'inline',
         },
         external: id => Object.keys(globals).some(key => id.startsWith(key)),
         plugins: [
@@ -72,6 +81,10 @@ const config = [
             terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
             externalGlobals(globals),
             filesize(),
+
+            // Note, visualizer is useful for *relative* sizes, but reports
+            // pre-minification.
+            visualizer({ sourcemap: !isProd, gzipSize: true, filename: `stats/${name}.html` }),
         ],
     };
 });
