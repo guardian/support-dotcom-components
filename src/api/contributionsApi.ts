@@ -64,11 +64,10 @@ export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
     return response.json();
 };
 
-const defaultBannerUrl =
-    'https://interactive.guim.co.uk/docsdata/1CIHCoe87hyPHosXx1pYeVUoohvmIqh9cC_kNlV-CMHQ.json';
-
 export const fetchDefaultBannerContent = async (): Promise<BannerData> => {
     const startTime = new Date().getTime();
+    const defaultBannerUrl =
+        'https://interactive.guim.co.uk/docsdata/1CIHCoe87hyPHosXx1pYeVUoohvmIqh9cC_kNlV-CMHQ.json';
 
     const response = await fetch(defaultBannerUrl);
     if (!response.ok) {
@@ -77,7 +76,7 @@ export const fetchDefaultBannerContent = async (): Promise<BannerData> => {
         );
     }
     const data = await response.json();
-    const bannerData = data?.sheets?.control;
+    const bannerData = data?.sheets?.control[0];
 
     const endTime = new Date().getTime();
     console.log(

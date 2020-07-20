@@ -11,6 +11,10 @@ export const styles = {
         border-top: 1px solid ${neutral[7]};
     `,
 
+    header: css`
+        ${body.medium({ fontWeight: 'bold' })};
+    `,
+
     copy: css`
         padding: 5px;
         display: block;
