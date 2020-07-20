@@ -20,6 +20,7 @@ import {
     linkStyle,
 } from './guardianWeeklyBannerStyles';
 import { BannerProps } from '../BannerTypes';
+import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,7 +28,12 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isSupporter,
 }: BannerProps) => {
-    const [showBanner, closeBanner] = useState(true);
+    const [showBanner, setShowBanner] = useState(true);
+    const closeBanner = (): void => {
+        setShowBanner(false);
+        setSubscriptionsBannerClosedTimestamp();
+    };
+
     return (
         <>
             {showBanner ? (
@@ -59,7 +65,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                 className={notNowButton}
                                 id="js-site-message--weekly-banner__cta-dismiss"
                                 data-link-name="weekly-banner : not now"
-                                onClick={(): void => closeBanner(false)}
+                                onClick={(): void => closeBanner()}
                             >
                                 Not now
                             </button>
@@ -82,7 +88,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                             />
                             <div className={iconPanel}>
                                 <button
-                                    onClick={(): void => closeBanner(false)}
+                                    onClick={(): void => closeBanner()}
                                     className={closeButton}
                                     data-link-name="weekly-banner : close"
                                     aria-label="Close"

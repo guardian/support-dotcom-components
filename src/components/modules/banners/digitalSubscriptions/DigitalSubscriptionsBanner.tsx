@@ -22,6 +22,7 @@ import {
     linkStyle,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../BannerTypes';
+import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -29,7 +30,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isSupporter,
 }: BannerProps) => {
-    const [showBanner, closeBanner] = useState(true);
+    const [showBanner, setShowBanner] = useState(true);
+    const closeBanner = (): void => {
+        setShowBanner(false);
+        setSubscriptionsBannerClosedTimestamp();
+    };
+
     return (
         <>
             {showBanner ? (
@@ -71,7 +77,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 className={notNowButton}
                                 id="js-site-message--subscription-banner__cta-dismiss"
                                 data-link-name="subscription-banner : not now"
-                                onClick={(): void => closeBanner(false)}
+                                onClick={(): void => closeBanner()}
                             >
                                 Not now
                             </button>
@@ -95,7 +101,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             />
                             <div className={iconPanel}>
                                 <button
-                                    onClick={(): void => closeBanner(false)}
+                                    onClick={(): void => closeBanner()}
                                     className={closeButton}
                                     id="js-site-message--subscription-banner__close-button"
                                     data-link-name="subscription-banner : close"

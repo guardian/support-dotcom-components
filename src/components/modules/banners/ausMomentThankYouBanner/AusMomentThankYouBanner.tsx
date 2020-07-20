@@ -13,7 +13,7 @@ import {
 import { from } from '@guardian/src-foundations/mq';
 import { BannerProps } from '../BannerTypes';
 import { addTrackingParams } from '../../../../lib/tracking';
-import { setContributionsBannerClosedTimestamp } from '../ausMomentContributionsBanner/localStorage';
+import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const banner = css`
     display: flex;

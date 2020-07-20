@@ -6,5 +6,8 @@ const setBannerClosedTimestamp = (name: string): void =>
         }),
     );
 
-export const setContributionsBannerClosedTimestamp = () =>
+export const setContributionsBannerClosedTimestamp = (): void =>
     setBannerClosedTimestamp('engagementBannerLastClosedAt');
+
+export const setSubscriptionsBannerClosedTimestamp = (): void =>
+    setBannerClosedTimestamp('subscriptionsBannerLastClosedAt');
