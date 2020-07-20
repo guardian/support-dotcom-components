@@ -30,13 +30,13 @@ const config = [
     ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
     [
         'aus-banner',
-        'src/components/modules/banners/contributions/AusMomentContributionsBanner.tsx',
-        'dist/modules/banners/contributions/AusMomentContributionsBanner.js',
+        'src/components/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.tsx',
+        'dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js',
     ],
     [
         'aus-thank-you-banner',
-        'src/components/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.tsx',
-        'dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js',
+        'src/components/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.tsx',
+        'dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js',
     ],
     [
         'digital-subscriptions-banner',
@@ -48,7 +48,8 @@ const config = [
         'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
         'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
     ],
-].map(([entryPoint, name]) => {
+].map(([name, entryPoint, target]) => {
+    const isProd = process.env.NODE_ENV === 'production';
     return {
         input: entryPoint,
         output: {

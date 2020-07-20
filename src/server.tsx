@@ -293,8 +293,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/banners/contributions/AusMomentContributionsBanner.js'
-                : '/modules/banners/contributions/AusMomentContributionsBanner.js';
+                ? '/../dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js'
+                : '/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
@@ -350,8 +350,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
-                : '/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
+                ? '/../dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
+                : '/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
