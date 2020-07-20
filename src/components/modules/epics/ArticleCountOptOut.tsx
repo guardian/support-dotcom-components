@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { css } from 'emotion';
 import { brand } from '@guardian/src-foundations/palette';
 import { textSans, body } from '@guardian/src-foundations/typography';
@@ -101,13 +101,34 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
+    const overlayRef = useRef<HTMLDivElement>(null);
+
+    const clickWasOutsideOverlay = (event: MouseEvent): boolean => {
+        if (overlayRef.current) {
+            return !overlayRef.current.contains(event.target as Node);
+        } else {
+            return true;
+        }
+    };
+
+    const handleClick = (event: MouseEvent): void => {
+        if (clickWasOutsideOverlay(event)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClick);
+        return (): void => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
     return (
         <div className={optOutContainer}>
             <button className={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {numArticles} articles
             </button>
             {isOpen && (
-                <div className={overlayContainer}>
+                <div className={overlayContainer} ref={overlayRef}>
                     <div className={overlayHeader}>
                         <div className={overlayHeaderText}>
                             {hasOptedOut ? "You've opted out" : "What's this?"}
