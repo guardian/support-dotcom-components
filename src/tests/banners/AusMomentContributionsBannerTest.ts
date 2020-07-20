@@ -34,4 +34,6 @@ export const AusMomentContributionsBanner: BannerTest = {
             moduleName: name,
         },
     ],
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER']
 };

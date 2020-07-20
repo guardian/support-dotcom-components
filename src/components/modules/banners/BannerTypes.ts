@@ -20,11 +20,12 @@ export type BannerTestTracking = {
     abTestName: string;
     abTestVariant: string;
     campaignCode: string;
+    componentType: string;
+    products?: string[]
 };
 
 export type BannerPageTracking = {
-    ophanPageId: string;
-    ophanComponentId: string;
+    ophanPageId: string
     platformId: string;
     referrerUrl: string;
     clientName: string;
@@ -55,6 +56,8 @@ export interface BannerTest {
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
+    componentType: string;
+    products?: string[]
 }
 
 // The result of selecting a test+variant for a user

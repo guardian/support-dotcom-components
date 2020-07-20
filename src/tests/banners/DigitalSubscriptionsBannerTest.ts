@@ -28,4 +28,5 @@ export const DigitalSubscriptionsBanner: BannerTest = {
             moduleName: name,
         },
     ],
+    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'
 };

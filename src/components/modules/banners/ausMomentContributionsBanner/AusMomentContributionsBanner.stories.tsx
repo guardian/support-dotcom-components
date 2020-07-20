@@ -12,13 +12,14 @@ export default {
 
 const tracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
-    ophanComponentId: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl: 'http://localhost:3030/Article',
     abTestName: 'AusMomentContributionsBanner',
     abTestVariant: 'control',
     campaignCode: 'AusMomentContributionsBanner_control',
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER']
 };
 
 const tickerSettings = {
