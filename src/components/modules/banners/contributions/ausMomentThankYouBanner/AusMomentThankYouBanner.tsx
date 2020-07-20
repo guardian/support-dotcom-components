@@ -492,6 +492,11 @@ const supportTheGuardianLink = css`
     }
 `;
 
+const hearMoreLink = css`
+    ${textSans.medium()}
+    color: ${neutral[7]};
+`;
+
 const hearFromOurSupportersLink = css`
     ${textSans.medium()}
     font-weight: 700;
@@ -912,6 +917,12 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         )}
                                     >
                                         Support the Guardian
+                                    </a>
+                                    <a
+                                        className={hearMoreLink}
+                                        href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters"
+                                    >
+                                        Hear more
                                     </a>
                                 </div>
                             )}
