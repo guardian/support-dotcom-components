@@ -1,5 +1,5 @@
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
-import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
+import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 
 describe('readerRevenueRegionFromCountryCode', () => {
@@ -21,7 +21,7 @@ describe('readerRevenueRegionFromCountryCode', () => {
     });
 });
 
-describe('SubscriptionsBanner canRun', () => {
+describe('DigitalSubscriptionsBanner canRun', () => {
     it('should return the correct targeting result', () => {
         const targetingTrue = {
             alreadyVisitedCount: 3,
@@ -68,11 +68,11 @@ describe('SubscriptionsBanner canRun', () => {
             referrerUrl: '',
             clientName: '',
         };
-        const canRun1 = DigitalSubscriptionBanner.canRun(targetingTrue, tracking);
+        const canRun1 = DigitalSubscriptionsBanner.canRun(targetingTrue, tracking);
         expect(canRun1).toBe(true);
-        const canRun2 = DigitalSubscriptionBanner.canRun(targetingFalse, tracking);
+        const canRun2 = DigitalSubscriptionsBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
-        const canRun3 = DigitalSubscriptionBanner.canRun(targetingFalse2, tracking);
+        const canRun3 = DigitalSubscriptionsBanner.canRun(targetingFalse2, tracking);
         expect(canRun3).toBe(false);
     });
 });

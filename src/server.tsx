@@ -33,7 +33,7 @@ import {
 } from './components/modules/banners/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
-import { DigitalSubscriptionBannerPath } from './tests/banners/DigitalSubscriptionBannerTest';
+import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 
 const app = express();
@@ -307,7 +307,7 @@ app.get(
 );
 
 app.get(
-    `/${DigitalSubscriptionBannerPath}`,
+    `/${DigitalSubscriptionsBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev

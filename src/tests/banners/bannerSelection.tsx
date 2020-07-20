@@ -7,7 +7,7 @@ import {
     BannerAudience,
 } from '../../components/modules/banners/BannerTypes';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
-import { DigitalSubscriptionBanner } from './DigitalSubscriptionBannerTest';
+import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
@@ -161,7 +161,7 @@ export const selectBannerTest = async (
 ): Promise<BannerTestSelection | null> => {
     const tests: BannerTest[] = [
         AusMomentContributionsBanner,
-        DigitalSubscriptionBanner,
+        DigitalSubscriptionsBanner,
         GuardianWeeklyBanner,
     ];
 

@@ -120,7 +120,7 @@ describe('selectBannerTest', () => {
             _.resetCache('subscriptions', 'united-states');
 
             return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('DigitalSubscriptionBanner');
+                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
             });
         });
 
@@ -133,7 +133,7 @@ describe('selectBannerTest', () => {
             _.resetCache('subscriptions', 'united-states');
 
             return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('DigitalSubscriptionBanner');
+                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
             });
         });
 
