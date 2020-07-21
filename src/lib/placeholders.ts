@@ -1,10 +1,6 @@
 import { getCountryName, getLocalCurrencySymbol } from './geolocation';
 
-export const replacePlaceholders = (
-    content: string | undefined,
-    numArticles: number,
-    countryCode?: string,
-): string => {
+export const replacePlaceholders = (content: string | undefined, countryCode?: string): string => {
     if (!content) {
         return '';
     }

@@ -182,11 +182,11 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
-    const cleanHighlighted = replacePlaceholders(variant.highlightedText, numArticles, countryCode);
-    const cleanHeading = replacePlaceholders(variant.heading, numArticles, countryCode);
+    const cleanHighlighted = replacePlaceholders(variant.highlightedText, countryCode);
+    const cleanHeading = replacePlaceholders(variant.heading, countryCode);
 
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
-        replacePlaceholders(paragraph, numArticles, countryCode),
+        replacePlaceholders(paragraph, countryCode),
     );
 
     if ([cleanHighlighted, cleanHeading].some(containsPlaceholder)) {
