@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
-import { AusMomentContributionsBanner } from './modules/contributionsBanners/AusMomentContributionsBanner';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
-import { TickerCountType, TickerEndType } from '../lib/variants';
+import { AusMomentThankYouBanner } from './AusMomentThankYouBanner';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 
 export default {
-    component: AusMomentContributionsBanner,
-    title: 'Components/AusMomentContributionsBanner',
+    component: AusMomentThankYouBanner,
+    title: 'Components/AusMomentThankYouBanner',
     decorators: [withKnobs],
 };
 
@@ -39,13 +39,10 @@ const tickerSettings = {
 
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
-    const total = number('total', 145_000);
-
-    tickerSettings.tickerData.total = total;
 
     return (
         <StorybookWrapper>
-            <AusMomentContributionsBanner
+            <AusMomentThankYouBanner
                 isSupporter={isSupporter}
                 tickerSettings={tickerSettings}
                 tracking={tracking}
@@ -54,4 +51,4 @@ export const defaultStory = (): ReactElement => {
     );
 };
 
-defaultStory.story = { name: 'Aus Moment' };
+defaultStory.story = { name: 'Aus Moment - Thank You banner' };

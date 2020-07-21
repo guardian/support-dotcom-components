@@ -3,12 +3,12 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { replacePlaceholders, containsPlaceholder } from '../../lib/placeholders';
-import { EpicTracking } from '../ContributionsEpicTypes';
+import { replacePlaceholders, containsPlaceholder } from '../../../lib/placeholders';
+import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-import { Variant } from '../../lib/variants';
+import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
-import { ContributionsEpicTicker } from '../ContributionsEpicTicker';
+import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5

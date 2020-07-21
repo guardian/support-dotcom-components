@@ -1,6 +1,7 @@
-import { EpicTracking } from '../components/ContributionsEpicTypes';
+import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
+import { BannerTracking } from '../components/modules/banners/BannerTypes';
 import { Test, Variant } from '../lib/variants';
-import { BannerTest, BannerVariant } from '../components/BannerTypes';
+import { BannerTest, BannerVariant } from '../components/modules/banners/BannerTypes';
 
 type LinkParams = {
     REFPVID: string;
@@ -8,7 +9,11 @@ type LinkParams = {
     acquisitionData: string;
 };
 
-export const addTrackingParams = (baseUrl: string, params: EpicTracking): string => {
+// TODO: Unify Epic and Banner tracking?
+export const addTrackingParams = (
+    baseUrl: string,
+    params: EpicTracking | BannerTracking,
+): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
             source: params.platformId,

@@ -15,7 +15,7 @@ import {
     hasNoZeroArticleCount,
     isNotExpired,
 } from './variants';
-import { EpicTargeting } from '../components/ContributionsEpicTypes';
+import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
 
 const testDefault: Test = {

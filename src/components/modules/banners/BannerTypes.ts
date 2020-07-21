@@ -1,4 +1,4 @@
-import { TickerSettings } from '../lib/variants';
+import { TickerSettings } from '../../../lib/variants';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -8,8 +8,12 @@ export type BannerTargeting = {
     isPaidContent?: boolean;
     showSupportMessaging: boolean;
     engagementBannerLastClosedAt?: string;
+    subscriptionBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
+    switches: {
+        remoteSubscriptionsBanner: boolean;
+    };
 };
 
 export type BannerTestTracking = {
@@ -40,10 +44,14 @@ export interface BannerVariant {
     moduleName: string;
 }
 
+export type BannerType = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
+export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
 
 export interface BannerTest {
     name: string;
+    bannerType: BannerType;
+    testAudience: BannerAudience;
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];

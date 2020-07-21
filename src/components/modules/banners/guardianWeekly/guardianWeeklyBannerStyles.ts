@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral, text, brandAlt } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
@@ -17,16 +17,16 @@ export const banner = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #006d67;
+    background-color: #3f464a;
     color: ${neutral[100]};
 `;
 
 export const contentContainer = css`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     max-width: 100%;
     ${from.tablet} {
-        display: flex;
         flex-direction: row;
     }
     ${from.wide} {
@@ -36,18 +36,17 @@ export const contentContainer = css`
 
 export const topLeftComponent = css`
     width: 100%;
-    padding: ${space[4]}px;
+    padding: ${space[3]}px ${space[3]}px 0 ${space[3]}px;
     button {
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 65%;
+        padding: ${space[4]}px;
+        width: 80%;
     }
-
     ${from.desktop} {
         width: 50%;
     }
-
     ${from.wide} {
         width: 53%;
     }
@@ -58,30 +57,21 @@ export const heading = css`
     margin: 0;
     max-width: 100%;
 
-    @media (max-width: 740px) {
-        max-width: 90%;
+    ${until.mobileLandscape} {
+        max-width: 80%;
     }
 
-    ${until.mobileLandscape} {
+    ${until.mobileMedium} {
         ${headline.xsmall({ fontWeight: 'bold' })};
     }
 `;
 
-export const headLineBreak = css`
-    display: none;
-    @media (min-width: 1040px) {
-        display: block;
-    }
-`;
-
 export const paragraph = css`
-    ${body.medium()}
+    ${body.medium()};
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
-    ${from.tablet} {
-        max-width: 100%;
-    }
+
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
@@ -95,21 +85,41 @@ export const buttonTextDesktop = css`
     }
 `;
 
-export const buttonTextTablet = css`
-    display: none;
-    ${from.tablet} {
-        display: block;
-    }
+export const buttonTextMobileTablet = css`
+    display: block;
     ${from.desktop} {
         display: none;
     }
 `;
 
-export const buttonTextMobile = css`
-    display: block;
-    ${from.tablet} {
-        display: none;
+export const linkStyle = css`
+    text-decoration: none;
+    :visited {
+        color: ${text.primary};
     }
+`;
+
+export const becomeASubscriberButton = css`
+    display: inline-block;
+    border-radius: 1.875rem;
+    background-color: ${brandAlt[400]};
+    padding: ${space[2]}px ${space[6]}px;
+    color: ${text.primary};
+    ${textSans.medium()};
+    font-weight: bold;
+`;
+
+export const notNowButton = css`
+    ${textSans.medium()};
+    font-weight: bold;
+    color: ${text.ctaPrimary};
+    border: 0;
+    border-radius: 0.25rem;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: inherit;
 `;
 
 export const siteMessage = css`
@@ -124,48 +134,48 @@ export const siteMessage = css`
 `;
 
 export const bottomRightComponent = css`
-    display: flex;
-    justify-content: center;
-    width: 100%;
-
+    max-height: 215px;
+    overflow: hidden;
+    margin-top: -25px;
+    ${from.mobileMedium} {
+        max-height: 280px;
+        margin-top: -15px;
+    }
     ${from.tablet} {
-        align-self: flex-end;
-        max-width: 35%;
-        margin-top: -200px;
-    }
-
-    ${from.desktop} {
-        height: 100%;
-        max-width: 50%;
-        justify-content: flex-end;
+        display: flex;
+        align-items: flex-end;
         margin-top: 0;
+        max-width: 50%;
+        max-height: 100%;
     }
-
+    ${from.desktop} {
+        align-items: center;
+        max-width: 50%;
+        margin-top: 0;
+        max-height: 100%;
+    }
     ${from.leftCol} {
         justify-content: space-between;
     }
-
     ${from.wide} {
         max-width: 47%;
+        max-height: 290px;
     }
 `;
 
 export const packShot = css`
-    max-width: 85%;
-
-    ${from.phablet} {
+    max-width: 100%;
+    ${from.tablet} {
         max-width: 100%;
+        margin-bottom: -40px;
     }
-
     ${from.desktop} {
-        align-self: flex-end;
-        max-width: 80%;
+        max-width: 75%;
+        margin-bottom: -55px;
     }
-
     ${from.leftCol} {
-        max-width: 80%;
+        margin-bottom: -80px;
     }
-
     ${from.wide} {
         max-width: 100%;
         width: 75%;
@@ -184,14 +194,12 @@ export const iconPanel = css`
 
 export const logoContainer = css`
     display: none;
-
     ${from.desktop} {
         display: block;
         width: 100%;
         fill: ${neutral[100]};
         min-width: 60px;
     }
-
     ${from.leftCol} {
         min-width: 80px;
     }
@@ -209,7 +217,6 @@ export const closeButton = css`
     cursor: pointer;
     width: 35px;
     height: 35px;
-
     svg {
         width: 25px;
         height: 25px;
@@ -217,12 +224,10 @@ export const closeButton = css`
         transition: background-color 0.5s ease;
         border-radius: 50%;
     }
-
     :hover {
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
     }
-
     ${until.desktop} {
         position: absolute;
         top: 10px;

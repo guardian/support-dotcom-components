@@ -5,10 +5,10 @@ import {
 } from '../../components/modules/banners/BannerTypes';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
-export const AusMomentContributionsBannerPath = 'aus-moment-banner.js';
-const name = 'AusMomentContributionsBanner';
+export const AusMomentThankYouBannerPath = 'aus-moment-thank-you-banner.js';
+const name = 'AusMomentThankYouBanner';
 
-export const AusMomentContributionsBanner: BannerTest = {
+export const AusMomentThankYouBanner: BannerTest = {
     name,
     bannerType: 'contributions',
     testAudience: 'All',
@@ -30,7 +30,7 @@ export const AusMomentContributionsBanner: BannerTest = {
                     goalReachedSecondary: '',
                 },
             },
-            modulePath: AusMomentContributionsBannerPath,
+            modulePath: AusMomentThankYouBannerPath,
             moduleName: name,
         },
     ],

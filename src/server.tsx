@@ -1,18 +1,13 @@
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { extractCritical } from 'emotion-server';
-import { renderHtmlDocument } from './utils/renderHtmlDocument';
 import { fetchConfiguredEpicTests, fetchDefaultBannerContent } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import { JsComponent, getEpic } from './components/ContributionsEpic';
 import {
     EpicPageTracking,
     EpicTestTracking,
     EpicTargeting,
-} from './components/ContributionsEpicTypes';
-import testData from './components/ContributionsEpic.testData';
+} from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateEpicPayload, validateBannerPayload } from './lib/validation';
 import { findTestAndVariant, Result, Debug, Variant } from './lib/variants';
@@ -27,14 +22,21 @@ import { logTargeting } from './lib/logging';
 import { getQueryParams, Params } from './lib/params';
 import { ampDefaultEpic } from './tests/ampDefaultEpic';
 import fs from 'fs';
-import { EpicProps } from './components/modules/ContributionsEpic';
+import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
 import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
-import { BannerPageTracking, BannerTestTracking, BannerTargeting } from './components/BannerTypes';
-import { BannerProps } from './components/BannerTypes';
+import {
+    BannerPageTracking,
+    BannerTestTracking,
+    BannerTargeting,
+    BannerProps,
+} from './components/modules/banners/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
+import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
+import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
+import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -74,72 +76,11 @@ interface BannerDataResponse {
     debug?: Debug;
 }
 
-interface MarkupResponse {
-    data?: { html: string; css: string; js: string; meta: EpicTestTracking };
-    debug?: Debug;
-}
-
 const [, fetchConfiguredEpicTestsCached] = cacheAsync(
     fetchConfiguredEpicTests,
     60,
     'fetchConfiguredEpicTests',
 );
-
-const asResponse = (
-    component: JsComponent,
-    meta: EpicTestTracking,
-    debug?: Debug,
-): MarkupResponse => {
-    const { el, js } = component;
-    const { html, css } = extractCritical(renderToStaticMarkup(el));
-    return { data: { html, css, js, meta }, debug };
-};
-
-const buildEpic = async (
-    pageTracking: EpicPageTracking,
-    targeting: EpicTargeting,
-    params: Params,
-): Promise<MarkupResponse> => {
-    const configuredTests = await fetchConfiguredEpicTestsCached();
-    const hardcodedTests = await getAllHardcodedTests();
-    const tests = [...configuredTests.tests, ...hardcodedTests];
-
-    let result: Result;
-
-    if (params.force) {
-        const test = tests.find(test => test.name === params.force?.testName);
-        const variant = test?.variants.find(v => v.name === params.force?.variantName);
-        result = test && variant ? { result: { test, variant } } : {};
-    } else {
-        result = findTestAndVariant(tests, targeting, params.debug);
-    }
-
-    logTargeting(
-        `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
-    );
-
-    if (!result.result) {
-        return { debug: result.debug };
-    }
-
-    const { test, variant } = result.result;
-
-    const testTracking: EpicTestTracking = {
-        abTestName: test.name,
-        abTestVariant: variant.name,
-        campaignCode: buildCampaignCode(test, variant),
-        campaignId: `epic_${test.campaignId || test.name}`,
-    };
-
-    const props = {
-        variant,
-        tracking: { ...pageTracking, ...testTracking },
-        numArticles: getArticleViewCountForWeeks(targeting.weeklyArticleHistory),
-        countryCode: targeting.countryCode,
-    };
-
-    return asResponse(getEpic(props), testTracking, result.debug);
-};
 
 const buildEpicData = async (
     pageTracking: EpicPageTracking,
@@ -226,8 +167,9 @@ const buildBannerData = async (
             campaignCode: buildBannerCampaignCode(test, variant),
         };
 
-        const tickerSettings = await (variant.tickerSettings &&
-            addTickerDataToSettings(variant.tickerSettings));
+        const tickerSettings = variant.tickerSettings
+            ? await addTickerDataToSettings(variant.tickerSettings)
+            : undefined;
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
@@ -253,22 +195,25 @@ const buildBannerData = async (
     }
 };
 
-// Pre-ES module endpoints (expected to be removed once module approach is validated)
-app.get(
+// TODO replace with module-friendly solution
+/* app.get(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { pageTracking, targeting } = testData;
             const params = getQueryParams(req);
-            const epic = await buildEpic(pageTracking, targeting, params);
-            const { html, css, js } = epic.data ?? { html: '', css: '', js: '' };
+            const data = await buildEpicData(pageTracking, targeting, params, baseUrl(req));
+            const moduleUrl = data.data?.module.url;
+            const js = import(moduleUrl);
+
+            // server-side render react
             const htmlDoc = renderHtmlDocument({ html, css, js });
             res.send(htmlDoc);
         } catch (error) {
             next(error);
         }
     },
-);
+); */
 
 app.post(
     '/epic',
@@ -280,15 +225,7 @@ app.post(
 
             const { tracking, targeting } = req.body;
             const params = getQueryParams(req);
-
-            let response;
-
-            // If modules are validated, we can remove the non-data branch along with this query param
-            if (req.query.dataOnly) {
-                response = await buildEpicData(tracking, targeting, params, baseUrl(req));
-            } else {
-                response = await buildEpic(tracking, targeting, params);
-            }
+            const response = await buildEpicData(tracking, targeting, params, baseUrl(req));
 
             // for response logging
             res.locals.didRenderEpic = !!response.data;
@@ -322,7 +259,11 @@ app.post(
                 alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
                 countryCode: payload.targeting.countryCode,
                 engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
+                subscriptionBannerLastClosedAt: payload.targeting.subscriptionBannerLastClosedAt,
                 isPaidContent: payload.targeting.isPaidContent,
+                switches: {
+                    remoteSubscriptionsBanner: payload.targeting.switches.remoteSubscriptionsBanner,
+                },
             };
 
             res.send(response);
@@ -337,21 +278,7 @@ app.get(
     '/epic.js',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const path = isDev ? '/../dist/modules/Epic.js' : '/modules/Epic.js';
-            const module = await fs.promises.readFile(__dirname + path);
-            res.type('js');
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    '/banner.js',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev ? '/../dist/modules/Banner.js' : '/modules/Banner.js';
+            const path = isDev ? '/../dist/modules/epics/Epic.js' : '/modules/epics/Epic.js';
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             res.send(module);
@@ -370,6 +297,25 @@ const setComponentCacheHeaders = (res: express.Response) => {
     res.setHeader('Surrogate-Control', 'max-age=300');
     res.setHeader('Cache-Control', 'max-age=120');
 };
+
+app.get(
+    `/${AusMomentContributionsBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js'
+                : '/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
 app.get(
     `/${DefaultContributionsBannerPath}`,
@@ -391,12 +337,50 @@ app.get(
 );
 
 app.get(
-    `/${AusMomentContributionsBannerPath}`,
+    `/${DigitalSubscriptionsBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/contributionsBanners/AusMomentContributionsBanner.js'
-                : '/modules/contributionsBanners/AusMomentContributionsBanner.js';
+                ? '/../dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js'
+                : '/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${GuardianWeeklyBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
+                : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${AusMomentThankYouBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
+                : '/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
@@ -444,7 +428,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         referrerUrl: 'https://theguardian.com',
     };
 
-    const got = await buildEpic(fakeTracking, targeting, {});
+    const got = await buildEpicData(fakeTracking, targeting, {}, baseUrl(req));
 
     const notBothFalsy = expectedTest || got;
     const gotTestName = got.data?.meta?.abTestName;
