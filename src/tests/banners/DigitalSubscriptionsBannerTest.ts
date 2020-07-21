@@ -1,8 +1,4 @@
-import {
-    BannerPageTracking,
-    BannerTargeting,
-    BannerTest,
-} from '../../components/modules/banners/BannerTypes';
+import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
 export const DigitalSubscriptionsBannerPath = 'digital-subscriptions-banner.js';

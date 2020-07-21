@@ -1,7 +1,7 @@
 import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
 import { BannerTracking } from '../components/modules/banners/BannerTypes';
 import { Test, Variant } from '../lib/variants';
-import { BannerTest, BannerVariant } from '../components/modules/banners/BannerTypes';
+import { BannerTest, BannerVariant } from '../types/BannerTypes';
 
 type LinkParams = {
     REFPVID: string;

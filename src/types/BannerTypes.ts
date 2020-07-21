@@ -1,4 +1,5 @@
-import { TickerSettings } from '../../../lib/variants';
+import { TickerSettings } from '../lib/variants';
+import { OphanProduct, OphanComponentType } from './OphanTypes';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -20,8 +21,8 @@ export type BannerTestTracking = {
     abTestName: string;
     abTestVariant: string;
     campaignCode: string;
-    componentType: string;
-    products?: string[];
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
 };
 
 export type BannerPageTracking = {
@@ -56,8 +57,8 @@ export interface BannerTest {
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
-    componentType: string;
-    products?: string[];
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
 }
 
 // The result of selecting a test+variant for a user

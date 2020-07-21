@@ -30,7 +30,7 @@ import {
     BannerTestTracking,
     BannerTargeting,
     BannerProps,
-} from './components/modules/banners/BannerTypes';
+} from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';

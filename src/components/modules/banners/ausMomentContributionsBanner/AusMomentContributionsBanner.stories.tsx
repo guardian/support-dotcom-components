@@ -3,6 +3,7 @@ import { AusMomentContributionsBanner } from './AusMomentContributionsBanner';
 import { withKnobs, boolean, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
+import { BannerTracking } from '../../../../types/BannerTypes'
 
 export default {
     component: AusMomentContributionsBanner,
@@ -10,7 +11,7 @@ export default {
     decorators: [withKnobs],
 };
 
-const tracking = {
+const tracking: BannerTracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
