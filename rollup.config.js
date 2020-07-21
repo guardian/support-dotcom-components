@@ -40,8 +40,8 @@ const config = [
     ],
     [
         'contributions-banner',
-        'src/components/modules/contributionsBanners/ContributionsBanner.tsx',
-        'dist/modules/contributionsBanners/ContributionsBanner.js',
+        'src/components/modules/banners/contributions/ContributionsBanner.tsx',
+        'dist/modules/banners/contributions/ContributionsBanner.js',
     ],
     [
         'digital-subscriptions-banner',

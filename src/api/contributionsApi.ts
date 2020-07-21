@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { EpicTests, Variant } from '../lib/variants';
 import { isProd } from '../lib/env';
-import { BannerData } from '../components/BannerTypes';
+import { BannerData } from '../components/modules/banners/BannerTypes';
 
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';

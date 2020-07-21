@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { ContributionsBanner } from './modules/contributionsBanners/ContributionsBanner';
+import { ContributionsBanner } from './modules/banners/contributions/ContributionsBanner';
 import { withKnobs } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
 

@@ -1,7 +1,7 @@
 import React from 'react';
-import { BannerProps } from '../../BannerTypes';
+import { BannerProps } from '../BannerTypes';
 import { styles } from './ContributionsBannerStyles';
-import { getLocalCurrencySymbol } from '../../../lib/geolocation';
+import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 
 type ParsedMessageText = {
     header: string;
