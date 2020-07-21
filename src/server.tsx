@@ -30,9 +30,11 @@ import {
     BannerTestTracking,
     BannerTargeting,
     BannerProps,
-} from './components/modules/banners/contributions/BannerTypes';
+} from './components/modules/banners/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
+import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
+import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 
 const app = express();
@@ -157,8 +159,9 @@ const buildBannerData = async (
             campaignCode: buildBannerCampaignCode(test, variant),
         };
 
-        const tickerSettings = await (variant.tickerSettings &&
-            addTickerDataToSettings(variant.tickerSettings));
+        const tickerSettings = variant.tickerSettings
+            ? await addTickerDataToSettings(variant.tickerSettings)
+            : undefined;
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
@@ -246,7 +249,11 @@ app.post(
                 alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
                 countryCode: payload.targeting.countryCode,
                 engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
+                subscriptionBannerLastClosedAt: payload.targeting.subscriptionBannerLastClosedAt,
                 isPaidContent: payload.targeting.isPaidContent,
+                switches: {
+                    remoteSubscriptionsBanner: payload.targeting.switches.remoteSubscriptionsBanner,
+                },
             };
 
             res.send(response);
@@ -286,8 +293,46 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/banners/contributions/AusMomentContributionsBanner.js'
-                : '/modules/banners/contributions/AusMomentContributionsBanner.js';
+                ? '/../dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js'
+                : '/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${DigitalSubscriptionsBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js'
+                : '/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${GuardianWeeklyBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
+                : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
@@ -305,8 +350,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
-                : '/modules/banners/contributions/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
+                ? '/../dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
+                : '/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');

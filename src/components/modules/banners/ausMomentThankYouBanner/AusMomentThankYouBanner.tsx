@@ -12,7 +12,7 @@ import {
 } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerProps } from '../BannerTypes';
-import { addTrackingParams } from '../../../../../lib/tracking';
+import { addTrackingParams } from '../../../../lib/tracking';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const banner = css`

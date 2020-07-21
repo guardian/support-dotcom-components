@@ -2,7 +2,7 @@ import { EpicPayload } from '../components/modules/epics/ContributionsEpicTypes'
 import { Validator } from 'jsonschema';
 import * as path from 'path';
 import * as fs from 'fs';
-import { BannerDataRequestPayload } from '../components/modules/banners/contributions/BannerTypes';
+import { BannerDataRequestPayload } from '../components/modules/banners/BannerTypes';
 
 const validator = new Validator(); // reuse as expensive to initialise
 const epicSchemaPath = path.join(__dirname, '../schemas', 'epicPayload.schema.json');

@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from 'emotion-theming';
-import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
-import { brand } from '@guardian/src-foundations/themes';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
 import {
@@ -18,18 +15,25 @@ import {
     iconPanel,
     closeButton,
     logoContainer,
-} from './weeklyBannerStyles';
+    notNowButton,
+    becomeASubscriberButton,
+    linkStyle,
+} from './guardianWeeklyBannerStyles';
+import { BannerProps } from '../BannerTypes';
+import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
 
-type WeeklyBannerProps = {
-    subscriptionUrl: string;
-    signInUrl: string;
-};
+export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    tracking,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    isSupporter,
+}: BannerProps) => {
+    const [showBanner, setShowBanner] = useState(true);
+    const closeBanner = (): void => {
+        setShowBanner(false);
+        setSubscriptionsBannerClosedTimestamp();
+    };
 
-export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
-    subscriptionUrl,
-    signInUrl,
-}: WeeklyBannerProps) => {
-    const [showBanner, closeBanner] = useState(true);
     return (
         <>
             {showBanner ? (
@@ -42,31 +46,35 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
                                 The Guardian Weekly, our essential world news magazine. Home
                                 delivery available wherever you are.
                             </p>
-                            <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
+                            <a
+                                className={linkStyle}
+                                href="https://support.theguardian.com/uk/subscribe"
+                            >
+                                <div
+                                    id="js-site-message--weekly-banner__cta"
                                     data-link-name="weekly-banner : cta"
-                                    priority="primary"
-                                    size="default"
-                                    href={subscriptionUrl}
+                                    className={becomeASubscriberButton}
                                 >
                                     <span className={buttonTextDesktop}>
                                         Become a Guardian Weekly subscriber
                                     </span>
                                     <span className={buttonTextMobileTablet}>Subscribe now</span>
-                                </LinkButton>
-                            </ThemeProvider>
-                            <ThemeProvider theme={brand}>
-                                <Button
-                                    data-link-name="weekly-banner : not now"
-                                    onClick={(): void => closeBanner(false)}
-                                    priority="subdued"
-                                >
-                                    Not now
-                                </Button>
-                            </ThemeProvider>
+                                </div>
+                            </a>
+                            <button
+                                className={notNowButton}
+                                id="js-site-message--weekly-banner__cta-dismiss"
+                                data-link-name="weekly-banner : not now"
+                                onClick={(): void => closeBanner()}
+                            >
+                                Not now
+                            </button>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a href={signInUrl} data-link-name="weekly-banner : sign in">
+                                <a
+                                    href="https://www.theguardian.com"
+                                    data-link-name="weekly-banner : sign in"
+                                >
                                     Sign in
                                 </a>{' '}
                                 to not see this again
@@ -80,7 +88,7 @@ export const WeeklyBanner: React.FC<WeeklyBannerProps> = ({
                             />
                             <div className={iconPanel}>
                                 <button
-                                    onClick={(): void => closeBanner(false)}
+                                    onClick={(): void => closeBanner()}
                                     className={closeButton}
                                     data-link-name="weekly-banner : close"
                                     aria-label="Close"
