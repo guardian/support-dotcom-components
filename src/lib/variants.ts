@@ -318,8 +318,8 @@ export const isNotExpired = (now: Date = new Date()): Filter => ({
     },
 });
 
-export const optOutOfArticleCount: Filter = {
-    id: 'optOutOfArticleCount',
+export const respectArticleCountOptOut: Filter = {
+    id: 'respectArticleCountOptOut',
     test: (test, targeting) => {
         if (test.articlesViewedSettings) {
             return !targeting.hasOptedOutOfArticleCount;
@@ -366,7 +366,7 @@ export const findTestAndVariant = (
         // withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
         hasNoZeroArticleCount(),
-        optOutOfArticleCount,
+        respectArticleCountOptOut,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
