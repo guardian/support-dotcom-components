@@ -28,7 +28,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
-            subscriptionsBannerLastClosedAt: '1594059610944',
+            subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
             switches: {
@@ -40,7 +40,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
-            subscriptionsBannerLastClosedAt: '1594059610944',
+            subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             // Should not show banner in Fiji
             countryCode: 'FJ',
@@ -53,7 +53,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
-            subscriptionsBannerLastClosedAt: '1594059610944',
+            subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'GB',
             // Should not show banner if switch is off
@@ -84,7 +84,7 @@ describe('WeeklyBanner canRun', () => {
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
-            subscriptionsBannerLastClosedAt: '1594059610944',
+            subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'AU',
             switches: {
@@ -96,7 +96,7 @@ describe('WeeklyBanner canRun', () => {
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
-            subscriptionsBannerLastClosedAt: '1594059610944',
+            subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
             switches: {

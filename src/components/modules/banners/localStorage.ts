@@ -10,4 +10,4 @@ export const setContributionsBannerClosedTimestamp = (): void =>
     setBannerClosedTimestamp('engagementBannerLastClosedAt');
 
 export const setSubscriptionsBannerClosedTimestamp = (): void =>
-    setBannerClosedTimestamp('subscriptionsBannerLastClosedAt');
+    setBannerClosedTimestamp('subscriptionBannerLastClosedAt');

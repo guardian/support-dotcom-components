@@ -113,10 +113,10 @@ export const redeployedSinceLastClosed = (
     targeting: BannerTargeting,
     bannerType: BannerType,
 ): Promise<boolean> => {
-    const { subscriptionsBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
+    const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
     if (
-        (bannerType === 'subscriptions' && !subscriptionsBannerLastClosedAt) ||
+        (bannerType === 'subscriptions' && !subscriptionBannerLastClosedAt) ||
         (bannerType === 'contributions' && !engagementBannerLastClosedAt)
     ) {
         return Promise.resolve(true);
@@ -128,8 +128,8 @@ export const redeployedSinceLastClosed = (
         const [, getCached] = caches.subscriptions[region];
         return getCached().then(deployDate => {
             return (
-                !subscriptionsBannerLastClosedAt ||
-                deployDate > new Date(subscriptionsBannerLastClosedAt)
+                !subscriptionBannerLastClosedAt ||
+                deployDate > new Date(subscriptionBannerLastClosedAt)
             );
         });
     } else if (bannerType === 'contributions') {

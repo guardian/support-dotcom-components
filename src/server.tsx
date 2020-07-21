@@ -249,7 +249,7 @@ app.post(
                 alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
                 countryCode: payload.targeting.countryCode,
                 engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
-                subscriptionsBannerLastClosedAt: payload.targeting.subscriptionsBannerLastClosedAt,
+                subscriptionBannerLastClosedAt: payload.targeting.subscriptionBannerLastClosedAt,
                 isPaidContent: payload.targeting.isPaidContent,
                 switches: {
                     remoteSubscriptionsBanner: payload.targeting.switches.remoteSubscriptionsBanner,

@@ -8,7 +8,7 @@ export type BannerTargeting = {
     isPaidContent?: boolean;
     showSupportMessaging: boolean;
     engagementBannerLastClosedAt?: string;
-    subscriptionsBannerLastClosedAt?: string;
+    subscriptionBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
     switches: {
