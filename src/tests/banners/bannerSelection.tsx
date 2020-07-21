@@ -6,7 +6,6 @@ import {
     BannerType,
     BannerAudience,
 } from '../../types/BannerTypes';
-import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
