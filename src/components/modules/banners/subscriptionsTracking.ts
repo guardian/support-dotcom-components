@@ -1,114 +1,78 @@
-type SubscriptionsProductType = 'DigitalSubscription' | 'GuardianWeekly';
-
 type OphanComponentType =
     | 'ACQUISITIONS_ENGAGEMENT_BANNER'
     | 'ACQUISITIONS_THANK_YOU_EPIC'
     | 'ACQUISITIONS_SUBSCRIPTIONS_BANNER';
 
-type AcquisitionLinkParams = {
-    base: string;
-    componentType: OphanComponentType;
-    componentId: string;
-    campaignCode: string;
-    abTest?: {
-        name: string;
-        variant: string;
-    };
-};
-type AcquisitionData = {
-    componentType?: OphanComponentType;
-    componentId?: string;
-    campaignCode: string;
-    abTest?: {
-        name: string;
-        variant: string;
-    };
-};
-
-type Query = {
-    REFPVID: string;
-    INTCMP: string;
-    acquisitionData: string;
-};
-
 const COMPONENT_TYPE = 'ACQUISITIONS_SUBSCRIPTIONS_BANNER';
-const OPHAN_EVENT_ID = 'acquisitions-subscription-banner';
-const CAMPAIGN_CODE = 'gdnwb_copts_banner_subscribe_SubscriptionBanner_digital';
-const GUARDIAN_WEEKLY_CAMPAIGN_CODE = 'gdnwb_copts_banner_subscribe_SubscriptionBanner_gWeekly';
 
-const constructURLQuery = (query: Query): string => {
-    return `REFPVID=${encodeURIComponent(query.REFPVID)}&INTCMP=${encodeURIComponent(
-        query.INTCMP,
-    )}&acquisitionData=${encodeURIComponent(query.acquisitionData)}`;
-};
+const BANNER_KEY: 'subscription-banner :';
+const DISPLAY_EVENT_KEY = `${BANNER_KEY} display`;
+const CLICK_EVENT_CTA = `${BANNER_KEY} cta`;
+const CLICK_EVENT_CLOSE_NOT_NOW = `${BANNER_KEY} not now`;
+const CLICK_EVENT_CLOSE_BUTTON = `${BANNER_KEY} close`;
+const CLICK_EVENT_SIGN_IN = `${BANNER_KEY} sign in`;
 
-const addReferrerData = (acquisitionData: {}, ophanPageId: string, referrerUrl: string): {} => ({
-    ...acquisitionData,
-    referrerPageviewId: ophanPageId,
-    referrerUrl: referrerUrl,
-});
+export const bannerTracking = (): {} => {
+    return {
+        gaTracking: (): void => trackNonClickInteraction(DISPLAY_EVENT_KEY),
 
-const addTrackingCodesToUrl = (
-    { base, componentType, componentId, campaignCode, abTest }: AcquisitionLinkParams,
-    ophanPageId: string,
-    referrerUrl: string,
-): string => {
-    const acquisitionData = addReferrerData(
-        {
-            source: 'GUARDIAN_WEB',
-            componentId,
-            componentType,
-            campaignCode,
-            abTest,
+        trackBannerView: (): void => {
+            submitViewEvent({
+                component: {
+                    componentType: COMPONENT_TYPE,
+                    id: CLICK_EVENT_CTA,
+                },
+            });
         },
-        ophanPageId,
-        referrerUrl,
-    );
-
-    const stringifiedAcquisitionData = JSON.stringify(acquisitionData);
-
-    const params = {
-        REFPVID: ophanPageId || 'not_found',
-        INTCMP: campaignCode,
-        acquisitionData: stringifiedAcquisitionData,
+        trackBannerClick: (button): void => {
+            submitClickEvent({
+                component: {
+                    componentType: COMPONENT_TYPE,
+                    id:
+                        button.id === 'js-site-message--subscription-banner__cta'
+                            ? CLICK_EVENT_CTA
+                            : CLICK_EVENT_SIGN_IN,
+                },
+            });
+        },
+        trackCloseButtons: (button): void => {
+            submitClickEvent({
+                component: {
+                    componentType: COMPONENT_TYPE,
+                    id:
+                        button && button.id === 'js-site-message--subscription-banner__close-button'
+                            ? CLICK_EVENT_CLOSE_BUTTON
+                            : CLICK_EVENT_CLOSE_NOT_NOW,
+                },
+            });
+        },
     };
 
-    return `${base}${base.includes('?') ? '&' : '?'}${constructURLQuery(params)}`;
+    return createTracking(region, defaultTracking);
 };
 
-const guardianWeeklyBaseUrl = 'https://support.theguardian.com/subscribe/weekly';
-const digitalSubscriptionsBaseUrl = 'https://support.theguardian.com/subscribe/digital';
+////////////////
 
-export const getSubscriptionUrl = (
-    productType: SubscriptionsProductType,
-    ophanPageId: string,
-    referrerUrl: string,
-): string => {
-    const weeklySubsUrl = addTrackingCodesToUrl(
-        {
-            base: guardianWeeklyBaseUrl,
-            componentType: COMPONENT_TYPE,
-            componentId: OPHAN_EVENT_ID,
-            campaignCode: GUARDIAN_WEEKLY_CAMPAIGN_CODE,
-        },
-        ophanPageId,
-        referrerUrl,
-    );
-    const digiSubsUrl = addTrackingCodesToUrl(
-        {
-            base: digitalSubscriptionsBaseUrl,
-            componentType: COMPONENT_TYPE,
-            componentId: OPHAN_EVENT_ID,
-            campaignCode: CAMPAIGN_CODE,
-        },
-        ophanPageId,
-        referrerUrl,
-    );
-    return productType === 'GuardianWeekly' ? weeklySubsUrl : digiSubsUrl;
+import ophan from 'ophan/ng';
+
+export const submitComponentEvent = (componentEvent: OphanComponentEvent) => {
+    ophan.record({ componentEvent });
 };
 
-export const getSignInUrl = (productType: SubscriptionsProductType): string => {
-    return productType === 'GuardianWeekly'
-        ? 'https://theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_gWeekly&CMP_TU=mrtn&CMP_BUNIT=subs'
-        : 'https://theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
-};
+export const submitInsertEvent = (componentEvent: ComponentEventWithoutAction) =>
+    submitComponentEvent({
+        ...componentEvent,
+        action: 'INSERT',
+    });
+
+export const submitViewEvent = (componentEvent: ComponentEventWithoutAction) =>
+    submitComponentEvent({
+        ...componentEvent,
+        action: 'VIEW',
+    });
+
+export const submitClickEvent = (componentEvent: ComponentEventWithoutAction) =>
+    submitComponentEvent({
+        ...componentEvent,
+        action: 'CLICK',
+    });

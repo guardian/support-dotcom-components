@@ -21,7 +21,7 @@ import {
 } from './guardianWeeklyBannerStyles';
 import { BannerProps } from '../BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
-import { getSignInUrl, getSubscriptionUrl } from '../subscriptionsTracking';
+import { addTrackingParams } from '../../../../lib/tracking';
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -34,17 +34,17 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
         setShowBanner(false);
         setSubscriptionsBannerClosedTimestamp();
     };
-    const signInUrl = getSignInUrl('GuardianWeekly');
-    const subscriptionsUrl = getSubscriptionUrl(
-        'GuardianWeekly',
-        tracking.ophanPageId,
-        tracking.referrerUrl,
-    );
+    const signInUrl =
+        'https://theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_gWeekly&CMP_TU=mrtn&CMP_BUNIT=subs';
 
     return (
         <>
             {showBanner ? (
-                <section className={banner} data-target="weekly-banner">
+                <section
+                    id="js-site-message--subscription-banner"
+                    className={banner}
+                    data-target="subscriptions-banner"
+                >
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>Read The Guardian in print</h3>
@@ -53,10 +53,16 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                 The Guardian Weekly, our essential world news magazine. Home
                                 delivery available wherever you are.
                             </p>
-                            <a className={linkStyle} href={subscriptionsUrl}>
+                            <a
+                                className={linkStyle}
+                                href={addTrackingParams(
+                                    'https://support.theguardian.com/subscribe/weekly',
+                                    tracking,
+                                )}
+                            >
                                 <div
-                                    id="js-site-message--weekly-banner__cta"
-                                    data-link-name="weekly-banner : cta"
+                                    id="js-site-message--subscription-banner__cta"
+                                    data-link-name="subscription-banner : cta"
                                     className={becomeASubscriberButton}
                                 >
                                     <span className={buttonTextDesktop}>
@@ -67,15 +73,15 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                             </a>
                             <button
                                 className={notNowButton}
-                                id="js-site-message--weekly-banner__cta-dismiss"
-                                data-link-name="weekly-banner : not now"
+                                id="js-site-message--subscription-banner__cta-dismiss"
+                                data-link-name="subscription-banner : not now"
                                 onClick={(): void => closeBanner()}
                             >
                                 Not now
                             </button>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a href={signInUrl} data-link-name="weekly-banner : sign in">
+                                <a href={signInUrl} data-link-name="subscription-banner : sign in">
                                     Sign in
                                 </a>{' '}
                                 to not see this again
@@ -91,7 +97,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                 <button
                                     onClick={(): void => closeBanner()}
                                     className={closeButton}
-                                    data-link-name="weekly-banner : close"
+                                    data-link-name="subscription-banner : close"
                                     aria-label="Close"
                                 >
                                     <SvgClose />

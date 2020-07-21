@@ -23,7 +23,7 @@ import {
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
-import { getSignInUrl, getSubscriptionUrl } from '../subscriptionsTracking';
+import { addTrackingParams } from '../../../../lib/tracking';
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,12 +36,8 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         setShowBanner(false);
         setSubscriptionsBannerClosedTimestamp();
     };
-    const signInUrl = getSignInUrl('DigitalSubscription');
-    const subscriptionsUrl = getSubscriptionUrl(
-        'DigitalSubscription',
-        tracking.ophanPageId,
-        tracking.referrerUrl,
-    );
+    const signInUrl =
+        'https://theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
 
     return (
         <>
@@ -64,7 +60,13 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 opinion. <strong>Live</strong>, constantly by your side, keeping you
                                 connected with the outside world.
                             </p>
-                            <a className={linkStyle} href={subscriptionsUrl}>
+                            <a
+                                className={linkStyle}
+                                href={addTrackingParams(
+                                    'https://support.theguardian.com/subscribe/digital',
+                                    tracking,
+                                )}
+                            >
                                 <div
                                     id="js-site-message--subscription-banner__cta"
                                     data-link-name="subscription-banner : cta"
