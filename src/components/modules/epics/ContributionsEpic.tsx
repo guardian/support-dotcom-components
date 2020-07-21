@@ -3,7 +3,10 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { replacePlaceholders, containsPlaceholder } from '../../../lib/placeholders';
+import {
+    replaceNonArticleCountPlaceholders,
+    containsNonArticleCountPlaceholder,
+} from '../../../lib/placeholders';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../../lib/variants';
@@ -198,14 +201,21 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
-    const cleanHighlighted = replacePlaceholders(variant.highlightedText, countryCode);
-    const cleanHeading = replacePlaceholders(variant.heading, countryCode);
+    const cleanHighlighted = replaceNonArticleCountPlaceholders(
+        variant.highlightedText,
+        countryCode,
+    );
+    const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
-        replacePlaceholders(paragraph, countryCode),
+        replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
 
-    if ([cleanHighlighted].some(containsPlaceholder)) {
+    if (
+        [cleanHighlighted, cleanHeading, ...cleanParagraphs].some(
+            containsNonArticleCountPlaceholder,
+        )
+    ) {
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
