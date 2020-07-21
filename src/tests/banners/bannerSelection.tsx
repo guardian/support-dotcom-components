@@ -6,7 +6,6 @@ import {
     BannerType,
     BannerAudience,
 } from '../../components/modules/banners/BannerTypes';
-import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
@@ -155,18 +154,13 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
     }
 };
 
-const AUS_MOMENT_THANK_YOU_BANNER_LAUNCH_DATE = new Date('2020-07-19T23:30:00Z');
-
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: BannerPageTracking,
     baseUrl: string,
 ): Promise<BannerTestSelection | null> => {
-    const now = new Date();
     const tests: BannerTest[] = [
-        now < AUS_MOMENT_THANK_YOU_BANNER_LAUNCH_DATE
-            ? AusMomentContributionsBanner
-            : AusMomentThankYouBanner,
+        AusMomentThankYouBanner,
         DigitalSubscriptionsBanner,
         GuardianWeeklyBanner,
     ];
