@@ -37,6 +37,7 @@ const articleCountButton = css`
 
 const overlayContainer = css`
     position: absolute;
+    z-index: 100;
     left: ${space[4]}px;
     right: ${space[4]}px;
     color: #ffffff;
