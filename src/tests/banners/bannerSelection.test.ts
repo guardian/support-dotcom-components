@@ -190,7 +190,6 @@ describe('selectBannerTest', () => {
 
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',

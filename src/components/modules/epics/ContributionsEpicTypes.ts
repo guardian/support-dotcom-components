@@ -1,6 +1,7 @@
+import { OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
+
 export type EpicPageTracking = {
     ophanPageId: string;
-    ophanComponentId: string;
     platformId: string;
     referrerUrl: string;
     clientName: string;
@@ -11,6 +12,8 @@ export type EpicTestTracking = {
     abTestVariant: string;
     campaignCode: string;
     campaignId: string;
+    componentType: OphanComponentType;
+    products: OphanProduct[];
 };
 
 export type EpicTracking = EpicPageTracking & EpicTestTracking;

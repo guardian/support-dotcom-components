@@ -5,6 +5,7 @@ import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import testData from './ContributionsEpic.testData';
 import { TickerCountType, TickerEndType, Variant } from '../../../lib/variants';
 import { getArticleViewCountForWeeks } from '../../../lib/history';
+import { EpicTracking } from './ContributionsEpicTypes';
 
 export default {
     component: ContributionsEpic,
@@ -34,9 +35,10 @@ export const defaultStory = (): ReactElement => {
     };
 
     // Epic metadata props
-    const epicTracking = {
+    const epicTracking: EpicTracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        componentType: testData.tracking.componentType,
+        products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -80,7 +82,8 @@ export const backgroundImageStory = (): ReactElement => {
     // Epic metadata props
     const epicTracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        componentType: testData.tracking.componentType,
+        products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -127,7 +130,8 @@ export const secondaryButtonStory = (): ReactElement => {
     // Epic metadata props
     const epicTracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        componentType: testData.tracking.componentType,
+        products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -177,7 +181,8 @@ export const epicReminderStory = (): ReactElement => {
     // Epic metadata props
     const epicTracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        componentType: testData.tracking.componentType,
+        products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -215,7 +220,8 @@ export const epicWithoutButtons = (): ReactElement => {
     // Epic metadata props
     const epicTracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        componentType: testData.tracking.componentType,
+        products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -272,7 +278,8 @@ export const epicWithTicker = (): ReactElement => {
     // Epic metadata props
     const epicTracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        ophanComponentId: text('ophanComponentId', testData.tracking.ophanComponentId),
+        componentType: testData.tracking.componentType,
+        products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),

@@ -118,6 +118,8 @@ const buildEpicData = async (
         abTestVariant: variant.name,
         campaignCode: buildCampaignCode(test, variant),
         campaignId: `epic_${test.campaignId || test.name}`,
+        componentType: 'ACQUISITIONS_EPIC',
+        products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
     };
 
     const props: EpicProps = {
@@ -395,7 +397,6 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 
     const fakeTracking = {
         ophanPageId: 'xxxxxxxxxxxxx',
-        ophanComponentId: 'ACQUISITIONS_EPIC',
         platformId: 'GUARDIAN_WEB',
         clientName: 'xxx',
         referrerUrl: 'https://theguardian.com',

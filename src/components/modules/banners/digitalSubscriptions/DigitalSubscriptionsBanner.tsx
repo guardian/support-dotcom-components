@@ -21,7 +21,7 @@ import {
     becomeASubscriberButton,
     linkStyle,
 } from './digitalSubscriptionsBannerStyles';
-import { BannerProps } from '../BannerTypes';
+import { BannerProps } from '../../../../types/BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({

@@ -1,5 +1,5 @@
 import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
-import { BannerTracking } from '../components/modules/banners/BannerTypes';
+import { BannerTracking } from '../types/BannerTypes';
 import { Test, Variant } from '../lib/variants';
 import { BannerTest, BannerVariant } from '../types/BannerTypes';
 
@@ -18,7 +18,7 @@ export const addTrackingParams = (
         JSON.stringify({
             source: params.platformId,
             componentId: params.campaignCode,
-            componentType: params.ophanComponentId,
+            componentType: params.componentType,
             campaignCode: params.campaignCode,
             abTest: {
                 name: params.abTestName,

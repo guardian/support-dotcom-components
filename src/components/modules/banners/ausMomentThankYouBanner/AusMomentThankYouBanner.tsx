@@ -11,7 +11,7 @@ import {
     SvgEnvelope,
 } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
-import { BannerProps } from '../BannerTypes';
+import { BannerProps } from '../../../../types/BannerTypes';
 import { addTrackingParams } from '../../../../lib/tracking';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 

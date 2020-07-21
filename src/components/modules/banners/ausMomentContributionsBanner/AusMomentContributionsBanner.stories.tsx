@@ -3,7 +3,7 @@ import { AusMomentContributionsBanner } from './AusMomentContributionsBanner';
 import { withKnobs, boolean, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
-import { BannerTracking } from '../../../../types/BannerTypes'
+import { BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
     component: AusMomentContributionsBanner,
