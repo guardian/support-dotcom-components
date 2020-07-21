@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { css } from 'emotion';
 import { brand } from '@guardian/src-foundations/palette';
-import { textSans, body } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { SvgClose } from '@guardian/src-icons';
@@ -32,7 +32,9 @@ const articleCountButton = css`
     padding: 0;
     cursor: pointer;
     text-decoration: underline;
-    ${body.medium()}
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
 `;
 
 const overlayContainer = css`

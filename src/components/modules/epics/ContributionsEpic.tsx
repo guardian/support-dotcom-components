@@ -99,6 +99,34 @@ interface OnReminderOpen {
     buttonCopyAsString: string;
 }
 
+const replaceArticleCount = (text: string, numArticles: number): Array<JSX.Element> => {
+    const nextWords: Array<string | null> = [];
+    const subbedText = text.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
+        nextWords.push(nextWord);
+        return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
+    });
+
+    const parts = subbedText.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
+    const elements = [];
+    for (let i = 0; i < parts.length - 1; i += 1) {
+        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] }} />);
+        elements.push(<ArticleCountOptOut numArticles={numArticles} nextWord={nextWords[i]} />);
+    }
+    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] }} />);
+
+    return elements;
+};
+
+interface EpicHeaderProps {
+    text: string;
+    numArticles: number;
+}
+
+const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeaderProps) => {
+    const elements = replaceArticleCount(text, numArticles);
+    return <h2 className={headingStyles}>{elements}</h2>;
+};
+
 const Highlighted: React.FC<HighlightedProps> = ({ highlightedText }: HighlightedProps) => (
     <strong className={highlightWrapperStyles}>
         {' '}
@@ -122,19 +150,7 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     numArticles,
     highlighted,
 }: EpicBodyParagraphProps) => {
-    const nextWords: Array<string | null> = [];
-    const subbedParagraph = paragraph.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
-        nextWords.push(nextWord);
-        return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
-    });
-
-    const parts = subbedParagraph.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
-    const elements = [];
-    for (let i = 0; i < parts.length - 1; i += 1) {
-        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] }} />);
-        elements.push(<ArticleCountOptOut numArticles={numArticles} nextWord={nextWords[i]} />);
-    }
-    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] }} />);
+    const elements = replaceArticleCount(paragraph, numArticles);
 
     return (
         <p className={bodyStyles}>
@@ -189,7 +205,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         replacePlaceholders(paragraph, countryCode),
     );
 
-    if ([cleanHighlighted, cleanHeading].some(containsPlaceholder)) {
+    if ([cleanHighlighted].some(containsPlaceholder)) {
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
@@ -213,14 +229,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                 </div>
             )}
 
-            {cleanHeading && (
-                <h2
-                    className={headingStyles}
-                    dangerouslySetInnerHTML={{
-                        __html: cleanHeading,
-                    }}
-                />
-            )}
+            {cleanHeading && <EpicHeader text={cleanHeading} numArticles={numArticles} />}
 
             <EpicBody
                 paragraphs={cleanParagraphs}
