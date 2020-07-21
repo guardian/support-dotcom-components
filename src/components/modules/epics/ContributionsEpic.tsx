@@ -122,7 +122,7 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     numArticles,
     highlighted,
 }: EpicBodyParagraphProps) => {
-    let nextWords: Array<string | null> = [];
+    const nextWords: Array<string | null> = [];
     const subbedParagraph = paragraph.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
         nextWords.push(nextWord);
         return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
