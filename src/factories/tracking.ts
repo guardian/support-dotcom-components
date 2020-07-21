@@ -19,6 +19,7 @@ export const testTracking = Factory.define<EpicTestTracking>(() => ({
     abTestName: 'remote_epic_test',
     abTestVariant: 'api',
     componentType: 'ACQUISITIONS_EPIC',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 }));
 
 export const tracking = Factory.define<EpicTracking>(({ factories }) => ({
