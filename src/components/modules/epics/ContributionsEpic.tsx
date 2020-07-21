@@ -9,6 +9,7 @@ import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
+import { ArticleCountOptOut } from './ArticleCountOptOut';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -110,6 +111,39 @@ const Highlighted: React.FC<HighlightedProps> = ({ highlightedText }: Highlighte
     </strong>
 );
 
+interface EpicBodyParagraphProps {
+    paragraph: string;
+    numArticles: number;
+    highlighted: JSX.Element | null;
+}
+
+const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
+    paragraph,
+    numArticles,
+    highlighted,
+}: EpicBodyParagraphProps) => {
+    let nextWords: Array<string | null> = [];
+    const subbedParagraph = paragraph.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
+        nextWords.push(nextWord);
+        return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
+    });
+
+    const parts = subbedParagraph.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
+    const elements = [];
+    for (let i = 0; i < parts.length - 1; i += 1) {
+        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] }} />);
+        elements.push(<ArticleCountOptOut numArticles={numArticles} nextWord={nextWords[i]} />);
+    }
+    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] }} />);
+
+    return (
+        <p className={bodyStyles}>
+            {elements}
+            {highlighted ? highlighted : null}
+        </p>
+    );
+};
+
 const EpicBody: React.FC<BodyProps> = ({
     countryCode,
     numArticles,
@@ -119,21 +153,20 @@ const EpicBody: React.FC<BodyProps> = ({
     return (
         <>
             {paragraphs.map((paragraph, idx) => (
-                <p key={idx} className={bodyStyles}>
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: paragraph,
-                        }}
-                    />
-
-                    {highlightedText && idx === paragraphs.length - 1 && (
-                        <Highlighted
-                            highlightedText={highlightedText}
-                            countryCode={countryCode}
-                            numArticles={numArticles}
-                        />
-                    )}
-                </p>
+                <EpicBodyParagraph
+                    key={idx}
+                    paragraph={paragraph}
+                    numArticles={numArticles}
+                    highlighted={
+                        highlightedText && idx === paragraphs.length - 1 ? (
+                            <Highlighted
+                                highlightedText={highlightedText}
+                                countryCode={countryCode}
+                                numArticles={numArticles}
+                            />
+                        ) : null
+                    }
+                />
             ))}
         </>
     );
@@ -156,7 +189,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         replacePlaceholders(paragraph, numArticles, countryCode),
     );
 
-    if ([cleanHighlighted, cleanHeading, ...cleanParagraphs].some(containsPlaceholder)) {
+    if ([cleanHighlighted, cleanHeading].some(containsPlaceholder)) {
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 

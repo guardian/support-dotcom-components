@@ -8,6 +8,15 @@ import { SvgClose } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brand as brandTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
+import { addCookie } from '../../../lib/cookies';
+
+const ARTICLE_COUNT_OPT_OUT_COOKIE = {
+    name: 'gu_article_count_opt_out',
+    daysToLive: 90,
+};
+
+const DAILY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.dailyArticleCount';
+const WEEKLY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.weeklyArticleCount';
 
 const optOutContainer = css`
     display: inline-block;
@@ -93,10 +102,12 @@ const overlayNote = css`
 
 export interface ArticleCountOptOutProps {
     numArticles: number;
+    nextWord: string | null;
 }
 
 export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     numArticles,
+    nextWord,
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
@@ -122,10 +133,28 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
         return (): void => document.removeEventListener('mousedown', handleClick);
     }, []);
 
+    const addArticleCountOptOutCookie = (): void =>
+        addCookie(
+            ARTICLE_COUNT_OPT_OUT_COOKIE.name,
+            new Date().getTime().toString(),
+            ARTICLE_COUNT_OPT_OUT_COOKIE.daysToLive,
+        );
+
+    const removeArticleCountFromLocalStorage = (): void => {
+        window.localStorage.removeItem(DAILY_ARTICLE_COUNT_STORAGE_KEY);
+        window.localStorage.removeItem(WEEKLY_ARTICLE_COUNT_STORAGE_KEY);
+    };
+
+    const optOut = (): void => {
+        addArticleCountOptOutCookie();
+        removeArticleCountFromLocalStorage();
+        setHasOptedOut(true);
+    };
+
     return (
         <div className={optOutContainer}>
             <button className={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
-                {numArticles} articles
+                {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
                 <div className={overlayContainer} ref={overlayRef}>
@@ -157,11 +186,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                                 </Button>
                             </ThemeProvider>
                             <ThemeProvider theme={brandTheme}>
-                                <Button
-                                    onClick={(): void => setHasOptedOut(true)}
-                                    priority="primary"
-                                    size="small"
-                                >
+                                <Button onClick={optOut} priority="primary" size="small">
                                     No, opt me out
                                 </Button>
                             </ThemeProvider>

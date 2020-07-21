@@ -10,7 +10,6 @@ export const replacePlaceholders = (
     }
 
     content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
-    content = content.replace(/%%ARTICLE_COUNT%%/g, numArticles.toString());
 
     const countryName = getCountryName(countryCode) ?? '';
     content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
