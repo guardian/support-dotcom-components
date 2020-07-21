@@ -113,18 +113,18 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
-    const overlayRef = useRef<HTMLDivElement>(null);
+    const optOutRef = useRef<HTMLDivElement>(null);
 
-    const clickWasOutsideOverlay = (event: MouseEvent): boolean => {
-        if (overlayRef.current) {
-            return !overlayRef.current.contains(event.target as Node);
+    const clickWasOutsideOptOut = (event: MouseEvent): boolean => {
+        if (optOutRef.current) {
+            return !optOutRef.current.contains(event.target as Node);
         } else {
             return true;
         }
     };
 
     const handleClick = (event: MouseEvent): void => {
-        if (clickWasOutsideOverlay(event)) {
+        if (clickWasOutsideOptOut(event)) {
             setIsOpen(false);
         }
     };
@@ -153,12 +153,12 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     };
 
     return (
-        <div className={optOutContainer}>
+        <div className={optOutContainer} ref={optOutRef}>
             <button className={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
-                <div className={overlayContainer} ref={overlayRef}>
+                <div className={overlayContainer}>
                     <div className={overlayHeader}>
                         <div className={overlayHeaderText}>
                             {hasOptedOut ? "You've opted out" : "What's this?"}
