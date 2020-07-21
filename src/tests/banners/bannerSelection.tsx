@@ -13,7 +13,7 @@ import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
 
-type ReaderRevenueRegion =
+export type ReaderRevenueRegion =
     | 'united-kingdom'
     | 'united-states'
     | 'australia'

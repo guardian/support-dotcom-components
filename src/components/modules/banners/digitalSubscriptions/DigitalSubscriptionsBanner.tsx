@@ -23,6 +23,7 @@ import {
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
+import { getSignInUrl, getSubscriptionUrl } from '../subscriptionsTracking';
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -35,6 +36,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         setShowBanner(false);
         setSubscriptionsBannerClosedTimestamp();
     };
+    const signInUrl = getSignInUrl('DigitalSubscription');
+    const subscriptionsUrl = getSubscriptionUrl(
+        'DigitalSubscription',
+        tracking.ophanPageId,
+        tracking.referrerUrl,
+    );
 
     return (
         <>
@@ -57,10 +64,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 opinion. <strong>Live</strong>, constantly by your side, keeping you
                                 connected with the outside world.
                             </p>
-                            <a
-                                className={linkStyle}
-                                href="https://support.theguardian.com/uk/subscribe"
-                            >
+                            <a className={linkStyle} href={subscriptionsUrl}>
                                 <div
                                     id="js-site-message--subscription-banner__cta"
                                     data-link-name="subscription-banner : cta"
@@ -85,7 +89,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 Already a subscriber?{' '}
                                 <a
                                     id="js-site-message--subscription-banner__sign-in"
-                                    href="https://support.theguardian.com/uk/subscribe"
+                                    href={signInUrl}
                                     data-link-name="subscription-banner : sign in"
                                 >
                                     Sign in

@@ -21,6 +21,7 @@ import {
 } from './guardianWeeklyBannerStyles';
 import { BannerProps } from '../BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
+import { getSignInUrl, getSubscriptionUrl } from '../subscriptionsTracking';
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,6 +34,12 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
         setShowBanner(false);
         setSubscriptionsBannerClosedTimestamp();
     };
+    const signInUrl = getSignInUrl('GuardianWeekly');
+    const subscriptionsUrl = getSubscriptionUrl(
+        'GuardianWeekly',
+        tracking.ophanPageId,
+        tracking.referrerUrl,
+    );
 
     return (
         <>
@@ -46,10 +53,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                 The Guardian Weekly, our essential world news magazine. Home
                                 delivery available wherever you are.
                             </p>
-                            <a
-                                className={linkStyle}
-                                href="https://support.theguardian.com/uk/subscribe"
-                            >
+                            <a className={linkStyle} href={subscriptionsUrl}>
                                 <div
                                     id="js-site-message--weekly-banner__cta"
                                     data-link-name="weekly-banner : cta"
@@ -71,10 +75,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                             </button>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a
-                                    href="https://www.theguardian.com"
-                                    data-link-name="weekly-banner : sign in"
-                                >
+                                <a href={signInUrl} data-link-name="weekly-banner : sign in">
                                     Sign in
                                 </a>{' '}
                                 to not see this again
