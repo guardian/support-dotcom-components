@@ -181,7 +181,6 @@ export const selectBannerTest = async (
             (await redeployedSinceLastClosed(targeting, test.bannerType))
         ) {
             const variant = test.variants[0]; // TODO - use mvt
-
             const bannerTestSelection = {
                 test,
                 variant,
