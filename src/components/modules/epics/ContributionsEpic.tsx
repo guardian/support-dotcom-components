@@ -3,6 +3,7 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
@@ -66,9 +67,11 @@ const highlightStyles = css`
 `;
 
 const imageWrapperStyles = css`
-    margin: 10px -4px 12px;
-    height: 150px;
-    width: calc(100% + 8px);
+    margin: ${space[3]}px 0 ${space[2]}px;
+
+    ${from.tablet} {
+        margin: 10px 0;
+    }
 `;
 
 const imageStyles = css`
