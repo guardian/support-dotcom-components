@@ -21,6 +21,7 @@ const tracking: BannerTracking = {
     campaignCode: 'AusMomentContributionsBanner_control',
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+    ophanComponentId: 'ACQUISITIONS_ENGAGEMENT_BANNER', // TODO: Remove once cached components expire
 };
 
 const tickerSettings = {
