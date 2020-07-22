@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { neutral, opinion } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 
@@ -32,10 +32,10 @@ const socialLinkSvg = css`
 `;
 
 const SocialLinks = (): JSX.Element => (
-    <div className={socialLinksWrapper}>
-        <a href={links.facebook} className={socialLink} target="_blank" rel="noopener noreferrer">
+    <div css={socialLinksWrapper}>
+        <a href={links.facebook} css={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
-                className={socialLinkSvg}
+                css={socialLinkSvg}
                 width="36"
                 height="36"
                 viewBox="0 0 36 36"
@@ -52,9 +52,9 @@ const SocialLinks = (): JSX.Element => (
             </svg>
         </a>
 
-        <a href={links.twitter} className={socialLink} target="_blank" rel="noopener noreferrer">
+        <a href={links.twitter} css={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
-                className={socialLinkSvg}
+                css={socialLinkSvg}
                 width="36"
                 height="36"
                 viewBox="0 0 36 36"
@@ -71,9 +71,9 @@ const SocialLinks = (): JSX.Element => (
             </svg>
         </a>
 
-        <a href={links.email} className={socialLink} target="_blank" rel="noopener noreferrer">
+        <a href={links.email} css={socialLink} target="_blank" rel="noopener noreferrer">
             <svg
-                className={socialLinkSvg}
+                css={socialLinkSvg}
                 width="36"
                 height="36"
                 viewBox="0 0 36 36"

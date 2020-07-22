@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from 'emotion-theming';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
@@ -69,7 +69,7 @@ export const Button: React.FC<Props> = (allProps: Props) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     priority={isTertiary ? 'primary' : priority}
-                    className={isTertiary ? tertiaryButtonOverrides : undefined}
+                    css={isTertiary ? tertiaryButtonOverrides : undefined}
                     {...props}
                 >
                     {children}
@@ -84,7 +84,7 @@ export const Button: React.FC<Props> = (allProps: Props) => {
                 icon={showArrow ? <SvgArrowRightStraight /> : undefined}
                 onClick={(): void => onClickAction()}
                 priority={isTertiary ? 'primary' : priority}
-                className={isTertiary ? tertiaryButtonOverrides : undefined}
+                css={isTertiary ? tertiaryButtonOverrides : undefined}
                 {...props}
             >
                 {children}

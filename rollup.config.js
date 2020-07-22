@@ -13,7 +13,7 @@ const tsOpts = {
     strict: true,
     noImplicitReturns: true,
     esModuleInterop: true,
-    jsx: 'react',
+    jsx: 'preserve',
     include: ['src/**/*'],
     exclude: ['node_modules', '**/*.test.ts', 'src/factories/*', 'src/cdk/*'],
     tsconfig: false,
@@ -60,22 +60,12 @@ const config = [
             resolveNode(),
             commonjs(),
             json(),
+            typescript(tsOpts),
             babel({
                 extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
-                plugins: [['emotion', { sourceMap: false }]],
-                presets: [
-                    [
-                        '@babel/preset-env',
-                        {
-                            targets: {
-                                ie: '11',
-                            },
-                        },
-                    ],
-                ],
                 babelHelpers: 'bundled',
             }),
-            typescript(tsOpts),
+
             // eslint-disable-next-line @typescript-eslint/camelcase
             terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
             externalGlobals(globals),

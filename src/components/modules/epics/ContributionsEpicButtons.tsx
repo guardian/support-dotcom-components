@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicTracking } from './ContributionsEpicTypes';
@@ -48,7 +48,7 @@ const PrimaryCtaButton = ({
     const urlWithRegionAndTracking = addTrackingParams(urlWithRegion, tracking);
 
     return (
-        <div className={buttonMargins}>
+        <div css={buttonMargins}>
             <Button onClickAction={urlWithRegionAndTracking} showArrow>
                 {buttonText}
             </Button>
@@ -73,18 +73,18 @@ export const ContributionsEpicButtons = ({
     }
 
     return (
-        <div className={buttonWrapperStyles} data-testid="epic=buttons">
+        <div css={buttonWrapperStyles} data-testid="epic=buttons">
             <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
 
             {secondaryCta && secondaryCta.baseUrl && secondaryCta.text ? (
-                <div className={buttonMargins}>
+                <div css={buttonMargins}>
                     <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
                         {secondaryCta.text}
                     </Button>
                 </div>
             ) : (
                 showReminderFields && (
-                    <div className={buttonMargins}>
+                    <div css={buttonMargins}>
                         <Button onClickAction={onOpenReminderClick} isTertiary>
                             {showReminderFields.reminderCTA}
                         </Button>
@@ -95,7 +95,7 @@ export const ContributionsEpicButtons = ({
             <img
                 src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                 alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                className={paymentImageStyles}
+                css={paymentImageStyles}
             />
         </div>
     );
