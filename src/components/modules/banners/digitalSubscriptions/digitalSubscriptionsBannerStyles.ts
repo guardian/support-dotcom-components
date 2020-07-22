@@ -41,7 +41,8 @@ export const topLeftComponent = css`
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 65%;
+        width: 60%;
+        padding-right: 0;
     }
 
     ${from.desktop} {
@@ -54,23 +55,26 @@ export const topLeftComponent = css`
 `;
 
 export const heading = css`
-    ${headline.small({ fontWeight: 'bold' })};
+    ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
 
-    @media (max-width: 740px) {
+    @media (min-width: 740px) {
         max-width: 90%;
     }
+    ${from.mobileLandscape} {
+        ${headline.small({ fontWeight: 'bold' })};
+    }
 
-    ${until.mobileLandscape} {
-        ${headline.xsmall({ fontWeight: 'bold' })};
+    ${from.tablet} {
+        max-width: 100%;
     }
 `;
 
 export const headLineBreak = css`
-    display: none;
-    @media (min-width: 1040px) {
-        display: block;
+    display: block;
+    ${from.phablet} {
+        display: none;
     }
 `;
 
@@ -79,12 +83,19 @@ export const paragraph = css`
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
+
+    ${from.phablet} {
+        max-width: 80%;
+    }
+
     ${from.tablet} {
         max-width: 100%;
     }
+
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
+        max-width: 35rem;
     }
 `;
 
@@ -160,8 +171,9 @@ export const bottomRightComponent = css`
 
     ${from.tablet} {
         align-self: flex-end;
-        max-width: 35%;
-        margin-top: -200px;
+        max-width: 45%;
+        margin-top: -220px;
+        padding-right: ${space[4]}px;
     }
 
     ${from.desktop} {
@@ -181,19 +193,41 @@ export const bottomRightComponent = css`
 `;
 
 export const packShot = css`
-    max-width: 85%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: -20px;
+
+    img {
+        width: 90%;
+    }
+
+    ${from.mobileMedium} {
+        margin-top: -10px;
+    }
 
     ${from.phablet} {
         max-width: 100%;
     }
 
-    ${from.desktop} {
-        align-self: flex-end;
-        max-width: 80%;
+    ${from.tablet} {
+        img {
+            max-width: 125%;
+        }
+    }
+
+    ${from.tablet} {
+        img {
+            width: 100%;
+        }
     }
 
     ${from.leftCol} {
         max-width: 80%;
+        img {
+            width: 90%;
+        }
     }
 
     ${from.wide} {
@@ -203,13 +237,15 @@ export const packShot = css`
 `;
 
 export const iconPanel = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 100%;
-    padding: ${space[4]}px 0;
-    margin: 0 ${space[4]}px;
+    ${from.desktop} {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        height: 100%;
+        padding: ${space[4]}px 0;
+        margin-left: ${space[4]}px;
+    }
 `;
 
 export const logoContainer = css`
@@ -228,10 +264,9 @@ export const logoContainer = css`
 `;
 
 export const closeButton = css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
     border: 1px solid ${neutral[100]};
     border-radius: 50%;
     outline: none;
@@ -241,8 +276,6 @@ export const closeButton = css`
     height: 35px;
 
     svg {
-        width: 25px;
-        height: 25px;
         fill: ${neutral[100]};
         transition: background-color 0.5s ease;
         border-radius: 50%;
@@ -252,10 +285,18 @@ export const closeButton = css`
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
     }
+    ${from.desktop} {
+        position: relative;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
 
-    ${until.desktop} {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+        svg {
+            width: 25px;
+            height: 25px;
+        }
     }
 `;

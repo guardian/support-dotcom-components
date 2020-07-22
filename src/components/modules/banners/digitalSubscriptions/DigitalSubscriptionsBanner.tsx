@@ -47,15 +47,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>
-                                The world is changing by the minute.{' '}
-                                <br className={headLineBreak} />
-                                Keep up with a digital subscription.
+                                Open to all, <br className={headLineBreak} />
+                                supported by you
                             </h3>
                             <p className={paragraph}>
-                                Two Guardian apps, with you every day. <strong>The Daily</strong>,
-                                joining you in the morning to share politics, culture, food and
-                                opinion. <strong>Live</strong>, constantly by your side, keeping you
-                                connected with the outside world.
+                                Support open, independent journalism and enjoy two innovative apps
+                                and ad-free reading on theguardian.com
                             </p>
                             <a
                                 className={linkStyle}
@@ -94,11 +91,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
                         <div className={bottomRightComponent}>
-                            <img
-                                className={packShot}
-                                src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
-                                alt=""
-                            />
+                            <div className={packShot}>
+                                <img
+                                    src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
+                                    alt=""
+                                />
+                            </div>
                             <div className={iconPanel}>
                                 <button
                                     onClick={(): void => closeBanner()}
