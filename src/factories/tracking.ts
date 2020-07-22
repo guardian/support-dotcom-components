@@ -20,6 +20,7 @@ export const testTracking = Factory.define<EpicTestTracking>(() => ({
     abTestVariant: 'api',
     componentType: 'ACQUISITIONS_EPIC',
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+    ophanComponentId: 'ACQUISITIONS_EPIC', // TODO: Remove once cached components expire
 }));
 
 export const tracking = Factory.define<EpicTracking>(({ factories }) => ({
