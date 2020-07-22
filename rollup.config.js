@@ -20,10 +20,8 @@ const tsOpts = {
 };
 
 const globals = {
-    react: 'guardian.automat.react',
-    emotion: 'guardian.automat.emotion', // TODO remove this dependency
+    react: 'guardian.automat.preact',
     '@emotion/core': 'guardian.automat.emotionCore',
-    'emotion-theming': 'guardian.automat.emotionTheming',
 };
 
 const config = [
@@ -57,7 +55,7 @@ const config = [
             format: 'es',
             sourcemap: isProd ? false : 'inline',
         },
-        external: id => Object.keys(globals).some(key => id.startsWith(key)),
+        external: id => Object.keys(globals).some(key => id == key),
         plugins: [
             resolveNode(),
             commonjs(),
