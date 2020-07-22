@@ -130,17 +130,19 @@ const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeader
     return <h2 className={headingStyles}>{elements}</h2>;
 };
 
-const Highlighted: React.FC<HighlightedProps> = ({ highlightedText }: HighlightedProps) => (
-    <strong className={highlightWrapperStyles}>
-        {' '}
-        <span
-            className={highlightStyles}
-            dangerouslySetInnerHTML={{
-                __html: highlightedText,
-            }}
-        />
-    </strong>
-);
+const Highlighted: React.FC<HighlightedProps> = ({
+    highlightedText,
+    numArticles,
+}: HighlightedProps) => {
+    const elements = replaceArticleCount(highlightedText, numArticles);
+
+    return (
+        <strong className={highlightWrapperStyles}>
+            {' '}
+            <span className={highlightStyles}>{elements}</span>
+        </strong>
+    );
+};
 
 interface EpicBodyParagraphProps {
     paragraph: string;
