@@ -1,8 +1,9 @@
 import { getCountryName, getLocalCurrencySymbol } from './geolocation';
 
-export const replacePlaceholders = (
+// we have to treat %%ARTICLE_COUNT%% placeholders specially as they are replaced
+// with react components, not a simple text substitution
+export const replaceNonArticleCountPlaceholders = (
     content: string | undefined,
-    numArticles: number,
     countryCode?: string,
 ): string => {
     if (!content) {
@@ -10,7 +11,6 @@ export const replacePlaceholders = (
     }
 
     content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
-    content = content.replace(/%%ARTICLE_COUNT%%/g, numArticles.toString());
 
     const countryName = getCountryName(countryCode) ?? '';
     content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
@@ -18,4 +18,8 @@ export const replacePlaceholders = (
     return content;
 };
 
-export const containsPlaceholder = (text: string): boolean => text.includes('%%');
+// this regex matches %% that are neither preceeded by %%ARTICLE_COUNT or followed by
+// ARTICLE_COUNT%%
+const NON_ARTICLE_COUNT_PLACEHOLDER_REGEX = /(?<!%%ARTICLE_COUNT)%%(?!ARTICLE_COUNT%%)/;
+export const containsNonArticleCountPlaceholder = (text: string): boolean =>
+    NON_ARTICLE_COUNT_PLACEHOLDER_REGEX.test(text);

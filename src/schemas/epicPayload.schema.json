@@ -94,6 +94,9 @@
                         ]
                     }
                 },
+                "hasOptedOutOfArticleCount": {
+                    "type": "boolean"
+                },
                 "showSupportMessaging": {
                     "type": "boolean"
                 },
@@ -106,6 +109,7 @@
             },
             "required": [
                 "contentType",
+                "hasOptedOutOfArticleCount",
                 "isMinuteArticle",
                 "isPaidContent",
                 "isRecurringContributor",
