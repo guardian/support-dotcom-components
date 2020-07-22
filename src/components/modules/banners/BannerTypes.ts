@@ -65,16 +65,19 @@ export interface BannerTestSelection {
     moduleName: string;
 }
 
-export interface BannerData {
+export interface BannerContent {
+    header?: string;
     messageText: string;
     ctaText: string;
     buttonCaption: string;
     linkUrl: string;
 }
 
+export type BannerContentCollection = BannerContent[];
+
 export interface BannerProps {
     tracking: BannerTracking;
-    data?: BannerData;
+    content?: BannerContent;
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;

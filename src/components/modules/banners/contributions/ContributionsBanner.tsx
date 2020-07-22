@@ -3,41 +3,26 @@ import { BannerProps } from '../BannerTypes';
 import { styles } from './ContributionsBannerStyles';
 import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 
-type ParsedMessageText = {
-    header: string;
-    body: string;
-};
-
 export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) => {
-    const { data, countryCode } = props;
-    if (data && countryCode) {
-        const currencySymbol = getLocalCurrencySymbol(countryCode);
-        const replaceCurrencyPlaceholder = (text: string): string => {
-            return text.replace('%%CURRENCY_SYMBOL%%', currencySymbol);
-        };
-        const parseMessageText = (text: string): ParsedMessageText => {
-            const strongTagPattern = /<strong>(.+)<\/strong>/;
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            // @ts-ignore
-            const header = text.match(strongTagPattern)[1];
-            const body = text.split('</strong>')[1];
-            return { header, body };
-        };
-        const { header, body } = parseMessageText(data.messageText);
+    console.log('--------------| inside contributionsBanner |--------------');
+    const { content, countryCode } = props;
+    const replaceCurrencyPlaceholder = (text: string, currencySymbol: string): string => {
+        return text.replace('%%CURRENCY_SYMBOL%%', currencySymbol);
+    };
 
+    if (content && countryCode) {
+        const currencySymbol = getLocalCurrencySymbol(countryCode);
         return (
             <>
-                {data && (
-                    <div className={styles.banner}>
-                        <p className={styles.copy}>
-                            <span className={styles.header}>{header}</span>
-                            <span dangerouslySetInnerHTML={{ __html: body }} />
-                            <span className={styles.inlineCTA}>
-                                {replaceCurrencyPlaceholder(data.ctaText)}
-                            </span>
-                        </p>
-                    </div>
-                )}
+                <div className={styles.banner}>
+                    <p className={styles.copy}>
+                        <span className={styles.header}>{content.header}</span>
+                        <span dangerouslySetInnerHTML={{ __html: content.messageText }} />
+                        <span className={styles.inlineCTA}>
+                            {replaceCurrencyPlaceholder(content.ctaText, currencySymbol)}
+                        </span>
+                    </p>
+                </div>
             </>
         );
     } else {

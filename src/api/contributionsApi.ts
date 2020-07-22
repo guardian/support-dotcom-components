@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { EpicTests, Variant } from '../lib/variants';
 import { isProd } from '../lib/env';
-import { BannerData } from '../components/modules/banners/BannerTypes';
+import {BannerContent, BannerContentCollection} from '../components/modules/banners/BannerTypes';
 
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
@@ -64,24 +64,22 @@ export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
     return response.json();
 };
 
-export const fetchDefaultBannerContent = async (): Promise<BannerData> => {
+export const fetchAllBannerContent = async (): Promise<BannerContentCollection> => {
     const startTime = new Date().getTime();
-    const defaultBannerUrl =
+    const bannerContentUrl =
         'https://interactive.guim.co.uk/docsdata/1CIHCoe87hyPHosXx1pYeVUoohvmIqh9cC_kNlV-CMHQ.json';
 
-    const response = await fetch(defaultBannerUrl);
+    const response = await fetch(bannerContentUrl);
     if (!response.ok) {
         throw new Error(
-            `Encountered a non-ok response when fetching default engagement banner: ${response.status}`,
+            `Encountered a non-ok response when fetching engagement banner content: ${response.status}`,
         );
     }
     const data = await response.json();
-    const bannerData = data?.sheets?.control[0];
+    const bannerContent = data?.sheets;
 
     const endTime = new Date().getTime();
-    console.log(
-        `Fetched default engagement banner content. Time elapsed: ${endTime - startTime}ms`,
-    );
+    console.log(`Fetched engagement banner content. Time elapsed: ${endTime - startTime}ms`);
 
-    return bannerData;
+    return bannerContent;
 };

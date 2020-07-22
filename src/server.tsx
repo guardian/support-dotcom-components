@@ -1,7 +1,7 @@
 import express from 'express';
 import awsServerlessExpress from 'aws-serverless-express';
 import { Context } from 'aws-lambda';
-import { fetchConfiguredEpicTests, fetchDefaultBannerContent } from './api/contributionsApi';
+import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
     EpicPageTracking,
@@ -31,7 +31,7 @@ import {
     BannerTargeting,
     BannerProps,
 } from './components/modules/banners/BannerTypes';
-import { selectBannerTest } from './tests/banners/bannerSelection';
+import { bannerContentForVariant, selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
@@ -143,12 +143,6 @@ const buildEpicData = async (
     };
 };
 
-const [, fetchDefaultBannerContentCached] = cacheAsync(
-    fetchDefaultBannerContent,
-    60,
-    'fetchDefaultBannerContent',
-);
-
 const buildBannerData = async (
     pageTracking: BannerPageTracking,
     targeting: BannerTargeting,
@@ -156,7 +150,7 @@ const buildBannerData = async (
     req: express.Request,
 ): Promise<BannerDataResponse> => {
     const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
-    const bannerData = await fetchDefaultBannerContentCached();
+    const bannerContent = await bannerContentForVariant(selectedTest);
 
     if (selectedTest) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;
@@ -175,7 +169,7 @@ const buildBannerData = async (
             tracking: { ...pageTracking, ...testTracking },
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
-            data: bannerData,
+            content: bannerContent,
             tickerSettings,
         };
 
@@ -320,6 +314,7 @@ app.get(
 app.get(
     `/${DefaultContributionsBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        console.log('--------------| inside DefaultContributionsBannerPath |--------------');
         try {
             const path = isDev
                 ? '/../dist/modules/contributionsBanners/ContributionsBanner.js'
@@ -329,6 +324,7 @@ app.get(
             res.type('js');
             setComponentCacheHeaders(res);
 
+            console.log('module: ', module);
             res.send(module);
         } catch (error) {
             next(error);

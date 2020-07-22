@@ -5,6 +5,7 @@ import {
     BannerTest,
     BannerType,
     BannerAudience,
+    BannerContent,
 } from '../../components/modules/banners/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
@@ -12,7 +13,8 @@ import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
-import {DefaultContributionsBanner} from "./DefaultContributionsBannerTest";
+import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
+import { fetchAllBannerContent } from '../../api/contributionsApi';
 
 type ReaderRevenueRegion =
     | 'united-kingdom'
@@ -153,6 +155,26 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
         default:
             return true;
     }
+};
+
+const [, fetchAllBannerContentCached] = cacheAsync(
+    fetchAllBannerContent,
+    60,
+    'fetchAllBannerContent',
+);
+export const bannerContentForVariant = async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    testSelection: BannerTestSelection | null,
+): Promise<BannerContent> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const allBannerContent = await fetchAllBannerContentCached();
+    return {
+        header: 'Header',
+        messageText: 'This is a test banner',
+        ctaText: 'Please contribute',
+        buttonCaption: 'Button',
+        linkUrl: 'https://support.theguardian.com/contribute',
+    };
 };
 
 export const selectBannerTest = async (
