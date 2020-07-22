@@ -19,7 +19,7 @@ const tracking: BannerTracking = {
     abTestVariant: 'control',
     campaignCode: '',
     componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    products: [],
+    products: ['DIGITAL_SUBSCRIPTION'],
     ophanComponentId: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER', // TODO: Remove once cached components expire
 };
 

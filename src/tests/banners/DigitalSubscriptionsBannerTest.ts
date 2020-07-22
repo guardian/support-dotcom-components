@@ -25,4 +25,5 @@ export const DigitalSubscriptionsBanner: BannerTest = {
         },
     ],
     componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    products: ['DIGITAL_SUBSCRIPTION'],
 };

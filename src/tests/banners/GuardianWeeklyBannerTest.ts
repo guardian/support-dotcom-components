@@ -25,4 +25,5 @@ export const GuardianWeeklyBanner: BannerTest = {
         },
     ],
     componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    products: ['PRINT_SUBSCRIPTION'],
 };
