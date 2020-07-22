@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 export const banner = css`
