@@ -1,8 +1,4 @@
-import {
-    BannerPageTracking,
-    BannerTargeting,
-    BannerTest,
-} from '../../components/modules/banners/BannerTypes';
+import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
 export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
@@ -28,4 +24,6 @@ export const GuardianWeeklyBanner: BannerTest = {
             moduleName: name,
         },
     ],
+    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    products: ['PRINT_SUBSCRIPTION'],
 };

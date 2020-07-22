@@ -56,6 +56,9 @@ describe('POST /epic', () => {
             campaignCode:
                 'gdnwb_copts_memco_2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count_Control',
             campaignId: 'epic_2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
+            componentType: 'ACQUISITIONS_EPIC',
+            products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+            ophanComponentId: 'ACQUISITIONS_EPIC', // TODO: Remove once cached components expire
         });
     });
 

@@ -3,6 +3,7 @@ import { AusMomentThankYouBanner } from './AusMomentThankYouBanner';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
+import { BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
     component: AusMomentThankYouBanner,
@@ -10,15 +11,17 @@ export default {
     decorators: [withKnobs],
 };
 
-const tracking = {
+const tracking: BannerTracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
-    ophanComponentId: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl: 'http://localhost:3030/Article',
     abTestName: 'AusMomentContributionsBanner',
     abTestVariant: 'control',
     campaignCode: 'AusMomentContributionsBanner_control',
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+    ophanComponentId: 'ACQUISITIONS_ENGAGEMENT_BANNER', // TODO: Remove once cached components expire
 };
 
 const tickerSettings = {

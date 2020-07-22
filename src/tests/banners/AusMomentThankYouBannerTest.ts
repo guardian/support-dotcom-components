@@ -1,8 +1,4 @@
-import {
-    BannerPageTracking,
-    BannerTargeting,
-    BannerTest,
-} from '../../components/modules/banners/BannerTypes';
+import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
 export const AusMomentThankYouBannerPath = 'aus-moment-thank-you-banner.js';
@@ -34,4 +30,6 @@ export const AusMomentThankYouBanner: BannerTest = {
             moduleName: name,
         },
     ],
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };

@@ -35,7 +35,6 @@ const content = {
 
 const pageTracking: EpicPageTracking = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
-    ophanComponentId: 'ACQUISITIONS_EPIC',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl:
@@ -47,6 +46,9 @@ const testTracking: EpicTestTracking = {
     campaignId: 'remote_epic_test',
     abTestName: 'remote_epic_test',
     abTestVariant: 'api',
+    componentType: 'ACQUISITIONS_EPIC',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+    ophanComponentId: 'ACQUISITIONS_EPIC', // TODO: Remove once cached components expire
 };
 
 const tracking: EpicTracking = {

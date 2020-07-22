@@ -7,9 +7,6 @@
                 "ophanPageId": {
                     "type": "string"
                 },
-                "ophanComponentId": {
-                    "type": "string"
-                },
                 "platformId": {
                     "type": "string"
                 },
@@ -22,7 +19,6 @@
             },
             "required": [
                 "clientName",
-                "ophanComponentId",
                 "ophanPageId",
                 "platformId",
                 "referrerUrl"

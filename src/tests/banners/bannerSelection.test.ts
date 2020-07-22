@@ -31,7 +31,6 @@ describe('selectBannerTest', () => {
 
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',
@@ -105,7 +104,6 @@ describe('selectBannerTest', () => {
 
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',
@@ -192,7 +190,6 @@ describe('selectBannerTest', () => {
 
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',
