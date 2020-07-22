@@ -12,6 +12,7 @@ import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
+import {DefaultContributionsBanner} from "./DefaultContributionsBannerTest";
 
 type ReaderRevenueRegion =
     | 'united-kingdom'
@@ -160,6 +161,7 @@ export const selectBannerTest = async (
     baseUrl: string,
 ): Promise<BannerTestSelection | null> => {
     const tests: BannerTest[] = [
+        DefaultContributionsBanner,
         AusMomentThankYouBanner,
         DigitalSubscriptionsBanner,
         GuardianWeeklyBanner,
