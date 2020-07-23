@@ -95,7 +95,15 @@ export const paragraph = css`
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
-        max-width: 35rem;
+        max-width: 37rem;
+    }
+
+    ${from.leftCol} {
+        max-width: 30rem;
+    }
+
+    ${from.wide} {
+        max-width: 37rem;
     }
 `;
 

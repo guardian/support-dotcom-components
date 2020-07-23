@@ -47,12 +47,13 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>
-                                Open to all, <br className={headLineBreak} />
-                                supported by you
+                                Our reporting. <br className={headLineBreak} />
+                                Your pace.
                             </h3>
                             <p className={paragraph}>
-                                Support open, independent journalism and enjoy two innovative apps
-                                and ad-free reading on theguardian.com
+                                Tired of being always on? Our Daily edition comes to you just once a
+                                day. If a story breaks, you can still catch it with Premium access
+                                to our Live app. All with no ads. It&apos;s up to you.
                             </p>
                             <a
                                 className={linkStyle}
