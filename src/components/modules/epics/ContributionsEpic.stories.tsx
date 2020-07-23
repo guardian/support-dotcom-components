@@ -39,7 +39,6 @@ export const defaultStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
-        ophanComponentId: testData.tracking.componentType, // TODO: Remove once cached components expire
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -85,7 +84,6 @@ export const backgroundImageStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
-        ophanComponentId: testData.tracking.componentType, // TODO: Remove once cached components expire
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -134,7 +132,6 @@ export const secondaryButtonStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
-        ophanComponentId: testData.tracking.componentType, // TODO: Remove once cached components expire
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -186,7 +183,6 @@ export const epicReminderStory = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
-        ophanComponentId: testData.tracking.componentType, // TODO: Remove once cached components expire
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -226,7 +222,6 @@ export const epicWithoutButtons = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
-        ophanComponentId: testData.tracking.componentType, // TODO: Remove once cached components expire
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
@@ -285,7 +280,6 @@ export const epicWithTicker = (): ReactElement => {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
-        ophanComponentId: testData.tracking.componentType, // TODO: Remove once cached components expire
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),

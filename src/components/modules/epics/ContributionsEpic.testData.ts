@@ -48,7 +48,6 @@ const testTracking: EpicTestTracking = {
     abTestVariant: 'api',
     componentType: 'ACQUISITIONS_EPIC',
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
-    ophanComponentId: 'ACQUISITIONS_EPIC', // TODO: Remove once cached components expire
 };
 
 const tracking: EpicTracking = {

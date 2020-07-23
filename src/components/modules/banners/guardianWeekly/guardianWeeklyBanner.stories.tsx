@@ -18,7 +18,6 @@ const tracking: BannerTracking = {
     campaignCode: '',
     componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     products: ['PRINT_SUBSCRIPTION'],
-    ophanComponentId: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER', // TODO: Remove once cached components expire
 };
 
 export const defaultStory = (): ReactElement => {
