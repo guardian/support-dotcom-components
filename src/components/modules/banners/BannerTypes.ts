@@ -77,7 +77,7 @@ export type BannerContentCollection = BannerContent[];
 
 export interface BannerProps {
     tracking: BannerTracking;
-    content: BannerContent;
+    content?: BannerContent;
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
