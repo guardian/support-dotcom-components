@@ -73,5 +73,5 @@ export type BannerProps = {
     tracking: BannerTracking;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 };
