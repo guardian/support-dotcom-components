@@ -316,8 +316,8 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const path = isDev
-                ? '/../dist/modules/contributionsBanners/ContributionsBanner.js'
-                : '/modules/contributionsBanners/ContributionsBanner.js';
+                ? '/../dist/modules/banners/contributions/ContributionsBanner.js'
+                : '/modules/banners/contributions/ContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
