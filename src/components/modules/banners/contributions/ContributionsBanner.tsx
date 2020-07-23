@@ -4,7 +4,6 @@ import { styles } from './ContributionsBannerStyles';
 import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 
 export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) => {
-    console.log('--------------| inside contributionsBanner |--------------');
     const { content, countryCode } = props;
     const replaceCurrencyPlaceholder = (text: string, currencySymbol: string): string => {
         return text.replace('%%CURRENCY_SYMBOL%%', currencySymbol);

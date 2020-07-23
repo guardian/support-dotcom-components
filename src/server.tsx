@@ -152,7 +152,7 @@ const buildBannerData = async (
     const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
     const bannerContent = await bannerContentForVariant(selectedTest);
 
-    if (selectedTest) {
+    if (selectedTest && bannerContent) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;
 
         const testTracking: BannerTestTracking = {
@@ -314,7 +314,6 @@ app.get(
 app.get(
     `/${DefaultContributionsBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        console.log('--------------| inside DefaultContributionsBannerPath |--------------');
         try {
             const path = isDev
                 ? '/../dist/modules/contributionsBanners/ContributionsBanner.js'
@@ -324,7 +323,6 @@ app.get(
             res.type('js');
             setComponentCacheHeaders(res);
 
-            console.log('module: ', module);
             res.send(module);
         } catch (error) {
             next(error);
