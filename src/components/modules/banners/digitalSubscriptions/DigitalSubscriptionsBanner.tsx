@@ -47,15 +47,13 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>
-                                The world is changing by the minute.{' '}
-                                <br className={headLineBreak} />
-                                Keep up with a digital subscription.
+                                Our reporting. <br className={headLineBreak} />
+                                Your pace.
                             </h3>
                             <p className={paragraph}>
-                                Two Guardian apps, with you every day. <strong>The Daily</strong>,
-                                joining you in the morning to share politics, culture, food and
-                                opinion. <strong>Live</strong>, constantly by your side, keeping you
-                                connected with the outside world.
+                                Tired of being always on? Our Daily edition comes to you just once a
+                                day. If a story breaks, you can still catch it with Premium access
+                                to our Live app. All with no ads. It&apos;s up to you.
                             </p>
                             <a
                                 className={linkStyle}
@@ -94,11 +92,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
                         <div className={bottomRightComponent}>
-                            <img
-                                className={packShot}
-                                src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
-                                alt=""
-                            />
+                            <div className={packShot}>
+                                <img
+                                    src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
+                                    alt=""
+                                />
+                            </div>
                             <div className={iconPanel}>
                                 <button
                                     onClick={(): void => closeBanner()}
