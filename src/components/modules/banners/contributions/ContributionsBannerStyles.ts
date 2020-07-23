@@ -13,6 +13,7 @@ export const styles = {
 
     header: css`
         ${body.medium({ fontWeight: 'bold' })};
+        margin-right: 0.25em;
     `,
 
     copy: css`
@@ -29,6 +30,7 @@ export const styles = {
     inlineCTA: css`
         background-color: ${neutral[100]};
         padding: 0 0.25rem;
+        margin-left: 0.25em;
         ${body.medium({ fontWeight: 'bold' })};
         &::selection {
             background-color: ${brandAlt[400]};

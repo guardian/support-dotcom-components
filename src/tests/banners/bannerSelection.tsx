@@ -169,9 +169,9 @@ export const bannerContentForVariant = async (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const allBannerContent = await fetchAllBannerContentCached();
     return {
-        header: 'Header',
-        messageText: 'This is a test banner',
-        ctaText: 'Please contribute',
+        header: 'Header text.',
+        messageText: 'Body text.',
+        ctaText: 'Inline CTA text.',
         buttonCaption: 'Button',
         linkUrl: 'https://support.theguardian.com/contribute',
     };
