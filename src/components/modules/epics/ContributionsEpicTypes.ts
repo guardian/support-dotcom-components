@@ -14,7 +14,6 @@ export type EpicTestTracking = {
     campaignId: string;
     componentType: OphanComponentType;
     products: OphanProduct[];
-    ophanComponentId: OphanComponentType; // TODO: Remove once cached components expire
 };
 
 export type EpicTracking = EpicPageTracking & EpicTestTracking;

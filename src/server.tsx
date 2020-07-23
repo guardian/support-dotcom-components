@@ -120,7 +120,6 @@ const buildEpicData = async (
         campaignId: `epic_${test.campaignId || test.name}`,
         componentType: 'ACQUISITIONS_EPIC',
         products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
-        ophanComponentId: 'ACQUISITIONS_EPIC', // TODO: Remove once cached components expire
     };
 
     const props: EpicProps = {
@@ -162,7 +161,6 @@ const buildBannerData = async (
             campaignCode: buildBannerCampaignCode(test, variant),
             componentType: test.componentType,
             ...(test.products && { products: test.products }),
-            ophanComponentId: test.componentType, // TODO: Remove once cached components expire
         };
 
         const tickerSettings = variant.tickerSettings

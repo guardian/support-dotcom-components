@@ -23,7 +23,6 @@ export type BannerTestTracking = {
     campaignCode: string;
     componentType: OphanComponentType;
     products?: OphanProduct[];
-    ophanComponentId: OphanComponentType; // TODO: Remove once cached components expire
 };
 
 export type BannerPageTracking = {
