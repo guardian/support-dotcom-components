@@ -1,5 +1,5 @@
 import { TickerSettings } from '../lib/variants';
-import { OphanProduct, OphanComponentType } from './OphanTypes';
+import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -73,4 +73,5 @@ export type BannerProps = {
     tracking: BannerTracking;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 };
