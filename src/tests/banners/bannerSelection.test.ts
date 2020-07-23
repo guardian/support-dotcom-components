@@ -89,6 +89,80 @@ describe('selectBannerTest', () => {
         });
     });
 
+    describe('Contributions Banner', () => {
+        const targeting = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'US',
+            engagementBannerLastClosedAt: firstDate,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
+        };
+
+        const tracking = {
+            ophanPageId: '',
+            ophanComponentId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
+
+        it('returns banner if it has never been dismissed', () => {
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            _.resetCache('contributions', 'united-states');
+
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    engagementBannerLastClosedAt: undefined,
+                }),
+                tracking,
+                '',
+            ).then(result => {
+                expect(result && result.test.name).toBe('ContributionsBanner');
+            });
+        });
+
+        it('returns banner if has been redeployed', () => {
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            _.resetCache('contributions', 'united-states');
+
+            return selectBannerTest(targeting, tracking, '').then(result => {
+                expect(result && result.test.name).toBe('ContributionsBanner');
+            });
+        });
+
+        it('returns null if article is paid content', () => {
+            (cacheAsync as jest.Mock).mockReturnValue([
+                null,
+                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
+            ]);
+
+            _.resetCache('contributions', 'united-states');
+
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    isPaidContent: true,
+                }),
+                tracking,
+                '',
+            ).then(result => {
+                expect(result).toBe(null);
+            });
+        });
+    });
+
     describe('Subs Banner', () => {
         const targeting = {
             alreadyVisitedCount: 3,

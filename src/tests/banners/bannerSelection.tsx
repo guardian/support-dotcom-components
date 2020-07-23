@@ -162,19 +162,16 @@ const [, fetchAllBannerContentCached] = cacheAsync(
     60,
     'fetchAllBannerContent',
 );
+
 export const bannerContentForVariant = async (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     testSelection: BannerTestSelection | null,
 ): Promise<BannerContent> => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    console.log(testSelection);
+    const testName = 'control';
+    const variantName = 0;
+
     const allBannerContent = await fetchAllBannerContentCached();
-    return {
-        header: 'Header text.',
-        messageText: 'Body text.',
-        ctaText: 'Inline CTA text.',
-        buttonCaption: 'Button',
-        linkUrl: 'https://support.theguardian.com/contribute',
-    };
+    return allBannerContent[testName][variantName];
 };
 
 export const selectBannerTest = async (

@@ -73,7 +73,9 @@ export interface BannerContent {
     linkUrl: string;
 }
 
-export type BannerContentCollection = BannerContent[];
+export interface BannerContentCollection {
+    [key: string]: BannerContent[];
+}
 
 export interface BannerProps {
     tracking: BannerTracking;

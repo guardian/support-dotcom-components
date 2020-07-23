@@ -11,11 +11,6 @@ export const styles = {
         border-top: 1px solid ${neutral[7]};
     `,
 
-    header: css`
-        ${body.medium({ fontWeight: 'bold' })};
-        margin-right: 0.25em;
-    `,
-
     copy: css`
         padding: 5px;
         display: block;
@@ -27,10 +22,24 @@ export const styles = {
         }
     `,
 
-    inlineCTA: css`
+    header: css`
+        ${body.medium({ fontWeight: 'bold' })};
+        &::selection {
+            background-color: ${brandAlt[400]};
+            color: ${neutral[7]};
+        }
+    `,
+
+    messageText: css`
+        &::selection {
+            background-color: ${brandAlt[400]};
+            color: ${neutral[7]};
+        }
+    `,
+
+    ctaText: css`
         background-color: ${neutral[100]};
         padding: 0 0.25rem;
-        margin-left: 0.25em;
         ${body.medium({ fontWeight: 'bold' })};
         &::selection {
             background-color: ${brandAlt[400]};

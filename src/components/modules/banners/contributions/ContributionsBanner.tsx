@@ -16,8 +16,11 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                 <div className={styles.banner}>
                     <p className={styles.copy}>
                         <span className={styles.header}>{content.header}</span>
-                        <span dangerouslySetInnerHTML={{ __html: content.messageText }} />
-                        <span className={styles.inlineCTA}>
+                        <span
+                            className={styles.messageText}
+                            dangerouslySetInnerHTML={{ __html: content.messageText }}
+                        />
+                        <span className={styles.ctaText}>
                             {replaceCurrencyPlaceholder(content.ctaText, currencySymbol)}
                         </span>
                     </p>
