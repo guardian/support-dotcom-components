@@ -20,6 +20,9 @@ export const styles = {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
         }
+        strong {
+            ${body.medium({ fontWeight: 'bold' })};
+        }
     `,
 
     header: css`
