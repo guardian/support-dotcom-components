@@ -1,7 +1,7 @@
 import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
-import { BannerTracking } from '../types/BannerTypes';
 import { Test, Variant } from '../lib/variants';
-import { BannerTest, BannerVariant } from '../types/BannerTypes';
+import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
+import { OphanComponentEvent } from '../types/OphanTypes';
 
 type LinkParams = {
     REFPVID: string;
@@ -48,3 +48,24 @@ export const buildCampaignCode = (test: Test, variant: Variant): string =>
 
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
     `${test.name}_${variant.name}`;
+
+export const createClickEventFromTracking = (
+    tracking: BannerTracking,
+    componentId: string,
+): OphanComponentEvent => {
+    const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+
+    return {
+        component: {
+            componentType,
+            products,
+            campaignCode,
+            id: componentId,
+        },
+        abTest: {
+            name: abTestName,
+            variant: abTestVariant,
+        },
+        action: 'CLICK',
+    };
+};
