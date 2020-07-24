@@ -28,11 +28,11 @@ import { addTrackingParams, createClickEventFromTracking } from '../../../../lib
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
-const bannerId = 'subscription-banner :';
-const ctaComponentId = `${bannerId} cta`;
-const notNowComponentId = `${bannerId} not now`;
-const closeComponentId = `${bannerId} close`;
-const signInComponentId = `${bannerId} sign in`;
+const bannerId = 'subscription-banner';
+const ctaComponentId = `${bannerId} : cta`;
+const notNowComponentId = `${bannerId} : not now`;
+const closeComponentId = `${bannerId} : close`;
+const signInComponentId = `${bannerId} : sign in`;
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     tracking,
@@ -40,10 +40,9 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
-    const subscriptionUrlWithTracking = addTrackingParams(subscriptionUrl, tracking);
-
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
+        const subscriptionUrlWithTracking = addTrackingParams(subscriptionUrl, tracking);
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -63,7 +62,6 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         evt.preventDefault();
         const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
-        console.log('componentClickEvent ---->', componentClickEvent);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
@@ -84,11 +82,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section
-                    id="js-site-message--subscription-banner"
-                    className={banner}
-                    data-target="subscriptions-banner"
-                >
+                <section className={banner} data-target={bannerId}>
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>
