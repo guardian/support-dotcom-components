@@ -42,11 +42,14 @@ export interface BannerVariant {
     tickerSettings?: TickerSettings;
     modulePath: string;
     moduleName: string;
+    bannerContent?: BannerContent;
 }
 
 export type BannerType = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
+
+export type BannerTestGenerator = () => Promise<BannerTest>;
 
 export interface BannerTest {
     name: string;
@@ -71,10 +74,6 @@ export interface BannerContent {
     ctaText: string;
     buttonCaption: string;
     linkUrl: string;
-}
-
-export interface BannerContentCollection {
-    [key: string]: BannerContent[];
 }
 
 export interface BannerProps {

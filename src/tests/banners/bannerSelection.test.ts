@@ -12,7 +12,7 @@ describe('selectBannerTest', () => {
         jest.resetAllMocks();
     });
 
-    const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
+    const firstDate = 'Mon Jun 01 2020 19:20:10 GMT+0100';
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
 
     describe('Australia Moment', () => {
@@ -96,7 +96,7 @@ describe('selectBannerTest', () => {
             isPaidContent: false,
             showSupportMessaging: true,
             mvtId: 3,
-            countryCode: 'US',
+            countryCode: 'GB',
             engagementBannerLastClosedAt: firstDate,
             switches: {
                 remoteSubscriptionsBanner: true,
@@ -117,7 +117,7 @@ describe('selectBannerTest', () => {
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
             ]);
 
-            _.resetCache('contributions', 'united-states');
+            _.resetCache('contributions', 'united-kingdom');
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -136,7 +136,7 @@ describe('selectBannerTest', () => {
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
             ]);
 
-            _.resetCache('contributions', 'united-states');
+            _.resetCache('contributions', 'united-kingdom');
 
             return selectBannerTest(targeting, tracking, '').then(result => {
                 expect(result && result.test.name).toBe('ContributionsBanner');
@@ -149,7 +149,7 @@ describe('selectBannerTest', () => {
                 (): Promise<Date> => Promise.resolve(new Date(secondDate)),
             ]);
 
-            _.resetCache('contributions', 'united-states');
+            _.resetCache('contributions', 'united-kingdom');
 
             return selectBannerTest(
                 Object.assign(targeting, {

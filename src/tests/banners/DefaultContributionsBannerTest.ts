@@ -1,19 +1,21 @@
-import { BannerTest } from '../../components/modules/banners/BannerTypes';
+import { BannerContent, BannerTest } from '../../components/modules/banners/BannerTypes';
 
 export const DefaultContributionsBannerPath = 'contributions-banner.js';
 
-export const DefaultContributionsBanner: BannerTest = {
-    name: 'DefaultContributionsBanner',
-    bannerType: 'contributions',
-    testAudience: 'All', // TODO : change this!
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: () => true,
-    minPageViews: 2,
-    variants: [
-        {
-            name: 'control',
-            modulePath: DefaultContributionsBannerPath,
-            moduleName: 'ContributionsBanner',
-        },
-    ],
+export const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest => {
+    return {
+        name: 'DefaultContributionsBanner',
+        bannerType: 'contributions',
+        testAudience: 'NonSupporters',
+        canRun: (): boolean => true,
+        minPageViews: 2,
+        variants: [
+            {
+                name: 'control',
+                modulePath: DefaultContributionsBannerPath,
+                moduleName: 'ContributionsBanner',
+                bannerContent: bannerContent,
+            },
+        ],
+    };
 };

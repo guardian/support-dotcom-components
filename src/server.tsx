@@ -31,7 +31,7 @@ import {
     BannerTargeting,
     BannerProps,
 } from './components/modules/banners/BannerTypes';
-import { bannerContentForVariant, selectBannerTest } from './tests/banners/bannerSelection';
+import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
@@ -150,9 +150,8 @@ const buildBannerData = async (
     req: express.Request,
 ): Promise<BannerDataResponse> => {
     const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
-    const bannerContent = await bannerContentForVariant(selectedTest);
 
-    if (selectedTest && bannerContent) {
+    if (selectedTest) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;
 
         const testTracking: BannerTestTracking = {
@@ -169,7 +168,7 @@ const buildBannerData = async (
             tracking: { ...pageTracking, ...testTracking },
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
-            content: bannerContent,
+            content: variant.bannerContent,
             tickerSettings,
         };
 

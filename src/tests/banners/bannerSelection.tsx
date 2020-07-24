@@ -6,6 +6,7 @@ import {
     BannerType,
     BannerAudience,
     BannerContent,
+    BannerTestGenerator,
 } from '../../components/modules/banners/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
@@ -14,7 +15,7 @@ import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
-import { fetchAllBannerContent } from '../../api/contributionsApi';
+import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 
 type ReaderRevenueRegion =
     | 'united-kingdom'
@@ -157,34 +158,48 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
     }
 };
 
-const [, fetchAllBannerContentCached] = cacheAsync(
-    fetchAllBannerContent,
-    60,
-    'fetchAllBannerContent',
-);
-
-export const bannerContentForVariant = async (
-    testSelection: BannerTestSelection | null,
-): Promise<BannerContent> => {
-    console.log(testSelection);
-    const testName = 'control';
-    const variantName = 0;
-
-    const allBannerContent = await fetchAllBannerContentCached();
-    return allBannerContent[testName][variantName];
+const controlBannerTest = (bannerContent: BannerContent): BannerTest => {
+    return DefaultContributionsBanner(bannerContent);
 };
+
+const controlBannerContentUrl =
+    'https://interactive.guim.co.uk/docsdata/1CIHCoe87hyPHosXx1pYeVUoohvmIqh9cC_kNlV-CMHQ.json';
+
+const controlBannerTestGenerator: BannerTestGenerator = () =>
+    fetch(controlBannerContentUrl)
+        .then(response => response.json())
+        .then(json => json['sheets']['control'][0])
+        .then(controlBannerContent => controlBannerTest(controlBannerContent))
+        .then(controlBannerTest => Promise.resolve(controlBannerTest));
+
+const ausMomentBannerTestGenerator: BannerTestGenerator = () =>
+    Promise.resolve(AusMomentContributionsBanner);
+
+const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
+    Promise.resolve(DigitalSubscriptionsBanner);
+
+const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
+    Promise.resolve(GuardianWeeklyBanner);
+
+const testGenerators: BannerTestGenerator[] = [
+    ausMomentBannerTestGenerator,
+    controlBannerTestGenerator,
+    digitalSubscriptionsBannerGenerator,
+    guardianWeeklyBannerGenerator,
+];
+
+const [, getTests] = cacheAsync(
+    () => Promise.all(testGenerators.map(testGenerator => testGenerator())),
+    60,
+    'bannerTests',
+);
 
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: BannerPageTracking,
     baseUrl: string,
 ): Promise<BannerTestSelection | null> => {
-    const tests: BannerTest[] = [
-        DefaultContributionsBanner,
-        AusMomentThankYouBanner,
-        DigitalSubscriptionsBanner,
-        GuardianWeeklyBanner,
-    ];
+    const tests = await getTests();
 
     for (const test of tests) {
         if (
