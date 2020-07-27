@@ -23,15 +23,58 @@ import {
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
+import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
+
+const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
+const signInUrl =
+    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
+const bannerId = 'subscription-banner';
+const ctaComponentId = `${bannerId} : cta`;
+const notNowComponentId = `${bannerId} : not now`;
+const closeComponentId = `${bannerId} : close`;
+const signInComponentId = `${bannerId} : sign in`;
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     tracking,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    isSupporter,
+    submitComponentEvent,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
-    const closeBanner = (): void => {
+
+    const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const subscriptionUrlWithTracking = addTrackingParams(subscriptionUrl, tracking);
+        const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+        window.location.href = subscriptionUrlWithTracking;
+    };
+
+    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+        window.location.href = signInUrl;
+    };
+
+    const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+        setShowBanner(false);
+        setSubscriptionsBannerClosedTimestamp();
+    };
+
+    const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const componentClickEvent = createClickEventFromTracking(tracking, notNowComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
         setShowBanner(false);
         setSubscriptionsBannerClosedTimestamp();
     };
@@ -39,11 +82,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section
-                    id="js-site-message--subscription-banner"
-                    className={banner}
-                    data-target="subscriptions-banner"
-                >
+                <section className={banner} data-target={bannerId}>
                     <div className={contentContainer}>
                         <div className={topLeftComponent}>
                             <h3 className={heading}>
@@ -55,13 +94,9 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 day. If a story breaks, you can still catch it with Premium access
                                 to our Live app. All with no ads. It&apos;s up to you.
                             </p>
-                            <a
-                                className={linkStyle}
-                                href="https://support.theguardian.com/uk/subscribe"
-                            >
+                            <a className={linkStyle} onClick={onSubscribeClick}>
                                 <div
-                                    id="js-site-message--subscription-banner__cta"
-                                    data-link-name="subscription-banner : cta"
+                                    data-link-name={ctaComponentId}
                                     className={becomeASubscriberButton}
                                 >
                                     <span className={buttonTextDesktop}>
@@ -73,19 +108,14 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             </a>
                             <button
                                 className={notNowButton}
-                                id="js-site-message--subscription-banner__cta-dismiss"
-                                data-link-name="subscription-banner : not now"
-                                onClick={(): void => closeBanner()}
+                                data-link-name={notNowComponentId}
+                                onClick={onNotNowClick}
                             >
                                 Not now
                             </button>
                             <div className={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a
-                                    id="js-site-message--subscription-banner__sign-in"
-                                    href="https://support.theguardian.com/uk/subscribe"
-                                    data-link-name="subscription-banner : sign in"
-                                >
+                                <a data-link-name={signInComponentId} onClick={onSignInClick}>
                                     Sign in
                                 </a>{' '}
                                 to not see this again
@@ -100,10 +130,9 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             </div>
                             <div className={iconPanel}>
                                 <button
-                                    onClick={(): void => closeBanner()}
+                                    onClick={onCloseClick}
                                     className={closeButton}
-                                    id="js-site-message--subscription-banner__close-button"
-                                    data-link-name="subscription-banner : close"
+                                    data-link-name={closeComponentId}
                                     aria-label="Close"
                                 >
                                     <SvgClose />
