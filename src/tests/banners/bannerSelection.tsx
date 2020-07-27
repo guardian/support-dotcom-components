@@ -158,10 +158,7 @@ export const selectBannerTest = async (
     pageTracking: BannerPageTracking,
     baseUrl: string,
 ): Promise<BannerTestSelection | null> => {
-    const tests: BannerTest[] = [
-        DigitalSubscriptionsBanner,
-        GuardianWeeklyBanner,
-    ];
+    const tests: BannerTest[] = [DigitalSubscriptionsBanner, GuardianWeeklyBanner];
 
     for (const test of tests) {
         if (
