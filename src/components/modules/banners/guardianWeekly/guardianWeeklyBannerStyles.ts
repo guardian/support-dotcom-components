@@ -204,14 +204,14 @@ export const iconPanel = css`
 
 export const logoContainer = css`
     display: none;
+
     ${from.desktop} {
         display: block;
-        width: 100%;
         fill: ${neutral[100]};
-        min-width: 60px;
+        width: 70px;
     }
     ${from.leftCol} {
-        min-width: 80px;
+        min-width: 90px;
     }
 `;
 
