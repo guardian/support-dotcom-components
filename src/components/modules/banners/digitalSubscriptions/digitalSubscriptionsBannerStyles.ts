@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 export const banner = css`
@@ -24,13 +24,19 @@ export const banner = css`
 export const contentContainer = css`
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 980px;
+
     ${from.tablet} {
-        display: flex;
         flex-direction: row;
     }
+    ${from.leftCol} {
+        max-width: 1140px;
+    }
     ${from.wide} {
-        max-width: 1250px;
+        max-width: 1300px;
     }
 `;
 
@@ -44,11 +50,12 @@ export const topLeftComponent = css`
         width: 60%;
         padding-right: 0;
     }
-
     ${from.desktop} {
         width: 50%;
     }
-
+    ${from.leftCol} {
+        padding-left: 0;
+    }
     ${from.wide} {
         width: 53%;
     }
@@ -192,6 +199,7 @@ export const bottomRightComponent = css`
     }
 
     ${from.leftCol} {
+        padding-right: 0;
         justify-content: space-between;
     }
 
@@ -272,9 +280,10 @@ export const logoContainer = css`
 `;
 
 export const closeButton = css`
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     border: 1px solid ${neutral[100]};
     border-radius: 50%;
     outline: none;
@@ -282,29 +291,20 @@ export const closeButton = css`
     cursor: pointer;
     width: 35px;
     height: 35px;
-
     svg {
+        width: 25px;
+        height: 25px;
         fill: ${neutral[100]};
         transition: background-color 0.5s ease;
         border-radius: 50%;
     }
-
     :hover {
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
     }
-    ${from.desktop} {
-        position: relative;
-        top: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-
-        svg {
-            width: 25px;
-            height: 25px;
-        }
+    ${until.desktop} {
+        position: absolute;
+        top: 10px;
+        right: 10px;
     }
 `;
