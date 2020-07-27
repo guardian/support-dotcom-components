@@ -271,11 +271,11 @@ export const logoContainer = css`
         display: block;
         width: 100%;
         fill: ${neutral[100]};
-        min-width: 60px;
+        width: 70px;
     }
 
     ${from.leftCol} {
-        min-width: 80px;
+        width: 90px;
     }
 `;
 
