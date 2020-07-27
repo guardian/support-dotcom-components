@@ -8,7 +8,6 @@ import {
 } from '../../types/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
-import { AusMomentThankYouBanner } from './AusMomentThankYouBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
@@ -160,7 +159,6 @@ export const selectBannerTest = async (
     baseUrl: string,
 ): Promise<BannerTestSelection | null> => {
     const tests: BannerTest[] = [
-        AusMomentThankYouBanner,
         DigitalSubscriptionsBanner,
         GuardianWeeklyBanner,
     ];
