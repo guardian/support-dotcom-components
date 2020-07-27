@@ -363,7 +363,7 @@ export const findTestAndVariant = (
         hasCountryCode,
         matchesCountryGroups,
         withinMaxViews(targeting.epicViewLog || []),
-        // withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
+        withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
         hasNoZeroArticleCount(),
         respectArticleCountOptOut,
