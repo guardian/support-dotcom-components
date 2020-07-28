@@ -2,7 +2,7 @@ import { selectBannerTest } from './bannerSelection';
 import { getTests } from './bannerTests';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 
-const getCache = (date: string, region: ReaderRevenueRegion) =>
+const getBannerDeployCache = (date: string, region: ReaderRevenueRegion): BannerDeployCaches =>
     ({
         subscriptions: {
             [region]: () => Promise.resolve(new Date(date)),
@@ -38,7 +38,7 @@ describe('selectBannerTest', () => {
         };
 
         it('returns banner if it has never been dismissed', () => {
-            const cache = getCache(secondDate, 'united-states');
+            const cache = getBannerDeployCache(secondDate, 'united-states');
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
                 expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
@@ -46,7 +46,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns banner if has been redeployed', () => {
-            const cache = getCache(firstDate, 'united-states');
+            const cache = getBannerDeployCache(firstDate, 'united-states');
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
                 expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
@@ -54,7 +54,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if there are insufficient page views', () => {
-            const cache = getCache(firstDate, 'united-states');
+            const cache = getBannerDeployCache(firstDate, 'united-states');
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -70,7 +70,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if user is logged in and has a subscription', () => {
-            const cache = getCache(firstDate, 'united-states');
+            const cache = getBannerDeployCache(firstDate, 'united-states');
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -107,7 +107,7 @@ describe('selectBannerTest', () => {
             clientName: '',
         };
         it('returns banner if it has never been dismissed', () => {
-            const cache = getCache(secondDate, 'australia');
+            const cache = getBannerDeployCache(secondDate, 'australia');
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
                 expect(result && result.test.name).toBe('GuardianWeeklyBanner');
@@ -115,7 +115,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if other contributions banner was dismissed and subs switch is off', () => {
-            const cache = getCache(secondDate, 'australia');
+            const cache = getBannerDeployCache(secondDate, 'australia');
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -133,7 +133,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns banner if has been redeployed', () => {
-            const cache = getCache(firstDate, 'australia');
+            const cache = getBannerDeployCache(firstDate, 'australia');
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -151,7 +151,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if shouldHideReaderRevenue', () => {
-            const cache = getCache(firstDate, 'australia');
+            const cache = getBannerDeployCache(firstDate, 'australia');
 
             return selectBannerTest(
                 Object.assign(targeting, {
