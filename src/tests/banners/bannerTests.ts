@@ -3,7 +3,7 @@ import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
-import {cacheAsync} from "../../lib/cache";
+import { cacheAsync } from '../../lib/cache';
 
 const ausMomentBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve(AusMomentContributionsBanner);
