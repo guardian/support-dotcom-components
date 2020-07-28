@@ -1,3 +1,4 @@
+import fetch from 'node-fetch';
 import { BannerTestGenerator, BannerContent, BannerTest } from '../../types/BannerTypes';
 
 export const DefaultContributionsBannerPath = 'contributions-banner.js';
@@ -32,4 +33,13 @@ export const defaultBannerTestGenerator: BannerTestGenerator = () =>
     fetch(defaultBannerContentUrl)
         .then(response => response.json())
         .then(json => json['sheets']['control'][0])
-        .then(defaultBannerContent => defaultBannerTest(defaultBannerContent));
+        .then(defaultBannerContent => {
+            return defaultBannerTest({
+                messageText: defaultBannerContent.messageText,
+                highlightedText: defaultBannerContent.ctaText,
+                cta: {
+                    baseUrl: defaultBannerContent.linkUrl,
+                    text: defaultBannerContent.buttonCaption
+                }
+            })
+        });
