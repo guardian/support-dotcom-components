@@ -102,6 +102,7 @@ export const buttonTextMobileTablet = css`
 `;
 
 export const linkStyle = css`
+    cursor: pointer;
     text-decoration: none;
     :visited {
         color: ${text.primary};
@@ -244,3 +245,7 @@ export const closeButton = css`
         right: 10px;
     }
 `;
+
+export const signInLink = `{
+    cursor: pointer;
+}`;
