@@ -87,4 +87,4 @@ export interface BannerProps {
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-};
+}

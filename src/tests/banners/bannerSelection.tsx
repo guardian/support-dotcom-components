@@ -7,7 +7,7 @@ import {
     BannerAudience,
     BannerContent,
     BannerTestGenerator,
-} from '../../components/modules/banners/BannerTypes';
+} from '../../types/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import fetch from 'node-fetch';

@@ -1,4 +1,4 @@
-import { BannerContent, BannerTest } from '../../components/modules/banners/BannerTypes';
+import { BannerContent, BannerTest } from '../../types/BannerTypes';
 
 export const DefaultContributionsBannerPath = 'contributions-banner.js';
 
@@ -17,5 +17,6 @@ export const DefaultContributionsBanner = (bannerContent: BannerContent): Banner
                 bannerContent: bannerContent,
             },
         ],
+        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
 };

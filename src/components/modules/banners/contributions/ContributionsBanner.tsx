@@ -1,5 +1,5 @@
 import React from 'react';
-import { BannerProps } from '../BannerTypes';
+import { BannerProps } from '../../../../types/BannerTypes';
 import { styles } from './ContributionsBannerStyles';
 import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 
