@@ -23,3 +23,5 @@ export const replaceNonArticleCountPlaceholders = (
 const NON_ARTICLE_COUNT_PLACEHOLDER_REGEX = /(?<!%%ARTICLE_COUNT)%%(?!ARTICLE_COUNT%%)/;
 export const containsNonArticleCountPlaceholder = (text: string): boolean =>
     NON_ARTICLE_COUNT_PLACEHOLDER_REGEX.test(text);
+
+export const containsPlaceholder = (text: string): boolean => text.includes('%%');
