@@ -56,7 +56,7 @@ describe('fetchDefaultEpic', () => {
         });
     });
 
-    it('caches successful epic fetches', async () => {
+    it('bannerDeployCaches successful epic fetches', async () => {
         fetchMock.get(epicUrl, epicResponse);
 
         const [reset, fetchData] = cacheAsync(
