@@ -11,7 +11,6 @@ const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest =>
         name: 'DefaultContributionsBanner',
         bannerType: 'contributions',
         testAudience: 'NonSupporters',
-        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
         canRun: (): boolean => true,
         minPageViews: 2,
         variants: [
@@ -22,6 +21,7 @@ const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest =>
                 bannerContent: bannerContent,
             },
         ],
+        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
 };
 

@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
-import { ContributionsBanner } from './modules/banners/contributions/ContributionsBanner';
+import { ContributionsBanner } from './ContributionsBanner';
 import { withKnobs } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../utils/StorybookWrapper';
-import { BannerContent, BannerTracking } from '../types/BannerTypes';
+import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
+import { BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
     component: ContributionsBanner,
