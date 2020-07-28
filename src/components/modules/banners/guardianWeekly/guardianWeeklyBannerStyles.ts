@@ -246,6 +246,8 @@ export const closeButton = css`
     }
 `;
 
-export const signInLink = `{
-    cursor: pointer;
-}`;
+export const signInLink = css`
+     {
+        cursor: pointer;
+    }
+`;
