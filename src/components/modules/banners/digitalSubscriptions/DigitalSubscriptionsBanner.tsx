@@ -20,6 +20,7 @@ import {
     notNowButton,
     becomeASubscriberButton,
     linkStyle,
+    signInLink,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
@@ -110,7 +111,11 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             </button>
                             <div css={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a data-link-name={signInComponentId} onClick={onSignInClick}>
+                                <a
+                                    className={signInLink}
+                                    data-link-name={signInComponentId}
+                                    onClick={onSignInClick}
+                                >
                                     Sign in
                                 </a>{' '}
                                 to not see this again

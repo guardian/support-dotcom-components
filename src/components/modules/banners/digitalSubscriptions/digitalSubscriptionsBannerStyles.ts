@@ -122,6 +122,7 @@ export const linkStyle = css`
 `;
 
 export const becomeASubscriberButton = css`
+    cursor: pointer;
     display: inline-block;
     border-radius: 1.875rem;
     background-color: ${brandAlt[400]};
@@ -308,3 +309,7 @@ export const closeButton = css`
         right: 10px;
     }
 `;
+
+export const signInLink = `{
+    cursor: pointer;
+}`;
