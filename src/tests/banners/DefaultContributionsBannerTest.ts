@@ -39,7 +39,7 @@ export const defaultBannerTestGenerator: BannerTestGenerator = () =>
                 highlightedText: defaultBannerContent.ctaText,
                 cta: {
                     baseUrl: defaultBannerContent.linkUrl,
-                    text: defaultBannerContent.buttonCaption
-                }
-            })
+                    text: defaultBannerContent.buttonCaption,
+                },
+            });
         });
