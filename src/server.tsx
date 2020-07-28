@@ -37,7 +37,7 @@ import { DefaultContributionsBannerPath } from './tests/banners/DefaultContribut
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
-import { getCachedTests } from './tests/banners/bannerTestsCache';
+import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 
 const app = express();
