@@ -3,12 +3,17 @@ import { css } from 'emotion';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
-import { replacePlaceholders, containsPlaceholder } from '../../../lib/placeholders';
+import { from } from '@guardian/src-foundations/mq';
+import {
+    replaceNonArticleCountPlaceholders,
+    containsNonArticleCountPlaceholder,
+} from '../../../lib/placeholders';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
+import { ArticleCountOptOut } from './ArticleCountOptOut';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -62,9 +67,11 @@ const highlightStyles = css`
 `;
 
 const imageWrapperStyles = css`
-    margin: 10px -4px 12px;
-    height: 150px;
-    width: calc(100% + 8px);
+    margin: ${space[3]}px 0 ${space[2]}px;
+
+    ${from.tablet} {
+        margin: 10px 0;
+    }
 `;
 
 const imageStyles = css`
@@ -98,17 +105,68 @@ interface OnReminderOpen {
     buttonCopyAsString: string;
 }
 
-const Highlighted: React.FC<HighlightedProps> = ({ highlightedText }: HighlightedProps) => (
-    <strong className={highlightWrapperStyles}>
-        {' '}
-        <span
-            className={highlightStyles}
-            dangerouslySetInnerHTML={{
-                __html: highlightedText,
-            }}
-        />
-    </strong>
-);
+const replaceArticleCount = (text: string, numArticles: number): Array<JSX.Element> => {
+    const nextWords: Array<string | null> = [];
+    const subbedText = text.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
+        nextWords.push(nextWord);
+        return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
+    });
+
+    const parts = subbedText.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
+    const elements = [];
+    for (let i = 0; i < parts.length - 1; i += 1) {
+        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] }} />);
+        elements.push(<ArticleCountOptOut numArticles={numArticles} nextWord={nextWords[i]} />);
+    }
+    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] }} />);
+
+    return elements;
+};
+
+interface EpicHeaderProps {
+    text: string;
+    numArticles: number;
+}
+
+const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeaderProps) => {
+    const elements = replaceArticleCount(text, numArticles);
+    return <h2 className={headingStyles}>{elements}</h2>;
+};
+
+const Highlighted: React.FC<HighlightedProps> = ({
+    highlightedText,
+    numArticles,
+}: HighlightedProps) => {
+    const elements = replaceArticleCount(highlightedText, numArticles);
+
+    return (
+        <strong className={highlightWrapperStyles}>
+            {' '}
+            <span className={highlightStyles}>{elements}</span>
+        </strong>
+    );
+};
+
+interface EpicBodyParagraphProps {
+    paragraph: string;
+    numArticles: number;
+    highlighted: JSX.Element | null;
+}
+
+const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
+    paragraph,
+    numArticles,
+    highlighted,
+}: EpicBodyParagraphProps) => {
+    const elements = replaceArticleCount(paragraph, numArticles);
+
+    return (
+        <p className={bodyStyles}>
+            {elements}
+            {highlighted ? highlighted : null}
+        </p>
+    );
+};
 
 const EpicBody: React.FC<BodyProps> = ({
     countryCode,
@@ -119,21 +177,20 @@ const EpicBody: React.FC<BodyProps> = ({
     return (
         <>
             {paragraphs.map((paragraph, idx) => (
-                <p key={idx} className={bodyStyles}>
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: paragraph,
-                        }}
-                    />
-
-                    {highlightedText && idx === paragraphs.length - 1 && (
-                        <Highlighted
-                            highlightedText={highlightedText}
-                            countryCode={countryCode}
-                            numArticles={numArticles}
-                        />
-                    )}
-                </p>
+                <EpicBodyParagraph
+                    key={idx}
+                    paragraph={paragraph}
+                    numArticles={numArticles}
+                    highlighted={
+                        highlightedText && idx === paragraphs.length - 1 ? (
+                            <Highlighted
+                                highlightedText={highlightedText}
+                                countryCode={countryCode}
+                                numArticles={numArticles}
+                            />
+                        ) : null
+                    }
+                />
             ))}
         </>
     );
@@ -149,14 +206,21 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
-    const cleanHighlighted = replacePlaceholders(variant.highlightedText, numArticles, countryCode);
-    const cleanHeading = replacePlaceholders(variant.heading, numArticles, countryCode);
+    const cleanHighlighted = replaceNonArticleCountPlaceholders(
+        variant.highlightedText,
+        countryCode,
+    );
+    const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
-        replacePlaceholders(paragraph, numArticles, countryCode),
+        replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
 
-    if ([cleanHighlighted, cleanHeading, ...cleanParagraphs].some(containsPlaceholder)) {
+    if (
+        [cleanHighlighted, cleanHeading, ...cleanParagraphs].some(
+            containsNonArticleCountPlaceholder,
+        )
+    ) {
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
@@ -180,14 +244,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                 </div>
             )}
 
-            {cleanHeading && (
-                <h2
-                    className={headingStyles}
-                    dangerouslySetInnerHTML={{
-                        __html: cleanHeading,
-                    }}
-                />
-            )}
+            {cleanHeading && <EpicHeader text={cleanHeading} numArticles={numArticles} />}
 
             <EpicBody
                 paragraphs={cleanParagraphs}

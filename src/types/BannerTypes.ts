@@ -1,4 +1,5 @@
-import { TickerSettings } from '../../../lib/variants';
+import { TickerSettings } from '../lib/variants';
+import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -20,11 +21,12 @@ export type BannerTestTracking = {
     abTestName: string;
     abTestVariant: string;
     campaignCode: string;
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
 };
 
 export type BannerPageTracking = {
     ophanPageId: string;
-    ophanComponentId: string;
     platformId: string;
     referrerUrl: string;
     clientName: string;
@@ -58,6 +60,8 @@ export interface BannerTest {
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
 }
 
 // The result of selecting a test+variant for a user
@@ -82,4 +86,5 @@ export interface BannerProps {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-}
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+};

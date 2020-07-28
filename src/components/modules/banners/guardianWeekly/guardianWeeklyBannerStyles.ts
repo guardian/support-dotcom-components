@@ -22,15 +22,21 @@ export const banner = css`
 `;
 
 export const contentContainer = css`
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 980px;
+
     ${from.tablet} {
         flex-direction: row;
     }
+    ${from.leftCol} {
+        max-width: 1140px;
+    }
     ${from.wide} {
-        max-width: 1250px;
+        max-width: 1300px;
     }
 `;
 
@@ -46,6 +52,9 @@ export const topLeftComponent = css`
     }
     ${from.desktop} {
         width: 50%;
+    }
+    ${from.leftCol} {
+        padding-left: 0;
     }
     ${from.wide} {
         width: 53%;
@@ -156,6 +165,7 @@ export const bottomRightComponent = css`
     }
     ${from.leftCol} {
         justify-content: space-between;
+        padding-right: 0;
     }
     ${from.wide} {
         max-width: 47%;
@@ -194,14 +204,14 @@ export const iconPanel = css`
 
 export const logoContainer = css`
     display: none;
+
     ${from.desktop} {
         display: block;
-        width: 100%;
         fill: ${neutral[100]};
-        min-width: 60px;
+        width: 70px;
     }
     ${from.leftCol} {
-        min-width: 80px;
+        min-width: 90px;
     }
 `;
 

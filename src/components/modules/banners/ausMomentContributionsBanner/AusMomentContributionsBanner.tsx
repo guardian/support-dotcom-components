@@ -5,7 +5,7 @@ import { neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
-import { BannerTracking, BannerProps } from '../BannerTypes';
+import { BannerTracking, BannerProps } from '../../../../types/BannerTypes';
 import SocialLinks from './SocialLinks';
 import { SvgClose } from '@guardian/src-icons';
 import SunriseBackground from './SunriseBackground';

@@ -63,7 +63,6 @@ describe('DigitalSubscriptionsBanner canRun', () => {
         };
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',
@@ -105,7 +104,6 @@ describe('WeeklyBanner canRun', () => {
         };
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',

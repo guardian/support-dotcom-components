@@ -1,7 +1,7 @@
 import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
-import { BannerTracking } from '../components/modules/banners/BannerTypes';
 import { Test, Variant } from '../lib/variants';
-import { BannerTest, BannerVariant } from '../components/modules/banners/BannerTypes';
+import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
+import { OphanComponentEvent } from '../types/OphanTypes';
 
 type LinkParams = {
     REFPVID: string;
@@ -18,7 +18,7 @@ export const addTrackingParams = (
         JSON.stringify({
             source: params.platformId,
             componentId: params.campaignCode,
-            componentType: params.ophanComponentId,
+            componentType: params.componentType,
             campaignCode: params.campaignCode,
             abTest: {
                 name: params.abTestName,
@@ -48,3 +48,24 @@ export const buildCampaignCode = (test: Test, variant: Variant): string =>
 
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
     `${test.name}_${variant.name}`;
+
+export const createClickEventFromTracking = (
+    tracking: BannerTracking,
+    componentId: string,
+): OphanComponentEvent => {
+    const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+
+    return {
+        component: {
+            componentType,
+            products,
+            campaignCode,
+            id: componentId,
+        },
+        abTest: {
+            name: abTestName,
+            variant: abTestVariant,
+        },
+        action: 'CLICK',
+    };
+};

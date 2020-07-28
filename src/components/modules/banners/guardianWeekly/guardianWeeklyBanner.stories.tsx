@@ -1,21 +1,23 @@
 import React, { ReactElement } from 'react';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBanner';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
+import { BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
     component: GuardianWeeklyBanner,
     title: 'Components/GuardianWeeklyBanner',
 };
 
-const tracking = {
+const tracking: BannerTracking = {
     ophanPageId: 'kbluzw2csbf83eabettt',
-    ophanComponentId: 'SUBSCRIPTIONS_BANNER',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl: 'http://localhost:3030/Article',
     abTestName: 'GuardianWeeklyBanner',
     abTestVariant: 'control',
     campaignCode: '',
+    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    products: ['PRINT_SUBSCRIPTION'],
 };
 
 export const defaultStory = (): ReactElement => {

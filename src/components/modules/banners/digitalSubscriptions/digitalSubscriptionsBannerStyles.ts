@@ -24,13 +24,19 @@ export const banner = css`
 export const contentContainer = css`
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 980px;
+
     ${from.tablet} {
-        display: flex;
         flex-direction: row;
     }
+    ${from.leftCol} {
+        max-width: 1140px;
+    }
     ${from.wide} {
-        max-width: 1250px;
+        max-width: 1300px;
     }
 `;
 
@@ -41,36 +47,41 @@ export const topLeftComponent = css`
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 65%;
+        width: 60%;
+        padding-right: 0;
     }
-
     ${from.desktop} {
         width: 50%;
     }
-
+    ${from.leftCol} {
+        padding-left: 0;
+    }
     ${from.wide} {
         width: 53%;
     }
 `;
 
 export const heading = css`
-    ${headline.small({ fontWeight: 'bold' })};
+    ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
 
-    @media (max-width: 740px) {
+    @media (min-width: 740px) {
         max-width: 90%;
     }
+    ${from.mobileLandscape} {
+        ${headline.small({ fontWeight: 'bold' })};
+    }
 
-    ${until.mobileLandscape} {
-        ${headline.xsmall({ fontWeight: 'bold' })};
+    ${from.tablet} {
+        max-width: 100%;
     }
 `;
 
 export const headLineBreak = css`
-    display: none;
-    @media (min-width: 1040px) {
-        display: block;
+    display: block;
+    ${from.phablet} {
+        display: none;
     }
 `;
 
@@ -79,12 +90,27 @@ export const paragraph = css`
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
+
+    ${from.phablet} {
+        max-width: 80%;
+    }
+
     ${from.tablet} {
         max-width: 100%;
     }
+
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
+        max-width: 37rem;
+    }
+
+    ${from.leftCol} {
+        max-width: 30rem;
+    }
+
+    ${from.wide} {
+        max-width: 37rem;
     }
 `;
 
@@ -160,8 +186,9 @@ export const bottomRightComponent = css`
 
     ${from.tablet} {
         align-self: flex-end;
-        max-width: 35%;
-        margin-top: -200px;
+        max-width: 45%;
+        margin-top: -220px;
+        padding-right: ${space[4]}px;
     }
 
     ${from.desktop} {
@@ -172,6 +199,7 @@ export const bottomRightComponent = css`
     }
 
     ${from.leftCol} {
+        padding-right: 0;
         justify-content: space-between;
     }
 
@@ -181,19 +209,41 @@ export const bottomRightComponent = css`
 `;
 
 export const packShot = css`
-    max-width: 85%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: -20px;
+
+    img {
+        width: 90%;
+    }
+
+    ${from.mobileMedium} {
+        margin-top: -10px;
+    }
 
     ${from.phablet} {
         max-width: 100%;
     }
 
-    ${from.desktop} {
-        align-self: flex-end;
-        max-width: 80%;
+    ${from.tablet} {
+        img {
+            max-width: 125%;
+        }
+    }
+
+    ${from.tablet} {
+        img {
+            width: 100%;
+        }
     }
 
     ${from.leftCol} {
         max-width: 80%;
+        img {
+            width: 90%;
+        }
     }
 
     ${from.wide} {
@@ -203,13 +253,15 @@ export const packShot = css`
 `;
 
 export const iconPanel = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 100%;
-    padding: ${space[4]}px 0;
-    margin: 0 ${space[4]}px;
+    ${from.desktop} {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        height: 100%;
+        padding: ${space[4]}px 0;
+        margin-left: ${space[4]}px;
+    }
 `;
 
 export const logoContainer = css`
@@ -219,11 +271,11 @@ export const logoContainer = css`
         display: block;
         width: 100%;
         fill: ${neutral[100]};
-        min-width: 60px;
+        width: 70px;
     }
 
     ${from.leftCol} {
-        min-width: 80px;
+        width: 90px;
     }
 `;
 
@@ -239,7 +291,6 @@ export const closeButton = css`
     cursor: pointer;
     width: 35px;
     height: 35px;
-
     svg {
         width: 25px;
         height: 25px;
@@ -247,12 +298,10 @@ export const closeButton = css`
         transition: background-color 0.5s ease;
         border-radius: 50%;
     }
-
     :hover {
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
     }
-
     ${until.desktop} {
         position: absolute;
         top: 10px;

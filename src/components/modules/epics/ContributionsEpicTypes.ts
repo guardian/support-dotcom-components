@@ -1,6 +1,7 @@
+import { OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
+
 export type EpicPageTracking = {
     ophanPageId: string;
-    ophanComponentId: string;
     platformId: string;
     referrerUrl: string;
     clientName: string;
@@ -11,6 +12,8 @@ export type EpicTestTracking = {
     abTestVariant: string;
     campaignCode: string;
     campaignId: string;
+    componentType: OphanComponentType;
+    products: OphanProduct[];
 };
 
 export type EpicTracking = EpicPageTracking & EpicTestTracking;
@@ -53,6 +56,7 @@ export type EpicTargeting = {
     epicViewLog?: ViewLog;
     countryCode?: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
+    hasOptedOutOfArticleCount: boolean;
 
     // Note, it turns out that showSupportMessaging (defined in the Members Data
     // API) does not capture every case of recurring contributors or last

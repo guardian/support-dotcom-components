@@ -1,8 +1,4 @@
-import {
-    BannerPageTracking,
-    BannerTargeting,
-    BannerTest,
-} from '../../components/modules/banners/BannerTypes';
+import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
 
 export const DigitalSubscriptionsBannerPath = 'digital-subscriptions-banner.js';
@@ -16,7 +12,7 @@ export const DigitalSubscriptionsBanner: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
         if (targeting.switches.remoteSubscriptionsBanner) {
             const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-            return region === 'united-kingdom' || region === 'united-states';
+            return !(region === 'australia' || region === 'rest-of-world');
         }
         return false;
     },
@@ -28,4 +24,6 @@ export const DigitalSubscriptionsBanner: BannerTest = {
             moduleName: name,
         },
     ],
+    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    products: ['DIGITAL_SUBSCRIPTION'],
 };

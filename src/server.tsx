@@ -30,7 +30,7 @@ import {
     BannerTestTracking,
     BannerTargeting,
     BannerProps,
-} from './components/modules/banners/BannerTypes';
+} from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
@@ -119,6 +119,8 @@ const buildEpicData = async (
         abTestVariant: variant.name,
         campaignCode: buildCampaignCode(test, variant),
         campaignId: `epic_${test.campaignId || test.name}`,
+        componentType: 'ACQUISITIONS_EPIC',
+        products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
     };
 
     const props: EpicProps = {
@@ -158,6 +160,8 @@ const buildBannerData = async (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
+            componentType: test.componentType,
+            ...(test.products && { products: test.products }),
         };
 
         const tickerSettings = variant.tickerSettings
@@ -415,7 +419,6 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 
     const fakeTracking = {
         ophanPageId: 'xxxxxxxxxxxxx',
-        ophanComponentId: 'ACQUISITIONS_EPIC',
         platformId: 'GUARDIAN_WEB',
         clientName: 'xxx',
         referrerUrl: 'https://theguardian.com',

@@ -12,156 +12,8 @@ describe('selectBannerTest', () => {
         jest.resetAllMocks();
     });
 
-    const firstDate = 'Mon Jun 01 2020 19:20:10 GMT+0100';
+    const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
-
-    describe('Australia Moment', () => {
-        const targeting = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            mvtId: 3,
-            countryCode: 'AU',
-            engagementBannerLastClosedAt: firstDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
-        };
-
-        const tracking = {
-            ophanPageId: '',
-            ophanComponentId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-
-        it('returns banner if it has never been dismissed', () => {
-            (cacheAsync as jest.Mock).mockReturnValue([
-                null,
-                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
-            ]);
-
-            _.resetCache('contributions', 'australia');
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    engagementBannerLastClosedAt: undefined,
-                }),
-                tracking,
-                '',
-            ).then(result => {
-                expect(result && result.test.name).toBe('AusMomentThankYouBanner');
-            });
-        });
-
-        it('returns banner if has been redeployed', () => {
-            (cacheAsync as jest.Mock).mockReturnValue([
-                null,
-                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
-            ]);
-
-            _.resetCache('contributions', 'australia');
-
-            return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('AusMomentThankYouBanner');
-            });
-        });
-
-        it('returns null if article is paid content', () => {
-            (cacheAsync as jest.Mock).mockReturnValue([
-                null,
-                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
-            ]);
-
-            _.resetCache('contributions', 'australia');
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    isPaidContent: true,
-                }),
-                tracking,
-                '',
-            ).then(result => {
-                expect(result).toBe(null);
-            });
-        });
-    });
-
-    describe('Contributions Banner', () => {
-        const targeting = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            mvtId: 3,
-            countryCode: 'GB',
-            engagementBannerLastClosedAt: firstDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
-        };
-
-        const tracking = {
-            ophanPageId: '',
-            ophanComponentId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-
-        it('returns banner if it has never been dismissed', () => {
-            (cacheAsync as jest.Mock).mockReturnValue([
-                null,
-                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
-            ]);
-
-            _.resetCache('contributions', 'united-kingdom');
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    engagementBannerLastClosedAt: undefined,
-                }),
-                tracking,
-                '',
-            ).then(result => {
-                expect(result && result.test.name).toBe('ContributionsBanner');
-            });
-        });
-
-        it('returns banner if has been redeployed', () => {
-            (cacheAsync as jest.Mock).mockReturnValue([
-                null,
-                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
-            ]);
-
-            _.resetCache('contributions', 'united-kingdom');
-
-            return selectBannerTest(targeting, tracking, '').then(result => {
-                expect(result && result.test.name).toBe('ContributionsBanner');
-            });
-        });
-
-        it('returns null if article is paid content', () => {
-            (cacheAsync as jest.Mock).mockReturnValue([
-                null,
-                (): Promise<Date> => Promise.resolve(new Date(secondDate)),
-            ]);
-
-            _.resetCache('contributions', 'united-kingdom');
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    isPaidContent: true,
-                }),
-                tracking,
-                '',
-            ).then(result => {
-                expect(result).toBe(null);
-            });
-        });
-    });
 
     describe('Subs Banner', () => {
         const targeting = {
@@ -179,7 +31,6 @@ describe('selectBannerTest', () => {
 
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',
@@ -266,7 +117,6 @@ describe('selectBannerTest', () => {
 
         const tracking = {
             ophanPageId: '',
-            ophanComponentId: '',
             platformId: '',
             referrerUrl: '',
             clientName: '',

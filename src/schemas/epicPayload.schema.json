@@ -7,9 +7,6 @@
                 "ophanPageId": {
                     "type": "string"
                 },
-                "ophanComponentId": {
-                    "type": "string"
-                },
                 "platformId": {
                     "type": "string"
                 },
@@ -22,7 +19,6 @@
             },
             "required": [
                 "clientName",
-                "ophanComponentId",
                 "ophanPageId",
                 "platformId",
                 "referrerUrl"
@@ -94,6 +90,9 @@
                         ]
                     }
                 },
+                "hasOptedOutOfArticleCount": {
+                    "type": "boolean"
+                },
                 "showSupportMessaging": {
                     "type": "boolean"
                 },
@@ -106,6 +105,7 @@
             },
             "required": [
                 "contentType",
+                "hasOptedOutOfArticleCount",
                 "isMinuteArticle",
                 "isPaidContent",
                 "isRecurringContributor",

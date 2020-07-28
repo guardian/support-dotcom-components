@@ -250,15 +250,6 @@ export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => 
     },
 });
 
-// Temporarily disable all epics with articlesViewedSettings, while we test a new feature in frontend:
-// https://github.com/guardian/frontend/pull/22546
-export const noArticleViewedSettings: Filter = {
-    id: 'noArticleViewedSettings',
-    test: (test): boolean => {
-        return !test.articlesViewedSettings;
-    },
-};
-
 export const withinArticleViewedSettings = (
     history: WeeklyArticleHistory,
     now: Date = new Date(),
@@ -327,6 +318,17 @@ export const isNotExpired = (now: Date = new Date()): Filter => ({
     },
 });
 
+export const respectArticleCountOptOut: Filter = {
+    id: 'respectArticleCountOptOut',
+    test: (test, targeting) => {
+        if (test.articlesViewedSettings) {
+            return !targeting.hasOptedOutOfArticleCount;
+        } else {
+            return true;
+        }
+    },
+};
+
 type FilterResults = { [filter: string]: boolean };
 
 export type Debug = { [test: string]: FilterResults };
@@ -361,10 +363,10 @@ export const findTestAndVariant = (
         hasCountryCode,
         matchesCountryGroups,
         withinMaxViews(targeting.epicViewLog || []),
-        // withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-        noArticleViewedSettings,
+        withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
         isContentType,
         hasNoZeroArticleCount(),
+        respectArticleCountOptOut,
     ];
 
     const priorityOrdered = ([] as Test[]).concat(
