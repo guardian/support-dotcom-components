@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { css } from 'emotion';
+import { css, SerializedStyles } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
@@ -201,7 +201,7 @@ const horizon = css`
 
 const horizonSvg = (
     <svg
-        className={horizon}
+        css={horizon}
         viewBox="0 0 1300 19"
         preserveAspectRatio="none"
         fill="${neutral[7]}"
@@ -279,7 +279,7 @@ const mobileMessageContainer = css`
     }
 `;
 
-const mobileMessage = (isExpanded: boolean = false): string => {
+const mobileMessage = (isExpanded: boolean = false): SerializedStyles => {
     if (isExpanded) {
         return css`
             display: block;
@@ -397,7 +397,7 @@ const chevron = css`
 `;
 
 const messageMaxHeight = 210;
-const message = (isOverflowing: boolean): string => css`
+const message = (isOverflowing: boolean): SerializedStyles => css`
     overflow: hidden;
     display: none;
     max-height: 70px;
@@ -427,7 +427,7 @@ const messageText = css`
 
 const chevronUp = (
     <svg
-        className={chevron}
+        css={chevron}
         viewBox="0 0 30 30"
         xmlns="http://www.w3.org/2000/svg"
         height="20px"
@@ -444,7 +444,7 @@ const chevronUp = (
 
 const chevronDown = (
     <svg
-        className={chevron}
+        css={chevron}
         viewBox="0 0 30 30"
         xmlns="http://www.w3.org/2000/svg"
         height="20px"
@@ -462,7 +462,7 @@ const chevronDown = (
 const messageSupporter = (goalReached: boolean) => {
     if (goalReached) {
         return (
-            <div className={messageText}>
+            <div css={messageText}>
                 <p>
                     Thanks to the support of thousands of readers like you, Guardian Australia has
                     grown and is now read by one in three people. We’ve reached our first goal, and
@@ -479,7 +479,7 @@ const messageSupporter = (goalReached: boolean) => {
         );
     } else {
         return (
-            <div className={messageText}>
+            <div css={messageText}>
                 <p>
                     Thanks to the support of thousands of readers like you, Guardian Australia has
                     grown and is now read by one in three people. Your support has helped us deliver
@@ -500,7 +500,7 @@ const messageSupporter = (goalReached: boolean) => {
 const messageNonSupporter = (targetReached: boolean) => {
     if (targetReached) {
         return (
-            <div className={messageText}>
+            <div css={messageText}>
                 <p>
                     One in three people in Australia read the Guardian in the last year. We need to
                     keep growing our readership and gaining your support so we can provide high
@@ -517,7 +517,7 @@ const messageNonSupporter = (targetReached: boolean) => {
         );
     } else {
         return (
-            <div className={messageText}>
+            <div css={messageText}>
                 <p>
                     One in three people in Australia read the Guardian in the last year. We need to
                     keep growing our readership and gaining your financial support so we can provide
@@ -542,9 +542,9 @@ const urlWithTracking = (baseUrl: string, tracking: BannerTracking): string => {
 
 const socialShare = (): JSX.Element => {
     return (
-        <div className={ctaContainer}>
+        <div css={ctaContainer}>
             <SocialLinks />
-            <p className={shareYourSupport}>Share your support</p>
+            <p css={shareYourSupport}>Share your support</p>
         </div>
     );
 };
@@ -557,11 +557,11 @@ const support = (tracking: BannerTracking): JSX.Element => {
     const hearFromOurEditorUrl =
         'https://www.theguardian.com/media/commentisfree/2020/jun/23/information-can-save-lives-help-guardian-australia-reach-150000-supporters';
     return (
-        <div className={ctaContainer}>
-            <a className={button} href={supportTheGuardianUrl}>
+        <div css={ctaContainer}>
+            <a css={button} href={supportTheGuardianUrl}>
                 Support the Guardian
             </a>
-            <a className={hearFromOurEditor} href={hearFromOurEditorUrl}>
+            <a css={hearFromOurEditor} href={hearFromOurEditorUrl}>
                 Hear from our editor
             </a>
         </div>
@@ -630,20 +630,20 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner}>
-                    <div className={contentContainer}>
+                <section css={banner}>
+                    <div css={contentContainer}>
                         <SunriseBackground percentage={percentage} />
-                        <div className={topContentContainer}>
-                            <div className={actualNumber}>
+                        <div css={topContentContainer}>
+                            <div css={actualNumber}>
                                 {goalReached && (
-                                    <p className={textAboveNumber}>Help us grow even further</p>
+                                    <p css={textAboveNumber}>Help us grow even further</p>
                                 )}
-                                <p className={actualNumberFigure}>{supporters.toLocaleString()}</p>
-                                <p className={textUnderNumber}>supporters in Australia</p>
+                                <p css={actualNumberFigure}>{supporters.toLocaleString()}</p>
+                                <p css={textUnderNumber}>supporters in Australia</p>
                             </div>
-                            <div className={goal}>
-                                <p className={goalNumber}>{supportersGoal.toLocaleString()}</p>
-                                <p className={goalText}>goal</p>
+                            <div css={goal}>
+                                <p css={goalNumber}>{supportersGoal.toLocaleString()}</p>
+                                <p css={goalText}>goal</p>
                             </div>
                             <div>
                                 <button
@@ -651,7 +651,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                         setContributionsBannerClosedTimestamp();
                                         closeBanner(false);
                                     }}
-                                    className={closeButton}
+                                    css={closeButton}
                                     aria-label="Close"
                                 >
                                     <SvgClose />
@@ -659,22 +659,22 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
 
-                        <div className={svgAndBottomContentContainer}>
-                            <div className={horizonContainer}>{horizonSvg}</div>
-                            <div className={bottomContentContainer}>
-                                <div className={headingAndCta}>
-                                    <h3 id="heading" className={heading}>
+                        <div css={svgAndBottomContentContainer}>
+                            <div css={horizonContainer}>{horizonSvg}</div>
+                            <div css={bottomContentContainer}>
+                                <div css={headingAndCta}>
+                                    <h3 id="heading" css={heading}>
                                         {isSupporter
                                             ? 'Help us reach more people across Australia'
                                             : 'Our supporters are doing something powerful'}
                                     </h3>
-                                    <div className={mobileMessageContainer}>
-                                        <div className={mobileMessage(expanded)}>
+                                    <div css={mobileMessageContainer}>
+                                        <div css={mobileMessage(expanded)}>
                                             {isSupporter
                                                 ? messageSupporter(goalReached)
                                                 : messageNonSupporter(goalReached)}
                                         </div>
-                                        <p onClick={toggleReadMore} className={readMore}>
+                                        <p onClick={toggleReadMore} css={readMore}>
                                             Read {expanded ? 'less' : 'more'}
                                             {expanded ? chevronUp : chevronDown}
                                         </p>
@@ -682,19 +682,17 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                     {isSupporter ? socialShare() : support(tracking)}
                                 </div>
 
-                                <div className={messageContainer}>
+                                <div css={messageContainer}>
                                     <div
                                         ref={messageElement}
-                                        className={
-                                            expanded ? messageExpanded : message(overflowing)
-                                        }
+                                        css={expanded ? messageExpanded : message(overflowing)}
                                     >
                                         {isSupporter
                                             ? messageSupporter(goalReached)
                                             : messageNonSupporter(goalReached)}
                                     </div>
                                     {(overflowing || expanded) && (
-                                        <p onClick={toggleReadMore} className={readMore}>
+                                        <p onClick={toggleReadMore} css={readMore}>
                                             Read {expanded ? 'less' : 'more'}
                                             {expanded ? chevronUp : chevronDown}
                                         </p>

@@ -1,0 +1,7 @@
+{
+    "presets": [
+      ["@babel/preset-react"],
+      "@emotion/babel-preset-css-prop"
+    ],
+    "exclude": ["node_modules/**"]
+  }

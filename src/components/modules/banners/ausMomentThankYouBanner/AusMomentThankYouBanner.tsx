@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
@@ -652,21 +652,21 @@ const ThankYouMessageMain: React.FC<ThankYouMessageMainProps> = ({
     }, [isExpanded]);
 
     return (
-        <div className={thankYouMessageMain}>
-            <div className={thankYouMessageMainHeader}>
-                <div className={thankYouMessageMainHeaderThreeLines}>
+        <div css={thankYouMessageMain}>
+            <div css={thankYouMessageMainHeader}>
+                <div css={thankYouMessageMainHeaderThreeLines}>
                     <div>Our supporters</div>
                     <div>have done something</div>
                     <div>powerful</div>
                 </div>
-                <div className={thankYouMessageMainHeaderTwoLines}>
+                <div css={thankYouMessageMainHeaderTwoLines}>
                     <div>Our supporters have done</div>
                     <div>something powerful</div>
                 </div>
             </div>
             <div
                 ref={bodyRef}
-                className={isExpanded ? thankYouMessageMainBodyExpanded : thankYouMessageMainBody}
+                css={isExpanded ? thankYouMessageMainBodyExpanded : thankYouMessageMainBody}
             >
                 {isSupporter ? (
                     <>
@@ -722,14 +722,12 @@ const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
     });
 
     return (
-        <button className={readMoreButton} onClick={onClick}>
-            <div className={isExpanded ? readMoreButtonTextExpanded : readMoreButtonText}>
+        <button css={readMoreButton} onClick={onClick}>
+            <div css={isExpanded ? readMoreButtonTextExpanded : readMoreButtonText}>
                 {readMoreText}
             </div>
             <div
-                className={
-                    isExpanded ? readMoreButtonIconContainerExpanded : readMoreButtonIconContainer
-                }
+                css={isExpanded ? readMoreButtonIconContainerExpanded : readMoreButtonIconContainer}
             >
                 <SvgChevronDownSingle />
             </div>
@@ -758,25 +756,25 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <div className={banner}>
-                    <div className={sunSvgAndMessagesContainer}>
-                        <div className={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
-                            <div className={sunSvgAndThankYouContainer}>
-                                <svg className={sunSvgMobile} viewBox="-16 -10 32 20">
+                <div css={banner}>
+                    <div css={sunSvgAndMessagesContainer}>
+                        <div css={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
+                            <div css={sunSvgAndThankYouContainer}>
+                                <svg css={sunSvgMobile} viewBox="-16 -10 32 20">
                                     <a
                                         href={
                                             'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
                                         }
                                     >
                                         <circle
-                                            className={sunSvgOuterSun}
+                                            css={sunSvgOuterSun}
                                             r="9"
                                             cx="0"
                                             cy="0"
                                             fill="currentColor"
                                         />
                                         <circle
-                                            className={sunSvgInnerSun}
+                                            css={sunSvgInnerSun}
                                             r="8.5"
                                             cx="0"
                                             cy="0"
@@ -784,21 +782,21 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         />
                                     </a>
                                 </svg>
-                                <svg className={sunSvgTablet} viewBox="-16 -16 32 32">
+                                <svg css={sunSvgTablet} viewBox="-16 -16 32 32">
                                     <a
                                         href={
                                             'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
                                         }
                                     >
                                         <circle
-                                            className={sunSvgOuterSun}
+                                            css={sunSvgOuterSun}
                                             r="14"
                                             cx="0"
                                             cy="0"
                                             fill="currentColor"
                                         />
                                         <circle
-                                            className={sunSvgInnerSun}
+                                            css={sunSvgInnerSun}
                                             r="13.25"
                                             cx="0"
                                             cy="0"
@@ -806,21 +804,21 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         />
                                     </a>
                                 </svg>
-                                <svg className={sunSvgDesktop} viewBox="-16 -16 32 32">
+                                <svg css={sunSvgDesktop} viewBox="-16 -16 32 32">
                                     <a
                                         href={
                                             'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
                                         }
                                     >
                                         <circle
-                                            className={sunSvgOuterSun}
+                                            css={sunSvgOuterSun}
                                             r="14.75"
                                             cx="0"
                                             cy="0"
                                             fill="currentColor"
                                         />
                                         <circle
-                                            className={sunSvgInnerSun}
+                                            css={sunSvgInnerSun}
                                             r="14.25"
                                             cx="0"
                                             cy="0"
@@ -828,77 +826,75 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         />
                                     </a>
                                 </svg>
-                                <div className={thankYouMessageInSunContainer}>
-                                    <div className={thankYouMessageInSun}>
-                                        <div className={thankYouMessageInSunThankYou}>
-                                            Thank you!
-                                        </div>
-                                        <div className={thankYouMessageInSunSupportersCount}>
+                                <div css={thankYouMessageInSunContainer}>
+                                    <div css={thankYouMessageInSun}>
+                                        <div css={thankYouMessageInSunThankYou}>Thank you!</div>
+                                        <div css={thankYouMessageInSunSupportersCount}>
                                             {supportersCount.toLocaleString()}
                                         </div>
-                                        <div className={thankYouMessageInSunTagLine}>
+                                        <div css={thankYouMessageInSunTagLine}>
                                             supporters in Australia
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className={thankYouMessageMainMobileContainer}>
+                            <div css={thankYouMessageMainMobileContainer}>
                                 <ThankYouMessageMain
                                     isExpanded={isExpanded}
                                     isSupporter={!!isSupporter}
                                 />
                             </div>
                         </div>
-                        <div className={closeButtonContainer}>
-                            <button className={closeButton} onClick={closeBanner}>
+                        <div css={closeButtonContainer}>
+                            <button css={closeButton} onClick={closeBanner}>
                                 <SvgCross />
                             </button>
                         </div>
                     </div>
 
-                    <div className={buttonsContainer}>
+                    <div css={buttonsContainer}>
                         <ReadMoreButton
                             isExpanded={isExpanded}
                             onClick={(): void => setIsExpanded(!isExpanded)}
                         />
 
-                        <div className={thankYouMessageMainTabletContainer}>
+                        <div css={thankYouMessageMainTabletContainer}>
                             <ThankYouMessageMain
                                 isExpanded={isExpanded}
                                 isSupporter={!!isSupporter}
                             />
                         </div>
 
-                        <div className={ctaButtonContainer}>
+                        <div css={ctaButtonContainer}>
                             {isSupporter ? (
-                                <div className={supporterCtaContainer}>
-                                    <div className={socialShareContainer}>
-                                        <div className={socialShareLinksContainer}>
+                                <div css={supporterCtaContainer}>
+                                    <div css={socialShareContainer}>
+                                        <div css={socialShareLinksContainer}>
                                             <a
-                                                className={socialShareLink}
+                                                css={socialShareLink}
                                                 href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
                                             >
                                                 <SvgFacebook />
                                             </a>
                                             <a
-                                                className={socialShareLink}
+                                                css={socialShareLink}
                                                 href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
                                             >
                                                 <SvgTwitter />
                                             </a>
                                             <a
-                                                className={socialShareLink}
+                                                css={socialShareLink}
                                                 href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
                                             >
                                                 <SvgEnvelope />
                                             </a>
                                         </div>
-                                        <div className={socialShareMessage}>Share you support</div>
+                                        <div css={socialShareMessage}>Share you support</div>
                                     </div>
-                                    <div className={hearFromSupportersCtaContainer}>
+                                    <div css={hearFromSupportersCtaContainer}>
                                         <a
-                                            className={hearFromOurSupportersLink}
+                                            css={hearFromOurSupportersLink}
                                             href={
                                                 'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_button'
                                             }
@@ -908,9 +904,9 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                     </div>
                                 </div>
                             ) : (
-                                <div className={nonSupporterCtaContainer}>
+                                <div css={nonSupporterCtaContainer}>
                                     <a
-                                        className={supportTheGuardianLink}
+                                        css={supportTheGuardianLink}
                                         href={addTrackingParams(
                                             'https://support.theguardian.com/contribute',
                                             tracking,
@@ -919,7 +915,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                         Support the Guardian
                                     </a>
                                     <a
-                                        className={hearMoreLink}
+                                        css={hearMoreLink}
                                         href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters?INTCMP=Aus_moment_2020_frontend_banner_button"
                                     >
                                         Hear more

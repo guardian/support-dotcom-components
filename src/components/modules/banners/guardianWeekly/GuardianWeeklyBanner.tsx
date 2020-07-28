@@ -80,35 +80,35 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner} data-target={bannerId}>
-                    <div className={contentContainer}>
-                        <div className={topLeftComponent}>
-                            <h3 className={heading}>Read The Guardian in print</h3>
-                            <p className={paragraph}>
+                <section css={banner} data-target={bannerId}>
+                    <div css={contentContainer}>
+                        <div css={topLeftComponent}>
+                            <h3 css={heading}>Read The Guardian in print</h3>
+                            <p css={paragraph}>
                                 Support The Guardian&apos;s independent journalism by subscribing to
                                 The Guardian Weekly, our essential world news magazine. Home
                                 delivery available wherever you are.
                             </p>
                             <a
                                 data-link-name={ctaComponentId}
-                                className={linkStyle}
+                                css={linkStyle}
                                 onClick={onSubscribeClick}
                             >
-                                <div className={becomeASubscriberButton}>
-                                    <span className={buttonTextDesktop}>
+                                <div css={becomeASubscriberButton}>
+                                    <span css={buttonTextDesktop}>
                                         Become a Guardian Weekly subscriber
                                     </span>
-                                    <span className={buttonTextMobileTablet}>Subscribe now</span>
+                                    <span css={buttonTextMobileTablet}>Subscribe now</span>
                                 </div>
                             </a>
                             <button
                                 data-link-name={notNowComponentId}
-                                className={notNowButton}
+                                css={notNowButton}
                                 onClick={onNotNowClick}
                             >
                                 Not now
                             </button>
-                            <div className={siteMessage}>
+                            <div css={siteMessage}>
                                 Already a subscriber?{' '}
                                 <a data-link-name={signInComponentId} onClick={onSignInClick}>
                                     Sign in
@@ -116,22 +116,22 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                 to not see this again
                             </div>
                         </div>
-                        <div className={bottomRightComponent}>
+                        <div css={bottomRightComponent}>
                             <img
-                                className={packShot}
+                                css={packShot}
                                 src="https://i.guim.co.uk/img/media/f5c66a31a7d352acaee1c574e5cc009909f25119/0_0_2210_2062/500.png?quality=85&s=46fb180930f0ec0dc2f6b34a4e94cb06"
                                 alt=""
                             />
-                            <div className={iconPanel}>
+                            <div css={iconPanel}>
                                 <button
                                     data-link-name={closeComponentId}
-                                    className={closeButton}
+                                    css={closeButton}
                                     onClick={onCloseClick}
                                     aria-label="Close"
                                 >
                                     <SvgClose />
                                 </button>
-                                <div className={logoContainer}>
+                                <div css={logoContainer}>
                                     <SvgGuardianLogo />
                                 </div>
                             </div>

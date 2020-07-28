@@ -13,17 +13,15 @@ const tsOpts = {
     strict: true,
     noImplicitReturns: true,
     esModuleInterop: true,
-    jsx: 'react',
+    jsx: 'preserve',
     include: ['src/**/*'],
     exclude: ['node_modules', '**/*.test.ts', 'src/factories/*', 'src/cdk/*'],
     tsconfig: false,
 };
 
 const globals = {
-    react: 'guardian.automat.react',
-    emotion: 'guardian.automat.emotion', // TODO remove this dependency
+    react: 'guardian.automat.preact',
     '@emotion/core': 'guardian.automat.emotionCore',
-    'emotion-theming': 'guardian.automat.emotionTheming',
 };
 
 const config = [
@@ -57,27 +55,17 @@ const config = [
             format: 'es',
             sourcemap: isProd ? false : 'inline',
         },
-        external: id => Object.keys(globals).some(key => id.startsWith(key)),
+        external: id => Object.keys(globals).some(key => id == key),
         plugins: [
             resolveNode(),
             commonjs(),
             json(),
+            typescript(tsOpts),
             babel({
                 extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
-                plugins: [['emotion', { sourceMap: false }]],
-                presets: [
-                    [
-                        '@babel/preset-env',
-                        {
-                            targets: {
-                                ie: '11',
-                            },
-                        },
-                    ],
-                ],
                 babelHelpers: 'bundled',
             }),
-            typescript(tsOpts),
+
             // eslint-disable-next-line @typescript-eslint/camelcase
             terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
             externalGlobals(globals),

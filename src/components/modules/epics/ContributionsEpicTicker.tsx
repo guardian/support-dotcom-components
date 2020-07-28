@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
@@ -112,7 +112,7 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
         const markerTranslate = (goal / end) * 100 - 100;
         const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
 
-        return <div className={goalMarkerStyles(markerTransform)} />;
+        return <div css={goalMarkerStyles(markerTransform)} />;
     } else {
         return null;
     }
@@ -166,36 +166,36 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
     const end = total > goal ? total + total * 0.15 : goal;
 
     return (
-        <div ref={setNode} className={rootStyles}>
+        <div ref={setNode} css={rootStyles}>
             <div>
-                <div className={soFarContainerStyles}>
-                    <div className={soFarCountStyles}>
+                <div css={soFarContainerStyles}>
+                    <div css={soFarCountStyles}>
                         {goalReached
                             ? settings.copy.goalReachedPrimary
                             : `${currencySymbol}${runningTotal.toLocaleString()}`}
                     </div>
-                    <div className={countLabelStyles}>
+                    <div css={countLabelStyles}>
                         {goalReached
                             ? settings.copy.goalReachedSecondary
                             : settings.copy.countLabel}
                     </div>
                 </div>
 
-                <div className={goalContainerStyles(goalReached)}>
-                    <div className={totalCountStyles}>
+                <div css={goalContainerStyles(goalReached)}>
+                    <div css={totalCountStyles}>
                         {goalReached
                             ? `${currencySymbol}${total.toLocaleString()}`
                             : `${currencySymbol}${goal.toLocaleString()}`}
                     </div>
-                    <div className={countLabelStyles}>
+                    <div css={countLabelStyles}>
                         {goalReached ? settings.copy.countLabel : 'our goal'}
                     </div>
                 </div>
             </div>
 
-            <div className={progressBarContainerStyles}>
-                <div className={progressBarStyles}>
-                    <div className={filledProgressStyles(end, runningTotal, total)}></div>
+            <div css={progressBarContainerStyles}>
+                <div css={progressBarStyles}>
+                    <div css={filledProgressStyles(end, runningTotal, total)}></div>
                 </div>
                 <Marker goal={goal} end={end} />
             </div>

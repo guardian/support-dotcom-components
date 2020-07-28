@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from 'emotion';
+import { css, SerializedStyles } from '@emotion/core';
 import { brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 
@@ -34,7 +34,7 @@ const innerCircleAnimation = (
     finalFill: number,
     percentage: number,
     nameSuffix: string,
-): string => {
+): SerializedStyles => {
     const fill = getInnerCircleFill(startFill, finalFill, percentage);
     return css`
         clip-path: circle(${fill}%);
@@ -64,7 +64,7 @@ const innerCircleAnimation = (
     `;
 };
 
-const innerCircleMobile = (percentage: number): string => {
+const innerCircleMobile = (percentage: number): SerializedStyles => {
     return css`
     ${innerCircle}
 
@@ -81,7 +81,7 @@ const innerCircleMobile = (percentage: number): string => {
 `;
 };
 
-const innerCircleTablet = (percentage: number): string => {
+const innerCircleTablet = (percentage: number): SerializedStyles => {
     return css`
         ${innerCircle}
 
@@ -103,7 +103,7 @@ const innerCircleTablet = (percentage: number): string => {
     `;
 };
 
-const innerCircleDesktop = (percentage: number): string => {
+const innerCircleDesktop = (percentage: number): SerializedStyles => {
     return css`
         ${innerCircle}
 
@@ -113,7 +113,7 @@ const innerCircleDesktop = (percentage: number): string => {
             percentage,
             'desktop',
         )}
-        
+
     display: none;
 
         ${from.desktop} {
@@ -126,7 +126,7 @@ const innerCircleDesktop = (percentage: number): string => {
     `;
 };
 
-const innerCircleWide = (percentage: number): string => {
+const innerCircleWide = (percentage: number): SerializedStyles => {
     return css`
         ${innerCircle}
 
@@ -212,33 +212,33 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
         }, INNER_CIRCLE_ANIMATION_DURATION_IN_MS);
     }
     return (
-        <div className={svgContainer}>
-            <svg className={svg} viewBox="0 0 1300 230">
+        <div css={svgContainer}>
+            <svg css={svg} viewBox="0 0 1300 230">
                 {showOuterCircle && (
                     <g>
                         <circle
-                            className={outerCircleWide}
+                            css={outerCircleWide}
                             cx="50%"
                             cy="50%"
                             r="45%"
                             fill="currentColor"
                         />
                         <circle
-                            className={outerCircleDesktop}
+                            css={outerCircleDesktop}
                             cx="50%"
                             cy="90%"
                             r="55%"
                             fill="currentColor"
                         />
                         <circle
-                            className={outerCircleTablet}
+                            css={outerCircleTablet}
                             cx="50%"
                             cy="90%"
                             r="55%"
                             fill="currentColor"
                         />
                         <circle
-                            className={outerCircleMobile}
+                            css={outerCircleMobile}
                             cx="50%"
                             cy="75%"
                             r="66%"
@@ -248,28 +248,28 @@ const SunriseBackground: React.FC<SunriseBackgroundProps> = ({
                 )}
                 <g>
                     <circle
-                        className={innerCircleWide(percentage)}
+                        css={innerCircleWide(percentage)}
                         cx="50%"
                         cy="50%"
                         r="45%"
                         fill="currentColor"
                     />
                     <circle
-                        className={innerCircleDesktop(percentage)}
+                        css={innerCircleDesktop(percentage)}
                         cx="50%"
                         cy="90%"
                         r="55%"
                         fill="currentColor"
                     />
                     <circle
-                        className={innerCircleTablet(percentage)}
+                        css={innerCircleTablet(percentage)}
                         cx="50%"
                         cy="90%"
                         r="55%"
                         fill="currentColor"
                     />
                     <circle
-                        className={innerCircleMobile(percentage)}
+                        css={innerCircleMobile(percentage)}
                         cx="50%"
                         cy="75%"
                         r="66%"

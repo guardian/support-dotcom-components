@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';

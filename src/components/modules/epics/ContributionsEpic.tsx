@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { space } from '@guardian/src-foundations';
@@ -130,7 +130,7 @@ interface EpicHeaderProps {
 
 const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeaderProps) => {
     const elements = replaceArticleCount(text, numArticles);
-    return <h2 className={headingStyles}>{elements}</h2>;
+    return <h2 css={headingStyles}>{elements}</h2>;
 };
 
 const Highlighted: React.FC<HighlightedProps> = ({
@@ -140,9 +140,9 @@ const Highlighted: React.FC<HighlightedProps> = ({
     const elements = replaceArticleCount(highlightedText, numArticles);
 
     return (
-        <strong className={highlightWrapperStyles}>
+        <strong css={highlightWrapperStyles}>
             {' '}
-            <span className={highlightStyles}>{elements}</span>
+            <span css={highlightStyles}>{elements}</span>
         </strong>
     );
 };
@@ -161,7 +161,7 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     const elements = replaceArticleCount(paragraph, numArticles);
 
     return (
-        <p className={bodyStyles}>
+        <p css={bodyStyles}>
             {elements}
             {highlighted ? highlighted : null}
         </p>
@@ -225,7 +225,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     }
 
     return (
-        <section className={wrapperStyles}>
+        <section css={wrapperStyles}>
             {tickerSettings && tickerSettings.tickerData && (
                 <ContributionsEpicTicker
                     settings={tickerSettings}
@@ -235,10 +235,10 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
             )}
 
             {backgroundImageUrl && (
-                <div className={imageWrapperStyles}>
+                <div css={imageWrapperStyles}>
                     <img
                         src={backgroundImageUrl}
-                        className={imageStyles}
+                        css={imageStyles}
                         alt="Guardian contributions message"
                     />
                 </div>

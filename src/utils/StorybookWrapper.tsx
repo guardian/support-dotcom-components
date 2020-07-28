@@ -12,6 +12,6 @@ export const StorybookWrapper: React.FC<Props> = ({ children }: Props) => (
             {cssResets}
             {previewStyles}
         </style>
-        <div className="preview">{children}</div>
+        <div css="preview">{children}</div>
     </div>
 );

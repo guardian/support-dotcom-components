@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from 'emotion';
+import { css, SerializedStyles } from '@emotion/core';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -91,7 +91,7 @@ const errorTextStyles = css`
     margin-bottom: 0;
 `;
 
-const getCustomSubmitStyles = (isDisabled: boolean): string | undefined => {
+const getCustomSubmitStyles = (isDisabled: boolean): SerializedStyles | undefined => {
     if (isDisabled) {
         // Unfortunately these overrides need !important as otherwise they'll lose
         // the specificity war against the default Source styles.
@@ -160,16 +160,16 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
     }
 
     return (
-        <div className={rootStyles}>
-            <button className={closeButtonStyles} onClick={(): void => onCloseReminderClick()}>
+        <div css={rootStyles}>
+            <button css={closeButtonStyles} onClick={(): void => onCloseReminderClick()}>
                 <SvgClose />
             </button>
 
-            <div className={lineWrapperStyles}>
+            <div css={lineWrapperStyles}>
                 <Lines />
             </div>
 
-            <div className={containerStyles}>
+            <div css={containerStyles}>
                 <form
                     onSubmit={(e): void => {
                         if (isValid) {
@@ -201,9 +201,9 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                 >
                     {!isSuccessState && (
                         <>
-                            <h4 className={remindHeading}>Remind me in {reminderDateAsString}</h4>
-                            <div className={formWrapper}>
-                                <div className={inputWrapper}>
+                            <h4 css={remindHeading}>Remind me in {reminderDateAsString}</h4>
+                            <div css={formWrapper}>
+                                <div css={inputWrapper}>
                                     <TextInput
                                         label="Email address"
                                         error={inputError}
@@ -218,7 +218,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                                     icon={<SvgArrowRightStraight />}
                                     type="submit"
                                     disabled={isSubmittingState}
-                                    className={getCustomSubmitStyles(isSubmittingState)}
+                                    css={getCustomSubmitStyles(isSubmittingState)}
                                 >
                                     Set a reminder
                                 </Button>
@@ -227,7 +227,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                     )}
 
                     {isErrorState && (
-                        <p className={errorTextStyles}>
+                        <p css={errorTextStyles}>
                             Sorry we couldn&apos;t set a reminder for you this time. Please try
                             again later.
                         </p>
@@ -235,11 +235,11 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                 </form>
 
                 {!isSuccessState && (
-                    <p className={formTextStyles}>
+                    <p css={formTextStyles}>
                         We will use this to send you a single email in {reminderDateAsString}. To
                         find out what personal data we collect and how we use it, please visit our{' '}
                         <a
-                            className={linkStyles}
+                            css={linkStyles}
                             href="https://www.theguardian.com/help/privacy-policy"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -252,15 +252,12 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
 
                 {isSuccessState && (
                     <>
-                        <h4 className={remindHeading}>Thank you! Your reminder is set.</h4>
-                        <p className={successTextStyles}>
+                        <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
+                        <p css={successTextStyles}>
                             We will be in touch to invite you to contribute. Look out for a message
                             in your inbox in {reminderDateAsString}. If you have any questions about
                             contributing, please{' '}
-                            <a
-                                href="mailto:contribution.support@theguardian.com"
-                                className={linkStyles}
-                            >
+                            <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
                                 contact us
                             </a>
                             .
