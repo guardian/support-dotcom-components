@@ -310,6 +310,6 @@ export const closeButton = css`
     }
 `;
 
-export const signInLink = `{
+export const signInLink = css`{
     cursor: pointer;
 }`;
