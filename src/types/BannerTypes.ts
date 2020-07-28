@@ -39,6 +39,18 @@ export type BannerDataRequestPayload = {
     targeting: BannerTargeting;
 };
 
+export interface Cta {
+    text: string;
+    baseUrl: string;
+}
+
+export interface BannerContent {
+    header?: string;
+    messageText: string;
+    highlightedText?: string;
+    cta?: Cta;
+}
+
 export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
@@ -72,14 +84,6 @@ export interface BannerTestSelection {
     moduleName: string;
 }
 
-export interface BannerContent {
-    header?: string;
-    messageText: string;
-    ctaText: string;
-    buttonCaption: string;
-    linkUrl: string;
-}
-
 export interface BannerProps {
     tracking: BannerTracking;
     content?: BannerContent;
@@ -87,4 +91,4 @@ export interface BannerProps {
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-};
+}

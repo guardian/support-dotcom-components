@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { ContributionsBanner } from './modules/banners/contributions/ContributionsBanner';
 import { withKnobs } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../utils/StorybookWrapper';
+import { BannerContent, BannerTracking } from '../types/BannerTypes';
 
 export default {
     component: ContributionsBanner,
@@ -9,9 +10,9 @@ export default {
     decorators: [withKnobs],
 };
 
-const tracking = {
+const tracking: BannerTracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
-    ophanComponentId: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl: 'http://localhost:3030/Article',
@@ -20,19 +21,21 @@ const tracking = {
     campaignCode: 'MainContributionsBanner_control',
 };
 
-const data = {
+const content: BannerContent = {
     messageText:
         '<strong> We chose a different approach. Will you support it?</strong> Unlike many news organisations, we made a choice to keep our journalism open for all. At a time when factual information is a necessity, we believe that each of us, around the world, deserves access to accurate reporting with integrity at its heart. Every contribution, however big or small, is so valuable – it is essential in protecting our editorial independence.',
-    ctaText: ' Support the Guardian today from as little as %%CURRENCY_SYMBOL%%1.',
-    buttonCaption: 'Support The Guardian',
-    linkUrl: 'https://support.theguardian.com/contribute',
+    highlightedText: ' Support the Guardian today from as little as %%CURRENCY_SYMBOL%%1.',
+    cta: {
+        baseUrl: 'https://support.theguardian.com/contribute',
+        text: 'Support The Guardian',
+    },
 };
 
 const props = {
     tracking,
     isSupporter: false,
     countryCode: 'GB',
-    data,
+    content,
 };
 
 export const defaultStory = (): ReactElement => {

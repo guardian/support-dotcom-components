@@ -1,5 +1,5 @@
 import React from 'react';
-import { BannerProps } from '../BannerTypes';
+import { BannerProps } from '../../../../types/BannerTypes';
 import { styles } from './ContributionsBannerStyles';
 import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 
@@ -15,13 +15,14 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
             <>
                 <div className={styles.banner}>
                     <p className={styles.copy}>
-                        <span className={styles.header}>{content.header}</span>
+                        {content.header && <span className={styles.header}>{content.header}</span>}
                         <span
                             className={styles.messageText}
                             dangerouslySetInnerHTML={{ __html: content.messageText }}
                         />
                         <span className={styles.ctaText}>
-                            {replaceCurrencyPlaceholder(content.ctaText, currencySymbol)}
+                            {content.highlightedText &&
+                                replaceCurrencyPlaceholder(content.highlightedText, currencySymbol)}
                         </span>
                     </p>
                 </div>

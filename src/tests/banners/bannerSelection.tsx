@@ -2,18 +2,16 @@ import {
     BannerPageTracking,
     BannerTargeting,
     BannerTestSelection,
-    BannerTest,
     BannerType,
     BannerAudience,
-    BannerContent,
     BannerTestGenerator,
-} from '../../components/modules/banners/BannerTypes';
+} from '../../types/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
-import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
+import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
 
 type ReaderRevenueRegion =
@@ -157,20 +155,6 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
     }
 };
 
-const controlBannerTest = (bannerContent: BannerContent): BannerTest => {
-    return DefaultContributionsBanner(bannerContent);
-};
-
-const controlBannerContentUrl =
-    'https://interactive.guim.co.uk/docsdata/1CIHCoe87hyPHosXx1pYeVUoohvmIqh9cC_kNlV-CMHQ.json';
-
-const controlBannerTestGenerator: BannerTestGenerator = () =>
-    fetch(controlBannerContentUrl)
-        .then(response => response.json())
-        .then(json => json['sheets']['control'][0])
-        .then(controlBannerContent => controlBannerTest(controlBannerContent))
-        .then(controlBannerTest => Promise.resolve(controlBannerTest));
-
 const ausMomentBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve(AusMomentContributionsBanner);
 
@@ -182,7 +166,7 @@ const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
 
 const testGenerators: BannerTestGenerator[] = [
     ausMomentBannerTestGenerator,
-    controlBannerTestGenerator,
+    defaultBannerTestGenerator,
     digitalSubscriptionsBannerGenerator,
     guardianWeeklyBannerGenerator,
 ];
