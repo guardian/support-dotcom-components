@@ -37,6 +37,8 @@ import { DefaultContributionsBannerPath } from './tests/banners/DefaultContribut
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
+import { getCachedTests } from './tests/banners/bannerTests';
+import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -151,7 +153,13 @@ const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
-    const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
+    const selectedTest = await selectBannerTest(
+        targeting,
+        pageTracking,
+        baseUrl(req),
+        getCachedTests,
+        bannerDeployCaches,
+    );
 
     if (selectedTest) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;

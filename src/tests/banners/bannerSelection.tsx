@@ -2,26 +2,12 @@ import {
     BannerPageTracking,
     BannerTargeting,
     BannerTestSelection,
-    BannerTest,
     BannerType,
     BannerAudience,
-    BannerContent,
-    BannerTestGenerator,
+    BannerTest,
 } from '../../types/BannerTypes';
-import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
-import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
-import fetch from 'node-fetch';
-import { cacheAsync } from '../../lib/cache';
 import { countryCodeToCountryGroupId } from '../../lib/geolocation';
-import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
-import { AusMomentContributionsBanner } from './AusMomentContributionsBannerTest';
-
-type ReaderRevenueRegion =
-    | 'united-kingdom'
-    | 'united-states'
-    | 'australia'
-    | 'rest-of-world'
-    | 'european-union';
+import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -38,82 +24,11 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
     }
 };
 
-const fetchBannerDeployTime = (region: ReaderRevenueRegion, bannerType: BannerType) => (): Promise<
-    Date
-> => {
-    return fetch(
-        `https://www.theguardian.com/reader-revenue/${bannerType}-banner-deploy-log/${region}`,
-    )
-        .then(response => response.json())
-        .then(data => {
-            return new Date(data.time);
-        });
-};
-
-const fiveMinutes = 60 * 5;
-const caches = {
-    contributions: {
-        'united-kingdom': cacheAsync(
-            fetchBannerDeployTime('united-kingdom', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_united-kingdom',
-        ),
-        'united-states': cacheAsync(
-            fetchBannerDeployTime('united-states', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_united-states',
-        ),
-        australia: cacheAsync(
-            fetchBannerDeployTime('australia', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_australia',
-        ),
-        'rest-of-world': cacheAsync(
-            fetchBannerDeployTime('rest-of-world', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_rest-of-world',
-        ),
-        // Contributions doesn't separate europe from row
-        'european-union': cacheAsync(
-            fetchBannerDeployTime('rest-of-world', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_rest-of-world',
-        ),
-    },
-    subscriptions: {
-        'united-kingdom': cacheAsync(
-            fetchBannerDeployTime('united-kingdom', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_united-kingdom',
-        ),
-        'united-states': cacheAsync(
-            fetchBannerDeployTime('united-states', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_united-states',
-        ),
-        australia: cacheAsync(
-            fetchBannerDeployTime('australia', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_australia',
-        ),
-        'rest-of-world': cacheAsync(
-            fetchBannerDeployTime('rest-of-world', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_rest-of-world',
-        ),
-        // Subscriptions separates europe from row
-        'european-union': cacheAsync(
-            fetchBannerDeployTime('european-union', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_european-union',
-        ),
-    },
-};
-
 // Has the banner been redeployed since the user last closed it?
 export const redeployedSinceLastClosed = (
     targeting: BannerTargeting,
     bannerType: BannerType,
+    bannerDeployCaches: BannerDeployCaches,
 ): Promise<boolean> => {
     const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
@@ -127,7 +42,7 @@ export const redeployedSinceLastClosed = (
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
     if (bannerType === 'subscriptions') {
-        const [, getCached] = caches.subscriptions[region];
+        const getCached = bannerDeployCaches.subscriptions[region];
         return getCached().then(deployDate => {
             return (
                 !subscriptionBannerLastClosedAt ||
@@ -135,7 +50,7 @@ export const redeployedSinceLastClosed = (
             );
         });
     } else if (bannerType === 'contributions') {
-        const [, getCached] = caches.contributions[region];
+        const getCached = bannerDeployCaches.contributions[region];
         return getCached().then(deployDate => {
             return (
                 !engagementBannerLastClosedAt || deployDate > new Date(engagementBannerLastClosedAt)
@@ -157,46 +72,12 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
     }
 };
 
-const controlBannerTest = (bannerContent: BannerContent): BannerTest => {
-    return DefaultContributionsBanner(bannerContent);
-};
-
-const controlBannerContentUrl =
-    'https://interactive.guim.co.uk/docsdata/1CIHCoe87hyPHosXx1pYeVUoohvmIqh9cC_kNlV-CMHQ.json';
-
-const controlBannerTestGenerator: BannerTestGenerator = () =>
-    fetch(controlBannerContentUrl)
-        .then(response => response.json())
-        .then(json => json['sheets']['control'][0])
-        .then(controlBannerContent => controlBannerTest(controlBannerContent))
-        .then(controlBannerTest => Promise.resolve(controlBannerTest));
-
-const ausMomentBannerTestGenerator: BannerTestGenerator = () =>
-    Promise.resolve(AusMomentContributionsBanner);
-
-const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve(DigitalSubscriptionsBanner);
-
-const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve(GuardianWeeklyBanner);
-
-const testGenerators: BannerTestGenerator[] = [
-    ausMomentBannerTestGenerator,
-    controlBannerTestGenerator,
-    digitalSubscriptionsBannerGenerator,
-    guardianWeeklyBannerGenerator,
-];
-
-const [, getTests] = cacheAsync(
-    () => Promise.all(testGenerators.map(testGenerator => testGenerator())),
-    60,
-    'bannerTests',
-);
-
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: BannerPageTracking,
     baseUrl: string,
+    getTests: () => Promise<BannerTest[]>,
+    bannerDeployCaches: BannerDeployCaches,
 ): Promise<BannerTestSelection | null> => {
     const tests = await getTests();
 
@@ -207,7 +88,7 @@ export const selectBannerTest = async (
             audienceMatches(targeting.showSupportMessaging, test.testAudience) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             test.canRun(targeting, pageTracking) &&
-            (await redeployedSinceLastClosed(targeting, test.bannerType))
+            (await redeployedSinceLastClosed(targeting, test.bannerType, bannerDeployCaches))
         ) {
             const variant = test.variants[0]; // TODO - use mvt
             const bannerTestSelection = {
@@ -222,20 +103,4 @@ export const selectBannerTest = async (
     }
 
     return Promise.resolve(null);
-};
-
-// exposed for testing purposes only
-export const _ = {
-    resetCache: (bannerType: BannerType, region: ReaderRevenueRegion): void => {
-        const capitalisedBannerType = {
-            contributions: 'Contributions',
-            subscriptions: 'Subscriptions',
-        };
-
-        caches[bannerType][region] = cacheAsync(
-            fetchBannerDeployTime(region, bannerType),
-            fiveMinutes,
-            `fetch${capitalisedBannerType[bannerType]}BannerDeployTime_${region}`,
-        );
-    },
 };
