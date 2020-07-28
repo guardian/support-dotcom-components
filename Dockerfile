@@ -1,3 +1,6 @@
+# docker build -t contributions-service:latest .
+# docker run --init --rm -p 3030:3030 contributions-service:latest
+
 FROM node:12-alpine
 
 RUN apk add yarn
