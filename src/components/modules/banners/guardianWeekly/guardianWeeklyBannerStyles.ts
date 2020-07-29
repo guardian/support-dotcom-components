@@ -247,7 +247,5 @@ export const closeButton = css`
 `;
 
 export const signInLink = css`
-     {
-        cursor: pointer;
-    }
+    cursor: pointer;
 `;
