@@ -112,7 +112,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             <div css={siteMessage}>
                                 Already a subscriber?{' '}
                                 <a
-                                    className={signInLink}
+                                    css={signInLink}
                                     data-link-name={signInComponentId}
                                     onClick={onSignInClick}
                                 >
