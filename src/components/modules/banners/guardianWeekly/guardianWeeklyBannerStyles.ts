@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, text, brandAlt } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
@@ -102,6 +102,7 @@ export const buttonTextMobileTablet = css`
 `;
 
 export const linkStyle = css`
+    cursor: pointer;
     text-decoration: none;
     :visited {
         color: ${text.primary};
@@ -243,4 +244,8 @@ export const closeButton = css`
         top: 10px;
         right: 10px;
     }
+`;
+
+export const signInLink = css`
+    cursor: pointer;
 `;

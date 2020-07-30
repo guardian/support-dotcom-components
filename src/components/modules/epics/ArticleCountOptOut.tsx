@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { brand } from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
@@ -155,14 +155,14 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     };
 
     return (
-        <div className={optOutContainer} ref={optOutRef}>
-            <button className={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
+        <div css={optOutContainer} ref={optOutRef}>
+            <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
-                <div className={overlayContainer}>
-                    <div className={overlayHeader}>
-                        <div className={overlayHeaderText}>
+                <div css={overlayContainer}>
+                    <div css={overlayHeader}>
+                        <div css={overlayHeaderText}>
                             {hasOptedOut ? "You've opted out" : "What's this?"}
                         </div>
                         {hasOptedOut && (
@@ -175,14 +175,14 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                         )}
                     </div>
 
-                    <div className={overlayBody}>
+                    <div css={overlayBody}>
                         {hasOptedOut
                             ? "Starting from your next page view, we won't count the articles you read or show you this message for three months."
                             : 'We would like to remind you how many Guardian articles you’ve enjoyed on this device. Can we continue showing you this?'}
                     </div>
 
                     {!hasOptedOut && (
-                        <div className={overlayCtaContainer}>
+                        <div css={overlayCtaContainer}>
                             <ThemeProvider theme={brandTheme}>
                                 <Button priority="tertiary" size="small">
                                     Yes, that&apos;s OK
@@ -196,7 +196,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                         </div>
                     )}
 
-                    <div className={overlayNote}>
+                    <div css={overlayNote}>
                         {hasOptedOut ? (
                             <span>
                                 If you have any questions, please{' '}

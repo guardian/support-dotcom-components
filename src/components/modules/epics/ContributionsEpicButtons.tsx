@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicTracking } from './ContributionsEpicTypes';
@@ -29,6 +29,15 @@ const buttonMargins = css`
     margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
 `;
 
+const augmentSupportUrl = (
+    baseUrl: string,
+    tracking: EpicTracking,
+    countryCode?: string,
+): string => {
+    const urlWithRegion = addRegionIdToSupportUrl(baseUrl, countryCode);
+    return addTrackingParams(urlWithRegion, tracking);
+};
+
 const PrimaryCtaButton = ({
     cta,
     tracking,
@@ -44,13 +53,35 @@ const PrimaryCtaButton = ({
 
     const buttonText = cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
-    const urlWithRegion = addRegionIdToSupportUrl(baseUrl, countryCode);
-    const urlWithRegionAndTracking = addTrackingParams(urlWithRegion, tracking);
+    const urlWithRegionAndTracking = augmentSupportUrl(baseUrl, tracking, countryCode);
 
     return (
-        <div className={buttonMargins}>
+        <div css={buttonMargins}>
             <Button onClickAction={urlWithRegionAndTracking} showArrow>
                 {buttonText}
+            </Button>
+        </div>
+    );
+};
+
+const SecondaryCtaButton = ({
+    cta,
+    tracking,
+    countryCode,
+}: {
+    cta: Cta;
+    tracking: EpicTracking;
+    countryCode?: string;
+}): JSX.Element | null => {
+    const isSupportUrl =
+        cta.baseUrl.search(/(support.theguardian.com)\/(contribute|subscribe)/) >= 0;
+
+    const url = isSupportUrl ? augmentSupportUrl(cta.baseUrl, tracking, countryCode) : cta.baseUrl;
+
+    return (
+        <div css={buttonMargins}>
+            <Button onClickAction={url} showArrow priority="secondary">
+                {cta.text}
             </Button>
         </div>
     );
@@ -73,18 +104,18 @@ export const ContributionsEpicButtons = ({
     }
 
     return (
-        <div className={buttonWrapperStyles} data-testid="epic=buttons">
+        <div css={buttonWrapperStyles} data-testid="epic=buttons">
             <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
 
             {secondaryCta && secondaryCta.baseUrl && secondaryCta.text ? (
-                <div className={buttonMargins}>
-                    <Button onClickAction={secondaryCta.baseUrl} showArrow priority="secondary">
-                        {secondaryCta.text}
-                    </Button>
-                </div>
+                <SecondaryCtaButton
+                    cta={secondaryCta}
+                    tracking={tracking}
+                    countryCode={countryCode}
+                />
             ) : (
                 showReminderFields && (
-                    <div className={buttonMargins}>
+                    <div css={buttonMargins}>
                         <Button onClickAction={onOpenReminderClick} isTertiary>
                             {showReminderFields.reminderCTA}
                         </Button>
@@ -95,7 +126,7 @@ export const ContributionsEpicButtons = ({
             <img
                 src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                 alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                className={paymentImageStyles}
+                css={paymentImageStyles}
             />
         </div>
     );

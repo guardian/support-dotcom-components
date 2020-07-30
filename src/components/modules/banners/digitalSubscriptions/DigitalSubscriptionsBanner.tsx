@@ -20,6 +20,7 @@ import {
     notNowButton,
     becomeASubscriberButton,
     linkStyle,
+    signInLink,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
@@ -82,62 +83,61 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     return (
         <>
             {showBanner ? (
-                <section className={banner} data-target={bannerId}>
-                    <div className={contentContainer}>
-                        <div className={topLeftComponent}>
-                            <h3 className={heading}>
-                                Our reporting. <br className={headLineBreak} />
+                <section css={banner} data-target={bannerId}>
+                    <div css={contentContainer}>
+                        <div css={topLeftComponent}>
+                            <h3 css={heading}>
+                                Our reporting. <br css={headLineBreak} />
                                 Your pace.
                             </h3>
-                            <p className={paragraph}>
+                            <p css={paragraph}>
                                 Tired of being always on? Our Daily edition comes to you just once a
                                 day. If a story breaks, you can still catch it with Premium access
                                 to our Live app. All with no ads. It&apos;s up to you.
                             </p>
-                            <a className={linkStyle} onClick={onSubscribeClick}>
-                                <div
-                                    data-link-name={ctaComponentId}
-                                    className={becomeASubscriberButton}
-                                >
-                                    <span className={buttonTextDesktop}>
-                                        Become a digital subscriber
-                                    </span>
-                                    <span className={buttonTextTablet}>Become a subscriber</span>
-                                    <span className={buttonTextMobile}>Subscribe now</span>
+                            <a css={linkStyle} onClick={onSubscribeClick}>
+                                <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
+                                    <span css={buttonTextDesktop}>Become a digital subscriber</span>
+                                    <span css={buttonTextTablet}>Become a subscriber</span>
+                                    <span css={buttonTextMobile}>Subscribe now</span>
                                 </div>
                             </a>
                             <button
-                                className={notNowButton}
+                                css={notNowButton}
                                 data-link-name={notNowComponentId}
                                 onClick={onNotNowClick}
                             >
                                 Not now
                             </button>
-                            <div className={siteMessage}>
+                            <div css={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a data-link-name={signInComponentId} onClick={onSignInClick}>
+                                <a
+                                    css={signInLink}
+                                    data-link-name={signInComponentId}
+                                    onClick={onSignInClick}
+                                >
                                     Sign in
                                 </a>{' '}
                                 to not see this again
                             </div>
                         </div>
-                        <div className={bottomRightComponent}>
-                            <div className={packShot}>
+                        <div css={bottomRightComponent}>
+                            <div css={packShot}>
                                 <img
                                     src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
                                     alt=""
                                 />
                             </div>
-                            <div className={iconPanel}>
+                            <div css={iconPanel}>
                                 <button
                                     onClick={onCloseClick}
-                                    className={closeButton}
+                                    css={closeButton}
                                     data-link-name={closeComponentId}
                                     aria-label="Close"
                                 >
                                     <SvgClose />
                                 </button>
-                                <div className={logoContainer}>
+                                <div css={logoContainer}>
                                     <SvgGuardianLogo />
                                 </div>
                             </div>

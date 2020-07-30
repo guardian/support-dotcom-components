@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { border } from '@guardian/src-foundations/palette';
 import { remSpace } from '@guardian/src-foundations';
 
@@ -23,5 +23,5 @@ const straightLines = css`
 // Note, we should replace with @guardian/src-ed-lines once it is smaller in
 // size/better suited to tree-shaking.
 export const Lines: React.FC<{}> = ({}) => {
-    return <div className={straightLines} />;
+    return <div css={straightLines} />;
 };

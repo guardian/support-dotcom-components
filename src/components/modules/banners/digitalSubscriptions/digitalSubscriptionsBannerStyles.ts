@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
@@ -122,6 +122,7 @@ export const linkStyle = css`
 `;
 
 export const becomeASubscriberButton = css`
+    cursor: pointer;
     display: inline-block;
     border-radius: 1.875rem;
     background-color: ${brandAlt[400]};
@@ -307,4 +308,8 @@ export const closeButton = css`
         top: 10px;
         right: 10px;
     }
+`;
+
+export const signInLink = css`
+    cursor: pointer;
 `;
