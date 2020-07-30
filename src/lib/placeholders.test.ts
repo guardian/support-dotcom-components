@@ -7,7 +7,7 @@ describe('containsNonArticleCountPlaceholder', () => {
     });
 
     it('returns false if string contains an article count placeholder', () => {
-        const got = containsNonArticleCountPlaceholder('apple %%ARTICLE_COUNT%%');
+        const got = containsNonArticleCountPlaceholder('apple %%ARTICLE_COUNT%%SDF%%');
         expect(got).toBe(false);
     });
 

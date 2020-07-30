@@ -48,12 +48,13 @@ const config = [
     ],
 ].map(([name, entryPoint, target]) => {
     const isProd = process.env.NODE_ENV === 'production';
+    const sourcemaps = !isProd; // Nb: set to false if testing IE11
     return {
         input: entryPoint,
         output: {
             file: target,
             format: 'es',
-            sourcemap: isProd ? false : 'inline',
+            sourcemap: sourcemaps ? 'inline' : false,
         },
         external: id => Object.keys(globals).some(key => id == key),
         plugins: [
@@ -73,7 +74,7 @@ const config = [
 
             // Note, visualizer is useful for *relative* sizes, but reports
             // pre-minification.
-            visualizer({ sourcemap: !isProd, gzipSize: true, filename: `stats/${name}.html` }),
+            visualizer({ sourcemap: sourcemaps, gzipSize: true, filename: `stats/${name}.html` }),
         ],
     };
 });
