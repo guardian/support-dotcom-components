@@ -18,8 +18,9 @@ export const replaceNonArticleCountPlaceholders = (
     return content;
 };
 
-// this regex matches %% that are neither preceeded by %%ARTICLE_COUNT or followed by
-// ARTICLE_COUNT%%
-const NON_ARTICLE_COUNT_PLACEHOLDER_REGEX = /(?<!%%ARTICLE_COUNT)%%(?!ARTICLE_COUNT%%)/;
-export const containsNonArticleCountPlaceholder = (text: string): boolean =>
-    NON_ARTICLE_COUNT_PLACEHOLDER_REGEX.test(text);
+// Nb. don't attempt to use lookbehind (?<!) here, as IE 11 will break alas
+const PLACEHOLDER_RE = /%%.*%%/;
+export const containsNonArticleCountPlaceholder = (text: string): boolean => {
+    const matches = text.match(PLACEHOLDER_RE)?.filter(str => str !== '%%ARTICLE_COUNT%%');
+    return !!matches && matches.length > 0;
+};
