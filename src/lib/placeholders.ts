@@ -19,7 +19,7 @@ export const replaceNonArticleCountPlaceholders = (
 };
 
 // Nb. don't attempt to use lookbehind (?<!) here, as IE 11 will break alas
-const PLACEHOLDER_RE = /%%.*%%/;
+const PLACEHOLDER_RE = /%%.*?%%/;
 export const containsNonArticleCountPlaceholder = (text: string): boolean => {
     const matches = text.match(PLACEHOLDER_RE)?.filter(str => str !== '%%ARTICLE_COUNT%%');
     return !!matches && matches.length > 0;
