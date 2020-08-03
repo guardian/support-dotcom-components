@@ -1,13 +1,47 @@
-import React from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
+import { setContributionsBannerClosedTimestamp } from '../localStorage';
+import React, { useState } from 'react';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { styles } from './ContributionsBannerStyles';
 import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 import { containsPlaceholder } from '../../../../lib/placeholders';
+import { SvgRoundel } from '@guardian/src-brand';
+import { SvgClose } from '@guardian/src-icons';
+
+const bannerId = 'contributions-banner';
+const closeComponentId = `${bannerId} : close`;
+const ctaComponentId = `${bannerId} : cta`;
 
 export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) => {
+    const [showBanner, setShowBanner] = useState(true);
     const { content, countryCode } = props;
     const replaceCurrencyPlaceholder = (text: string, currencySymbol: string): string => {
         return text.replace('%%CURRENCY_SYMBOL%%', currencySymbol);
+    };
+
+    const onContributeClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const contributeBaseUrl =
+            (props && props.content && props.content.cta && props.content.cta.baseUrl) ||
+            'https://support.theguardian.com/contribute';
+        const contributeUrlWithTracking = addTrackingParams(contributeBaseUrl, props.tracking);
+        const componentClickEvent = createClickEventFromTracking(props.tracking, ctaComponentId);
+        if (props.submitComponentEvent) {
+            props.submitComponentEvent(componentClickEvent);
+        }
+        window.location.href = contributeUrlWithTracking;
+    };
+
+    const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const componentClickEvent = createClickEventFromTracking(props.tracking, closeComponentId);
+        if (props.submitComponentEvent) {
+            props.submitComponentEvent(componentClickEvent);
+        }
+        setShowBanner(false);
+        setContributionsBannerClosedTimestamp();
     };
 
     if (content && countryCode) {
@@ -22,20 +56,42 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
             (!!highlightedText && containsPlaceholder(highlightedText)) ||
             (!!content.header && containsPlaceholder(content.header));
 
-        if (!copyHasPlaceholder) {
+        if (!copyHasPlaceholder && showBanner) {
             return (
                 <>
-                    <div className={styles.banner}>
-                        <p className={styles.copy}>
-                            {content.header && (
-                                <span className={styles.header}>{content.header}</span>
-                            )}
+                    <div css={styles.banner}>
+                        <div>
+                            <div css={styles.roundelContainer}>
+                                <SvgRoundel />
+                            </div>
+                        </div>
+                        <div css={styles.copy}>
+                            {content.header && <span css={styles.header}>{content.header}</span>}
                             <span
-                                className={styles.messageText}
+                                css={styles.messageText}
                                 dangerouslySetInnerHTML={{ __html: content.messageText }}
                             />
-                            <span className={styles.ctaText}>{highlightedText}</span>
-                        </p>
+                            <span css={styles.highlightedText}>{highlightedText}</span>
+                        </div>
+                        <div>
+                            <button
+                                css={styles.cta}
+                                data-link-name={ctaComponentId}
+                                onClick={onContributeClick}
+                            >
+                                {content && content.cta && content.cta.text}
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                css={styles.closeButton}
+                                onClick={onCloseClick}
+                                data-link-name={closeComponentId}
+                                aria-label="Close"
+                            >
+                                <SvgClose />
+                            </button>
+                        </div>
                     </div>
                 </>
             );
