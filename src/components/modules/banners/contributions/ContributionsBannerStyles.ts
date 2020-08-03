@@ -60,6 +60,8 @@ export const styles = {
         display: inline-block;
         border-radius: 1.875rem;
         border: none;
+        display: block;
+        margin-bottom: 8px;
         background-color: ${neutral[7]};
         padding: ${space[2]}px ${space[6]}px;
         color: ${neutral[100]};
@@ -72,6 +74,11 @@ export const styles = {
         height: 2.25rem;
         fill: ${neutral[7]};
         display: block;
+    `,
+
+    paymentMethods: css`
+        display: block;
+        max-height: 1.25rem;
     `,
 
     closeButton: css`
@@ -100,5 +107,9 @@ export const styles = {
             top: 10px;
             right: 10px;
         }
+    `,
+
+    closeButtonContainer: css`
+        padding: 5px;
     `,
 };
