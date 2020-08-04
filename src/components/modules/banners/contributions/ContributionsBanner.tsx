@@ -60,42 +60,53 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
             return (
                 <>
                     <div css={styles.banner}>
-                        <div>
+                        <div css={styles.leftRoundel}>
                             <div css={styles.roundelContainer}>
                                 <SvgRoundel />
                             </div>
                         </div>
-                        <div css={styles.copy}>
-                            {content.header && <span css={styles.header}>{content.header}</span>}
-                            <span
-                                css={styles.messageText}
-                                dangerouslySetInnerHTML={{ __html: content.messageText }}
-                            />
-                            <span css={styles.highlightedText}>{highlightedText}</span>
+                        <div css={styles.copyAndCta}>
+                            <div css={styles.copy}>
+                                {content.header && (
+                                    <span css={styles.header}>{content.header}</span>
+                                )}
+                                <span
+                                    css={styles.messageText}
+                                    dangerouslySetInnerHTML={{ __html: content.messageText }}
+                                />
+                                <span css={styles.highlightedText}>{highlightedText}</span>
+                            </div>
+                            <div>
+                                <button
+                                    css={styles.cta}
+                                    data-link-name={ctaComponentId}
+                                    onClick={onContributeClick}
+                                >
+                                    {content && content.cta && content.cta.text}
+                                </button>
+                                <img
+                                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                                    css={styles.paymentMethods}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <button
-                                css={styles.cta}
-                                data-link-name={ctaComponentId}
-                                onClick={onContributeClick}
-                            >
-                                {content && content.cta && content.cta.text}
-                            </button>
-                            <img
-                                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                                css={styles.paymentMethods}
-                            />
-                        </div>
-                        <div css={styles.closeButtonContainer}>
-                            <button
-                                css={styles.closeButton}
-                                onClick={onCloseClick}
-                                data-link-name={closeComponentId}
-                                aria-label="Close"
-                            >
-                                <SvgClose />
-                            </button>
+                        <div css={styles.rightButtons}>
+                            <div css={styles.rightRoundel}>
+                                <div css={styles.roundelContainer}>
+                                    <SvgRoundel />
+                                </div>
+                            </div>
+                            <div css={styles.closeButtonContainer}>
+                                <button
+                                    css={styles.closeButton}
+                                    onClick={onCloseClick}
+                                    data-link-name={closeComponentId}
+                                    aria-label="Close"
+                                >
+                                    <SvgClose />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </>

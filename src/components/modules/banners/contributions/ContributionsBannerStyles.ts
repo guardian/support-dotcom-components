@@ -6,7 +6,7 @@ import { until } from '@guardian/src-foundations/mq';
 
 export const styles = {
     banner: css`
-        padding: 8px 20px;
+        padding: 0.5rem 1.25rem 1.125rem;
         background-color: ${brandAlt[400]};
         ${body.medium()};
         color: ${neutral[7]};
@@ -17,10 +17,8 @@ export const styles = {
     `,
 
     copy: css`
-        padding: 5px;
+        border: 1pox solid red;
         display: block;
-        margin: 0 auto;
-        max-width: 50%;
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
@@ -56,6 +54,7 @@ export const styles = {
     `,
 
     cta: css`
+        white-space: nowrap;
         cursor: pointer;
         display: inline-block;
         border-radius: 1.875rem;
@@ -73,7 +72,6 @@ export const styles = {
         width: 2.25rem;
         height: 2.25rem;
         fill: ${neutral[7]};
-        display: block;
     `,
 
     paymentMethods: css`
@@ -86,30 +84,49 @@ export const styles = {
         align-items: center;
         justify-content: center;
         padding: 0;
+        margin: 0;
         border: 0.0625rem solid rgba(18, 18, 18, 0.3);
         border-radius: 50%;
         outline: none;
         background: transparent;
         cursor: pointer;
-        width: 35px;
-        height: 35px;
+        width: 2.25rem;
+        height: 2.25rem;
         svg {
             width: 25px;
             height: 25px;
             fill: ${neutral[7]};
             border-radius: 50%;
         }
-        :hover {
-            cursor: pointer;
-        }
-        ${until.desktop} {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
     `,
 
     closeButtonContainer: css`
-        padding: 5px;
+        display: inline-block;
+    `,
+
+    leftRoundel: css`
+        display: block;
+        ${until.wide} {
+            display: none;
+        }
+    `,
+
+    rightRoundel: css`
+        display: none;
+        ${until.wide} {
+            display: inline-block;
+        }
+    `,
+
+    rightButtons: css`
+        white-space: nowrap;
+    `,
+
+    copyAndCta: css`
+        border: 1pox solid green;
+        display: flex;
+        ${until.desktop} {
+            flex-direction: column;
+        }
     `,
 };
