@@ -76,19 +76,21 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                 />
                                 <span css={styles.highlightedText}>{highlightedText}</span>
                             </div>
-                            <div>
-                                <button
-                                    css={styles.cta}
-                                    data-link-name={ctaComponentId}
-                                    onClick={onContributeClick}
-                                >
-                                    {content && content.cta && content.cta.text}
-                                </button>
-                                <img
-                                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                                    css={styles.paymentMethods}
-                                />
+                            <div css={styles.ctaContainer}>
+                                <div>
+                                    <button
+                                        css={styles.button}
+                                        data-link-name={ctaComponentId}
+                                        onClick={onContributeClick}
+                                    >
+                                        {content && content.cta && content.cta.text}
+                                    </button>
+                                    <img
+                                        src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                                        alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                                        css={styles.paymentMethods}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div css={styles.rightButtons}>

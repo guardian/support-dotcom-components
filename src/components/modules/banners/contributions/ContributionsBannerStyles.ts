@@ -2,22 +2,23 @@ import { css } from '@emotion/core';
 import { brandAlt, neutral } from '@guardian/src-foundations/palette';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { until } from '@guardian/src-foundations/mq';
+import { until, from } from '@guardian/src-foundations/mq';
 
 export const styles = {
     banner: css`
         padding: 0.5rem 1.25rem 1.125rem;
-        background-color: ${brandAlt[400]};
+        background-color: pink;
         ${body.medium()};
         color: ${neutral[7]};
         width: 100%;
         border-top: 1px solid ${neutral[7]};
         display: flex;
+        justify-content: space-between;
         flex-direction: row;
     `,
 
     copy: css`
-        border: 1pox solid red;
+        max-width: 40rem;
         display: block;
         &::selection {
             background-color: ${brandAlt[400]};
@@ -25,6 +26,10 @@ export const styles = {
         }
         strong {
             ${body.medium({ fontWeight: 'bold' })};
+        }
+        ${until.desktop} {
+        }
+        ${from.desktop} {
         }
     `,
 
@@ -53,21 +58,6 @@ export const styles = {
         }
     `,
 
-    cta: css`
-        white-space: nowrap;
-        cursor: pointer;
-        display: inline-block;
-        border-radius: 1.875rem;
-        border: none;
-        display: block;
-        margin-bottom: 8px;
-        background-color: ${neutral[7]};
-        padding: ${space[2]}px ${space[6]}px;
-        color: ${neutral[100]};
-        ${textSans.medium()};
-        font-weight: bold;
-    `,
-
     roundelContainer: css`
         width: 2.25rem;
         height: 2.25rem;
@@ -90,8 +80,8 @@ export const styles = {
         outline: none;
         background: transparent;
         cursor: pointer;
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 100%;
+        height: 100%;
         svg {
             width: 25px;
             height: 25px;
@@ -100,33 +90,66 @@ export const styles = {
         }
     `,
 
-    closeButtonContainer: css`
+    button: css`
+        white-space: nowrap;
+        cursor: pointer;
         display: inline-block;
+        border-radius: 1.875rem;
+        border: none;
+        display: block;
+        margin-bottom: 8px;
+        background-color: ${neutral[7]};
+        padding: ${space[2]}px ${space[6]}px;
+        color: ${neutral[100]};
+        ${textSans.medium()};
+        font-weight: bold;
+    `,
+
+    ctaContainer: css`
+        display: flex;
+        align-items: flex-end;
+        justify-content: start;
+        ${until.desktop} {
+            padding: 1rem 0 0 0;
+        }
+        ${from.desktop} {
+            padding: 0 3.5rem 0 0;
+        }
+    `,
+
+    closeButtonContainer: css`
+        width: 2.25rem;
+        height: 2.25rem;
+        display: block;
     `,
 
     leftRoundel: css`
         display: block;
-        ${until.wide} {
+        ${until.leftCol} {
             display: none;
         }
     `,
 
     rightRoundel: css`
         display: none;
-        ${until.wide} {
-            display: inline-block;
+        ${until.leftCol} {
+            display: block;
         }
     `,
 
     rightButtons: css`
+        display: flex;
+        flex-direction: row;
         white-space: nowrap;
     `,
 
     copyAndCta: css`
-        border: 1pox solid green;
         display: flex;
         ${until.desktop} {
             flex-direction: column;
+        }
+        ${from.desktop} {
+            padding-left: 8rem;
         }
     `,
 };
