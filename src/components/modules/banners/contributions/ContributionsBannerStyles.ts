@@ -1,14 +1,12 @@
 import { css } from '@emotion/core';
 import { brandAlt, neutral } from '@guardian/src-foundations/palette';
-import { body, textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { body } from '@guardian/src-foundations/typography';
 import { until, from } from '@guardian/src-foundations/mq';
 
 export const styles = {
     banner: css`
         padding: 0.5rem 1.25rem 1.125rem;
-        background-color: pink;
-        ${body.medium()};
+        background-color: ${brandAlt[400]};
         color: ${neutral[7]};
         width: 100%;
         border-top: 1px solid ${neutral[7]};
@@ -20,6 +18,9 @@ export const styles = {
     copy: css`
         max-width: 40rem;
         display: block;
+        margin-right: 3rem;
+        padding-bottom: 0;
+        ${body.medium()};
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
@@ -28,8 +29,8 @@ export const styles = {
             ${body.medium({ fontWeight: 'bold' })};
         }
         ${until.desktop} {
-        }
-        ${from.desktop} {
+            margin-right: 0;
+            ${body.small()};
         }
     `,
 
@@ -49,8 +50,9 @@ export const styles = {
     `,
 
     highlightedText: css`
+        white-space: nowrap;
         background-color: ${neutral[100]};
-        padding: 0 0.25rem;
+        padding: 0.15rem 0.15rem;
         ${body.medium({ fontWeight: 'bold' })};
         &::selection {
             background-color: ${brandAlt[400]};
@@ -69,40 +71,29 @@ export const styles = {
         max-height: 1.25rem;
     `,
 
-    closeButton: css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        margin: 0;
-        border: 0.0625rem solid rgba(18, 18, 18, 0.3);
-        border-radius: 50%;
-        outline: none;
-        background: transparent;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        svg {
-            width: 25px;
-            height: 25px;
-            fill: ${neutral[7]};
-            border-radius: 50%;
+    ctaButton: css`
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+        &:hover {
+            background-color: ${neutral[7]};
         }
     `,
 
-    button: css`
-        white-space: nowrap;
-        cursor: pointer;
-        display: inline-block;
-        border-radius: 1.875rem;
-        border: none;
-        display: block;
-        margin-bottom: 8px;
-        background-color: ${neutral[7]};
-        padding: ${space[2]}px ${space[6]}px;
-        color: ${neutral[100]};
-        ${textSans.medium()};
-        font-weight: bold;
+    cta: css`
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+        ${from.mobileMedium} {
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        ${from.tablet} {
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+        }
     `,
 
     ctaContainer: css`
@@ -111,9 +102,6 @@ export const styles = {
         justify-content: start;
         ${until.desktop} {
             padding: 1rem 0 0 0;
-        }
-        ${from.desktop} {
-            padding: 0 3.5rem 0 0;
         }
     `,
 
@@ -145,11 +133,10 @@ export const styles = {
 
     copyAndCta: css`
         display: flex;
+        padding-left: 10rem;
         ${until.desktop} {
+            padding-left: 1rem;
             flex-direction: column;
-        }
-        ${from.desktop} {
-            padding-left: 8rem;
         }
     `,
 };

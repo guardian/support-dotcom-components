@@ -8,7 +8,9 @@ import { styles } from './ContributionsBannerStyles';
 import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
 import { containsPlaceholder } from '../../../../lib/placeholders';
 import { SvgRoundel } from '@guardian/src-brand';
-import { SvgClose } from '@guardian/src-icons';
+import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
+import { ThemeProvider } from 'emotion-theming';
+import { Button, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -77,14 +79,23 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                 <span css={styles.highlightedText}>{highlightedText}</span>
                             </div>
                             <div css={styles.ctaContainer}>
-                                <div>
-                                    <button
-                                        css={styles.button}
-                                        data-link-name={ctaComponentId}
-                                        onClick={onContributeClick}
-                                    >
-                                        {content && content.cta && content.cta.text}
-                                    </button>
+                                <div css={styles.cta}>
+                                    <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                                        <Button
+                                            data-link-name={ctaComponentId}
+                                            css={styles.ctaButton}
+                                            priority="primary"
+                                            size="small"
+                                            icon={<SvgArrowRightStraight />}
+                                            iconSide="right"
+                                            nudgeIcon={true}
+                                            onClick={onContributeClick}
+                                            hideLabel={false}
+                                            aria-label="Contribute"
+                                        >
+                                            {content && content.cta && content.cta.text}
+                                        </Button>
+                                    </ThemeProvider>
                                     <img
                                         src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                                         alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
@@ -100,14 +111,19 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                 </div>
                             </div>
                             <div css={styles.closeButtonContainer}>
-                                <button
-                                    css={styles.closeButton}
-                                    onClick={onCloseClick}
-                                    data-link-name={closeComponentId}
-                                    aria-label="Close"
-                                >
-                                    <SvgClose />
-                                </button>
+                                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                                    <Button
+                                        aria-label="Close"
+                                        data-link-name={closeComponentId}
+                                        priority="tertiary"
+                                        size="small"
+                                        icon={<SvgCross />}
+                                        nudgeIcon={false}
+                                        onClick={onCloseClick}
+                                        hideLabel={true}
+                                        iconSide="left"
+                                    />
+                                </ThemeProvider>
                             </div>
                         </div>
                     </div>
