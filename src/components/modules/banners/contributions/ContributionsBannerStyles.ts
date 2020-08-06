@@ -28,9 +28,8 @@ export const styles = {
         strong {
             ${body.medium({ fontWeight: 'bold' })};
         }
-        ${until.desktop} {
+        ${until.tablet} {
             margin-right: 0;
-            ${body.small()};
         }
     `,
 
@@ -50,7 +49,6 @@ export const styles = {
     `,
 
     highlightedText: css`
-        white-space: nowrap;
         background-color: ${neutral[100]};
         padding: 0.15rem 0.15rem;
         ${body.medium({ fontWeight: 'bold' })};
@@ -74,9 +72,6 @@ export const styles = {
     ctaButton: css`
         margin-bottom: 0.5rem;
         margin-right: 0.5rem;
-        &:hover {
-            background-color: ${neutral[7]};
-        }
     `,
 
     cta: css`
@@ -135,7 +130,7 @@ export const styles = {
         display: flex;
         padding-left: 10rem;
         ${until.desktop} {
-            padding-left: 1rem;
+            padding-left: 0.2rem;
             flex-direction: column;
         }
     `,
