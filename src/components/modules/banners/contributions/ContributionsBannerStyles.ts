@@ -4,12 +4,32 @@ import { body } from '@guardian/src-foundations/typography';
 import { until, from } from '@guardian/src-foundations/mq';
 
 export const styles = {
-    banner: css`
-        padding: 0.5rem 1.25rem 1.125rem;
+    // We need bannerContainer/banner/bannerFlexBox in order to track DCR's article grid.
+    // In future we should be able to do this using src-grid, but this doesn't currently work with DCR's preact.
+    bannerContainer: css`
+        width: 100%;
         background-color: ${brandAlt[400]};
+        border-top: 1px solid ${neutral[7]};
+    `,
+    banner: css`
+        padding: 0.5rem 0.625rem 0 0.625rem;
+        margin: auto;
+        
+        ${from.tablet} {
+            padding: 0.5rem 20px 1.125rem 20px;
+            max-width: 740px;
+        }
+        
+        ${from.desktop} {
+            max-width: 980px;
+        }
+        ${from.leftCol} {
+            max-width: 1140px;
+        }
+    `,
+    bannerFlexBox: css`
         color: ${neutral[7]};
         width: 100%;
-        border-top: 1px solid ${neutral[7]};
         display: flex;
         justify-content: space-between;
         flex-direction: row;
@@ -21,12 +41,22 @@ export const styles = {
         margin-right: 3rem;
         padding-bottom: 0;
         ${body.medium()};
+        ${until.tablet} {
+            font-size: 0.875rem;
+            line-height: 1.125rem;
+            
+            strong {
+                font-weight: 800;
+            }
+        }
+        ${from.tablet} {
+            strong {
+                ${body.medium({ fontWeight: 'bold' })};
+            }
+        }
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
-        }
-        strong {
-            ${body.medium({ fontWeight: 'bold' })};
         }
         ${until.tablet} {
             margin-right: 0;
@@ -52,6 +82,10 @@ export const styles = {
         background-color: ${neutral[100]};
         padding: 0.15rem 0.15rem;
         ${body.medium({ fontWeight: 'bold' })};
+        ${until.tablet} {
+            font-size: 0.875rem;
+            font-weight: 800;
+        }   
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
@@ -96,7 +130,7 @@ export const styles = {
         align-items: flex-end;
         justify-content: start;
         ${until.desktop} {
-            padding: 1rem 0 0 0;
+            padding: 0.5rem 0 0 0;
         }
     `,
 
@@ -107,16 +141,20 @@ export const styles = {
     `,
 
     leftRoundel: css`
-        display: block;
-        ${until.leftCol} {
-            display: none;
+        display: none;
+        width: 168px;
+        ${from.leftCol} {
+            display: block;
         }
     `,
 
     rightRoundel: css`
         display: none;
-        ${until.leftCol} {
+        ${from.tablet} {
             display: block;
+        }
+        ${from.leftCol} {
+            display: none;
         }
     `,
 
@@ -128,10 +166,9 @@ export const styles = {
 
     copyAndCta: css`
         display: flex;
-        padding-left: 10rem;
-        ${until.desktop} {
-            padding-left: 0.2rem;
-            flex-direction: column;
+        flex-direction: column;
+        ${from.desktop} {
+            flex-direction: row;
         }
     `,
 };

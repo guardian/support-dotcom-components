@@ -61,71 +61,75 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
         if (!copyHasPlaceholder && showBanner) {
             return (
                 <>
+                    <div css={styles.bannerContainer}>
                     <div css={styles.banner}>
-                        <div css={styles.leftRoundel}>
-                            <div css={styles.roundelContainer}>
-                                <SvgRoundel />
-                            </div>
-                        </div>
-                        <div css={styles.copyAndCta}>
-                            <div css={styles.copy}>
-                                {content.header && (
-                                    <span css={styles.header}>{content.header}</span>
-                                )}
-                                <span
-                                    css={styles.messageText}
-                                    dangerouslySetInnerHTML={{ __html: content.messageText }}
-                                />
-                                <span css={styles.highlightedText}>{highlightedText}</span>
-                            </div>
-                            <div css={styles.ctaContainer}>
-                                <div css={styles.cta}>
-                                    <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                        <Button
-                                            data-link-name={ctaComponentId}
-                                            css={styles.ctaButton}
-                                            priority="primary"
-                                            size="small"
-                                            icon={<SvgArrowRightStraight />}
-                                            iconSide="right"
-                                            nudgeIcon={true}
-                                            onClick={onContributeClick}
-                                            hideLabel={false}
-                                            aria-label="Contribute"
-                                        >
-                                            {content && content.cta && content.cta.text}
-                                        </Button>
-                                    </ThemeProvider>
-                                    <img
-                                        src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                                        alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                                        css={styles.paymentMethods}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div css={styles.rightButtons}>
-                            <div css={styles.rightRoundel}>
+                        <div css={styles.bannerFlexBox}>
+                            <div css={styles.leftRoundel}>
                                 <div css={styles.roundelContainer}>
                                     <SvgRoundel />
                                 </div>
                             </div>
-                            <div css={styles.closeButtonContainer}>
-                                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                    <Button
-                                        aria-label="Close"
-                                        data-link-name={closeComponentId}
-                                        priority="tertiary"
-                                        size="small"
-                                        icon={<SvgCross />}
-                                        nudgeIcon={false}
-                                        onClick={onCloseClick}
-                                        hideLabel={true}
-                                        iconSide="left"
+                            <div css={styles.copyAndCta}>
+                                <div css={styles.copy}>
+                                    {content.header && (
+                                        <span css={styles.header}>{content.header}</span>
+                                    )}
+                                    <span
+                                        css={styles.messageText}
+                                        dangerouslySetInnerHTML={{ __html: content.messageText }}
                                     />
-                                </ThemeProvider>
+                                    <span css={styles.highlightedText}>{highlightedText}</span>
+                                </div>
+                                <div css={styles.ctaContainer}>
+                                    <div css={styles.cta}>
+                                        <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                                            <Button
+                                                data-link-name={ctaComponentId}
+                                                css={styles.ctaButton}
+                                                priority="primary"
+                                                size="small"
+                                                icon={<SvgArrowRightStraight />}
+                                                iconSide="right"
+                                                nudgeIcon={true}
+                                                onClick={onContributeClick}
+                                                hideLabel={false}
+                                                aria-label="Contribute"
+                                            >
+                                                {content && content.cta && content.cta.text}
+                                            </Button>
+                                        </ThemeProvider>
+                                        <img
+                                            src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                                            alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                                            css={styles.paymentMethods}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div css={styles.rightButtons}>
+                                <div css={styles.rightRoundel}>
+                                    <div css={styles.roundelContainer}>
+                                        <SvgRoundel />
+                                    </div>
+                                </div>
+                                <div css={styles.closeButtonContainer}>
+                                    <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                                        <Button
+                                            aria-label="Close"
+                                            data-link-name={closeComponentId}
+                                            priority="tertiary"
+                                            size="small"
+                                            icon={<SvgCross />}
+                                            nudgeIcon={false}
+                                            onClick={onCloseClick}
+                                            hideLabel={true}
+                                            iconSide="left"
+                                        />
+                                    </ThemeProvider>
+                                </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </>
             );
