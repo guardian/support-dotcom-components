@@ -76,7 +76,7 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                         />
                                         <span css={styles.highlightedText}>{highlightedText}</span>
                                     </div>
-                                    {content.cta &&
+                                    {content.cta && (
                                         <div css={styles.ctaContainer}>
                                             <div css={styles.cta}>
                                                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
@@ -85,13 +85,16 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                                         css={styles.ctaButton}
                                                         priority="primary"
                                                         size="small"
-                                                        icon={<SvgArrowRightStraight/>}
+                                                        icon={<SvgArrowRightStraight />}
                                                         iconSide="right"
                                                         nudgeIcon={true}
                                                         onClick={onContributeClick}
                                                         hideLabel={false}
                                                         aria-label="Contribute"
-                                                        href={addTrackingParams(content.cta.baseUrl, props.tracking)}
+                                                        href={addTrackingParams(
+                                                            content.cta.baseUrl,
+                                                            props.tracking,
+                                                        )}
                                                     >
                                                         {content.cta.text}
                                                     </LinkButton>
@@ -103,7 +106,7 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                                 />
                                             </div>
                                         </div>
-                                    }
+                                    )}
                                 </div>
                                 <div css={styles.rightButtons}>
                                     <div css={styles.rightRoundel}>
