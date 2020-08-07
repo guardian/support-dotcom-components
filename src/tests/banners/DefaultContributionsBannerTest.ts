@@ -1,5 +1,11 @@
 import fetch from 'node-fetch';
-import { BannerTestGenerator, BannerContent, BannerTest } from '../../types/BannerTypes';
+import {
+    BannerTestGenerator,
+    BannerContent,
+    BannerTest,
+    BannerTargeting,
+    BannerPageTracking,
+} from '../../types/BannerTypes';
 
 export const DefaultContributionsBannerPath = 'contributions-banner.js';
 
@@ -11,7 +17,9 @@ const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest =>
         name: 'DefaultContributionsBanner',
         bannerType: 'contributions',
         testAudience: 'NonSupporters',
-        canRun: (): boolean => true,
+        canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
+            // Do not serve to frontend for now
+            pageTracking.clientName === 'dcr',
         minPageViews: 2,
         variants: [
             {
