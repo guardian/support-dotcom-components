@@ -10,7 +10,7 @@ import { containsPlaceholder } from '../../../../lib/placeholders';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
-import { Button, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -23,17 +23,11 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
         return text.replace('%%CURRENCY_SYMBOL%%', currencySymbol);
     };
 
-    const onContributeClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
-        const contributeBaseUrl =
-            (props && props.content && props.content.cta && props.content.cta.baseUrl) ||
-            'https://support.theguardian.com/contribute';
-        const contributeUrlWithTracking = addTrackingParams(contributeBaseUrl, props.tracking);
+    const onContributeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(props.tracking, ctaComponentId);
         if (props.submitComponentEvent) {
             props.submitComponentEvent(componentClickEvent);
         }
-        window.location.href = contributeUrlWithTracking;
     };
 
     const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -86,7 +80,7 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                         <div css={styles.ctaContainer}>
                                             <div css={styles.cta}>
                                                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                                    <Button
+                                                    <LinkButton
                                                         data-link-name={ctaComponentId}
                                                         css={styles.ctaButton}
                                                         priority="primary"
@@ -97,9 +91,10 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                                         onClick={onContributeClick}
                                                         hideLabel={false}
                                                         aria-label="Contribute"
+                                                        href={addTrackingParams(content.cta.baseUrl, props.tracking)}
                                                     >
                                                         {content.cta.text}
-                                                    </Button>
+                                                    </LinkButton>
                                                 </ThemeProvider>
                                                 <img
                                                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
