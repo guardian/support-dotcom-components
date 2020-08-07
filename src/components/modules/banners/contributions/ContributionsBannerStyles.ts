@@ -14,12 +14,12 @@ export const styles = {
     banner: css`
         padding: 0.5rem 0.625rem 0 0.625rem;
         margin: auto;
-        
+
         ${from.tablet} {
             padding: 0.5rem 20px 1.125rem 20px;
             max-width: 740px;
         }
-        
+
         ${from.desktop} {
             max-width: 980px;
         }
@@ -44,7 +44,7 @@ export const styles = {
         ${until.tablet} {
             font-size: 0.875rem;
             line-height: 1.125rem;
-            
+
             strong {
                 font-weight: 800;
             }
@@ -85,7 +85,7 @@ export const styles = {
         ${until.tablet} {
             font-size: 0.875rem;
             font-weight: 800;
-        }   
+        }
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
