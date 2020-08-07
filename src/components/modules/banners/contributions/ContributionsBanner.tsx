@@ -46,7 +46,7 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
         setContributionsBannerClosedTimestamp();
     };
 
-    if (content && countryCode) {
+    if (content && countryCode && showBanner) {
         const currencySymbol = getLocalCurrencySymbol(countryCode);
 
         const highlightedText =
@@ -58,7 +58,7 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
             (!!highlightedText && containsPlaceholder(highlightedText)) ||
             (!!content.header && containsPlaceholder(content.header));
 
-        if (!copyHasPlaceholder && showBanner) {
+        if (!copyHasPlaceholder) {
             return (
                 <>
                     <div css={styles.bannerContainer}>
