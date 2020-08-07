@@ -82,31 +82,33 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                         />
                                         <span css={styles.highlightedText}>{highlightedText}</span>
                                     </div>
-                                    <div css={styles.ctaContainer}>
-                                        <div css={styles.cta}>
-                                            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                                <Button
-                                                    data-link-name={ctaComponentId}
-                                                    css={styles.ctaButton}
-                                                    priority="primary"
-                                                    size="small"
-                                                    icon={<SvgArrowRightStraight />}
-                                                    iconSide="right"
-                                                    nudgeIcon={true}
-                                                    onClick={onContributeClick}
-                                                    hideLabel={false}
-                                                    aria-label="Contribute"
-                                                >
-                                                    {content && content.cta && content.cta.text}
-                                                </Button>
-                                            </ThemeProvider>
-                                            <img
-                                                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                                                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                                                css={styles.paymentMethods}
-                                            />
+                                    {content.cta &&
+                                        <div css={styles.ctaContainer}>
+                                            <div css={styles.cta}>
+                                                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                                                    <Button
+                                                        data-link-name={ctaComponentId}
+                                                        css={styles.ctaButton}
+                                                        priority="primary"
+                                                        size="small"
+                                                        icon={<SvgArrowRightStraight/>}
+                                                        iconSide="right"
+                                                        nudgeIcon={true}
+                                                        onClick={onContributeClick}
+                                                        hideLabel={false}
+                                                        aria-label="Contribute"
+                                                    >
+                                                        {content.cta.text}
+                                                    </Button>
+                                                </ThemeProvider>
+                                                <img
+                                                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                                                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                                                    css={styles.paymentMethods}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
                                 <div css={styles.rightButtons}>
                                     <div css={styles.rightRoundel}>
