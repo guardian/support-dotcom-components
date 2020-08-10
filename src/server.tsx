@@ -398,7 +398,7 @@ app.get(
 
 // TODO remove once migration complete
 app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
-    if (process.env.LOG_COMPARE_VARIANTS !== 'true') {
+    if (process.env.log_compare_variants !== 'true') {
         res.send('ignoring');
         return;
     }

@@ -1,5 +1,5 @@
 export const logTargeting = (message: string): void => {
-    if (process.env.LOG_TARGETING === 'true') {
+    if (process.env.log_targeting === 'true') {
         console.log(message);
     }
 };
