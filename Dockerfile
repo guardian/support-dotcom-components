@@ -7,8 +7,6 @@ RUN apk add yarn
 
 WORKDIR /usr/src/app
 
-ARG NODE_ENV=production
-
 # Copy+install deps first to take advantage of layer caching
 COPY package.json ./
 COPY yarn.lock ./
@@ -16,7 +14,9 @@ RUN yarn --immutable install
 
 # Then install rest of code (which likely changes more frequently)
 COPY . .
+ARG NODE_ENV=production
 RUN yarn build
+COPY src/schemas dist
 
 EXPOSE 3030
 ENTRYPOINT [ "node", "dist/server.js" ]

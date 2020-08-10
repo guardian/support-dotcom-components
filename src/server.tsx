@@ -1,6 +1,4 @@
 import express from 'express';
-import awsServerlessExpress from 'aws-serverless-express';
-import { Context } from 'aws-lambda';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {

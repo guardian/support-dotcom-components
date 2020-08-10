@@ -1,0 +1,7 @@
+{
+    "app": "contributions-service",
+    "stack": "frontend",
+    "vcsURL": "https://github.com/guardian/contributions-service",
+    "deploymentType": "alb-ec2-service",
+    "artifactBucket": "aws-frontend-artifacts"
+}
