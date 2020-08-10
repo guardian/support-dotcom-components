@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
 import React, { useState } from 'react';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
@@ -24,7 +27,6 @@ import {
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
-import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =

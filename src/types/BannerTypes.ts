@@ -39,16 +39,31 @@ export type BannerDataRequestPayload = {
     targeting: BannerTargeting;
 };
 
+export interface Cta {
+    text: string;
+    baseUrl: string;
+}
+
+export interface BannerContent {
+    header?: string;
+    messageText: string;
+    highlightedText?: string;
+    cta?: Cta;
+}
+
 export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePath: string;
     moduleName: string;
+    bannerContent?: BannerContent;
 }
 
 export type BannerType = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
+
+export type BannerTestGenerator = () => Promise<BannerTest>;
 
 export interface BannerTest {
     name: string;
@@ -69,9 +84,11 @@ export interface BannerTestSelection {
     moduleName: string;
 }
 
-export type BannerProps = {
+export interface BannerProps {
     tracking: BannerTracking;
+    content?: BannerContent;
+    countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-};
+}

@@ -5,7 +5,7 @@ import { isProd } from '../lib/env';
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
 
-const configuredTestsUrl = isProd
+const configuredEpicTestsUrl = isProd
     ? 'https://support.theguardian.com/epic-tests.json'
     : 'https://support.code.dev-theguardian.com/epic-tests.json';
 
@@ -53,7 +53,7 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
 };
 
 export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
-    const response = await fetch(configuredTestsUrl);
+    const response = await fetch(configuredEpicTestsUrl);
     if (!response.ok) {
         throw new Error(
             `Encountered a non-ok response when fetching configured epic tests: ${response.status}`,

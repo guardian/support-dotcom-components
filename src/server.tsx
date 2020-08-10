@@ -33,9 +33,12 @@ import {
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
+import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
+import { getCachedTests } from './tests/banners/bannerTests';
+import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -150,7 +153,13 @@ const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
-    const selectedTest = await selectBannerTest(targeting, pageTracking, baseUrl(req));
+    const selectedTest = await selectBannerTest(
+        targeting,
+        pageTracking,
+        baseUrl(req),
+        getCachedTests,
+        bannerDeployCaches,
+    );
 
     if (selectedTest) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;
@@ -170,6 +179,8 @@ const buildBannerData = async (
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
             isSupporter: !targeting.showSupportMessaging,
+            countryCode: targeting.countryCode,
+            content: variant.bannerContent,
             tickerSettings,
         };
 
@@ -299,6 +310,25 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js'
                 : '/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${DefaultContributionsBannerPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/contributions/ContributionsBanner.js'
+                : '/modules/banners/contributions/ContributionsBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');

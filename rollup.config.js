@@ -37,6 +37,11 @@ const config = [
         'dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js',
     ],
     [
+        'contributions-banner',
+        'src/components/modules/banners/contributions/ContributionsBanner.tsx',
+        'dist/modules/banners/contributions/ContributionsBanner.js',
+    ],
+    [
         'digital-subscriptions-banner',
         'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.tsx',
         'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js',
