@@ -16,7 +16,7 @@ RUN yarn --immutable install
 COPY . .
 ENV NODE_ENV=production
 RUN yarn build
-COPY src/schemas dist
+COPY src/schemas dist/schemas
 
 EXPOSE 3030
 ENTRYPOINT [ "node", "dist/server.js" ]
