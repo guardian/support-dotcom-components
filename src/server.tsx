@@ -1,6 +1,4 @@
 import express from 'express';
-import awsServerlessExpress from 'aws-serverless-express';
-import { Context } from 'aws-lambda';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
@@ -400,7 +398,7 @@ app.get(
 
 // TODO remove once migration complete
 app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
-    if (process.env.LOG_COMPARE_VARIANTS !== 'true') {
+    if (process.env.log_compare_variants !== 'true') {
         res.send('ignoring');
         return;
     }
@@ -495,14 +493,6 @@ app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3030;
 
-if (isDev) {
-    app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
-} else {
-    const server = awsServerlessExpress.createServer(app);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    exports.handler = (event: any, context: Context): void => {
-        awsServerlessExpress.proxy(server, event, context);
-    };
-}
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 export { app };
