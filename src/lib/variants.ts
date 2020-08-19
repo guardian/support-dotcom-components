@@ -350,8 +350,8 @@ const defaultReminderFields: ReminderFields = {
 const defaultReminderCutoff = new Date('2020-09-14');
 
 const getDefaultReminderFields = (): ReminderFields | undefined => {
-  const now = new Date();
-  return now <= defaultReminderCutoff ? defaultReminderFields : undefined;
+    const now = new Date();
+    return now <= defaultReminderCutoff ? defaultReminderFields : undefined;
 };
 
 export const findTestAndVariant = (
