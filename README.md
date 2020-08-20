@@ -1,4 +1,4 @@
-# Contributions Service
+# Support Slot Service
 
 ## Development
 
@@ -42,7 +42,7 @@ Use [nest](https://github.com/guardian/nest) for builds:
 The nest config file contains relevant configuration here.
 
 Secrets/config are also handled by Nest. Anything you place in parameter store
-with a `/contributions-service/prod` (or `../code`) prefix will be passed as an
+with a `/slot-service/prod` (or `../code`) prefix will be passed as an
 environment variable to the app on startup. Note there are some naming
 transformations here - see the [nest secrets
 README](https://github.com/guardian/nest-secrets) for more info here.

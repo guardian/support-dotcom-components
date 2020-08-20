@@ -1,7 +1,7 @@
 {
-  "name": "contributions-service",
+  "name": "slot-service",
   "version": "0.1.0",
-  "description": "Service to serve contributions components",
+  "description": "Service to serve Reader Revenue components",
   "main": "dist/server.js",
   "repository": "git@github.com:guardian/contributions-service.git",
   "author": "The Guardian",

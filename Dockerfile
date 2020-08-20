@@ -1,5 +1,5 @@
-# docker build -t contributions-service:latest .
-# docker run --init --rm -p 3030:3030 contributions-service:latest
+# docker build -t slot-service:latest .
+# docker run --init --rm -p 3030:3030 slot-service:latest
 
 FROM node:12-alpine
 
