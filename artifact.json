@@ -1,6 +1,6 @@
 {
-    "projectName": "support:slot-service",
-    "vcsURL": "https://github.com/guardian/contributions-service_",
+    "projectName": "support:dotcom-components",
+    "vcsURL": "https://github.com/guardian/support-dotcom-components_",
     "actions": [
         {
             "action": "lambda",
