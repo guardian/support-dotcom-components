@@ -2,6 +2,7 @@ import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
+import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
 import { cacheAsync } from '../../lib/cache';
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
@@ -12,12 +13,13 @@ const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
 
 const testGenerators: BannerTestGenerator[] = [
     defaultBannerTestGenerator,
+    contributionsBannerAllTestsGenerator,
     digitalSubscriptionsBannerGenerator,
     guardianWeeklyBannerGenerator,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>
-    Promise.all(testGenerators.map(testGenerator => testGenerator()));
+    Promise.all(testGenerators.flatMap(testGenerator => testGenerator()));
 
 const [, getCachedTests] = cacheAsync<BannerTest[]>(getTests, 60, 'bannerTests');
 

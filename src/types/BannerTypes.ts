@@ -1,5 +1,6 @@
 import { TickerSettings } from '../lib/variants';
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
+import { CountryGroupId } from '../lib/geolocation';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -49,6 +50,7 @@ export interface BannerContent {
     messageText: string;
     highlightedText?: string;
     cta?: Cta;
+    secondaryCta?: Cta;
 }
 
 export interface BannerVariant {
@@ -91,4 +93,29 @@ export interface BannerProps {
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+}
+
+export interface ArticlesViewedSettings {
+    minViews: number;
+    maxViews: number;
+    periodInWeeks: number;
+}
+
+export interface RawVariantParams {
+    name: string;
+    body: string;
+    highlightedText?: string;
+    cta?: Cta;
+    secondaryCta?: Cta;
+}
+
+export interface RawTestParams {
+    name: string;
+    nickname: string;
+    isOn: boolean;
+    minArticlesBeforeShowingBanner: number;
+    userCohort: BannerAudience;
+    locations: CountryGroupId[];
+    variants: RawVariantParams[];
+    articlesViewedSettings: ArticlesViewedSettings;
 }

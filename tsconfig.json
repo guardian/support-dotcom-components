@@ -1,6 +1,9 @@
 {
     "compilerOptions": {
-        "target": "es2018",
+        "target": "es5",
+        "lib": [
+            "es2019"
+        ],
         "strict": true,
         "module": "CommonJS",
         "noImplicitReturns": true,
