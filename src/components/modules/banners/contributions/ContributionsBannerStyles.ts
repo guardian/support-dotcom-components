@@ -113,7 +113,7 @@ export const styles = {
         align-items: flex-start;
         justify-content: flex-start;
         flex-direction: column;
-        ${from.mobileMedium} {
+        ${from.mobileLandscape} {
             flex-direction: row;
             align-items: center;
             justify-content: center;
