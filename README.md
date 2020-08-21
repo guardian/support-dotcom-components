@@ -46,3 +46,7 @@ with a `/dotcom-components/prod` (or `../code`) prefix will be passed as an
 environment variable to the app on startup. Note there are some naming
 transformations here - see the [nest secrets
 README](https://github.com/guardian/nest-secrets) for more info here.
+
+### SSH access
+To ssh onto an instance use:
+`ssm ssh --profile <aws profile> -x -u ec2-user --ssm-tunnel -i <instance ID>`
