@@ -1,8 +1,8 @@
 {
-    "app": "contributions-service",
-    "stack": "frontend",
-    "vcsURL": "https://github.com/guardian/contributions-service",
+    "app": "dotcom-components",
+    "stack": "support",
+    "vcsURL": "https://github.com/guardian/support-dotcom-components",
     "deploymentType": "alb-ec2-service",
-    "artifactBucket": "aws-frontend-artifacts",
-    "cloudformationStackName": "contributions-service-ec2"
+    "artifactBucket": "membership-dist",
+    "cloudformationStackName": "dotcom-components"
 }
