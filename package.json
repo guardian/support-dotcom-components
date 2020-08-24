@@ -1,9 +1,9 @@
 {
-  "name": "contributions-service",
+  "name": "dotcom-components",
   "version": "0.1.0",
-  "description": "Service to serve contributions components",
+  "description": "Service to serve Reader Revenue components to dotcom",
   "main": "dist/server.js",
-  "repository": "git@github.com:guardian/contributions-service.git",
+  "repository": "git@github.com:guardian/support-dotcom-components.git",
   "author": "The Guardian",
   "license": "MIT",
   "private": false,
