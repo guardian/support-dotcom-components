@@ -6,20 +6,24 @@ import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests
 import { cacheAsync } from '../../lib/cache';
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve(DigitalSubscriptionsBanner);
+    Promise.resolve([DigitalSubscriptionsBanner]);
 
 const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve(GuardianWeeklyBanner);
+    Promise.resolve([GuardianWeeklyBanner]);
+
+const flatten = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
-    defaultBannerTestGenerator,
     contributionsBannerAllTestsGenerator,
+    defaultBannerTestGenerator,
     digitalSubscriptionsBannerGenerator,
     guardianWeeklyBannerGenerator,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>
-    Promise.all(testGenerators.flatMap(testGenerator => testGenerator()));
+    Promise.all(
+        testGenerators.map(testGenerator => testGenerator()),
+    ).then((bannerTests: BannerTest[][]) => flatten(bannerTests));
 
 const [, getCachedTests] = cacheAsync<BannerTest[]>(getTests, 60, 'bannerTests');
 

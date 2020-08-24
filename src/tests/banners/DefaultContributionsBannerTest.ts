@@ -42,12 +42,14 @@ export const defaultBannerTestGenerator: BannerTestGenerator = () =>
         .then(response => response.json())
         .then(json => json['sheets']['control'][0])
         .then(defaultBannerContent => {
-            return defaultBannerTest({
-                messageText: defaultBannerContent.messageText,
-                highlightedText: defaultBannerContent.ctaText,
-                cta: {
-                    baseUrl: defaultBannerContent.linkUrl,
-                    text: defaultBannerContent.buttonCaption,
-                },
-            });
+            return [
+                defaultBannerTest({
+                    messageText: defaultBannerContent.messageText,
+                    highlightedText: defaultBannerContent.ctaText,
+                    cta: {
+                        baseUrl: defaultBannerContent.linkUrl,
+                        text: defaultBannerContent.buttonCaption,
+                    },
+                }),
+            ];
         });

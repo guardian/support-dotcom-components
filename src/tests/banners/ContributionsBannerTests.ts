@@ -7,6 +7,7 @@ import {
     RawTestParams,
     RawVariantParams,
     BannerVariant,
+    // BannerContent,
 } from '../../types/BannerTypes';
 
 export const ContributionsBannerPath = 'contributions-banner.js';
@@ -40,6 +41,10 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
 };
+
+// const bannerTests = (bannerContent: BannerContent): BannerTest => {
+//     return ContributionsBannerTest(bannerContent);
+// };
 
 export const contributionsBannerAllTestsGenerator: BannerTestGenerator = () =>
     fetch(ContributionsBannerContentUrl)
