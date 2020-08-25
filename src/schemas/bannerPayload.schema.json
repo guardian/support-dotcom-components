@@ -47,6 +47,24 @@
                 },
                 "engagementBannerLastClosedAt": {
                     "type": "string"
+                },
+                "weeklyArticleHistory": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "week": {
+                                "type": "number"
+                            },
+                            "count": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "count",
+                            "week"
+                        ]
+                    }
                 }
             },
             "required": [
