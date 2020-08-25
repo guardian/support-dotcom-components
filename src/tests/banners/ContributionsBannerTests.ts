@@ -7,13 +7,14 @@ import {
     RawTestParams,
     RawVariantParams,
     BannerVariant,
-    // BannerContent,
 } from '../../types/BannerTypes';
+import { isProd } from '../../lib/env';
 
 export const ContributionsBannerPath = 'contributions-banner.js';
 
-const ContributionsBannerContentUrl =
-    'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/banner-tests.json';
+const ContributionsBannerContentUrl = isProd
+    ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/banner-tests.json'
+    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/banner-tests.json';
 
 const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
     return {
@@ -41,10 +42,6 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
 };
-
-// const bannerTests = (bannerContent: BannerContent): BannerTest => {
-//     return ContributionsBannerTest(bannerContent);
-// };
 
 export const contributionsBannerAllTestsGenerator: BannerTestGenerator = () =>
     fetch(ContributionsBannerContentUrl)
