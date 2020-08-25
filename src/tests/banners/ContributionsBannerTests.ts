@@ -25,19 +25,17 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
             testParams.isOn && pageTracking.clientName === 'dcr', // Do not serve to frontend for now
         minPageViews: testParams.minArticlesBeforeShowingBanner,
         variants: testParams.variants.map(
-            (variant: RawVariantParams): BannerVariant => {
-                return {
-                    name: variant.name,
-                    modulePath: ContributionsBannerPath,
-                    moduleName: 'ContributionsBanner',
-                    bannerContent: {
-                        messageText: variant.body,
-                        highlightedText: variant.highlightedText,
-                        cta: variant.cta,
-                        secondaryCta: variant.secondaryCta,
-                    },
-                };
-            },
+            (variant: RawVariantParams): BannerVariant => ({
+                name: variant.name,
+                modulePath: ContributionsBannerPath,
+                moduleName: 'ContributionsBanner',
+                bannerContent: {
+                    messageText: variant.body,
+                    highlightedText: variant.highlightedText,
+                    cta: variant.cta,
+                    secondaryCta: variant.secondaryCta,
+                },
+            }),
         ),
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
