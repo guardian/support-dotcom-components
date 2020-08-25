@@ -6,7 +6,7 @@ import {
     BannerAudience,
     BannerTest,
 } from '../../types/BannerTypes';
-import { countryCodeToCountryGroupId } from '../../lib/geolocation';
+import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
@@ -86,6 +86,7 @@ export const selectBannerTest = async (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.testAudience) &&
+            inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             test.canRun(targeting, pageTracking) &&
             (await redeployedSinceLastClosed(targeting, test.bannerType, bannerDeployCaches))

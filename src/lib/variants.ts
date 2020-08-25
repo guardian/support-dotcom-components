@@ -6,7 +6,7 @@ import {
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
-import { getCountryName, countryCodeToCountryGroupId } from '../lib/geolocation';
+import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
 import { isRecentOneOffContributor } from '../lib/dates';
 
 export enum TickerEndType {
@@ -75,7 +75,7 @@ export interface Variant {
 export interface Test {
     name: string;
     isOn: boolean;
-    locations: string[];
+    locations: CountryGroupId[];
     tagIds: string[];
     sections: string[];
     excludedTagIds: string[];
@@ -214,21 +214,7 @@ export const hasCountryCode: Filter = {
 
 export const matchesCountryGroups: Filter = {
     id: 'matchesCountryGroups',
-    test: (test, targeting): boolean => {
-        // Always True if no locations set for the test
-        if (!test.locations || test.locations.length === 0) {
-            return true;
-        }
-
-        // Always False if user location unknown but test has locations set
-        if (!targeting.countryCode) {
-            return false;
-        }
-
-        // Check if user is in the country groups
-        const userCountryGroup = countryCodeToCountryGroupId(targeting.countryCode);
-        return test.locations.includes(userCountryGroup);
-    },
+    test: (test, targeting): boolean => inCountryGroups(targeting.countryCode, test.locations),
 };
 
 export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({

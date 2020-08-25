@@ -383,6 +383,23 @@ export const countryCodeToCountryGroupId = (countryCode: string): CountryGroupId
     return foundCountryGroupId || 'International';
 };
 
+export const inCountryGroups = (
+    countryCode?: string,
+    countryGroups: CountryGroupId[] = [],
+): boolean => {
+    // Always True if no locations set for the test
+    if (countryGroups.length === 0) {
+        return true;
+    }
+
+    // Always False if user location unknown but test has locations set
+    if (!countryCode) {
+        return false;
+    }
+
+    return countryGroups.includes(countryCodeToCountryGroupId(countryCode));
+};
+
 const defaultCurrencySymbol = '£';
 
 // There's an interesting issue here where the default currency symbol (£) is

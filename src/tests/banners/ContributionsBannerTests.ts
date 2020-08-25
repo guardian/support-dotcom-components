@@ -9,7 +9,6 @@ import {
     BannerVariant,
 } from '../../types/BannerTypes';
 import { isProd } from '../../lib/env';
-import { isValidLocation } from '../../utils/BannerUtils';
 
 export const ContributionsBannerPath = 'contributions-banner.js';
 
@@ -24,9 +23,7 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
         testAudience: testParams.userCohort,
         locations: testParams.locations,
         canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
-            testParams.isOn &&
-            isValidLocation(targeting.countryCode, testParams.locations) &&
-            pageTracking.clientName === 'dcr', // Do not serve to frontend for now
+            testParams.isOn && pageTracking.clientName === 'dcr', // Do not serve to frontend for now
         minPageViews: testParams.minArticlesBeforeShowingBanner,
         variants: testParams.variants.map(
             (variant: RawVariantParams): BannerVariant => ({
