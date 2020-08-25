@@ -1,7 +1,7 @@
 import { TickerSettings } from '../lib/variants';
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
-import {ArticlesViewedSettings, WeeklyArticleHistory} from "./shared";
+import { ArticlesViewedSettings, WeeklyArticleHistory } from './shared';
 
 // TODO - it may be worth sharing some types with Epic tests
 

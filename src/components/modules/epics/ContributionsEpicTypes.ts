@@ -1,5 +1,5 @@
 import { OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
-import { WeeklyArticleHistory } from "../../../types/shared";
+import { WeeklyArticleHistory } from '../../../types/shared';
 
 export type EpicPageTracking = {
     ophanPageId: string;

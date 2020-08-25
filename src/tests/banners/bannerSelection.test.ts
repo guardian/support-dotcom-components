@@ -1,14 +1,8 @@
 import { selectBannerTest } from './bannerSelection';
 import { getTests } from './bannerTests';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
-import {
-    BannerPageTracking,
-    BannerTargeting,
-    BannerTest,
-    BannerVariant,
-    RawVariantParams
-} from "../../types/BannerTypes";
-import {ContributionsBannerPath} from "./ContributionsBannerTests";
+import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
+import { ContributionsBannerPath } from './ContributionsBannerTests';
 
 const getBannerDeployCache = (date: string, region: ReaderRevenueRegion): BannerDeployCaches =>
     ({
@@ -215,14 +209,14 @@ describe('selectBannerTest', () => {
                         cta: {
                             text: 'cta',
                             baseUrl: 'https://support.theguardian.com',
-                        }
+                        },
                     },
-                }
+                },
             ],
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             articlesViewedSettings: {
                 minViews: 5,
-                periodInWeeks: 52
+                periodInWeeks: 52,
             },
         };
 
@@ -231,7 +225,7 @@ describe('selectBannerTest', () => {
 
             return selectBannerTest(
                 Object.assign(targeting, {
-                    weeklyArticleHistory: [{ week: 18330, count: 6 }]
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
                 '',
@@ -248,7 +242,7 @@ describe('selectBannerTest', () => {
 
             return selectBannerTest(
                 Object.assign(targeting, {
-                    weeklyArticleHistory: [{ week: 18330, count: 1 }]
+                    weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
                 '',

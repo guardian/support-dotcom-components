@@ -5,9 +5,9 @@ import {
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
-import {getArticleViewCountForWeeks, historyWithinArticlesViewedSettings} from '../lib/history';
+import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
 import { isRecentOneOffContributor } from '../lib/dates';
-import {ArticlesViewedSettings, WeeklyArticleHistory} from "../types/shared";
+import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -235,7 +235,8 @@ export const withinArticleViewedSettings = (
     now: Date = new Date(),
 ): Filter => ({
     id: 'withinArticleViewedSettings',
-    test: (test): boolean => historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
+    test: (test): boolean =>
+        historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
 });
 
 export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({

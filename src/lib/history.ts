@@ -1,4 +1,4 @@
-import {ArticlesViewedSettings, WeeklyArticleHistory, WeeklyArticleLog} from "../types/shared";
+import { ArticlesViewedSettings, WeeklyArticleHistory, WeeklyArticleLog } from '../types/shared';
 
 export const getMondayFromDate = (date: Date): number => {
     const day = date.getDay() || 7;
