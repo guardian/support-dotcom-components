@@ -80,6 +80,7 @@ export interface BannerTest {
     variants: BannerVariant[];
     componentType: OphanComponentType;
     products?: OphanProduct[];
+    locations?: CountryGroupId[];
 }
 
 // The result of selecting a test+variant for a user
