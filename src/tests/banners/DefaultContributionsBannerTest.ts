@@ -16,7 +16,7 @@ const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest =>
     return {
         name: 'DefaultContributionsBanner',
         bannerType: 'contributions',
-        testAudience: 'NonSupporters',
+        testAudience: 'AllNonSupporters',
         canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
             // Do not serve to frontend for now
             pageTracking.clientName === 'dcr',

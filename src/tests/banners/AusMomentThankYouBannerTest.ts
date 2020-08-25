@@ -7,7 +7,7 @@ const name = 'AusMomentThankYouBanner';
 export const AusMomentThankYouBanner: BannerTest = {
     name,
     bannerType: 'contributions',
-    testAudience: 'All',
+    testAudience: 'Everyone',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
         targeting.countryCode === 'AU',
