@@ -8,7 +8,6 @@ import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
-import { isProd } from '../../../lib/env';
 
 const rootStyles = css`
     position: relative;
@@ -120,9 +119,7 @@ type ReminderPayload = {
     reminderDate: string;
 };
 
-const contributionsReminderUrl = isProd
-    ? 'https://contribution-reminders.support.guardianapis.com/remind-me'
-    : 'https://contribution-reminders-code.support.guardianapis.com/remind-me';
+const contributionsReminderUrl = 'https://contribution-reminders.support.guardianapis.com/remind-me';
 
 const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<Response> => {
     return fetch(contributionsReminderUrl, {
