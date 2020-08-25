@@ -172,6 +172,8 @@ describe('selectBannerTest', () => {
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
+        const cache = getBannerDeployCache(secondDate, 'australia');
+
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
             shouldHideReaderRevenue: false,
@@ -221,8 +223,6 @@ describe('selectBannerTest', () => {
         };
 
         it('returns test if enough article views', () => {
-            const cache = getBannerDeployCache(secondDate, 'australia');
-
             return selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
@@ -238,8 +238,6 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if not enough article views', () => {
-            const cache = getBannerDeployCache(secondDate, 'australia');
-
             return selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
@@ -251,6 +249,26 @@ describe('selectBannerTest', () => {
                 now,
             ).then(result => {
                 expect(result).toBe(null);
+            });
+        });
+
+        it('returns test if no articlesViewedSettings', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    weeklyArticleHistory: [{ week: 18330, count: 1 }],
+                }),
+                tracking,
+                '',
+                () => Promise.resolve([
+                    {
+                        ...test,
+                        articlesViewedSettings: undefined,
+                    }
+                ]),
+                cache,
+                now,
+            ).then(result => {
+                expect(result && result.test.name).toBe('test');
             });
         });
     });
