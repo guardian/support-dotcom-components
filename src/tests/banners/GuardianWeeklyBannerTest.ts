@@ -7,7 +7,7 @@ const name = 'GuardianWeeklyBanner';
 export const GuardianWeeklyBanner: BannerTest = {
     name,
     bannerType: 'subscriptions',
-    testAudience: 'NonSupporters',
+    testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
         if (targeting.switches.remoteSubscriptionsBanner) {

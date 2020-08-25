@@ -1,5 +1,6 @@
 import { TickerSettings } from '../lib/variants';
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
+import { CountryGroupId } from '../lib/geolocation';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -49,6 +50,7 @@ export interface BannerContent {
     messageText: string;
     highlightedText?: string;
     cta?: Cta;
+    secondaryCta?: Cta;
 }
 
 export interface BannerVariant {
@@ -61,9 +63,13 @@ export interface BannerVariant {
 
 export type BannerType = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
-export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
+export type BannerAudience =
+    | 'AllExistingSupporters'
+    | 'AllNonSupporters'
+    | 'Everyone'
+    | 'PostAskPauseSingleContributors';
 
-export type BannerTestGenerator = () => Promise<BannerTest>;
+export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
 export interface BannerTest {
     name: string;
@@ -91,4 +97,29 @@ export interface BannerProps {
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+}
+
+export interface ArticlesViewedSettings {
+    minViews: number;
+    maxViews: number;
+    periodInWeeks: number;
+}
+
+export interface RawVariantParams {
+    name: string;
+    body: string;
+    highlightedText?: string;
+    cta?: Cta;
+    secondaryCta?: Cta;
+}
+
+export interface RawTestParams {
+    name: string;
+    nickname: string;
+    isOn: boolean;
+    minArticlesBeforeShowingBanner: number;
+    userCohort: BannerAudience;
+    locations: CountryGroupId[];
+    variants: RawVariantParams[];
+    articlesViewedSettings: ArticlesViewedSettings;
 }

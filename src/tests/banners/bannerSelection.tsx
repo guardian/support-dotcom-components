@@ -63,9 +63,9 @@ export const redeployedSinceLastClosed = (
 
 const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudience): boolean => {
     switch (testAudience) {
-        case 'NonSupporters':
+        case 'AllNonSupporters':
             return showSupportMessaging;
-        case 'Supporters':
+        case 'AllExistingSupporters':
             return !showSupportMessaging;
         default:
             return true;
