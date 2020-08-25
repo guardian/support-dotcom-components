@@ -119,7 +119,8 @@ type ReminderPayload = {
     reminderDate: string;
 };
 
-const contributionsReminderUrl = 'https://contribution-reminders.support.guardianapis.com/remind-me';
+const contributionsReminderUrl =
+    'https://contribution-reminders.support.guardianapis.com/remind-me';
 
 const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<Response> => {
     return fetch(contributionsReminderUrl, {
