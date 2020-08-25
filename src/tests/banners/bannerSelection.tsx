@@ -8,6 +8,8 @@ import {
 } from '../../types/BannerTypes';
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
+import {WeeklyArticleHistory} from "../../types/shared";
+import {getArticleViewCountForWeeks, historyWithinArticlesViewedSettings} from "../../lib/history";
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -78,6 +80,7 @@ export const selectBannerTest = async (
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,
+    now: Date = new Date(),
 ): Promise<BannerTestSelection | null> => {
     const tests = await getTests();
 
@@ -89,6 +92,7 @@ export const selectBannerTest = async (
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             test.canRun(targeting, pageTracking) &&
+            historyWithinArticlesViewedSettings(test.articlesViewedSettings, targeting.weeklyArticleHistory, now) &&
             (await redeployedSinceLastClosed(targeting, test.bannerType, bannerDeployCaches))
         ) {
             const variant = test.variants[targeting.mvtId % test.variants.length];

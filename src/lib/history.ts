@@ -1,7 +1,4 @@
-import {
-    WeeklyArticleLog,
-    WeeklyArticleHistory,
-} from '../components/modules/epics/ContributionsEpicTypes';
+import {ArticlesViewedSettings, WeeklyArticleHistory, WeeklyArticleLog} from "../types/shared";
 
 export const getMondayFromDate = (date: Date): number => {
     const day = date.getDay() || 7;
@@ -28,4 +25,23 @@ export const getArticleViewCountForWeeks = (
         (accumulator: number, currentValue: WeeklyArticleLog) => currentValue.count + accumulator,
         0,
     );
+};
+
+export const historyWithinArticlesViewedSettings = (
+    articlesViewedSettings?: ArticlesViewedSettings,
+    history: WeeklyArticleHistory = [],
+    now: Date = new Date(),
+) => {
+    // Allow test to pass if no articles viewed settings have been set
+    if (!articlesViewedSettings || !articlesViewedSettings.periodInWeeks) {
+        return true;
+    }
+
+    const { minViews, maxViews, periodInWeeks } = articlesViewedSettings;
+
+    const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks, now);
+    const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
+    const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
+
+    return minViewsOk && maxViewsOk;
 };
