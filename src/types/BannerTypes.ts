@@ -63,7 +63,11 @@ export interface BannerVariant {
 
 export type BannerType = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
-export type BannerAudience = 'NonSupporters' | 'Supporters' | 'All';
+export type BannerAudience =
+    | 'AllExistingSupporters'
+    | 'AllNonSupporters'
+    | 'Everyone'
+    | 'PostAskPauseSingleContributors';
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
