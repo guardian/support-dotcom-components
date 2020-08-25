@@ -6,11 +6,7 @@ import {
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
 import { getArticleViewCountForWeeks } from '../lib/history';
-import {
-    getCountryName,
-    inCountryGroups,
-    CountryGroupId,
-} from '../lib/geolocation';
+import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
 import { isRecentOneOffContributor } from '../lib/dates';
 
 export enum TickerEndType {
