@@ -4,13 +4,14 @@ import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
 import { cacheAsync } from '../../lib/cache';
-import { flattenArray } from '../../utils/BannerUtils';
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
     Promise.resolve([DigitalSubscriptionsBanner]);
 
 const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
     Promise.resolve([GuardianWeeklyBanner]);
+
+const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     contributionsBannerAllTestsGenerator,
