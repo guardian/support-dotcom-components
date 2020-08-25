@@ -259,12 +259,13 @@ describe('selectBannerTest', () => {
                 }),
                 tracking,
                 '',
-                () => Promise.resolve([
-                    {
-                        ...test,
-                        articlesViewedSettings: undefined,
-                    }
-                ]),
+                () =>
+                    Promise.resolve([
+                        {
+                            ...test,
+                            articlesViewedSettings: undefined,
+                        },
+                    ]),
                 cache,
                 now,
             ).then(result => {
