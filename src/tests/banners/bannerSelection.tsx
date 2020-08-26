@@ -75,15 +75,15 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
 };
 
 const getForcedVariant = (
-    forceTestVariant: TestVariant,
+    forcedTestVariant: TestVariant,
     tests: BannerTest[],
     baseUrl: string,
 ): BannerTestSelection | null => {
     const test = tests.find(
-        test => test.name.toLowerCase() === forceTestVariant.testName.toLowerCase(),
+        test => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );
     const variant = test?.variants.find(
-        v => v.name.toLowerCase() === forceTestVariant.variantName.toLowerCase(),
+        v => v.name.toLowerCase() === forcedTestVariant.variantName.toLowerCase(),
     );
 
     if (test && variant) {
@@ -103,13 +103,13 @@ export const selectBannerTest = async (
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,
-    forceTestVariant?: TestVariant,
+    forcedTestVariant?: TestVariant,
     now: Date = new Date(),
 ): Promise<BannerTestSelection | null> => {
     const tests = await getTests();
 
-    if (forceTestVariant) {
-        return Promise.resolve(getForcedVariant(forceTestVariant, tests, baseUrl));
+    if (forcedTestVariant) {
+        return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl));
     }
 
     for (const test of tests) {
