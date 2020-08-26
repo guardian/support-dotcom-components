@@ -1,6 +1,6 @@
 import express from 'express';
 
-interface TestVariant {
+export interface TestVariant {
     testName: string;
     variantName: string;
 }

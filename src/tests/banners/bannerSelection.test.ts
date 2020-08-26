@@ -231,6 +231,7 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                undefined,
                 now,
             ).then(result => {
                 expect(result && result.test.name).toBe('test');
@@ -246,6 +247,7 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                undefined,
                 now,
             ).then(result => {
                 expect(result).toBe(null);
@@ -267,6 +269,7 @@ describe('selectBannerTest', () => {
                         },
                     ]),
                 cache,
+                undefined,
                 now,
             ).then(result => {
                 expect(result && result.test.name).toBe('test');

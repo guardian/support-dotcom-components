@@ -157,6 +157,7 @@ const buildBannerData = async (
         baseUrl(req),
         getCachedTests,
         bannerDeployCaches,
+        params.force,
     );
 
     if (selectedTest) {
