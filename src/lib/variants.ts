@@ -1,13 +1,13 @@
 import {
     EpicTargeting,
     ViewLog,
-    WeeklyArticleHistory,
     UserCohort,
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
-import { getArticleViewCountForWeeks } from '../lib/history';
 import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
+import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
 import { isRecentOneOffContributor } from '../lib/dates';
+import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -34,12 +34,6 @@ export interface TickerSettings {
     currencySymbol: string;
     copy: TickerCopy;
     tickerData?: TickerData;
-}
-
-interface ArticlesViewedSettings {
-    minViews: number;
-    periodInWeeks: number;
-    maxViews?: number;
 }
 
 interface MaxViews {
@@ -241,20 +235,8 @@ export const withinArticleViewedSettings = (
     now: Date = new Date(),
 ): Filter => ({
     id: 'withinArticleViewedSettings',
-    test: (test): boolean => {
-        // Allow test to pass if no articles viewed settings have been set
-        if (!test.articlesViewedSettings || !test.articlesViewedSettings.periodInWeeks) {
-            return true;
-        }
-
-        const { minViews, maxViews, periodInWeeks } = test.articlesViewedSettings;
-
-        const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks, now);
-        const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
-        const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
-
-        return minViewsOk && maxViewsOk;
-    },
+    test: (test): boolean =>
+        historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
 });
 
 export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({

@@ -39,6 +39,7 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
             }),
         ),
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+        articlesViewedSettings: testParams.articlesViewedSettings,
     };
 };
 

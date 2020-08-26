@@ -1,4 +1,5 @@
 import { OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
+import { WeeklyArticleHistory } from '../../../types/shared';
 
 export type EpicPageTracking = {
     ophanPageId: string;
@@ -34,13 +35,6 @@ interface View {
     testId: string;
 }
 export type ViewLog = View[];
-
-export type WeeklyArticleLog = {
-    week: number;
-    count: number;
-};
-
-export type WeeklyArticleHistory = WeeklyArticleLog[];
 
 export type EpicTargeting = {
     contentType: string;

@@ -1,6 +1,7 @@
 import { TickerSettings } from '../lib/variants';
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
+import { ArticlesViewedSettings, WeeklyArticleHistory } from './shared';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -16,6 +17,7 @@ export type BannerTargeting = {
     switches: {
         remoteSubscriptionsBanner: boolean;
     };
+    weeklyArticleHistory?: WeeklyArticleHistory;
 };
 
 export type BannerTestTracking = {
@@ -81,6 +83,7 @@ export interface BannerTest {
     componentType: OphanComponentType;
     products?: OphanProduct[];
     locations?: CountryGroupId[];
+    articlesViewedSettings?: ArticlesViewedSettings;
 }
 
 // The result of selecting a test+variant for a user
@@ -100,12 +103,6 @@ export interface BannerProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
 
-export interface ArticlesViewedSettings {
-    minViews: number;
-    maxViews: number;
-    periodInWeeks: number;
-}
-
 export interface RawVariantParams {
     name: string;
     body: string;
@@ -122,5 +119,5 @@ export interface RawTestParams {
     userCohort: BannerAudience;
     locations: CountryGroupId[];
     variants: RawVariantParams[];
-    articlesViewedSettings: ArticlesViewedSettings;
+    articlesViewedSettings?: ArticlesViewedSettings;
 }
