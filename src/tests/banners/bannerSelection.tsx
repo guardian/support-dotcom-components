@@ -9,6 +9,7 @@ import {
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import {TestVariant} from "../../lib/params";
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -73,15 +74,35 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
     }
 };
 
+const getForcedVariant = (forceTestVariant: TestVariant, tests: BannerTest[], baseUrl: string): BannerTestSelection | null => {
+    const test = tests.find(test => test.name.toLowerCase() === forceTestVariant.testName.toLowerCase());
+    const variant = test?.variants.find(v => v.name.toLowerCase() === forceTestVariant.variantName.toLowerCase());
+
+    if (test && variant) {
+        return {
+            test,
+            variant,
+            moduleUrl: `${baseUrl}/${variant.modulePath}`,
+            moduleName: variant.moduleName,
+        };
+    }
+    return null;
+};
+
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: BannerPageTracking,
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,
+    forceTestVariant?: TestVariant,
     now: Date = new Date(),
 ): Promise<BannerTestSelection | null> => {
     const tests = await getTests();
+
+    if (forceTestVariant) {
+        return Promise.resolve(getForcedVariant(forceTestVariant, tests, baseUrl));
+    }
 
     for (const test of tests) {
         if (
