@@ -276,21 +276,6 @@ app.post(
     },
 );
 
-// ES module endpoints
-app.get(
-    '/epic.js',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev ? '/../dist/modules/epics/Epic.js' : '/modules/epics/Epic.js';
-            const module = await fs.promises.readFile(__dirname + path);
-            res.type('js');
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
 /**
  * For component endpoints only. Data endpoints must never be cached.
  * Tell fastly to cache for 5 mins
@@ -300,6 +285,22 @@ const setComponentCacheHeaders = (res: express.Response) => {
     res.setHeader('Surrogate-Control', 'max-age=300');
     res.setHeader('Cache-Control', 'max-age=120');
 };
+
+// ES module endpoints
+app.get(
+    '/epic.js',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev ? '/../dist/modules/epics/Epic.js' : '/modules/epics/Epic.js';
+            const module = await fs.promises.readFile(__dirname + path);
+            res.type('js');
+            setComponentCacheHeaders(res);
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
 
 app.get(
     `/${AusMomentContributionsBannerPath}`,
