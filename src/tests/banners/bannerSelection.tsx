@@ -9,7 +9,7 @@ import {
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
-import {TestVariant} from "../../lib/params";
+import { TestVariant } from '../../lib/params';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -74,9 +74,17 @@ const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudi
     }
 };
 
-const getForcedVariant = (forceTestVariant: TestVariant, tests: BannerTest[], baseUrl: string): BannerTestSelection | null => {
-    const test = tests.find(test => test.name.toLowerCase() === forceTestVariant.testName.toLowerCase());
-    const variant = test?.variants.find(v => v.name.toLowerCase() === forceTestVariant.variantName.toLowerCase());
+const getForcedVariant = (
+    forceTestVariant: TestVariant,
+    tests: BannerTest[],
+    baseUrl: string,
+): BannerTestSelection | null => {
+    const test = tests.find(
+        test => test.name.toLowerCase() === forceTestVariant.testName.toLowerCase(),
+    );
+    const variant = test?.variants.find(
+        v => v.name.toLowerCase() === forceTestVariant.variantName.toLowerCase(),
+    );
 
     if (test && variant) {
         return {
