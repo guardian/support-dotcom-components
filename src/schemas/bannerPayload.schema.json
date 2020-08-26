@@ -65,8 +65,11 @@
                             "week"
                         ]
                     }
+                },
+                "showDrafts": {
+                    "type": "boolean"
                 }
-            },
+        },
             "required": [
                 "alreadyVisitedCount",
                 "showSupportMessaging"
