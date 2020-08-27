@@ -4,6 +4,8 @@ import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
+const closeButtonWidthHeight = '35px';
+
 export const banner = css`
     html {
         box-sizing: border-box;
@@ -65,6 +67,7 @@ export const heading = css`
     ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
+    padding-right: ${closeButtonWidthHeight};
 
     @media (min-width: 740px) {
         max-width: 90%;
@@ -290,8 +293,8 @@ export const closeButton = css`
     outline: none;
     background: transparent;
     cursor: pointer;
-    width: 35px;
-    height: 35px;
+    width: ${closeButtonWidthHeight};
+    height: ${closeButtonWidthHeight};
     svg {
         width: 25px;
         height: 25px;

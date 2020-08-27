@@ -89,13 +89,10 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
                             <h3 css={heading}>
-                                Our reporting. <br css={headLineBreak} />
-                                Your pace.
+                                Enjoy ad-free reading and the best of our apps
                             </h3>
                             <p css={paragraph}>
-                                Tired of being always on? Our Daily edition comes to you just once a
-                                day. If a story breaks, you can still catch it with Premium access
-                                to our Live app. All with no ads. It&apos;s up to you.
+                                Support the Guardian with a Digital Subscription, enjoy our reporting without ads and get premium access to our Live app and The Daily.
                             </p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
