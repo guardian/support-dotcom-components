@@ -7,13 +7,13 @@ import { from } from '@guardian/src-foundations/mq';
 import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
-    replaceArticleCount,
 } from '../../../lib/placeholders';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
+import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5

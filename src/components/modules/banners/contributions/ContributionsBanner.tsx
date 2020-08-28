@@ -7,13 +7,13 @@ import { BannerProps } from '../../../../types/BannerTypes';
 import { styles } from './ContributionsBannerStyles';
 import {
     containsNonArticleCountPlaceholder,
-    replaceArticleCount,
     replaceNonArticleCountPlaceholders,
 } from '../../../../lib/placeholders';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -147,6 +147,8 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                     </div>
                 </>
             );
+        } else {
+            console.log('Banner copy contains placeholders, abandoning.');
         }
     }
 
