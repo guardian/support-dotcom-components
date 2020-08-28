@@ -48,7 +48,7 @@ export interface Cta {
 }
 
 export interface BannerContent {
-    header?: string;
+    heading?: string;
     messageText: string;
     highlightedText?: string;
     cta?: Cta;
@@ -101,11 +101,13 @@ export interface BannerProps {
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    numArticles?: number;
 }
 
 export interface RawVariantParams {
     name: string;
     body: string;
+    heading?: string;
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: Cta;

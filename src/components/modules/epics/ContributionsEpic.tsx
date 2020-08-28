@@ -13,7 +13,7 @@ import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
-import { ArticleCountOptOut } from './ArticleCountOptOut';
+import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -105,31 +105,13 @@ interface OnReminderOpen {
     buttonCopyAsString: string;
 }
 
-const replaceArticleCount = (text: string, numArticles: number): Array<JSX.Element> => {
-    const nextWords: Array<string | null> = [];
-    const subbedText = text.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
-        nextWords.push(nextWord);
-        return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
-    });
-
-    const parts = subbedText.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
-    const elements = [];
-    for (let i = 0; i < parts.length - 1; i += 1) {
-        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] }} />);
-        elements.push(<ArticleCountOptOut numArticles={numArticles} nextWord={nextWords[i]} />);
-    }
-    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] }} />);
-
-    return elements;
-};
-
 interface EpicHeaderProps {
     text: string;
     numArticles: number;
 }
 
 const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeaderProps) => {
-    const elements = replaceArticleCount(text, numArticles);
+    const elements = replaceArticleCount(text, numArticles, 'epic');
     return <h2 css={headingStyles}>{elements}</h2>;
 };
 
@@ -137,7 +119,7 @@ const Highlighted: React.FC<HighlightedProps> = ({
     highlightedText,
     numArticles,
 }: HighlightedProps) => {
-    const elements = replaceArticleCount(highlightedText, numArticles);
+    const elements = replaceArticleCount(highlightedText, numArticles, 'epic');
 
     return (
         <strong css={highlightWrapperStyles}>
@@ -158,7 +140,7 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     numArticles,
     highlighted,
 }: EpicBodyParagraphProps) => {
-    const elements = replaceArticleCount(paragraph, numArticles);
+    const elements = replaceArticleCount(paragraph, numArticles, 'epic');
 
     return (
         <p css={bodyStyles}>
