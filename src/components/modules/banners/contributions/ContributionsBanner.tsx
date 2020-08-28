@@ -42,7 +42,6 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
     };
 
     if (content && countryCode && showBanner) {
-
         const cleanHighlightedText =
             content.highlightedText &&
             replaceNonArticleCountPlaceholders(content.highlightedText, countryCode);
