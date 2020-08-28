@@ -126,7 +126,10 @@ const buildEpicData = async (
     const props: EpicProps = {
         variant: variantWithTickerData,
         tracking: { ...pageTracking, ...testTracking },
-        numArticles: getArticleViewCountForWeeks(targeting.weeklyArticleHistory),
+        numArticles: getArticleViewCountForWeeks(
+            targeting.weeklyArticleHistory,
+            test.articlesViewedSettings?.periodInWeeks,
+        ),
         countryCode: targeting.countryCode,
     };
 
@@ -180,6 +183,10 @@ const buildBannerData = async (
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
             content: variant.bannerContent,
+            numArticles: getArticleViewCountForWeeks(
+                targeting.weeklyArticleHistory,
+                test.articlesViewedSettings?.periodInWeeks,
+            ),
             tickerSettings,
         };
 

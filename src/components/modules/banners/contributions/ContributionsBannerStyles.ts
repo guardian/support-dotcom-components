@@ -63,7 +63,7 @@ export const styles = {
         }
     `,
 
-    header: css`
+    heading: css`
         ${body.medium({ fontWeight: 'bold' })};
         &::selection {
             background-color: ${brandAlt[400]};

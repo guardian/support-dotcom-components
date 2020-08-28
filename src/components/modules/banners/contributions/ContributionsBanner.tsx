@@ -5,8 +5,11 @@ import { setContributionsBannerClosedTimestamp } from '../localStorage';
 import React, { useState } from 'react';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { styles } from './ContributionsBannerStyles';
-import { getLocalCurrencySymbol } from '../../../../lib/geolocation';
-import { containsPlaceholder } from '../../../../lib/placeholders';
+import {
+    containsNonArticleCountPlaceholder,
+    replaceArticleCount,
+    replaceNonArticleCountPlaceholders,
+} from '../../../../lib/placeholders';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
@@ -19,9 +22,7 @@ const ctaComponentId = `${bannerId} : cta`;
 export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
     const { content, countryCode } = props;
-    const replaceCurrencyPlaceholder = (text: string, currencySymbol: string): string => {
-        return text.replace('%%CURRENCY_SYMBOL%%', currencySymbol);
-    };
+    const numArticles = props.numArticles || 0;
 
     const onContributeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(props.tracking, ctaComponentId);
@@ -41,16 +42,22 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
     };
 
     if (content && countryCode && showBanner) {
-        const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-        const highlightedText =
+        const cleanHighlightedText =
             content.highlightedText &&
-            replaceCurrencyPlaceholder(content.highlightedText, currencySymbol);
+            replaceNonArticleCountPlaceholders(content.highlightedText, countryCode);
+
+        const cleanMessageText = replaceNonArticleCountPlaceholders(
+            content.messageText,
+            countryCode,
+        );
+
+        const cleanHeading = replaceNonArticleCountPlaceholders(content.heading, countryCode);
 
         const copyHasPlaceholder =
-            containsPlaceholder(content.messageText) ||
-            (!!highlightedText && containsPlaceholder(highlightedText)) ||
-            (!!content.header && containsPlaceholder(content.header));
+            containsNonArticleCountPlaceholder(cleanMessageText) ||
+            (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
+            (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
         if (!copyHasPlaceholder) {
             return (
@@ -65,16 +72,22 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                 </div>
                                 <div css={styles.copyAndCta}>
                                     <div css={styles.copy}>
-                                        {content.header && (
-                                            <span css={styles.header}>{content.header}</span>
+                                        {cleanHeading && (
+                                            <span css={styles.heading}>
+                                                {replaceArticleCount(cleanHeading, numArticles)}
+                                            </span>
                                         )}
-                                        <span
-                                            css={styles.messageText}
-                                            dangerouslySetInnerHTML={{
-                                                __html: content.messageText,
-                                            }}
-                                        />
-                                        <span css={styles.highlightedText}>{highlightedText}</span>
+                                        <span css={styles.messageText}>
+                                            {replaceArticleCount(cleanMessageText, numArticles)}
+                                        </span>
+                                        {cleanHighlightedText && (
+                                            <span css={styles.highlightedText}>
+                                                {replaceArticleCount(
+                                                    cleanHighlightedText,
+                                                    numArticles,
+                                                )}
+                                            </span>
+                                        )}
                                     </div>
                                     {content.cta && (
                                         <div css={styles.ctaContainer}>
