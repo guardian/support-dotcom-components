@@ -73,17 +73,26 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                     <div css={styles.copy}>
                                         {cleanHeading && (
                                             <span css={styles.heading}>
-                                                {replaceArticleCount(cleanHeading, numArticles)}
+                                                {replaceArticleCount(
+                                                    cleanHeading,
+                                                    numArticles,
+                                                    'banner',
+                                                )}
                                             </span>
                                         )}
                                         <span css={styles.messageText}>
-                                            {replaceArticleCount(cleanMessageText, numArticles)}
+                                            {replaceArticleCount(
+                                                cleanMessageText,
+                                                numArticles,
+                                                'banner',
+                                            )}
                                         </span>
                                         {cleanHighlightedText && (
                                             <span css={styles.highlightedText}>
                                                 {replaceArticleCount(
                                                     cleanHighlightedText,
                                                     numArticles,
+                                                    'banner',
                                                 )}
                                             </span>
                                         )}

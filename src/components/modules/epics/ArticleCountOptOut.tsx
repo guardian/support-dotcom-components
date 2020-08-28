@@ -9,6 +9,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { brand as brandTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';
+import { ComponentType } from '../../../types/shared';
 
 const ARTICLE_COUNT_OPT_OUT_COOKIE = {
     name: 'gu_article_count_opt_out',
@@ -37,7 +38,7 @@ const articleCountButton = css`
     font-weight: inherit;
 `;
 
-const overlayContainer = css`
+const overlayContainer = (componentType: ComponentType) => css`
     position: absolute;
     z-index: 100;
     left: ${space[4]}px;
@@ -46,6 +47,7 @@ const overlayContainer = css`
     background: ${brand[400]};
     ${textSans.medium()}
     padding: ${space[3]}px;
+    ${componentType === 'banner' ? 'bottom: 21px;' : ''}
 
 
     ${from.tablet} {
@@ -106,11 +108,13 @@ const overlayNote = css`
 export interface ArticleCountOptOutProps {
     numArticles: number;
     nextWord: string | null;
+    componentType: ComponentType;
 }
 
 export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     numArticles,
     nextWord,
+    componentType,
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
@@ -160,7 +164,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
-                <div css={overlayContainer}>
+                <div css={overlayContainer(componentType)}>
                     <div css={overlayHeader}>
                         <div css={overlayHeaderText}>
                             {hasOptedOut ? "You've opted out" : "What's this?"}

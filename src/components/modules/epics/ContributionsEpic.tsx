@@ -111,7 +111,7 @@ interface EpicHeaderProps {
 }
 
 const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeaderProps) => {
-    const elements = replaceArticleCount(text, numArticles);
+    const elements = replaceArticleCount(text, numArticles, 'epic');
     return <h2 css={headingStyles}>{elements}</h2>;
 };
 
@@ -119,7 +119,7 @@ const Highlighted: React.FC<HighlightedProps> = ({
     highlightedText,
     numArticles,
 }: HighlightedProps) => {
-    const elements = replaceArticleCount(highlightedText, numArticles);
+    const elements = replaceArticleCount(highlightedText, numArticles, 'epic');
 
     return (
         <strong css={highlightWrapperStyles}>
@@ -140,7 +140,7 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     numArticles,
     highlighted,
 }: EpicBodyParagraphProps) => {
-    const elements = replaceArticleCount(paragraph, numArticles);
+    const elements = replaceArticleCount(paragraph, numArticles, 'epic');
 
     return (
         <p css={bodyStyles}>
