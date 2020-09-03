@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { css } from '@emotion/core';
-import { brand } from '@guardian/src-foundations/palette';
+import {
+    brand,
+    brandAltBackground,
+    brandAltLine,
+    brandAltText,
+} from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { SvgClose } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
-import { brand as brandTheme } from '@guardian/src-foundations/themes';
+import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';
 import { ComponentType } from '../../../types/shared';
@@ -36,6 +41,9 @@ const articleCountButton = css`
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
+    &:focus {
+        outline: none !important;
+    }
 `;
 
 const overlayContainer = (componentType: ComponentType) => css`
@@ -43,12 +51,12 @@ const overlayContainer = (componentType: ComponentType) => css`
     z-index: 100;
     left: ${space[4]}px;
     right: ${space[4]}px;
-    color: #ffffff;
-    background: ${brand[400]};
+    color: ${componentType === 'banner' ? brandAltText.primary : '#ffffff'};
+    background: ${componentType === 'banner' ? brandAltBackground.primary : brand[400]};
+    border: 1px solid ${componentType === 'banner' ? brandAltLine.primary : 'transparent'};
     ${textSans.medium()}
     padding: ${space[3]}px;
     ${componentType === 'banner' ? 'bottom: 21px;' : ''}
-
 
     ${from.tablet} {
         width: 325px;
@@ -89,7 +97,7 @@ const overlayCtaContainer = css`
     }
 `;
 
-const overlayNote = css`
+const overlayNote = (componentType: ComponentType) => css`
     margin-top: ${space[3]}px;
     ${textSans.xsmall()}
     font-style: italic;
@@ -100,7 +108,7 @@ const overlayNote = css`
     }
 
     a {
-        color: #ffffff !important;
+        color: ${componentType === 'banner' ? brandAltText.primary : '#ffffff'} !important;
         text-decoration: underline !important;
     }
 `;
@@ -170,12 +178,17 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                             {hasOptedOut ? "You've opted out" : "What's this?"}
                         </div>
                         {hasOptedOut && (
-                            <Button
-                                onClick={(): void => setIsOpen(false)}
-                                icon={<SvgClose />}
-                                hideLabel
-                                size="small"
-                            ></Button>
+                            <ThemeProvider
+                                theme={componentType === 'banner' ? brandAltTheme : brandTheme}
+                            >
+                                <Button
+                                    onClick={(): void => setIsOpen(false)}
+                                    icon={<SvgClose />}
+                                    hideLabel
+                                    size="small"
+                                    priority="tertiary"
+                                />
+                            </ThemeProvider>
                         )}
                     </div>
 
@@ -187,12 +200,20 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
 
                     {!hasOptedOut && (
                         <div css={overlayCtaContainer}>
-                            <ThemeProvider theme={brandTheme}>
-                                <Button priority="tertiary" size="small">
+                            <ThemeProvider
+                                theme={componentType === 'banner' ? brandAltTheme : brandTheme}
+                            >
+                                <Button
+                                    onClick={(): void => setIsOpen(false)}
+                                    priority="tertiary"
+                                    size="small"
+                                >
                                     Yes, that&apos;s OK
                                 </Button>
                             </ThemeProvider>
-                            <ThemeProvider theme={brandTheme}>
+                            <ThemeProvider
+                                theme={componentType === 'banner' ? brandAltTheme : brandTheme}
+                            >
                                 <Button onClick={optOut} priority="primary" size="small">
                                     No, opt me out
                                 </Button>
@@ -200,7 +221,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                         </div>
                     )}
 
-                    <div css={overlayNote}>
+                    <div css={overlayNote(componentType)}>
                         {hasOptedOut ? (
                             <span>
                                 If you have any questions, please{' '}
