@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { css } from '@emotion/core';
-import { brand } from '@guardian/src-foundations/palette';
+import {
+    brand,
+    brandAltBackground,
+    brandAltLine,
+    brandAltText,
+} from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
@@ -43,12 +48,12 @@ const overlayContainer = (componentType: ComponentType) => css`
     z-index: 100;
     left: ${space[4]}px;
     right: ${space[4]}px;
-    color: #ffffff;
-    background: ${brand[400]};
+    color: ${componentType === 'banner' ? brandAltText.primary : '#ffffff'};
+    background: ${componentType === 'banner' ? brandAltBackground.primary : brand[400]};
+    border: 1px solid ${componentType === 'banner' ? brandAltLine.primary : 'transparent'};
     ${textSans.medium()}
     padding: ${space[3]}px;
     ${componentType === 'banner' ? 'bottom: 21px;' : ''}
-
 
     ${from.tablet} {
         width: 325px;
@@ -175,7 +180,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                                 icon={<SvgClose />}
                                 hideLabel
                                 size="small"
-                            ></Button>
+                            />
                         )}
                     </div>
 
