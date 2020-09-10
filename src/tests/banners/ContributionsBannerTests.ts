@@ -2,8 +2,6 @@ import fetch from 'node-fetch';
 import {
     BannerTestGenerator,
     BannerTest,
-    BannerTargeting,
-    BannerPageTracking,
     RawTestParams,
     RawVariantParams,
     BannerVariant,
