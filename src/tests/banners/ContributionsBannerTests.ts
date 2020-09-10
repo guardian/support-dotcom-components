@@ -23,7 +23,7 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
         testAudience: testParams.userCohort,
         locations: testParams.locations,
         canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
-            testParams.isOn && pageTracking.clientName === 'dcr', // Do not serve to frontend for now
+            testParams.isOn,
         minPageViews: testParams.minArticlesBeforeShowingBanner,
         variants: testParams.variants.map(
             (variant: RawVariantParams): BannerVariant => ({

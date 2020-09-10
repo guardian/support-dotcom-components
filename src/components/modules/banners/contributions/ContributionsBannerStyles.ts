@@ -14,6 +14,7 @@ export const styles = {
     banner: css`
         padding: 0.5rem 0.625rem 0 0.625rem;
         margin: auto;
+        box-sizing: border-box;
 
         ${from.tablet} {
             padding: 0.5rem 20px 1.125rem 20px;
