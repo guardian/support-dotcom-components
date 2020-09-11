@@ -102,7 +102,6 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                             <div css={styles.cta}>
                                                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                                                     <LinkButton
-                                                        target="_blank"
                                                         data-link-name={ctaComponentId}
                                                         css={styles.ctaButton}
                                                         priority="primary"
