@@ -2,8 +2,6 @@ import fetch from 'node-fetch';
 import {
     BannerTestGenerator,
     BannerTest,
-    BannerTargeting,
-    BannerPageTracking,
     RawTestParams,
     RawVariantParams,
     BannerVariant,
@@ -22,8 +20,7 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
         bannerType: 'contributions',
         testAudience: testParams.userCohort,
         locations: testParams.locations,
-        canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
-            testParams.isOn && pageTracking.clientName === 'dcr', // Do not serve to frontend for now
+        canRun: (): boolean => testParams.isOn,
         minPageViews: testParams.minArticlesBeforeShowingBanner,
         variants: testParams.variants.map(
             (variant: RawVariantParams): BannerVariant => ({

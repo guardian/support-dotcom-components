@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import {
     brand,
@@ -127,27 +127,6 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
-    const optOutRef = useRef<HTMLDivElement>(null);
-
-    const clickWasOutsideOptOut = (event: MouseEvent): boolean => {
-        if (optOutRef.current) {
-            return !optOutRef.current.contains(event.target as Node);
-        } else {
-            return true;
-        }
-    };
-
-    const handleClick = (event: MouseEvent): void => {
-        if (clickWasOutsideOptOut(event)) {
-            setIsOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClick);
-        return (): void => document.removeEventListener('mousedown', handleClick);
-    }, []);
-
     const addArticleCountOptOutCookie = (): void =>
         addCookie(
             ARTICLE_COUNT_OPT_OUT_COOKIE.name,
@@ -167,7 +146,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     };
 
     return (
-        <div css={optOutContainer} ref={optOutRef}>
+        <div css={optOutContainer}>
             <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
