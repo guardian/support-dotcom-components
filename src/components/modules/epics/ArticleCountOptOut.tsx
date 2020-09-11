@@ -146,7 +146,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     };
 
     return (
-        <div css={optOutContainer} >
+        <div css={optOutContainer}>
             <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
