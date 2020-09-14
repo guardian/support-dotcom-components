@@ -21,7 +21,7 @@ export const BannerPaths: { [key in BannerTemplate]: string } = {
 
 const Channel2BannerContentUrl = isProd
     ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/banner-tests2.json'
-    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/DEV/banner-tests2.json';
+    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/banner-tests2.json';
 
 const Channel2BannerVariant = (variant: RawVariantParams): BannerVariant => {
     return {
