@@ -55,6 +55,12 @@ export interface BannerContent {
     secondaryCta?: Cta;
 }
 
+export enum BannerTemplate {
+    ContributionsBanner = 'ContributionsBanner',
+    DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
+    GuardianWeeklyBanner = 'GuardianWeeklyBanner',
+}
+
 export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
@@ -106,6 +112,7 @@ export interface BannerProps {
 
 export interface RawVariantParams {
     name: string;
+    template: BannerTemplate;
     body: string;
     heading?: string;
     highlightedText?: string;

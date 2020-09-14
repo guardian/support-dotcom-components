@@ -3,6 +3,7 @@ import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
+import { channel2BannersAllTestsGenerator } from './Channel2BannerTests';
 import { cacheAsync } from '../../lib/cache';
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
@@ -15,6 +16,7 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     contributionsBannerAllTestsGenerator,
+    channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
     digitalSubscriptionsBannerGenerator,
     guardianWeeklyBannerGenerator,
