@@ -3,6 +3,7 @@ import { getTests } from './bannerTests';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { ContributionsBannerPath } from './ContributionsBannerTests';
+import { DigitalSubscriptionsBannerPath } from './Channel2BannerTests';
 
 const getBannerDeployCache = (date: string, region: ReaderRevenueRegion): BannerDeployCaches =>
     ({
@@ -216,6 +217,113 @@ describe('selectBannerTest', () => {
                 },
             ],
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            articlesViewedSettings: {
+                minViews: 5,
+                periodInWeeks: 52,
+            },
+        };
+
+        it('returns test if enough article views', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                }),
+                tracking,
+                '',
+                () => Promise.resolve([test]),
+                cache,
+                undefined,
+                now,
+            ).then(result => {
+                expect(result && result.test.name).toBe('test');
+            });
+        });
+
+        it('returns null if not enough article views', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    weeklyArticleHistory: [{ week: 18330, count: 1 }],
+                }),
+                tracking,
+                '',
+                () => Promise.resolve([test]),
+                cache,
+                undefined,
+                now,
+            ).then(result => {
+                expect(result).toBe(null);
+            });
+        });
+
+        it('returns test if no articlesViewedSettings', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    weeklyArticleHistory: [{ week: 18330, count: 1 }],
+                }),
+                tracking,
+                '',
+                () =>
+                    Promise.resolve([
+                        {
+                            ...test,
+                            articlesViewedSettings: undefined,
+                        },
+                    ]),
+                cache,
+                undefined,
+                now,
+            ).then(result => {
+                expect(result && result.test.name).toBe('test');
+            });
+        });
+    });
+
+    describe('Channel 2 banner rules', () => {
+        const now = new Date('2020-03-31T12:30:00');
+
+        const cache = getBannerDeployCache(secondDate, 'australia');
+
+        const targeting: BannerTargeting = {
+            alreadyVisitedCount: 3,
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'GB',
+            engagementBannerLastClosedAt: firstDate,
+            switches: {
+                remoteSubscriptionsBanner: true,
+            },
+        };
+
+        const tracking = {
+            ophanPageId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
+
+        const test: BannerTest = {
+            name: 'test',
+            bannerType: 'subscriptions',
+            testAudience: 'Everyone',
+            canRun: (): boolean => true,
+            minPageViews: 2,
+            variants: [
+                {
+                    name: 'variant',
+                    modulePath: DigitalSubscriptionsBannerPath,
+                    moduleName: 'DigitalSubscriptionsBanner',
+                    bannerContent: {
+                        messageText: 'body',
+                        cta: {
+                            text: 'cta',
+                            baseUrl: 'https://support.theguardian.com',
+                        },
+                    },
+                },
+            ],
+            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
             articlesViewedSettings: {
                 minViews: 5,
                 periodInWeeks: 52,

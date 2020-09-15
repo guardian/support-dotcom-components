@@ -31,7 +31,6 @@ const Channel2BannerVariant = (variant: RawVariantParams): BannerVariant => {
         bannerContent: {
             messageText: variant.body,
             heading: variant.heading,
-            highlightedText: variant.highlightedText,
             cta: variant.cta,
             secondaryCta: variant.secondaryCta,
         },
@@ -44,10 +43,10 @@ const Channel2BannerTest = (testParams: RawTestParams): BannerTest => {
         bannerType: 'subscriptions',
         testAudience: testParams.userCohort,
         locations: testParams.locations,
-        canRun: (): boolean => true,
+        canRun: (): boolean => testParams.isOn,
         minPageViews: testParams.minArticlesBeforeShowingBanner,
         variants: testParams.variants.map(Channel2BannerVariant),
-        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+        componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
         articlesViewedSettings: testParams.articlesViewedSettings,
     };
 };
