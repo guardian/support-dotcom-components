@@ -1,5 +1,7 @@
 import express from 'express';
 
+export const retrieveSecondBannerChannel = process.env.SUBS_BANNER_TOOL === 'true';
+
 export const isProd = process.env.stage === 'PROD';
 
 export const isDev = process.env.NODE_ENV === 'development';
