@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
+import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { BannerProps } from '../../../../types/BannerTypes';
 import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEarth';
@@ -14,6 +15,15 @@ const container = css`
     overflow: hidden;
 `;
 
+const contentContainer = css`
+    display: flex;
+    flex-direction: column;
+
+    ${from.tablet} {
+        flex-direction: row-reverse;
+    }
+`;
+
 const closeButtonContainer = css`
     position: absolute;
     z-index: 100;
@@ -23,10 +33,19 @@ const closeButtonContainer = css`
 `;
 
 const earthContainer = css`
+    z-index: 100;
     width: 200%;
     margin-top: -150%;
     margin-left: -50%;
     margin-bottom: ${space[4]}px;
+
+    ${from.tablet} {
+        width: 200%;
+        margin-top: -50%;
+        margin-left: -${space[9]}px;
+        margin-right: -50%;
+        margin-bottom: ${space[4]}px;
+    }
 `;
 
 const bodyAndCtasContainer = css`
@@ -56,13 +75,17 @@ const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: Bann
                     <div css={closeButtonContainer}>
                         <EnvironmentMomentBannerCloseButton onClick={closeBanner} />
                     </div>
-                    <div css={earthContainer}>
-                        <EnvironmentMomentBannerEarth />
-                    </div>
-                    <EnvironmentMomentBannerHeader />
-                    <div css={bodyAndCtasContainer}>
-                        <EnvironmentMomentBannerBody />
-                        <EnvironmentMomentBannerCtas />
+                    <div css={contentContainer}>
+                        <div css={earthContainer}>
+                            <EnvironmentMomentBannerEarth />
+                        </div>
+                        <div>
+                            <EnvironmentMomentBannerHeader />
+                            <div css={bodyAndCtasContainer}>
+                                <EnvironmentMomentBannerBody />
+                                <EnvironmentMomentBannerCtas />
+                            </div>
+                        </div>
                     </div>
                 </div>
             ) : null}

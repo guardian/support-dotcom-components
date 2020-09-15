@@ -26,6 +26,7 @@ const iconAndTextContainer = css`
 
     ${from.tablet} {
         margin-left: ${space[9]}px;
+        margin-right: ${space[9]}px;
     }
 `;
 
@@ -66,6 +67,7 @@ const lineContainer = css`
     align-items: center;
     justify-content: space-evenly;
 `;
+
 const line = css`
     width: 100%;
     border-top: 1px solid ${neutral[86]};
