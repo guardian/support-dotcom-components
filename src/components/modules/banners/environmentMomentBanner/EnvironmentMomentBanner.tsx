@@ -11,7 +11,7 @@ import EnvironmentMomentBannerCloseButton from './components/EnvironmentMomentBa
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const container = css`
-    postiion: relative;
+    position: relative;
     overflow: hidden;
 `;
 
@@ -20,31 +20,49 @@ const contentContainer = css`
     flex-direction: column;
 
     ${from.tablet} {
-        flex-direction: row-reverse;
+        display: block;
     }
 `;
 
 const closeButtonContainer = css`
     position: absolute;
-    z-index: 100;
+    z-index: 200;
     top: ${space[3]}px;
     right: ${space[3]}px;
     overflow: hidden;
 `;
 
-const earthContainer = css`
+const earthContainerContainer = css`
+    position: relative;
     z-index: 100;
+    overflow: hidden;
+
+    ${from.tablet} {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 45%;
+    }
+`;
+
+const earthContainer = css`
     width: 200%;
     margin-top: -150%;
     margin-left: -50%;
     margin-bottom: ${space[4]}px;
+    transform: rotate(43deg);
 
     ${from.tablet} {
-        width: 200%;
+        width: 160%;
         margin-top: -50%;
-        margin-left: -${space[9]}px;
-        margin-right: -50%;
-        margin-bottom: ${space[4]}px;
+        margin-left: 0;
+    }
+`;
+
+const textContainer = css`
+    ${from.tablet} {
+        width: 60%;
+        margin-right: -${space[9]}px;
     }
 `;
 
@@ -54,6 +72,13 @@ const bodyAndCtasContainer = css`
 
     & > * + * {
         margin-top: ${space[3]}px;
+    }
+
+    ${from.tablet} {
+        padding: 0 ${space[9]}px ${space[9]}px ${space[9]}px;
+        & > * + * {
+            margin-top: ${space[6]}px;
+        }
     }
 `;
 
@@ -76,10 +101,12 @@ const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: Bann
                         <EnvironmentMomentBannerCloseButton onClick={closeBanner} />
                     </div>
                     <div css={contentContainer}>
-                        <div css={earthContainer}>
-                            <EnvironmentMomentBannerEarth />
+                        <div css={earthContainerContainer}>
+                            <div css={earthContainer}>
+                                <EnvironmentMomentBannerEarth />
+                            </div>
                         </div>
-                        <div>
+                        <div css={textContainer}>
                             <EnvironmentMomentBannerHeader />
                             <div css={bodyAndCtasContainer}>
                                 <EnvironmentMomentBannerBody />
