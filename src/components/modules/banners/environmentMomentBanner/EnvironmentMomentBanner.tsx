@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { setContributionsBannerClosedTimestamp } from '../localStorage';
 import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEarth';
 import EnvironmentMomentBannerHeader from './components/EnvironmentMomentBannerHeader';
 import EnvironmentMomentBannerBody from './components/EnvironmentMomentBannerBody';
@@ -27,12 +26,7 @@ const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: Bann
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }
-    const [showBanner, setShowBanner] = useState(true);
-
-    const closeBanner = (): void => {
-        setContributionsBannerClosedTimestamp();
-        setShowBanner(false);
-    };
+    const [showBanner, ,] = useState(true);
 
     return (
         <>

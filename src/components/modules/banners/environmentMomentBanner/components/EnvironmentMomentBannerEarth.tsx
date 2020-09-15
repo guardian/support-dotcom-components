@@ -1,8 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { headline } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
-import { neutral } from '@guardian/src-foundations/palette';
 import IconRedEarth from './IconRedEarth';
 import IconBlueEarth from './IconBlueEarth';
 
