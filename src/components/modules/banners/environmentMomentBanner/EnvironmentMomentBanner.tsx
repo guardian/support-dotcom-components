@@ -6,8 +6,19 @@ import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEa
 import EnvironmentMomentBannerHeader from './components/EnvironmentMomentBannerHeader';
 import EnvironmentMomentBannerBody from './components/EnvironmentMomentBannerBody';
 import EnvironmentMomentBannerCtas from './components/EnvironmentMomentBannerCtas';
+import EnvironmentMomentBannerCloseButton from './components/EnvironmentMomentBannerCloseButton';
+import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const container = css`
+    postiion: relative;
+    overflow: hidden;
+`;
+
+const closeButtonContainer = css`
+    position: absolute;
+    z-index: 100;
+    top: ${space[3]}px;
+    right: ${space[3]}px;
     overflow: hidden;
 `;
 
@@ -31,12 +42,20 @@ const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: Bann
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }
-    const [showBanner, ,] = useState(true);
+    const [showBanner, setShowBanner] = useState(true);
+
+    const closeBanner = (): void => {
+        setContributionsBannerClosedTimestamp();
+        setShowBanner(false);
+    };
 
     return (
         <>
             {showBanner ? (
                 <div css={container}>
+                    <div css={closeButtonContainer}>
+                        <EnvironmentMomentBannerCloseButton onClick={closeBanner} />
+                    </div>
                     <div css={earthContainer}>
                         <EnvironmentMomentBannerEarth />
                     </div>
