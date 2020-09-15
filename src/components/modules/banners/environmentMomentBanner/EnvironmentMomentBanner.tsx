@@ -5,6 +5,7 @@ import { BannerProps } from '../../../../types/BannerTypes';
 import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEarth';
 import EnvironmentMomentBannerHeader from './components/EnvironmentMomentBannerHeader';
 import EnvironmentMomentBannerBody from './components/EnvironmentMomentBannerBody';
+import EnvironmentMomentBannerCtas from './components/EnvironmentMomentBannerCtas';
 
 const container = css`
     overflow: hidden;
@@ -17,9 +18,13 @@ const earthContainer = css`
     margin-bottom: ${space[4]}px;
 `;
 
-const bodyContainer = css`
+const bodyAndCtasContainer = css`
     margin-top: ${space[1]}px;
-    padding: 0 ${space[3]}px;
+    padding: 0 ${space[3]}px ${space[5]}px ${space[3]}px;
+
+    & > * + * {
+        margin-top: ${space[3]}px;
+    }
 `;
 
 const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
@@ -36,8 +41,9 @@ const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: Bann
                         <EnvironmentMomentBannerEarth />
                     </div>
                     <EnvironmentMomentBannerHeader />
-                    <div css={bodyContainer}>
+                    <div css={bodyAndCtasContainer}>
                         <EnvironmentMomentBannerBody />
+                        <EnvironmentMomentBannerCtas />
                     </div>
                 </div>
             ) : null}
