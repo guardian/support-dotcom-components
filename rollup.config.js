@@ -7,6 +7,7 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import visualizer from 'rollup-plugin-visualizer';
+import image from '@rollup/plugin-image';
 
 const tsOpts = {
     target: 'es2018',
@@ -70,6 +71,7 @@ const config = [
             // Note, visualizer is useful for *relative* sizes, but reports
             // pre-minification.
             visualizer({ sourcemap: sourcemaps, gzipSize: true, filename: `stats/${name}.html` }),
+            image(),
         ],
     };
 });

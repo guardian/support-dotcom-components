@@ -64,6 +64,7 @@
     "@guardian/node-riffraff-artifact": "^0.1.1",
     "@rollup/plugin-babel": "^5.0.2",
     "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-image": "^2.0.5",
     "@rollup/plugin-json": "^4.0.3",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-typescript": "^4.1.2",
