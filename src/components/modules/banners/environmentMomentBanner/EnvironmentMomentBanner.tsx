@@ -43,6 +43,10 @@ const earthContainerContainer = css`
         right: 0;
         width: 45%;
     }
+
+    ${from.desktop} {
+        width: 40%;
+    }
 `;
 
 const earthContainer = css`
@@ -64,6 +68,10 @@ const textContainer = css`
         width: 60%;
         margin-right: -${space[9]}px;
     }
+
+    ${from.desktop} {
+        width: 65%;
+    }
 `;
 
 const bodyAndCtasContainer = css`
@@ -75,9 +83,17 @@ const bodyAndCtasContainer = css`
     }
 
     ${from.tablet} {
-        padding: 0 ${space[9]}px ${space[9]}px ${space[9]}px;
+        padding: 0 68px ${space[9]}px ${space[9]}px;
         & > * + * {
             margin-top: ${space[6]}px;
+        }
+    }
+
+    ${from.desktop} {
+        margin-top: ${space[4]}px;
+        padding-left: 130px;
+        & > * + * {
+            margin-top: ${space[9]}px;
         }
     }
 `;
