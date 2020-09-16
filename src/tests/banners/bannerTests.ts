@@ -4,7 +4,7 @@ import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
-import { channel2BannersAllTestsGenerator } from './Channel2BannerTests';
+import { channel2BannersAllTestsGenerator } from './ChannelBannerTests';
 import { cacheAsync } from '../../lib/cache';
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
