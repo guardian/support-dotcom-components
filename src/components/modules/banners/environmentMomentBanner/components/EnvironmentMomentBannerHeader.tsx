@@ -40,6 +40,10 @@ const iconContainer = css`
     ${from.tablet} {
         height: 125px;
     }
+
+    ${from.desktop} {
+        height: 168px;
+    }
 `;
 
 const textContainer = css`
@@ -53,6 +57,12 @@ const textContainer = css`
         font-size: 40px;
         margin-top: 40px;
         line-height: 100%;
+    }
+
+    ${from.desktop} {
+        font-size: 58px;
+        margin-top: 52px;
+        margin-left: ${space[4]}px;
     }
 `;
 
