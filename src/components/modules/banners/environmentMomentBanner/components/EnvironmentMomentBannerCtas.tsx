@@ -4,6 +4,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { space } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import styles from '../helpers/styles';
 
 const container = css`
     display: flex;
@@ -25,7 +26,8 @@ const EnvironmentMomentBannerCtas: React.FC = () => (
             <LinkButton size="small">Read our pledge</LinkButton>
         </ThemeProvider>
         <LinkButton css={contributeButton} size="small" priority="tertiary">
-            Contribute
+            <span css={styles.hideAfterTablet}>Contribute</span>
+            <span css={styles.hideBeforeTablet}>Support the Guardian</span>
         </LinkButton>
     </div>
 );

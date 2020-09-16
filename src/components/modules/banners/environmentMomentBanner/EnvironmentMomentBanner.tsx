@@ -83,7 +83,7 @@ const bodyAndCtasContainer = css`
     }
 
     ${from.tablet} {
-        padding: 0 68px ${space[9]}px ${space[9]}px;
+        padding: 0 48px ${space[9]}px ${space[9]}px;
         & > * + * {
             margin-top: ${space[6]}px;
         }
@@ -92,6 +92,7 @@ const bodyAndCtasContainer = css`
     ${from.desktop} {
         margin-top: ${space[4]}px;
         padding-left: 130px;
+        padding-right: 68px;
         & > * + * {
             margin-top: ${space[9]}px;
         }
