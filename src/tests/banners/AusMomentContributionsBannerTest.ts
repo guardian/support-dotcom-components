@@ -28,8 +28,8 @@ export const AusMomentContributionsBanner: BannerTest = {
             },
             modulePath: AusMomentContributionsBannerPath,
             moduleName: name,
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
         },
     ],
-    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };

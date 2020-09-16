@@ -22,8 +22,8 @@ export const DigitalSubscriptionsBanner: BannerTest = {
             name: 'control',
             modulePath: DigitalSubscriptionsBannerPath,
             moduleName: name,
+            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+            products: ['DIGITAL_SUBSCRIPTION'],
         },
     ],
-    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    products: ['DIGITAL_SUBSCRIPTION'],
 };

@@ -67,6 +67,8 @@ export interface BannerVariant {
     modulePath: string;
     moduleName: string;
     bannerContent?: BannerContent;
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
 }
 
 export type BannerType = 'contributions' | 'subscriptions';
@@ -86,8 +88,6 @@ export interface BannerTest {
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
-    componentType: OphanComponentType;
-    products?: OphanProduct[];
     locations?: CountryGroupId[];
     articlesViewedSettings?: ArticlesViewedSettings;
 }

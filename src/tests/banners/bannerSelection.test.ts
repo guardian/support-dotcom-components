@@ -214,9 +214,9 @@ describe('selectBannerTest', () => {
                             baseUrl: 'https://support.theguardian.com',
                         },
                     },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
                 },
             ],
-            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             articlesViewedSettings: {
                 minViews: 5,
                 periodInWeeks: 52,
@@ -321,9 +321,9 @@ describe('selectBannerTest', () => {
                             baseUrl: 'https://support.theguardian.com',
                         },
                     },
+                    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
                 },
             ],
-            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
             articlesViewedSettings: {
                 minViews: 5,
                 periodInWeeks: 52,

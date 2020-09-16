@@ -27,9 +27,9 @@ const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest =>
                 modulePath: DefaultContributionsBannerPath,
                 moduleName: 'ContributionsBanner',
                 bannerContent: bannerContent,
+                componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             },
         ],
-        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
 };
 

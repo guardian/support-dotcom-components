@@ -170,8 +170,8 @@ const buildBannerData = async (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
-            componentType: test.componentType,
-            ...(test.products && { products: test.products }),
+            componentType: variant.componentType,
+            ...(variant.products && { products: variant.products }),
         };
 
         const tickerSettings = variant.tickerSettings

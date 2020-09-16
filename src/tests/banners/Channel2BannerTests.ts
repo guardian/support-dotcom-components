@@ -7,11 +7,16 @@ import {
     RawVariantParams,
     BannerVariant,
 } from '../../types/BannerTypes';
+import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
 import { ContributionsBannerPath } from './ContributionsBannerTests';
 import { isProd } from '../../lib/env';
 
 export const DigitalSubscriptionsBannerPath = 'digital-subscriptions-banner.js';
 export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
+
+const Channel2BannerContentUrl = isProd
+    ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/banner-tests2.json'
+    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/banner-tests2.json';
 
 export const BannerPaths: { [key in BannerTemplate]: string } = {
     [BannerTemplate.ContributionsBanner]: ContributionsBannerPath,
@@ -19,9 +24,16 @@ export const BannerPaths: { [key in BannerTemplate]: string } = {
     [BannerTemplate.GuardianWeeklyBanner]: GuardianWeeklyBannerPath,
 };
 
-const Channel2BannerContentUrl = isProd
-    ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/banner-tests2.json'
-    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/banner-tests2.json';
+export const BannerTemplateComponentTypes: { [key in BannerTemplate]: OphanComponentType } = {
+    [BannerTemplate.ContributionsBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    [BannerTemplate.DigitalSubscriptionsBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    [BannerTemplate.GuardianWeeklyBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+};
+
+export const BannerTemplateProducts: { [key in BannerTemplate]?: OphanProduct[] } = {
+    [BannerTemplate.DigitalSubscriptionsBanner]: ['DIGITAL_SUBSCRIPTION'],
+    [BannerTemplate.GuardianWeeklyBanner]: ['PRINT_SUBSCRIPTION'],
+};
 
 const Channel2BannerVariant = (variant: RawVariantParams): BannerVariant => {
     return {
@@ -34,6 +46,8 @@ const Channel2BannerVariant = (variant: RawVariantParams): BannerVariant => {
             cta: variant.cta,
             secondaryCta: variant.secondaryCta,
         },
+        componentType: BannerTemplateComponentTypes[variant.template],
+        products: BannerTemplateProducts[variant.template],
     };
 };
 
@@ -46,7 +60,6 @@ const Channel2BannerTest = (testParams: RawTestParams): BannerTest => {
         canRun: (): boolean => testParams.isOn,
         minPageViews: testParams.minArticlesBeforeShowingBanner,
         variants: testParams.variants.map(Channel2BannerVariant),
-        componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
         articlesViewedSettings: testParams.articlesViewedSettings,
     };
 };

@@ -22,8 +22,8 @@ export const GuardianWeeklyBanner: BannerTest = {
             name: 'control',
             modulePath: GuardianWeeklyBannerPath,
             moduleName: name,
+            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+            products: ['PRINT_SUBSCRIPTION'],
         },
     ],
-    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    products: ['PRINT_SUBSCRIPTION'],
 };

@@ -34,9 +34,9 @@ const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
                     cta: variant.cta,
                     secondaryCta: variant.secondaryCta,
                 },
+                componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             }),
         ),
-        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
         articlesViewedSettings: testParams.articlesViewedSettings,
     };
 };
