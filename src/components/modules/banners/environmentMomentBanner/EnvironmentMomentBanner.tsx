@@ -35,7 +35,6 @@ const closeButtonContainer = css`
 const earthContainerContainer = css`
     position: relative;
     z-index: 100;
-    overflow: hidden;
 
     ${from.tablet} {
         position: absolute;
