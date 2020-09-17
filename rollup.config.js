@@ -7,7 +7,6 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import visualizer from 'rollup-plugin-visualizer';
-import image from '@rollup/plugin-image';
 
 const tsOpts = {
     target: 'es2018',
@@ -27,6 +26,11 @@ const globals = {
 
 const config = [
     ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
+    [
+        'environment-moment-banner',
+        'src/components/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.tsx',
+        'dist/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js',
+    ],
     [
         'contributions-banner',
         'src/components/modules/banners/contributions/ContributionsBanner.tsx',
@@ -71,7 +75,6 @@ const config = [
             // Note, visualizer is useful for *relative* sizes, but reports
             // pre-minification.
             visualizer({ sourcemap: sourcemaps, gzipSize: true, filename: `stats/${name}.html` }),
-            image(),
         ],
     };
 });

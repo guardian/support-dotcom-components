@@ -1,9 +1,13 @@
 import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
+import { EnvironmentMomentBanner } from './EnvironmentMomentBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
 import { cacheAsync } from '../../lib/cache';
+
+const environmentMomentBannerGenerator: BannerTestGenerator = () =>
+    Promise.resolve([EnvironmentMomentBanner]);
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
     Promise.resolve([DigitalSubscriptionsBanner]);
@@ -14,6 +18,7 @@ const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
+    environmentMomentBannerGenerator,
     contributionsBannerAllTestsGenerator,
     defaultBannerTestGenerator,
     digitalSubscriptionsBannerGenerator,
