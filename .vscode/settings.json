@@ -6,17 +6,4 @@
     "[json]": {
         "editor.formatOnSave": false
     },
-    "workbench.colorCustomizations": {
-        "activityBar.activeBackground": "#86e1aa",
-        "activityBar.activeBorder": "#9366d9",
-        "activityBar.background": "#86e1aa",
-        "activityBar.foreground": "#15202b",
-        "activityBar.inactiveForeground": "#15202b99",
-        "activityBarBadge.background": "#9366d9",
-        "activityBarBadge.foreground": "#15202b",
-        "statusBar.background": "#5dd78d",
-        "statusBar.foreground": "#15202b",
-        "statusBarItem.hoverBackground": "#34cd70"
-    },
-    "peacock.color": "#5dd78d"
 }
