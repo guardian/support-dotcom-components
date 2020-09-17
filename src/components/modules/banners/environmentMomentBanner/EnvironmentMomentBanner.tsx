@@ -30,6 +30,11 @@ const closeButtonContainer = css`
     top: ${space[3]}px;
     right: ${space[3]}px;
     overflow: hidden;
+
+    ${from.wide} {
+        top: ${space[9]}px;
+        right: ${space[9]}px;
+    }
 `;
 
 const earthContainerContainer = css`
@@ -46,6 +51,11 @@ const earthContainerContainer = css`
     ${from.desktop} {
         width: 40%;
     }
+
+    ${from.wide} {
+        width: 55%;
+        top: -700px;
+    }
 `;
 
 const earthContainer = css`
@@ -53,12 +63,16 @@ const earthContainer = css`
     margin-top: -150%;
     margin-left: -50%;
     margin-bottom: ${space[4]}px;
-    transform: rotate(43deg);
 
     ${from.tablet} {
         width: 160%;
         margin-top: -50%;
         margin-left: 0;
+    }
+
+    ${from.wide} {
+        width: 1280px;
+        margin: 0;
     }
 `;
 
@@ -70,6 +84,10 @@ const textContainer = css`
 
     ${from.desktop} {
         width: 65%;
+    }
+
+    ${from.wide} {
+        width: 55%;
     }
 `;
 
@@ -95,6 +113,10 @@ const bodyAndCtasContainer = css`
         & > * + * {
             margin-top: ${space[9]}px;
         }
+    }
+
+    ${from.wide} {
+        width: 70%;
     }
 `;
 
