@@ -6,7 +6,7 @@ const name = 'AusMomentThankYouBanner';
 
 export const AusMomentThankYouBanner: BannerTest = {
     name,
-    bannerChannel: 'channel1',
+    bannerChannel: 'contributions',
     testAudience: 'Everyone',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>

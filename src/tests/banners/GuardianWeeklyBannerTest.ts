@@ -6,7 +6,7 @@ const name = 'GuardianWeeklyBanner';
 
 export const GuardianWeeklyBanner: BannerTest = {
     name,
-    bannerChannel: 'channel2',
+    bannerChannel: 'subscriptions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {

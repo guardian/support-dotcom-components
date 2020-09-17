@@ -71,7 +71,7 @@ export interface BannerVariant {
     products?: OphanProduct[];
 }
 
-export type BannerChannel = 'channel1' | 'channel2';
+export type BannerChannel = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 export type BannerAudience =
     | 'AllExistingSupporters'

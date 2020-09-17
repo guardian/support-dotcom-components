@@ -35,15 +35,15 @@ export const redeployedSinceLastClosed = (
     const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
     if (
-        (bannerChannel === 'channel2' && !subscriptionBannerLastClosedAt) ||
-        (bannerChannel === 'channel1' && !engagementBannerLastClosedAt)
+        (bannerChannel === 'subscriptions' && !subscriptionBannerLastClosedAt) ||
+        (bannerChannel === 'contributions' && !engagementBannerLastClosedAt)
     ) {
         return Promise.resolve(true);
     }
 
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
-    if (bannerChannel === 'channel2') {
+    if (bannerChannel === 'subscriptions') {
         const getCached = bannerDeployCaches.subscriptions[region];
         return getCached().then(deployDate => {
             return (
@@ -51,7 +51,7 @@ export const redeployedSinceLastClosed = (
                 deployDate > new Date(subscriptionBannerLastClosedAt)
             );
         });
-    } else if (bannerChannel === 'channel1') {
+    } else if (bannerChannel === 'contributions') {
         const getCached = bannerDeployCaches.contributions[region];
         return getCached().then(deployDate => {
             return (

@@ -9,9 +9,9 @@ import {
     BannerVariant,
 } from '../../types/BannerTypes';
 import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
-import { ContributionsBannerPath } from './ContributionsBannerTests';
 import { isProd } from '../../lib/env';
 
+export const ContributionsBannerPath = 'contributions-banner.js';
 export const DigitalSubscriptionsBannerPath = 'digital-subscriptions-banner.js';
 export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
 
@@ -20,8 +20,8 @@ const BannerContentBaseUrl = isProd
     : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
-    channel1: 'banner-tests.json',
-    channel2: 'banner-tests2.json',
+    contributions: 'banner-tests.json',
+    subscriptions: 'banner-tests2.json',
 };
 
 export const BannerPaths: { [key in BannerTemplate]: string } = {
@@ -57,7 +57,9 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
     };
 };
 
-const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
+export const createTestsGeneratorForChannel = (
+    bannerChannel: BannerChannel,
+): BannerTestGenerator => {
     const channelFile = BannerChannelFiles[bannerChannel];
     const bannerContentUrl = `${BannerContentBaseUrl}${channelFile}`;
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -83,4 +85,5 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
             });
 };
 
-export const channel2BannersAllTestsGenerator = createTestsGeneratorForChannel('channel2');
+export const channel1BannersAllTestsGenerator = createTestsGeneratorForChannel('contributions');
+export const channel2BannersAllTestsGenerator = createTestsGeneratorForChannel('subscriptions');
