@@ -3,7 +3,6 @@ import { retrieveSecondBannerChannel } from '../../lib/env';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
-// import {} from './ContributionsBannerTests';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
