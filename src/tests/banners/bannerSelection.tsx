@@ -2,7 +2,7 @@ import {
     BannerPageTracking,
     BannerTargeting,
     BannerTestSelection,
-    BannerType,
+    BannerChannel,
     BannerAudience,
     BannerTest,
 } from '../../types/BannerTypes';
@@ -29,21 +29,21 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 // Has the banner been redeployed since the user last closed it?
 export const redeployedSinceLastClosed = (
     targeting: BannerTargeting,
-    bannerType: BannerType,
+    bannerChannel: BannerChannel,
     bannerDeployCaches: BannerDeployCaches,
 ): Promise<boolean> => {
     const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
     if (
-        (bannerType === 'subscriptions' && !subscriptionBannerLastClosedAt) ||
-        (bannerType === 'contributions' && !engagementBannerLastClosedAt)
+        (bannerChannel === 'channel2' && !subscriptionBannerLastClosedAt) ||
+        (bannerChannel === 'channel1' && !engagementBannerLastClosedAt)
     ) {
         return Promise.resolve(true);
     }
 
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
-    if (bannerType === 'subscriptions') {
+    if (bannerChannel === 'channel2') {
         const getCached = bannerDeployCaches.subscriptions[region];
         return getCached().then(deployDate => {
             return (
@@ -51,7 +51,7 @@ export const redeployedSinceLastClosed = (
                 deployDate > new Date(subscriptionBannerLastClosedAt)
             );
         });
-    } else if (bannerType === 'contributions') {
+    } else if (bannerChannel === 'channel1') {
         const getCached = bannerDeployCaches.contributions[region];
         return getCached().then(deployDate => {
             return (
@@ -125,7 +125,7 @@ export const selectBannerTest = async (
                 targeting.weeklyArticleHistory,
                 now,
             ) &&
-            (await redeployedSinceLastClosed(targeting, test.bannerType, bannerDeployCaches))
+            (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches))
         ) {
             const variant = test.variants[targeting.mvtId % test.variants.length];
             const bannerTestSelection = {

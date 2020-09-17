@@ -17,7 +17,7 @@ const ContributionsBannerContentUrl = isProd
 const ContributionsBannerTest = (testParams: RawTestParams): BannerTest => {
     return {
         name: testParams.name,
-        bannerType: 'contributions',
+        bannerChannel: 'channel1',
         testAudience: testParams.userCohort,
         locations: testParams.locations,
         canRun: (): boolean => testParams.isOn,

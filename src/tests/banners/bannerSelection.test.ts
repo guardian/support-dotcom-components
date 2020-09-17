@@ -3,7 +3,7 @@ import { getTests } from './bannerTests';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { ContributionsBannerPath } from './ContributionsBannerTests';
-import { DigitalSubscriptionsBannerPath } from './Channel2BannerTests';
+import { DigitalSubscriptionsBannerPath } from './ChannelBannerTests';
 
 const getBannerDeployCache = (date: string, region: ReaderRevenueRegion): BannerDeployCaches =>
     ({
@@ -197,7 +197,7 @@ describe('selectBannerTest', () => {
 
         const test: BannerTest = {
             name: 'test',
-            bannerType: 'contributions',
+            bannerChannel: 'channel1',
             testAudience: 'Everyone',
             canRun: () => true,
             minPageViews: 2,
@@ -305,7 +305,7 @@ describe('selectBannerTest', () => {
 
         const test: BannerTest = {
             name: 'test',
-            bannerType: 'subscriptions',
+            bannerChannel: 'channel2',
             testAudience: 'Everyone',
             canRun: (): boolean => true,
             minPageViews: 2,

@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import {
+    BannerChannel,
     BannerTemplate,
     BannerTestGenerator,
     BannerTest,
@@ -18,7 +19,10 @@ const BannerContentBaseUrl = isProd
     ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/'
     : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/';
 
-type BannerChannelFile = 'banner-tests.json' | 'banner-tests2.json';
+const BannerChannelFiles: { [key in BannerChannel]: string } = {
+    channel1: 'banner-tests.json',
+    channel2: 'banner-tests2.json',
+};
 
 export const BannerPaths: { [key in BannerTemplate]: string } = {
     [BannerTemplate.ContributionsBanner]: ContributionsBannerPath,
@@ -53,31 +57,30 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
     };
 };
 
-const BannerTestFromParams = (testParams: RawTestParams): BannerTest => {
-    return {
-        name: testParams.name,
-        bannerType: 'subscriptions',
-        testAudience: testParams.userCohort,
-        locations: testParams.locations,
-        canRun: (): boolean => testParams.isOn,
-        minPageViews: testParams.minArticlesBeforeShowingBanner,
-        articlesViewedSettings: testParams.articlesViewedSettings,
-        variants: testParams.variants.map(BannerVariantFromParams),
-    };
-};
-
-const createTestsGeneratorForChannel = (channel: BannerChannelFile): BannerTestGenerator => {
-    const bannerContentUrl = `${BannerContentBaseUrl}${channel}`;
+const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
+    const channelFile = BannerChannelFiles[bannerChannel];
+    const bannerContentUrl = `${BannerContentBaseUrl}${channelFile}`;
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return () =>
         fetch(bannerContentUrl)
             .then(response => response.json())
             .then(json => json['tests'])
             .then(tests => {
-                return tests.map(BannerTestFromParams);
+                return tests.map(
+                    (testParams: RawTestParams): BannerTest => {
+                        return {
+                            name: testParams.name,
+                            bannerChannel,
+                            testAudience: testParams.userCohort,
+                            locations: testParams.locations,
+                            canRun: (): boolean => testParams.isOn,
+                            minPageViews: testParams.minArticlesBeforeShowingBanner,
+                            articlesViewedSettings: testParams.articlesViewedSettings,
+                            variants: testParams.variants.map(BannerVariantFromParams),
+                        };
+                    },
+                );
             });
 };
 
-export const channel2BannersAllTestsGenerator = createTestsGeneratorForChannel(
-    'banner-tests2.json',
-);
+export const channel2BannersAllTestsGenerator = createTestsGeneratorForChannel('channel2');

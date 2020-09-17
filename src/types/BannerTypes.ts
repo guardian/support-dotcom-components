@@ -71,7 +71,7 @@ export interface BannerVariant {
     products?: OphanProduct[];
 }
 
-export type BannerType = 'contributions' | 'subscriptions';
+export type BannerChannel = 'channel1' | 'channel2';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 export type BannerAudience =
     | 'AllExistingSupporters'
@@ -83,7 +83,7 @@ export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
 export interface BannerTest {
     name: string;
-    bannerType: BannerType;
+    bannerChannel: BannerChannel;
     testAudience: BannerAudience;
     canRun: CanRun;
     minPageViews: number;

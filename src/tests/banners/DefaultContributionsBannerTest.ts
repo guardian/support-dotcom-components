@@ -15,7 +15,7 @@ const defaultBannerContentUrl =
 const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest => {
     return {
         name: 'DefaultContributionsBanner',
-        bannerType: 'contributions',
+        bannerChannel: 'channel1',
         testAudience: 'AllNonSupporters',
         canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
             // Do not serve to frontend for now
