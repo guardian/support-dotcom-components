@@ -7,7 +7,11 @@ import { BannerContent, BannerProps, BannerTracking } from '../../../../types/Ba
 export default {
     component: DigitalSubscriptionsBanner,
     title: 'Components/DigitalSubscriptionsBanner',
-    decorators: [withKnobs],
+    decorators: [
+        withKnobs({
+            escapeHTML: false,
+        }),
+    ],
 };
 
 const tracking: BannerTracking = {
