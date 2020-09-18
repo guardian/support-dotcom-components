@@ -170,8 +170,8 @@ const buildBannerData = async (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
-            componentType: test.componentType,
-            ...(test.products && { products: test.products }),
+            componentType: variant.componentType,
+            ...(variant.products && { products: variant.products }),
         };
 
         const tickerSettings = variant.tickerSettings
@@ -180,6 +180,7 @@ const buildBannerData = async (
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
+            bannerChannel: test.bannerChannel,
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
             content: variant.bannerContent,

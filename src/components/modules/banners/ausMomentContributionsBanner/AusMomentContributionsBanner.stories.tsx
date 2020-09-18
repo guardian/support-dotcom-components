@@ -48,6 +48,7 @@ export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
             <AusMomentContributionsBanner
+                bannerChannel="contributions"
                 isSupporter={isSupporter}
                 tickerSettings={tickerSettings}
                 tracking={tracking}
@@ -67,6 +68,7 @@ export const goalReachedStory = (): ReactElement => {
     return (
         <StorybookWrapper>
             <AusMomentContributionsBanner
+                bannerChannel="contributions"
                 isSupporter={isSupporter}
                 tickerSettings={tickerSettings}
                 tracking={tracking}

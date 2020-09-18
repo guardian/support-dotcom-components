@@ -6,7 +6,7 @@ const name = 'DigitalSubscriptionsBanner';
 
 export const DigitalSubscriptionsBanner: BannerTest = {
     name,
-    bannerType: 'subscriptions',
+    bannerChannel: 'subscriptions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
@@ -22,8 +22,8 @@ export const DigitalSubscriptionsBanner: BannerTest = {
             name: 'control',
             modulePath: DigitalSubscriptionsBannerPath,
             moduleName: name,
+            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+            products: ['DIGITAL_SUBSCRIPTION'],
         },
     ],
-    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    products: ['DIGITAL_SUBSCRIPTION'],
 };

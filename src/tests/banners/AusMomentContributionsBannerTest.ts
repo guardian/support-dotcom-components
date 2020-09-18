@@ -6,7 +6,7 @@ const name = 'AusMomentContributionsBanner';
 
 export const AusMomentContributionsBanner: BannerTest = {
     name,
-    bannerType: 'contributions',
+    bannerChannel: 'contributions',
     testAudience: 'Everyone',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
@@ -28,8 +28,8 @@ export const AusMomentContributionsBanner: BannerTest = {
             },
             modulePath: AusMomentContributionsBannerPath,
             moduleName: name,
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
         },
     ],
-    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };

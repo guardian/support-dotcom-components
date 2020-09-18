@@ -21,7 +21,7 @@ import {
     signInLink,
 } from './guardianWeeklyBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
+import { setChannelClosedTimestamp } from '../localStorage';
 import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/weekly';
@@ -34,6 +34,7 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
+    bannerChannel,
     tracking,
     submitComponentEvent,
 }: BannerProps) => {
@@ -65,7 +66,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
             submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setSubscriptionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(bannerChannel);
     };
 
     const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -75,7 +76,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
             submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setSubscriptionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(bannerChannel);
     };
 
     return (

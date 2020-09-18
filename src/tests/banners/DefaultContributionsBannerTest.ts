@@ -15,7 +15,7 @@ const defaultBannerContentUrl =
 const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest => {
     return {
         name: 'DefaultContributionsBanner',
-        bannerType: 'contributions',
+        bannerChannel: 'contributions',
         testAudience: 'AllNonSupporters',
         canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking): boolean =>
             // Do not serve to frontend for now
@@ -27,9 +27,9 @@ const DefaultContributionsBanner = (bannerContent: BannerContent): BannerTest =>
                 modulePath: DefaultContributionsBannerPath,
                 moduleName: 'ContributionsBanner',
                 bannerContent: bannerContent,
+                componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             },
         ],
-        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     };
 };
 

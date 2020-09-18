@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { ContributionsBanner } from './ContributionsBanner';
 import { withKnobs } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerContent, BannerTracking } from '../../../../types/BannerTypes';
+import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
     component: ContributionsBanner,
@@ -31,7 +31,8 @@ const content: BannerContent = {
     },
 };
 
-const props = {
+const props: BannerProps = {
+    bannerChannel: 'contributions',
     tracking,
     isSupporter: false,
     countryCode: 'GB',

@@ -25,7 +25,7 @@ import {
     signInLink,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
+import { setChannelClosedTimestamp } from '../localStorage';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
@@ -37,6 +37,7 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
+    bannerChannel,
     tracking,
     submitComponentEvent,
 }: BannerProps) => {
@@ -68,7 +69,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
             submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setSubscriptionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(bannerChannel);
     };
 
     const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -78,7 +79,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
             submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setSubscriptionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(bannerChannel);
     };
 
     return (

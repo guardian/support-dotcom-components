@@ -31,7 +31,7 @@ export const historyWithinArticlesViewedSettings = (
     articlesViewedSettings?: ArticlesViewedSettings,
     history: WeeklyArticleHistory = [],
     now: Date = new Date(),
-) => {
+): boolean => {
     // Allow test to pass if no articles viewed settings have been set
     if (!articlesViewedSettings || !articlesViewedSettings.periodInWeeks) {
         return true;

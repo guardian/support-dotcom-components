@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
-import { setContributionsBannerClosedTimestamp } from '../localStorage';
+import { setChannelClosedTimestamp } from '../localStorage';
 import React, { useState } from 'react';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { styles } from './ContributionsBannerStyles';
@@ -38,7 +38,7 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
             props.submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setContributionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(props.bannerChannel);
     };
 
     if (content && countryCode && showBanner) {

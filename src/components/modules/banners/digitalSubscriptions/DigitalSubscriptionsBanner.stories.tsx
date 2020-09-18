@@ -25,7 +25,11 @@ const tracking: BannerTracking = {
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <DigitalSubscriptionsBanner tracking={tracking} isSupporter={false} />
+            <DigitalSubscriptionsBanner
+                bannerChannel="subscriptions"
+                tracking={tracking}
+                isSupporter={false}
+            />
         </StorybookWrapper>
     );
 };

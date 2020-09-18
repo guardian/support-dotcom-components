@@ -1,5 +1,5 @@
 import { cacheAsync } from '../../lib/cache';
-import { BannerType } from '../../types/BannerTypes';
+import { BannerChannel } from '../../types/BannerTypes';
 import fetch from 'node-fetch';
 
 export type ReaderRevenueRegion =
@@ -9,11 +9,12 @@ export type ReaderRevenueRegion =
     | 'rest-of-world'
     | 'european-union';
 
-const fetchBannerDeployTime = (region: ReaderRevenueRegion, bannerType: BannerType) => (): Promise<
-    Date
-> => {
+const fetchBannerDeployTime = (
+    region: ReaderRevenueRegion,
+    bannerChannel: BannerChannel,
+) => (): Promise<Date> => {
     return fetch(
-        `https://www.theguardian.com/reader-revenue/${bannerType}-banner-deploy-log/${region}`,
+        `https://www.theguardian.com/reader-revenue/${bannerChannel}-banner-deploy-log/${region}`,
     )
         .then(response => response.json())
         .then(data => {
