@@ -22,6 +22,11 @@ export const DigitalSubscriptionsBanner: BannerTest = {
             name: 'control',
             modulePath: DigitalSubscriptionsBannerPath,
             moduleName: name,
+            bannerContent: {
+                messageText:
+                    'Support the Guardian with a Digital Subscription, enjoy our reporting without ads and get premium access to our Live app and The Daily',
+                heading: 'Enjoy ad-free reading and the best of our apps',
+            },
             componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
             products: ['DIGITAL_SUBSCRIPTION'],
         },
