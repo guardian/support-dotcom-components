@@ -102,6 +102,7 @@ export interface BannerTestSelection {
 
 export interface BannerProps {
     tracking: BannerTracking;
+    bannerChannel: BannerChannel;
     content?: BannerContent;
     countryCode?: string;
     isSupporter?: boolean;

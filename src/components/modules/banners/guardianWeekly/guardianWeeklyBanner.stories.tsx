@@ -23,7 +23,11 @@ const tracking: BannerTracking = {
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <GuardianWeeklyBanner tracking={tracking} isSupporter={false} />
+            <GuardianWeeklyBanner
+                bannerChannel="subscriptions"
+                tracking={tracking}
+                isSupporter={false}
+            />
         </StorybookWrapper>
     );
 };
