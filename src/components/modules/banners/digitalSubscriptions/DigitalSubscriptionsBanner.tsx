@@ -125,6 +125,8 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 <img
                                     src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
                                     alt=""
+                                    width="500"
+                                    height="297"
                                 />
                             </div>
                             <div css={iconPanel}>

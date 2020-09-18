@@ -220,6 +220,7 @@ export const packShot = css`
     margin-top: -20px;
 
     img {
+        height: auto;
         width: 90%;
     }
 
