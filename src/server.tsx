@@ -37,7 +37,6 @@ import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTe
 import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { text } from '@storybook/addon-knobs';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
