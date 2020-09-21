@@ -49,6 +49,7 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
         bannerContent: {
             messageText: variant.body,
             heading: variant.heading,
+            highlightedText: variant.highlightedText,
             cta: variant.cta,
             secondaryCta: variant.secondaryCta,
         },
