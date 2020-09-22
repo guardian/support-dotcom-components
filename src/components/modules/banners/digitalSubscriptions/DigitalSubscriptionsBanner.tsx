@@ -88,7 +88,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
-                            <h3 css={heading}>Enjoy ad-free reading and the best of our apps</h3>
+                            <h3 css={heading}>No CLS version</h3>
                             <p css={paragraph}>
                                 Support the Guardian with a Digital Subscription, enjoy our
                                 reporting without ads and get premium access to our Live app and The
