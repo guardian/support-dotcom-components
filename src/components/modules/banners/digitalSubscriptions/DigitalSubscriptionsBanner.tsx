@@ -9,7 +9,9 @@ import {
     contentContainer,
     topLeftComponent,
     heading,
+    secondaryHeading,
     paragraph,
+    highlightedText,
     buttonTextDesktop,
     buttonTextTablet,
     buttonTextMobile,
@@ -89,8 +91,20 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
-                            <h3 css={heading}>{content?.heading}</h3>
-                            <p css={paragraph}>{content?.messageText}</p>
+                            <h3 css={heading}>
+                                <span>{content?.heading}</span>
+                                {content?.secondaryHeading && (
+                                    <span css={secondaryHeading}>{content.secondaryHeading}</span>
+                                )}
+                            </h3>
+                            <p css={paragraph}>
+                                {content?.highlightedText && (
+                                    <>
+                                        <span css={highlightedText}>{content.highlightedText}</span>{' '}
+                                    </>
+                                )}
+                                {content?.messageText}
+                            </p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
                                     <span css={buttonTextDesktop}>Become a digital subscriber</span>
@@ -120,7 +134,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                         <div css={bottomRightComponent}>
                             <div css={packShot}>
                                 <img
-                                    src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
+                                    src="https://media.guim.co.uk/3e6ecc7e48f11c5476fc2d7fad4b3af2aaff4263/4001_0_1986_1193/500.png"
                                     alt=""
                                 />
                             </div>

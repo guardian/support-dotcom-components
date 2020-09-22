@@ -49,6 +49,7 @@ export interface Cta {
 
 export interface BannerContent {
     heading?: string;
+    secondaryHeading?: string;
     messageText: string;
     highlightedText?: string;
     cta?: Cta;

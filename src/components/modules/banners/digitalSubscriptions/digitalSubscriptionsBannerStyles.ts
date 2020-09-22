@@ -5,6 +5,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 const closeButtonWidthHeight = '35px';
+const mainBannerBackground = '#005689';
 
 export const banner = css`
     html {
@@ -19,7 +20,7 @@ export const banner = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #006d67;
+    background-color: ${mainBannerBackground};
     color: ${neutral[100]};
 `;
 
@@ -64,7 +65,7 @@ export const topLeftComponent = css`
 `;
 
 export const heading = css`
-    ${headline.xsmall({ fontWeight: 'bold' })};
+    ${headline.xlarge({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
     padding-right: ${closeButtonWidthHeight};
@@ -73,12 +74,19 @@ export const heading = css`
         max-width: 90%;
     }
     ${from.mobileLandscape} {
-        ${headline.small({ fontWeight: 'bold' })};
+        ${headline.medium({ fontWeight: 'bold' })};
     }
 
     ${from.tablet} {
         max-width: 100%;
     }
+    span {
+        display: block;
+    }
+`;
+
+export const secondaryHeading = css`
+    color: ${brandAlt[400]};
 `;
 
 export const headLineBreak = css`
@@ -115,6 +123,10 @@ export const paragraph = css`
     ${from.wide} {
         max-width: 37rem;
     }
+`;
+
+export const highlightedText = css`
+    font-weight: 700;
 `;
 
 export const linkStyle = css`
