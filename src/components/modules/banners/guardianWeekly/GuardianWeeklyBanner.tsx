@@ -35,6 +35,7 @@ const signInComponentId = `${bannerId} : sign in`;
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     bannerChannel,
+    content,
     tracking,
     submitComponentEvent,
 }: BannerProps) => {
@@ -85,12 +86,8 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
-                            <h3 css={heading}>Read The Guardian in print</h3>
-                            <p css={paragraph}>
-                                Support The Guardian&apos;s independent journalism by subscribing to
-                                The Guardian Weekly, our essential world news magazine. Home
-                                delivery available wherever you are.
-                            </p>
+                            <h3 css={heading}>{content?.heading}</h3>
+                            <p css={paragraph}>{content?.messageText}</p>
                             <a
                                 data-link-name={ctaComponentId}
                                 css={linkStyle}

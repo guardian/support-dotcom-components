@@ -1,11 +1,17 @@
 import React, { ReactElement } from 'react';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBanner';
+import { withKnobs, text } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerTracking } from '../../../../types/BannerTypes';
+import { BannerContent, BannerProps, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
     component: GuardianWeeklyBanner,
     title: 'Components/GuardianWeeklyBanner',
+    decorators: [
+        withKnobs({
+            escapeHTML: false,
+        }),
+    ],
 };
 
 const tracking: BannerTracking = {
@@ -21,13 +27,23 @@ const tracking: BannerTracking = {
 };
 
 export const defaultStory = (): ReactElement => {
+    const content: BannerContent = {
+        heading: text('heading', 'Read The Guardian in print'),
+        messageText: text(
+            'messageText',
+            "Support The Guardian's independent journalism by subscribing to The Guardian Weekly, our essential world news magazine. Home delivery available wherever you are.",
+        ),
+    };
+
+    const props: BannerProps = {
+        bannerChannel: 'subscriptions',
+        content,
+        isSupporter: false,
+        tracking,
+    };
     return (
         <StorybookWrapper>
-            <GuardianWeeklyBanner
-                bannerChannel="subscriptions"
-                tracking={tracking}
-                isSupporter={false}
-            />
+            <GuardianWeeklyBanner {...props} />
         </StorybookWrapper>
     );
 };
