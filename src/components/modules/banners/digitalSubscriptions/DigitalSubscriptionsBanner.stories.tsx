@@ -29,10 +29,10 @@ const tracking: BannerTracking = {
 export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
         heading: text('heading', 'Progressive journalism'),
-        secondaryHeading: text('secondaryHeading', 'Powered by you'),
+        secondaryHeading: text('secondHeading', 'Powered by you'),
         highlightedText: text(
             'highlightedText',
-            'Two apps, to discover at your pace, uninterupted by advertsing.',
+            'Two apps, to discover at your pace, uninterrupted by advertising.',
         ),
         messageText: text(
             'messageText',

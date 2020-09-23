@@ -5,5 +5,18 @@
     "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
     "[json]": {
         "editor.formatOnSave": false
-    }
+    },
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#e56b43",
+        "activityBar.activeBorder": "#57e87b",
+        "activityBar.background": "#e56b43",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#57e87b",
+        "activityBarBadge.foreground": "#15202b",
+        "statusBar.background": "#d74c1e",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#e56b43"
+    },
+    "peacock.color": "#d74c1e"
 }

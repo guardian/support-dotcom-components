@@ -113,7 +113,7 @@ export const paragraph = css`
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
-        max-width: 37rem;
+        max-width: 32rem;
     }
 
     ${from.leftCol} {
@@ -121,7 +121,7 @@ export const paragraph = css`
     }
 
     ${from.wide} {
-        max-width: 37rem;
+        max-width: 32rem;
     }
 `;
 
