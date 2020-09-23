@@ -8,6 +8,7 @@ import EnvironmentMomentBannerHeader from './components/EnvironmentMomentBannerH
 import EnvironmentMomentBannerBody from './components/EnvironmentMomentBannerBody';
 import EnvironmentMomentBannerCtas from './components/EnvironmentMomentBannerCtas';
 import EnvironmentMomentBannerCloseButton from './components/EnvironmentMomentBannerCloseButton';
+import EnvironmentMomentBannerRoundel from './components/EnvironmentMomentBannerRoundel';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const container = css`
@@ -25,16 +26,27 @@ const contentContainer = css`
     }
 `;
 
-const closeButtonContainer = css`
+const closeButtonAndRoundelContainer = css`
     position: absolute;
     z-index: 200;
     top: ${space[3]}px;
     right: ${space[3]}px;
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+
+    & > * + * {
+        margin-left: ${space[2]}px;
+    }
+
+    ${from.tablet} {
+        top: ${space[5]}px;
+        right: ${space[5]}px;
+    }
 
     ${from.wide} {
-        top: ${space[9]}px;
-        right: ${space[9]}px;
+        top: ${space[12]}px;
+        right: ${space[24]}px;
     }
 `;
 
@@ -133,7 +145,8 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({}: BannerProps) 
         <>
             {showBanner ? (
                 <div css={container}>
-                    <div css={closeButtonContainer}>
+                    <div css={closeButtonAndRoundelContainer}>
+                        <EnvironmentMomentBannerRoundel />
                         <EnvironmentMomentBannerCloseButton onClick={closeBanner} />
                     </div>
                     <div css={contentContainer}>
