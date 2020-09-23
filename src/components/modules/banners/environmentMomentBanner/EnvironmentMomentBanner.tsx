@@ -134,7 +134,7 @@ const bodyAndCtasContainer = css`
     }
 `;
 
-export const EnvironmentMomentBanner: React.FC<BannerProps> = ({}: BannerProps) => {
+export const EnvironmentMomentBanner: React.FC<BannerProps> = ({ isSupporter }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
     const closeBanner = (): void => {
@@ -159,8 +159,8 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({}: BannerProps) 
                         <div css={textContainer}>
                             <EnvironmentMomentBannerHeader />
                             <div css={bodyAndCtasContainer}>
-                                <EnvironmentMomentBannerBody />
-                                <EnvironmentMomentBannerCtas />
+                                <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
+                                <EnvironmentMomentBannerCtas isSupporter={!!isSupporter} />
                             </div>
                         </div>
                     </div>

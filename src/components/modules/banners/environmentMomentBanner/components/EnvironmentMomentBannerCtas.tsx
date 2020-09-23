@@ -20,14 +20,22 @@ const contributeButton = css`
     border: 1px solid ${neutral[7]};
 `;
 
-const EnvironmentMomentBannerCtas: React.FC = () => (
+interface EnvironmentMomentBannerCtasProps {
+    isSupporter: boolean;
+}
+
+const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = ({
+    isSupporter,
+}: EnvironmentMomentBannerCtasProps) => (
     <div css={container}>
         <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
             <LinkButton size="small">Read our pledge</LinkButton>
         </ThemeProvider>
         <LinkButton css={contributeButton} size="small" priority="tertiary">
             <span css={styles.hideAfterTablet}>Contribute</span>
-            <span css={styles.hideBeforeTablet}>Support the Guardian</span>
+            <span css={styles.hideBeforeTablet}>
+                {isSupporter ? 'Support again' : 'Support the Guardian'}
+            </span>
         </LinkButton>
     </div>
 );
