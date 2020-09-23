@@ -65,7 +65,7 @@ export const topLeftComponent = css`
 `;
 
 export const heading = css`
-    ${headline.xlarge({ fontWeight: 'bold' })};
+    ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
     padding-right: ${closeButtonWidthHeight};
@@ -74,7 +74,7 @@ export const heading = css`
         max-width: 90%;
     }
     ${from.mobileLandscape} {
-        ${headline.medium({ fontWeight: 'bold' })};
+        ${headline.small({ fontWeight: 'bold' })};
     }
 
     ${from.tablet} {
