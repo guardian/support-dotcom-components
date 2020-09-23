@@ -10,6 +10,11 @@ import EnvironmentMomentBannerCtas from './components/EnvironmentMomentBannerCta
 import EnvironmentMomentBannerCloseButton from './components/EnvironmentMomentBannerCloseButton';
 import EnvironmentMomentBannerRoundel from './components/EnvironmentMomentBannerRoundel';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
+import {
+    OPHAN_COMPONENT_EVENT_CLOSE_CLICK,
+    OPHAN_COMPONENT_EVENT_READ_PLEDGE_CLICK,
+    OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK,
+} from './helpers/ophan';
 
 const container = css`
     position: relative;
@@ -135,13 +140,23 @@ const bodyAndCtasContainer = css`
     }
 `;
 
-export const EnvironmentMomentBanner: React.FC<BannerProps> = ({ isSupporter }: BannerProps) => {
+export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
+    isSupporter,
+    submitComponentEvent,
+}: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
     const closeBanner = (): void => {
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_CLOSE_CLICK);
         setContributionsBannerClosedTimestamp();
         setShowBanner(false);
     };
+
+    const onReadPledgeClick = (): void =>
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_READ_PLEDGE_CLICK);
+
+    const onContributeClick = (): void =>
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK);
 
     return (
         <>
@@ -161,7 +176,11 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({ isSupporter }: 
                             <EnvironmentMomentBannerHeader />
                             <div css={bodyAndCtasContainer}>
                                 <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
-                                <EnvironmentMomentBannerCtas isSupporter={!!isSupporter} />
+                                <EnvironmentMomentBannerCtas
+                                    isSupporter={!!isSupporter}
+                                    onReadPledgeClick={onReadPledgeClick}
+                                    onContributeClick={onContributeClick}
+                                />
                             </div>
                         </div>
                     </div>
