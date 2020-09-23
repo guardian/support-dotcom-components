@@ -291,8 +291,10 @@ app.post(
  * Tell clients to cache for 2 mins
  */
 const setComponentCacheHeaders = (res: express.Response) => {
-    res.setHeader('Surrogate-Control', 'max-age=300');
-    res.setHeader('Cache-Control', 'max-age=120');
+    if (isProd) {
+        res.setHeader('Surrogate-Control', 'max-age=300');
+        res.setHeader('Cache-Control', 'max-age=120');
+    }
 };
 
 // ES module endpoints

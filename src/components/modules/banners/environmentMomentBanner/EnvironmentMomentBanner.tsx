@@ -13,6 +13,7 @@ import { setContributionsBannerClosedTimestamp } from '../localStorage';
 const container = css`
     position: relative;
     overflow: hidden;
+    background: white;
 `;
 
 const contentContainer = css`
@@ -120,10 +121,7 @@ const bodyAndCtasContainer = css`
     }
 `;
 
-const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
-    if (!(tickerSettings && tickerSettings.tickerData)) {
-        return null;
-    }
+export const EnvironmentMomentBanner: React.FC<BannerProps> = ({}: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
     const closeBanner = (): void => {
@@ -157,5 +155,3 @@ const EnvironmentMomentBanner: React.FC<BannerProps> = ({ tickerSettings }: Bann
         </>
     );
 };
-
-export default EnvironmentMomentBanner;

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import EnvironmentMomentBanner from './EnvironmentMomentBanner';
+import { EnvironmentMomentBanner } from './EnvironmentMomentBanner';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
