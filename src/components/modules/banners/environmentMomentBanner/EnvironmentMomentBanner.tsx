@@ -106,6 +106,7 @@ const textContainer = css`
 `;
 
 const bodyAndCtasContainer = css`
+    sizing: border-box;
     margin-top: ${space[1]}px;
     padding: 0 ${space[3]}px ${space[5]}px ${space[3]}px;
 
@@ -130,7 +131,7 @@ const bodyAndCtasContainer = css`
     }
 
     ${from.wide} {
-        width: 70%;
+        padding-right: 15%;
     }
 `;
 
