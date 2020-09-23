@@ -117,6 +117,7 @@ export interface RawVariantParams {
     template: BannerTemplate;
     body: string;
     heading?: string;
+    secondaryHeading?: string;
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: Cta;
