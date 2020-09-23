@@ -44,23 +44,17 @@ export const contentContainer = css`
 `;
 
 export const topLeftComponent = css`
-    width: 100%;
+    flex-grow: 1;
     padding: ${space[4]}px;
     button {
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 60%;
+        max-width: 60%;
         padding-right: 0;
-    }
-    ${from.desktop} {
-        width: 50%;
     }
     ${from.leftCol} {
         padding-left: 0;
-    }
-    ${from.wide} {
-        width: 53%;
     }
 `;
 
@@ -198,18 +192,17 @@ export const siteMessage = css`
 export const bottomRightComponent = css`
     display: flex;
     justify-content: center;
-    width: 100%;
+    flex-grow: 2;
 
     ${from.tablet} {
         align-self: flex-end;
-        max-width: 45%;
+        min-width: 45%;
         margin-top: -220px;
         padding-right: ${space[4]}px;
     }
 
     ${from.desktop} {
         height: 100%;
-        max-width: 50%;
         justify-content: flex-end;
         margin-top: 0;
     }
@@ -217,10 +210,6 @@ export const bottomRightComponent = css`
     ${from.leftCol} {
         padding-right: 0;
         justify-content: space-between;
-    }
-
-    ${from.wide} {
-        max-width: 47%;
     }
 `;
 
