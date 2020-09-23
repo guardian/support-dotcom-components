@@ -78,7 +78,7 @@ const earthContainer = css`
     margin-bottom: ${space[4]}px;
 
     ${from.tablet} {
-        width: 160%;
+        width: 210%;
         margin-top: -50%;
         margin-left: 0;
     }
@@ -86,6 +86,7 @@ const earthContainer = css`
     ${from.wide} {
         width: 1280px;
         margin: 0;
+        margin-top: 10%;
     }
 `;
 

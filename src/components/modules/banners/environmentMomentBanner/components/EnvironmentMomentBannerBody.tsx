@@ -10,12 +10,17 @@ const container = css`
 const EnvironmentMomentBannerBody: React.FC = () => (
     <div css={container}>
         <div css={styles.hideAfterTablet}>
-            It’s our responsibility to never stay quiet. Read our commitment for climate crisis
+            We will not sideline the climate crisis. Today, one year on from our pledge, we want to
+            update you on our progress.
         </div>
         <div css={styles.hideBeforeTablet}>
-            The escalating climate crisis is the defining issue of our lifetimes and that the planet
-            is in the grip of an emergency. We know that our readers and supporters around the world
-            care passionately about this too, as so many of you have told us
+            One year ago, we outlined our plans to confront the escalating climate crisis. We
+            promised to report with authority on the defining issue of our lifetime – giving it the
+            sustained attention it demands. Then came the global pandemic.
+            <br />
+            Today we want to update you on our progress, and assure you that the Guardian will not
+            sideline the climate emergency in 2020, or in the years to come. Generosity from
+            supporters like you sustains our open, independent journalism. Thank you.
         </div>
     </div>
 );
