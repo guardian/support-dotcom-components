@@ -28,8 +28,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn generate-schemas && yarn validate-schemas"
+      "pre-push": "yarn generate-schemas && yarn validate-schemas && lint-staged"
     }
   },
   "dependencies": {
