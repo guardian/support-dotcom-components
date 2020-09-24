@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { EnvironmentMomentBanner } from './EnvironmentMomentBanner';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
-import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
@@ -23,31 +22,17 @@ const tracking: BannerTracking = {
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };
 
-const tickerSettings = {
-    countType: TickerCountType.people,
-    endType: TickerEndType.unlimited,
-    currencySymbol: '$',
-    // Usually we need the ticker copy, but this banner has a very custom ticker
-    copy: {
-        countLabel: '',
-        goalReachedPrimary: '',
-        goalReachedSecondary: '',
-    },
-    tickerData: {
-        total: 120_000,
-        goal: 150_000,
-    },
-};
-
 export const defaultStory = (): ReactElement => {
     const isSupporter = boolean('isSupporter', false);
+    const isAus = boolean('isAus', false);
 
     return (
         <StorybookWrapper>
             <EnvironmentMomentBanner
                 isSupporter={isSupporter}
-                tickerSettings={tickerSettings}
+                countryCode={isAus ? 'AU' : 'GB'}
                 tracking={tracking}
+                submitComponentEvent={(event): void => console.log(event)}
             />
         </StorybookWrapper>
     );

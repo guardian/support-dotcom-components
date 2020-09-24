@@ -14,6 +14,7 @@ import {
     OPHAN_COMPONENT_EVENT_CLOSE_CLICK,
     OPHAN_COMPONENT_EVENT_READ_PLEDGE_CLICK,
     OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK,
+    OPHAN_COMPONENT_EVENT_HEAR_FROM_OUR_EDITOR_CLICK,
 } from './helpers/ophan';
 
 const container = css`
@@ -142,6 +143,7 @@ const bodyAndCtasContainer = css`
 
 export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
     isSupporter,
+    countryCode,
     submitComponentEvent,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
@@ -157,6 +159,10 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
 
     const onContributeClick = (): void =>
         submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK);
+
+    const onHearFromOurEditorClick = (): void =>
+        submitComponentEvent &&
+        submitComponentEvent(OPHAN_COMPONENT_EVENT_HEAR_FROM_OUR_EDITOR_CLICK);
 
     return (
         <>
@@ -178,8 +184,10 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                                 <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
                                 <EnvironmentMomentBannerCtas
                                     isSupporter={!!isSupporter}
+                                    countryCode={countryCode || ''}
                                     onReadPledgeClick={onReadPledgeClick}
                                     onContributeClick={onContributeClick}
+                                    onHearFromOurEditorClick={onHearFromOurEditorClick}
                                 />
                             </div>
                         </div>

@@ -22,20 +22,30 @@ const contributeButton = css`
 
 interface EnvironmentMomentBannerCtasProps {
     isSupporter: boolean;
+    countryCode: string;
     onReadPledgeClick: () => void;
     onContributeClick: () => void;
+    onHearFromOurEditorClick: () => void;
 }
 
 const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = ({
     isSupporter,
+    countryCode,
     onReadPledgeClick,
     onContributeClick,
+    onHearFromOurEditorClick,
 }: EnvironmentMomentBannerCtasProps) => (
     <div css={container}>
         <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-            <LinkButton onClick={onReadPledgeClick} size="small">
-                Read our pledge
-            </LinkButton>
+            {countryCode === 'AU' ? (
+                <LinkButton onClick={onHearFromOurEditorClick} size="small">
+                    Hear from our editor
+                </LinkButton>
+            ) : (
+                <LinkButton onClick={onReadPledgeClick} size="small">
+                    Read our pledge
+                </LinkButton>
+            )}
         </ThemeProvider>
         <LinkButton
             onClick={onContributeClick}
