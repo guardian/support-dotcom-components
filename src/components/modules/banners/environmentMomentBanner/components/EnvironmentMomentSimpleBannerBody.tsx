@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { body } from '@guardian/src-foundations/typography';
+import { from } from '@guardian/src-foundations/mq';
 import styles from '../helpers/styles';
 
 const container = css`
@@ -11,6 +12,11 @@ const container = css`
 
 const headerText = css`
     font-weight: bold;
+    display: block;
+
+    ${from.tablet} {
+        display: initial;
+    }
 `;
 
 interface EnvironmentMomentBannerBodyProps {

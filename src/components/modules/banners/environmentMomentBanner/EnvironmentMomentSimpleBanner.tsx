@@ -6,6 +6,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { BannerProps } from '../../../../types/BannerTypes';
 import EnvironmentMomentSimpleBannerBody from './components/EnvironmentMomentSimpleBannerBody';
 import EnvironmentMomentSimpleBannerCloseButton from './components/EnvironmentMomentSimpleBannerCloseButton';
+import EnvironmentMomentSimpleBannerRoundel from './components/EnvironmentMomentSimpleBannerRoundel';
 import EnvironmentMomentSimpleBannerCtas from './components/EnvironmentMomentSimpleBannerCtas';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 import {
@@ -14,24 +15,25 @@ import {
     OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK,
     OPHAN_COMPONENT_EVENT_HEAR_FROM_OUR_EDITOR_CLICK,
 } from './helpers/ophan';
+import styles from './helpers/styles';
 
 const container = css`
+    padding: ${space[2]}px ${space[3]}px ${space[5]}px ${space[3]}px;
+    box-sizing: border-box;
+    border-top: 1px solid ${neutral[7]};
     position: relative;
     overflow: hidden;
     background: white;
 `;
 
 const banner = css`
-    padding: ${space[2]}px ${space[3]}px ${space[5]}px ${space[3]}px;
     margin: auto;
     box-sizing: border-box;
-    border-top: 1px solid ${neutral[7]};
     display: flex;
     justify-content: space-between;
     flex-direction: row;
 
     ${from.tablet} {
-        padding: 0.5rem 20px 1.125rem 20px;
         max-width: 740px;
     }
 
@@ -49,8 +51,30 @@ const bodyAndCtasContainer = css`
     }
 `;
 
+const bodyAndCloseButtonContainer = css`
+    display: flex;
+    flex-direction: row-reverse;
+`;
+
 const closeButtonContainer = css`
     float: right;
+
+    ${from.tablet} {
+        float: none;
+        display: flex;
+
+        & > * + * {
+            margin-left: ${space[1]}px;
+        }
+    }
+`;
+
+const roundelContainer = css`
+    display: none;
+
+    ${from.tablet} {
+        display: initial;
+    }
 `;
 
 export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
@@ -80,13 +104,17 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
         <div css={container}>
             <div css={banner}>
                 <div css={bodyAndCtasContainer}>
-                    <div>
+                    <div css={bodyAndCloseButtonContainer}>
                         <div css={closeButtonContainer}>
+                            <div css={roundelContainer}>
+                                <EnvironmentMomentSimpleBannerRoundel />
+                            </div>
                             <EnvironmentMomentSimpleBannerCloseButton onClick={closeBanner} />
                         </div>
                         <EnvironmentMomentSimpleBannerBody isSupporter={!!isSupporter} />
                     </div>
                     <EnvironmentMomentSimpleBannerCtas
+                        isSupporter={!!isSupporter}
                         countryCode={countryCode || ''}
                         onReadPledgeClick={onReadPledgeClick}
                         onContributeClick={onContributeClick}

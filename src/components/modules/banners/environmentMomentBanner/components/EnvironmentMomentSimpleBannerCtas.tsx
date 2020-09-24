@@ -4,6 +4,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { space } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import styles from '../helpers/styles';
 
 const container = css`
     display: flex;
@@ -20,6 +21,7 @@ const contributeButton = css`
 `;
 
 interface EnvironmentMomentSimpleBannerCtasProps {
+    isSupporter: boolean;
     countryCode: string;
     onReadPledgeClick: () => void;
     onContributeClick: () => void;
@@ -27,6 +29,7 @@ interface EnvironmentMomentSimpleBannerCtasProps {
 }
 
 const EnvironmentMomentSimpleBannerCtas: React.FC<EnvironmentMomentSimpleBannerCtasProps> = ({
+    isSupporter,
     countryCode,
     onReadPledgeClick,
     onContributeClick,
@@ -50,7 +53,10 @@ const EnvironmentMomentSimpleBannerCtas: React.FC<EnvironmentMomentSimpleBannerC
             size="small"
             priority="tertiary"
         >
-            Support
+            <span css={styles.hideAfterTablet}>Contribute</span>
+            <span css={styles.hideBeforeTablet}>
+                {isSupporter ? 'Support again' : 'Support the Guardian'}
+            </span>
         </LinkButton>
     </div>
 );
