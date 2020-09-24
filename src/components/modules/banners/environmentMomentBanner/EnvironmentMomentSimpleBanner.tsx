@@ -22,7 +22,7 @@ const container = css`
 `;
 
 const banner = css`
-    padding: 0.5rem 0.625rem 0.5rem; 0.625rem;
+    padding: ${space[2]}px ${space[3]}px ${space[5]}px ${space[3]}px;
     margin: auto;
     box-sizing: border-box;
     border-top: 1px solid ${neutral[7]};
@@ -45,7 +45,7 @@ const banner = css`
 
 const bodyAndCtasContainer = css`
     & > * + * {
-        margin-top: ${space[3]}px;
+        margin-top: ${space[5]}px;
     }
 `;
 
@@ -78,7 +78,6 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                 <div css={bodyAndCtasContainer}>
                     <EnvironmentMomentSimpleBannerBody isSupporter={!!isSupporter} />
                     <EnvironmentMomentSimpleBannerCtas
-                        isSupporter={!!isSupporter}
                         countryCode={countryCode || ''}
                         onReadPledgeClick={onReadPledgeClick}
                         onContributeClick={onContributeClick}

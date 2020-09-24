@@ -7,7 +7,7 @@ import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 
 const container = css`
     & > * + * {
-        margin-top: ${space[1]}px;
+        margin-top: ${space[3]}px;
     }
 `;
 
@@ -17,7 +17,6 @@ const contributeButton = css`
 `;
 
 interface EnvironmentMomentSimpleBannerCtasProps {
-    isSupporter: boolean;
     countryCode: string;
     onReadPledgeClick: () => void;
     onContributeClick: () => void;
@@ -25,32 +24,35 @@ interface EnvironmentMomentSimpleBannerCtasProps {
 }
 
 const EnvironmentMomentSimpleBannerCtas: React.FC<EnvironmentMomentSimpleBannerCtasProps> = ({
-    isSupporter,
     countryCode,
     onReadPledgeClick,
     onContributeClick,
     onHearFromOurEditorClick,
 }: EnvironmentMomentSimpleBannerCtasProps) => (
     <div css={container}>
-        <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-            {countryCode === 'AU' ? (
-                <LinkButton onClick={onHearFromOurEditorClick} size="small">
-                    Hear from our editor
-                </LinkButton>
-            ) : (
-                <LinkButton onClick={onReadPledgeClick} size="small">
-                    Read our pledge
-                </LinkButton>
-            )}
-        </ThemeProvider>
-        <LinkButton
-            onClick={onContributeClick}
-            css={contributeButton}
-            size="small"
-            priority="tertiary"
-        >
-            {isSupporter ? 'Support again' : 'Support the Guardian'}
-        </LinkButton>
+        <div>
+            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                {countryCode === 'AU' ? (
+                    <LinkButton onClick={onHearFromOurEditorClick} size="small">
+                        Hear from our editor
+                    </LinkButton>
+                ) : (
+                    <LinkButton onClick={onReadPledgeClick} size="small">
+                        Read our pledge
+                    </LinkButton>
+                )}
+            </ThemeProvider>
+        </div>
+        <div>
+            <LinkButton
+                onClick={onContributeClick}
+                css={contributeButton}
+                size="small"
+                priority="tertiary"
+            >
+                Support
+            </LinkButton>
+        </div>
     </div>
 );
 
