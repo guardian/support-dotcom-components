@@ -49,6 +49,10 @@ const bodyAndCtasContainer = css`
     }
 `;
 
+const closeButtonContainer = css`
+    float: right;
+`;
+
 export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
     isSupporter,
     countryCode,
@@ -76,16 +80,18 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
         <div css={container}>
             <div css={banner}>
                 <div css={bodyAndCtasContainer}>
-                    <EnvironmentMomentSimpleBannerBody isSupporter={!!isSupporter} />
+                    <div>
+                        <div css={closeButtonContainer}>
+                            <EnvironmentMomentSimpleBannerCloseButton onClick={closeBanner} />
+                        </div>
+                        <EnvironmentMomentSimpleBannerBody isSupporter={!!isSupporter} />
+                    </div>
                     <EnvironmentMomentSimpleBannerCtas
                         countryCode={countryCode || ''}
                         onReadPledgeClick={onReadPledgeClick}
                         onContributeClick={onContributeClick}
                         onHearFromOurEditorClick={onHearFromOurEditorClick}
                     />
-                </div>
-                <div>
-                    <EnvironmentMomentSimpleBannerCloseButton onClick={closeBanner} />
                 </div>
             </div>
         </div>

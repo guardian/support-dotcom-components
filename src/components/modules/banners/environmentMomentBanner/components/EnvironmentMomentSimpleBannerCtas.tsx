@@ -6,8 +6,11 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 
 const container = css`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     & > * + * {
-        margin-top: ${space[3]}px;
+        margin-left: ${space[3]}px;
     }
 `;
 
@@ -30,29 +33,25 @@ const EnvironmentMomentSimpleBannerCtas: React.FC<EnvironmentMomentSimpleBannerC
     onHearFromOurEditorClick,
 }: EnvironmentMomentSimpleBannerCtasProps) => (
     <div css={container}>
-        <div>
-            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                {countryCode === 'AU' ? (
-                    <LinkButton onClick={onHearFromOurEditorClick} size="small">
-                        Hear from our editor
-                    </LinkButton>
-                ) : (
-                    <LinkButton onClick={onReadPledgeClick} size="small">
-                        Read our pledge
-                    </LinkButton>
-                )}
-            </ThemeProvider>
-        </div>
-        <div>
-            <LinkButton
-                onClick={onContributeClick}
-                css={contributeButton}
-                size="small"
-                priority="tertiary"
-            >
-                Support
-            </LinkButton>
-        </div>
+        <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+            {countryCode === 'AU' ? (
+                <LinkButton onClick={onHearFromOurEditorClick} size="small">
+                    Hear from our editor
+                </LinkButton>
+            ) : (
+                <LinkButton onClick={onReadPledgeClick} size="small">
+                    Read our pledge
+                </LinkButton>
+            )}
+        </ThemeProvider>
+        <LinkButton
+            onClick={onContributeClick}
+            css={contributeButton}
+            size="small"
+            priority="tertiary"
+        >
+            Support
+        </LinkButton>
     </div>
 );
 
