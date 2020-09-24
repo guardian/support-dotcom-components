@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { from } from '@guardian/src-foundations/mq';
 import IconRedEarth from './IconRedEarth';
 import IconBlueEarth from './IconBlueEarth';
 
@@ -15,21 +14,19 @@ const container = css`
 `;
 
 const blueEarthContainer = css`
-    ${from.desktop} {
-        @keyframes blue-earth-rotate {
-            0% {
-                transform: rotate(0);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+    @keyframes blue-earth-rotate {
+        0% {
+            transform: rotate(0);
         }
-
-        animation-name: blue-earth-rotate;
-        animation-duration: 115s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
+        100% {
+            transform: rotate(360deg);
+        }
     }
+
+    animation-name: blue-earth-rotate;
+    animation-duration: 115s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 `;
 
 const redEarthContainer = css`
@@ -42,31 +39,29 @@ const redEarthContainer = css`
         opacity: 0.8;
     }
 
-    ${from.desktop} {
-        @keyframes red-earth-rotate {
-            0% {
-                transform: rotate(0);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+    @keyframes red-earth-rotate {
+        0% {
+            transform: rotate(0);
         }
-
-        @keyframes red-earth-opacity {
-            0% {
-                opacity: 0.8;
-            }
-            100% {
-                opacity: 0;
-            }
+        100% {
+            transform: rotate(360deg);
         }
-
-        animation-name: red-earth-rotate, red-earth-opacity;
-        animation-duration: 80s, 8s;
-        animation-timing-function: linear, linear;
-        animation-iteration-count: infinite, infinite;
-        animation-direction: normal, alternate;
     }
+
+    @keyframes red-earth-opacity {
+        0% {
+            opacity: 0.8;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    animation-name: red-earth-rotate, red-earth-opacity;
+    animation-duration: 80s, 8s;
+    animation-timing-function: linear, linear;
+    animation-iteration-count: infinite, infinite;
+    animation-direction: normal, alternate;
 `;
 
 const EnvironmentMomentBannerEarth: React.FC = () => (
