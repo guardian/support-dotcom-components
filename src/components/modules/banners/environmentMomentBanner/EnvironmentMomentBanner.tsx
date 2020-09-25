@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
+import { neutral } from '@guardian/src-foundations/palette';
 import { BannerProps } from '../../../../types/BannerTypes';
 import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEarth';
 import EnvironmentMomentBannerHeader from './components/EnvironmentMomentBannerHeader';
@@ -20,7 +21,14 @@ import {
 const container = css`
     position: relative;
     overflow: hidden;
-    background: white;
+    background: ${neutral[97]};
+`;
+
+const banner = css`
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    max-width: 1300px;
 `;
 
 const contentContainer = css`
@@ -81,7 +89,6 @@ const earthContainer = css`
     width: 200%;
     margin-top: -150%;
     margin-left: -50%;
-    margin-bottom: ${space[4]}px;
 
     ${from.tablet} {
         width: 205%;
@@ -171,27 +178,29 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <div css={container}>
-                    <div css={closeButtonAndRoundelContainer}>
-                        <EnvironmentMomentBannerRoundel />
-                        <EnvironmentMomentBannerCloseButton onClick={closeBanner} />
-                    </div>
-                    <div css={contentContainer}>
-                        <div css={earthContainerContainer}>
-                            <div css={earthContainer}>
-                                <EnvironmentMomentBannerEarth />
-                            </div>
+                    <div css={banner}>
+                        <div css={closeButtonAndRoundelContainer}>
+                            <EnvironmentMomentBannerRoundel />
+                            <EnvironmentMomentBannerCloseButton onClick={closeBanner} />
                         </div>
-                        <div css={textContainer}>
-                            <EnvironmentMomentBannerHeader />
-                            <div css={bodyAndCtasContainer}>
-                                <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
-                                <EnvironmentMomentBannerCtas
-                                    isSupporter={!!isSupporter}
-                                    countryCode={countryCode || ''}
-                                    onReadPledgeClick={onReadPledgeClick}
-                                    onContributeClick={onContributeClick}
-                                    onHearFromOurEditorClick={onHearFromOurEditorClick}
-                                />
+                        <div css={contentContainer}>
+                            <div css={earthContainerContainer}>
+                                <div css={earthContainer}>
+                                    <EnvironmentMomentBannerEarth />
+                                </div>
+                            </div>
+                            <div css={textContainer}>
+                                <EnvironmentMomentBannerHeader />
+                                <div css={bodyAndCtasContainer}>
+                                    <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
+                                    <EnvironmentMomentBannerCtas
+                                        isSupporter={!!isSupporter}
+                                        countryCode={countryCode || ''}
+                                        onReadPledgeClick={onReadPledgeClick}
+                                        onContributeClick={onContributeClick}
+                                        onHearFromOurEditorClick={onHearFromOurEditorClick}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

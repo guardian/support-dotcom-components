@@ -24,7 +24,7 @@ const blueEarthContainer = css`
     }
 
     animation-name: blue-earth-rotate;
-    animation-duration: 115s;
+    animation-duration: 180s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 `;
@@ -58,7 +58,7 @@ const redEarthContainer = css`
     }
 
     animation-name: red-earth-rotate, red-earth-opacity;
-    animation-duration: 80s, 8s;
+    animation-duration: 120s, 12s;
     animation-timing-function: linear, linear;
     animation-iteration-count: infinite, infinite;
     animation-direction: normal, alternate;

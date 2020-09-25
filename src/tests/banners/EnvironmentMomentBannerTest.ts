@@ -12,16 +12,16 @@ export const EnvironmentMomentBanner: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
     variants: [
-        // {
-        //     name: 'control',
-        //     modulePath: EnvironmentMomentBannerPath,
-        //     moduleName: name,
-        // },
         {
-            name: 'simple',
-            modulePath: EnvironmentMomentSimpleBannerPath,
+            name: 'control',
+            modulePath: EnvironmentMomentBannerPath,
             moduleName: name,
         },
+        // {
+        //     name: 'simple',
+        //     modulePath: EnvironmentMomentSimpleBannerPath,
+        //     moduleName: name,
+        // },
     ],
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
