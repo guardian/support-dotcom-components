@@ -26,7 +26,6 @@ const container = css`
 
 const banner = css`
     position: relative;
-    overflow: hidden;
     margin: 0 auto;
     max-width: 1300px;
 `;
@@ -151,6 +150,31 @@ const bodyAndCtasContainer = css`
     }
 `;
 
+const lineContainer = css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 126px;
+    box-sizing: border-box;
+    border-bottom: 1px solid ${neutral[86]};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    display: none;
+
+    ${from.wide} {
+        display: flex;
+    }
+`;
+
+const line = css`
+    width: 100%;
+    border-top: 1px solid ${neutral[86]};
+`;
+
 export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
     isSupporter,
     countryCode,
@@ -178,6 +202,9 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <div css={container}>
+                    <div css={lineContainer}>
+                        <div css={line} />
+                    </div>
                     <div css={banner}>
                         <div css={closeButtonAndRoundelContainer}>
                             <EnvironmentMomentBannerRoundel />
