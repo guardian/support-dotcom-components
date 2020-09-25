@@ -72,8 +72,7 @@ const bodyAndCloseButtonContainer = css`
 `;
 
 const closeButtonContainer = css`
-    float: right;
-
+    margin-left: ${space[2]}px;
     ${from.tablet} {
         float: none;
         display: flex;
