@@ -8,7 +8,7 @@ const retryIntervalMs = 5000;
 
 /**
  * A cache that refreshes after ttlSec seconds.
- * If there are cache reads after ttlSecs have expired but before the value has been refreshed then
+ * If there are cache reads after a value has expired but before the value has been refreshed then
  * the stale data will be returned.
  *
  * If a refresh attempt fails then it will be retried after retryIntervalMs, and stale data will be returned until this
