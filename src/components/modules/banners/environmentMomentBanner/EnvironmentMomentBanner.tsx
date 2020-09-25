@@ -121,19 +121,16 @@ const bodyAndCtasContainer = css`
     }
 
     ${from.tablet} {
-        padding: 0 48px ${space[9]}px ${space[9]}px;
+        padding: 0 48px ${space[5]}px ${space[9]}px;
         & > * + * {
-            margin-top: ${space[6]}px;
+            margin-top: ${space[4]}px;
         }
     }
 
     ${from.desktop} {
-        margin-top: ${space[4]}px;
-        padding-left: 130px;
+        margin-top: ${space[3]}px;
+        padding-left: 110px;
         padding-right: 68px;
-        & > * + * {
-            margin-top: ${space[9]}px;
-        }
     }
 
     ${from.wide} {

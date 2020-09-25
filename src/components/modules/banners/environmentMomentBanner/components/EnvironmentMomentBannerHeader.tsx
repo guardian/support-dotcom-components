@@ -38,11 +38,11 @@ const iconContainer = css`
     }
 
     ${from.tablet} {
-        height: 125px;
+        height: 85px;
     }
 
     ${from.desktop} {
-        height: 168px;
+        height: 125px;
     }
 `;
 
@@ -55,13 +55,13 @@ const textContainer = css`
 
     ${from.tablet} {
         font-size: 40px;
-        margin-top: 40px;
         line-height: 100%;
+        margin-top: 3px;
     }
 
     ${from.desktop} {
-        font-size: 58px;
-        margin-top: 52px;
+        font-size: 60px;
+        margin-top: ${space[1]}px;
         margin-left: ${space[4]}px;
     }
 `;
@@ -81,15 +81,6 @@ const lineContainer = css`
 const line = css`
     width: 100%;
     border-top: 1px solid ${neutral[86]};
-`;
-
-const secondLine = css`
-    ${line}
-    display: none;
-
-    ${from.tablet} {
-        display: block;
-    }
 `;
 
 const hideAfterTablet = css`
@@ -129,7 +120,6 @@ const EnvironmentMomentBannerHeader: React.FC = () => (
         </div>
         <div css={lineContainer}>
             <div css={line} />
-            <div css={secondLine} />
         </div>
     </header>
 );
