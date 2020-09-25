@@ -7,8 +7,9 @@ describe('cache', () => {
         const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
         const [reset, fetchData] = cacheAsync(fn, 60, 'test1');
 
-        await fetchData();
+        const value = await fetchData();
 
+        expect(value).toEqual(true);
         expect(fn).toHaveBeenCalledTimes(1);
         reset();
     });
@@ -28,7 +29,7 @@ describe('cache', () => {
         reset();
     });
 
-    it('sets new cache value and refresh', async () => {
+    it('sets new cache value and refreshes', async () => {
         const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
         const [reset, fetchData] = cacheAsync(fn, 60, 'test1');
 
@@ -42,8 +43,6 @@ describe('cache', () => {
 
         reset();
     });
-
-    // TODO - test it doesn't call fn twice within ttl
 
     it('retries if a refresh fails', async () => {
         // Use counter to ensure it fails on the 2nd invocation only
