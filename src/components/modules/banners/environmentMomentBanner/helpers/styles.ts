@@ -33,4 +33,27 @@ const hideBeforeDesktop = css`
     }
 `;
 
-export default { hideAfterTablet, hideBeforeTablet, hideAfterDesktop, hideBeforeDesktop };
+const hideAfterLeftCol = css`
+    display: initial;
+
+    ${from.leftCol} {
+        display: none;
+    }
+`;
+
+const hideBeforeLeftCol = css`
+    display: none;
+
+    ${from.leftCol} {
+        display: initial;
+    }
+`;
+
+export default {
+    hideAfterTablet,
+    hideBeforeTablet,
+    hideAfterDesktop,
+    hideBeforeDesktop,
+    hideAfterLeftCol,
+    hideBeforeLeftCol,
+};

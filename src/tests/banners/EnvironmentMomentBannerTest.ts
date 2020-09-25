@@ -1,6 +1,7 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 
 export const EnvironmentMomentBannerPath = 'environment-moment-banner.js';
+export const EnvironmentMomentSimpleBannerPath = 'environment-moment-simple-banner.js';
 const name = 'EnvironmentMomentBanner';
 
 export const EnvironmentMomentBanner: BannerTest = {
@@ -11,9 +12,14 @@ export const EnvironmentMomentBanner: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
     variants: [
+        // {
+        //     name: 'control',
+        //     modulePath: EnvironmentMomentBannerPath,
+        //     moduleName: name,
+        // },
         {
-            name: 'control',
-            modulePath: EnvironmentMomentBannerPath,
+            name: 'simple',
+            modulePath: EnvironmentMomentSimpleBannerPath,
             moduleName: name,
         },
     ],

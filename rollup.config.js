@@ -32,6 +32,11 @@ const config = [
         'dist/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js',
     ],
     [
+        'environment-moment-simple-banner',
+        'src/components/modules/banners/environmentMomentBanner/EnvironmentMomentSimpleBanner.tsx',
+        'dist/modules/banners/environmentMomentBanner/EnvironmentMomentSimpleBanner.js',
+    ],
+    [
         'contributions-banner',
         'src/components/modules/banners/contributions/ContributionsBanner.tsx',
         'dist/modules/banners/contributions/ContributionsBanner.js',

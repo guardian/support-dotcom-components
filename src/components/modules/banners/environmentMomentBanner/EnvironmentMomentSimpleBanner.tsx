@@ -19,7 +19,6 @@ import styles from './helpers/styles';
 import EnvironmentMomentBannerRoundel from './components/EnvironmentMomentSimpleBannerRoundel';
 
 const container = css`
-    padding: ${space[2]}px ${space[3]}px ${space[5]}px ${space[3]}px;
     box-sizing: border-box;
     border-top: 1px solid ${neutral[7]};
     position: relative;
@@ -28,11 +27,17 @@ const container = css`
 `;
 
 const banner = css`
+    padding: ${space[2]}px ${space[3]}px ${space[5]}px ${space[3]}px;
     margin: auto;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+
+    ${from.mobileLandscape} {
+        padding-left: ${space[5]}px;
+        padding-right: ${space[5]}px;
+    }
 
     ${from.tablet} {
         max-width: 740px;
@@ -95,16 +100,16 @@ const roundelContainer = css`
         display: initial;
     }
 
-    ${from.desktop} {
+    ${from.leftCol} {
         display: none;
     }
 `;
 
 const leftRoundelContainer = css`
     display: none;
-    width: 140px;
+    width: 161px;
 
-    ${from.desktop} {
+    ${from.leftCol} {
         display: initial;
     }
 `;
