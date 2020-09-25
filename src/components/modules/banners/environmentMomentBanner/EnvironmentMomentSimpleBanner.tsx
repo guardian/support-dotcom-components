@@ -16,6 +16,7 @@ import {
     OPHAN_COMPONENT_EVENT_HEAR_FROM_OUR_EDITOR_CLICK,
 } from './helpers/ophan';
 import styles from './helpers/styles';
+import EnvironmentMomentBannerRoundel from './components/EnvironmentMomentSimpleBannerRoundel';
 
 const container = css`
     padding: ${space[2]}px ${space[3]}px ${space[5]}px ${space[3]}px;
@@ -49,6 +50,15 @@ const bodyAndCtasContainer = css`
     & > * + * {
         margin-top: ${space[5]}px;
     }
+
+    ${from.desktop} {
+        display: flex;
+        align-items: flex-start;
+
+        & > * + * {
+            margin-top: 0;
+        }
+    }
 `;
 
 const bodyAndCloseButtonContainer = css`
@@ -69,10 +79,32 @@ const closeButtonContainer = css`
     }
 `;
 
+const ctasContainer = css`
+    ${from.desktop} {
+        height: 100%;
+        display: flex;
+        align-items: end;
+        margin-left: ${space[5]}px;
+    }
+`;
+
 const roundelContainer = css`
     display: none;
 
     ${from.tablet} {
+        display: initial;
+    }
+
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
+const leftRoundelContainer = css`
+    display: none;
+    width: 140px;
+
+    ${from.desktop} {
         display: initial;
     }
 `;
@@ -104,22 +136,37 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
         <div css={container}>
             <div css={banner}>
                 <div css={bodyAndCtasContainer}>
+                    <div css={leftRoundelContainer}>
+                        <EnvironmentMomentBannerRoundel />
+                    </div>
                     <div css={bodyAndCloseButtonContainer}>
+                        <div css={styles.hideAfterDesktop}>
+                            <div css={closeButtonContainer}>
+                                <div css={roundelContainer}>
+                                    <EnvironmentMomentSimpleBannerRoundel />
+                                </div>
+                                <EnvironmentMomentSimpleBannerCloseButton onClick={closeBanner} />
+                            </div>
+                        </div>
+                        <EnvironmentMomentSimpleBannerBody isSupporter={!!isSupporter} />
+                    </div>
+                    <div css={ctasContainer}>
+                        <EnvironmentMomentSimpleBannerCtas
+                            isSupporter={!!isSupporter}
+                            countryCode={countryCode || ''}
+                            onReadPledgeClick={onReadPledgeClick}
+                            onContributeClick={onContributeClick}
+                            onHearFromOurEditorClick={onHearFromOurEditorClick}
+                        />
+                    </div>
+                    <div css={styles.hideBeforeDesktop}>
                         <div css={closeButtonContainer}>
                             <div css={roundelContainer}>
                                 <EnvironmentMomentSimpleBannerRoundel />
                             </div>
                             <EnvironmentMomentSimpleBannerCloseButton onClick={closeBanner} />
                         </div>
-                        <EnvironmentMomentSimpleBannerBody isSupporter={!!isSupporter} />
                     </div>
-                    <EnvironmentMomentSimpleBannerCtas
-                        isSupporter={!!isSupporter}
-                        countryCode={countryCode || ''}
-                        onReadPledgeClick={onReadPledgeClick}
-                        onContributeClick={onContributeClick}
-                        onHearFromOurEditorClick={onHearFromOurEditorClick}
-                    />
                 </div>
             </div>
         </div>

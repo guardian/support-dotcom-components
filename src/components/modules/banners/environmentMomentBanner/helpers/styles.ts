@@ -17,4 +17,20 @@ const hideBeforeTablet = css`
     }
 `;
 
-export default { hideAfterTablet, hideBeforeTablet };
+const hideAfterDesktop = css`
+    display: initial;
+
+    ${from.desktop} {
+        display: none;
+    }
+`;
+
+const hideBeforeDesktop = css`
+    display: none;
+
+    ${from.desktop} {
+        display: initial;
+    }
+`;
+
+export default { hideAfterTablet, hideBeforeTablet, hideAfterDesktop, hideBeforeDesktop };

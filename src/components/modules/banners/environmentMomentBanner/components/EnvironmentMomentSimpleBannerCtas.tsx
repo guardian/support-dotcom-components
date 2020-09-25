@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
 import { space } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import styles from '../helpers/styles';
@@ -12,6 +13,15 @@ const container = css`
     flex-wrap: nowrap;
     & > * + * {
         margin-left: ${space[3]}px;
+    }
+
+    ${from.desktop} {
+        flex-direction: column;
+
+        & > * + * {
+            margin-top: ${space[2]}px;
+            margin-left: 0px;
+        }
     }
 `;
 
@@ -36,28 +46,32 @@ const EnvironmentMomentSimpleBannerCtas: React.FC<EnvironmentMomentSimpleBannerC
     onHearFromOurEditorClick,
 }: EnvironmentMomentSimpleBannerCtasProps) => (
     <div css={container}>
-        <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-            {countryCode === 'AU' ? (
-                <LinkButton onClick={onHearFromOurEditorClick} size="small">
-                    Hear from our editor
-                </LinkButton>
-            ) : (
-                <LinkButton onClick={onReadPledgeClick} size="small">
-                    Read our pledge
-                </LinkButton>
-            )}
-        </ThemeProvider>
-        <LinkButton
-            onClick={onContributeClick}
-            css={contributeButton}
-            size="small"
-            priority="tertiary"
-        >
-            <span css={styles.hideAfterTablet}>Contribute</span>
-            <span css={styles.hideBeforeTablet}>
-                {isSupporter ? 'Support again' : 'Support the Guardian'}
-            </span>
-        </LinkButton>
+        <div>
+            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                {countryCode === 'AU' ? (
+                    <LinkButton onClick={onHearFromOurEditorClick} size="small">
+                        Hear from our editor
+                    </LinkButton>
+                ) : (
+                    <LinkButton onClick={onReadPledgeClick} size="small">
+                        Read our pledge
+                    </LinkButton>
+                )}
+            </ThemeProvider>
+        </div>
+        <div>
+            <LinkButton
+                onClick={onContributeClick}
+                css={contributeButton}
+                size="small"
+                priority="tertiary"
+            >
+                <span css={styles.hideAfterTablet}>Contribute</span>
+                <span css={styles.hideBeforeTablet}>
+                    {isSupporter ? 'Support again' : 'Support the Guardian'}
+                </span>
+            </LinkButton>
+        </div>
     </div>
 );
 
