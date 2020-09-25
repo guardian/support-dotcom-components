@@ -1,5 +1,6 @@
 interface Cache {
-    [key: string]: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
 }
 const cache: Cache = {};
 
@@ -10,7 +11,7 @@ export const cacheAsync = <T>(
     ttlSec: number,
     key: string,
 ): [() => void, () => Promise<T>] => {
-    const getValue = async () => {
+    const getValue = async (): Promise<T> => {
         if (cache[key] !== undefined) {
             return Promise.resolve(cache[key] as T);
         } else {
@@ -18,19 +19,16 @@ export const cacheAsync = <T>(
             const result: T = await fn();
             cache[key] = result;
 
-            const scheduleRefresh = (ms: number) => {
-                setTimeout(
-                    async () => {
-                        try {
-                            cache[key] = await fn();
-                            scheduleRefresh(ms);
-                        } catch(err) {
-                            console.log(`Error refreshing cached value for key ${key}: ${err}`);
-                            scheduleRefresh(retryIntervalMs);
-                        }
-                    },
-                    ms,
-                );
+            const scheduleRefresh = (ms: number): void => {
+                setTimeout(async () => {
+                    try {
+                        cache[key] = await fn();
+                        scheduleRefresh(ms);
+                    } catch (err) {
+                        console.log(`Error refreshing cached value for key ${key}: ${err}`);
+                        scheduleRefresh(retryIntervalMs);
+                    }
+                }, ms);
             };
 
             scheduleRefresh(ttlSec * 1000);
@@ -39,7 +37,9 @@ export const cacheAsync = <T>(
         }
     };
 
-    const reset = () => { cache[key] = undefined };
+    const reset = (): void => {
+        cache[key] = undefined;
+    };
 
     return [reset, getValue];
 };
