@@ -16,7 +16,7 @@ describe('cache', () => {
 
     it('sets new cache value and uses cached value', async () => {
         const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test1');
+        const [reset, fetchData] = cacheAsync(fn, 60, 'test2');
 
         await fetchData();
 
@@ -31,7 +31,7 @@ describe('cache', () => {
 
     it('sets new cache value and refreshes', async () => {
         const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test1');
+        const [reset, fetchData] = cacheAsync(fn, 60, 'test3');
 
         await fetchData();
 
@@ -55,7 +55,7 @@ describe('cache', () => {
                 return Promise.resolve(true);
             }
         });
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test2');
+        const [reset, fetchData] = cacheAsync(fn, 60, 'test4');
 
         await fetchData();
 
