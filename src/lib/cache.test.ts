@@ -54,7 +54,6 @@ describe('cache', () => {
             } else {
                 return Promise.resolve(true);
             }
-            // return Promise.resolve(true);
         });
         const [reset, fetchData] = cacheAsync(fn, 60, 'test2');
 
