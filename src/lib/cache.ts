@@ -6,6 +6,18 @@ const cache: Cache = {};
 
 const retryIntervalMs = 5000;
 
+/**
+ * A cache that refreshes after ttlSec seconds.
+ * If there are cache reads after ttlSecs have expired but before the value has been refreshed then
+ * the stale data will be returned.
+ *
+ * If a refresh attempt fails then it will be retried after retryIntervalMs, and stale data will be returned until this
+ * completes.
+ *
+ * @param fn        the async function for generating the data to be cached
+ * @param ttlSec    time to live in seconds
+ * @param key       unique cache key
+ */
 export const cacheAsync = <T>(
     fn: () => Promise<T>,
     ttlSec: number,
