@@ -84,8 +84,14 @@ const earthContainer = css`
     margin-bottom: ${space[4]}px;
 
     ${from.tablet} {
-        width: 210%;
-        margin-top: -50%;
+        width: 205%;
+        margin-top: -55%;
+        margin-left: 0;
+    }
+
+    ${from.desktop} {
+        width: 225%;
+        margin-top: -80%;
         margin-left: 0;
     }
 
