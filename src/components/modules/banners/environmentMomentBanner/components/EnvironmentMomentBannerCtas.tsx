@@ -28,29 +28,36 @@ interface EnvironmentMomentBannerCtasProps {
     onHearFromOurEditorClick: () => void;
 }
 
+interface CtaProps {
+    size: 'small' | 'default';
+}
+
 const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = ({
     isSupporter,
     countryCode,
     onReadPledgeClick,
     onContributeClick,
     onHearFromOurEditorClick,
-}: EnvironmentMomentBannerCtasProps) => (
-    <div css={container}>
+}: EnvironmentMomentBannerCtasProps) => {
+    const PrimaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
         <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
             {countryCode === 'AU' ? (
-                <LinkButton onClick={onHearFromOurEditorClick} size="small">
+                <LinkButton onClick={onHearFromOurEditorClick} size={size}>
                     Hear from our editor
                 </LinkButton>
             ) : (
-                <LinkButton onClick={onReadPledgeClick} size="small">
+                <LinkButton onClick={onReadPledgeClick} size={size}>
                     Read our pledge
                 </LinkButton>
             )}
         </ThemeProvider>
+    );
+
+    const SecondaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
         <LinkButton
             onClick={onContributeClick}
             css={contributeButton}
-            size="small"
+            size={size}
             priority="tertiary"
         >
             <span css={styles.hideAfterTablet}>Contribute</span>
@@ -58,7 +65,24 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
                 {isSupporter ? 'Support again' : 'Support the Guardian'}
             </span>
         </LinkButton>
-    </div>
-);
+    );
+
+    return (
+        <div>
+            <div css={styles.hideAfterTablet}>
+                <div css={container}>
+                    <PrimaryCta size="small" />
+                    <SecondaryCta size="small" />
+                </div>
+            </div>
+            <div css={styles.hideBeforeTablet}>
+                <div css={container}>
+                    <PrimaryCta size="default" />
+                    <SecondaryCta size="default" />
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default EnvironmentMomentBannerCtas;

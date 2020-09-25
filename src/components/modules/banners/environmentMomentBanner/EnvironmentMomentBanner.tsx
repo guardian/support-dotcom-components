@@ -127,6 +127,7 @@ const bodyAndCtasContainer = css`
     }
 
     ${from.tablet} {
+        margin-top: ${space[3]}px;
         padding: 0 48px ${space[5]}px ${space[9]}px;
         & > * + * {
             margin-top: ${space[4]}px;
@@ -134,7 +135,6 @@ const bodyAndCtasContainer = css`
     }
 
     ${from.desktop} {
-        margin-top: ${space[3]}px;
         padding-left: 110px;
         padding-right: 68px;
     }
