@@ -84,6 +84,8 @@ export interface BannerTest {
     products?: OphanProduct[];
     locations?: CountryGroupId[];
     articlesViewedSettings?: ArticlesViewedSettings;
+    audienceOffset?: number;
+    audience?: number;
 }
 
 // The result of selecting a test+variant for a user

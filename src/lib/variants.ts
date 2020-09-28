@@ -3,7 +3,7 @@ import {
     ViewLog,
     UserCohort,
 } from '../components/modules/epics/ContributionsEpicTypes';
-import { shouldThrottle, shouldNotRenderEpic } from '../lib/targeting';
+import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../lib/targeting';
 import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
 import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
 import { isRecentOneOffContributor } from '../lib/dates';
@@ -188,16 +188,9 @@ export const isContentType: Filter = {
     test: (test, targeting) => (test.isLiveBlog ? targeting.contentType === 'LiveBlog' : true),
 };
 
-// https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/experiments/ab-core.js#L39
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
-    test: (test): boolean => {
-        // Calculate range of mvtIDs for variants and return first match
-        const maxMVTId = 1000000;
-        const lowest = maxMVTId * (test.audienceOffset || 0);
-        const highest = lowest + maxMVTId * (test.audience || 1);
-        return mvtId > lowest && mvtId <= highest;
-    },
+    test: (test: Test): boolean => userIsInTest(test, mvtId),
 });
 
 export const hasCountryCode: Filter = {
