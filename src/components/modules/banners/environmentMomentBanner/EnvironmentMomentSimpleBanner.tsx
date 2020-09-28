@@ -113,7 +113,7 @@ const leftRoundelContainer = css`
     }
 `;
 
-export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
+export const EnvironmentMomentSimpleBanner: React.FC<BannerProps> = ({
     isSupporter,
     countryCode,
     submitComponentEvent,

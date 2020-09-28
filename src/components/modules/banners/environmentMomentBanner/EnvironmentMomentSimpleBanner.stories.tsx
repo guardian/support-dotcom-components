@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
-import { EnvironmentMomentBanner } from './EnvironmentMomentSimpleBanner';
+import { EnvironmentMomentSimpleBanner } from './EnvironmentMomentSimpleBanner';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
-    component: EnvironmentMomentBanner,
+    component: EnvironmentMomentSimpleBanner,
     title: 'Components/EnvironmentMomentBannerSimple',
     decorators: [withKnobs],
 };
@@ -28,7 +28,7 @@ export const defaultStory = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <EnvironmentMomentBanner
+            <EnvironmentMomentSimpleBanner
                 isSupporter={isSupporter}
                 countryCode={isAus ? 'AU' : 'GB'}
                 tracking={tracking}

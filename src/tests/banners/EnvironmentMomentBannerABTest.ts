@@ -16,12 +16,12 @@ export const EnvironmentMomentBannerABTest: BannerTest = {
         {
             name: 'fancy',
             modulePath: EnvironmentMomentBannerPath,
-            moduleName: name,
+            moduleName: 'EnvironmentMomentBanner',
         },
         {
             name: 'simple',
             modulePath: EnvironmentMomentSimpleBannerPath,
-            moduleName: name,
+            moduleName: 'EnvironmentMomentSimpleBanner',
         },
     ],
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
