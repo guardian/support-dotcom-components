@@ -10,7 +10,7 @@ const container = css`
         display: block;
     }
 
-    clip-path: circle(48%);
+    clip-path: circle(49%);
 `;
 
 const blueEarthContainer = css`

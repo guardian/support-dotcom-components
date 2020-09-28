@@ -59,7 +59,7 @@ const closeButtonAndRoundelContainer = css`
 
     ${from.wide} {
         top: ${space[12]}px;
-        right: ${space[24]}px;
+        right: 170px;
     }
 `;
 
@@ -99,7 +99,8 @@ const earthContainer = css`
     }
 
     ${from.wide} {
-        margin-top: -250px;
+        width: 880px;
+        margin-top: -360px;
     }
 `;
 
