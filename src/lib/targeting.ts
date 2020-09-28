@@ -62,5 +62,5 @@ export const userIsInTest = (test: Test, mvtId: number): boolean => {
     const maxMVTId = 1000000;
     const lowest = maxMVTId * (test.audienceOffset || 0);
     const highest = lowest + maxMVTId * (test.audience || 1);
-    return mvtId > lowest && mvtId <= highest;
+    return mvtId >= lowest && mvtId <= highest;
 };
