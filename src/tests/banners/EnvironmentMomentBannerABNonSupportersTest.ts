@@ -2,12 +2,12 @@ import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/Ban
 
 export const EnvironmentMomentBannerPath = 'environment-moment-banner.js';
 export const EnvironmentMomentSimpleBannerPath = 'environment-moment-simple-banner.js';
-const name = 'EnvironmentMomentBannerABTest';
+const name = 'EnvironmentMomentBannerABNonSupporters';
 
-export const EnvironmentMomentBannerABTest: BannerTest = {
+export const EnvironmentMomentBannerABNonSupporters: BannerTest = {
     name,
     bannerType: 'contributions',
-    testAudience: 'Everyone',
+    testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
         targeting.countryCode !== 'AU',

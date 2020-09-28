@@ -1,12 +1,11 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 
 export const EnvironmentMomentBannerPath = 'environment-moment-banner.js';
-const name = 'EnvironmentMomentBanner';
 
-export const EnvironmentMomentBanner: BannerTest = {
-    name,
+export const EnvironmentMomentBannerSupporters: BannerTest = {
+    name: 'EnvironmentMomentBannerSupporters',
     bannerType: 'contributions',
-    testAudience: 'Everyone',
+    testAudience: 'AllExistingSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
@@ -14,7 +13,25 @@ export const EnvironmentMomentBanner: BannerTest = {
         {
             name: 'fancy',
             modulePath: EnvironmentMomentBannerPath,
-            moduleName: name,
+            moduleName: 'EnvironmentMomentBanner',
+        },
+    ],
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+};
+
+export const EnvironmentMomentBannerNonSupporters: BannerTest = {
+    name: 'EnvironmentMomentBannerNonSupporters',
+    bannerType: 'contributions',
+    testAudience: 'AllNonSupporters',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
+    minPageViews: 2,
+    variants: [
+        {
+            name: 'fancy',
+            modulePath: EnvironmentMomentBannerPath,
+            moduleName: 'EnvironmentMomentBanner',
         },
     ],
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',

@@ -34,7 +34,7 @@ import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContr
 import {
     EnvironmentMomentBannerPath,
     EnvironmentMomentSimpleBannerPath,
-} from './tests/banners/EnvironmentMomentBannerABTest';
+} from './tests/banners/EnvironmentMomentBannerABNonSupportersTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';

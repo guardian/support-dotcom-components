@@ -1,17 +1,21 @@
 import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
-import { EnvironmentMomentBanner } from './EnvironmentMomentBannerTest';
-import { EnvironmentMomentBannerABTest } from './EnvironmentMomentBannerABTest';
+import {
+    EnvironmentMomentBannerSupporters,
+    EnvironmentMomentBannerNonSupporters,
+} from './EnvironmentMomentBannerTest';
+import { EnvironmentMomentBannerABNonSupporters } from './EnvironmentMomentBannerABNonSupportersTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
 import { cacheAsync } from '../../lib/cache';
 
 const environmentMomentBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve([EnvironmentMomentBanner]);
-
-const environmentMomentBannerABTestGenerator: BannerTestGenerator = () =>
-    Promise.resolve([EnvironmentMomentBannerABTest]);
+    Promise.resolve([
+        EnvironmentMomentBannerABNonSupporters,
+        EnvironmentMomentBannerNonSupporters,
+        EnvironmentMomentBannerSupporters,
+    ]);
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
     Promise.resolve([DigitalSubscriptionsBanner]);
@@ -22,7 +26,6 @@ const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
-    environmentMomentBannerABTestGenerator,
     environmentMomentBannerGenerator,
     contributionsBannerAllTestsGenerator,
     defaultBannerTestGenerator,
