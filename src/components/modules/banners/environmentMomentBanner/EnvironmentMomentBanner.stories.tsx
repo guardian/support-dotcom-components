@@ -38,4 +38,4 @@ export const defaultStory = (): ReactElement => {
     );
 };
 
-defaultStory.story = { name: 'Aus Moment - Thank You banner' };
+defaultStory.story = { name: 'Environment Moment - Fancy Banner' };
