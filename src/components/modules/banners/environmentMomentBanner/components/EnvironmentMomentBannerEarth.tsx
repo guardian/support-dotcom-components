@@ -35,6 +35,7 @@ const redEarthContainer = css`
     bottom: 0;
     left: 0;
     right: 0;
+    mix-blend-mode: screen;
     img {
         opacity: 0.8;
     }

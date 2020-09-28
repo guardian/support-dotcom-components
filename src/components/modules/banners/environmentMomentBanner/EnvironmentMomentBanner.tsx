@@ -79,8 +79,7 @@ const earthContainerContainer = css`
     }
 
     ${from.wide} {
-        width: 55%;
-        top: -700px;
+        width: 50%;
     }
 `;
 
@@ -96,15 +95,11 @@ const earthContainer = css`
     }
 
     ${from.desktop} {
-        width: 225%;
-        margin-top: -80%;
-        margin-left: 0;
+        width: 800px;
     }
 
     ${from.wide} {
-        width: 1280px;
-        margin: 0;
-        margin-top: 10%;
+        margin-top: -250px;
     }
 `;
 

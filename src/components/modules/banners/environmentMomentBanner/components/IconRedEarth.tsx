@@ -1,8 +1,13 @@
 import React from 'react';
 
-const IMAGE_URL =
-    'https://media.guim.co.uk/c1f7e9c7aec4d17de2d5a63cb25a647a5125831c/0_0_1860_1860/1860.png';
-
-const IconRedEarth: React.FC = () => <img src={IMAGE_URL} alt="red earth" />;
+const IconRedEarth: React.FC = () => (
+    <img
+        src="https://uploads.guim.co.uk/2020/09/22/Earth-B.min.620.png"
+        srcSet="https://uploads.guim.co.uk/2020/09/22/Earth-B.min.620.png 620w,
+                https://uploads.guim.co.uk/2020/09/22/Earth-B.min.878.png 878w,
+                https://uploads.guim.co.uk/2020/09/22/Earth-B.min.920.png 920w"
+        alt="red earth"
+    />
+);
 
 export default IconRedEarth;
