@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import { css } from '@emotion/core';
 import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
 import React, { useState } from 'react';
 import { SvgGuardianLogo } from '@guardian/src-brand';
@@ -24,7 +23,7 @@ import {
     becomeASubscriberButton,
     linkStyle,
     signInLink,
-    packShotContainer
+    packShotContainer,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
