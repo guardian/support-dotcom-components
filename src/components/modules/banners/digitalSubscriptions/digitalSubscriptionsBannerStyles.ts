@@ -74,13 +74,6 @@ export const heading = css`
     ${from.tablet} {
         max-width: 100%;
     }
-    span {
-        display: block;
-    }
-`;
-
-export const secondaryHeading = css`
-    color: ${brandAlt[400]};
 `;
 
 export const headLineBreak = css`
@@ -117,10 +110,6 @@ export const paragraph = css`
     ${from.wide} {
         max-width: 32rem;
     }
-`;
-
-export const highlightedText = css`
-    font-weight: 700;
 `;
 
 export const linkStyle = css`
