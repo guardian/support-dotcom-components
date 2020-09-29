@@ -59,7 +59,7 @@ const closeButtonAndRoundelContainer = css`
 
     ${from.wide} {
         top: ${space[12]}px;
-        right: 170px;
+        right: ${space[9]}px;
     }
 `;
 
