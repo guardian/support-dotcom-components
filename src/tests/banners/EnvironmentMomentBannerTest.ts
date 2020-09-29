@@ -4,7 +4,7 @@ export const EnvironmentMomentBannerPath = 'environment-moment-banner.js';
 
 export const EnvironmentMomentBannerSupporters: BannerTest = {
     name: 'EnvironmentMomentBannerSupporters',
-    bannerType: 'contributions',
+    bannerChannel: 'contributions',
     testAudience: 'AllExistingSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
@@ -14,15 +14,14 @@ export const EnvironmentMomentBannerSupporters: BannerTest = {
             name: 'fancy',
             modulePath: EnvironmentMomentBannerPath,
             moduleName: 'EnvironmentMomentBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
         },
     ],
-    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };
 
 export const EnvironmentMomentBannerNonSupporters: BannerTest = {
     name: 'EnvironmentMomentBannerNonSupporters',
-    bannerType: 'contributions',
+    bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
@@ -32,8 +31,7 @@ export const EnvironmentMomentBannerNonSupporters: BannerTest = {
             name: 'fancy',
             modulePath: EnvironmentMomentBannerPath,
             moduleName: 'EnvironmentMomentBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
         },
     ],
-    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };

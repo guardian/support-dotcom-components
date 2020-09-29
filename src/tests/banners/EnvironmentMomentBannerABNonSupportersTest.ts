@@ -6,7 +6,7 @@ const name = 'EnvironmentMomentBannerABNonSupporters';
 
 export const EnvironmentMomentBannerABNonSupporters: BannerTest = {
     name,
-    bannerType: 'contributions',
+    bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
@@ -17,15 +17,15 @@ export const EnvironmentMomentBannerABNonSupporters: BannerTest = {
             name: 'fancy',
             modulePath: EnvironmentMomentBannerPath,
             moduleName: 'EnvironmentMomentBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
         },
         {
             name: 'simple',
             modulePath: EnvironmentMomentSimpleBannerPath,
             moduleName: 'EnvironmentMomentSimpleBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
         },
     ],
-    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
     audience: 0.2,
     audienceOffset: 0,
 };

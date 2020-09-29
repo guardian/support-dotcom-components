@@ -33,6 +33,7 @@ export const defaultStory = (): ReactElement => {
                 countryCode={isAus ? 'AU' : 'GB'}
                 tracking={tracking}
                 submitComponentEvent={(event): void => console.log(event)}
+                bannerChannel="contributions"
             />
         </StorybookWrapper>
     );

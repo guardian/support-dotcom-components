@@ -45,6 +45,7 @@ export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
             <AusMomentThankYouBanner
+                bannerChannel="contributions"
                 isSupporter={isSupporter}
                 tickerSettings={tickerSettings}
                 tracking={tracking}

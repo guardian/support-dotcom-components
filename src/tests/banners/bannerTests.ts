@@ -1,4 +1,5 @@
 import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
+import { retrieveSecondBannerChannel } from '../../lib/env';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import {
@@ -7,7 +8,10 @@ import {
 } from './EnvironmentMomentBannerTest';
 import { EnvironmentMomentBannerABNonSupporters } from './EnvironmentMomentBannerABNonSupportersTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
-import { contributionsBannerAllTestsGenerator } from './ContributionsBannerTests';
+import {
+    channel1BannersAllTestsGenerator,
+    channel2BannersAllTestsGenerator,
+} from './ChannelBannerTests';
 import { cacheAsync } from '../../lib/cache';
 
 const environmentMomentBannerGenerator: BannerTestGenerator = () =>
@@ -27,7 +31,8 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     environmentMomentBannerGenerator,
-    contributionsBannerAllTestsGenerator,
+    channel1BannersAllTestsGenerator,
+    ...(retrieveSecondBannerChannel ? [channel2BannersAllTestsGenerator] : []),
     defaultBannerTestGenerator,
     digitalSubscriptionsBannerGenerator,
     guardianWeeklyBannerGenerator,

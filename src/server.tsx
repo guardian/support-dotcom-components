@@ -18,7 +18,7 @@ import {
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
 import { getQueryParams, Params } from './lib/params';
-import { ampDefaultEpic } from './tests/ampDefaultEpic';
+import { ampEpic } from './tests/ampEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
@@ -174,8 +174,8 @@ const buildBannerData = async (
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
-            componentType: test.componentType,
-            ...(test.products && { products: test.products }),
+            componentType: variant.componentType,
+            ...(variant.products && { products: variant.products }),
         };
 
         const tickerSettings = variant.tickerSettings
@@ -184,6 +184,7 @@ const buildBannerData = async (
 
         const props: BannerProps = {
             tracking: { ...pageTracking, ...testTracking },
+            bannerChannel: test.bannerChannel,
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
             content: variant.bannerContent,
@@ -528,7 +529,7 @@ app.get(
         try {
             // We use the fastly geo header for determining the correct currency symbol
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
-            const response = ampDefaultEpic(countryCode);
+            const response = ampEpic(countryCode);
 
             // The cache key in fastly is the X-GU-GeoIP-Country-Code header
             res.setHeader('Surrogate-Control', 'max-age=300');

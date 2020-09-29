@@ -6,7 +6,7 @@ const name = 'GuardianWeeklyBanner';
 
 export const GuardianWeeklyBanner: BannerTest = {
     name,
-    bannerType: 'subscriptions',
+    bannerChannel: 'subscriptions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
@@ -22,8 +22,13 @@ export const GuardianWeeklyBanner: BannerTest = {
             name: 'control',
             modulePath: GuardianWeeklyBannerPath,
             moduleName: name,
+            bannerContent: {
+                messageText:
+                    "Support The Guardian's independent journalism by subscribing to The Guardian Weekly, our essential world news magazine. Home delivery available wherever you are.",
+                heading: 'Read The Guardian in print',
+            },
+            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+            products: ['PRINT_SUBSCRIPTION'],
         },
     ],
-    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    products: ['PRINT_SUBSCRIPTION'],
 };

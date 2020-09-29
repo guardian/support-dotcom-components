@@ -19,7 +19,7 @@ interface AMPEpicResponse {
     items: AMPEpic[];
 }
 
-export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
+function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
     const campaignCode = 'AMP_EPIC_AUGUST2020';
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
@@ -42,4 +42,32 @@ export function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
             },
         ],
     };
+}
+
+function ampUsEpic(): AMPEpicResponse {
+    const campaignCode = 'AMP_USREGION_EPIC';
+    return {
+        items: [
+            {
+                heading: 'America faces an epic choice ...',
+                paragraphs: [
+                    '... in the coming months, and the results will define the country for a generation. Over the last four years, much of what the Guardian holds dear has been threatened – democracy, civility, truth.',
+                    'At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers.',
+                ],
+                highlightedText:
+                    'If you can, support the Guardian’s journalism with as little as $1 – it only takes a minute. Thank you.',
+                cta: {
+                    text: 'Support the Guardian',
+                    url: 'https://support.theguardian.com/contribute',
+                    campaignCode: campaignCode,
+                    componentId: campaignCode,
+                },
+            },
+        ],
+    };
+}
+
+export function ampEpic(geolocation?: string): AMPEpicResponse {
+    const epic = geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
+    return epic;
 }

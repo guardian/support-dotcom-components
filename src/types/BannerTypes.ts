@@ -55,15 +55,23 @@ export interface BannerContent {
     secondaryCta?: Cta;
 }
 
+export enum BannerTemplate {
+    ContributionsBanner = 'ContributionsBanner',
+    DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
+    GuardianWeeklyBanner = 'GuardianWeeklyBanner',
+}
+
 export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePath: string;
     moduleName: string;
     bannerContent?: BannerContent;
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
 }
 
-export type BannerType = 'contributions' | 'subscriptions';
+export type BannerChannel = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 export type BannerAudience =
     | 'AllExistingSupporters'
@@ -75,13 +83,11 @@ export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
 export interface BannerTest {
     name: string;
-    bannerType: BannerType;
+    bannerChannel: BannerChannel;
     testAudience: BannerAudience;
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
-    componentType: OphanComponentType;
-    products?: OphanProduct[];
     locations?: CountryGroupId[];
     articlesViewedSettings?: ArticlesViewedSettings;
     audienceOffset?: number;
@@ -98,6 +104,7 @@ export interface BannerTestSelection {
 
 export interface BannerProps {
     tracking: BannerTracking;
+    bannerChannel: BannerChannel;
     content?: BannerContent;
     countryCode?: string;
     isSupporter?: boolean;
@@ -108,6 +115,7 @@ export interface BannerProps {
 
 export interface RawVariantParams {
     name: string;
+    template: BannerTemplate;
     body: string;
     heading?: string;
     highlightedText?: string;

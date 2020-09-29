@@ -25,7 +25,7 @@ import {
     signInLink,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { setSubscriptionsBannerClosedTimestamp } from '../localStorage';
+import { setChannelClosedTimestamp } from '../localStorage';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
@@ -37,6 +37,8 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
+    bannerChannel,
+    content,
     tracking,
     submitComponentEvent,
 }: BannerProps) => {
@@ -68,7 +70,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
             submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setSubscriptionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(bannerChannel);
     };
 
     const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -78,7 +80,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
             submitComponentEvent(componentClickEvent);
         }
         setShowBanner(false);
-        setSubscriptionsBannerClosedTimestamp();
+        setChannelClosedTimestamp(bannerChannel);
     };
 
     return (
@@ -87,12 +89,8 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
-                            <h3 css={heading}>Enjoy ad-free reading and the best of our apps</h3>
-                            <p css={paragraph}>
-                                Support the Guardian with a Digital Subscription, enjoy our
-                                reporting without ads and get premium access to our Live app and The
-                                Daily.
-                            </p>
+                            <h3 css={heading}>{content?.heading}</h3>
+                            <p css={paragraph}>{content?.messageText}</p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
                                     <span css={buttonTextDesktop}>Become a digital subscriber</span>
