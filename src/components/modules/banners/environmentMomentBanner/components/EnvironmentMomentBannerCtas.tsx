@@ -5,6 +5,8 @@ import { space } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import styles from '../helpers/styles';
+import { BannerTracking } from '../../../../../types/BannerTypes';
+import { addTrackingParams } from '../../../../../lib/tracking';
 
 const container = css`
     display: flex;
@@ -20,12 +22,15 @@ const contributeButton = css`
     border: 1px solid ${neutral[7]};
 `;
 
+const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
+
 interface EnvironmentMomentBannerCtasProps {
     isSupporter: boolean;
     countryCode: string;
     onReadPledgeClick: () => void;
     onContributeClick: () => void;
     onHearFromOurEditorClick: () => void;
+    tracking: BannerTracking;
 }
 
 interface CtaProps {
@@ -38,6 +43,7 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
     onReadPledgeClick,
     onContributeClick,
     onHearFromOurEditorClick,
+    tracking,
 }: EnvironmentMomentBannerCtasProps) => {
     const PrimaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
         <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
@@ -53,12 +59,18 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
         </ThemeProvider>
     );
 
+    let landingPageUrl = addTrackingParams(BASE_LANDING_PAGE_URL, tracking);
+    if (isSupporter) {
+        landingPageUrl += '&selected-contribution-type=ONE_OFF';
+    }
+
     const SecondaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
         <LinkButton
             onClick={onContributeClick}
             css={contributeButton}
             size={size}
             priority="tertiary"
+            href={landingPageUrl}
         >
             <span css={styles.hideAfterTablet}>Contribute</span>
             <span css={styles.hideBeforeTablet}>

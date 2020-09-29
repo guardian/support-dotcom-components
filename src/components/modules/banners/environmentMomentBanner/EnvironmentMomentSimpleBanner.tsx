@@ -117,6 +117,7 @@ export const EnvironmentMomentSimpleBanner: React.FC<BannerProps> = ({
     isSupporter,
     countryCode,
     submitComponentEvent,
+    tracking,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
@@ -161,6 +162,7 @@ export const EnvironmentMomentSimpleBanner: React.FC<BannerProps> = ({
                             onReadPledgeClick={onReadPledgeClick}
                             onContributeClick={onContributeClick}
                             onHearFromOurEditorClick={onHearFromOurEditorClick}
+                            tracking={tracking}
                         />
                     </div>
                     <div css={styles.hideBeforeDesktop}>
