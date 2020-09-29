@@ -44,14 +44,17 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
     if (content && countryCode && showBanner) {
         const cleanHighlightedText =
             content.highlightedText &&
-            replaceNonArticleCountPlaceholders(content.highlightedText, countryCode);
+            replaceNonArticleCountPlaceholders(content.highlightedText, countryCode).trim();
 
         const cleanMessageText = replaceNonArticleCountPlaceholders(
             content.messageText,
             countryCode,
-        );
+        ).trim();
 
-        const cleanHeading = replaceNonArticleCountPlaceholders(content.heading, countryCode);
+        const cleanHeading = replaceNonArticleCountPlaceholders(
+            content.heading,
+            countryCode,
+        ).trim();
 
         const copyHasPlaceholder =
             containsNonArticleCountPlaceholder(cleanMessageText) ||
@@ -72,13 +75,15 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                 <div css={styles.copyAndCta}>
                                     <div css={styles.copy}>
                                         {cleanHeading && (
-                                            <span css={styles.heading}>
-                                                {replaceArticleCount(
-                                                    cleanHeading,
-                                                    numArticles,
-                                                    'banner',
-                                                )}
-                                            </span>
+                                            <>
+                                                <span css={styles.heading}>
+                                                    {replaceArticleCount(
+                                                        cleanHeading,
+                                                        numArticles,
+                                                        'banner',
+                                                    )}
+                                                </span>{' '}
+                                            </>
                                         )}
                                         <span css={styles.messageText}>
                                             {replaceArticleCount(
@@ -88,13 +93,16 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                             )}
                                         </span>
                                         {cleanHighlightedText && (
-                                            <span css={styles.highlightedText}>
-                                                {replaceArticleCount(
-                                                    cleanHighlightedText,
-                                                    numArticles,
-                                                    'banner',
-                                                )}
-                                            </span>
+                                            <>
+                                                {' '}
+                                                <span css={styles.highlightedText}>
+                                                    {replaceArticleCount(
+                                                        cleanHighlightedText,
+                                                        numArticles,
+                                                        'banner',
+                                                    )}
+                                                </span>
+                                            </>
                                         )}
                                     </div>
                                     {content.cta && (
