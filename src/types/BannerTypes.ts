@@ -49,7 +49,6 @@ export interface Cta {
 
 export interface BannerContent {
     heading?: string;
-    secondaryHeading?: string;
     messageText: string;
     highlightedText?: string;
     cta?: Cta;
@@ -117,7 +116,6 @@ export interface RawVariantParams {
     template: BannerTemplate;
     body: string;
     heading?: string;
-    secondaryHeading?: string;
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: Cta;
