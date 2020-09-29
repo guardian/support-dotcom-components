@@ -202,6 +202,8 @@ export const bottomRightComponent = css`
     }
 `;
 
+const packShotWidth = 500;
+const packShotHeight = 297;
 export const packShot = css`
     max-width: 100%;
     display: flex;
@@ -209,8 +211,14 @@ export const packShot = css`
     align-items: flex-end;
     margin-top: -20px;
 
+    position: relative;
+    width: 90%;
+    padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
+
     img {
-        width: 90%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
     }
 
     ${from.mobileMedium} {
