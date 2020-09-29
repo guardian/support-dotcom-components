@@ -202,8 +202,8 @@ export const bottomRightComponent = css`
     }
 `;
 
-const packShotWidth = 500;
-const packShotHeight = 297;
+const packShotWidth = 369;
+const packShotHeight = 300;
 export const packShot = css`
     max-width: 100%;
     display: flex;
@@ -230,6 +230,7 @@ export const packShot = css`
     }
 
     ${from.tablet} {
+        padding-bottom: 0;
         img {
             max-width: 125%;
         }
