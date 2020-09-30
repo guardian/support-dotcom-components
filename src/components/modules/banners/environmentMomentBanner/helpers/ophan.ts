@@ -8,31 +8,31 @@ const OPHAN_COMPONENT_ID_CLOSE = 'environment-moment-2020-close';
 export const OPHAN_COMPONENT_EVENT_READ_PLEDGE_CLICK: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+        id: OPHAN_COMPONENT_ID_READ_PLEDGE,
     },
-    id: OPHAN_COMPONENT_ID_READ_PLEDGE,
     action: 'CLICK',
 };
 
 export const OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+        id: OPHAN_COMPONENT_ID_CONTRIBUTE,
     },
-    id: OPHAN_COMPONENT_ID_CONTRIBUTE,
     action: 'CLICK',
 };
 
 export const OPHAN_COMPONENT_EVENT_HEAR_FROM_OUR_EDITOR_CLICK: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+        id: OPHAN_COMPONENT_ID_HEAR_FROM_OUR_EDITOR,
     },
-    id: OPHAN_COMPONENT_ID_HEAR_FROM_OUR_EDITOR,
     action: 'CLICK',
 };
 
 export const OPHAN_COMPONENT_EVENT_CLOSE_CLICK: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+        id: OPHAN_COMPONENT_ID_CLOSE,
     },
-    id: OPHAN_COMPONENT_ID_CLOSE,
     action: 'CLICK',
 };
