@@ -23,6 +23,8 @@ const contributeButton = css`
 `;
 
 const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
+const PLEDGE_LINK =
+    'https://www.theguardian.com/environment/ng-interactive/2020/oct/05/the-guardian-environment-pledge-2020-climate-emergency-carbon-emissions?INTCMP=enviro_moment_2020_pledgelink_banner';
 
 interface EnvironmentMomentBannerCtasProps {
     isSupporter: boolean;
@@ -52,7 +54,7 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
                     Hear from our editor
                 </LinkButton>
             ) : (
-                <LinkButton onClick={onReadPledgeClick} size={size}>
+                <LinkButton onClick={onReadPledgeClick} size={size} href={PLEDGE_LINK}>
                     Read our pledge
                 </LinkButton>
             )}
