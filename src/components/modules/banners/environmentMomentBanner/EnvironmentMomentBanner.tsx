@@ -20,6 +20,7 @@ import {
 
 const container = css`
     position: relative;
+    border-top: 1px solid ${neutral[7]};
     overflow: hidden;
     background: ${neutral[97]};
 `;
