@@ -4,7 +4,9 @@ import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
 import { from, until, between } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
-const closeButtonWidthHeight = '35px';
+const closeButtonWidthHeight = 35;
+const packShotWidth = 500;
+const packShotHeight = 297;
 
 export const banner = css`
     html {
@@ -67,7 +69,7 @@ export const heading = css`
     ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
-    padding-right: ${closeButtonWidthHeight};
+    padding-right: ${closeButtonWidthHeight}px;
 
     @media (min-width: 740px) {
         max-width: 90%;
@@ -218,18 +220,12 @@ export const packShotContainer = css`
     flex-direction: column;
     justify-content: flex-end;
     margin: 0 ${space[4]}px;
-
-    ${between.phablet.and.tablet} {
-        max-width: 75%;
-    }
+    max-width: ${packShotWidth}px;
 
     ${from.wide} {
         margin-top: ${space[4]}px;
     }
 `;
-
-const packShotWidth = 500;
-const packShotHeight = 297;
 
 export const packShot = css`
     width: 100%;
