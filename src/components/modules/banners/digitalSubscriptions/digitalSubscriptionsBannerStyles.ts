@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
-import { from, until, between } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 const closeButtonWidthHeight = 35;
@@ -214,7 +214,7 @@ export const bottomRightComponent = css`
     }
 `;
 
-export const packShotContainer = css`
+export const c = css`
     flex: 1;
     display: flex;
     flex-direction: column;
