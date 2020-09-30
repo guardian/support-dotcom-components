@@ -87,7 +87,7 @@ const ctasContainer = css`
     ${from.desktop} {
         height: 100%;
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         margin-left: ${space[5]}px;
     }
 `;
