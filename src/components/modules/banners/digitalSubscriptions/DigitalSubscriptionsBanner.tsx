@@ -123,7 +123,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                         <div css={bottomRightComponent}>
                             <div css={packShot}>
                                 <img
-                                    src="https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?height=300&quality=85&s=05d6a17b2c62a0f133c91fdca2ca60cb"
+                                    src="https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720"
                                     alt=""
                                 />
                             </div>

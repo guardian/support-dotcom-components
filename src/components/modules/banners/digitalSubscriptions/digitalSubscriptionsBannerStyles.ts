@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
-import { from, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 const closeButtonWidthHeight = '35px';
@@ -100,15 +100,15 @@ export const paragraph = css`
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
-        max-width: 32rem;
+        max-width: 44rem;
     }
 
     ${from.leftCol} {
-        max-width: 30rem;
+        max-width: 39rem;
     }
 
     ${from.wide} {
-        max-width: 32rem;
+        max-width: 44rem;
     }
 `;
 
@@ -216,9 +216,10 @@ export const packShot = css`
     padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
 
     img {
-        width: 100%;
         position: absolute;
         bottom: 0;
+        max-width: 100%;
+        max-height: 95%;
     }
 
     ${from.mobileMedium} {
@@ -236,8 +237,9 @@ export const packShot = css`
         }
     }
 
-    ${from.tablet} {
+    ${between.tablet.and.leftCol} {
         img {
+            max-height: unset;
             width: 100%;
         }
     }
@@ -245,7 +247,7 @@ export const packShot = css`
     ${from.leftCol} {
         max-width: 80%;
         img {
-            width: 90%;
+            max-width: 90%;
         }
     }
 
