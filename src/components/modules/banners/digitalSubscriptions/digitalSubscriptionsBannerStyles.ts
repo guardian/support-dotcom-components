@@ -214,7 +214,7 @@ export const bottomRightComponent = css`
     }
 `;
 
-export const c = css`
+export const packShotContainer = css`
     flex: 1;
     display: flex;
     flex-direction: column;
