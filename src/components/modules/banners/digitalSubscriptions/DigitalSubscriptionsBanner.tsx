@@ -23,6 +23,7 @@ import {
     becomeASubscriberButton,
     linkStyle,
     signInLink,
+    packShotContainer,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
@@ -118,11 +119,13 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
                         <div css={bottomRightComponent}>
-                            <div css={packShot}>
-                                <img
-                                    src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
-                                    alt=""
-                                />
+                            <div css={packShotContainer}>
+                                <div css={packShot}>
+                                    <img
+                                        src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
+                                        alt=""
+                                    />
+                                </div>
                             </div>
                             <div css={iconPanel}>
                                 <button

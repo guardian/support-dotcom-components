@@ -4,7 +4,9 @@ import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
-const closeButtonWidthHeight = '35px';
+const closeButtonWidthHeight = 35;
+const packShotWidth = 500;
+const packShotHeight = 297;
 
 export const banner = css`
     html {
@@ -67,7 +69,7 @@ export const heading = css`
     ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
-    padding-right: ${closeButtonWidthHeight};
+    padding-right: ${closeButtonWidthHeight}px;
 
     @media (min-width: 740px) {
         max-width: 90%;
@@ -212,55 +214,28 @@ export const bottomRightComponent = css`
     }
 `;
 
-const packShotWidth = 500;
-const packShotHeight = 297;
-export const packShot = css`
-    max-width: 100%;
+export const packShotContainer = css`
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-top: -20px;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0 ${space[4]}px;
+    max-width: ${packShotWidth}px;
 
+    ${from.wide} {
+        margin-top: ${space[4]}px;
+    }
+`;
+
+export const packShot = css`
+    width: 100%;
     position: relative;
-    width: 90%;
     padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
 
     img {
         width: 100%;
         position: absolute;
         bottom: 0;
-    }
-
-    ${from.mobileMedium} {
-        margin-top: -10px;
-    }
-
-    ${from.phablet} {
-        max-width: 100%;
-    }
-
-    ${from.tablet} {
-        img {
-            max-width: 125%;
-        }
-    }
-
-    ${from.tablet} {
-        img {
-            width: 100%;
-        }
-    }
-
-    ${from.leftCol} {
-        max-width: 80%;
-        img {
-            width: 90%;
-        }
-    }
-
-    ${from.wide} {
-        max-width: 100%;
-        width: 75%;
     }
 `;
 
