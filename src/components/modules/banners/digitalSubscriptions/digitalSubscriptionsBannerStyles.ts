@@ -1,11 +1,13 @@
 import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
-import { between, from, until } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
-const closeButtonWidthHeight = '35px';
 const mainBannerBackground = '#005689';
+const closeButtonWidthHeight = 35;
+const packShotWidth = 500;
+const packShotHeight = 407;
 
 export const banner = css`
     html {
@@ -62,7 +64,7 @@ export const heading = css`
     ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
     max-width: 100%;
-    padding-right: ${closeButtonWidthHeight};
+    padding-right: ${closeButtonWidthHeight}px;
 
     @media (min-width: 740px) {
         max-width: 90%;
@@ -202,58 +204,34 @@ export const bottomRightComponent = css`
     }
 `;
 
-const packShotWidth = 369;
-const packShotHeight = 300;
-export const packShot = css`
-    max-width: 100%;
+export const packShotContainer = css`
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-top: -20px;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0 ${space[4]}px;
+    max-width: ${packShotWidth}px;
 
+    ${from.wide} {
+        margin-top: ${space[4]}px;
+    }
+`;
+
+export const packShot = css`
+    width: 100%;
     position: relative;
-    width: 90%;
     padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
 
     img {
         position: absolute;
         bottom: 0;
         max-width: 100%;
-        max-height: 95%;
-    }
-
-    ${from.mobileMedium} {
-        margin-top: -10px;
-    }
-
-    ${from.phablet} {
-        max-width: 100%;
-    }
-
-    ${from.tablet} {
-        padding-bottom: 0;
-        img {
-            max-width: 125%;
-        }
-    }
-
-    ${between.tablet.and.leftCol} {
-        img {
-            max-height: unset;
-            width: 100%;
-        }
+        max-height: 100%;
     }
 
     ${from.leftCol} {
-        max-width: 80%;
-        img {
-            max-width: 90%;
-        }
-    }
-
-    ${from.wide} {
-        max-width: 100%;
-        width: 75%;
+        padding-bottom: 0;
+        height: 100%;
     }
 `;
 
