@@ -28,7 +28,7 @@ const tracking: BannerTracking = {
 
 export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
-        heading: text('heading', 'Start a Digital Subscription today'),
+        heading: text('heading', 'Start a digital subscription today'),
         messageText: text(
             'messageText',
             'Enjoy our journalism <strong>without ads</strong>, as well as Premium access to <strong>our Live and Editions apps</strong>. And for a few weeks only, read <strong>Edition Earth</strong>, a digital exclusive showcase of the best Guardian journalism on climate, wildlife, air pollution, environmental justice – and solutions too.',
