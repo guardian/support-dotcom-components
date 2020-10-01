@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 import { brandAlt, neutral } from '@guardian/src-foundations/palette';
 import { body } from '@guardian/src-foundations/typography';
-import { until, from } from '@guardian/src-foundations/mq';
+import { until, from, breakpoints } from '@guardian/src-foundations/mq';
 
 export const styles = {
     // We need bannerContainer/banner/bannerFlexBox in order to track DCR's article grid.
@@ -15,31 +15,35 @@ export const styles = {
         padding: 0.5rem 0.625rem 0 0.625rem;
         margin: auto;
         box-sizing: border-box;
-
-        ${from.tablet} {
-            padding: 0.5rem 20px 1.125rem 20px;
-            max-width: 740px;
-        }
-
-        ${from.desktop} {
-            max-width: 980px;
-        }
-        ${from.leftCol} {
-            max-width: 1140px;
-        }
-    `,
-    bannerFlexBox: css`
         color: ${neutral[7]};
         width: 100%;
         display: flex;
-        justify-content: space-between;
         flex-direction: row;
-    `,
 
+        ${from.mobileLandscape} {
+            padding: 0.5rem 20px 1.125rem 20px;
+        }
+
+        ${from.tablet} {
+            max-width: ${breakpoints.tablet}px;
+        }
+
+        ${from.desktop} {
+            padding-right: 29px;
+            max-width: ${breakpoints.desktop}px;
+        }
+        ${from.leftCol} {
+            padding-right: 27px;
+            max-width: ${breakpoints.leftCol - 2}px;
+        }
+        ${from.wide} {
+            padding-right: 40px;
+            max-width: ${breakpoints.wide - 2}px;
+        }
+    `,
     copy: css`
         max-width: 40rem;
         display: block;
-        margin-right: 3rem;
         padding-bottom: 0;
         ${body.medium()};
         ${until.tablet} {
@@ -62,10 +66,13 @@ export const styles = {
         ${until.tablet} {
             margin-right: 0;
         }
+        ${from.desktop} {
+            width: 620px;
+        }
     `,
 
     heading: css`
-        ${body.medium({ fontWeight: 'bold' })};
+        font-weight: bold;
         &::selection {
             background-color: ${brandAlt[400]};
             color: ${neutral[7]};
@@ -107,6 +114,9 @@ export const styles = {
     ctaButton: css`
         margin-bottom: 0.5rem;
         margin-right: 0.5rem;
+        ${from.desktop} {
+            margin-right: 0;
+        }
     `,
 
     cta: css`
@@ -133,6 +143,13 @@ export const styles = {
         ${until.desktop} {
             padding: 0.5rem 0 0 0;
         }
+        ${from.desktop} {
+            margin-left: 10px;
+        }
+        ${from.wide} {
+            width: 264px;
+            margin-left: auto;
+        }
     `,
 
     closeButtonContainer: css`
@@ -143,9 +160,12 @@ export const styles = {
 
     leftRoundel: css`
         display: none;
-        width: 168px;
         ${from.leftCol} {
             display: block;
+            width: 161px;
+        }
+        ${from.wide} {
+            width: 240px;
         }
     `,
 
@@ -160,12 +180,14 @@ export const styles = {
     `,
 
     rightButtons: css`
+        margin-left: auto;
         display: flex;
         flex-direction: row;
         white-space: nowrap;
     `,
 
     copyAndCta: css`
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         ${from.desktop} {
