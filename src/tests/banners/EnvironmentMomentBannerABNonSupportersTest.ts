@@ -1,6 +1,6 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 
-export const environmentMomentIsLive = false;
+export const environmentMomentIsLive = true;
 
 export const EnvironmentMomentBannerPath = 'environment-moment-banner.js';
 export const EnvironmentMomentSimpleBannerPath = 'environment-moment-simple-banner.js';
