@@ -51,7 +51,7 @@ const redEarthContainer = css`
 
     @keyframes red-earth-opacity {
         0% {
-            opacity: 0.8;
+            opacity: 1;
         }
         100% {
             opacity: 0;
