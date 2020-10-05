@@ -1,5 +1,4 @@
 import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
-import { retrieveSecondBannerChannel } from '../../lib/env';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
@@ -19,7 +18,7 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
-    ...(retrieveSecondBannerChannel ? [channel2BannersAllTestsGenerator] : []),
+    channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
     digitalSubscriptionsBannerGenerator,
     guardianWeeklyBannerGenerator,
