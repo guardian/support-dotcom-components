@@ -12,6 +12,7 @@ import {
 import { EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../../../lib/variants';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
+import { addTrackingParams } from '../../../lib/tracking';
 
 const container = css`
     * {
@@ -27,6 +28,7 @@ const container = css`
 
 const textContainer = css`
     ${body.medium()};
+    font-size: 16px;
 
     p {
         margin: 0;
@@ -86,20 +88,28 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
     );
 };
 
+const DEFAULT_CTA_TEXT = 'Make a contribution';
+const DEFAULT_CTA_BASE_URL = 'https://support.theguardian.com/uk/contribute';
+
 interface LiveblogEpicCtaProps {
     text?: string;
     baseUrl?: string;
+    tracking: EpicTracking;
 }
 
 const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     text,
     baseUrl,
-}: LiveblogEpicCtaProps) => (
-    <LinkButton css={cta} priority="tertiary" href={baseUrl}>
-        {text}
-    </LinkButton>
-);
-
+    tracking,
+}: LiveblogEpicCtaProps) => {
+    // TODO: use addRegionIdAndTrackingToSupportUrl
+    const url = addTrackingParams(baseUrl || DEFAULT_CTA_BASE_URL, tracking);
+    return (
+        <LinkButton css={cta} priority="tertiary" href={url}>
+            {text || DEFAULT_CTA_TEXT}
+        </LinkButton>
+    );
+};
 interface LiveblogEpicProps {
     variant: Variant;
     tracking: EpicTracking;
@@ -111,6 +121,7 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     variant,
     countryCode,
     numArticles,
+    tracking,
 }: LiveblogEpicProps) => {
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
@@ -123,7 +134,11 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     return (
         <section css={container}>
             <LiveblogEpicBody paragraphs={cleanParagraphs} numArticles={numArticles} />
-            <LiveblogEpicCta text={variant.cta?.text} baseUrl={variant.cta?.baseUrl} />
+            <LiveblogEpicCta
+                text={variant.cta?.text}
+                baseUrl={variant.cta?.baseUrl}
+                tracking={tracking}
+            />
         </section>
     );
 };
