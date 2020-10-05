@@ -34,7 +34,9 @@ const contributeButton = css`
 
 const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
 const PLEDGE_LINK =
-    'https://www.theguardian.com/environment/ng-interactive/2020/oct/05/the-guardian-environment-pledge-2020-climate-emergency-carbon-emissions?INTCMP=enviro_moment_2020_pledgelink_banner';
+    'https://www.theguardian.com/environment/ng-interactive/2020/oct/05/the-guardian-climate-pledge-2020-environment-emergency-carbon-emissions?INTCMP=enviro_moment_2020_pledgelink_banner';
+const LENORE_LINK =
+    'https://www.theguardian.com/environment/2020/oct/05/our-world-is-facing-irreversible-destruction-and-still-theres-no-urgency-in-australian-climate-policy?INTCMP=enviro_moment_2020_banner_lenore';
 
 interface EnvironmentMomentSimpleBannerCtasProps {
     isSupporter: boolean;
@@ -63,7 +65,11 @@ const EnvironmentMomentSimpleBannerCtas: React.FC<EnvironmentMomentSimpleBannerC
             <div>
                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                     {countryCode === 'AU' ? (
-                        <LinkButton onClick={onHearFromOurEditorClick} size="small">
+                        <LinkButton
+                            onClick={onHearFromOurEditorClick}
+                            size="small"
+                            href={LENORE_LINK}
+                        >
                             Hear from our editor
                         </LinkButton>
                     ) : (
