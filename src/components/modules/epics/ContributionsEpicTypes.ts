@@ -65,3 +65,5 @@ export type EpicPayload = {
     tracking: EpicPageTracking;
     targeting: EpicTargeting;
 };
+
+export type EpicType = 'ARTICLE' | 'LIVEBLOG';

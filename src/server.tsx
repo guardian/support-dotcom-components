@@ -6,6 +6,7 @@ import {
     EpicPageTracking,
     EpicTargeting,
     EpicTestTracking,
+    EpicType,
 } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
@@ -80,20 +81,20 @@ interface BannerDataResponse {
     debug?: Debug;
 }
 
-const [, fetchConfiguredEpicTestsCached] = cacheAsync(
-    fetchConfiguredEpicTests,
-    60,
-    'fetchConfiguredEpicTests',
-);
-
 const buildEpicData = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
+    type: EpicType,
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
+    const [, fetchConfiguredEpicTestsCached] = cacheAsync(
+        () => fetchConfiguredEpicTests(type),
+        60,
+        `fetchConfiguredEpicTests_${type}`,
+    );
     const configuredTests = await fetchConfiguredEpicTestsCached();
-    const hardcodedTests = await getAllHardcodedTests();
+    const hardcodedTests = type === 'ARTICLE' ? await getAllHardcodedTests() : [];
     const tests = [...configuredTests.tests, ...hardcodedTests];
 
     let result: Result;
@@ -137,9 +138,7 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl = variantWithTickerData.modulePath
-        ? `${baseUrl}/${variantWithTickerData.modulePath}`
-        : `${baseUrl}/epic.js`;
+    const moduleUrl = `${baseUrl}/${type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js'}`;
 
     return {
         data: {
@@ -242,9 +241,48 @@ app.post(
                 validateEpicPayload(req.body);
             }
 
+            const epicType: EpicType = 'ARTICLE';
+
             const { tracking, targeting } = req.body;
             const params = getQueryParams(req);
-            const response = await buildEpicData(tracking, targeting, params, baseUrl(req));
+            const response = await buildEpicData(
+                tracking,
+                targeting,
+                epicType,
+                params,
+                baseUrl(req),
+            );
+
+            // for response logging
+            res.locals.didRenderEpic = !!response.data;
+            res.locals.clientName = tracking.clientName;
+
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.post(
+    '/liveblog-epic',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            if (!isProd) {
+                validateEpicPayload(req.body);
+            }
+
+            const epicType: EpicType = 'LIVEBLOG';
+
+            const { tracking, targeting } = req.body;
+            const params = getQueryParams(req);
+            const response = await buildEpicData(
+                tracking,
+                targeting,
+                epicType,
+                params,
+                baseUrl(req),
+            );
 
             // for response logging
             res.locals.didRenderEpic = !!response.data;
@@ -356,7 +394,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         referrerUrl: 'https://theguardian.com',
     };
 
-    const got = await buildEpicData(fakeTracking, targeting, {}, baseUrl(req));
+    const got = await buildEpicData(fakeTracking, targeting, 'ARTICLE', {}, baseUrl(req));
 
     const notBothFalsy = expectedTest || got;
     const gotTestName = got.data?.meta?.abTestName;
