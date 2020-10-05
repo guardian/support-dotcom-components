@@ -1,8 +1,13 @@
 import { selectBannerTest } from './bannerSelection';
-import { getTests } from './bannerTests';
+// import { getTests } from './bannerTests';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { ContributionsBannerPath, DigitalSubscriptionsBannerPath } from './ChannelBannerTests';
+import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
+import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
+
+const getTests = (): Promise<BannerTest[]> =>
+    Promise.resolve([DigitalSubscriptionsBanner, GuardianWeeklyBanner]);
 
 const getBannerDeployCache = (date: string, region: ReaderRevenueRegion): BannerDeployCaches =>
     ({
