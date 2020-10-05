@@ -4,7 +4,7 @@ interface Cache {
 }
 const cache: Cache = {};
 
-const retryIntervalMs = 5000;
+const retryIntervalMs = 20 * 1000;
 
 /**
  * A cache that refreshes after ttlSec seconds.
@@ -28,24 +28,28 @@ export const cacheAsync = <T>(
             return Promise.resolve(cache[key] as T);
         } else {
             // First read attempt on this key. Fetch an initial value and setup the refresh scheduler
-            const result: T = await fn();
-            cache[key] = result;
+            try {
+                const result: T = await fn();
+                cache[key] = result;
+                return Promise.resolve(result);
+            } catch(err) {
+                console.log(`Failed to make initial request for ${key}: ${err}`);
+                return Promise.reject(new Error(`Failed to make initial request for ${key}: ${err}`));
+            } finally {
+                const scheduleRefresh = (ms: number): void => {
+                    setTimeout(async () => {
+                        try {
+                            cache[key] = await fn();
+                            scheduleRefresh(ms);
+                        } catch (err) {
+                            console.log(`Error refreshing cached value for key ${key}: ${err}`);
+                            scheduleRefresh(retryIntervalMs);
+                        }
+                    }, ms);
+                };
 
-            const scheduleRefresh = (ms: number): void => {
-                setTimeout(async () => {
-                    try {
-                        cache[key] = await fn();
-                        scheduleRefresh(ms);
-                    } catch (err) {
-                        console.log(`Error refreshing cached value for key ${key}: ${err}`);
-                        scheduleRefresh(retryIntervalMs);
-                    }
-                }, ms);
-            };
-
-            scheduleRefresh(ttlSec * 1000);
-
-            return Promise.resolve(result);
+                scheduleRefresh(ttlSec * 1000);
+            }
         }
     };
 
