@@ -32,9 +32,11 @@ export const cacheAsync = <T>(
                 const result: T = await fn();
                 cache[key] = result;
                 return Promise.resolve(result);
-            } catch(err) {
+            } catch (err) {
                 console.log(`Failed to make initial request for ${key}: ${err}`);
-                return Promise.reject(new Error(`Failed to make initial request for ${key}: ${err}`));
+                return Promise.reject(
+                    new Error(`Failed to make initial request for ${key}: ${err}`),
+                );
             } finally {
                 const scheduleRefresh = (ms: number): void => {
                     setTimeout(async () => {
