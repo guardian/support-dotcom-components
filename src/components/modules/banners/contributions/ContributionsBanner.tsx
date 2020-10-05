@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
+import {
+    addRegionIdAndTrackingParamsToSupportUrl,
+    createClickEventFromTracking,
+} from '../../../../lib/tracking';
 import { setChannelClosedTimestamp } from '../localStorage';
 import React, { useState } from 'react';
 import { BannerProps } from '../../../../types/BannerTypes';
@@ -119,9 +122,10 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                                     onClick={onContributeClick}
                                                     hideLabel={false}
                                                     aria-label="Contribute"
-                                                    href={addTrackingParams(
+                                                    href={addRegionIdAndTrackingParamsToSupportUrl(
                                                         content.cta.baseUrl,
                                                         props.tracking,
+                                                        props.countryCode,
                                                     )}
                                                 >
                                                     {content.cta.text}

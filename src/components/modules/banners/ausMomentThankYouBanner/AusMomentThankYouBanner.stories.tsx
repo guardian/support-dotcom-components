@@ -49,6 +49,7 @@ export const defaultStory = (): ReactElement => {
                 isSupporter={isSupporter}
                 tickerSettings={tickerSettings}
                 tracking={tracking}
+                countryCode="AU"
             />
         </StorybookWrapper>
     );

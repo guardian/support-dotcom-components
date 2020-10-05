@@ -22,7 +22,10 @@ import {
 } from './guardianWeeklyBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
-import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
+import {
+    addRegionIdAndTrackingParamsToSupportUrl,
+    createClickEventFromTracking,
+} from '../../../../lib/tracking';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/weekly';
 const signInUrl =
@@ -38,12 +41,17 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     content,
     tracking,
     submitComponentEvent,
+    countryCode,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
-        const subscriptionUrlWithTracking = addTrackingParams(subscriptionUrl, tracking);
+        const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
+            subscriptionUrl,
+            tracking,
+            countryCode,
+        );
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);

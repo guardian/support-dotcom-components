@@ -12,7 +12,7 @@ import {
 } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { addTrackingParams } from '../../../../lib/tracking';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../lib/tracking';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 
 const banner = css`
@@ -739,6 +739,7 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
     tracking,
     isSupporter,
     tickerSettings,
+    countryCode,
 }: BannerProps) => {
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
@@ -907,9 +908,10 @@ export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
                                 <div css={nonSupporterCtaContainer}>
                                     <a
                                         css={supportTheGuardianLink}
-                                        href={addTrackingParams(
+                                        href={addRegionIdAndTrackingParamsToSupportUrl(
                                             'https://support.theguardian.com/contribute',
                                             tracking,
+                                            countryCode,
                                         )}
                                     >
                                         Support the Guardian
