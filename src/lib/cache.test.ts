@@ -45,7 +45,7 @@ describe('cache', () => {
     });
 
     it('retries if initial request fails', async () => {
-        // Use counter to ensure it fails on the 2nd invocation only
+        // Use counter to ensure it fails on the 1st invocation only
         let counter = 0;
         const err = new Error('ERROR');
         const fn = jest.fn().mockImplementation(() => {
