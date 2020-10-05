@@ -44,6 +44,34 @@ describe('cache', () => {
         reset();
     });
 
+    it('retries if initial request fails', async () => {
+        // Use counter to ensure it fails on the 1st invocation only
+        let counter = 0;
+        const err = new Error('ERROR');
+        const fn = jest.fn().mockImplementation(() => {
+            counter++;
+            if (counter === 1) {
+                return Promise.reject(err);
+            } else {
+                return Promise.resolve(true);
+            }
+        });
+
+        const [reset, fetchData] = cacheAsync(fn, 60, 'test4');
+
+        await expect(fetchData()).rejects;
+
+        expect(fn).toHaveBeenCalledTimes(1);
+
+        jest.runOnlyPendingTimers(); // fast-forward to retry
+
+        expect(fn).toHaveBeenCalledTimes(2);
+
+        await expect(fetchData()).resolves.toEqual(true);
+
+        reset();
+    });
+
     it('retries if a refresh fails', async () => {
         // Use counter to ensure it fails on the 2nd invocation only
         let counter = 0;
@@ -55,7 +83,7 @@ describe('cache', () => {
                 return Promise.resolve(true);
             }
         });
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test4');
+        const [reset, fetchData] = cacheAsync(fn, 60, 'test5');
 
         await fetchData();
 
