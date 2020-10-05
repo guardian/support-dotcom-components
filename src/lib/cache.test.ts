@@ -49,7 +49,6 @@ describe('cache', () => {
         let counter = 0;
         const err = new Error('ERROR');
         const fn = jest.fn().mockImplementation(() => {
-            console.log("RUN",counter)
             counter++;
             if (counter === 1) {
                 return Promise.reject(err);
