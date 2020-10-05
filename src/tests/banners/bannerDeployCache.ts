@@ -31,34 +31,42 @@ export interface BannerDeployCaches {
         [key in ReaderRevenueRegion]: () => Promise<Date>;
     };
 }
+const ContributionsDeployDate = new Date(Date.parse('2020-10-05 09:00:00'));
 export const bannerDeployCaches: BannerDeployCaches = {
     contributions: {
-        'united-kingdom': cacheAsync(
-            fetchBannerDeployTime('united-kingdom', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_united-kingdom',
-        )[1],
-        'united-states': cacheAsync(
-            fetchBannerDeployTime('united-states', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_united-states',
-        )[1],
-        australia: cacheAsync(
-            fetchBannerDeployTime('australia', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_australia',
-        )[1],
-        'rest-of-world': cacheAsync(
-            fetchBannerDeployTime('rest-of-world', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_rest-of-world',
-        )[1],
+        'united-kingdom': () => Promise.resolve(ContributionsDeployDate),
+        'united-states': () => Promise.resolve(ContributionsDeployDate),
+        australia: () => Promise.resolve(ContributionsDeployDate),
+        'rest-of-world': () => Promise.resolve(ContributionsDeployDate),
         // Contributions doesn't separate europe from row
-        'european-union': cacheAsync(
-            fetchBannerDeployTime('rest-of-world', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_rest-of-world',
-        )[1],
+        'european-union': () => Promise.resolve(ContributionsDeployDate),
+        // TODO - fix timestamp fetching
+        // 'united-kingdom': cacheAsync(
+        //     fetchBannerDeployTime('united-kingdom', 'contributions'),
+        //     fiveMinutes,
+        //     'fetchEngagementBannerDeployTime_united-kingdom',
+        // )[1],
+        // 'united-states': cacheAsync(
+        //     fetchBannerDeployTime('united-states', 'contributions'),
+        //     fiveMinutes,
+        //     'fetchEngagementBannerDeployTime_united-states',
+        // )[1],
+        // australia: cacheAsync(
+        //     fetchBannerDeployTime('australia', 'contributions'),
+        //     fiveMinutes,
+        //     'fetchEngagementBannerDeployTime_australia',
+        // )[1],
+        // 'rest-of-world': cacheAsync(
+        //     fetchBannerDeployTime('rest-of-world', 'contributions'),
+        //     fiveMinutes,
+        //     'fetchEngagementBannerDeployTime_rest-of-world',
+        // )[1],
+        // // Contributions doesn't separate europe from row
+        // 'european-union': cacheAsync(
+        //     fetchBannerDeployTime('rest-of-world', 'contributions'),
+        //     fiveMinutes,
+        //     'fetchEngagementBannerDeployTime_rest-of-world',
+        // )[1],
     },
     subscriptions: {
         'united-kingdom': cacheAsync(
