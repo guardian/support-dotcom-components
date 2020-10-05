@@ -68,6 +68,8 @@ describe('cache', () => {
         expect(fn).toHaveBeenCalledTimes(2);
 
         await expect(fetchData()).resolves.toEqual(true);
+
+        reset();
     });
 
     it('retries if a refresh fails', async () => {
