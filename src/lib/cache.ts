@@ -59,5 +59,8 @@ export const cacheAsync = <T>(
         cache[key] = undefined;
     };
 
+    // Warm the cache now
+    getValue();
+
     return [reset, getValue];
 };
