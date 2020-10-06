@@ -38,8 +38,9 @@ export const addTrackingParams = (
     };
 
     const queryString = Object.entries(trackingLinkParams).map(([key, value]) => `${key}=${value}`);
+    const alreadyHasQueryString = baseUrl.includes('?');
 
-    return `${baseUrl}?${queryString.join('&')}`;
+    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
 };
 
 export const addRegionIdAndTrackingParamsToSupportUrl = (
@@ -47,7 +48,11 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     tracking: EpicTracking | BannerTracking,
     countryCode?: string,
 ): string => {
-    return addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking);
+    const isSupportUrl = baseUrl.search(/(support.theguardian.com)\/(contribute|subscribe)/) >= 0;
+
+    return isSupportUrl
+        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking)
+        : baseUrl;
 };
 
 const campaignPrefix = 'gdnwb_copts_memco';
