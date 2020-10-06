@@ -1,6 +1,7 @@
-import { cacheAsync } from '../../lib/cache';
-import { BannerChannel } from '../../types/BannerTypes';
-import fetch from 'node-fetch';
+// TODO: these are now unused until we start fetching the deploy time from S3 again
+// import { cacheAsync } from '../../lib/cache';
+// import { BannerChannel } from '../../types/BannerTypes';
+// import fetch from 'node-fetch';
 
 export type ReaderRevenueRegion =
     | 'united-kingdom'
@@ -9,20 +10,22 @@ export type ReaderRevenueRegion =
     | 'rest-of-world'
     | 'european-union';
 
-const fetchBannerDeployTime = (
-    region: ReaderRevenueRegion,
-    bannerChannel: BannerChannel,
-) => (): Promise<Date> => {
-    return fetch(
-        `https://www.theguardian.com/reader-revenue/${bannerChannel}-banner-deploy-log/${region}`,
-    )
-        .then(response => response.json())
-        .then(data => {
-            return new Date(data.time);
-        });
-};
+// TODO: these are now unused until we start fetching the deploy time from S3 again
+// const fetchBannerDeployTime = (
+//     region: ReaderRevenueRegion,
+//     bannerChannel: BannerChannel,
+// ) => (): Promise<Date> => {
+//     return fetch(
+//         `https://www.theguardian.com/reader-revenue/${bannerChannel}-banner-deploy-log/${region}`,
+//     )
+//         .then(response => response.json())
+//         .then(data => {
+//             return new Date(data.time);
+//         });
+// };
+//
+// const fiveMinutes = 60 * 5;
 
-const fiveMinutes = 60 * 5;
 export interface BannerDeployCaches {
     contributions: {
         [key in ReaderRevenueRegion]: () => Promise<Date>;
