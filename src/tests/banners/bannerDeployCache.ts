@@ -18,7 +18,10 @@ const fetchBannerDeployTime = (
     )
         .then(response => response.json())
         .then(data => {
-            console.log(`Fetched banner deploy timestamp for ${bannerChannel}/${region}:`, data.time);
+            console.log(
+                `Fetched banner deploy timestamp for ${bannerChannel}/${region}:`,
+                data.time,
+            );
             return new Date(data.time);
         });
 };
