@@ -42,6 +42,6 @@ const getTests = (): Promise<BannerTest[]> =>
         testGenerators.map(testGenerator => testGenerator()),
     ).then((bannerTests: BannerTest[][]) => flattenArray(bannerTests));
 
-const [, getCachedTests] = cacheAsync<BannerTest[]>(getTests, 60, 'bannerTests', true);
+const [, getCachedTests] = cacheAsync<BannerTest[]>(getTests, 60, 'bannerTests');
 
 export { getTests, getCachedTests };
