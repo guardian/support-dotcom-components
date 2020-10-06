@@ -15,7 +15,7 @@ const fetchBannerDeployTime = (
 ) => (): Promise<Date> => {
     const channel = bannerChannel === 'contributions' ? 'channel1' : 'channel2';
     return fetch(
-        `https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner-deploy/${channel}/${region}.json`
+        `https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner-deploy/${channel}/${region}.json`,
     )
         .then(response => response.json())
         .then(data => {
