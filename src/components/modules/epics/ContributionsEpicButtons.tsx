@@ -67,12 +67,7 @@ const SecondaryCtaButton = ({
     tracking: EpicTracking;
     countryCode?: string;
 }): JSX.Element | null => {
-    const isSupportUrl =
-        cta.baseUrl.search(/(support.theguardian.com)\/(contribute|subscribe)/) >= 0;
-
-    const url = isSupportUrl
-        ? addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode)
-        : cta.baseUrl;
+    const url = addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode);
 
     return (
         <div css={buttonMargins}>
