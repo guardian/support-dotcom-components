@@ -4,8 +4,7 @@ import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { Cta, Variant } from '../../../lib/variants';
-import { addTrackingParams } from '../../../lib/tracking';
-import { addRegionIdToSupportUrl } from '../../../lib/geolocation';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -29,15 +28,6 @@ const buttonMargins = css`
     margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
 `;
 
-const augmentSupportUrl = (
-    baseUrl: string,
-    tracking: EpicTracking,
-    countryCode?: string,
-): string => {
-    const urlWithRegion = addRegionIdToSupportUrl(baseUrl, countryCode);
-    return addTrackingParams(urlWithRegion, tracking);
-};
-
 const PrimaryCtaButton = ({
     cta,
     tracking,
@@ -53,7 +43,11 @@ const PrimaryCtaButton = ({
 
     const buttonText = cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
-    const urlWithRegionAndTracking = augmentSupportUrl(baseUrl, tracking, countryCode);
+    const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
+        baseUrl,
+        tracking,
+        countryCode,
+    );
 
     return (
         <div css={buttonMargins}>
@@ -73,10 +67,7 @@ const SecondaryCtaButton = ({
     tracking: EpicTracking;
     countryCode?: string;
 }): JSX.Element | null => {
-    const isSupportUrl =
-        cta.baseUrl.search(/(support.theguardian.com)\/(contribute|subscribe)/) >= 0;
-
-    const url = isSupportUrl ? augmentSupportUrl(cta.baseUrl, tracking, countryCode) : cta.baseUrl;
+    const url = addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode);
 
     return (
         <div css={buttonMargins}>

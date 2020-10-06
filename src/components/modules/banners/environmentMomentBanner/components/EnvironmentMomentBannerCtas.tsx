@@ -6,7 +6,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import styles from '../helpers/styles';
 import { BannerTracking } from '../../../../../types/BannerTypes';
-import { addTrackingParams } from '../../../../../lib/tracking';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../../lib/tracking';
 
 const container = css`
     display: flex;
@@ -63,7 +63,11 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
         </ThemeProvider>
     );
 
-    let landingPageUrl = addTrackingParams(BASE_LANDING_PAGE_URL, tracking);
+    let landingPageUrl = addRegionIdAndTrackingParamsToSupportUrl(
+        BASE_LANDING_PAGE_URL,
+        tracking,
+        countryCode,
+    );
     if (isSupporter) {
         landingPageUrl += '&selected-contribution-type=ONE_OFF';
     }
