@@ -4,9 +4,10 @@ import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
+const mainBannerBackground = '#005689';
 const closeButtonWidthHeight = 35;
 const packShotWidth = 500;
-const packShotHeight = 297;
+const packShotHeight = 407;
 
 export const banner = css`
     html {
@@ -21,7 +22,7 @@ export const banner = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #006d67;
+    background-color: ${mainBannerBackground};
     color: ${neutral[100]};
 `;
 
@@ -45,23 +46,17 @@ export const contentContainer = css`
 `;
 
 export const topLeftComponent = css`
-    width: 100%;
+    flex-grow: 1;
     padding: ${space[4]}px;
     button {
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        width: 60%;
+        max-width: 60%;
         padding-right: 0;
-    }
-    ${from.desktop} {
-        width: 50%;
     }
     ${from.leftCol} {
         padding-left: 0;
-    }
-    ${from.wide} {
-        width: 53%;
     }
 `;
 
@@ -107,15 +102,15 @@ export const paragraph = css`
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
-        max-width: 37rem;
+        max-width: 44rem;
     }
 
     ${from.leftCol} {
-        max-width: 30rem;
+        max-width: 39rem;
     }
 
     ${from.wide} {
-        max-width: 37rem;
+        max-width: 44rem;
     }
 `;
 
@@ -188,18 +183,17 @@ export const siteMessage = css`
 export const bottomRightComponent = css`
     display: flex;
     justify-content: center;
-    width: 100%;
+    flex-grow: 2;
 
     ${from.tablet} {
         align-self: flex-end;
-        max-width: 45%;
+        min-width: 45%;
         margin-top: -220px;
         padding-right: ${space[4]}px;
     }
 
     ${from.desktop} {
         height: 100%;
-        max-width: 50%;
         justify-content: flex-end;
         margin-top: 0;
     }
@@ -207,10 +201,6 @@ export const bottomRightComponent = css`
     ${from.leftCol} {
         padding-right: 0;
         justify-content: space-between;
-    }
-
-    ${from.wide} {
-        max-width: 47%;
     }
 `;
 
@@ -233,9 +223,15 @@ export const packShot = css`
     padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
 
     img {
-        width: 100%;
         position: absolute;
         bottom: 0;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    ${from.leftCol} {
+        padding-bottom: 0;
+        height: 100%;
     }
 `;
 

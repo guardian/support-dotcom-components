@@ -42,8 +42,8 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             showSupportMessaging: true,
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
-            // Should not show banner in Fiji
-            countryCode: 'FJ',
+            // Should not show banner in Australia
+            countryCode: 'AU',
             switches: {
                 remoteSubscriptionsBanner: true,
             },

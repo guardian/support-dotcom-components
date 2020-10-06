@@ -12,7 +12,7 @@ export const GuardianWeeklyBanner: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
         if (targeting.switches.remoteSubscriptionsBanner) {
             const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-            return region === 'australia' || region === 'rest-of-world';
+            return region === 'australia';
         }
         return false;
     },

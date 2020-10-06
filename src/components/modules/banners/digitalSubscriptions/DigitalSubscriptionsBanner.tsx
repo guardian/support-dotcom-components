@@ -91,7 +91,10 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
                             <h3 css={heading}>{content?.heading}</h3>
-                            <p css={paragraph}>{content?.messageText}</p>
+                            <p
+                                css={paragraph}
+                                dangerouslySetInnerHTML={{ __html: content?.messageText ?? '' }}
+                            ></p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
                                     <span css={buttonTextDesktop}>Become a digital subscriber</span>
@@ -122,7 +125,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             <div css={packShotContainer}>
                                 <div css={packShot}>
                                     <img
-                                        src="https://i.guim.co.uk/img/media/773ead1bd414781052c0983858e6859993870dd3/34_72_1825_1084/1825.png?width=500&quality=85&s=24cb49b459c52c9d25868ca20979defb"
+                                        src="https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720"
                                         alt=""
                                     />
                                 </div>

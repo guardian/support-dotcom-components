@@ -12,7 +12,7 @@ export const DigitalSubscriptionsBanner: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
         if (targeting.switches.remoteSubscriptionsBanner) {
             const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-            return !(region === 'australia' || region === 'rest-of-world');
+            return region !== 'australia';
         }
         return false;
     },
@@ -23,9 +23,9 @@ export const DigitalSubscriptionsBanner: BannerTest = {
             modulePath: DigitalSubscriptionsBannerPath,
             moduleName: name,
             bannerContent: {
+                heading: 'Start a digital subscription today',
                 messageText:
-                    'Support the Guardian with a Digital Subscription, enjoy our reporting without ads and get premium access to our Live app and The Daily',
-                heading: 'Enjoy ad-free reading and the best of our apps',
+                    'Enjoy our journalism <strong>without ads</strong>, as well as Premium access to <strong>our Live and Editions apps</strong>. And for a few weeks only, read <strong>Edition Earth</strong>, a digital exclusive showcase of the best Guardian journalism on climate, wildlife, air pollution, environmental justice – and solutions too.',
             },
             componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
             products: ['DIGITAL_SUBSCRIPTION'],

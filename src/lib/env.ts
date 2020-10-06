@@ -1,7 +1,5 @@
 import express from 'express';
 
-export const retrieveSecondBannerChannel = process.env.stage === 'CODE';
-
 export const isProd = process.env.stage === 'PROD';
 
 export const isDev = process.env.NODE_ENV === 'development';
