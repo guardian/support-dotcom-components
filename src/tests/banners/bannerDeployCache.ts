@@ -31,7 +31,7 @@ export interface BannerDeployCaches {
         [key in ReaderRevenueRegion]: () => Promise<Date>;
     };
 }
-const ContributionsDeployDate = new Date(Date.parse('2020-10-05 09:00:00'));
+const ContributionsDeployDate = new Date(Date.parse('2020-10-06 06:00:00'));
 export const bannerDeployCaches: BannerDeployCaches = {
     contributions: {
         'united-kingdom': () => Promise.resolve(ContributionsDeployDate),
