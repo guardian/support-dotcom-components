@@ -17,11 +17,13 @@ const retryIntervalMs = 20 * 1000;
  * @param fn        the async function for generating the data to be cached
  * @param ttlSec    time to live in seconds
  * @param key       unique cache key
+ * @param warm      if true then immediately run fn
  */
 export const cacheAsync = <T>(
     fn: () => Promise<T>,
     ttlSec: number,
     key: string,
+    warm: boolean = false,
 ): [() => void, () => Promise<T>] => {
     const getValue = async (): Promise<T> => {
         if (cache[key] !== undefined) {
@@ -59,8 +61,10 @@ export const cacheAsync = <T>(
         cache[key] = undefined;
     };
 
-    // Warm the cache now
-    getValue();
+    if (warm) {
+        // Warm the cache now
+        getValue();
+    }
 
     return [reset, getValue];
 };
