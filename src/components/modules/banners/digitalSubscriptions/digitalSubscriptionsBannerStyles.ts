@@ -218,14 +218,17 @@ export const packShotContainer = css`
     }
 `;
 
+const imageWidthPercentage = 100;
+const mobileImageWidthPercentage = 80;
+
 export const packShot = css`
-    width: 100%;
+    width: ${imageWidthPercentage}%;
     position: relative;
-    padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
+    padding-bottom: ${(packShotHeight / packShotWidth) * imageWidthPercentage}%;
 
     ${until.tablet} {
-        padding-bottom: ${(packShotHeight / packShotWidth) * 90}%;
-        width: 90%;
+        padding-bottom: ${(packShotHeight / packShotWidth) * mobileImageWidthPercentage}%;
+        width: ${mobileImageWidthPercentage}%;
         margin: 0 auto;
     }
 
