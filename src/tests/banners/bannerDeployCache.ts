@@ -37,11 +37,7 @@ export const bannerDeployCaches: BannerDeployCaches = {
     contributions: {
         'united-kingdom': () => Promise.resolve(ContributionsDeployDate),
         'united-states': () => Promise.resolve(ContributionsDeployDate),
-        australia: cacheAsync(
-            fetchBannerDeployTime('australia', 'contributions'),
-            fiveMinutes,
-            'fetchEngagementBannerDeployTime_australia',
-        )[1],
+        australia: () => Promise.resolve(ContributionsDeployDate),
         'rest-of-world': () => Promise.resolve(ContributionsDeployDate),
         // Contributions doesn't separate europe from row
         'european-union': () => Promise.resolve(ContributionsDeployDate),
@@ -76,7 +72,11 @@ export const bannerDeployCaches: BannerDeployCaches = {
     subscriptions: {
         'united-kingdom': () => Promise.resolve(SubscriptionsDeployDate),
         'united-states': () => Promise.resolve(SubscriptionsDeployDate),
-        australia: () => Promise.resolve(SubscriptionsDeployDate),
+        australia: cacheAsync(
+            fetchBannerDeployTime('australia', 'subscriptions'),
+            fiveMinutes,
+            'fetchSubscriptionsBannerDeployTime_australia',
+        )[1],
         'rest-of-world': () => Promise.resolve(SubscriptionsDeployDate),
         // Subscriptions separates europe from row
         'european-union': () => Promise.resolve(SubscriptionsDeployDate),
