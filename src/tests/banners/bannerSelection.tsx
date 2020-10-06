@@ -55,7 +55,6 @@ export const redeployedSinceLastClosed = (
     } else if (bannerChannel === 'contributions') {
         const getCached = bannerDeployCaches.contributions[region];
         return getCached().then(deployDate => {
-            // console.log(`comparing`, new Date(engagementBannerLastClosedAt), deployDate)
             return (
                 !engagementBannerLastClosedAt || deployDate > new Date(engagementBannerLastClosedAt)
             );

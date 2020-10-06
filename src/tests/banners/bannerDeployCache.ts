@@ -18,12 +18,12 @@ const fetchBannerDeployTime = (
     )
         .then(response => response.json())
         .then(data => {
-            console.log(`fetched ${bannerChannel}/${region} time`, data.time)
+            console.log(`Fetched banner deploy timestamp for ${bannerChannel}/${region}:`, data.time);
             return new Date(data.time);
         });
 };
 
-const fiveMinutes = 60 * 1;
+const fiveMinutes = 60 * 5;
 export interface BannerDeployCaches {
     contributions: {
         [key in ReaderRevenueRegion]: () => Promise<Date>;
@@ -32,15 +32,9 @@ export interface BannerDeployCaches {
         [key in ReaderRevenueRegion]: () => Promise<Date>;
     };
 }
-// const ContributionsDeployDate = new Date(Date.parse('2020-10-05 09:00:00'));
+
 export const bannerDeployCaches: BannerDeployCaches = {
     contributions: {
-        // 'united-kingdom': () => Promise.resolve(ContributionsDeployDate),
-        // 'united-states': () => Promise.resolve(ContributionsDeployDate),
-        // australia: () => Promise.resolve(ContributionsDeployDate),
-        // 'rest-of-world': () => Promise.resolve(ContributionsDeployDate),
-        // // Contributions doesn't separate europe from row
-        // 'european-union': () => Promise.resolve(ContributionsDeployDate),
         'united-kingdom': cacheAsync(
             fetchBannerDeployTime('united-kingdom', 'contributions'),
             fiveMinutes,
