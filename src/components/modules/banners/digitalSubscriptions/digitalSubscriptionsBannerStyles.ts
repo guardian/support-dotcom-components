@@ -86,12 +86,13 @@ export const headLineBreak = css`
 `;
 
 export const paragraph = css`
-    ${body.medium()}
+    ${body.small()}
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
 
-    ${from.phablet} {
+    ${from.tablet} {
+        ${body.medium()}
         max-width: 80%;
     }
 
@@ -221,6 +222,12 @@ export const packShot = css`
     width: 100%;
     position: relative;
     padding-bottom: ${(packShotHeight / packShotWidth) * 100}%;
+
+    ${until.tablet} {
+        padding-bottom: ${(packShotHeight / packShotWidth) * 90}%;
+        width: 90%;
+        margin: 0 auto;
+    }
 
     img {
         position: absolute;
