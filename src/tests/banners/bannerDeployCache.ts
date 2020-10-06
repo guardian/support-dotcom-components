@@ -32,6 +32,7 @@ export interface BannerDeployCaches {
     };
 }
 const ContributionsDeployDate = new Date(Date.parse('2020-10-06 06:00:00'));
+const SubscriptionsDeployDate = new Date(Date.parse('2020-10-06 06:00:00'));
 export const bannerDeployCaches: BannerDeployCaches = {
     contributions: {
         'united-kingdom': () => Promise.resolve(ContributionsDeployDate),
@@ -69,31 +70,38 @@ export const bannerDeployCaches: BannerDeployCaches = {
         // )[1],
     },
     subscriptions: {
-        'united-kingdom': cacheAsync(
-            fetchBannerDeployTime('united-kingdom', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_united-kingdom',
-        )[1],
-        'united-states': cacheAsync(
-            fetchBannerDeployTime('united-states', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_united-states',
-        )[1],
-        australia: cacheAsync(
-            fetchBannerDeployTime('australia', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_australia',
-        )[1],
-        'rest-of-world': cacheAsync(
-            fetchBannerDeployTime('rest-of-world', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_rest-of-world',
-        )[1],
+        'united-kingdom': () => Promise.resolve(SubscriptionsDeployDate),
+        'united-states': () => Promise.resolve(SubscriptionsDeployDate),
+        australia: () => Promise.resolve(SubscriptionsDeployDate),
+        'rest-of-world': () => Promise.resolve(SubscriptionsDeployDate),
         // Subscriptions separates europe from row
-        'european-union': cacheAsync(
-            fetchBannerDeployTime('european-union', 'subscriptions'),
-            fiveMinutes,
-            'fetchSubscriptionsBannerDeployTime_european-union',
-        )[1],
+        'european-union': () => Promise.resolve(SubscriptionsDeployDate),
+        // TODO - fix timestamp fetching
+        // 'united-kingdom': cacheAsync(
+        //     fetchBannerDeployTime('united-kingdom', 'subscriptions'),
+        //     fiveMinutes,
+        //     'fetchSubscriptionsBannerDeployTime_united-kingdom',
+        // )[1],
+        // 'united-states': cacheAsync(
+        //     fetchBannerDeployTime('united-states', 'subscriptions'),
+        //     fiveMinutes,
+        //     'fetchSubscriptionsBannerDeployTime_united-states',
+        // )[1],
+        // australia: cacheAsync(
+        //     fetchBannerDeployTime('australia', 'subscriptions'),
+        //     fiveMinutes,
+        //     'fetchSubscriptionsBannerDeployTime_australia',
+        // )[1],
+        // 'rest-of-world': cacheAsync(
+        //     fetchBannerDeployTime('rest-of-world', 'subscriptions'),
+        //     fiveMinutes,
+        //     'fetchSubscriptionsBannerDeployTime_rest-of-world',
+        // )[1],
+        // // Subscriptions separates europe from row
+        // 'european-union': cacheAsync(
+        //     fetchBannerDeployTime('european-union', 'subscriptions'),
+        //     fiveMinutes,
+        //     'fetchSubscriptionsBannerDeployTime_european-union',
+        // )[1],
     },
 };
