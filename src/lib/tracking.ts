@@ -48,7 +48,7 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     tracking: EpicTracking | BannerTracking,
     countryCode?: string,
 ): string => {
-    const isSupportUrl = baseUrl.search(/(support.theguardian.com)\/(contribute|subscribe)/) >= 0;
+    const isSupportUrl = /\bsupport\./.test(baseUrl);
 
     return isSupportUrl
         ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking)
