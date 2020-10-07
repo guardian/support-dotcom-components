@@ -6,8 +6,8 @@ import { space } from '@guardian/src-foundations';
 
 const mainBannerBackground = '#005689';
 const closeButtonWidthHeight = 35;
-const packShotWidth = 500;
-const packShotHeight = 300;
+const packShotWidth = 400;
+const packShotHeight = 240;
 
 export const banner = css`
     html {

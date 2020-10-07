@@ -45,12 +45,14 @@ const mobileImg = {
     imgId: '3e6ecc7e48f11c5476fc2d7fad4b3af2aaff4263/4001_0_1986_1193',
     signature: 'dd8a60d6bd0bf82ff17807736f016b56',
     size: 400,
+    media: '(max-width: 739px)',
 };
 
 const baseImg = {
     imgId: '22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890',
     signature: 'ea72f5bae5069da178db8bacc11de720',
     size: 500,
+    media: '(min-width: 740px)',
 };
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
@@ -148,7 +150,6 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                     <ResponsiveImage
                                         images={[mobileImg, baseImg]}
                                         baseImage={baseImg}
-                                        sizes="(max-width: 739px) 400px, 500px"
                                     />
                                 </div>
                             </div>

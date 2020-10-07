@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 type Image = {
     imgId: string;
     signature: string;
     size: number;
+    media: string;
 };
 
 type ResponsiveImageProps = {
     images: Array<Image>;
     baseImage: Image;
-    sizes: string;
 };
 
 function imageUrl({ imgId, signature, size }: Image): string {
     return `https://i.guim.co.uk/img/media/${imgId}/500.png?width=${size}&quality=85&s=${signature}`;
 }
 
-function createSrcset(images: Array<Image>): string {
-    return images.map(image => `${imageUrl(image)} ${image.size}w`).join(', ');
+function createSource(image: Image): ReactElement {
+    return <source media={image.media} srcSet={imageUrl(image)} />;
 }
 
 export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     images,
     baseImage,
-    sizes,
 }: ResponsiveImageProps) => {
-    return <img srcSet={createSrcset(images)} sizes={sizes} src={imageUrl(baseImage)} alt="" />;
+    return (
+        <picture>
+            {images.map(createSource)}
+            <img src={imageUrl(baseImage)} />
+        </picture>
+    );
 };
