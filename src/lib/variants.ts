@@ -10,6 +10,7 @@ import { isRecentOneOffContributor } from '../lib/dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { getReminderFields, ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
+import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -260,10 +261,10 @@ export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52
     },
 });
 
-export const shouldNotRender: Filter = {
+export const shouldNotRender = (epicType: EpicType): Filter => ({
     id: 'shouldNotRender',
-    test: (_, targeting) => !shouldNotRenderEpic(targeting),
-};
+    test: (_, targeting): boolean => !shouldNotRenderEpic(targeting, epicType),
+});
 
 export const isNotExpired = (now: Date = new Date()): Filter => ({
     id: 'isNotExpired',
@@ -305,6 +306,7 @@ export interface Result {
 export const findTestAndVariant = (
     tests: Test[],
     targeting: EpicTargeting,
+    epicType: EpicType,
     includeDebug: boolean = false,
 ): Result => {
     const debug: Debug = {};
@@ -313,7 +315,7 @@ export const findTestAndVariant = (
     // manually configured tests).
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
     const filters: Filter[] = [
-        shouldNotRender,
+        shouldNotRender(epicType),
         isOn,
         isNotExpired(),
         hasSectionOrTags,

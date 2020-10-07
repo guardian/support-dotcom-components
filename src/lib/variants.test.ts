@@ -90,8 +90,9 @@ describe('findTestAndVariant', () => {
             ...targetingDefault,
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
+        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting, epicType);
 
         expect(got?.result?.test.name).toBe('example-1');
         expect(got?.result?.variant.name).toBe('control-example-1');
@@ -104,8 +105,9 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
             hasOptedOutOfArticleCount: true,
         };
+        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -114,8 +116,9 @@ describe('findTestAndVariant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionName: 'news' };
+        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting, epicType);
 
         expect(got.result).toBe(undefined);
     });

@@ -104,7 +104,7 @@ const buildEpicData = async (
         const variant = test?.variants.find(v => v.name === params.force?.variantName);
         result = test && variant ? { result: { test, variant } } : {};
     } else {
-        result = findTestAndVariant(tests, targeting, params.debug);
+        result = findTestAndVariant(tests, targeting, type, params.debug);
     }
 
     logTargeting(
