@@ -30,6 +30,7 @@ import {
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
+import { ResponsiveImage } from '../../../ResponsiveImage';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
@@ -39,6 +40,18 @@ const ctaComponentId = `${bannerId} : cta`;
 const notNowComponentId = `${bannerId} : not now`;
 const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
+
+const mobileImg = {
+    url:
+        'https://i.guim.co.uk/img/media/3e6ecc7e48f11c5476fc2d7fad4b3af2aaff4263/4001_0_1986_1193/500.png?width=400&quality=85&s=dd8a60d6bd0bf82ff17807736f016b56',
+    media: '(max-width: 739px)',
+};
+
+const baseImg = {
+    url:
+        'https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720',
+    media: '(min-width: 740px)',
+};
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     bannerChannel,
@@ -132,9 +145,9 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                         <div css={bottomRightComponent}>
                             <div css={packShotContainer}>
                                 <div css={packShot}>
-                                    <img
-                                        src="https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720"
-                                        alt=""
+                                    <ResponsiveImage
+                                        images={[mobileImg, baseImg]}
+                                        baseImage={baseImg}
                                     />
                                 </div>
                             </div>
