@@ -42,6 +42,7 @@ const cachedDeployTime = (
         fetchBannerDeployTime(region, bannerChannel),
         fiveMinutes,
         `fetch${bannerChannel}BannerDeployTime_${region}`,
+        true,
     )[1];
 
 export const bannerDeployCaches: BannerDeployCaches = {
