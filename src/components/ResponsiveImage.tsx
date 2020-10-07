@@ -1,9 +1,7 @@
 import React, { ReactElement } from 'react';
 
 type Image = {
-    imgId: string;
-    signature: string;
-    size: number;
+    url: string;
     media: string;
 };
 
@@ -12,12 +10,8 @@ type ResponsiveImageProps = {
     baseImage: Image;
 };
 
-function imageUrl({ imgId, signature, size }: Image): string {
-    return `https://i.guim.co.uk/img/media/${imgId}/500.png?width=${size}&quality=85&s=${signature}`;
-}
-
 function createSource(image: Image): ReactElement {
-    return <source media={image.media} srcSet={imageUrl(image)} />;
+    return <source media={image.media} srcSet={image.url} />;
 }
 
 export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
@@ -27,7 +21,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     return (
         <picture>
             {images.map(createSource)}
-            <img src={imageUrl(baseImage)} />
+            <img src={baseImage.url} />
         </picture>
     );
 };
