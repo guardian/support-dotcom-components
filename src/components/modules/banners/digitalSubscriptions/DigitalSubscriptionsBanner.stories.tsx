@@ -40,6 +40,7 @@ export const defaultStory = (): ReactElement => {
         content,
         isSupporter: false,
         tracking,
+        countryCode: 'GB',
     };
 
     return (

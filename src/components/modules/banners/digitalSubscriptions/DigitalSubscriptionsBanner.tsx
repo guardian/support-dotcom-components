@@ -1,6 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-import { addTrackingParams, createClickEventFromTracking } from '../../../../lib/tracking';
+import {
+    addRegionIdAndTrackingParamsToSupportUrl,
+    createClickEventFromTracking,
+} from '../../../../lib/tracking';
 import React, { useState } from 'react';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
@@ -42,12 +45,17 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     content,
     tracking,
     submitComponentEvent,
+    countryCode,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
-        const subscriptionUrlWithTracking = addTrackingParams(subscriptionUrl, tracking);
+        const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
+            subscriptionUrl,
+            tracking,
+            countryCode,
+        );
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);

@@ -2,6 +2,7 @@ import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes
 import { Test, Variant } from '../lib/variants';
 import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
 import { OphanComponentEvent } from '../types/OphanTypes';
+import { addRegionIdToSupportUrl } from './geolocation';
 
 type LinkParams = {
     REFPVID: string;
@@ -37,8 +38,21 @@ export const addTrackingParams = (
     };
 
     const queryString = Object.entries(trackingLinkParams).map(([key, value]) => `${key}=${value}`);
+    const alreadyHasQueryString = baseUrl.includes('?');
 
-    return `${baseUrl}?${queryString.join('&')}`;
+    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+};
+
+export const addRegionIdAndTrackingParamsToSupportUrl = (
+    baseUrl: string,
+    tracking: EpicTracking | BannerTracking,
+    countryCode?: string,
+): string => {
+    const isSupportUrl = /\bsupport\./.test(baseUrl);
+
+    return isSupportUrl
+        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking)
+        : baseUrl;
 };
 
 const campaignPrefix = 'gdnwb_copts_memco';
