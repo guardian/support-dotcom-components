@@ -5,19 +5,19 @@ import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 describe('readerRevenueRegionFromCountryCode', () => {
     it('should return a region', () => {
         const unitedKingdom = readerRevenueRegionFromCountryCode('GB');
-        expect(unitedKingdom).toBe('united-kingdom');
+        expect(unitedKingdom).toBe('UnitedKingdom');
 
         const germany = readerRevenueRegionFromCountryCode('DE');
-        expect(germany).toBe('european-union');
+        expect(germany).toBe('EuropeanUnion');
 
         const australia = readerRevenueRegionFromCountryCode('AU');
-        expect(australia).toBe('australia');
+        expect(australia).toBe('Australia');
 
         const fiji = readerRevenueRegionFromCountryCode('FJ');
-        expect(fiji).toBe('rest-of-world');
+        expect(fiji).toBe('RestOfWorld');
 
         const usa = readerRevenueRegionFromCountryCode('US');
-        expect(usa).toBe('united-states');
+        expect(usa).toBe('UnitedStates');
     });
 });
 

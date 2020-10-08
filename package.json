@@ -45,7 +45,8 @@
     "lodash.debounce": "^4.0.8",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "aws-sdk": "^2.604.0"
   },
   "devDependencies": {
     "@aws-cdk/aws-apigateway": "^1.22.0",
