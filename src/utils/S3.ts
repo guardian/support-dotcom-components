@@ -17,5 +17,6 @@ export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
                     new Error(`Missing Body in S3 response for ${bucket}/${key}`),
                 );
             }
-        });
+        })
+        .catch(err => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
 };

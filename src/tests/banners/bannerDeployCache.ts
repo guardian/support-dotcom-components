@@ -1,6 +1,7 @@
 import { cacheAsync } from '../../lib/cache';
 import { BannerChannel } from '../../types/BannerTypes';
 import { fetchS3Data } from '../../utils/S3';
+import {isProd} from "../../lib/env";
 
 export type ReaderRevenueRegion =
     | 'UnitedKingdom'
@@ -14,7 +15,7 @@ const AdminConsoleBucket = 'support-admin-console';
 const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<BannerDeployTimes> => {
     const channel = bannerChannel === 'contributions' ? 'channel1' : 'channel2';
     return (
-        fetchS3Data(AdminConsoleBucket, `${process.env.stage}/banner-deploy/${channel}.json`)
+        fetchS3Data(AdminConsoleBucket, `${isProd ? 'PROD' : 'CODE'}/banner-deploy/${channel}.json`)
             .then(JSON.parse)
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .then((data: any) => {
