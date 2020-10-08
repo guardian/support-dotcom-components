@@ -1,7 +1,7 @@
 import { cacheAsync } from '../../lib/cache';
 import { BannerChannel } from '../../types/BannerTypes';
 import { fetchS3Data } from '../../utils/S3';
-import {isProd} from "../../lib/env";
+import { isProd } from '../../lib/env';
 
 export type ReaderRevenueRegion =
     | 'UnitedKingdom'
