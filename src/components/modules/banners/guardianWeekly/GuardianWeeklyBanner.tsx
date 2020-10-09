@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactElement } from 'react';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
 import {
@@ -47,10 +47,10 @@ const tabletImage =
     'https://media.guim.co.uk/a213adf3f68f788b3f9434a1e88787fce1fa10bd/322_0_2430_1632/500.png';
 
 type ButtonPropTypes = {
-    onClick: () => null;
+    onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-const CloseButton = (props: ButtonPropTypes): null => (
+const CloseButton = (props: ButtonPropTypes): ReactElement => (
     <button
         data-link-name={closeComponentId}
         css={closeButton}
