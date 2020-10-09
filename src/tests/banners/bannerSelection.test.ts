@@ -109,7 +109,7 @@ describe('selectBannerTest', () => {
             isPaidContent: false,
             showSupportMessaging: true,
             mvtId: 3,
-            countryCode: 'AU',
+            countryCode: 'DE',
             engagementBannerLastClosedAt: secondDate,
             switches: {
                 remoteSubscriptionsBanner: true,
@@ -126,7 +126,7 @@ describe('selectBannerTest', () => {
             const cache = getBannerDeployCache(secondDate);
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
-                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
+                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
             });
         });
 
@@ -162,7 +162,7 @@ describe('selectBannerTest', () => {
                 getTests,
                 cache,
             ).then(result => {
-                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
+                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
             });
         });
 

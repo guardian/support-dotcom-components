@@ -42,10 +42,10 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             showSupportMessaging: true,
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
-            // Should not show banner in Australia
-            countryCode: 'AU',
+            // Should show banner in Europe
+            countryCode: 'DE',
             switches: {
-                remoteSubscriptionsBanner: true,
+                remoteSubscriptionsBanner: false,
             },
         };
         const targetingFalse2 = {
@@ -109,7 +109,7 @@ describe('WeeklyBanner canRun', () => {
             clientName: '',
         };
         const canRun1 = GuardianWeeklyBanner.canRun(targetingTrue, tracking);
-        expect(canRun1).toBe(true);
+        expect(canRun1).toBe(false);
         const canRun2 = GuardianWeeklyBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
     });
