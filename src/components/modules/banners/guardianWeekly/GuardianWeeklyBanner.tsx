@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { SvgGuardianLogo } from '@guardian/src-brand';
+import { SvgRoundel } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
 import {
     banner,
     contentContainer,
     topLeftComponent,
     heading,
-    iconAndCloseMobile,
+    iconAndCloseAlign,
+    iconAndCloseFlex,
+    iconAndClosePosition,
+    logoContainer,
+    closeButton,
     paragraph,
     buttonTextDesktop,
     buttonTextMobileTablet,
@@ -15,10 +19,6 @@ import {
     packShotContainer,
     packShotTablet,
     packShotMobileAndDesktop,
-    iconPanel,
-    closeButtonIconPanel,
-    closeButtonMobile,
-    logoContainer,
     notNowButton,
     becomeASubscriberButton,
     linkStyle,
@@ -41,31 +41,19 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const mobileAndDesktopImg =
-    'https://media.guim.co.uk/d544f4e24e4275d3434e6465d8676d2b5bcd0851/0_0_3430_1665/500.png';
+    'https://media.guim.co.uk/d544f4e24e4275d3434e6465d8676d2b5bcd0851/128_122_3218_1543/500.png';
 
 const tabletImage =
-    'https://media.guim.co.uk/a213adf3f68f788b3f9434a1e88787fce1fa10bd/245_0_2839_1632/500.png';
+    'https://media.guim.co.uk/a213adf3f68f788b3f9434a1e88787fce1fa10bd/322_0_2430_1632/500.png';
 
 type ButtonPropTypes = {
     onClick: () => null;
-    css: string;
 };
 
-const CloseButtonIconPanel = (props: ButtonPropTypes): null => (
+const CloseButton = (props: ButtonPropTypes): null => (
     <button
         data-link-name={closeComponentId}
-        css={closeButtonIconPanel}
-        onClick={props.onClick}
-        aria-label="Close"
-    >
-        <SvgClose />
-    </button>
-);
-
-const CloseButtonMobile = (props: ButtonPropTypes): null => (
-    <button
-        data-link-name={closeComponentId}
-        css={closeButtonMobile}
+        css={closeButton}
         onClick={props.onClick}
         aria-label="Close"
     >
@@ -130,11 +118,16 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
             {showBanner ? (
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
+                        <div css={iconAndClosePosition}>
+                            <div css={iconAndCloseAlign}>
+                                <div css={logoContainer}>
+                                    <SvgRoundel />
+                                </div>
+                                <CloseButton onClick={onCloseClick} />
+                            </div>
+                        </div>
                         <div css={topLeftComponent}>
                             <h3 css={heading}>{content?.heading}</h3>
-                            <div css={iconAndCloseMobile}>
-                                <CloseButtonMobile onClick={onCloseClick} css={closeButtonMobile} />
-                            </div>
                             <p css={paragraph}>{content?.messageText}</p>
                             <a
                                 data-link-name={ctaComponentId}
@@ -176,10 +169,12 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                     alt=""
                                 />
                             </div>
-                            <div css={iconPanel}>
-                                <CloseButtonIconPanel onClick={onCloseClick} />
-                                <div css={logoContainer}>
-                                    <SvgGuardianLogo />
+                            <div css={iconAndCloseFlex}>
+                                <div css={iconAndCloseAlign}>
+                                    <div css={logoContainer}>
+                                        <SvgRoundel />
+                                    </div>
+                                    <CloseButton onClick={onCloseClick} />
                                 </div>
                             </div>
                         </div>

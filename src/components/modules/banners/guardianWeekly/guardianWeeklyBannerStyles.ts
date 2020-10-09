@@ -1,7 +1,7 @@
 import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
 import { neutral, text, brandAlt } from '@guardian/src-foundations/palette';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 const mainBannerBackground = '#66c2e9';
@@ -53,30 +53,32 @@ export const topLeftComponent = css`
     }
     ${from.tablet} {
         padding: ${space[4]}px;
-        width: 80%;
+        width: 50%;
     }
     ${from.desktop} {
-        width: 50%;
+        width: 43%;
     }
     ${from.leftCol} {
         padding-left: 0;
-    }
-    ${from.wide} {
-        width: 53%;
+        width: 40%;
     }
 `;
 
 export const heading = css`
-    ${headline.small({ fontWeight: 'bold' })};
+    ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
-    max-width: 100%;
+    max-width: 80%;
 
-    ${until.mobileLandscape} {
-        max-width: 80%;
+    ${from.mobileLandscape} {
+        max-width: 70%;
     }
 
-    ${until.mobileMedium} {
-        ${headline.xsmall({ fontWeight: 'bold' })};
+    ${from.phablet} {
+        max-width: 100%;
+    }
+
+    ${from.mobileMedium} {
+        ${headline.small({ fontWeight: 'bold' })};
     }
 `;
 
@@ -86,6 +88,14 @@ export const paragraph = css`
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
 
+    ${from.mobileLandscape} {
+        max-width: 80%;
+    }
+
+    ${from.tablet} {
+        max-width: 100%;
+    }
+
     ${from.desktop} {
         font-size: 20px;
         margin: ${space[3]}px 0 ${space[9]}px;
@@ -94,14 +104,14 @@ export const paragraph = css`
 
 export const buttonTextDesktop = css`
     display: none;
-    ${from.desktop} {
+    ${from.leftCol} {
         display: block;
     }
 `;
 
 export const buttonTextMobileTablet = css`
     display: block;
-    ${from.desktop} {
+    ${from.leftCol} {
         display: none;
     }
 `;
@@ -160,17 +170,16 @@ export const bottomRightComponent = css`
         display: flex;
         align-items: flex-end;
         margin-top: 0;
-        max-width: 50%;
+        max-width: 60%;
         max-height: 100%;
     }
     ${from.desktop} {
         align-items: center;
-        max-width: 50%;
+        max-width: 60%;
         margin-top: 0;
         max-height: 100%;
     }
     ${from.leftCol} {
-        justify-content: space-between;
         padding-right: 0;
     }
     ${from.wide} {
@@ -187,6 +196,11 @@ export const packShotContainer = css`
     margin: 0;
     max-width: 100%;
 
+    ${from.desktop} {
+        flex-direction: row;
+        align-self: flex-end;
+    }
+
     ${from.wide} {
         margin-top: ${space[4]}px;
     }
@@ -194,7 +208,7 @@ export const packShotContainer = css`
 
 export const packShotMobileAndDesktop = css`
     display: block;
-    width: 100%;
+    width: 90%;
     margin: 0 auto;
 
     img {
@@ -204,14 +218,28 @@ export const packShotMobileAndDesktop = css`
         max-height: 100%;
     }
 
+    ${from.mobileMedium} {
+        width: 95%;
+        margin-top: ${space[2]}px;
+    }
+
+    ${from.phablet} {
+        width: 90%;
+        margin-top: ${space[4]}px;
+    }
+
     ${from.tablet} {
         display: none;
     }
 
-    ${from.leftCol} {
+    ${from.desktop} {
         display: block;
-        width: 100%;
-        height: 100%;
+        width: 95%;
+    }
+
+    ${from.leftCol} {
+        width: 110%;
+        margin-left: 0;
     }
 `;
 
@@ -221,86 +249,64 @@ export const packShotTablet = css`
     ${from.tablet} {
         display: block;
         width: 100%;
-        margin: 0 auto;
+        margin: 0;
     }
 
     img {
         position: absolute;
         bottom: 0;
+        right: 0;
         max-width: 100%;
         max-height: 100%;
     }
 
-    ${from.leftCol} {
+    ${from.desktop} {
         display: none;
     }
 `;
 
-export const iconPanel = css`
-    display: none;
-
-    ${from.leftCol} {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-        height: 100%;
-        padding: ${space[4]}px 0;
-        margin: 0 ${space[4]}px;
-    }
-`;
-
-export const logoContainer = css`
-    display: none;
-
-    ${from.desktop} {
-        display: block;
-        fill: ${text.primary};
-        width: 70px;
-    }
-    ${from.leftCol} {
-        min-width: 90px;
-    }
-`;
-
-export const closeButtonIconPanel = css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 1px solid ${text.primary};
-    border-radius: 50%;
-    outline: none;
-    background: transparent;
-    cursor: pointer;
-    width: ${closeButtonWidthHeight};
-    height: ${closeButtonWidthHeight};
-    svg {
-        width: 25px;
-        height: 25px;
-        fill: ${text.primary};
-        transition: background-color 0.5s ease;
-        border-radius: 50%;
-    }
-    :hover {
-        cursor: pointer;
-        background-color: rgba(237, 237, 237, 0.5);
-    }
-`;
-
-export const iconAndCloseMobile = css`
+export const iconAndClosePosition = css`
     display: block;
     position: absolute;
     top: 10px;
     right: 10px;
-
-    ${from.leftCol} {
+    ${from.desktop} {
         display: none;
     }
 `;
 
-export const closeButtonMobile = css`
-    display: flex;
+export const iconAndCloseFlex = css`
+    display: none;
+    ${from.desktop} {
+        display: inline-flex;
+        height: 100%;
+        align-items: flex-start;
+        margin-top: ${space[9]}px;
+    }
+`;
+
+export const iconAndCloseAlign = css`
+    display: inline-flex;
+    justify-content: flex-end;
+`;
+
+export const logoContainer = css`
+    display: none;
+    ${from.mobileMedium} {
+        display: block;
+        width: ${closeButtonWidthHeight}px;
+        height: ${closeButtonWidthHeight}px;
+        svg {
+            width: 100%;
+        }
+    }
+    ${from.leftCol} {
+        margin-left: ${space[3]}px;
+    }
+`;
+
+export const closeButton = css`
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0;
@@ -309,8 +315,8 @@ export const closeButtonMobile = css`
     outline: none;
     background: transparent;
     cursor: pointer;
-    width: ${closeButtonWidthHeight};
-    height: ${closeButtonWidthHeight};
+    width: ${closeButtonWidthHeight}px;
+    height: ${closeButtonWidthHeight}px;
     svg {
         width: 25px;
         height: 25px;
@@ -321,6 +327,10 @@ export const closeButtonMobile = css`
     :hover {
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
+    }
+    margin-left: ${space[1]}px;
+    ${from.mobileLandscape} {
+        margin-left: ${space[2]}px;
     }
 `;
 

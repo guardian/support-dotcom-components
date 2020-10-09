@@ -31,7 +31,7 @@ export const defaultStory = (): ReactElement => {
         heading: text('heading', 'Read The Guardian in print'),
         messageText: text(
             'messageText',
-            "Support The Guardian's independent journalism by subscribing to The Guardian Weekly, our essential world news magazine. Home delivery available wherever you are.",
+            "Make sense of a chaotic world with The Guardian's weekly news magazine.",
         ),
     };
 
