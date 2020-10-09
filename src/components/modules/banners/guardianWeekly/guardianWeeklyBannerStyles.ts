@@ -4,6 +4,9 @@ import { neutral, text, brandAlt } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
+const mainBannerBackground = '#66c2e9';
+const closeButtonWidthHeight = 35;
+
 export const banner = css`
     html {
         box-sizing: border-box;
@@ -17,8 +20,8 @@ export const banner = css`
     display: flex;
     justify-content: center;
     width: 100%;
-    background-color: #3f464a;
-    color: ${neutral[100]};
+    background-color: ${mainBannerBackground};
+    color: ${neutral[7]};
 `;
 
 export const contentContainer = css`
@@ -43,6 +46,8 @@ export const contentContainer = css`
 export const topLeftComponent = css`
     width: 100%;
     padding: ${space[3]}px ${space[3]}px 0 ${space[3]}px;
+    display: relative;
+
     button {
         margin-left: ${space[3]}px;
     }
@@ -122,7 +127,7 @@ export const becomeASubscriberButton = css`
 export const notNowButton = css`
     ${textSans.medium()};
     font-weight: bold;
-    color: ${text.ctaPrimary};
+    color: ${text.primary};
     border: 0;
     border-radius: 0.25rem;
     background: none;
@@ -135,10 +140,10 @@ export const notNowButton = css`
 export const siteMessage = css`
     margin: ${space[3]}px 0 ${space[4]}px;
     ${textSans.small()};
-    color: ${neutral[100]};
+    color: ${text.primary};
     a,
     :visited {
-        color: ${neutral[100]};
+        color: ${text.primary};
         font-weight: bold;
     }
 `;
@@ -174,33 +179,75 @@ export const bottomRightComponent = css`
     }
 `;
 
-export const packShot = css`
+export const packShotContainer = css`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0;
     max-width: 100%;
-    ${from.tablet} {
-        max-width: 100%;
-        margin-bottom: -40px;
-    }
-    ${from.desktop} {
-        max-width: 75%;
-        margin-bottom: -55px;
-    }
-    ${from.leftCol} {
-        margin-bottom: -80px;
-    }
+
     ${from.wide} {
+        margin-top: ${space[4]}px;
+    }
+`;
+
+export const packShotMobileAndDesktop = css`
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+
+    img {
+        position: absolute;
+        bottom: 0;
         max-width: 100%;
-        width: 75%;
+        max-height: 100%;
+    }
+
+    ${from.tablet} {
+        display: none;
+    }
+
+    ${from.leftCol} {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+`;
+
+export const packShotTablet = css`
+    display: none;
+
+    ${from.tablet} {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    img {
+        position: absolute;
+        bottom: 0;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    ${from.leftCol} {
+        display: none;
     }
 `;
 
 export const iconPanel = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 100%;
-    padding: ${space[4]}px 0;
-    margin: 0 ${space[4]}px;
+    display: none;
+
+    ${from.leftCol} {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        height: 100%;
+        padding: ${space[4]}px 0;
+        margin: 0 ${space[4]}px;
+    }
 `;
 
 export const logoContainer = css`
@@ -208,7 +255,7 @@ export const logoContainer = css`
 
     ${from.desktop} {
         display: block;
-        fill: ${neutral[100]};
+        fill: ${text.primary};
         width: 70px;
     }
     ${from.leftCol} {
@@ -216,22 +263,22 @@ export const logoContainer = css`
     }
 `;
 
-export const closeButton = css`
+export const closeButtonIconPanel = css`
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    border: 1px solid ${neutral[100]};
+    border: 1px solid ${text.primary};
     border-radius: 50%;
     outline: none;
     background: transparent;
     cursor: pointer;
-    width: 35px;
-    height: 35px;
+    width: ${closeButtonWidthHeight};
+    height: ${closeButtonWidthHeight};
     svg {
         width: 25px;
         height: 25px;
-        fill: ${neutral[100]};
+        fill: ${text.primary};
         transition: background-color 0.5s ease;
         border-radius: 50%;
     }
@@ -239,10 +286,41 @@ export const closeButton = css`
         cursor: pointer;
         background-color: rgba(237, 237, 237, 0.5);
     }
-    ${until.desktop} {
-        position: absolute;
-        top: 10px;
-        right: 10px;
+`;
+
+export const iconAndCloseMobile = css`
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    ${from.leftCol} {
+        display: none;
+    }
+`;
+
+export const closeButtonMobile = css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid ${text.primary};
+    border-radius: 50%;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    width: ${closeButtonWidthHeight};
+    height: ${closeButtonWidthHeight};
+    svg {
+        width: 25px;
+        height: 25px;
+        fill: ${text.primary};
+        transition: background-color 0.5s ease;
+        border-radius: 50%;
+    }
+    :hover {
+        cursor: pointer;
+        background-color: rgba(237, 237, 237, 0.5);
     }
 `;
 
