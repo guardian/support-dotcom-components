@@ -15,15 +15,15 @@ import { userIsInTest } from '../../lib/targeting';
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
         case countryCode === 'GB':
-            return 'united-kingdom';
+            return 'UnitedKingdom';
         case countryCode === 'US':
-            return 'united-states';
+            return 'UnitedStates';
         case countryCode === 'AU':
-            return 'australia';
+            return 'Australia';
         case countryCodeToCountryGroupId(countryCode) === 'EURCountries':
-            return 'european-union';
+            return 'EuropeanUnion';
         default:
-            return 'rest-of-world';
+            return 'RestOfWorld';
     }
 };
 
@@ -45,18 +45,17 @@ export const redeployedSinceLastClosed = (
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
     if (bannerChannel === 'subscriptions') {
-        const getCached = bannerDeployCaches.subscriptions[region];
-        return getCached().then(deployDate => {
+        return bannerDeployCaches.subscriptions().then(deployTimes => {
             return (
                 !subscriptionBannerLastClosedAt ||
-                deployDate > new Date(subscriptionBannerLastClosedAt)
+                deployTimes[region] > new Date(subscriptionBannerLastClosedAt)
             );
         });
     } else if (bannerChannel === 'contributions') {
-        const getCached = bannerDeployCaches.contributions[region];
-        return getCached().then(deployDate => {
+        return bannerDeployCaches.contributions().then(deployTimes => {
             return (
-                !engagementBannerLastClosedAt || deployDate > new Date(engagementBannerLastClosedAt)
+                !engagementBannerLastClosedAt ||
+                deployTimes[region] > new Date(engagementBannerLastClosedAt)
             );
         });
     }

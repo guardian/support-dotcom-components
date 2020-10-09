@@ -14,6 +14,7 @@ RUN yarn --immutable install
 
 # Then install rest of code (which likely changes more frequently)
 COPY . .
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV NODE_ENV=production
 RUN yarn build
 COPY src/schemas dist/schemas
