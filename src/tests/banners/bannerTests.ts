@@ -5,7 +5,6 @@ import {
     EnvironmentMomentBannerSupporters,
     EnvironmentMomentBannerNonSupporters,
 } from './EnvironmentMomentBannerTest';
-import { EnvironmentMomentBannerABNonSupporters } from './EnvironmentMomentBannerABNonSupportersTest';
 import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
 import {
     channel1BannersAllTestsGenerator,
@@ -14,11 +13,7 @@ import {
 import { cacheAsync } from '../../lib/cache';
 
 const environmentMomentBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve([
-        EnvironmentMomentBannerABNonSupporters,
-        EnvironmentMomentBannerNonSupporters,
-        EnvironmentMomentBannerSupporters,
-    ]);
+    Promise.resolve([EnvironmentMomentBannerNonSupporters, EnvironmentMomentBannerSupporters]);
 
 const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
     Promise.resolve([DigitalSubscriptionsBanner]);
