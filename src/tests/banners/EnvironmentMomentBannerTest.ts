@@ -1,5 +1,4 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
-import { environmentMomentIsLive } from './EnvironmentMomentBannerABNonSupportersTest';
 
 export const EnvironmentMomentBannerPath = 'environment-moment-banner.js';
 
@@ -8,8 +7,7 @@ export const EnvironmentMomentBannerSupporters: BannerTest = {
     bannerChannel: 'contributions',
     testAudience: 'AllExistingSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
-        environmentMomentIsLive,
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
     variants: [
         {
@@ -26,8 +24,7 @@ export const EnvironmentMomentBannerNonSupporters: BannerTest = {
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
-        environmentMomentIsLive,
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
     variants: [
         {

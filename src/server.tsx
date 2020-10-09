@@ -31,10 +31,7 @@ import {
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
-import {
-    EnvironmentMomentBannerPath,
-    EnvironmentMomentSimpleBannerPath,
-} from './tests/banners/EnvironmentMomentBannerABNonSupportersTest';
+import { EnvironmentMomentBannerPath } from './tests/banners/EnvironmentMomentBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
@@ -419,25 +416,6 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js'
                 : '/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${EnvironmentMomentSimpleBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/environmentMomentBanner/EnvironmentMomentSimpleBanner.js'
-                : '/modules/banners/environmentMomentBanner/EnvironmentMomentSimpleBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
