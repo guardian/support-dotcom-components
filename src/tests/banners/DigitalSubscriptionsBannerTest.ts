@@ -12,7 +12,7 @@ export const DigitalSubscriptionsBanner: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
         if (targeting.switches.remoteSubscriptionsBanner) {
             const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-            return region !== 'Australia';
+            return region !== 'EuropeanUnion';
         }
         return false;
     },
