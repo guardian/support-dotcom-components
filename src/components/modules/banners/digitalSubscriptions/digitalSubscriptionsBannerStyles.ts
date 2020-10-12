@@ -245,7 +245,7 @@ export const packShot = css`
     ${from.tablet} {
         padding-bottom: ${(packShotHeight / packShotWidth) * imageWidthPercentage}%;
         width: ${imageWidthPercentage}%;
-        margin: none;
+        margin: 0;
     }
 
     img {
