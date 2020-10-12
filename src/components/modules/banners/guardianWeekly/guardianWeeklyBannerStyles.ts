@@ -57,7 +57,8 @@ export const topLeftComponent = css`
         width: 50%;
     }
     ${from.desktop} {
-        width: 43%;
+        padding-top: ${space[2]}px;
+        width: 45%;
     }
     ${from.leftCol} {
         padding-left: 0;
@@ -81,6 +82,11 @@ export const heading = css`
     ${from.mobileMedium} {
         ${headline.small({ fontWeight: 'bold' })};
     }
+
+    ${from.desktop} {
+        ${headline.large({ fontWeight: 'bold' })};
+        line-height: 100%;
+    }
 `;
 
 export const paragraph = css`
@@ -99,7 +105,7 @@ export const paragraph = css`
 
     ${from.desktop} {
         font-size: 20px;
-        margin: ${space[3]}px 0 ${space[9]}px;
+        margin: ${space[2]}px 0 ${space[6]}px;
     }
 `;
 
@@ -149,7 +155,7 @@ export const notNowButton = css`
 `;
 
 export const siteMessage = css`
-    margin: ${space[3]}px 0 ${space[4]}px;
+    margin: ${space[2]}px 0 ${space[4]}px;
     ${textSans.small()};
     color: ${text.primary};
     a,
@@ -235,7 +241,7 @@ export const packShotMobileAndDesktop = css`
 
     ${from.desktop} {
         display: block;
-        width: 95%;
+        width: 100%;
     }
 
     ${from.leftCol} {
