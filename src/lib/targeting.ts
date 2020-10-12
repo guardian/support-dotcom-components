@@ -65,11 +65,3 @@ export const userIsInTest = (test: Test, mvtId: number): boolean => {
     const highest = lowest + maxMVTId * (test.audience || 1);
     return mvtId >= lowest && mvtId <= highest;
 };
-
-export const userHasConsented = (test: BannerTest, hasOptedOutOfArticleCount: boolean): boolean => {
-    if (test.articlesViewedSettings) {
-        return !hasOptedOutOfArticleCount;
-    } else {
-        return true;
-    }
-};

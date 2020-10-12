@@ -10,7 +10,7 @@ import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocat
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
-import { userIsInTest, userHasConsented } from '../../lib/targeting';
+import { userIsInTest } from '../../lib/targeting';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -120,13 +120,13 @@ export const selectBannerTest = async (
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             test.canRun(targeting, pageTracking) &&
+            !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,
                 targeting.weeklyArticleHistory,
                 now,
             ) &&
             userIsInTest(test, targeting.mvtId) &&
-            userHasConsented(test, targeting.hasOptedOutOfArticleCount) &&
             (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches))
         ) {
             const variant = test.variants[targeting.mvtId % test.variants.length];
