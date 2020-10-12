@@ -115,8 +115,23 @@ const EnvironmentMomentBannerHeader: React.FC<EnvironmentMomentBannerHeaderProps
                 <div css={textContainer}>
                     {isSupporter ? (
                         <>
-                            <span>You help power our</span>
-                            <span>climate pledge</span>
+                            <span>You help power</span>
+                            <span>our climate pledge</span>
+                        </>
+                    ) : (
+                        <>
+                            <span>Help power</span>
+                            <span>our climate pledge</span>
+                        </>
+                    )}
+                </div>
+            </div>
+            <div css={hideBeforeTablet}>
+                <div css={textContainer}>
+                    {isSupporter ? (
+                        <>
+                            <span>You help power</span>
+                            <span>our pledge</span>
                         </>
                     ) : (
                         <>
@@ -124,12 +139,6 @@ const EnvironmentMomentBannerHeader: React.FC<EnvironmentMomentBannerHeaderProps
                             <span>climate pledge</span>
                         </>
                     )}
-                </div>
-            </div>
-            <div css={hideBeforeTablet}>
-                <div css={textContainer}>
-                    <span>You help power</span>
-                    <span>our climate pledge</span>
                 </div>
             </div>
         </div>
