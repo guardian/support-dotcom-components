@@ -37,6 +37,7 @@ export const contentContainer = css`
     }
     ${from.leftCol} {
         max-width: 1140px;
+        justify-content: center;
     }
     ${from.wide} {
         max-width: 1300px;
@@ -282,6 +283,7 @@ export const iconAndCloseFlex = css`
         height: 100%;
         align-items: flex-start;
         margin-top: ${space[9]}px;
+        margin-right: ${space[3]}px;
     }
 `;
 
