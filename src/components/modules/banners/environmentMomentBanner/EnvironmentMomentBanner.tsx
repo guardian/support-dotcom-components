@@ -214,9 +214,12 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                                 </div>
                             </div>
                             <div css={textContainer}>
-                                <EnvironmentMomentBannerHeader />
+                                <EnvironmentMomentBannerHeader isSupporter={!!isSupporter} />
                                 <div css={bodyAndCtasContainer}>
-                                    <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
+                                    <EnvironmentMomentBannerBody
+                                        isSupporter={!!isSupporter}
+                                        countryCode={countryCode || 'GB'}
+                                    />
                                     <EnvironmentMomentBannerCtas
                                         isSupporter={!!isSupporter}
                                         countryCode={countryCode || ''}

@@ -17,7 +17,7 @@ const container = css`
     }
 `;
 
-const contributeButton = css`
+const secondaryButton = css`
     color: ${neutral[7]};
     border: 1px solid ${neutral[7]};
 `;
@@ -49,20 +49,6 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
     onHearFromOurEditorClick,
     tracking,
 }: EnvironmentMomentBannerCtasProps) => {
-    const PrimaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
-        <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-            {countryCode === 'AU' ? (
-                <LinkButton onClick={onHearFromOurEditorClick} size={size} href={LENORE_LINK}>
-                    Hear from our editor
-                </LinkButton>
-            ) : (
-                <LinkButton onClick={onReadPledgeClick} size={size} href={PLEDGE_LINK}>
-                    Read our pledge
-                </LinkButton>
-            )}
-        </ThemeProvider>
-    );
-
     let landingPageUrl = addRegionIdAndTrackingParamsToSupportUrl(
         BASE_LANDING_PAGE_URL,
         tracking,
@@ -72,19 +58,41 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
         landingPageUrl += '&selected-contribution-type=ONE_OFF';
     }
 
+    const PrimaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
+        <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+            <LinkButton onClick={onContributeClick} size={size} href={landingPageUrl}>
+                <span css={styles.hideAfterTablet}>Contribute</span>
+                <span css={styles.hideBeforeTablet}>
+                    {isSupporter ? 'Support again' : 'Support the Guardian'}
+                </span>
+            </LinkButton>
+        </ThemeProvider>
+    );
+
     const SecondaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
-        <LinkButton
-            onClick={onContributeClick}
-            css={contributeButton}
-            size={size}
-            priority="tertiary"
-            href={landingPageUrl}
-        >
-            <span css={styles.hideAfterTablet}>Contribute</span>
-            <span css={styles.hideBeforeTablet}>
-                {isSupporter ? 'Support again' : 'Support the Guardian'}
-            </span>
-        </LinkButton>
+        <>
+            {countryCode === 'AU' ? (
+                <LinkButton
+                    onClick={onHearFromOurEditorClick}
+                    css={secondaryButton}
+                    size={size}
+                    href={LENORE_LINK}
+                    priority="tertiary"
+                >
+                    Hear from our editor
+                </LinkButton>
+            ) : (
+                <LinkButton
+                    onClick={onReadPledgeClick}
+                    css={secondaryButton}
+                    size={size}
+                    href={PLEDGE_LINK}
+                    priority="tertiary"
+                >
+                    Read our pledge
+                </LinkButton>
+            )}
+        </>
     );
 
     return (

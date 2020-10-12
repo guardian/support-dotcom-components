@@ -99,7 +99,13 @@ const hideBeforeTablet = css`
     }
 `;
 
-const EnvironmentMomentBannerHeader: React.FC = () => (
+interface EnvironmentMomentBannerHeaderProps {
+    isSupporter: boolean;
+}
+
+const EnvironmentMomentBannerHeader: React.FC<EnvironmentMomentBannerHeaderProps> = ({
+    isSupporter,
+}: EnvironmentMomentBannerHeaderProps) => (
     <header css={container}>
         <div css={iconAndTextContainer}>
             <div css={iconContainer}>
@@ -107,14 +113,23 @@ const EnvironmentMomentBannerHeader: React.FC = () => (
             </div>
             <div css={hideAfterTablet}>
                 <div css={textContainer}>
-                    <span>Our climate promise</span>
-                    <span>to you</span>
+                    {isSupporter ? (
+                        <>
+                            <span>You help power our</span>
+                            <span>climate pledge</span>
+                        </>
+                    ) : (
+                        <>
+                            <span>Help power our</span>
+                            <span>climate pledge</span>
+                        </>
+                    )}
                 </div>
             </div>
             <div css={hideBeforeTablet}>
                 <div css={textContainer}>
-                    <span>Our climate</span>
-                    <span>promise to you</span>
+                    <span>You help power</span>
+                    <span>our climate pledge</span>
                 </div>
             </div>
         </div>
