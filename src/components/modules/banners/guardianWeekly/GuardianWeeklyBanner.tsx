@@ -41,10 +41,10 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const mobileAndDesktopImg =
-    'https://media.guim.co.uk/d544f4e24e4275d3434e6465d8676d2b5bcd0851/128_122_3218_1543/500.png';
+    'https://i.guim.co.uk/img/media/d544f4e24e4275d3434e6465d8676d2b5bcd0851/128_122_3218_1543/500.png?quality=85&s=718ce35eab4f021fcba8893be654cfda';
 
 const tabletImage =
-    'https://media.guim.co.uk/a213adf3f68f788b3f9434a1e88787fce1fa10bd/322_0_2430_1632/500.png';
+    'https://i.guim.co.uk/img/media/a213adf3f68f788b3f9434a1e88787fce1fa10bd/322_0_2430_1632/500.png?quality=85&s=70749c1c97ffaac614c1e357d3e7f616';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
