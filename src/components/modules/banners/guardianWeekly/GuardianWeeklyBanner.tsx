@@ -169,14 +169,6 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                                     alt=""
                                 />
                             </div>
-                            <div css={iconAndCloseFlex}>
-                                <div css={iconAndCloseAlign}>
-                                    <div css={logoContainer}>
-                                        <SvgRoundel />
-                                    </div>
-                                    <CloseButton onClick={onCloseClick} />
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>

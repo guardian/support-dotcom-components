@@ -37,7 +37,6 @@ export const contentContainer = css`
     }
     ${from.leftCol} {
         max-width: 1140px;
-        justify-content: center;
     }
     ${from.wide} {
         max-width: 1300px;
@@ -57,11 +56,10 @@ export const topLeftComponent = css`
         width: 50%;
     }
     ${from.desktop} {
-        width: 45%;
+        width: 43%;
     }
     ${from.leftCol} {
-        padding-left: 0;
-        width: 40%;
+        width: 47%;
     }
 `;
 
@@ -86,6 +84,10 @@ export const heading = css`
         ${headline.large({ fontWeight: 'bold' })};
         line-height: 100%;
     }
+
+    ${from.leftCol} {
+        max-width: 80%;
+    }
 `;
 
 export const paragraph = css`
@@ -104,6 +106,10 @@ export const paragraph = css`
 
     ${from.desktop} {
         font-size: 20px;
+    }
+
+    ${from.leftCol} {
+        max-width: 90%;
     }
 `;
 
@@ -188,8 +194,7 @@ export const bottomRightComponent = css`
         padding-right: 0;
     }
     ${from.wide} {
-        max-width: 47%;
-        max-height: 290px;
+        width: 45%;
     }
 `;
 
@@ -239,12 +244,17 @@ export const packShotMobileAndDesktop = css`
 
     ${from.desktop} {
         display: block;
-        width: 100%;
+        width: 93%;
     }
 
     ${from.leftCol} {
         width: 110%;
-        margin-left: 0;
+        margin: 0;
+    }
+
+    ${from.leftCol} {
+        width: 100%;
+        margin: 0;
     }
 `;
 
@@ -275,20 +285,6 @@ export const iconAndClosePosition = css`
     position: absolute;
     top: 10px;
     right: 10px;
-    ${from.desktop} {
-        display: none;
-    }
-`;
-
-export const iconAndCloseFlex = css`
-    display: none;
-    ${from.desktop} {
-        display: inline-flex;
-        height: 100%;
-        align-items: flex-start;
-        margin-top: ${space[9]}px;
-        margin-right: ${space[3]}px;
-    }
 `;
 
 export const iconAndCloseAlign = css`
