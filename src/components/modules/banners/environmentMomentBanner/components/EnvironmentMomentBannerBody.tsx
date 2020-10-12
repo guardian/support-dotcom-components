@@ -34,15 +34,14 @@ const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = 
                     <div>
                         At the Guardian, we’ve been trying to live up to the ambitious promises we
                         made a year ago. We pledged to do more in service of the escalating climate
-                        emergency, and this was just the start.
+                        emergency.
                     </div>
                     <div>
-                        Thanks to your support, we can continue to provide independent,
-                        authoritative, persistent journalism that is always led by science and
-                        truth. And we can keep it open for all to read so more people become better
-                        informed, and inspired to take meaningful action. We were able to stop
-                        taking advertising from fossil fuel companies, and we’re now on track to
-                        reach net zero carbon emissions by 2030.
+                        Thanks to your support, we can provide independent, authoritative,
+                        persistent journalism that is always led by science and truth. And we can
+                        keep it open for all so more people can be informed, and inspired to take
+                        action. We’ve stopped taking advertising from fossil fuel companies, and
+                        we’re set to reach net zero carbon emissions by 2030.
                     </div>
                     <div>
                         Thank you for helping to sustain our open, independent journalism. Together
@@ -54,14 +53,14 @@ const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = 
                     <div>
                         At the Guardian, we’ve been trying to live up to the ambitious promises we
                         made a year ago. We pledged to do more in service of the escalating climate
-                        emergency, and this was just the start.
+                        emergency.
                     </div>
                     <div>
-                        We will continue to provide independent, authoritative, persistent
-                        journalism that is always led by science and truth. And we’ll keep it open
-                        for all to read so more people can be better informed, and inspired to take
-                        meaningful action. We’ve stopped taking advertising from fossil fuel
-                        companies, and we’re on track to reach net zero carbon emissions by 2030.
+                        We will provide independent, authoritative, persistent journalism that is
+                        always led by science and truth. And we’ll keep it open for all so more
+                        people can be informed, and inspired to take action. We’ve stopped taking
+                        advertising from fossil fuel companies, and we’re set to reach net zero
+                        carbon emissions by 2030.
                     </div>
                     <div>
                         From as little as {getLocalCurrencySymbol(countryCode)}1, today you can help
