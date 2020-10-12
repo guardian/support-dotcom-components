@@ -18,6 +18,7 @@ export type BannerTargeting = {
         remoteSubscriptionsBanner: boolean;
     };
     weeklyArticleHistory?: WeeklyArticleHistory;
+    hasOptedOutOfArticleCount: boolean;
 };
 
 export type BannerTestTracking = {

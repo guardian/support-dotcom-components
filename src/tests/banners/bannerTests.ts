@@ -24,7 +24,7 @@ const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
-    environmentMomentBannerGenerator,
+    // environmentMomentBannerGenerator,
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,

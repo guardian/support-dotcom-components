@@ -1,4 +1,5 @@
 import { EpicTargeting, ViewLog } from '../components/modules/epics/ContributionsEpicTypes';
+import { BannerTest } from '../types/BannerTypes';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
@@ -63,4 +64,12 @@ export const userIsInTest = (test: Test, mvtId: number): boolean => {
     const lowest = maxMVTId * (test.audienceOffset || 0);
     const highest = lowest + maxMVTId * (test.audience || 1);
     return mvtId >= lowest && mvtId <= highest;
+};
+
+export const userHasConsented = (test: BannerTest, hasOptedOutOfArticleCount: boolean): boolean => {
+    if (test.articlesViewedSettings) {
+        return !hasOptedOutOfArticleCount;
+    } else {
+        return true;
+    }
 };
