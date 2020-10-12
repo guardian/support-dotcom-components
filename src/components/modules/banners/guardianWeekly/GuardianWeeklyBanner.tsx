@@ -7,7 +7,6 @@ import {
     topLeftComponent,
     heading,
     iconAndCloseAlign,
-    iconAndCloseFlex,
     iconAndClosePosition,
     logoContainer,
     closeButton,
