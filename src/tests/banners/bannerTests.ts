@@ -5,7 +5,7 @@ import {
     EnvironmentMomentBannerSupporters,
     EnvironmentMomentBannerNonSupporters,
 } from './EnvironmentMomentBannerTest';
-import { defaultBannerTestGenerator } from './DefaultContributionsBannerTest';
+import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
@@ -20,6 +20,9 @@ const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
 
 const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
     Promise.resolve([GuardianWeeklyBanner]);
+
+const defaultBannerTestGenerator: BannerTestGenerator = () =>
+    Promise.resolve([DefaultContributionsBanner]);
 
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
