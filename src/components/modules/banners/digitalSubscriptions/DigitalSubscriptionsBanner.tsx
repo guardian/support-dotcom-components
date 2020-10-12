@@ -41,21 +41,22 @@ const notNowComponentId = `${bannerId} : not now`;
 const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
-// const ausMobImg = 'https://media.guim.co.uk/155b9ad007e59571fe9c60218246ddf8c758e1f8/0_12_1894_1137/500.png';
-const ausMobImg = 'https://i.guim.co.uk/img/media/155b9ad007e59571fe9c60218246ddf8c758e1f8/0_12_1894_1137/500.png?width=400&quality=85&s=206fa8b876a4929ed268504a9bc1695e';
-// const ausBaseImg = 'https://media.guim.co.uk/287779fce55ae40d86d0041d93d259ce9bcf631b/0_0_2320_1890/500.png';
-const ausBaseImg = 'https://i.guim.co.uk/img/media/287779fce55ae40d86d0041d93d259ce9bcf631b/0_0_2320_1890/500.png?width=500&quality=85&s=19f098f42624a9efc6758413e83a86c0';
-
-const rowMobImg = 'https://i.guim.co.uk/img/media/3e6ecc7e48f11c5476fc2d7fad4b3af2aaff4263/4001_0_1986_1193/500.png?width=400&quality=85&s=dd8a60d6bd0bf82ff17807736f016b56';
-const rowBaseImg = 'https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720';
+const ausMobImg =
+    'https://i.guim.co.uk/img/media/155b9ad007e59571fe9c60218246ddf8c758e1f8/0_12_1894_1137/500.png?width=400&quality=85&s=206fa8b876a4929ed268504a9bc1695e';
+const ausBaseImg =
+    'https://i.guim.co.uk/img/media/287779fce55ae40d86d0041d93d259ce9bcf631b/0_0_2320_1890/500.png?width=500&quality=85&s=19f098f42624a9efc6758413e83a86c0';
+const rowMobImg =
+    'https://i.guim.co.uk/img/media/3e6ecc7e48f11c5476fc2d7fad4b3af2aaff4263/4001_0_1986_1193/500.png?width=400&quality=85&s=dd8a60d6bd0bf82ff17807736f016b56';
+const rowBaseImg =
+    'https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720';
 
 const getMobileImg = (countryCode: string | undefined) => ({
-    url: true ? ausMobImg : rowMobImg,
+    url: countryCode === 'AU' ? ausMobImg : rowMobImg,
     media: '(max-width: 739px)',
 });
 
 const getBaseImg = (countryCode: string | undefined) => ({
-    url: true ? ausBaseImg : rowBaseImg,
+    url: countryCode === 'AU' ? ausBaseImg : rowBaseImg,
     media: '(min-width: 740px)',
 });
 
