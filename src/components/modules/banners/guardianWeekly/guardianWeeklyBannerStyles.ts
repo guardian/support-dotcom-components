@@ -61,6 +61,10 @@ export const topLeftComponent = css`
     ${from.leftCol} {
         width: 47%;
     }
+
+    @media screen and (min-width: 1400px) {
+        padding-left: 0;
+    }
 `;
 
 export const heading = css`
@@ -285,6 +289,14 @@ export const iconAndClosePosition = css`
     position: absolute;
     top: 10px;
     right: 10px;
+
+    ${from.leftCol} {
+        right: ${space[4]}px;
+    }
+
+    @media screen and (min-width: 1400px) {
+        right: 0;
+    }
 `;
 
 export const iconAndCloseAlign = css`
