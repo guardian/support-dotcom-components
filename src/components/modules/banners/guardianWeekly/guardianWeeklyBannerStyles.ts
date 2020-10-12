@@ -46,7 +46,7 @@ export const contentContainer = css`
 
 export const topLeftComponent = css`
     width: 100%;
-    padding: ${space[3]}px ${space[3]}px 0 ${space[3]}px;
+    padding: ${space[2]}px ${space[3]}px 0 ${space[3]}px;
     display: relative;
 
     button {
@@ -57,7 +57,6 @@ export const topLeftComponent = css`
         width: 50%;
     }
     ${from.desktop} {
-        padding-top: ${space[2]}px;
         width: 45%;
     }
     ${from.leftCol} {
@@ -105,7 +104,6 @@ export const paragraph = css`
 
     ${from.desktop} {
         font-size: 20px;
-        margin: ${space[2]}px 0 ${space[6]}px;
     }
 `;
 
