@@ -126,7 +126,7 @@ describe('selectBannerTest', () => {
             const cache = getBannerDeployCache(secondDate);
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
-                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
+                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });
 
@@ -162,7 +162,7 @@ describe('selectBannerTest', () => {
                 getTests,
                 cache,
             ).then(result => {
-                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
+                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });
 
