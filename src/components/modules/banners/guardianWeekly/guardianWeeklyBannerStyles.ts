@@ -53,7 +53,7 @@ export const topLeftComponent = css`
         margin-left: ${space[3]}px;
     }
     ${from.tablet} {
-        padding: ${space[4]}px;
+        padding: ${space[2]}px ${space[4]}px 0 ${space[4]}px;
         width: 50%;
     }
     ${from.desktop} {
