@@ -106,7 +106,6 @@ describe('WeeklyBanner canRun', () => {
                 remoteSubscriptionsBanner: true,
             },
             hasOptedOutOfArticleCount: false,
-
         };
         const tracking = {
             ophanPageId: '',

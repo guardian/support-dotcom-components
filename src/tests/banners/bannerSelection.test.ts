@@ -307,7 +307,7 @@ describe('selectBannerTest', () => {
             ).then(result => {
                 expect(result).toBe(null);
             });
-        })
+        });
     });
 
     describe('Channel 2 banner rules', () => {
