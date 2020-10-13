@@ -1,5 +1,4 @@
 import { EpicTargeting, ViewLog } from '../components/modules/epics/ContributionsEpicTypes';
-import { BannerTest } from '../types/BannerTypes';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
