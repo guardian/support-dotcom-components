@@ -7,10 +7,8 @@ export const DefaultContributionsBanner: BannerTest = {
     name: 'DefaultContributionsBanner',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
-    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
-        // Do not serve to frontend for now
-        return pageTracking.clientName === 'dcr';
-    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    canRun: (_targeting: BannerTargeting, _pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
     variants: [
         {
