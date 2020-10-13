@@ -8,6 +8,7 @@ import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocat
 import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
 import { isRecentOneOffContributor } from '../lib/dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
+import { buildReminderFields, ReminderFields } from './reminderFields';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -45,12 +46,6 @@ interface MaxViews {
 export interface Cta {
     text: string;
     baseUrl: string;
-}
-
-export interface ReminderFields {
-    reminderCTA: string;
-    reminderDate: string;
-    reminderDateAsString: string;
 }
 
 export interface Variant {
@@ -302,29 +297,6 @@ export interface Result {
     debug?: Debug;
 }
 
-const reminderDate = (): Date => {
-    const date = new Date();
-    if (date.getDate() < 20) {
-        date.setMonth(date.getMonth() + 1);
-    } else {
-        date.setMonth(date.getMonth() + 2);
-    }
-
-    return date;
-};
-
-const reminderFields = (): ReminderFields => {
-    const month = reminderDate().getMonth();
-    const monthName = reminderDate().toLocaleString('default', { month: 'long' });
-    const year = reminderDate().getFullYear();
-
-    return {
-        reminderCTA: `Remind me in ${monthName}`,
-        reminderDate: `${year}-${month}-19 00:00:00`,
-        reminderDateAsString: `${monthName} ${year}`,
-    };
-};
-
 export const findTestAndVariant = (
     tests: Test[],
     targeting: EpicTargeting,
@@ -380,7 +352,7 @@ export const findTestAndVariant = (
         const variant = selectVariant(test, targeting.mvtId || 1);
         const variantWithReminder: Variant = {
             ...variant,
-            showReminderFields: variant.showReminderFields || reminderFields(),
+            showReminderFields: variant.showReminderFields || buildReminderFields(),
         };
 
         return {
