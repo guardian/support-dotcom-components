@@ -109,7 +109,7 @@ describe('selectBannerTest', () => {
             isPaidContent: false,
             showSupportMessaging: true,
             mvtId: 3,
-            countryCode: 'AU',
+            countryCode: 'DE',
             engagementBannerLastClosedAt: secondDate,
             switches: {
                 remoteSubscriptionsBanner: true,

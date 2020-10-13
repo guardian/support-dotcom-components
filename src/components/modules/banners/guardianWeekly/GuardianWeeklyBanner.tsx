@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import { SvgGuardianLogo } from '@guardian/src-brand';
+import React, { useState, ReactElement } from 'react';
+import { SvgRoundel } from '@guardian/src-brand';
 import { SvgClose } from '@guardian/src-icons';
 import {
     banner,
     contentContainer,
     topLeftComponent,
     heading,
+    iconAndCloseAlign,
+    iconAndClosePosition,
+    logoContainer,
+    closeButton,
     paragraph,
     buttonTextDesktop,
     buttonTextMobileTablet,
     siteMessage,
     bottomRightComponent,
-    packShot,
-    iconPanel,
-    closeButton,
-    logoContainer,
+    packShotContainer,
+    packShotTablet,
+    packShotMobileAndDesktop,
     notNowButton,
     becomeASubscriberButton,
     linkStyle,
@@ -35,6 +38,27 @@ const ctaComponentId = `${bannerId} : cta`;
 const notNowComponentId = `${bannerId} : not now`;
 const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
+
+const mobileAndDesktopImg =
+    'https://i.guim.co.uk/img/media/d544f4e24e4275d3434e6465d8676d2b5bcd0851/128_122_3218_1543/500.png?quality=85&s=718ce35eab4f021fcba8893be654cfda';
+
+const tabletImage =
+    'https://i.guim.co.uk/img/media/a213adf3f68f788b3f9434a1e88787fce1fa10bd/322_0_2430_1632/500.png?quality=85&s=70749c1c97ffaac614c1e357d3e7f616';
+
+type ButtonPropTypes = {
+    onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+};
+
+const CloseButton = (props: ButtonPropTypes): ReactElement => (
+    <button
+        data-link-name={closeComponentId}
+        css={closeButton}
+        onClick={props.onClick}
+        aria-label="Close"
+    >
+        <SvgClose />
+    </button>
+);
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     bannerChannel,
@@ -93,6 +117,14 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
             {showBanner ? (
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
+                        <div css={iconAndClosePosition}>
+                            <div css={iconAndCloseAlign}>
+                                <div css={logoContainer}>
+                                    <SvgRoundel />
+                                </div>
+                                <CloseButton onClick={onCloseClick} />
+                            </div>
+                        </div>
                         <div css={topLeftComponent}>
                             <h3 css={heading}>{content?.heading}</h3>
                             <p css={paragraph}>{content?.messageText}</p>
@@ -128,23 +160,13 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
                             </div>
                         </div>
                         <div css={bottomRightComponent}>
-                            <img
-                                css={packShot}
-                                src="https://i.guim.co.uk/img/media/f5c66a31a7d352acaee1c574e5cc009909f25119/0_0_2210_2062/500.png?quality=85&s=46fb180930f0ec0dc2f6b34a4e94cb06"
-                                alt=""
-                            />
-                            <div css={iconPanel}>
-                                <button
-                                    data-link-name={closeComponentId}
-                                    css={closeButton}
-                                    onClick={onCloseClick}
-                                    aria-label="Close"
-                                >
-                                    <SvgClose />
-                                </button>
-                                <div css={logoContainer}>
-                                    <SvgGuardianLogo />
-                                </div>
+                            <div css={packShotContainer}>
+                                <img css={packShotTablet} src={tabletImage} alt="" />
+                                <img
+                                    css={packShotMobileAndDesktop}
+                                    src={mobileAndDesktopImg}
+                                    alt=""
+                                />
                             </div>
                         </div>
                     </div>
