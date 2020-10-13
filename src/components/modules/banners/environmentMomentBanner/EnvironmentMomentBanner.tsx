@@ -218,7 +218,7 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                                 <div css={bodyAndCtasContainer}>
                                     <EnvironmentMomentBannerBody
                                         isSupporter={!!isSupporter}
-                                        countryCode={countryCode || 'GB'}
+                                        countryCode={countryCode}
                                     />
                                     <EnvironmentMomentBannerCtas
                                         isSupporter={!!isSupporter}

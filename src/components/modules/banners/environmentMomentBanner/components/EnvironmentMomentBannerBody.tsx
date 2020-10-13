@@ -16,7 +16,7 @@ const paragraphsContainer = css`
 
 interface EnvironmentMomentBannerBodyProps {
     isSupporter: boolean;
-    countryCode: string;
+    countryCode?: string;
 }
 
 const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = ({
