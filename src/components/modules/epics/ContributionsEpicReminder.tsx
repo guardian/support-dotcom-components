@@ -3,7 +3,7 @@ import { css, SerializedStyles } from '@emotion/core';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { ReminderFields } from '../../../lib/variants';
+import { ReminderFields } from '../../../lib/reminderFields';
 import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
