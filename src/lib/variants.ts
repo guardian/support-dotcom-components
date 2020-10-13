@@ -382,7 +382,7 @@ export const findTestAndVariant = (
         };
 
         return {
-            result: { test, variant: variant.secondaryCta ? variant : variantWithReminder },
+            result: { test, variant: variantWithReminder },
             debug: includeDebug ? debug : undefined,
         };
     }

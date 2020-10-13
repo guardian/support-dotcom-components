@@ -23,6 +23,30 @@ const getDomainAttribute = (isCrossSubdomain = false): string => {
     return shortDomain === 'localhost' ? '' : ` domain=${shortDomain};`;
 };
 
+const getCookieValues = (name: string): string[] => {
+    const nameEq = `${name}=`;
+    const cookies = document.cookie.split(';');
+
+    return cookies.reduce<string[]>((acc, cookie) => {
+        const cookieTrimmed = cookie.trim();
+
+        if (cookieTrimmed.startsWith(nameEq)) {
+            acc.push(cookieTrimmed.substring(nameEq.length, cookieTrimmed.length));
+        }
+
+        return acc;
+    }, []);
+};
+
+export const getCookie = (name: string): string | null => {
+    const cookieVal = getCookieValues(name);
+
+    if (cookieVal.length > 0) {
+        return cookieVal[0];
+    }
+    return null;
+};
+
 export const addCookie = (
     name: string,
     value: string,
