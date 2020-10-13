@@ -304,8 +304,10 @@ export interface Result {
 
 const reminderDate = (): Date => {
     const date = new Date();
-    if (date.getDate() >= 20) {
+    if (date.getDate() < 20) {
         date.setMonth(date.getMonth() + 1);
+    } else {
+        date.setMonth(date.getMonth() + 2);
     }
 
     return date;

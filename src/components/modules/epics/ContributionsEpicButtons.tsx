@@ -5,6 +5,7 @@ import { Button } from './Button';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { Cta, Variant } from '../../../lib/variants';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
+import { getCookie } from '../../../lib/cookies';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -90,6 +91,7 @@ export const ContributionsEpicButtons = ({
     onOpenReminderClick: Function;
 }): JSX.Element | null => {
     const { cta, secondaryCta, showReminderFields } = variant;
+    const showReminderCta = !getCookie('gu_epic_contribution_reminder');
     if (!cta) {
         return null;
     }
@@ -105,6 +107,7 @@ export const ContributionsEpicButtons = ({
                     countryCode={countryCode}
                 />
             ) : (
+                showReminderCta &&
                 showReminderFields && (
                     <div css={buttonMargins}>
                         <Button onClickAction={onOpenReminderClick} isTertiary>

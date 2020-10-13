@@ -9,8 +9,6 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
 import { addCookie } from '../../../lib/cookies';
-import { int } from 'aws-sdk/clients/datapipeline';
-import { date } from '@storybook/addon-knobs';
 
 const rootStyles = css`
     position: relative;
