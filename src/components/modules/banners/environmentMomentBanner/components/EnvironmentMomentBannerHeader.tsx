@@ -38,11 +38,11 @@ const iconContainer = css`
     }
 
     ${from.tablet} {
-        height: 85px;
+        height: 91px;
     }
 
     ${from.desktop} {
-        height: 125px;
+        height: 140px;
     }
 `;
 
@@ -57,12 +57,20 @@ const textContainer = css`
         font-size: 40px;
         line-height: 100%;
         margin-top: 3px;
+
+        & > * + * {
+            margin-top: ${space[2]}px;
+        }
     }
 
     ${from.desktop} {
         font-size: 60px;
         margin-top: ${space[1]}px;
         margin-left: ${space[4]}px;
+
+        & > * + * {
+            margin-top: ${space[4]}px;
+        }
     }
 `;
 
@@ -99,7 +107,13 @@ const hideBeforeTablet = css`
     }
 `;
 
-const EnvironmentMomentBannerHeader: React.FC = () => (
+interface EnvironmentMomentBannerHeaderProps {
+    isSupporter: boolean;
+}
+
+const EnvironmentMomentBannerHeader: React.FC<EnvironmentMomentBannerHeaderProps> = ({
+    isSupporter,
+}: EnvironmentMomentBannerHeaderProps) => (
     <header css={container}>
         <div css={iconAndTextContainer}>
             <div css={iconContainer}>
@@ -107,14 +121,32 @@ const EnvironmentMomentBannerHeader: React.FC = () => (
             </div>
             <div css={hideAfterTablet}>
                 <div css={textContainer}>
-                    <span>Our climate promise</span>
-                    <span>to you</span>
+                    {isSupporter ? (
+                        <>
+                            <span>You help power</span>
+                            <span>our climate pledge</span>
+                        </>
+                    ) : (
+                        <>
+                            <span>Help power</span>
+                            <span>our climate pledge</span>
+                        </>
+                    )}
                 </div>
             </div>
             <div css={hideBeforeTablet}>
                 <div css={textContainer}>
-                    <span>Our climate</span>
-                    <span>promise to you</span>
+                    {isSupporter ? (
+                        <>
+                            <span>You help power</span>
+                            <span>our pledge</span>
+                        </>
+                    ) : (
+                        <>
+                            <span>Help power our</span>
+                            <span>climate pledge</span>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
