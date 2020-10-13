@@ -302,17 +302,25 @@ export interface Result {
     debug?: Debug;
 }
 
-// Temporarily hard-coded while we decide on requirement
-const defaultReminderFields: ReminderFields = {
-    reminderCTA: 'Remind me in October',
-    reminderDate: '2020-10-14 00:00:00',
-    reminderDateAsString: 'October 2020',
-};
-const defaultReminderCutoff = new Date('2020-09-14');
+const reminderDate = (): Date => {
+    const date = new Date();
+    if (date.getDate() >= 20) {
+        date.setMonth(date.getMonth() + 1);
+    }
 
-const getDefaultReminderFields = (): ReminderFields | undefined => {
-    const now = new Date();
-    return now <= defaultReminderCutoff ? defaultReminderFields : undefined;
+    return date;
+};
+
+const reminderFields = (): ReminderFields => {
+    const month = reminderDate().getMonth();
+    const monthName = reminderDate().toLocaleString('default', { month: 'long' });
+    const year = reminderDate().getFullYear();
+
+    return {
+        reminderCTA: `Remind me in ${monthName}`,
+        reminderDate: `${year}-${month}-19 00:00:00`,
+        reminderDateAsString: `${monthName} ${year}`,
+    };
 };
 
 export const findTestAndVariant = (
@@ -370,11 +378,11 @@ export const findTestAndVariant = (
         const variant = selectVariant(test, targeting.mvtId || 1);
         const variantWithReminder: Variant = {
             ...variant,
-            showReminderFields: variant.showReminderFields || getDefaultReminderFields(),
+            showReminderFields: variant.showReminderFields || reminderFields(),
         };
 
         return {
-            result: { test, variant: variantWithReminder },
+            result: { test, variant: variant.secondaryCta ? variant : variantWithReminder },
             debug: includeDebug ? debug : undefined,
         };
     }
