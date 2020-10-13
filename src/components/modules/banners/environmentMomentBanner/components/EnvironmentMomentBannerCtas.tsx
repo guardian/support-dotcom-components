@@ -61,7 +61,7 @@ const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = 
     const PrimaryCta: React.FC<CtaProps> = ({ size }: CtaProps) => (
         <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
             <LinkButton onClick={onContributeClick} size={size} href={landingPageUrl}>
-                <span css={styles.hideAfterTablet}>Contribute</span>
+                <span css={styles.hideAfterTablet}>Support us</span>
                 <span css={styles.hideBeforeTablet}>
                     {isSupporter ? 'Support again' : 'Support the Guardian'}
                 </span>

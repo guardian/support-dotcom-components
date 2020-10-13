@@ -25,8 +25,8 @@ const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = 
 }: EnvironmentMomentBannerBodyProps) => (
     <div css={container}>
         <div css={styles.hideAfterTablet}>
-            We will not sideline the climate crisis. Today, one year on from our pledge, we want to
-            update you on our progress.
+            We want to show you how the Guardian’s been trying to live up to the ambitious promises
+            we made a year ago. With your support, we can achieve more.
         </div>
         <div css={styles.hideBeforeTablet}>
             {isSupporter ? (
@@ -56,8 +56,8 @@ const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = 
                         We will provide independent, authoritative, persistent journalism that is
                         always led by science and truth. And we’ll keep it open for all so more
                         people can be informed, and inspired to take action. We’ve stopped taking
-                        advertising from fossil fuel companies, and we’re set to reach net zero
-                        carbon emissions by 2030.
+                        advertising from fossil fuel companies, and we’re on course to reach net
+                        zero carbon emissions by 2030.
                     </div>
                     <div>
                         From as little as {getLocalCurrencySymbol(countryCode)}1, today you can help
