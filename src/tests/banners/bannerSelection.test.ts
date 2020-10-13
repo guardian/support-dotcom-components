@@ -44,6 +44,7 @@ describe('selectBannerTest', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {
@@ -114,6 +115,7 @@ describe('selectBannerTest', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {
@@ -199,6 +201,7 @@ describe('selectBannerTest', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {
@@ -289,6 +292,22 @@ describe('selectBannerTest', () => {
                 expect(result && result.test.name).toBe('test');
             });
         });
+
+        it('returns null if opted out', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    hasOptedOutOfArticleCount: true,
+                }),
+                tracking,
+                '',
+                () => Promise.resolve([test]),
+                cache,
+                undefined,
+                now,
+            ).then(result => {
+                expect(result).toBe(null);
+            });
+        })
     });
 
     describe('Channel 2 banner rules', () => {
@@ -307,6 +326,7 @@ describe('selectBannerTest', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {

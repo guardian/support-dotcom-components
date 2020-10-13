@@ -34,6 +34,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -47,6 +48,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
         const targetingFalse2 = {
             alreadyVisitedCount: 3,
@@ -60,6 +62,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             switches: {
                 remoteSubscriptionsBanner: false,
             },
+            hasOptedOutOfArticleCount: false,
         };
         const tracking = {
             ophanPageId: '',
@@ -89,6 +92,7 @@ describe('WeeklyBanner canRun', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -101,6 +105,8 @@ describe('WeeklyBanner canRun', () => {
             switches: {
                 remoteSubscriptionsBanner: true,
             },
+            hasOptedOutOfArticleCount: false,
+
         };
         const tracking = {
             ophanPageId: '',
