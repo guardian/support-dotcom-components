@@ -8,6 +8,9 @@ import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
+import { addCookie } from '../../../lib/cookies';
+import { int } from 'aws-sdk/clients/datapipeline';
+import { date } from '@storybook/addon-knobs';
 
 const rootStyles = css`
     position: relative;
@@ -119,6 +122,18 @@ type ReminderPayload = {
     reminderDate: string;
 };
 
+const dateDiff = (start: Date, end: Date): number => {
+    const twentyFourHours = 86400000;
+    return Math.round(Math.abs((start.valueOf() - end.valueOf()) / twentyFourHours));
+};
+
+const addContributionReminderCookie = (reminderDateString: string): void => {
+    const today = new Date();
+    const reminderDate = new Date(Date.parse(reminderDateString));
+
+    addCookie('gu_epic_contribution_reminder', '1', dateDiff(today, reminderDate));
+};
+
 const contributionsReminderUrl =
     'https://contribution-reminders.support.guardianapis.com/remind-me';
 
@@ -188,6 +203,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                                     if (json !== 'OK') {
                                         throw Error('Server error');
                                     }
+                                    addContributionReminderCookie(reminderDate);
                                     setIsSuccessState(true);
                                 })
                                 .catch((): void => setIsErrorState(true))
