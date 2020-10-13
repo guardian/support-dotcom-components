@@ -41,12 +41,9 @@ const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = 
                         persistent journalism that is always led by science and truth. And we can
                         keep it open for all so more people can be informed, and inspired to take
                         action. We’ve stopped taking advertising from fossil fuel companies, and
-                        we’re set to reach net zero carbon emissions by 2030.
+                        we’re on course to reach net zero carbon emissions by 2030.
                     </div>
-                    <div>
-                        Thank you for helping to sustain our open, independent journalism. Together
-                        we can achieve so much more.
-                    </div>
+                    <div>Thank you for helping to sustain our open, independent journalism.</div>
                 </div>
             ) : (
                 <div css={paragraphsContainer}>

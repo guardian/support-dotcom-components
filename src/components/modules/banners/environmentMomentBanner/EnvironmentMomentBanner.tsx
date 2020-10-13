@@ -151,7 +151,7 @@ const lineContainer = css`
     top: 0;
     left: 0;
     width: 50%;
-    height: 126px;
+    height: 141px;
     box-sizing: border-box;
     border-bottom: 1px solid ${neutral[86]};
     display: flex;

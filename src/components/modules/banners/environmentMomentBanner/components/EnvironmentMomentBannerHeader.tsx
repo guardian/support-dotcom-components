@@ -38,11 +38,11 @@ const iconContainer = css`
     }
 
     ${from.tablet} {
-        height: 85px;
+        height: 91px;
     }
 
     ${from.desktop} {
-        height: 125px;
+        height: 140px;
     }
 `;
 
@@ -57,12 +57,20 @@ const textContainer = css`
         font-size: 40px;
         line-height: 100%;
         margin-top: 3px;
+
+        & > * + * {
+            margin-top: ${space[2]}px;
+        }
     }
 
     ${from.desktop} {
         font-size: 60px;
         margin-top: ${space[1]}px;
         margin-left: ${space[4]}px;
+
+        & > * + * {
+            margin-top: ${space[4]}px;
+        }
     }
 `;
 
