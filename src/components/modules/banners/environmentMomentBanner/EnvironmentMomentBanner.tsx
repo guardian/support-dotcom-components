@@ -4,7 +4,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { BannerProps } from '../../../../types/BannerTypes';
-import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEarth';
+// import EnvironmentMomentBannerEarth from './components/EnvironmentMomentBannerEarth';
 import EnvironmentMomentBannerHeader from './components/EnvironmentMomentBannerHeader';
 import EnvironmentMomentBannerBody from './components/EnvironmentMomentBannerBody';
 import EnvironmentMomentBannerCtas from './components/EnvironmentMomentBannerCtas';
@@ -83,26 +83,26 @@ const earthContainerContainer = css`
     }
 `;
 
-const earthContainer = css`
-    width: 200%;
-    margin-top: -150%;
-    margin-left: -50%;
-
-    ${from.tablet} {
-        width: 205%;
-        margin-top: -55%;
-        margin-left: 0;
-    }
-
-    ${from.desktop} {
-        width: 800px;
-    }
-
-    ${from.wide} {
-        width: 880px;
-        margin-top: -360px;
-    }
-`;
+// const earthContainer = css`
+//     width: 200%;
+//     margin-top: -150%;
+//     margin-left: -50%;
+//
+//     ${from.tablet} {
+//         width: 205%;
+//         margin-top: -55%;
+//         margin-left: 0;
+//     }
+//
+//     ${from.desktop} {
+//         width: 800px;
+//     }
+//
+//     ${from.wide} {
+//         width: 880px;
+//         margin-top: -360px;
+//     }
+// `;
 
 const textContainer = css`
     ${from.tablet} {
@@ -210,7 +210,7 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                         <div css={contentContainer}>
                             <div css={earthContainerContainer}>
                                 {/*<div css={earthContainer}>*/}
-                                    {/*<EnvironmentMomentBannerEarth />*/}
+                                {/*<EnvironmentMomentBannerEarth />*/}
                                 {/*</div>*/}
                             </div>
                             <div css={textContainer}>
