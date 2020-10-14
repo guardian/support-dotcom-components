@@ -41,7 +41,7 @@ const contentContainer = css`
 `;
 
 const closeButtonAndRoundelContainer = css`
-    // position: absolute;
+    position: relative;
     z-index: 200;
     top: ${space[3]}px;
     right: ${space[3]}px;
