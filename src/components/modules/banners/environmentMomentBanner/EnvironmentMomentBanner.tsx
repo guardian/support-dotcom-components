@@ -41,7 +41,7 @@ const contentContainer = css`
 `;
 
 const closeButtonAndRoundelContainer = css`
-    position: relative;
+    position: absolute;
     z-index: 200;
     top: ${space[3]}px;
     right: ${space[3]}px;
@@ -209,9 +209,9 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                         </div>
                         <div css={contentContainer}>
                             <div css={earthContainerContainer}>
-                                <div css={earthContainer}>
-                                    <EnvironmentMomentBannerEarth />
-                                </div>
+                                {/*<div css={earthContainer}>*/}
+                                    {/*<EnvironmentMomentBannerEarth />*/}
+                                {/*</div>*/}
                             </div>
                             <div css={textContainer}>
                                 <EnvironmentMomentBannerHeader isSupporter={!!isSupporter} />
