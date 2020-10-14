@@ -8,6 +8,7 @@ import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocat
 import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
 import { isRecentOneOffContributor } from '../lib/dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
+import { buildReminderFields, ReminderFields } from './reminderFields';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -45,12 +46,6 @@ interface MaxViews {
 export interface Cta {
     text: string;
     baseUrl: string;
-}
-
-export interface ReminderFields {
-    reminderCTA: string;
-    reminderDate: string;
-    reminderDateAsString: string;
 }
 
 export interface Variant {
@@ -302,19 +297,6 @@ export interface Result {
     debug?: Debug;
 }
 
-// Temporarily hard-coded while we decide on requirement
-const defaultReminderFields: ReminderFields = {
-    reminderCTA: 'Remind me in October',
-    reminderDate: '2020-10-14 00:00:00',
-    reminderDateAsString: 'October 2020',
-};
-const defaultReminderCutoff = new Date('2020-09-14');
-
-const getDefaultReminderFields = (): ReminderFields | undefined => {
-    const now = new Date();
-    return now <= defaultReminderCutoff ? defaultReminderFields : undefined;
-};
-
 export const findTestAndVariant = (
     tests: Test[],
     targeting: EpicTargeting,
@@ -370,7 +352,7 @@ export const findTestAndVariant = (
         const variant = selectVariant(test, targeting.mvtId || 1);
         const variantWithReminder: Variant = {
             ...variant,
-            showReminderFields: variant.showReminderFields || getDefaultReminderFields(),
+            showReminderFields: variant.showReminderFields || buildReminderFields(),
         };
 
         return {
