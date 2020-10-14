@@ -122,7 +122,7 @@ type ReminderPayload = {
 
 const dateDiff = (start: Date, end: Date): number => {
     const twentyFourHours = 86400000;
-    return Math.round(Math.abs((start.valueOf() - end.valueOf()) / twentyFourHours));
+    return Math.round((end.valueOf() - start.valueOf()) / twentyFourHours);
 };
 
 const addContributionReminderCookie = (reminderDateString: string): void => {
