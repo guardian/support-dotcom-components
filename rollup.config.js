@@ -27,11 +27,6 @@ const globals = {
 const config = [
     ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
     [
-        'environment-moment-banner',
-        'src/components/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.tsx',
-        'dist/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js',
-    ],
-    [
         'contributions-banner',
         'src/components/modules/banners/contributions/ContributionsBanner.tsx',
         'dist/modules/banners/contributions/ContributionsBanner.js',
