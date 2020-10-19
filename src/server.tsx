@@ -30,11 +30,9 @@ import {
     BannerProps,
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
-import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
-import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 
@@ -314,25 +312,6 @@ app.get(
 );
 
 app.get(
-    `/${AusMomentContributionsBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js'
-                : '/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
     `/${DefaultContributionsBannerPath}`,
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
@@ -377,25 +356,6 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
                 : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${AusMomentThankYouBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
-                : '/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
