@@ -31,7 +31,6 @@ import {
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
-import { EnvironmentMomentBannerPath } from './tests/banners/EnvironmentMomentBannerTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
@@ -397,25 +396,6 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
                 : '/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${EnvironmentMomentBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js'
-                : '/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
