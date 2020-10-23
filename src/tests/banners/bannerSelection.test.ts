@@ -41,9 +41,6 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'US',
             engagementBannerLastClosedAt: secondDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
 
@@ -112,9 +109,6 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'DE',
             engagementBannerLastClosedAt: secondDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
 
@@ -128,42 +122,6 @@ describe('selectBannerTest', () => {
             const cache = getBannerDeployCache(secondDate);
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
-                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
-            });
-        });
-
-        it('returns null if other contributions banner was dismissed and subs switch is off', () => {
-            const cache = getBannerDeployCache(secondDate);
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    switches: {
-                        remoteSubscriptionsBanner: false,
-                    },
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
-                expect(result && result.test.name).toBe(null);
-            });
-        });
-
-        it('returns banner if has been redeployed', () => {
-            const cache = getBannerDeployCache(firstDate);
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    switches: {
-                        remoteSubscriptionsBanner: true,
-                    },
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
                 expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });
@@ -198,9 +156,6 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'AU',
             engagementBannerLastClosedAt: firstDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
 
@@ -323,9 +278,6 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'GB',
             engagementBannerLastClosedAt: firstDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
 
