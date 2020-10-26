@@ -1,18 +1,10 @@
 import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
-import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
-import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
 } from './ChannelBannerTests';
 import { cacheAsync } from '../../lib/cache';
-
-const digitalSubscriptionsBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve([DigitalSubscriptionsBanner]);
-
-const guardianWeeklyBannerGenerator: BannerTestGenerator = () =>
-    Promise.resolve([GuardianWeeklyBanner]);
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
@@ -23,8 +15,6 @@ const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
-    digitalSubscriptionsBannerGenerator,
-    guardianWeeklyBannerGenerator,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>
