@@ -31,9 +31,6 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
         const targetingFalse = {
@@ -45,23 +42,6 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             mvtId: 3,
             // Should show banner in Europe
             countryCode: 'DE',
-            switches: {
-                remoteSubscriptionsBanner: false,
-            },
-            hasOptedOutOfArticleCount: false,
-        };
-        const targetingFalse2 = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            subscriptionBannerLastClosedAt: '1594059610944',
-            mvtId: 3,
-            countryCode: 'GB',
-            // Should not show banner if switch is off
-            switches: {
-                remoteSubscriptionsBanner: false,
-            },
             hasOptedOutOfArticleCount: false,
         };
         const tracking = {
@@ -74,8 +54,6 @@ describe('DigitalSubscriptionsBanner canRun', () => {
         expect(canRun1).toBe(true);
         const canRun2 = DigitalSubscriptionsBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
-        const canRun3 = DigitalSubscriptionsBanner.canRun(targetingFalse2, tracking);
-        expect(canRun3).toBe(false);
     });
 });
 
@@ -89,9 +67,6 @@ describe('WeeklyBanner canRun', () => {
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'AU',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
         const targetingFalse = {
@@ -102,9 +77,6 @@ describe('WeeklyBanner canRun', () => {
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
             hasOptedOutOfArticleCount: false,
         };
         const tracking = {
