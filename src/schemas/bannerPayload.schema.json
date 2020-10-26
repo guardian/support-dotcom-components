@@ -42,6 +42,9 @@
                 "countryCode": {
                     "type": "string"
                 },
+                "hasOptedOutOfArticleCount": {
+                    "type": "boolean"
+                },
                 "showSupportMessaging": {
                     "type": "boolean"
                 },
@@ -69,7 +72,8 @@
             },
             "required": [
                 "alreadyVisitedCount",
-                "showSupportMessaging"
+                "showSupportMessaging",
+                "hasOptedOutOfArticleCount"
             ]
         }
     },

@@ -4,5 +4,6 @@
     "vcsURL": "https://github.com/guardian/support-dotcom-components",
     "deploymentType": "alb-ec2-service",
     "artifactBucket": "membership-dist",
-    "cloudformationStackName": "dotcom-components"
+    "cloudformationStackName": "dotcom-components",
+    "customCloudformation": "custom-cfn.yaml"
 }

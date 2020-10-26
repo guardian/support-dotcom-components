@@ -10,11 +10,8 @@ export const GuardianWeeklyBanner: BannerTest = {
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
-        if (targeting.switches.remoteSubscriptionsBanner) {
-            const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-            return region === 'australia';
-        }
-        return false;
+        const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
+        return region === 'EuropeanUnion';
     },
     minPageViews: 2,
     variants: [
@@ -24,7 +21,7 @@ export const GuardianWeeklyBanner: BannerTest = {
             moduleName: name,
             bannerContent: {
                 messageText:
-                    "Support The Guardian's independent journalism by subscribing to The Guardian Weekly, our essential world news magazine. Home delivery available wherever you are.",
+                    "Make sense of a chaotic world with The Guardian's weekly news magazine.",
                 heading: 'Read The Guardian in print',
             },
             componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',

@@ -10,11 +10,8 @@ export const DigitalSubscriptionsBanner: BannerTest = {
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => {
-        if (targeting.switches.remoteSubscriptionsBanner) {
-            const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
-            return region !== 'australia';
-        }
-        return false;
+        const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
+        return region !== 'EuropeanUnion';
     },
     minPageViews: 2,
     variants: [

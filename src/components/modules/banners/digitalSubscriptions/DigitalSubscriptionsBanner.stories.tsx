@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBanner';
 import { withKnobs, text } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
+import { StorybookWrapper, BannerWrapper } from '../../../../utils/StorybookWrapper';
 import { BannerContent, BannerProps, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
@@ -50,4 +50,13 @@ export const defaultStory = (): ReactElement => {
     );
 };
 
-defaultStory.story = { name: 'Digital Subscriptions Banner' };
+defaultStory.story = {
+    name: 'Digital Subscriptions Banner',
+    decorators: [
+        (Story: React.FC): ReactElement => (
+            <BannerWrapper>
+                <Story />
+            </BannerWrapper>
+        ),
+    ],
+};

@@ -6,6 +6,11 @@ import { space } from '@guardian/src-foundations';
 
 const mainBannerBackground = '#005689';
 const closeButtonWidthHeight = 35;
+
+// Phablet and lower
+const mobilePackShotWidth = 400;
+const mobilePackShotHeight = 240;
+// Tablet and higher
 const packShotWidth = 500;
 const packShotHeight = 407;
 
@@ -17,6 +22,9 @@ export const banner = css`
     *:before,
     *:after {
         box-sizing: inherit;
+    }
+    strong {
+        font-weight: bold;
     }
     box-sizing: border-box;
     display: flex;
@@ -50,6 +58,9 @@ export const topLeftComponent = css`
     padding: ${space[4]}px;
     button {
         margin-left: ${space[3]}px;
+    }
+    ${until.tablet} {
+        padding-bottom: 0;
     }
     ${from.tablet} {
         max-width: 60%;
@@ -171,7 +182,7 @@ export const buttonTextMobile = css`
 `;
 
 export const siteMessage = css`
-    margin: ${space[3]}px 0 ${space[4]}px;
+    margin: ${space[3]}px 0 ${space[2]}px;
     ${textSans.small()};
     color: ${neutral[100]};
     a,
@@ -211,7 +222,11 @@ export const packShotContainer = css`
     flex-direction: column;
     justify-content: flex-end;
     margin: 0 ${space[4]}px;
-    max-width: ${packShotWidth}px;
+    max-width: ${mobilePackShotWidth}px;
+
+    ${from.tablet} {
+        max-width: ${packShotWidth}px;
+    }
 
     ${from.wide} {
         margin-top: ${space[4]}px;
@@ -222,14 +237,15 @@ const imageWidthPercentage = 100;
 const mobileImageWidthPercentage = 80;
 
 export const packShot = css`
-    width: ${imageWidthPercentage}%;
     position: relative;
-    padding-bottom: ${(packShotHeight / packShotWidth) * imageWidthPercentage}%;
+    padding-bottom: ${(mobilePackShotHeight / mobilePackShotWidth) * mobileImageWidthPercentage}%;
+    width: ${mobileImageWidthPercentage}%;
+    margin: 0 auto;
 
-    ${until.tablet} {
-        padding-bottom: ${(packShotHeight / packShotWidth) * mobileImageWidthPercentage}%;
-        width: ${mobileImageWidthPercentage}%;
-        margin: 0 auto;
+    ${from.tablet} {
+        padding-bottom: ${(packShotHeight / packShotWidth) * imageWidthPercentage}%;
+        width: ${imageWidthPercentage}%;
+        margin: 0;
     }
 
     img {

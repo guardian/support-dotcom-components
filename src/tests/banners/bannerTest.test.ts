@@ -5,19 +5,19 @@ import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 describe('readerRevenueRegionFromCountryCode', () => {
     it('should return a region', () => {
         const unitedKingdom = readerRevenueRegionFromCountryCode('GB');
-        expect(unitedKingdom).toBe('united-kingdom');
+        expect(unitedKingdom).toBe('UnitedKingdom');
 
         const germany = readerRevenueRegionFromCountryCode('DE');
-        expect(germany).toBe('european-union');
+        expect(germany).toBe('EuropeanUnion');
 
         const australia = readerRevenueRegionFromCountryCode('AU');
-        expect(australia).toBe('australia');
+        expect(australia).toBe('Australia');
 
         const fiji = readerRevenueRegionFromCountryCode('FJ');
-        expect(fiji).toBe('rest-of-world');
+        expect(fiji).toBe('RestOfWorld');
 
         const usa = readerRevenueRegionFromCountryCode('US');
-        expect(usa).toBe('united-states');
+        expect(usa).toBe('UnitedStates');
     });
 });
 
@@ -31,9 +31,7 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -42,24 +40,9 @@ describe('DigitalSubscriptionsBanner canRun', () => {
             showSupportMessaging: true,
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
-            // Should not show banner in Australia
-            countryCode: 'AU',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
-        };
-        const targetingFalse2 = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            subscriptionBannerLastClosedAt: '1594059610944',
-            mvtId: 3,
-            countryCode: 'GB',
-            // Should not show banner if switch is off
-            switches: {
-                remoteSubscriptionsBanner: false,
-            },
+            // Should show banner in Europe
+            countryCode: 'DE',
+            hasOptedOutOfArticleCount: false,
         };
         const tracking = {
             ophanPageId: '',
@@ -71,8 +54,6 @@ describe('DigitalSubscriptionsBanner canRun', () => {
         expect(canRun1).toBe(true);
         const canRun2 = DigitalSubscriptionsBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
-        const canRun3 = DigitalSubscriptionsBanner.canRun(targetingFalse2, tracking);
-        expect(canRun3).toBe(false);
     });
 });
 
@@ -86,9 +67,7 @@ describe('WeeklyBanner canRun', () => {
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'AU',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
         const targetingFalse = {
             alreadyVisitedCount: 3,
@@ -98,9 +77,7 @@ describe('WeeklyBanner canRun', () => {
             subscriptionBannerLastClosedAt: '1594059610944',
             mvtId: 3,
             countryCode: 'US',
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
         const tracking = {
             ophanPageId: '',
@@ -109,7 +86,7 @@ describe('WeeklyBanner canRun', () => {
             clientName: '',
         };
         const canRun1 = GuardianWeeklyBanner.canRun(targetingTrue, tracking);
-        expect(canRun1).toBe(true);
+        expect(canRun1).toBe(false);
         const canRun2 = GuardianWeeklyBanner.canRun(targetingFalse, tracking);
         expect(canRun2).toBe(false);
     });

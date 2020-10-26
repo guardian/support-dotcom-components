@@ -151,7 +151,7 @@ const lineContainer = css`
     top: 0;
     left: 0;
     width: 50%;
-    height: 126px;
+    height: 141px;
     box-sizing: border-box;
     border-bottom: 1px solid ${neutral[86]};
     display: flex;
@@ -214,9 +214,12 @@ export const EnvironmentMomentBanner: React.FC<BannerProps> = ({
                                 </div>
                             </div>
                             <div css={textContainer}>
-                                <EnvironmentMomentBannerHeader />
+                                <EnvironmentMomentBannerHeader isSupporter={!!isSupporter} />
                                 <div css={bodyAndCtasContainer}>
-                                    <EnvironmentMomentBannerBody isSupporter={!!isSupporter} />
+                                    <EnvironmentMomentBannerBody
+                                        isSupporter={!!isSupporter}
+                                        countryCode={countryCode}
+                                    />
                                     <EnvironmentMomentBannerCtas
                                         isSupporter={!!isSupporter}
                                         countryCode={countryCode || ''}

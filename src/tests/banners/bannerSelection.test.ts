@@ -1,6 +1,5 @@
 import { selectBannerTest } from './bannerSelection';
-// import { getTests } from './bannerTests';
-import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
+import { BannerDeployCaches } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { ContributionsBannerPath, DigitalSubscriptionsBannerPath } from './ChannelBannerTests';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
@@ -9,14 +8,24 @@ import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 const getTests = (): Promise<BannerTest[]> =>
     Promise.resolve([DigitalSubscriptionsBanner, GuardianWeeklyBanner]);
 
-const getBannerDeployCache = (date: string, region: ReaderRevenueRegion): BannerDeployCaches =>
+const getBannerDeployCache = (date: string): BannerDeployCaches =>
     ({
-        subscriptions: {
-            [region]: () => Promise.resolve(new Date(date)),
-        },
-        contributions: {
-            [region]: () => Promise.resolve(new Date(date)),
-        },
+        subscriptions: () =>
+            Promise.resolve({
+                UnitedKingdom: new Date(date),
+                UnitedStates: new Date(date),
+                Australia: new Date(date),
+                RestOfWorld: new Date(date),
+                EuropeanUnion: new Date(date),
+            }),
+        contributions: () =>
+            Promise.resolve({
+                UnitedKingdom: new Date(date),
+                UnitedStates: new Date(date),
+                Australia: new Date(date),
+                RestOfWorld: new Date(date),
+                EuropeanUnion: new Date(date),
+            }),
     } as BannerDeployCaches);
 
 describe('selectBannerTest', () => {
@@ -32,9 +41,7 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'US',
             engagementBannerLastClosedAt: secondDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {
@@ -45,7 +52,7 @@ describe('selectBannerTest', () => {
         };
 
         it('returns banner if it has never been dismissed', () => {
-            const cache = getBannerDeployCache(secondDate, 'united-states');
+            const cache = getBannerDeployCache(secondDate);
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
                 expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
@@ -53,7 +60,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns banner if has been redeployed', () => {
-            const cache = getBannerDeployCache(firstDate, 'united-states');
+            const cache = getBannerDeployCache(firstDate);
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
                 expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
@@ -61,7 +68,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if there are insufficient page views', () => {
-            const cache = getBannerDeployCache(firstDate, 'united-states');
+            const cache = getBannerDeployCache(firstDate);
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -77,7 +84,7 @@ describe('selectBannerTest', () => {
         });
 
         it('returns null if user is logged in and has a subscription', () => {
-            const cache = getBannerDeployCache(firstDate, 'united-states');
+            const cache = getBannerDeployCache(firstDate);
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -100,11 +107,9 @@ describe('selectBannerTest', () => {
             isPaidContent: false,
             showSupportMessaging: true,
             mvtId: 3,
-            countryCode: 'AU',
+            countryCode: 'DE',
             engagementBannerLastClosedAt: secondDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {
@@ -114,51 +119,15 @@ describe('selectBannerTest', () => {
             clientName: '',
         };
         it('returns banner if it has never been dismissed', () => {
-            const cache = getBannerDeployCache(secondDate, 'australia');
+            const cache = getBannerDeployCache(secondDate);
 
             return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
                 expect(result && result.test.name).toBe('GuardianWeeklyBanner');
             });
         });
 
-        it('returns null if other contributions banner was dismissed and subs switch is off', () => {
-            const cache = getBannerDeployCache(secondDate, 'australia');
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    switches: {
-                        remoteSubscriptionsBanner: false,
-                    },
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
-                expect(result && result.test.name).toBe(null);
-            });
-        });
-
-        it('returns banner if has been redeployed', () => {
-            const cache = getBannerDeployCache(firstDate, 'australia');
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    switches: {
-                        remoteSubscriptionsBanner: true,
-                    },
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
-                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
-            });
-        });
-
         it('returns null if shouldHideReaderRevenue', () => {
-            const cache = getBannerDeployCache(firstDate, 'australia');
+            const cache = getBannerDeployCache(firstDate);
 
             return selectBannerTest(
                 Object.assign(targeting, {
@@ -177,7 +146,7 @@ describe('selectBannerTest', () => {
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
-        const cache = getBannerDeployCache(secondDate, 'australia');
+        const cache = getBannerDeployCache(secondDate);
 
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
@@ -187,9 +156,7 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'AU',
             engagementBannerLastClosedAt: firstDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {
@@ -280,12 +247,28 @@ describe('selectBannerTest', () => {
                 expect(result && result.test.name).toBe('test');
             });
         });
+
+        it('returns null if opted out', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    hasOptedOutOfArticleCount: true,
+                }),
+                tracking,
+                '',
+                () => Promise.resolve([test]),
+                cache,
+                undefined,
+                now,
+            ).then(result => {
+                expect(result).toBe(null);
+            });
+        });
     });
 
     describe('Channel 2 banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
-        const cache = getBannerDeployCache(secondDate, 'australia');
+        const cache = getBannerDeployCache(secondDate);
 
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
@@ -295,9 +278,7 @@ describe('selectBannerTest', () => {
             mvtId: 3,
             countryCode: 'GB',
             engagementBannerLastClosedAt: firstDate,
-            switches: {
-                remoteSubscriptionsBanner: true,
-            },
+            hasOptedOutOfArticleCount: false,
         };
 
         const tracking = {

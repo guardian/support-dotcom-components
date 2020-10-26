@@ -30,15 +30,9 @@ import {
     BannerProps,
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
-import { AusMomentContributionsBannerPath } from './tests/banners/AusMomentContributionsBannerTest';
-import {
-    EnvironmentMomentBannerPath,
-    EnvironmentMomentSimpleBannerPath,
-} from './tests/banners/EnvironmentMomentBannerABNonSupportersTest';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
-import { AusMomentThankYouBannerPath } from './tests/banners/AusMomentThankYouBannerTest';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 
@@ -277,9 +271,6 @@ app.post(
                 engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
                 subscriptionBannerLastClosedAt: payload.targeting.subscriptionBannerLastClosedAt,
                 isPaidContent: payload.targeting.isPaidContent,
-                switches: {
-                    remoteSubscriptionsBanner: payload.targeting.switches.remoteSubscriptionsBanner,
-                },
             };
 
             res.send(response);
@@ -310,25 +301,6 @@ app.get(
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             setComponentCacheHeaders(res);
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${AusMomentContributionsBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js'
-                : '/modules/banners/ausMomentContributionsBanner/AusMomentContributionsBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
             res.send(module);
         } catch (error) {
             next(error);
@@ -381,63 +353,6 @@ app.get(
             const path = isDev
                 ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
                 : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${AusMomentThankYouBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js'
-                : '/modules/banners/ausMomentThankYouBanner/AusMomentThankYouBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${EnvironmentMomentBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js'
-                : '/modules/banners/environmentMomentBanner/EnvironmentMomentBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${EnvironmentMomentSimpleBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/environmentMomentBanner/EnvironmentMomentSimpleBanner.js'
-                : '/modules/banners/environmentMomentBanner/EnvironmentMomentSimpleBanner.js';
             const module = await fs.promises.readFile(__dirname + path);
 
             res.type('js');
