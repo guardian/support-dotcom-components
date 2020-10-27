@@ -51,7 +51,7 @@ function ampUsEpic(): AMPEpicResponse {
             {
                 heading: 'America faces an epic choice ...',
                 paragraphs: [
-                    '... in the coming weeks, and the results will define the country for a generation. Over the last four years, much of what the Guardian holds dear has been threatened – democracy, civility, truth.',
+                    '... in the coming days, and the results will define the country for a generation. Over the last four years, much of what the Guardian holds dear has been threatened – democracy, civility, truth.',
                     'At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers.',
                 ],
                 highlightedText:
