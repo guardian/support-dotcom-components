@@ -1,5 +1,9 @@
 # Support Dotcom Components
 
+This app serves Reader Revenue messages (epics and banners) to theguardian.com.
+
+See [architecture](docs/architecture.md) for details.
+
 ## Development
 
 ### Run the dev server
