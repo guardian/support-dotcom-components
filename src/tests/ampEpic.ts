@@ -25,14 +25,14 @@ function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
     return {
         items: [
             {
-                heading: 'Since you’re here...',
+                heading: 'Four more years of Donald Trump ...',
                 paragraphs: [
-                    '… we’re asking readers like you to support our open, independent journalism. Millions are flocking to the Guardian for high-quality news every day, and readers in 180 countries around the world now support us financially – this makes our work possible.',
-                    'We believe every one of us deserves equal access to factual information and analysis that has authority and integrity. So, unlike many others, we keep Guardian journalism open for all, regardless of where they live or what they can afford to pay.',
-                    'The Guardian’s independence means we investigate, interrogate and expose the actions of those in power, without fear. Our journalism is free from commercial and political bias – never influenced by billionaire owners or shareholders. This makes us different. We can give a voice to the oppressed and neglected, and stand in solidarity with those who are calling for a fairer future.',
-                    'Every contribution, however big or small, is so valuable for our future.',
+                    '... would have serious consequences for the world. America faces an epic choice and the result will have global repercussions for democracy, progress and solidarity for generations.',
+                    'In monumental moments like this, an independent, truth-seeking news organisation like the Guardian is essential. Free from commercial or political bias, we can report fearlessly on critical events, hold power to account, and bring you a clear, international perspective.',
+                    'And because we believe everyone deserves access to trustworthy news and analysis, we keep Guardian journalism open and free for all readers, regardless of where they live or what they can afford to pay. ',
+                    'Our work is only possible thanks to the support we receive from our readers.',
                 ],
-                highlightedText: `Support the Guardian from as little as ${currencySymbol}1 – and it only takes a minute. Thank you.`,
+                highlightedText: `If you can, support the Guardian’s journalism today, from as little as ${currencySymbol}1. Thank you.`,
                 cta: {
                     text: 'Support the Guardian',
                     url: 'https://support.theguardian.com/contribute',
