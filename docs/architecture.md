@@ -38,7 +38,7 @@ This means there is a two-step process for fetching an epic or banner from this 
 
 #### Step 1: data endpoint request
 There are two `POST` endpoints:
-- /post
+- /epic
 - /banner
 
 The client sends targeting data in its request.
