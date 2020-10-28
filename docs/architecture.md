@@ -13,7 +13,7 @@ This app has two functions:
 
 This means there is a two-step process for fetching an epic or banner from this service:
 
-
+```
  +-----------------+            POST /banner            +-------------------+
  |                 +----------------------------------->+                   |
  |                 |                                    |                   |
@@ -31,7 +31,7 @@ This means there is a two-step process for fetching an epic or banner from this 
  |                 |                                    |                   |
  |                 +<-----------------------------------+                   |
  +-----------------+          component module          +-------------------+
-
+```
 
 
 #### Step 1: data endpoint request
