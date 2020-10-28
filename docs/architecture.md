@@ -21,7 +21,7 @@ This means there is a two-step process for fetching an epic or banner from this 
  |                 +<-----------------------------------+                   |
  |                 |        test + component data       |                   |
  |                 |                                    |                   |
- | theguardian.com |                                    | dotcom+components |
+ | theguardian.com |                                    | dotcom-components |
  |                 |                                    |                   |
  |                 |                                    |                   |
  |                 |   GET /guardian-weekly-banner.js   |                   |
