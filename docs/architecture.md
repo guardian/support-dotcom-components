@@ -14,23 +14,25 @@ This app has two functions:
 This means there is a two-step process for fetching an epic or banner from this service:
 
 ```
- +-----------------+            POST /banner            +-------------------+
- |                 +----------------------------------->+                   |
+ +-----------------+           POST /banner             +-------------------+
+ |                 +------------------------------------>                   |
  |                 |                                    |                   |
  |                 |                                    |                   |
  |                 +<-----------------------------------+                   |
- |                 |        test+component data         |                   |
+ |                 |        test + component data       |                   |
  |                 |                                    |                   |
- | theguardian.com |                                    | dotcom-components |
- |                 |                                    |                   |
+ | theguardian.com |                                    | dotcom+components |
  |                 |                                    |                   |
  |                 |                                    |                   |
  |                 |   GET /guardian-weekly-banner.js   |                   |
- |                 +----------------------------------->+                   |
- |                 |                                    |                   |
- |                 |                                    |                   |
- |                 +<-----------------------------------+                   |
- +-----------------+          component module          +-------------------+
+ |                 |             +----------+           |                   |
+ |                 +-------------+          +---------->+                   |
+ |                 |             |  fastly  |           |                   |
+ |                 |             |          |           |                   |
+ |                 +<------------+          +-----------+                   |
+ +-----------------+             +----------+           +-------------------+
+                              component module
+
 ```
 
 
