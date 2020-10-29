@@ -7,16 +7,43 @@ interface AMPCta {
     campaignCode: string;
 }
 
+interface AMPTicker {
+    percentage: string;
+    goalAmountFigure: string;
+    goalAmountCaption: string;
+    currentAmountFigure: string;
+    currentAmountCaption: string;
+}
+
 interface AMPEpic {
     heading?: string;
     paragraphs: string[];
     highlightedText?: string;
     cta: AMPCta;
+    ticker?: AMPTicker;
 }
 
 // See https://amp.dev/documentation/components/amp-list/
 interface AMPEpicResponse {
     items: AMPEpic[];
+}
+
+function ampEpicTickerData(
+    goalAmountFigure: number,
+    goalAmountCaption: string,
+    currentAmountFigure: number,
+    currentAmountCaption: string,
+    currencySymbol?: string,
+): AMPTicker {
+    const percentage = (currentAmountFigure / goalAmountFigure) * 100;
+
+    return {
+        percentage: percentage.toString(),
+        goalAmountCaption: goalAmountCaption,
+        goalAmountFigure: `${currencySymbol}${goalAmountFigure.toLocaleString()}`,
+        currentAmountCaption: currentAmountCaption,
+        currentAmountFigure: `${currencySymbol}${currentAmountFigure.toLocaleString()}`,
+    };
 }
 
 function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
@@ -39,6 +66,13 @@ function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
                     campaignCode: campaignCode,
                     componentId: campaignCode,
                 },
+                ticker: ampEpicTickerData(
+                    150000,
+                    'our goal',
+                    132455,
+                    'raised so far',
+                    currencySymbol,
+                ),
             },
         ],
     };
