@@ -149,6 +149,15 @@ const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<Response>
     });
 };
 
+const PREPOSITION_REGEX = /^(on|in)/;
+
+const containsPreposition = (text: string): boolean => PREPOSITION_REGEX.test(text);
+
+const addPreposition = (text: string): string => 'in ' + text;
+
+const ensureHasPreposition = (text: string): string =>
+    containsPreposition(text) ? text : addPreposition(text);
+
 export const ContributionsEpicReminder: React.FC<Props> = ({
     reminderDate,
     reminderDateAsString,
@@ -169,6 +178,8 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
     } else if (isDirty && !isValid) {
         inputError = 'Please enter a valid email address';
     }
+
+    const reminderDateWithPreposition = ensureHasPreposition(reminderDateAsString);
 
     return (
         <div css={rootStyles}>
@@ -213,7 +224,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                 >
                     {!isSuccessState && (
                         <>
-                            <h4 css={remindHeading}>Remind me in {reminderDateAsString}</h4>
+                            <h4 css={remindHeading}>Remind me {reminderDateWithPreposition}</h4>
                             <div css={formWrapper}>
                                 <div css={inputWrapper}>
                                     <TextInput
@@ -248,8 +259,9 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
 
                 {!isSuccessState && (
                     <p css={formTextStyles}>
-                        We will use this to send you a single email in {reminderDateAsString}. To
-                        find out what personal data we collect and how we use it, please visit our{' '}
+                        We will use this to send you a single email {reminderDateWithPreposition}.
+                        To find out what personal data we collect and how we use it, please visit
+                        our{' '}
                         <a
                             css={linkStyles}
                             href="https://www.theguardian.com/help/privacy-policy"
@@ -267,8 +279,8 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                         <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
                         <p css={successTextStyles}>
                             We will be in touch to invite you to contribute. Look out for a message
-                            in your inbox in {reminderDateAsString}. If you have any questions about
-                            contributing, please{' '}
+                            in your inbox {reminderDateWithPreposition}. If you have any questions
+                            about contributing, please{' '}
                             <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
                                 contact us
                             </a>
