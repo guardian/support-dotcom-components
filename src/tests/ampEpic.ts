@@ -49,13 +49,14 @@ function ampUsEpic(): AMPEpicResponse {
     return {
         items: [
             {
-                heading: 'A critical 48 hours ...',
+                heading: 'At this historic moment …',
                 paragraphs: [
-                    '… lies ahead as the votes for the next US president are tallied. The coming hours and days represent a crucial test of American democracy. Over the last four years, many of the values the Guardian holds dear have been threatened: civility, truth, the sovereignty of the free press.',
-                    'At a time like this, an independent news organisation that fights for truth and holds power to account is not just optional. It is essential. Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers.',
+                    '… we hope you will consider making a contribution in support of the Guardian’s open, independent journalism. A robust free press is critical to a functioning democracy. In recent years, much of what the Guardian holds dear has been threatened – democracy, civility, science and truth.',
+                    'We believe every one of us deserves equal access to truthful information and  fact-based news. So we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This would not be possible without the generosity of our readers.',
+                    'We need support from readers like you to keep delivering and distributing quality journalism. Every contribution, however big or small, is valuable.',
                 ],
                 highlightedText:
-                    'If you can, support the Guardian’s journalism with as little as $1 – it only takes a minute. Thank you.',
+                    'Support the Guardian from as little as $1 – and it only takes a minute. Thank you.',
                 cta: {
                     text: 'Support the Guardian',
                     url: 'https://support.theguardian.com/contribute',
