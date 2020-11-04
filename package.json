@@ -32,6 +32,7 @@
     "@guardian/src-button": "^1.8.0",
     "@guardian/src-foundations": "^1.8.0",
     "@guardian/src-icons": "^1.8.0",
+    "@guardian/src-layout": "^2.5.0",
     "@guardian/src-link": "^1.8.0",
     "@guardian/src-svgs": "^1.8.0",
     "@guardian/src-text-input": "^1.8.0",
