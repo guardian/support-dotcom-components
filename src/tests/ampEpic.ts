@@ -25,10 +25,10 @@ function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
     return {
         items: [
             {
-                heading: 'Four more years of Donald Trump ...',
+                heading: 'As a historic US election unfolds ...',
                 paragraphs: [
-                    '... would have serious consequences for the world. America faces an epic choice and the result will have global repercussions for democracy, progress and solidarity for generations.',
-                    'In monumental moments like this, an independent, truth-seeking news organisation like the Guardian is essential. Free from commercial or political bias, we can report fearlessly on critical events, hold power to account, and bring you a clear, international perspective.',
+                    '... the world waits to see what comes next. At this critical moment, responsible and accurate reporting has never mattered more. Guardian journalism strives to provide clarity and hope, so our readers can better understand the world. We will stand with those continuing the fight against the climate emergency, racial injustice and gender inequality – not to mention those working to overcome Covid-19.',
+                    'This is a chaotic, precarious election steeped in misinformation. Now is the time to support independent journalism that stands for truth and integrity. Free from commercial or political bias, we can report fearlessly on critical events, hold power to account, and bring you a clear, international perspective.',
                     'And because we believe everyone deserves access to trustworthy news and analysis, we keep Guardian journalism open and free for all readers, regardless of where they live or what they can afford to pay. ',
                     'Our work is only possible thanks to the support we receive from our readers.',
                 ],
