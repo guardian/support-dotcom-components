@@ -25,16 +25,17 @@ function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
     return {
         items: [
             {
-                heading: 'As a historic US election unfolds ...',
+                heading: 'Joe Biden has won …',
                 paragraphs: [
-                    '... the world waits to see what comes next. At this critical moment, responsible and accurate reporting has never mattered more. Guardian journalism strives to provide clarity and hope, so our readers can better understand the world. We will stand with those continuing the fight against the climate emergency, racial injustice and gender inequality – not to mention those working to overcome Covid-19.',
-                    'This is a chaotic, precarious election steeped in misinformation. Now is the time to support independent journalism that stands for truth and integrity. Free from commercial or political bias, we can report fearlessly on critical events, hold power to account, and bring you a clear, international perspective.',
-                    'And because we believe everyone deserves access to trustworthy news and analysis, we keep Guardian journalism open and free for all readers, regardless of where they live or what they can afford to pay. ',
+                    '… renewing hope for the US and the world. After four years of turmoil, misinformation, manipulation and division, the result of this historic presidential election offers fresh promise for democracy and progress.',
+                    'It’s been an agonising wait this week, with false claims and as yet unfounded allegations of electoral irregularities. It’s never been more important for the Guardian to report the facts with responsibility, integrity and independence. We’ve done just that, and will continue to bring you quality news and clear, intelligent analysis.',
+                    'Now is the time to support a free press, and the Guardian’s independent, truthful journalism. With no shareholders or billionaire owner, our reporting is free from political or commercial influence. We can investigate, challenge and expose those in power. We report without fear or favour.',
+                    'And because we believe everyone deserves access to trustworthy news, we keep Guardian reporting open for everyone to read, regardless of where they live or what they can afford to pay.',
                     'Our work is only possible thanks to the support we receive from our readers.',
                 ],
-                highlightedText: `If you can, support the Guardian’s journalism today, from as little as ${currencySymbol}1. Thank you.`,
+                highlightedText: `If you can, support the Guardian today, from as little as ${currencySymbol}1. Thank you.`,
                 cta: {
-                    text: 'Support the Guardian',
+                    text: 'Show your support',
                     url: 'https://support.theguardian.com/contribute',
                     campaignCode: campaignCode,
                     componentId: campaignCode,
