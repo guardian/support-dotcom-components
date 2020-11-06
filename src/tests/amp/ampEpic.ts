@@ -1,25 +1,6 @@
-import { getLocalCurrencySymbol } from '../lib/geolocation';
-import { AMPTicker } from './ampTicker';
-
-interface AMPCta {
-    text: string;
-    url: string;
-    componentId: string;
-    campaignCode: string;
-}
-
-interface AMPEpic {
-    heading?: string;
-    paragraphs: string[];
-    highlightedText?: string;
-    cta: AMPCta;
-    ticker?: AMPTicker;
-}
-
-// See https://amp.dev/documentation/components/amp-list/
-interface AMPEpicResponse {
-    items: AMPEpic[];
-}
+import {getLocalCurrencySymbol} from '../../lib/geolocation';
+import {AMPEpicResponse} from "./ampEpicModels";
+import {selectAmpEpic} from "./ampEpicTests";
 
 async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
     const campaignCode = 'AMP_EPIC_AUGUST2020';
@@ -71,6 +52,14 @@ async function ampUsEpic(): Promise<AMPEpicResponse> {
     };
 }
 
-export function ampEpic(geolocation?: string): Promise<AMPEpicResponse> {
-    return geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
+export async function ampEpic(countryCode?: string): Promise<AMPEpicResponse> {
+    const ampEpic = await selectAmpEpic(countryCode);
+    if (ampEpic) {
+        return {
+            items: [ampEpic]
+        }
+    }
+
+    // No epic from the tool, fall back on a hardcoded epic
+    return countryCode === 'US' ? ampUsEpic() : ampDefaultEpic(countryCode);
 }

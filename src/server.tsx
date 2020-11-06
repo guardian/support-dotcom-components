@@ -18,7 +18,7 @@ import {
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
 import { getQueryParams, Params } from './lib/params';
-import { ampEpic } from './tests/ampEpic';
+import { ampEpic } from './tests/amp/ampEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';

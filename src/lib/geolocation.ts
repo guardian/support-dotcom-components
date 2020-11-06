@@ -423,7 +423,7 @@ export const getCountryName = (geolocation?: string): string | undefined => {
     return undefined;
 };
 
-const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
+export const countryCodeToSupportRegionId = (countryCode: string): SupportRegionId =>
     countryGroups[countryCodeToCountryGroupId(countryCode)]?.supportRegionId;
 
 export const addRegionIdToSupportUrl = (originalUrl: string, countryCode?: string): string => {
