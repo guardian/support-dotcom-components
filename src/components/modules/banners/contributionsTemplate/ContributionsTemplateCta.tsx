@@ -1,12 +1,19 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 
 const container = css`
     display: flex;
 
     & > * + * {
         margin-left: ${space[4]}px;
+    }
+
+    ${from.tablet} {
+        & > * + * {
+            margin-left: ${space[5]}px;
+        }
     }
 `;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
+import { from } from '@guardian/src-foundations/mq';
 
 const container = css`
     width: 100%;
@@ -10,18 +11,18 @@ const container = css`
         height: 100%;
         object-fit: cover;
     }
+
+    ${from.tablet} {
+        height: 100%;
+    }
 `;
 
 interface ContributionsTemplateVisualProps {
-    imageUrl: string;
+    image: React.ReactElement;
 }
 
 const ContributionsTemplateVisual: React.FC<ContributionsTemplateVisualProps> = ({
-    imageUrl,
-}: ContributionsTemplateVisualProps) => (
-    <div css={container}>
-        <img src={imageUrl} />
-    </div>
-);
+    image,
+}: ContributionsTemplateVisualProps) => <div css={container}>{image}</div>;
 
 export default ContributionsTemplateVisual;
