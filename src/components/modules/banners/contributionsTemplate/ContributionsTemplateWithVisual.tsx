@@ -10,19 +10,22 @@ const contentContainer = css`
 `;
 
 export interface ContributionsTemplateWithVisualProps {
+    visual: React.ReactElement;
     header: React.ReactElement;
     body: React.ReactElement;
     cta: React.ReactElement;
 }
 
 const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualProps> = ({
+    visual,
     header,
     body,
     cta,
 }: ContributionsTemplateWithVisualProps) => {
     return (
-        <div css={contentContainer}>
-            <Container>
+        <div>
+            {visual}
+            <Container cssOverrides={contentContainer}>
                 <Stack space={1}>
                     {header}
                     <Stack space={3}>
