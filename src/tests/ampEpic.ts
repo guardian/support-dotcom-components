@@ -1,18 +1,11 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
+import { AMPTicker, ampTicker } from './ampTicker';
 
 interface AMPCta {
     text: string;
     url: string;
     componentId: string;
     campaignCode: string;
-}
-
-interface AMPTicker {
-    percentage: string;
-    goalAmountFigure: string;
-    goalAmountCaption: string;
-    currentAmountFigure: string;
-    currentAmountCaption: string;
 }
 
 interface AMPEpic {
@@ -28,25 +21,7 @@ interface AMPEpicResponse {
     items: AMPEpic[];
 }
 
-function ampEpicTickerData(
-    goalAmountFigure: number,
-    goalAmountCaption: string,
-    currentAmountFigure: number,
-    currentAmountCaption: string,
-    currencySymbol?: string,
-): AMPTicker {
-    const percentage = (currentAmountFigure / goalAmountFigure) * 100;
-
-    return {
-        percentage: percentage.toString(),
-        goalAmountCaption: goalAmountCaption,
-        goalAmountFigure: `${currencySymbol}${goalAmountFigure.toLocaleString()}`,
-        currentAmountCaption: currentAmountCaption,
-        currentAmountFigure: `${currencySymbol}${currentAmountFigure.toLocaleString()}`,
-    };
-}
-
-function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
+async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
     const campaignCode = 'AMP_EPIC_AUGUST2020';
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
@@ -66,13 +41,7 @@ function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
                     campaignCode: campaignCode,
                     componentId: campaignCode,
                 },
-                ticker: ampEpicTickerData(
-                    150000,
-                    'our goal',
-                    132455,
-                    'raised so far',
-                    currencySymbol,
-                ),
+                ticker: await ampTicker('people', 'our goal', 'new supporters'),
             },
         ],
     };
@@ -101,7 +70,7 @@ function ampUsEpic(): AMPEpicResponse {
     };
 }
 
-export function ampEpic(geolocation?: string): AMPEpicResponse {
+export function ampEpic(geolocation?: string): AMPEpicResponse | Promise<AMPEpicResponse> {
     const epic = geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
     return epic;
 }
