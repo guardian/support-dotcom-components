@@ -23,7 +23,7 @@ export interface ContributionsTemplateWithVisualProps {
     visual: React.ReactElement;
     closeButton: React.ReactElement;
     header: React.ReactElement;
-    body: React.ReactElement;
+    body?: React.ReactElement;
     ticker?: React.ReactElement;
     cta: React.ReactElement;
 }

@@ -1,12 +1,15 @@
 import React, { ReactElement } from 'react';
-import ExampleContributionsTemplateWithVisual from './ExampleContributionsTemplateWithVisual';
+import {
+    ExampleWithHeadlineAndBody,
+    ExampleWithHeadlineAndTicker,
+} from './ExampleContributionsTemplateWithVisual';
 import { withKnobs, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
-    component: ExampleContributionsTemplateWithVisual,
+    component: ExampleWithHeadlineAndBody,
     title: 'Components/ContributionsTemplateWithVisual',
     decorators: [withKnobs],
 };
@@ -58,6 +61,16 @@ const props: BannerProps = {
 };
 
 export const defaultStory = (): ReactElement => {
+    return (
+        <StorybookWrapper>
+            <ExampleWithHeadlineAndBody {...props} />
+        </StorybookWrapper>
+    );
+};
+
+defaultStory.story = { name: 'Headline + Body' };
+
+export const headlineAndTickerStory = (): ReactElement => {
     const total = number('total', 125_000);
     const goal = number('goal', 150_000);
 
@@ -66,9 +79,9 @@ export const defaultStory = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ExampleContributionsTemplateWithVisual {...props} />
+            <ExampleWithHeadlineAndTicker {...props} />
         </StorybookWrapper>
     );
 };
 
-defaultStory.story = { name: 'Contributions Template With Visual' };
+headlineAndTickerStory.story = { name: 'Headline + Ticker' };
