@@ -9,6 +9,10 @@ const container = css`
     ${from.tablet} {
         font-size: 28px;
     }
+
+    ${from.desktop} {
+        font-size: 42px;
+    }
 `;
 
 interface ContributionsTemplateHeaderProps {
