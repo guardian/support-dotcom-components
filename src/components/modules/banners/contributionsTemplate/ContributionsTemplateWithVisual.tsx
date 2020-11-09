@@ -24,6 +24,7 @@ export interface ContributionsTemplateWithVisualProps {
     closeButton: React.ReactElement;
     header: React.ReactElement;
     body: React.ReactElement;
+    ticker?: React.ReactElement;
     cta: React.ReactElement;
 }
 
@@ -32,6 +33,7 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
     closeButton,
     header,
     body,
+    ticker,
     cta,
 }: ContributionsTemplateWithVisualProps) => {
     return (
@@ -41,12 +43,13 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
                 <div css={closeButtonContainer}>{closeButton}</div>
             </div>
             <Container cssOverrides={contentContainer}>
-                <Stack space={1}>
-                    {header}
-                    <Stack space={3}>
+                <Stack space={4}>
+                    <Stack space={1}>
+                        {header}
                         {body}
-                        {cta}
+                        {ticker}
                     </Stack>
+                    {cta}
                 </Stack>
             </Container>
         </div>

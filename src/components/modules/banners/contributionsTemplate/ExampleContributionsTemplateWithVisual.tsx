@@ -7,10 +7,13 @@ import ContributionsTemplateVisual from './ContributionsTemplateVisual';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';
 import ContributionsTemplateHeader from './ContributionsTemplateHeader';
 import ContributionsTemplateBody from './ContributionsTemplateBody';
+import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps } from '../../../../types/BannerTypes';
 
-const ExampleContributionsTemplateWithVisual: React.FC<BannerProps> = ({}: BannerProps) => {
+const ExampleContributionsTemplateWithVisual: React.FC<BannerProps> = ({
+    tickerSettings,
+}: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
             visual={
@@ -28,6 +31,14 @@ const ExampleContributionsTemplateWithVisual: React.FC<BannerProps> = ({}: Banne
             header={<ContributionsTemplateHeader copy="Lorem ipsum dolor sit amet, consectetur" />}
             body={
                 <ContributionsTemplateBody copy="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ame lorem ipsum dolor" />
+            }
+            ticker={
+                tickerSettings && (
+                    <ContributionsTemplateTicker
+                        settings={tickerSettings}
+                        accentColour={'#304F9E'}
+                    />
+                )
             }
             cta={
                 <ContributionsTemplateCta

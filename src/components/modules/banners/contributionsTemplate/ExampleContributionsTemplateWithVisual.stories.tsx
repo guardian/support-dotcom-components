@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import ExampleContributionsTemplateWithVisual from './ExampleContributionsTemplateWithVisual';
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
+import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
@@ -31,15 +32,38 @@ const content: BannerContent = {
     },
 };
 
+const tickerSettings = {
+    countType: TickerCountType.money,
+    endType: TickerEndType.hardstop,
+    currencySymbol: '$',
+    // Usually we need the ticker copy, but this banner has a very custom ticker
+    copy: {
+        countLabel: '',
+        goalReachedPrimary: '',
+        goalReachedSecondary: '',
+    },
+    tickerData: {
+        total: 120_000,
+        goal: 150_000,
+    },
+};
+
 const props: BannerProps = {
     bannerChannel: 'contributions',
     tracking,
     isSupporter: false,
     countryCode: 'GB',
     content,
+    tickerSettings,
 };
 
 export const defaultStory = (): ReactElement => {
+    const total = number('total', 125_000);
+    const goal = number('goal', 150_000);
+
+    tickerSettings.tickerData.total = total;
+    tickerSettings.tickerData.goal = goal;
+
     return (
         <StorybookWrapper>
             <ExampleContributionsTemplateWithVisual {...props} />
