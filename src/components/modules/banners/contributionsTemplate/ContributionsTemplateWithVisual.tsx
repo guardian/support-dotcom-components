@@ -18,6 +18,10 @@ const visualContainer = css`
     ${from.tablet} {
         width: 50%;
     }
+
+    ${from.wide} {
+        width: 55%;
+    }
 `;
 
 const contentContainer = css`
@@ -26,6 +30,10 @@ const contentContainer = css`
     ${from.tablet} {
         width: 50%;
         padding: 0 ${space[5]}px;
+    }
+
+    ${from.wide} {
+        width: 45%;
     }
 `;
 

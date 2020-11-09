@@ -29,6 +29,7 @@ const visual = (
                     media="(max-width: 1299px)"
                     srcSet="https://media.guim.co.uk/5894dcdff5be591627bb69f74688896fdec503a1/0_0_481_422/481.png"
                 />
+                <source srcSet="https://media.guim.co.uk/646365f26cafa1179b6799daaa3621cf04f511d5/0_0_719_395/719.png" />
                 <img src="https://media.guim.co.uk/c4d243dee6813a12818f37d297c5ffea66fb38aa/0_0_320_135/320.png" />
             </picture>
         }
