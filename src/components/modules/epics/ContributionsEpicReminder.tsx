@@ -259,9 +259,8 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
 
                 {!isSuccessState && (
                     <p css={formTextStyles}>
-                        We will use this to send you a single email {reminderDateWithPreposition}.
-                        To find out what personal data we collect and how we use it, please visit
-                        our{' '}
+                        We will send you a maximum of two emails {reminderDateWithPreposition}. To
+                        find out what personal data we collect and how we use it, view our{' '}
                         <a
                             css={linkStyles}
                             href="https://www.theguardian.com/help/privacy-policy"
