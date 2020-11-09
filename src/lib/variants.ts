@@ -8,7 +8,7 @@ import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocat
 import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
 import { isRecentOneOffContributor } from '../lib/dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
-import { buildReminderFields, ReminderFields } from './reminderFields';
+import { getReminderFields, ReminderFields } from './reminderFields';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -352,7 +352,10 @@ export const findTestAndVariant = (
         const variant = selectVariant(test, targeting.mvtId || 1);
         const variantWithReminder: Variant = {
             ...variant,
-            showReminderFields: variant.showReminderFields || buildReminderFields(),
+            showReminderFields: getReminderFields(
+                variant.showReminderFields,
+                targeting.countryCode,
+            ),
         };
 
         return {
