@@ -1,22 +1,49 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
-import { Stack, Container } from '@guardian/src-layout';
+
+const container = css`
+    background-color: #dddbd1;
+    padding-bottom: ${space[5]}px;
+    display: grid;
+    grid-template-columns: ${space[3]}px 1fr ${space[3]}px;
+    grid-template-areas:
+        'visual visual visual'
+        '. header .'
+        '. body .'
+        '. ticker .'
+        '. cta .';
+`;
 
 const visualContainer = css`
     position: relative;
+    grid-area: visual;
+`;
+
+const headerContainer = css`
+    grid-area: header;
+`;
+
+const bodyContainer = css`
+    grid-area: body;
+    padding-top: ${space[1]}px;
+`;
+
+const tickerContainer = css`
+    grid-area: ticker;
+    padding-top: ${space[1]}px;
+    padding-bottom: ${space[1]}px;
+`;
+
+const ctaContainer = css`
+    grid-area: cta;
+    padding-top: ${space[3]}px;
 `;
 
 const closeButtonContainer = css`
     position: absolute;
     top: ${space[3]}px;
     right: ${space[3]}px;
-`;
-
-const contentContainer = css`
-    background-color: #dddbd1;
-    padding-top: ${space[1]}px;
-    padding-bottom: ${space[5]}px;
 `;
 
 export interface ContributionsTemplateWithVisualProps {
@@ -37,21 +64,15 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
     cta,
 }: ContributionsTemplateWithVisualProps) => {
     return (
-        <div>
+        <div css={container}>
             <div css={visualContainer}>
                 {visual}
                 <div css={closeButtonContainer}>{closeButton}</div>
             </div>
-            <Container cssOverrides={contentContainer}>
-                <Stack space={4}>
-                    <Stack space={1}>
-                        {header}
-                        {body}
-                        {ticker}
-                    </Stack>
-                    {cta}
-                </Stack>
-            </Container>
+            <div css={headerContainer}>{header}</div>
+            {body && <div css={bodyContainer}>{body}</div>}
+            {ticker && <div css={tickerContainer}>{ticker}</div>}
+            <div css={ctaContainer}>{cta}</div>
         </div>
     );
 };

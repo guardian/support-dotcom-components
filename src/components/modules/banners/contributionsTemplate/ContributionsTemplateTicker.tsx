@@ -13,7 +13,6 @@ import { TickerSettings } from '../../../../lib/variants';
 const rootStyles = css`
     position: relative;
     height: 65px;
-    margin-bottom: 15px;
     line-height: 18px;
 `;
 
