@@ -5,33 +5,31 @@ import { from } from '@guardian/src-foundations/mq';
 
 const container = css`
     background-color: #dddbd1;
-    display: grid;
-    grid-template-columns: ${space[3]}px 1fr ${space[3]}px;
-    grid-template-areas:
-        'visual visual visual'
-        '. header .'
-        '. body .'
-        '. ticker .'
-        '. cta .';
+    display: flex;
+    flex-direction: column;
 
     ${from.tablet} {
-        grid-template-columns: ${space[5]}px 1fr ${space[5]}px 1fr ${space[5]}px;
-        grid-template-areas:
-            '. header . visual visual'
-            '. body . visual visual'
-            '. ticker . visual visual'
-            '. cta . visual visual';
+        flex-direction: row-reverse;
     }
 `;
 
 const visualContainer = css`
     position: relative;
-    grid-area: visual;
+    ${from.tablet} {
+        width: 50%;
+    }
+`;
+
+const contentContainer = css`
+    padding: 0 ${space[3]}px;
+
+    ${from.tablet} {
+        width: 50%;
+        padding: 0 ${space[5]}px;
+    }
 `;
 
 const headerContainer = css`
-    grid-area: header;
-
     ${from.tablet} {
         padding-top: ${space[3]}px;
     }
@@ -45,7 +43,6 @@ const bodyContainerWithTicker = css`
 `;
 
 const bodyContainer = (hasTicker: boolean): SerializedStyles => css`
-    grid-area: body;
     padding-top: ${space[1]}px;
     ${hasTicker && bodyContainerWithTicker}
 
@@ -55,7 +52,6 @@ const bodyContainer = (hasTicker: boolean): SerializedStyles => css`
 `;
 
 const tickerContainer = css`
-    grid-area: ticker;
     padding-top: ${space[1]}px;
     padding-bottom: ${space[1]}px;
 
@@ -65,7 +61,6 @@ const tickerContainer = css`
 `;
 
 const ctaContainer = css`
-    grid-area: cta;
     padding-top: ${space[3]}px;
     padding-bottom: ${space[5]}px;
 
@@ -104,10 +99,12 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
                 {visual}
                 <div css={closeButtonContainer}>{closeButton}</div>
             </div>
-            <div css={headerContainer}>{header}</div>
-            {<div css={bodyContainer(!!ticker)}>{body}</div>}
-            {ticker && <div css={tickerContainer}>{ticker}</div>}
-            <div css={ctaContainer}>{cta}</div>
+            <div css={contentContainer}>
+                <div css={headerContainer}>{header}</div>
+                {<div css={bodyContainer(!!ticker)}>{body}</div>}
+                {ticker && <div css={tickerContainer}>{ticker}</div>}
+                <div css={ctaContainer}>{cta}</div>
+            </div>
         </div>
     );
 };
