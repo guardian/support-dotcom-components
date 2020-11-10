@@ -11,6 +11,7 @@ const banner = css`
 `;
 
 const container = css`
+    width: 100%;
     max-width: 1300px;
     display: flex;
     flex-direction: column;
