@@ -3,8 +3,15 @@ import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 
-const container = css`
+const banner = css`
+    width: 100%;
+    display: flex;
+    justify-content: center;
     background-color: #dddbd1;
+`;
+
+const container = css`
+    max-width: 1300px;
     display: flex;
     flex-direction: column;
 
@@ -113,18 +120,20 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
     cta,
 }: ContributionsTemplateWithVisualProps) => {
     return (
-        <div css={container}>
-            <div css={visualContainer}>
-                <div css={visualSizer}>
-                    {visual}
-                    <div css={closeButtonContainer}>{closeButton}</div>
+        <div css={banner}>
+            <div css={container}>
+                <div css={visualContainer}>
+                    <div css={visualSizer}>
+                        {visual}
+                        <div css={closeButtonContainer}>{closeButton}</div>
+                    </div>
                 </div>
-            </div>
-            <div css={contentContainer}>
-                <div css={headerContainer}>{header}</div>
-                {<div css={bodyContainer(!!ticker)}>{body}</div>}
-                {ticker && <div css={tickerContainer}>{ticker}</div>}
-                <div css={ctaContainer}>{cta}</div>
+                <div css={contentContainer}>
+                    <div css={headerContainer}>{header}</div>
+                    {<div css={bodyContainer(!!ticker)}>{body}</div>}
+                    {ticker && <div css={tickerContainer}>{ticker}</div>}
+                    <div css={ctaContainer}>{cta}</div>
+                </div>
             </div>
         </div>
     );
