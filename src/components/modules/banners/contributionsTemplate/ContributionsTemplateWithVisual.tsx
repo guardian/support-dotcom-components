@@ -24,6 +24,17 @@ const visualContainer = css`
     }
 `;
 
+// this is used to ensure the content column dictates the size, not the visual
+const visualSizer = css`
+    ${from.tablet} {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+`;
+
 const contentContainer = css`
     padding: 0 ${space[3]}px;
 
@@ -104,8 +115,10 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
     return (
         <div css={container}>
             <div css={visualContainer}>
-                {visual}
-                <div css={closeButtonContainer}>{closeButton}</div>
+                <div css={visualSizer}>
+                    {visual}
+                    <div css={closeButtonContainer}>{closeButton}</div>
+                </div>
             </div>
             <div css={contentContainer}>
                 <div css={headerContainer}>{header}</div>
