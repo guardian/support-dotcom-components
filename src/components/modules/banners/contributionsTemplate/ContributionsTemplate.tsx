@@ -30,10 +30,14 @@ const container = css`
 
 const leftColumn = css`
     ${from.tablet} {
-        width: calc(50% - 20px);
+        width: calc(50% - 10px);
         padding-top: ${space[2]}px;
         padding-bottom: ${space[4]}px;
         padding-left: ${space[5]}px;
+    }
+
+    ${from.wide} {
+        width: calc(43% - 10px);
     }
 `;
 
@@ -41,12 +45,16 @@ const rightColumn = css`
     display: none;
 
     ${from.tablet} {
-        width: calc(50% - 20px);
+        width: calc(50% - 10px);
         padding-bottom: ${space[4]}px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         border-left: 1px solid ${neutral[7]};
+    }
+
+    ${from.wide} {
+        width: calc(57% - 10px);
     }
 `;
 
@@ -78,6 +86,7 @@ const tickerAndCtaContainer = css`
 
 const tickerContainer = css`
     padding-top: ${space[1]}px;
+    max-width: 560px;
 `;
 
 const ctaContainer = css`
