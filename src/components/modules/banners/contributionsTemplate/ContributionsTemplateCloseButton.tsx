@@ -12,6 +12,10 @@ const container = css`
             margin-left: ${space[2]}px;
         }
     }
+
+    svg {
+        display: block;
+    }
 `;
 
 interface ContributionsTemplateCloseButtonProps {
