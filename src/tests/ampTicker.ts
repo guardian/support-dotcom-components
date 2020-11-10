@@ -44,17 +44,18 @@ export const ampTicker = async (
     type: TickerCountType,
     goalCaption: string,
     totalCaption: string,
-    currencySymbol: string = '',
+    currencySymbol?: string,
 ): Promise<AMPTicker> => {
     return await fetchTickerData(tickerDataUrl(type)).then(data => {
         const percentage = (data.total / data.goal) * 100;
+        const prefix = type === 'money' && currencySymbol ? currencySymbol : '';
 
         return {
             percentage: (percentage > 100 ? 100 : percentage).toString(),
             goalAmountCaption: goalCaption,
-            goalAmountFigure: `${currencySymbol}${data.goal.toLocaleString()}`,
+            goalAmountFigure: `${prefix}${data.goal.toLocaleString()}`,
             currentAmountCaption: totalCaption,
-            currentAmountFigure: `${currencySymbol}${data.total.toLocaleString()}`,
+            currentAmountFigure: `${prefix}${data.total.toLocaleString()}`,
         };
     });
 };

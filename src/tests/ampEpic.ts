@@ -1,5 +1,5 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
-import { AMPTicker, ampTicker } from './ampTicker';
+import { AMPTicker } from './ampTicker';
 
 interface AMPCta {
     text: string;
@@ -41,13 +41,12 @@ async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
                     campaignCode: campaignCode,
                     componentId: campaignCode,
                 },
-                ticker: await ampTicker('people', 'our goal', 'new supporters'),
             },
         ],
     };
 }
 
-function ampUsEpic(): AMPEpicResponse {
+async function ampUsEpic(): Promise<AMPEpicResponse> {
     const campaignCode = 'AMP_USREGION_EPIC';
     return {
         items: [
