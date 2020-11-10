@@ -69,7 +69,6 @@ async function ampUsEpic(): Promise<AMPEpicResponse> {
     };
 }
 
-export function ampEpic(geolocation?: string): AMPEpicResponse | Promise<AMPEpicResponse> {
-    const epic = geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
-    return epic;
+export function ampEpic(geolocation?: string): Promise<AMPEpicResponse> {
+    return geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
 }
