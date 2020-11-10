@@ -66,7 +66,7 @@ const headerAndCloseButtonContainer = css`
 const closeButtonContainer = css`
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     border-bottom: 1px solid ${neutral[7]};
     padding: ${space[4]}px ${space[5]}px ${space[4]}px 0;
 `;
@@ -94,6 +94,19 @@ const ctaContainer = css`
 
     ${from.tablet} {
         padding-top: ${space[9]}px;
+    }
+`;
+
+const line = css`
+    position: absolute;
+    display: none;
+    top: 68px;
+    left: calc(50% + 650px);
+    right: 0;
+    border-bottom: 1px solid ${neutral[7]};
+
+    ${from.wide} {
+        display: block;
     }
 `;
 
@@ -134,6 +147,7 @@ const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
                     </div>
                 </div>
             </div>
+            <div css={line}></div>
         </div>
     );
 };
