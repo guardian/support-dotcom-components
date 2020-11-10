@@ -27,7 +27,7 @@ const visualContainer = css`
     }
 
     ${from.wide} {
-        width: 55%;
+        width: 57%;
     }
 `;
 
@@ -51,7 +51,7 @@ const contentContainer = css`
     }
 
     ${from.wide} {
-        width: 45%;
+        width: 43%;
     }
 `;
 
