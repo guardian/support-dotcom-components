@@ -1,10 +1,10 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { headline } from '@guardian/src-foundations/typography';
+import { body } from '@guardian/src-foundations/typography';
 import { Hide } from '@guardian/src-layout';
 
 const container = css`
-    ${headline.xxxsmall({ fontWeight: 'regular' })}
+    ${body.medium()}
 `;
 
 interface ContributionsTemplateBodyProps {
