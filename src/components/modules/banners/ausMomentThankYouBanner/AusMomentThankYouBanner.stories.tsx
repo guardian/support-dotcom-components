@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { AusMomentThankYouBanner } from './AusMomentThankYouBanner';
+import AusMomentThankYouBanner from './AusMomentThankYouBanner';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
