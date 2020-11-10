@@ -1,4 +1,5 @@
 import { getLocalCurrencySymbol } from '../lib/geolocation';
+import { AMPTicker } from './ampTicker';
 
 interface AMPCta {
     text: string;
@@ -12,6 +13,7 @@ interface AMPEpic {
     paragraphs: string[];
     highlightedText?: string;
     cta: AMPCta;
+    ticker?: AMPTicker;
 }
 
 // See https://amp.dev/documentation/components/amp-list/
@@ -19,7 +21,7 @@ interface AMPEpicResponse {
     items: AMPEpic[];
 }
 
-function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
+async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
     const campaignCode = 'AMP_EPIC_AUGUST2020';
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
@@ -45,7 +47,7 @@ function ampDefaultEpic(geolocation?: string): AMPEpicResponse {
     };
 }
 
-function ampUsEpic(): AMPEpicResponse {
+async function ampUsEpic(): Promise<AMPEpicResponse> {
     const campaignCode = 'AMP_USREGION_EPIC';
     return {
         items: [
@@ -69,7 +71,6 @@ function ampUsEpic(): AMPEpicResponse {
     };
 }
 
-export function ampEpic(geolocation?: string): AMPEpicResponse {
-    const epic = geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
-    return epic;
+export function ampEpic(geolocation?: string): Promise<AMPEpicResponse> {
+    return geolocation === 'US' ? ampUsEpic() : ampDefaultEpic(geolocation);
 }

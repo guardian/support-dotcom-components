@@ -444,7 +444,7 @@ app.get(
         try {
             // We use the fastly geo header for determining the correct currency symbol
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
-            const response = ampEpic(countryCode);
+            const response = await ampEpic(countryCode);
 
             // The cache key in fastly is the X-GU-GeoIP-Country-Code header
             res.setHeader('Surrogate-Control', 'max-age=300');
