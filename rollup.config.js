@@ -26,7 +26,7 @@ const globals = {
 
 // TODO: remove example banners
 const config = [
-    // ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
+    ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
     [
         'example-banner',
         'src/components/modules/banners/contributionsTemplate/ExampleContributionsTemplate.tsx',
