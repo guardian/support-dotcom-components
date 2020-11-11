@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '../../../../lib/variants';
 import useTicker from '../../../../hooks/useTicker';
+import { useHasBeenSeen, HasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -126,7 +127,21 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
     accentColour,
 }: ContributionsTemplateTickerProps) => {
     const [readyToAnimate, setReadyToAnimate] = useState(false);
-    setTimeout(() => setReadyToAnimate(true), 500);
+
+    const debounce = true;
+    const [hasBeenSeen, setNode] = useHasBeenSeen(
+        {
+            rootMargin: '-18px',
+            threshold: 0,
+        },
+        debounce,
+    ) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            setTimeout(() => setReadyToAnimate(true), 500);
+        }
+    }, [hasBeenSeen]);
 
     const total = settings.tickerData?.total || 1;
     const goal = settings.tickerData?.goal || 1;
@@ -140,7 +155,7 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
     const end = total > goal ? total + total * 0.15 : goal;
 
     return (
-        <div css={rootStyles}>
+        <div ref={setNode} css={rootStyles}>
             <div>
                 <div css={soFarContainerStyles}>
                     <div css={soFarCountStyles(accentColour)}>
