@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '../../../../lib/variants';
+import useTicker from '../../../../hooks/useTicker';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -124,26 +125,10 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
     settings,
     accentColour,
 }: ContributionsTemplateTickerProps) => {
-    const [runningTotal, setRunningTotal] = useState<number>(0);
-
     const total = settings.tickerData?.total || 1;
     const goal = settings.tickerData?.goal || 1;
 
-    useEffect(() => {
-        if (runningTotal < total) {
-            window.requestAnimationFrame(() => {
-                setRunningTotal(prevRunningTotal => {
-                    const newRunningTotal = prevRunningTotal + Math.floor(total / 100);
-
-                    if (newRunningTotal > total) {
-                        return total;
-                    }
-
-                    return newRunningTotal;
-                });
-            });
-        }
-    }, [runningTotal, total]);
+    const runningTotal = useTicker(total, true);
 
     const goalReached = total >= goal;
     const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';

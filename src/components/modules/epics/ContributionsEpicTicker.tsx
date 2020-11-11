@@ -4,6 +4,7 @@ import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import useTicker from '../../../hooks/useTicker';
 import { TickerSettings } from '../../../lib/variants';
 
 // This ticker component provides an animated progress bar and counter for the
@@ -125,7 +126,6 @@ type Props = {
 };
 
 export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal }: Props) => {
-    const [runningTotal, setRunningTotal] = useState<number>(0);
     const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
 
     const debounce = true;
@@ -143,21 +143,7 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
         }
     }, [hasBeenSeen]);
 
-    useEffect(() => {
-        if (readyToAnimate && runningTotal < total) {
-            window.requestAnimationFrame(() => {
-                setRunningTotal(prevRunningTotal => {
-                    const newRunningTotal = prevRunningTotal + Math.floor(total / 100);
-
-                    if (newRunningTotal > total) {
-                        return total;
-                    }
-
-                    return newRunningTotal;
-                });
-            });
-        }
-    }, [runningTotal, readyToAnimate, total]);
+    const runningTotal = useTicker(total, readyToAnimate);
 
     const goalReached = total >= goal;
     const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';
