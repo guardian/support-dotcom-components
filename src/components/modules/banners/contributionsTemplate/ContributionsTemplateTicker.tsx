@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
@@ -125,10 +125,13 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
     settings,
     accentColour,
 }: ContributionsTemplateTickerProps) => {
+    const [readyToAnimate, setReadyToAnimate] = useState(false);
+    setTimeout(() => setReadyToAnimate(true), 500);
+
     const total = settings.tickerData?.total || 1;
     const goal = settings.tickerData?.goal || 1;
 
-    const runningTotal = useTicker(total, true);
+    const runningTotal = useTicker(total, readyToAnimate);
 
     const goalReached = total >= goal;
     const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';
