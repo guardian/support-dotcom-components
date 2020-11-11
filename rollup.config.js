@@ -24,23 +24,34 @@ const globals = {
     '@emotion/core': 'guardian.automat.emotionCore',
 };
 
+// TODO: remove example banners
 const config = [
-    ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
+    // ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
     [
-        'contributions-banner',
-        'src/components/modules/banners/contributions/ContributionsBanner.tsx',
-        'dist/modules/banners/contributions/ContributionsBanner.js',
+        'example-banner',
+        'src/components/modules/banners/contributionsTemplate/ExampleContributionsTemplate.tsx',
+        'dist/modules/banners/contributionsTemplate/ExampleContributionsTemplate.js',
     ],
     [
-        'digital-subscriptions-banner',
-        'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.tsx',
-        'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js',
+        'example-banner-with-visual',
+        'src/components/modules/banners/contributionsTemplate/ExampleContributionsTemplateWithVisual.tsx',
+        'dist/modules/banners/contributionsTemplate/ExampleContributionsTemplateWithVisual.js',
     ],
-    [
-        'guardian-weekly-banner',
-        'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
-        'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
-    ],
+    // [
+    //     'contributions-banner',
+    //     'src/components/modules/banners/contributions/ContributionsBanner.tsx',
+    //     'dist/modules/banners/contributions/ContributionsBanner.js',
+    // ],
+    // [
+    //     'digital-subscriptions-banner',
+    //     'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.tsx',
+    //     'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js',
+    // ],
+    // [
+    //     'guardian-weekly-banner',
+    //     'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
+    //     'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
+    // ],
 ].map(([name, entryPoint, target]) => {
     const isProd = process.env.NODE_ENV === 'production';
     const sourcemaps = !isProd; // Nb: set to false if testing IE11

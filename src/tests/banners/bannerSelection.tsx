@@ -79,6 +79,7 @@ const getForcedVariant = (
     tests: BannerTest[],
     baseUrl: string,
 ): BannerTestSelection | null => {
+    console.log('getting forced variant');
     const test = tests.find(
         test => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );

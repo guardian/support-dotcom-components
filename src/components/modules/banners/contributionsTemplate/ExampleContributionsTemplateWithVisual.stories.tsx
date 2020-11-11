@@ -1,15 +1,12 @@
 import React, { ReactElement } from 'react';
-import {
-    ExampleWithHeadlineAndBody,
-    ExampleWithHeadlineAndTicker,
-} from './ExampleContributionsTemplateWithVisual';
+import { Example, ExampleWithTicker } from './ExampleContributionsTemplateWithVisual';
 import { withKnobs, number } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
-    component: ExampleWithHeadlineAndBody,
+    component: Example,
     title: 'Components/ContributionsTemplateWithVisual',
     decorators: [withKnobs],
 };
@@ -62,7 +59,7 @@ const props: BannerProps = {
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <ExampleWithHeadlineAndBody {...props} />
+            <Example {...props} />
         </StorybookWrapper>
     );
 };
@@ -78,7 +75,7 @@ export const headlineAndTickerStory = (): ReactElement => {
 
     return (
         <StorybookWrapper>
-            <ExampleWithHeadlineAndTicker {...props} />
+            <ExampleWithTicker {...props} />
         </StorybookWrapper>
     );
 };

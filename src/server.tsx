@@ -31,6 +31,10 @@ import {
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
+import {
+    ExamplePath,
+    ExampleWithVisualPath,
+} from './tests/banners/ExampleContributionsTemplateBannerTest';
 import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 import { getCachedTests } from './tests/banners/bannerTests';
@@ -301,6 +305,45 @@ app.get(
             const module = await fs.promises.readFile(__dirname + path);
             res.type('js');
             setComponentCacheHeaders(res);
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+// TODO: remove these endpoints
+app.get(
+    `/${ExamplePath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/contributionsTemplate/ExampleContributionsTemplate.js'
+                : '/modules/banners/contributionsTemplate/ExampleContributionsTemplate.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
+            res.send(module);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    `/${ExampleWithVisualPath}`,
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const path = isDev
+                ? '/../dist/modules/banners/contributionsTemplate/ExampleContributionsTemplateWithVisual.js'
+                : '/modules/banners/contributionsTemplate/ExampleContributionsTemplateWithVisual.js';
+            const module = await fs.promises.readFile(__dirname + path);
+
+            res.type('js');
+            setComponentCacheHeaders(res);
+
             res.send(module);
         } catch (error) {
             next(error);

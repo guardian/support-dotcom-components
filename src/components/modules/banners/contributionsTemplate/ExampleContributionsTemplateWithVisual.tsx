@@ -110,7 +110,7 @@ const cta = (
     />
 );
 
-export const ExampleWithHeadlineAndBody: React.FC<BannerProps> = ({}: BannerProps) => {
+export const Example: React.FC<BannerProps> = ({}: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
             visual={visual}
@@ -122,9 +122,7 @@ export const ExampleWithHeadlineAndBody: React.FC<BannerProps> = ({}: BannerProp
     );
 };
 
-export const ExampleWithHeadlineAndTicker: React.FC<BannerProps> = ({
-    tickerSettings,
-}: BannerProps) => {
+export const ExampleWithTicker: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
             visual={visual}
