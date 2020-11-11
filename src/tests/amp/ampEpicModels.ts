@@ -1,6 +1,6 @@
-import {Cta} from "../../lib/variants";
-import {CountryGroupId} from "../../lib/geolocation";
-import {AMPTicker} from "../ampTicker";
+import { Cta } from '../../lib/variants';
+import { CountryGroupId } from '../../lib/geolocation';
+import { AMPTicker } from '../ampTicker';
 
 /**
  * Models for the data returned to AMP
@@ -41,9 +41,5 @@ export interface AmpEpicTest {
     nickname?: string;
     isOn: boolean;
     locations: CountryGroupId[];
-    tagIds: string[];
-    sections: string[];
-    excludedTagIds: string[];
-    excludedSections: string[];
     variants: AmpEpicTestVariant[];
 }

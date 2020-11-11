@@ -1,6 +1,6 @@
-import {getLocalCurrencySymbol} from '../../lib/geolocation';
-import {AMPEpicResponse} from "./ampEpicModels";
-import {selectAmpEpic} from "./ampEpicTests";
+import { getLocalCurrencySymbol } from '../../lib/geolocation';
+import { AMPEpicResponse } from './ampEpicModels';
+import { selectAmpEpic } from './ampEpicTests';
 
 async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
     const campaignCode = 'AMP_EPIC_AUGUST2020';
@@ -56,8 +56,8 @@ export async function ampEpic(countryCode?: string): Promise<AMPEpicResponse> {
     const ampEpic = await selectAmpEpic(countryCode);
     if (ampEpic) {
         return {
-            items: [ampEpic]
-        }
+            items: [ampEpic],
+        };
     }
 
     // No epic from the tool, fall back on a hardcoded epic
