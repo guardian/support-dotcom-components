@@ -34,26 +34,24 @@ export const selectAmpEpicTest = (tests: AmpEpicTest[], countryCode?: string): A
 
     if (test && test.variants[0]) {
         const variant = test.variants[0];
-        if (variant) {
-            return {
-                heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
-                paragraphs: variant.paragraphs.map(p =>
-                    replaceNonArticleCountPlaceholders(p, countryCode),
-                ),
-                highlightedText: replaceNonArticleCountPlaceholders(
-                    variant.highlightedText,
-                    countryCode,
-                ),
-                cta: {
-                    text: variant.cta ? variant.cta.text : 'Support the Guardian',
-                    url: variant.cta
-                        ? variant.cta.baseUrl
-                        : 'https://support.theguardian.com/contribute',
-                    componentId: `${test.name}-${variant.name}`,
-                    campaignCode: `${test.name}-${variant.name}`,
-                },
-            };
-        }
+        return {
+            heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
+            paragraphs: variant.paragraphs.map(p =>
+                replaceNonArticleCountPlaceholders(p, countryCode),
+            ),
+            highlightedText: replaceNonArticleCountPlaceholders(
+                variant.highlightedText,
+                countryCode,
+            ),
+            cta: {
+                text: variant.cta ? variant.cta.text : 'Support the Guardian',
+                url: variant.cta
+                    ? variant.cta.baseUrl
+                    : 'https://support.theguardian.com/contribute',
+                componentId: `${test.name}-${variant.name}`,
+                campaignCode: `${test.name}-${variant.name}`,
+            },
+        };
     }
     return null;
 };
