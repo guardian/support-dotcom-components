@@ -12,7 +12,6 @@ import {
 } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../lib/tracking';
-import { setContributionsBannerClosedTimestamp } from '../localStorage';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 
 const banner = css`
@@ -749,11 +748,6 @@ export const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
 
     const supportersCount = tickerSettings.tickerData.total;
 
-    const closeBanner = (): void => {
-        setContributionsBannerClosedTimestamp();
-        onClose();
-    };
-
     return (
         <div css={banner}>
             <div css={sunSvgAndMessagesContainer}>
@@ -841,7 +835,7 @@ export const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
                     </div>
                 </div>
                 <div css={closeButtonContainer}>
-                    <button css={closeButton} onClick={closeBanner}>
+                    <button css={closeButton} onClick={onClose}>
                         <SvgCross />
                     </button>
                 </div>
@@ -920,4 +914,4 @@ export const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
     );
 };
 
-export default withCloseable(AusMomentThankYouBanner);
+export default withCloseable(AusMomentThankYouBanner, 'contributions');
