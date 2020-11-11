@@ -39,11 +39,10 @@ const tickerSettings = {
     countType: TickerCountType.money,
     endType: TickerEndType.hardstop,
     currencySymbol: '$',
-    // Usually we need the ticker copy, but this banner has a very custom ticker
     copy: {
-        countLabel: '',
-        goalReachedPrimary: '',
-        goalReachedSecondary: '',
+        countLabel: 'contributed',
+        goalReachedPrimary: "We've met our goal - thank you",
+        goalReachedSecondary: 'Contributions are still being accepted',
     },
     tickerData: {
         total: 120_000,

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
-import { useHasBeenSeen, HasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { TickerSettings } from '../../../../lib/variants';
 
 // This ticker component provides an animated progress bar and counter for the
@@ -116,35 +115,22 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
     }
 };
 
-type Props = {
+type ContributionsTemplateTickerProps = {
     settings: TickerSettings;
     accentColour: string;
 };
 
-const ContributionsEpicTicker: React.FC<Props> = ({ settings, accentColour }: Props) => {
+const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = ({
+    settings,
+    accentColour,
+}: ContributionsTemplateTickerProps) => {
     const [runningTotal, setRunningTotal] = useState<number>(0);
-    const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
 
-    const total = settings.tickerData?.total || 0;
-    const goal = settings.tickerData?.goal || 0;
-
-    const debounce = true;
-    const [hasBeenSeen, setNode] = useHasBeenSeen(
-        {
-            rootMargin: '-18px',
-            threshold: 0,
-        },
-        debounce,
-    ) as HasBeenSeen;
+    const total = settings.tickerData?.total || 1;
+    const goal = settings.tickerData?.goal || 1;
 
     useEffect(() => {
-        if (hasBeenSeen) {
-            setTimeout(() => setReadyToAnimate(true), 500);
-        }
-    }, [hasBeenSeen]);
-
-    useEffect(() => {
-        if (readyToAnimate && runningTotal < total) {
+        if (runningTotal < total) {
             window.requestAnimationFrame(() => {
                 setRunningTotal(prevRunningTotal => {
                     const newRunningTotal = prevRunningTotal + Math.floor(total / 100);
@@ -157,30 +143,39 @@ const ContributionsEpicTicker: React.FC<Props> = ({ settings, accentColour }: Pr
                 });
             });
         }
-    }, [runningTotal, readyToAnimate, total]);
+    }, [runningTotal, total]);
 
+    const goalReached = total >= goal;
     const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';
 
     // If we've exceeded the goal then extend the bar 15% beyond the total
     const end = total > goal ? total + total * 0.15 : goal;
 
     return (
-        <div ref={setNode} css={rootStyles}>
+        <div css={rootStyles}>
             <div>
                 <div css={soFarContainerStyles}>
                     <div css={soFarCountStyles(accentColour)}>
-                        {currencySymbol}
-                        {runningTotal.toLocaleString()}
+                        {goalReached
+                            ? settings.copy.goalReachedPrimary
+                            : `${currencySymbol}${runningTotal.toLocaleString()}`}
                     </div>
-                    <div css={countLabelStyles}>contributed</div>
+                    <div css={countLabelStyles}>
+                        {goalReached
+                            ? settings.copy.goalReachedSecondary
+                            : settings.copy.countLabel}
+                    </div>
                 </div>
 
                 <div css={goalContainerStyles}>
                     <div css={totalCountStyles(accentColour)}>
-                        {currencySymbol}
-                        {goal.toLocaleString()}
+                        {goalReached
+                            ? `${currencySymbol}${total.toLocaleString()}`
+                            : `${currencySymbol}${goal.toLocaleString()}`}
                     </div>
-                    <div css={countLabelStyles}>our goal</div>
+                    <div css={countLabelStyles}>
+                        {goalReached ? settings.copy.countLabel : 'our goal'}
+                    </div>
                 </div>
             </div>
 
@@ -194,4 +189,4 @@ const ContributionsEpicTicker: React.FC<Props> = ({ settings, accentColour }: Pr
     );
 };
 
-export default ContributionsEpicTicker;
+export default ContributionsTemplateTicker;
