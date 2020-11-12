@@ -1,6 +1,8 @@
 import React from 'react';
 import { ThemeProvider } from 'emotion-theming';
+import { css } from '@emotion/core';
 import { Button, LinkButton, buttonBrandAlt } from '@guardian/src-button';
+import { neutral } from '@guardian/src-foundations/palette';
 import { SvgCross } from '@guardian/src-icons';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateWithVisual from './ContributionsTemplateWithVisual';
@@ -12,6 +14,11 @@ import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { TickerSettings } from '../../../../lib/variants';
+
+const closeButtonStyles = css`
+    color: ${neutral[7]};
+    border-color: ${neutral[7]};
+`;
 
 const visual = (
     <ContributionsTemplateVisual
@@ -56,7 +63,13 @@ const Roundel = (
 const closeButton = (
     <ContributionsTemplateCloseButton
         closeButton={
-            <Button size="small" priority="tertiary" icon={<SvgCross />} hideLabel>
+            <Button
+                cssOverrides={closeButtonStyles}
+                size="small"
+                priority="tertiary"
+                icon={<SvgCross />}
+                hideLabel
+            >
                 Close
             </Button>
         }
