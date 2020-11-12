@@ -18,7 +18,7 @@ import {
 import { getAllHardcodedTests } from './tests';
 import { logTargeting } from './lib/logging';
 import { getQueryParams, Params } from './lib/params';
-import { ampEpic } from './tests/ampEpic';
+import { ampEpic } from './tests/amp/ampEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { isProd, isDev, baseUrl } from './lib/env';
@@ -436,6 +436,7 @@ app.get(
             'https://amp-theguardian-com.cdn.ampproject.org',
             'https://amp.theguardian.com',
             'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
         ],
         credentials: true,
         allowedHeaders: ['x-gu-geoip-country-code'],
