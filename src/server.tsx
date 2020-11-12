@@ -436,6 +436,7 @@ app.get(
             'https://amp-theguardian-com.cdn.ampproject.org',
             'https://amp.theguardian.com',
             'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
         ],
         credentials: true,
         allowedHeaders: ['x-gu-geoip-country-code'],
