@@ -7,6 +7,7 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import visualizer from 'rollup-plugin-visualizer';
+import modules, { getSrcPath, getDistPath } from './src/modules';
 
 const tsOpts = {
     target: 'es2018',
@@ -24,30 +25,13 @@ const globals = {
     '@emotion/core': 'guardian.automat.emotionCore',
 };
 
-const config = [
-    ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
-    [
-        'contributions-banner',
-        'src/components/modules/banners/contributions/ContributionsBanner.tsx',
-        'dist/modules/banners/contributions/ContributionsBanner.js',
-    ],
-    [
-        'digital-subscriptions-banner',
-        'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.tsx',
-        'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js',
-    ],
-    [
-        'guardian-weekly-banner',
-        'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
-        'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
-    ],
-].map(([name, entryPoint, target]) => {
+const config = modules.map(module => {
     const isProd = process.env.NODE_ENV === 'production';
     const sourcemaps = !isProd; // Nb: set to false if testing IE11
     return {
-        input: entryPoint,
+        input: getSrcPath(module),
         output: {
-            file: target,
+            file: getDistPath(module),
             format: 'es',
             sourcemap: sourcemaps ? 'inline' : false,
         },
@@ -69,7 +53,11 @@ const config = [
 
             // Note, visualizer is useful for *relative* sizes, but reports
             // pre-minification.
-            visualizer({ sourcemap: sourcemaps, gzipSize: true, filename: `stats/${name}.html` }),
+            visualizer({
+                sourcemap: sourcemaps,
+                gzipSize: true,
+                filename: `stats/${module.name}.html`,
+            }),
         ],
     };
 });
