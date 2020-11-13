@@ -1,4 +1,4 @@
-import {Cta, TickerSettings} from '../../lib/variants';
+import { Cta, TickerSettings } from '../../lib/variants';
 import { CountryGroupId } from '../../lib/geolocation';
 import { AMPTicker } from '../getAmpTicker';
 

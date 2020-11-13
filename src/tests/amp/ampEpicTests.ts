@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { replaceNonArticleCountPlaceholders } from '../../lib/placeholders';
-import { getAmpTicker } from "../getAmpTicker";
+import { getAmpTicker } from '../getAmpTicker';
 
 /**
  * Fetches AMP epic tests configuration from the tool.
@@ -30,7 +30,10 @@ const [, getCachedAmpEpicTests] = cacheAsync<AmpEpicTest[]>(
     true,
 );
 
-export const selectAmpEpicTest = async (tests: AmpEpicTest[], countryCode?: string): Promise<AMPEpic | null> => {
+export const selectAmpEpicTest = async (
+    tests: AmpEpicTest[],
+    countryCode?: string,
+): Promise<AMPEpic | null> => {
     const test = tests.find(test => test.isOn && inCountryGroups(countryCode, test.locations));
 
     if (test && test.variants[0]) {
@@ -52,12 +55,12 @@ export const selectAmpEpicTest = async (tests: AmpEpicTest[], countryCode?: stri
                     : 'https://support.theguardian.com/contribute',
                 componentId: `${test.name}-${variant.name}`,
                 campaignCode: `${test.name}-${variant.name}`,
-            }
+            },
         };
 
         if (variant.tickerSettings) {
             const ticker = await getAmpTicker(variant.tickerSettings);
-            return {...epicData, ticker };
+            return { ...epicData, ticker };
         } else {
             return epicData;
         }

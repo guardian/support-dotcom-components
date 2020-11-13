@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import {TickerSettings} from "../lib/variants";
+import { TickerSettings } from '../lib/variants';
 
 interface TickerData {
     total: number;
@@ -42,20 +42,32 @@ const fetchTickerData = async (url: string): Promise<TickerData> => {
         .then(parse);
 };
 
-export const getAmpTicker = (
-    tickerSettings: TickerSettings,
-): Promise<AMPTicker> =>
+export const getAmpTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
     fetchTickerData(tickerDataUrl(tickerSettings.countType)).then(data => {
         const percentage = (data.total / data.goal) * 100;
         const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
         const goalReached = percentage >= 100;
 
+        const topLeft = goalReached
+            ? tickerSettings.copy.goalReachedPrimary
+            : `${prefix}${data.total.toLocaleString()}`;
+
+        const bottomLeft = goalReached
+            ? tickerSettings.copy.goalReachedSecondary
+            : tickerSettings.copy.countLabel;
+
+        const topRight = goalReached
+            ? `${prefix}${data.total.toLocaleString()}`
+            : `${prefix}${data.goal.toLocaleString()}`;
+
+        const bottomRight = goalReached ? tickerSettings.copy.countLabel : 'our goal';
+
         return {
             percentage: (percentage > 100 ? 100 : percentage).toString(),
             goalReached,
-            topLeft: goalReached ? tickerSettings.copy.goalReachedPrimary : `${prefix}${data.total.toLocaleString()}`,
-            bottomLeft: goalReached ? tickerSettings.copy.goalReachedSecondary : tickerSettings.copy.countLabel,
-            topRight: goalReached ? `${prefix}${data.total.toLocaleString()}` : `${prefix}${data.goal.toLocaleString()}`,
-            bottomRight: goalReached ? tickerSettings.copy.countLabel : 'our goal'
+            topLeft,
+            bottomLeft,
+            topRight,
+            bottomRight,
         };
     });
