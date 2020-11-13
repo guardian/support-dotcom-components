@@ -4,6 +4,7 @@ require('ts-node').register({
     },
 });
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { moduleInfos, getSrcPath, getDistPath } = require('./src/modules.ts');
 
 import resolveNode from '@rollup/plugin-node-resolve';
