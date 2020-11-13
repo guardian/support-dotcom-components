@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { replaceNonArticleCountPlaceholders } from '../../lib/placeholders';
+import { ampTicker } from './ampTicker';
 
 /**
  * Fetches AMP epic tests configuration from the tool.
@@ -29,12 +30,16 @@ const [, getCachedAmpEpicTests] = cacheAsync<AmpEpicTest[]>(
     true,
 );
 
-export const selectAmpEpicTest = (tests: AmpEpicTest[], countryCode?: string): AMPEpic | null => {
+export const selectAmpEpicTest = async (
+    tests: AmpEpicTest[],
+    countryCode?: string,
+): Promise<AMPEpic | null> => {
     const test = tests.find(test => test.isOn && inCountryGroups(countryCode, test.locations));
 
     if (test && test.variants[0]) {
         const variant = test.variants[0];
-        return {
+
+        const epicData = {
             heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
             paragraphs: variant.paragraphs.map(p =>
                 replaceNonArticleCountPlaceholders(p, countryCode),
@@ -52,6 +57,13 @@ export const selectAmpEpicTest = (tests: AmpEpicTest[], countryCode?: string): A
                 campaignCode: `${test.name}-${variant.name}`,
             },
         };
+
+        if (variant.tickerSettings) {
+            const ticker = await ampTicker(variant.tickerSettings);
+            return { ...epicData, ticker };
+        } else {
+            return epicData;
+        }
     }
     return null;
 };

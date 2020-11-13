@@ -1,6 +1,6 @@
-import { Cta } from '../../lib/variants';
+import { Cta, TickerSettings } from '../../lib/variants';
 import { CountryGroupId } from '../../lib/geolocation';
-import { AMPTicker } from '../ampTicker';
+import { AMPTicker } from './ampTicker';
 
 /**
  * Models for the data returned to AMP
@@ -34,6 +34,7 @@ export interface AmpEpicTestVariant {
     paragraphs: string[];
     highlightedText?: string;
     cta?: Cta;
+    tickerSettings?: TickerSettings;
 }
 
 export interface AmpEpicTest {
