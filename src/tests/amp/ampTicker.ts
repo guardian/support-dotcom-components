@@ -1,12 +1,5 @@
-import fetch from 'node-fetch';
-import { TickerSettings } from '../lib/variants';
-
-interface TickerData {
-    total: number;
-    goal: number;
-}
-
-type TickerCountType = 'money' | 'people';
+import { TickerSettings } from '../../lib/variants';
+import { fetchTickerDataCached } from '../../lib/fetchTickerData';
 
 export interface AMPTicker {
     percentage: string;
@@ -17,33 +10,8 @@ export interface AMPTicker {
     bottomRight: string;
 }
 
-const parse = (json: any): Promise<TickerData> => {
-    const total = parseInt(json.total, 10);
-    const goal = parseInt(json.goal, 10);
-
-    if (!Number.isNaN(total) && !Number.isNaN(goal)) {
-        return Promise.resolve({
-            total,
-            goal,
-        });
-    }
-    return Promise.reject(Error(`Failed to parse ticker data: ${json}`));
-};
-
-const tickerDataUrl = (countType: TickerCountType): string => {
-    return countType === 'people'
-        ? 'https://support.theguardian.com/supporters-ticker.json'
-        : 'https://support.theguardian.com/ticker.json';
-};
-
-const fetchTickerData = async (url: string): Promise<TickerData> => {
-    return await fetch(url)
-        .then(response => response.json())
-        .then(parse);
-};
-
-export const getAmpTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
-    fetchTickerData(tickerDataUrl(tickerSettings.countType)).then(data => {
+export const ampTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
+    fetchTickerDataCached(tickerSettings).then(data => {
         const percentage = (data.total / data.goal) * 100;
         const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
         const goalReached = percentage >= 100;

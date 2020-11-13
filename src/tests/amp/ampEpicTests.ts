@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { replaceNonArticleCountPlaceholders } from '../../lib/placeholders';
-import { getAmpTicker } from '../getAmpTicker';
+import { ampTicker } from './ampTicker';
 
 /**
  * Fetches AMP epic tests configuration from the tool.
@@ -59,7 +59,7 @@ export const selectAmpEpicTest = async (
         };
 
         if (variant.tickerSettings) {
-            const ticker = await getAmpTicker(variant.tickerSettings);
+            const ticker = await ampTicker(variant.tickerSettings);
             return { ...epicData, ticker };
         } else {
             return epicData;
