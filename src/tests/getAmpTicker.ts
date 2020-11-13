@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import {TickerSettings} from "../lib/variants";
 
 interface TickerData {
     total: number;
@@ -9,10 +10,11 @@ type TickerCountType = 'money' | 'people';
 
 export interface AMPTicker {
     percentage: string;
-    goalAmountFigure: string;
-    goalAmountCaption: string;
-    currentAmountFigure: string;
-    currentAmountCaption: string;
+    goalReached: boolean;
+    topLeft: string;
+    bottomLeft: string;
+    topRight: string;
+    bottomRight: string;
 }
 
 const parse = (json: any): Promise<TickerData> => {
@@ -40,22 +42,20 @@ const fetchTickerData = async (url: string): Promise<TickerData> => {
         .then(parse);
 };
 
-export const ampTicker = async (
-    type: TickerCountType,
-    goalCaption: string,
-    totalCaption: string,
-    currencySymbol?: string,
-): Promise<AMPTicker> => {
-    return await fetchTickerData(tickerDataUrl(type)).then(data => {
+export const getAmpTicker = (
+    tickerSettings: TickerSettings,
+): Promise<AMPTicker> =>
+    fetchTickerData(tickerDataUrl(tickerSettings.countType)).then(data => {
         const percentage = (data.total / data.goal) * 100;
-        const prefix = type === 'money' && currencySymbol ? currencySymbol : '';
+        const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
+        const goalReached = percentage >= 100;
 
         return {
             percentage: (percentage > 100 ? 100 : percentage).toString(),
-            goalAmountCaption: goalCaption,
-            goalAmountFigure: `${prefix}${data.goal.toLocaleString()}`,
-            currentAmountCaption: totalCaption,
-            currentAmountFigure: `${prefix}${data.total.toLocaleString()}`,
+            goalReached,
+            topLeft: goalReached ? tickerSettings.copy.goalReachedPrimary : `${prefix}${data.total.toLocaleString()}`,
+            bottomLeft: goalReached ? tickerSettings.copy.goalReachedSecondary : tickerSettings.copy.countLabel,
+            topRight: goalReached ? `${prefix}${data.total.toLocaleString()}` : `${prefix}${data.goal.toLocaleString()}`,
+            bottomRight: goalReached ? tickerSettings.copy.countLabel : 'our goal'
         };
     });
-};
