@@ -1,37 +1,38 @@
-// interface Module {
-//     name: string;
-//     endpoint: string;
-//     path: string;
-// }
-
 export const getSrcPath = module => `src/components/modules/${module.path}.tsx`;
 export const getDistPath = module => `dist/modules/${module.path}.js`;
+
+export const getEndpointPath = module => `/${module.name}.js`;
 
 export const getDevServerPath = module => `/../dist/modules/${module.path}.js`;
 export const getProdServerPath = module => `/modules/${module.path}.js`;
 
-const epic = {
+export const epic = {
     name: 'epic',
-    endpoint: 'epic.js',
     path: 'epics/ContributionsEpic',
 };
 
-const contributionsBanner = {
+export const contributionsBanner = {
     name: 'contributions-banner',
-    endpoint: 'contributions-banner.js',
     path: 'banners/contributions/ContributionsBanner',
 };
 
-const digiSubs = {
+export const digiSubs = {
     name: 'digital-subscriptions-banner',
-    endpoint: 'digital-subscriptions-banner.js',
     path: 'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
 };
 
-const guardianWeekly = {
+export const guardianWeekly = {
     name: 'guardian-weekly-banner',
-    endpoint: 'guardian-weekly-banner.js',
     path: 'banners/guardianWeekly/GuardianWeeklyBanner',
 };
 
-export default [epic, contributionsBanner, digiSubs, guardianWeekly];
+export const moduleInfos = [epic, contributionsBanner, digiSubs, guardianWeekly];
+
+// module.exports = {
+//     getSrcPath,
+//     getDistPath,
+//     getEndpointPath,
+//     getDevServerPath,
+//     getProdServerPath,
+//     moduleInfos,
+// };

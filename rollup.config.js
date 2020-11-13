@@ -7,7 +7,7 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import visualizer from 'rollup-plugin-visualizer';
-import modules, { getSrcPath, getDistPath } from './src/modules';
+import { moduleInfos, getSrcPath, getDistPath } from './src/modules';
 
 const tsOpts = {
     target: 'es2018',
@@ -25,7 +25,7 @@ const globals = {
     '@emotion/core': 'guardian.automat.emotionCore',
 };
 
-const config = modules.map(module => {
+const config = moduleInfos.map(module => {
     const isProd = process.env.NODE_ENV === 'production';
     const sourcemaps = !isProd; // Nb: set to false if testing IE11
     return {
@@ -35,7 +35,7 @@ const config = modules.map(module => {
             format: 'es',
             sourcemap: sourcemaps ? 'inline' : false,
         },
-        external: id => Object.keys(globals).some(key => id == key),
+        external: (id: string): boolean => Object.keys(globals).some(key => id == key),
         plugins: [
             resolveNode(),
             commonjs(),
