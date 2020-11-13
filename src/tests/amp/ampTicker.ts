@@ -31,7 +31,7 @@ export const ampTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
         const bottomRight = goalReached ? tickerSettings.copy.countLabel : 'our goal';
 
         return {
-            percentage: (percentage > 100 ? 100 : percentage).toString(),
+            percentage: percentage.toString(),
             goalReached,
             topLeft,
             bottomLeft,
