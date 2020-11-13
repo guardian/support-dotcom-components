@@ -1,3 +1,11 @@
+require('ts-node').register({
+    compilerOptions: {
+        module: 'CommonJS',
+    },
+});
+
+const { moduleInfos, getSrcPath, getDistPath } = require('./src/modules.ts');
+
 import resolveNode from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
@@ -7,7 +15,6 @@ import externalGlobals from 'rollup-plugin-external-globals';
 import babel from '@rollup/plugin-babel';
 import filesize from 'rollup-plugin-filesize';
 import visualizer from 'rollup-plugin-visualizer';
-import { moduleInfos, getSrcPath, getDistPath } from './src/modules';
 
 const tsOpts = {
     target: 'es2018',
@@ -35,7 +42,7 @@ const config = moduleInfos.map(module => {
             format: 'es',
             sourcemap: sourcemaps ? 'inline' : false,
         },
-        external: (id: string): boolean => Object.keys(globals).some(key => id == key),
+        external: id => Object.keys(globals).some(key => id == key),
         plugins: [
             resolveNode(),
             commonjs(),
