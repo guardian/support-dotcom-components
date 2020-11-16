@@ -57,8 +57,14 @@ const contentContainer = css`
 `;
 
 const headerContainer = css`
+    padding-top: ${space[1]}px;
+
     ${from.tablet} {
         padding-top: ${space[3]}px;
+    }
+
+    ${from.desktop} {
+        padding-top: ${space[2]}px;
     }
 `;
 

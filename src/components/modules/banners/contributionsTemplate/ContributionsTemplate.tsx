@@ -63,6 +63,10 @@ const headerAndCloseButtonContainer = css`
     justify-content: space-between;
 `;
 
+const closeButtonContainerMobile = css`
+    padding-top: ${space[2]}px;
+`;
+
 const closeButtonContainer = css`
     width: 100%;
     display: flex;
@@ -85,8 +89,12 @@ const tickerAndCtaContainer = css`
 `;
 
 const tickerContainer = css`
-    padding-top: ${space[1]}px;
+    padding-top: ${space[2]}px;
     max-width: 560px;
+
+    ${from.tablet} {
+        padding-top: 0;
+    }
 `;
 
 const ctaContainer = css`
@@ -131,7 +139,9 @@ const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
                 <div css={leftColumn}>
                     <div css={headerAndCloseButtonContainer}>
                         {header}
-                        <Hide above="tablet">{closeButton}</Hide>
+                        <Hide above="tablet">
+                            <div css={closeButtonContainerMobile}>{closeButton}</div>
+                        </Hide>
                     </div>
                     <div css={bodyContainer}>{body}</div>
                     <Hide above="tablet">
