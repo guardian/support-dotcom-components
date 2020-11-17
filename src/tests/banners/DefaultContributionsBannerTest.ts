@@ -1,7 +1,6 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { DefaultBannerContent } from './DefaultContributionsBannerContent';
-
-export const DefaultContributionsBannerPath = 'contributions-banner.js';
+import { contributionsBanner } from '../../modules';
 
 export const DefaultContributionsBanner: BannerTest = {
     name: 'DefaultContributionsBanner',
@@ -13,7 +12,7 @@ export const DefaultContributionsBanner: BannerTest = {
     variants: [
         {
             name: 'control',
-            modulePath: DefaultContributionsBannerPath,
+            modulePath: contributionsBanner.endpointPath,
             moduleName: 'ContributionsBanner',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             bannerContent: DefaultBannerContent,

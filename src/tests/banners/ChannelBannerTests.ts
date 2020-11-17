@@ -10,10 +10,7 @@ import {
 } from '../../types/BannerTypes';
 import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
 import { isProd } from '../../lib/env';
-
-export const ContributionsBannerPath = 'contributions-banner.js';
-export const DigitalSubscriptionsBannerPath = 'digital-subscriptions-banner.js';
-export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
+import { contributionsBanner, digiSubs, guardianWeekly } from '../../modules';
 
 const BannerContentBaseUrl = isProd
     ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/'
@@ -25,9 +22,9 @@ const BannerChannelFiles: { [key in BannerChannel]: string } = {
 };
 
 export const BannerPaths: { [key in BannerTemplate]: string } = {
-    [BannerTemplate.ContributionsBanner]: ContributionsBannerPath,
-    [BannerTemplate.DigitalSubscriptionsBanner]: DigitalSubscriptionsBannerPath,
-    [BannerTemplate.GuardianWeeklyBanner]: GuardianWeeklyBannerPath,
+    [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPath,
+    [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPath,
+    [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPath,
 };
 
 export const BannerTemplateComponentTypes: { [key in BannerTemplate]: OphanComponentType } = {
