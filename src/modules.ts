@@ -7,7 +7,7 @@ export interface ModuleInfo {
     prodServerPath: string;
 }
 
-const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => ({
+export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => ({
     name: name,
     srcPath: `src/components/modules/${path}.tsx`,
     distPath: `dist/modules/${path}.js`,
