@@ -734,7 +734,7 @@ const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
     );
 };
 
-export const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
+const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
     tracking,
     isSupporter,
     tickerSettings,
@@ -914,4 +914,6 @@ export const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
     );
 };
 
-export default withCloseable(AusMomentThankYouBanner, 'contributions');
+const wrapped = withCloseable(AusMomentThankYouBanner, 'contributions');
+
+export { wrapped as AusMomentThankYouBanner };
