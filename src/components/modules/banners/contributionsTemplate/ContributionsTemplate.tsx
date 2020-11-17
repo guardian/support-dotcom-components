@@ -18,6 +18,7 @@ const banner = css`
 `;
 
 const container = css`
+    position: relative;
     max-width: 1300px;
     padding: ${space[1]}px ${space[3]}px ${space[5]}px ${space[3]}px;
     display: flex;
@@ -58,13 +59,18 @@ const rightColumn = css`
     }
 `;
 
-const headerAndCloseButtonContainer = css`
-    display: flex;
-    justify-content: space-between;
+const headerContainer = css`
+    width: calc(100% - 40px);
+
+    ${from.tablet} {
+        width: 100%;
+    }
 `;
 
 const closeButtonContainerMobile = css`
-    padding-top: ${space[2]}px;
+    position: absolute;
+    top: ${space[3]}px;
+    right: ${space[3]}px;
 `;
 
 const closeButtonContainer = css`
@@ -78,8 +84,13 @@ const closeButtonContainer = css`
 const bodyContainer = css`
     padding-top: ${space[1]}px;
 
+    ${from.mobileLandscape} {
+        width: calc(100% - 40px);
+    }
+
     ${from.tablet} {
         padding-top: ${space[2]}px;
+        width: 100%;
     }
 `;
 
@@ -136,13 +147,11 @@ const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
     return (
         <div css={banner}>
             <div css={container}>
+                <div css={closeButtonContainerMobile}>
+                    <Hide above="tablet">{closeButton}</Hide>
+                </div>
                 <div css={leftColumn}>
-                    <div css={headerAndCloseButtonContainer}>
-                        {header}
-                        <Hide above="tablet">
-                            <div css={closeButtonContainerMobile}>{closeButton}</div>
-                        </Hide>
-                    </div>
+                    <div css={headerContainer}>{header}</div>
                     <div css={bodyContainer}>{body}</div>
                     <Hide above="tablet">
                         <div css={tickerContainer}>{ticker}</div>
