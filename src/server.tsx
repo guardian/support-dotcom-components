@@ -293,7 +293,7 @@ const setComponentCacheHeaders = (res: express.Response) => {
 // ES module endpoints
 const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
-        moduleInfo.endpointPath,
+        `/${moduleInfo.endpointPath}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
