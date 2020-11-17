@@ -1,7 +1,7 @@
 import { selectBannerTest } from './bannerSelection';
 import { BannerDeployCaches } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
-import { ContributionsBannerPath, DigitalSubscriptionsBannerPath } from './ChannelBannerTests';
+import { contributionsBanner, digiSubs } from '../../modules';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
 
@@ -175,7 +175,7 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePath: ContributionsBannerPath,
+                    modulePath: contributionsBanner.endpointPath,
                     moduleName: 'ContributionsBanner',
                     bannerContent: {
                         messageText: 'body',
@@ -297,7 +297,7 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePath: DigitalSubscriptionsBannerPath,
+                    modulePath: digiSubs.endpointPath,
                     moduleName: 'DigitalSubscriptionsBanner',
                     bannerContent: {
                         messageText: 'body',
