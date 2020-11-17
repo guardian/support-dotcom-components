@@ -1,36 +1,36 @@
 export interface ModuleInfo {
     name: string;
-    path: string;
+    srcPath: string;
+    distPath: string;
+    endpointPath: string;
+    devServerPath: string;
+    prodServerPath: string;
 }
 
-export const getSrcPath = (module: ModuleInfo): string =>
-    `src/components/modules/${module.path}.tsx`;
-export const getDistPath = (module: ModuleInfo): string => `dist/modules/${module.path}.js`;
+const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => ({
+    name: name,
+    srcPath: `src/components/modules/${path}.tsx`,
+    distPath: `dist/modules/${path}.js`,
+    endpointPath: `${name}.js`,
+    devServerPath: `/../dist/modules/${path}.js`,
+    prodServerPath: `/modules/${path}.js`,
+});
 
-export const getEndpointPath = (module: ModuleInfo): string => `/${module.name}.js`;
+export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
 
-export const getDevServerPath = (module: ModuleInfo): string =>
-    `/../dist/modules/${module.path}.js`;
-export const getProdServerPath = (module: ModuleInfo): string => `/modules/${module.path}.js`;
+export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
+    'contributions-banner',
+    'banners/contributions/ContributionsBanner',
+);
 
-export const epic: ModuleInfo = {
-    name: 'epic',
-    path: 'epics/ContributionsEpic',
-};
+export const digiSubs: ModuleInfo = getDefaultModuleInfo(
+    'digital-subscriptions-banner',
+    'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
+);
 
-export const contributionsBanner: ModuleInfo = {
-    name: 'contributions-banner',
-    path: 'banners/contributions/ContributionsBanner',
-};
-
-export const digiSubs: ModuleInfo = {
-    name: 'digital-subscriptions-banner',
-    path: 'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
-};
-
-export const guardianWeekly: ModuleInfo = {
-    name: 'guardian-weekly-banner',
-    path: 'banners/guardianWeekly/GuardianWeeklyBanner',
-};
+export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
+    'guardian-weekly-banner',
+    'banners/guardianWeekly/GuardianWeeklyBanner',
+);
 
 export const moduleInfos: ModuleInfo[] = [epic, contributionsBanner, digiSubs, guardianWeekly];

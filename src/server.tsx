@@ -32,13 +32,7 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import {
-    moduleInfos,
-    ModuleInfo,
-    getDevServerPath,
-    getProdServerPath,
-    getEndpointPath,
-} from './modules';
+import { moduleInfos, ModuleInfo } from './modules';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -299,11 +293,12 @@ const setComponentCacheHeaders = (res: express.Response) => {
 // ES module endpoints
 const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
-        getEndpointPath(moduleInfo),
+        moduleInfo.endpointPath,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const path = isDev ? getDevServerPath(moduleInfo) : getProdServerPath(moduleInfo);
+                const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
                 const module = await fs.promises.readFile(__dirname + path);
+
                 res.type('js');
                 setComponentCacheHeaders(res);
                 res.send(module);
