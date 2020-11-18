@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { body } from '@guardian/src-foundations/typography';
-import { Hide } from '@guardian/src-layout';
 
 const container = css`
     ${body.medium()}
