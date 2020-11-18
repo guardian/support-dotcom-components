@@ -43,8 +43,6 @@ app.options('*', cors());
 
 app.use(loggingMiddleware);
 
-app.use(express.static(__dirname + '/public'));
-
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
     res.send('OK');
