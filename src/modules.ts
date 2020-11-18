@@ -33,4 +33,21 @@ export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'banners/guardianWeekly/GuardianWeeklyBanner',
 );
 
-export const moduleInfos: ModuleInfo[] = [epic, contributionsBanner, digiSubs, guardianWeekly];
+export const usEoyAppeal: ModuleInfo = getDefaultModuleInfo(
+    'us-eoy-appeal-banner',
+    'banners/usEoyAppeal/UsEoyAppeal',
+);
+
+export const usEoyAppealWithVisual: ModuleInfo = getDefaultModuleInfo(
+    'us-eoy-appeal-banner-with-visual',
+    'banners/usEoyAppeal/UsEoyAppealWithVisual',
+);
+
+export const moduleInfos: ModuleInfo[] = [
+    epic,
+    contributionsBanner,
+    digiSubs,
+    guardianWeekly,
+    usEoyAppeal,
+    usEoyAppealWithVisual,
+];
