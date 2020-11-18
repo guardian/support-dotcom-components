@@ -3,7 +3,7 @@ import { fetchTickerDataCached } from '../../lib/fetchTickerData';
 
 export interface AMPTicker {
     percentage: string;
-    goalReached: boolean;
+    goalExceededMarkerPercentage?: string;
     topLeft: string;
     bottomLeft: string;
     topRight: string;
@@ -12,9 +12,13 @@ export interface AMPTicker {
 
 export const ampTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
     fetchTickerDataCached(tickerSettings).then(data => {
-        const percentage = (data.total / data.goal) * 100;
         const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
-        const goalReached = percentage >= 100;
+        const goalReached = data.total >= data.goal;
+        const totalPlusFifteen = data.total + data.total * 0.15;
+        const percentage = (data.total / (goalReached ? totalPlusFifteen : data.goal)) * 100;
+        const goalExceededMarkerPercentage = goalReached
+            ? ((data.goal / totalPlusFifteen) * 100).toString()
+            : undefined;
 
         const topLeft = goalReached
             ? tickerSettings.copy.goalReachedPrimary
@@ -32,7 +36,7 @@ export const ampTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
 
         return {
             percentage: percentage.toString(),
-            goalReached,
+            goalExceededMarkerPercentage,
             topLeft,
             bottomLeft,
             topRight,
