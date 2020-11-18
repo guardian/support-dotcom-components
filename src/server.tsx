@@ -30,11 +30,9 @@ import {
     BannerProps,
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
-import { DefaultContributionsBannerPath } from './tests/banners/DefaultContributionsBannerTest';
-import { DigitalSubscriptionsBannerPath } from './tests/banners/DigitalSubscriptionsBannerTest';
-import { GuardianWeeklyBannerPath } from './tests/banners/GuardianWeeklyBannerTest';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
+import { moduleInfos, ModuleInfo } from './modules';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -295,77 +293,25 @@ const setComponentCacheHeaders = (res: express.Response) => {
 };
 
 // ES module endpoints
-app.get(
-    '/epic.js',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev ? '/../dist/modules/epics/Epic.js' : '/modules/epics/Epic.js';
-            const module = await fs.promises.readFile(__dirname + path);
-            res.type('js');
-            setComponentCacheHeaders(res);
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
+const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
+    app.get(
+        `/${moduleInfo.endpointPath}`,
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            try {
+                const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
+                const module = await fs.promises.readFile(__dirname + path);
 
-app.get(
-    `/${DefaultContributionsBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/contributions/ContributionsBanner.js'
-                : '/modules/banners/contributions/ContributionsBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
+                res.type('js');
+                setComponentCacheHeaders(res);
+                res.send(module);
+            } catch (error) {
+                next(error);
+            }
+        },
+    );
+};
 
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${DigitalSubscriptionsBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js'
-                : '/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    `/${GuardianWeeklyBannerPath}`,
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const path = isDev
-                ? '/../dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js'
-                : '/modules/banners/guardianWeekly/GuardianWeeklyBanner.js';
-            const module = await fs.promises.readFile(__dirname + path);
-
-            res.type('js');
-            setComponentCacheHeaders(res);
-
-            res.send(module);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
+moduleInfos.forEach(createEndpointForModule);
 
 // TODO remove once migration complete
 app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {

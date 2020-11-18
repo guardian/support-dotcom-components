@@ -1,3 +1,12 @@
+require('ts-node').register({
+    compilerOptions: {
+        module: 'CommonJS',
+    },
+});
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { moduleInfos } = require('./src/modules.ts');
+
 import resolveNode from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
@@ -24,30 +33,13 @@ const globals = {
     '@emotion/core': 'guardian.automat.emotionCore',
 };
 
-const config = [
-    ['epic', 'src/components/modules/epics/ContributionsEpic.tsx', 'dist/modules/epics/Epic.js'],
-    [
-        'contributions-banner',
-        'src/components/modules/banners/contributions/ContributionsBanner.tsx',
-        'dist/modules/banners/contributions/ContributionsBanner.js',
-    ],
-    [
-        'digital-subscriptions-banner',
-        'src/components/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.tsx',
-        'dist/modules/banners/digitalSubscriptions/DigitalSubscriptionsBanner.js',
-    ],
-    [
-        'guardian-weekly-banner',
-        'src/components/modules/banners/guardianWeekly/GuardianWeeklyBanner.tsx',
-        'dist/modules/banners/guardianWeekly/GuardianWeeklyBanner.js',
-    ],
-].map(([name, entryPoint, target]) => {
+const config = moduleInfos.map(module => {
     const isProd = process.env.NODE_ENV === 'production';
     const sourcemaps = !isProd; // Nb: set to false if testing IE11
     return {
-        input: entryPoint,
+        input: module.srcPath,
         output: {
-            file: target,
+            file: module.distPath,
             format: 'es',
             sourcemap: sourcemaps ? 'inline' : false,
         },
@@ -69,7 +61,11 @@ const config = [
 
             // Note, visualizer is useful for *relative* sizes, but reports
             // pre-minification.
-            visualizer({ sourcemap: sourcemaps, gzipSize: true, filename: `stats/${name}.html` }),
+            visualizer({
+                sourcemap: sourcemaps,
+                gzipSize: true,
+                filename: `stats/${module.name}.html`,
+            }),
         ],
     };
 });

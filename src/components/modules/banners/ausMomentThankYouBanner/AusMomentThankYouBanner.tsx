@@ -11,9 +11,8 @@ import {
     SvgEnvelope,
 } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
-import { BannerProps } from '../../../../types/BannerTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../lib/tracking';
-import { setContributionsBannerClosedTimestamp } from '../localStorage';
+import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 
 const banner = css`
     display: flex;
@@ -735,199 +734,186 @@ const ReadMoreButton: React.FC<ReadMoreButtonProps> = ({
     );
 };
 
-export const AusMomentThankYouBanner: React.FC<BannerProps> = ({
+const AusMomentThankYouBanner: React.FC<CloseableBannerProps> = ({
     tracking,
     isSupporter,
     tickerSettings,
     countryCode,
-}: BannerProps) => {
+    onClose,
+}: CloseableBannerProps) => {
     if (!(tickerSettings && tickerSettings.tickerData)) {
         return null;
     }
-    const [showBanner, setShowBanner] = useState(true);
     const [isExpanded, setIsExpanded] = useState(false);
 
     const supportersCount = tickerSettings.tickerData.total;
 
-    const closeBanner = (): void => {
-        setContributionsBannerClosedTimestamp();
-        setShowBanner(false);
-    };
-
     return (
-        <>
-            {showBanner ? (
-                <div css={banner}>
-                    <div css={sunSvgAndMessagesContainer}>
-                        <div css={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
-                            <div css={sunSvgAndThankYouContainer}>
-                                <svg css={sunSvgMobile} viewBox="-16 -10 32 20">
-                                    <a
-                                        href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
-                                        }
-                                    >
-                                        <circle
-                                            css={sunSvgOuterSun}
-                                            r="9"
-                                            cx="0"
-                                            cy="0"
-                                            fill="currentColor"
-                                        />
-                                        <circle
-                                            css={sunSvgInnerSun}
-                                            r="8.5"
-                                            cx="0"
-                                            cy="0"
-                                            fill="currentColor"
-                                        />
-                                    </a>
-                                </svg>
-                                <svg css={sunSvgTablet} viewBox="-16 -16 32 32">
-                                    <a
-                                        href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
-                                        }
-                                    >
-                                        <circle
-                                            css={sunSvgOuterSun}
-                                            r="14"
-                                            cx="0"
-                                            cy="0"
-                                            fill="currentColor"
-                                        />
-                                        <circle
-                                            css={sunSvgInnerSun}
-                                            r="13.25"
-                                            cx="0"
-                                            cy="0"
-                                            fill="currentColor"
-                                        />
-                                    </a>
-                                </svg>
-                                <svg css={sunSvgDesktop} viewBox="-16 -16 32 32">
-                                    <a
-                                        href={
-                                            'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
-                                        }
-                                    >
-                                        <circle
-                                            css={sunSvgOuterSun}
-                                            r="14.75"
-                                            cx="0"
-                                            cy="0"
-                                            fill="currentColor"
-                                        />
-                                        <circle
-                                            css={sunSvgInnerSun}
-                                            r="14.25"
-                                            cx="0"
-                                            cy="0"
-                                            fill="currentColor"
-                                        />
-                                    </a>
-                                </svg>
-                                <div css={thankYouMessageInSunContainer}>
-                                    <div css={thankYouMessageInSun}>
-                                        <div css={thankYouMessageInSunThankYou}>Thank you!</div>
-                                        <div css={thankYouMessageInSunSupportersCount}>
-                                            {supportersCount.toLocaleString()}
-                                        </div>
-                                        <div css={thankYouMessageInSunTagLine}>
-                                            supporters in Australia
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div css={thankYouMessageMainMobileContainer}>
-                                <ThankYouMessageMain
-                                    isExpanded={isExpanded}
-                                    isSupporter={!!isSupporter}
+        <div css={banner}>
+            <div css={sunSvgAndMessagesContainer}>
+                <div css={isExpanded ? slideUpContainerExpanded : slideUpContainer}>
+                    <div css={sunSvgAndThankYouContainer}>
+                        <svg css={sunSvgMobile} viewBox="-16 -10 32 20">
+                            <a
+                                href={
+                                    'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
+                                }
+                            >
+                                <circle
+                                    css={sunSvgOuterSun}
+                                    r="9"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
                                 />
+                                <circle
+                                    css={sunSvgInnerSun}
+                                    r="8.5"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                            </a>
+                        </svg>
+                        <svg css={sunSvgTablet} viewBox="-16 -16 32 32">
+                            <a
+                                href={
+                                    'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
+                                }
+                            >
+                                <circle
+                                    css={sunSvgOuterSun}
+                                    r="14"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    css={sunSvgInnerSun}
+                                    r="13.25"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                            </a>
+                        </svg>
+                        <svg css={sunSvgDesktop} viewBox="-16 -16 32 32">
+                            <a
+                                href={
+                                    'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_sun'
+                                }
+                            >
+                                <circle
+                                    css={sunSvgOuterSun}
+                                    r="14.75"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                                <circle
+                                    css={sunSvgInnerSun}
+                                    r="14.25"
+                                    cx="0"
+                                    cy="0"
+                                    fill="currentColor"
+                                />
+                            </a>
+                        </svg>
+                        <div css={thankYouMessageInSunContainer}>
+                            <div css={thankYouMessageInSun}>
+                                <div css={thankYouMessageInSunThankYou}>Thank you!</div>
+                                <div css={thankYouMessageInSunSupportersCount}>
+                                    {supportersCount.toLocaleString()}
+                                </div>
+                                <div css={thankYouMessageInSunTagLine}>supporters in Australia</div>
                             </div>
-                        </div>
-                        <div css={closeButtonContainer}>
-                            <button css={closeButton} onClick={closeBanner}>
-                                <SvgCross />
-                            </button>
                         </div>
                     </div>
 
-                    <div css={buttonsContainer}>
-                        <ReadMoreButton
-                            isExpanded={isExpanded}
-                            onClick={(): void => setIsExpanded(!isExpanded)}
-                        />
-
-                        <div css={thankYouMessageMainTabletContainer}>
-                            <ThankYouMessageMain
-                                isExpanded={isExpanded}
-                                isSupporter={!!isSupporter}
-                            />
-                        </div>
-
-                        <div css={ctaButtonContainer}>
-                            {isSupporter ? (
-                                <div css={supporterCtaContainer}>
-                                    <div css={socialShareContainer}>
-                                        <div css={socialShareLinksContainer}>
-                                            <a
-                                                css={socialShareLink}
-                                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
-                                            >
-                                                <SvgFacebook />
-                                            </a>
-                                            <a
-                                                css={socialShareLink}
-                                                href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
-                                            >
-                                                <SvgTwitter />
-                                            </a>
-                                            <a
-                                                css={socialShareLink}
-                                                href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
-                                            >
-                                                <SvgEnvelope />
-                                            </a>
-                                        </div>
-                                        <div css={socialShareMessage}>Share you support</div>
-                                    </div>
-                                    <div css={hearFromSupportersCtaContainer}>
-                                        <a
-                                            css={hearFromOurSupportersLink}
-                                            href={
-                                                'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_button'
-                                            }
-                                        >
-                                            Hear from supporters
-                                        </a>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div css={nonSupporterCtaContainer}>
-                                    <a
-                                        css={supportTheGuardianLink}
-                                        href={addRegionIdAndTrackingParamsToSupportUrl(
-                                            'https://support.theguardian.com/contribute',
-                                            tracking,
-                                            countryCode,
-                                        )}
-                                    >
-                                        Support the Guardian
-                                    </a>
-                                    <a
-                                        css={hearMoreLink}
-                                        href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters?INTCMP=Aus_moment_2020_frontend_banner_button"
-                                    >
-                                        Hear more
-                                    </a>
-                                </div>
-                            )}
-                        </div>
+                    <div css={thankYouMessageMainMobileContainer}>
+                        <ThankYouMessageMain isExpanded={isExpanded} isSupporter={!!isSupporter} />
                     </div>
                 </div>
-            ) : null}
-        </>
+                <div css={closeButtonContainer}>
+                    <button css={closeButton} onClick={onClose}>
+                        <SvgCross />
+                    </button>
+                </div>
+            </div>
+
+            <div css={buttonsContainer}>
+                <ReadMoreButton
+                    isExpanded={isExpanded}
+                    onClick={(): void => setIsExpanded(!isExpanded)}
+                />
+
+                <div css={thankYouMessageMainTabletContainer}>
+                    <ThankYouMessageMain isExpanded={isExpanded} isSupporter={!!isSupporter} />
+                </div>
+
+                <div css={ctaButtonContainer}>
+                    {isSupporter ? (
+                        <div css={supporterCtaContainer}>
+                            <div css={socialShareContainer}>
+                                <div css={socialShareLinksContainer}>
+                                    <a
+                                        css={socialShareLink}
+                                        href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_facebook"
+                                    >
+                                        <SvgFacebook />
+                                    </a>
+                                    <a
+                                        css={socialShareLink}
+                                        href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_twitter&hashtags=supporttheguardian&text=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful.%20I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more."
+                                    >
+                                        <SvgTwitter />
+                                    </a>
+                                    <a
+                                        css={socialShareLink}
+                                        href="mailto:?subject=Guardian%20Australia%20supporters%20are%20doing%20something%20powerful&body=I%20believe%20independent%20journalism%20is%20vital%2C%20and%20should%20be%20open%20and%20free%20to%20all.%20Join%20me%20and%20contribute%20to%20the%20Guardian%20from%20as%20little%20as%20%241.%20With%20your%20support%2C%20we%20can%20do%20more.%20%23supporttheguardian%0A%0Ahttps%3A%2F%2Fsupport.theguardian.com%2Fcontribute%3FausAcquisitionData%3Dthankyou_email"
+                                    >
+                                        <SvgEnvelope />
+                                    </a>
+                                </div>
+                                <div css={socialShareMessage}>Share you support</div>
+                            </div>
+                            <div css={hearFromSupportersCtaContainer}>
+                                <a
+                                    css={hearFromOurSupportersLink}
+                                    href={
+                                        'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_banner_button'
+                                    }
+                                >
+                                    Hear from supporters
+                                </a>
+                            </div>
+                        </div>
+                    ) : (
+                        <div css={nonSupporterCtaContainer}>
+                            <a
+                                css={supportTheGuardianLink}
+                                href={addRegionIdAndTrackingParamsToSupportUrl(
+                                    'https://support.theguardian.com/contribute',
+                                    tracking,
+                                    countryCode,
+                                )}
+                            >
+                                Support the Guardian
+                            </a>
+                            <a
+                                css={hearMoreLink}
+                                href="https://www.theguardian.com/membership/2020/jul/20/guardian-australia-reached-goalof-150000-supporters?INTCMP=Aus_moment_2020_frontend_banner_button"
+                            >
+                                Hear more
+                            </a>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
     );
 };
+
+const wrapped = withCloseable(AusMomentThankYouBanner, 'contributions');
+
+export { wrapped as AusMomentThankYouBanner };

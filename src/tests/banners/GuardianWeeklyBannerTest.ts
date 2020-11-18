@@ -1,5 +1,6 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
+import { guardianWeekly } from '../../modules';
 
 export const GuardianWeeklyBannerPath = 'guardian-weekly-banner.js';
 const name = 'GuardianWeeklyBanner';
@@ -17,7 +18,7 @@ export const GuardianWeeklyBanner: BannerTest = {
     variants: [
         {
             name: 'control',
-            modulePath: GuardianWeeklyBannerPath,
+            modulePath: guardianWeekly.endpointPath,
             moduleName: name,
             bannerContent: {
                 messageText:

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/core';
+import React, { useState, useEffect } from 'react';
+import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import useTicker from '../../../hooks/useTicker';
-import { TickerSettings } from '../../../lib/variants';
+import { TickerSettings } from '../../../../lib/variants';
+import useTicker from '../../../../hooks/useTicker';
+import { useHasBeenSeen, HasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -15,23 +14,24 @@ import { TickerSettings } from '../../../lib/variants';
 const rootStyles = css`
     position: relative;
     height: 65px;
-    margin-bottom: 15px;
     line-height: 18px;
 `;
 
-const totalCountStyles = css`
+const totalCountStyles = (colour: string): SerializedStyles => css`
     ${headline.xxxsmall({ fontWeight: 'bold' })};
+    color: ${colour};
 `;
 
-const soFarCountStyles = css`
+const soFarCountStyles = (colour: string): SerializedStyles => css`
     ${headline.xsmall({ fontWeight: 'bold' })};
+    color: ${colour};
 `;
 
 const countLabelStyles = css`
-    ${headline.xxxsmall({ fontStyle: 'italic' })};
+    ${headline.xxxsmall()};
 `;
 
-const progressBarHeight = 10;
+const progressBarHeight = 12;
 
 const progressBarContainerStyles = css`
     width: 100%;
@@ -45,6 +45,7 @@ const progressBarContainerStyles = css`
 const progressBarStyles = css`
     overflow: hidden;
     width: 100%;
+    background: white;
     height: ${progressBarHeight}px;
     position: absolute;
 `;
@@ -67,7 +68,12 @@ const progressBarTransform = (end: number, runningTotal: number, total: number):
     return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
 };
 
-const filledProgressStyles = (end: number, runningTotal: number, total: number) =>
+const filledProgressStyles = (
+    end: number,
+    runningTotal: number,
+    total: number,
+    colour: string,
+): SerializedStyles =>
     css`
         position: absolute;
         top: 0;
@@ -76,25 +82,17 @@ const filledProgressStyles = (end: number, runningTotal: number, total: number) 
         bottom: 0;
         transform: ${progressBarTransform(end, runningTotal, total)};
         transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${palette.brandAlt.main};
+        background-color: ${colour};
     `;
 
-const goalReachedGoalContainerStyles = css`
-    display: none;
-    ${from.tablet} {
-        display: initial;
-    }
-`;
-
-const goalContainerStyles = (goalReached: boolean) => css`
+const goalContainerStyles = css`
     position: absolute;
     right: 0;
     bottom: ${progressBarHeight + 5}px;
     text-align: right;
-    ${goalReached && goalReachedGoalContainerStyles}
 `;
 
-const goalMarkerStyles = (transform: string) => css`
+const goalMarkerStyles = (transform: string): SerializedStyles => css`
     border-right: 2px solid ${palette.neutral[7]};
     content: ' ';
     display: block;
@@ -119,14 +117,16 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
     }
 };
 
-type Props = {
+type ContributionsTemplateTickerProps = {
     settings: TickerSettings;
-    total: number;
-    goal: number;
+    accentColour: string;
 };
 
-export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal }: Props) => {
-    const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
+const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = ({
+    settings,
+    accentColour,
+}: ContributionsTemplateTickerProps) => {
+    const [readyToAnimate, setReadyToAnimate] = useState(false);
 
     const debounce = true;
     const [hasBeenSeen, setNode] = useHasBeenSeen(
@@ -143,6 +143,9 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
         }
     }, [hasBeenSeen]);
 
+    const total = settings.tickerData?.total || 1;
+    const goal = settings.tickerData?.goal || 1;
+
     const runningTotal = useTicker(total, readyToAnimate);
 
     const goalReached = total >= goal;
@@ -155,7 +158,7 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
         <div ref={setNode} css={rootStyles}>
             <div>
                 <div css={soFarContainerStyles}>
-                    <div css={soFarCountStyles}>
+                    <div css={soFarCountStyles(accentColour)}>
                         {goalReached
                             ? settings.copy.goalReachedPrimary
                             : `${currencySymbol}${runningTotal.toLocaleString()}`}
@@ -167,8 +170,8 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
                     </div>
                 </div>
 
-                <div css={goalContainerStyles(goalReached)}>
-                    <div css={totalCountStyles}>
+                <div css={goalContainerStyles}>
+                    <div css={totalCountStyles(accentColour)}>
                         {goalReached
                             ? `${currencySymbol}${total.toLocaleString()}`
                             : `${currencySymbol}${goal.toLocaleString()}`}
@@ -181,10 +184,12 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
 
             <div css={progressBarContainerStyles}>
                 <div css={progressBarStyles}>
-                    <div css={filledProgressStyles(end, runningTotal, total)}></div>
+                    <div css={filledProgressStyles(end, runningTotal, total, accentColour)}></div>
                 </div>
                 <Marker goal={goal} end={end} />
             </div>
         </div>
     );
 };
+
+export default ContributionsTemplateTicker;

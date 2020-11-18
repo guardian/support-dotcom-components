@@ -1,7 +1,7 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { readerRevenueRegionFromCountryCode } from './bannerSelection';
+import { digiSubs } from '../../modules';
 
-export const DigitalSubscriptionsBannerPath = 'digital-subscriptions-banner.js';
 const name = 'DigitalSubscriptionsBanner';
 
 export const DigitalSubscriptionsBanner: BannerTest = {
@@ -17,7 +17,7 @@ export const DigitalSubscriptionsBanner: BannerTest = {
     variants: [
         {
             name: 'control',
-            modulePath: DigitalSubscriptionsBannerPath,
+            modulePath: digiSubs.endpointPath,
             moduleName: name,
             bannerContent: {
                 heading: 'Start a digital subscription today',
