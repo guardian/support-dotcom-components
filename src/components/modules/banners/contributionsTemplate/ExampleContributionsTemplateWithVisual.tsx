@@ -76,8 +76,7 @@ const closeButton = (
         roundel={Roundel}
     />
 );
-
-const header = <ContributionsTemplateHeader copy="Lorem ipsum dolor sit amet, consectetur" />;
+const header = <ContributionsTemplateHeader copy={<>Lorem ipsum dolor sit amet, consectetur</>} />;
 
 const body = (
     <ContributionsTemplateBody

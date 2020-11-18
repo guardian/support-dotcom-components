@@ -94,7 +94,16 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
         />
     );
 
-    const header = <ContributionsTemplateHeader copy="As America begins a new chapter…" />;
+    const header = (
+        <ContributionsTemplateHeader
+            copy={
+                <>
+                    <Hide above="tablet">As America begins a new chapter…</Hide>
+                    <Hide below="tablet">America’s future: what’s next?</Hide>
+                </>
+            }
+        />
+    );
 
     const body = (
         <ContributionsTemplateBody
