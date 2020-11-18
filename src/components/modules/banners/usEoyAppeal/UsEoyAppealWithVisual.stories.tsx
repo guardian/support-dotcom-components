@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { UsEoyAppealBannerWithVisual } from './UsEoyAppealWithVisual';
-import { withKnobs, number } from '@storybook/addon-knobs';
+import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
@@ -57,9 +57,11 @@ const props: BannerProps = {
 };
 
 export const defaultStory = (): ReactElement => {
+    const isSupporter = boolean('isSupporter', false);
+
     return (
         <StorybookWrapper>
-            <UsEoyAppealBannerWithVisual {...props} />
+            <UsEoyAppealBannerWithVisual {...props} isSupporter={isSupporter} />
         </StorybookWrapper>
     );
 };
