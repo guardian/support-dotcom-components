@@ -8,18 +8,11 @@ const container = css`
 `;
 
 interface ContributionsTemplateBodyProps {
-    mobileCopy: string;
-    desktopCopy: string;
+    copy: React.ReactElement;
 }
 
 const ContributionsTemplateBody: React.FC<ContributionsTemplateBodyProps> = ({
-    mobileCopy,
-    desktopCopy,
-}: ContributionsTemplateBodyProps) => (
-    <div css={container}>
-        <Hide above="tablet">{mobileCopy}</Hide>
-        <Hide below="tablet">{desktopCopy}</Hide>
-    </div>
-);
+    copy,
+}: ContributionsTemplateBodyProps) => <div css={container}>{copy}</div>;
 
 export default ContributionsTemplateBody;
