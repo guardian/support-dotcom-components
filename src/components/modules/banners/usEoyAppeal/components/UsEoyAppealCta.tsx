@@ -1,19 +1,31 @@
 import React from 'react';
 import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from 'emotion-theming';
-import { LinkButton, buttonBrandAlt } from '@guardian/src-button';
+import { LinkButton, Button, buttonBrandAlt } from '@guardian/src-button';
 import ContributionsTemplateCta from '../../contributionsTemplate/ContributionsTemplateCta';
 
-const UsEoyAppealCta: React.FC = () => (
+interface UsEoyAppealCtaProps {
+    onContributeClick: () => void;
+    onNotNowClick: () => void;
+}
+
+const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
+    onContributeClick,
+    onNotNowClick,
+}: UsEoyAppealCtaProps) => (
     <ContributionsTemplateCta
         primaryCta={
             <ThemeProvider theme={buttonBrandAlt}>
                 <div>
                     <Hide above="tablet">
-                        <LinkButton size="small">Support the Guardian</LinkButton>
+                        <LinkButton onClick={onContributeClick} size="small">
+                            Support the Guardian
+                        </LinkButton>
                     </Hide>
                     <Hide below="tablet">
-                        <LinkButton size="default">Support the Guardian</LinkButton>
+                        <LinkButton onClick={onContributeClick} size="default">
+                            Support the Guardian
+                        </LinkButton>
                     </Hide>
                 </div>
             </ThemeProvider>
@@ -22,14 +34,14 @@ const UsEoyAppealCta: React.FC = () => (
             <ThemeProvider theme={buttonBrandAlt}>
                 <div>
                     <Hide above="tablet">
-                        <LinkButton size="small" priority="subdued">
+                        <Button onClick={onNotNowClick} size="small" priority="subdued">
                             Not now
-                        </LinkButton>
+                        </Button>
                     </Hide>
                     <Hide below="tablet">
-                        <LinkButton size="default" priority="subdued">
+                        <Button onClick={onNotNowClick} size="default" priority="subdued">
                             Not now
-                        </LinkButton>
+                        </Button>
                     </Hide>
                 </div>
             </ThemeProvider>
