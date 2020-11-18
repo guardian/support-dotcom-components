@@ -7,7 +7,11 @@ const UsEoyAppealVisual: React.FC = () => (
         copy={
             <>
                 <Hide above="tablet">As America begins a new chapter…</Hide>
-                <Hide below="tablet">America’s future: what’s next?</Hide>
+                <Hide below="tablet">
+                    America’s future:
+                    <br />
+                    what’s next?
+                </Hide>
             </>
         }
     />
