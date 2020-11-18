@@ -4,6 +4,7 @@ import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 
 const banner = css`
+    overflow: hidden;
     width: 100%;
     display: flex;
     justify-content: center;
