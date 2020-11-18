@@ -58,7 +58,6 @@ const expectedAmpEpic: AMPEpic = {
     ticker: {
         bottomLeft: 'contributions',
         bottomRight: 'our goal',
-        goalReached: false,
         percentage: '99.9',
         topLeft: '$999',
         topRight: '$1,000',
