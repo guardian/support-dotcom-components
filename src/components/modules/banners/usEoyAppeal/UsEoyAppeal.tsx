@@ -17,6 +17,8 @@ const UsEoyAppealBanner: React.FC<CloseableBannerProps> = ({
     tickerSettings,
     onClose,
     submitComponentEvent,
+    tracking,
+    countryCode,
 }: CloseableBannerProps) => {
     const onContributeClick = (): void =>
         submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK);
@@ -41,6 +43,8 @@ const UsEoyAppealBanner: React.FC<CloseableBannerProps> = ({
                 <UsEoyAppealCta
                     onContributeClick={onContributeClick}
                     onNotNowClick={onNotNowClick}
+                    tracking={tracking}
+                    countryCode={countryCode || ''}
                 />
             }
         />
