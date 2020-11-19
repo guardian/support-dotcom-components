@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import { body } from '@guardian/src-foundations/typography';
+import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';
 import { news, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
@@ -15,6 +16,10 @@ import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addTrackingParams } from '../../../lib/tracking';
 
 const container = css`
+    padding: 6px 10px 28px 10px;
+    border-top: 1px solid ${news[300]};
+    border-bottom: 1px solid ${neutral[93]};
+
     * {
         ::selection {
             background: ${palette.brandAlt[400]};
@@ -22,7 +27,16 @@ const container = css`
     }
 
     & > * + * {
-        margin-top: ${space[4]}px;
+        margin-top: ${space[3]}px;
+    }
+
+    ${from.tablet} {
+        padding-left: 80px;
+        padding-right: 20px;
+
+        & > * + * {
+            margin-top: ${space[4]}px;
+        }
     }
 `;
 
@@ -35,7 +49,13 @@ const textContainer = css`
     }
 
     & > * + p {
-        margin-top: ${space[4]}px;
+        margin-top: ${space[3]}px;
+    }
+
+    ${from.tablet} {
+        & > * + p {
+            margin-top: ${space[4]}px;
+        }
     }
 `;
 
@@ -128,7 +148,7 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     );
 
     if (cleanParagraphs.some(containsNonArticleCountPlaceholder)) {
-        return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
+        return null;
     }
 
     return (
