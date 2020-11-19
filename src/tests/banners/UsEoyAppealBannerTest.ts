@@ -19,6 +19,7 @@ export const UsEoyAppealNonSupportersBanner: BannerTest = {
     name: 'UsEoyAppealNonSupporters',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
+    locations: ['UnitedStates'],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => isLive,
     minPageViews: 2,
@@ -41,9 +42,10 @@ export const UsEoyAppealNonSupportersBanner: BannerTest = {
 };
 
 export const UsEoyAppealSupportersBanner: BannerTest = {
-    name: 'UsEoyAppealNonSupporters',
+    name: 'UsEoyAppealSupporters',
     bannerChannel: 'contributions',
     testAudience: 'AllExistingSupporters',
+    locations: ['UnitedStates'],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => isLive,
     minPageViews: 2,
