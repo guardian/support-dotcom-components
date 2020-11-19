@@ -184,11 +184,6 @@ export const isOn: Filter = {
     test: (test): boolean => test.isOn,
 };
 
-export const isContentType: Filter = {
-    id: 'isContentType',
-    test: (test, targeting) => (test.isLiveBlog ? targeting.contentType === 'LiveBlog' : true),
-};
-
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
     test: (test: Test): boolean => userIsInTest(test, mvtId),
@@ -327,7 +322,6 @@ export const findTestAndVariant = (
         matchesCountryGroups,
         withinMaxViews(targeting.epicViewLog || []),
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-        isContentType,
         hasNoZeroArticleCount(),
         respectArticleCountOptOut,
     ];

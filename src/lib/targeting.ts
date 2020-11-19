@@ -51,7 +51,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): bo
         isLowValueSection ||
         isLowValueTag ||
         meta.contentType.toUpperCase() !== epicType ||
-        meta.isMinuteArticle ||
         meta.isPaidContent
     );
 };

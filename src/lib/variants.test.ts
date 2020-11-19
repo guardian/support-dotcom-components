@@ -9,7 +9,6 @@ import {
     inCorrectCohort,
     excludeTags,
     withinMaxViews,
-    isContentType,
     withinArticleViewedSettings,
     userInTest,
     hasNoZeroArticleCount,
@@ -630,39 +629,6 @@ describe('withinMaxViews filter', () => {
         const got = filter.test(test, targetingDefault);
 
         expect(got).toBe(true);
-    });
-});
-
-describe('isContentType filter', () => {
-    it('should pass when is correct content type', () => {
-        const test = {
-            ...testDefault,
-            isLiveBlog: true,
-        };
-        const targeting = {
-            ...targetingDefault,
-            contentType: 'LiveBlog',
-        };
-
-        const got = isContentType.test(test, targeting);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail when incorrect content type', () => {
-        const test = {
-            ...testDefault,
-            isLiveBlog: true,
-        };
-
-        const targeting = {
-            ...targetingDefault,
-            contentType: 'Article',
-        };
-
-        const got = isContentType.test(test, targeting);
-
-        expect(got).toBe(false);
     });
 });
 
