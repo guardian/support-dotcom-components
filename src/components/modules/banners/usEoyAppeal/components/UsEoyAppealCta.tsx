@@ -44,7 +44,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                                 onClick={onContributeClick}
                                 size="small"
                             >
-                                Support the Guardian
+                                {isSupporter ? 'Support again' : 'Support the Guardian'}
                             </LinkButton>
                         </Hide>
                         <Hide below="tablet">
@@ -53,7 +53,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                                 onClick={onContributeClick}
                                 size="default"
                             >
-                                Support the Guardian
+                                {isSupporter ? 'Support again' : 'Support the Guardian'}
                             </LinkButton>
                         </Hide>
                     </div>
