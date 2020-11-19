@@ -47,6 +47,7 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
                     onNotNowClick={onNotNowClick}
                     tracking={tracking}
                     countryCode={countryCode || ''}
+                    isSupporter={!!isSupporter}
                 />
             }
         />

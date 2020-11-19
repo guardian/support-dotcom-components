@@ -13,6 +13,7 @@ interface UsEoyAppealCtaProps {
     onNotNowClick: () => void;
     tracking: BannerTracking;
     countryCode: string;
+    isSupporter: boolean;
 }
 
 const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
@@ -20,12 +21,17 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
     onNotNowClick,
     tracking,
     countryCode,
+    isSupporter,
 }: UsEoyAppealCtaProps) => {
-    const landingPageUrl = addRegionIdAndTrackingParamsToSupportUrl(
+    let landingPageUrl = addRegionIdAndTrackingParamsToSupportUrl(
         BASE_LANDING_PAGE_URL,
         tracking,
         countryCode,
     );
+
+    if (isSupporter) {
+        landingPageUrl += '&selected-contribution-type=ONE_OFF';
+    }
 
     return (
         <ContributionsTemplateCta
