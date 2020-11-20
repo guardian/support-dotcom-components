@@ -148,7 +148,6 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
 
     const runningTotal = useTicker(total, readyToAnimate);
 
-    const goalReached = total >= goal;
     const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';
 
     // If we've exceeded the goal then extend the bar 15% beyond the total
@@ -159,26 +158,18 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
             <div>
                 <div css={soFarContainerStyles}>
                     <div css={soFarCountStyles(accentColour)}>
-                        {goalReached
-                            ? settings.copy.goalReachedPrimary
-                            : `${currencySymbol}${runningTotal.toLocaleString()}`}
+                        {currencySymbol}
+                        {runningTotal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>
-                        {goalReached
-                            ? settings.copy.goalReachedSecondary
-                            : settings.copy.countLabel}
-                    </div>
+                    <div css={countLabelStyles}>{settings.copy.countLabel}</div>
                 </div>
 
                 <div css={goalContainerStyles}>
                     <div css={totalCountStyles(accentColour)}>
-                        {goalReached
-                            ? `${currencySymbol}${total.toLocaleString()}`
-                            : `${currencySymbol}${goal.toLocaleString()}`}
+                        {currencySymbol}
+                        {goal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>
-                        {goalReached ? settings.copy.countLabel : 'our goal'}
-                    </div>
+                    <div css={countLabelStyles}>our goal</div>
                 </div>
             </div>
 

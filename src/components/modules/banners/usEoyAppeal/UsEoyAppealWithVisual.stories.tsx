@@ -1,14 +1,12 @@
 import React, { ReactElement } from 'react';
-import { Example } from './ExampleContributionsTemplate';
-import { withKnobs, number } from '@storybook/addon-knobs';
+import { UsEoyAppealBannerWithVisual } from './UsEoyAppealWithVisual';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export default {
-    component: Example,
-    title: 'Components/ContributionsTemplate',
-    decorators: [withKnobs],
+    component: UsEoyAppealBannerWithVisual,
+    title: 'Components/UsEoyAppealBannerWithVisual',
 };
 
 const tracking: BannerTracking = {
@@ -17,9 +15,9 @@ const tracking: BannerTracking = {
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl: 'http://localhost:3030/Article',
-    abTestName: 'ContributionsTemplate',
+    abTestName: 'UsEoyAppealBannerWithVisual',
     abTestVariant: 'control',
-    campaignCode: 'ContributionsTemplate_control',
+    campaignCode: 'UsEoyAppealBannerWithVisual_control',
 };
 
 const content: BannerContent = {
@@ -56,16 +54,36 @@ const props: BannerProps = {
     tickerSettings,
 };
 
-export const Default = (): ReactElement => {
-    const total = number('total', 125_000);
-    const goal = number('goal', 150_000);
-
-    tickerSettings.tickerData.total = total;
-    tickerSettings.tickerData.goal = goal;
-
+export const NonSupporter = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <Example {...props} />
+            <UsEoyAppealBannerWithVisual {...props} />
         </StorybookWrapper>
     );
 };
+
+NonSupporter.story = { name: 'Non supporter' };
+
+export const Supporter = (): ReactElement => {
+    return (
+        <StorybookWrapper>
+            <UsEoyAppealBannerWithVisual {...props} isSupporter />
+        </StorybookWrapper>
+    );
+};
+
+Supporter.story = { name: 'Supporter' };
+
+export const GoalReached = (): ReactElement => {
+    const goalReachedProps: BannerProps = {
+        ...props,
+        tickerSettings: { ...tickerSettings, tickerData: { total: 175_000, goal: 150_000 } },
+    };
+    return (
+        <StorybookWrapper>
+            <UsEoyAppealBannerWithVisual {...goalReachedProps} isSupporter />
+        </StorybookWrapper>
+    );
+};
+
+GoalReached.story = { name: 'Goal reached' };

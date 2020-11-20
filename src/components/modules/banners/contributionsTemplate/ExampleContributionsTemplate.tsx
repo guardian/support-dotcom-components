@@ -9,6 +9,7 @@ import ContributionsTemplate from './ContributionsTemplate';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';
 import ContributionsTemplateHeader from './ContributionsTemplateHeader';
 import ContributionsTemplateBody from './ContributionsTemplateBody';
+import ContributionsTemplateSupportingText from './ContributionsTemplateSupportingText';
 import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps } from '../../../../types/BannerTypes';
@@ -53,14 +54,28 @@ const closeButton = (
     />
 );
 
-const header = <ContributionsTemplateHeader copy="Lorem ipsum dolor sit amet, consectetur" />;
+const header = <ContributionsTemplateHeader copy={<>Lorem ipsum dolor sit amet, consectetur</>} />;
 
 const body = (
     <ContributionsTemplateBody
-        mobileCopy="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit ame lorem ipsum dolor"
-        desktopCopy="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse proin volutpat. Habitant maecenas massa ullamcorper volutpat. Elit proin Placerat est fermentum nulla porttitor est  suspendisse suspendisse porttitor est"
+        copy={
+            <>
+                <Hide above="tablet">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit
+                    ame lorem ipsum dolor
+                </Hide>
+                <Hide below="tablet">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor
+                    dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse
+                    proin volutpat. Habitant maecenas massa ullamcorper volutpat. Elit proin
+                    Placerat est fermentum nulla porttitor est suspendisse suspendisse porttitor est
+                </Hide>
+            </>
+        }
     />
 );
+
+const supportingText = <ContributionsTemplateSupportingText copy={<>Help us reach our goal</>} />;
 
 const ticker = (tickerSettings: TickerSettings): React.ReactElement => (
     <ContributionsTemplateTicker settings={tickerSettings} accentColour={'#304F9E'} />
@@ -106,6 +121,7 @@ export const Example: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) 
             header={header}
             body={body}
             cta={cta}
+            supportingText={supportingText}
             ticker={tickerSettings && ticker(tickerSettings)}
         />
     );

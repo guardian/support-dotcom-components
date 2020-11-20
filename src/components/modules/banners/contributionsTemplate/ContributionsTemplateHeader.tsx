@@ -16,7 +16,7 @@ const container = css`
 `;
 
 interface ContributionsTemplateHeaderProps {
-    copy: string;
+    copy: React.ReactElement;
 }
 
 const ContributionsTemplateHeader: React.FC<ContributionsTemplateHeaderProps> = ({
