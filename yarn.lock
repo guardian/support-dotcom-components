@@ -2173,10 +2173,10 @@
     yaml "^1.7.2"
     yargs "^15.1.0"
 
-"@guardian/src-brand@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-brand/-/src-brand-1.8.0.tgz#ecc9f07e90011d102489a6aa5c9bd655c0a94df3"
-  integrity sha512-bPik2m3RLcu7W+gRpMtYMcqRWf4fp/Ij91a1650gsEEwrUtKjbRPuC9dwfOgl7+Rt5WgIFYnBA4Ikc5Eh76XEQ==
+"@guardian/src-brand@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@guardian/src-brand/-/src-brand-1.9.1.tgz#76654cc1958ba27c82823d8f028bfdd570fd50f4"
+  integrity sha512-/z1PFlR7knHvgw71Xpx7kGNPnjG+DCpu81a12i1+S5x4xja95LgGBlSWrwbV0vYD9+e64ccLd31tSbZj1h+nRw==
 
 "@guardian/src-button@^1.8.0":
   version "1.8.0"
