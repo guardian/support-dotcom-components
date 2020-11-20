@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
 import { UsEoyAppealBanner } from './UsEoyAppeal';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
 import { TickerCountType, TickerEndType } from '../../../../lib/variants';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
@@ -8,7 +7,6 @@ import { BannerProps, BannerContent, BannerTracking } from '../../../../types/Ba
 export default {
     component: UsEoyAppealBanner,
     title: 'Components/UsEoyAppealBanner',
-    decorators: [withKnobs],
 };
 
 const tracking: BannerTracking = {
@@ -56,14 +54,22 @@ const props: BannerProps = {
     tickerSettings,
 };
 
-export const defaultStory = (): ReactElement => {
-    const isSupporter = boolean('isSupporter', false);
-
+export const NonSupporter = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <UsEoyAppealBanner {...props} isSupporter={isSupporter} />
+            <UsEoyAppealBanner {...props} />
         </StorybookWrapper>
     );
 };
 
-defaultStory.story = { name: 'US EOY appeal banner' };
+NonSupporter.story = { name: 'Non supporter' };
+
+export const Supporter = (): ReactElement => {
+    return (
+        <StorybookWrapper>
+            <UsEoyAppealBanner {...props} isSupporter />
+        </StorybookWrapper>
+    );
+};
+
+Supporter.story = { name: 'Supporter' };
