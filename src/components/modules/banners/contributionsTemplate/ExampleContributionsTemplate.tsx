@@ -9,6 +9,7 @@ import ContributionsTemplate from './ContributionsTemplate';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';
 import ContributionsTemplateHeader from './ContributionsTemplateHeader';
 import ContributionsTemplateBody from './ContributionsTemplateBody';
+import ContributionsTemplateSupportingText from './ContributionsTemplateSupportingText';
 import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps } from '../../../../types/BannerTypes';
@@ -74,6 +75,8 @@ const body = (
     />
 );
 
+const supportingText = <ContributionsTemplateSupportingText copy={<>Help us reach our goal</>} />;
+
 const ticker = (tickerSettings: TickerSettings): React.ReactElement => (
     <ContributionsTemplateTicker settings={tickerSettings} accentColour={'#304F9E'} />
 );
@@ -118,6 +121,7 @@ export const Example: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) 
             header={header}
             body={body}
             cta={cta}
+            supportingText={supportingText}
             ticker={tickerSettings && ticker(tickerSettings)}
         />
     );

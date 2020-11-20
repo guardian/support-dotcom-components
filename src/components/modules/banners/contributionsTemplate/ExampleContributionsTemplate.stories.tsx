@@ -56,7 +56,7 @@ const props: BannerProps = {
     tickerSettings,
 };
 
-export const defaultStory = (): ReactElement => {
+export const Default = (): ReactElement => {
     const total = number('total', 125_000);
     const goal = number('goal', 150_000);
 
@@ -69,5 +69,3 @@ export const defaultStory = (): ReactElement => {
         </StorybookWrapper>
     );
 };
-
-defaultStory.story = { name: 'Template' };

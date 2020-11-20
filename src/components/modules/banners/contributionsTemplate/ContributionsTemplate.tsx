@@ -20,7 +20,6 @@ const banner = css`
 const container = css`
     position: relative;
     max-width: 1300px;
-    padding: ${space[1]}px ${space[3]}px ${space[5]}px ${space[3]}px;
     display: flex;
     justify-content: space-between;
 
@@ -73,12 +72,13 @@ const closeButtonContainerMobile = css`
     right: ${space[3]}px;
 `;
 
-const closeButtonContainer = css`
+const rightTopContainer = css`
     width: 100%;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid ${neutral[7]};
-    padding: ${space[4]}px ${space[5]}px ${space[4]}px 0;
+    padding: ${space[4]}px ${space[5]}px;
 `;
 
 const bodyContainer = css`
@@ -94,13 +94,30 @@ const bodyContainer = css`
     }
 `;
 
-const tickerAndCtaContainer = css`
+const leftTopContainer = css`
+    padding: ${space[1]}px ${space[3]}px ${space[3]}px ${space[3]}px;
+
+    ${from.tablet} {
+        padding: 0;
+    }
+`;
+
+const leftBottomContainer = css`
+    border-top: 1px solid ${neutral[46]};
+    padding: ${space[1]}px ${space[3]}px ${space[5]}px ${space[3]}px;
+`;
+
+const supportingTextContainer = css`
+    padding-top: ${space[1]}px;
+`;
+
+const rightBottomContainer = css`
     padding-left: ${space[5]}px;
     padding-right: ${space[5]}px;
 `;
 
 const tickerContainer = css`
-    padding-top: ${space[2]}px;
+    padding-top: ${space[1]}px;
     max-width: 560px;
 
     ${from.tablet} {
@@ -133,6 +150,7 @@ export interface ContributionsTemplateProps {
     closeButton: React.ReactElement;
     header: React.ReactElement;
     body: React.ReactElement;
+    supportingText: React.ReactElement;
     ticker?: React.ReactElement;
     cta: React.ReactElement;
 }
@@ -141,6 +159,7 @@ const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
     closeButton,
     header,
     body,
+    supportingText,
     ticker,
     cta,
 }: ContributionsTemplateProps) => {
@@ -151,16 +170,24 @@ const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
                     <Hide above="tablet">{closeButton}</Hide>
                 </div>
                 <div css={leftColumn}>
-                    <div css={headerContainer}>{header}</div>
-                    <div css={bodyContainer}>{body}</div>
+                    <div css={leftTopContainer}>
+                        <div css={headerContainer}>{header}</div>
+                        <div css={bodyContainer}>{body}</div>
+                    </div>
                     <Hide above="tablet">
-                        <div css={tickerContainer}>{ticker}</div>
-                        <div css={ctaContainer}>{cta}</div>
+                        <div css={leftBottomContainer}>
+                            <div css={supportingTextContainer}>{supportingText}</div>
+                            <div css={tickerContainer}>{ticker}</div>
+                            <div css={ctaContainer}>{cta}</div>
+                        </div>
                     </Hide>
                 </div>
                 <div css={rightColumn}>
-                    <div css={closeButtonContainer}>{closeButton}</div>
-                    <div css={tickerAndCtaContainer}>
+                    <div css={rightTopContainer}>
+                        {supportingText}
+                        {closeButton}
+                    </div>
+                    <div css={rightBottomContainer}>
                         <div css={tickerContainer}>{ticker}</div>
                         <div css={ctaContainer}>{cta}</div>
                     </div>

@@ -3,6 +3,7 @@ import ContributionsTemplate from '../contributionsTemplate/ContributionsTemplat
 import UsEoyAppealBody from './components/UsEoyAppealBody';
 import UsEoyAppealCloseButton from './components/UsEoyAppealCloseButton';
 import UsEoyAppealHeader from './components/UsEoyAppealHeader';
+import UsEoyAppealSupportingText from './components/UsEoyAppealSupportingText';
 import UsEoyAppealTicker from './components/UsEoyAppealTicker';
 import UsEoyAppealCta from './components/UsEoyAppealCta';
 import {
@@ -38,6 +39,7 @@ const UsEoyAppealBanner: React.FC<CloseableBannerProps> = ({
             closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
             header={<UsEoyAppealHeader />}
             body={<UsEoyAppealBody isSupporter={!!isSupporter} />}
+            supportingText={<UsEoyAppealSupportingText />}
             ticker={tickerSettings && <UsEoyAppealTicker tickerSettings={tickerSettings} />}
             cta={
                 <UsEoyAppealCta
