@@ -34,12 +34,17 @@ const UsEoyAppealBanner: React.FC<CloseableBannerProps> = ({
         onClose();
     };
 
+    const total = tickerSettings?.tickerData?.total || 1;
+    const goal = tickerSettings?.tickerData?.goal || 1;
+
+    const goalReached = total > goal;
+
     return (
         <ContributionsTemplate
             closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
             header={<UsEoyAppealHeader />}
             body={<UsEoyAppealBody isSupporter={!!isSupporter} />}
-            supportingText={<UsEoyAppealSupportingText />}
+            supportingText={<UsEoyAppealSupportingText goalReached={goalReached} />}
             ticker={tickerSettings && <UsEoyAppealTicker tickerSettings={tickerSettings} />}
             cta={
                 <UsEoyAppealCta

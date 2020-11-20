@@ -73,3 +73,17 @@ export const Supporter = (): ReactElement => {
 };
 
 Supporter.story = { name: 'Supporter' };
+
+export const GoalReached = (): ReactElement => {
+    const goalReachedProps: BannerProps = {
+        ...props,
+        tickerSettings: { ...tickerSettings, tickerData: { total: 175_000, goal: 150_000 } },
+    };
+    return (
+        <StorybookWrapper>
+            <UsEoyAppealBannerWithVisual {...goalReachedProps} isSupporter />
+        </StorybookWrapper>
+    );
+};
+
+GoalReached.story = { name: 'Goal reached' };
