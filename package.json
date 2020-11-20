@@ -34,7 +34,7 @@
     "@guardian/src-icons": "^1.9.1",
     "@guardian/src-layout": "^2.5.0",
     "@guardian/src-link": "^1.8.0",
-    "@guardian/src-svgs": "^1.8.0",
+    "@guardian/src-svgs": "^1.9.1",
     "@guardian/src-text-input": "^1.9.1",
     "@types/babel__standalone": "^7.1.2",
     "amp-toolbox-cors": "^1.2.0-alpha.2",
