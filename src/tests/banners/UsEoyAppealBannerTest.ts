@@ -13,7 +13,7 @@ const tickerSettings = {
     },
 };
 
-const isLive = false;
+const isLive = true;
 
 export const UsEoyAppealNonSupportersBanner: BannerTest = {
     name: 'UsEoyAppealNonSupporters',
