@@ -8,3 +8,4 @@ cdk.out/
 stats/
 .metals
 target/
+build-storybook.log
