@@ -6,7 +6,7 @@ const UsEoyAppealVisual: React.FC = () => (
     <ContributionsTemplateHeader
         copy={
             <>
-                <Hide above="tablet">As America begins a new chapter…</Hide>
+                <Hide above="tablet">Help us report on a new chapter for America</Hide>
                 <Hide below="tablet">
                     America’s future:
                     <br />

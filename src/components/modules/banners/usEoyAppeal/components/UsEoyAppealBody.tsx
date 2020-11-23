@@ -11,7 +11,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({ isSupporter }: UsEoyA
         copy={
             <>
                 <Hide above="tablet">
-                    …the need for robust, fact-based journalism that highlights injustice and offers
+                    The need for robust, fact-based journalism that highlights injustice and offers
                     solutions is as great as ever.
                 </Hide>
                 <Hide below="tablet">
