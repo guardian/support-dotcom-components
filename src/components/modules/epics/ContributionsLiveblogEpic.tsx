@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import { body } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';
-import { news, neutral } from '@guardian/src-foundations/palette';
+import { neutral, brandAlt } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { LinkButton } from '@guardian/src-button';
 import {
@@ -13,12 +13,13 @@ import {
 import { EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../../../lib/variants';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { addTrackingParams } from '../../../lib/tracking';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 
 const container = css`
     padding: 6px 10px 28px 10px;
-    border-top: 1px solid ${news[300]};
-    border-bottom: 1px solid ${neutral[93]};
+    border-top: 1px solid ${brandAlt[200]};
+    border-bottom: 1px solid ${neutral[86]};
+    background: ${neutral[93]};
 
     * {
         ::selection {
@@ -60,11 +61,12 @@ const textContainer = css`
 `;
 
 const cta = css`
-    color: ${news[400]};
-    border-color: ${neutral[86]};
+    color: ${neutral[7]};
+    border: 1px solid ${neutral[0]};
+    background-color: ${brandAlt[400]};
 
     &:hover {
-        background-color: ${neutral[97]};
+        background-color: ${brandAlt[200]};
     }
 `;
 
@@ -79,11 +81,7 @@ const LiveblogEpicBodyParagraph: React.FC<LiveblogEpicBodyParagraphProps> = ({
 }: LiveblogEpicBodyParagraphProps) => {
     const elements = replaceArticleCount(paragraph, numArticles, 'epic');
 
-    return (
-        <p>
-            <em>{elements}</em>
-        </p>
-    );
+    return <p>{elements}</p>;
 };
 
 interface LiveblogEpicBodyProps {
@@ -114,6 +112,7 @@ const DEFAULT_CTA_BASE_URL = 'https://support.theguardian.com/uk/contribute';
 interface LiveblogEpicCtaProps {
     text?: string;
     baseUrl?: string;
+    countryCode?: string;
     tracking: EpicTracking;
 }
 
@@ -121,15 +120,20 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     text,
     baseUrl,
     tracking,
+    countryCode,
 }: LiveblogEpicCtaProps) => {
-    // TODO: use addRegionIdAndTrackingToSupportUrl
-    const url = addTrackingParams(baseUrl || DEFAULT_CTA_BASE_URL, tracking);
+    const url = addRegionIdAndTrackingParamsToSupportUrl(
+        baseUrl || DEFAULT_CTA_BASE_URL,
+        tracking,
+        countryCode,
+    );
     return (
-        <LinkButton css={cta} priority="tertiary" href={url}>
+        <LinkButton css={cta} priority="primary" href={url}>
             {text || DEFAULT_CTA_TEXT}
         </LinkButton>
     );
 };
+
 interface LiveblogEpicProps {
     variant: Variant;
     tracking: EpicTracking;
