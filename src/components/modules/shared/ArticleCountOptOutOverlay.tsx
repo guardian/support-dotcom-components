@@ -49,7 +49,8 @@ const overlayContainer = (componentType: ComponentType): SerializedStyles => css
     background: ${BACKGROUND_COLOURS[componentType]};
     border: 1px solid ${BORDER_COLOURS[componentType]};
     ${textSans.medium()}
-    padding: ${space[3]}px;
+    padding: ${space[2]}px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
     ${from.tablet} {
         width: 325px;
@@ -107,7 +108,7 @@ const BUTTON_OVERRIDES = {
 };
 
 const overlayNote = (componentType: ComponentType): SerializedStyles => css`
-    margin-top: ${space[3]}px;
+    margin-top: ${space[2]}px;
     ${textSans.xsmall()}
     font-style: italic;
     display: none;
