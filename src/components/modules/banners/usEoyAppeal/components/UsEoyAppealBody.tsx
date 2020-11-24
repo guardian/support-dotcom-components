@@ -28,18 +28,18 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                             shouldShowArticleCount ? (
                                 // supporter + article count
                                 <>
-                                    Trump’s presidency is ending, but America’s systemic challenges
-                                    remain. From a broken healthcare system to corrosive racial
-                                    inequality, from rapacious corporations to a climate crisis, the
-                                    need for robust, fact-based reporting that highlights injustice
-                                    and offers solutions is as great as ever. We value your ongoing
-                                    support and hope you’ll consider a year-end gift.{' '}
                                     <ArticleCountOptOut
                                         numArticles={numArticles}
                                         nextWord=" articles"
                                         componentType="us-eoy-banner"
                                     />
-                                    .
+                                    . Trump’s presidency is ending, but America’s systemic
+                                    challenges remain. From a broken healthcare system to corrosive
+                                    racial inequality, from rapacious corporations to a climate
+                                    crisis, the need for robust, fact-based reporting that
+                                    highlights injustice and offers solutions is as great as ever.
+                                    We value your ongoing support and hope you’ll consider a
+                                    year-end gift.
                                 </>
                             ) : (
                                 // supporter + no article count
@@ -55,18 +55,17 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                         ) : shouldShowArticleCount ? (
                             // non-supporter + article count
                             <>
-                                Trump’s presidency is ending, but America’s systemic challenges
-                                remain. From a broken healthcare system to corrosive racial
-                                inequality, from rapacious corporations to a climate crisis, the
-                                need for robust, fact-based reporting that highlights injustice and
-                                offers solutions is as great as ever. We hope you’ll consider a
-                                year-end gift.
                                 <ArticleCountOptOut
                                     numArticles={numArticles}
                                     nextWord=" articles"
                                     componentType="us-eoy-banner"
                                 />
-                                .
+                                . Trump’s presidency is ending, but America’s systemic challenges
+                                remain. From a broken healthcare system to corrosive racial
+                                inequality, from rapacious corporations to a climate crisis, the
+                                need for robust, fact-based reporting that highlights injustice and
+                                offers solutions is as great as ever. We hope you’ll consider a
+                                year-end gift.
                             </>
                         ) : (
                             // non-supporter + no article count

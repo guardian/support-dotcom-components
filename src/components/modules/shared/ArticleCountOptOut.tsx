@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
+import { lifestyle } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';
 import { ComponentType } from '../../../types/shared';
@@ -36,6 +37,20 @@ const articleCountButton = css`
         outline: none !important;
     }
 `;
+
+const usEoyArticleCountButton = css`
+    ${articleCountButton}
+    text-decoration: none;
+    font-weight: 600;
+    background: ${lifestyle[500]};
+    mix-blend-mode: multiply;
+`;
+
+const BUTTON_STYLES = {
+    epic: articleCountButton,
+    banner: articleCountButton,
+    ['us-eoy-banner']: usEoyArticleCountButton,
+};
 
 const overlayContainer = (componentType: ComponentType): SerializedStyles => css`
     position: absolute;
@@ -86,11 +101,11 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
 
     return (
         <div css={optOutContainer}>
-            <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
+            <button css={BUTTON_STYLES[componentType]} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
-                <div css={overlayContainer}>
+                <div css={overlayContainer(componentType)}>
                     <ArticleCountOptOutOverlay
                         componentType={componentType}
                         hasOptedOut={hasOptedOut}
