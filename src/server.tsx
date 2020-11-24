@@ -10,7 +10,7 @@ import {
 } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
-import { Debug, findTestAndVariant, Result, Variant } from './lib/variants';
+import { EpicTests, Debug, findTestAndVariant, Result, Variant } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import {
     buildAmpEpicCampaignCode,
@@ -81,6 +81,23 @@ interface BannerDataResponse {
     debug?: Debug;
 }
 
+const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
+    () => fetchConfiguredEpicTests('ARTICLE'),
+    60,
+    `fetchConfiguredEpicTests_ARTICLE`,
+);
+
+const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
+    () => fetchConfiguredEpicTests('LIVEBLOG'),
+    60,
+    `fetchConfiguredEpicTests_LIVEBLOG`,
+);
+
+const fetchCachedEpicTests: { [key in EpicType]: () => Promise<EpicTests> } = {
+    ARTICLE: fetchConfiguredArticleEpicTestsCached,
+    LIVEBLOG: fetchConfiguredLiveblogEpicTestsCached,
+};
+
 const buildEpicData = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
@@ -88,12 +105,7 @@ const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    const [, fetchConfiguredEpicTestsCached] = cacheAsync(
-        () => fetchConfiguredEpicTests(type),
-        60,
-        `fetchConfiguredEpicTests_${type}`,
-    );
-    const configuredTests = await fetchConfiguredEpicTestsCached();
+    const configuredTests = await fetchCachedEpicTests[type]();
     const hardcodedTests = type === 'ARTICLE' ? await getAllHardcodedTests() : [];
     const tests = [...configuredTests.tests, ...hardcodedTests];
 
