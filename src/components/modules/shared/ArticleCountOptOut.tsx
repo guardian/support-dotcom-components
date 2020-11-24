@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import {
     brand,
     brandAltBackground,
@@ -9,7 +9,7 @@ import {
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
-import { SvgClose } from '@guardian/src-icons';
+import { SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
@@ -46,7 +46,7 @@ const articleCountButton = css`
     }
 `;
 
-const overlayContainer = (componentType: ComponentType) => css`
+const overlayContainer = (componentType: ComponentType): SerializedStyles => css`
     position: absolute;
     z-index: 100;
     left: ${space[4]}px;
@@ -97,7 +97,7 @@ const overlayCtaContainer = css`
     }
 `;
 
-const overlayNote = (componentType: ComponentType) => css`
+const overlayNote = (componentType: ComponentType): SerializedStyles => css`
     margin-top: ${space[3]}px;
     ${textSans.xsmall()}
     font-style: italic;
@@ -162,10 +162,8 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                             >
                                 <Button
                                     onClick={(): void => setIsOpen(false)}
-                                    icon={<SvgClose />}
+                                    icon={<SvgCross />}
                                     hideLabel
-                                    size="small"
-                                    priority="tertiary"
                                 />
                             </ThemeProvider>
                         )}

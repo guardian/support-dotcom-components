@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArticleCountOptOut } from '../components/modules/epics/ArticleCountOptOut';
+import { ArticleCountOptOut } from '../components/modules/shared/ArticleCountOptOut';
 import { ComponentType } from '../types/shared';
 
 export const replaceArticleCount = (
