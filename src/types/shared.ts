@@ -11,4 +11,4 @@ export interface ArticlesViewedSettings {
     periodInWeeks: number;
 }
 
-export type ComponentType = 'epic' | 'banner';
+export type ComponentType = 'epic' | 'banner' | 'us-eoy-banner';

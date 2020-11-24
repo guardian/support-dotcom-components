@@ -37,7 +37,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                                     <ArticleCountOptOut
                                         numArticles={numArticles}
                                         nextWord=" articles"
-                                        componentType="banner"
+                                        componentType="us-eoy-banner"
                                     />
                                     .
                                 </>
@@ -64,7 +64,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                                 <ArticleCountOptOut
                                     numArticles={numArticles}
                                     nextWord=" articles"
-                                    componentType="banner"
+                                    componentType="us-eoy-banner"
                                 />
                                 .
                             </>
