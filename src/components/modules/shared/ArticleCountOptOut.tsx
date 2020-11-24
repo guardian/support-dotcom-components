@@ -38,20 +38,6 @@ const articleCountButton = css`
     }
 `;
 
-const usEoyArticleCountButton = css`
-    ${articleCountButton}
-    text-decoration: none;
-    font-weight: 600;
-    background: ${lifestyle[500]};
-    mix-blend-mode: multiply;
-`;
-
-const BUTTON_STYLES = {
-    epic: articleCountButton,
-    banner: articleCountButton,
-    ['us-eoy-banner']: usEoyArticleCountButton,
-};
-
 const overlayContainer = (componentType: ComponentType): SerializedStyles => css`
     position: absolute;
     z-index: 100;
@@ -101,7 +87,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
 
     return (
         <div css={optOutContainer}>
-            <button css={BUTTON_STYLES[componentType]} onClick={(): void => setIsOpen(!isOpen)}>
+            <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (

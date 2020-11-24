@@ -88,6 +88,24 @@ const overlayCtaContainer = css`
     }
 `;
 
+const NOTE_LINK_COLOURS = {
+    epic: neutral[100],
+    banner: brandAltText.primary,
+    ['us-eoy-banner']: neutral[0],
+};
+
+const usEoyBannerOverrides = css`
+    &:hover {
+        background-color: rgb(229, 229, 229);
+    }
+`;
+
+const BUTTON_OVERRIDES = {
+    epic: css``,
+    banner: css``,
+    ['us-eoy-banner']: usEoyBannerOverrides,
+};
+
 const overlayNote = (componentType: ComponentType): SerializedStyles => css`
     margin-top: ${space[3]}px;
     ${textSans.xsmall()}
@@ -99,7 +117,7 @@ const overlayNote = (componentType: ComponentType): SerializedStyles => css`
     }
 
     a {
-        color: ${componentType === 'banner' ? brandAltText.primary : '#ffffff'} !important;
+        color: ${NOTE_LINK_COLOURS[componentType]} !important;
         text-decoration: underline !important;
     }
 `;
@@ -126,6 +144,7 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
                 <ThemeProvider theme={BUTTON_THEMES[componentType]}>
                     <Button
                         onClick={onClose}
+                        cssOverrides={BUTTON_OVERRIDES[componentType]}
                         icon={<SvgCross />}
                         hideLabel
                         size="xsmall"
@@ -143,12 +162,22 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
             {!hasOptedOut && (
                 <div css={overlayCtaContainer}>
                     <ThemeProvider theme={BUTTON_THEMES[componentType]}>
-                        <Button onClick={onClose} priority="tertiary" size="xsmall">
+                        <Button
+                            onClick={onClose}
+                            cssOverrides={BUTTON_OVERRIDES[componentType]}
+                            priority="tertiary"
+                            size="xsmall"
+                        >
                             Yes, that&apos;s OK
                         </Button>
                     </ThemeProvider>
                     <ThemeProvider theme={BUTTON_THEMES[componentType]}>
-                        <Button onClick={onOptOut} priority="primary" size="xsmall">
+                        <Button
+                            onClick={onOptOut}
+                            cssOverrides={BUTTON_OVERRIDES[componentType]}
+                            priority="primary"
+                            size="xsmall"
+                        >
                             No, opt me out
                         </Button>
                     </ThemeProvider>
