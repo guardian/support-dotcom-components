@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
-import { lifestyle } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';
 import { ComponentType } from '../../../types/shared';
