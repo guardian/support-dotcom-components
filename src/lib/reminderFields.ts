@@ -14,13 +14,14 @@ const getReminderDate = (date: Date): Date => {
 export const buildReminderFields = (today: Date = new Date()): ReminderFields => {
     const reminderDate = getReminderDate(today);
 
-    const month = reminderDate.getMonth();
+    const month = reminderDate.getMonth() + 1; // javascript dates run from 0-11, we want 1-12
+    const paddedMonth = month.toString().padStart(2, '0');
     const monthName = reminderDate.toLocaleString('default', { month: 'long' });
     const year = reminderDate.getFullYear();
 
     return {
         reminderCTA: `Remind me in ${monthName}`,
-        reminderDate: `${year}-${month}-19 00:00:00`,
+        reminderDate: `${year}-${paddedMonth}-19 00:00:00`,
         reminderDateAsString: `${monthName} ${year}`,
     };
 };
