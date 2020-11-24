@@ -1,20 +1,12 @@
 import React from 'react';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateBody from '../../contributionsTemplate/ContributionsTemplateBody';
-import { ArticleCountOptOut } from '../../../shared/ArticleCountOptOut';
 
 interface UsEoyAppealBodyProps {
     isSupporter: boolean;
-    numArticles: number;
 }
 
-const MIN_ARTICLES_TO_SHOW_ARTICLE_COUNT = 5;
-
-const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
-    isSupporter,
-    numArticles,
-}: UsEoyAppealBodyProps) => {
-    const shouldShowArticleCount = numArticles >= MIN_ARTICLES_TO_SHOW_ARTICLE_COUNT;
+const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({ isSupporter }: UsEoyAppealBodyProps) => {
     return (
         <ContributionsTemplateBody
             copy={
@@ -25,50 +17,15 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                     </Hide>
                     <Hide below="tablet">
                         {isSupporter ? (
-                            shouldShowArticleCount ? (
-                                // supporter + article count
-                                <>
-                                    <ArticleCountOptOut
-                                        numArticles={numArticles}
-                                        nextWord=" articles"
-                                        componentType="us-eoy-banner"
-                                    />
-                                    . Trump’s presidency is ending, but America’s systemic
-                                    challenges remain. From a broken healthcare system to corrosive
-                                    racial inequality, from rapacious corporations to a climate
-                                    crisis, the need for robust, fact-based reporting that
-                                    highlights injustice and offers solutions is as great as ever.
-                                    We value your ongoing support and hope you’ll consider a
-                                    year-end gift.
-                                </>
-                            ) : (
-                                // supporter + no article count
-                                <>
-                                    Trump’s presidency is ending, but America’s systemic challenges
-                                    remain. From a broken healthcare system to corrosive racial
-                                    inequality, from rapacious corporations to a climate crisis, the
-                                    need for robust, fact-based reporting that highlights injustice
-                                    and offers solutions is as great as ever. We value your ongoing
-                                    support and hope you’ll consider a year-end gift.
-                                </>
-                            )
-                        ) : shouldShowArticleCount ? (
-                            // non-supporter + article count
                             <>
-                                <ArticleCountOptOut
-                                    numArticles={numArticles}
-                                    nextWord=" articles"
-                                    componentType="us-eoy-banner"
-                                />
-                                . Trump’s presidency is ending, but America’s systemic challenges
+                                Trump’s presidency is ending, but America’s systemic challenges
                                 remain. From a broken healthcare system to corrosive racial
                                 inequality, from rapacious corporations to a climate crisis, the
                                 need for robust, fact-based reporting that highlights injustice and
-                                offers solutions is as great as ever. We hope you’ll consider a
-                                year-end gift.
+                                offers solutions is as great as ever. We value your ongoing support
+                                and hope you’ll consider a year-end gift.
                             </>
                         ) : (
-                            // non-supporter + no article count
                             <>
                                 Trump’s presidency is ending, but America’s systemic challenges
                                 remain. From a broken healthcare system to corrosive racial
