@@ -188,7 +188,7 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
                         <a href="https://www.theguardian.com/help/contact-us">contact us.</a>
                     </span>
                 ) : (
-                    'Please note you cannot undo this action or opt back in.'
+                    "Please note that opting out is a permanent action and can't be reversed"
                 )}
             </div>
         </div>
