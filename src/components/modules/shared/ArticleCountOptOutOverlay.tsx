@@ -167,7 +167,7 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
                         <Button
                             onClick={onClose}
                             cssOverrides={BUTTON_OVERRIDES[type]}
-                            priority="tertiary"
+                            priority="primary"
                             size="xsmall"
                         >
                             Yes, that&apos;s OK
@@ -177,7 +177,7 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
                         <Button
                             onClick={onOptOut}
                             cssOverrides={BUTTON_OVERRIDES[type]}
-                            priority="primary"
+                            priority="tertiary"
                             size="xsmall"
                         >
                             No, opt me out
