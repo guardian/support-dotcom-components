@@ -76,15 +76,15 @@ const overlayBody = css`
 
 const overlayCtaContainer = css`
     margin-top: ${space[3]}px;
+    display: flex;
+    flex-direction: row;
+
     > * + * {
-        margin-top: ${space[3]}px;
+        margin-left: ${space[2]}px;
     }
 
-    ${from.mobileMedium} {
-        display: flex;
-
+    ${from.tablet} {
         > * + * {
-            margin-top: 0;
             margin-left: ${space[3]}px;
         }
     }
