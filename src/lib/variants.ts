@@ -9,6 +9,7 @@ import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from
 import { isRecentOneOffContributor } from '../lib/dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { getReminderFields, ReminderFields } from './reminderFields';
+import { selectVariant } from './ab';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -87,6 +88,8 @@ export interface Test {
     // These are specific to hardcoded tests
     expiry?: string;
     campaignId?: string;
+
+    controlProportion?: number; // between 0-1
 }
 
 export interface EpicTests {
@@ -97,10 +100,6 @@ interface Filter {
     id: string;
     test: (test: Test, targeting: EpicTargeting) => boolean;
 }
-
-export const selectVariant = (test: Test, mvtId: number): Variant => {
-    return test.variants[mvtId % test.variants.length];
-};
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     const { showSupportMessaging, isRecurringContributor } = targeting;
