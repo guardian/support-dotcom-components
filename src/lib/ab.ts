@@ -8,11 +8,6 @@ const maxMvt = 1000000;
  *
  * If controlProportion is set then the start of the mvt range for the control is derived using a hash of the test name.
  * This is to avoid always putting the same users in the control for each test.
- *
- * So:
- * controlProportion is in [0, 1]
- * seed is in [0, maxMvt]
- * controlRange is [seed, (seed + (maxMvt * controlProportion)) % maxMvt]
  */
 
 export const getSeed = (name: string): number => {
@@ -28,11 +23,22 @@ export const getSeed = (name: string): number => {
     return Math.abs(hash) % maxMvt;
 };
 
+export const withinRange = (lower: number, proportion: number, mvtId: number): boolean => {
+    const upper = (lower + maxMvt * proportion) % maxMvt;
+
+    if (lower > upper) {
+        // wrapped
+        return mvtId >= lower || mvtId < upper;
+    } else {
+        return mvtId >= lower && mvtId < upper;
+    }
+};
+
 export const selectVariant = (test: Test, mvtId: number): Variant => {
     const control = test.variants.find(v => v.name.toLowerCase() === 'control');
     if (test.controlProportion && control) {
         const seed = getSeed(test.name);
-        if (mvtId >= seed && mvtId < (seed + maxMvt * test.controlProportion) % maxMvt) {
+        if (withinRange(seed, test.controlProportion, mvtId)) {
             return control;
         } else {
             const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
