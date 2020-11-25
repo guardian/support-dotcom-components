@@ -1,11 +1,11 @@
 import React from 'react';
-import { ArticleCountOptOut } from '../components/modules/epics/ArticleCountOptOut';
-import { ComponentType } from '../types/shared';
+import { ArticleCountOptOut } from '../components/modules/shared/ArticleCountOptOut';
+import { ArticleCountOptOutType } from '../components/modules/shared/ArticleCountOptOut';
 
 export const replaceArticleCount = (
     text: string,
     numArticles: number,
-    componentType: ComponentType,
+    articleCountOptOutType: ArticleCountOptOutType,
 ): Array<JSX.Element> => {
     const nextWords: Array<string | null> = [];
     const subbedText = text.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
@@ -21,7 +21,7 @@ export const replaceArticleCount = (
             <ArticleCountOptOut
                 numArticles={numArticles}
                 nextWord={nextWords[i]}
-                componentType={componentType}
+                type={articleCountOptOutType}
             />,
         );
     }

@@ -87,3 +87,17 @@ export const GoalReached = (): ReactElement => {
 };
 
 GoalReached.story = { name: 'Goal reached' };
+
+export const WithArticleCount = (): ReactElement => {
+    const withArticleCountProps: BannerProps = {
+        ...props,
+        numArticles: 20,
+    };
+    return (
+        <StorybookWrapper>
+            <UsEoyAppealBanner {...withArticleCountProps} isSupporter />
+        </StorybookWrapper>
+    );
+};
+
+WithArticleCount.story = { name: 'With article count' };
