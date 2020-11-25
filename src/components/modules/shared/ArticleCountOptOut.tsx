@@ -3,7 +3,6 @@ import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';
-import { ComponentType } from '../../../types/shared';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
 
@@ -37,12 +36,12 @@ const articleCountButton = css`
     }
 `;
 
-const overlayContainer = (componentType: ComponentType): SerializedStyles => css`
+const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     position: absolute;
     z-index: 100;
     left: ${space[4]}px;
     right: ${space[4]}px;
-    ${componentType === 'banner' ? 'bottom: 21px;' : ''}
+    ${type === 'banner' ? 'bottom: 21px;' : ''}
 
     ${from.tablet} {
         width: 325px;
@@ -50,16 +49,18 @@ const overlayContainer = (componentType: ComponentType): SerializedStyles => css
     }
 `;
 
+export type ArticleCountOptOutType = 'epic' | 'banner' | 'us-eoy-banner';
+
 export interface ArticleCountOptOutProps {
     numArticles: number;
     nextWord: string | null;
-    componentType: ComponentType;
+    type: ArticleCountOptOutType;
 }
 
 export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     numArticles,
     nextWord,
-    componentType,
+    type,
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
@@ -90,9 +91,9 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
-                <div css={overlayContainer(componentType)}>
+                <div css={overlayContainer(type)}>
                     <ArticleCountOptOutOverlay
-                        componentType={componentType}
+                        type={type}
                         hasOptedOut={hasOptedOut}
                         onOptOut={onOptOut}
                         onClose={onClose}

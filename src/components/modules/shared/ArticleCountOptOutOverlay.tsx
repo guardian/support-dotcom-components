@@ -18,7 +18,8 @@ import {
     buttonBrandAlt as buttonBrandAltTheme,
 } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
-import { ComponentType } from '../../../types/shared';
+
+import { ArticleCountOptOutType } from './ArticleCountOptOut';
 
 const COLOURS = {
     epic: 'white',
@@ -44,10 +45,10 @@ const BUTTON_THEMES = {
     ['us-eoy-banner']: buttonBrandAltTheme,
 };
 
-const overlayContainer = (componentType: ComponentType): SerializedStyles => css`
-    color: ${COLOURS[componentType]};
-    background: ${BACKGROUND_COLOURS[componentType]};
-    border: 1px solid ${BORDER_COLOURS[componentType]};
+const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
+    color: ${COLOURS[type]};
+    background: ${BACKGROUND_COLOURS[type]};
+    border: 1px solid ${BORDER_COLOURS[type]};
     ${textSans.medium()}
     padding: ${space[2]}px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -107,7 +108,7 @@ const BUTTON_OVERRIDES = {
     ['us-eoy-banner']: usEoyBannerOverrides,
 };
 
-const overlayNote = (componentType: ComponentType): SerializedStyles => css`
+const overlayNote = (type: ArticleCountOptOutType): SerializedStyles => css`
     margin-top: ${space[2]}px;
     ${textSans.xsmall()}
     font-style: italic;
@@ -118,34 +119,34 @@ const overlayNote = (componentType: ComponentType): SerializedStyles => css`
     }
 
     a {
-        color: ${NOTE_LINK_COLOURS[componentType]} !important;
+        color: ${NOTE_LINK_COLOURS[type]} !important;
         text-decoration: underline !important;
     }
 `;
 
 export interface ArticleCountOptOutOverlayProps {
-    componentType: ComponentType;
+    type: ArticleCountOptOutType;
     hasOptedOut: boolean;
     onOptOut: () => void;
     onClose: () => void;
 }
 
 export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps> = ({
-    componentType,
+    type,
     hasOptedOut,
     onClose,
     onOptOut,
 }: ArticleCountOptOutOverlayProps) => {
     return (
-        <div css={overlayContainer(componentType)}>
+        <div css={overlayContainer(type)}>
             <div css={overlayHeader}>
                 <div css={overlayHeaderText}>
                     {hasOptedOut ? "You've opted out" : "What's this?"}
                 </div>
-                <ThemeProvider theme={BUTTON_THEMES[componentType]}>
+                <ThemeProvider theme={BUTTON_THEMES[type]}>
                     <Button
                         onClick={onClose}
-                        cssOverrides={BUTTON_OVERRIDES[componentType]}
+                        cssOverrides={BUTTON_OVERRIDES[type]}
                         icon={<SvgCross />}
                         hideLabel
                         size="xsmall"
@@ -162,20 +163,20 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
 
             {!hasOptedOut && (
                 <div css={overlayCtaContainer}>
-                    <ThemeProvider theme={BUTTON_THEMES[componentType]}>
+                    <ThemeProvider theme={BUTTON_THEMES[type]}>
                         <Button
                             onClick={onClose}
-                            cssOverrides={BUTTON_OVERRIDES[componentType]}
+                            cssOverrides={BUTTON_OVERRIDES[type]}
                             priority="tertiary"
                             size="xsmall"
                         >
                             Yes, that&apos;s OK
                         </Button>
                     </ThemeProvider>
-                    <ThemeProvider theme={BUTTON_THEMES[componentType]}>
+                    <ThemeProvider theme={BUTTON_THEMES[type]}>
                         <Button
                             onClick={onOptOut}
-                            cssOverrides={BUTTON_OVERRIDES[componentType]}
+                            cssOverrides={BUTTON_OVERRIDES[type]}
                             priority="primary"
                             size="xsmall"
                         >
@@ -185,7 +186,7 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
                 </div>
             )}
 
-            <div css={overlayNote(componentType)}>
+            <div css={overlayNote(type)}>
                 {hasOptedOut ? (
                     <span>
                         If you have any questions, please{' '}

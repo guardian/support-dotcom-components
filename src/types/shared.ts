@@ -10,5 +10,3 @@ export interface ArticlesViewedSettings {
     maxViews?: number;
     periodInWeeks: number;
 }
-
-export type ComponentType = 'epic' | 'banner' | 'us-eoy-banner';

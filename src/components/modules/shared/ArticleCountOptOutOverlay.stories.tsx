@@ -11,7 +11,7 @@ export default {
 };
 
 const props: ArticleCountOptOutOverlayProps = {
-    componentType: 'banner',
+    type: 'banner',
     hasOptedOut: false,
     onClose: (): void => console.log('close'),
     onOptOut: (): void => console.log('close'),
@@ -20,7 +20,7 @@ const props: ArticleCountOptOutOverlayProps = {
 export const Epic = (): ReactElement => {
     const epicProps: ArticleCountOptOutOverlayProps = {
         ...props,
-        componentType: 'epic',
+        type: 'epic',
     };
 
     return (
@@ -33,7 +33,7 @@ export const Epic = (): ReactElement => {
 export const Banner = (): ReactElement => {
     const epicProps: ArticleCountOptOutOverlayProps = {
         ...props,
-        componentType: 'banner',
+        type: 'banner',
     };
 
     return (
@@ -46,7 +46,7 @@ export const Banner = (): ReactElement => {
 export const UsEoyAppealBanner = (): ReactElement => {
     const epicProps: ArticleCountOptOutOverlayProps = {
         ...props,
-        componentType: 'us-eoy-banner',
+        type: 'us-eoy-banner',
     };
 
     return (
