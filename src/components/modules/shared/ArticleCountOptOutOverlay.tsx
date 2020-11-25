@@ -164,12 +164,7 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
             {!hasOptedOut && (
                 <div css={overlayCtaContainer}>
                     <ThemeProvider theme={BUTTON_THEMES[type]}>
-                        <Button
-                            onClick={onClose}
-                            cssOverrides={BUTTON_OVERRIDES[type]}
-                            priority="primary"
-                            size="xsmall"
-                        >
+                        <Button onClick={onClose} priority="primary" size="xsmall">
                             Yes, that&apos;s OK
                         </Button>
                     </ThemeProvider>
