@@ -62,6 +62,11 @@ export interface Variant {
     showReminderFields?: ReminderFields;
 }
 
+interface ControlProportionSettings {
+    proportion: number;
+    offset: number;
+}
+
 export interface Test {
     name: string;
     isOn: boolean;
@@ -89,7 +94,7 @@ export interface Test {
     expiry?: string;
     campaignId?: string;
 
-    controlProportion?: number; // between 0-1
+    controlProportionSettings?: ControlProportionSettings;
 }
 
 export interface EpicTests {
