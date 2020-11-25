@@ -34,9 +34,10 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
         const seed = getSeed(test.name);
         if (mvtId >= seed && mvtId < (seed + maxMvt * test.controlProportion) % maxMvt) {
             return control;
+        } else {
+            const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
+            return otherVariants[mvtId % otherVariants.length];
         }
-        const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
-        return otherVariants[mvtId % otherVariants.length];
     }
 
     return test.variants[mvtId % test.variants.length];
