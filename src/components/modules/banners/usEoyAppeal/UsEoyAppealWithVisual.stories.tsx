@@ -6,7 +6,7 @@ import { BannerProps } from '../../../../types/BannerTypes';
 
 export default {
     component: UsEoyAppealBannerWithVisual,
-    title: 'Banners/UsEoyAppealBannerWithVisual',
+    title: 'Banners/UsEoyAppealWithVisual',
     args: props,
 } as Meta;
 
