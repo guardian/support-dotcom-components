@@ -38,6 +38,7 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
 
     return (
         <ContributionsTemplateWithVisual
+            backgroundColour="#E7D4B9"
             visual={<UsEoyAppealVisual />}
             closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
             header={<UsEoyAppealHeader />}

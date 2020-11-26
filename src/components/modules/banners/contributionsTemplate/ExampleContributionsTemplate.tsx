@@ -117,6 +117,7 @@ const cta = (
 export const Example: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
     return (
         <ContributionsTemplate
+            backgroundColour="#DDDBD1"
             closeButton={closeButton}
             header={header}
             body={body}

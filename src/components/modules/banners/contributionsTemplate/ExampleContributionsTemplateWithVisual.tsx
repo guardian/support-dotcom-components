@@ -137,6 +137,7 @@ const cta = (
 export const Example: React.FC<BannerProps> = ({}: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
+            backgroundColour="#DDDBD1"
             visual={visual}
             closeButton={closeButton}
             header={header}
@@ -149,6 +150,7 @@ export const Example: React.FC<BannerProps> = ({}: BannerProps) => {
 export const ExampleWithTicker: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
+            backgroundColour="#DDDBD1"
             visual={visual}
             closeButton={closeButton}
             header={header}

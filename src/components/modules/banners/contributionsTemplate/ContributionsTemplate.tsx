@@ -1,16 +1,16 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
 
-const banner = css`
+const banner = (backgroundColour: string): SerializedStyles => css`
     box-sizing: border-box;
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: #dddbd1;
+    background-color: ${backgroundColour};
 
     * {
         box-sizing: border-box;
@@ -153,6 +153,7 @@ export interface ContributionsTemplateProps {
     supportingText: React.ReactElement;
     ticker?: React.ReactElement;
     cta: React.ReactElement;
+    backgroundColour: string;
 }
 
 const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
@@ -162,9 +163,10 @@ const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
     supportingText,
     ticker,
     cta,
+    backgroundColour,
 }: ContributionsTemplateProps) => {
     return (
-        <div css={banner}>
+        <div css={banner(backgroundColour)}>
             <div css={container}>
                 <div css={closeButtonContainerMobile}>
                     <Hide above="tablet">{closeButton}</Hide>
