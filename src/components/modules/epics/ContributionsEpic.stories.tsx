@@ -1,260 +1,45 @@
-import React, { ReactElement } from 'react';
-import { ContributionsEpic } from './ContributionsEpic';
-import { withKnobs, text, object } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../../../utils/StorybookWrapper';
-import testData from './ContributionsEpic.testData';
-import { TickerCountType, TickerEndType, Variant } from '../../../lib/variants';
-import { getArticleViewCountForWeeks } from '../../../lib/history';
-import { EpicTracking } from './ContributionsEpicTypes';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+import { ContributionsEpic, EpicProps } from './ContributionsEpic';
+import { TickerCountType, TickerEndType } from '../../../lib/variants';
+import { props } from './utils/storybook';
 
 export default {
     component: ContributionsEpic,
-    title: 'Components/ContributionsEpic',
-    decorators: [withKnobs],
+    title: 'Epics/Contributions',
+    args: props,
+} as Meta;
+
+const Template: Story<EpicProps> = (props: EpicProps) => <ContributionsEpic {...props} />;
+
+export const Default = Template.bind({});
+
+export const WithBackgroundImage = Template.bind({});
+WithBackgroundImage.args = {
+    variant: {
+        ...props.variant,
+        backgroundImageUrl:
+            'https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixlib=rb-1.2.1&auto=format&fit=crop&w=1701&q=80',
+    },
 };
 
-// Number of articles viewed
-// Used to replace the template placeholder
-const periodInWeeks = 52;
-const numArticles = getArticleViewCountForWeeks(
-    testData.targeting.weeklyArticleHistory,
-    periodInWeeks,
-);
-
-export const defaultStory = (): ReactElement => {
-    // Epic content props
-    const variant: Variant = {
-        name: 'Test Epic',
-        heading: text('heading', testData.content.heading),
-        paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlightedText: text('highlightedText', testData.content.highlightedText),
-        cta: {
-            text: text('primaryCta.text', testData.content.cta.text),
-            baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
-        },
-    };
-
-    // Epic metadata props
-    const epicTracking: EpicTracking = {
-        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        componentType: testData.tracking.componentType,
-        products: testData.tracking.products,
-        platformId: text('platformId', testData.tracking.platformId),
-        clientName: testData.tracking.clientName,
-        campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
-        abTestName: text('abTestName', testData.tracking.abTestName),
-        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
-    };
-
-    // Epic countryCode prop
-    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpic
-                variant={variant}
-                tracking={epicTracking}
-                countryCode={countryCode}
-                numArticles={numArticles}
-            />
-        </StorybookWrapper>
-    );
-};
-
-defaultStory.story = { name: 'Default Epic' };
-
-export const backgroundImageStory = (): ReactElement => {
-    // Epic content props
-    const variant: Variant = {
-        name: 'Test Epic',
-        heading: text('heading', testData.content.heading),
-        paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlightedText: text('highlightedText', testData.content.highlightedText),
-        backgroundImageUrl: text('backgroundImageUrl', testData.content.backgroundImageUrl),
-        cta: {
-            text: text('primaryCta.text', testData.content.cta.text),
-            baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
-        },
-    };
-
-    // Epic metadata props
-    const epicTracking = {
-        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        componentType: testData.tracking.componentType,
-        products: testData.tracking.products,
-        platformId: text('platformId', testData.tracking.platformId),
-        clientName: testData.tracking.clientName,
-        campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
-        abTestName: text('abTestName', testData.tracking.abTestName),
-        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
-    };
-
-    // Epic countryCode prop
-    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpic
-                variant={variant}
-                tracking={epicTracking}
-                countryCode={countryCode}
-                numArticles={numArticles}
-            />
-        </StorybookWrapper>
-    );
-};
-
-backgroundImageStory.story = { name: 'Epic with Image' };
-
-export const secondaryButtonStory = (): ReactElement => {
-    // Epic content props
-    const variant: Variant = {
-        name: 'Test Epic',
-        heading: text('heading', testData.content.heading),
-        paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlightedText: text('highlightedText', testData.content.highlightedText),
-        cta: {
-            text: text('primaryCta.text', testData.content.cta.text),
-            baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
-        },
-        secondaryCta: {
-            text: text('secondaryCta.text', testData.content.secondaryCta.text),
-            baseUrl: text('secondaryCta.baseUrl', testData.content.secondaryCta.baseUrl),
-        },
-    };
-
-    // Epic metadata props
-    const epicTracking = {
-        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        componentType: testData.tracking.componentType,
-        products: testData.tracking.products,
-        platformId: text('platformId', testData.tracking.platformId),
-        clientName: testData.tracking.clientName,
-        campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
-        abTestName: text('abTestName', testData.tracking.abTestName),
-        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
-    };
-
-    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpic
-                variant={variant}
-                tracking={epicTracking}
-                countryCode={countryCode}
-                numArticles={numArticles}
-            />
-        </StorybookWrapper>
-    );
-};
-
-secondaryButtonStory.story = { name: 'Epic with Secondary Button' };
-
-export const epicReminderStory = (): ReactElement => {
-    // Epic content props
-    const variant: Variant = {
-        name: 'Test Epic',
-        heading: text('heading', testData.content.heading),
-        paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlightedText: text('highlightedText', testData.content.highlightedText),
-        cta: {
-            text: text('primaryCta.text', testData.content.cta.text),
-            baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
-        },
+export const WithReminder = Template.bind({});
+WithReminder.args = {
+    variant: {
+        ...props.variant,
+        secondaryCta: undefined,
         showReminderFields: {
-            reminderCTA: text('reminderCTA', testData.content.showReminderFields.reminderCTA),
-            reminderDate: text('reminderDate', testData.content.showReminderFields.reminderDate),
-            reminderDateAsString: text(
-                'reminderDateAsString',
-                testData.content.showReminderFields.reminderDateAsString,
-            ),
+            reminderCTA: 'Remind me in May',
+            reminderDate: '2020-05-18T09:30:00',
+            reminderDateAsString: 'May',
         },
-    };
-
-    // Epic metadata props
-    const epicTracking = {
-        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        componentType: testData.tracking.componentType,
-        products: testData.tracking.products,
-        platformId: text('platformId', testData.tracking.platformId),
-        clientName: testData.tracking.clientName,
-        campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
-        abTestName: text('abTestName', testData.tracking.abTestName),
-        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
-    };
-
-    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpic
-                variant={variant}
-                tracking={epicTracking}
-                countryCode={countryCode}
-                numArticles={numArticles}
-            />
-        </StorybookWrapper>
-    );
+    },
 };
 
-epicReminderStory.story = { name: 'Epic with Reminder' };
-
-export const epicWithoutButtons = (): ReactElement => {
-    // Epic content props
-    const variant: Variant = {
-        name: 'Test Epic',
-        heading: text('heading', testData.content.heading),
-        paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlightedText: text('highlightedText', testData.content.highlightedText),
-    };
-
-    // Epic metadata props
-    const epicTracking = {
-        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        componentType: testData.tracking.componentType,
-        products: testData.tracking.products,
-        platformId: text('platformId', testData.tracking.platformId),
-        clientName: testData.tracking.clientName,
-        campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
-        abTestName: text('abTestName', testData.tracking.abTestName),
-        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
-    };
-
-    // Epic countryCode prop
-    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpic
-                variant={variant}
-                tracking={epicTracking}
-                countryCode={countryCode}
-                numArticles={numArticles}
-            />
-        </StorybookWrapper>
-    );
-};
-
-epicWithoutButtons.story = { name: 'Epic without buttons' };
-
-export const epicWithTicker = (): ReactElement => {
-    // Epic content props
-    const variant: Variant = {
-        name: 'Test Epic',
-        heading: text('heading', testData.content.heading),
-        paragraphs: object('paragraphs', testData.content.paragraphs),
-        highlightedText: text('highlightedText', testData.content.highlightedText),
+export const WithTicker = Template.bind({});
+WithTicker.args = {
+    variant: {
+        ...props.variant,
         tickerSettings: {
             countType: TickerCountType.money,
             endType: TickerEndType.unlimited,
@@ -269,39 +54,5 @@ export const epicWithTicker = (): ReactElement => {
                 goal: 100000,
             },
         },
-        cta: {
-            text: text('primaryCta.text', testData.content.cta.text),
-            baseUrl: text('primaryCta.baseUrl', testData.content.cta.baseUrl),
-        },
-    };
-
-    // Epic metadata props
-    const epicTracking = {
-        ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
-        componentType: testData.tracking.componentType,
-        products: testData.tracking.products,
-        platformId: text('platformId', testData.tracking.platformId),
-        clientName: testData.tracking.clientName,
-        campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
-        abTestName: text('abTestName', testData.tracking.abTestName),
-        abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
-        referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),
-    };
-
-    // Epic countryCode prop
-    const countryCode = text('countryCode', testData.targeting.countryCode || 'GB');
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpic
-                variant={variant}
-                tracking={epicTracking}
-                countryCode={countryCode}
-                numArticles={numArticles}
-            />
-        </StorybookWrapper>
-    );
+    },
 };
-
-epicWithTicker.story = { name: 'Epic with Ticker' };
