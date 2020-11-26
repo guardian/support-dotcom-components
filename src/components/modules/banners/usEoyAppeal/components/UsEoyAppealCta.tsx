@@ -1,16 +1,23 @@
 import React from 'react';
+import { css } from '@emotion/core';
+import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from 'emotion-theming';
-import { LinkButton, Button, buttonBrandAlt } from '@guardian/src-button';
+import { LinkButton, buttonBrandAlt } from '@guardian/src-button';
 import ContributionsTemplateCta from '../../contributionsTemplate/ContributionsTemplateCta';
 import { BannerTracking } from '../../../../../types/BannerTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../../lib/tracking';
+
+const readMoreButtonStyles = css`
+    color: ${neutral[7]};
+    border-color: ${neutral[7]};
+`;
 
 const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
 
 interface UsEoyAppealCtaProps {
     onContributeClick: () => void;
-    onNotNowClick: () => void;
+    onReadMoreClick: () => void;
     tracking: BannerTracking;
     countryCode: string;
     isSupporter: boolean;
@@ -18,7 +25,7 @@ interface UsEoyAppealCtaProps {
 
 const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
     onContributeClick,
-    onNotNowClick,
+    onReadMoreClick,
     tracking,
     countryCode,
     isSupporter,
@@ -59,21 +66,30 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                     </div>
                 </ThemeProvider>
             }
+            // TODO: Add link to impact report
             secondaryCta={
-                <ThemeProvider theme={buttonBrandAlt}>
-                    <div>
-                        <Hide above="tablet">
-                            <Button onClick={onNotNowClick} size="small" priority="subdued">
-                                Not now
-                            </Button>
-                        </Hide>
-                        <Hide below="tablet">
-                            <Button onClick={onNotNowClick} size="default" priority="subdued">
-                                Not now
-                            </Button>
-                        </Hide>
-                    </div>
-                </ThemeProvider>
+                <div>
+                    <Hide above="tablet">
+                        <LinkButton
+                            onClick={onReadMoreClick}
+                            css={readMoreButtonStyles}
+                            size="small"
+                            priority="tertiary"
+                        >
+                            Read more
+                        </LinkButton>
+                    </Hide>
+                    <Hide below="tablet">
+                        <LinkButton
+                            onClick={onReadMoreClick}
+                            css={readMoreButtonStyles}
+                            size="default"
+                            priority="tertiary"
+                        >
+                            Read more
+                        </LinkButton>
+                    </Hide>
+                </div>
             }
         />
     );
