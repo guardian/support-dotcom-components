@@ -16,11 +16,14 @@ const UsEoyAppealVisual: React.FC = () => (
     <ContributionsTemplateHeader
         copy={
             <>
-                <Hide above="tablet">As America begins a new chapter…</Hide>
+                <Hide above="tablet">
+                    <span css={firstLineStyles}>Help unite America</span>{' '}
+                    <span css={secondLineStyles}>this Giving Tuesday</span>
+                </Hide>
                 <Hide below="tablet">
-                    <span css={firstLineStyles}>America’s future:</span>
+                    <span css={firstLineStyles}>Help unite America</span>
                     <br />
-                    <span css={secondLineStyles}>what’s next?</span>
+                    <span css={secondLineStyles}>this Giving Tuesday</span>
                 </Hide>
             </>
         }
