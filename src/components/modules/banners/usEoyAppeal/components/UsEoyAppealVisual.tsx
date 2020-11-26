@@ -8,11 +8,6 @@ const visualStyles = css`
         ${from.tablet} {
             object-fit: contain;
         }
-
-        ${from.desktop} {
-            margin-top: 1%;
-            height: 105%;
-        }
     }
 `;
 
@@ -22,10 +17,14 @@ const UsEoyAppealVisual: React.FC = () => (
             <picture css={visualStyles}>
                 <source
                     media="(max-width: 739px)"
-                    srcSet="https://media.guim.co.uk/c7567686da9c9d6fcdb3fdbe14dc24acee86cc04/0_0_960_432/960.png"
+                    srcSet="https://media.guim.co.uk/0c02b0c63cfdb5e73a86bb4c5a4e1e88b17e24c8/0_0_960_432/960.png"
                 />
-                <source srcSet="https://media.guim.co.uk/616cc303876506fd5849d55adb88e42d381153fe/0_0_720_681/720.png" />
-                <img src="https://media.guim.co.uk/53cb3ec24999db33d9957cd5f70223350f4fbba1/0_0_960_432/960.png" />
+                <source
+                    media="(max-width: 979px)"
+                    srcSet="https://media.guim.co.uk/3ccf1f7b696e373324fd9a2087a4152b2be9acac/0_0_720_681/720.png"
+                />
+                <source srcSet="https://media.guim.co.uk/1086a07886ece443319926c063468e58c6423106/0_0_720_681/720.png" />
+                <img src="https://media.guim.co.uk/0c02b0c63cfdb5e73a86bb4c5a4e1e88b17e24c8/0_0_960_432/960.png" />
             </picture>
         }
     />
