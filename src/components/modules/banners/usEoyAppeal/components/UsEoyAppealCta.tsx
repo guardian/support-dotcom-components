@@ -14,6 +14,8 @@ const readMoreButtonStyles = css`
 `;
 
 const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
+const IMPACT_REPORT_LINK =
+    'https://www.theguardian.com/us-news/2020/nov/24/guardian-fundraiser-end-of-year-2020-contribute?INTCMP=us_eoy_banner';
 
 interface UsEoyAppealCtaProps {
     onContributeClick: () => void;
@@ -66,11 +68,11 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                     </div>
                 </ThemeProvider>
             }
-            // TODO: Add link to impact report
             secondaryCta={
                 <div>
                     <Hide above="tablet">
                         <LinkButton
+                            href={IMPACT_REPORT_LINK}
                             onClick={onReadMoreClick}
                             css={readMoreButtonStyles}
                             size="small"
@@ -81,6 +83,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                     </Hide>
                     <Hide below="tablet">
                         <LinkButton
+                            href={IMPACT_REPORT_LINK}
                             onClick={onReadMoreClick}
                             css={readMoreButtonStyles}
                             size="default"
