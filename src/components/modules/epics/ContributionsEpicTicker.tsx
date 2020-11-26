@@ -119,7 +119,7 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
     }
 };
 
-type Props = {
+export type Props = {
     settings: TickerSettings;
     total: number;
     goal: number;
