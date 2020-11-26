@@ -31,7 +31,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                                 journalism grounded in evidence can help unite the US. You&apos;ve
                                 read{' '}
                                 <ArticleCountOptOut
-                                    numArticles={44}
+                                    numArticles={numArticles}
                                     nextWord=" articles"
                                     type="us-eoy-banner"
                                 />{' '}
@@ -52,7 +52,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                             Decency, civility and truth can help heal divisions. Fact-based
                             journalism grounded in evidence can help unite the US. You&apos;ve read{' '}
                             <ArticleCountOptOut
-                                numArticles={44}
+                                numArticles={numArticles}
                                 nextWord=" articles"
                                 type="us-eoy-banner"
                             />{' '}
