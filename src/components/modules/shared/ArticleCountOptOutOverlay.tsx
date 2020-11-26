@@ -30,7 +30,7 @@ const COLOURS = {
 const BACKGROUND_COLOURS = {
     epic: brand[400],
     banner: brandAltBackground.primary,
-    ['us-eoy-banner']: '#DDDBD1',
+    ['us-eoy-banner']: '#E7D4B9',
 };
 
 const BORDER_COLOURS = {
