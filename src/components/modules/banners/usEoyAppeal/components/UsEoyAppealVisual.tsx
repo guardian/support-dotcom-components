@@ -22,9 +22,9 @@ const UsEoyAppealVisual: React.FC = () => (
             <picture css={visualStyles}>
                 <source
                     media="(max-width: 739px)"
-                    srcSet="https://media.guim.co.uk/53cb3ec24999db33d9957cd5f70223350f4fbba1/0_0_960_432/960.png"
+                    srcSet="https://media.guim.co.uk/c7567686da9c9d6fcdb3fdbe14dc24acee86cc04/0_0_960_432/960.png"
                 />
-                <source srcSet="https://media.guim.co.uk/cdba08ee85134397376c8ad1a20a78c670431f26/0_122_720_681/720.png" />
+                <source srcSet="https://media.guim.co.uk/616cc303876506fd5849d55adb88e42d381153fe/0_0_720_681/720.png" />
                 <img src="https://media.guim.co.uk/53cb3ec24999db33d9957cd5f70223350f4fbba1/0_0_960_432/960.png" />
             </picture>
         }
