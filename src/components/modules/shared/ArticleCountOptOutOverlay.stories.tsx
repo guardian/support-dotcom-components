@@ -1,57 +1,36 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
 import {
     ArticleCountOptOutOverlay,
     ArticleCountOptOutOverlayProps,
 } from './ArticleCountOptOutOverlay';
-import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 
 export default {
     component: ArticleCountOptOutOverlay,
-    title: 'Components/ArticleCountOptOutOverlay',
-};
-
-const props: ArticleCountOptOutOverlayProps = {
-    type: 'banner',
-    hasOptedOut: false,
-    onClose: (): void => console.log('close'),
-    onOptOut: (): void => console.log('close'),
-};
-
-export const Epic = (): ReactElement => {
-    const epicProps: ArticleCountOptOutOverlayProps = {
-        ...props,
-        type: 'epic',
-    };
-
-    return (
-        <StorybookWrapper>
-            <ArticleCountOptOutOverlay {...epicProps} />
-        </StorybookWrapper>
-    );
-};
-
-export const Banner = (): ReactElement => {
-    const epicProps: ArticleCountOptOutOverlayProps = {
-        ...props,
+    title: 'Shared/ArticleCountOptOutOverlay',
+    args: {
         type: 'banner',
-    };
+        hasOptedOut: false,
+        onClose: (): void => console.log('close'),
+        onOptOut: (): void => console.log('close'),
+    },
+} as Meta;
 
-    return (
-        <StorybookWrapper>
-            <ArticleCountOptOutOverlay {...epicProps} />
-        </StorybookWrapper>
-    );
+const Template: Story<ArticleCountOptOutOverlayProps> = (props: ArticleCountOptOutOverlayProps) => (
+    <ArticleCountOptOutOverlay {...props} />
+);
+
+export const Epic = Template.bind({});
+Epic.args = {
+    type: 'epic',
 };
 
-export const UsEoyAppealBanner = (): ReactElement => {
-    const epicProps: ArticleCountOptOutOverlayProps = {
-        ...props,
-        type: 'us-eoy-banner',
-    };
+export const Banner = Template.bind({});
+Banner.args = {
+    type: 'banner',
+};
 
-    return (
-        <StorybookWrapper>
-            <ArticleCountOptOutOverlay {...epicProps} />
-        </StorybookWrapper>
-    );
+export const UsEoyAppealBanner = Template.bind({});
+UsEoyAppealBanner.args = {
+    type: 'us-eoy-banner',
 };

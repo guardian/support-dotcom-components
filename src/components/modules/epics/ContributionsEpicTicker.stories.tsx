@@ -1,85 +1,52 @@
-import React, { ReactElement } from 'react';
-import { ContributionsEpicTicker } from './ContributionsEpicTicker';
-import { number, withKnobs } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../../../utils/StorybookWrapper';
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+import { ContributionsEpicTicker, Props } from './ContributionsEpicTicker';
 import { TickerCountType, TickerEndType } from '../../../lib/variants';
 
 export default {
     component: ContributionsEpicTicker,
-    title: 'Components/ContributionsEpicTicker',
-    decorators: [withKnobs],
+    title: 'Epics/ContributionsTicker',
+    args: {
+        settings: {
+            countType: TickerCountType.money,
+            endType: TickerEndType.unlimited,
+            currencySymbol: '£',
+            copy: {
+                countLabel: 'contributed',
+                goalReachedPrimary: "We've met our goal - thank you",
+                goalReachedSecondary: 'Contributions are still being accepted',
+            },
+        },
+        total: 50_000,
+        goal: 100_000,
+    },
+} as Meta;
+
+const Template: Story<Props> = (props: Props) => <ContributionsEpicTicker {...props} />;
+
+export const Default = Template.bind({});
+
+export const GoalReached = Template.bind({});
+GoalReached.args = {
+    total: 150_000,
 };
 
-const moneyTickerSettings = {
-    countType: TickerCountType.money,
-    endType: TickerEndType.unlimited,
-    currencySymbol: '£',
-    copy: {
-        countLabel: 'contributed',
-        goalReachedPrimary: "We've met our goal - thank you",
-        goalReachedSecondary: 'Contributions are still being accepted',
+export const Supporters = Template.bind({});
+Supporters.args = {
+    settings: {
+        countType: TickerCountType.people,
+        endType: TickerEndType.unlimited,
+        currencySymbol: '£',
+        copy: {
+            countLabel: 'supporters in Australia',
+            goalReachedPrimary: "We've hit our goal!",
+            goalReachedSecondary: 'but you can still support us',
+        },
     },
 };
 
-export const defaultStory = (): ReactElement => {
-    const total = number('total', 50000);
-    const goal = number('goal', 100000);
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings} />
-        </StorybookWrapper>
-    );
+export const SupportersGoalReached = Template.bind({});
+SupportersGoalReached.args = {
+    ...Supporters.args,
+    total: 150_000,
 };
-
-defaultStory.story = { name: 'Ticker' };
-
-export const goalReached = (): ReactElement => {
-    const total = number('total', 100000);
-    const goal = number('goal', 100000);
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings} />
-        </StorybookWrapper>
-    );
-};
-
-goalReached.story = { name: 'Ticker - Goal Reached' };
-
-export const goalExceeded = (): ReactElement => {
-    const total = number('total', 101000);
-    const goal = number('goal', 100000);
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={moneyTickerSettings} />
-        </StorybookWrapper>
-    );
-};
-
-goalExceeded.story = { name: 'Ticker - Goal Exceeded' };
-
-const peopleTickerSettings = {
-    countType: TickerCountType.people,
-    endType: TickerEndType.unlimited,
-    currencySymbol: '£',
-    copy: {
-        countLabel: 'supporters in Australia',
-        goalReachedPrimary: "We've hit our goal!",
-        goalReachedSecondary: 'but you can still support us',
-    },
-};
-
-export const supportersGoalExceeded = (): ReactElement => {
-    const total = number('total', 101000);
-    const goal = number('goal', 100000);
-
-    return (
-        <StorybookWrapper>
-            <ContributionsEpicTicker total={total} goal={goal} settings={peopleTickerSettings} />
-        </StorybookWrapper>
-    );
-};
-
-supportersGoalExceeded.story = { name: 'Ticker - Supporters / Goal Exceeded' };

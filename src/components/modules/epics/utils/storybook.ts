@@ -1,11 +1,9 @@
-import {
-    EpicTestTracking,
-    EpicPageTracking,
-    EpicTracking,
-    EpicTargeting,
-} from './ContributionsEpicTypes';
+import { EpicTestTracking, EpicPageTracking, EpicTracking } from '../ContributionsEpicTypes';
+import { EpicProps } from '../ContributionsEpic';
+import { Variant } from '../../../../lib/variants';
 
-const content = {
+const variant: Variant = {
+    name: 'control',
     heading: 'Since you’re here...',
     paragraphs: [
         '... we have a small favour to ask. More people, like you, are reading and supporting the Guardian’s independent, investigative journalism than ever before. And unlike many news organisations, we made the choice to keep our reporting open for all, regardless of where they live or what they can afford to pay.',
@@ -15,13 +13,6 @@ const content = {
     ],
     highlightedText:
         'Support The Guardian from as little as %%CURRENCY_SYMBOL%%1 - and it only takes a minute. Thank you.',
-    backgroundImageUrl:
-        'https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixlib=rb-1.2.1&auto=format&fit=crop&w=1701&q=80',
-    showReminderFields: {
-        reminderCTA: 'Remind me in May',
-        reminderDate: '2020-05-18T09:30:00',
-        reminderDateAsString: 'May',
-    },
     cta: {
         text: 'Support The Guardian',
         baseUrl: 'https://support.theguardian.com/contribute',
@@ -55,34 +46,4 @@ const tracking: EpicTracking = {
     ...testTracking,
 };
 
-const targeting: EpicTargeting = {
-    contentType: 'Article',
-    sectionName: 'environment',
-    shouldHideReaderRevenue: false,
-    isMinuteArticle: false,
-    isPaidContent: false,
-    tags: [
-        {
-            id: 'environment/drought',
-            type: 'Keyword',
-        },
-        {
-            id: 'environment/climate-change',
-            type: 'Keyword',
-        },
-    ],
-    showSupportMessaging: true,
-    isRecurringContributor: false,
-    lastOneOffContributionDate: 1548979200000, // 2019-02-01
-    mvtId: 2,
-    weeklyArticleHistory: [
-        { week: 18337, count: 10 },
-        { week: 18330, count: 5 },
-    ],
-    hasOptedOutOfArticleCount: false,
-    countryCode: 'GB',
-};
-
-const testData = { content, tracking, testTracking, pageTracking, targeting };
-
-export default testData;
+export const props: EpicProps = { variant, tracking, numArticles: 0 };

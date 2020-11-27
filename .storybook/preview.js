@@ -1,8 +1,8 @@
 import React from "react"
-import { addParameters, addDecorator } from "@storybook/react"
 import { useEffect } from "@storybook/addons"
 import { FocusStyleManager } from "@guardian/src-foundations/utils"
-import { breakpoints, Breakpoint } from "@guardian/src-foundations"
+import { breakpoints } from "@guardian/src-foundations"
+import { StylesDecorator } from './StylesDecorator'
 
 const isProd = process.env.NODE_ENV === "production"
 
@@ -55,7 +55,7 @@ const viewportEntries = Object.entries(breakpoints).map(([name, width]) => {
 })
 const viewports = Object.fromEntries(viewportEntries)
 
-addParameters({
+export const parameters = {
 	options: {
 		isToolshown: !isProd,
 		isFullscreen: isProd,
@@ -63,8 +63,9 @@ addParameters({
 	viewport: {
 		viewports,
 		defaultViewport: "responsive",
-	},
-})
+    },
+    layout: "fullscreen",
+}
 
 const FocusManagerDecorator = storyFn => {
 	useEffect(() => {
@@ -74,4 +75,4 @@ const FocusManagerDecorator = storyFn => {
 	return <div>{storyFn()}</div>
 }
 
-addDecorator(FocusManagerDecorator)
+export const decorators = [FocusManagerDecorator, StylesDecorator]
