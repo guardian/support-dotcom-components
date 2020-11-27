@@ -11,6 +11,10 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../../lib/tra
 const readMoreButtonStyles = css`
     color: ${neutral[7]};
     border-color: ${neutral[7]};
+
+    &:hover {
+        background-color: #f3eade;
+    }
 `;
 
 const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
