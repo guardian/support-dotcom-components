@@ -46,32 +46,4 @@ const tracking: EpicTracking = {
     ...testTracking,
 };
 
-// const targeting: EpicTargeting = {
-//     contentType: 'Article',
-//     sectionName: 'environment',
-//     shouldHideReaderRevenue: false,
-//     isMinuteArticle: false,
-//     isPaidContent: false,
-//     tags: [
-//         {
-//             id: 'environment/drought',
-//             type: 'Keyword',
-//         },
-//         {
-//             id: 'environment/climate-change',
-//             type: 'Keyword',
-//         },
-//     ],
-//     showSupportMessaging: true,
-//     isRecurringContributor: false,
-//     lastOneOffContributionDate: 1548979200000, // 2019-02-01
-//     mvtId: 2,
-//     weeklyArticleHistory: [
-//         { week: 18337, count: 10 },
-//         { week: 18330, count: 5 },
-//     ],
-//     hasOptedOutOfArticleCount: false,
-//     countryCode: 'GB',
-// };
-
 export const props: EpicProps = { variant, tracking, numArticles: 0 };
