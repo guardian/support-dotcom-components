@@ -2,11 +2,6 @@ import { selectBannerTest } from './bannerSelection';
 import { BannerDeployCaches } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { contributionsBanner, digiSubs } from '../../modules';
-import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBannerTest';
-import { GuardianWeeklyBanner } from './GuardianWeeklyBannerTest';
-
-const getTests = (): Promise<BannerTest[]> =>
-    Promise.resolve([DigitalSubscriptionsBanner, GuardianWeeklyBanner]);
 
 const getBannerDeployCache = (date: string): BannerDeployCaches =>
     ({
@@ -31,117 +26,6 @@ const getBannerDeployCache = (date: string): BannerDeployCaches =>
 describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
-
-    describe('Subs Banner', () => {
-        const targeting = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            mvtId: 3,
-            countryCode: 'US',
-            engagementBannerLastClosedAt: secondDate,
-            hasOptedOutOfArticleCount: false,
-        };
-
-        const tracking = {
-            ophanPageId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-
-        it('returns banner if it has never been dismissed', () => {
-            const cache = getBannerDeployCache(secondDate);
-
-            return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
-                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
-            });
-        });
-
-        it('returns banner if has been redeployed', () => {
-            const cache = getBannerDeployCache(firstDate);
-
-            return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
-                expect(result && result.test.name).toBe('DigitalSubscriptionsBanner');
-            });
-        });
-
-        it('returns null if there are insufficient page views', () => {
-            const cache = getBannerDeployCache(firstDate);
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    alreadyVisitedCount: 1,
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
-                expect(result).toBe(null);
-            });
-        });
-
-        it('returns null if user is logged in and has a subscription', () => {
-            const cache = getBannerDeployCache(firstDate);
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    showSupportMessaging: false,
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
-                expect(result).toBe(null);
-            });
-        });
-    });
-
-    describe('Weekly Banner', () => {
-        const targeting = {
-            alreadyVisitedCount: 3,
-            shouldHideReaderRevenue: false,
-            isPaidContent: false,
-            showSupportMessaging: true,
-            mvtId: 3,
-            countryCode: 'DE',
-            engagementBannerLastClosedAt: secondDate,
-            hasOptedOutOfArticleCount: false,
-        };
-
-        const tracking = {
-            ophanPageId: '',
-            platformId: '',
-            referrerUrl: '',
-            clientName: '',
-        };
-        it('returns banner if it has never been dismissed', () => {
-            const cache = getBannerDeployCache(secondDate);
-
-            return selectBannerTest(targeting, tracking, '', getTests, cache).then(result => {
-                expect(result && result.test.name).toBe('GuardianWeeklyBanner');
-            });
-        });
-
-        it('returns null if shouldHideReaderRevenue', () => {
-            const cache = getBannerDeployCache(firstDate);
-
-            return selectBannerTest(
-                Object.assign(targeting, {
-                    shouldHideReaderRevenue: true,
-                }),
-                tracking,
-                '',
-                getTests,
-                cache,
-            ).then(result => {
-                expect(result).toBe(null);
-            });
-        });
-    });
 
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
