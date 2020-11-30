@@ -1,8 +1,5 @@
 {
     "Parameters": {
-        "Foo": {
-            "Type": "String",
-        },
         "Stack": {
             "Type": "String",
             "Default": "frontend"
@@ -393,7 +390,8 @@
                                 "             --log-opt awslogs-create-group=true             ",
                                 {
                                     "Ref": "DockerTag"
-                                }
+                                },
+                                "\n echo hello"
                             ]
                         ]
                     }
