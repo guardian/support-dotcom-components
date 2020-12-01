@@ -17,8 +17,8 @@ const UsEoyAppealVisual: React.FC = () => (
         copy={
             <>
                 <Hide above="tablet">
-                    <span css={firstLineStyles}>Help unite America</span>{' '}
-                    <span css={secondLineStyles}>this Giving Tuesday</span>
+                    <span css={firstLineStyles}>Fact-based journalism</span>{' '}
+                    <span css={secondLineStyles}>can help rebuild America</span>
                 </Hide>
                 <Hide below="tablet">
                     <span css={firstLineStyles}>Help unite America</span>
