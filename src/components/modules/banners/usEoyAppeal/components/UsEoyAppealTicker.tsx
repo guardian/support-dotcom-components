@@ -1,5 +1,5 @@
 import React from 'react';
-import { lifestyle } from '@guardian/src-foundations/palette';
+import { brand } from '@guardian/src-foundations/palette';
 import { TickerSettings } from '../../../../../lib/variants';
 import ContributionsTemplateTicker from '../../contributionsTemplate/ContributionsTemplateTicker';
 
@@ -10,7 +10,7 @@ interface UsEoyAppealTickerProps {
 const UsEoyAppealTicker: React.FC<UsEoyAppealTickerProps> = ({
     tickerSettings,
 }: UsEoyAppealTickerProps) => (
-    <ContributionsTemplateTicker settings={tickerSettings} accentColour={lifestyle[300]} />
+    <ContributionsTemplateTicker settings={tickerSettings} accentColour={brand[400]} />
 );
 
 export default UsEoyAppealTicker;

@@ -184,6 +184,7 @@ const buildBannerData = async (
                 targeting.weeklyArticleHistory,
                 test.articlesViewedSettings?.periodInWeeks,
             ),
+            hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
             tickerSettings,
         };
 

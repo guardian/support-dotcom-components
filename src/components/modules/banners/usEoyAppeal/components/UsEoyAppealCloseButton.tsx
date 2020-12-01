@@ -8,6 +8,10 @@ import ContributionsTemplateCloseButton from '../../contributionsTemplate/Contri
 const closeButtonStyles = css`
     color: ${neutral[7]};
     border-color: ${neutral[7]};
+
+    &:hover {
+        background-color: #f3eade;
+    }
 `;
 
 const Roundel = (

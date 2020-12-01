@@ -109,6 +109,7 @@ export interface BannerProps {
     tickerSettings?: TickerSettings;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
+    hasOptedOutOfArticleCount?: boolean;
 }
 
 export interface RawVariantParams {
