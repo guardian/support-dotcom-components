@@ -7,7 +7,7 @@ export const tracking: BannerTracking = {
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
     referrerUrl: 'http://localhost:3030/Article',
-    abTestName: 'UsEoyAppealBanner',
+    abTestName: 'UsEoyAppealBannerSupporters',
     abTestVariant: 'control',
     campaignCode: 'UsEoyAppealBanner_control',
 };

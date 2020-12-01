@@ -15,10 +15,29 @@ const tickerSettings = {
 
 const isLive = true;
 
-export const UsEoyAppealBanner: BannerTest = {
-    name: 'UsEoyGTAppeal',
+export const UsEoyAppealBannerSupporters: BannerTest = {
+    name: 'UsEoyGTAppealSupporters',
     bannerChannel: 'contributions',
     testAudience: 'AllExistingSupporters',
+    locations: ['UnitedStates'],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => isLive,
+    minPageViews: 2,
+    variants: [
+        {
+            name: 'control',
+            modulePath: usEoyAppealWithVisual.endpointPath,
+            moduleName: 'UsEoyAppealBannerWithVisual',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            tickerSettings,
+        },
+    ],
+};
+
+export const UsEoyAppealBannerNonSupporters: BannerTest = {
+    name: 'UsEoyGTAppealNonSupporters',
+    bannerChannel: 'contributions',
+    testAudience: 'AllNonSupporters',
     locations: ['UnitedStates'],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => isLive,
