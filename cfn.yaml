@@ -390,8 +390,7 @@
                                 "             --log-opt awslogs-create-group=true             ",
                                 {
                                     "Ref": "DockerTag"
-                                },
-                                "\n echo hello"
+                                }
                             ]
                         ]
                     }
