@@ -16,7 +16,7 @@ const tickerSettings = {
 const isLive = true;
 
 export const UsEoyAppealBanner: BannerTest = {
-    name: 'UsEoyAppeal',
+    name: 'UsEoyGTAppeal',
     bannerChannel: 'contributions',
     testAudience: 'AllExistingSupporters',
     locations: ['UnitedStates'],
