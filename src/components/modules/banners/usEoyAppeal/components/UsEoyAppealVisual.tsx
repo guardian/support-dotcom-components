@@ -8,6 +8,11 @@ const visualStyles = css`
         ${from.tablet} {
             object-fit: contain;
         }
+
+        ${from.desktop} {
+            margin-top: 1%;
+            height: 105%;
+        }
     }
 `;
 
@@ -15,28 +20,12 @@ const UsEoyAppealVisual: React.FC = () => (
     <ContributionsTemplateVisual
         image={
             <picture css={visualStyles}>
-                {/* mobile, reduced */}
                 <source
                     media="(max-width: 739px)"
-                    srcSet="https://media.guim.co.uk/0c02b0c63cfdb5e73a86bb4c5a4e1e88b17e24c8/0_0_960_432/960.png"
+                    srcSet="https://media.guim.co.uk/53cb3ec24999db33d9957cd5f70223350f4fbba1/0_0_960_432/960.png"
                 />
-                {/* tablet, reduced */}
-                <source
-                    media="(max-width: 979px) and (prefers-reduced-motion: reduce)"
-                    srcSet="https://media.guim.co.uk/3ccf1f7b696e373324fd9a2087a4152b2be9acac/0_0_720_681/720.png"
-                />
-                {/* desktop, reduced */}
-                <source
-                    media="(prefers-reduced-motion: reduce)"
-                    srcSet="https://media.guim.co.uk/1086a07886ece443319926c063468e58c6423106/0_0_720_681/720.png"
-                />
-                {/* tablet + desktop, animated */}
-                <source
-                    media="(prefers-reduced-motion: no-preference)"
-                    srcSet="https://uploads.guim.co.uk/2020/11/27/us-eoy-gt-desktop.gif"
-                />
-                {/* fallback = mobile, reduced */}
-                <img src="https://media.guim.co.uk/0c02b0c63cfdb5e73a86bb4c5a4e1e88b17e24c8/0_0_960_432/960.png" />
+                <source srcSet="https://media.guim.co.uk/cdba08ee85134397376c8ad1a20a78c670431f26/0_122_720_681/720.png" />
+                <img src="https://media.guim.co.uk/53cb3ec24999db33d9957cd5f70223350f4fbba1/0_0_960_432/960.png" />
             </picture>
         }
     />

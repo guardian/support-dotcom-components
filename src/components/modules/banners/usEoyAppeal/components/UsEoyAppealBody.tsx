@@ -27,44 +27,53 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                         shouldShowArticleCount ? (
                             // supporter + article count
                             <>
-                                Decency, civility and truth can help heal divisions. Fact-based
-                                journalism grounded in evidence can help unite the US. You&apos;ve
-                                read{' '}
+                                Trump’s presidency is ending, but America’s systemic challenges
+                                remain. From broken healthcare to corrosive racial inequality, from
+                                rapacious corporations to a climate crisis, the need for fact-based
+                                reporting that highlights injustice and offers solutions is as great
+                                as ever. You&apos;ve read{' '}
                                 <ArticleCountOptOut
                                     numArticles={numArticles}
                                     nextWord=" articles"
                                     type="us-eoy-banner"
                                 />{' '}
-                                in the last year. We value your support and hope you’ll consider a
+                                in the past year. We value your support and hope you’ll consider a
                                 year-end gift.
                             </>
                         ) : (
                             // supporter + no article count
                             <>
-                                Decency, civility and truth can help heal divisions. Fact-based
-                                journalism grounded in evidence can help unite the US. We value your
-                                support and hope you’ll consider a year-end gift.
+                                Trump’s presidency is ending, but America’s systemic challenges
+                                remain. From broken healthcare to corrosive racial inequality, from
+                                rapacious corporations to a climate crisis, the need for fact-based
+                                reporting that highlights injustice and offers solutions is as great
+                                as ever. We value your support and hope you’ll consider a year-end
+                                gift.
                             </>
                         )
                     ) : shouldShowArticleCount ? (
                         // non-supporter + article count
                         <>
-                            Decency, civility and truth can help heal divisions. Fact-based
-                            journalism grounded in evidence can help unite the US. You&apos;ve read{' '}
+                            Trump’s presidency is ending, but America’s systemic challenges remain.
+                            From a broken healthcare system to corrosive racial inequality, from
+                            rapacious corporations to a climate crisis, the need for robust,
+                            fact-based reporting that highlights injustice and offers solutions is
+                            as great as ever. You&apos;ve read{' '}
                             <ArticleCountOptOut
                                 numArticles={numArticles}
                                 nextWord=" articles"
                                 type="us-eoy-banner"
                             />{' '}
-                            in the last year. We hope you’ll consider a year-end gift to support the
-                            Guardian.
+                            in the past year. We hope you’ll consider a year-end gift.
                         </>
                     ) : (
                         // non-supporter + no article count
                         <>
-                            Decency, civility and truth can help heal divisions. Fact-based
-                            journalism grounded in evidence can help unite the US. We hope you’ll
-                            consider a year-end gift to support the Guardian.
+                            Trump’s presidency is ending, but America’s systemic challenges remain.
+                            From a broken healthcare system to corrosive racial inequality, from
+                            rapacious corporations to a climate crisis, the need for robust,
+                            fact-based reporting that highlights injustice and offers solutions is
+                            as great as ever. We hope you’ll consider a year-end gift.
                         </>
                     )}
                 </Hide>

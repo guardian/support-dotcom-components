@@ -5,8 +5,8 @@ import {
     channel2BannersAllTestsGenerator,
 } from './ChannelBannerTests';
 import {
-    UsEoyAppealBannerSupporters,
-    UsEoyAppealBannerNonSupporters,
+    UsEoyAppealNonSupportersBanner,
+    UsEoyAppealSupportersBanner,
 } from './UsEoyAppealBannerTest';
 import { cacheAsync } from '../../lib/cache';
 
@@ -14,7 +14,7 @@ const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
 
 const usEoyAppealTestGenerator: BannerTestGenerator = () =>
-    Promise.resolve([UsEoyAppealBannerSupporters, UsEoyAppealBannerNonSupporters]);
+    Promise.resolve([UsEoyAppealSupportersBanner, UsEoyAppealNonSupportersBanner]);
 
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 

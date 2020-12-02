@@ -1,5 +1,5 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
-import { usEoyAppealWithVisual } from '../../modules';
+import { usEoyAppeal, usEoyAppealWithVisual } from '../../modules';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
 const tickerSettings = {
@@ -15,27 +15,8 @@ const tickerSettings = {
 
 const isLive = true;
 
-export const UsEoyAppealBannerSupporters: BannerTest = {
-    name: 'UsEoyGTAppealSupporters',
-    bannerChannel: 'contributions',
-    testAudience: 'AllExistingSupporters',
-    locations: ['UnitedStates'],
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => isLive,
-    minPageViews: 2,
-    variants: [
-        {
-            name: 'control',
-            modulePath: usEoyAppealWithVisual.endpointPath,
-            moduleName: 'UsEoyAppealBannerWithVisual',
-            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-            tickerSettings,
-        },
-    ],
-};
-
-export const UsEoyAppealBannerNonSupporters: BannerTest = {
-    name: 'UsEoyGTAppealNonSupporters',
+export const UsEoyAppealNonSupportersBanner: BannerTest = {
+    name: 'UsEoyAppealNonSupporters',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     locations: ['UnitedStates'],
@@ -45,6 +26,39 @@ export const UsEoyAppealBannerNonSupporters: BannerTest = {
     variants: [
         {
             name: 'control',
+            modulePath: usEoyAppeal.endpointPath,
+            moduleName: 'UsEoyAppealBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            tickerSettings,
+        },
+        {
+            name: 'variant',
+            modulePath: usEoyAppealWithVisual.endpointPath,
+            moduleName: 'UsEoyAppealBannerWithVisual',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            tickerSettings,
+        },
+    ],
+};
+
+export const UsEoyAppealSupportersBanner: BannerTest = {
+    name: 'UsEoyAppealSupporters',
+    bannerChannel: 'contributions',
+    testAudience: 'AllExistingSupporters',
+    locations: ['UnitedStates'],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => isLive,
+    minPageViews: 2,
+    variants: [
+        {
+            name: 'control',
+            modulePath: usEoyAppeal.endpointPath,
+            moduleName: 'UsEoyAppealBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            tickerSettings,
+        },
+        {
+            name: 'variant',
             modulePath: usEoyAppealWithVisual.endpointPath,
             moduleName: 'UsEoyAppealBannerWithVisual',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
