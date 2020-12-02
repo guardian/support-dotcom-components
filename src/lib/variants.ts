@@ -356,7 +356,10 @@ export const findTestAndVariant = (
         const variant = selectVariant(test, targeting.mvtId || 1);
         const variantWithReminder: Variant = {
             ...variant,
-            showReminderFields: getReminderFields(variant.showReminderFields),
+            showReminderFields: getReminderFields(
+                variant.showReminderFields,
+                targeting.countryCode,
+            ),
         };
 
         return {
