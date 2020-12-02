@@ -26,6 +26,23 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const getReminderFields = (reminderFields?: ReminderFields): ReminderFields => {
+const US_EOY_APPEAL_REMINDER_FIELDS: ReminderFields = {
+    reminderCTA: 'Remind me late December',
+    reminderDate: `2020-12-28 00:00:00`,
+    reminderDateAsString: `in late December`,
+};
+
+const US_EOY_APPEAL_REMINDER_CUT_OFF = Date.parse('2020-12-27');
+
+const shouldShowUsEoyReminder = (countryCode?: string): boolean =>
+    countryCode == 'US' && Date.now() < US_EOY_APPEAL_REMINDER_CUT_OFF;
+
+export const getReminderFields = (
+    reminderFields?: ReminderFields,
+    countryCode?: string,
+): ReminderFields => {
+    if (shouldShowUsEoyReminder(countryCode)) {
+        return US_EOY_APPEAL_REMINDER_FIELDS;
+    }
     return !!reminderFields ? reminderFields : buildReminderFields();
 };
