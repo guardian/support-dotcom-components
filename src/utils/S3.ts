@@ -1,6 +1,9 @@
 import { GetObjectOutput } from 'aws-sdk/clients/s3';
-
 import AWS from 'aws-sdk';
+
+if (process.env.NODE_ENV === 'development') {
+    AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'membership' });
+}
 const S3 = new AWS.S3();
 
 export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
