@@ -13,6 +13,7 @@ export interface AMPCta {
 }
 
 export interface AMPEpic {
+    variantName?: string;
     heading?: string;
     paragraphs: string[];
     highlightedText?: string;
