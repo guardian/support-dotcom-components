@@ -33,6 +33,7 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { moduleInfos, ModuleInfo } from './modules';
+import {exec} from "typescript-json-schema";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -408,7 +409,7 @@ app.get(
 
 app.use(errorHandlingMiddleware);
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3131;
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
