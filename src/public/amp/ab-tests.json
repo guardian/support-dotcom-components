@@ -1,0 +1,9 @@
+{
+    "epic-test": {
+        "sticky": true,
+        "variants": {
+            "control": 80.0,
+            "ticker": 20.0
+        }
+    }
+}
