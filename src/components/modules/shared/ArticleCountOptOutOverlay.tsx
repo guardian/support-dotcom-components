@@ -112,11 +112,6 @@ const overlayNote = (type: ArticleCountOptOutType): SerializedStyles => css`
     margin-top: ${space[2]}px;
     ${textSans.xsmall()}
     font-style: italic;
-    display: none;
-
-    ${from.tablet} {
-        display: block;
-    }
 
     a {
         color: ${NOTE_LINK_COLOURS[type]} !important;
