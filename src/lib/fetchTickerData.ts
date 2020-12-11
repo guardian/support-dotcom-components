@@ -16,6 +16,7 @@ const checkForErrors = (response: Response): Promise<Response> => {
     return Promise.resolve(response);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parse = (json: any): Promise<TickerData> => {
     const total = parseInt(json.total);
     const goal = parseInt(json.goal);

@@ -26,8 +26,10 @@ const validatePayload = <T>(body: any, schema: any): T => {
     return body as T;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateEpicPayload = (body: any): EpicPayload =>
     validatePayload<EpicPayload>(body, epicPayloadSchema);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateBannerPayload = (body: any): BannerDataRequestPayload =>
     validatePayload<BannerDataRequestPayload>(body, bannerPayloadSchema);
