@@ -51,6 +51,11 @@ export const usEoyAppealWithVisual: ModuleInfo = getDefaultModuleInfo(
     'banners/usEoyAppeal/UsEoyAppealWithVisual',
 );
 
+export const globalEoy: ModuleInfo = getDefaultModuleInfo(
+    'global-eoy-banner',
+    'banners/globalEoy/GlobalEoy',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     epicACAbove,
@@ -60,4 +65,5 @@ export const moduleInfos: ModuleInfo[] = [
     guardianWeekly,
     usEoyAppeal,
     usEoyAppealWithVisual,
+    globalEoy,
 ];
