@@ -459,7 +459,7 @@ const chevronDown = (
     </svg>
 );
 
-const messageSupporter = (goalReached: boolean) => {
+const messageSupporter = (goalReached: boolean): React.ReactElement => {
     if (goalReached) {
         return (
             <div css={messageText}>
@@ -497,7 +497,7 @@ const messageSupporter = (goalReached: boolean) => {
     }
 };
 
-const messageNonSupporter = (targetReached: boolean) => {
+const messageNonSupporter = (targetReached: boolean): React.ReactElement => {
     if (targetReached) {
         return (
             <div css={messageText}>

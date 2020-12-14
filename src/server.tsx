@@ -284,7 +284,7 @@ app.post(
  * Tell fastly to cache for 5 mins
  * Tell clients to cache for 2 mins
  */
-const setComponentCacheHeaders = (res: express.Response) => {
+const setComponentCacheHeaders = (res: express.Response): void => {
     if (isProd) {
         res.setHeader('Surrogate-Control', 'max-age=300');
         res.setHeader('Cache-Control', 'max-age=120');

@@ -2,3 +2,4 @@ node_modules
 dist
 
 customize.js
+rollup.config.js
