@@ -1,9 +1,10 @@
 import { getLocalCurrencySymbol } from '../../lib/geolocation';
 import { AMPEpicResponse } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicTests';
+import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 
-async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
-    const campaignCode = 'AMP_EPIC_AUGUST2020';
+async function ampFallbackEpic(geolocation?: string): Promise<AMPEpicResponse> {
+    const campaignCode = 'AMP_FALLBACK_EPIC';
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
         items: [
@@ -23,44 +24,16 @@ async function ampDefaultEpic(geolocation?: string): Promise<AMPEpicResponse> {
                     campaignCode: campaignCode,
                     componentId: campaignCode,
                 },
-                ticker: {
-                    topLeft: '£324,660',
-                    bottomLeft: 'raised so far',
-                    topRight: '£1,250,000',
-                    bottomRight: 'our goal',
-                    percentage: '25.972800000000003',
-                },
             },
         ],
     };
 }
 
-async function ampUsEpic(): Promise<AMPEpicResponse> {
-    const campaignCode = 'AMP_USREGION_EPIC';
-    return {
-        items: [
-            {
-                heading: 'A fresh start for America ...',
-                paragraphs: [
-                    '... as Joe Biden and Kamala Harris win the US election. The American people have spoken loudly to disavow the last four years of chaos and division. The voters have chosen a new path. Now, the real work begins.',
-                    'The Guardian welcomes the opportunity to refocus our journalism on the opportunities that lie ahead for America: the opportunity to fix a broken healthcare system, to restore the role of science in government, to repair global alliances, and to address the corrosive racial bias in our schools, criminal justice system and other institutions.',
-                    'Because we believe every one of us deserves equal access to fact-based news and analysis, we’ve decided to keep Guardian journalism free for all readers, regardless of where they live or what they can afford to pay. This is made possible thanks to the support we receive from readers.',
-                ],
-                highlightedText:
-                    'If you can, support the Guardian’s journalism with as little as $1 – it only takes a minute. Thank you.',
-                cta: {
-                    text: 'Support the Guardian',
-                    url: 'https://support.theguardian.com/contribute',
-                    campaignCode: campaignCode,
-                    componentId: campaignCode,
-                },
-            },
-        ],
-    };
-}
-
-export async function ampEpic(countryCode?: string): Promise<AMPEpicResponse> {
-    const ampEpic = await selectAmpEpic(countryCode);
+export async function ampEpic(
+    ampVariantAssignments: AmpVariantAssignments,
+    countryCode?: string,
+): Promise<AMPEpicResponse> {
+    const ampEpic = await selectAmpEpic(ampVariantAssignments, countryCode);
     if (ampEpic) {
         return {
             items: [ampEpic],
@@ -68,5 +41,5 @@ export async function ampEpic(countryCode?: string): Promise<AMPEpicResponse> {
     }
 
     // No epic from the tool, fall back on a hardcoded epic
-    return countryCode === 'US' ? ampUsEpic() : ampDefaultEpic(countryCode);
+    return ampFallbackEpic(countryCode);
 }

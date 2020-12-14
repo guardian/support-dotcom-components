@@ -3,12 +3,12 @@ import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
     EpicPageTracking,
-    EpicTestTracking,
     EpicTargeting,
+    EpicTestTracking,
 } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
-import { validateEpicPayload, validateBannerPayload } from './lib/validation';
-import { findTestAndVariant, Result, Debug, Variant } from './lib/variants';
+import { validateBannerPayload, validateEpicPayload } from './lib/validation';
+import { Debug, findTestAndVariant, Result, Variant } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import {
@@ -21,18 +21,20 @@ import { getQueryParams, Params } from './lib/params';
 import { ampEpic } from './tests/amp/ampEpic';
 import fs from 'fs';
 import { EpicProps } from './components/modules/epics/ContributionsEpic';
-import { isProd, isDev, baseUrl } from './lib/env';
+import { baseUrl, isDev, isProd } from './lib/env';
 import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
 import {
     BannerPageTracking,
-    BannerTestTracking,
-    BannerTargeting,
     BannerProps,
+    BannerTargeting,
+    BannerTestTracking,
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { moduleInfos, ModuleInfo } from './modules';
+import { ModuleInfo, moduleInfos } from './modules';
+import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
+import {getAmpExperimentData} from "./tests/amp/ampEpicTests";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -394,7 +396,8 @@ app.get(
         try {
             // We use the fastly geo header for determining the correct currency symbol
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
-            const response = await ampEpic(countryCode);
+            const ampVariantAssignments = getAmpVariantAssignments(req);
+            const response = await ampEpic(ampVariantAssignments, countryCode);
 
             // The cache key in fastly is the X-GU-GeoIP-Country-Code header
             res.setHeader('Surrogate-Control', 'max-age=300');
@@ -407,6 +410,63 @@ app.get(
         }
     },
 );
+
+app.get(
+    '/amp/experiments_data',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
+        ],
+        credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
+    }),
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const response = await getAmpExperimentData();
+
+            // The cache key in fastly is the X-GU-GeoIP-Country-Code header
+            res.setHeader('Surrogate-Control', 'max-age=300');
+            res.setHeader('Cache-Control', 'max-age=60');
+            res.setHeader('Content-Type', 'application/json');
+
+            res.send(JSON.stringify(response));
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+// app.get(a
+//     '/amp/epic_view',
+//     cors({
+//         origin: [
+//             'https://amp-theguardian-com.cdn.ampproject.org',
+//             'https://amp.theguardian.com',
+//             'http://localhost:3030',
+//             'https://amp.code.dev-theguardian.com',
+//         ],
+//         credentials: true,
+//         allowedHeaders: ['x-gu-geoip-country-code'],
+//     }),
+//     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+//         try {
+//             const countryCode = req.header('X-GU-GeoIP-Country-Code');
+//             // const ampAbTests = getAmpAbTests(req);
+//             // const epicTestAndVariant = getEpicTestAndVariant(ampAbTests, countryCode);
+//
+//             res.setHeader('Surrogate-Control', 'max-age=300');
+//             res.setHeader('Cache-Control', 'max-age=60');
+//             res.setHeader('Content-Type', 'application/json');
+//
+//             res.send(JSON.stringify(''));
+//         } catch (error) {
+//             next(error);
+//         }
+//     },
+// );
 
 app.use(errorHandlingMiddleware);
 
