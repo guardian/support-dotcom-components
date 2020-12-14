@@ -1,4 +1,5 @@
 import express from 'express';
+import fetch from 'node-fetch';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
@@ -34,7 +35,7 @@ import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { ModuleInfo, moduleInfos } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
-import {getAmpExperimentData} from "./tests/amp/ampEpicTests";
+import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -412,6 +413,37 @@ app.get(
 );
 
 app.get(
+    '/amp/epic_view',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
+        ],
+        credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
+    }),
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const countryCode = req.header('X-GU-GeoIP-Country-Code');
+            const ampVariantAssignments = getAmpVariantAssignments(req);
+            const epic = await ampEpic(ampVariantAssignments, countryCode);
+
+            fetch(`https://mjacobson.eu.ngrok.io/${epic.testName}/${epic.variantName}`);
+
+            res.setHeader('Surrogate-Control', 'max-age=300');
+            res.setHeader('Cache-Control', 'max-age=60');
+            res.setHeader('Content-Type', 'application/json');
+
+            res.send(JSON.stringify({}));
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
     '/amp/experiments_data',
     cors({
         origin: [
@@ -438,35 +470,6 @@ app.get(
         }
     },
 );
-
-// app.get(a
-//     '/amp/epic_view',
-//     cors({
-//         origin: [
-//             'https://amp-theguardian-com.cdn.ampproject.org',
-//             'https://amp.theguardian.com',
-//             'http://localhost:3030',
-//             'https://amp.code.dev-theguardian.com',
-//         ],
-//         credentials: true,
-//         allowedHeaders: ['x-gu-geoip-country-code'],
-//     }),
-//     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-//         try {
-//             const countryCode = req.header('X-GU-GeoIP-Country-Code');
-//             // const ampAbTests = getAmpAbTests(req);
-//             // const epicTestAndVariant = getEpicTestAndVariant(ampAbTests, countryCode);
-//
-//             res.setHeader('Surrogate-Control', 'max-age=300');
-//             res.setHeader('Cache-Control', 'max-age=60');
-//             res.setHeader('Content-Type', 'application/json');
-//
-//             res.send(JSON.stringify(''));
-//         } catch (error) {
-//             next(error);
-//         }
-//     },
-// );
 
 app.use(errorHandlingMiddleware);
 

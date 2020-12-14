@@ -13,16 +13,13 @@ export interface AMPCta {
 }
 
 export interface AMPEpic {
+    testName: string;
+    variantName: string;
     heading?: string;
     paragraphs: string[];
     highlightedText?: string;
     cta: AMPCta;
     ticker?: AMPTicker;
-}
-
-// See https://amp.dev/documentation/components/amp-list/
-export interface AMPEpicResponse {
-    items: AMPEpic[];
 }
 
 /**
@@ -43,4 +40,12 @@ export interface AmpEpicTest {
     isOn: boolean;
     locations: CountryGroupId[];
     variants: AmpEpicTestVariant[];
+}
+
+/**
+ * Models for the data published by the epic tool
+ */
+export interface AmpEpicOphanData {
+    testName: string;
+    variantName: string;
 }

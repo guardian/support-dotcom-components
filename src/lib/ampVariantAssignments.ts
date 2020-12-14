@@ -6,9 +6,7 @@ export type AmpVariantAssignments = {
 
 export const getAmpVariantAssignments = (req: express.Request): AmpVariantAssignments => {
     const { testData } = req.query;
-    const ampVariantAssignments: AmpVariantAssignments = {
-        fallback: 'control',
-    };
+    const ampVariantAssignments: AmpVariantAssignments = {};
 
     testData
         ?.toString()

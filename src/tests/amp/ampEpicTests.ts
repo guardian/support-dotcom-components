@@ -41,7 +41,13 @@ type AmpExperiments = {
 
 export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
     const cachedTests = await getCachedAmpEpicTests();
-    const ampExperiments: AmpExperiments = {};
+    const ampExperiments: AmpExperiments = {
+        fallback: {
+            variants: {
+                CONTROL: 99.99999,
+            },
+        },
+    };
 
     cachedTests.forEach((test: AmpEpicTest) => {
         const variants: { [key: string]: number } = {};
@@ -73,6 +79,8 @@ export const selectAmpEpicTestAndVariant = async (
         const variant = test.variants.find(variant => variant.name === assignedVariantName);
         if (variant) {
             const epicData = {
+                testName: test.name.toLowerCase(),
+                variantName: variant.name,
                 heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
                 paragraphs: variant.paragraphs.map(p =>
                     replaceNonArticleCountPlaceholders(p, countryCode),
