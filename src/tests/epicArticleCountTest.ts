@@ -25,8 +25,10 @@ const paragraphs = (firstParagraph: string): string[] => [
     'In this unprecedented year of intersecting crises, we have done just that, with revealing journalism that had real-world impact: the inept handling of the Covid-19 crisis, the Black Lives Matter protests, and the tumultuous US election.',
     'We have enhanced our reputation for urgent, powerful reporting on the climate emergency, and moved to practice what we preach, rejecting advertising from fossil fuel companies, divesting from oil and gas companies and setting a course to achieve net zero emissions by 2030.',
     'If there were ever a time to join us, it is now. Your funding powers our journalism, it protects our independence, and ensures we can remain open for all. You can support us through these challenging economic times and enable real-world impact.',
-    'Every contribution, however big or small, makes a real difference for our future. Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.',
+    'Every contribution, however big or small, makes a real difference for our future.',
 ];
+
+const highlightedText = 'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.';
 
 export const epicSeparateArticleCountTest: Test = {
     name: 'EpicSeparateArticleCountTest',
@@ -52,6 +54,7 @@ export const epicSeparateArticleCountTest: Test = {
         {
             heading: heading,
             paragraphs: paragraphs(controlFirstParagraph),
+            highlightedText,
             name: EpicSeparateArticleCountTestVariants.control,
             cta,
             modulePath: epic.endpointPath,
@@ -59,6 +62,7 @@ export const epicSeparateArticleCountTest: Test = {
         {
             heading: heading,
             paragraphs: paragraphs(variantFirstParagraph),
+            highlightedText,
             name: EpicSeparateArticleCountTestVariants.above,
             cta,
             modulePath: epicACAbove.endpointPath,
@@ -66,6 +70,7 @@ export const epicSeparateArticleCountTest: Test = {
         {
             heading: heading,
             paragraphs: paragraphs(variantFirstParagraph),
+            highlightedText,
             name: EpicSeparateArticleCountTestVariants.inline,
             cta,
             modulePath: epicACInline.endpointPath,
