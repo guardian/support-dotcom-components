@@ -1,7 +1,8 @@
-import { selectAmpEpicTest } from './ampEpicTests';
+import { selectAmpEpicTestAndVariant } from './ampEpicTests';
 import { CountryGroupId } from '../../lib/geolocation';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
+import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 
 jest.mock('../../lib/fetchTickerData', () => {
     return {
@@ -41,10 +42,38 @@ const epicTest: AmpEpicTest = {
                 },
             },
         },
+        {
+            name: 'VARIANT',
+            heading: 'a',
+            paragraphs: ['b'],
+            highlightedText:
+                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
+            cta: {
+                text: 'Show your support',
+                baseUrl: 'https://support.theguardian.com/contribute',
+            },
+            tickerSettings: {
+                endType: TickerEndType.unlimited,
+                countType: TickerCountType.money,
+                currencySymbol: '$',
+                copy: {
+                    countLabel: 'contributions',
+                    goalReachedPrimary: "We've hit our goal!",
+                    goalReachedSecondary: 'but you can still support us',
+                },
+            },
+        },
     ],
 };
 
+const ampVariantAssignments: AmpVariantAssignments = {
+    TEST1: 'CONTROL',
+    TEST2: 'CONTROL',
+};
+
 const expectedAmpEpic: AMPEpic = {
+    testName: 'TEST1',
+    variantName: 'CONTROL',
     heading: 'a',
     paragraphs: ['b'],
     highlightedText:
@@ -67,13 +96,13 @@ const expectedAmpEpic: AMPEpic = {
 describe('ampEpicTests', () => {
     it('should select test with no targeting', async () => {
         const tests = [epicTest];
-        const result = await selectAmpEpicTest(tests, 'GB');
+        const result = await selectAmpEpicTestAndVariant(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual(expectedAmpEpic);
     });
 
     it('should not select test if disabled', async () => {
         const tests = [{ ...epicTest, isOn: false }];
-        const result = await selectAmpEpicTest(tests, 'GB');
+        const result = await selectAmpEpicTestAndVariant(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual(null);
     });
 
@@ -82,9 +111,11 @@ describe('ampEpicTests', () => {
             { ...epicTest, locations: ['UnitedStates' as CountryGroupId] },
             { ...epicTest, name: 'TEST2', nickname: 'TEST2' },
         ];
-        const result = await selectAmpEpicTest(tests, 'GB');
+        const result = await selectAmpEpicTestAndVariant(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual({
             ...expectedAmpEpic,
+            testName: 'TEST2',
+            variantName: 'CONTROL',
             cta: {
                 ...expectedAmpEpic.cta,
                 componentId: 'TEST2-CONTROL',
