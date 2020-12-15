@@ -28,7 +28,8 @@ const paragraphs = (firstParagraph: string): string[] => [
     'Every contribution, however big or small, makes a real difference for our future.',
 ];
 
-const highlightedText = 'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.';
+const highlightedText =
+    'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.';
 
 export const epicSeparateArticleCountTest: Test = {
     name: 'EpicSeparateArticleCountTest',
