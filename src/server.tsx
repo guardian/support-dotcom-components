@@ -33,6 +33,7 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { moduleInfos, ModuleInfo } from './modules';
+import { epicSeparateArticleCountTest } from './tests/epicArticleCountTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -86,7 +87,7 @@ const buildEpicData = async (
 ): Promise<EpicDataResponse> => {
     const configuredTests = await fetchConfiguredEpicTestsCached();
     const hardcodedTests = await getAllHardcodedTests();
-    const tests = [...configuredTests.tests, ...hardcodedTests];
+    const tests = [epicSeparateArticleCountTest, ...configuredTests.tests, ...hardcodedTests];
 
     let result: Result;
 
@@ -129,7 +130,9 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl = `${baseUrl}/epic.js`;
+    const moduleUrl = variantWithTickerData.modulePath
+        ? `${baseUrl}/${variantWithTickerData.modulePath}`
+        : `${baseUrl}/epic.js`;
 
     return {
         data: {

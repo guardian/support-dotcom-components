@@ -60,6 +60,7 @@ export interface Variant {
     footer?: string;
     backgroundImageUrl?: string;
     showReminderFields?: ReminderFields;
+    modulePath?: string;
 }
 
 interface ControlProportionSettings {
