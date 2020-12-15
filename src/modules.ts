@@ -19,11 +19,11 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
 export const epicACAbove: ModuleInfo = getDefaultModuleInfo(
     'epic-ac-above',
-    'epics/ContributionsEpicACAbove',
+    'epics/ContributionsEpicWithArticleCountAbove',
 );
 export const epicACInline: ModuleInfo = getDefaultModuleInfo(
     'epic-ac-inline',
-    'epics/ContributionsEpicACInline',
+    'epics/ContributionsEpicWithArticleCountInline',
 );
 
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
