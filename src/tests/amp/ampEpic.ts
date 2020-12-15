@@ -32,10 +32,7 @@ export async function ampEpic(
     countryCode?: string,
 ): Promise<AMPEpic> {
     const ampEpic = await selectAmpEpic(ampVariantAssignments, countryCode);
-    if (ampEpic) {
-        return ampEpic;
-    }
 
-    // No epic from the tool, fall back on a hardcoded epic
-    return ampFallbackEpic(countryCode);
+    // If no epic from the tool, fall back on a hardcoded epic
+    return ampEpic ? ampEpic : ampFallbackEpic(countryCode);
 }

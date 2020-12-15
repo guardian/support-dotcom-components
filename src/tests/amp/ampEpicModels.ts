@@ -2,6 +2,11 @@ import { Cta, TickerSettings } from '../../lib/variants';
 import { CountryGroupId } from '../../lib/geolocation';
 import { AMPTicker } from './ampTicker';
 
+export interface AmpEpicOphanData {
+    testName: string;
+    variantName: string;
+}
+
 /**
  * Models for the data returned to AMP
  */
@@ -40,12 +45,4 @@ export interface AmpEpicTest {
     isOn: boolean;
     locations: CountryGroupId[];
     variants: AmpEpicTestVariant[];
-}
-
-/**
- * Models for the data published by the epic tool
- */
-export interface AmpEpicOphanData {
-    testName: string;
-    variantName: string;
 }

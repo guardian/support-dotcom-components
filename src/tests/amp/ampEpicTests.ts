@@ -44,7 +44,7 @@ export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
     const ampExperiments: AmpExperiments = {
         fallback: {
             variants: {
-                CONTROL: 99.99999,
+                CONTROL: 99.99999, // 100.0 is not valid for AMP
             },
         },
     };
@@ -54,12 +54,12 @@ export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
 
         const variantNames = test.variants.map(variant => variant.name);
         const variantAudiencePercentage = 100 / variantNames.length;
-        variantNames.forEach(varName => {
-            variants[varName] =
+        variantNames.forEach(variantName => {
+            variants[variantName.toUpperCase()] =
                 variantAudiencePercentage === 100 ? 99.99999 : variantAudiencePercentage;
         });
 
-        ampExperiments[test.name] = {
+        ampExperiments[test.name.toUpperCase()] = {
             variants: variants,
         };
     });
@@ -75,12 +75,13 @@ export const selectAmpEpicTestAndVariant = async (
     const test = tests.find(test => test.isOn && inCountryGroups(countryCode, test.locations));
 
     if (test && test.variants) {
-        const assignedVariantName = ampVariantAssignments[test.name.toLowerCase()];
+        const assignedVariantName = ampVariantAssignments[test.name];
         const variant = test.variants.find(variant => variant.name === assignedVariantName);
+
         if (variant) {
             const epicData = {
-                testName: test.name.toLowerCase(),
-                variantName: variant.name,
+                testName: test.name.toUpperCase(),
+                variantName: variant.name.toUpperCase(),
                 heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
                 paragraphs: variant.paragraphs.map(p =>
                     replaceNonArticleCountPlaceholders(p, countryCode),

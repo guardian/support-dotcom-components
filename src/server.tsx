@@ -36,6 +36,7 @@ import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { ModuleInfo, moduleInfos } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
+import { OphanComponentEvent } from './types/OphanTypes';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -45,8 +46,6 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(loggingMiddleware);
-
-app.use(express.static(__dirname + '/public'));
 
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
@@ -382,6 +381,34 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
 });
 
 app.get(
+    '/amp/experiments_data',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
+        ],
+        credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
+    }),
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const response = await getAmpExperimentData();
+
+            // The cache key in fastly is the X-GU-GeoIP-Country-Code header
+            res.setHeader('Surrogate-Control', 'max-age=300');
+            res.setHeader('Cache-Control', 'max-age=60');
+            res.setHeader('Content-Type', 'application/json');
+
+            res.send(JSON.stringify(response));
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
     '/amp/epic',
     cors({
         origin: [
@@ -413,7 +440,7 @@ app.get(
 );
 
 app.get(
-    '/amp/epic_view',
+    '/amp/epic_view', // IMPORTANT: do not change this route!
     cors({
         origin: [
             'https://amp-theguardian-com.cdn.ampproject.org',
@@ -429,42 +456,29 @@ app.get(
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const { viewId, ampViewId } = req.query;
+            const ophanComponentEvent: OphanComponentEvent = {
+                component: {
+                    componentType: 'ACQUISITIONS_EPIC',
+                },
+                action: 'VIEW',
+                abTest: {
+                    name: epic.testName,
+                    variant: epic.variantName,
+                },
+            };
 
-            fetch(`https://mjacobson.eu.ngrok.io/${epic.testName}/${epic.variantName}`);
+            fetch(
+                `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}&componentEvent=${JSON.stringify(
+                    ophanComponentEvent,
+                )}`,
+            ).then(ophanResponse => {
+                res.setHeader('Surrogate-Control', 'max-age=300');
+                res.setHeader('Cache-Control', 'max-age=60');
+                res.setHeader('Content-Type', 'application/json');
 
-            res.setHeader('Surrogate-Control', 'max-age=300');
-            res.setHeader('Cache-Control', 'max-age=60');
-            res.setHeader('Content-Type', 'application/json');
-
-            res.send(JSON.stringify({}));
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    '/amp/experiments_data',
-    cors({
-        origin: [
-            'https://amp-theguardian-com.cdn.ampproject.org',
-            'https://amp.theguardian.com',
-            'http://localhost:3030',
-            'https://amp.code.dev-theguardian.com',
-        ],
-        credentials: true,
-        allowedHeaders: ['x-gu-geoip-country-code'],
-    }),
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const response = await getAmpExperimentData();
-
-            // The cache key in fastly is the X-GU-GeoIP-Country-Code header
-            res.setHeader('Surrogate-Control', 'max-age=300');
-            res.setHeader('Cache-Control', 'max-age=60');
-            res.setHeader('Content-Type', 'application/json');
-
-            res.send(JSON.stringify(response));
+                res.send(ophanResponse);
+            });
         } catch (error) {
             next(error);
         }
