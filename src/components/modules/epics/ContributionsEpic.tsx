@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import { body, headline } from '@guardian/src-foundations/typography';
-import { palette } from '@guardian/src-foundations';
-import { space } from '@guardian/src-foundations';
+import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import {
-    replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
+    replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
 import { EpicTracking } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
@@ -14,6 +13,9 @@ import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
+import { EpicSeparateArticleCountTestVariants } from '../../../tests/epicArticleCountTest';
+import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
+import { ContributionsEpicArticleCountInline } from './ContributionsEpicArticleCountInline';
 
 // Spacing values below are multiples of 4.
 // See https://www.theguardian.design/2a1e5182b/p/449bd5
@@ -99,6 +101,7 @@ type BodyProps = {
     highlightedText?: string;
     countryCode?: string;
     numArticles: number;
+    acVariant: EpicSeparateArticleCountTestVariants;
 };
 
 interface OnReminderOpen {
@@ -155,30 +158,45 @@ const EpicBody: React.FC<BodyProps> = ({
     numArticles,
     paragraphs,
     highlightedText,
+    acVariant,
 }: BodyProps) => {
     return (
         <>
-            {paragraphs.map((paragraph, idx) => (
-                <EpicBodyParagraph
-                    key={idx}
-                    paragraph={paragraph}
-                    numArticles={numArticles}
-                    highlighted={
-                        highlightedText && idx === paragraphs.length - 1 ? (
-                            <Highlighted
-                                highlightedText={highlightedText}
-                                countryCode={countryCode}
-                                numArticles={numArticles}
-                            />
-                        ) : null
-                    }
-                />
-            ))}
+            {paragraphs.map((paragraph, idx) => {
+                const paragraphElement = (
+                    <EpicBodyParagraph
+                        key={idx}
+                        paragraph={paragraph}
+                        numArticles={numArticles}
+                        highlighted={
+                            highlightedText && idx === paragraphs.length - 1 ? (
+                                <Highlighted
+                                    highlightedText={highlightedText}
+                                    countryCode={countryCode}
+                                    numArticles={numArticles}
+                                />
+                            ) : null
+                        }
+                    />
+                );
+
+                if (acVariant === EpicSeparateArticleCountTestVariants.inline && idx === 1) {
+                    return (
+                        <ContributionsEpicArticleCountInline
+                            numArticles={numArticles}
+                            paragraphElement={paragraphElement}
+                        />
+                    );
+                }
+                return paragraphElement;
+            })}
         </>
     );
 };
 
-export const ContributionsEpic: React.FC<EpicProps> = ({
+export const ContributionsEpicComponent: (
+    acVariant: EpicSeparateArticleCountTestVariants,
+) => React.FC<EpicProps> = acVariant => ({
     variant,
     tracking,
     countryCode,
@@ -208,6 +226,10 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
 
     return (
         <section css={wrapperStyles}>
+            {acVariant === EpicSeparateArticleCountTestVariants.above && (
+                <ContributionsEpicArticleCountAbove numArticles={numArticles} />
+            )}
+
             {tickerSettings && tickerSettings.tickerData && (
                 <ContributionsEpicTicker
                     settings={tickerSettings}
@@ -233,6 +255,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                 highlightedText={cleanHighlighted}
                 countryCode={countryCode}
                 numArticles={numArticles}
+                acVariant={acVariant}
             />
 
             {!isReminderActive && (
@@ -269,3 +292,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         </section>
     );
 };
+
+export const ContributionsEpic: React.FC<EpicProps> = ContributionsEpicComponent(
+    EpicSeparateArticleCountTestVariants.control,
+);
