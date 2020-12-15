@@ -1,4 +1,5 @@
 import { Cta, Test } from '../lib/variants';
+import { epic, epicACAbove, epicACInline } from '../modules';
 
 export enum EpicSeparateArticleCountTestVariants {
     control = 'control',
@@ -53,21 +54,21 @@ export const epicSeparateArticleCountTest: Test = {
             paragraphs: paragraphs(controlFirstParagraph),
             name: EpicSeparateArticleCountTestVariants.control,
             cta,
-            modulePath: 'epic.js',
+            modulePath: epic.endpointPath,
         },
         {
             heading: heading,
             paragraphs: paragraphs(variantFirstParagraph),
             name: EpicSeparateArticleCountTestVariants.above,
             cta,
-            modulePath: 'epic-ac-above.js',
+            modulePath: epicACAbove.endpointPath,
         },
         {
             heading: heading,
             paragraphs: paragraphs(variantFirstParagraph),
             name: EpicSeparateArticleCountTestVariants.inline,
             cta,
-            modulePath: 'epic-ac-inline.js',
+            modulePath: epicACInline.endpointPath,
         },
     ],
     highPriority: true,
