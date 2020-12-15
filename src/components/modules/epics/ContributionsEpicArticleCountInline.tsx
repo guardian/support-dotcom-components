@@ -9,7 +9,7 @@ const contentStyle = css`
     width: 40%;
     ${textSans.medium()};
     background-color: ${palette.neutral[100]};
-    padding: 4px;
+    padding: 8px;
     margin-right: 10px;
 `;
 
