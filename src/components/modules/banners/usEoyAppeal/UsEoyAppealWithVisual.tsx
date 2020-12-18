@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/core';
 import ContributionsTemplateWithVisual from '../contributionsTemplate/ContributionsTemplateWithVisual';
 import UsEoyAppealBody from './components/UsEoyAppealBody';
 import UsEoyAppealVisual from './components/UsEoyAppealVisual';
@@ -12,6 +13,10 @@ import {
     OPHAN_COMPONENT_EVENT_CLOSE_CLICK,
 } from './helpers/ophan';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
+
+const bannerStyles = css`
+    background-color: #dddbd1;
+`;
 
 const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
     isSupporter,
@@ -38,7 +43,7 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
 
     return (
         <ContributionsTemplateWithVisual
-            backgroundColour="#DDDBD1"
+            cssOverrides={bannerStyles}
             visual={<UsEoyAppealVisual />}
             closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
             header={<UsEoyAppealHeader />}
