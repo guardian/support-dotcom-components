@@ -16,7 +16,7 @@ const heading = 'Since you’re here...';
 const controlFirstParagraph =
     '… and it’s nearly the end of the year, we have a small favour to ask. You’ve read %%ARTICLE_COUNT%% articles this year. And you’re not alone; millions have turned to the Guardian for vital, independent, quality journalism throughout a turbulent and challenging 2020. Readers in 180 countries around the world, including %%COUNTRY_NAME%%, now support us financially. Will you join them?';
 const variantFirstParagraph =
-    '… and it’s nearly the end of the year, we have a small favour to ask. Millions have turned to the Guardian for vital, independent, quality journalism throughout a turbulent and challenging 2020.Readers in 180 countries around the world, including %%COUNTRY_NAME%%, now support us financially. Will you join them?';
+    '… and it’s nearly the end of the year, we have a small favour to ask. Millions have turned to the Guardian for vital, independent, quality journalism throughout a turbulent and challenging 2020. Readers in 180 countries around the world, including %%COUNTRY_NAME%%, now support us financially. Will you join them?';
 
 const paragraphs = (firstParagraph: string): string[] => [
     firstParagraph,
