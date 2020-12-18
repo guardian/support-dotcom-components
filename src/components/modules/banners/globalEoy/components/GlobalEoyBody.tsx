@@ -40,7 +40,7 @@ const GlobalEoyBody: React.FC<GlobalEoyBodyProps> = ({
                                     <ArticleCountOptOut
                                         numArticles={numArticles}
                                         nextWord=" articles"
-                                        type="us-eoy-banner"
+                                        type="global-eoy-banner"
                                     />{' '}
                                     in the past year. We value your support and hope you’ll consider
                                     a year-end gift.
