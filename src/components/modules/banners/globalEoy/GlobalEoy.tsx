@@ -15,7 +15,7 @@ import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 
 const bannerStyles = css`
     background-color: #fff7e5;
-    box-shadow: 0px -1px 0px #052962;
+    border-top: 1px solid #052962;
 `;
 
 const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
