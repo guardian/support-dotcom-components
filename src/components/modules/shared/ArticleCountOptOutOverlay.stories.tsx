@@ -36,6 +36,6 @@ UsEoyAppealBanner.args = {
 };
 
 export const GlobalEoyAppealBanner = Template.bind({});
-UsEoyAppealBanner.args = {
+GlobalEoyAppealBanner.args = {
     type: 'global-eoy-banner',
 };

@@ -39,7 +39,7 @@ const BORDER_COLOURS = {
     epic: 'transparent',
     banner: brandAltLine.primary,
     ['us-eoy-banner']: neutral[0],
-    ['global-eoy-banner']: neutral[0],
+    ['global-eoy-banner']: '#052962',
 };
 
 const BUTTON_THEMES = {
