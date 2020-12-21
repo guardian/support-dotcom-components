@@ -47,6 +47,21 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
         landingPageUrl += '&selected-contribution-type=ONE_OFF';
     }
 
+    const BeforeDec29MobilePrimaryCtaCopy: React.FC = () => (
+        <>{isSupporter ? 'Support' : 'Contribute'}</>
+    );
+
+    const Dec29AndAfterMobilePrimaryCtaCopy: React.FC = () => (
+        <>{isSupporter ? 'Contribute Again' : 'Contribute Now'}</>
+    );
+
+    const MobilePrimaryCtaCopy = selectComponent(
+        BeforeDec29MobilePrimaryCtaCopy,
+        Dec29AndAfterMobilePrimaryCtaCopy,
+        Dec29AndAfterMobilePrimaryCtaCopy,
+        Dec29AndAfterMobilePrimaryCtaCopy,
+    );
+
     const BeforeDec29SecondaryCta: React.FC = () => (
         <div>
             <Hide above="tablet">
@@ -81,7 +96,6 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
         Dec29AndAfterSecondaryCta,
         Dec29AndAfterSecondaryCta,
         Dec29AndAfterSecondaryCta,
-        Date.parse('2020-12-29'),
     );
 
     return (
@@ -95,7 +109,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                                 onClick={onContributeClick}
                                 size="small"
                             >
-                                {isSupporter ? 'Support' : 'Contribute'}
+                                <MobilePrimaryCtaCopy />
                             </LinkButton>
                         </Hide>
                         <Hide below="tablet">
