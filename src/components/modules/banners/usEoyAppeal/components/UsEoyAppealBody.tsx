@@ -2,16 +2,13 @@ import React from 'react';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateBody from '../../contributionsTemplate/ContributionsTemplateBody';
 import { ArticleCountOptOut } from '../../../shared/ArticleCountOptOut';
+import { selectComponent } from '../helpers/xmasUpdates';
 
 interface UsEoyAppealBodyProps {
     isSupporter: boolean;
     numArticles: number;
     hasOptedOutOfArticleCount: boolean;
 }
-
-const DEC_29 = Date.parse('2020-12-29');
-const JAN_1 = Date.parse('2021-01-01');
-const JAN_4 = Date.parse('2021-01-04');
 
 const MIN_NUM_ARTICLES_TO_SHOW_ARTICLE_COUNT = 5;
 
@@ -223,21 +220,9 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
         </Hide>
     );
 
-    const now = Date.now();
+    const Copy = selectComponent(BeforeDec29Copy, Dec29To31Copy, Jan1To3Copy, AfterJan3Copy);
 
-    let copy: React.ReactElement;
-
-    if (now < DEC_29) {
-        copy = <BeforeDec29Copy />;
-    } else if (now < JAN_1) {
-        copy = <Dec29To31Copy />;
-    } else if (now < JAN_4) {
-        copy = <Jan1To3Copy />;
-    } else {
-        copy = <AfterJan3Copy />;
-    }
-
-    return <ContributionsTemplateBody copy={copy} />;
+    return <ContributionsTemplateBody copy={<Copy />} />;
 };
 
 export default UsEoyAppealBody;
