@@ -7,6 +7,7 @@ import { LinkButton, buttonBrandAlt } from '@guardian/src-button';
 import ContributionsTemplateCta from '../../contributionsTemplate/ContributionsTemplateCta';
 import { BannerTracking } from '../../../../../types/BannerTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../../lib/tracking';
+import { selectComponent } from '../helpers/xmasUpdates';
 
 const readMoreButtonStyles = css`
     color: ${neutral[7]};
@@ -46,6 +47,43 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
         landingPageUrl += '&selected-contribution-type=ONE_OFF';
     }
 
+    const BeforeDec29SecondaryCta: React.FC = () => (
+        <div>
+            <Hide above="tablet">
+                <LinkButton
+                    href={IMPACT_REPORT_LINK}
+                    onClick={onReadMoreClick}
+                    css={readMoreButtonStyles}
+                    size="small"
+                    priority="tertiary"
+                >
+                    Read more
+                </LinkButton>
+            </Hide>
+            <Hide below="tablet">
+                <LinkButton
+                    href={IMPACT_REPORT_LINK}
+                    onClick={onReadMoreClick}
+                    css={readMoreButtonStyles}
+                    size="default"
+                    priority="tertiary"
+                >
+                    Read more
+                </LinkButton>
+            </Hide>
+        </div>
+    );
+
+    const Dec29AndAfterSecondaryCta: React.FC = () => <div></div>;
+
+    const SecondaryCta = selectComponent(
+        BeforeDec29SecondaryCta,
+        Dec29AndAfterSecondaryCta,
+        Dec29AndAfterSecondaryCta,
+        Dec29AndAfterSecondaryCta,
+        Date.parse('2020-12-29'),
+    );
+
     return (
         <ContributionsTemplateCta
             primaryCta={
@@ -72,32 +110,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
                     </div>
                 </ThemeProvider>
             }
-            secondaryCta={
-                <div>
-                    <Hide above="tablet">
-                        <LinkButton
-                            href={IMPACT_REPORT_LINK}
-                            onClick={onReadMoreClick}
-                            css={readMoreButtonStyles}
-                            size="small"
-                            priority="tertiary"
-                        >
-                            Read more
-                        </LinkButton>
-                    </Hide>
-                    <Hide below="tablet">
-                        <LinkButton
-                            href={IMPACT_REPORT_LINK}
-                            onClick={onReadMoreClick}
-                            css={readMoreButtonStyles}
-                            size="default"
-                            priority="tertiary"
-                        >
-                            Read more
-                        </LinkButton>
-                    </Hide>
-                </div>
-            }
+            secondaryCta={<SecondaryCta />}
         />
     );
 };
