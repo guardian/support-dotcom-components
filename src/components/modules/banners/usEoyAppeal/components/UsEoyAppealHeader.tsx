@@ -1,7 +1,15 @@
 import React from 'react';
+import { css } from '@emotion/core';
+import { between } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateHeader from '../../contributionsTemplate/ContributionsTemplateHeader';
 import { selectItem } from '../helpers/xmasUpdates';
+
+const jan1To3Styles = css`
+    ${between.desktop.and.leftCol} {
+        font-size: 38px;
+    }
+`;
 
 interface UsEoyAppealHeaderProps {
     isSupporter: boolean;
@@ -35,7 +43,9 @@ const UsEoyAppealHeader: React.FC<UsEoyAppealHeaderProps> = ({
         <>
             <Hide above="tablet">Thank you for helping us reach our goal!</Hide>
             <Hide below="tablet">
-                {isSupporter ? 'As America begins a new chapter …' : 'As the new year begins …'}
+                <span css={jan1To3Styles}>
+                    {isSupporter ? 'As America begins a new chapter …' : 'As the new year begins …'}
+                </span>
             </Hide>
         </>
     );
