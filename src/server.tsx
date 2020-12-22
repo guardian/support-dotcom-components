@@ -395,13 +395,7 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const response = await getAmpExperimentData();
-
-            // The cache key in fastly is the X-GU-GeoIP-Country-Code header
-            res.setHeader('Surrogate-Control', 'max-age=300');
-            res.setHeader('Cache-Control', 'max-age=60');
-            res.setHeader('Content-Type', 'application/json');
-
-            res.send(JSON.stringify(response));
+            res.json(response);
         } catch (error) {
             next(error);
         }
@@ -432,7 +426,7 @@ app.get(
             res.setHeader('Cache-Control', 'max-age=60');
             res.setHeader('Content-Type', 'application/json');
 
-            res.send(JSON.stringify(response));
+            res.json(response);
         } catch (error) {
             next(error);
         }
@@ -473,10 +467,6 @@ app.get(
                     ophanComponentEvent,
                 )}`,
             ).then(ophanResponse => {
-                res.setHeader('Surrogate-Control', 'max-age=300');
-                res.setHeader('Cache-Control', 'max-age=60');
-                res.setHeader('Content-Type', 'application/json');
-
                 res.send(ophanResponse);
             });
         } catch (error) {

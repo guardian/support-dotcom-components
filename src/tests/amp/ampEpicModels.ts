@@ -2,11 +2,6 @@ import { Cta, TickerSettings } from '../../lib/variants';
 import { CountryGroupId } from '../../lib/geolocation';
 import { AMPTicker } from './ampTicker';
 
-export interface AmpEpicOphanData {
-    testName: string;
-    variantName: string;
-}
-
 /**
  * Models for the data returned to AMP
  */
