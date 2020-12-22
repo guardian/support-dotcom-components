@@ -17,7 +17,7 @@ const beforeDec29VisualStyles = css`
     }
 `;
 
-const dec29AndAfterVisualStyles = css`
+const dec29ToJan3VisualStyles = css`
     img {
         ${from.tablet} {
             object-fit: contain;
@@ -37,8 +37,8 @@ const UsEoyAppealVisual: React.FC = () => {
         </picture>
     );
 
-    const Dec29AndAfter: React.FC = () => (
-        <picture css={dec29AndAfterVisualStyles}>
+    const Dec29ToJan3Picture: React.FC = () => (
+        <picture css={dec29ToJan3VisualStyles}>
             <source
                 media="(max-width: 739px)"
                 srcSet="https://media.guim.co.uk/352673c50e980b241e36b14bbcb93096368186ea/0_0_1920_846/1920.jpg"
@@ -52,7 +52,14 @@ const UsEoyAppealVisual: React.FC = () => {
         </picture>
     );
 
-    const Picture = selectItem(BeforeDec29Picture, Dec29AndAfter, Dec29AndAfter, Dec29AndAfter);
+    const AfterJan3Picture = BeforeDec29Picture;
+
+    const Picture = selectItem(
+        BeforeDec29Picture,
+        Dec29ToJan3Picture,
+        Dec29ToJan3Picture,
+        AfterJan3Picture,
+    );
 
     return <ContributionsTemplateVisual image={<Picture />} />;
 };

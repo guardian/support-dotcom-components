@@ -39,13 +39,14 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
     };
 
     const beforeDec29BackgroundColour = '#dddbd1';
-    const dec29AndAfterColour = '#e7d5b8';
+    const dec29ToJan3Colour = '#e7d5b8';
+    const afterJan3Colour = beforeDec29BackgroundColour;
 
     const backgroundColour = selectItem(
         beforeDec29BackgroundColour,
-        dec29AndAfterColour,
-        dec29AndAfterColour,
-        dec29AndAfterColour,
+        dec29ToJan3Colour,
+        dec29ToJan3Colour,
+        afterJan3Colour,
     );
 
     const bannerStyles = css`

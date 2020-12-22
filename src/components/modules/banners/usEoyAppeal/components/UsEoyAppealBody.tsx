@@ -174,7 +174,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                         Your support helped raise more than $1.25m for high impact journalism in the
                         new year. From broken healthcare to corrosive racial inequality, from
                         rapacious corporations to a climate crisis, the Guardian will tackle
-                        America’s systemic challenges in 2021. You&apos;ve read
+                        America’s systemic challenges in 2021. You&apos;ve read{' '}
                         <ArticleCountOptOut
                             numArticles={numArticles}
                             nextWord=" articles"
@@ -199,7 +199,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                     Your support helped raise more than $1.25m for high impact journalism in the new
                     year. From broken healthcare to corrosive racial inequality, from rapacious
                     corporations to a climate crisis, the Guardian will tackle America’s systemic
-                    challenges in 2021. You&apos;ve read
+                    challenges in 2021. You&apos;ve read{' '}
                     <ArticleCountOptOut
                         numArticles={numArticles}
                         nextWord=" articles"
