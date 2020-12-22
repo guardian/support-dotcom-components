@@ -1,5 +1,5 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
-import { usEoyAppeal, usEoyAppealWithVisual } from '../../modules';
+import { usEoyAppealWithVisual } from '../../modules';
 import { TickerCountType, TickerEndType } from '../../lib/variants';
 
 const tickerSettings = {
@@ -16,7 +16,7 @@ const tickerSettings = {
 const isLive = true;
 
 export const UsEoyAppealNonSupportersBanner: BannerTest = {
-    name: 'UsEoyAppealNonSupporters',
+    name: 'UsEoyAppealXmasNonSupporters',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     locations: ['UnitedStates'],
@@ -26,13 +26,6 @@ export const UsEoyAppealNonSupportersBanner: BannerTest = {
     variants: [
         {
             name: 'control',
-            modulePath: usEoyAppeal.endpointPath,
-            moduleName: 'UsEoyAppealBanner',
-            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-            tickerSettings,
-        },
-        {
-            name: 'variant',
             modulePath: usEoyAppealWithVisual.endpointPath,
             moduleName: 'UsEoyAppealBannerWithVisual',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
@@ -42,7 +35,7 @@ export const UsEoyAppealNonSupportersBanner: BannerTest = {
 };
 
 export const UsEoyAppealSupportersBanner: BannerTest = {
-    name: 'UsEoyAppealSupporters',
+    name: 'UsEoyAppealXmasSupporters',
     bannerChannel: 'contributions',
     testAudience: 'AllExistingSupporters',
     locations: ['UnitedStates'],
@@ -52,13 +45,6 @@ export const UsEoyAppealSupportersBanner: BannerTest = {
     variants: [
         {
             name: 'control',
-            modulePath: usEoyAppeal.endpointPath,
-            moduleName: 'UsEoyAppealBanner',
-            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-            tickerSettings,
-        },
-        {
-            name: 'variant',
             modulePath: usEoyAppealWithVisual.endpointPath,
             moduleName: 'UsEoyAppealBannerWithVisual',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
