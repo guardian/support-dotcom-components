@@ -57,7 +57,7 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
             cssOverrides={bannerStyles}
             visual={<UsEoyAppealVisual />}
             closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
-            header={<UsEoyAppealHeader />}
+            header={<UsEoyAppealHeader isSupporter={!!isSupporter} />}
             body={
                 <UsEoyAppealBody
                     isSupporter={!!isSupporter}
