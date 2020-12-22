@@ -6,9 +6,7 @@ import {
 } from '../../types/BannerTypes';
 import { contributionsBanner, globalEoy } from '../../modules';
 
-//TODO
-// const DEPLOY_TIMESTAMP = Date.parse('2020-12-29');
-const DEPLOY_TIMESTAMP = Date.parse('2020-11-29');
+const DEPLOY_TIMESTAMP = Date.parse('2020-12-29');
 
 const control = (body: string): BannerVariant => ({
     name: 'control',
