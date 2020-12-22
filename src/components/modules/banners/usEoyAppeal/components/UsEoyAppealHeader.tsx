@@ -3,7 +3,7 @@ import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateHeader from '../../contributionsTemplate/ContributionsTemplateHeader';
 import { selectComponent } from '../helpers/xmasUpdates';
 
-const UsEoyAppealVisual: React.FC = () => {
+const UsEoyAppealHeader: React.FC = () => {
     const isSupporter = false;
 
     const BeforeDec29Copy: React.FC = () => (
@@ -49,4 +49,4 @@ const UsEoyAppealVisual: React.FC = () => {
     return <ContributionsTemplateHeader copy={<Copy />} />;
 };
 
-export default UsEoyAppealVisual;
+export default UsEoyAppealHeader;
