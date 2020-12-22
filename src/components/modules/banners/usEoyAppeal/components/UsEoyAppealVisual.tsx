@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
 import ContributionsTemplateVisual from '../../contributionsTemplate/ContributionsTemplateVisual';
-import { selectComponent } from '../helpers/xmasUpdates';
+import { selectItem } from '../helpers/xmasUpdates';
 
 const beforeDec29VisualStyles = css`
     img {
@@ -52,12 +52,7 @@ const UsEoyAppealVisual: React.FC = () => {
         </picture>
     );
 
-    const Picture = selectComponent(
-        BeforeDec29Picture,
-        Dec29AndAfter,
-        Dec29AndAfter,
-        Dec29AndAfter,
-    );
+    const Picture = selectItem(BeforeDec29Picture, Dec29AndAfter, Dec29AndAfter, Dec29AndAfter);
 
     return <ContributionsTemplateVisual image={<Picture />} />;
 };

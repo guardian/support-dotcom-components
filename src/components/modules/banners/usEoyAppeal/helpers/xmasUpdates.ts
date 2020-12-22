@@ -1,16 +1,14 @@
-import React from 'react';
-
 const DEC_29 = Date.parse('2020-12-29');
 const JAN_1 = Date.parse('2021-01-01');
 const JAN_4 = Date.parse('2021-01-04');
 
-export const selectComponent = (
-    beforeDec29: React.FC,
-    dec29To31: React.FC,
-    jan1To3: React.FC,
-    afterJan3: React.FC,
+export const selectItem = <T>(
+    beforeDec29: T,
+    dec29To31: T,
+    jan1To3: T,
+    afterJan3: T,
     now = Date.now(),
-): React.FC => {
+): T => {
     if (now < DEC_29) {
         return beforeDec29;
     } else if (now < JAN_1) {

@@ -13,10 +13,7 @@ import {
     OPHAN_COMPONENT_EVENT_CLOSE_CLICK,
 } from './helpers/ophan';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
-
-const bannerStyles = css`
-    background-color: #e7d5b8;
-`;
+import { selectItem } from './helpers/xmasUpdates';
 
 const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
     isSupporter,
@@ -40,6 +37,20 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
         submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_CLOSE_CLICK);
         onClose();
     };
+
+    const beforeDec29BackgroundColour = '#dddbd1';
+    const dec29AndAfterColour = '#e7d5b8';
+
+    const backgroundColour = selectItem(
+        beforeDec29BackgroundColour,
+        dec29AndAfterColour,
+        dec29AndAfterColour,
+        dec29AndAfterColour,
+    );
+
+    const bannerStyles = css`
+        background-color: ${backgroundColour};
+    `;
 
     return (
         <ContributionsTemplateWithVisual

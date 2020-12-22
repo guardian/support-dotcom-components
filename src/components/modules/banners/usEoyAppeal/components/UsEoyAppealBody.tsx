@@ -2,7 +2,7 @@ import React from 'react';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateBody from '../../contributionsTemplate/ContributionsTemplateBody';
 import { ArticleCountOptOut } from '../../../shared/ArticleCountOptOut';
-import { selectComponent } from '../helpers/xmasUpdates';
+import { selectItem } from '../helpers/xmasUpdates';
 
 interface UsEoyAppealBodyProps {
     isSupporter: boolean;
@@ -220,7 +220,7 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
         </Hide>
     );
 
-    const Copy = selectComponent(BeforeDec29Copy, Dec29To31Copy, Jan1To3Copy, AfterJan3Copy);
+    const Copy = selectItem(BeforeDec29Copy, Dec29To31Copy, Jan1To3Copy, AfterJan3Copy);
 
     return <ContributionsTemplateBody copy={<Copy />} />;
 };

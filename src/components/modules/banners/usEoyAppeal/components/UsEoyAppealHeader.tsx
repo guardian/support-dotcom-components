@@ -1,7 +1,7 @@
 import React from 'react';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateHeader from '../../contributionsTemplate/ContributionsTemplateHeader';
-import { selectComponent } from '../helpers/xmasUpdates';
+import { selectItem } from '../helpers/xmasUpdates';
 
 const UsEoyAppealHeader: React.FC = () => {
     const isSupporter = false;
@@ -44,7 +44,7 @@ const UsEoyAppealHeader: React.FC = () => {
         </>
     );
 
-    const Copy = selectComponent(BeforeDec29Copy, Dec29To31Copy, Jan1To3Copy, AfterJan3Copy);
+    const Copy = selectItem(BeforeDec29Copy, Dec29To31Copy, Jan1To3Copy, AfterJan3Copy);
 
     return <ContributionsTemplateHeader copy={<Copy />} />;
 };

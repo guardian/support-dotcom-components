@@ -7,7 +7,7 @@ import { LinkButton, buttonBrandAlt } from '@guardian/src-button';
 import ContributionsTemplateCta from '../../contributionsTemplate/ContributionsTemplateCta';
 import { BannerTracking } from '../../../../../types/BannerTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../../lib/tracking';
-import { selectComponent } from '../helpers/xmasUpdates';
+import { selectItem } from '../helpers/xmasUpdates';
 
 const readMoreButtonStyles = css`
     color: ${neutral[7]};
@@ -55,7 +55,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
         <>{isSupporter ? 'Contribute Again' : 'Contribute Now'}</>
     );
 
-    const MobilePrimaryCtaCopy = selectComponent(
+    const MobilePrimaryCtaCopy = selectItem(
         BeforeJan1MobilePrimaryCtaCopy,
         BeforeJan1MobilePrimaryCtaCopy,
         Jan1AndAfterMobilePrimaryCtaCopy,
@@ -91,7 +91,7 @@ const UsEoyAppealCta: React.FC<UsEoyAppealCtaProps> = ({
 
     const Jan1AndAfterSecondaryCta: React.FC = () => <div></div>;
 
-    const SecondaryCta = selectComponent(
+    const SecondaryCta = selectItem(
         BeforeJan1SecondaryCta,
         BeforeJan1SecondaryCta,
         Jan1AndAfterSecondaryCta,
