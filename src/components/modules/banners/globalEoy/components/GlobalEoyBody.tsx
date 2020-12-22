@@ -2,19 +2,20 @@ import React from 'react';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateBody from '../../contributionsTemplate/ContributionsTemplateBody';
 import { ArticleCountOptOut } from '../../../shared/ArticleCountOptOut';
+import { getLocalCurrencySymbol } from '../../../../../lib/geolocation';
 
 interface GlobalEoyBodyProps {
-    isSupporter: boolean;
     numArticles: number;
     hasOptedOutOfArticleCount: boolean;
+    countryCode?: string;
 }
 
 const MIN_NUM_ARTICLES_TO_SHOW_ARTICLE_COUNT = 5;
 
 const GlobalEoyBody: React.FC<GlobalEoyBodyProps> = ({
-    isSupporter,
     hasOptedOutOfArticleCount,
     numArticles,
+    countryCode,
 }: GlobalEoyBodyProps) => {
     const shouldShowArticleCount =
         !hasOptedOutOfArticleCount && numArticles > MIN_NUM_ARTICLES_TO_SHOW_ARTICLE_COUNT;
@@ -24,62 +25,33 @@ const GlobalEoyBody: React.FC<GlobalEoyBodyProps> = ({
             copy={
                 <>
                     <Hide above="tablet">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor
-                        sit ame lorem ipsum dolor
+                        With 2021 offering new hope, we commit to another year of quality reporting.
+                        Support us from {getLocalCurrencySymbol(countryCode)}1.
                     </Hide>
                     <Hide below="tablet">
-                        {isSupporter ? (
-                            shouldShowArticleCount ? (
-                                // supporter + article count
-                                <>
-                                    Trump’s presidency is ending, but America’s systemic challenges
-                                    remain. From broken healthcare to corrosive racial inequality,
-                                    from rapacious corporations to a climate crisis, the need for
-                                    fact-based reporting that highlights injustice and offers
-                                    solutions is as great as ever. You&apos;ve read{' '}
-                                    <ArticleCountOptOut
-                                        numArticles={numArticles}
-                                        nextWord=" articles"
-                                        type="global-eoy-banner"
-                                    />{' '}
-                                    in the past year. We value your support and hope you’ll consider
-                                    a year-end gift.
-                                </>
-                            ) : (
-                                // supporter + no article count
-                                <>
-                                    Trump’s presidency is ending, but America’s systemic challenges
-                                    remain. From broken healthcare to corrosive racial inequality,
-                                    from rapacious corporations to a climate crisis, the need for
-                                    fact-based reporting that highlights injustice and offers
-                                    solutions is as great as ever. We value your support and hope
-                                    you’ll consider a year-end gift.
-                                </>
-                            )
-                        ) : shouldShowArticleCount ? (
-                            // non-supporter + article count
+                        {shouldShowArticleCount ? (
                             <>
-                                Trump’s presidency is ending, but America’s systemic challenges
-                                remain. From a broken healthcare system to corrosive racial
-                                inequality, from rapacious corporations to a climate crisis, the
-                                need for robust, fact-based reporting that highlights injustice and
-                                offers solutions is as great as ever. You&apos;ve read{' '}
+                                In an extraordinary 2020, our independent journalism was powered by
+                                more than a million supporters. Thanks to you, we provided vital
+                                news and analysis for everyone, led by science and truth.
+                                You&apos;ve read{' '}
                                 <ArticleCountOptOut
                                     numArticles={numArticles}
                                     nextWord=" articles"
-                                    type="us-eoy-banner"
+                                    type="global-eoy-banner"
                                 />{' '}
-                                in the past year. We hope you’ll consider a year-end gift.
+                                in the last year. With 2021 offering renewed hope, we commit to
+                                another year of high-impact reporting. Support us from{' '}
+                                {getLocalCurrencySymbol(countryCode)}1.
                             </>
                         ) : (
-                            // non-supporter + no article count
                             <>
-                                Trump’s presidency is ending, but America’s systemic challenges
-                                remain. From a broken healthcare system to corrosive racial
-                                inequality, from rapacious corporations to a climate crisis, the
-                                need for robust, fact-based reporting that highlights injustice and
-                                offers solutions is as great as ever. We hope you’ll consider a
-                                year-end gift.
+                                In an extraordinary 2020, our independent journalism was powered by
+                                more than a million supporters. Thanks to you, we provided vital
+                                news and analysis for everyone, led by science and truth. With 2021
+                                offering renewed hope, we commit to another year of high-impact
+                                reporting. Support us from as little as{' '}
+                                {getLocalCurrencySymbol(countryCode)}1.
                             </>
                         )}
                     </Hide>

@@ -7,14 +7,13 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../../../lib/tra
 
 const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
 const IMPACT_REPORT_LINK =
-    'https://www.theguardian.com/us-news/2020/nov/24/guardian-fundraiser-end-of-year-2020-contribute?INTCMP=us_eoy_banner';
+    'https://www.theguardian.com/info/ng-interactive/2020/dec/21/the-guardian-in-2020?INTCMP=global_eoy_banner';
 
 interface GlobalEoyCtaProps {
     onContributeClick: () => void;
     onReadMoreClick: () => void;
     tracking: BannerTracking;
     countryCode: string;
-    isSupporter: boolean;
 }
 
 const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
@@ -22,58 +21,53 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
     onReadMoreClick,
     tracking,
     countryCode,
-    isSupporter,
 }: GlobalEoyCtaProps) => {
-    let landingPageUrl = addRegionIdAndTrackingParamsToSupportUrl(
+    const landingPageUrl = addRegionIdAndTrackingParamsToSupportUrl(
         BASE_LANDING_PAGE_URL,
         tracking,
         countryCode,
     );
 
-    if (isSupporter) {
-        landingPageUrl += '&selected-contribution-type=ONE_OFF';
-    }
-
     return (
         <ContributionsTemplateCta
             primaryCta={
                 <div>
-                    <Hide above="tablet">
+                    <Hide above="desktop">
                         <LinkButton href={landingPageUrl} onClick={onContributeClick} size="small">
-                            {isSupporter ? 'Support' : 'Contribute'}
+                            Support us
                         </LinkButton>
                     </Hide>
-                    <Hide below="tablet">
+                    <Hide below="desktop">
                         <LinkButton
                             href={landingPageUrl}
                             onClick={onContributeClick}
                             size="default"
                         >
-                            {isSupporter ? 'Support us again' : 'Support the Guardian'}
+                            Support the Guardian
                         </LinkButton>
                     </Hide>
                 </div>
             }
             secondaryCta={
                 <div>
-                    <Hide above="tablet">
+                    <Hide above="desktop">
                         <LinkButton
                             href={IMPACT_REPORT_LINK}
                             onClick={onReadMoreClick}
                             size="small"
                             priority="tertiary"
                         >
-                            Read more
+                            Learn more
                         </LinkButton>
                     </Hide>
-                    <Hide below="tablet">
+                    <Hide below="desktop">
                         <LinkButton
                             href={IMPACT_REPORT_LINK}
                             onClick={onReadMoreClick}
                             size="default"
                             priority="tertiary"
                         >
-                            Read more
+                            Read our 2020 highlights
                         </LinkButton>
                     </Hide>
                 </div>

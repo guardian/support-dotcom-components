@@ -19,7 +19,6 @@ const bannerStyles = css`
 `;
 
 const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
-    isSupporter,
     onClose,
     submitComponentEvent,
     tracking,
@@ -48,9 +47,9 @@ const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
             header={<GlobalEoyHeader />}
             body={
                 <GlobalEoyBody
-                    isSupporter={!!isSupporter}
                     numArticles={numArticles || 0}
                     hasOptedOutOfArticleCount={!!hasOptedOutOfArticleCount}
+                    countryCode={countryCode}
                 />
             }
             cta={
@@ -59,7 +58,6 @@ const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
                     onReadMoreClick={onReadMoreClick}
                     tracking={tracking}
                     countryCode={countryCode || ''}
-                    isSupporter={!!isSupporter}
                 />
             }
         />

@@ -8,7 +8,10 @@ import {
     UsEoyAppealNonSupportersBanner,
     UsEoyAppealSupportersBanner,
 } from './UsEoyAppealBannerTest';
-import { GlobalEoyNonSupportersBanner, GlobalEoySupportersBanner } from './GlobalEoyBannerTest';
+import {
+    GlobalEoyNonSupportersACBanner,
+    GlobalEoyNonSupportersNoACBanner,
+} from './GlobalEoyBannerTest';
 import { cacheAsync } from '../../lib/cache';
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
@@ -18,7 +21,7 @@ const usEoyAppealTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([UsEoyAppealSupportersBanner, UsEoyAppealNonSupportersBanner]);
 
 const globalEoyTestGenerator: BannerTestGenerator = () =>
-    Promise.resolve([GlobalEoySupportersBanner, GlobalEoyNonSupportersBanner]);
+    Promise.resolve([GlobalEoyNonSupportersACBanner, GlobalEoyNonSupportersNoACBanner]);
 
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
