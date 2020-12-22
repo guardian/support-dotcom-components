@@ -160,7 +160,6 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                     … we want to thank everyone who has helped us reach our goal. The need for
                     robust, fact-based journalism that highlights injustice and offers solutions is
                     as great as ever. It’s not too late to give; our fundraiser closes 10 January.
-                    year.
                 </>
             )}
         </Hide>
