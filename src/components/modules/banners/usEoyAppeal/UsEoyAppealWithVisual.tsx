@@ -15,7 +15,7 @@ import {
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 
 const bannerStyles = css`
-    background-color: #dddbd1;
+    background-color: #e7d5b8;
 `;
 
 const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
