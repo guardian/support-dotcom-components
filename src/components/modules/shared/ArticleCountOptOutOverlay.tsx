@@ -9,7 +9,7 @@ import {
 } from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { Button } from '@guardian/src-button';
+import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import {
@@ -25,24 +25,28 @@ const COLOURS = {
     epic: 'white',
     banner: brandAltText.primary,
     ['us-eoy-banner']: neutral[0],
+    ['global-eoy-banner']: neutral[0],
 };
 
 const BACKGROUND_COLOURS = {
     epic: brand[400],
     banner: brandAltBackground.primary,
     ['us-eoy-banner']: '#E7D4B9',
+    ['global-eoy-banner']: '#FFF7E5',
 };
 
 const BORDER_COLOURS = {
     epic: 'transparent',
     banner: brandAltLine.primary,
     ['us-eoy-banner']: neutral[0],
+    ['global-eoy-banner']: '#052962',
 };
 
 const BUTTON_THEMES = {
     epic: brandTheme,
     banner: brandAltTheme,
     ['us-eoy-banner']: buttonBrandAltTheme,
+    ['global-eoy-banner']: buttonDefaultTheme,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
@@ -94,6 +98,7 @@ const NOTE_LINK_COLOURS = {
     epic: neutral[100],
     banner: brandAltText.primary,
     ['us-eoy-banner']: neutral[0],
+    ['global-eoy-banner']: neutral[0],
 };
 
 const usEoyBannerOverrides = css`
@@ -106,6 +111,7 @@ const BUTTON_OVERRIDES = {
     epic: css``,
     banner: css``,
     ['us-eoy-banner']: usEoyBannerOverrides,
+    ['global-eoy-banner']: css``,
 };
 
 const overlayNote = (type: ArticleCountOptOutType): SerializedStyles => css`

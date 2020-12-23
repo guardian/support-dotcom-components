@@ -49,7 +49,7 @@ const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css
     }
 `;
 
-export type ArticleCountOptOutType = 'epic' | 'banner' | 'us-eoy-banner';
+export type ArticleCountOptOutType = 'epic' | 'banner' | 'us-eoy-banner' | 'global-eoy-banner';
 
 export interface ArticleCountOptOutProps {
     numArticles: number;

@@ -3,12 +3,12 @@ import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 
-const banner = (backgroundColour: string): SerializedStyles => css`
+const banner = (cssOverrides?: SerializedStyles): SerializedStyles => css`
+    ${cssOverrides};
     overflow: hidden;
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: ${backgroundColour};
 `;
 
 const container = css`
@@ -117,7 +117,7 @@ export interface ContributionsTemplateWithVisualProps {
     body: React.ReactElement;
     ticker?: React.ReactElement;
     cta: React.ReactElement;
-    backgroundColour: string;
+    cssOverrides?: SerializedStyles;
 }
 
 const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualProps> = ({
@@ -127,10 +127,10 @@ const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualP
     body,
     ticker,
     cta,
-    backgroundColour,
+    cssOverrides,
 }: ContributionsTemplateWithVisualProps) => {
     return (
-        <div css={banner(backgroundColour)}>
+        <div css={banner(cssOverrides)}>
             <div css={container}>
                 <div css={visualContainer}>
                     <div css={visualSizer}>
