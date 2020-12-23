@@ -18,7 +18,7 @@ const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
 
 const usEoyAppealTestGenerator: BannerTestGenerator = () =>
-    Promise.resolve([UsEoyAppealSupportersBanner, UsEoyAppealNonSupportersBanner]);
+    Promise.resolve([UsEoyAppealNonSupportersBanner, UsEoyAppealSupportersBanner]);
 
 const globalEoyTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([GlobalEoyNonSupportersACBanner, GlobalEoyNonSupportersNoACBanner]);

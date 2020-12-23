@@ -20,6 +20,7 @@ import {
 import { from } from '@guardian/src-foundations/mq';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOut';
+import { selectItem } from '../banners/usEoyAppeal/helpers/xmasUpdates';
 
 const COLOURS = {
     epic: 'white',
@@ -28,10 +29,21 @@ const COLOURS = {
     ['global-eoy-banner']: neutral[0],
 };
 
+const BEFORE_DEC_29_US_EOY_BANNER_BG_COLOUR = '#dddbd1';
+const DEC_29_TO_JAN_3_US_EOY_BANNER_BG_COLOUR = '#e7d5b8';
+const AFTER_JAN_3_US_EOY_BANNER_BG_COLOUR = BEFORE_DEC_29_US_EOY_BANNER_BG_COLOUR;
+
+const US_EOY_BANNER_BG_COLOUR = selectItem(
+    BEFORE_DEC_29_US_EOY_BANNER_BG_COLOUR,
+    DEC_29_TO_JAN_3_US_EOY_BANNER_BG_COLOUR,
+    DEC_29_TO_JAN_3_US_EOY_BANNER_BG_COLOUR,
+    AFTER_JAN_3_US_EOY_BANNER_BG_COLOUR,
+);
+
 const BACKGROUND_COLOURS = {
     epic: brand[400],
     banner: brandAltBackground.primary,
-    ['us-eoy-banner']: '#E7D4B9',
+    ['us-eoy-banner']: US_EOY_BANNER_BG_COLOUR,
     ['global-eoy-banner']: '#FFF7E5',
 };
 
