@@ -1,23 +1,24 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import ContributionsTemplateWithVisual from '../contributionsTemplate/ContributionsTemplateWithVisual';
-import UsEoyAppealBody from './components/UsEoyAppealBody';
-import UsEoyAppealVisual from './components/UsEoyAppealVisual';
-import UsEoyAppealCloseButton from './components/UsEoyAppealCloseButton';
-import UsEoyAppealHeader from './components/UsEoyAppealHeader';
-import UsEoyAppealTicker from './components/UsEoyAppealTicker';
-import UsEoyAppealCta from './components/UsEoyAppealCta';
+import GlobalEoyBody from './components/GlobalEoyBody';
+import GlobalEoyVisual from './components/GlobalEoyVisual';
+import GlobalEoyCloseButton from './components/GlobalEoyCloseButton';
+import GlobalEoyHeader from './components/GlobalEoyHeader';
+import GlobalEoyCta from './components/GlobalEoyCta';
 import {
     OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK,
     OPHAN_COMPONENT_EVENT_READ_MORE_CLICK,
     OPHAN_COMPONENT_EVENT_CLOSE_CLICK,
 } from './helpers/ophan';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
-import { selectItem } from './helpers/xmasUpdates';
 
-const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
-    isSupporter,
-    tickerSettings,
+const bannerStyles = css`
+    background-color: #fff7e5;
+    border-top: 1px solid #052962;
+`;
+
+const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
     onClose,
     submitComponentEvent,
     tracking,
@@ -38,48 +39,31 @@ const UsEoyAppealBannerWithVisual: React.FC<CloseableBannerProps> = ({
         onClose();
     };
 
-    const beforeDec29BackgroundColour = '#dddbd1';
-    const dec29ToJan3Colour = '#e7d5b8';
-    const afterJan3Colour = beforeDec29BackgroundColour;
-
-    const backgroundColour = selectItem(
-        beforeDec29BackgroundColour,
-        dec29ToJan3Colour,
-        dec29ToJan3Colour,
-        afterJan3Colour,
-    );
-
-    const bannerStyles = css`
-        background-color: ${backgroundColour};
-    `;
-
     return (
         <ContributionsTemplateWithVisual
             cssOverrides={bannerStyles}
-            visual={<UsEoyAppealVisual />}
-            closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
-            header={<UsEoyAppealHeader isSupporter={!!isSupporter} />}
+            visual={<GlobalEoyVisual />}
+            closeButton={<GlobalEoyCloseButton onClose={onCloseClick} />}
+            header={<GlobalEoyHeader />}
             body={
-                <UsEoyAppealBody
-                    isSupporter={!!isSupporter}
+                <GlobalEoyBody
                     numArticles={numArticles || 0}
                     hasOptedOutOfArticleCount={!!hasOptedOutOfArticleCount}
+                    countryCode={countryCode}
                 />
             }
-            ticker={tickerSettings && <UsEoyAppealTicker tickerSettings={tickerSettings} />}
             cta={
-                <UsEoyAppealCta
+                <GlobalEoyCta
                     onContributeClick={onContributeClick}
                     onReadMoreClick={onReadMoreClick}
                     tracking={tracking}
                     countryCode={countryCode || ''}
-                    isSupporter={!!isSupporter}
                 />
             }
         />
     );
 };
 
-const wrapped = withCloseable(UsEoyAppealBannerWithVisual, 'contributions');
+const wrapped = withCloseable(GlobalEoyBanner, 'contributions');
 
-export { wrapped as UsEoyAppealBannerWithVisual };
+export { wrapped as GlobalEoyBanner };

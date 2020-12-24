@@ -50,12 +50,17 @@ const rowMobImg =
 const rowBaseImg =
     'https://i.guim.co.uk/img/media/22841f3977aedb85be7b0cf442747b1da51f780f/0_0_2320_1890/500.png?width=500&quality=85&s=ea72f5bae5069da178db8bacc11de720';
 
-const getMobileImg = (countryCode: string | undefined) => ({
+interface Img {
+    url: string;
+    media: string;
+}
+
+const getMobileImg = (countryCode: string | undefined): Img => ({
     url: countryCode === 'AU' ? ausMobImg : rowMobImg,
     media: '(max-width: 739px)',
 });
 
-const getBaseImg = (countryCode: string | undefined) => ({
+const getBaseImg = (countryCode: string | undefined): Img => ({
     url: countryCode === 'AU' ? ausBaseImg : rowBaseImg,
     media: '(min-width: 740px)',
 });

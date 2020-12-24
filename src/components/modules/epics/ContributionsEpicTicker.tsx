@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
@@ -67,7 +67,7 @@ const progressBarTransform = (end: number, runningTotal: number, total: number):
     return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
 };
 
-const filledProgressStyles = (end: number, runningTotal: number, total: number) =>
+const filledProgressStyles = (end: number, runningTotal: number, total: number): SerializedStyles =>
     css`
         position: absolute;
         top: 0;
@@ -86,7 +86,7 @@ const goalReachedGoalContainerStyles = css`
     }
 `;
 
-const goalContainerStyles = (goalReached: boolean) => css`
+const goalContainerStyles = (goalReached: boolean): SerializedStyles => css`
     position: absolute;
     right: 0;
     bottom: ${progressBarHeight + 5}px;
@@ -94,7 +94,7 @@ const goalContainerStyles = (goalReached: boolean) => css`
     ${goalReached && goalReachedGoalContainerStyles}
 `;
 
-const goalMarkerStyles = (transform: string) => css`
+const goalMarkerStyles = (transform: string): SerializedStyles => css`
     border-right: 2px solid ${palette.neutral[7]};
     content: ' ';
     display: block;

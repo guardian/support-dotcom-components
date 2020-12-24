@@ -17,6 +17,14 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
+export const epicACAbove: ModuleInfo = getDefaultModuleInfo(
+    'epic-ac-above',
+    'epics/ContributionsEpicWithArticleCountAbove',
+);
+export const epicACInline: ModuleInfo = getDefaultModuleInfo(
+    'epic-ac-inline',
+    'epics/ContributionsEpicWithArticleCountInline',
+);
 
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
@@ -43,11 +51,19 @@ export const usEoyAppealWithVisual: ModuleInfo = getDefaultModuleInfo(
     'banners/usEoyAppeal/UsEoyAppealWithVisual',
 );
 
+export const globalEoy: ModuleInfo = getDefaultModuleInfo(
+    'global-eoy-banner',
+    'banners/globalEoy/GlobalEoy',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
+    epicACAbove,
+    epicACInline,
     contributionsBanner,
     digiSubs,
     guardianWeekly,
     usEoyAppeal,
     usEoyAppealWithVisual,
+    globalEoy,
 ];

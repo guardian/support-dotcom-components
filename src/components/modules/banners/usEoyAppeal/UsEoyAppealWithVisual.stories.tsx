@@ -21,6 +21,9 @@ Supporters.args = {
     isSupporter: true,
 };
 
+export const WithArticleCount = Template.bind({});
+WithArticleCount.args = { numArticles: 20 };
+
 export const GoalReached = Template.bind({});
 GoalReached.args = {
     tickerSettings: { ...tickerSettings, tickerData: { total: 175_000, goal: 150_000 } },

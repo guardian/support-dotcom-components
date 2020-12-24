@@ -45,7 +45,7 @@ const UsEoyAppealBanner: React.FC<CloseableBannerProps> = ({
         <ContributionsTemplate
             backgroundColour="#DDDBD1"
             closeButton={<UsEoyAppealCloseButton onClose={onCloseClick} />}
-            header={<UsEoyAppealHeader />}
+            header={<UsEoyAppealHeader isSupporter={!!isSupporter} />}
             body={
                 <UsEoyAppealBody
                     isSupporter={!!isSupporter}
