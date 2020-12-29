@@ -57,7 +57,7 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
                             size="small"
                             priority="tertiary"
                         >
-                            Learn more
+                            2020 highlights
                         </LinkButton>
                     </Hide>
                     <Hide below="desktop">
@@ -67,7 +67,7 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
                             size="default"
                             priority="tertiary"
                         >
-                            Read our 2020 highlights
+                            2020 highlights
                         </LinkButton>
                     </Hide>
                 </div>
