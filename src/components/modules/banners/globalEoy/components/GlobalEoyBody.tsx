@@ -41,7 +41,7 @@ const GlobalEoyBody: React.FC<GlobalEoyBodyProps> = ({
                                     type="global-eoy-banner"
                                 />{' '}
                                 in the last year. With 2021 offering renewed hope, we commit to
-                                another year of high-impact reporting. Support us from{' '}
+                                another year of high-impact reporting. Support us from as little as{' '}
                                 {getLocalCurrencySymbol(countryCode)}1.
                             </>
                         ) : (
