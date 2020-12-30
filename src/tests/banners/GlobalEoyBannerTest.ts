@@ -19,7 +19,7 @@ const control = (body: string): BannerVariant => ({
         highlightedText:
             'Support the Guardian today from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         cta: {
-            text: 'Support the guardian',
+            text: 'Support the Guardian',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
     },
