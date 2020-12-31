@@ -40,9 +40,7 @@ app.use(express.json({ limit: '50mb' }));
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
 app.options('*', cors());
-
 app.use(loggingMiddleware);
-
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
     res.send('OK');
