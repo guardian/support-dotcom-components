@@ -28,8 +28,8 @@ export const tickerSettings = {
     currencySymbol: '$',
     copy: {
         countLabel: 'contributed',
-        goalReachedPrimary: "We've met our goal - thank you",
-        goalReachedSecondary: 'Contributions are still being accepted',
+        goalReachedPrimary: "It's not too late to give!",
+        goalReachedSecondary: '',
     },
     tickerData: {
         total: 120_000,
