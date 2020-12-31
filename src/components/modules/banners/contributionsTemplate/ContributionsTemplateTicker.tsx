@@ -172,7 +172,7 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
                 <div css={goalContainerStyles}>
                     <div css={totalCountStyles(accentColour)}>
                         {currencySymbol}
-                        {isGoalReached ? runningTotal.toLocaleString() : total.toLocaleString()}
+                        {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}
                     </div>
                     <div css={countLabelStyles}>
                         {isGoalReached ? settings.copy.countLabel : 'our goal'}
