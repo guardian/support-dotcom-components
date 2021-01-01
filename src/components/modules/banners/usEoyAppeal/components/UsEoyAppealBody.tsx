@@ -152,7 +152,6 @@ const UsEoyAppealBody: React.FC<UsEoyAppealBodyProps> = ({
                         type="us-eoy-banner"
                     />{' '}
                     in the past year. It’s not too late to give; our fundraiser closes 10 January.
-                    year.
                 </>
             ) : (
                 // non-supporter + no article count
