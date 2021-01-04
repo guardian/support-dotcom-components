@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import useTicker from '../../../hooks/useTicker';
@@ -79,19 +78,11 @@ const filledProgressStyles = (end: number, runningTotal: number, total: number):
         background-color: ${palette.brandAlt.main};
     `;
 
-const goalReachedGoalContainerStyles = css`
-    display: none;
-    ${from.tablet} {
-        display: initial;
-    }
-`;
-
-const goalContainerStyles = (goalReached: boolean): SerializedStyles => css`
+const goalContainerStyles: SerializedStyles = css`
     position: absolute;
     right: 0;
     bottom: ${progressBarHeight + 5}px;
     text-align: right;
-    ${goalReached && goalReachedGoalContainerStyles}
 `;
 
 const goalMarkerStyles = (transform: string): SerializedStyles => css`
@@ -167,7 +158,7 @@ export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal
                     </div>
                 </div>
 
-                <div css={goalContainerStyles(goalReached)}>
+                <div css={goalContainerStyles}>
                     <div css={totalCountStyles}>
                         {goalReached
                             ? `${currencySymbol}${total.toLocaleString()}`
