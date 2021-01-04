@@ -145,31 +145,38 @@ const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = 
 
     const total = settings.tickerData?.total || 1;
     const goal = settings.tickerData?.goal || 1;
-
+    const isGoalReached = total >= goal;
     const runningTotal = useTicker(total, readyToAnimate);
-
     const currencySymbol = settings.countType === 'money' ? settings.currencySymbol : '';
 
     // If we've exceeded the goal then extend the bar 15% beyond the total
-    const end = total > goal ? total + total * 0.15 : goal;
+    const end = isGoalReached ? total + total * 0.15 : goal;
 
     return (
         <div ref={setNode} css={rootStyles}>
             <div>
                 <div css={soFarContainerStyles}>
                     <div css={soFarCountStyles(accentColour)}>
-                        {currencySymbol}
-                        {runningTotal.toLocaleString()}
+                        {!isGoalReached && currencySymbol}
+                        {isGoalReached
+                            ? settings.copy.goalReachedPrimary
+                            : runningTotal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>{settings.copy.countLabel}</div>
+                    <div css={countLabelStyles}>
+                        {isGoalReached
+                            ? settings.copy.goalReachedSecondary
+                            : settings.copy.countLabel}
+                    </div>
                 </div>
 
                 <div css={goalContainerStyles}>
                     <div css={totalCountStyles(accentColour)}>
                         {currencySymbol}
-                        {goal.toLocaleString()}
+                        {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>our goal</div>
+                    <div css={countLabelStyles}>
+                        {isGoalReached ? settings.copy.countLabel : 'our goal'}
+                    </div>
                 </div>
             </div>
 

@@ -7,9 +7,9 @@ const tickerSettings = {
     endType: TickerEndType.unlimited,
     currencySymbol: '$',
     copy: {
-        countLabel: 'contributed so far',
-        goalReachedPrimary: "We've hit our goal!",
-        goalReachedSecondary: 'but you can still support us',
+        countLabel: 'contributed',
+        goalReachedPrimary: 'You can still give!',
+        goalReachedSecondary: '',
     },
 };
 
