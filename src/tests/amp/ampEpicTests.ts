@@ -34,7 +34,7 @@ export const [, getCachedAmpEpicTests] = cacheAsync<AmpEpicTest[]>(
 type AmpExperiments = {
     [key: string]: {
         variants: {
-            [key: string]: string;
+            [key: string]: number;
         };
     };
 };
@@ -42,29 +42,21 @@ type AmpExperiments = {
 export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
     const cachedTests = await getCachedAmpEpicTests();
     const ampExperiments: AmpExperiments = {
-        fallback: {
+        FALLBACK: {
             variants: {
-                CONTROL: '99.99999', // 100.0 is not valid for AMP
+                control: 99.9999999999, // 100.0 is not valid for AMP
             },
         },
     };
 
     cachedTests.forEach((test: AmpEpicTest) => {
-        const variants: { [key: string]: string } = {};
+        const variants: { [key: string]: number } = {};
 
         const variantNames = test.variants.map(variant => variant.name);
         const variantAudiencePercentage = 100 / variantNames.length;
-        const hasRemainder = !!(100 % variantNames.length);
-
-        const variantAudiencePercentageString =
-            variantAudiencePercentage === 100
-                ? '99.999999'
-                : hasRemainder
-                ? variantAudiencePercentage.toString(10)
-                : variantAudiencePercentage.toFixed(1);
 
         variantNames.forEach(variantName => {
-            variants[variantName.toUpperCase()] = variantAudiencePercentageString;
+            variants[variantName.toUpperCase()] = variantAudiencePercentage - 0.0000000001;
         });
 
         ampExperiments[test.name.toUpperCase()] = {
