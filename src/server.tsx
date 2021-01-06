@@ -397,7 +397,9 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const response = await getAmpExperimentData();
-            res.setHeader('Cache-Control', 'private');
+
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
             res.json(response);
         } catch (error) {
             next(error);
