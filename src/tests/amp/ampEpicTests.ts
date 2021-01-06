@@ -44,7 +44,7 @@ export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
     const ampExperiments: AmpExperiments = {
         FALLBACK: {
             variants: {
-                control: 99.9999999999, // 100.0 is not valid for AMP
+                CONTROL: 99.9999999999, // 100.0 is not valid for AMP
             },
         },
     };

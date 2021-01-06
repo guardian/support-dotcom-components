@@ -8,7 +8,7 @@ async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
         testName: 'FALLBACK',
-        variantName: 'control',
+        variantName: 'CONTROL',
         heading: "Since you're here ...",
         paragraphs: [
             '... we have a small favour to ask. Millions turn to the Guardian every day for vital, independent, quality journalism. Readers in 180 countries around the world now support us financially.',
