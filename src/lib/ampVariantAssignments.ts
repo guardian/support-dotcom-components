@@ -13,7 +13,7 @@ export const getAmpVariantAssignments = (req: express.Request): AmpVariantAssign
         .split('!')
         .forEach((testAndVariant: string) => {
             const [test, variant] = testAndVariant.split('.');
-            ampVariantAssignments[test.toUpperCase()] = variant.toUpperCase();
+            ampVariantAssignments[test] = variant;
         });
 
     return ampVariantAssignments;

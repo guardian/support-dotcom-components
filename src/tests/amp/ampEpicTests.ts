@@ -56,10 +56,10 @@ export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
         const variantAudiencePercentage = 100 / variantNames.length;
 
         variantNames.forEach(variantName => {
-            variants[variantName.toUpperCase()] = variantAudiencePercentage - 0.0000000001;
+            variants[variantName] = variantAudiencePercentage - 0.0000000001;
         });
 
-        ampExperiments[test.name.toUpperCase()] = {
+        ampExperiments[test.name] = {
             variants: variants,
         };
     });
@@ -76,12 +76,14 @@ export const selectAmpEpicTestAndVariant = async (
 
     if (test && test.variants) {
         const assignedVariantName = ampVariantAssignments[test.name];
-        const variant = test.variants.find(variant => variant.name === assignedVariantName);
+        const variant = test.variants.find(
+            variant => variant.name.toUpperCase() === assignedVariantName.toUpperCase(),
+        );
 
         if (variant) {
             const epicData = {
-                testName: test.name.toUpperCase(),
-                variantName: variant.name.toUpperCase(),
+                testName: test.name,
+                variantName: variant.name,
                 heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
                 paragraphs: variant.paragraphs.map(p =>
                     replaceNonArticleCountPlaceholders(p, countryCode),
@@ -95,8 +97,8 @@ export const selectAmpEpicTestAndVariant = async (
                     url: variant.cta
                         ? variant.cta.baseUrl
                         : 'https://support.theguardian.com/contribute',
-                    componentId: `${test.name}-${variant.name}`,
-                    campaignCode: `${test.name}-${variant.name}`,
+                    componentId: `AMP__${test.name}__${variant.name}`,
+                    campaignCode: `AMP__${test.name}__${variant.name}`,
                 },
             };
 

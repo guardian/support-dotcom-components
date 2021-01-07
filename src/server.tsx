@@ -457,11 +457,15 @@ app.get(
                 },
             };
 
-            fetch(
-                `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}&componentEvent=${JSON.stringify(
-                    ophanComponentEvent,
-                )}`,
-            ).then(ophanResponse => {
+            const ophanUrl = `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}&componentEvent=${JSON.stringify(
+                ophanComponentEvent,
+            )}`;
+
+            if (!isProd) {
+                console.log(ophanUrl);
+            }
+
+            fetch(ophanUrl).then(ophanResponse => {
                 res.send(ophanResponse);
             });
         } catch (error) {

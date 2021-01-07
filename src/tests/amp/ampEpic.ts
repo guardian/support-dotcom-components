@@ -4,7 +4,7 @@ import { selectAmpEpic } from './ampEpicTests';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 
 async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
-    const campaignCode = 'AMP_FALLBACK_EPIC';
+    const campaignCode = 'AMP__FALLBACK__CONTROL';
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
         testName: 'FALLBACK',
