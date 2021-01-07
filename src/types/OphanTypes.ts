@@ -4,7 +4,7 @@ export type OphanProduct =
     | 'DIGITAL_SUBSCRIPTION'
     | 'PRINT_SUBSCRIPTION';
 
-export type OphanAction = 'CLICK';
+export type OphanAction = 'CLICK' | 'VIEW';
 
 export type OphanComponentType =
     | 'ACQUISITIONS_EPIC'
