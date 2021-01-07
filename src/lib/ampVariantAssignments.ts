@@ -5,16 +5,16 @@ export type AmpVariantAssignments = {
 };
 
 export const getAmpVariantAssignments = (req: express.Request): AmpVariantAssignments => {
-    const { testData } = req.query;
-    const ampVariantAssignments: AmpVariantAssignments = {};
+    const { ampVariantAssignments } = req.query;
+    const result: AmpVariantAssignments = {};
 
-    testData
+    ampVariantAssignments
         ?.toString()
         .split('!')
         .forEach((testAndVariant: string) => {
             const [test, variant] = testAndVariant.split('.');
-            ampVariantAssignments[test] = variant;
+            result[test] = variant;
         });
 
-    return ampVariantAssignments;
+    return result;
 };
