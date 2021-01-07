@@ -81,8 +81,8 @@ const expectedAmpEpic: AMPEpic = {
     cta: {
         text: 'Show your support',
         url: 'https://support.theguardian.com/contribute',
-        componentId: 'TEST1-CONTROL',
-        campaignCode: 'TEST1-CONTROL',
+        componentId: 'AMP__TEST1__CONTROL',
+        campaignCode: 'AMP__TEST1__CONTROL',
     },
     ticker: {
         bottomLeft: 'contributions',
@@ -118,8 +118,8 @@ describe('ampEpicTests', () => {
             variantName: 'CONTROL',
             cta: {
                 ...expectedAmpEpic.cta,
-                componentId: 'TEST2-CONTROL',
-                campaignCode: 'TEST2-CONTROL',
+                componentId: 'AMP__TEST2__CONTROL',
+                campaignCode: 'AMP__TEST2__CONTROL',
             },
         });
     });
