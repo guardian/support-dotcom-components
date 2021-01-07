@@ -461,12 +461,8 @@ app.get(
                 ophanComponentEvent,
             )}`;
 
-            if (!isProd) {
-                console.log(ophanUrl);
-            }
-
             fetch(ophanUrl).then(ophanResponse => {
-                res.send(ophanResponse);
+                res.json({ ophanUrl: ophanUrl, ophanResponse: ophanResponse });
             });
         } catch (error) {
             next(error);
