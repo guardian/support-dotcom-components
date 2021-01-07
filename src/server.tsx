@@ -442,6 +442,9 @@ app.get(
     }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
+
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
