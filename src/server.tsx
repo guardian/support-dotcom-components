@@ -369,13 +369,13 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
     if (notBothFalsy && notTheSame) {
         console.log(
             'comparison failed with data: ' +
-                JSON.stringify({
-                    status: 'comparison failed',
-                    got: `${gotTestName}:${gotVariantName}:${gotCampaignCode}:${gotCampaignId}`,
-                    want: `${expectedTest}:${expectedVariant}:${expectedCampaignCode}:${expectedCampaignId}`,
-                    targeting,
-                    frontendLog,
-                }),
+            JSON.stringify({
+                status: 'comparison failed',
+                got: `${gotTestName}:${gotVariantName}:${gotCampaignCode}:${gotCampaignId}`,
+                want: `${expectedTest}:${expectedVariant}:${expectedCampaignCode}:${expectedCampaignId}`,
+                targeting,
+                frontendLog,
+            }),
         );
     }
 
@@ -442,6 +442,9 @@ app.get(
     }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
+
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
