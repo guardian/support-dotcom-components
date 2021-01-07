@@ -369,13 +369,13 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
     if (notBothFalsy && notTheSame) {
         console.log(
             'comparison failed with data: ' +
-            JSON.stringify({
-                status: 'comparison failed',
-                got: `${gotTestName}:${gotVariantName}:${gotCampaignCode}:${gotCampaignId}`,
-                want: `${expectedTest}:${expectedVariant}:${expectedCampaignCode}:${expectedCampaignId}`,
-                targeting,
-                frontendLog,
-            }),
+                JSON.stringify({
+                    status: 'comparison failed',
+                    got: `${gotTestName}:${gotVariantName}:${gotCampaignCode}:${gotCampaignId}`,
+                    want: `${expectedTest}:${expectedVariant}:${expectedCampaignCode}:${expectedCampaignId}`,
+                    targeting,
+                    frontendLog,
+                }),
         );
     }
 
