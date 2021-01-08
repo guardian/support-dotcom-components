@@ -11,7 +11,11 @@ import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
 import { Debug, findTestAndVariant, Result, Variant } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
-import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
+import {
+    buildAmpEpicCampaignCode,
+    buildBannerCampaignCode,
+    buildCampaignCode,
+} from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
@@ -448,7 +452,7 @@ app.get(
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
-            const campaignCode = `AMP__${epic.testName}__${epic.variantName}`;
+            const campaignCode = buildAmpEpicCampaignCode(epic.testName, epic.variantName);
             const { viewId, ampViewId } = req.query;
             const ophanComponentEvent: OphanComponentEvent = {
                 component: {

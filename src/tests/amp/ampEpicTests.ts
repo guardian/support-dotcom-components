@@ -6,6 +6,7 @@ import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { replaceNonArticleCountPlaceholders } from '../../lib/placeholders';
 import { ampTicker } from './ampTicker';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import { buildAmpEpicCampaignCode } from '../../lib/tracking';
 
 /**
  * Fetches AMP epic tests configuration from the tool.
@@ -81,6 +82,7 @@ export const selectAmpEpicTestAndVariant = async (
         );
 
         if (variant) {
+            const campaignCode = buildAmpEpicCampaignCode(test.name, variant.name);
             const epicData = {
                 testName: test.name,
                 variantName: variant.name,
@@ -97,8 +99,8 @@ export const selectAmpEpicTestAndVariant = async (
                     url: variant.cta
                         ? variant.cta.baseUrl
                         : 'https://support.theguardian.com/contribute',
-                    componentId: `AMP__${test.name}__${variant.name}`,
-                    campaignCode: `AMP__${test.name}__${variant.name}`,
+                    componentId: campaignCode,
+                    campaignCode: campaignCode,
                 },
             };
 

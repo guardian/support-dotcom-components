@@ -63,6 +63,9 @@ export const buildCampaignCode = (test: Test, variant: Variant): string =>
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>
     `${test.name}_${variant.name}`;
 
+export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
+    `AMP__${testName}__${variantName}`;
+
 export const createClickEventFromTracking = (
     tracking: BannerTracking,
     componentId: string,
