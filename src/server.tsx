@@ -448,16 +448,20 @@ app.get(
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const campaignCode = `AMP__${epic.testName}__${epic.variantName}`;
             const { viewId, ampViewId } = req.query;
             const ophanComponentEvent: OphanComponentEvent = {
                 component: {
                     componentType: 'ACQUISITIONS_EPIC',
+                    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+                    campaignCode: campaignCode,
+                    id: campaignCode,
                 },
-                action: 'VIEW',
                 abTest: {
                     name: epic.testName,
                     variant: epic.variantName,
                 },
+                action: 'VIEW',
             };
 
             const ophanUrl = `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}&componentEvent=${encodeURI(
