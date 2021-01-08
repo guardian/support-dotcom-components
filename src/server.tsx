@@ -11,7 +11,11 @@ import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
 import { Debug, findTestAndVariant, Result, Variant } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
-import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
+import {
+    buildAmpEpicCampaignCode,
+    buildBannerCampaignCode,
+    buildCampaignCode,
+} from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
@@ -448,16 +452,20 @@ app.get(
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const campaignCode = buildAmpEpicCampaignCode(epic.testName, epic.variantName);
             const { viewId, ampViewId } = req.query;
             const ophanComponentEvent: OphanComponentEvent = {
                 component: {
                     componentType: 'ACQUISITIONS_EPIC',
+                    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+                    campaignCode: campaignCode,
+                    id: campaignCode,
                 },
-                action: 'VIEW',
                 abTest: {
                     name: epic.testName,
                     variant: epic.variantName,
                 },
+                action: 'VIEW',
             };
 
             const ophanUrl = `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}&componentEvent=${encodeURI(

@@ -2,13 +2,16 @@ import { getLocalCurrencySymbol } from '../../lib/geolocation';
 import { AMPEpic } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicTests';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import { buildAmpEpicCampaignCode } from '../../lib/tracking';
 
 async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
-    const campaignCode = 'AMP__FALLBACK__CONTROL';
+    const testName = 'FALLBACK';
+    const variantName = 'CONTROL';
+    const campaignCode = buildAmpEpicCampaignCode(testName, variantName);
     const currencySymbol = getLocalCurrencySymbol(geolocation);
     return {
-        testName: 'FALLBACK',
-        variantName: 'CONTROL',
+        testName: testName,
+        variantName: variantName,
         heading: "Since you're here ...",
         paragraphs: [
             '... we have a small favour to ask. Millions turn to the Guardian every day for vital, independent, quality journalism. Readers in 180 countries around the world now support us financially.',
