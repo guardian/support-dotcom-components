@@ -62,7 +62,7 @@ export const createTestsGeneratorForChannel = (
     const bannerContentUrl = `${BannerContentBaseUrl}${channelFile}`;
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return () =>
-        fetch(bannerContentUrl)
+        fetch(bannerContentUrl, { timeout: 1000 * 20 })
             .then(response => response.json())
             .then(json => json['tests'])
             .then(tests => {

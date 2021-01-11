@@ -19,7 +19,7 @@ const url = isProd
     : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/epic/CODE/amp-epic-tests.json';
 
 const fetchAmpEpicTests = (): Promise<AmpEpicTest[]> =>
-    fetch(url)
+    fetch(url, { timeout: 1000 * 20 })
         .then(response => response.json())
         .then(data => {
             return data.tests;

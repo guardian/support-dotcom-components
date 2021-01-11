@@ -44,7 +44,7 @@ export const cacheAsync = <T>(
                     setTimeout(async () => {
                         try {
                             cache[key] = await fn();
-                            scheduleRefresh(ms);
+                            scheduleRefresh(ttlSec * 1000);
                         } catch (err) {
                             console.log(`Error refreshing cached value for key ${key}: ${err}`);
                             scheduleRefresh(retryIntervalMs);
