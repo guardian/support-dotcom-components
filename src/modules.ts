@@ -41,16 +41,6 @@ export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'banners/guardianWeekly/GuardianWeeklyBanner',
 );
 
-export const usEoyAppeal: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-appeal-banner',
-    'banners/usEoyAppeal/UsEoyAppeal',
-);
-
-export const usEoyAppealWithVisual: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-appeal-banner-with-visual',
-    'banners/usEoyAppeal/UsEoyAppealWithVisual',
-);
-
 export const globalEoy: ModuleInfo = getDefaultModuleInfo(
     'global-eoy-banner',
     'banners/globalEoy/GlobalEoy',
@@ -63,7 +53,5 @@ export const moduleInfos: ModuleInfo[] = [
     contributionsBanner,
     digiSubs,
     guardianWeekly,
-    usEoyAppeal,
-    usEoyAppealWithVisual,
     globalEoy,
 ];
