@@ -416,6 +416,7 @@
                     "Ref": "ASGLaunchConfigC00AF12B"
                 },
                 "HealthCheckType": "ELB",
+                "HealthCheckGracePeriod": 60,
                 "Tags": [
                 {
                     "Key": "App",
