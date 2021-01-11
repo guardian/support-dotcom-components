@@ -12,52 +12,32 @@ import { space } from '@guardian/src-foundations';
 import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
-import {
-    brand as brandTheme,
-    brandAlt as brandAltTheme,
-    buttonBrandAlt as buttonBrandAltTheme,
-} from '@guardian/src-foundations/themes';
+import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOut';
-import { selectItem } from '../banners/usEoyAppeal/helpers/xmasUpdates';
 
 const COLOURS = {
     epic: 'white',
     banner: brandAltText.primary,
-    ['us-eoy-banner']: neutral[0],
     ['global-eoy-banner']: neutral[0],
 };
-
-const BEFORE_DEC_29_US_EOY_BANNER_BG_COLOUR = '#dddbd1';
-const DEC_29_TO_JAN_3_US_EOY_BANNER_BG_COLOUR = '#e7d5b8';
-const AFTER_JAN_3_US_EOY_BANNER_BG_COLOUR = BEFORE_DEC_29_US_EOY_BANNER_BG_COLOUR;
-
-const US_EOY_BANNER_BG_COLOUR = selectItem(
-    BEFORE_DEC_29_US_EOY_BANNER_BG_COLOUR,
-    DEC_29_TO_JAN_3_US_EOY_BANNER_BG_COLOUR,
-    DEC_29_TO_JAN_3_US_EOY_BANNER_BG_COLOUR,
-    AFTER_JAN_3_US_EOY_BANNER_BG_COLOUR,
-);
 
 const BACKGROUND_COLOURS = {
     epic: brand[400],
     banner: brandAltBackground.primary,
-    ['us-eoy-banner']: US_EOY_BANNER_BG_COLOUR,
     ['global-eoy-banner']: '#FFF7E5',
 };
 
 const BORDER_COLOURS = {
     epic: 'transparent',
     banner: brandAltLine.primary,
-    ['us-eoy-banner']: neutral[0],
     ['global-eoy-banner']: '#052962',
 };
 
 const BUTTON_THEMES = {
     epic: brandTheme,
     banner: brandAltTheme,
-    ['us-eoy-banner']: buttonBrandAltTheme,
     ['global-eoy-banner']: buttonDefaultTheme,
 };
 
@@ -109,20 +89,12 @@ const overlayCtaContainer = css`
 const NOTE_LINK_COLOURS = {
     epic: neutral[100],
     banner: brandAltText.primary,
-    ['us-eoy-banner']: neutral[0],
     ['global-eoy-banner']: neutral[0],
 };
-
-const usEoyBannerOverrides = css`
-    &:hover {
-        background-color: rgb(229, 229, 229);
-    }
-`;
 
 const BUTTON_OVERRIDES = {
     epic: css``,
     banner: css``,
-    ['us-eoy-banner']: usEoyBannerOverrides,
     ['global-eoy-banner']: css``,
 };
 
