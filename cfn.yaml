@@ -415,6 +415,7 @@
                 "LaunchConfigurationName": {
                     "Ref": "ASGLaunchConfigC00AF12B"
                 },
+                "HealthCheckType": "ELB",
                 "Tags": [
                 {
                     "Key": "App",
