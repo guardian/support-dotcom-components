@@ -453,7 +453,11 @@ app.get(
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
             const campaignCode = buildAmpEpicCampaignCode(epic.testName, epic.variantName);
-            const { viewId, ampViewId } = req.query;
+            const { viewId, ampViewId, browserIdCookie, browserId } = req.query;
+
+            const browserIdQuery =
+                browserIdCookie && browserId ? `&${browserIdCookie}=${browserId}` : '';
+
             const ophanComponentEvent: OphanComponentEvent = {
                 component: {
                     componentType: 'ACQUISITIONS_EPIC',
@@ -468,7 +472,7 @@ app.get(
                 action: 'VIEW',
             };
 
-            const ophanUrl = `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}&componentEvent=${encodeURI(
+            const ophanUrl = `https://ophan.theguardian.com/img/2?viewId=${viewId}&ampViewId=${ampViewId}${browserIdQuery}&componentEvent=${encodeURI(
                 JSON.stringify(ophanComponentEvent),
             )}`;
 
