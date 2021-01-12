@@ -59,12 +59,11 @@ describe('cache', () => {
 
         const [reset, fetchData] = cacheAsync(fn, 60, 'test4');
 
-        await expect(fetchData()).rejects;
+        await expect(fetchData()).rejects.toEqual(
+            new Error('Failed to make initial request for test4: Error: ERROR'),
+        );
 
         expect(fn).toHaveBeenCalledTimes(1);
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const x = await Promise.resolve(''); // necessary for running test locally, for some reason
 
         jest.runOnlyPendingTimers(); // fast-forward to retry
 
