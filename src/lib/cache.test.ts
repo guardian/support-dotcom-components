@@ -63,6 +63,9 @@ describe('cache', () => {
 
         expect(fn).toHaveBeenCalledTimes(1);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const x = await Promise.resolve(''); // necessary for running test locally, for some reason
+
         jest.runOnlyPendingTimers(); // fast-forward to retry
 
         expect(fn).toHaveBeenCalledTimes(2);
