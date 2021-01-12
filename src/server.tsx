@@ -84,7 +84,6 @@ const [, fetchConfiguredEpicTestsCached] = cacheAsync(
     fetchConfiguredEpicTests,
     60,
     'fetchConfiguredEpicTests',
-    true,
 );
 
 const buildEpicData = async (
