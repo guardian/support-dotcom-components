@@ -35,7 +35,7 @@ export const fetchTickerDataCached = async (
     tickerSettings: TickerSettings,
 ): Promise<TickerData> => {
     const fetchForType = (): Promise<TickerData> => {
-        return fetch(tickerUrl(tickerSettings.countType))
+        return fetch(tickerUrl(tickerSettings.countType), { timeout: 1000 * 20 })
             .then(response => checkForErrors(response))
             .then(response => response.json())
             .then(parse);

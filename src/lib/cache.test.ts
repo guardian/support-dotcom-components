@@ -59,7 +59,9 @@ describe('cache', () => {
 
         const [reset, fetchData] = cacheAsync(fn, 60, 'test4');
 
-        await expect(fetchData()).rejects;
+        await expect(fetchData()).rejects.toEqual(
+            new Error('Failed to make initial request for test4: Error: ERROR'),
+        );
 
         expect(fn).toHaveBeenCalledTimes(1);
 

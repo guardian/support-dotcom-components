@@ -12,7 +12,7 @@ const configuredEpicTestsUrl = isProd
 export const fetchDefaultEpicContent = async (): Promise<Variant> => {
     const startTime = new Date().getTime();
 
-    const response = await fetch(defaultEpicUrl);
+    const response = await fetch(defaultEpicUrl, { timeout: 1000 * 20 });
     if (!response.ok) {
         throw new Error(
             `Encountered a non-ok response when fetching default epic: ${response.status}`,
@@ -53,7 +53,7 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
 };
 
 export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
-    const response = await fetch(configuredEpicTestsUrl);
+    const response = await fetch(configuredEpicTestsUrl, { timeout: 1000 * 20 });
     if (!response.ok) {
         throw new Error(
             `Encountered a non-ok response when fetching configured epic tests: ${response.status}`,
