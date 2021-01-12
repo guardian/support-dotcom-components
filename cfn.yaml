@@ -375,7 +375,7 @@
                                 {
                                     "Ref": "S3Key"
                                 },
-                                " app.tar.gz\ndocker load < app.tar.gz\ndocker run --ulimit nofile=2048:2048 --env-file .env -p 3030:3030 --log-driver=awslogs --log-opt awslogs-group=",
+                                " app.tar.gz\ndocker load < app.tar.gz\ndocker run --ulimit nofile=8192:8192 --env-file .env -p 3030:3030 --log-driver=awslogs --log-opt awslogs-group=",
                                 {
                                     "Ref": "Stack"
                                 },
