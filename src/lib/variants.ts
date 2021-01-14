@@ -3,14 +3,15 @@ import {
     ViewLog,
     UserCohort,
 } from '../components/modules/epics/ContributionsEpicTypes';
-import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../lib/targeting';
-import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
-import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
-import { isRecentOneOffContributor } from '../lib/dates';
+import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from './targeting';
+import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
+import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from './history';
+import { isRecentOneOffContributor } from './dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { getReminderFields, ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
 import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
+import { EpicHoldBackTest, EpicHoldBackVariant } from '../tests/holdBackTests/epic';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -189,11 +190,6 @@ export const isContentType: Filter = {
     test: (test, targeting) => (test.isLiveBlog ? targeting.contentType === 'LiveBlog' : true),
 };
 
-export const shouldHoldBack = (mvtId: number): Filter => ({
-    id: 'shouldHoldBack',
-    test: (): boolean => mvtId % 100 === 0,
-});
-
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
     test: (test: Test): boolean => userIsInTest(test, mvtId),
@@ -296,6 +292,8 @@ export const respectArticleCountOptOut: Filter = {
     },
 };
 
+export const shouldHoldBack = (mvtId: number): boolean => mvtId % 100 === 0;
+
 type FilterResults = { [filter: string]: boolean };
 
 export type Debug = { [test: string]: FilterResults };
@@ -307,6 +305,13 @@ export interface Result {
     };
     debug?: Debug;
 }
+
+export const epicHoldBackResult: Result = {
+    result: {
+        test: EpicHoldBackTest,
+        variant: EpicHoldBackVariant,
+    },
+};
 
 export const findTestAndVariant = (
     tests: Test[],
@@ -335,6 +340,10 @@ export const findTestAndVariant = (
         hasNoZeroArticleCount(),
         respectArticleCountOptOut,
     ];
+
+    if (shouldHoldBack(targeting.mvtId || 1)) {
+        return epicHoldBackResult;
+    }
 
     const priorityOrdered = ([] as Test[]).concat(
         tests.filter(test => test.highPriority),
