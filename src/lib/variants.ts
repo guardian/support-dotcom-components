@@ -184,6 +184,16 @@ export const isOn: Filter = {
     test: (test): boolean => test.isOn,
 };
 
+export const isContentType: Filter = {
+    id: 'isContentType',
+    test: (test, targeting) => (test.isLiveBlog ? targeting.contentType === 'LiveBlog' : true),
+};
+
+export const shouldHoldBack = (mvtId: number): Filter => ({
+    id: 'shouldHoldBack',
+    test: (): boolean => mvtId % 100 === 0,
+});
+
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
     test: (test: Test): boolean => userIsInTest(test, mvtId),
