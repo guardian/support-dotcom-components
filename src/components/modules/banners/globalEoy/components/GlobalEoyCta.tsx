@@ -48,30 +48,32 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
                     </Hide>
                 </div>
             }
-            secondaryCta={ countryCode === 'US' ? null : (
-                <div>
-                    <Hide above="desktop">
-                        <LinkButton
-                            href={IMPACT_REPORT_LINK}
-                            onClick={onReadMoreClick}
-                            size="small"
-                            priority="tertiary"
-                        >
-                            2020 highlights
-                        </LinkButton>
-                    </Hide>
-                    <Hide below="desktop">
-                        <LinkButton
-                            href={IMPACT_REPORT_LINK}
-                            onClick={onReadMoreClick}
-                            size="default"
-                            priority="tertiary"
-                        >
-                            2020 highlights
-                        </LinkButton>
-                    </Hide>
-                </div>
-            )}
+            secondaryCta={
+                countryCode.toUpperCase() === 'US' ? null : (
+                    <div>
+                        <Hide above="desktop">
+                            <LinkButton
+                                href={IMPACT_REPORT_LINK}
+                                onClick={onReadMoreClick}
+                                size="small"
+                                priority="tertiary"
+                            >
+                                2020 highlights
+                            </LinkButton>
+                        </Hide>
+                        <Hide below="desktop">
+                            <LinkButton
+                                href={IMPACT_REPORT_LINK}
+                                onClick={onReadMoreClick}
+                                size="default"
+                                priority="tertiary"
+                            >
+                                2020 highlights
+                            </LinkButton>
+                        </Hide>
+                    </div>
+                )
+            }
         />
     );
 };
