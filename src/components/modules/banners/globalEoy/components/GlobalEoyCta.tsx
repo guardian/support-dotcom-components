@@ -48,7 +48,7 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
                     </Hide>
                 </div>
             }
-            secondaryCta={
+            secondaryCta={ countryCode === 'US' ? null : (
                 <div>
                     <Hide above="desktop">
                         <LinkButton
@@ -71,7 +71,7 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
                         </LinkButton>
                     </Hide>
                 </div>
-            }
+            )}
         />
     );
 };
