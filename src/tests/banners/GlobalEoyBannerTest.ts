@@ -7,14 +7,6 @@ export const GlobalEoyNonSupportersACBanner: BannerTest = {
     name: 'GlobalEoyNonSupporters__AC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
-    locations: [
-        'GBPCountries',
-        'AUDCountries',
-        'EURCountries',
-        'International',
-        'NZDCountries',
-        'Canada',
-    ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
         Date.now() >= DEPLOY_TIMESTAMP,
@@ -37,14 +29,6 @@ export const GlobalEoyNonSupportersNoACBanner: BannerTest = {
     name: 'GlobalEoyNonSupporters__NoAC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
-    locations: [
-        'GBPCountries',
-        'AUDCountries',
-        'EURCountries',
-        'International',
-        'NZDCountries',
-        'Canada',
-    ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) =>
         Date.now() >= DEPLOY_TIMESTAMP,

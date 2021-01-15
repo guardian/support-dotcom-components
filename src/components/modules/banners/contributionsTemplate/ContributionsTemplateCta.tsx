@@ -25,7 +25,7 @@ const paymentMethods = css`
 
 interface ContributionsTemplateCtaProps {
     primaryCta: React.ReactElement;
-    secondaryCta: React.ReactElement;
+    secondaryCta: React.ReactElement | null;
 }
 
 const ContributionsTemplateCta: React.FC<ContributionsTemplateCtaProps> = ({
