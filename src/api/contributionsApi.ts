@@ -1,13 +1,10 @@
 import fetch from 'node-fetch';
 import { EpicTests, Variant } from '../lib/variants';
 import { isProd } from '../lib/env';
+import { fetchS3Data } from '../utils/S3';
 
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
-
-const configuredEpicTestsUrl = isProd
-    ? 'https://support.theguardian.com/epic-tests.json'
-    : 'https://support.code.dev-theguardian.com/epic-tests.json';
 
 export const fetchDefaultEpicContent = async (): Promise<Variant> => {
     const startTime = new Date().getTime();
@@ -53,12 +50,8 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
 };
 
 export const fetchConfiguredEpicTests = async (): Promise<EpicTests> => {
-    const response = await fetch(configuredEpicTestsUrl, { timeout: 1000 * 20 });
-    if (!response.ok) {
-        throw new Error(
-            `Encountered a non-ok response when fetching configured epic tests: ${response.status}`,
-        );
-    }
-
-    return response.json();
+    return fetchS3Data(
+        'gu-contributions-public',
+        `epic/${isProd ? 'PROD' : 'CODE'}/epic-tests.json`,
+    ).then(JSON.parse);
 };
