@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import {
     BannerChannel,
     BannerTemplate,
@@ -11,10 +10,7 @@ import {
 import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
 import { isProd } from '../../lib/env';
 import { contributionsBanner, digiSubs, guardianWeekly } from '../../modules';
-
-const BannerContentBaseUrl = isProd
-    ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/PROD/'
-    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/banner/CODE/';
+import { fetchS3Data } from '../../utils/S3';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
     contributions: 'banner-tests.json',
@@ -59,11 +55,11 @@ export const createTestsGeneratorForChannel = (
     bannerChannel: BannerChannel,
 ): BannerTestGenerator => {
     const channelFile = BannerChannelFiles[bannerChannel];
-    const bannerContentUrl = `${BannerContentBaseUrl}${channelFile}`;
+    const key = `banner/${isProd ? 'PROD' : 'CODE'}/${channelFile}`;
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return () =>
-        fetch(bannerContentUrl, { timeout: 1000 * 20 })
-            .then(response => response.json())
+        fetchS3Data('gu-contributions-public', key)
+            .then(JSON.parse)
             .then(json => json['tests'])
             .then(tests => {
                 return tests.map(
