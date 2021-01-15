@@ -1,12 +1,12 @@
 import { inCountryGroups } from '../../lib/geolocation';
 import { isProd } from '../../lib/env';
-import fetch from 'node-fetch';
 import { cacheAsync } from '../../lib/cache';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { replaceNonArticleCountPlaceholders } from '../../lib/placeholders';
 import { ampTicker } from './ampTicker';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { buildAmpEpicCampaignCode } from '../../lib/tracking';
+import { fetchS3Data } from '../../utils/S3';
 
 /**
  * Fetches AMP epic tests configuration from the tool.
@@ -14,13 +14,9 @@ import { buildAmpEpicCampaignCode } from '../../lib/tracking';
  * So each test will have a single variant.
  */
 
-const url = isProd
-    ? 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/epic/PROD/amp-epic-tests.json'
-    : 'https://gu-contributions-public.s3-eu-west-1.amazonaws.com/epic/CODE/amp-epic-tests.json';
-
 const fetchAmpEpicTests = (): Promise<AmpEpicTest[]> =>
-    fetch(url, { timeout: 1000 * 20 })
-        .then(response => response.json())
+    fetchS3Data('gu-contributions-public', `epic/${isProd ? 'PROD' : 'CODE'}/amp-epic-tests.json`)
+        .then(JSON.parse)
         .then(data => {
             return data.tests;
         });
