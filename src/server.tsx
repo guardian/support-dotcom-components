@@ -480,7 +480,6 @@ app.get(
                 res.json({
                     ophanUrl: ophanUrl,
                     ophanResponseStatus: ophanResponse.status,
-                    ophanResponseJson: ophanResponse.json(),
                 });
             });
         } catch (error) {
