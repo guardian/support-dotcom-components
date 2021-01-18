@@ -21,7 +21,8 @@ Resources:
               - s3:GetObject
             Resource:
               - !Sub arn:aws:s3:::support-admin-console/${Stage}/banner-deploy/*
-              - !Sub arn:aws:s3:::gu-contributions-public/${Stage}/*
+              - !Sub arn:aws:s3:::gu-contributions-public/epic/${Stage}/*
+              - !Sub arn:aws:s3:::gu-contributions-public/banner/${Stage}/*
       Roles:
         - !Ref Role
 
