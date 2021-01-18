@@ -24,7 +24,7 @@ const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
     tracking,
     countryCode,
     numArticles,
-    hasOptedOutOfArticleCount,
+    content,
 }: CloseableBannerProps) => {
     const onContributeClick = (): void =>
         submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_EVENT_CONTRIBUTE_CLICK);
@@ -39,29 +39,34 @@ const GlobalEoyBanner: React.FC<CloseableBannerProps> = ({
         onClose();
     };
 
-    return (
-        <ContributionsTemplateWithVisual
-            cssOverrides={bannerStyles}
-            visual={<GlobalEoyVisual />}
-            closeButton={<GlobalEoyCloseButton onClose={onCloseClick} />}
-            header={<GlobalEoyHeader />}
-            body={
-                <GlobalEoyBody
-                    numArticles={numArticles || 0}
-                    hasOptedOutOfArticleCount={!!hasOptedOutOfArticleCount}
-                    countryCode={countryCode}
-                />
-            }
-            cta={
-                <GlobalEoyCta
-                    onContributeClick={onContributeClick}
-                    onReadMoreClick={onReadMoreClick}
-                    tracking={tracking}
-                    countryCode={countryCode || ''}
-                />
-            }
-        />
-    );
+    if (content && content.mobileMessageText) {
+        return (
+            <ContributionsTemplateWithVisual
+                cssOverrides={bannerStyles}
+                visual={<GlobalEoyVisual />}
+                closeButton={<GlobalEoyCloseButton onClose={onCloseClick} />}
+                header={<GlobalEoyHeader />}
+                body={
+                    <GlobalEoyBody
+                        numArticles={numArticles || 0}
+                        countryCode={countryCode}
+                        body={content.messageText}
+                        mobileBody={content.mobileMessageText}
+                    />
+                }
+                cta={
+                    <GlobalEoyCta
+                        onContributeClick={onContributeClick}
+                        onReadMoreClick={onReadMoreClick}
+                        tracking={tracking}
+                        countryCode={countryCode || ''}
+                    />
+                }
+            />
+        );
+    }
+
+    return null;
 };
 
 const wrapped = withCloseable(GlobalEoyBanner, 'contributions');

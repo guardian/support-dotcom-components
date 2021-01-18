@@ -48,10 +48,6 @@ const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css
     ${textSans.medium()}
     padding: ${space[2]}px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-
-    ${from.tablet} {
-        width: 325px;
-    }
 `;
 
 const overlayHeader = css`

@@ -48,6 +48,7 @@ export interface Cta {
 export interface BannerContent {
     heading?: string;
     messageText: string;
+    mobileMessageText?: string;
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: Cta;

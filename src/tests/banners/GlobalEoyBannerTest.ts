@@ -3,8 +3,8 @@ import { globalEoy } from '../../modules';
 
 const DEPLOY_TIMESTAMP = Date.parse('2020-12-29');
 
-export const GlobalEoyNonSupportersACBanner: BannerTest = {
-    name: 'GlobalEoyNonSupporters__AC',
+export const GlobalEoyInaugurationACBanner: BannerTest = {
+    name: 'GlobalEoyInauguration__AC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,12 +21,28 @@ export const GlobalEoyNonSupportersACBanner: BannerTest = {
             modulePath: globalEoy.endpointPath,
             moduleName: 'GlobalEoyBanner',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            bannerContent: {
+                heading: 'Test heading',
+                messageText: 'Test desktop body %%ARTICLE_COUNT%% articles',
+                mobileMessageText: 'Test mobile body %%ARTICLE_COUNT%% articles',
+            },
+        },
+        {
+            name: 'variant',
+            modulePath: globalEoy.endpointPath,
+            moduleName: 'GlobalEoyBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            bannerContent: {
+                heading: 'Test heading',
+                messageText: 'Test desktop body %%ARTICLE_COUNT%% articles',
+                mobileMessageText: 'Test mobile body %%ARTICLE_COUNT%% articles',
+            },
         },
     ],
 };
 
-export const GlobalEoyNonSupportersNoACBanner: BannerTest = {
-    name: 'GlobalEoyNonSupporters__NoAC',
+export const GlobalEoyInaugurationNoACBanner: BannerTest = {
+    name: 'GlobalEoyInauguration__NoAC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,6 +55,22 @@ export const GlobalEoyNonSupportersNoACBanner: BannerTest = {
             modulePath: globalEoy.endpointPath,
             moduleName: 'GlobalEoyBanner',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            bannerContent: {
+                heading: 'Test heading',
+                messageText: 'Test desktop body',
+                mobileMessageText: 'Test mobile body',
+            },
+        },
+        {
+            name: 'control',
+            modulePath: globalEoy.endpointPath,
+            moduleName: 'GlobalEoyBanner',
+            componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+            bannerContent: {
+                heading: 'Test heading',
+                messageText: 'Test desktop body',
+                mobileMessageText: 'Test mobile body',
+            },
         },
     ],
 };

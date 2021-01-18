@@ -14,6 +14,10 @@ const ARTICLE_COUNT_OPT_OUT_COOKIE = {
 const DAILY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.dailyArticleCount';
 const WEEKLY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.weeklyArticleCount';
 
+export type ArticleCountOptOutType = 'epic' | 'banner' | 'global-eoy-banner';
+const isBanner = (type: ArticleCountOptOutType): boolean =>
+    type === 'banner' || type === 'global-eoy-banner';
+
 const optOutContainer = css`
     display: inline-block;
 
@@ -41,15 +45,14 @@ const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css
     z-index: 100;
     left: ${space[4]}px;
     right: ${space[4]}px;
-    ${type === 'banner' ? 'bottom: 21px;' : ''}
+    ${isBanner(type) ? 'bottom: 21px;' : ''}
 
     ${from.tablet} {
-        width: 325px;
+        width: 400px;
         left: 0;
+        ${isBanner(type) ? 'bottom: -90px;' : ''}
     }
 `;
-
-export type ArticleCountOptOutType = 'epic' | 'banner' | 'global-eoy-banner';
 
 export interface ArticleCountOptOutProps {
     numArticles: number;
