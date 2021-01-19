@@ -8,6 +8,14 @@ export const GlobalEoyInaugurationACBanner: BannerTest = {
     name: 'GlobalEoyInauguration__AC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
+    locations: [
+        'GBPCountries',
+        'AUDCountries',
+        'EURCountries',
+        'International',
+        'NZDCountries',
+        'Canada',
+    ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
@@ -47,6 +55,14 @@ export const GlobalEoyInaugurationNoACBanner: BannerTest = {
     name: 'GlobalEoyInauguration__NoAC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
+    locations: [
+        'GBPCountries',
+        'AUDCountries',
+        'EURCountries',
+        'International',
+        'NZDCountries',
+        'Canada',
+    ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
