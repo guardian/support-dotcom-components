@@ -73,6 +73,11 @@ export const selectAmpEpicTestAndVariant = async (
 
     if (test && test.variants) {
         const assignedVariantName = ampVariantAssignments[test.name];
+
+        if (!assignedVariantName) {
+            return null;
+        }
+
         const variant = test.variants.find(
             variant => variant.name.toUpperCase() === assignedVariantName.toUpperCase(),
         );
