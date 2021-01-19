@@ -9,14 +9,12 @@ const BASE_LANDING_PAGE_URL = 'https://support.theguardian.com/contribute';
 
 interface GlobalEoyCtaProps {
     onContributeClick: () => void;
-    onReadMoreClick: () => void;
     tracking: BannerTracking;
     countryCode: string;
 }
 
 const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
     onContributeClick,
-    onReadMoreClick,
     tracking,
     countryCode,
 }: GlobalEoyCtaProps) => {
