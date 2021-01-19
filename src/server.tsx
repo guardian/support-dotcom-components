@@ -470,10 +470,9 @@ app.get(
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const response = await ampEpic(ampVariantAssignments, countryCode);
 
-            // The cache key in fastly is the X-GU-GeoIP-Country-Code header
-            res.setHeader('Surrogate-Control', 'max-age=120');
-            res.setHeader('Cache-Control', 'max-age=60');
             res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
 
             res.json(response);
         } catch (error) {
