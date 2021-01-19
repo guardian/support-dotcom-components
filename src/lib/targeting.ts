@@ -1,4 +1,8 @@
-import { EpicTargeting, ViewLog } from '../components/modules/epics/ContributionsEpicTypes';
+import {
+    EpicTargeting,
+    EpicType,
+    ViewLog,
+} from '../components/modules/epics/ContributionsEpicTypes';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
@@ -38,7 +42,7 @@ export const shouldThrottle = (
     return hasReachedViewsLimitInWindow || withinMinDaysSinceLastView;
 };
 
-export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
+export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): boolean => {
     const isLowValueSection = lowValueSections.some(id => id === meta.sectionName);
     const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
 
@@ -46,8 +50,7 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
         meta.shouldHideReaderRevenue ||
         isLowValueSection ||
         isLowValueTag ||
-        meta.contentType !== 'Article' ||
-        meta.isMinuteArticle ||
+        meta.contentType.toUpperCase() !== epicType ||
         meta.isPaidContent
     );
 };

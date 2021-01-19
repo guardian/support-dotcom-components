@@ -26,6 +26,11 @@ export const epicACInline: ModuleInfo = getDefaultModuleInfo(
     'epics/ContributionsEpicWithArticleCountInline',
 );
 
+export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
+    'liveblog-epic',
+    'epics/ContributionsLiveblogEpic',
+);
+
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
     'banners/contributions/ContributionsBanner',
@@ -50,6 +55,7 @@ export const moduleInfos: ModuleInfo[] = [
     epic,
     epicACAbove,
     epicACInline,
+    liveblogEpic,
     contributionsBanner,
     digiSubs,
     guardianWeekly,

@@ -9,7 +9,6 @@ import {
     inCorrectCohort,
     excludeTags,
     withinMaxViews,
-    isContentType,
     withinArticleViewedSettings,
     userInTest,
     hasNoZeroArticleCount,
@@ -90,8 +89,9 @@ describe('findTestAndVariant', () => {
             ...targetingDefault,
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
+        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting, epicType);
 
         expect(got?.result?.test.name).toBe('example-1');
         expect(got?.result?.variant.name).toBe('control-example-1');
@@ -104,8 +104,9 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
             hasOptedOutOfArticleCount: true,
         };
+        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -114,8 +115,9 @@ describe('findTestAndVariant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionName: 'news' };
+        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting);
+        const got = findTestAndVariant(tests, targeting, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -627,39 +629,6 @@ describe('withinMaxViews filter', () => {
         const got = filter.test(test, targetingDefault);
 
         expect(got).toBe(true);
-    });
-});
-
-describe('isContentType filter', () => {
-    it('should pass when is correct content type', () => {
-        const test = {
-            ...testDefault,
-            isLiveBlog: true,
-        };
-        const targeting = {
-            ...targetingDefault,
-            contentType: 'LiveBlog',
-        };
-
-        const got = isContentType.test(test, targeting);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail when incorrect content type', () => {
-        const test = {
-            ...testDefault,
-            isLiveBlog: true,
-        };
-
-        const targeting = {
-            ...targetingDefault,
-            contentType: 'Article',
-        };
-
-        const got = isContentType.test(test, targeting);
-
-        expect(got).toBe(false);
     });
 });
 

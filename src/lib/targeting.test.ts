@@ -2,21 +2,27 @@ import { shouldNotRenderEpic, shouldThrottle } from './targeting';
 import { factories } from '../factories';
 
 describe('shouldNotRenderEpic', () => {
-    it('returns true for non-article', () => {
+    it('returns true for non-articles when epic type is ARTICLE', () => {
         const data = factories.targeting.build({ contentType: 'Liveblog' });
-        const got = shouldNotRenderEpic(data);
+        const got = shouldNotRenderEpic(data, 'ARTICLE');
+        expect(got).toBe(true);
+    });
+
+    it('returns true for non-liveblogs when epic type is LIVEBLOG', () => {
+        const data = factories.targeting.build({ contentType: 'Article' });
+        const got = shouldNotRenderEpic(data, 'LIVEBLOG');
         expect(got).toBe(true);
     });
 
     it('returns true for blacklisted section', () => {
         const data = factories.targeting.build({ sectionName: 'careers' });
-        const got = shouldNotRenderEpic(data);
+        const got = shouldNotRenderEpic(data, 'ARTICLE');
         expect(got).toBe(true);
     });
 
     it('returns false for valid data', () => {
         const data = factories.targeting.build();
-        const got = shouldNotRenderEpic(data);
+        const got = shouldNotRenderEpic(data, 'ARTICLE');
         expect(got).toBe(false);
     });
 });
