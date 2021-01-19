@@ -421,6 +421,8 @@ app.get(
             const response = await ampEpic(ampVariantAssignments, countryCode);
 
             res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
 
             res.json(response);
         } catch (error) {
