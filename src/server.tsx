@@ -10,7 +10,7 @@ import {
 } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
-import {EpicTests, Debug, findTestAndVariant, Result, Variant, Test} from './lib/variants';
+import { EpicTests, Debug, findTestAndVariant, Result, Variant, Test } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import {
     buildAmpEpicCampaignCode,
@@ -42,7 +42,10 @@ import { ModuleInfo, moduleInfos } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
-import {liveblogEpicDesignTest} from "./tests/liveblogEpicDesignTest";
+import {
+    liveblogEpicDesignTestGlobal,
+    liveblogEpicDesignTestUS,
+} from './tests/liveblogEpicDesignTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -107,7 +110,7 @@ const getArticleEpicTests = async (): Promise<Test[]> => {
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
     const configuredTests = await fetchCachedEpicTests['LIVEBLOG']();
-    return [liveblogEpicDesignTest, ...configuredTests.tests];
+    return [liveblogEpicDesignTestUS, liveblogEpicDesignTestGlobal, ...configuredTests.tests];
 };
 
 const buildEpicData = async (
@@ -160,9 +163,12 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl = () => {
-        if (variantWithTickerData.modulePath) return `${baseUrl}/${variantWithTickerData.modulePath}`;
-        else return `${baseUrl}/${type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js'}`;
+    const moduleUrl = (): string => {
+        if (variantWithTickerData.modulePath) {
+            return `${baseUrl}/${variantWithTickerData.modulePath}`;
+        } else {
+            return `${baseUrl}/${type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js'}`;
+        }
     };
 
     return {

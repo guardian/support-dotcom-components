@@ -1,6 +1,6 @@
 import React from 'react';
-import { css } from '@emotion/core';
-import {body, titlepiece} from '@guardian/src-foundations/typography';
+import { css, SerializedStyles } from '@emotion/core';
+import { body, titlepiece } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
@@ -14,15 +14,19 @@ import { EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../../../lib/variants';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
-import {LiveblogEpicDesignTestVariants} from "../../../tests/liveblogEpicDesignTest";
+import { LiveblogEpicDesignTestVariants } from '../../../tests/liveblogEpicDesignTest';
 
-const container = (designTestVariant: LiveblogEpicDesignTestVariants) => css`
+const container = (designTestVariant: LiveblogEpicDesignTestVariants): SerializedStyles => css`
     padding: 6px 10px 28px 10px;
     border-top: 1px solid ${brandAlt[400]};
     border-bottom: 1px solid ${neutral[86]};
-    ${designTestVariant === LiveblogEpicDesignTestVariants.control ? `background: ${neutral[93]};` : `background: ${neutral[100]};`}
-    
-    ${designTestVariant === LiveblogEpicDesignTestVariants.yellowHeader ? `border: 1px solid ${neutral[0]};` : ''}
+    ${designTestVariant === LiveblogEpicDesignTestVariants.control
+        ? `background: ${neutral[93]};`
+        : `background: ${neutral[100]};`}
+
+    ${designTestVariant === LiveblogEpicDesignTestVariants.yellowHeader
+        ? `border: 1px solid ${neutral[0]};`
+        : ''}
 
     * {
         ::selection {
@@ -44,8 +48,7 @@ const container = (designTestVariant: LiveblogEpicDesignTestVariants) => css`
     }
 `;
 
-// TODO - remove param?
-const textContainer = (designTestVariant: LiveblogEpicDesignTestVariants) => css`
+const textContainer = css`
     ${body.medium()};
     font-size: 16px;
 
@@ -64,9 +67,13 @@ const textContainer = (designTestVariant: LiveblogEpicDesignTestVariants) => css
     }
 `;
 
-const cta = (designTestVariant: LiveblogEpicDesignTestVariants) => css`
+const cta = (designTestVariant: LiveblogEpicDesignTestVariants): SerializedStyles => css`
     color: ${neutral[7]};
-    ${designTestVariant === LiveblogEpicDesignTestVariants.control ? `border: 1px solid ${neutral[0]};` : ''}
+    ${
+        designTestVariant === LiveblogEpicDesignTestVariants.control
+            ? `border: 1px solid ${neutral[0]};`
+            : ''
+    }
     background-color: ${brandAlt[400]};
 
     &:hover {
@@ -81,8 +88,8 @@ const designTestYellowHeading = css`
     border-top: 1px solid ${neutral[0]};
     border-left: 1px solid ${neutral[0]};
     border-right: 1px solid ${neutral[0]};
-    
-    padding: 4px 10px 13px 10px; 
+
+    padding: 4px 10px 13px 10px;
     ${from.tablet} {
         padding-left: 80px;
         padding-right: 20px;
@@ -121,10 +128,10 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
     designTestVariant,
 }: LiveblogEpicBodyProps) => {
     return (
-        <div css={textContainer(designTestVariant)}>
-            { designTestVariant === LiveblogEpicDesignTestVariants.smallHeader && heading &&
+        <div css={textContainer}>
+            {designTestVariant === LiveblogEpicDesignTestVariants.smallHeader && heading && (
                 <div css={designTestSmallHeading}>{heading}</div>
-            }
+            )}
             {paragraphs.map(paragraph => (
                 <LiveblogEpicBodyParagraph
                     key={paragraph}
@@ -174,13 +181,13 @@ interface LiveblogEpicProps {
 }
 
 export const ContributionsLiveblogEpicComponent: (
-    designTestVariant: LiveblogEpicDesignTestVariants
+    designTestVariant: LiveblogEpicDesignTestVariants,
 ) => React.FC<LiveblogEpicProps> = designTestVariant => ({
     variant,
     countryCode,
     numArticles,
     tracking,
-}: LiveblogEpicProps) => {
+}: LiveblogEpicProps): JSX.Element | null => {
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
@@ -195,15 +202,16 @@ export const ContributionsLiveblogEpicComponent: (
 
     return (
         <>
-            { designTestVariant === LiveblogEpicDesignTestVariants.yellowHeader && cleanHeading &&
+            {designTestVariant === LiveblogEpicDesignTestVariants.yellowHeader && cleanHeading && (
                 <div css={designTestYellowHeading}>{cleanHeading}</div>
-            }
+            )}
             <section css={container(designTestVariant)}>
                 <LiveblogEpicBody
                     heading={cleanHeading}
                     paragraphs={cleanParagraphs}
                     numArticles={numArticles}
-                    designTestVariant={designTestVariant}/>
+                    designTestVariant={designTestVariant}
+                />
                 <LiveblogEpicCta
                     text={variant.cta?.text}
                     baseUrl={variant.cta?.baseUrl}
@@ -215,5 +223,6 @@ export const ContributionsLiveblogEpicComponent: (
     );
 };
 
-export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> =
-    ContributionsLiveblogEpicComponent(LiveblogEpicDesignTestVariants.control);
+export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ContributionsLiveblogEpicComponent(
+    LiveblogEpicDesignTestVariants.control,
+);
