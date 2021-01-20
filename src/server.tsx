@@ -10,7 +10,7 @@ import {
 } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
-import { EpicTests, Debug, findTestAndVariant, Result, Variant } from './lib/variants';
+import {EpicTests, Debug, findTestAndVariant, Result, Variant, Test} from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import {
     buildAmpEpicCampaignCode,
@@ -42,6 +42,7 @@ import { ModuleInfo, moduleInfos } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
+import {liveblogEpicDesignTest} from "./tests/liveblogEpicDesignTest";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -98,6 +99,17 @@ const fetchCachedEpicTests: { [key in EpicType]: () => Promise<EpicTests> } = {
     LIVEBLOG: fetchConfiguredLiveblogEpicTestsCached,
 };
 
+const getArticleEpicTests = async (): Promise<Test[]> => {
+    const configuredTests = await fetchCachedEpicTests['ARTICLE']();
+    const hardcodedTests = await getAllHardcodedTests();
+    return [...configuredTests.tests, ...hardcodedTests];
+};
+
+const getLiveblogEpicTests = async (): Promise<Test[]> => {
+    const configuredTests = await fetchCachedEpicTests['LIVEBLOG']();
+    return [liveblogEpicDesignTest, ...configuredTests.tests];
+};
+
 const buildEpicData = async (
     pageTracking: EpicPageTracking,
     targeting: EpicTargeting,
@@ -105,9 +117,7 @@ const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    const configuredTests = await fetchCachedEpicTests[type]();
-    const hardcodedTests = type === 'ARTICLE' ? await getAllHardcodedTests() : [];
-    const tests = [...configuredTests.tests, ...hardcodedTests];
+    const tests = type === 'ARTICLE' ? await getArticleEpicTests() : await getLiveblogEpicTests();
 
     let result: Result;
 
@@ -150,14 +160,17 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl = `${baseUrl}/${type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js'}`;
+    const moduleUrl = () => {
+        if (variantWithTickerData.modulePath) return `${baseUrl}/${variantWithTickerData.modulePath}`;
+        else return `${baseUrl}/${type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js'}`;
+    };
 
     return {
         data: {
             variant: variantWithTickerData,
             meta: testTracking,
             module: {
-                url: moduleUrl,
+                url: moduleUrl(),
                 props,
             },
         },
