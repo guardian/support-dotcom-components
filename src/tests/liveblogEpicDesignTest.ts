@@ -75,12 +75,12 @@ const liveblogEpicDesignTest = (
 });
 
 export const liveblogEpicDesignTestGlobal: Test = liveblogEpicDesignTest(
-    '2020-01-20-LiveblogEpicDesignTestGlobal',
+    '2020-01-20-LiveblogEpicDesignTest__Global',
     globalParagraphs,
     ['GBPCountries', 'AUDCountries', 'EURCountries', 'International', 'NZDCountries', 'Canada'],
 );
 export const liveblogEpicDesignTestUS: Test = liveblogEpicDesignTest(
-    '2020-01-20-LiveblogEpicDesignTestUS',
+    '2020-01-20-LiveblogEpicDesignTest__US',
     USParagraphs,
     ['UnitedStates'],
 );
