@@ -103,13 +103,13 @@ const fetchCachedEpicTests: { [key in EpicType]: () => Promise<EpicTests> } = {
 };
 
 const getArticleEpicTests = async (): Promise<Test[]> => {
-    const configuredTests = await fetchCachedEpicTests['ARTICLE']();
+    const configuredTests = await fetchCachedEpicTests.ARTICLE();
     const hardcodedTests = await getAllHardcodedTests();
     return [...configuredTests.tests, ...hardcodedTests];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
-    const configuredTests = await fetchCachedEpicTests['LIVEBLOG']();
+    const configuredTests = await fetchCachedEpicTests.LIVEBLOG();
     return [liveblogEpicDesignTestUS, liveblogEpicDesignTestGlobal, ...configuredTests.tests];
 };
 
@@ -163,20 +163,15 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const moduleUrl = (): string => {
-        if (variantWithTickerData.modulePath) {
-            return `${baseUrl}/${variantWithTickerData.modulePath}`;
-        } else {
-            return `${baseUrl}/${type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js'}`;
-        }
-    };
+    const modulePath =
+        variantWithTickerData.modulePath || (type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js');
 
     return {
         data: {
             variant: variantWithTickerData,
             meta: testTracking,
             module: {
-                url: moduleUrl(),
+                url: `${baseUrl}/${modulePath}`,
                 props,
             },
         },
