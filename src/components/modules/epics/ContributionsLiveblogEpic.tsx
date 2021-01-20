@@ -18,7 +18,7 @@ import {LiveblogEpicDesignTestVariants} from "../../../tests/liveblogEpicDesignT
 
 const container = (designTestVariant: LiveblogEpicDesignTestVariants) => css`
     padding: 6px 10px 28px 10px;
-    border-top: 1px solid ${brandAlt[200]};
+    border-top: 1px solid ${brandAlt[400]};
     border-bottom: 1px solid ${neutral[86]};
     ${designTestVariant === LiveblogEpicDesignTestVariants.control ? `background: ${neutral[93]};` : `background: ${neutral[100]};`}
     
@@ -76,13 +76,13 @@ const cta = (designTestVariant: LiveblogEpicDesignTestVariants) => css`
 
 const designTestYellowHeading = css`
     ${titlepiece.small()};
-    font-size: 32px;
+    font-size: 28px;
     background-color: ${brandAlt[400]};
     border-top: 1px solid ${neutral[0]};
     border-left: 1px solid ${neutral[0]};
     border-right: 1px solid ${neutral[0]};
     
-    padding: 4px 10px 10px 10px; 
+    padding: 4px 10px 13px 10px; 
     ${from.tablet} {
         padding-left: 80px;
         padding-right: 20px;
