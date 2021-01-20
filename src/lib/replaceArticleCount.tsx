@@ -16,16 +16,16 @@ export const replaceArticleCount = (
     const parts = subbedText.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
     const elements = [];
     for (let i = 0; i < parts.length - 1; i += 1) {
-        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] }} />);
+        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] as string }} />);
         elements.push(
             <ArticleCountOptOut
                 numArticles={numArticles}
-                nextWord={nextWords[i]}
+                nextWord={nextWords[i] as string}
                 type={articleCountOptOutType}
             />,
         );
     }
-    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] }} />);
+    elements.push(<span dangerouslySetInnerHTML={{ __html: parts[parts.length - 1] as string }} />);
 
     return elements;
 };

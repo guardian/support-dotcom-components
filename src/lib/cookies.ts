@@ -38,13 +38,10 @@ const getCookieValues = (name: string): string[] => {
     }, []);
 };
 
-export const getCookie = (name: string): string | null => {
+export const getCookie = (name: string): string | undefined => {
     const cookieVal = getCookieValues(name);
 
-    if (cookieVal.length > 0) {
-        return cookieVal[0];
-    }
-    return null;
+    return cookieVal[0];
 };
 
 export const addCookie = (
