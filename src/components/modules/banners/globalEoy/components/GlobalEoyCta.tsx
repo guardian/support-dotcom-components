@@ -30,7 +30,7 @@ const GlobalEoyCta: React.FC<GlobalEoyCtaProps> = ({
                 <div>
                     <Hide above="desktop">
                         <LinkButton href={landingPageUrl} onClick={onContributeClick} size="small">
-                            Support us
+                            Support the Guardian
                         </LinkButton>
                     </Hide>
                     <Hide below="desktop">
