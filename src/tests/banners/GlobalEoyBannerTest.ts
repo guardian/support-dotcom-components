@@ -6,7 +6,7 @@ const mobileCopy =
     'With 2021 offering new hope, we commit to another year of quality reporting. Support us from %%CURRENCY_SYMBOL%%1.';
 
 export const GlobalEoyInaugurationACBanner: BannerTest = {
-    name: 'GlobalEoyInauguration__AC',
+    name: 'GlobalEoyBannerInauguration__AC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,7 +45,7 @@ export const GlobalEoyInaugurationACBanner: BannerTest = {
 };
 
 export const GlobalEoyInaugurationNoACBanner: BannerTest = {
-    name: 'GlobalEoyInauguration__NoAC',
+    name: 'GlobalEoyBannerInauguration__NoAC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
