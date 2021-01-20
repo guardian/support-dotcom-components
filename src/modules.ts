@@ -63,13 +63,13 @@ export const globalEoy: ModuleInfo = getDefaultModuleInfo(
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    // epicACAbove,
-    // epicACInline,
+    epicACAbove,
+    epicACInline,
     liveblogEpic,
     liveblogEpicSmallHeader,
     liveblogEpicYellowHeader,
-    // contributionsBanner,
-    // digiSubs,
-    // guardianWeekly,
-    // globalEoy,
+    contributionsBanner,
+    digiSubs,
+    guardianWeekly,
+    globalEoy,
 ];
