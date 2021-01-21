@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
-import { body, titlepiece } from '@guardian/src-foundations/typography';
+import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
@@ -82,14 +82,14 @@ const cta = (designTestVariant: LiveblogEpicDesignTestVariants): SerializedStyle
 `;
 
 const designTestYellowHeading = css`
-    ${titlepiece.small()};
+    ${headline.medium({ fontWeight: 'bold' })};
     font-size: 28px;
     background-color: ${brandAlt[400]};
     border-top: 1px solid ${neutral[0]};
     border-left: 1px solid ${neutral[0]};
     border-right: 1px solid ${neutral[0]};
 
-    padding: 4px 10px 13px 10px;
+    padding: 8px 10px 12px 10px;
     ${from.tablet} {
         padding-left: 80px;
         padding-right: 20px;
