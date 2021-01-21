@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "modules-dev": "rollup --watch --config",
-    "modules": "rollup --config",
+    "modules": "node esbuild.config.js",
     "dev": "yarn modules & ts-node-dev --transpile-only src/server.tsx",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -93,6 +93,7 @@
     "aws-sdk": "^2.783.0",
     "babel-loader": "^8.0.6",
     "chromatic": "^5.4.0",
+    "esbuild": "^0.8.33",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
