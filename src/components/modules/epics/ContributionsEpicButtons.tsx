@@ -88,6 +88,7 @@ export const ContributionsEpicButtons = ({
     variant: Variant;
     tracking: EpicTracking;
     countryCode?: string;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     onOpenReminderClick: Function;
 }): JSX.Element | null => {
     const { cta, secondaryCta, showReminderFields } = variant;

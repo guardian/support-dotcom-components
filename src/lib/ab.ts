@@ -30,9 +30,9 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
             return control;
         } else {
             const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
-            return otherVariants[mvtId % otherVariants.length];
+            return otherVariants[mvtId % otherVariants.length] as Variant;
         }
     }
 
-    return test.variants[mvtId % test.variants.length];
+    return test.variants[mvtId % test.variants.length] as Variant;
 };

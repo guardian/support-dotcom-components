@@ -336,7 +336,7 @@ export const findTestAndVariant = (
             const got = filter.test(test, targeting);
 
             if (debug[test.name]) {
-                debug[test.name][filter.id] = got;
+                (debug[test.name] as FilterResults)[filter.id] = got;
             } else {
                 debug[test.name] = { [filter.id]: got };
             }

@@ -26,10 +26,10 @@ const validatePayload = <T>(body: any, schema: any): T => {
     return body as T;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export const validateEpicPayload = (body: any): EpicPayload =>
     validatePayload<EpicPayload>(body, epicPayloadSchema);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export const validateBannerPayload = (body: any): BannerDataRequestPayload =>
     validatePayload<BannerDataRequestPayload>(body, bannerPayloadSchema);

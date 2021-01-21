@@ -13,7 +13,9 @@ export const getAmpVariantAssignments = (req: express.Request): AmpVariantAssign
         .split('!')
         .forEach((testAndVariant: string) => {
             const [test, variant] = testAndVariant.split('.');
-            result[test] = variant;
+            if (test && variant) {
+                result[test] = variant;
+            }
         });
 
     return result;

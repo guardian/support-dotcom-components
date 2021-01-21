@@ -12,7 +12,7 @@ const useHasBeenSeen = (options: IntersectionObserverInit, debounce?: boolean): 
     // Enabling debouncing ensures the target element intersects for at least
     // 200ms before the callback is executed
     const intersectionFn: IntersectionObserverCallback = ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
             setHasBeenSeen(true);
         }
     };

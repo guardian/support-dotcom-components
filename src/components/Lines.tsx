@@ -22,6 +22,6 @@ const straightLines = css`
 
 // Note, we should replace with @guardian/src-ed-lines once it is smaller in
 // size/better suited to tree-shaking.
-export const Lines: React.FC<{}> = ({}) => {
+export const Lines: React.FC = ({}) => {
     return <div css={straightLines} />;
 };

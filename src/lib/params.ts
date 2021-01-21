@@ -17,7 +17,9 @@ export const getQueryParams = (req: express.Request): Params => {
 
     if (force && typeof force === 'string') {
         const [testName, variantName] = force.split(':');
-        parsedForce = { testName, variantName };
+        if (testName && variantName) {
+            parsedForce = { testName, variantName };
+        }
     }
 
     return {

@@ -5,6 +5,7 @@ import {
     BannerChannel,
     BannerAudience,
     BannerTest,
+    BannerVariant,
 } from '../../types/BannerTypes';
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
@@ -129,7 +130,7 @@ export const selectBannerTest = async (
             userIsInTest(test, targeting.mvtId) &&
             (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches))
         ) {
-            const variant = test.variants[targeting.mvtId % test.variants.length];
+            const variant = test.variants[targeting.mvtId % test.variants.length] as BannerVariant;
             const bannerTestSelection = {
                 test,
                 variant,
