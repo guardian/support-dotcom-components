@@ -112,6 +112,7 @@ const isValidEmail = (email: string): boolean => {
 };
 
 interface Props extends ReminderFields {
+    // eslint-disable-next-line @typescript-eslint/ban-types
     onCloseReminderClick: Function;
 }
 

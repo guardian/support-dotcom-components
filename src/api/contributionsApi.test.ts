@@ -1,6 +1,7 @@
 import { fetchDefaultEpicContent } from './contributionsApi';
 import { cacheAsync } from '../lib/cache';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 jest.mock('node-fetch', () => require('fetch-mock').sandbox());
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const fetchMock = require('node-fetch');

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useWindowSize() {
     const isClient = typeof window === 'object';
 
@@ -14,7 +14,7 @@ export function useWindowSize() {
 
     const [windowSize, setWindowSize] = useState(getSize);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     useEffect(() => {
         if (!isClient) {

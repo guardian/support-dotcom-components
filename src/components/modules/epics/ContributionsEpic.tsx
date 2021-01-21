@@ -87,6 +87,7 @@ export type EpicProps = {
     tracking: EpicTracking;
     countryCode?: string;
     numArticles: number;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
 };
 
