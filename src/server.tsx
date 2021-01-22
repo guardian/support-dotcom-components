@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
@@ -55,6 +56,8 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(loggingMiddleware);
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
@@ -479,14 +482,28 @@ app.post(
     }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const response = 'OK';
+            const { email, reminderDate } = req.body;
+            const setReminderResponse = await fetch(
+                'https://contribution-reminders.support.guardianapis.com/remind-me',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        reminderDate,
+                        isPreContribution: true,
+                    }),
+                },
+            );
 
             res.setHeader('Origin', req.header('Origin') || '*');
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Cache-Control', 'private, no-store');
             res.setHeader('Surrogate-Control', 'max-age=0');
 
-            res.json(response);
+            res.json(setReminderResponse.status);
         } catch (error) {
             next(error);
         }
