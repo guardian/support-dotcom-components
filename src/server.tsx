@@ -465,6 +465,34 @@ app.get(
     },
 );
 
+app.post(
+    '/amp/set_reminder',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
+        ],
+        credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
+    }),
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const response = 'OK';
+
+            res.setHeader('Origin', req.header('Origin') || '*');
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
+
+            res.json(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
 app.get(
     '/amp/epic',
     cors({
