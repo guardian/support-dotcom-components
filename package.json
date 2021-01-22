@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "modules-dev": "rollup --watch --config",
-    "modules": "node esbuild.config.js",
+    "modules": "node build.js",
+    "modules-rollup": "rollup --config",
     "dev": "yarn modules & ts-node-dev --transpile-only src/server.tsx",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
