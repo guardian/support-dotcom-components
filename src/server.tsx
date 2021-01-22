@@ -11,7 +11,7 @@ import {
 } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
-import { EpicTests, Debug, findTestAndVariant, Result, Variant, Test } from './lib/variants';
+import { Debug, findTestAndVariant, Result, Variant, Test } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import {
     buildAmpEpicCampaignCode,
@@ -94,25 +94,40 @@ const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_ARTICLE`,
 );
 
+const [, fetchConfiguredArticleEpicHoldbackTestsCached] = cacheAsync(
+    () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
+    60,
+    `fetchConfiguredEpicTests_ARTICLE_HOLDBACK`,
+);
+
 const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     () => fetchConfiguredEpicTests('LIVEBLOG'),
     60,
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const fetchCachedEpicTests: { [key in EpicType]: () => Promise<EpicTests> } = {
-    ARTICLE: fetchConfiguredArticleEpicTestsCached,
-    LIVEBLOG: fetchConfiguredLiveblogEpicTestsCached,
+const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
+    const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
+    if (shouldHoldBack) {
+        const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
+        return holdback.tests;
+    }
+    const regular = await fetchConfiguredArticleEpicTestsCached();
+    const hardCoded = await getAllHardcodedTests();
+
+    return [...regular.tests, ...hardCoded];
 };
 
-const getArticleEpicTests = async (): Promise<Test[]> => {
-    const configuredTests = await fetchCachedEpicTests.ARTICLE();
-    const hardcodedTests = await getAllHardcodedTests();
-    return [...configuredTests.tests, ...hardcodedTests];
+const getForceableArticleEpicTests = async (): Promise<Test[]> => {
+    const regular = await fetchConfiguredArticleEpicTestsCached();
+    const hardCoded = await getAllHardcodedTests();
+    const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
+
+    return [...regular.tests, ...hardCoded, ...holdback.tests];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
-    const configuredTests = await fetchCachedEpicTests.LIVEBLOG();
+    const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
     return [liveblogEpicDesignTestUS, liveblogEpicDesignTestGlobal, ...configuredTests.tests];
 };
 
@@ -123,15 +138,21 @@ const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    const tests = type === 'ARTICLE' ? await getArticleEpicTests() : await getLiveblogEpicTests();
-
     let result: Result;
 
     if (params.force) {
+        const tests = await (type === 'ARTICLE'
+            ? getForceableArticleEpicTests()
+            : getLiveblogEpicTests());
+
         const test = tests.find(test => test.name === params.force?.testName);
         const variant = test?.variants.find(v => v.name === params.force?.variantName);
         result = test && variant ? { result: { test, variant } } : {};
     } else {
+        const tests = await (type === 'ARTICLE'
+            ? getArticleEpicTests(targeting.mvtId || 0)
+            : getLiveblogEpicTests());
+
         result = findTestAndVariant(tests, targeting, type, params.debug);
     }
 

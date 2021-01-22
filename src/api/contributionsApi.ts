@@ -2,7 +2,6 @@ import fetch from 'node-fetch';
 import { EpicTests, Variant } from '../lib/variants';
 import { isProd } from '../lib/env';
 import { fetchS3Data } from '../utils/S3';
-import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
 
 const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
@@ -50,8 +49,20 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
     return transformedData;
 };
 
-export const fetchConfiguredEpicTests = async (type: EpicType): Promise<EpicTests> => {
-    const file = type === 'ARTICLE' ? 'epic-tests.json' : 'liveblog-epic-tests.json';
+type EpicTestList = 'ARTICLE' | 'ARTICLE_HOLDBACK' | 'LIVEBLOG';
+
+type EpicTestListTestFileLookup = {
+    [e in EpicTestList]: string;
+};
+
+const EPIC_TEST_LIST_FILE_LOOKUP: EpicTestListTestFileLookup = {
+    ARTICLE: 'epic-tests.json',
+    ARTICLE_HOLDBACK: 'epic-holdback-tests.json',
+    LIVEBLOG: 'liveblog-epic-tests.json',
+};
+
+export const fetchConfiguredEpicTests = async (testList: EpicTestList): Promise<EpicTests> => {
+    const file = EPIC_TEST_LIST_FILE_LOOKUP[testList];
     const key = `epic/${isProd ? 'PROD' : 'CODE'}/${file}`;
 
     return fetchS3Data('gu-contributions-public', key).then(JSON.parse);
