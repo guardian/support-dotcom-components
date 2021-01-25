@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
@@ -55,6 +56,8 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(loggingMiddleware);
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
@@ -459,6 +462,48 @@ app.get(
             res.setHeader('Cache-Control', 'private, no-store');
             res.setHeader('Surrogate-Control', 'max-age=0');
             res.json(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.post(
+    '/amp/set_reminder',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
+        ],
+        credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
+    }),
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const { email, reminderDate } = req.body;
+            const setReminderResponse = await fetch(
+                'https://contribution-reminders.support.guardianapis.com/remind-me',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        reminderDate,
+                        isPreContribution: true,
+                    }),
+                },
+            );
+
+            res.setHeader('Origin', req.header('Origin') || '*');
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
+
+            res.json(setReminderResponse.status);
         } catch (error) {
             next(error);
         }
