@@ -1,3 +1,5 @@
+import { logger } from '../utils/logging';
+
 interface Cache {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
@@ -35,7 +37,7 @@ export const cacheAsync = <T>(
                 cache[key] = result;
                 return Promise.resolve(result);
             } catch (err) {
-                console.log(`Failed to make initial request for ${key}: ${err}`);
+                logger.warn(`Failed to make initial request for ${key}: ${err}`);
                 return Promise.reject(
                     new Error(`Failed to make initial request for ${key}: ${err}`),
                 );
@@ -46,7 +48,7 @@ export const cacheAsync = <T>(
                             cache[key] = await fn();
                             scheduleRefresh(ttlSec * 1000);
                         } catch (err) {
-                            console.log(`Error refreshing cached value for key ${key}: ${err}`);
+                            logger.warn(`Error refreshing cached value for key ${key}: ${err}`);
                             scheduleRefresh(retryIntervalMs);
                         }
                     }, ms);

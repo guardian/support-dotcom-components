@@ -23,7 +23,6 @@ import {
     logging as loggingMiddleware,
 } from './middleware';
 import { getAllHardcodedTests } from './tests';
-import { logTargeting } from './lib/logging';
 import { getQueryParams, Params } from './lib/params';
 import { ampEpic } from './tests/amp/ampEpic';
 import fs from 'fs';
@@ -47,6 +46,7 @@ import {
     liveblogEpicDesignTestGlobal,
     liveblogEpicDesignTestUS,
 } from './tests/liveblogEpicDesignTest';
+import { logger } from './utils/logging';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -135,9 +135,11 @@ const buildEpicData = async (
         result = findTestAndVariant(tests, targeting, type, params.debug);
     }
 
-    logTargeting(
-        `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
-    );
+    if (process.env.log_targeting === 'true') {
+        console.log(
+            `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
+        );
+    }
 
     if (!result.result) {
         return { data: undefined, debug: result.debug };
@@ -438,7 +440,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         gotCampaignId !== expectedCampaignId;
 
     if (notBothFalsy && notTheSame) {
-        console.log(
+        logger.info(
             'comparison failed with data: ' +
                 JSON.stringify({
                     status: 'comparison failed',

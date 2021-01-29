@@ -1,5 +1,6 @@
 import express from 'express';
 import { ValidationError } from '../lib/validation';
+import { logger } from '../utils/logging';
 
 export const errorHandling = (
     error: Error,
@@ -20,5 +21,5 @@ export const errorHandling = (
             res.status(500).send({ error: message });
     }
 
-    console.log('Something went wrong: ', message);
+    logger.error('Something went wrong: ', message);
 };

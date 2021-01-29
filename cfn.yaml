@@ -60,6 +60,12 @@ Parameters:
         Default: 80
         Description: Target CPU, used for autoscaling. Nb. you may want to set this quite
             low if using Burstable instances such as t3 ones.
+    ELKStream:
+        Type: String
+        Description: Name of the Kinesis stream used to send logs to the central ELK stack.
+    BaseUrl:
+        Type: String
+        Description: Base URL of the service.
 Mappings:
     stages:
         CODE:
@@ -82,6 +88,13 @@ Resources:
             Policies:
                 -   PolicyDocument:
                         Statement:
+                            -   Action:
+                                    - s3:GetObject
+                                Effect: Allow
+                                Resource:
+                                    - !Sub arn:aws:s3:::support-admin-console/${Stage}/banner-deploy/*
+                                    - !Sub arn:aws:s3:::gu-contributions-public/epic/${Stage}/*
+                                    - !Sub arn:aws:s3:::gu-contributions-public/banner/${Stage}/*
                             -   Action:
                                     - s3:Get*
                                     - s3:List*
@@ -138,6 +151,9 @@ Resources:
                                 Effect: Allow
                                 Resource:
                                     Ref: KMSKey
+                            -   Action: kinesis:Put*
+                                Effect: Allow
+                                Resource: !Sub 'arn:aws:kinesis:*:${AWS::AccountId}:stream/${ELKStream}'
                         Version: '2012-10-17'
                     PolicyName: required
             Tags:
@@ -220,34 +236,32 @@ Resources:
                         - GroupId
             UserData:
                 Fn::Base64:
-                    Fn::Join:
-                        - ''
-                        -   - |-
-                                #!/bin/bash
-                                nest-secrets --prefix /
-                            -   Ref: App
-                            - "/"
-                            -   Fn::FindInMap:
-                                    - stages
-                                    -   Ref: Stage
-                                    - lower
-                            - |2-
-                               > .env
-                              aws s3 cp s3://
-                            -   Ref: S3Bucket
-                            - "/"
-                            -   Ref: S3Key
-                            - |2-
-                               app.tar.gz
-                              docker load < app.tar.gz
-                              docker run --ulimit nofile=8192:8192 --env-file .env -p 3030:3030 --log-driver=awslogs --log-opt awslogs-group=
-                            -   Ref: Stack
-                            - "/"
-                            -   Ref: App
-                            - "/"
-                            -   Ref: Stage
-                            - "             --log-opt awslogs-create-group=true             "
-                            -   Ref: DockerTag
+                  !Sub |
+                    #!/bin/bash
+
+                    groupadd support
+                    useradd -r -m -s /usr/bin/nologin -g support dotcom-components
+                    cd /home/dotcom-components
+
+                    aws --region eu-west-1 s3 cp s3://${S3Bucket}/support/${Stage}/${App}/${App}.tgz ./
+                    mkdir ${App}
+                    tar -xvzf ${App}.tgz --directory ${App}
+
+                    chown -R dotcom-components:support ${App}
+
+                    cd ${App}
+
+                    export TERM=xterm-256color
+                    export NODE_ENV=production
+                    export stage=${Stage}
+                    export base_url=${BaseUrl}
+
+                    mkdir /var/log/dotcom-components
+                    chown -R dotcom-components:support /var/log/dotcom-components
+
+                    /usr/local/node/pm2 start --uid dotcom-components --gid support dist/server.js
+
+                    /opt/aws-kinesis-agent/configure-aws-kinesis-agent ${AWS::Region} ${ELKStream} /var/log/dotcom-components/dotcom-components.log
         DependsOn:
             - roleC7B7E775
         Metadata:
