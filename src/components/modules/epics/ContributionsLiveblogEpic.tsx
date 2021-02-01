@@ -62,12 +62,18 @@ const textContainer = css`
     }
 `;
 
+const paymentMethods = css`
+    display: block;
+    max-height: 1.25rem;
+    margin-top: ${space[2]}px;
+`;
+
 const cta: SerializedStyles = css`
     color: ${neutral[7]};
     background-color: ${brandAlt[400]};
 
     &:hover {
-        background-color: ${brandAlt[200]};
+        background-color: ${brandAlt[300]};
     }
 `;
 
@@ -144,9 +150,16 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
         countryCode,
     );
     return (
-        <LinkButton css={cta} priority="primary" href={url}>
+        <div>
+            <LinkButton css={cta} priority="primary" href={url}>
             {text || DEFAULT_CTA_TEXT}
-        </LinkButton>
+            </LinkButton>
+            <img
+                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                css={paymentMethods}
+            />
+        </div>
     );
 };
 
