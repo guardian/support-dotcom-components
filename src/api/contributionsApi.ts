@@ -7,8 +7,6 @@ const defaultEpicUrl =
     'https://interactive.guim.co.uk/docsdata/1fy0JolB1bf1IEFLHGHfUYWx-niad7vR9K954OpTOvjE.json';
 
 export const fetchDefaultEpicContent = async (): Promise<Variant> => {
-    const startTime = new Date().getTime();
-
     const response = await fetch(defaultEpicUrl, { timeout: 1000 * 20 });
     if (!response.ok) {
         throw new Error(
@@ -27,7 +25,7 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
         },
     };
 
-    const transformedData = control.reduce(
+    return control.reduce(
         (acc: Variant, item: { heading: string; paragraphs: string; highlightedText: string }) => {
             if (!acc.heading && item.heading) {
                 acc.heading = item.heading;
@@ -42,11 +40,6 @@ export const fetchDefaultEpicContent = async (): Promise<Variant> => {
         },
         emptyVariant,
     );
-
-    const endTime = new Date().getTime();
-    console.log(`Fetched default epic content. Time elapsed: ${endTime - startTime}ms`);
-
-    return transformedData;
 };
 
 type EpicTestList = 'ARTICLE' | 'ARTICLE_HOLDBACK' | 'LIVEBLOG';

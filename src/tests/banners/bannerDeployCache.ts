@@ -2,6 +2,7 @@ import { cacheAsync } from '../../lib/cache';
 import { BannerChannel } from '../../types/BannerTypes';
 import { fetchS3Data } from '../../utils/S3';
 import { isProd } from '../../lib/env';
+import { logger } from '../../utils/logging';
 
 export type ReaderRevenueRegion =
     | 'UnitedKingdom'
@@ -26,7 +27,7 @@ const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<Ban
                     RestOfWorld: new Date(data.RestOfWorld.timestamp),
                     EuropeanUnion: new Date(data.EuropeanUnion.timestamp),
                 };
-                console.log(`Got banner deploy times for ${channel}`, times);
+                logger.info(`Got banner deploy times for ${channel}`, times);
                 return times;
             })
     );

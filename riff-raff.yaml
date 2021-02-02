@@ -1,0 +1,20 @@
+stacks: [ support ]
+regions: [ eu-west-1 ]
+
+deployments:
+    dotcom-components-cloudformation:
+        type: cloud-formation
+        app: dotcom-components
+        parameters:
+            cloudFormationStackName: dotcom-components
+            templatePath: cloudformation/cfn.yaml
+            cloudFormationStackByTags: false
+            amiTags:
+                Recipe: support-dotcom-components-bionic
+                AmigoStage: PROD
+
+    dotcom-components:
+        type: autoscaling
+        dependencies: [ dotcom-components-cloudformation ]
+        parameters:
+            bucket: membership-dist

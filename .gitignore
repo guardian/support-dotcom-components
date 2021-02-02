@@ -9,3 +9,5 @@ stats/
 .metals
 target/
 build-storybook.log
+logs/
+
