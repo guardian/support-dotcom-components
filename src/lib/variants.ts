@@ -3,10 +3,10 @@ import {
     ViewLog,
     UserCohort,
 } from '../components/modules/epics/ContributionsEpicTypes';
-import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../lib/targeting';
-import { getCountryName, inCountryGroups, CountryGroupId } from '../lib/geolocation';
-import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from '../lib/history';
-import { isRecentOneOffContributor } from '../lib/dates';
+import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from './targeting';
+import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
+import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from './history';
+import { isRecentOneOffContributor } from './dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { getReminderFields, ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
