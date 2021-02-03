@@ -15,7 +15,6 @@ const logFields = (logEvent: LoggingEvent): any => {
         app: 'dotcom-components',
         stage: isProd ? 'PROD' : 'CODE',
         '@timestamp': logEvent.startTime,
-        '@version': 1,
         level: logEvent.level.levelStr,
         level_value: logEvent.level.level,
     };
