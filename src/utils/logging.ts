@@ -1,6 +1,7 @@
 import path from 'path';
 import { configure, addLayout, Configuration, getLogger, LoggingEvent } from 'log4js';
 import { RequestLogName } from '../middleware/logging';
+import { isProd } from '../lib/env';
 
 const logLocation =
     process.env.NODE_ENV === 'production'
@@ -12,9 +13,8 @@ const logFields = (logEvent: LoggingEvent): any => {
     const fields = {
         stack: 'support',
         app: 'dotcom-components',
-        stage: 'CODE',
+        stage: isProd ? 'PROD' : 'CODE',
         '@timestamp': logEvent.startTime,
-        '@version': 1,
         level: logEvent.level.levelStr,
         level_value: logEvent.level.level,
     };
