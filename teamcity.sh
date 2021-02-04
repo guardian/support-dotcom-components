@@ -16,7 +16,7 @@ yarn lint
 yarn test
 
 # Will place .js files in dist
-yarn run build
+NODE_ENV=production yarn run build
 
 # These also need to be in the RiffRaff package
 cp package.json dist
