@@ -19,6 +19,7 @@ const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
     border-top: 1px solid ${brandAlt[400]};
     border-bottom: 1px solid ${neutral[86]};
+    background: ${neutral[100]};
 
     border: 1px solid ${neutral[0]};
 
@@ -165,7 +166,8 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
-    const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading);
+    const cleanHeading =
+        replaceNonArticleCountPlaceholders(variant.heading) || 'Support the Guardian';
 
     if (
         cleanParagraphs.some(containsNonArticleCountPlaceholder) ||
