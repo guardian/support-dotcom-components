@@ -61,13 +61,13 @@ const liveblogEpicCardIconsTest = (
     useLocalViewLog: false,
 });
 
-export const liveblogEpicDesignTestGlobal: Test = liveblogEpicCardIconsTest(
-    '2020-01-20-LiveblogEpicDesignTest__Global',
+export const liveblogEpicCardIconsTestGlobal: Test = liveblogEpicCardIconsTest(
+    '2020-01-20-LiveblogEpicCardIconsTest__Global',
     globalParagraphs,
     ['GBPCountries', 'AUDCountries', 'EURCountries', 'International', 'NZDCountries', 'Canada'],
 );
-export const liveblogEpicDesignTestUS: Test = liveblogEpicCardIconsTest(
-    '2020-01-20-LiveblogEpicDesignTest__US',
+export const liveblogEpicCardIconsTestUS: Test = liveblogEpicCardIconsTest(
+    '2020-01-20-LiveblogEpicCardIconsTest__US',
     USParagraphs,
     ['UnitedStates'],
 );
