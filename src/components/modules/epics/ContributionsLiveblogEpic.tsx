@@ -14,19 +14,13 @@ import { EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../../../lib/variants';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
-import { LiveblogEpicDesignTestVariants } from '../../../tests/liveblogEpicDesignTest';
 
-const container = (designTestVariant: LiveblogEpicDesignTestVariants): SerializedStyles => css`
+const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
     border-top: 1px solid ${brandAlt[400]};
     border-bottom: 1px solid ${neutral[86]};
-    ${designTestVariant === LiveblogEpicDesignTestVariants.control
-        ? `background: ${neutral[93]};`
-        : `background: ${neutral[100]};`}
 
-    ${designTestVariant === LiveblogEpicDesignTestVariants.yellowHeader
-        ? `border: 1px solid ${neutral[0]};`
-        : ''}
+    border: 1px solid ${neutral[0]};
 
     * {
         ::selection {
@@ -67,13 +61,8 @@ const textContainer = css`
     }
 `;
 
-const cta = (designTestVariant: LiveblogEpicDesignTestVariants): SerializedStyles => css`
+const cta: SerializedStyles = css`
     color: ${neutral[7]};
-    ${
-        designTestVariant === LiveblogEpicDesignTestVariants.control
-            ? `border: 1px solid ${neutral[0]};`
-            : ''
-    }
     background-color: ${brandAlt[400]};
 
     &:hover {
@@ -81,7 +70,7 @@ const cta = (designTestVariant: LiveblogEpicDesignTestVariants): SerializedStyle
     }
 `;
 
-const designTestYellowHeading = css`
+const yellowHeading = css`
     ${headline.medium({ fontWeight: 'bold' })};
     font-size: 28px;
     background-color: ${brandAlt[400]};
@@ -94,10 +83,6 @@ const designTestYellowHeading = css`
         padding-left: 80px;
         padding-right: 20px;
     }
-`;
-
-const designTestSmallHeading = css`
-    font-weight: 700;
 `;
 
 interface LiveblogEpicBodyParagraphProps {
@@ -115,23 +100,16 @@ const LiveblogEpicBodyParagraph: React.FC<LiveblogEpicBodyParagraphProps> = ({
 };
 
 interface LiveblogEpicBodyProps {
-    heading: string | undefined;
     paragraphs: string[];
     numArticles: number;
-    designTestVariant: LiveblogEpicDesignTestVariants;
 }
 
 const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
-    heading,
     numArticles,
     paragraphs,
-    designTestVariant,
 }: LiveblogEpicBodyProps) => {
     return (
         <div css={textContainer}>
-            {designTestVariant === LiveblogEpicDesignTestVariants.smallHeader && heading && (
-                <div css={designTestSmallHeading}>{heading}</div>
-            )}
             {paragraphs.map(paragraph => (
                 <LiveblogEpicBodyParagraph
                     key={paragraph}
@@ -151,7 +129,6 @@ interface LiveblogEpicCtaProps {
     baseUrl?: string;
     countryCode?: string;
     tracking: EpicTracking;
-    designTestVariant: LiveblogEpicDesignTestVariants;
 }
 
 const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
@@ -159,7 +136,6 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     baseUrl,
     tracking,
     countryCode,
-    designTestVariant,
 }: LiveblogEpicCtaProps) => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl || DEFAULT_CTA_BASE_URL,
@@ -167,7 +143,7 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
         countryCode,
     );
     return (
-        <LinkButton css={cta(designTestVariant)} priority="primary" href={url}>
+        <LinkButton css={cta} priority="primary" href={url}>
             {text || DEFAULT_CTA_TEXT}
         </LinkButton>
     );
@@ -180,9 +156,7 @@ interface LiveblogEpicProps {
     numArticles: number;
 }
 
-export const ContributionsLiveblogEpicComponent: (
-    designTestVariant: LiveblogEpicDesignTestVariants,
-) => React.FC<LiveblogEpicProps> = designTestVariant => ({
+export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     variant,
     countryCode,
     numArticles,
@@ -202,27 +176,15 @@ export const ContributionsLiveblogEpicComponent: (
 
     return (
         <>
-            {designTestVariant === LiveblogEpicDesignTestVariants.yellowHeader && cleanHeading && (
-                <div css={designTestYellowHeading}>{cleanHeading}</div>
-            )}
-            <section css={container(designTestVariant)}>
-                <LiveblogEpicBody
-                    heading={cleanHeading}
-                    paragraphs={cleanParagraphs}
-                    numArticles={numArticles}
-                    designTestVariant={designTestVariant}
-                />
+            {cleanHeading && <div css={yellowHeading}>{cleanHeading}</div>}
+            <section css={container}>
+                <LiveblogEpicBody paragraphs={cleanParagraphs} numArticles={numArticles} />
                 <LiveblogEpicCta
                     text={variant.cta?.text}
                     baseUrl={variant.cta?.baseUrl}
                     tracking={tracking}
-                    designTestVariant={designTestVariant}
                 />
             </section>
         </>
     );
 };
-
-export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ContributionsLiveblogEpicComponent(
-    LiveblogEpicDesignTestVariants.control,
-);
