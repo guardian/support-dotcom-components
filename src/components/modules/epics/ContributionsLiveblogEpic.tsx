@@ -64,7 +64,6 @@ const textContainer = css`
 `;
 
 const paymentMethods = css`
-    display: block;
     height: 28px;
 `;
 
