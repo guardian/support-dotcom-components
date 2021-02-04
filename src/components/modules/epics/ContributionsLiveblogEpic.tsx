@@ -14,6 +14,7 @@ import { EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../../../lib/variants';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
+import { LiveblogEpicCardIconsTestVariants } from '../../../tests/liveblogEpicCardIconsTest';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
@@ -64,8 +65,7 @@ const textContainer = css`
 
 const paymentMethods = css`
     display: block;
-    max-height: 1.25rem;
-    margin-top: ${space[2]}px;
+    height: 28px;
 `;
 
 const cta: SerializedStyles = css`
@@ -74,6 +74,20 @@ const cta: SerializedStyles = css`
 
     &:hover {
         background-color: ${brandAlt[300]};
+    }
+`;
+
+const ctaContainer: SerializedStyles = css`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    *:first-child {
+        margin-right: 25px;
+    }
+
+    > * {
+        margin-top: 6px;
+        margin-bottom: 6px;
     }
 `;
 
@@ -136,6 +150,7 @@ interface LiveblogEpicCtaProps {
     baseUrl?: string;
     countryCode?: string;
     tracking: EpicTracking;
+    cardIconsTestVariant: LiveblogEpicCardIconsTestVariants;
 }
 
 const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
@@ -143,6 +158,7 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     baseUrl,
     tracking,
     countryCode,
+    cardIconsTestVariant,
 }: LiveblogEpicCtaProps) => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl || DEFAULT_CTA_BASE_URL,
@@ -150,15 +166,17 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
         countryCode,
     );
     return (
-        <div>
+        <div css={ctaContainer}>
             <LinkButton css={cta} priority="primary" href={url}>
-            {text || DEFAULT_CTA_TEXT}
+                {text || DEFAULT_CTA_TEXT}
             </LinkButton>
-            <img
-                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                css={paymentMethods}
-            />
+            {cardIconsTestVariant === LiveblogEpicCardIconsTestVariants.variant && (
+                <img
+                    src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
+                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                    css={paymentMethods}
+                />
+            )}
         </div>
     );
 };
@@ -170,7 +188,9 @@ interface LiveblogEpicProps {
     numArticles: number;
 }
 
-export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
+export const ContributionsLiveblogEpicComponent: (
+    cardIconsTestVariant: LiveblogEpicCardIconsTestVariants,
+) => React.FC<LiveblogEpicProps> = cardIconsTestVariant => ({
     variant,
     countryCode,
     numArticles,
@@ -198,8 +218,13 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
                     text={variant.cta?.text}
                     baseUrl={variant.cta?.baseUrl}
                     tracking={tracking}
+                    cardIconsTestVariant={cardIconsTestVariant}
                 />
             </section>
         </>
     );
 };
+
+export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ContributionsLiveblogEpicComponent(
+    LiveblogEpicCardIconsTestVariants.control,
+);

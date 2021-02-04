@@ -31,6 +31,11 @@ export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'epics/ContributionsLiveblogEpic',
 );
 
+export const liveblogCardIconsEpic: ModuleInfo = getDefaultModuleInfo(
+    'liveblog-epic-card-icons',
+    'epics/ContributionsLiveblogEpicWithCardIcons',
+);
+
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
     'banners/contributions/ContributionsBanner',
@@ -56,6 +61,7 @@ export const moduleInfos: ModuleInfo[] = [
     epicACAbove,
     epicACInline,
     liveblogEpic,
+    liveblogCardIconsEpic,
     contributionsBanner,
     digiSubs,
     guardianWeekly,
