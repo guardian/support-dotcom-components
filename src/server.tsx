@@ -42,10 +42,6 @@ import { ModuleInfo, moduleInfos } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
-import {
-    liveblogEpicDesignTestGlobal,
-    liveblogEpicDesignTestUS,
-} from './tests/liveblogEpicDesignTest';
 import { logger } from './utils/logging';
 
 const app = express();
@@ -128,7 +124,7 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
     const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
-    return [liveblogEpicDesignTestUS, liveblogEpicDesignTestGlobal, ...configuredTests.tests];
+    return configuredTests.tests;
 };
 
 const buildEpicData = async (

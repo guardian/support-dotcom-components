@@ -31,16 +31,6 @@ export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'epics/ContributionsLiveblogEpic',
 );
 
-export const liveblogEpicSmallHeader: ModuleInfo = getDefaultModuleInfo(
-    'liveblog-epic-small-header',
-    'epics/ContributionsLiveblogEpicSmallHeader',
-);
-
-export const liveblogEpicYellowHeader: ModuleInfo = getDefaultModuleInfo(
-    'liveblog-epic-yellow-header',
-    'epics/ContributionsLiveblogEpicYellowHeader',
-);
-
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
     'banners/contributions/ContributionsBanner',
@@ -66,8 +56,6 @@ export const moduleInfos: ModuleInfo[] = [
     epicACAbove,
     epicACInline,
     liveblogEpic,
-    liveblogEpicSmallHeader,
-    liveblogEpicYellowHeader,
     contributionsBanner,
     digiSubs,
     guardianWeekly,
