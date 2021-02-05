@@ -10,7 +10,7 @@ Parameters:
         Type: String
     InstanceClass:
         Type: String
-        Default: t3a
+        Default: t4g
     InstanceSize:
         Type: String
         Default: small

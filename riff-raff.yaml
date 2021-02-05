@@ -10,7 +10,7 @@ deployments:
             templatePath: cloudformation/cfn.yaml
             cloudFormationStackByTags: false
             amiTags:
-                Recipe: support-dotcom-components-bionic
+                Recipe: support-dotcom-components-bionic-ARM
                 AmigoStage: PROD
 
     dotcom-components:
