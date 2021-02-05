@@ -62,12 +62,12 @@ const liveblogEpicCardIconsTest = (
 });
 
 export const liveblogEpicCardIconsTestGlobal: Test = liveblogEpicCardIconsTest(
-    '2020-01-20-LiveblogEpicCardIconsTest__Global',
+    '2021-02-05-LiveblogEpicCardIconsTest__Global',
     globalParagraphs,
     ['GBPCountries', 'AUDCountries', 'EURCountries', 'International', 'NZDCountries', 'Canada'],
 );
 export const liveblogEpicCardIconsTestUS: Test = liveblogEpicCardIconsTest(
-    '2020-01-20-LiveblogEpicCardIconsTest__US',
+    '2021-02-05-LiveblogEpicCardIconsTest__US',
     USParagraphs,
     ['UnitedStates'],
 );
