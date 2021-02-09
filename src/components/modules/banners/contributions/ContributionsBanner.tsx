@@ -7,7 +7,7 @@ import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
-import { Hide } from '@guardian/src-layout/components/hide/hide';
+import { Hide } from '@guardian/src-layout';
 import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 
 const bannerId = 'contributions-banner';
