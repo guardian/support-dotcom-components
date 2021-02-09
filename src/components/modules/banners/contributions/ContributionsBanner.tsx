@@ -17,10 +17,46 @@ import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
+import { Hide } from '@guardian/src-layout/components/hide/hide';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
+
+interface ContributionsBannerBodyProps {
+    messageText: string;
+    mobileMessageText: string;
+    numArticles: number;
+}
+
+const ContributionsBannerBody: React.FC<ContributionsBannerBodyProps> = ({
+    messageText,
+    mobileMessageText,
+    numArticles,
+}) => {
+    if (mobileMessageText) {
+        return (
+            <>
+                <Hide above="phablet">
+                    <span css={styles.messageText}>
+                        {replaceArticleCount(mobileMessageText, numArticles, 'banner')}
+                    </span>
+                </Hide>
+                <Hide below="phablet">
+                    <span css={styles.messageText}>
+                        {replaceArticleCount(messageText, numArticles, 'banner')}
+                    </span>
+                </Hide>
+            </>
+        );
+    } else {
+        return (
+            <span css={styles.messageText}>
+                {replaceArticleCount(messageText, numArticles, 'banner')}
+            </span>
+        );
+    }
+};
 
 export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
@@ -54,6 +90,11 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
             countryCode,
         ).trim();
 
+        const cleanMobileMessageText = replaceNonArticleCountPlaceholders(
+            content.mobileMessageText,
+            countryCode,
+        ).trim();
+
         const cleanHeading = replaceNonArticleCountPlaceholders(
             content.heading,
             countryCode,
@@ -61,6 +102,8 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
 
         const copyHasPlaceholder =
             containsNonArticleCountPlaceholder(cleanMessageText) ||
+            (!!cleanMobileMessageText &&
+                containsNonArticleCountPlaceholder(cleanMobileMessageText)) ||
             (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
             (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
@@ -87,13 +130,11 @@ export const ContributionsBanner: React.FC<BannerProps> = (props: BannerProps) =
                                             </span>{' '}
                                         </>
                                     )}
-                                    <span css={styles.messageText}>
-                                        {replaceArticleCount(
-                                            cleanMessageText,
-                                            numArticles,
-                                            'banner',
-                                        )}
-                                    </span>
+                                    <ContributionsBannerBody
+                                        messageText={cleanMessageText}
+                                        mobileMessageText={cleanMobileMessageText}
+                                        numArticles={numArticles}
+                                    />
                                     {cleanHighlightedText && (
                                         <>
                                             {' '}

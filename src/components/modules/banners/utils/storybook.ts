@@ -15,6 +15,8 @@ export const tracking: BannerTracking = {
 export const content: BannerContent = {
     messageText:
         '<strong> We chose a different approach. Will you support it?</strong> Unlike many news organisations, we made a choice to keep our journalism open for all. At a time when factual information is a necessity, we believe that each of us, around the world, deserves access to accurate reporting with integrity at its heart. Every contribution, however big or small, is so valuable – it is essential in protecting our editorial independence.',
+    mobileMessageText:
+        'With 2021 offering new hope, we commit to another year of independent journalism.',
     highlightedText: ' Support the Guardian today from as little as %%CURRENCY_SYMBOL%%1.',
     cta: {
         baseUrl: 'https://support.theguardian.com/contribute',
