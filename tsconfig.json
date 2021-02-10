@@ -6,12 +6,13 @@
         "noImplicitReturns": true,
         "noUncheckedIndexedAccess": true,
         "esModuleInterop": true,
+        "moduleResolution": "node",
         "jsx": "react",
         "outDir": "dist",
         "typeRoots": ["./src/@types", "./node_modules/@types", "node_modules/@types"],
         "rootDirs": ["src", "stories"],
         "baseUrl": "src",
-        "types": ["@guardian/src-foundations/types/themes", "@emotion/react/types/css-prop"]
+        "types": ["node", "@guardian/src-foundations/types/themes", "@emotion/react/types/css-prop"]
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "src/**/*.test.ts", "src/factories/*", "src/tests/banners/*.tests.ts"]
