@@ -8,7 +8,7 @@
         "esModuleInterop": true,
         "jsx": "react",
         "outDir": "dist",
-        "typeRoots": ["./src/@types", "./node_modules/@types"],
+        "typeRoots": ["./src/@types", "./node_modules/@types", "node_modules/@types"],
         "rootDirs": ["src", "stories"],
         "baseUrl": "src",
         "types": ["@guardian/src-foundations/types/themes", "@emotion/react/types/css-prop"]
