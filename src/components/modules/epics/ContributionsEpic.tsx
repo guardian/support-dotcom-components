@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -43,7 +43,7 @@ const headingStyles = css`
 // Custom styles for <a> tags in the Epic content
 const linkStyles = css`
     a {
-        color: ${palette.news.main};
+        color: ${palette.news[400]};
         text-decoration: none;
     }
 

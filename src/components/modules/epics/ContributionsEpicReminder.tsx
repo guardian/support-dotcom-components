@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -7,7 +7,7 @@ import { ReminderFields } from '../../../lib/reminderFields';
 import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
-import { SvgArrowRightStraight, SvgClose } from '@guardian/src-svgs';
+import { SvgArrowRightStraight, SvgCross } from '@guardian/src-svgs';
 import { addCookie } from '../../../lib/cookies';
 
 const rootStyles = css`
@@ -85,7 +85,7 @@ const formTextStyles = css`
 
 const errorTextStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
-    color: ${palette.error.main};
+    color: ${palette.error[400]};
     font-style: italic;
     margin-top: ${space[1]}px;
     margin-bottom: 0;
@@ -185,7 +185,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
     return (
         <div css={rootStyles}>
             <button css={closeButtonStyles} onClick={(): void => onCloseReminderClick()}>
-                <SvgClose />
+                <SvgCross />
             </button>
 
             <div css={lineWrapperStyles}>

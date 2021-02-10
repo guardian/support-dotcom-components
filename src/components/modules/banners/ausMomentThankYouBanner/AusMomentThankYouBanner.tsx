@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { neutral, opinion, brandAlt } from '@guardian/src-foundations/palette';
 import { headline, body, textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';

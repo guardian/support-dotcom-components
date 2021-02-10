@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { Button } from '@guardian/src-button';
 import { neutral, brand } from '@guardian/src-foundations/palette';
 import { SvgCross } from '@guardian/src-icons';

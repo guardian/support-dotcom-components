@@ -28,6 +28,7 @@ module.exports = {
                 args: 'after-used',
             },
         ],
+        'react/display-name': 'off'
     },
     settings: {
         react: {

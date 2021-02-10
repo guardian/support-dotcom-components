@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { body } from '@guardian/src-foundations/typography';
 import styles from '../helpers/styles';
 import { getLocalCurrencySymbol } from '../../../../../lib/geolocation';

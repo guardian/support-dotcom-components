@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import ContributionsTemplateWithVisual from '../contributionsTemplate/ContributionsTemplateWithVisual';
 import GlobalEoyBody from './components/GlobalEoyBody';
 import GlobalEoyVisual from './components/GlobalEoyVisual';

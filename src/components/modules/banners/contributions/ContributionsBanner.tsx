@@ -4,11 +4,11 @@ import React from 'react';
 import { styles } from './ContributionsBannerStyles';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 import { Hide } from '@guardian/src-layout';
-import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
+import ContributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -141,7 +141,9 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
                                     onClick={onCloseClick}
                                     hideLabel={true}
                                     iconSide="left"
-                                />
+                                >
+                                    Close
+                                </Button>
                             </ThemeProvider>
                         </div>
                     </div>
@@ -151,6 +153,6 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = contributionsBannerWrapper(ContributionsBanner);
+const wrapped = ContributionsBannerWrapper(ContributionsBanner);
 
 export { wrapped as ContributionsBanner };

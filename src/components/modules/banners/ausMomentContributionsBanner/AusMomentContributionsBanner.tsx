@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { neutral, opinion } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
@@ -7,7 +7,7 @@ import { space } from '@guardian/src-foundations';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 import { BannerTracking, BannerProps } from '../../../../types/BannerTypes';
 import SocialLinks from './SocialLinks';
-import { SvgClose } from '@guardian/src-icons';
+import { SvgCross } from '@guardian/src-icons';
 import SunriseBackground from './SunriseBackground';
 import { useWindowSize } from './useWindowSize';
 
@@ -654,7 +654,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                     css={closeButton}
                                     aria-label="Close"
                                 >
-                                    <SvgClose />
+                                    <SvgCross />
                                 </button>
                             </div>
                         </div>

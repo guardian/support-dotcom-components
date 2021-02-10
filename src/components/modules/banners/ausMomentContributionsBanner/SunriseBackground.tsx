@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { brandAlt, opinion } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 

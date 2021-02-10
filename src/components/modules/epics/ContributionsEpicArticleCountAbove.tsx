@@ -1,7 +1,7 @@
 import React from 'react';
 import { textSans } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 
 const containerStyle = css`

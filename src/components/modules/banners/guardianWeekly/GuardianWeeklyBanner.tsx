@@ -1,6 +1,6 @@
 import React, { useState, ReactElement } from 'react';
 import { SvgRoundel } from '@guardian/src-brand';
-import { SvgClose } from '@guardian/src-icons';
+import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
     contentContainer,
@@ -56,7 +56,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => (
         onClick={props.onClick}
         aria-label="Close"
     >
-        <SvgClose />
+        <SvgCross />
     </button>
 );
 
