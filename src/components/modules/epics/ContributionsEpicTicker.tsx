@@ -75,7 +75,7 @@ const filledProgressStyles = (end: number, runningTotal: number, total: number):
         bottom: 0;
         transform: ${progressBarTransform(end, runningTotal, total)};
         transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${palette.brandAlt.main};
+        background-color: ${palette.brandAlt[400]};
     `;
 
 const goalContainerStyles: SerializedStyles = css`

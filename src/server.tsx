@@ -53,7 +53,7 @@ app.use(express.json({ limit: '50mb' }));
 
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
-app.options('*', cors());
+app.options('*', [cors()]);
 
 app.use(loggingMiddleware);
 

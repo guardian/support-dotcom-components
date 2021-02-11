@@ -3,14 +3,14 @@ import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from 'emotion-theming';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-svgs';
+import { SvgArrowRightStraight } from '@guardian/src-icons';
 
 // Custom theme for Button/LinkButton
 // See also `tertiaryButtonOverrides` below.
 const buttonStyles = {
     textPrimary: palette.neutral[7],
-    backgroundPrimary: palette.brandAlt.main,
-    backgroundPrimaryHover: palette.brandAlt.dark,
+    backgroundPrimary: palette.brandAlt[400],
+    backgroundPrimaryHover: palette.brandAlt[300],
     textSecondary: palette.neutral[7],
     backgroundSecondary: palette.neutral[93],
     backgroundSecondaryHover: palette.neutral[86],
@@ -66,7 +66,8 @@ export const Button: React.FC<Props> = (allProps: Props) => {
             <ThemeProvider theme={contributionsTheme}>
                 <LinkButton
                     href={onClickAction}
-                    showIcon={showArrow}
+                    icon={<SvgArrowRightStraight />}
+                    iconSide="right"
                     target="_blank"
                     rel="noopener noreferrer"
                     priority={isTertiary ? 'primary' : priority}

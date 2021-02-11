@@ -7,7 +7,7 @@ import { space } from '@guardian/src-foundations';
 import { setContributionsBannerClosedTimestamp } from '../localStorage';
 import { BannerTracking, BannerProps } from '../../../../types/BannerTypes';
 import SocialLinks from './SocialLinks';
-import { SvgClose } from '@guardian/src-icons';
+import { SvgCross } from '@guardian/src-icons';
 import SunriseBackground from './SunriseBackground';
 import { useWindowSize } from './useWindowSize';
 
@@ -654,7 +654,7 @@ export const AusMomentContributionsBanner: React.FC<BannerProps> = ({
                                     css={closeButton}
                                     aria-label="Close"
                                 >
-                                    <SvgClose />
+                                    <SvgCross />
                                 </button>
                             </div>
                         </div>
