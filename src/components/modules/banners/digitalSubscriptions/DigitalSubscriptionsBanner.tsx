@@ -6,7 +6,7 @@ import {
 } from '../../../../lib/tracking';
 import React, { useState } from 'react';
 import { SvgGuardianLogo } from '@guardian/src-brand';
-import { SvgClose } from '@guardian/src-icons';
+import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
     contentContainer,
@@ -173,7 +173,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                     data-link-name={closeComponentId}
                                     aria-label="Close"
                                 >
-                                    <SvgClose />
+                                    <SvgCross />
                                 </button>
                                 <div css={logoContainer}>
                                     <SvgGuardianLogo />

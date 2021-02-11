@@ -43,7 +43,7 @@ const headingStyles = css`
 // Custom styles for <a> tags in the Epic content
 const linkStyles = css`
     a {
-        color: ${palette.news.main};
+        color: ${palette.news[400]};
         text-decoration: none;
     }
 
