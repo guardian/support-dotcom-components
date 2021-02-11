@@ -141,7 +141,9 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
                                     onClick={onCloseClick}
                                     hideLabel={true}
                                     iconSide="left"
-                                >Close</Button>
+                                >
+                                    Close
+                                </Button>
                             </ThemeProvider>
                         </div>
                     </div>

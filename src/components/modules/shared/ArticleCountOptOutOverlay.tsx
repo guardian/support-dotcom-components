@@ -132,7 +132,9 @@ export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps>
                         hideLabel
                         size="xsmall"
                         priority="tertiary"
-                    >Close</Button>
+                    >
+                        Close
+                    </Button>
                 </ThemeProvider>
             </div>
 
