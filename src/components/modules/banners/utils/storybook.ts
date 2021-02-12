@@ -13,11 +13,12 @@ export const tracking: BannerTracking = {
 };
 
 export const content: BannerContent = {
+    heading: 'Show your support for <br/> high-impact reporting',
     messageText:
-        '<strong> We chose a different approach. Will you support it?</strong> Unlike many news organisations, we made a choice to keep our journalism open for all. At a time when factual information is a necessity, we believe that each of us, around the world, deserves access to accurate reporting with integrity at its heart. Every contribution, however big or small, is so valuable – it is essential in protecting our editorial independence.',
+        'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
     mobileMessageText:
         'With 2021 offering new hope, we commit to another year of independent journalism.',
-    highlightedText: ' Support the Guardian today from as little as %%CURRENCY_SYMBOL%%1.',
+    highlightedText: 'Support us from as little as %%CURRENCY_SYMBOL%%1.',
     cta: {
         baseUrl: 'https://support.theguardian.com/contribute',
         text: 'Support The Guardian',

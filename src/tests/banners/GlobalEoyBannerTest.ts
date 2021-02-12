@@ -10,7 +10,7 @@ export const GlobalEoyACBanner: BannerTest = {
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => false,
     minPageViews: 2,
     articlesViewedSettings: {
         minViews: 5,
@@ -37,7 +37,7 @@ export const GlobalEoyNoACBanner: BannerTest = {
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
+    canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => false,
     minPageViews: 2,
     variants: [
         {
