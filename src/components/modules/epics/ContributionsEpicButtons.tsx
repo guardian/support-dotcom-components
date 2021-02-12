@@ -112,7 +112,7 @@ export const ContributionsEpicButtons = ({
                 showReminderFields && (
                     <div css={buttonMargins}>
                         <Button onClickAction={onOpenReminderClick} isTertiary>
-                            {showReminderFields.reminderCTA}
+                            {showReminderFields.reminderCta}
                         </Button>
                     </div>
                 )
