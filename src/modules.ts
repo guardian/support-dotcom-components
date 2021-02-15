@@ -62,14 +62,14 @@ export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
 );
 
 export const moduleInfos: ModuleInfo[] = [
-    // epic,
-    // epicACAbove,
-    // epicACInline,
-    // liveblogEpic,
-    // liveblogCardIconsEpic,
-    // contributionsBanner,
+    epic,
+    epicACAbove,
+    epicACInline,
+    liveblogEpic,
+    liveblogCardIconsEpic,
+    contributionsBanner,
     contributionsBannerVariantA,
-    // contributionsBannerVariantB,
-    // digiSubs,
-    // guardianWeekly,
+    contributionsBannerVariantB,
+    digiSubs,
+    guardianWeekly,
 ];
