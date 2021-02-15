@@ -1,19 +1,36 @@
-import {BannerPageTracking, BannerTargeting, BannerTest, BannerVariant} from '../../types/BannerTypes';
-import {contributionsBanner, contributionsBannerVariantA, contributionsBannerVariantB} from '../../modules';
+import {
+    BannerPageTracking,
+    BannerTargeting,
+    BannerTest,
+    BannerVariant,
+} from '../../types/BannerTypes';
+import {
+    contributionsBanner,
+    contributionsBannerVariantA,
+    contributionsBannerVariantB,
+} from '../../modules';
 
 const nonBreakingHyphen = '&#8209;';
 
 const heading = `Show your support for high${nonBreakingHyphen}impact reporting`;
-const mobileMessageText = 'With 2021 offering new hope, we commit to another year of independent journalism.';
+const mobileMessageText =
+    'With 2021 offering new hope, we commit to another year of independent journalism.';
 const highlightedText = 'Support us from as little as %%CURRENCY_SYMBOL%%1.';
 const cta = {
     baseUrl: 'https://support.theguardian.com',
     text: 'Support the Guardian',
 };
-const messageTextAC = 'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.';
-const messageTextNoAC = 'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.';
+const messageTextAC =
+    'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.';
+const messageTextNoAC =
+    'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.';
 
-const buildVariant = (name: string, messageText: string, modulePath: string, moduleName: string): BannerVariant => ({
+const buildVariant = (
+    name: string,
+    messageText: string,
+    modulePath: string,
+    moduleName: string,
+): BannerVariant => ({
     name,
     modulePath,
     moduleName,
@@ -39,9 +56,24 @@ export const ContributionsBannerDesignTestAC: BannerTest = {
         periodInWeeks: 52,
     },
     variants: [
-        buildVariant('control', contributionsBanner.endpointPath, 'ContributionsBanner', messageTextAC),
-        buildVariant('variantA', contributionsBannerVariantA.endpointPath, 'ContributionsBannerVariantA', messageTextAC),
-        buildVariant('variantB', contributionsBannerVariantB.endpointPath, 'ContributionsBannerVariantB', messageTextAC),
+        buildVariant(
+            'control',
+            contributionsBanner.endpointPath,
+            'ContributionsBanner',
+            messageTextAC,
+        ),
+        buildVariant(
+            'variantA',
+            contributionsBannerVariantA.endpointPath,
+            'ContributionsBannerVariantA',
+            messageTextAC,
+        ),
+        buildVariant(
+            'variantB',
+            contributionsBannerVariantB.endpointPath,
+            'ContributionsBannerVariantB',
+            messageTextAC,
+        ),
     ],
 };
 
@@ -53,8 +85,23 @@ export const ContributionsBannerDesignTestNoAC: BannerTest = {
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
     variants: [
-        buildVariant('control', contributionsBanner.endpointPath, 'ContributionsBanner', messageTextNoAC),
-        buildVariant('variantA', contributionsBannerVariantA.endpointPath, 'ContributionsBannerVariantA', messageTextNoAC),
-        buildVariant('variantB', contributionsBannerVariantB.endpointPath, 'ContributionsBannerVariantB', messageTextNoAC),
+        buildVariant(
+            'control',
+            contributionsBanner.endpointPath,
+            'ContributionsBanner',
+            messageTextNoAC,
+        ),
+        buildVariant(
+            'variantA',
+            contributionsBannerVariantA.endpointPath,
+            'ContributionsBannerVariantA',
+            messageTextNoAC,
+        ),
+        buildVariant(
+            'variantB',
+            contributionsBannerVariantB.endpointPath,
+            'ContributionsBannerVariantB',
+            messageTextNoAC,
+        ),
     ],
 };
