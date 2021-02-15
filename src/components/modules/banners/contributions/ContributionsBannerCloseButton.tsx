@@ -1,12 +1,12 @@
-import React from "react";
-import {SvgRoundel} from "@guardian/src-brand";
-import {ThemeProvider} from "emotion-theming";
-import {buttonReaderRevenueBrandAlt} from "@guardian/src-button/themes";
-import {Button} from "@guardian/src-button/index";
-import {SvgCross} from "@guardian/src-icons";
-import {css} from "@emotion/core";
-import {from} from "@guardian/src-foundations/mq";
-import {neutral} from "@guardian/src-foundations";
+import React from 'react';
+import { SvgRoundel } from '@guardian/src-brand';
+import { ThemeProvider } from 'emotion-theming';
+import { buttonReaderRevenueBrandAlt } from '@guardian/src-button/themes';
+import { Button } from '@guardian/src-button/index';
+import { SvgCross } from '@guardian/src-icons';
+import { css } from '@emotion/core';
+import { from } from '@guardian/src-foundations/mq';
+import { neutral } from '@guardian/src-foundations';
 
 const styles = {
     roundelAndCloseButtonContainer: css`

@@ -5,7 +5,7 @@ import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
-import { ContributionsBannerCloseButton } from "./ContributionsBannerCloseButton";
+import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 
 const mobileStyles = {
     container: css`
