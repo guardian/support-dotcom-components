@@ -13,7 +13,7 @@ export const tracking: BannerTracking = {
 };
 
 export const content: BannerContent = {
-    heading: 'Show your support for <br/> high-impact reporting',
+    heading: 'Show your support for high&#8209;impact reporting',
     messageText:
         'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
     mobileMessageText:

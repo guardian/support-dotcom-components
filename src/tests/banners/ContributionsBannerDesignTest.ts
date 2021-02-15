@@ -1,6 +1,8 @@
 import { BannerPageTracking, BannerTargeting, BannerTest } from '../../types/BannerTypes';
 import { contributionsBannerVariantA } from '../../modules';
 
+const nonBreakingHyphen = '&#8209;';
+
 export const ContributionsBannerDesignTest: BannerTest = {
     name: 'ContributionsBannerDesignTest',
     bannerChannel: 'contributions',
@@ -19,7 +21,7 @@ export const ContributionsBannerDesignTest: BannerTest = {
             moduleName: 'ContributionsBannerVariantA',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             bannerContent: {
-                heading: 'Show your support for <br/> high-impact reporting',
+                heading: `Show your support for high${nonBreakingHyphen}impact reporting`,
                 messageText:
                     'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
                 mobileMessageText:
