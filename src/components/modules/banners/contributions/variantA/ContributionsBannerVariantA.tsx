@@ -45,15 +45,9 @@ const variantAStyles = {
         justify-content: flex-end;
     `,
 
-    tablet: css`
+    tabletAndDesktop: css`
         display: none;
-        ${between.tablet.and.desktop} {
-            display: block;
-        }
-    `,
-    desktop: css`
-        display: none;
-        ${between.desktop.and.leftCol} {
+        ${between.tablet.and.leftCol} {
             display: block;
         }
     `,
@@ -132,21 +126,12 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
             />
 
             <Container>
-                <div css={variantAStyles.tablet}>
+                <div css={variantAStyles.tabletAndDesktop}>
                     <Columns>
                         <Column width={8 / columnCounts.tablet}>
                             <BodyAndHeading />
                         </Column>
                         <Column width={4 / columnCounts.tablet}>{buttons}</Column>
-                    </Columns>
-                </div>
-                <div css={variantAStyles.desktop}>
-                    <Columns>
-                        <Column width={8 / columnCounts.desktop}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={1 / columnCounts.desktop}> </Column>
-                        <Column width={3 / columnCounts.desktop}>{buttons}</Column>
                     </Columns>
                 </div>
                 <div css={variantAStyles.leftCol}>
