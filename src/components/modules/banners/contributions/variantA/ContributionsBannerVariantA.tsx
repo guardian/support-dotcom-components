@@ -39,6 +39,7 @@ const variantAStyles = {
         display: flex;
         flex-direction: column;
         height: 100%;
+        margin-top: 8px;
     `,
     ctaContainer: css`
         margin-bottom: 16px;

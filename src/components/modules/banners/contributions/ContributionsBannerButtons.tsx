@@ -15,19 +15,19 @@ const styles = {
         height: 100%;
     `,
     rightButtons: css`
-        margin-left: auto;
+        margin-left: 4px;
         display: flex;
         flex-direction: row;
         white-space: nowrap;
         justify-content: flex-end;
 
         flex-grow: 1;
-        margin-top: 8px;
     `,
     rightRoundel: css`
         display: none;
         ${from.tablet} {
             display: block;
+            margin-right: 2px;
         }
     `,
     roundelContainer: css`
