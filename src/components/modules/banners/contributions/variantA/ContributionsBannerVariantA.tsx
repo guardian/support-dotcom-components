@@ -13,24 +13,42 @@ import { ContributionsBannerCta } from '../ContributionsBannerCta';
 import { ContributionsBannerCloseButton } from '../ContributionsBannerCloseButton';
 
 const variantAStyles = {
+    columnsContainer: css`
+        ${between.tablet.and.leftCol} {
+            border-left: 1px solid ${neutral[7]};
+        }
+    `,
     heading: css`
         ${headline.large({ fontWeight: 'bold' })}
         padding-bottom: 13px;
-        padding-left: 12px;
+        ${from.leftCol} {
+            padding-left: 12px;
+        }
     `,
     body: css`
         padding-bottom: 16px;
     `,
     bodyAndHeading: css`
-        border-left: 1px solid ${neutral[7]};
+        ${from.leftCol} {
+            margin-left: -9px;
+            border-left: 1px solid ${neutral[7]};
+        }
+        ${from.wide} {
+            margin-left: -10px;
+        }
     `,
     rule: css`
         border-top: 1px solid ${neutral[7]};
         width: 100%;
         position: absolute;
+        ${between.tablet.and.leftCol} {
+            margin-left: -20px;
+        }
     `,
     copy: css`
-        padding-left: 12px;
+        ${from.leftCol} {
+            padding-left: 12px;
+        }
         padding-top: 2px;
     `,
     buttonsContainer: css`
@@ -126,7 +144,7 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
                 ctaText={ctaText}
             />
 
-            <Container>
+            <Container cssOverrides={variantAStyles.columnsContainer}>
                 <div css={variantAStyles.tabletAndDesktop}>
                     <Columns>
                         <Column width={8 / columnCounts.tablet}>
