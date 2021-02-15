@@ -108,6 +108,7 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
                     onContributeClick={onContributeClick}
                     ctaText={ctaText}
                     ctaUrl={ctaUrl}
+                    stacked={true}
                 />
             </div>
         </div>

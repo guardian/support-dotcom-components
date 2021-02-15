@@ -21,7 +21,7 @@ const mobileStyles = {
         margin-top: 2px;
     `,
     ctaContainer: css`
-        *:first-child {
+        > :first-child {
             margin-right: 5px;
         }
         margin-top: 20px;
@@ -75,6 +75,7 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
                     onContributeClick={onContributeClick}
                     ctaText={ctaText}
                     ctaUrl={ctaUrl}
+                    stacked={true}
                 />
             </div>
         </div>
