@@ -58,21 +58,21 @@ export const ContributionsBannerDesignTestAC: BannerTest = {
     variants: [
         buildVariant(
             'control',
+            messageTextAC,
             contributionsBanner.endpointPath,
             'ContributionsBanner',
-            messageTextAC,
         ),
         buildVariant(
             'variantA',
+            messageTextAC,
             contributionsBannerVariantA.endpointPath,
             'ContributionsBannerVariantA',
-            messageTextAC,
         ),
         buildVariant(
             'variantB',
+            messageTextAC,
             contributionsBannerVariantB.endpointPath,
             'ContributionsBannerVariantB',
-            messageTextAC,
         ),
     ],
 };
@@ -87,21 +87,21 @@ export const ContributionsBannerDesignTestNoAC: BannerTest = {
     variants: [
         buildVariant(
             'control',
+            messageTextNoAC,
             contributionsBanner.endpointPath,
             'ContributionsBanner',
-            messageTextNoAC,
         ),
         buildVariant(
             'variantA',
+            messageTextNoAC,
             contributionsBannerVariantA.endpointPath,
             'ContributionsBannerVariantA',
-            messageTextNoAC,
         ),
         buildVariant(
             'variantB',
+            messageTextNoAC,
             contributionsBannerVariantB.endpointPath,
             'ContributionsBannerVariantB',
-            messageTextNoAC,
         ),
     ],
 };

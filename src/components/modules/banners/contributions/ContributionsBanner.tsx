@@ -26,10 +26,10 @@ const ContributionsBannerBody: React.FC<ContributionsBannerBodyProps> = ({
         return (
             <>
                 <Hide above="tablet">
-                    <span css={styles.messageText}>{cleanMessageText}</span>
+                    <span css={styles.messageText}>{cleanMobileMessageText}</span>
                 </Hide>
                 <Hide below="tablet">
-                    <span css={styles.messageText}>{cleanMobileMessageText}</span>
+                    <span css={styles.messageText}>{cleanMessageText}</span>
                 </Hide>
             </>
         );
