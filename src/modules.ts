@@ -46,6 +46,11 @@ export const contributionsBannerVariantA: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/variantA/ContributionsBannerVariantA',
 );
 
+export const contributionsBannerVariantB: ModuleInfo = getDefaultModuleInfo(
+    'contributions-banner-variant-b',
+    'banners/contributions/variantB/ContributionsBannerVariantB',
+);
+
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -56,11 +61,6 @@ export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'banners/guardianWeekly/GuardianWeeklyBanner',
 );
 
-export const globalEoy: ModuleInfo = getDefaultModuleInfo(
-    'global-eoy-banner',
-    'banners/globalEoy/GlobalEoy',
-);
-
 export const moduleInfos: ModuleInfo[] = [
     // epic,
     // epicACAbove,
@@ -69,7 +69,7 @@ export const moduleInfos: ModuleInfo[] = [
     // liveblogCardIconsEpic,
     // contributionsBanner,
     contributionsBannerVariantA,
+    // contributionsBannerVariantB,
     // digiSubs,
     // guardianWeekly,
-    // globalEoy,
 ];
