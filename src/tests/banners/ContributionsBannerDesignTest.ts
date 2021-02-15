@@ -45,7 +45,7 @@ const buildVariant = (
 });
 
 export const ContributionsBannerDesignTestAC: BannerTest = {
-    name: 'ContributionsBannerDesignTestAC',
+    name: '2021-02-16_ContributionsBannerDesignTest__AC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -78,7 +78,7 @@ export const ContributionsBannerDesignTestAC: BannerTest = {
 };
 
 export const ContributionsBannerDesignTestNoAC: BannerTest = {
-    name: 'ContributionsBannerDesignTestNoAC',
+    name: '2021-02-16_ContributionsBannerDesignTest__NoAC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
