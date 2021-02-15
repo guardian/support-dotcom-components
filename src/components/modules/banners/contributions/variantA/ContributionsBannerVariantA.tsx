@@ -9,10 +9,8 @@ import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations';
 import { ContributionsBannerMobile } from '../ContributionsBannerMobile';
-import {
-    ContributionsBannerCloseButton,
-    ContributionsBannerCta,
-} from '../ContributionsBannerButtons';
+import { ContributionsBannerCta } from '../ContributionsBannerCta';
+import {ContributionsBannerCloseButton} from "../ContributionsBannerCloseButton";
 
 const variantAStyles = {
     heading: css`
