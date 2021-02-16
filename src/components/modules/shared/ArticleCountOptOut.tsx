@@ -35,6 +35,7 @@ const articleCountButton = css`
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
+    color: inherit;
     &:focus {
         outline: none !important;
     }
