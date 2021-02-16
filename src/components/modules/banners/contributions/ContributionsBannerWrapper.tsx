@@ -37,7 +37,7 @@ const withBannerData = (
         onClose,
         content,
         countryCode,
-        numArticles = 0, // TODO - does this work?
+        numArticles = 0,
     } = bannerProps;
 
     const onContributeClick = (): void => {
