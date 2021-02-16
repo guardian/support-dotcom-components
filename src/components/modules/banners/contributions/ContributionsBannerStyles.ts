@@ -7,6 +7,7 @@ export const styles = {
     // We need bannerContainer/banner/bannerFlexBox in order to track DCR's article grid.
     // In future we should be able to do this using src-grid, but this doesn't currently work with DCR's preact.
     bannerContainer: css`
+        overflow: hidden;
         width: 100%;
         background-color: ${brandAlt[400]};
         border-top: 1px solid ${neutral[7]};
