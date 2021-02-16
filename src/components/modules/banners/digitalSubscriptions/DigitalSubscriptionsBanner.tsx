@@ -130,7 +130,11 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                         <div css={topLeftComponent}>
                             <h3 css={heading}>{content?.heading}</h3>
                             <p css={messageText}>
-                                {replaceArticleCount(content?.messageText, numArticles, 'banner')}
+                                {replaceArticleCount(
+                                    content?.messageText || '',
+                                    numArticles,
+                                    'banner',
+                                )}
                             </p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
