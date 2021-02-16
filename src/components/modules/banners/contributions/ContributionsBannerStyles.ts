@@ -194,5 +194,6 @@ export const styles = {
         ${from.desktop} {
             flex-direction: row;
         }
+        max-width: 90%; // to avoid pushing the close button off screen on mobile devices with extra large font
     `,
 };
