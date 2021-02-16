@@ -265,7 +265,7 @@ export const ContributionsEpicComponent: (
                     tracking={tracking}
                     countryCode={countryCode}
                     onOpenReminderClick={(): void => {
-                        const buttonCopyAsString = showReminderFields?.reminderCTA
+                        const buttonCopyAsString = showReminderFields?.reminderCta
                             .toLowerCase()
                             .replace(/\s/g, '-');
 
@@ -284,9 +284,8 @@ export const ContributionsEpicComponent: (
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
-                    reminderCTA={showReminderFields.reminderCTA}
-                    reminderDate={showReminderFields.reminderDate}
-                    reminderDateAsString={showReminderFields.reminderDateAsString}
+                    reminderPeriod={showReminderFields.reminderPeriod}
+                    reminderLabel={showReminderFields.reminderLabel}
                     onCloseReminderClick={(): void => setIsReminderActive(false)}
                 />
             )}

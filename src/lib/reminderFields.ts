@@ -1,7 +1,7 @@
 export interface ReminderFields {
-    reminderCTA: string;
-    reminderDate: string;
-    reminderDateAsString: string;
+    reminderCta: string;
+    reminderLabel: string;
+    reminderPeriod: string;
 }
 
 const getReminderDate = (date: Date): Date => {
@@ -20,9 +20,9 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     const year = reminderDate.getFullYear();
 
     return {
-        reminderCTA: `Remind me in ${monthName}`,
-        reminderDate: `${year}-${paddedMonth}-19 00:00:00`,
-        reminderDateAsString: `${monthName} ${year}`,
+        reminderCta: `Remind me in ${monthName}`,
+        reminderPeriod: `${year}-${paddedMonth}-01`,
+        reminderLabel: `${monthName} ${year}`,
     };
 };
 
