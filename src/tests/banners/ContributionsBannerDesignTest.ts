@@ -13,6 +13,7 @@ import {
 const nonBreakingHyphen = '&#8209;';
 
 const heading = `Show your support for high${nonBreakingHyphen}impact reporting`;
+const controlHeading = `${heading}.`;
 const mobileMessageText =
     'With 2021 offering new hope, we commit to another year of independent journalism.';
 const highlightedText = 'Support us from as little as %%CURRENCY_SYMBOL%%1.';
@@ -27,6 +28,7 @@ const messageTextNoAC =
 
 const buildVariant = (
     name: string,
+    heading: string,
     messageText: string,
     modulePath: string,
     moduleName: string,
@@ -58,18 +60,21 @@ export const ContributionsBannerDesignTestAC: BannerTest = {
     variants: [
         buildVariant(
             'control',
+            controlHeading,
             messageTextAC,
             contributionsBanner.endpointPath,
             'ContributionsBanner',
         ),
         buildVariant(
             'variantA',
+            heading,
             messageTextAC,
             contributionsBannerVariantA.endpointPath,
             'ContributionsBannerVariantA',
         ),
         buildVariant(
             'variantB',
+            heading,
             messageTextAC,
             contributionsBannerVariantB.endpointPath,
             'ContributionsBannerVariantB',
@@ -87,18 +92,21 @@ export const ContributionsBannerDesignTestNoAC: BannerTest = {
     variants: [
         buildVariant(
             'control',
+            controlHeading,
             messageTextNoAC,
             contributionsBanner.endpointPath,
             'ContributionsBanner',
         ),
         buildVariant(
             'variantA',
+            heading,
             messageTextNoAC,
             contributionsBannerVariantA.endpointPath,
             'ContributionsBannerVariantA',
         ),
         buildVariant(
             'variantB',
+            heading,
             messageTextNoAC,
             contributionsBannerVariantB.endpointPath,
             'ContributionsBannerVariantB',
