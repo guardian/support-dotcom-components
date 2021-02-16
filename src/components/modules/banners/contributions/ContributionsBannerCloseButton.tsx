@@ -1,5 +1,5 @@
 import React from 'react';
-import { SvgRoundel } from '@guardian/src-brand';
+import { SvgRoundelDefault } from '@guardian/src-brand';
 import { ThemeProvider } from 'emotion-theming';
 import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { Button } from '@guardian/src-button';
@@ -48,7 +48,7 @@ export const ContributionsBannerCloseButton: React.FC<ContributionsCloseButtonPr
         <div css={styles.roundelAndCloseButtonContainer}>
             <div css={styles.roundelContainer}>
                 <div css={styles.roundel}>
-                    <SvgRoundel />
+                    <SvgRoundelDefault />
                 </div>
             </div>
             <div css={styles.closeButtonContainer}>
