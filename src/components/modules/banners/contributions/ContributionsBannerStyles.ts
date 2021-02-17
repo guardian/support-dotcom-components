@@ -7,6 +7,7 @@ export const styles = {
     // We need bannerContainer/banner/bannerFlexBox in order to track DCR's article grid.
     // In future we should be able to do this using src-grid, but this doesn't currently work with DCR's preact.
     bannerContainer: css`
+        overflow: hidden;
         width: 100%;
         background-color: ${brandAlt[400]};
         border-top: 1px solid ${neutral[7]};
@@ -187,11 +188,15 @@ export const styles = {
     `,
 
     copyAndCta: css`
+        ${from.tablet} {
+            position: relative; // for positioning the opt-out popup
+        }
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         ${from.desktop} {
             flex-direction: row;
         }
+        max-width: 90%; // to avoid pushing the close button off screen on mobile devices with extra large font
     `,
 };

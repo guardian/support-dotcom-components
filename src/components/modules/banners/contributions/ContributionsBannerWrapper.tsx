@@ -11,6 +11,7 @@ import {
     replaceNonArticleCountPlaceholders,
 } from '../../../../lib/placeholders';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
+import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -19,13 +20,12 @@ const ctaComponentId = `${bannerId} : cta`;
 export interface ContributionsBannerProps {
     onContributeClick: () => void;
     onCloseClick: () => void;
-    cleanHighlightedText?: string;
-    cleanMessageText: string;
-    cleanMobileMessageText?: string;
-    cleanHeading?: string;
+    cleanHighlightedText: JSX.Element[] | null;
+    cleanMessageText: JSX.Element[];
+    cleanMobileMessageText: JSX.Element[] | null;
+    cleanHeading: JSX.Element[] | null;
     ctaUrl: string;
     ctaText: string;
-    numArticles?: number;
 }
 
 const withBannerData = (
@@ -37,7 +37,7 @@ const withBannerData = (
         onClose,
         content,
         countryCode,
-        numArticles,
+        numArticles = 0,
     } = bannerProps;
 
     const onContributeClick = (): void => {
@@ -91,17 +91,31 @@ const withBannerData = (
             (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
             (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
+        const headingWithArticleCount = !!cleanHeading
+            ? replaceArticleCount(cleanHeading, numArticles, 'banner')
+            : null;
+        const messageTextWithArticleCount = replaceArticleCount(
+            cleanMessageText,
+            numArticles,
+            'banner',
+        );
+        const mobileMessageTextWithArticleCount = !!cleanMobileMessageText
+            ? replaceArticleCount(cleanMobileMessageText, numArticles, 'banner')
+            : null;
+        const highlightedTextWithArticleCount = !!cleanHighlightedText
+            ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
+            : null;
+
         if (!copyHasPlaceholder) {
             const props: ContributionsBannerProps = {
                 onContributeClick,
                 onCloseClick,
-                cleanHighlightedText,
-                cleanMessageText,
-                cleanMobileMessageText,
-                cleanHeading,
+                cleanHighlightedText: highlightedTextWithArticleCount,
+                cleanMessageText: messageTextWithArticleCount,
+                cleanMobileMessageText: mobileMessageTextWithArticleCount,
+                cleanHeading: headingWithArticleCount,
                 ctaUrl,
                 ctaText: content.cta.text,
-                numArticles,
             };
             return <Banner {...props} />;
         } else {

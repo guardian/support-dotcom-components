@@ -6,7 +6,6 @@ import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from 'emotion-theming';
 import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
-import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 import { Hide } from '@guardian/src-layout';
 import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 
@@ -15,37 +14,27 @@ const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
 
 interface ContributionsBannerBodyProps {
-    cleanMessageText: string;
-    cleanMobileMessageText?: string;
-    numArticles: number;
+    cleanMessageText: JSX.Element[];
+    cleanMobileMessageText: JSX.Element[] | null;
 }
 
 const ContributionsBannerBody: React.FC<ContributionsBannerBodyProps> = ({
     cleanMessageText,
     cleanMobileMessageText,
-    numArticles,
 }) => {
     if (cleanMobileMessageText) {
         return (
             <>
-                <Hide above="phablet">
-                    <span css={styles.messageText}>
-                        {replaceArticleCount(cleanMobileMessageText, numArticles, 'banner')}
-                    </span>
+                <Hide above="tablet">
+                    <span css={styles.messageText}>{cleanMobileMessageText}</span>
                 </Hide>
-                <Hide below="phablet">
-                    <span css={styles.messageText}>
-                        {replaceArticleCount(cleanMessageText, numArticles, 'banner')}
-                    </span>
+                <Hide below="tablet">
+                    <span css={styles.messageText}>{cleanMessageText}</span>
                 </Hide>
             </>
         );
     } else {
-        return (
-            <span css={styles.messageText}>
-                {replaceArticleCount(cleanMessageText, numArticles, 'banner')}
-            </span>
-        );
+        return <span css={styles.messageText}>{cleanMessageText}</span>;
     }
 };
 
@@ -58,7 +47,6 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     cleanHeading,
     ctaUrl,
     ctaText,
-    numArticles = 0,
 }: ContributionsBannerProps) => {
     return (
         <>
@@ -73,26 +61,17 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
                         <div css={styles.copy}>
                             {cleanHeading && (
                                 <>
-                                    <span css={styles.heading}>
-                                        {replaceArticleCount(cleanHeading, numArticles, 'banner')}
-                                    </span>{' '}
+                                    <span css={styles.heading}>{cleanHeading}</span>{' '}
                                 </>
                             )}
                             <ContributionsBannerBody
                                 cleanMessageText={cleanMessageText}
                                 cleanMobileMessageText={cleanMobileMessageText}
-                                numArticles={numArticles}
                             />
                             {cleanHighlightedText && (
                                 <>
                                     {' '}
-                                    <span css={styles.highlightedText}>
-                                        {replaceArticleCount(
-                                            cleanHighlightedText,
-                                            numArticles,
-                                            'banner',
-                                        )}
-                                    </span>
+                                    <span css={styles.highlightedText}>{cleanHighlightedText}</span>
                                 </>
                             )}
                         </div>
