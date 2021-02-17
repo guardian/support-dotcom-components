@@ -20,7 +20,7 @@ const variantAStyles = {
     `,
     heading: css`
         ${headline.large({ fontWeight: 'bold' })}
-        padding-bottom: 13px;
+        padding-bottom: 10px;
         ${from.leftCol} {
             padding-left: 12px;
         }
@@ -36,14 +36,6 @@ const variantAStyles = {
         }
         ${from.wide} {
             margin-left: -10px;
-        }
-    `,
-    rule: css`
-        border-top: 1px solid ${neutral[7]};
-        width: 100%;
-        position: absolute;
-        ${between.tablet.and.leftCol} {
-            margin-left: -20px;
         }
     `,
     copy: css`
@@ -105,7 +97,6 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
         <div css={variantAStyles.bodyAndHeading}>
             <div css={variantAStyles.heading}>{cleanHeading}</div>
             <div css={variantAStyles.body}>
-                <div css={variantAStyles.rule} />
                 <div css={[styles.copy, variantAStyles.copy]}>
                     {cleanMessageText}
                     {cleanHighlightedText && (
