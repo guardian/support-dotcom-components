@@ -18,12 +18,11 @@ export type ArticleCountOptOutType = 'epic' | 'banner' | 'global-eoy-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
     type === 'banner' || type === 'global-eoy-banner';
 
-const optOutContainer = css`
+const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;
 
     ${from.tablet} {
-        position: relative;
-    }
+        ${!isBanner(type) ? 'position: relative;' : ''}
 `;
 
 const articleCountButton = css`
@@ -43,14 +42,29 @@ const articleCountButton = css`
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     position: absolute;
     z-index: 100;
-    left: ${space[4]}px;
-    right: ${space[4]}px;
-    ${isBanner(type) ? 'bottom: 21px;' : ''}
+    ${isBanner(type)
+        ? css`
+              top: 0px;
+              left: 0px;
+          `
+        : css`
+              left: ${space[4]}px;
+              right: ${space[4]}px;
+              ${isBanner(type) ? 'bottom: 21px;' : ''}
+          `}
+    display: block;
 
     ${from.tablet} {
-        width: 400px;
-        left: 0;
-        ${isBanner(type) ? 'bottom: -90px;' : ''}
+        ${isBanner(type)
+            ? css`
+                  top: 10px;
+                  left: 10px;
+                  width: 450px;
+              `
+            : css`
+                  width: 400px;
+                  left: 0;
+              `}
     }
 `;
 
@@ -89,7 +103,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     const onClose = (): void => setIsOpen(false);
 
     return (
-        <div css={optOutContainer}>
+        <div css={optOutContainer(type)}>
             <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>

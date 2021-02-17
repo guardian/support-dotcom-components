@@ -29,6 +29,7 @@ const variantAStyles = {
         padding-bottom: 16px;
     `,
     bodyAndHeading: css`
+        position: relative; // for positioning the opt-out popup
         ${from.leftCol} {
             margin-left: -9px;
             border-left: 1px solid ${neutral[7]};

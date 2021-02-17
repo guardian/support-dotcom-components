@@ -188,6 +188,9 @@ export const styles = {
     `,
 
     copyAndCta: css`
+        ${from.tablet} {
+            position: relative; // for positioning the opt-out popup
+        }
         flex-grow: 1;
         display: flex;
         flex-direction: column;
