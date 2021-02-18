@@ -20,6 +20,7 @@ const variantBStyles = {
         position: relative; // for positioning the opt-out popup
         border-left: 1px solid ${neutral[7]};
         padding: 5px 0 24px 8px;
+        margin-left: -10px;
 
         > :first-child {
             margin-bottom: 20px;
