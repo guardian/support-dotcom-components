@@ -18,7 +18,7 @@ const mobileMessageText =
     'With 2021 offering new hope, we commit to another year of independent journalism.';
 const highlightedText = 'Support us from as little as %%CURRENCY_SYMBOL%%1.';
 const cta = {
-    baseUrl: 'https://support.theguardian.com',
+    baseUrl: 'https://support.theguardian.com/contribute',
     text: 'Support the Guardian',
 };
 const messageTextAC =
