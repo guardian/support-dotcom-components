@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from '@emotion/react';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-svgs';
+import { SvgArrowRightStraight } from '@guardian/src-icons';
 
 // Custom theme for Button/LinkButton
 // See also `tertiaryButtonOverrides` below.

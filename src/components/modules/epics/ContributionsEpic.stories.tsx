@@ -29,9 +29,9 @@ WithReminder.args = {
         ...props.variant,
         secondaryCta: undefined,
         showReminderFields: {
-            reminderCTA: 'Remind me in May',
-            reminderDate: '2020-05-18T09:30:00',
-            reminderDateAsString: 'May',
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
         },
     },
 };

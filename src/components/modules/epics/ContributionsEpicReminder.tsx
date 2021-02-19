@@ -3,11 +3,10 @@ import { css, SerializedStyles } from '@emotion/react';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { ReminderFields } from '../../../lib/reminderFields';
 import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
-import { SvgArrowRightStraight, SvgCross } from '@guardian/src-svgs';
+import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
 
 const rootStyles = css`
@@ -111,15 +110,16 @@ const isValidEmail = (email: string): boolean => {
     return re.test(String(email).toLowerCase());
 };
 
-interface Props extends ReminderFields {
+interface ContributionsEpicReminderProps {
+    reminderPeriod: string;
+    reminderLabel: string;
     // eslint-disable-next-line @typescript-eslint/ban-types
     onCloseReminderClick: Function;
 }
 
-type ReminderPayload = {
-    email: string;
-    reminderDate: string;
-};
+const REMINDER_PLATFORM = 'WEB';
+const REMINDER_COMPONENT = 'EPIC';
+const REMINDER_STAGE = 'PRE';
 
 const dateDiff = (start: Date, end: Date): number => {
     const twentyFourHours = 86400000;
@@ -133,22 +133,7 @@ const addContributionReminderCookie = (reminderDateString: string): void => {
     addCookie('gu_epic_contribution_reminder', '1', dateDiff(today, reminderDate));
 };
 
-const contributionsReminderUrl =
-    'https://contribution-reminders.support.guardianapis.com/remind-me';
-
-const submitForm = ({ email, reminderDate }: ReminderPayload): Promise<Response> => {
-    return fetch(contributionsReminderUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email,
-            reminderDate,
-            isPreContribution: true,
-        }),
-    });
-};
+const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
 
 const PREPOSITION_REGEX = /^(on|in)/;
 
@@ -159,11 +144,11 @@ const addPreposition = (text: string): string => 'in ' + text;
 const ensureHasPreposition = (text: string): string =>
     containsPreposition(text) ? text : addPreposition(text);
 
-export const ContributionsEpicReminder: React.FC<Props> = ({
-    reminderDate,
-    reminderDateAsString,
+export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
+    reminderLabel,
+    reminderPeriod,
     onCloseReminderClick,
-}: Props) => {
+}: ContributionsEpicReminderProps) => {
     const [isDirty, setIsDirty] = useState(false);
     const [isSubmittingState, setIsSubmittingState] = useState(false);
     const [isErrorState, setIsErrorState] = useState(false);
@@ -173,6 +158,22 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
     const isEmpty = emailAddress.trim().length === 0;
     const isValid = isValidEmail(emailAddress);
 
+    const submitForm = (): Promise<Response> => {
+        return fetch(createOneOffReminderEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: emailAddress,
+                reminderPeriod,
+                reminderPlatform: REMINDER_PLATFORM,
+                reminderComponent: REMINDER_COMPONENT,
+                reminderStage: REMINDER_STAGE,
+            }),
+        });
+    };
+
     let inputError;
     if (isDirty && isEmpty) {
         inputError = 'Please enter your email address';
@@ -180,7 +181,7 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
         inputError = 'Please enter a valid email address';
     }
 
-    const reminderDateWithPreposition = ensureHasPreposition(reminderDateAsString);
+    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
     return (
         <div css={rootStyles}>
@@ -196,24 +197,13 @@ export const ContributionsEpicReminder: React.FC<Props> = ({
                 <form
                     onSubmit={(e): void => {
                         if (isValid) {
-                            const formValues: ReminderPayload = {
-                                email: emailAddress,
-                                reminderDate: reminderDate,
-                            };
                             setIsSubmittingState(true);
-                            submitForm(formValues)
+                            submitForm()
                                 .then(response => {
                                     if (!response.ok) {
                                         throw Error(response.statusText);
                                     }
-                                    return response;
-                                })
-                                .then(response => response.json())
-                                .then(json => {
-                                    if (json !== 'OK') {
-                                        throw Error('Server error');
-                                    }
-                                    addContributionReminderCookie(reminderDate);
+                                    addContributionReminderCookie(reminderPeriod);
                                     setIsSuccessState(true);
                                 })
                                 .catch((): void => setIsErrorState(true))
