@@ -61,6 +61,11 @@ export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'banners/guardianWeekly/GuardianWeeklyBanner',
 );
 
+export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
+    'puzzles-banner',
+    'puzzles/puzzlesBanner/PuzzlesBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     epicACAbove,
@@ -72,4 +77,5 @@ export const moduleInfos: ModuleInfo[] = [
     contributionsBannerVariantB,
     digiSubs,
     guardianWeekly,
+    puzzlesBanner,
 ];
