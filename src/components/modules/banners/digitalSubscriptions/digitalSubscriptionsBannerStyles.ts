@@ -56,9 +56,6 @@ export const contentContainer = css`
 export const topLeftComponent = css`
     flex-grow: 1;
     padding: ${space[4]}px;
-    button {
-        margin-left: ${space[3]}px;
-    }
     ${until.tablet} {
         padding-bottom: 0;
     }
@@ -96,8 +93,8 @@ export const headLineBreak = css`
     }
 `;
 
-export const paragraph = css`
-    ${body.small()}
+export const messageText = css`
+    ${body.small()};
     line-height: 135%;
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
@@ -146,6 +143,7 @@ export const becomeASubscriberButton = css`
 
 export const notNowButton = css`
     ${textSans.medium()};
+    margin-left: ${space[3]}px;
     font-weight: bold;
     color: ${text.ctaPrimary};
     border: 0;

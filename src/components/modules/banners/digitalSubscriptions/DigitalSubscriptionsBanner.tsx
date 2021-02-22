@@ -12,7 +12,7 @@ import {
     contentContainer,
     topLeftComponent,
     heading,
-    paragraph,
+    messageText,
     buttonTextDesktop,
     buttonTextTablet,
     buttonTextMobile,
@@ -31,6 +31,7 @@ import {
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { ResponsiveImage } from '../../../ResponsiveImage';
+import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
@@ -71,6 +72,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     tracking,
     submitComponentEvent,
     countryCode,
+    numArticles = 0,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
@@ -127,10 +129,13 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
                             <h3 css={heading}>{content?.heading}</h3>
-                            <p
-                                css={paragraph}
-                                dangerouslySetInnerHTML={{ __html: content?.messageText ?? '' }}
-                            ></p>
+                            <p css={messageText}>
+                                {replaceArticleCount(
+                                    content?.messageText || '',
+                                    numArticles,
+                                    'banner',
+                                )}
+                            </p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
                                     <span css={buttonTextDesktop}>Become a digital subscriber</span>
