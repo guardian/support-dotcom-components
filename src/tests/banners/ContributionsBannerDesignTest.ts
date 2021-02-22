@@ -50,6 +50,15 @@ export const ContributionsBannerDesignTestAC: BannerTest = {
     name: '2021-02-16_ContributionsBannerDesignTest__AC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
+    // We've removed AUDCountries intentionally to allow testing from the tool
+    locations: [
+        'GBPCountries',
+        'EURCountries',
+        'International',
+        'NZDCountries',
+        'Canada',
+        'UnitedStates',
+    ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
@@ -86,6 +95,15 @@ export const ContributionsBannerDesignTestNoAC: BannerTest = {
     name: '2021-02-16_ContributionsBannerDesignTest__NoAC',
     bannerChannel: 'contributions',
     testAudience: 'AllNonSupporters',
+    // We've removed AUDCountries intentionally to allow testing from the tool
+    locations: [
+        'GBPCountries',
+        'EURCountries',
+        'International',
+        'NZDCountries',
+        'Canada',
+        'UnitedStates',
+    ],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (targeting: BannerTargeting, pageTracking: BannerPageTracking) => true,
     minPageViews: 2,
