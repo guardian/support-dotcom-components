@@ -1,4 +1,5 @@
 import { brandAlt, lifestyle, neutral, text } from '@guardian/src-foundations/palette';
+import { getTileTextAsImage } from './renderTileText';
 
 export type Tile = {
     background: string;
@@ -6,6 +7,7 @@ export type Tile = {
     text?: string;
     size?: number;
     isText?: boolean;
+    image?: HTMLCanvasElement;
 };
 
 const darkTiles: Tile[] = Array.from({ length: 4 }, () => {
@@ -62,22 +64,23 @@ export function getTextTiles(): Tile[] {
     return [
         {
             background: neutral[100],
-            color: text.primary,
-            text: `Solve`,
             isText: true,
+            image: getTileTextAsImage('Solve\nwith no\ndistractions', text.primary, 120),
         },
         {
             background: neutral[100],
-            color: text.primary,
-            text: `Access`,
             size: 176,
             isText: true,
+            image: getTileTextAsImage(
+                'Access and\nsolve over\n15,000 crosswords\nand sudokus,\nwherever\nyou are.',
+                text.primary,
+                176,
+            ),
         },
         {
             background: neutral[100],
-            color: text.primary,
-            text: `Share`,
             isText: true,
+            image: getTileTextAsImage('Share and\nplay with\nfriends', text.primary, 120),
         },
     ];
 }

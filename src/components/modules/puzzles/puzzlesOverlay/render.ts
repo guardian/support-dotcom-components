@@ -1,10 +1,11 @@
 import { PhysicalTile } from './puzzlesPhysics';
+import { BACKGROUND, TEXT, TILE_SHADOW } from './constants';
 
 function enableShadow(context: CanvasRenderingContext2D) {
-    context.shadowColor = 'rgba(0, 0, 0, 0.25)';
-    context.shadowOffsetX = 6;
-    context.shadowOffsetY = 6;
-    context.shadowBlur = 3;
+    context.shadowColor = TILE_SHADOW.COLOR;
+    context.shadowOffsetX = TILE_SHADOW.OFFSET;
+    context.shadowOffsetY = TILE_SHADOW.OFFSET;
+    context.shadowBlur = TILE_SHADOW.BLUR;
 }
 
 function disableShadow(context: CanvasRenderingContext2D) {
@@ -19,18 +20,14 @@ export function lineTo(context: CanvasRenderingContext2D, vertix: { x: number; y
 }
 
 function renderLongText(context: CanvasRenderingContext2D, tile: PhysicalTile) {
-    if (tile.color && tile.text) {
+    if (tile.image) {
         const { angle, vertices } = tile.body;
         const x = vertices[0]?.x || 0;
         const y = vertices[0]?.y || 0;
 
-        context.font = 'bold 20px GH Guardian Headline, serif';
-        context.textAlign = 'left';
-        context.textBaseline = 'top';
         context.translate(x, y);
         context.rotate(angle);
-        context.fillStyle = tile.color;
-        context.fillText(tile.text, 0, 0);
+        context.drawImage(tile.image, 0, 0);
         context.rotate(-angle);
         context.translate(-x, -y);
     }
@@ -40,9 +37,9 @@ function renderNumber(context: CanvasRenderingContext2D, tile: PhysicalTile) {
     if (tile.color && tile.text) {
         const { angle, position } = tile.body;
 
-        context.font = '100px GuardianTextSans, sans-serif';
-        context.textAlign = 'center';
-        context.textBaseline = 'middle';
+        context.font = TEXT.LARGE.FONT;
+        context.textAlign = TEXT.LARGE.ALIGN;
+        context.textBaseline = TEXT.LARGE.BASELINE;
         context.translate(position.x, position.y);
         context.rotate(angle);
         context.fillStyle = tile.color;
@@ -56,7 +53,7 @@ export function render(context: CanvasRenderingContext2D, tiles: PhysicalTile[])
     const { canvas } = context;
     window.requestAnimationFrame(() => render(context, tiles));
 
-    context.fillStyle = '#fff';
+    context.fillStyle = BACKGROUND.COLOR;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     tiles.forEach(tile => {
