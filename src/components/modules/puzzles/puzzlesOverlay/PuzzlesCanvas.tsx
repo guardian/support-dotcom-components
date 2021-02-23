@@ -1,63 +1,21 @@
-import React, { useEffect, useRef } from 'react';
-import { Body, Engine } from 'matter-js';
+import React, { useEffect, useRef, useState } from 'react';
+import { Engine } from 'matter-js';
 import { createInteractiveTiles } from './puzzlesPhysics';
+import { getBackgroundTiles, getTextTiles } from './tiles';
+import { render } from './render';
 import { backgroundCanvas } from './puzzlesOverlayStyles';
-
-function enableShadow(context: CanvasRenderingContext2D) {
-    context.shadowColor = 'rgba(0, 0, 0, 0.25)';
-    context.shadowOffsetX = 6;
-    context.shadowOffsetY = 6;
-    context.shadowBlur = 3;
-}
-
-function disableShadow(context: CanvasRenderingContext2D) {
-    context.shadowColor = '0';
-    context.shadowOffsetX = 0;
-    context.shadowOffsetY = 0;
-    context.shadowBlur = 0;
-}
-
-function lineTo(context: CanvasRenderingContext2D, vertix: { x: number; y: number }) {
-    context.lineTo(vertix.x, vertix.y);
-}
-
-function render(context: CanvasRenderingContext2D, bodies: Body[]) {
-    const { canvas } = context;
-    window.requestAnimationFrame(() => render(context, bodies));
-
-    context.fillStyle = '#fff';
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    bodies.forEach(body => {
-        const { angle, position, vertices } = body;
-
-        context.beginPath();
-        context.moveTo(vertices[0]?.x ?? 0, vertices[0]?.y ?? 0);
-
-        vertices.forEach(vertix => {
-            lineTo(context, vertix);
-        });
-
-        vertices[0] && lineTo(context, vertices[0]);
-
-        context.closePath();
-        context.stroke();
-        enableShadow(context);
-
-        context.fillStyle = 'white';
-        context.fill();
-        disableShadow(context);
-
-        context.translate(position.x, position.y);
-        context.rotate(angle);
-        context.strokeText('2', 0, 0);
-        context.rotate(-angle);
-        context.translate(-position.x, -position.y);
-    });
-}
 
 export const PuzzlesCanvas: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [isWaiting, setIsWaiting] = useState<boolean>(true);
+    const [matterEngine, setMatterEngine] = useState<Engine | null>(null);
+
+    function runEngine() {
+        if (isWaiting && matterEngine) {
+            Engine.run(matterEngine);
+            setIsWaiting(false);
+        }
+    }
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -66,22 +24,21 @@ export const PuzzlesCanvas: React.FC = () => {
             context.canvas.width = window.innerWidth;
             context.canvas.height = window.innerHeight;
 
-            context.font = '100px GuardianTextSans, sans-serif';
-            context.textAlign = 'center';
-            context.textBaseline = 'middle';
             context.lineWidth = 2;
             context.strokeStyle = '#000';
 
-            const matterEngine = createInteractiveTiles(context);
-
-            Engine.run(matterEngine);
-
-            render(
+            const { engine, physicalBackgroundTiles, physicalTextTiles } = createInteractiveTiles(
                 context,
-                matterEngine.world.bodies.filter(body => !body.isStatic),
+                getBackgroundTiles(),
+                getTextTiles(),
             );
+
+            console.log(physicalTextTiles);
+
+            setMatterEngine(engine);
+            render(context, [...physicalBackgroundTiles, ...physicalTextTiles]);
         }
     }, []);
 
-    return <canvas css={backgroundCanvas} ref={canvasRef}></canvas>;
+    return <canvas css={backgroundCanvas} ref={canvasRef} onClick={runEngine}></canvas>;
 };

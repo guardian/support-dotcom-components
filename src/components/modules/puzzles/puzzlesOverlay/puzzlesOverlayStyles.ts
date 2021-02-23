@@ -14,10 +14,16 @@ export const backgroundCanvas = css`
 `;
 
 export const contentContainer = css`
+    pointer-events: none;
     position: relative;
     width: 500px;
     margin: 0 auto;
     padding-top: 100px;
+`;
+
+export const appStoreBadges = css`
+    display: flex;
+    align-items: center;
 `;
 
 export const heading = css`
