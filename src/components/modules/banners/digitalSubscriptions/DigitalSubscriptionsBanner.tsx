@@ -67,6 +67,10 @@ const getBaseImg = (countryCode: string | undefined): Img => ({
     media: '(min-width: 740px)',
 });
 
+const fallbackHeading = 'Start a digital subscription today';
+const fallbackMessageText =
+    'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.';
+
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     bannerChannel,
     content,
@@ -82,12 +86,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
 
     const cleanHeadingText =
         content.heading && containsNonArticleCountPlaceholder(content.heading, countryCode)
-            ? 'Start a digital subscription today'
+            ? fallbackHeading
             : content.heading;
 
     const cleanMessageText =
         content.messageText && containsNonArticleCountPlaceholder(content.messageText, countryCode)
-            ? 'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.'
+            ? fallbackMessageText
             : content.messageText;
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
