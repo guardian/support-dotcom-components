@@ -40,7 +40,7 @@ const buildVariant = (
     bannerContent: {
         heading,
         messageText: messageText,
-        mobileMessageText: mobileMessageText,  // for backwards-compatibility
+        mobileMessageText: mobileMessageText, // for backwards-compatibility
         highlightedText,
         cta,
     },
