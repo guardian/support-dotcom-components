@@ -84,15 +84,13 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
 
-    const cleanHeadingText =
-        content.heading && containsNonArticleCountPlaceholder(content.heading, countryCode)
-            ? fallbackHeading
-            : content.heading;
+    const cleanHeadingText = containsNonArticleCountPlaceholder(content?.heading || '')
+        ? fallbackHeading
+        : content?.heading || '';
 
-    const cleanMessageText =
-        content.messageText && containsNonArticleCountPlaceholder(content.messageText, countryCode)
-            ? fallbackMessageText
-            : content.messageText;
+    const cleanMessageText = containsNonArticleCountPlaceholder(content?.messageText || '')
+        ? fallbackMessageText
+        : content?.messageText || '';
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
