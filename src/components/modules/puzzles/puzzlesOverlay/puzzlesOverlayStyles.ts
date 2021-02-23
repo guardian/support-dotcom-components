@@ -3,7 +3,7 @@ import { headline } from '@guardian/src-foundations/typography/cjs';
 
 export const container = css`
     position: relative;
-    height: 100vh;
+    height: 100%;
     width: 100%;
 `;
 
@@ -17,13 +17,22 @@ export const contentContainer = css`
     pointer-events: none;
     position: relative;
     width: 500px;
+    height: 100vh;
     margin: 0 auto;
-    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 `;
 
 export const appStoreBadges = css`
     display: flex;
     align-items: center;
+    margin-bottom: 66px;
+`;
+
+export const packshot = css`
+    display: flex;
+    align-items: flex-end;
 `;
 
 export const heading = css`

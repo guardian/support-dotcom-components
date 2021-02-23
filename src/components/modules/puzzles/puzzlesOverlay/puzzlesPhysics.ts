@@ -17,15 +17,13 @@ function createWorldBounds(canvas: HTMLCanvasElement) {
     const width = canvas.width * 2;
     const height = canvas.height * 2;
 
-    const groundOffset = height;
-    const ceilingOffset = canvas.height - halfBound;
+    const groundOffset = canvas.height + halfBound / 2;
+    const ceilingOffset = -halfBound;
     const leftOffset = -halfBound;
     const rightOffset = canvas.width + halfBound;
 
-    console.log(groundOffset);
-
     return {
-        ground: Bodies.rectangle(0, groundOffset, width, boundSize, { isStatic: true }),
+        ground: Bodies.rectangle(0, groundOffset, width, halfBound, { isStatic: true }),
         ceiling: Bodies.rectangle(0, ceilingOffset, width, boundSize, { isStatic: true }),
         left: Bodies.rectangle(leftOffset, 0, boundSize, height, { isStatic: true }),
         right: Bodies.rectangle(rightOffset, 0, boundSize, height, { isStatic: true }),

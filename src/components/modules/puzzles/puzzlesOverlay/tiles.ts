@@ -63,20 +63,20 @@ export function getTextTiles(): Tile[] {
         {
             background: neutral[100],
             color: text.primary,
-            text: `Solve\nwith no\ndistractions`,
+            text: `Solve`,
             isText: true,
         },
         {
             background: neutral[100],
             color: text.primary,
-            text: `Access and solve over 15,000 crosswords and sudokus, wherever you are.`,
+            text: `Access`,
             size: 176,
             isText: true,
         },
         {
             background: neutral[100],
             color: text.primary,
-            text: `Share and play with friends`,
+            text: `Share`,
             isText: true,
         },
     ];

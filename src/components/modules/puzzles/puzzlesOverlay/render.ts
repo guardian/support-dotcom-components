@@ -14,7 +14,7 @@ function disableShadow(context: CanvasRenderingContext2D) {
     context.shadowBlur = 0;
 }
 
-function lineTo(context: CanvasRenderingContext2D, vertix: { x: number; y: number }) {
+export function lineTo(context: CanvasRenderingContext2D, vertix: { x: number; y: number }): void {
     context.lineTo(vertix.x, vertix.y);
 }
 

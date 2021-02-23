@@ -21,10 +21,10 @@ export const PuzzlesCanvas: React.FC = () => {
         const canvas = canvasRef.current;
         const context = canvas?.getContext('2d');
         if (context) {
-            context.canvas.width = window.innerWidth;
-            context.canvas.height = window.innerHeight;
+            context.canvas.width = context.canvas.parentElement?.offsetWidth ?? 0;
+            context.canvas.height = context.canvas.parentElement?.offsetHeight ?? 0;
 
-            context.lineWidth = 2;
+            context.lineWidth = 3;
             context.strokeStyle = '#000';
 
             const { engine, physicalBackgroundTiles, physicalTextTiles } = createInteractiveTiles(
@@ -32,8 +32,6 @@ export const PuzzlesCanvas: React.FC = () => {
                 getBackgroundTiles(),
                 getTextTiles(),
             );
-
-            console.log(physicalTextTiles);
 
             setMatterEngine(engine);
             render(context, [...physicalBackgroundTiles, ...physicalTextTiles]);
