@@ -32,6 +32,7 @@ import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
+import { containsNonArticleCountPlaceholder } from '../../../../lib/placeholders';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
@@ -78,6 +79,16 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
 
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
+
+    const cleanHeadingText =
+        content.heading && containsNonArticleCountPlaceholder(content.heading, countryCode)
+            ? 'Start a digital subscription today'
+            : content.heading;
+
+    const cleanMessageText =
+        content.messageText && containsNonArticleCountPlaceholder(content.messageText, countryCode)
+            ? 'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.'
+            : content.messageText;
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
@@ -129,14 +140,10 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
                             <h3 css={heading}>
-                                {replaceArticleCount(content?.heading || '', numArticles, 'banner')}
+                                {replaceArticleCount(cleanHeadingText || '', numArticles, 'banner')}
                             </h3>
                             <p css={messageText}>
-                                {replaceArticleCount(
-                                    content?.messageText || '',
-                                    numArticles,
-                                    'banner',
-                                )}
+                                {replaceArticleCount(cleanMessageText || '', numArticles, 'banner')}
                             </p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
