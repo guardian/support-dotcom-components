@@ -284,7 +284,11 @@ Resources:
                         Ref: App
                 -   Key: Name
                     PropagateAtLaunch: true
-                    Value: AlbEc2Stack/ASG
+                    Value: !Join
+                      - '-'
+                      - - !Ref Stack
+                        - !Ref Stage
+                        - !Ref App
                 -   Key: Stack
                     PropagateAtLaunch: true
                     Value:
