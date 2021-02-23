@@ -28,7 +28,7 @@ const tracking: BannerTracking = {
 
 export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
-        heading: text('heading', 'Start a digital subscription today'),
+        heading: text('heading', "You've read %%ARTICLE_COUNT%% articles in the last year."),
         messageText: text(
             'messageText',
             "You've read %%ARTICLE_COUNT%% articles in the last year. Subscribe to enjoy our journalism <strong>without ads</strong>, as well as Premium access to <strong>our Live and Editions apps</strong>.",

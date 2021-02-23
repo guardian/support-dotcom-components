@@ -128,7 +128,9 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
-                            <h3 css={heading}>{content?.heading}</h3>
+                            <h3 css={heading}>
+                                {replaceArticleCount(content?.heading || '', numArticles, 'banner')}
+                            </h3>
                             <p css={messageText}>
                                 {replaceArticleCount(
                                     content?.messageText || '',
