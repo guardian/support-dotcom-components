@@ -619,6 +619,20 @@ app.get(
     },
 );
 
+app.post('/puzzles', async (req: express.Request, res: express.Response) => {
+    const response = {
+        data: {
+            module: {
+                url: `${baseUrl(req)}/puzzles-banner.js`,
+                name: 'PuzzlesBanner',
+                props: {},
+            },
+            meta: {},
+        },
+    };
+    res.send(response);
+});
+
 app.use(errorHandlingMiddleware);
 
 const PORT = process.env.PORT || 3030;
