@@ -5,7 +5,7 @@ import {
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
 import React from 'react';
-import { BannerProps } from '../../../../types/BannerTypes';
+import { BannerContent, BannerProps, Cta } from '../../../../types/BannerTypes';
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
@@ -17,15 +17,19 @@ const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
 
-export interface ContributionsBannerProps {
-    onContributeClick: () => void;
-    onCloseClick: () => void;
+export interface ContributionsBannerRenderedContent {
     cleanHighlightedText: JSX.Element[] | null;
     cleanMessageText: JSX.Element[];
-    cleanMobileMessageText: JSX.Element[] | null;
     cleanHeading: JSX.Element[] | null;
     ctaUrl: string;
     ctaText: string;
+}
+
+export interface ContributionsBannerProps {
+    onContributeClick: () => void;
+    onCloseClick: () => void;
+    content: ContributionsBannerRenderedContent;
+    mobileContent?: ContributionsBannerRenderedContent;
 }
 
 const withBannerData = (
@@ -36,9 +40,61 @@ const withBannerData = (
         submitComponentEvent,
         onClose,
         content,
+        mobileContent,
         countryCode,
         numArticles = 0,
     } = bannerProps;
+
+    // For safety, this function throws if not all placeholders are replaced
+    const buildRenderedContent = (
+        bannerContent: BannerContent,
+        cta: Cta,
+    ): ContributionsBannerRenderedContent => {
+        const ctaUrl = addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode);
+
+        const cleanHighlightedText =
+            bannerContent.highlightedText &&
+            replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode).trim();
+
+        const cleanMessageText = replaceNonArticleCountPlaceholders(
+            bannerContent.messageText,
+            countryCode,
+        ).trim();
+
+        const cleanHeading = replaceNonArticleCountPlaceholders(
+            bannerContent.heading,
+            countryCode,
+        ).trim();
+
+        const copyHasPlaceholder =
+            containsNonArticleCountPlaceholder(cleanMessageText) ||
+            (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
+            (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
+
+        const headingWithArticleCount = !!cleanHeading
+            ? replaceArticleCount(cleanHeading, numArticles, 'banner')
+            : null;
+        const messageTextWithArticleCount = replaceArticleCount(
+            cleanMessageText,
+            numArticles,
+            'banner',
+        );
+        const highlightedTextWithArticleCount = !!cleanHighlightedText
+            ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
+            : null;
+
+        if (copyHasPlaceholder) {
+            throw Error('Banner copy contains placeholders, abandoning.');
+        }
+
+        return {
+            cleanHighlightedText: highlightedTextWithArticleCount,
+            cleanMessageText: messageTextWithArticleCount,
+            cleanHeading: headingWithArticleCount,
+            ctaUrl,
+            ctaText: cta.text,
+        };
+    };
 
     const onContributeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(
@@ -58,69 +114,25 @@ const withBannerData = (
         onClose();
     };
 
-    if (content && countryCode && content.cta) {
-        const ctaUrl = addRegionIdAndTrackingParamsToSupportUrl(
-            content.cta.baseUrl,
-            tracking,
-            countryCode,
-        );
+    try {
+        const renderedContent =
+            content && content.cta && buildRenderedContent(content, content.cta);
+        const renderedMobileContent =
+            mobileContent &&
+            mobileContent.cta &&
+            buildRenderedContent(mobileContent, mobileContent.cta);
 
-        const cleanHighlightedText =
-            content.highlightedText &&
-            replaceNonArticleCountPlaceholders(content.highlightedText, countryCode).trim();
-
-        const cleanMessageText = replaceNonArticleCountPlaceholders(
-            content.messageText,
-            countryCode,
-        ).trim();
-
-        const cleanMobileMessageText = replaceNonArticleCountPlaceholders(
-            content.mobileMessageText,
-            countryCode,
-        ).trim();
-
-        const cleanHeading = replaceNonArticleCountPlaceholders(
-            content.heading,
-            countryCode,
-        ).trim();
-
-        const copyHasPlaceholder =
-            containsNonArticleCountPlaceholder(cleanMessageText) ||
-            (!!cleanMobileMessageText &&
-                containsNonArticleCountPlaceholder(cleanMobileMessageText)) ||
-            (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
-            (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
-
-        const headingWithArticleCount = !!cleanHeading
-            ? replaceArticleCount(cleanHeading, numArticles, 'banner')
-            : null;
-        const messageTextWithArticleCount = replaceArticleCount(
-            cleanMessageText,
-            numArticles,
-            'banner',
-        );
-        const mobileMessageTextWithArticleCount = !!cleanMobileMessageText
-            ? replaceArticleCount(cleanMobileMessageText, numArticles, 'banner')
-            : null;
-        const highlightedTextWithArticleCount = !!cleanHighlightedText
-            ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
-            : null;
-
-        if (!copyHasPlaceholder) {
+        if (renderedContent) {
             const props: ContributionsBannerProps = {
                 onContributeClick,
                 onCloseClick,
-                cleanHighlightedText: highlightedTextWithArticleCount,
-                cleanMessageText: messageTextWithArticleCount,
-                cleanMobileMessageText: mobileMessageTextWithArticleCount,
-                cleanHeading: headingWithArticleCount,
-                ctaUrl,
-                ctaText: content.cta.text,
+                content: renderedContent,
+                mobileContent: renderedMobileContent,
             };
             return <Banner {...props} />;
-        } else {
-            console.log('Banner copy contains placeholders, abandoning.');
         }
+    } catch (err) {
+        console.log(err);
     }
 
     return null;

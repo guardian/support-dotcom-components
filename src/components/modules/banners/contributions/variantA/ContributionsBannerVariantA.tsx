@@ -86,23 +86,19 @@ const columnCounts = {
 const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
     onContributeClick,
     onCloseClick,
-    cleanHighlightedText,
-    cleanMessageText,
-    cleanMobileMessageText,
-    cleanHeading,
-    ctaUrl,
-    ctaText,
+    content,
+    mobileContent,
 }: ContributionsBannerProps) => {
     const BodyAndHeading = () => (
         <div css={variantAStyles.bodyAndHeading}>
-            <div css={variantAStyles.heading}>{cleanHeading}</div>
+            <div css={variantAStyles.heading}>{content.cleanHeading}</div>
             <div css={variantAStyles.body}>
                 <div css={[styles.copy, variantAStyles.copy]}>
-                    {cleanMessageText}
-                    {cleanHighlightedText && (
+                    {content.cleanMessageText}
+                    {content.cleanHighlightedText && (
                         <>
                             {' '}
-                            <span css={styles.highlightedText}>{cleanHighlightedText}</span>
+                            <span css={styles.highlightedText}>{content.cleanHighlightedText}</span>
                         </>
                     )}
                 </div>
@@ -116,8 +112,8 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
             <div css={variantAStyles.ctaContainer}>
                 <ContributionsBannerCta
                     onContributeClick={onContributeClick}
-                    ctaText={ctaText}
-                    ctaUrl={ctaUrl}
+                    ctaText={content.ctaText}
+                    ctaUrl={content.ctaUrl}
                     stacked={true}
                 />
             </div>
@@ -129,11 +125,7 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
             <ContributionsBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onContributeClick}
-                heading={cleanHeading}
-                messageText={cleanMobileMessageText || cleanMessageText}
-                highlightedText={cleanHighlightedText}
-                ctaUrl={ctaUrl}
-                ctaText={ctaText}
+                content={mobileContent || content}
             />
 
             <Container cssOverrides={variantAStyles.columnsContainer}>
