@@ -28,12 +28,16 @@ export const appStoreBadges = css`
     display: flex;
     align-items: center;
     margin-bottom: 66px;
+
+    img {
+        pointer-events: all;
+    }
 `;
 
 export const packshot = css`
     display: flex;
     align-items: flex-end;
-    min-height: 300px;
+    min-height: 336px;
 `;
 
 export const heading = css`

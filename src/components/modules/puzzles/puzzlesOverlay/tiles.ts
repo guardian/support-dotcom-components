@@ -1,5 +1,6 @@
 import { brandAlt, lifestyle, neutral, text } from '@guardian/src-foundations/palette';
 import { getTileTextAsImage } from './renderTileText';
+import tileData from './tileData.json';
 
 type TilePosition = {
     xPercentage: number;
@@ -21,237 +22,44 @@ export type Tile = {
     image?: HTMLCanvasElement;
 };
 
-const darkTilePositions: TilePosition[] = [
-    {
-        xPercentage: 30,
-        yPercentage: 59,
-        angle: 0.24504423,
-    },
-    {
-        xPercentage: 37,
-        yPercentage: 70,
-        angle: -0.1277581,
-    },
-    {
-        xPercentage: 71,
-        yPercentage: 66,
-        angle: 0.24504423,
-    },
-    {
-        xPercentage: 96,
-        yPercentage: 85,
-        angle: -0.9138544,
-    },
-];
-
-const darkTiles: Tile[] = darkTilePositions.map(position => {
-    return {
-        background: neutral[20],
-        position,
+function createColouredTiles({ background, color }: { background: string; color: string }) {
+    return function colouredTile({ tileText, ...position }: TilePositionWithText) {
+        return {
+            background,
+            color,
+            text: tileText,
+            position,
+        };
     };
-});
+}
 
-const purpleTilePositions: TilePosition[] = [
-    {
-        xPercentage: 3,
-        yPercentage: 41,
-        angle: -0.78958695,
-    },
-    {
-        xPercentage: 15,
-        yPercentage: 55,
-        angle: 0.62430427,
-    },
-    {
-        xPercentage: 28,
-        yPercentage: 93,
-        angle: -0.32253685,
-    },
-    {
-        xPercentage: 81,
-        yPercentage: 43,
-        angle: 0.51539573,
-    },
-    {
-        xPercentage: 88,
-        yPercentage: 56,
-        angle: -0.38606683,
-    },
-    {
-        xPercentage: 82,
-        yPercentage: 98,
-        angle: -0.32253685,
-    },
-];
+const darkTiles: Tile[] = tileData.grey.map(
+    createColouredTiles({ background: neutral[20], color: text.primary }),
+);
 
-const purpleTiles: Tile[] = purpleTilePositions.map(position => {
-    return {
-        background: lifestyle[300],
-        position,
-    };
-});
+const purpleTiles: Tile[] = tileData.purple.map(
+    createColouredTiles({ background: lifestyle[300], color: text.primary }),
+);
 
-const pinkTilePositions: TilePositionWithText[] = [
-    {
-        xPercentage: 23,
-        yPercentage: 70,
-        angle: -0.39723694,
-        tileText: '6',
-    },
-    {
-        xPercentage: 25,
-        yPercentage: 47,
-        angle: 0.172264,
-        tileText: '5',
-    },
-    {
-        xPercentage: 61,
-        yPercentage: 77,
-        angle: -0.39723694,
-    },
-    {
-        xPercentage: 81,
-        yPercentage: 65,
-        angle: 0.172264,
-        tileText: '5',
-    },
-    {
-        xPercentage: 86,
-        yPercentage: 35,
-        angle: -0.39723694,
-        tileText: '6',
-    },
-];
+const pinkTiles: Tile[] = tileData.pink.map(
+    createColouredTiles({ background: lifestyle[600], color: text.primary }),
+);
 
-const pinkTiles: Tile[] = pinkTilePositions.map(({ tileText, ...position }) => {
-    return {
-        background: lifestyle[600],
-        color: text.primary,
-        text: tileText,
-        position,
-    };
-});
+const yellowTiles: Tile[] = tileData.yellow.map(
+    createColouredTiles({ background: brandAlt[400], color: text.primary }),
+);
 
-const yellowTilePositions: TilePositionWithText[] = [
-    {
-        xPercentage: 6,
-        yPercentage: 87,
-        angle: -0.33894294,
-    },
-    {
-        xPercentage: 12,
-        yPercentage: 42,
-        angle: 0.52098078,
-        tileText: '4',
-    },
-    {
-        xPercentage: 34,
-        yPercentage: 82,
-        angle: -0.44872415,
-        tileText: '2',
-    },
-    {
-        xPercentage: 41,
-        yPercentage: 59,
-        angle: -0.33894294,
-    },
-    {
-        xPercentage: 61,
-        yPercentage: 90,
-        angle: -0.33894294,
-    },
-    {
-        xPercentage: 72,
-        yPercentage: 88,
-        angle: 0.52098078,
-        tileText: '4',
-    },
-    {
-        xPercentage: 78,
-        yPercentage: 49,
-        angle: -0.17645279,
-        tileText: '8',
-    },
-    {
-        xPercentage: 96,
-        yPercentage: 44,
-        angle: 0.52098078,
-        tileText: '9',
-    },
-];
+const whiteTiles: Tile[] = tileData.white.map(
+    createColouredTiles({ background: neutral[100], color: text.primary }),
+);
 
-const yellowTiles: Tile[] = yellowTilePositions.map(({ tileText, ...position }) => {
-    return {
-        background: brandAlt[400],
-        color: text.primary,
-        text: tileText,
-        position,
-    };
-});
-
-const whiteTilePositions: TilePositionWithText[] = [
-    {
-        xPercentage: -0.5,
-        yPercentage: 52,
-        angle: -0.28763026,
-    },
-    {
-        xPercentage: 9,
-        yPercentage: 68,
-        angle: 0.34051374,
-        tileText: '2',
-    },
-    {
-        xPercentage: 12,
-        yPercentage: 91,
-        angle: -0.38100538,
-        tileText: '3',
-    },
-    {
-        xPercentage: 20,
-        yPercentage: 92,
-        angle: 0.3546509,
-    },
-    {
-        xPercentage: 31,
-        yPercentage: 46,
-        angle: -0.56409041,
-    },
-    {
-        xPercentage: 51,
-        yPercentage: 67,
-        angle: -0.56409041,
-    },
-    {
-        xPercentage: 91,
-        yPercentage: 73,
-        angle: 0.34051374,
-        tileText: '3',
-    },
-    {
-        xPercentage: 89,
-        yPercentage: 90,
-        angle: -0.28763026,
-    },
-];
-
-const whiteTiles: Tile[] = whiteTilePositions.map(({ tileText, ...position }) => {
-    return {
-        background: neutral[100],
-        color: text.primary,
-        text: tileText,
-        position,
-    };
-});
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function shuffle(array: any[]): any[] {
+function shuffle(array: Tile[]): Tile[] {
     const toShuffle = [...array];
     for (let i = toShuffle.length - 1; i > 0; i--) {
         const randomLowerIndex = Math.floor(Math.random() * i);
         const currentItem = toShuffle[i];
-        toShuffle[i] = toShuffle[randomLowerIndex];
-        toShuffle[randomLowerIndex] = currentItem;
+        toShuffle[i] = toShuffle[randomLowerIndex] as Tile;
+        toShuffle[randomLowerIndex] = currentItem as Tile;
     }
     return toShuffle;
 }
