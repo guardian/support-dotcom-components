@@ -41,6 +41,7 @@
     "@guardian/src-link": "^2.8.2",
     "@guardian/src-text-input": "^2.8.2",
     "@types/babel__standalone": "^7.1.2",
+    "@types/css-font-loading-module": "^0.0.4",
     "@types/matter-js": "^0.14.10",
     "amp-toolbox-cors": "^1.2.0-alpha.2",
     "aws-sdk": "^2.783.0",

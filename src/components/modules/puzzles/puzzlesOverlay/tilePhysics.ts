@@ -55,7 +55,6 @@ function createTileBodies(tiles: Tile[], canvas: HTMLCanvasElement): PhysicalTil
 
 type InteractiveElements = {
     engine: Engine;
-    mouseConstraint: MouseConstraint;
     physicalBackgroundTiles: PhysicalTile[];
     physicalTextTiles: PhysicalTile[];
 };
@@ -68,17 +67,14 @@ export function createInteractiveTiles(
     const engine = Engine.create({
         timing: {
             timestamp: 0,
-            timeScale: TIME.SLOW,
+            timeScale: TIME.NORMAL,
         },
     });
-
     const mouse = Mouse.create(context.canvas);
     const mouseConstraint = MouseConstraint.create(engine, {
         mouse,
     });
-
     const { ground, ceiling, left, right } = createWorldBounds(context.canvas);
-
     const physicalBackgroundTiles = createTileBodies(backgroundTiles, context.canvas);
     const physicalTextTiles = createTileBodies(textTiles, context.canvas);
 
@@ -94,7 +90,6 @@ export function createInteractiveTiles(
 
     return {
         engine,
-        mouseConstraint,
         physicalBackgroundTiles,
         physicalTextTiles,
     };

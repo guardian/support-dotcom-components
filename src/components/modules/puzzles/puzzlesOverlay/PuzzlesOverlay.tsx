@@ -39,7 +39,6 @@ export const PuzzlesOverlay: React.FC = () => {
                         />
                     </a>
                 </div>
-
                 <div css={packshot}>
                     <img
                         width="385"

@@ -65,7 +65,6 @@ export const TILE_PROPERTIES = {
 };
 
 export const TIME = {
-    SLOW: 0.02,
     NORMAL: 1,
     INTERVAL: 30000,
 };

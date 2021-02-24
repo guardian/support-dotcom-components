@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Engine, Events } from 'matter-js';
-import { createInteractiveTiles } from './puzzlesPhysics';
+import { Engine } from 'matter-js';
+import { createInteractiveTiles } from './tilePhysics';
 import { getBackgroundTiles, getTextTiles } from './tiles';
 import { render } from './render';
 import { backgroundCanvas } from './puzzlesOverlayStyles';
-import { LINE, TIME } from './constants';
+import { LINE } from './constants';
 
 export const PuzzlesCanvas: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,13 +33,6 @@ export const PuzzlesCanvas: React.FC = () => {
                 getBackgroundTiles(),
                 getTextTiles(),
             );
-
-            Events.on(engine, 'afterUpdate', () => {
-                // tween the timescale for bullet time slow-mo
-                if (engine.timing.timeScale < TIME.NORMAL) {
-                    engine.timing.timeScale += (TIME.NORMAL - engine.timing.timeScale) * TIME.SLOW;
-                }
-            });
 
             setMatterEngine(engine);
             render(context, [...physicalBackgroundTiles, ...physicalTextTiles]);

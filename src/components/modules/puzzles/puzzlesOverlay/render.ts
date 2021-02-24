@@ -1,5 +1,5 @@
-import { Body } from 'matter-js';
-import { PhysicalTile } from './puzzlesPhysics';
+import { Body, Constraint } from 'matter-js';
+import { PhysicalTile } from './tilePhysics';
 import { BACKGROUND, TEXT, TILE_SHADOW } from './constants';
 
 function enableShadow(context: CanvasRenderingContext2D) {
@@ -100,6 +100,25 @@ export function debugRender(context: CanvasRenderingContext2D, bodies: Body[]): 
         });
 
         vertices[0] && lineTo(context, vertices[0]);
+
+        context.closePath();
+        context.stroke();
+    });
+}
+
+export function debugRenderConstraints(
+    context: CanvasRenderingContext2D,
+    constraints: Constraint[],
+): void {
+    window.requestAnimationFrame(() => debugRenderConstraints(context, constraints));
+
+    constraints.forEach(constraint => {
+        const { pointA, pointB } = constraint;
+
+        context.beginPath();
+        context.moveTo(pointA.x, pointA.y);
+
+        pointB && lineTo(context, pointB);
 
         context.closePath();
         context.stroke();
