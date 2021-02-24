@@ -37,8 +37,8 @@ export const TEXT: { [key in TextSize]: TextConstant } = {
         BASELINE: 'middle',
     },
     SMALL: {
-        FONT: 'bold 18px GH Guardian Headline, serif',
-        LINE_HEIGHT: 21,
+        FONT: 'bold 20px GH Guardian Headline, serif',
+        LINE_HEIGHT: 23,
         ALIGN: 'left',
         BASELINE: 'top',
     },

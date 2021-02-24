@@ -16,10 +16,6 @@ function createWorldBounds(canvas: HTMLCanvasElement) {
     const width = canvas.width * 2;
     const height = canvas.height * 2;
 
-    const halfwayPoint = canvas.width / 2;
-    const packshotHeight = 240;
-    const packshotWidth = 350;
-
     const groundOffset = canvas.height + halfBound / 2;
     const ceilingOffset = -halfBound;
     const leftOffset = -halfBound;
@@ -30,15 +26,6 @@ function createWorldBounds(canvas: HTMLCanvasElement) {
         ceiling: Bodies.rectangle(0, ceilingOffset, width, boundSize, { isStatic: true }),
         left: Bodies.rectangle(leftOffset, 0, boundSize, height, { isStatic: true }),
         right: Bodies.rectangle(rightOffset, 0, boundSize, height, { isStatic: true }),
-        packshot: Bodies.rectangle(
-            halfwayPoint - packshotWidth / 5,
-            canvas.height - packshotHeight / 2,
-            packshotWidth,
-            packshotHeight,
-            {
-                isStatic: true,
-            },
-        ),
     };
 }
 
@@ -90,7 +77,7 @@ export function createInteractiveTiles(
         mouse,
     });
 
-    const { ground, ceiling, left, right, packshot } = createWorldBounds(context.canvas);
+    const { ground, ceiling, left, right } = createWorldBounds(context.canvas);
 
     const physicalBackgroundTiles = createTileBodies(backgroundTiles, context.canvas);
     const physicalTextTiles = createTileBodies(textTiles, context.canvas);
@@ -100,7 +87,6 @@ export function createInteractiveTiles(
         ceiling,
         left,
         right,
-        packshot,
         ...physicalBackgroundTiles.map(tile => tile.body),
         ...physicalTextTiles.map(tile => tile.body),
     ]);
