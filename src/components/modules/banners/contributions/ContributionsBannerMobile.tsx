@@ -51,15 +51,15 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
     return (
         <div css={mobileStyles.container}>
             <div css={mobileStyles.headingContainer}>
-                <div css={mobileStyles.heading}>{content.cleanHeading}</div>
+                <div css={mobileStyles.heading}>{content.heading}</div>
                 <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
             </div>
             <div css={[styles.copy, mobileStyles.copy]}>
-                {content.cleanMessageText}
-                {content.cleanHighlightedText && (
+                {content.messageText}
+                {content.highlightedText && (
                     <>
                         {' '}
-                        <span css={styles.highlightedText}>{content.cleanHighlightedText}</span>
+                        <span css={styles.highlightedText}>{content.highlightedText}</span>
                     </>
                 )}
             </div>

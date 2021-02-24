@@ -17,21 +17,21 @@ const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
 
 const ContributionsBannerBody: React.FC<ContributionsBannerRenderedContent> = ({
-    cleanHighlightedText,
-    cleanMessageText,
-    cleanHeading,
+    highlightedText,
+    messageText,
+    heading,
 }: ContributionsBannerRenderedContent) => (
     <>
-        {cleanHeading && (
+        {heading && (
             <>
-                <span css={styles.heading}>{cleanHeading}</span>{' '}
+                <span css={styles.heading}>{heading}</span>{' '}
             </>
         )}
-        <span css={styles.messageText}>{cleanMessageText}</span>
-        {cleanHighlightedText && (
+        <span css={styles.messageText}>{messageText}</span>
+        {highlightedText && (
             <>
                 {' '}
-                <span css={styles.highlightedText}>{cleanHighlightedText}</span>
+                <span css={styles.highlightedText}>{highlightedText}</span>
             </>
         )}
     </>

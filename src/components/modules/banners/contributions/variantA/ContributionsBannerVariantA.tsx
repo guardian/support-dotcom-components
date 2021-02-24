@@ -91,14 +91,14 @@ const ContributionsBannerVariantA: React.FC<ContributionsBannerProps> = ({
 }: ContributionsBannerProps) => {
     const BodyAndHeading = () => (
         <div css={variantAStyles.bodyAndHeading}>
-            <div css={variantAStyles.heading}>{content.cleanHeading}</div>
+            <div css={variantAStyles.heading}>{content.heading}</div>
             <div css={variantAStyles.body}>
                 <div css={[styles.copy, variantAStyles.copy]}>
-                    {content.cleanMessageText}
-                    {content.cleanHighlightedText && (
+                    {content.messageText}
+                    {content.highlightedText && (
                         <>
                             {' '}
-                            <span css={styles.highlightedText}>{content.cleanHighlightedText}</span>
+                            <span css={styles.highlightedText}>{content.highlightedText}</span>
                         </>
                     )}
                 </div>

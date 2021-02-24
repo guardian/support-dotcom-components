@@ -18,9 +18,9 @@ const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
 
 export interface ContributionsBannerRenderedContent {
-    cleanHighlightedText: JSX.Element[] | null;
-    cleanMessageText: JSX.Element[];
-    cleanHeading: JSX.Element[] | null;
+    highlightedText: JSX.Element[] | null;
+    messageText: JSX.Element[];
+    heading: JSX.Element[] | null;
     ctaUrl: string;
     ctaText: string;
 }
@@ -88,9 +88,9 @@ const withBannerData = (
         }
 
         return {
-            cleanHighlightedText: highlightedTextWithArticleCount,
-            cleanMessageText: messageTextWithArticleCount,
-            cleanHeading: headingWithArticleCount,
+            highlightedText: highlightedTextWithArticleCount,
+            messageText: messageTextWithArticleCount,
+            heading: headingWithArticleCount,
             ctaUrl,
             ctaText: cta.text,
         };
