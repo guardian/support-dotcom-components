@@ -39,8 +39,14 @@ const buildVariant = (
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     bannerContent: {
         heading,
-        messageText,
-        mobileMessageText,
+        messageText: messageText,
+        mobileMessageText: mobileMessageText, // for backwards-compatibility
+        highlightedText,
+        cta,
+    },
+    mobileBannerContent: {
+        heading,
+        messageText: mobileMessageText,
         highlightedText,
         cta,
     },

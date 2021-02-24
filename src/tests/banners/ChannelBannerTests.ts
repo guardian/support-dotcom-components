@@ -35,17 +35,27 @@ export const BannerTemplateProducts: { [key in BannerTemplate]?: OphanProduct[] 
 };
 
 const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
+    const bannerContent = () => {
+        if (variant.bannerContent) {
+            return variant.bannerContent;
+        } else {
+            // legacy model
+            return {
+                messageText: variant.body,
+                heading: variant.heading,
+                highlightedText: variant.highlightedText,
+                cta: variant.cta,
+                secondaryCta: variant.secondaryCta,
+            };
+        }
+    };
+
     return {
         name: variant.name,
         modulePath: BannerPaths[variant.template],
         moduleName: variant.template,
-        bannerContent: {
-            messageText: variant.body,
-            heading: variant.heading,
-            highlightedText: variant.highlightedText,
-            cta: variant.cta,
-            secondaryCta: variant.secondaryCta,
-        },
+        bannerContent: bannerContent(),
+        mobileBannerContent: variant.mobileBannerContent,
         componentType: BannerTemplateComponentTypes[variant.template],
         products: BannerTemplateProducts[variant.template],
     };

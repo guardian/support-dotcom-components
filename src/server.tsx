@@ -241,6 +241,7 @@ const buildBannerData = async (
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
             content: variant.bannerContent,
+            mobileContent: variant.mobileBannerContent,
             numArticles: getArticleViewCountForWeeks(
                 targeting.weeklyArticleHistory,
                 test.articlesViewedSettings?.periodInWeeks,
