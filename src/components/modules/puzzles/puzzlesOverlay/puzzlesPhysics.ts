@@ -1,6 +1,6 @@
 import { Body, Bodies, Common, Composite, Engine, Mouse, MouseConstraint, World } from 'matter-js';
 import { Tile } from './tiles';
-import { ANGLE, BOUNDS, FORCES, TILE_SIZE, TILE_PROPERTIES, TIME } from './constants';
+import { BOUNDS, FORCES, TILE_SIZE, TILE_PROPERTIES, TIME } from './constants';
 
 export type PhysicalTile = Tile & {
     body: Body;
@@ -16,6 +16,10 @@ function createWorldBounds(canvas: HTMLCanvasElement) {
     const width = canvas.width * 2;
     const height = canvas.height * 2;
 
+    const halfwayPoint = canvas.width / 2;
+    const packshotHeight = 240;
+    const packshotWidth = 350;
+
     const groundOffset = canvas.height + halfBound / 2;
     const ceilingOffset = -halfBound;
     const leftOffset = -halfBound;
@@ -26,24 +30,24 @@ function createWorldBounds(canvas: HTMLCanvasElement) {
         ceiling: Bodies.rectangle(0, ceilingOffset, width, boundSize, { isStatic: true }),
         left: Bodies.rectangle(leftOffset, 0, boundSize, height, { isStatic: true }),
         right: Bodies.rectangle(rightOffset, 0, boundSize, height, { isStatic: true }),
+        packshot: Bodies.rectangle(
+            halfwayPoint - packshotWidth / 5,
+            canvas.height - packshotHeight / 2,
+            packshotWidth,
+            packshotHeight,
+            {
+                isStatic: true,
+            },
+        ),
     };
 }
 
 function createTileBodies(tiles: Tile[], canvas: HTMLCanvasElement): PhysicalTile[] {
-    const xOffset = canvas.width / tiles.length;
-    const minY = canvas.height / 3;
-
-    return tiles.map((tile, index) => {
+    return tiles.map(tile => {
         const size = tile.size || TILE_SIZE.SMALL;
-        let xPosition = index * xOffset;
-        let yPosition = Common.random(minY, canvas.height - TILE_SIZE.SMALL * 3);
-        let angle = Common.random(ANGLE.MIN, ANGLE.MAX);
-
-        if (tile.position) {
-            xPosition = percentage(tile.position.xPercentage, canvas.width);
-            yPosition = percentage(tile.position.yPercentage, canvas.height);
-            angle = tile.position.angle;
-        }
+        const xPosition = percentage(tile.position.xPercentage, canvas.width);
+        const yPosition = percentage(tile.position.yPercentage, canvas.height);
+        const angle = tile.position.angle;
 
         const body = Bodies.rectangle(xPosition, yPosition, size, size, {
             angle,
@@ -86,7 +90,7 @@ export function createInteractiveTiles(
         mouse,
     });
 
-    const { ground, ceiling, left, right } = createWorldBounds(context.canvas);
+    const { ground, ceiling, left, right, packshot } = createWorldBounds(context.canvas);
 
     const physicalBackgroundTiles = createTileBodies(backgroundTiles, context.canvas);
     const physicalTextTiles = createTileBodies(textTiles, context.canvas);
@@ -96,6 +100,7 @@ export function createInteractiveTiles(
         ceiling,
         left,
         right,
+        packshot,
         ...physicalBackgroundTiles.map(tile => tile.body),
         ...physicalTextTiles.map(tile => tile.body),
     ]);

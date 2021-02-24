@@ -33,6 +33,7 @@ export const appStoreBadges = css`
 export const packshot = css`
     display: flex;
     align-items: flex-end;
+    min-height: 300px;
 `;
 
 export const heading = css`

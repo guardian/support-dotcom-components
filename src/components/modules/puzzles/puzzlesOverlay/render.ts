@@ -1,3 +1,4 @@
+import { Body } from 'matter-js';
 import { PhysicalTile } from './puzzlesPhysics';
 import { BACKGROUND, TEXT, TILE_SHADOW } from './constants';
 
@@ -82,5 +83,25 @@ export function render(context: CanvasRenderingContext2D, tiles: PhysicalTile[])
         } else {
             renderNumber(context, tile);
         }
+    });
+}
+
+export function debugRender(context: CanvasRenderingContext2D, bodies: Body[]): void {
+    window.requestAnimationFrame(() => debugRender(context, bodies));
+
+    bodies.forEach(body => {
+        const { vertices } = body;
+
+        context.beginPath();
+        context.moveTo(vertices[0]?.x ?? 0, vertices[0]?.y ?? 0);
+
+        vertices.forEach(vertix => {
+            lineTo(context, vertix);
+        });
+
+        vertices[0] && lineTo(context, vertices[0]);
+
+        context.closePath();
+        context.stroke();
     });
 }

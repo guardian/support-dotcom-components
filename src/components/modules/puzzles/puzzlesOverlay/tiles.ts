@@ -13,7 +13,7 @@ type TilePositionWithText = TilePosition & {
 
 export type Tile = {
     background: string;
-    position?: TilePosition;
+    position: TilePosition;
     color?: string;
     text?: string;
     size?: number;
@@ -59,7 +59,7 @@ const purpleTilePositions: TilePosition[] = [
     },
     {
         xPercentage: 15,
-        yPercentage: 52,
+        yPercentage: 55,
         angle: 0.62430427,
     },
     {
