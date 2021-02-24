@@ -1,27 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Body, Common, Composite, Engine, Events } from 'matter-js';
+import { Engine, Events } from 'matter-js';
 import { createInteractiveTiles } from './puzzlesPhysics';
 import { getBackgroundTiles, getTextTiles } from './tiles';
 import { render } from './render';
 import { backgroundCanvas } from './puzzlesOverlayStyles';
 import { LINE, TIME } from './constants';
-
-const explosion = function(engine: Engine) {
-    const bodies = Composite.allBodies(engine.world);
-
-    for (let i = 0; i < bodies.length; i++) {
-        const body = bodies[i];
-
-        if (body && !body.isStatic && body.position.y >= 500) {
-            const forceMagnitude = 0.05 * body.mass;
-
-            Body.applyForce(body, body.position, {
-                x: (forceMagnitude + Common.random() * forceMagnitude) * Common.choose([1, -1]),
-                y: -forceMagnitude + Common.random() * -forceMagnitude,
-            });
-        }
-    }
-};
 
 export const PuzzlesCanvas: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -57,10 +40,6 @@ export const PuzzlesCanvas: React.FC = () => {
                     engine.timing.timeScale += (TIME.NORMAL - engine.timing.timeScale) * TIME.SLOW;
                 }
             });
-
-            setInterval(() => {
-                explosion(engine);
-            }, 5000);
 
             setMatterEngine(engine);
             render(context, [...physicalBackgroundTiles, ...physicalTextTiles]);

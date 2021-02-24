@@ -1,13 +1,13 @@
-import { Body, Bodies, Engine, Mouse, MouseConstraint, World } from 'matter-js';
+import { Body, Bodies, Common, Composite, Engine, Mouse, MouseConstraint, World } from 'matter-js';
 import { Tile } from './tiles';
-import { ANGLE, BOUNDS, TILE_SIZE, TILE_PROPERTIES, TIME } from './constants';
+import { ANGLE, BOUNDS, FORCES, TILE_SIZE, TILE_PROPERTIES, TIME } from './constants';
 
 export type PhysicalTile = Tile & {
     body: Body;
 };
 
-function randomNumberBetween(min: number, max: number) {
-    return Math.random() * (max - min) + min;
+function percentage(percent: number, ofNumber: number) {
+    return (percent / 100) * ofNumber;
 }
 
 function createWorldBounds(canvas: HTMLCanvasElement) {
@@ -35,9 +35,15 @@ function createTileBodies(tiles: Tile[], canvas: HTMLCanvasElement): PhysicalTil
 
     return tiles.map((tile, index) => {
         const size = tile.size || TILE_SIZE.SMALL;
-        const xPosition = index * xOffset;
-        const yPosition = randomNumberBetween(minY, canvas.height - TILE_SIZE.SMALL * 3);
-        const angle = randomNumberBetween(ANGLE.MIN, ANGLE.MAX);
+        let xPosition = index * xOffset;
+        let yPosition = Common.random(minY, canvas.height - TILE_SIZE.SMALL * 3);
+        let angle = Common.random(ANGLE.MIN, ANGLE.MAX);
+
+        if (tile.position) {
+            xPosition = percentage(tile.position.xPercentage, canvas.width);
+            yPosition = percentage(tile.position.yPercentage, canvas.height);
+            angle = tile.position.angle;
+        }
 
         const body = Bodies.rectangle(xPosition, yPosition, size, size, {
             angle,
@@ -56,11 +62,18 @@ function createTileBodies(tiles: Tile[], canvas: HTMLCanvasElement): PhysicalTil
     });
 }
 
+type InteractiveElements = {
+    engine: Engine;
+    mouseConstraint: MouseConstraint;
+    physicalBackgroundTiles: PhysicalTile[];
+    physicalTextTiles: PhysicalTile[];
+};
+
 export function createInteractiveTiles(
     context: CanvasRenderingContext2D,
     backgroundTiles: Tile[],
     textTiles: Tile[],
-): { engine: Engine; physicalBackgroundTiles: PhysicalTile[]; physicalTextTiles: PhysicalTile[] } {
+): InteractiveElements {
     const engine = Engine.create({
         timing: {
             timestamp: 0,
@@ -90,7 +103,21 @@ export function createInteractiveTiles(
 
     return {
         engine,
+        mouseConstraint,
         physicalBackgroundTiles,
         physicalTextTiles,
     };
+}
+
+export function explosion(engine: Engine): void {
+    const bodies = Composite.allBodies(engine.world).filter(body => !body.isStatic);
+
+    bodies.forEach(body => {
+        const forceMagnitude = FORCES.EXPLOSION * body.mass;
+
+        Body.applyForce(body, body.position, {
+            x: (forceMagnitude + Common.random() * forceMagnitude) * Common.choose([1, -1]),
+            y: -forceMagnitude + Common.random() * -forceMagnitude,
+        });
+    });
 }

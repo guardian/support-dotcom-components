@@ -37,5 +37,6 @@ export const packshot = css`
 
 export const heading = css`
     ${headline.xlarge({ fontWeight: 'bold' })}
+    font-size: 66px;
     margin: 0;
 `;

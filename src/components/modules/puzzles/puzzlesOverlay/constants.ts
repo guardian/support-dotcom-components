@@ -11,6 +11,10 @@ export const BOUNDS = {
     SIZE: 200,
 };
 
+export const FORCES = {
+    EXPLOSION: 0.1,
+};
+
 export const LINE = {
     WIDTH: 3,
     STROKE: '#000000',
@@ -34,7 +38,7 @@ export const TEXT: { [key in TextSize]: TextConstant } = {
     },
     SMALL: {
         FONT: 'bold 18px GH Guardian Headline, serif',
-        LINE_HEIGHT: 18,
+        LINE_HEIGHT: 21,
         ALIGN: 'left',
         BASELINE: 'top',
     },
@@ -54,7 +58,7 @@ export const TILE_SHADOW = {
 export const TILE_PROPERTIES = {
     DENSITY: {
         LIGHT: 0.01,
-        HEAVY: 0.015,
+        HEAVY: 0.02,
     },
     FRICTION: 0.5,
     RESTITUTION: 0.7,
@@ -63,4 +67,5 @@ export const TILE_PROPERTIES = {
 export const TIME = {
     SLOW: 0.02,
     NORMAL: 1,
+    INTERVAL: 30000,
 };
