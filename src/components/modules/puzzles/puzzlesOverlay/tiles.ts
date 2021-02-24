@@ -1,12 +1,15 @@
 import { brandAlt, lifestyle, neutral, text } from '@guardian/src-foundations/palette';
+import { TEXT } from './constants';
 import { getTileTextAsImage } from './renderTileText';
-import tileData from './tileData.json';
+import { numbers, letters } from './tileData.json';
 
 type TilePosition = {
     xPercentage: number;
     yPercentage: number;
     angle: number;
 };
+
+type TileSet = 'numbers' | 'letters';
 
 type TilePositionWithText = TilePosition & {
     tileText?: string;
@@ -15,6 +18,7 @@ type TilePositionWithText = TilePosition & {
 export type Tile = {
     background: string;
     position: TilePosition;
+    font?: string;
     color?: string;
     text?: string;
     size?: number;
@@ -22,36 +26,25 @@ export type Tile = {
     image?: HTMLCanvasElement;
 };
 
-function createColouredTiles({ background, color }: { background: string; color: string }) {
+function createColouredTiles({
+    background,
+    color,
+    font,
+}: {
+    background: string;
+    color: string;
+    font: string;
+}) {
     return function colouredTile({ tileText, ...position }: TilePositionWithText) {
         return {
             background,
             color,
-            text: tileText,
             position,
+            font,
+            text: tileText,
         };
     };
 }
-
-const darkTiles: Tile[] = tileData.grey.map(
-    createColouredTiles({ background: neutral[20], color: text.primary }),
-);
-
-const purpleTiles: Tile[] = tileData.purple.map(
-    createColouredTiles({ background: lifestyle[300], color: text.primary }),
-);
-
-const pinkTiles: Tile[] = tileData.pink.map(
-    createColouredTiles({ background: lifestyle[600], color: text.primary }),
-);
-
-const yellowTiles: Tile[] = tileData.yellow.map(
-    createColouredTiles({ background: brandAlt[400], color: text.primary }),
-);
-
-const whiteTiles: Tile[] = tileData.white.map(
-    createColouredTiles({ background: neutral[100], color: text.primary }),
-);
 
 function shuffle(array: Tile[]): Tile[] {
     const toShuffle = [...array];
@@ -104,6 +97,29 @@ export function getTextTiles(): Tile[] {
     ];
 }
 
-export function getBackgroundTiles(): Tile[] {
+export function getBackgroundTiles(tileSet: TileSet): Tile[] {
+    const tileData = tileSet === 'letters' ? letters : numbers;
+    const font = tileSet === 'letters' ? TEXT.LARGE_LETTER.FONT : TEXT.LARGE.FONT;
+
+    const darkTiles: Tile[] = tileData.grey.map(
+        createColouredTiles({ background: neutral[20], color: text.primary, font }),
+    );
+
+    const purpleTiles: Tile[] = tileData.purple.map(
+        createColouredTiles({ background: lifestyle[300], color: text.primary, font }),
+    );
+
+    const pinkTiles: Tile[] = tileData.pink.map(
+        createColouredTiles({ background: lifestyle[600], color: text.primary, font }),
+    );
+
+    const yellowTiles: Tile[] = tileData.yellow.map(
+        createColouredTiles({ background: brandAlt[400], color: text.primary, font }),
+    );
+
+    const whiteTiles: Tile[] = tileData.white.map(
+        createColouredTiles({ background: neutral[100], color: text.primary, font }),
+    );
+
     return shuffle([...darkTiles, ...purpleTiles, ...pinkTiles, ...yellowTiles, ...whiteTiles]);
 }

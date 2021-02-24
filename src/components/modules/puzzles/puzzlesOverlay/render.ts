@@ -38,7 +38,7 @@ function renderNumber(context: CanvasRenderingContext2D, tile: PhysicalTile) {
     if (tile.color && tile.text) {
         const { angle, position } = tile.body;
 
-        context.font = TEXT.LARGE.FONT;
+        context.font = tile.font || TEXT.LARGE.FONT;
         context.textAlign = TEXT.LARGE.ALIGN;
         context.textBaseline = TEXT.LARGE.BASELINE;
         context.translate(position.x, position.y);

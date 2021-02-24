@@ -30,7 +30,7 @@ export const PuzzlesCanvas: React.FC = () => {
 
             const { engine, physicalBackgroundTiles, physicalTextTiles } = createInteractiveTiles(
                 context,
-                getBackgroundTiles(),
+                getBackgroundTiles('letters'),
                 getTextTiles(),
             );
 

@@ -20,7 +20,7 @@ export const LINE = {
     STROKE: '#000000',
 };
 
-type TextSize = 'LARGE' | 'SMALL';
+type TextSize = 'LARGE' | 'LARGE_LETTER' | 'SMALL';
 
 type TextConstant = {
     FONT: string;
@@ -32,6 +32,12 @@ type TextConstant = {
 export const TEXT: { [key in TextSize]: TextConstant } = {
     LARGE: {
         FONT: '100px GuardianTextSans, sans-serif',
+        LINE_HEIGHT: 100,
+        ALIGN: 'center',
+        BASELINE: 'middle',
+    },
+    LARGE_LETTER: {
+        FONT: 'bold 100px GH Guardian Headline, serif',
         LINE_HEIGHT: 100,
         ALIGN: 'center',
         BASELINE: 'middle',
