@@ -306,6 +306,9 @@ export const findTestAndVariant = (
 ): Result => {
     const debug: Debug = {};
 
+    const userCohorts = getUserCohorts(targeting);
+    const isSupporter = userCohorts.includes('AllExistingSupporters');
+
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
     // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
@@ -315,7 +318,7 @@ export const findTestAndVariant = (
         isNotExpired(),
         hasSectionOrTags,
         userInTest(targeting.mvtId || 1),
-        inCorrectCohort(getUserCohorts(targeting)),
+        inCorrectCohort(userCohorts),
         excludeSection,
         excludeTags,
         hasCountryCode,
@@ -351,9 +354,14 @@ export const findTestAndVariant = (
 
     if (test) {
         const variant = selectVariant(test, targeting.mvtId || 1);
+        // Never show reminder feature to supporters
+        const showReminderFields = isSupporter
+            ? undefined
+            : getReminderFields(variant.showReminderFields);
+
         const variantWithReminder: Variant = {
             ...variant,
-            showReminderFields: getReminderFields(variant.showReminderFields),
+            showReminderFields,
         };
 
         return {
