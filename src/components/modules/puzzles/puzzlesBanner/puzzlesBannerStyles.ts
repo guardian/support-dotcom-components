@@ -21,6 +21,12 @@ export const banner = css`
     background-color: ${lifestyle[300]};
     color: ${neutral[100]};
     border: 2px solid ${neutral[0]};
+
+    ${until.tablet} {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
 `;
 
 export const bannerContents = css`
@@ -71,20 +77,6 @@ export const buttonContainer = css`
             margin-right: ${space[4]}px;
         }
     }
-`;
-
-export const backgroundSquares = css`
-    ${until.tablet} {
-        display: none;
-    }
-
-    display: grid;
-    grid-template-columns: repeat(3, minmax(150px, 1fr));
-    grid-template-rows: repeat(2, 50%);
-`;
-
-export const removeSquareBorder = css`
-    border-bottom: none;
 `;
 
 export const collapseButton = css`

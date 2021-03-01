@@ -1,17 +1,24 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
+import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
+import { collapseButtonContainer } from './puzzlesBannerStyles';
+
+type MobileSquaresProps = {
+    collapseButton: React.ReactNode;
+};
 
 const mobileSquareGrid = css`
     ${from.tablet} {
         display: none;
     }
 
+    margin-top: -${space[12]}px;
     width: 100%;
+    max-width: 384px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, minmax(96px, 33%));
 `;
 
 const firstRow = css`
@@ -22,18 +29,30 @@ const secondRow = css`
     grid-column-start: 2;
 `;
 
-export const MobileSquares: React.FC = () => {
+const selectivelyRemoveBorder = css`
+    ${until.mobileLandscape} {
+        border-left: none;
+    }
+`;
+
+export const MobileSquares: React.FC<MobileSquaresProps> = ({ collapseButton }) => {
     return (
         <div css={mobileSquareGrid}>
-            <Square colour="purple" cssOverrides={firstRow} />
-            <Square colour="pink" />
-            <Square colour="pink" cssOverrides={secondRow} />
-            <Square colour="purple" />
-            <Square colour="grey" />
-            <Square colour="purple" />
-            <Square colour="grey" />
-            <Square colour="pink" />
-            <Square colour="purple" />
+            <Square colour="purple" cssOverrides={firstRow} removeBorder={['right']} />
+            <Square colour="pink" removeBorder={['right']} />
+            <Square colour="pink" cssOverrides={secondRow} removeBorder={['right']} />
+            <Square colour="purple" removeBorder={['right']} />
+            <Square colour="grey" removeBorder={['right']} />
+            <Square
+                colour="purple"
+                cssOverrides={selectivelyRemoveBorder}
+                removeBorder={['right']}
+            />
+            <Square colour="grey" removeBorder={['right']} />
+            <Square colour="pink" removeBorder={['right']} />
+            <Square colour="purple" removeBorder={['right']} cssOverrides={collapseButtonContainer}>
+                {collapseButton}
+            </Square>
         </div>
     );
 };

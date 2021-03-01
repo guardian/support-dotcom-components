@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
-import { SvgArrowDownStraight } from '@guardian/src-icons';
+import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
 import { MobileSquares } from './MobileSquares';
-import { Square } from './Square';
+import { TabletDesktopSquares } from './TabletDesktopSquares';
 import {
-    backgroundSquares,
     banner,
     bannerContents,
     buttonContainer,
     collapseButton,
-    collapseButtonContainer,
     heading,
     headingSection,
-    removeSquareBorder,
 } from './puzzlesBannerStyles';
 
 export const PuzzlesBanner: React.FC = () => {
@@ -22,6 +19,17 @@ export const PuzzlesBanner: React.FC = () => {
     function collapse() {
         setIsCollapsed(!isCollapsed);
     }
+
+    const CollapseButton = (
+        <Button
+            cssOverrides={collapseButton}
+            icon={isCollapsed ? <SvgArrowDownStraight /> : <SvgArrowUpStraight />}
+            onClick={collapse}
+            hideLabel
+        >
+            Collapse
+        </Button>
+    );
 
     return (
         <section css={banner}>
@@ -50,29 +58,10 @@ export const PuzzlesBanner: React.FC = () => {
                             </a>
                         </div>
                     </div>
-                    <div css={backgroundSquares}>
-                        <Square colour="grey" />
-                        <Square colour="white" />
-                        <Square colour="pink" />
-                        <Square colour="pink" cssOverrides={removeSquareBorder} />
-                        <Square colour="white" cssOverrides={removeSquareBorder} />
-                        <Square
-                            colour="purple"
-                            cssOverrides={[removeSquareBorder, collapseButtonContainer]}
-                        >
-                            <Button
-                                cssOverrides={collapseButton}
-                                icon={<SvgArrowDownStraight />}
-                                onClick={collapse}
-                                hideLabel
-                            >
-                                Collapse
-                            </Button>
-                        </Square>
-                    </div>
+                    <TabletDesktopSquares collapseButton={CollapseButton} />
                 </div>
             </Container>
-            <MobileSquares />
+            <MobileSquares collapseButton={CollapseButton} />
         </section>
     );
 };

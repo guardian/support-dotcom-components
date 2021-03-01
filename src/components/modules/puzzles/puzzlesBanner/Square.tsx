@@ -1,21 +1,25 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
+import { space } from '@guardian/src-foundations';
 
 type SquareColour = 'white' | 'grey' | 'pink' | 'purple';
 
-type SquareSize = 'small' | 'large';
+type BorderSide = 'top' | 'right' | 'left';
 
 type SquareProps = {
     colour: SquareColour;
     children?: React.ReactNode;
     cssOverrides?: SerializedStyles | SerializedStyles[];
-    size?: SquareSize;
+    removeBorder?: BorderSide[];
 };
 
 const basicSquare = css`
     border: 2px solid ${neutral[0]};
+    border-bottom: none;
     position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 aspect ratio */
 `;
 
 const squareContents = css`
@@ -25,18 +29,8 @@ const squareContents = css`
     left: 0;
     bottom: 0;
     right: 0;
+    padding: ${space[2]}px;
 `;
-
-const squareSizes: { [key in SquareSize]: SerializedStyles } = {
-    small: css`
-        height: 100%;
-        padding-left: 100%; /* 1:1 Aspect Ratio */
-    `,
-    large: css`
-        width: 180px;
-        height: 180px;
-    `,
-};
 
 const squareColours: { [key in SquareColour]: SerializedStyles } = {
     white: css`
@@ -53,17 +47,38 @@ const squareColours: { [key in SquareColour]: SerializedStyles } = {
     `,
 };
 
-export const Square: React.FC<SquareProps> = (props: SquareProps) => {
+const borderRemovals: { [key in BorderSide]: SerializedStyles } = {
+    top: css`
+        border-top: none;
+    `,
+    right: css`
+        border-right: none;
+    `,
+    left: css`
+        border-left: none;
+    `,
+};
+
+function getBorderRemoval(borderSide: BorderSide) {
+    return borderRemovals[borderSide];
+}
+
+export const Square: React.FC<SquareProps> = ({
+    colour,
+    children,
+    cssOverrides,
+    removeBorder = [],
+}) => {
     return (
         <div
             css={[
                 basicSquare,
-                squareSizes[props.size || 'small'],
-                squareColours[props.colour],
-                props.cssOverrides,
+                squareColours[colour],
+                cssOverrides,
+                removeBorder.map(getBorderRemoval),
             ]}
         >
-            {props.children && <div css={squareContents}>{props.children}</div>}
+            {children && <div css={squareContents}>{children}</div>}
         </div>
     );
 };
