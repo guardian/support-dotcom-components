@@ -38,8 +38,8 @@ const contentSquare = css`
     border-bottom: 2px solid ${neutral[0]};
     padding-top: 0;
     box-shadow: ${boxShadow};
-    min-width: 97px;
-    min-height: 97px;
+    min-width: ${space[24]}px;
+    min-height: ${space[24]}px;
 
     p {
         padding: ${space[1]}px;
@@ -117,15 +117,16 @@ const contentSquaresGrid = css`
     pointer-events: none;
     position: absolute;
     bottom: 0;
-    right: 0;
     display: grid;
     ${until.tablet} {
+        left: 0;
         grid-template-columns: 1fr minmax(1px, 64px) 1fr;
         row-gap: 20px;
         margin: 0 ${space[4]}px;
     }
 
     ${from.tablet} {
+        right: 0;
         grid-template-columns: repeat(3, 150px);
         row-gap: 76px;
     }
