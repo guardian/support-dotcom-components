@@ -1,5 +1,5 @@
 import { css } from '@emotion/core';
-import { between, from } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography/cjs';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
@@ -74,6 +74,10 @@ export const buttonContainer = css`
 `;
 
 export const backgroundSquares = css`
+    ${until.tablet} {
+        display: none;
+    }
+
     display: grid;
     grid-template-columns: repeat(3, minmax(150px, 1fr));
     grid-template-rows: repeat(2, 50%);

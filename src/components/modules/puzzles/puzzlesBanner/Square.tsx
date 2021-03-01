@@ -15,7 +15,6 @@ type SquareProps = {
 
 const basicSquare = css`
     border: 2px solid ${neutral[0]};
-    border-top: none;
     position: relative;
 `;
 

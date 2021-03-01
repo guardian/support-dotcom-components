@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight } from '@guardian/src-icons';
+import { MobileSquares } from './MobileSquares';
 import { Square } from './Square';
 import {
     backgroundSquares,
@@ -71,6 +72,7 @@ export const PuzzlesBanner: React.FC = () => {
                     </div>
                 </div>
             </Container>
+            <MobileSquares />
         </section>
     );
 };
