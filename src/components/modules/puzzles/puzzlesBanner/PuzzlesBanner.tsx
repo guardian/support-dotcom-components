@@ -24,12 +24,13 @@ export const PuzzlesBanner: React.FC = () => {
 
     const CollapseButton = (
         <Button
+            size="small"
             cssOverrides={collapseButton}
             icon={isCollapsed ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
             onClick={collapse}
             hideLabel
         >
-            Collapse
+            Minimise this banner
         </Button>
     );
 
@@ -61,8 +62,8 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                     </div>
                     <div css={squaresContainer}>
-                        <TabletDesktopSquares collapseButton={CollapseButton} />
                         <ContentSquares />
+                        <TabletDesktopSquares collapseButton={CollapseButton} />
                     </div>
                 </div>
             </Container>

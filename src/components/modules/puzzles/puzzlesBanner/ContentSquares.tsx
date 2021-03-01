@@ -3,7 +3,7 @@ import { css, SerializedStyles } from '@emotion/core';
 import { headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
-import { until } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 
 const boxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25);';
@@ -31,28 +31,77 @@ const contentSquareSide = css`
 `;
 
 const contentSquare = css`
+    z-index: 2;
     pointer-events: all;
-    ${headline.xxsmall({ fontWeight: 'bold' })};
+    ${headline.xxxsmall({ fontWeight: 'bold' })};
     color: ${neutral[7]};
     border-bottom: 2px solid ${neutral[0]};
-    width: 180px;
-    height: 180px;
     padding-top: 0;
     box-shadow: ${boxShadow};
+    min-width: 97px;
+    min-height: 97px;
+
     p {
         padding: ${space[1]}px;
         padding-left: 0;
         margin: 0;
+        margin-left: -2px;
+    }
+
+    ${from.tablet} {
+        width: 150px;
+        height: 150px;
+    }
+
+    ${from.desktop} {
+        ${headline.xxsmall({ fontWeight: 'bold' })};
+        width: 180px;
+        height: 180px;
+    }
+`;
+
+const bottomLeftOnMobile = css`
+    ${until.tablet} {
+        grid-row-start: 2;
+        grid-column-start: 1;
+        width: 120px;
+        height: 120px;
+    }
+`;
+
+const bottomRightOnMobile = css`
+    ${until.tablet} {
+        grid-row-start: 2;
+        grid-column-start: 3;
+        width: 152px;
+        height: 152px;
     }
 `;
 
 const downShiftedSquare = css`
-    grid-column-start: 3;
-    transform: translateY(80px);
+    ${until.tablet} {
+        grid-column-start: 3;
+        justify-self: center;
+        width: 96px;
+        height: 96px;
+    }
+
+    ${from.tablet} {
+        transform: translateY(80px);
+    }
+
+    ${from.desktop} {
+        grid-column-start: 3;
+    }
 `;
 
 const qrCodeSquare = css`
     border-bottom: none;
+    box-shadow: none;
+
+    & * {
+        box-shadow: none;
+    }
 
     ${until.tablet} {
         display: none;
@@ -70,8 +119,21 @@ const contentSquaresGrid = css`
     bottom: 0;
     right: 0;
     display: grid;
-    grid-template-columns: 180px minmax(0, ${space[24]}px) 180px 180px;
-    gap: ${space[24]}px ${space[6]}px;
+    ${until.tablet} {
+        grid-template-columns: 1fr minmax(1px, 64px) 1fr;
+        row-gap: 20px;
+        margin: 0 ${space[4]}px;
+    }
+
+    ${from.tablet} {
+        grid-template-columns: repeat(3, 150px);
+        row-gap: 76px;
+    }
+
+    ${from.desktop} {
+        grid-template-columns: 180px minmax(0, ${space[24]}px) 180px 180px;
+        gap: ${space[24]}px ${space[6]}px;
+    }
 `;
 
 type ContentSquareProps = {
@@ -93,13 +155,13 @@ export const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverr
 export const ContentSquares: React.FC = () => {
     return (
         <div css={contentSquaresGrid}>
-            <ContentSquare>
+            <ContentSquare cssOverrides={bottomLeftOnMobile}>
                 <p>Solve with no distractions</p>
             </ContentSquare>
             <ContentSquare cssOverrides={downShiftedSquare}>
                 <p>Share and play with friends</p>
             </ContentSquare>
-            <ContentSquare>
+            <ContentSquare cssOverrides={bottomRightOnMobile}>
                 <p>
                     Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
                     <span css={textHighlight}>sudokus,</span> wherever you are.

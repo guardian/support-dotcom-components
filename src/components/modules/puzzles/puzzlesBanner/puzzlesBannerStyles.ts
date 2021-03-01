@@ -36,7 +36,7 @@ export const bannerContents = css`
 
     ${from.tablet} {
         flex-direction: row;
-        min-height: 290px;
+        height: 260px;
     }
 
     ${from.desktop} {
@@ -45,13 +45,23 @@ export const bannerContents = css`
 `;
 
 export const squaresContainer = css`
+    z-index: 10;
     display: flex;
     justify-content: flex-end;
     height: 100%;
     position: relative;
     width: 100%;
     max-width: 750px;
-    padding-right: 44px;
+
+    ${until.tablet} {
+        position: absolute;
+        bottom: 50px;
+        right: 0;
+    }
+
+    ${from.desktop} {
+        padding-right: 44px;
+    }
 `;
 
 export const headingSection = css`

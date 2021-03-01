@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { until } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { collapseButtonContainer } from './puzzlesBannerStyles';
 
@@ -14,12 +14,22 @@ const backgroundSquares = css`
     }
     height: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(1px, 170px));
-    grid-template-rows: repeat(2, minmax(50%, 170px));
+
+    ${from.tablet} {
+        grid-template-columns: repeat(3, minmax(1px, 128px));
+        grid-template-rows: repeat(2, minmax(50%, 128px));
+    }
+
+    ${from.desktop} {
+        grid-template-columns: repeat(3, minmax(1px, 170px));
+        grid-template-rows: repeat(2, minmax(50%, 170px));
+    }
 `;
 
 const buttonContainer = css`
-    transform: translateX(25%);
+    ${from.desktop} {
+        transform: translateX(25%);
+    }
 `;
 
 export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ collapseButton }) => {
