@@ -12,9 +12,14 @@ const backgroundSquares = css`
     ${until.tablet} {
         display: none;
     }
+    height: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(150px, 1fr));
-    grid-template-rows: repeat(2, 50%);
+    grid-template-columns: repeat(3, minmax(1px, 170px));
+    grid-template-rows: repeat(2, minmax(50%, 170px));
+`;
+
+const buttonContainer = css`
+    transform: translateX(25%);
 `;
 
 export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ collapseButton }) => {
@@ -25,7 +30,7 @@ export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ coll
             <Square colour="pink" removeBorder={['top']} />
             <Square colour="pink" removeBorder={['right']} />
             <Square colour="white" removeBorder={['right']} />
-            <Square colour="purple" cssOverrides={collapseButtonContainer}>
+            <Square colour="purple" cssOverrides={[collapseButtonContainer, buttonContainer]}>
                 {collapseButton}
             </Square>
         </div>

@@ -40,8 +40,18 @@ export const bannerContents = css`
     }
 
     ${from.desktop} {
-        min-height: 300px;
+        height: 344px;
     }
+`;
+
+export const squaresContainer = css`
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    padding-right: 44px;
 `;
 
 export const headingSection = css`
@@ -93,6 +103,7 @@ export const collapseButton = css`
 
 export const collapseButtonContainer = css`
     & > * {
+        padding: ${space[2]}px;
         justify-content: flex-end;
     }
 `;

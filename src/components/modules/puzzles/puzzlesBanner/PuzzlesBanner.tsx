@@ -4,6 +4,7 @@ import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
 import { MobileSquares } from './MobileSquares';
 import { TabletDesktopSquares } from './TabletDesktopSquares';
+import { ContentSquares } from './ContentSquares';
 import {
     banner,
     bannerContents,
@@ -11,6 +12,7 @@ import {
     collapseButton,
     heading,
     headingSection,
+    squaresContainer,
 } from './puzzlesBannerStyles';
 
 export const PuzzlesBanner: React.FC = () => {
@@ -23,7 +25,7 @@ export const PuzzlesBanner: React.FC = () => {
     const CollapseButton = (
         <Button
             cssOverrides={collapseButton}
-            icon={isCollapsed ? <SvgArrowDownStraight /> : <SvgArrowUpStraight />}
+            icon={isCollapsed ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
             onClick={collapse}
             hideLabel
         >
@@ -58,7 +60,10 @@ export const PuzzlesBanner: React.FC = () => {
                             </a>
                         </div>
                     </div>
-                    <TabletDesktopSquares collapseButton={CollapseButton} />
+                    <div css={squaresContainer}>
+                        <TabletDesktopSquares collapseButton={CollapseButton} />
+                        <ContentSquares />
+                    </div>
                 </div>
             </Container>
             <MobileSquares collapseButton={CollapseButton} />

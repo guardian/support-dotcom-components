@@ -1,7 +1,6 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
-import { space } from '@guardian/src-foundations';
 
 type SquareColour = 'white' | 'grey' | 'pink' | 'purple';
 
@@ -10,7 +9,7 @@ type BorderSide = 'top' | 'right' | 'left';
 type SquareProps = {
     colour: SquareColour;
     children?: React.ReactNode;
-    cssOverrides?: SerializedStyles | SerializedStyles[];
+    cssOverrides?: SerializedStyles | Array<SerializedStyles | undefined>;
     removeBorder?: BorderSide[];
 };
 
@@ -29,7 +28,6 @@ const squareContents = css`
     left: 0;
     bottom: 0;
     right: 0;
-    padding: ${space[2]}px;
 `;
 
 const squareColours: { [key in SquareColour]: SerializedStyles } = {
