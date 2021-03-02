@@ -15,7 +15,8 @@ const contentSquareSide = css`
     border: 2px solid ${neutral[0]};
     border-top: none;
     border-right: none;
-    transform: translate(-100%, 2px);
+    border-radius: 2px 0 0 0;
+    transform: translate(-10px, 2px);
     height: 100%;
     box-shadow: ${boxShadow};
 
@@ -26,7 +27,7 @@ const contentSquareSide = css`
         background-color: ${neutral[20]};
         border-top: 2px solid ${neutral[0]};
         height: 50%;
-        transform: translate(-1px, -1.5px) skewY(-30deg);
+        transform: translateY(-2px) skewY(-30deg);
     }
 `;
 
@@ -178,7 +179,7 @@ export const ContentSquares: React.FC = () => {
                         <span css={textHighlight}>Scan to download</span>
                     </p>
                     <img
-                        src=""
+                        src="https://i.guim.co.uk/img/media/9810f21a107ed91fcab56a02edc0e8c62075e784/0_0_400_400/140.png?width=100&quality=85&s=8ffbe8d3a3908596d0ce0810fee3c1ff"
                         alt="QR code for the Guardian Puzzles App"
                         width="100"
                         height="100"

@@ -13,9 +13,6 @@ export const banner = css`
     *:after {
         box-sizing: inherit;
     }
-    strong {
-        font-weight: bold;
-    }
     box-sizing: border-box;
     width: 100%;
     background-color: ${lifestyle[300]};
@@ -45,13 +42,12 @@ export const bannerContents = css`
 `;
 
 export const squaresContainer = css`
-    z-index: 10;
+    position: relative;
     display: flex;
     justify-content: flex-end;
     height: 100%;
-    position: relative;
     width: 100%;
-    max-width: 750px;
+    max-width: 690px;
 
     ${until.tablet} {
         position: absolute;
@@ -115,5 +111,28 @@ export const collapseButtonContainer = css`
     & > * {
         padding: ${space[2]}px;
         justify-content: flex-end;
+    }
+`;
+
+export const imageContainer = css`
+    display: none;
+    z-index: 3;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+
+    picture {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    ${from.tablet} {
+        display: flex;
+        padding-left: 42%;
+    }
+
+    ${from.desktop} {
+        padding-left: 33%;
     }
 `;

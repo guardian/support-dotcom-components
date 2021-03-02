@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
+import { ResponsiveImage } from '../../../ResponsiveImage';
 import { MobileSquares } from './MobileSquares';
 import { TabletDesktopSquares } from './TabletDesktopSquares';
 import { ContentSquares } from './ContentSquares';
@@ -12,8 +13,22 @@ import {
     collapseButton,
     heading,
     headingSection,
+    imageContainer,
     squaresContainer,
 } from './puzzlesBannerStyles';
+
+const desktopPackshot = {
+    url:
+        'https://i.guim.co.uk/img/media/8759e22d5a920f73253e73ac593956760b7c58d9/0_0_1224_1076/500.png?width=300&quality=85&s=3e78a054770de9e16024517cd727ed47',
+    media: '(min-width: 980px)',
+    alt: 'The Guardian Puzzles app on mobile devices',
+};
+
+const tabletPackshot = {
+    url:
+        'https://i.guim.co.uk/img/media/8759e22d5a920f73253e73ac593956760b7c58d9/0_0_1224_1076/500.png?width=230&quality=85&s=86d3b846ec56cd7662e3cb187b787c49',
+    media: '(min-width: 740px)',
+};
 
 export const PuzzlesBanner: React.FC = () => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
@@ -30,7 +45,7 @@ export const PuzzlesBanner: React.FC = () => {
             onClick={collapse}
             hideLabel
         >
-            Minimise this banner
+            Minimise
         </Button>
     );
 
@@ -64,6 +79,12 @@ export const PuzzlesBanner: React.FC = () => {
                     <div css={squaresContainer}>
                         <ContentSquares />
                         <TabletDesktopSquares collapseButton={CollapseButton} />
+                        <div css={imageContainer}>
+                            <ResponsiveImage
+                                images={[desktopPackshot, tabletPackshot]}
+                                baseImage={desktopPackshot}
+                            />
+                        </div>
                     </div>
                 </div>
             </Container>
