@@ -1,5 +1,5 @@
 import React from 'react';
-import { styles } from './ContributionsBannerStyles';
+import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/core';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -8,7 +8,7 @@ import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import { ContributionsBannerRenderedContent } from './ContributionsBannerWrapper';
 
-const mobileStyles = {
+const styles = {
     container: css`
         ${from.tablet} {
             display: none;
@@ -49,22 +49,22 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
     content,
 }: ContributionsBannerMobileProps) => {
     return (
-        <div css={mobileStyles.container}>
-            <div css={mobileStyles.headingContainer}>
-                <div css={mobileStyles.heading}>{content.heading}</div>
+        <div css={styles.container}>
+            <div css={styles.headingContainer}>
+                <div css={styles.heading}>{content.heading}</div>
                 <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
             </div>
-            <div css={[styles.copy, mobileStyles.copy]}>
+            <div css={[commonStyles.copy, styles.copy]}>
                 {content.messageText}
                 {content.highlightedText && (
                     <>
                         {' '}
-                        <span css={styles.highlightedText}>{content.highlightedText}</span>
+                        <span css={commonStyles.highlightedText}>{content.highlightedText}</span>
                     </>
                 )}
             </div>
 
-            <div css={mobileStyles.ctaContainer}>
+            <div css={styles.ctaContainer}>
                 <ContributionsBannerCta
                     onContributeClick={onContributeClick}
                     ctaText={content.ctaText}
