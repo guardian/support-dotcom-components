@@ -32,7 +32,6 @@ const contentSquareSide = css`
 
 const contentSquare = css`
     z-index: 2;
-    pointer-events: all;
     ${headline.xxxsmall({ fontWeight: 'bold' })};
     color: ${neutral[7]};
     border-bottom: 2px solid ${neutral[0]};
@@ -108,13 +107,18 @@ const qrCodeSquare = css`
     }
 `;
 
+const qrCodeContainer = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: ${space[3]}px;
+`;
+
 const textHighlight = css`
     background-color: ${brandAlt[400]};
 `;
 
 const contentSquaresGrid = css`
-    /* Allow clicks to drop through to the button */
-    pointer-events: none;
     position: absolute;
     bottom: 0;
     display: grid;
@@ -132,7 +136,7 @@ const contentSquaresGrid = css`
     }
 
     ${from.desktop} {
-        grid-template-columns: 180px minmax(0, ${space[24]}px) 180px 180px;
+        grid-template-columns: 180px minmax(0, 76px) 180px 180px;
         gap: ${space[24]}px ${space[6]}px;
     }
 `;
@@ -169,9 +173,17 @@ export const ContentSquares: React.FC = () => {
                 </p>
             </ContentSquare>
             <ContentSquare cssOverrides={qrCodeSquare}>
-                <p>
-                    <span css={textHighlight}>Scan to download</span>
-                </p>
+                <div css={qrCodeContainer}>
+                    <p>
+                        <span css={textHighlight}>Scan to download</span>
+                    </p>
+                    <img
+                        src=""
+                        alt="QR code for the Guardian Puzzles App"
+                        width="100"
+                        height="100"
+                    />
+                </div>
             </ContentSquare>
         </div>
     );
