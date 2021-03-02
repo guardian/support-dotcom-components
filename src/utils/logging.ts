@@ -1,10 +1,10 @@
 import path from 'path';
 import { configure, addLayout, Configuration, getLogger, LoggingEvent } from 'log4js';
 import { RequestLogName } from '../middleware/logging';
-import { isProd } from '../lib/env';
+import {isDev, isProd} from '../lib/env';
 
 const logLocation =
-    process.env.NODE_ENV === 'production'
+    !isDev
         ? '/var/log/dotcom-components/dotcom-components.log'
         : `${path.resolve('logs')}/dotcom-components.log`;
 

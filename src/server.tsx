@@ -397,7 +397,9 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
         `/${moduleInfo.endpointPath}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            console.log("REQUEST AT ", moduleInfo.endpointPath, moduleInfo.devServerPath)
             try {
+                console.log('isDev', isDev)
                 const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
                 const module = await fs.promises.readFile(__dirname + path);
 
@@ -405,6 +407,7 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
                 setComponentCacheHeaders(res);
                 res.send(module);
             } catch (error) {
+                console.log(error)
                 next(error);
             }
         },

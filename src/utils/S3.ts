@@ -1,7 +1,8 @@
 import { GetObjectOutput } from 'aws-sdk/clients/s3';
 import AWS from 'aws-sdk';
+import {isDev} from "../lib/env";
 
-if (process.env.NODE_ENV === 'development') {
+if (isDev) {
     AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'membership' });
 }
 const S3 = new AWS.S3();

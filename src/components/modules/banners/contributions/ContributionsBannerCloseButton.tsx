@@ -1,6 +1,6 @@
 import React from 'react';
 import { SvgRoundelDefault } from '@guardian/src-brand';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
