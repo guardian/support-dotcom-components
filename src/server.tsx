@@ -241,6 +241,7 @@ const buildBannerData = async (
             isSupporter: !targeting.showSupportMessaging,
             countryCode: targeting.countryCode,
             content: variant.bannerContent,
+            mobileContent: variant.mobileBannerContent,
             numArticles: getArticleViewCountForWeeks(
                 targeting.weeklyArticleHistory,
                 test.articlesViewedSettings?.periodInWeeks,
@@ -618,6 +619,20 @@ app.get(
         }
     },
 );
+
+app.post('/puzzles', async (req: express.Request, res: express.Response) => {
+    const response = {
+        data: {
+            module: {
+                url: `${baseUrl(req)}/puzzles-banner.js`,
+                name: 'PuzzlesBanner',
+                props: {},
+            },
+            meta: {},
+        },
+    };
+    res.send(response);
+});
 
 app.use(errorHandlingMiddleware);
 

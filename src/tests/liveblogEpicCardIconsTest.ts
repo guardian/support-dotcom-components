@@ -64,7 +64,8 @@ const liveblogEpicCardIconsTest = (
 export const liveblogEpicCardIconsTestGlobal: Test = liveblogEpicCardIconsTest(
     '2021-02-05-LiveblogEpicCardIconsTest__Global',
     globalParagraphs,
-    ['GBPCountries', 'AUDCountries', 'EURCountries', 'International', 'NZDCountries', 'Canada'],
+    // We've removed AUDCountries intentionally to allow testing from the tool
+    ['GBPCountries', 'EURCountries', 'International', 'NZDCountries', 'Canada'],
 );
 export const liveblogEpicCardIconsTestUS: Test = liveblogEpicCardIconsTest(
     '2021-02-05-LiveblogEpicCardIconsTest__US',

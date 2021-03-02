@@ -12,7 +12,7 @@ import {
     contentContainer,
     topLeftComponent,
     heading,
-    paragraph,
+    messageText,
     buttonTextDesktop,
     buttonTextTablet,
     buttonTextMobile,
@@ -31,6 +31,8 @@ import {
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { ResponsiveImage } from '../../../ResponsiveImage';
+import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
+import { containsNonArticleCountPlaceholder } from '../../../../lib/placeholders';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
@@ -65,17 +67,30 @@ const getBaseImg = (countryCode: string | undefined): Img => ({
     media: '(min-width: 740px)',
 });
 
+const fallbackHeading = 'Start a digital subscription today';
+const fallbackMessageText =
+    'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.';
+
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     bannerChannel,
     content,
     tracking,
     submitComponentEvent,
     countryCode,
+    numArticles = 0,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
 
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
+
+    const cleanHeadingText = containsNonArticleCountPlaceholder(content?.heading || '')
+        ? fallbackHeading
+        : content?.heading || '';
+
+    const cleanMessageText = containsNonArticleCountPlaceholder(content?.messageText || '')
+        ? fallbackMessageText
+        : content?.messageText || '';
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
@@ -126,11 +141,12 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                 <section css={banner} data-target={bannerId}>
                     <div css={contentContainer}>
                         <div css={topLeftComponent}>
-                            <h3 css={heading}>{content?.heading}</h3>
-                            <p
-                                css={paragraph}
-                                dangerouslySetInnerHTML={{ __html: content?.messageText ?? '' }}
-                            ></p>
+                            <h3 css={heading}>
+                                {replaceArticleCount(cleanHeadingText || '', numArticles, 'banner')}
+                            </h3>
+                            <p css={messageText}>
+                                {replaceArticleCount(cleanMessageText || '', numArticles, 'banner')}
+                            </p>
                             <a css={linkStyle} onClick={onSubscribeClick}>
                                 <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
                                     <span css={buttonTextDesktop}>Become a digital subscriber</span>

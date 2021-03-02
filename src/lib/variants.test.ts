@@ -121,6 +121,24 @@ describe('findTestAndVariant', () => {
 
         expect(got.result).toBe(undefined);
     });
+
+    it('should not return showReminderFields if user is a supporter', () => {
+        const testWithoutArticlesViewedSettings: Test = {
+            ...testDefault,
+            articlesViewedSettings: undefined,
+            userCohort: 'AllExistingSupporters',
+        };
+        const tests = [testWithoutArticlesViewedSettings];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            showSupportMessaging: false,
+        };
+        const epicType = 'ARTICLE';
+
+        const got = findTestAndVariant(tests, targeting, epicType);
+
+        expect(got?.result?.variant.showReminderFields).toBe(undefined);
+    });
 });
 
 describe('getUserCohort', () => {

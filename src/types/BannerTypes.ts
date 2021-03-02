@@ -48,7 +48,7 @@ export interface Cta {
 export interface BannerContent {
     heading?: string;
     messageText: string;
-    mobileMessageText?: string;
+    mobileMessageText?: string; // deprecated - use mobileBannerContent instead
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: Cta;
@@ -66,6 +66,7 @@ export interface BannerVariant {
     modulePath: string;
     moduleName: string;
     bannerContent?: BannerContent;
+    mobileBannerContent?: BannerContent;
     componentType: OphanComponentType;
     products?: OphanProduct[];
 }
@@ -105,6 +106,7 @@ export interface BannerProps {
     tracking: BannerTracking;
     bannerChannel: BannerChannel;
     content?: BannerContent;
+    mobileContent?: BannerContent;
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
@@ -116,6 +118,10 @@ export interface BannerProps {
 export interface RawVariantParams {
     name: string;
     template: BannerTemplate;
+    bannerContent: BannerContent;
+    mobileBannerContent?: BannerContent;
+
+    // deprecated - use bannerContent
     body: string;
     heading?: string;
     highlightedText?: string;

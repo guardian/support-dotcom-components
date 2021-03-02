@@ -28,10 +28,10 @@ const tracking: BannerTracking = {
 
 export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
-        heading: text('heading', 'Start a digital subscription today'),
+        heading: text('heading', "You've read %%ARTICLE_COUNT%% articles in the last year"),
         messageText: text(
             'messageText',
-            'Enjoy our journalism <strong>without ads</strong>, as well as Premium access to <strong>our Live and Editions apps</strong>. And for a few weeks only, read <strong>Edition Earth</strong>, a digital exclusive showcase of the best Guardian journalism on climate, wildlife, air pollution, environmental justice – and solutions too.',
+            "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.",
         ),
     };
 

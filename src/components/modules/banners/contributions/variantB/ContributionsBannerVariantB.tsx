@@ -78,30 +78,26 @@ const columnCounts = {
 const ContributionsBannerVariantB: React.FC<ContributionsBannerProps> = ({
     onContributeClick,
     onCloseClick,
-    cleanHighlightedText,
-    cleanMessageText,
-    cleanMobileMessageText,
-    cleanHeading,
-    ctaUrl,
-    ctaText,
+    content,
+    mobileContent,
 }: ContributionsBannerProps) => {
-    const Heading = () => <div css={variantBStyles.heading}>{cleanHeading}</div>;
+    const Heading = () => <div css={variantBStyles.heading}>{content.heading}</div>;
 
     const BodyAndCta = () => (
         <div css={variantBStyles.bodyAndCta}>
             <div css={[styles.copy, variantBStyles.copy]}>
-                {cleanMessageText}
-                {cleanHighlightedText && (
+                {content.messageText}
+                {content.highlightedText && (
                     <>
                         {' '}
-                        <span css={styles.highlightedText}>{cleanHighlightedText}</span>
+                        <span css={styles.highlightedText}>{content.highlightedText}</span>
                     </>
                 )}
             </div>
             <ContributionsBannerCta
                 onContributeClick={onContributeClick}
-                ctaText={ctaText}
-                ctaUrl={ctaUrl}
+                ctaText={content.ctaText}
+                ctaUrl={content.ctaUrl}
                 stacked={false}
             />
         </div>
@@ -118,11 +114,7 @@ const ContributionsBannerVariantB: React.FC<ContributionsBannerProps> = ({
             <ContributionsBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onContributeClick}
-                heading={cleanHeading}
-                messageText={cleanMobileMessageText || cleanMessageText}
-                highlightedText={cleanHighlightedText}
-                ctaUrl={ctaUrl}
-                ctaText={ctaText}
+                content={mobileContent || content}
             />
 
             <Container>

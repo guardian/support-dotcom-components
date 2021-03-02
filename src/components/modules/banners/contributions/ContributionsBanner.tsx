@@ -7,46 +7,69 @@ import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
 import { ThemeProvider } from '@emotion/react';
 import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
-import ContributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
+import contributionsBannerWrapper, {
+    ContributionsBannerProps,
+    ContributionsBannerRenderedContent,
+} from './ContributionsBannerWrapper';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
 
-interface ContributionsBannerBodyProps {
-    cleanMessageText: JSX.Element[];
-    cleanMobileMessageText: JSX.Element[] | null;
+const ContributionsBannerBody: React.FC<ContributionsBannerRenderedContent> = ({
+    highlightedText,
+    messageText,
+    heading,
+}: ContributionsBannerRenderedContent) => (
+    <>
+        {heading && (
+            <>
+                <span css={styles.heading}>{heading}</span>{' '}
+            </>
+        )}
+        <span css={styles.messageText}>{messageText}</span>
+        {highlightedText && (
+            <>
+                {' '}
+                <span css={styles.highlightedText}>{highlightedText}</span>
+            </>
+        )}
+    </>
+);
+
+interface ContributionsBannerCtaProps {
+    ctaText: string;
+    ctaUrl: string;
+    onContributeClick: () => void;
 }
 
-const ContributionsBannerBody: React.FC<ContributionsBannerBodyProps> = ({
-    cleanMessageText,
-    cleanMobileMessageText,
-}) => {
-    if (cleanMobileMessageText) {
-        return (
-            <>
-                <Hide above="tablet">
-                    <span css={styles.messageText}>{cleanMobileMessageText}</span>
-                </Hide>
-                <Hide below="tablet">
-                    <span css={styles.messageText}>{cleanMessageText}</span>
-                </Hide>
-            </>
-        );
-    } else {
-        return <span css={styles.messageText}>{cleanMessageText}</span>;
-    }
-};
+const ContributionsBannerCta: React.FC<ContributionsBannerCtaProps> = ({
+    ctaText,
+    ctaUrl,
+    onContributeClick,
+}: ContributionsBannerCtaProps) => (
+    <LinkButton
+        data-link-name={ctaComponentId}
+        css={styles.ctaButton}
+        priority="primary"
+        size="small"
+        icon={<SvgArrowRightStraight />}
+        iconSide="right"
+        nudgeIcon={true}
+        onClick={onContributeClick}
+        hideLabel={false}
+        aria-label="Contribute"
+        href={ctaUrl}
+    >
+        {ctaText}
+    </LinkButton>
+);
 
 const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     onContributeClick,
     onCloseClick,
-    cleanHighlightedText,
-    cleanMessageText,
-    cleanMobileMessageText,
-    cleanHeading,
-    ctaUrl,
-    ctaText,
+    content,
+    mobileContent,
 }: ContributionsBannerProps) => {
     return (
         <>
@@ -59,40 +82,48 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
                     </div>
                     <div css={styles.copyAndCta}>
                         <div css={styles.copy}>
-                            {cleanHeading && (
+                            {mobileContent ? (
                                 <>
-                                    <span css={styles.heading}>{cleanHeading}</span>{' '}
+                                    <Hide above="tablet">
+                                        {mobileContent && (
+                                            <ContributionsBannerBody {...mobileContent} />
+                                        )}
+                                    </Hide>
+                                    <Hide below="tablet">
+                                        <ContributionsBannerBody {...content} />
+                                    </Hide>
                                 </>
-                            )}
-                            <ContributionsBannerBody
-                                cleanMessageText={cleanMessageText}
-                                cleanMobileMessageText={cleanMobileMessageText}
-                            />
-                            {cleanHighlightedText && (
-                                <>
-                                    {' '}
-                                    <span css={styles.highlightedText}>{cleanHighlightedText}</span>
-                                </>
+                            ) : (
+                                <ContributionsBannerBody {...content} />
                             )}
                         </div>
                         <div css={styles.ctaContainer}>
                             <div css={styles.cta}>
                                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                    <LinkButton
-                                        data-link-name={ctaComponentId}
-                                        css={styles.ctaButton}
-                                        priority="primary"
-                                        size="small"
-                                        icon={<SvgArrowRightStraight />}
-                                        iconSide="right"
-                                        nudgeIcon={true}
-                                        onClick={onContributeClick}
-                                        hideLabel={false}
-                                        aria-label="Contribute"
-                                        href={ctaUrl}
-                                    >
-                                        {ctaText}
-                                    </LinkButton>
+                                    {mobileContent ? (
+                                        <>
+                                            <Hide above="tablet">
+                                                <ContributionsBannerCta
+                                                    ctaText={mobileContent.ctaText}
+                                                    ctaUrl={mobileContent.ctaUrl}
+                                                    onContributeClick={onContributeClick}
+                                                />
+                                            </Hide>
+                                            <Hide below="tablet">
+                                                <ContributionsBannerCta
+                                                    ctaText={content.ctaText}
+                                                    ctaUrl={content.ctaUrl}
+                                                    onContributeClick={onContributeClick}
+                                                />
+                                            </Hide>
+                                        </>
+                                    ) : (
+                                        <ContributionsBannerCta
+                                            ctaText={content.ctaText}
+                                            ctaUrl={content.ctaUrl}
+                                            onContributeClick={onContributeClick}
+                                        />
+                                    )}
                                 </ThemeProvider>
                                 <img
                                     src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
@@ -132,6 +163,6 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = ContributionsBannerWrapper(ContributionsBanner);
+const wrapped = contributionsBannerWrapper(ContributionsBanner);
 
 export { wrapped as ContributionsBanner };

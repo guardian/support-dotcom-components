@@ -28,7 +28,10 @@ module.exports = {
                 args: 'after-used',
             },
         ],
-        'react/display-name': 'off'
+        'react/display-name': 'off',
+        // Not compatible with TS + arrow functions - https://github.com/yannickcr/eslint-plugin-react/issues/2353#issuecomment-674792754
+        // TS does the type checking anyway
+        "react/prop-types": "off",
     },
     settings: {
         react: {
