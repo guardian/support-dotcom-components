@@ -6,7 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 
-function gridPlacement(row: number, column: number) {
+function desktopGridPlacement(row: number, column: number) {
     return css`
         ${from.desktop} {
             grid-row: ${row};
@@ -63,8 +63,8 @@ const contentSquare = css`
     }
 
     ${from.tablet} {
-        width: 150px;
-        height: 150px;
+        width: 154px;
+        height: 154px;
     }
 
     ${from.desktop} {
@@ -138,14 +138,20 @@ const contentSquaresGrid = css`
     position: absolute;
     bottom: 0;
     display: grid;
+    left: ${space[1]}px;
+
     ${until.tablet} {
-        left: 0;
         grid-template-columns: 1fr minmax(1px, 64px) 1fr;
         row-gap: 20px;
         margin: 0 ${space[4]}px;
     }
 
+    ${from.mobileLandscape} {
+        left: ${space[3]}px;
+    }
+
     ${from.tablet} {
+        left: unset;
         right: 0;
         grid-template-columns: repeat(3, 150px);
         row-gap: 76px;
@@ -178,19 +184,19 @@ const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = 
 export const ContentSquares: React.FC = () => {
     return (
         <div css={contentSquaresGrid}>
-            <ContentSquare cssOverrides={[bottomLeftOnMobile, gridPlacement(1, 1)]}>
+            <ContentSquare cssOverrides={[bottomLeftOnMobile, desktopGridPlacement(1, 1)]}>
                 <p>Solve with no distractions</p>
             </ContentSquare>
-            <ContentSquare cssOverrides={[downShiftedSquare, gridPlacement(1, 5)]}>
+            <ContentSquare cssOverrides={[downShiftedSquare, desktopGridPlacement(1, 5)]}>
                 <p>Share and play with friends</p>
             </ContentSquare>
-            <ContentSquare cssOverrides={[bottomRightOnMobile, gridPlacement(1, 7)]}>
+            <ContentSquare cssOverrides={[bottomRightOnMobile, desktopGridPlacement(1, 7)]}>
                 <p>
                     Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
                     <span css={textHighlight}>sudokus,</span> wherever you are.
                 </p>
             </ContentSquare>
-            <ContentSquare cssOverrides={[qrCodeSquare, gridPlacement(3, 1)]}>
+            <ContentSquare cssOverrides={[qrCodeSquare, desktopGridPlacement(3, 1)]}>
                 <div css={qrCodeContainer}>
                     <p>
                         <span css={textHighlight}>Scan to download</span>
