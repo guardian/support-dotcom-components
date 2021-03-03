@@ -5,6 +5,7 @@ dist/
 cloudformation.yaml
 cdk.out/
 .idea/
+.vscode/
 stats/
 .metals
 target/

@@ -13,6 +13,14 @@ $ yarn dev
 $ PORT=8080 yarn dev # override the port to listen on
 ```
 
+Additionally you can watch for module changes with:
+
+`$ yarn modules-dev`
+
+And to speed things up if you're only working on a single module:
+
+`$ yarn modules-dev --moduleName=epic`
+
 ### Run the tests
 
 ```
