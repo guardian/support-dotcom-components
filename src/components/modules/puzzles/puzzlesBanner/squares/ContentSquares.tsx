@@ -17,7 +17,7 @@ function desktopGridPlacement(row: number, column: number) {
 
 // We can fake the gap rule in IE11 by adding extra rows/columns to act as the gap
 // These gap rows/columns can also be flexible in ways that a standard gap rule can't
-function ieCompatibleGap(rowsOrCols: string[], gap: string) {
+function withIECompatibleGap(rowsOrCols: string[], gap: string) {
     return rowsOrCols.join(` ${gap} `);
 }
 
@@ -76,8 +76,8 @@ const contentSquare = css`
 
 const bottomLeftOnMobile = css`
     ${until.tablet} {
-        grid-row-start: 2;
-        grid-column-start: 1;
+        grid-row: 2;
+        grid-column: 1;
         width: 120px;
         height: 120px;
     }
@@ -85,28 +85,27 @@ const bottomLeftOnMobile = css`
 
 const bottomRightOnMobile = css`
     ${until.tablet} {
-        grid-row-start: 2;
-        grid-column-start: 3;
+        grid-row: 2;
+        grid-column: 3;
         width: 152px;
         height: 152px;
     }
 `;
 
-const downShiftedSquare = css`
+const topRightOnMobile = css`
     ${until.tablet} {
-        grid-column-start: 3;
         justify-self: center;
         width: 96px;
         height: 96px;
     }
+`;
+
+const downShiftedSquare = css`
+    grid-column: 3;
+    grid-row: 1;
 
     ${from.tablet} {
         transform: translateY(80px);
-    }
-
-    ${from.desktop} {
-        grid-column: 3;
-        grid-row: 1;
     }
 `;
 
@@ -158,11 +157,11 @@ const contentSquaresGrid = css`
     }
 
     ${from.desktop} {
-        grid-template-columns: ${ieCompatibleGap(
+        grid-template-columns: ${withIECompatibleGap(
             ['180px', 'minmax(0, 76px)', '180px', '180px'],
             `${space[6]}px`,
         )};
-        grid-template-rows: ${ieCompatibleGap(['1fr', '1fr'], `${space[24]}px`)};
+        grid-template-rows: ${withIECompatibleGap(['1fr', '1fr'], `${space[24]}px`)};
         row-gap: 0;
     }
 `;
@@ -185,9 +184,11 @@ export const ContentSquares: React.FC = () => {
     return (
         <div css={contentSquaresGrid}>
             <ContentSquare cssOverrides={[bottomLeftOnMobile, desktopGridPlacement(1, 1)]}>
-                <p>Solve with no distractions</p>
+                <p>Solve with&nbsp;no distractions</p>
             </ContentSquare>
-            <ContentSquare cssOverrides={[downShiftedSquare, desktopGridPlacement(1, 5)]}>
+            <ContentSquare
+                cssOverrides={[topRightOnMobile, downShiftedSquare, desktopGridPlacement(1, 5)]}
+            >
                 <p>Share and play with friends</p>
             </ContentSquare>
             <ContentSquare cssOverrides={[bottomRightOnMobile, desktopGridPlacement(1, 7)]}>

@@ -22,11 +22,11 @@ const mobileSquareGrid = css`
 `;
 
 const firstRow = css`
-    grid-column-start: 3;
+    grid-column: 3;
 `;
 
 const secondRow = css`
-    grid-column-start: 2;
+    grid-column: 2;
 `;
 
 const selectivelyRemoveBorder = css`

@@ -18,7 +18,7 @@ import {
     imageContainer,
     squaresContainer,
 } from './puzzlesBannerStyles';
-import { gridPrefixerPlugin } from './gridPrefixerPlugin';
+import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 
 const emotionCache = createCache({
     stylisPlugins: [gridPrefixerPlugin()],
