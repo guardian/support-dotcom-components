@@ -33,41 +33,44 @@ const globals = {
     '@emotion/core': 'guardian.automat.emotionCore',
 };
 
-const config = moduleInfos.map(module => {
-    const isProd = process.env.NODE_ENV === 'production';
-    const sourcemaps = !isProd; // Nb: set to false if testing IE11
-    return {
-        input: module.srcPath,
-        output: {
-            file: module.distPath,
-            format: 'es',
-            sourcemap: sourcemaps ? 'inline' : false,
-        },
-        external: id => Object.keys(globals).some(key => id == key),
-        plugins: [
-            resolveNode(),
-            commonjs(),
-            json(),
-            typescript(tsOpts),
-            babel({
-                extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
-                babelHelpers: 'bundled',
-            }),
+const config = (args) => {
+    const modules = args.moduleName ? [moduleInfos.find(i => i.name === args.moduleName)] : moduleInfos;
+    return modules.map(module => {
+        const isProd = process.env.NODE_ENV === 'production';
+        const sourcemaps = !isProd; // Nb: set to false if testing IE11
+        return {
+            input: module.srcPath,
+            output: {
+                file: module.distPath,
+                format: 'es',
+                sourcemap: sourcemaps ? 'inline' : false,
+            },
+            external: id => Object.keys(globals).some(key => id == key),
+            plugins: [
+                resolveNode(),
+                commonjs(),
+                json(),
+                typescript(tsOpts),
+                babel({
+                    extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
+                    babelHelpers: 'bundled',
+                }),
 
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
-            externalGlobals(globals),
-            filesize(),
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
+                externalGlobals(globals),
+                filesize(),
 
-            // Note, visualizer is useful for *relative* sizes, but reports
-            // pre-minification.
-            visualizer({
-                sourcemap: sourcemaps,
-                gzipSize: true,
-                filename: `stats/${module.name}.html`,
-            }),
-        ],
-    };
-});
+                // Note, visualizer is useful for *relative* sizes, but reports
+                // pre-minification.
+                visualizer({
+                    sourcemap: sourcemaps,
+                    gzipSize: true,
+                    filename: `stats/${module.name}.html`,
+                }),
+            ],
+        };
+    });
+};
 
 export default config;
