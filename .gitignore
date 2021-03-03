@@ -10,4 +10,4 @@ stats/
 target/
 build-storybook.log
 logs/
-
+storybook-static/

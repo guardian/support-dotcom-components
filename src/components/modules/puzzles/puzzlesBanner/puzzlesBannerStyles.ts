@@ -119,7 +119,7 @@ export const imageContainer = css`
     z-index: 3;
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     height: 100%;
 
     picture {
@@ -129,10 +129,10 @@ export const imageContainer = css`
 
     ${from.tablet} {
         display: flex;
-        padding-left: 42%;
+        padding-right: 12%;
     }
 
     ${from.desktop} {
-        padding-left: 33%;
+        padding-right: 20%;
     }
 `;

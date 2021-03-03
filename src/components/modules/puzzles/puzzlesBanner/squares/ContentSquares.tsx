@@ -8,13 +8,15 @@ import { Square } from './Square';
 
 function gridPlacement(row: number, column: number) {
     return css`
-        ${from.tablet} {
+        ${from.desktop} {
             grid-row: ${row};
             grid-column: ${column};
         }
     `;
 }
 
+// We can fake the gap rule in IE11 by adding extra rows/columns to act as the gap
+// These gap rows/columns can also be flexible in ways that a standard gap rule can't
 function ieCompatibleGap(rowsOrCols: string[], gap: string) {
     return rowsOrCols.join(` ${gap} `);
 }
