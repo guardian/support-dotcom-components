@@ -6,11 +6,23 @@ import { space } from '@guardian/src-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 
+function gridPlacement(row: number, column: number) {
+    return css`
+        ${from.tablet} {
+            grid-row: ${row};
+            grid-column: ${column};
+        }
+    `;
+}
+
+function ieCompatibleGap(rowsOrCols: string[], gap: string) {
+    return rowsOrCols.join(` ${gap} `);
+}
+
 const boxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25);';
 
 const contentSquareSide = css`
     position: relative;
-    width: ${space[2]}px;
     background-color: ${neutral[20]};
     border: 2px solid ${neutral[0]};
     border-top: none;
@@ -26,7 +38,7 @@ const contentSquareSide = css`
         width: 6px;
         background-color: ${neutral[20]};
         border-top: 2px solid ${neutral[0]};
-        height: 50%;
+        height: 100%;
         transform: translateY(-2px) skewY(-30deg);
     }
 `;
@@ -91,7 +103,8 @@ const downShiftedSquare = css`
     }
 
     ${from.desktop} {
-        grid-column-start: 3;
+        grid-column: 3;
+        grid-row: 1;
     }
 `;
 
@@ -137,43 +150,45 @@ const contentSquaresGrid = css`
     }
 
     ${from.desktop} {
-        grid-template-columns: 180px minmax(0, 76px) 180px 180px;
-        gap: ${space[24]}px ${space[6]}px;
+        grid-template-columns: ${ieCompatibleGap(
+            ['180px', 'minmax(0, 76px)', '180px', '180px'],
+            `${space[6]}px`,
+        )};
+        grid-template-rows: ${ieCompatibleGap(['1fr', '1fr'], `${space[24]}px`)};
+        row-gap: 0;
     }
 `;
 
 type ContentSquareProps = {
     children?: React.ReactNode;
-    cssOverrides?: SerializedStyles;
+    cssOverrides?: SerializedStyles[];
 };
 
-export const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides }) => {
+const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = [] }) => {
     return (
-        <>
-            <Square colour="white" cssOverrides={[contentSquare, cssOverrides]}>
-                <div css={contentSquareSide}></div>
-                {children}
-            </Square>
-        </>
+        <Square colour="white" cssOverrides={[contentSquare, ...cssOverrides]}>
+            <div css={contentSquareSide}></div>
+            {children}
+        </Square>
     );
 };
 
 export const ContentSquares: React.FC = () => {
     return (
         <div css={contentSquaresGrid}>
-            <ContentSquare cssOverrides={bottomLeftOnMobile}>
+            <ContentSquare cssOverrides={[bottomLeftOnMobile, gridPlacement(1, 1)]}>
                 <p>Solve with no distractions</p>
             </ContentSquare>
-            <ContentSquare cssOverrides={downShiftedSquare}>
+            <ContentSquare cssOverrides={[downShiftedSquare, gridPlacement(1, 5)]}>
                 <p>Share and play with friends</p>
             </ContentSquare>
-            <ContentSquare cssOverrides={bottomRightOnMobile}>
+            <ContentSquare cssOverrides={[bottomRightOnMobile, gridPlacement(1, 7)]}>
                 <p>
                     Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
                     <span css={textHighlight}>sudokus,</span> wherever you are.
                 </p>
             </ContentSquare>
-            <ContentSquare cssOverrides={qrCodeSquare}>
+            <ContentSquare cssOverrides={[qrCodeSquare, gridPlacement(3, 1)]}>
                 <div css={qrCodeContainer}>
                     <p>
                         <span css={textHighlight}>Scan to download</span>

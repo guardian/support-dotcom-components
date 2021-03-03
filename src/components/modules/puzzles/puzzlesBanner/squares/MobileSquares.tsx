@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
-import { collapseButtonContainer } from './puzzlesBannerStyles';
+import { collapseButtonContainer } from '../puzzlesBannerStyles';
 
 type MobileSquaresProps = {
     collapseButton: React.ReactNode;
