@@ -133,7 +133,8 @@ const addContributionReminderCookie = (reminderDateString: string): void => {
     addCookie('gu_epic_contribution_reminder', '1', dateDiff(today, reminderDate));
 };
 
-const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
+export const createOneOffReminderEndpoint =
+    'https://support.theguardian.com/reminders/create/one-off';
 
 const PREPOSITION_REGEX = /^(on|in)/;
 
