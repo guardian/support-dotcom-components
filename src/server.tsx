@@ -515,14 +515,10 @@ app.post(
                 },
                 body: JSON.stringify({
                     email,
-                    reminderDate,
-                    isPreContribution: true,
-
-                    // email: emailAddress,
-                    // reminderPeriod,
-                    // reminderPlatform: REMINDER_PLATFORM,
-                    // reminderComponent: REMINDER_COMPONENT,
-                    // reminderStage: REMINDER_STAGE,
+                    reminderPeriod: reminderDate,
+                    reminderPlatform: 'AMP',
+                    reminderComponent: 'EPIC',
+                    reminderStage: 'PRE',
                 }),
             });
 
