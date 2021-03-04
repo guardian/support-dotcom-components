@@ -1,3 +1,10 @@
+export const appStore = {
+    apple:
+        'https://i.guim.co.uk/img/media/a0787d3b313f03ed87a16ced224ab4022f794bc5/0_0_554_160/140.png?width=140&quality=85&s=48f11f40c766e44cadc6e30f01e1e089',
+    google:
+        'https://i.guim.co.uk/img/media/0a3eda7d719ad8ebe3a13a9bab8fd2b3348d1f20/0_0_554_160/140.png?width=140&quality=85&s=613c12a8c5a5be1fa48f3d36dfdd3ad3',
+};
+
 export const packshot = {
     desktop:
         'https://i.guim.co.uk/img/media/8759e22d5a920f73253e73ac593956760b7c58d9/0_0_1224_1076/500.png?width=300&quality=85&s=3e78a054770de9e16024517cd727ed47',

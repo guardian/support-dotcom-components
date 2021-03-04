@@ -19,7 +19,7 @@ import {
     imageContainer,
     squaresContainer,
 } from './puzzlesBannerStyles';
-import { packshot } from './images';
+import { appStore, packshot } from './images';
 
 // A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
 const emotionCache = createCache({
@@ -72,15 +72,12 @@ export const PuzzlesBanner: React.FC = () => {
                             <div css={appStoreButtonContainer}>
                                 <a href="http://" target="_blank" rel="noopener noreferrer">
                                     <img
-                                        src="https://i.guim.co.uk/img/media/a0787d3b313f03ed87a16ced224ab4022f794bc5/0_0_554_160/140.png?width=140&quality=85&s=48f11f40c766e44cadc6e30f01e1e089"
+                                        src={appStore.apple}
                                         alt="Download on the Apple App Store"
                                     />
                                 </a>
                                 <a href="http://" target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src="https://i.guim.co.uk/img/media/0a3eda7d719ad8ebe3a13a9bab8fd2b3348d1f20/0_0_554_160/140.png?width=140&quality=85&s=613c12a8c5a5be1fa48f3d36dfdd3ad3"
-                                        alt="Get it on Google Play"
-                                    />
+                                    <img src={appStore.google} alt="Get it on Google Play" />
                                 </a>
                             </div>
                         </div>
