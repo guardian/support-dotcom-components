@@ -83,13 +83,13 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                         <div css={squaresContainer}>
                             <ContentSquares />
-                            <TabletDesktopSquares collapseButton={CollapseButton} />
                             <div css={imageContainer}>
                                 <ResponsiveImage
                                     images={[tabletPackshot, desktopPackshot]}
                                     baseImage={tabletPackshot}
                                 />
                             </div>
+                            <TabletDesktopSquares collapseButton={CollapseButton} />
                         </div>
                     </div>
                 </Container>
