@@ -18,7 +18,8 @@ const basicSquare = css`
     border-bottom: none;
     position: relative;
     width: 100%;
-    padding-top: 100%; /* 1:1 aspect ratio */
+    /* Creates a 1:1 aspect ratio */
+    padding-top: 100%;
 `;
 
 const squareContents = css`

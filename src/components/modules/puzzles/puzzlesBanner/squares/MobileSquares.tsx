@@ -13,7 +13,6 @@ const mobileSquareGrid = css`
     ${from.tablet} {
         display: none;
     }
-
     margin-top: -${space[12]}px;
     width: 100%;
     max-width: 384px;
@@ -29,7 +28,7 @@ const secondRow = css`
     grid-column: 2;
 `;
 
-const selectivelyRemoveBorder = css`
+const noLeftBorderOnSmallestScreens = css`
     ${until.mobileLandscape} {
         border-left: none;
     }
@@ -45,7 +44,7 @@ export const MobileSquares: React.FC<MobileSquaresProps> = ({ collapseButton }) 
             <Square colour="grey" removeBorder={['right']} />
             <Square
                 colour="purple"
-                cssOverrides={selectivelyRemoveBorder}
+                cssOverrides={noLeftBorderOnSmallestScreens}
                 removeBorder={['right']}
             />
             <Square colour="grey" removeBorder={['right']} />

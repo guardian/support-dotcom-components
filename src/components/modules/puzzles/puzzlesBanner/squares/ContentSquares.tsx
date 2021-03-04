@@ -5,6 +5,7 @@ import { brandAlt, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
+import { qrCode } from '../images';
 
 function desktopGridPlacement(row: number, column: number) {
     return css`
@@ -15,18 +16,19 @@ function desktopGridPlacement(row: number, column: number) {
     `;
 }
 
-// We can fake the gap rule in IE11 by adding extra rows/columns to act as the gap
+// We can fake the 'gap' rule in IE11 by adding extra rows/columns to act as the gap
 // These gap rows/columns can also be flexible in ways that a standard gap rule can't
 function withIECompatibleGap(rowsOrCols: string[], gap: string) {
     return rowsOrCols.join(` ${gap} `);
 }
 
 const boxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25);';
+const border = `2px solid ${neutral[0]}`;
 
 const contentSquareSide = css`
     position: relative;
     background-color: ${neutral[20]};
-    border: 2px solid ${neutral[0]};
+    border: ${border};
     border-top: none;
     border-right: none;
     border-radius: 2px 0 0 0;
@@ -39,7 +41,7 @@ const contentSquareSide = css`
         display: block;
         width: 6px;
         background-color: ${neutral[20]};
-        border-top: 2px solid ${neutral[0]};
+        border-top: ${border};
         height: 100%;
         transform: translateY(-2px) skewY(-30deg);
     }
@@ -49,7 +51,7 @@ const contentSquare = css`
     z-index: 2;
     ${headline.xxxsmall({ fontWeight: 'bold' })};
     color: ${neutral[7]};
-    border-bottom: 2px solid ${neutral[0]};
+    border-bottom: ${border};
     padding-top: 0;
     box-shadow: ${boxShadow};
     min-width: ${space[24]}px;
@@ -203,7 +205,7 @@ export const ContentSquares: React.FC = () => {
                         <span css={textHighlight}>Scan to download</span>
                     </p>
                     <img
-                        src="https://i.guim.co.uk/img/media/9810f21a107ed91fcab56a02edc0e8c62075e784/0_0_400_400/140.png?width=100&quality=85&s=8ffbe8d3a3908596d0ce0810fee3c1ff"
+                        src={qrCode}
                         alt="QR code for the Guardian Puzzles App"
                         width="100"
                         height="100"

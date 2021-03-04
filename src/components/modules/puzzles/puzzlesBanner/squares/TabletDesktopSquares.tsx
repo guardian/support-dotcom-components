@@ -8,7 +8,7 @@ type TabletDesktopSquaresProps = {
     collapseButton: React.ReactNode;
 };
 
-const backgroundSquares = css`
+const backgroundSquaresGrid = css`
     ${until.tablet} {
         display: none;
     }
@@ -23,12 +23,12 @@ const backgroundSquares = css`
 
     ${from.desktop} {
         overflow: visible;
-        grid-template-columns: repeat(3, minmax(1px, 170px));
+        grid-template-columns: repeat(3, minmax(1px, 172px));
         grid-template-rows: repeat(2, 170px);
     }
 `;
 
-const buttonContainer = css`
+const nudgeSquareRight = css`
     ${from.desktop} {
         transform: translateX(25%);
     }
@@ -43,7 +43,7 @@ function gridPlacement(row: number, column: number) {
 
 export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ collapseButton }) => {
     return (
-        <div css={backgroundSquares}>
+        <div css={backgroundSquaresGrid}>
             <Square
                 colour="grey"
                 removeBorder={['top', 'right']}
@@ -59,7 +59,7 @@ export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ coll
             <Square colour="pink" removeBorder={['right']} cssOverrides={gridPlacement(2, 2)} />
             <Square
                 colour="purple"
-                cssOverrides={[collapseButtonContainer, buttonContainer, gridPlacement(2, 3)]}
+                cssOverrides={[collapseButtonContainer, nudgeSquareRight, gridPlacement(2, 3)]}
             >
                 {collapseButton}
             </Square>

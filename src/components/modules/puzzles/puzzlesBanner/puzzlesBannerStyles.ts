@@ -78,7 +78,7 @@ export const heading = css`
     }
 `;
 
-export const buttonContainer = css`
+export const appStoreButtonContainer = css`
     display: flex;
     flex-direction: column;
 
@@ -95,6 +95,13 @@ export const buttonContainer = css`
     }
 `;
 
+export const collapseButtonContainer = css`
+    & > * {
+        padding: ${space[2]}px;
+        justify-content: flex-end;
+    }
+`;
+
 export const collapseButton = css`
     border: none;
     background-color: ${neutral[97]};
@@ -107,25 +114,14 @@ export const collapseButton = css`
     }
 `;
 
-export const collapseButtonContainer = css`
-    & > * {
-        padding: ${space[2]}px;
-        justify-content: flex-end;
-    }
-`;
-
 export const imageContainer = css`
+    pointer-events: none;
     display: none;
     z-index: 3;
     position: absolute;
     bottom: 0;
     right: 0;
     height: 100%;
-
-    picture {
-        display: flex;
-        align-items: flex-end;
-    }
 
     ${from.tablet} {
         display: flex;
@@ -134,5 +130,11 @@ export const imageContainer = css`
 
     ${from.desktop} {
         padding-right: 20%;
+    }
+
+    picture {
+        pointer-events: all;
+        display: flex;
+        align-items: flex-end;
     }
 `;
