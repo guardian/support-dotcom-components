@@ -107,6 +107,7 @@ const downShiftedSquare = css`
     grid-row: 1;
 
     ${from.tablet} {
+        grid-column: 2;
         transform: translateY(80px);
     }
 `;
@@ -143,7 +144,7 @@ const contentSquaresGrid = css`
 
     ${until.tablet} {
         grid-template-columns: 1fr minmax(1px, 64px) 1fr;
-        row-gap: 20px;
+        grid-row-gap: 20px;
         margin: 0 ${space[4]}px;
     }
 
@@ -155,7 +156,7 @@ const contentSquaresGrid = css`
         left: unset;
         right: 0;
         grid-template-columns: repeat(3, 150px);
-        row-gap: 76px;
+        grid-row-gap: 76px;
     }
 
     ${from.desktop} {
@@ -164,7 +165,7 @@ const contentSquaresGrid = css`
             `${space[6]}px`,
         )};
         grid-template-rows: ${withIECompatibleGap(['1fr', '1fr'], `${space[24]}px`)};
-        row-gap: 0;
+        grid-row-gap: 0;
     }
 `;
 

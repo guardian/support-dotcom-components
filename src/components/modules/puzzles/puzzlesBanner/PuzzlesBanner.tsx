@@ -29,12 +29,12 @@ const emotionCache = createCache({
 const desktopPackshot = {
     url: packshot.desktop,
     media: '(min-width: 980px)',
-    alt: 'The Guardian Puzzles app on mobile devices',
 };
 
 const tabletPackshot = {
     url: packshot.tablet,
-    media: '(min-width: 740px)',
+    media: '(max-width: 979px)',
+    alt: 'The Guardian Puzzles app on mobile devices',
 };
 
 export const PuzzlesBanner: React.FC = () => {
@@ -62,13 +62,13 @@ export const PuzzlesBanner: React.FC = () => {
                 <Container>
                     <div css={bannerContents}>
                         <div css={headingSection}>
-                            <h1 css={heading}>
+                            <h3 css={heading}>
                                 Discover
                                 <br />
                                 The&nbsp;Guardian
                                 <br />
                                 Puzzles&nbsp;App
-                            </h1>
+                            </h3>
                             <div css={appStoreButtonContainer}>
                                 <a href="http://" target="_blank" rel="noopener noreferrer">
                                     <img
@@ -89,8 +89,8 @@ export const PuzzlesBanner: React.FC = () => {
                             <TabletDesktopSquares collapseButton={CollapseButton} />
                             <div css={imageContainer}>
                                 <ResponsiveImage
-                                    images={[desktopPackshot, tabletPackshot]}
-                                    baseImage={desktopPackshot}
+                                    images={[tabletPackshot, desktopPackshot]}
+                                    baseImage={tabletPackshot}
                                 />
                             </div>
                         </div>
