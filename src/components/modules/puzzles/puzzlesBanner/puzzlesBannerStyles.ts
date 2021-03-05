@@ -138,3 +138,15 @@ export const imageContainer = css`
         align-items: flex-end;
     }
 `;
+
+export const hideIfMinimised = css`
+    display: none;
+`;
+
+export const minimisedBanner = css`
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 174px;
+    width: 260px;
+`;

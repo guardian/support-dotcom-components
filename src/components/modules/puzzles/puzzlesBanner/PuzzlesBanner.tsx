@@ -16,7 +16,9 @@ import {
     collapseButton,
     heading,
     headingSection,
+    hideIfMinimised,
     imageContainer,
+    minimisedBanner,
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
@@ -38,7 +40,9 @@ const tabletPackshot = {
 };
 
 export const PuzzlesBanner: React.FC = () => {
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+
+    const maybeHidden = isCollapsed ? hideIfMinimised : '';
 
     function collapse() {
         setIsCollapsed(!isCollapsed);
@@ -58,10 +62,10 @@ export const PuzzlesBanner: React.FC = () => {
 
     return (
         <CacheProvider value={emotionCache}>
-            <section css={banner}>
+            <section css={[banner, isCollapsed ? minimisedBanner : '']}>
                 <Container>
-                    <div css={bannerContents}>
-                        <div css={headingSection}>
+                    <div css={[bannerContents, maybeHidden]}>
+                        <div css={[headingSection, maybeHidden]}>
                             <h3 css={heading}>
                                 Discover
                                 <br />
@@ -81,7 +85,7 @@ export const PuzzlesBanner: React.FC = () => {
                                 </a>
                             </div>
                         </div>
-                        <div css={squaresContainer}>
+                        <div css={[squaresContainer, maybeHidden]}>
                             <ContentSquares />
                             <div css={imageContainer}>
                                 <ResponsiveImage
