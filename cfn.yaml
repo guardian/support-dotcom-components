@@ -175,12 +175,12 @@ Resources:
             PolicyDocument:
                 Statement:
                     - Effect: Allow
-                    Resource: "*"
-                    Action:
-                        - ec2:DescribeTags
-                        - ec2:DescribeInstances
-                        - autoscaling:DescribeAutoScalingGroups
-                        - autoscaling:DescribeAutoScalingInstances
+                      Resource: "*"
+                      Action:
+                          - ec2:DescribeTags
+                          - ec2:DescribeInstances
+                          - autoscaling:DescribeAutoScalingGroups
+                          - autoscaling:DescribeAutoScalingInstances
             Roles:
                - !Ref roleC7B7E775
     ASGInstanceSecurityGroup0525485D:
