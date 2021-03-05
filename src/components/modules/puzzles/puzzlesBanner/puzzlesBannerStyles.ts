@@ -139,7 +139,7 @@ export const imageContainer = css`
     }
 `;
 
-export const hideIfMinimised = css`
+export const hide = css`
     display: none;
 `;
 

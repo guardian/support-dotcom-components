@@ -16,7 +16,7 @@ import {
     collapseButton,
     heading,
     headingSection,
-    hideIfMinimised,
+    hide,
     imageContainer,
     minimisedBanner,
     squaresContainer,
@@ -42,7 +42,8 @@ const tabletPackshot = {
 export const PuzzlesBanner: React.FC = () => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
-    const maybeHidden = isCollapsed ? hideIfMinimised : '';
+    const hideOnCollapse = isCollapsed ? hide : '';
+    const hideOnExpand = isCollapsed ? '' : hide;
 
     function collapse() {
         setIsCollapsed(!isCollapsed);
@@ -64,8 +65,8 @@ export const PuzzlesBanner: React.FC = () => {
         <CacheProvider value={emotionCache}>
             <section css={[banner, isCollapsed ? minimisedBanner : '']}>
                 <Container>
-                    <div css={[bannerContents, maybeHidden]}>
-                        <div css={[headingSection, maybeHidden]}>
+                    <div css={[bannerContents, hideOnCollapse]}>
+                        <div css={[headingSection, hideOnCollapse]}>
                             <h3 css={heading}>
                                 Discover
                                 <br />
@@ -85,7 +86,7 @@ export const PuzzlesBanner: React.FC = () => {
                                 </a>
                             </div>
                         </div>
-                        <div css={[squaresContainer, maybeHidden]}>
+                        <div css={[squaresContainer, hideOnCollapse]}>
                             <ContentSquares />
                             <div css={imageContainer}>
                                 <ResponsiveImage
@@ -96,6 +97,7 @@ export const PuzzlesBanner: React.FC = () => {
                             <TabletDesktopSquares collapseButton={CollapseButton} />
                         </div>
                     </div>
+                    <div css={hideOnExpand}>{CollapseButton}</div>
                 </Container>
                 <MobileSquares collapseButton={CollapseButton} />
             </section>

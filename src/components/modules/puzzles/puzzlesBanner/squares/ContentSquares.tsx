@@ -5,6 +5,7 @@ import { brandAlt, neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
+import { SquareSide } from './SquareSide';
 import { qrCode } from '../images';
 
 function desktopGridPlacement(row: number, column: number) {
@@ -22,38 +23,13 @@ function withIECompatibleGap(rowsOrCols: string[], gap: string) {
     return rowsOrCols.join(` ${gap} `);
 }
 
-const boxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25);';
-const border = `2px solid ${neutral[0]}`;
-
-const contentSquareSide = css`
-    position: relative;
-    background-color: ${neutral[20]};
-    border: ${border};
-    border-top: none;
-    border-right: none;
-    border-radius: 2px 0 0 0;
-    transform: translate(-10px, 2px);
-    height: 100%;
-    box-shadow: ${boxShadow};
-
-    ::before {
-        content: ' ';
-        display: block;
-        width: 6px;
-        background-color: ${neutral[20]};
-        border-top: ${border};
-        height: 100%;
-        transform: translateY(-2px) skewY(-30deg);
-    }
-`;
-
 const contentSquare = css`
     z-index: 2;
     ${headline.xxxsmall({ fontWeight: 'bold' })};
     color: ${neutral[7]};
-    border-bottom: ${border};
+    border-bottom: 2px solid ${neutral[0]};
     padding-top: 0;
-    box-shadow: ${boxShadow};
+    box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.25);
     min-width: ${space[24]}px;
     min-height: ${space[24]}px;
 
@@ -177,7 +153,7 @@ type ContentSquareProps = {
 const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = [] }) => {
     return (
         <Square colour="white" cssOverrides={[contentSquare, ...cssOverrides]}>
-            <div css={contentSquareSide}></div>
+            <SquareSide />
             {children}
         </Square>
     );
