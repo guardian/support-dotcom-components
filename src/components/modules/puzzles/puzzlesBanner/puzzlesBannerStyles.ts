@@ -99,6 +99,10 @@ export const collapseButtonContainer = css`
     & > * {
         padding: ${space[2]}px;
         justify-content: flex-end;
+
+        ${between.tablet.and.desktop} {
+            padding-bottom: ${space[3]}px;
+        }
     }
 `;
 

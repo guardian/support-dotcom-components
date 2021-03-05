@@ -15,7 +15,7 @@ const mobileSquareGrid = css`
     }
     margin-top: -${space[12]}px;
     width: 100%;
-    max-width: 384px;
+    max-width: 374px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 `;
@@ -29,7 +29,7 @@ const secondRow = css`
 `;
 
 const noLeftBorderOnSmallestScreens = css`
-    ${until.mobileLandscape} {
+    ${until.mobileMedium} {
         border-left: none;
     }
 `;
