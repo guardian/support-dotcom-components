@@ -6,7 +6,7 @@ type ReminderComponent = 'EPIC' | 'BANNER' | 'THANKYOU' | 'CANCELLATION';
 
 type ReminderStage = 'PRE' | 'POST' | 'WINBACK';
 
-interface BaseSignupRequest {
+export interface BaseSignupRequest {
     email: string;
     reminderPlatform: ReminderPlatform;
     reminderComponent: ReminderComponent;
@@ -16,11 +16,7 @@ interface BaseSignupRequest {
     reminderOption?: string;
 }
 
-const setOneOffReminderEndpoint = (): string =>
+export const setOneOffReminderEndpoint = (): string =>
     isProd
         ? 'https://support.theguardian.com/reminders/create/one-off'
         : 'https://support.code.dev-theguardian.com/reminders/create/one-off';
-
-export const setOneOffReminder = (signupRequest: BaseSignupRequest): Promise<Response> => {
-    return fetch(setOneOffReminderEndpoint(), { body: JSON.stringify(signupRequest) });
-};
