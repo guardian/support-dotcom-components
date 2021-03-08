@@ -34,6 +34,7 @@ export interface ContributionsBannerProps {
 
 const withBannerData = (
     Banner: React.FC<ContributionsBannerProps>,
+    // eslint-disable-next-line react/display-name
 ): React.FC<CloseableBannerProps> => bannerProps => {
     const {
         tracking,

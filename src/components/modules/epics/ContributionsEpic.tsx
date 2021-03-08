@@ -197,7 +197,8 @@ const EpicBody: React.FC<BodyProps> = ({
 
 export const ContributionsEpicComponent: (
     acVariant: EpicSeparateArticleCountTestVariants,
-) => React.FC<EpicProps> = acVariant => ({
+) => // eslint-disable-next-line react/display-name
+React.FC<EpicProps> = acVariant => ({
     variant,
     tracking,
     countryCode,
