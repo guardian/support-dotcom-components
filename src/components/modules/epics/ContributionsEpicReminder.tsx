@@ -8,6 +8,7 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
+import { setOneOffReminder } from '../../../api/supportRemindersApi';
 
 const rootStyles = css`
     position: relative;
@@ -133,9 +134,6 @@ const addContributionReminderCookie = (reminderDateString: string): void => {
     addCookie('gu_epic_contribution_reminder', '1', dateDiff(today, reminderDate));
 };
 
-export const createOneOffReminderEndpoint =
-    'https://support.theguardian.com/reminders/create/one-off';
-
 const PREPOSITION_REGEX = /^(on|in)/;
 
 const containsPreposition = (text: string): boolean => PREPOSITION_REGEX.test(text);
@@ -160,18 +158,12 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
     const isValid = isValidEmail(emailAddress);
 
     const submitForm = (): Promise<Response> => {
-        return fetch(createOneOffReminderEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: emailAddress,
-                reminderPeriod,
-                reminderPlatform: REMINDER_PLATFORM,
-                reminderComponent: REMINDER_COMPONENT,
-                reminderStage: REMINDER_STAGE,
-            }),
+        return setOneOffReminder({
+            email: emailAddress,
+            reminderPeriod,
+            reminderPlatform: REMINDER_PLATFORM,
+            reminderComponent: REMINDER_COMPONENT,
+            reminderStage: REMINDER_STAGE,
         });
     };
 
