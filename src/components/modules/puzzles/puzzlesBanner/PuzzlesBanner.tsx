@@ -9,6 +9,7 @@ import { ResponsiveImage } from '../../../ResponsiveImage';
 import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
 import { ContentSquares } from './squares/ContentSquares';
+import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
 import {
     appStoreButtonContainer,
     banner,
@@ -97,8 +98,10 @@ export const PuzzlesBanner: React.FC = () => {
                             <TabletDesktopSquares collapseButton={CollapseButton} />
                         </div>
                     </div>
-                    <div css={hideOnExpand}>{CollapseButton}</div>
                 </Container>
+                <div css={hideOnExpand}>
+                    <MinimisedContentSquare collapseButton={CollapseButton} />
+                </div>
                 <MobileSquares collapseButton={CollapseButton} />
             </section>
         </CacheProvider>
