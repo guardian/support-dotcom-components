@@ -4,6 +4,10 @@ import { headline } from '@guardian/src-foundations/typography/cjs';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 
+export const squareBorder = `2px solid ${neutral[0]}`;
+
+export const squareBoxShadow = 'box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.25)';
+
 export const banner = css`
     html {
         box-sizing: border-box;
@@ -17,7 +21,7 @@ export const banner = css`
     width: 100%;
     background-color: ${lifestyle[300]};
     color: ${neutral[100]};
-    border: 2px solid ${neutral[0]};
+    border: ${squareBorder};
 
     ${until.tablet} {
         display: flex;

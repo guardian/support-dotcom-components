@@ -6,6 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
+import { squareBorder, squareBoxShadow } from '../puzzlesBannerStyles';
 import { qrCode } from '../images';
 
 function desktopGridPlacement(row: number, column: number) {
@@ -27,9 +28,9 @@ const contentSquare = css`
     z-index: 2;
     ${headline.xxxsmall({ fontWeight: 'bold' })};
     color: ${neutral[7]};
-    border-bottom: 2px solid ${neutral[0]};
+    border-bottom: ${squareBorder};
     padding-top: 0;
-    box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: ${squareBoxShadow};
     min-width: ${space[24]}px;
     min-height: ${space[24]}px;
 

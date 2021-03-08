@@ -9,6 +9,7 @@ import { SquareSide } from './SquareSide';
 const squareContainer = css`
     width: 170px;
     height: 170px;
+    transform: translateX(-2px);
 `;
 
 const heading = css`

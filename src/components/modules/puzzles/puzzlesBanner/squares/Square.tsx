@@ -1,6 +1,7 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
+import { squareBorder } from '../puzzlesBannerStyles';
 
 type SquareColour = 'white' | 'grey' | 'pink' | 'purple';
 
@@ -14,7 +15,7 @@ type SquareProps = {
 };
 
 const basicSquare = css`
-    border: 2px solid ${neutral[0]};
+    border: ${squareBorder};
     border-bottom: none;
     position: relative;
     width: 100%;

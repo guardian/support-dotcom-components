@@ -10,6 +10,7 @@ import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
 import { ContentSquares } from './squares/ContentSquares';
 import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
+import { MinimisedBorderSquares } from './squares/MinimisedBorderSquares';
 import {
     appStoreButtonContainer,
     banner,
@@ -101,6 +102,7 @@ export const PuzzlesBanner: React.FC = () => {
                 </Container>
                 <div css={hideOnExpand}>
                     <MinimisedContentSquare collapseButton={CollapseButton} />
+                    <MinimisedBorderSquares />
                 </div>
                 <MobileSquares collapseButton={CollapseButton} />
             </section>
