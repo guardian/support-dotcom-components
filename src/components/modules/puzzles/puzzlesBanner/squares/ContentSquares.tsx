@@ -25,6 +25,16 @@ function withIECompatibleGap(rowsOrCols: string[], gap: string) {
 const boxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25);';
 const border = `2px solid ${neutral[0]}`;
 
+const squareSizes = {
+    mobile: {
+        small: space[24],
+        medium: 120,
+        large: 152,
+    },
+    tablet: 154,
+    desktop: 180,
+};
+
 const contentSquareSide = css`
     position: relative;
     background-color: ${neutral[20]};
@@ -54,8 +64,8 @@ const contentSquare = css`
     border-bottom: ${border};
     padding-top: 0;
     box-shadow: ${boxShadow};
-    min-width: ${space[24]}px;
-    min-height: ${space[24]}px;
+    min-width: ${squareSizes.mobile.small}px;
+    min-height: ${squareSizes.mobile.small}px;
 
     p {
         padding: ${space[1]}px;
@@ -65,14 +75,14 @@ const contentSquare = css`
     }
 
     ${from.tablet} {
-        width: 154px;
-        height: 154px;
+        width: ${squareSizes.tablet}px;
+        height: ${squareSizes.tablet}px;
     }
 
     ${from.desktop} {
         ${headline.xxsmall({ fontWeight: 'bold' })};
-        width: 180px;
-        height: 180px;
+        width: ${squareSizes.desktop}px;
+        height: ${squareSizes.desktop}px;
     }
 `;
 
@@ -80,8 +90,8 @@ const bottomLeftOnMobile = css`
     ${until.tablet} {
         grid-row: 2;
         grid-column: 1;
-        width: 120px;
-        height: 120px;
+        width: ${squareSizes.mobile.medium}px;
+        height: ${squareSizes.mobile.medium}px;
     }
 `;
 
@@ -89,16 +99,16 @@ const bottomRightOnMobile = css`
     ${until.tablet} {
         grid-row: 2;
         grid-column: 3;
-        width: 152px;
-        height: 152px;
+        width: ${squareSizes.mobile.large}px;
+        height: ${squareSizes.mobile.large}px;
     }
 `;
 
 const topRightOnMobile = css`
     ${until.tablet} {
         justify-self: center;
-        width: 96px;
-        height: 96px;
+        width: ${squareSizes.mobile.small}px;
+        height: ${squareSizes.mobile.small}px;
     }
 `;
 
@@ -154,7 +164,7 @@ const contentSquaresGrid = css`
     left: ${space[1]}px;
 
     ${until.tablet} {
-        bottom: ${space[4]}px;
+        bottom: 13px;
         grid-template-columns: 1fr minmax(1px, 64px) 1fr;
         grid-row-gap: 20px;
         margin: 0 ${space[4]}px;
