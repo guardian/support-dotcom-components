@@ -84,6 +84,10 @@ const downShiftedSquare = css`
 
     ${from.tablet} {
         grid-column: 2;
+        transform: translateY(86px);
+    }
+
+    ${from.desktop} {
         transform: translateY(80px);
     }
 `;
@@ -106,6 +110,13 @@ const qrCodeContainer = css`
     flex-direction: column;
     justify-content: space-between;
     padding-bottom: ${space[3]}px;
+
+    ${until.desktop} {
+        img {
+            width: 84px;
+            height: 84px;
+        }
+    }
 `;
 
 const textHighlight = css`
@@ -119,6 +130,7 @@ const contentSquaresGrid = css`
     left: ${space[1]}px;
 
     ${until.tablet} {
+        bottom: ${space[4]}px;
         grid-template-columns: 1fr minmax(1px, 64px) 1fr;
         grid-row-gap: 20px;
         margin: 0 ${space[4]}px;
@@ -133,6 +145,7 @@ const contentSquaresGrid = css`
         right: 0;
         grid-template-columns: repeat(3, 150px);
         grid-row-gap: 76px;
+        grid-column-gap: 2px;
     }
 
     ${from.desktop} {
@@ -142,6 +155,7 @@ const contentSquaresGrid = css`
         )};
         grid-template-rows: ${withIECompatibleGap(['1fr', '1fr'], `${space[24]}px`)};
         grid-row-gap: 0;
+        grid-column-gap: 0;
     }
 `;
 
@@ -173,7 +187,7 @@ export const ContentSquares: React.FC = () => {
             <ContentSquare cssOverrides={[bottomRightOnMobile, desktopGridPlacement(1, 7)]}>
                 <p>
                     Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
-                    <span css={textHighlight}>sudokus,</span> wherever you are.
+                    <span css={textHighlight}>sudokus,</span> wherever you&nbsp;are.
                 </p>
             </ContentSquare>
             <ContentSquare cssOverrides={[qrCodeSquare, desktopGridPlacement(3, 1)]}>
