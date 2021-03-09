@@ -168,6 +168,21 @@ Resources:
                         Ref: Stage
         Metadata:
             aws:cdk:path: AlbEc2Stack/role/Resource
+    DescribeEC2Policy:
+        Type: AWS::IAM::Policy
+        Properties:
+            PolicyName: describe-ec2-policy
+            PolicyDocument:
+                Statement:
+                    - Effect: Allow
+                      Resource: "*"
+                      Action:
+                          - ec2:DescribeTags
+                          - ec2:DescribeInstances
+                          - autoscaling:DescribeAutoScalingGroups
+                          - autoscaling:DescribeAutoScalingInstances
+            Roles:
+               - !Ref roleC7B7E775
     ASGInstanceSecurityGroup0525485D:
         Type: AWS::EC2::SecurityGroup
         Properties:
