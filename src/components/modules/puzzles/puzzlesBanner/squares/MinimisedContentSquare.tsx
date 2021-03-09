@@ -5,16 +5,23 @@ import { space } from '@guardian/src-foundations';
 // import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
+import { from } from '@guardian/src-foundations/mq';
 
 const squareContainer = css`
-    width: 170px;
-    height: 170px;
-    transform: translateX(-2px);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
 `;
 
 const heading = css`
-    ${headline.small({ fontWeight: 'bold' })};
+    ${headline.xxsmall({ fontWeight: 'bold' })};
     margin: 0;
+
+    ${from.mobileLandscape} {
+        ${headline.small({ fontWeight: 'bold' })}
+    }
 `;
 
 const removeTopBorder = css`
@@ -26,7 +33,11 @@ const content = css`
     flex-direction: column;
     justify-content: space-between;
     padding-right: ${space[2]}px;
-    padding-bottom: ${space[3]}px;
+    padding-bottom: ${space[2]}px;
+
+    ${from.mobileLandscape} {
+        padding-bottom: ${space[3]}px;
+    }
 `;
 
 type MinimisedContentSquareProps = {

@@ -7,6 +7,7 @@ import { collapseButtonContainer } from '../puzzlesBannerStyles';
 
 type MobileSquaresProps = {
     collapseButton: React.ReactNode;
+    isCollapsed: boolean;
 };
 
 const mobileSquareGrid = css`
@@ -34,9 +35,16 @@ const noLeftBorderOnSmallestScreens = css`
     }
 `;
 
-export const MobileSquares: React.FC<MobileSquaresProps> = ({ collapseButton }) => {
+const hide = css`
+    display: none;
+`;
+
+export const MobileSquares: React.FC<MobileSquaresProps> = ({
+    collapseButton,
+    isCollapsed = false,
+}) => {
     return (
-        <div css={mobileSquareGrid}>
+        <div css={[mobileSquareGrid, isCollapsed ? hide : '']}>
             <Square colour="purple" cssOverrides={firstRow} removeBorder={['right']} />
             <Square colour="pink" removeBorder={['right']} />
             <Square colour="pink" cssOverrides={secondRow} removeBorder={['right']} />

@@ -21,6 +21,7 @@ import {
     hide,
     imageContainer,
     minimisedBanner,
+    minimisedContentContainer,
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
@@ -100,11 +101,11 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                     </div>
                 </Container>
-                <div css={hideOnExpand}>
+                <div css={[hideOnExpand, minimisedContentContainer]}>
                     <MinimisedContentSquare collapseButton={CollapseButton} />
                     <MinimisedBorderSquares />
                 </div>
-                <MobileSquares collapseButton={CollapseButton} />
+                <MobileSquares collapseButton={CollapseButton} isCollapsed={isCollapsed} />
             </section>
         </CacheProvider>
     );

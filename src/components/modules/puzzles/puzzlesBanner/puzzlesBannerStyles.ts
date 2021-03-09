@@ -6,7 +6,7 @@ import { space } from '@guardian/src-foundations';
 
 export const squareBorder = `2px solid ${neutral[0]}`;
 
-export const squareBoxShadow = 'box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.25)';
+export const squareBoxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25)';
 
 export const banner = css`
     html {
@@ -152,9 +152,28 @@ export const hide = css`
 `;
 
 export const minimisedBanner = css`
+    border-radius: 2px 0 0 0;
     position: absolute;
     right: 0;
     bottom: 0;
-    height: 174px;
-    width: 260px;
+    height: 136px;
+    width: 146px;
+    padding-right: ${space[3]}px;
+
+    ${from.mobileLandscape} {
+        padding-right: ${space[5]}px;
+        width: 196px;
+        height: 176px;
+    }
+`;
+
+export const minimisedContentContainer = css`
+    position: relative;
+    width: 132px;
+    height: 132px;
+
+    ${from.mobileLandscape} {
+        width: 172px;
+        height: 172px;
+    }
 `;

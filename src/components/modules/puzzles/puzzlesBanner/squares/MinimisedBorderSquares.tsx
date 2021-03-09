@@ -3,20 +3,31 @@ import { css } from '@emotion/core';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesBannerStyles';
+import { from } from '@guardian/src-foundations/mq';
+
+const smallSquareSizes = {
+    mobile: 32,
+    tablet: 42,
+};
 
 const container = css`
     pointer-events: none;
     position: absolute;
-    width: 170px;
-    height: 170px;
+    width: 100%;
+    height: 100%;
     bottom: 0;
-    left: 0;
+    right: 0;
 `;
 
 const squareContainer = css`
     position: absolute;
-    width: 42px;
-    height: 42px;
+    width: ${smallSquareSizes.mobile}px;
+    height: ${smallSquareSizes.mobile}px;
+
+    ${from.mobileLandscape} {
+        width: ${smallSquareSizes.tablet}px;
+        height: ${smallSquareSizes.tablet}px;
+    }
 `;
 
 const squareOverrides = css`
@@ -34,13 +45,13 @@ const topLeft = css`
     z-index: -1;
     top: 0;
     left: 20px;
-    transform: translateY(-30px);
+    transform: translateY(-70%);
 `;
 
 const topRight = css`
     top: 0;
     right: 10px;
-    transform: translateY(-37px);
+    transform: translateY(-90%);
 `;
 
 export const MinimisedBorderSquares: React.FC = () => {
