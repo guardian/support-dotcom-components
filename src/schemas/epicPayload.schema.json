@@ -1,1 +1,141 @@
-null
+{
+    "type": "object",
+    "properties": {
+        "tracking": {
+            "type": "object",
+            "properties": {
+                "ophanPageId": {
+                    "type": "string"
+                },
+                "platformId": {
+                    "type": "string"
+                },
+                "referrerUrl": {
+                    "type": "string"
+                },
+                "clientName": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "clientName",
+                "ophanPageId",
+                "platformId",
+                "referrerUrl"
+            ]
+        },
+        "targeting": {
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                },
+                "sectionName": {
+                    "type": "string"
+                },
+                "shouldHideReaderRevenue": {
+                    "type": "boolean"
+                },
+                "isMinuteArticle": {
+                    "type": "boolean"
+                },
+                "isPaidContent": {
+                    "type": "boolean"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "id",
+                            "type"
+                        ]
+                    }
+                },
+                "mvtId": {
+                    "type": "number"
+                },
+                "epicViewLog": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/View"
+                    }
+                },
+                "countryCode": {
+                    "type": "string"
+                },
+                "weeklyArticleHistory": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "week": {
+                                "type": "number"
+                            },
+                            "count": {
+                                "type": "number"
+                            }
+                        },
+                        "required": [
+                            "count",
+                            "week"
+                        ]
+                    }
+                },
+                "hasOptedOutOfArticleCount": {
+                    "type": "boolean"
+                },
+                "showSupportMessaging": {
+                    "type": "boolean"
+                },
+                "isRecurringContributor": {
+                    "type": "boolean"
+                },
+                "lastOneOffContributionDate": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "contentType",
+                "hasOptedOutOfArticleCount",
+                "isMinuteArticle",
+                "isPaidContent",
+                "isRecurringContributor",
+                "sectionName",
+                "shouldHideReaderRevenue",
+                "showSupportMessaging",
+                "tags"
+            ]
+        }
+    },
+    "required": [
+        "targeting",
+        "tracking"
+    ],
+    "definitions": {
+        "View": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "number"
+                },
+                "testId": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "date",
+                "testId"
+            ]
+        }
+    },
+    "$schema": "http://json-schema.org/draft-07/schema#"
+}
