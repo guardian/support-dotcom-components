@@ -8,7 +8,7 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
-import { OneOffSignupRequest, setOneOffReminderEndpoint } from '../../../api/supportRemindersApi';
+import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
 
 const rootStyles = css`
     position: relative;
@@ -143,6 +143,8 @@ const addPreposition = (text: string): string => 'in ' + text;
 const ensureHasPreposition = (text: string): string =>
     containsPreposition(text) ? text : addPreposition(text);
 
+const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
+
 export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
     reminderLabel,
     reminderPeriod,
@@ -165,7 +167,7 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
         reminderStage: REMINDER_STAGE,
     };
     const submitForm = (): Promise<Response> => {
-        return fetch(setOneOffReminderEndpoint(), {
+        return fetch(createOneOffReminderEndpoint, {
             body: JSON.stringify(reminderSignupData),
             method: 'POST',
             headers: {
