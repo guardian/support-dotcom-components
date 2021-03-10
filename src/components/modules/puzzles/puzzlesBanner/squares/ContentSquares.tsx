@@ -45,6 +45,7 @@ const contentSquare = css`
     min-height: ${squareSizes.mobile.small}px;
 
     p {
+        width: 100%;
         padding: ${space[1]}px;
         padding-left: 0;
         margin: 0;

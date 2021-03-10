@@ -64,10 +64,6 @@ export const squaresContainer = css`
     }
 `;
 
-export const mobileSquaresContainer = css`
-    width: 100%;
-`;
-
 export const headingSection = css`
     max-width: 500px;
     margin-right: ${space[6]}px;
@@ -165,7 +161,7 @@ export const minimisedBanner = css`
     right: 0;
     bottom: 0;
     height: 136px;
-    width: max-content;
+    width: auto;
     padding-right: ${space[3]}px;
     transition: width 1s;
 

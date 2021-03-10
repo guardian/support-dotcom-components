@@ -32,6 +32,7 @@ const content = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
     padding-right: ${space[2]}px;
     padding-bottom: ${space[2]}px;
 

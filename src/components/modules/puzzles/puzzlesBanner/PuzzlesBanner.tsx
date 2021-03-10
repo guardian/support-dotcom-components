@@ -20,7 +20,6 @@ import {
     headingSection,
     hide,
     imageContainer,
-    mobileSquaresContainer,
     minimisedBanner,
     minimisedContentContainer,
     squaresContainer,
@@ -117,9 +116,7 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                     </div>
                 </Container>
-                <div css={[mobileSquaresContainer, hideOnCollapse]}>
-                    <MobileSquares collapseButton={CollapseButton} />
-                </div>
+                <MobileSquares collapseButton={CollapseButton} cssOverrides={hideOnCollapse} />
                 <div css={[hideOnExpand, minimisedContentContainer]}>
                     <MinimisedContentSquare collapseButton={CollapseButton} />
                     <MinimisedBorderSquares />
