@@ -189,8 +189,7 @@ interface LiveblogEpicProps {
 
 export const ContributionsLiveblogEpicComponent: (
     cardIconsTestVariant: LiveblogEpicCardIconsTestVariants,
-) => // eslint-disable-next-line react/display-name
-React.FC<LiveblogEpicProps> = cardIconsTestVariant => ({
+) => React.FC<LiveblogEpicProps> = cardIconsTestVariant => ({
     variant,
     countryCode,
     numArticles,
