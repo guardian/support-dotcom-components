@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
@@ -53,6 +53,14 @@ export const PuzzlesBanner: React.FC = () => {
         setIsCollapsed(!isCollapsed);
     }
 
+    function collapseOnEscape(event: KeyboardEvent) {
+        // IE key name is 'Esc', because IE
+        const isEscapeKey = event.key === 'Escape' || event.key === 'Esc';
+        if (isEscapeKey && !isCollapsed) {
+            collapse();
+        }
+    }
+
     const CollapseButton = (
         <Button
             size="small"
@@ -64,6 +72,13 @@ export const PuzzlesBanner: React.FC = () => {
             Minimise
         </Button>
     );
+
+    // Enable keyboard users to collapse the banner quickly
+    useEffect(() => {
+        window.addEventListener('keydown', collapseOnEscape);
+
+        return () => window.removeEventListener('keydown', collapseOnEscape);
+    }, []);
 
     return (
         <CacheProvider value={emotionCache}>
