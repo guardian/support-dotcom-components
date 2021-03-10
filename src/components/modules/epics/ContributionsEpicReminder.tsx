@@ -8,7 +8,7 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
-import { OneOffSignupRequest, setOneOffReminderEndpoint } from '../../../api/supportRemindersApi';
+import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
 
 const rootStyles = css`
     position: relative;
