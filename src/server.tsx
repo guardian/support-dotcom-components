@@ -47,7 +47,7 @@ import {
     liveblogEpicCardIconsTestGlobal,
     liveblogEpicCardIconsTestUS,
 } from './tests/liveblogEpicCardIconsTest';
-import { BaseSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
+import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -509,7 +509,7 @@ app.post(
         try {
             const { email, reminderDate } = req.body;
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
-            const reminderSignupData: BaseSignupRequest = {
+            const reminderSignupData: OneOffSignupRequest = {
                 email: email,
                 reminderPeriod: reminderDate,
                 reminderPlatform: 'AMP',

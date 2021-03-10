@@ -1,20 +1,23 @@
 import { isProd } from '../lib/env';
 
-type ReminderPlatform = 'WEB' | 'AMP' | 'MMA' | 'SUPPORT';
+type ReminderPlatform = 'WEB' | 'AMP';
 
-type ReminderComponent = 'EPIC' | 'BANNER' | 'THANKYOU' | 'CANCELLATION';
+type ReminderComponent = 'EPIC' | 'BANNER';
 
-type ReminderStage = 'PRE' | 'POST' | 'WINBACK';
+type ReminderStage = 'PRE' | 'POST';
 
-export interface BaseSignupRequest {
+interface BaseSignupRequest {
     email: string;
     reminderPlatform: ReminderPlatform;
     reminderComponent: ReminderComponent;
     reminderStage: ReminderStage;
-    reminderPeriod: string;
     country?: string;
     reminderOption?: string;
 }
+
+export type OneOffSignupRequest = BaseSignupRequest & {
+    reminderPeriod: string;
+};
 
 export const setOneOffReminderEndpoint = (): string =>
     isProd

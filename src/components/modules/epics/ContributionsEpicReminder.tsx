@@ -8,7 +8,7 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
-import { BaseSignupRequest, setOneOffReminderEndpoint } from '../../../api/supportRemindersApi';
+import { OneOffSignupRequest, setOneOffReminderEndpoint } from '../../../api/supportRemindersApi';
 
 const rootStyles = css`
     position: relative;
@@ -157,7 +157,7 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
     const isEmpty = emailAddress.trim().length === 0;
     const isValid = isValidEmail(emailAddress);
 
-    const reminderSignupData: BaseSignupRequest = {
+    const reminderSignupData: OneOffSignupRequest = {
         email: emailAddress,
         reminderPeriod,
         reminderPlatform: REMINDER_PLATFORM,
