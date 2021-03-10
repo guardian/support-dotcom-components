@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
@@ -7,7 +7,7 @@ import { collapseButtonContainer } from '../puzzlesBannerStyles';
 
 type MobileSquaresProps = {
     collapseButton: React.ReactNode;
-    isCollapsed: boolean;
+    cssOverrides?: SerializedStyles | string;
 };
 
 const mobileSquareGrid = css`
@@ -35,16 +35,9 @@ const noLeftBorderOnSmallestScreens = css`
     }
 `;
 
-const hide = css`
-    display: none;
-`;
-
-export const MobileSquares: React.FC<MobileSquaresProps> = ({
-    collapseButton,
-    isCollapsed = false,
-}) => {
+export const MobileSquares: React.FC<MobileSquaresProps> = ({ collapseButton, cssOverrides }) => {
     return (
-        <div css={[mobileSquareGrid, isCollapsed ? hide : '']}>
+        <div css={[mobileSquareGrid, cssOverrides]}>
             <Square colour="purple" cssOverrides={firstRow} removeBorder={['right']} />
             <Square colour="pink" removeBorder={['right']} />
             <Square colour="pink" cssOverrides={secondRow} removeBorder={['right']} />

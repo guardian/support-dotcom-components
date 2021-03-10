@@ -12,7 +12,7 @@ type ResponsiveImageProps = {
 };
 
 function createSource(image: Image): ReactElement {
-    return <source media={image.media} srcSet={image.url} />;
+    return <source media={image.media} srcSet={image.url} key={image.url} />;
 }
 
 export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({

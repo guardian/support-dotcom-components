@@ -13,8 +13,8 @@ const smallSquareSizes = {
 const container = css`
     pointer-events: none;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 98%;
+    height: 98%;
     bottom: 0;
     right: 0;
 `;

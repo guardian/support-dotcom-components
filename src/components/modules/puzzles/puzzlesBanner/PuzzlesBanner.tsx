@@ -20,6 +20,7 @@ import {
     headingSection,
     hide,
     imageContainer,
+    mobileSquaresContainer,
     minimisedBanner,
     minimisedContentContainer,
     squaresContainer,
@@ -43,7 +44,7 @@ const tabletPackshot = {
 };
 
 export const PuzzlesBanner: React.FC = () => {
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
     const hideOnCollapse = isCollapsed ? hide : '';
     const hideOnExpand = isCollapsed ? '' : hide;
@@ -67,7 +68,7 @@ export const PuzzlesBanner: React.FC = () => {
     return (
         <CacheProvider value={emotionCache}>
             <section css={[banner, isCollapsed ? minimisedBanner : '']}>
-                <Container>
+                <Container css={hideOnCollapse}>
                     <div css={[bannerContents, hideOnCollapse]}>
                         <div css={[headingSection, hideOnCollapse]}>
                             <h3 css={heading}>
@@ -101,11 +102,13 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                     </div>
                 </Container>
+                <div css={[mobileSquaresContainer, hideOnCollapse]}>
+                    <MobileSquares collapseButton={CollapseButton} />
+                </div>
                 <div css={[hideOnExpand, minimisedContentContainer]}>
                     <MinimisedContentSquare collapseButton={CollapseButton} />
                     <MinimisedBorderSquares />
                 </div>
-                <MobileSquares collapseButton={CollapseButton} isCollapsed={isCollapsed} />
             </section>
         </CacheProvider>
     );
