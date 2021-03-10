@@ -47,6 +47,7 @@ import {
     liveblogEpicCardIconsTestGlobal,
     liveblogEpicCardIconsTestUS,
 } from './tests/liveblogEpicCardIconsTest';
+import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -507,20 +508,22 @@ app.post(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { email, reminderDate } = req.body;
-            const setReminderResponse = await fetch(
-                'https://contribution-reminders.support.guardianapis.com/remind-me',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email,
-                        reminderDate,
-                        isPreContribution: true,
-                    }),
+            const countryCode = req.header('X-GU-GeoIP-Country-Code');
+            const reminderSignupData: OneOffSignupRequest = {
+                email: email,
+                reminderPeriod: reminderDate,
+                reminderPlatform: 'AMP',
+                reminderComponent: 'EPIC',
+                reminderStage: 'PRE',
+                country: countryCode,
+            };
+            const setReminderResponse = await fetch(setOneOffReminderEndpoint(), {
+                body: JSON.stringify(reminderSignupData),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-            );
+            });
 
             res.setHeader('Origin', req.header('Origin') || '*');
             res.setHeader('Content-Type', 'application/json');
