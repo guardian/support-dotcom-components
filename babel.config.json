@@ -1,7 +1,6 @@
 {
     "presets": [
         ["@babel/preset-react"],
-        "@emotion/babel-preset-css-prop",
         [
             "@babel/preset-env",
             {
@@ -9,7 +8,8 @@
                     "ie": "11"
                 }
             }
-        ]
-    ],
-    "exclude": ["node_modules/**"]
+        ],
+        "@emotion/babel-preset-css-prop",
+        "@babel/preset-typescript"
+    ]
 }

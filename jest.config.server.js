@@ -3,4 +3,5 @@ module.exports = {
     testEnvironment: 'node',
     roots: ['<rootDir>/src'],
     modulePathIgnorePatterns: ['<rootDir>/src/factories/test.ts'],
+    testPathIgnorePatterns: ['<rootDir>/src/components'],
 };

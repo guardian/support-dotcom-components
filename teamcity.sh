@@ -13,7 +13,8 @@ npm install -g yarn
 
 yarn install
 yarn lint
-yarn test
+yarn test-server
+yarn test-modules
 
 # Will place .js files in dist
 NODE_ENV=production yarn run build
