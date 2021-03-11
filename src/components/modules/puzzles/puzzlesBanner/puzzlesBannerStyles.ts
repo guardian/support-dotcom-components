@@ -167,10 +167,10 @@ export const minimisedBanner = css`
 
     ${from.mobileLandscape} {
         padding-right: ${space[5]}px;
-        /* width: 196px; */
         height: 176px;
     }
 
+    /* Maintain a right-hand offset that matches the edge of the main container */
     ${from.tablet} {
         padding-right: ${paddingOffsetFor(breakpoints.tablet)};
     }

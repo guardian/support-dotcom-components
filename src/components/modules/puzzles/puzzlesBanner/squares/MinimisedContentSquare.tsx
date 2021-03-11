@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { headline } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-// import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { from } from '@guardian/src-foundations/mq';
