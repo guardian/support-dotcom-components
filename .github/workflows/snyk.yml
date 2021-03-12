@@ -13,7 +13,7 @@ jobs:
   security:
     runs-on: ubuntu-latest
     env:
-      SNYK_COMMAND: test
+      SNYK_COMMAND: monitor 
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
