@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { CacheProvider } from '@emotion/core';
+import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
+import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
@@ -17,6 +20,11 @@ import {
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
+
+// A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
+const emotionCache = createCache({
+    stylisPlugins: [gridPrefixerPlugin()],
+});
 
 const desktopPackshot = {
     url: packshot.desktop,
@@ -49,39 +57,44 @@ export const PuzzlesBanner: React.FC = () => {
     );
 
     return (
-        <section css={banner}>
-            <Container>
-                <div css={bannerContents}>
-                    <div css={headingSection}>
-                        <h3 css={heading}>
-                            Discover
-                            <br />
-                            The&nbsp;Guardian
-                            <br />
-                            Puzzles&nbsp;App
-                        </h3>
-                        <div css={appStoreButtonContainer}>
-                            <a href="http://" target="_blank" rel="noopener noreferrer">
-                                <img src={appStore.apple} alt="Download on the Apple App Store" />
-                            </a>
-                            <a href="http://" target="_blank" rel="noopener noreferrer">
-                                <img src={appStore.google} alt="Get it on Google Play" />
-                            </a>
+        <CacheProvider value={emotionCache}>
+            <section css={banner}>
+                <Container>
+                    <div css={bannerContents}>
+                        <div css={headingSection}>
+                            <h3 css={heading}>
+                                Discover
+                                <br />
+                                The&nbsp;Guardian
+                                <br />
+                                Puzzles&nbsp;App
+                            </h3>
+                            <div css={appStoreButtonContainer}>
+                                <a href="http://" target="_blank" rel="noopener noreferrer">
+                                    <img
+                                        src={appStore.apple}
+                                        alt="Download on the Apple App Store"
+                                    />
+                                </a>
+                                <a href="http://" target="_blank" rel="noopener noreferrer">
+                                    <img src={appStore.google} alt="Get it on Google Play" />
+                                </a>
+                            </div>
+                        </div>
+                        <div css={squaresContainer}>
+                            <ContentSquares />
+                            <div css={imageContainer}>
+                                <ResponsiveImage
+                                    images={[tabletPackshot, desktopPackshot]}
+                                    baseImage={tabletPackshot}
+                                />
+                            </div>
+                            <TabletDesktopSquares collapseButton={CollapseButton} />
                         </div>
                     </div>
-                    <div css={squaresContainer}>
-                        <ContentSquares />
-                        <div css={imageContainer}>
-                            <ResponsiveImage
-                                images={[tabletPackshot, desktopPackshot]}
-                                baseImage={tabletPackshot}
-                            />
-                        </div>
-                        <TabletDesktopSquares collapseButton={CollapseButton} />
-                    </div>
-                </div>
-            </Container>
-            <MobileSquares collapseButton={CollapseButton} />
-        </section>
+                </Container>
+                <MobileSquares collapseButton={CollapseButton} />
+            </section>
+        </CacheProvider>
     );
 };
