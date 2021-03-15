@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { CacheProvider } from '@emotion/core';
-import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
-import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
@@ -20,11 +17,6 @@ import {
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
-
-// A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
-// const emotionCache = createCache({
-//     stylisPlugins: [gridPrefixerPlugin()],
-// });
 
 const desktopPackshot = {
     url: packshot.desktop,
