@@ -3,6 +3,7 @@ import { between, from, until } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography/cjs';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { breakpoints, space } from '@guardian/src-foundations';
+import { textSans } from '@guardian/src-foundations/typography';
 
 export const squareBorder = `2px solid ${neutral[0]}`;
 
@@ -149,6 +150,11 @@ export const imageContainer = css`
 
 export const hide = css`
     display: none;
+`;
+
+export const minimiseHint = css`
+    ${textSans.small()}
+    margin: ${space[1]}px 0;
 `;
 
 function paddingOffsetFor(breakpointWidth: number) {

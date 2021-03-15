@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
@@ -22,9 +22,12 @@ import {
     imageContainer,
     minimisedBanner,
     minimisedContentContainer,
+    minimiseHint,
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
+import { useTabDetection } from '../../../hooks/useTabDetection';
 
 // A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
 const emotionCache = createCache({
@@ -44,20 +47,13 @@ const tabletPackshot = {
 
 export const PuzzlesBanner: React.FC = () => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const isKeyboardUser = useTabDetection();
 
     const hideOnCollapse = isCollapsed ? hide : '';
     const hideOnExpand = isCollapsed ? '' : hide;
 
     function collapse() {
         setIsCollapsed(!isCollapsed);
-    }
-
-    function collapseOnEscape(event: KeyboardEvent) {
-        // IE key name is 'Esc', because IE
-        const isEscapeKey = event.key === 'Escape' || event.key === 'Esc';
-        if (isEscapeKey && !isCollapsed) {
-            collapse();
-        }
     }
 
     const CollapseButton = (
@@ -73,11 +69,11 @@ export const PuzzlesBanner: React.FC = () => {
     );
 
     // Enable keyboard users to collapse the banner quickly
-    useEffect(() => {
-        window.addEventListener('keydown', collapseOnEscape);
-
-        return () => window.removeEventListener('keydown', collapseOnEscape);
-    }, []);
+    useEscapeShortcut(() => {
+        if (!isCollapsed) {
+            collapse();
+        }
+    });
 
     return (
         <CacheProvider value={emotionCache}>
@@ -103,6 +99,9 @@ export const PuzzlesBanner: React.FC = () => {
                                     <img src={appStore.google} alt="Get it on Google Play" />
                                 </a>
                             </div>
+                            {isKeyboardUser && (
+                                <p css={minimiseHint}>Hit escape to minimise this banner</p>
+                            )}
                         </div>
                         <div css={[squaresContainer, hideOnCollapse]}>
                             <ContentSquares />
