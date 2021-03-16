@@ -194,13 +194,18 @@ export const minimisedBanner = css`
     }
 `;
 
+const minimisedContainerSize = {
+    mobile: 132,
+    tablet: 172,
+};
+
 export const minimisedContentContainer = css`
     position: relative;
-    width: 132px;
-    height: 132px;
+    width: ${minimisedContainerSize.mobile}px;
+    height: ${minimisedContainerSize.mobile}px;
 
     ${from.mobileLandscape} {
-        width: 172px;
-        height: 172px;
+        width: ${minimisedContainerSize.tablet}px;
+        height: ${minimisedContainerSize.tablet}px;
     }
 `;
