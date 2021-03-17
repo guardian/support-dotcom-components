@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { createPortal } from 'react-dom'
+import { css, SerializedStyles, CacheProvider } from '@emotion/core';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -145,6 +146,49 @@ const ensureHasPreposition = (text: string): string =>
 
 const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
 
+import createCache from '@emotion/cache'
+import weakMemoize from '@emotion/weak-memoize'
+const memoizedCreateCacheWithContainer = weakMemoize(
+    (container: HTMLElement) => {
+        const newCache = createCache({
+            container,
+            key: 'with-emotion'
+        })
+        return newCache
+    }
+)
+
+const iframeStyle = css`
+    border: none;
+    height: 180px;
+`;
+export const IFrame = ({
+    children,
+    ...props
+}) => {
+    const [contentRef, setContentRef] = useState(null)
+    const doc = contentRef?.contentWindow?.document;
+    const mountNode = doc?.body;
+    const insertionTarget = doc?.head;
+
+    return (
+        <iframe {...props} ref={setContentRef} css={iframeStyle}>
+            {mountNode &&
+            insertionTarget &&
+            createPortal(
+                <CacheProvider
+                    value={memoizedCreateCacheWithContainer(
+                        insertionTarget
+                    )}
+                >
+                    {children}
+                </CacheProvider>,
+                mountNode
+            )}
+        </iframe>
+    )
+};
+
 export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
     reminderLabel,
     reminderPeriod,
@@ -167,13 +211,14 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
         reminderStage: REMINDER_STAGE,
     };
     const submitForm = (): Promise<Response> => {
-        return fetch(createOneOffReminderEndpoint, {
-            body: JSON.stringify(reminderSignupData),
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        // return fetch(createOneOffReminderEndpoint, {
+        //     body: JSON.stringify(reminderSignupData),
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        // });
+        return Promise.resolve({ok: true} as Response)
     };
 
     let inputError;
@@ -196,59 +241,63 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
             </div>
 
             <div css={containerStyles}>
-                <form
-                    onSubmit={(e): void => {
-                        if (isValid) {
-                            setIsSubmittingState(true);
-                            submitForm()
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw Error(response.statusText);
-                                    }
-                                    addContributionReminderCookie(reminderPeriod);
-                                    setIsSuccessState(true);
-                                })
-                                .catch((): void => setIsErrorState(true))
-                                .finally((): void => setIsSubmittingState(false));
-                        }
-                        setIsDirty(true);
-                        e.preventDefault();
-                    }}
-                >
-                    {!isSuccessState && (
-                        <>
-                            <h4 css={remindHeading}>Remind me {reminderDateWithPreposition}</h4>
-                            <div css={formWrapper}>
-                                <div css={inputWrapper}>
-                                    <TextInput
-                                        label="Email address"
-                                        error={inputError}
-                                        value={emailAddress}
-                                        onChange={(e): void =>
-                                            setEmailAddress(e.currentTarget.value)
+                {!isSuccessState && (
+                <IFrame>
+                    <form
+                        onSubmit={(e): void => {
+                            if (isValid) {
+                                setIsSubmittingState(true);
+                                submitForm()
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw Error(response.statusText);
                                         }
-                                    />
+                                        addContributionReminderCookie(reminderPeriod);
+                                        setIsSuccessState(true);
+                                    })
+                                    .catch((): void => setIsErrorState(true))
+                                    .finally((): void => setIsSubmittingState(false));
+                            }
+                            setIsDirty(true);
+                            e.preventDefault();
+                        }}
+                    >
+                        {!isSuccessState && (
+                            <>
+                                <h4 css={remindHeading}>Remind me {reminderDateWithPreposition}</h4>
+                                <div css={formWrapper}>
+                                    <div css={inputWrapper}>
+                                        <TextInput
+                                            label="Email address"
+                                            error={inputError}
+                                            value={emailAddress}
+                                            onChange={(e): void =>
+                                                setEmailAddress(e.currentTarget.value)
+                                            }
+                                        />
+                                    </div>
+                                    <Button
+                                        iconSide="right"
+                                        icon={<SvgArrowRightStraight />}
+                                        type="submit"
+                                        disabled={isSubmittingState}
+                                        css={getCustomSubmitStyles(isSubmittingState)}
+                                    >
+                                        Set a reminder
+                                    </Button>
                                 </div>
-                                <Button
-                                    iconSide="right"
-                                    icon={<SvgArrowRightStraight />}
-                                    type="submit"
-                                    disabled={isSubmittingState}
-                                    css={getCustomSubmitStyles(isSubmittingState)}
-                                >
-                                    Set a reminder
-                                </Button>
-                            </div>
-                        </>
-                    )}
+                            </>
+                        )}
 
-                    {isErrorState && (
-                        <p css={errorTextStyles}>
-                            Sorry we couldn&apos;t set a reminder for you this time. Please try
-                            again later.
-                        </p>
-                    )}
-                </form>
+                        {isErrorState && (
+                            <p css={errorTextStyles}>
+                                Sorry we couldn&apos;t set a reminder for you this time. Please try
+                                again later.
+                            </p>
+                        )}
+                    </form>
+                </IFrame>
+                )}
 
                 {!isSuccessState && (
                     <p css={formTextStyles}>

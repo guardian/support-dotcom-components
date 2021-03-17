@@ -19,7 +19,8 @@ import visualizer from 'rollup-plugin-visualizer';
 
 const tsOpts = {
     target: 'es2018',
-    strict: true,
+    // strict: true,
+    strict: false,
     noImplicitReturns: true,
     esModuleInterop: true,
     jsx: 'preserve',
