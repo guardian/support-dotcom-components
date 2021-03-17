@@ -2,7 +2,12 @@ import { css } from '@emotion/core';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography/cjs';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
-import { space } from '@guardian/src-foundations';
+import { breakpoints, space } from '@guardian/src-foundations';
+import { textSans } from '@guardian/src-foundations/typography';
+
+export const squareBorder = `2px solid ${neutral[0]}`;
+
+export const squareBoxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25)';
 
 export const banner = css`
     html {
@@ -17,7 +22,7 @@ export const banner = css`
     width: 100%;
     background-color: ${lifestyle[300]};
     color: ${neutral[100]};
-    border: 2px solid ${neutral[0]};
+    border: ${squareBorder};
 
     ${until.tablet} {
         display: flex;
@@ -140,5 +145,67 @@ export const imageContainer = css`
         pointer-events: all;
         display: flex;
         align-items: flex-end;
+    }
+`;
+
+export const hide = css`
+    display: none;
+`;
+
+export const minimiseHint = css`
+    ${textSans.small()}
+    margin: ${space[1]}px 0;
+`;
+
+function paddingOffsetFor(breakpointWidth: number) {
+    return `calc((100vw - ${breakpointWidth - space[5]}px) / 2)`;
+}
+
+export const minimisedBanner = css`
+    border-radius: 2px 0 0 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 136px;
+    width: auto;
+    padding-right: ${space[3]}px;
+    transition: width 1s;
+
+    ${from.mobileLandscape} {
+        padding-right: ${space[5]}px;
+        height: 176px;
+    }
+
+    /* Maintain a right-hand offset that matches the edge of the main container */
+    ${from.tablet} {
+        padding-right: ${paddingOffsetFor(breakpoints.tablet)};
+    }
+
+    ${from.desktop} {
+        padding-right: ${paddingOffsetFor(breakpoints.desktop)};
+    }
+
+    ${from.leftCol} {
+        padding-right: ${paddingOffsetFor(breakpoints.leftCol)};
+    }
+
+    ${from.wide} {
+        padding-right: ${paddingOffsetFor(breakpoints.wide)};
+    }
+`;
+
+const minimisedContainerSize = {
+    mobile: 132,
+    tablet: 172,
+};
+
+export const minimisedContentContainer = css`
+    position: relative;
+    width: ${minimisedContainerSize.mobile}px;
+    height: ${minimisedContainerSize.mobile}px;
+
+    ${from.mobileLandscape} {
+        width: ${minimisedContainerSize.tablet}px;
+        height: ${minimisedContainerSize.tablet}px;
     }
 `;

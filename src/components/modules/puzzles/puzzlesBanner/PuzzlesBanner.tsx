@@ -9,6 +9,8 @@ import { ResponsiveImage } from '../../../ResponsiveImage';
 import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
 import { ContentSquares } from './squares/ContentSquares';
+import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
+import { MinimisedBorderSquares } from './squares/MinimisedBorderSquares';
 import {
     appStoreButtonContainer,
     banner,
@@ -16,10 +18,16 @@ import {
     collapseButton,
     heading,
     headingSection,
+    hide,
     imageContainer,
+    minimisedBanner,
+    minimisedContentContainer,
+    minimiseHint,
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
+import { useTabDetection } from '../../../hooks/useTabDetection';
 
 // A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
 const emotionCache = createCache({
@@ -39,6 +47,10 @@ const tabletPackshot = {
 
 export const PuzzlesBanner: React.FC = () => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const isKeyboardUser = useTabDetection();
+
+    const hideOnCollapse = isCollapsed ? hide : '';
+    const hideOnExpand = isCollapsed ? '' : hide;
 
     function collapse() {
         setIsCollapsed(!isCollapsed);
@@ -56,12 +68,19 @@ export const PuzzlesBanner: React.FC = () => {
         </Button>
     );
 
+    // Enable keyboard users to collapse the banner quickly
+    useEscapeShortcut(() => {
+        if (!isCollapsed) {
+            collapse();
+        }
+    });
+
     return (
         <CacheProvider value={emotionCache}>
-            <section css={banner}>
-                <Container>
-                    <div css={bannerContents}>
-                        <div css={headingSection}>
+            <section css={[banner, isCollapsed ? minimisedBanner : '']}>
+                <Container css={hideOnCollapse}>
+                    <div css={[bannerContents, hideOnCollapse]}>
+                        <div css={[headingSection, hideOnCollapse]}>
                             <h3 css={heading}>
                                 Discover
                                 <br />
@@ -80,8 +99,11 @@ export const PuzzlesBanner: React.FC = () => {
                                     <img src={appStore.google} alt="Get it on Google Play" />
                                 </a>
                             </div>
+                            {isKeyboardUser && (
+                                <p css={minimiseHint}>Hit escape to minimise this banner</p>
+                            )}
                         </div>
-                        <div css={squaresContainer}>
+                        <div css={[squaresContainer, hideOnCollapse]}>
                             <ContentSquares />
                             <div css={imageContainer}>
                                 <ResponsiveImage
@@ -93,7 +115,11 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                     </div>
                 </Container>
-                <MobileSquares collapseButton={CollapseButton} />
+                <MobileSquares collapseButton={CollapseButton} cssOverrides={hideOnCollapse} />
+                <div css={[hideOnExpand, minimisedContentContainer]}>
+                    <MinimisedContentSquare collapseButton={CollapseButton} />
+                    <MinimisedBorderSquares />
+                </div>
             </section>
         </CacheProvider>
     );
