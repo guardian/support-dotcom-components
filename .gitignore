@@ -5,9 +5,10 @@ dist/
 cloudformation.yaml
 cdk.out/
 .idea/
+.vscode/
 stats/
 .metals
 target/
 build-storybook.log
 logs/
-
+storybook-static/

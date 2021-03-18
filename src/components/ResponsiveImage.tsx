@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 type Image = {
     url: string;
     media: string;
+    alt?: string;
 };
 
 type ResponsiveImageProps = {
@@ -11,7 +12,7 @@ type ResponsiveImageProps = {
 };
 
 function createSource(image: Image): ReactElement {
-    return <source media={image.media} srcSet={image.url} />;
+    return <source media={image.media} srcSet={image.url} key={image.url} />;
 }
 
 export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
@@ -21,7 +22,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     return (
         <picture>
             {images.map(createSource)}
-            <img src={baseImage.url} />
+            <img src={baseImage.url} alt={baseImage.alt} />
         </picture>
     );
 };

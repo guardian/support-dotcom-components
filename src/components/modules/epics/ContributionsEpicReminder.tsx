@@ -8,6 +8,7 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
+import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
 
 const rootStyles = css`
     position: relative;
@@ -133,8 +134,6 @@ const addContributionReminderCookie = (reminderDateString: string): void => {
     addCookie('gu_epic_contribution_reminder', '1', dateDiff(today, reminderDate));
 };
 
-const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
-
 const PREPOSITION_REGEX = /^(on|in)/;
 
 const containsPreposition = (text: string): boolean => PREPOSITION_REGEX.test(text);
@@ -143,6 +142,8 @@ const addPreposition = (text: string): string => 'in ' + text;
 
 const ensureHasPreposition = (text: string): string =>
     containsPreposition(text) ? text : addPreposition(text);
+
+const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
 
 export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
     reminderLabel,
@@ -158,19 +159,20 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
     const isEmpty = emailAddress.trim().length === 0;
     const isValid = isValidEmail(emailAddress);
 
+    const reminderSignupData: OneOffSignupRequest = {
+        email: emailAddress,
+        reminderPeriod,
+        reminderPlatform: REMINDER_PLATFORM,
+        reminderComponent: REMINDER_COMPONENT,
+        reminderStage: REMINDER_STAGE,
+    };
     const submitForm = (): Promise<Response> => {
         return fetch(createOneOffReminderEndpoint, {
+            body: JSON.stringify(reminderSignupData),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                email: emailAddress,
-                reminderPeriod,
-                reminderPlatform: REMINDER_PLATFORM,
-                reminderComponent: REMINDER_COMPONENT,
-                reminderStage: REMINDER_STAGE,
-            }),
         });
     };
 

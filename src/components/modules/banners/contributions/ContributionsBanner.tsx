@@ -1,69 +1,91 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import React from 'react';
-import { styles } from './ContributionsBannerStyles';
-import { SvgRoundel } from '@guardian/src-brand';
-import { SvgCross, SvgArrowRightStraight } from '@guardian/src-icons';
-import { ThemeProvider } from '@emotion/react';
-import { Button, LinkButton, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
-import { Hide } from '@guardian/src-layout';
-import contributionsBannerWrapper, {
-    ContributionsBannerProps,
-    ContributionsBannerRenderedContent,
-} from './ContributionsBannerWrapper';
+import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
+import { Container, Columns, Column } from '@guardian/src-layout';
+import { commonStyles } from './ContributionsBannerCommonStyles';
+import { css } from '@emotion/core';
+import { between, from } from '@guardian/src-foundations/mq';
+import { headline } from '@guardian/src-foundations/typography';
+import { brandAlt, neutral } from '@guardian/src-foundations';
+import { ContributionsBannerMobile } from './ContributionsBannerMobile';
+import { ContributionsBannerCta } from './ContributionsBannerCta';
+import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 
-const bannerId = 'contributions-banner';
-const closeComponentId = `${bannerId} : close`;
-const ctaComponentId = `${bannerId} : cta`;
+const styles = {
+    bannerContainer: css`
+        overflow: hidden;
+        width: 100%;
+        background-color: ${brandAlt[400]};
+        border-top: 1px solid ${neutral[7]};
+    `,
+    columnsContainer: css`
+        ${between.tablet.and.leftCol} {
+            border-left: 1px solid ${neutral[7]};
+        }
+    `,
+    heading: css`
+        ${headline.large({ fontWeight: 'bold' })}
+        padding-bottom: 10px;
+        ${from.leftCol} {
+            padding-left: 12px;
+        }
+    `,
+    body: css`
+        padding-bottom: 16px;
+    `,
+    bodyAndHeading: css`
+        position: relative; // for positioning the opt-out popup
+        ${from.leftCol} {
+            margin-left: -9px;
+            border-left: 1px solid ${neutral[7]};
+        }
+        ${from.wide} {
+            margin-left: -10px;
+        }
+    `,
+    copy: css`
+        ${from.leftCol} {
+            padding-left: 12px;
+        }
+        padding-top: 2px;
+    `,
+    buttonsContainer: css`
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin-top: 8px;
+    `,
+    ctaContainer: css`
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: flex-end;
+    `,
 
-const ContributionsBannerBody: React.FC<ContributionsBannerRenderedContent> = ({
-    highlightedText,
-    messageText,
-    heading,
-}: ContributionsBannerRenderedContent) => (
-    <>
-        {heading && (
-            <>
-                <span css={styles.heading}>{heading}</span>{' '}
-            </>
-        )}
-        <span css={styles.messageText}>{messageText}</span>
-        {highlightedText && (
-            <>
-                {' '}
-                <span css={styles.highlightedText}>{highlightedText}</span>
-            </>
-        )}
-    </>
-);
+    tabletAndDesktop: css`
+        display: none;
+        ${between.tablet.and.leftCol} {
+            display: block;
+        }
+    `,
+    leftCol: css`
+        display: none;
+        ${between.leftCol.and.wide} {
+            display: block;
+        }
+    `,
+    wide: css`
+        display: none;
+        ${from.wide} {
+            display: block;
+        }
+    `,
+};
 
-interface ContributionsBannerCtaProps {
-    ctaText: string;
-    ctaUrl: string;
-    onContributeClick: () => void;
-}
-
-const ContributionsBannerCta: React.FC<ContributionsBannerCtaProps> = ({
-    ctaText,
-    ctaUrl,
-    onContributeClick,
-}: ContributionsBannerCtaProps) => (
-    <LinkButton
-        data-link-name={ctaComponentId}
-        css={styles.ctaButton}
-        priority="primary"
-        size="small"
-        icon={<SvgArrowRightStraight />}
-        iconSide="right"
-        nudgeIcon={true}
-        onClick={onContributeClick}
-        hideLabel={false}
-        aria-label="Contribute"
-        href={ctaUrl}
-    >
-        {ctaText}
-    </LinkButton>
-);
+const columnCounts = {
+    tablet: 12,
+    desktop: 12,
+    leftCol: 14,
+    wide: 16,
+};
 
 const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     onContributeClick,
@@ -71,95 +93,77 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     content,
     mobileContent,
 }: ContributionsBannerProps) => {
-    return (
-        <>
-            <div css={styles.bannerContainer}>
-                <div css={styles.banner}>
-                    <div css={styles.leftRoundel}>
-                        <div css={styles.roundelContainer}>
-                            <SvgRoundel />
-                        </div>
-                    </div>
-                    <div css={styles.copyAndCta}>
-                        <div css={styles.copy}>
-                            {mobileContent ? (
-                                <>
-                                    <Hide above="tablet">
-                                        {mobileContent && (
-                                            <ContributionsBannerBody {...mobileContent} />
-                                        )}
-                                    </Hide>
-                                    <Hide below="tablet">
-                                        <ContributionsBannerBody {...content} />
-                                    </Hide>
-                                </>
-                            ) : (
-                                <ContributionsBannerBody {...content} />
-                            )}
-                        </div>
-                        <div css={styles.ctaContainer}>
-                            <div css={styles.cta}>
-                                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                    {mobileContent ? (
-                                        <>
-                                            <Hide above="tablet">
-                                                <ContributionsBannerCta
-                                                    ctaText={mobileContent.ctaText}
-                                                    ctaUrl={mobileContent.ctaUrl}
-                                                    onContributeClick={onContributeClick}
-                                                />
-                                            </Hide>
-                                            <Hide below="tablet">
-                                                <ContributionsBannerCta
-                                                    ctaText={content.ctaText}
-                                                    ctaUrl={content.ctaUrl}
-                                                    onContributeClick={onContributeClick}
-                                                />
-                                            </Hide>
-                                        </>
-                                    ) : (
-                                        <ContributionsBannerCta
-                                            ctaText={content.ctaText}
-                                            ctaUrl={content.ctaUrl}
-                                            onContributeClick={onContributeClick}
-                                        />
-                                    )}
-                                </ThemeProvider>
-                                <img
-                                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                                    css={styles.paymentMethods}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div css={styles.rightButtons}>
-                        <div css={styles.rightRoundel}>
-                            <div css={styles.roundelContainer}>
-                                <SvgRoundel />
-                            </div>
-                        </div>
-                        <div css={styles.closeButtonContainer}>
-                            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                                <Button
-                                    aria-label="Close"
-                                    data-link-name={closeComponentId}
-                                    priority="tertiary"
-                                    size="small"
-                                    icon={<SvgCross />}
-                                    nudgeIcon={false}
-                                    onClick={onCloseClick}
-                                    hideLabel={true}
-                                    iconSide="left"
-                                >
-                                    Close
-                                </Button>
-                            </ThemeProvider>
-                        </div>
-                    </div>
+    const BodyAndHeading = () => (
+        <div css={styles.bodyAndHeading}>
+            <div css={styles.heading}>{content.heading}</div>
+            <div css={styles.body}>
+                <div css={[commonStyles.copy, styles.copy]}>
+                    {content.messageText}
+                    {content.highlightedText && (
+                        <>
+                            {' '}
+                            <span css={commonStyles.highlightedText}>
+                                {content.highlightedText}
+                            </span>
+                        </>
+                    )}
                 </div>
             </div>
-        </>
+        </div>
+    );
+
+    const buttons = (
+        <div css={styles.buttonsContainer}>
+            <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
+            <div css={styles.ctaContainer}>
+                <ContributionsBannerCta
+                    onContributeClick={onContributeClick}
+                    ctaText={content.ctaText}
+                    ctaUrl={content.ctaUrl}
+                    stacked={true}
+                />
+            </div>
+        </div>
+    );
+
+    return (
+        <div css={styles.bannerContainer}>
+            <ContributionsBannerMobile
+                onCloseClick={onCloseClick}
+                onContributeClick={onContributeClick}
+                content={mobileContent || content}
+            />
+
+            <Container cssOverrides={styles.columnsContainer}>
+                <div css={styles.tabletAndDesktop}>
+                    <Columns>
+                        <Column width={8 / columnCounts.tablet}>
+                            <BodyAndHeading />
+                        </Column>
+                        <Column width={4 / columnCounts.tablet}>{buttons}</Column>
+                    </Columns>
+                </div>
+                <div css={styles.leftCol}>
+                    <Columns>
+                        <Column width={2 / columnCounts.leftCol}> </Column>
+                        <Column width={8 / columnCounts.leftCol}>
+                            <BodyAndHeading />
+                        </Column>
+                        <Column width={4 / columnCounts.leftCol}>{buttons}</Column>
+                    </Columns>
+                </div>
+                <div css={styles.wide}>
+                    <Columns>
+                        <Column width={3 / columnCounts.wide}> </Column>
+                        <Column width={8 / columnCounts.wide}>
+                            <BodyAndHeading />
+                        </Column>
+                        <Column width={4 / columnCounts.wide}>{buttons}</Column>
+                        <Column width={1 / columnCounts.wide}> </Column>
+                    </Columns>
+                </div>
+            </Container>
+        </div>
     );
 };
 

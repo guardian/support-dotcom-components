@@ -41,16 +41,6 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
-export const contributionsBannerVariantA: ModuleInfo = getDefaultModuleInfo(
-    'contributions-banner-variant-a',
-    'banners/contributions/variantA/ContributionsBannerVariantA',
-);
-
-export const contributionsBannerVariantB: ModuleInfo = getDefaultModuleInfo(
-    'contributions-banner-variant-b',
-    'banners/contributions/variantB/ContributionsBannerVariantB',
-);
-
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -68,14 +58,12 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    // epicACAbove,
-    // epicACInline,
-    // liveblogEpic,
-    // liveblogCardIconsEpic,
+    epicACAbove,
+    epicACInline,
+    liveblogEpic,
+    liveblogCardIconsEpic,
     contributionsBanner,
-    contributionsBannerVariantA,
-    // contributionsBannerVariantB,
-    // digiSubs,
-    // guardianWeekly,
-    // puzzlesBanner,
+    digiSubs,
+    guardianWeekly,
+    puzzlesBanner,
 ];
