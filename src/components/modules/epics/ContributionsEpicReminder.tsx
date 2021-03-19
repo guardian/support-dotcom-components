@@ -112,6 +112,7 @@ const isValidEmail = (email: string): boolean => {
 };
 
 interface ContributionsEpicReminderProps {
+    initialEmailAddress?: string;
     reminderPeriod: string;
     reminderLabel: string;
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -146,6 +147,7 @@ const ensureHasPreposition = (text: string): string =>
 const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
 
 export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
+    initialEmailAddress,
     reminderLabel,
     reminderPeriod,
     onCloseReminderClick,
@@ -154,7 +156,7 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
     const [isSubmittingState, setIsSubmittingState] = useState(false);
     const [isErrorState, setIsErrorState] = useState(false);
     const [isSuccessState, setIsSuccessState] = useState(false);
-    const [emailAddress, setEmailAddress] = useState('');
+    const [emailAddress, setEmailAddress] = useState(initialEmailAddress ?? '');
 
     const isEmpty = emailAddress.trim().length === 0;
     const isValid = isValidEmail(emailAddress);

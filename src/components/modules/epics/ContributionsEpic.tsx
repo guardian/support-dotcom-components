@@ -89,6 +89,7 @@ export type EpicProps = {
     numArticles: number;
     // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
+    email?: string;
 };
 
 type HighlightedProps = {
@@ -203,6 +204,7 @@ export const ContributionsEpicComponent: (
     countryCode,
     numArticles,
     onReminderOpen,
+    email,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
@@ -284,6 +286,7 @@ export const ContributionsEpicComponent: (
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
+                    initialEmailAddress={email}
                     reminderPeriod={showReminderFields.reminderPeriod}
                     reminderLabel={showReminderFields.reminderLabel}
                     onCloseReminderClick={(): void => setIsReminderActive(false)}

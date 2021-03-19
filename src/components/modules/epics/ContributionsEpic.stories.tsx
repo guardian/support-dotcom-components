@@ -36,6 +36,20 @@ WithReminder.args = {
     },
 };
 
+export const WithPrefilledReminder = Template.bind({});
+WithPrefilledReminder.args = {
+    email: 'example@guardian.co.uk',
+    variant: {
+        ...props.variant,
+        secondaryCta: undefined,
+        showReminderFields: {
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
+        },
+    },
+};
+
 export const WithTicker = Template.bind({});
 WithTicker.args = {
     variant: {
