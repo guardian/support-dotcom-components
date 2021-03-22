@@ -15,11 +15,15 @@ jobs:
     env:
       SNYK_COMMAND: test
     steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+
       - name: Set command to monitor
         if: github.ref == 'refs/heads/main'
         run: echo "SNYK_COMMAND=monitor" >> $GITHUB_ENV
 
       - name: Run Snyk to check for vulnerabilities
+        if: github.ref == 'refs/heads/main'
         uses: snyk/actions/node@0.3.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
