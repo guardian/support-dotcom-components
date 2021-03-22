@@ -10,7 +10,7 @@ export const commonStyles = {
         padding-bottom: 0;
         ${body.medium()};
         ${until.tablet} {
-            font-size: 0.875rem;
+            font-size: 17px;
             line-height: 1.125rem;
 
             strong {
@@ -39,7 +39,7 @@ export const commonStyles = {
         padding: 0.15rem 0.15rem;
         ${body.medium({ fontWeight: 'bold' })};
         ${until.tablet} {
-            font-size: 0.875rem;
+            font-size: 17px;
             font-weight: 800;
         }
         &::selection {
