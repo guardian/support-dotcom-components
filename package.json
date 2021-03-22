@@ -11,12 +11,7 @@
     "> 1%",
     "IE 11"
   ],
-  "cloudformation": "./cfn.yaml",
-  "projectName": "support::dotcom-components",
-  "buildDir": "./dist",
-  "riffraffFile": "./riff-raff.yaml",
   "scripts": {
-    "package": "ARTEFACT_PATH=$PWD/dist VERBOSE=true riffraff-artefact",
     "riffraff": "node-riffraff-artifact",
     "modules-dev": "rollup --watch --config",
     "modules": "rollup --config",
