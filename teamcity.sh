@@ -29,5 +29,4 @@ pushd dist
 yarn install --production
 popd
 
-#yarn run package
 yarn run riffraff
