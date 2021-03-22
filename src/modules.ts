@@ -58,12 +58,12 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    epicACAbove,
-    epicACInline,
-    liveblogEpic,
-    liveblogCardIconsEpic,
-    contributionsBanner,
-    digiSubs,
-    guardianWeekly,
-    puzzlesBanner,
+    // epicACAbove,
+    // epicACInline,
+    // liveblogEpic,
+    // liveblogCardIconsEpic,
+    // contributionsBanner,
+    // digiSubs,
+    // guardianWeekly,
+    // puzzlesBanner,
 ];
