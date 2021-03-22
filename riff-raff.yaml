@@ -2,12 +2,19 @@ stacks: [ support ]
 regions: [ eu-west-1 ]
 
 deployments:
+    dotcom-components-modules-upload:
+        type: aws-s3
+        parameters:
+            bucket: gu-contributions-public
+            prefixStack: false
+            cacheControl: no-cache
+
     dotcom-components-cloudformation:
         type: cloud-formation
         app: dotcom-components
         parameters:
             cloudFormationStackName: dotcom-components
-            templatePath: cloudformation/cfn.yaml
+            templatePath: cfn.yaml
             cloudFormationStackByTags: false
             amiTags:
                 Recipe: support-dotcom-components-bionic-ARM
