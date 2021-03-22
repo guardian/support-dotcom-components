@@ -17,6 +17,7 @@
   "riffraffFile": "./riff-raff.yaml",
   "scripts": {
     "package": "ARTEFACT_PATH=$PWD/dist VERBOSE=true riffraff-artefact",
+    "riffraff": "node-riffraff-artifact",
     "modules-dev": "rollup --watch --config",
     "modules": "rollup --config",
     "dev": "yarn modules & ts-node-dev --transpile-only src/server.tsx",
@@ -107,7 +108,7 @@
     "husky": "^4.2.2",
     "inquirer": "^7.0.3",
     "jest": "^24.9.0",
-    "node-riffraff-artefact": "^2.0.1",
+    "node-riffraff-artifact": "^0.1.9",
     "nodemon": "^2.0.4",
     "prettier": "^1.19.1",
     "react-docgen-typescript-loader": "^3.6.0",

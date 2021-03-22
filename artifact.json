@@ -1,0 +1,21 @@
+{
+    "projectName": "dotcom-components",
+    "vcsURL": "git@github.com:guardian/support-dotcom-components.git",
+    "actions": [
+        {
+            "action": "dotcom-components-modules-upload",
+            "path": "dist/modules",
+            "compress": false
+        },
+        {
+            "action": "dotcom-components-cloudformation",
+            "path": "cfn.yaml",
+            "compress": false
+        },
+        {
+            "action": "dotcom-components",
+            "path": "dist",
+            "compress": "zip"
+        }
+    ]
+}
