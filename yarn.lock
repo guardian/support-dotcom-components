@@ -2376,7 +2376,7 @@
   resolved "https://registry.yarnpkg.com/@guardian/automat-deps/-/automat-deps-0.3.0.tgz#93b859ce38f0ccb9ec11f3a5aec132563476d480"
   integrity sha512-KoAvRHb2By/xiLUUIN/LGvpr1m4+vu+srsoTQHR8cMI9tAiOPEGo5uNkSXt0vOWRNURjoT4AjBydZ0mdtUxmdg==
 
-"@guardian/node-riffraff-artifact@^0.1.1":
+"@guardian/node-riffraff-artifact@^0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@guardian/node-riffraff-artifact/-/node-riffraff-artifact-0.1.9.tgz#aeb0b8d3a929c0af6e8b809539243ad313689843"
   integrity sha512-rMZyyI8jFHoH3pNgysytw0vyg5vYOv46m7jvdion7gRe2dKNOnVJHK4zTfweD1DnydTk5NP9czYCu4Ruqj4pig==
@@ -4837,21 +4837,6 @@ aws-cdk@^1.22.0:
     uuid "^8.1.0"
     yaml "^1.10.0"
     yargs "^15.3.1"
-
-aws-sdk@^2.519.0:
-  version "2.833.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.833.0.tgz#f295d7c3a9576d522c9662c4e5c9945e7f033bbc"
-  integrity sha512-s0xzhRhaycNBetfLWU5E5GTdWKwT/Fb8UIdMI1G7Jf/xscivpGvakVWUYwhQLn2xWpPcdQQwsVsvkG3KS4bmCA==
-  dependencies:
-    buffer "4.9.2"
-    events "1.1.1"
-    ieee754 "1.1.13"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
 
 aws-sdk@^2.610.0, aws-sdk@^2.681.0:
   version "2.686.0"
@@ -11470,16 +11455,6 @@ node-releases@^1.1.53:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.57.tgz#f6754ce225fad0611e61228df3e09232e017ea19"
   integrity sha512-ZQmnWS7adi61A9JsllJ2gdj2PauElcjnOwTp2O011iGzoakTxUsDGSe+6vD7wXbKdqhSFymC0OSx35aAMhrSdw==
 
-node-riffraff-artefact@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/node-riffraff-artefact/-/node-riffraff-artefact-2.0.2.tgz#9ec38ef8370c20f3358b310a8f27bc22737d77d7"
-  integrity sha512-UpcnMwuG2FF+WCZmsVcfHJ38zHWM3yFbj1DMkDlTxoAHUOUNs8Ekdl1zkTeHAS7upXoYjt5D1zWq/Q/gFlsiOg==
-  dependencies:
-    aws-sdk "^2.519.0"
-    glob "^7.1.4"
-    js-yaml "^3.13.1"
-    q "^1.5.1"
-
 nodemon@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.4.tgz#55b09319eb488d6394aa9818148c0c2d1c04c416"
@@ -12690,7 +12665,7 @@ pupa@^2.0.0, pupa@^2.0.1:
   dependencies:
     escape-goat "^2.0.0"
 
-q@^1.1.2, q@^1.5.1:
+q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
