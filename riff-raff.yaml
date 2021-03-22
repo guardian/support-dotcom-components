@@ -8,6 +8,7 @@ deployments:
         parameters:
             bucket: gu-contributions-public
             prefixStack: false
+            cacheControl: no-cache
 
     dotcom-components-cloudformation:
         type: cloud-formation
