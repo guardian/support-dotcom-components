@@ -15,9 +15,6 @@ jobs:
     env:
       SNYK_COMMAND: test
     steps:
-      - name: Checkout branch
-        uses: actions/checkout@v2
-
       - name: Set command to monitor
         if: github.ref == 'refs/heads/main'
         run: echo "SNYK_COMMAND=monitor" >> $GITHUB_ENV
