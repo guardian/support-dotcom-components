@@ -90,8 +90,6 @@
     "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
-    "aws-cdk": "^1.22.0",
-    "aws-sdk": "^2.783.0",
     "babel-loader": "^8.0.6",
     "chromatic": "^5.4.0",
     "eslint": "^6.8.0",
