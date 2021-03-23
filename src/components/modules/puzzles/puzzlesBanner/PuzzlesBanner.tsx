@@ -4,8 +4,12 @@ import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
+import { createClickEventFromTracking } from '../../../../lib/tracking';
+import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
 import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
+import { useTabDetection } from '../../../hooks/useTabDetection';
 import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
 import { ContentSquares } from './squares/ContentSquares';
@@ -26,8 +30,16 @@ import {
     squaresContainer,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
-import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
-import { useTabDetection } from '../../../hooks/useTabDetection';
+import { setBannerState, getBannerState } from '../localStorage';
+
+type AppStore = 'apple' | 'google';
+
+const bannerId = 'puzzles-banner';
+// const minimiseComponentId = `${bannerId} : minimise/expand`;
+const appStoreComponentIds: { [key in AppStore]: string } = {
+    apple: `${bannerId} : apple app store`,
+    google: `${bannerId} : google play store`,
+};
 
 // A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
 const emotionCache = createCache({
@@ -45,22 +57,35 @@ const tabletPackshot = {
     alt: 'The Guardian Puzzles app on mobile devices',
 };
 
-export const PuzzlesBanner: React.FC = () => {
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
+    const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
     const isKeyboardUser = useTabDetection();
 
-    const hideOnCollapse = isCollapsed ? hide : '';
-    const hideOnExpand = isCollapsed ? '' : hide;
+    const hideOnMinimise = isMinimised ? hide : '';
+    const hideOnExpand = isMinimised ? '' : hide;
+
+    function onAppStoreClick(store: AppStore) {
+        return function handleAppStoreClick() {
+            const componentClickEvent = createClickEventFromTracking(
+                tracking,
+                appStoreComponentIds[store],
+            );
+            if (submitComponentEvent) {
+                submitComponentEvent(componentClickEvent);
+            }
+        };
+    }
 
     function collapse() {
-        setIsCollapsed(!isCollapsed);
+        setIsMinimised(!isMinimised);
+        setBannerState(!isMinimised);
     }
 
     const CollapseButton = (
         <Button
             size="small"
             cssOverrides={collapseButton}
-            icon={isCollapsed ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
+            icon={isMinimised ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
             onClick={collapse}
             hideLabel
         >
@@ -70,17 +95,17 @@ export const PuzzlesBanner: React.FC = () => {
 
     // Enable keyboard users to collapse the banner quickly
     useEscapeShortcut(() => {
-        if (!isCollapsed) {
+        if (!isMinimised) {
             collapse();
         }
     });
 
     return (
         <CacheProvider value={emotionCache}>
-            <section css={[banner, isCollapsed ? minimisedBanner : '']}>
-                <Container css={hideOnCollapse}>
-                    <div css={[bannerContents, hideOnCollapse]}>
-                        <div css={[headingSection, hideOnCollapse]}>
+            <section css={[banner, isMinimised ? minimisedBanner : '']}>
+                <Container css={hideOnMinimise}>
+                    <div css={[bannerContents, hideOnMinimise]}>
+                        <div css={[headingSection, hideOnMinimise]}>
                             <h3 css={heading}>
                                 Discover
                                 <br />
@@ -89,13 +114,23 @@ export const PuzzlesBanner: React.FC = () => {
                                 Puzzles&nbsp;App
                             </h3>
                             <div css={appStoreButtonContainer}>
-                                <a href="http://" target="_blank" rel="noopener noreferrer">
+                                <a
+                                    href="http://"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={onAppStoreClick('apple')}
+                                >
                                     <img
                                         src={appStore.apple}
                                         alt="Download on the Apple App Store"
                                     />
                                 </a>
-                                <a href="http://" target="_blank" rel="noopener noreferrer">
+                                <a
+                                    href="http://"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={onAppStoreClick('google')}
+                                >
                                     <img src={appStore.google} alt="Get it on Google Play" />
                                 </a>
                             </div>
@@ -103,7 +138,7 @@ export const PuzzlesBanner: React.FC = () => {
                                 <p css={minimiseHint}>Hit escape to minimise this banner</p>
                             )}
                         </div>
-                        <div css={[squaresContainer, hideOnCollapse]}>
+                        <div css={[squaresContainer, hideOnMinimise]}>
                             <ContentSquares />
                             <div css={imageContainer}>
                                 <ResponsiveImage
@@ -115,7 +150,7 @@ export const PuzzlesBanner: React.FC = () => {
                         </div>
                     </div>
                 </Container>
-                <MobileSquares collapseButton={CollapseButton} cssOverrides={hideOnCollapse} />
+                <MobileSquares collapseButton={CollapseButton} cssOverrides={hideOnMinimise} />
                 <div css={[hideOnExpand, minimisedContentContainer]}>
                     <MinimisedContentSquare collapseButton={CollapseButton} />
                     <MinimisedBorderSquares />
