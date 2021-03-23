@@ -2,10 +2,10 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
-import { collapseButtonContainer } from '../puzzlesBannerStyles';
+import { minimiseButtonContainer } from '../puzzlesBannerStyles';
 
 type TabletDesktopSquaresProps = {
-    collapseButton: React.ReactNode;
+    minimiseButton: React.ReactNode;
 };
 
 const backgroundSquaresGrid = css`
@@ -41,7 +41,7 @@ function gridPlacement(row: number, column: number) {
     `;
 }
 
-export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ collapseButton }) => {
+export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ minimiseButton }) => {
     return (
         <div css={backgroundSquaresGrid}>
             <Square
@@ -59,9 +59,9 @@ export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ coll
             <Square colour="pink" removeBorder={['right']} cssOverrides={gridPlacement(2, 2)} />
             <Square
                 colour="purple"
-                cssOverrides={[collapseButtonContainer, nudgeSquareRight, gridPlacement(2, 3)]}
+                cssOverrides={[minimiseButtonContainer, nudgeSquareRight, gridPlacement(2, 3)]}
             >
-                {collapseButton}
+                {minimiseButton}
             </Square>
         </div>
     );

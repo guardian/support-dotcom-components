@@ -23,7 +23,7 @@ const tracking: BannerTracking = {
 export const defaultStory = (): ReactElement => {
     return (
         <StorybookWrapper>
-            <PuzzlesBanner tracking={tracking} />
+            <PuzzlesBanner tracking={tracking} submitComponentEvent={console.log} />
         </StorybookWrapper>
     );
 };
