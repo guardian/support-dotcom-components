@@ -21,9 +21,12 @@ const styles = {
         }
     `,
     paymentMethods: css`
-        margin-left: ${space[4]}px;
         display: block;
         max-height: 1.25rem;
+
+        ${from.tablet} {
+            margin-left: ${space[4]}px;
+        }
     `,
 };
 
