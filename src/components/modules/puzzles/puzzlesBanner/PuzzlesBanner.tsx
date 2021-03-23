@@ -135,7 +135,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         if (!isMinimised) {
             minimise();
         }
-    });
+    }, [isMinimised]);
 
     useEffect(() => {
         const bannerLoadState: BannerState = isMinimised ? 'minimised' : 'expanded';
