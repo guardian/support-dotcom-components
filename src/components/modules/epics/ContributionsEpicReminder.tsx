@@ -6,7 +6,8 @@ import { from } from '@guardian/src-foundations/mq';
 import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
-import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
+import { Hide } from '@guardian/src-layout';
+import { SvgArrowRightStraight, SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
 import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
 
@@ -91,6 +92,41 @@ const errorTextStyles = css`
     margin-bottom: 0;
 `;
 
+const closeButtonContainerStyles = css`
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 0;
+
+    ${from.tablet} {
+        display: block;
+    }
+`;
+
+const bodyCopyStyles = css`
+    margin-top: ${space[1]}px;
+    ${body.medium()}
+
+    ${from.tablet} {
+        margin-right: ${space[9]}px;
+    }
+`;
+
+const infoCopyStyles = css`
+    ${textSans.small()};
+    font-style: italic;
+`;
+
+const ctaContainerStyles = css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    & > * + * {
+        margin-left: ${space[6]}px;
+    }
+`;
+
 const getCustomSubmitStyles = (isDisabled: boolean): SerializedStyles | undefined => {
     if (isDisabled) {
         // Unfortunately these overrides need !important as otherwise they'll lose
@@ -115,8 +151,7 @@ interface ContributionsEpicReminderProps {
     initialEmailAddress?: string;
     reminderPeriod: string;
     reminderLabel: string;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    onCloseReminderClick: Function;
+    onCloseReminderClick: () => void;
 }
 
 const REMINDER_PLATFORM = 'WEB';
@@ -151,12 +186,152 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
     reminderLabel,
     reminderPeriod,
     onCloseReminderClick,
+}: ContributionsEpicReminderProps) =>
+    initialEmailAddress ? (
+        <ContributionsEpicReminderSignedIn
+            emailAddress={initialEmailAddress}
+            reminderLabel={reminderLabel}
+            reminderPeriod={reminderPeriod}
+            onCloseReminderClick={onCloseReminderClick}
+        />
+    ) : (
+        <ContributionsEpicReminderSignedOut
+            reminderLabel={reminderLabel}
+            reminderPeriod={reminderPeriod}
+            onCloseReminderClick={onCloseReminderClick}
+        />
+    );
+
+interface ContributionsEpicReminderSignedInProps {
+    emailAddress: string;
+    reminderLabel: string;
+    reminderPeriod: string;
+    onCloseReminderClick: () => void;
+}
+
+const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> = ({
+    emailAddress,
+    reminderLabel,
+    reminderPeriod,
+    onCloseReminderClick,
+}: ContributionsEpicReminderSignedInProps) => {
+    const [hasSetReminder, setHasSetReminder] = useState(false);
+
+    const setReminder = (): void => {
+        const reminderSignupData: OneOffSignupRequest = {
+            email: emailAddress,
+            reminderPeriod,
+            reminderPlatform: REMINDER_PLATFORM,
+            reminderComponent: REMINDER_COMPONENT,
+            reminderStage: REMINDER_STAGE,
+        };
+
+        fetch(createOneOffReminderEndpoint, {
+            body: JSON.stringify(reminderSignupData),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        setHasSetReminder(true);
+    };
+
+    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
+    return (
+        <div css={rootStyles}>
+            <div css={closeButtonContainerStyles}>
+                <Button
+                    onClick={onCloseReminderClick}
+                    icon={<SvgCross />}
+                    priority="subdued"
+                    size="small"
+                    hideLabel
+                >
+                    Close
+                </Button>
+            </div>
+
+            <div css={lineWrapperStyles}>
+                <Lines />
+            </div>
+
+            {hasSetReminder ? (
+                <>
+                    <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
+                    <p css={successTextStyles}>
+                        We will be in touch to invite you to contribute. Look out for a message in
+                        your inbox {reminderDateWithPreposition}. If you have any questions about
+                        contributing, please{' '}
+                        <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
+                            contact us
+                        </a>
+                        .
+                    </p>
+                </>
+            ) : (
+                <>
+                    <p css={bodyCopyStyles}>
+                        Show your support for the Guardian at a later date. To make this easier, set
+                        a reminder and we’ll email you {reminderDateWithPreposition}.
+                    </p>
+
+                    <div css={ctaContainerStyles}>
+                        <div>
+                            <Hide above="tablet">
+                                <Button onClick={setReminder}>Set a reminder</Button>
+                            </Hide>
+
+                            <Hide below="tablet">
+                                <Button
+                                    onClick={setReminder}
+                                    icon={<SvgCheckmark />}
+                                    iconSide="left"
+                                >
+                                    Set a reminder
+                                </Button>
+                            </Hide>
+                        </div>
+
+                        <Button onClick={onCloseReminderClick} priority="subdued">
+                            Not now
+                        </Button>
+                    </div>
+
+                    <p css={infoCopyStyles}>
+                        We will send you a maximum of two emails {reminderDateWithPreposition}. To
+                        find out what personal data we collect and how we use it, view our{' '}
+                        <a
+                            css={linkStyles}
+                            href="https://www.theguardian.com/help/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Privacy Policy
+                        </a>
+                        .
+                    </p>
+                </>
+            )}
+        </div>
+    );
+};
+
+interface ContributionsEpicReminderSignedOutProps {
+    reminderLabel: string;
+    reminderPeriod: string;
+    onCloseReminderClick: () => void;
+}
+
+export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicReminderSignedOutProps> = ({
+    reminderLabel,
+    reminderPeriod,
+    onCloseReminderClick,
 }: ContributionsEpicReminderProps) => {
     const [isDirty, setIsDirty] = useState(false);
     const [isSubmittingState, setIsSubmittingState] = useState(false);
     const [isErrorState, setIsErrorState] = useState(false);
     const [isSuccessState, setIsSuccessState] = useState(false);
-    const [emailAddress, setEmailAddress] = useState(initialEmailAddress ?? '');
+    const [emailAddress, setEmailAddress] = useState('');
 
     const isEmpty = emailAddress.trim().length === 0;
     const isValid = isValidEmail(emailAddress);
