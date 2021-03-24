@@ -260,7 +260,7 @@ Resources:
 
                     aws --region eu-west-1 s3 cp s3://${S3Bucket}/support/${Stage}/${App}/${App}.tar ./
                     mkdir ${App}
-                    tar -xvzf ${App}.tgz --directory ${App}
+                    tar -xvzf ${App}.tar --directory ${App}
 
                     chown -R dotcom-components:support ${App}
 
