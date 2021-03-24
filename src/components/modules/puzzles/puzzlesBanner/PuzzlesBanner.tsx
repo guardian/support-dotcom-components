@@ -157,7 +157,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                             </h3>
                             <div css={appStoreButtonContainer}>
                                 <a
-                                    href="http://"
+                                    href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={handleAppStoreClickFor('apple')}
@@ -168,7 +168,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                     />
                                 </a>
                                 <a
-                                    href="http://"
+                                    href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={handleAppStoreClickFor('google')}
