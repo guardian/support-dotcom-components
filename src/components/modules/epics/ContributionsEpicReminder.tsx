@@ -209,13 +209,15 @@ interface ContributionsEpicReminderSignedInProps {
     onCloseReminderClick: () => void;
 }
 
+type ReminderStatus = 'EDITING' | 'SUBMITTING' | 'ERROR' | 'COMPLETED';
+
 const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> = ({
     emailAddress,
     reminderLabel,
     reminderPeriod,
     onCloseReminderClick,
 }: ContributionsEpicReminderSignedInProps) => {
-    const [hasSetReminder, setHasSetReminder] = useState(false);
+    const [reminderStatus, setReminderStatus] = useState<ReminderStatus>('EDITING');
 
     const setReminder = (): void => {
         const reminderSignupData: OneOffSignupRequest = {
@@ -226,14 +228,22 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
             reminderStage: REMINDER_STAGE,
         };
 
+        setReminderStatus('SUBMITTING');
         fetch(createOneOffReminderEndpoint, {
             body: JSON.stringify(reminderSignupData),
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-        });
-        setHasSetReminder(true);
+        })
+            .then(response => {
+                if (!response.ok) {
+                    setReminderStatus('ERROR');
+                } else {
+                    setReminderStatus('COMPLETED');
+                }
+            })
+            .catch(() => setReminderStatus('ERROR'));
     };
 
     const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
@@ -255,7 +265,7 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
                 <Lines />
             </div>
 
-            {hasSetReminder ? (
+            {reminderStatus === 'COMPLETED' ? (
                 <>
                     <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
                     <p css={successTextStyles}>
@@ -278,7 +288,12 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
                     <div css={ctaContainerStyles}>
                         <div>
                             <Hide above="tablet">
-                                <Button onClick={setReminder}>Set a reminder</Button>
+                                <Button
+                                    onClick={setReminder}
+                                    disabled={reminderStatus === 'SUBMITTING'}
+                                >
+                                    Set a reminder
+                                </Button>
                             </Hide>
 
                             <Hide below="tablet">
@@ -286,6 +301,7 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
                                     onClick={setReminder}
                                     icon={<SvgCheckmark />}
                                     iconSide="left"
+                                    disabled={reminderStatus === 'SUBMITTING'}
                                 >
                                     Set a reminder
                                 </Button>
@@ -296,6 +312,13 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
                             Not now
                         </Button>
                     </div>
+
+                    {reminderStatus === 'ERROR' && (
+                        <p css={errorTextStyles}>
+                            Sorry we couldn&apos;t set a reminder for you this time. Please try
+                            again later.
+                        </p>
+                    )}
 
                     <p css={infoCopyStyles}>
                         We will send you a maximum of two emails {reminderDateWithPreposition}. To
