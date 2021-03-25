@@ -10,6 +10,7 @@ import { Button } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { ReminderStatus } from './ContributionsEpicReminder';
+import { ensureHasPreposition } from './utils/reminders';
 
 // --- Styles --- //
 
@@ -83,17 +84,6 @@ const ctaContainerStyles = css`
         margin-left: ${space[6]}px;
     }
 `;
-
-// --- Utils --- //
-
-const PREPOSITION_REGEX = /^(on|in)/;
-
-const containsPreposition = (text: string): boolean => PREPOSITION_REGEX.test(text);
-
-const addPreposition = (text: string): string => 'in ' + text;
-
-const ensureHasPreposition = (text: string): string =>
-    containsPreposition(text) ? text : addPreposition(text);
 
 // --- Types --- //
 

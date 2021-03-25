@@ -10,6 +10,7 @@ import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { ReminderStatus } from './ContributionsEpicReminder';
+import { ensureHasPreposition, isValidEmail } from './utils/reminders';
 
 // --- Styles --- //
 
@@ -108,22 +109,6 @@ const getCustomSubmitStyles = (isDisabled: boolean): SerializedStyles | undefine
 
     return undefined;
 };
-
-// --- Utils --- //
-
-const isValidEmail = (email: string): boolean => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-};
-
-const PREPOSITION_REGEX = /^(on|in)/;
-
-const containsPreposition = (text: string): boolean => PREPOSITION_REGEX.test(text);
-
-const addPreposition = (text: string): string => 'in ' + text;
-
-const ensureHasPreposition = (text: string): string =>
-    containsPreposition(text) ? text : addPreposition(text);
 
 // --- Types --- //
 
