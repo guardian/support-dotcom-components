@@ -1,19 +1,17 @@
 export interface ModuleInfo {
     name: string;
-    srcPath: string;
-    distPath: string;
-    endpointPath: string;
-    devServerPath: string;
-    prodServerPath: string;
+    srcPath: string; // where the source lives
+    distPath: string; // where to put the built module
+    endpointPath: string; // path used by the client
+    devServerPath: string; // local path of the modules, so we can serve them when running locally
 }
 
 export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => ({
     name: name,
-    srcPath: `src/components/modules/${path}.tsx`,  // where the source lives
-    distPath: `dist/modules/${path}.js`,            // where to put the built module
-    endpointPath: `/modules/${path}.js`,            // path used by the client
-    devServerPath: `/../dist/modules/${path}.js`,   // the location on disk in DEV
-    prodServerPath: `/modules/${path}.js`,          // the location on disk in PROD/CODE
+    srcPath: `src/components/modules/${path}.tsx`,
+    distPath: `dist/modules/${path}.js`,
+    endpointPath: `modules/${path}.js`,
+    devServerPath: `/../dist/modules/${path}.js`,
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');

@@ -38,7 +38,12 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { ModuleInfo, moduleInfos } from './modules';
+import {
+    ModuleInfo,
+    moduleInfos,
+    epic as epicModule,
+    liveblogEpic as liveblogEpicModule,
+} from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
@@ -187,7 +192,8 @@ const buildEpicData = async (
     };
 
     const modulePath =
-        variantWithTickerData.modulePath || (type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js');
+        variantWithTickerData.modulePath ||
+        (type === 'ARTICLE' ? epicModule.endpointPath : liveblogEpicModule.endpointPath);
 
     return {
         data: {
@@ -395,8 +401,7 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
         `/${moduleInfo.endpointPath}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
-                const module = await fs.promises.readFile(__dirname + path);
+                const module = await fs.promises.readFile(__dirname + moduleInfo.devServerPath);
 
                 res.type('js');
                 setComponentCacheHeaders(res);
@@ -408,7 +413,11 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     );
 };
 
-moduleInfos.forEach(createEndpointForModule);
+// Only serve the modules from this server when running locally (DEV).
+// In PROD/CODE we serve them from S3 via fastly.
+if (isDev) {
+    moduleInfos.forEach(createEndpointForModule);
+}
 
 // TODO remove once migration complete
 app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
