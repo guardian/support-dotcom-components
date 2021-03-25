@@ -17,7 +17,7 @@ const BannerChannelFiles: { [key in BannerChannel]: string } = {
     subscriptions: 'banner-tests2.json',
 };
 
-export const BannerPaths: { [key in BannerTemplate]: string } = {
+export const BannerPaths: { [key in BannerTemplate]: (version?: string) => string } = {
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPath,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPath,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPath,

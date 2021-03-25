@@ -191,7 +191,7 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const modulePath =
+    const modulePathBuilder: (version?: string) => string =
         variantWithTickerData.modulePath ||
         (type === 'ARTICLE' ? epicModule.endpointPath : liveblogEpicModule.endpointPath);
 
@@ -200,7 +200,7 @@ const buildEpicData = async (
             variant: variantWithTickerData,
             meta: testTracking,
             module: {
-                url: `${baseUrl}/${modulePath}`,
+                url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
                 props,
             },
         },
@@ -398,7 +398,7 @@ const setComponentCacheHeaders = (res: express.Response): void => {
 // ES module endpoints
 const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
-        `/${moduleInfo.endpointPath}`,
+        `/${moduleInfo.endpointPath()}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const module = await fs.promises.readFile(__dirname + moduleInfo.devServerPath);

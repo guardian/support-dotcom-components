@@ -59,6 +59,7 @@ export type EpicTargeting = {
     showSupportMessaging: boolean;
     isRecurringContributor: boolean;
     lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
+    modulesVersion?: string;
 };
 
 export type EpicPayload = {
