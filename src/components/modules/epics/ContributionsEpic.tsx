@@ -17,10 +17,8 @@ import { EpicSeparateArticleCountTestVariants } from '../../../tests/epicArticle
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { ContributionsEpicArticleCountInline } from './ContributionsEpicArticleCountInline';
 
-// Spacing values below are multiples of 4.
-// See https://www.theguardian.design/2a1e5182b/p/449bd5
 const wrapperStyles = css`
-    padding: ${space[1]}px ${space[1]}px ${space[3]}px;
+    padding: ${space[1]}px ${space[2]}px ${space[3]}px;
     border-top: 1px solid ${palette.brandAlt[400]};
     background-color: ${palette.neutral[97]};
 
