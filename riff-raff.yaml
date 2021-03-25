@@ -7,7 +7,8 @@ deployments:
         parameters:
             bucket: gu-contributions-public
             prefixStack: false
-            cacheControl: no-cache
+            cacheControl: max-age=120
+            surrogateControl: max-age=300
 
     dotcom-components-cloudformation:
         type: cloud-formation
