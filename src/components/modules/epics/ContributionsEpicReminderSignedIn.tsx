@@ -22,6 +22,11 @@ const rootStyles = css`
     * {
         box-sizing: border-box;
     }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 `;
 
 const lineWrapperStyles = css`
@@ -46,7 +51,7 @@ const errorTextStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
     color: ${palette.error[400]};
     font-style: italic;
-    margin-top: ${space[1]}px;
+    margin-top: ${space[2]}px !important;
     margin-bottom: 0;
 `;
 
@@ -62,7 +67,6 @@ const closeButtonContainerStyles = css`
 `;
 
 const bodyCopyStyles = css`
-    margin-top: ${space[1]}px;
     ${body.medium()}
 
     ${from.tablet} {
@@ -73,12 +77,14 @@ const bodyCopyStyles = css`
 const infoCopyStyles = css`
     ${textSans.small()};
     font-style: italic;
+    margin-top: ${space[2]}px !important;
 `;
 
 const ctaContainerStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: ${space[4]}px;
 
     & > * + * {
         margin-left: ${space[6]}px;
