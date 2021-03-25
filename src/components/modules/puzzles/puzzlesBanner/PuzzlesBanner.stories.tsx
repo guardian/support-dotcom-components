@@ -16,8 +16,7 @@ const tracking: BannerTracking = {
     abTestName: 'GuardianPuzzlesBanner',
     abTestVariant: 'control',
     campaignCode: '',
-    componentType: 'ACQUISITIONS_PUZZLES_BANNER',
-    products: ['PUZZLES_APP'],
+    componentType: 'ACQUISITIONS_OTHER',
 };
 
 export const defaultStory = (): ReactElement => {

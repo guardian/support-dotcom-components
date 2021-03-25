@@ -87,7 +87,7 @@ export const createClickEventFromTracking = (
     };
 };
 
-export const createViewEvenetFromTracking = (
+export const createViewEventFromTracking = (
     tracking: BannerTracking,
     componentId: string,
 ): OphanComponentEvent => {

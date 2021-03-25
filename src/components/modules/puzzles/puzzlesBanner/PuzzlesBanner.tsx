@@ -6,7 +6,7 @@ import { Button } from '@guardian/src-button';
 import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
 import {
     createClickEventFromTracking,
-    createViewEvenetFromTracking,
+    createViewEventFromTracking,
 } from '../../../../lib/tracking';
 import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
 import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
@@ -92,7 +92,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     }
 
     function onBannerView(bannerState: BannerState) {
-        const componentViewEvent = createViewEvenetFromTracking(
+        const componentViewEvent = createViewEventFromTracking(
             tracking,
             bannerStateComponentIds[bannerState],
         );

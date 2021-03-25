@@ -2,8 +2,7 @@ export type OphanProduct =
     | 'CONTRIBUTION'
     | 'MEMBERSHIP_SUPPORTER'
     | 'DIGITAL_SUBSCRIPTION'
-    | 'PRINT_SUBSCRIPTION'
-    | 'PUZZLES_APP';
+    | 'PRINT_SUBSCRIPTION';
 
 export type OphanAction = 'CLICK' | 'VIEW';
 
@@ -11,7 +10,7 @@ export type OphanComponentType =
     | 'ACQUISITIONS_EPIC'
     | 'ACQUISITIONS_ENGAGEMENT_BANNER'
     | 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'
-    | 'ACQUISITIONS_PUZZLES_BANNER';
+    | 'ACQUISITIONS_OTHER';
 
 export type OphanComponent = {
     componentType: OphanComponentType;

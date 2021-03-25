@@ -624,8 +624,7 @@ app.post('/puzzles', async (req: express.Request, res: express.Response) => {
     const { tracking } = req.body;
     // Exclude AB test & campaign properties that relate to the admin console; we don't care about them for puzzles
     const puzzlesTracking: Partial<BannerTestTracking> = {
-        componentType: 'ACQUISITIONS_PUZZLES_BANNER',
-        products: ['PUZZLES_APP'],
+        componentType: 'ACQUISITIONS_OTHER',
     };
 
     const response = {
