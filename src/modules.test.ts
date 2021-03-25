@@ -8,9 +8,8 @@ describe('getDefaultModuleInfo', () => {
             name: 'my-banner',
             srcPath: 'src/components/modules/banners/myBanner/MyBanner.tsx',
             distPath: 'dist/modules/banners/myBanner/MyBanner.js',
-            endpointPath: 'my-banner.js',
+            endpointPath: 'modules/banners/myBanner/MyBanner.js',
             devServerPath: '/../dist/modules/banners/myBanner/MyBanner.js',
-            prodServerPath: '/modules/banners/myBanner/MyBanner.js',
         };
 
         const moduleInfo = getDefaultModuleInfo(name, path);
@@ -20,6 +19,5 @@ describe('getDefaultModuleInfo', () => {
         expect(moduleInfo.distPath).toEqual(expectedModuleInfo.distPath);
         expect(moduleInfo.endpointPath).toEqual(expectedModuleInfo.endpointPath);
         expect(moduleInfo.devServerPath).toEqual(expectedModuleInfo.devServerPath);
-        expect(moduleInfo.prodServerPath).toEqual(expectedModuleInfo.prodServerPath);
     });
 });
