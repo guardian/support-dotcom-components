@@ -59,7 +59,7 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePath: contributionsBanner.endpointPathBuilder,
+                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
                     moduleName: 'ContributionsBanner',
                     bannerContent: {
                         messageText: 'body',
@@ -181,7 +181,7 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePath: digiSubs.endpointPathBuilder,
+                    modulePathBuilder: digiSubs.endpointPathBuilder,
                     moduleName: 'DigitalSubscriptionsBanner',
                     bannerContent: {
                         messageText: 'body',
