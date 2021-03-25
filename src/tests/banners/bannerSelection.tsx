@@ -92,7 +92,7 @@ const getForcedVariant = (
         return {
             test,
             variant,
-            moduleUrl: `${baseUrl}/${variant.modulePath(targeting.modulesVersion)}`,
+            moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
             moduleName: variant.moduleName,
         };
     }
@@ -135,7 +135,7 @@ export const selectBannerTest = async (
             const bannerTestSelection = {
                 test,
                 variant,
-                moduleUrl: `${baseUrl}/${variant.modulePath(targeting.modulesVersion)}`,
+                moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: variant.moduleName,
             };
 

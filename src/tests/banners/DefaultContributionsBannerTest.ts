@@ -12,7 +12,7 @@ export const DefaultContributionsBanner: BannerTest = {
     variants: [
         {
             name: 'control',
-            modulePath: contributionsBanner.endpointPath,
+            modulePathBuilder: contributionsBanner.endpointPathBuilder,
             moduleName: 'ContributionsBanner',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             bannerContent: DefaultBannerContent,

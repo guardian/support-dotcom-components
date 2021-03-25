@@ -192,8 +192,10 @@ const buildEpicData = async (
     };
 
     const modulePathBuilder: (version?: string) => string =
-        variantWithTickerData.modulePath ||
-        (type === 'ARTICLE' ? epicModule.endpointPath : liveblogEpicModule.endpointPath);
+        variantWithTickerData.modulePathBuilder ||
+        (type === 'ARTICLE'
+            ? epicModule.endpointPathBuilder
+            : liveblogEpicModule.endpointPathBuilder);
 
     return {
         data: {
@@ -398,7 +400,7 @@ const setComponentCacheHeaders = (res: express.Response): void => {
 // ES module endpoints
 const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
-        `/${moduleInfo.endpointPath()}`,
+        `/${moduleInfo.endpointPathBuilder()}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const module = await fs.promises.readFile(__dirname + moduleInfo.devServerPath);

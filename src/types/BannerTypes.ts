@@ -64,7 +64,7 @@ export enum BannerTemplate {
 export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
-    modulePath: (version?: string) => string;
+    modulePathBuilder: (version?: string) => string;
     moduleName: string;
     bannerContent?: BannerContent;
     mobileBannerContent?: BannerContent;

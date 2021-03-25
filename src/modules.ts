@@ -1,11 +1,10 @@
-const MODULES_VERSION = 'v1';
+const MODULES_VERSION = 'v1'; // The latest version of the modules
 
 export interface ModuleInfo {
     name: string;
     srcPath: string; // where the source lives
     distPath: string; // where to put the built module
-
-    endpointPath: (version?: string) => string; // path used by the client
+    endpointPathBuilder: (version?: string) => string; // path used by the client
     devServerPath: string; // local path of the modules, so we can serve them when running locally
 }
 
@@ -13,7 +12,7 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     name: name,
     srcPath: `src/components/modules/${path}.tsx`,
     distPath: `dist/modules/${MODULES_VERSION}/${path}.js`,
-    endpointPath: (version: string = MODULES_VERSION) => `modules/${version}/${path}.js`,
+    endpointPathBuilder: (version: string = MODULES_VERSION) => `modules/${version}/${path}.js`,
     devServerPath: `/../dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 

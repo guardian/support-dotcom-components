@@ -17,7 +17,7 @@ describe('getDefaultModuleInfo', () => {
         expect(moduleInfo.name).toEqual(expectedModuleInfo.name);
         expect(moduleInfo.srcPath).toEqual(expectedModuleInfo.srcPath);
         expect(moduleInfo.distPath).toEqual(expectedModuleInfo.distPath);
-        expect(moduleInfo.endpointPath('v1')).toEqual(expectedModuleInfo.endpointPath);
+        expect(moduleInfo.endpointPathBuilder('v1')).toEqual(expectedModuleInfo.endpointPath);
         expect(moduleInfo.devServerPath).toEqual(expectedModuleInfo.devServerPath);
     });
 });

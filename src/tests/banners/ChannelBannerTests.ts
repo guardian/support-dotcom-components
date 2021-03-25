@@ -18,9 +18,9 @@ const BannerChannelFiles: { [key in BannerChannel]: string } = {
 };
 
 export const BannerPaths: { [key in BannerTemplate]: (version?: string) => string } = {
-    [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPath,
-    [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPath,
-    [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPath,
+    [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
+    [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
+    [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: { [key in BannerTemplate]: OphanComponentType } = {
@@ -52,7 +52,7 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
 
     return {
         name: variant.name,
-        modulePath: BannerPaths[variant.template],
+        modulePathBuilder: BannerPaths[variant.template],
         moduleName: variant.template,
         bannerContent: bannerContent(),
         mobileBannerContent: variant.mobileBannerContent,

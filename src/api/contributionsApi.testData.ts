@@ -60,7 +60,7 @@ export const configuredTests: EpicTests = {
                         text: 'Support The Guardian',
                         baseUrl: 'https://support.theguardian.com/contribute',
                     },
-                    modulePath: version => `${version}/epic.js`,
+                    modulePathBuilder: version => `${version}/epic.js`,
                 },
             ],
             highPriority: false,
