@@ -9,6 +9,7 @@ import { Lines } from '../../Lines';
 import { Button } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
+import { ReminderStatus } from './ContributionsEpicReminder';
 
 // --- Styles --- //
 
@@ -95,7 +96,6 @@ const ensureHasPreposition = (text: string): string =>
     containsPreposition(text) ? text : addPreposition(text);
 
 // --- Types --- //
-type ReminderStatus = 'EDITING' | 'SUBMITTING' | 'ERROR' | 'COMPLETED';
 
 export interface ContributionsEpicReminderSignedInProps {
     reminderLabel: string;
@@ -132,7 +132,7 @@ export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicRemind
                 <Lines />
             </div>
 
-            {reminderStatus === 'COMPLETED' ? (
+            {reminderStatus === ReminderStatus.Completed ? (
                 <>
                     <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
                     <p css={successTextStyles}>
@@ -157,7 +157,7 @@ export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicRemind
                             <Hide above="tablet">
                                 <Button
                                     onClick={onSetReminderClick}
-                                    disabled={reminderStatus === 'SUBMITTING'}
+                                    disabled={reminderStatus === ReminderStatus.Submitting}
                                 >
                                     Set a reminder
                                 </Button>
@@ -168,7 +168,7 @@ export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicRemind
                                     onClick={onSetReminderClick}
                                     icon={<SvgCheckmark />}
                                     iconSide="left"
-                                    disabled={reminderStatus === 'SUBMITTING'}
+                                    disabled={reminderStatus === ReminderStatus.Submitting}
                                 >
                                     Set a reminder
                                 </Button>
@@ -180,7 +180,7 @@ export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicRemind
                         </Button>
                     </div>
 
-                    {reminderStatus === 'ERROR' && (
+                    {reminderStatus === ReminderStatus.Error && (
                         <p css={errorTextStyles}>
                             Sorry we couldn&apos;t set a reminder for you this time. Please try
                             again later.

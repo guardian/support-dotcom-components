@@ -1,3 +1,5 @@
+// --- Imports --- //
+
 import React, { useState } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
@@ -6,10 +8,12 @@ import { from } from '@guardian/src-foundations/mq';
 import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
-import { Hide } from '@guardian/src-layout';
-import { SvgArrowRightStraight, SvgCheckmark, SvgCross } from '@guardian/src-icons';
+import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { addCookie } from '../../../lib/cookies';
 import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
+import { ContributionsEpicReminderSignedIn } from './ContributionsEpicReminderSignedIn';
+
+// --- Styles --- //
 
 const rootStyles = css`
     position: relative;
@@ -92,41 +96,6 @@ const errorTextStyles = css`
     margin-bottom: 0;
 `;
 
-const closeButtonContainerStyles = css`
-    display: none;
-    position: absolute;
-    top: 20px;
-    right: 0;
-
-    ${from.tablet} {
-        display: block;
-    }
-`;
-
-const bodyCopyStyles = css`
-    margin-top: ${space[1]}px;
-    ${body.medium()}
-
-    ${from.tablet} {
-        margin-right: ${space[9]}px;
-    }
-`;
-
-const infoCopyStyles = css`
-    ${textSans.small()};
-    font-style: italic;
-`;
-
-const ctaContainerStyles = css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    & > * + * {
-        margin-left: ${space[6]}px;
-    }
-`;
-
 const getCustomSubmitStyles = (isDisabled: boolean): SerializedStyles | undefined => {
     if (isDisabled) {
         // Unfortunately these overrides need !important as otherwise they'll lose
@@ -142,21 +111,12 @@ const getCustomSubmitStyles = (isDisabled: boolean): SerializedStyles | undefine
     return undefined;
 };
 
+// --- Utils --- //
+
 const isValidEmail = (email: string): boolean => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 };
-
-interface ContributionsEpicReminderProps {
-    initialEmailAddress?: string;
-    reminderPeriod: string;
-    reminderLabel: string;
-    onCloseReminderClick: () => void;
-}
-
-const REMINDER_PLATFORM = 'WEB';
-const REMINDER_COMPONENT = 'EPIC';
-const REMINDER_STAGE = 'PRE';
 
 const dateDiff = (start: Date, end: Date): number => {
     const twentyFourHours = 86400000;
@@ -181,45 +141,35 @@ const ensureHasPreposition = (text: string): string =>
 
 const createOneOffReminderEndpoint = 'https://support.theguardian.com/reminders/create/one-off';
 
+// --- Types --- //
+
+export interface ContributionsEpicReminderProps {
+    initialEmailAddress?: string;
+    reminderPeriod: string;
+    reminderLabel: string;
+    onCloseReminderClick: () => void;
+}
+
+export enum ReminderStatus {
+    Editing = 'Editing',
+    Submitting = 'Submitting',
+    Error = 'Error',
+    Completed = 'Completed',
+}
+
+const REMINDER_PLATFORM = 'WEB';
+const REMINDER_COMPONENT = 'EPIC';
+const REMINDER_STAGE = 'PRE';
+
 export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
     initialEmailAddress,
     reminderLabel,
     reminderPeriod,
     onCloseReminderClick,
-}: ContributionsEpicReminderProps) =>
-    initialEmailAddress ? (
-        <ContributionsEpicReminderSignedIn
-            emailAddress={initialEmailAddress}
-            reminderLabel={reminderLabel}
-            reminderPeriod={reminderPeriod}
-            onCloseReminderClick={onCloseReminderClick}
-        />
-    ) : (
-        <ContributionsEpicReminderSignedOut
-            reminderLabel={reminderLabel}
-            reminderPeriod={reminderPeriod}
-            onCloseReminderClick={onCloseReminderClick}
-        />
-    );
+}: ContributionsEpicReminderProps) => {
+    const [reminderStatus, setReminderStatus] = useState<ReminderStatus>(ReminderStatus.Editing);
 
-interface ContributionsEpicReminderSignedInProps {
-    emailAddress: string;
-    reminderLabel: string;
-    reminderPeriod: string;
-    onCloseReminderClick: () => void;
-}
-
-type ReminderStatus = 'EDITING' | 'SUBMITTING' | 'ERROR' | 'COMPLETED';
-
-const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> = ({
-    emailAddress,
-    reminderLabel,
-    reminderPeriod,
-    onCloseReminderClick,
-}: ContributionsEpicReminderSignedInProps) => {
-    const [reminderStatus, setReminderStatus] = useState<ReminderStatus>('EDITING');
-
-    const setReminder = (): void => {
+    const setReminder = (emailAddress: string): void => {
         const reminderSignupData: OneOffSignupRequest = {
             email: emailAddress,
             reminderPeriod,
@@ -228,7 +178,7 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
             reminderStage: REMINDER_STAGE,
         };
 
-        setReminderStatus('SUBMITTING');
+        setReminderStatus(ReminderStatus.Submitting);
         fetch(createOneOffReminderEndpoint, {
             body: JSON.stringify(reminderSignupData),
             method: 'POST',
@@ -238,104 +188,28 @@ const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSigne
         })
             .then(response => {
                 if (!response.ok) {
-                    setReminderStatus('ERROR');
+                    setReminderStatus(ReminderStatus.Error);
                 } else {
-                    setReminderStatus('COMPLETED');
+                    setReminderStatus(ReminderStatus.Completed);
+                    addContributionReminderCookie(reminderPeriod);
                 }
             })
-            .catch(() => setReminderStatus('ERROR'));
+            .catch(() => setReminderStatus(ReminderStatus.Error));
     };
 
-    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
-    return (
-        <div css={rootStyles}>
-            <div css={closeButtonContainerStyles}>
-                <Button
-                    onClick={onCloseReminderClick}
-                    icon={<SvgCross />}
-                    priority="subdued"
-                    size="small"
-                    hideLabel
-                >
-                    Close
-                </Button>
-            </div>
-
-            <div css={lineWrapperStyles}>
-                <Lines />
-            </div>
-
-            {reminderStatus === 'COMPLETED' ? (
-                <>
-                    <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
-                    <p css={successTextStyles}>
-                        We will be in touch to invite you to contribute. Look out for a message in
-                        your inbox {reminderDateWithPreposition}. If you have any questions about
-                        contributing, please{' '}
-                        <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
-                            contact us
-                        </a>
-                        .
-                    </p>
-                </>
-            ) : (
-                <>
-                    <p css={bodyCopyStyles}>
-                        Show your support for the Guardian at a later date. To make this easier, set
-                        a reminder and we’ll email you {reminderDateWithPreposition}.
-                    </p>
-
-                    <div css={ctaContainerStyles}>
-                        <div>
-                            <Hide above="tablet">
-                                <Button
-                                    onClick={setReminder}
-                                    disabled={reminderStatus === 'SUBMITTING'}
-                                >
-                                    Set a reminder
-                                </Button>
-                            </Hide>
-
-                            <Hide below="tablet">
-                                <Button
-                                    onClick={setReminder}
-                                    icon={<SvgCheckmark />}
-                                    iconSide="left"
-                                    disabled={reminderStatus === 'SUBMITTING'}
-                                >
-                                    Set a reminder
-                                </Button>
-                            </Hide>
-                        </div>
-
-                        <Button onClick={onCloseReminderClick} priority="subdued">
-                            Not now
-                        </Button>
-                    </div>
-
-                    {reminderStatus === 'ERROR' && (
-                        <p css={errorTextStyles}>
-                            Sorry we couldn&apos;t set a reminder for you this time. Please try
-                            again later.
-                        </p>
-                    )}
-
-                    <p css={infoCopyStyles}>
-                        We will send you a maximum of two emails {reminderDateWithPreposition}. To
-                        find out what personal data we collect and how we use it, view our{' '}
-                        <a
-                            css={linkStyles}
-                            href="https://www.theguardian.com/help/privacy-policy"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Privacy Policy
-                        </a>
-                        .
-                    </p>
-                </>
-            )}
-        </div>
+    return initialEmailAddress ? (
+        <ContributionsEpicReminderSignedIn
+            reminderLabel={reminderLabel}
+            reminderStatus={reminderStatus}
+            onSetReminderClick={() => setReminder(initialEmailAddress)}
+            onCloseReminderClick={onCloseReminderClick}
+        />
+    ) : (
+        <ContributionsEpicReminderSignedOut
+            reminderLabel={reminderLabel}
+            reminderPeriod={reminderPeriod}
+            onCloseReminderClick={onCloseReminderClick}
+        />
     );
 };
 

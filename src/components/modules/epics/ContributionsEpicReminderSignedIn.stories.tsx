@@ -1,36 +1,20 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { css } from '@emotion/core';
-import { from } from '@guardian/src-foundations/mq';
 import {
     ContributionsEpicReminderSignedIn,
     ContributionsEpicReminderSignedInProps,
 } from './ContributionsEpicReminderSignedIn';
-
-const epicContainerStyles = css`
-    margin: 3em auto;
-    padding: 0 10px;
-    max-width: 620px;
-
-    ${from.mobileLandscape} {
-        padding: 0 20px;
-    }
-`;
+import { ReminderStatus } from './ContributionsEpicReminder';
+import { EpicDecorator } from './ContributionsEpicReminder.stories';
 
 export default {
     component: ContributionsEpicReminderSignedIn,
     title: 'Epics/ContributionsEpicReminderSignedIn',
     args: {
         reminderLabel: 'May',
-        reminderStatus: 'EDITING',
+        reminderStatus: ReminderStatus.Editing,
     },
-    decorators: [
-        Story => (
-            <div css={epicContainerStyles}>
-                <Story />
-            </div>
-        ),
-    ],
+    decorators: [EpicDecorator],
 } as Meta;
 
 const Template: Story<ContributionsEpicReminderSignedInProps> = (
@@ -38,3 +22,18 @@ const Template: Story<ContributionsEpicReminderSignedInProps> = (
 ) => <ContributionsEpicReminderSignedIn {...props} />;
 
 export const Default = Template.bind({});
+
+export const Submitting = Template.bind({});
+Submitting.args = {
+    reminderStatus: ReminderStatus.Submitting,
+};
+
+export const Completed = Template.bind({});
+Completed.args = {
+    reminderStatus: ReminderStatus.Completed,
+};
+
+export const Error = Template.bind({});
+Error.args = {
+    reminderStatus: ReminderStatus.Error,
+};
