@@ -9,11 +9,11 @@ export interface ModuleInfo {
 
 export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => ({
     name: name,
-    srcPath: `src/components/modules/${path}.tsx`,
-    distPath: `dist/modules/${path}.js`,
-    endpointPath: `${name}.js`,
-    devServerPath: `/../dist/modules/${path}.js`,
-    prodServerPath: `/modules/${path}.js`,
+    srcPath: `src/components/modules/${path}.tsx`,  // where the source lives
+    distPath: `dist/modules/${path}.js`,            // where to put the built module
+    endpointPath: `/modules/${path}.js`,            // path used by the client
+    devServerPath: `/../dist/modules/${path}.js`,   // the location on disk in DEV
+    prodServerPath: `/modules/${path}.js`,          // the location on disk in PROD/CODE
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
