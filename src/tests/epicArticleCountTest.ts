@@ -58,7 +58,7 @@ export const epicSeparateArticleCountTest: Test = {
             highlightedText,
             name: EpicSeparateArticleCountTestVariants.control,
             cta,
-            modulePath: epic.endpointPath,
+            modulePathBuilder: epic.endpointPathBuilder,
         },
         {
             heading: heading,
@@ -66,7 +66,7 @@ export const epicSeparateArticleCountTest: Test = {
             highlightedText,
             name: EpicSeparateArticleCountTestVariants.above,
             cta,
-            modulePath: epicACAbove.endpointPath,
+            modulePathBuilder: epicACAbove.endpointPathBuilder,
         },
         {
             heading: heading,
@@ -74,7 +74,7 @@ export const epicSeparateArticleCountTest: Test = {
             highlightedText,
             name: EpicSeparateArticleCountTestVariants.inline,
             cta,
-            modulePath: epicACInline.endpointPath,
+            modulePathBuilder: epicACInline.endpointPathBuilder,
         },
     ],
     highPriority: true,

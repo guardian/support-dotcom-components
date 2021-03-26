@@ -38,7 +38,12 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { ModuleInfo, moduleInfos } from './modules';
+import {
+    ModuleInfo,
+    moduleInfos,
+    epic as epicModule,
+    liveblogEpic as liveblogEpicModule,
+} from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
@@ -186,15 +191,18 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const modulePath =
-        variantWithTickerData.modulePath || (type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js');
+    const modulePathBuilder: (version?: string) => string =
+        variantWithTickerData.modulePathBuilder ||
+        (type === 'ARTICLE'
+            ? epicModule.endpointPathBuilder
+            : liveblogEpicModule.endpointPathBuilder);
 
     return {
         data: {
             variant: variantWithTickerData,
             meta: testTracking,
             module: {
-                url: `${baseUrl}/${modulePath}`,
+                url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
                 props,
             },
         },
@@ -392,11 +400,10 @@ const setComponentCacheHeaders = (res: express.Response): void => {
 // ES module endpoints
 const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
-        `/${moduleInfo.endpointPath}`,
+        `/${moduleInfo.endpointPathBuilder()}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
-                const module = await fs.promises.readFile(__dirname + path);
+                const module = await fs.promises.readFile(__dirname + moduleInfo.devServerPath);
 
                 res.type('js');
                 setComponentCacheHeaders(res);
@@ -408,7 +415,11 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     );
 };
 
-moduleInfos.forEach(createEndpointForModule);
+// Only serve the modules from this server when running locally (DEV).
+// In PROD/CODE we serve them from S3 via fastly.
+if (isDev) {
+    moduleInfos.forEach(createEndpointForModule);
+}
 
 // TODO remove once migration complete
 app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
