@@ -642,7 +642,7 @@ app.post('/puzzles', async (req: express.Request, res: express.Response) => {
         data: {
             module: {
                 url: `${baseUrl(req)}/${puzzlesBanner.endpointPathBuilder(
-                    targeting.modulesVersion,
+                    targeting ? targeting.modulesVersion : targeting,
                 )}`,
                 name: 'PuzzlesBanner',
                 props: {
