@@ -5,7 +5,7 @@ import {
     ContributionsEpicReminderSignedInProps,
 } from './ContributionsEpicReminderSignedIn';
 import { ReminderStatus } from './ContributionsEpicReminder';
-import { EpicDecorator } from './ContributionsEpicReminder.stories';
+import { EpicDecorator } from './ContributionsEpic.stories';
 
 export default {
     component: ContributionsEpicReminderSignedIn,
