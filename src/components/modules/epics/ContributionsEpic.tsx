@@ -84,6 +84,12 @@ const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
 
+const articleCountInlineContainerStyles = css`
+    float: left;
+    margin-top: 6px;
+    margin-right: ${space[4]}px;
+`;
+
 export type EpicProps = {
     variant: Variant;
     tracking: EpicTracking;
@@ -185,7 +191,14 @@ const EpicBody: React.FC<BodyProps> = ({
                 );
 
                 if (acVariant === EpicSeparateArticleCountTestVariants.inline && idx === 1) {
-                    return <ContributionsEpicArticleCountInline numArticles={numArticles} />;
+                    return (
+                        <div>
+                            <div css={articleCountInlineContainerStyles}>
+                                <ContributionsEpicArticleCountInline numArticles={numArticles} />
+                            </div>
+                            {paragraphElement}
+                        </div>
+                    );
                 }
                 return paragraphElement;
             })}
