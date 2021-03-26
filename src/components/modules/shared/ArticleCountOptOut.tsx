@@ -30,10 +30,11 @@ const articleCountButton = css`
     border: none;
     padding: 0;
     cursor: pointer;
-    text-decoration: underline;
+    border-bottom: 1px solid;
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
+    font-style: inherit;
     color: inherit;
     &:focus {
         outline: none !important;
