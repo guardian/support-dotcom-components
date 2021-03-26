@@ -2,7 +2,7 @@ import React from 'react';
 import { body } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { css } from '@emotion/core';
-import { ArticleCountOptOut } from '../shared/ArticleCountOptOut';
+import { ArticleCountOptOut, OphanTracking } from '../shared/ArticleCountOptOut';
 
 const containerStyles = css`
     ${body.medium()};
@@ -15,9 +15,13 @@ const optOutContainer = css`
 
 export interface Props {
     numArticles: number;
+    tracking?: OphanTracking;
 }
 
-export const ContributionsEpicArticleCountAbove: React.FC<Props> = ({ numArticles }: Props) => {
+export const ContributionsEpicArticleCountAbove: React.FC<Props> = ({
+    numArticles,
+    tracking,
+}: Props) => {
     if (numArticles >= 5) {
         return (
             <div css={containerStyles}>
@@ -27,6 +31,7 @@ export const ContributionsEpicArticleCountAbove: React.FC<Props> = ({ numArticle
                         numArticles={numArticles}
                         nextWord=" articles"
                         type="epic"
+                        tracking={tracking}
                     />
                 </span>{' '}
                 in the last year

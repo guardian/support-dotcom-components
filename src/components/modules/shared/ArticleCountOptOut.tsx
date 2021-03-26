@@ -5,6 +5,12 @@ import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
+import { OphanComponentEvent, OphanComponentType } from '../../../types/OphanTypes';
+import {
+    ophanComponentEventOptOutClose,
+    ophanComponentEventOptOutConfirm,
+    ophanComponentEventOptOutOpen,
+} from './helpers/ophan';
 
 const ARTICLE_COUNT_OPT_OUT_COOKIE = {
     name: 'gu_article_count_opt_out',
@@ -70,16 +76,23 @@ const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css
     }
 `;
 
+export interface OphanTracking {
+    componentType: OphanComponentType;
+    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
+}
+
 export interface ArticleCountOptOutProps {
     numArticles: number;
     nextWord: string | null;
     type: ArticleCountOptOutType;
+    tracking?: OphanTracking;
 }
 
 export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     numArticles,
     nextWord,
     type,
+    tracking,
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
@@ -100,13 +113,27 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
         addArticleCountOptOutCookie();
         removeArticleCountFromLocalStorage();
         setHasOptedOut(true);
+        tracking &&
+            tracking.submitComponentEvent(ophanComponentEventOptOutConfirm(tracking.componentType));
     };
 
-    const onClose = (): void => setIsOpen(false);
+    const onOpen = (): void => {
+        setIsOpen(true);
+        tracking &&
+            tracking.submitComponentEvent(ophanComponentEventOptOutOpen(tracking.componentType));
+    };
+
+    const onClose = (): void => {
+        setIsOpen(false);
+        tracking &&
+            tracking.submitComponentEvent(ophanComponentEventOptOutClose(tracking.componentType));
+    };
+
+    const onToggle = (): void => (isOpen ? onClose() : onOpen());
 
     return (
         <div css={optOutContainer(type)}>
-            <button css={articleCountButton} onClick={(): void => setIsOpen(!isOpen)}>
+            <button css={articleCountButton} onClick={onToggle}>
                 {`${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
