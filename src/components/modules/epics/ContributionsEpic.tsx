@@ -80,6 +80,10 @@ const imageStyles = css`
     object-fit: cover;
 `;
 
+const articleCountAboveContainerStyles = css`
+    margin-bottom: ${space[4]}px;
+`;
+
 export type EpicProps = {
     variant: Variant;
     tracking: EpicTracking;
@@ -181,12 +185,7 @@ const EpicBody: React.FC<BodyProps> = ({
                 );
 
                 if (acVariant === EpicSeparateArticleCountTestVariants.inline && idx === 1) {
-                    return (
-                        <ContributionsEpicArticleCountInline
-                            numArticles={numArticles}
-                            paragraphElement={paragraphElement}
-                        />
-                    );
+                    return <ContributionsEpicArticleCountInline numArticles={numArticles} />;
                 }
                 return paragraphElement;
             })}
@@ -228,7 +227,9 @@ export const ContributionsEpicComponent: (
     return (
         <section css={wrapperStyles}>
             {acVariant === EpicSeparateArticleCountTestVariants.above && (
-                <ContributionsEpicArticleCountAbove numArticles={numArticles} />
+                <div css={articleCountAboveContainerStyles}>
+                    <ContributionsEpicArticleCountAbove numArticles={numArticles} />
+                </div>
             )}
 
             {tickerSettings && tickerSettings.tickerData && (
