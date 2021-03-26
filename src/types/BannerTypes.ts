@@ -115,6 +115,10 @@ export interface BannerProps {
     hasOptedOutOfArticleCount?: boolean;
 }
 
+export interface PuzzlesBannerProps extends Partial<BannerProps> {
+    tracking: BannerTracking;
+}
+
 export interface RawVariantParams {
     name: string;
     template: BannerTemplate;

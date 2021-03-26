@@ -620,12 +620,23 @@ app.get(
 );
 
 app.post('/puzzles', async (req: express.Request, res: express.Response) => {
+    const { tracking } = req.body;
+    // Exclude AB test & campaign properties that relate to the admin console; we don't care about them for puzzles
+    const puzzlesTracking: Partial<BannerTestTracking> = {
+        componentType: 'ACQUISITIONS_OTHER',
+    };
+
     const response = {
         data: {
             module: {
                 url: `${baseUrl(req)}/puzzles-banner.js`,
                 name: 'PuzzlesBanner',
-                props: {},
+                props: {
+                    tracking: {
+                        ...tracking,
+                        ...puzzlesTracking,
+                    },
+                },
             },
             meta: {},
         },

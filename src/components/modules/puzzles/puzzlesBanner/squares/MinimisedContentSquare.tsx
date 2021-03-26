@@ -41,11 +41,11 @@ const content = css`
 `;
 
 type MinimisedContentSquareProps = {
-    collapseButton: React.ReactNode;
+    minimiseButton: React.ReactNode;
 };
 
 export const MinimisedContentSquare: React.FC<MinimisedContentSquareProps> = ({
-    collapseButton,
+    minimiseButton,
 }) => {
     return (
         <div css={squareContainer}>
@@ -53,7 +53,7 @@ export const MinimisedContentSquare: React.FC<MinimisedContentSquareProps> = ({
                 <SquareSide />
                 <div css={content}>
                     <h3 css={heading}>Master every challenge</h3>
-                    {collapseButton}
+                    {minimiseButton}
                 </div>
             </Square>
         </div>

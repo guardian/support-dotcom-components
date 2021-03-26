@@ -9,7 +9,8 @@ export type OphanAction = 'CLICK' | 'VIEW';
 export type OphanComponentType =
     | 'ACQUISITIONS_EPIC'
     | 'ACQUISITIONS_ENGAGEMENT_BANNER'
-    | 'ACQUISITIONS_SUBSCRIPTIONS_BANNER';
+    | 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'
+    | 'ACQUISITIONS_OTHER';
 
 export type OphanComponent = {
     componentType: OphanComponentType;

@@ -100,7 +100,7 @@ export const appStoreButtonContainer = css`
     }
 `;
 
-export const collapseButtonContainer = css`
+export const minimiseButtonContainer = css`
     & > * {
         padding: ${space[2]}px;
         justify-content: flex-end;
@@ -111,7 +111,7 @@ export const collapseButtonContainer = css`
     }
 `;
 
-export const collapseButton = css`
+export const minimiseButton = css`
     border: none;
     background-color: ${neutral[97]};
     color: ${neutral[7]};

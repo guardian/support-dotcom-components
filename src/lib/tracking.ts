@@ -86,3 +86,24 @@ export const createClickEventFromTracking = (
         action: 'CLICK',
     };
 };
+
+export const createViewEventFromTracking = (
+    tracking: BannerTracking,
+    componentId: string,
+): OphanComponentEvent => {
+    const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+
+    return {
+        component: {
+            componentType,
+            products,
+            campaignCode,
+            id: componentId,
+        },
+        abTest: {
+            name: abTestName,
+            variant: abTestVariant,
+        },
+        action: 'VIEW',
+    };
+};
