@@ -69,7 +69,7 @@ export const epicSeparateArticleCountTestEuRow: Test = {
     name: 'EpicSeparateArticleCountTestR2__EU_ROW',
     campaignId: 'EpicSeparateArticleCountTest',
     isOn: true,
-    locations: ['EURCountries', 'International'],
+    locations: ['EURCountries', 'NZDCountries', 'Canada', 'International'],
     audience: 1,
     tagIds: [],
     sections: [],
