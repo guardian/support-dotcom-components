@@ -1,34 +1,38 @@
 import React from 'react';
-import { textSans } from '@guardian/src-foundations/typography';
-import { palette } from '@guardian/src-foundations';
+import { body, headline } from '@guardian/src-foundations/typography';
 import { css } from '@emotion/core';
-import { replaceArticleCount } from '../../../lib/replaceArticleCount';
+import { palette } from '@guardian/src-foundations';
+import { ArticleCountOptOut } from '../shared/ArticleCountOptOut2';
 
-const contentStyle = css`
-    float: left;
-    width: 40%;
-    ${textSans.medium()};
-    background-color: ${palette.neutral[100]};
+const containerStyles = css`
+    width: max-content;
     padding: 8px;
-    margin-right: 10px;
+    border: 1px solid black;
+    border-left: none;
+
+    ${body.medium({ fontWeight: 'bold' })};
 `;
 
-const message = 'You’ve read %%ARTICLE_COUNT%% articles this year';
+const articleCountStyles = css`
+    ${headline.xlarge({ fontWeight: 'bold' })};
+    font-size: 58px;
+    color: ${palette.opinion[500]};
+`;
 
-interface Props {
+export interface Props {
     numArticles: number;
-    paragraphElement: JSX.Element;
 }
 
-export const ContributionsEpicArticleCountInline: React.FC<Props> = ({
-    numArticles,
-    paragraphElement,
-}: Props) => {
+export const ContributionsEpicArticleCountInline: React.FC<Props> = ({ numArticles }: Props) => {
     if (numArticles >= 5) {
         return (
-            <div>
-                <div css={contentStyle}>{replaceArticleCount(message, numArticles, 'epic')}</div>
-                {paragraphElement}
+            <div css={containerStyles}>
+                <div>You&apos;ve read</div>
+                <div css={articleCountStyles}>{numArticles}</div>
+                <div>
+                    <ArticleCountOptOut text="articles" type="epic" /> in
+                </div>
+                <div>the last year</div>
             </div>
         );
     }
