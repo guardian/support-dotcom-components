@@ -2,7 +2,7 @@
 // This is a temporary component whilst we're running an article count
 // A/B test. The aim is to deprecate this type of opt out in favour of
 // one with better UX.
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -14,7 +14,9 @@ import {
     ophanComponentEventOptOutClose,
     ophanComponentEventOptOutConfirm,
     ophanComponentEventOptOutOpen,
+    ophanComponentEventOptOutView,
 } from './helpers/ophan';
+import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
 const ARTICLE_COUNT_OPT_OUT_COOKIE = {
     name: 'gu_article_count_opt_out',
@@ -98,6 +100,19 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
+    const [hasBeenSeen, setNode] = useHasBeenSeen(
+        {
+            rootMargin: '-18px',
+            threshold: 0,
+        },
+        true,
+    );
+
+    useEffect(() => {
+        if (hasBeenSeen && tracking) {
+            tracking.submitComponentEvent(ophanComponentEventOptOutView(tracking.componentType));
+        }
+    }, [hasBeenSeen]);
 
     const addArticleCountOptOutCookie = (): void =>
         addCookie(
@@ -134,7 +149,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     const onToggle = (): void => (isOpen ? onClose() : onOpen());
 
     return (
-        <div css={optOutContainer(type)}>
+        <div ref={setNode} css={optOutContainer(type)}>
             <button css={articleCountButton} onClick={onToggle}>
                 {text}
             </button>
