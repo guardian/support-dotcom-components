@@ -43,6 +43,7 @@ import {
     moduleInfos,
     epic as epicModule,
     liveblogEpic as liveblogEpicModule,
+    puzzlesBanner,
 } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
@@ -631,7 +632,7 @@ app.get(
 );
 
 app.post('/puzzles', async (req: express.Request, res: express.Response) => {
-    const { tracking } = req.body;
+    const { tracking, targeting } = req.body;
     // Exclude AB test & campaign properties that relate to the admin console; we don't care about them for puzzles
     const puzzlesTracking: Partial<BannerTestTracking> = {
         componentType: 'ACQUISITIONS_OTHER',
@@ -640,7 +641,9 @@ app.post('/puzzles', async (req: express.Request, res: express.Response) => {
     const response = {
         data: {
             module: {
-                url: `${baseUrl(req)}/puzzles-banner.js`,
+                url: `${baseUrl(req)}/${puzzlesBanner.endpointPathBuilder(
+                    targeting ? targeting.modulesVersion : targeting,
+                )}`,
                 name: 'PuzzlesBanner',
                 props: {
                     tracking: {
