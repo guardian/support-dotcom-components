@@ -5,7 +5,7 @@ import {
     ContributionsEpicReminderSignedOutProps,
 } from './ContributionsEpicReminderSignedOut';
 import { ReminderStatus } from './ContributionsEpicReminder';
-import { EpicDecorator } from './ContributionsEpicReminder.stories';
+import { EpicDecorator } from './ContributionsEpic.stories';
 
 export default {
     component: ContributionsEpicReminderSignedOut,

@@ -50,6 +50,10 @@ import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
 import { logger } from './utils/logging';
 import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
+import {
+    epicSeparateArticleCountTestEuRow,
+    epicSeparateArticleCountTestUkAus,
+} from './tests/epicArticleCountTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -118,7 +122,12 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
 
-    return [...regular.tests, ...hardCoded];
+    return [
+        epicSeparateArticleCountTestUkAus,
+        epicSeparateArticleCountTestEuRow,
+        ...regular.tests,
+        ...hardCoded,
+    ];
 };
 
 const getForceableArticleEpicTests = async (): Promise<Test[]> => {
@@ -126,7 +135,13 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
 
-    return [...regular.tests, ...hardCoded, ...holdback.tests];
+    return [
+        epicSeparateArticleCountTestUkAus,
+        epicSeparateArticleCountTestEuRow,
+        ...regular.tests,
+        ...hardCoded,
+        ...holdback.tests,
+    ];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {

@@ -1,3 +1,7 @@
+// --- NB --- //
+// This is a temporary component whilst we're running an article count
+// A/B test. The aim is to deprecate this type of opt out in favour of
+// one with better UX.
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
@@ -78,21 +82,19 @@ const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css
     }
 `;
 
-export interface OphanTracking {
+interface OphanTracking {
     componentType: OphanComponentType;
     submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
 }
 
 export interface ArticleCountOptOutProps {
-    numArticles: number;
-    nextWord: string | null;
+    text: string;
     type: ArticleCountOptOutType;
     tracking?: OphanTracking;
 }
 
 export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
-    numArticles,
-    nextWord,
+    text,
     type,
     tracking,
 }: ArticleCountOptOutProps) => {
@@ -149,7 +151,7 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     return (
         <div ref={setNode} css={optOutContainer(type)}>
             <button css={articleCountButton} onClick={onToggle}>
-                {`${numArticles}${nextWord ? nextWord : ''}`}
+                {text}
             </button>
             {isOpen && (
                 <div css={overlayContainer(type)}>
