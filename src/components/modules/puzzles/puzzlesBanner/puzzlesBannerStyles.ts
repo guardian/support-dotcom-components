@@ -155,6 +155,14 @@ export const hide = css`
 export const minimiseHint = css`
     ${textSans.small()}
     margin: ${space[1]}px 0;
+    display: flex;
+    align-items: center;
+
+    svg {
+        margin-right: ${space[1]}px;
+        fill: currentColor;
+        height: 1.25em;
+    }
 `;
 
 function paddingOffsetFor(breakpointWidth: number) {

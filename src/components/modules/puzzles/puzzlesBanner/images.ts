@@ -7,9 +7,9 @@ export const appStore = {
 
 export const packshot = {
     desktop:
-        'https://i.guim.co.uk/img/media/a03b0d9567d1d8be41094aab096f659effc6b177/0_0_300_264/300.png?width=300&quality=85&s=d144380417be72d29c831e76d1aaf271',
+        'https://i.guim.co.uk/img/media/a54e8dd806f47578b7cf7238a54211fa5ea53cd4/0_0_300_264/300.png?width=300&quality=85&s=6f51d251a3fb56ee02283e631e10cc52',
     tablet:
-        'https://i.guim.co.uk/img/media/a03b0d9567d1d8be41094aab096f659effc6b177/0_0_300_264/300.png?width=230&quality=85&s=ce06077f0c48df9625dfa23e10207823',
+        'https://i.guim.co.uk/img/media/a54e8dd806f47578b7cf7238a54211fa5ea53cd4/0_0_300_264/300.png?width=230&quality=85&s=86c526a051f0ca237011b4ffb89f9b55',
 };
 
 export const qrCode =
