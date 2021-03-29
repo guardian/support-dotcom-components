@@ -5,7 +5,7 @@ import { css } from '@emotion/core';
 import { ArticleCountOptOut, OphanTracking } from '../shared/ArticleCountOptOut';
 
 const containerStyles = css`
-    ${body.medium()};
+    ${body.medium({ fontWeight: 'bold' })};
     font-style: italic;
 `;
 

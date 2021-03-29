@@ -7,7 +7,9 @@ import { OphanTracking } from '../shared/ArticleCountOptOut';
 
 const containerStyles = css`
     width: max-content;
-    padding: 8px;
+    box-sizing: border-box;
+    height: 139px;
+    padding: 4px 8px;
     border: 1px solid black;
     border-left: none;
 
@@ -16,7 +18,9 @@ const containerStyles = css`
 
 const articleCountStyles = css`
     ${headline.xlarge({ fontWeight: 'bold' })};
+    margin-top: -7px;
     font-size: 58px;
+    line-height: 1;
     color: ${palette.opinion[500]};
 `;
 
