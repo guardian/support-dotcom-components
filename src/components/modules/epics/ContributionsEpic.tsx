@@ -307,28 +307,28 @@ export const ContributionsEpicComponent: (
                 tracking={ophanTracking}
             />
 
-            {!isReminderActive && (
-                <ContributionsEpicButtons
-                    variant={variant}
-                    tracking={tracking}
-                    countryCode={countryCode}
-                    onOpenReminderClick={(): void => {
-                        const buttonCopyAsString = showReminderFields?.reminderCta
-                            .toLowerCase()
-                            .replace(/\s/g, '-');
+            <ContributionsEpicButtons
+                variant={variant}
+                tracking={tracking}
+                countryCode={countryCode}
+                onOpenReminderClick={(): void => {
+                    const buttonCopyAsString = showReminderFields?.reminderCta
+                        .toLowerCase()
+                        .replace(/\s/g, '-');
 
-                        // This callback let's the platform react to the user interaction with the
-                        // 'Remind me' button
-                        if (onReminderOpen) {
-                            onReminderOpen({
-                                buttonCopyAsString,
-                            } as OnReminderOpen);
-                        }
+                    // This callback let's the platform react to the user interaction with the
+                    // 'Remind me' button
+                    if (onReminderOpen) {
+                        onReminderOpen({
+                            buttonCopyAsString,
+                        } as OnReminderOpen);
+                    }
 
-                        setIsReminderActive(true);
-                    }}
-                />
-            )}
+                    setIsReminderActive(true);
+                }}
+                submitComponentEvent={submitComponentEvent}
+                isReminderActive={isReminderActive}
+            />
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
@@ -336,6 +336,7 @@ export const ContributionsEpicComponent: (
                     reminderPeriod={showReminderFields.reminderPeriod}
                     reminderLabel={showReminderFields.reminderLabel}
                     onCloseReminderClick={(): void => setIsReminderActive(false)}
+                    submitComponentEvent={submitComponentEvent}
                 />
             )}
         </section>
