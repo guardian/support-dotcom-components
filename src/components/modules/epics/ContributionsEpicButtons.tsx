@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
@@ -6,6 +6,12 @@ import { EpicTracking } from './ContributionsEpicTypes';
 import { Cta, Variant } from '../../../lib/variants';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 import { getCookie } from '../../../lib/cookies';
+import { OphanComponentEvent } from '../../../types/OphanTypes';
+import {
+    OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
+    OPHAN_COMPONENT_EVENT_REMINDER_VIEW,
+} from './utils/ophan';
+import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -79,50 +85,75 @@ const SecondaryCtaButton = ({
     );
 };
 
+interface ContributionsEpicButtonsProps {
+    variant: Variant;
+    tracking: EpicTracking;
+    countryCode?: string;
+    onOpenReminderClick: () => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    isReminderActive: boolean;
+}
+
 export const ContributionsEpicButtons = ({
     variant,
     tracking,
     countryCode,
     onOpenReminderClick,
-}: {
-    variant: Variant;
-    tracking: EpicTracking;
-    countryCode?: string;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    onOpenReminderClick: Function;
-}): JSX.Element | null => {
+    submitComponentEvent,
+    isReminderActive,
+}: ContributionsEpicButtonsProps): JSX.Element | null => {
+    const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
+
     const { cta, secondaryCta, showReminderFields } = variant;
-    const showReminderCta = !getCookie('gu_epic_contribution_reminder');
+    const hasSetReminder = getCookie('gu_epic_contribution_reminder');
+
     if (!cta) {
         return null;
     }
 
+    useEffect(() => {
+        if (hasBeenSeen && submitComponentEvent && showReminderFields && !hasSetReminder) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_REMINDER_VIEW);
+        }
+    }, [hasBeenSeen]);
+
+    const openReminder = () => {
+        if (submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_REMINDER_OPEN);
+        }
+        onOpenReminderClick();
+    };
+
     return (
-        <div css={buttonWrapperStyles} data-testid="epic=buttons">
-            <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
+        <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
+            {!isReminderActive && (
+                <>
+                    <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
 
-            {secondaryCta && secondaryCta.baseUrl && secondaryCta.text ? (
-                <SecondaryCtaButton
-                    cta={secondaryCta}
-                    tracking={tracking}
-                    countryCode={countryCode}
-                />
-            ) : (
-                showReminderCta &&
-                showReminderFields && (
-                    <div css={buttonMargins}>
-                        <Button onClickAction={onOpenReminderClick} isTertiary>
-                            {showReminderFields.reminderCta}
-                        </Button>
-                    </div>
-                )
+                    {secondaryCta && secondaryCta.baseUrl && secondaryCta.text ? (
+                        <SecondaryCtaButton
+                            cta={secondaryCta}
+                            tracking={tracking}
+                            countryCode={countryCode}
+                        />
+                    ) : (
+                        showReminderFields &&
+                        !hasSetReminder && (
+                            <div css={buttonMargins}>
+                                <Button onClickAction={openReminder} isTertiary>
+                                    {showReminderFields.reminderCta}
+                                </Button>
+                            </div>
+                        )
+                    )}
+
+                    <img
+                        src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                        alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                        css={paymentImageStyles}
+                    />
+                </>
             )}
-
-            <img
-                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                css={paymentImageStyles}
-            />
         </div>
     );
 };

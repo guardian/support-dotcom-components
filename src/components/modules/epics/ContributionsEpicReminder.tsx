@@ -5,6 +5,11 @@ import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
 import { ContributionsEpicReminderSignedIn } from './ContributionsEpicReminderSignedIn';
 import { ContributionsEpicReminderSignedOut } from './ContributionsEpicReminderSignedOut';
 import { addContributionReminderCookie } from './utils/reminders';
+import { OphanComponentEvent } from '../../../types/OphanTypes';
+import {
+    OPHAN_COMPONENT_EVENT_REMINDER_CLOSE,
+    OPHAN_COMPONENT_EVENT_REMINDER_SET,
+} from './utils/ophan';
 
 // --- Types --- //
 
@@ -13,6 +18,7 @@ export interface ContributionsEpicReminderProps {
     reminderPeriod: string;
     reminderLabel: string;
     onCloseReminderClick: () => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }
 
 export enum ReminderStatus {
@@ -37,10 +43,15 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
     reminderLabel,
     reminderPeriod,
     onCloseReminderClick,
+    submitComponentEvent,
 }: ContributionsEpicReminderProps) => {
     const [reminderStatus, setReminderStatus] = useState<ReminderStatus>(ReminderStatus.Editing);
 
     const setReminder = (emailAddress: string): void => {
+        if (submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_REMINDER_SET);
+        }
+
         const reminderSignupData: OneOffSignupRequest = {
             email: emailAddress,
             reminderPeriod,
@@ -68,19 +79,26 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
             .catch(() => setReminderStatus(ReminderStatus.Error));
     };
 
+    const closeReminder = () => {
+        if (submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_REMINDER_CLOSE);
+        }
+        onCloseReminderClick();
+    };
+
     return initialEmailAddress ? (
         <ContributionsEpicReminderSignedIn
             reminderLabel={reminderLabel}
             reminderStatus={reminderStatus}
             onSetReminderClick={() => setReminder(initialEmailAddress)}
-            onCloseReminderClick={onCloseReminderClick}
+            onCloseReminderClick={closeReminder}
         />
     ) : (
         <ContributionsEpicReminderSignedOut
             reminderLabel={reminderLabel}
             reminderStatus={reminderStatus}
             onSetReminderClick={setReminder}
-            onCloseReminderClick={onCloseReminderClick}
+            onCloseReminderClick={closeReminder}
         />
     );
 };
