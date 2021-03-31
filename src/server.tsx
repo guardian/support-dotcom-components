@@ -123,9 +123,9 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
 
     return [
+        ...regular.tests,
         epicSeparateArticleCountTestUkAus,
         epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
         ...hardCoded,
     ];
 };
