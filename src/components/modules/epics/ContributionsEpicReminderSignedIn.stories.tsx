@@ -4,7 +4,7 @@ import {
     ContributionsEpicReminderSignedIn,
     ContributionsEpicReminderSignedInProps,
 } from './ContributionsEpicReminderSignedIn';
-import { ReminderStatus } from './ContributionsEpicReminder';
+import { ReminderStatus } from './utils/reminders';
 import { EpicDecorator } from './ContributionsEpic.stories';
 
 export default {
