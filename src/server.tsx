@@ -136,9 +136,9 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
 
     return [
+        ...regular.tests,
         epicSeparateArticleCountTestUkAus,
         epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
         ...hardCoded,
         ...holdback.tests,
     ];
