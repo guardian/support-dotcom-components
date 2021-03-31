@@ -9,8 +9,7 @@ import { Lines } from '../../Lines';
 import { Button } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
-import { ReminderStatus } from './ContributionsEpicReminder';
-import { ensureHasPreposition } from './utils/reminders';
+import { ensureHasPreposition, ReminderStatus } from './utils/reminders';
 
 // --- Styles --- //
 

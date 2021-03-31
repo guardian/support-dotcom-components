@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { OneOffSignupRequest } from '../../../api/supportRemindersApi';
 import { ContributionsEpicReminderSignedIn } from './ContributionsEpicReminderSignedIn';
 import { ContributionsEpicReminderSignedOut } from './ContributionsEpicReminderSignedOut';
-import { addContributionReminderCookie } from './utils/reminders';
+import { addContributionReminderCookie, ReminderStatus } from './utils/reminders';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import {
     OPHAN_COMPONENT_EVENT_REMINDER_CLOSE,
@@ -19,13 +19,6 @@ export interface ContributionsEpicReminderProps {
     reminderLabel: string;
     onCloseReminderClick: () => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
-}
-
-export enum ReminderStatus {
-    Editing = 'Editing',
-    Submitting = 'Submitting',
-    Error = 'Error',
-    Completed = 'Completed',
 }
 
 // --- Consts --- //
