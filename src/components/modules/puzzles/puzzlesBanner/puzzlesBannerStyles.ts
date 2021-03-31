@@ -166,7 +166,7 @@ export const minimiseHint = css`
 `;
 
 function paddingOffsetFor(breakpointWidth: number) {
-    return `calc((100vw - ${breakpointWidth - space[5]}px) / 2)`;
+    return `calc((100vw - ${breakpointWidth - space[9]}px) / 2)`;
 }
 
 export const minimisedBanner = css`

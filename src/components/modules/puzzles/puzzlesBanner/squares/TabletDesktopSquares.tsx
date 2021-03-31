@@ -30,7 +30,7 @@ const backgroundSquaresGrid = css`
 
 const nudgeSquareRight = css`
     ${from.desktop} {
-        transform: translateX(25%);
+        transform: translateX(44px);
     }
 `;
 

@@ -183,7 +183,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 </p>
                             )}
                         </div>
-                        <div css={[squaresContainer, hideOnMinimise]}>
+                        <div css={[squaresContainer]}>
                             <ContentSquares />
                             <div css={imageContainer}>
                                 <ResponsiveImage
