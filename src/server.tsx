@@ -425,7 +425,6 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
                 setComponentCacheHeaders(res);
                 res.send(module);
             } catch (error) {
-                console.log(error);
                 next(error);
             }
         },

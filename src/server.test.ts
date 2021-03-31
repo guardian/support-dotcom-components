@@ -33,7 +33,6 @@ jest.mock('./tests/banners/bannerDeployCache', () => {
 
 jest.mock('./tests/banners/ChannelBannerTests', () => {
     return {
-        // createTestsGeneratorForChannel: jest.fn().mockImplementation(() => () => Promise.resolve([])),
         channel1BannersAllTestsGenerator: jest
             .fn()
             .mockImplementation(() => () => Promise.resolve([])),
