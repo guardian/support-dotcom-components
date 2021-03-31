@@ -1,11 +1,12 @@
 import React from 'react';
-import { ArticleCountOptOut } from '../components/modules/shared/ArticleCountOptOut';
+import { ArticleCountOptOut, OphanTracking } from '../components/modules/shared/ArticleCountOptOut';
 import { ArticleCountOptOutType } from '../components/modules/shared/ArticleCountOptOut';
 
 export const replaceArticleCount = (
     text: string,
     numArticles: number,
     articleCountOptOutType: ArticleCountOptOutType,
+    tracking?: OphanTracking,
 ): Array<JSX.Element> => {
     const nextWords: Array<string | null> = [];
     const subbedText = text.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
@@ -22,6 +23,7 @@ export const replaceArticleCount = (
                 numArticles={numArticles}
                 nextWord={nextWords[i] as string}
                 type={articleCountOptOutType}
+                tracking={tracking}
             />,
         );
     }

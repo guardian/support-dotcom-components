@@ -5,6 +5,7 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
+import { space } from '@guardian/src-foundations';
 
 const styles = {
     ctaButton: (stacked: boolean): SerializedStyles => css`
@@ -22,6 +23,10 @@ const styles = {
     paymentMethods: css`
         display: block;
         max-height: 1.25rem;
+
+        ${from.tablet} {
+            margin-left: ${space[4]}px;
+        }
     `,
 };
 

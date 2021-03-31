@@ -1,19 +1,19 @@
+const MODULES_VERSION = 'v1'; // The latest version of the modules
+
 export interface ModuleInfo {
     name: string;
-    srcPath: string;
-    distPath: string;
-    endpointPath: string;
-    devServerPath: string;
-    prodServerPath: string;
+    srcPath: string; // where the source lives
+    distPath: string; // where to put the built module
+    endpointPathBuilder: (version?: string) => string; // path used by the client
+    devServerPath: string; // local path of the modules, so we can serve them when running locally
 }
 
 export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => ({
     name: name,
     srcPath: `src/components/modules/${path}.tsx`,
-    distPath: `dist/modules/${path}.js`,
-    endpointPath: `${name}.js`,
-    devServerPath: `/../dist/modules/${path}.js`,
-    prodServerPath: `/modules/${path}.js`,
+    distPath: `dist/modules/${MODULES_VERSION}/${path}.js`,
+    endpointPathBuilder: (version: string = MODULES_VERSION) => `modules/${version}/${path}.js`,
+    devServerPath: `/../dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
@@ -29,11 +29,6 @@ export const epicACInline: ModuleInfo = getDefaultModuleInfo(
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
     'epics/ContributionsLiveblogEpic',
-);
-
-export const liveblogCardIconsEpic: ModuleInfo = getDefaultModuleInfo(
-    'liveblog-epic-card-icons',
-    'epics/ContributionsLiveblogEpicWithCardIcons',
 );
 
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
@@ -61,7 +56,6 @@ export const moduleInfos: ModuleInfo[] = [
     epicACAbove,
     epicACInline,
     liveblogEpic,
-    liveblogCardIconsEpic,
     contributionsBanner,
     digiSubs,
     guardianWeekly,

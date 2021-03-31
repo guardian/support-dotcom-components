@@ -1,34 +1,47 @@
 import React from 'react';
-import { textSans } from '@guardian/src-foundations/typography';
-import { palette } from '@guardian/src-foundations';
 import { css } from '@emotion/react';
-import { replaceArticleCount } from '../../../lib/replaceArticleCount';
+import { body, headline } from '@guardian/src-foundations/typography';
+import { palette } from '@guardian/src-foundations';
+import { ArticleCountOptOut } from '../shared/ArticleCountOptOut2';
+import { OphanTracking } from '../shared/ArticleCountOptOut';
 
-const contentStyle = css`
-    float: left;
-    width: 40%;
-    ${textSans.medium()};
-    background-color: ${palette.neutral[100]};
-    padding: 8px;
-    margin-right: 10px;
+const containerStyles = css`
+    width: max-content;
+    box-sizing: border-box;
+    height: 139px;
+    padding: 4px 8px;
+    border: 1px solid black;
+    border-left: none;
+
+    ${body.medium({ fontWeight: 'bold' })};
 `;
 
-const message = 'You’ve read %%ARTICLE_COUNT%% articles this year';
+const articleCountStyles = css`
+    ${headline.xlarge({ fontWeight: 'bold' })};
+    margin-top: -7px;
+    font-size: 58px;
+    line-height: 1;
+    color: ${palette.opinion[500]};
+`;
 
-interface Props {
+export interface Props {
     numArticles: number;
-    paragraphElement: JSX.Element;
+    tracking?: OphanTracking;
 }
 
 export const ContributionsEpicArticleCountInline: React.FC<Props> = ({
     numArticles,
-    paragraphElement,
+    tracking,
 }: Props) => {
     if (numArticles >= 5) {
         return (
-            <div>
-                <div css={contentStyle}>{replaceArticleCount(message, numArticles, 'epic')}</div>
-                {paragraphElement}
+            <div css={containerStyles}>
+                <div>You&apos;ve read</div>
+                <div css={articleCountStyles}>{numArticles}</div>
+                <div>
+                    <ArticleCountOptOut text="articles" type="epic" tracking={tracking} /> in
+                </div>
+                <div>the last year</div>
             </div>
         );
     }

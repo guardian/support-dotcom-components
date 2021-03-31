@@ -16,6 +16,7 @@ export type BannerTargeting = {
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
+    modulesVersion?: string;
 };
 
 export type BannerTestTracking = {
@@ -63,7 +64,7 @@ export enum BannerTemplate {
 export interface BannerVariant {
     name: string;
     tickerSettings?: TickerSettings;
-    modulePath: string;
+    modulePathBuilder: (version?: string) => string;
     moduleName: string;
     bannerContent?: BannerContent;
     mobileBannerContent?: BannerContent;
@@ -113,6 +114,10 @@ export interface BannerProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
+}
+
+export interface PuzzlesBannerProps extends Partial<BannerProps> {
+    tracking: BannerTracking;
 }
 
 export interface RawVariantParams {

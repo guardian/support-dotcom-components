@@ -79,6 +79,7 @@ const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: BannerTest[],
     baseUrl: string,
+    targeting: BannerTargeting,
 ): BannerTestSelection | null => {
     const test = tests.find(
         test => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
@@ -91,7 +92,7 @@ const getForcedVariant = (
         return {
             test,
             variant,
-            moduleUrl: `${baseUrl}/${variant.modulePath}`,
+            moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
             moduleName: variant.moduleName,
         };
     }
@@ -110,7 +111,7 @@ export const selectBannerTest = async (
     const tests = await getTests();
 
     if (forcedTestVariant) {
-        return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl));
+        return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl, targeting));
     }
 
     for (const test of tests) {
@@ -134,7 +135,7 @@ export const selectBannerTest = async (
             const bannerTestSelection = {
                 test,
                 variant,
-                moduleUrl: `${baseUrl}/${variant.modulePath}`,
+                moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: variant.moduleName,
             };
 

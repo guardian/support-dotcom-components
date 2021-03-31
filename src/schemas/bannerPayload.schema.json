@@ -68,6 +68,9 @@
                             "week"
                         ]
                     }
+                },
+                "modulesVersion": {
+                    "type": "string"
                 }
             },
             "required": [

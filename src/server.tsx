@@ -38,16 +38,22 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { ModuleInfo, moduleInfos } from './modules';
+import {
+    ModuleInfo,
+    moduleInfos,
+    epic as epicModule,
+    liveblogEpic as liveblogEpicModule,
+    puzzlesBanner,
+} from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
 import { logger } from './utils/logging';
-import {
-    liveblogEpicCardIconsTestGlobal,
-    liveblogEpicCardIconsTestUS,
-} from './tests/liveblogEpicCardIconsTest';
 import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
+import {
+    epicSeparateArticleCountTestEuRow,
+    epicSeparateArticleCountTestUkAus,
+} from './tests/epicArticleCountTest';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -116,7 +122,12 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
 
-    return [...regular.tests, ...hardCoded];
+    return [
+        epicSeparateArticleCountTestUkAus,
+        epicSeparateArticleCountTestEuRow,
+        ...regular.tests,
+        ...hardCoded,
+    ];
 };
 
 const getForceableArticleEpicTests = async (): Promise<Test[]> => {
@@ -124,12 +135,18 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
 
-    return [...regular.tests, ...hardCoded, ...holdback.tests];
+    return [
+        epicSeparateArticleCountTestUkAus,
+        epicSeparateArticleCountTestEuRow,
+        ...regular.tests,
+        ...hardCoded,
+        ...holdback.tests,
+    ];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
     const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
-    return [liveblogEpicCardIconsTestUS, liveblogEpicCardIconsTestGlobal, ...configuredTests.tests];
+    return [...configuredTests.tests];
 };
 
 const buildEpicData = async (
@@ -190,15 +207,18 @@ const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
-    const modulePath =
-        variantWithTickerData.modulePath || (type === 'ARTICLE' ? 'epic.js' : 'liveblog-epic.js');
+    const modulePathBuilder: (version?: string) => string =
+        variantWithTickerData.modulePathBuilder ||
+        (type === 'ARTICLE'
+            ? epicModule.endpointPathBuilder
+            : liveblogEpicModule.endpointPathBuilder);
 
     return {
         data: {
             variant: variantWithTickerData,
             meta: testTracking,
             module: {
-                url: `${baseUrl}/${modulePath}`,
+                url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
                 props,
             },
         },
@@ -396,11 +416,10 @@ const setComponentCacheHeaders = (res: express.Response): void => {
 // ES module endpoints
 const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     app.get(
-        `/${moduleInfo.endpointPath}`,
+        `/${moduleInfo.endpointPathBuilder()}`,
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const path = isDev ? moduleInfo.devServerPath : moduleInfo.prodServerPath;
-                const module = await fs.promises.readFile(__dirname + path);
+                const module = await fs.promises.readFile(__dirname + moduleInfo.devServerPath);
 
                 res.type('js');
                 setComponentCacheHeaders(res);
@@ -413,7 +432,11 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
     );
 };
 
-moduleInfos.forEach(createEndpointForModule);
+// Only serve the modules from this server when running locally (DEV).
+// In PROD/CODE we serve them from S3 via fastly.
+if (isDev) {
+    moduleInfos.forEach(createEndpointForModule);
+}
 
 // TODO remove once migration complete
 app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
@@ -625,12 +648,25 @@ app.get(
 );
 
 app.post('/puzzles', async (req: express.Request, res: express.Response) => {
+    const { tracking, targeting } = req.body;
+    // Exclude AB test & campaign properties that relate to the admin console; we don't care about them for puzzles
+    const puzzlesTracking: Partial<BannerTestTracking> = {
+        componentType: 'ACQUISITIONS_OTHER',
+    };
+
     const response = {
         data: {
             module: {
-                url: `${baseUrl(req)}/puzzles-banner.js`,
+                url: `${baseUrl(req)}/${puzzlesBanner.endpointPathBuilder(
+                    targeting ? targeting.modulesVersion : targeting,
+                )}`,
                 name: 'PuzzlesBanner',
-                props: {},
+                props: {
+                    tracking: {
+                        ...tracking,
+                        ...puzzlesTracking,
+                    },
+                },
             },
             meta: {},
         },

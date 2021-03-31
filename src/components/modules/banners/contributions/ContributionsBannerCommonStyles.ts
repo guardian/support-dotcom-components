@@ -8,18 +8,15 @@ export const commonStyles = {
         max-width: 40rem;
         display: block;
         padding-bottom: 0;
-        ${body.medium()};
+        ${body.medium({ lineHeight: 'loose' })};
         ${until.tablet} {
-            font-size: 0.875rem;
-            line-height: 1.125rem;
-
             strong {
                 font-weight: 800;
             }
         }
         ${from.tablet} {
             strong {
-                ${body.medium({ fontWeight: 'bold' })};
+                ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
             }
         }
         &::selection {
@@ -37,9 +34,8 @@ export const commonStyles = {
     highlightedText: css`
         background-color: ${neutral[100]};
         padding: 0.15rem 0.15rem;
-        ${body.medium({ fontWeight: 'bold' })};
+        ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         ${until.tablet} {
-            font-size: 0.875rem;
             font-weight: 800;
         }
         &::selection {

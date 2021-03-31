@@ -258,9 +258,9 @@ Resources:
                     useradd -r -m -s /usr/bin/nologin -g support dotcom-components
                     cd /home/dotcom-components
 
-                    aws --region eu-west-1 s3 cp s3://${S3Bucket}/support/${Stage}/${App}/${App}.tgz ./
+                    aws --region eu-west-1 s3 cp s3://${S3Bucket}/support/${Stage}/${App}/${App}.tar ./
                     mkdir ${App}
-                    tar -xvzf ${App}.tgz --directory ${App}
+                    tar -xvf ${App}.tar --directory ${App}
 
                     chown -R dotcom-components:support ${App}
 
@@ -274,7 +274,7 @@ Resources:
                     mkdir /var/log/dotcom-components
                     chown -R dotcom-components:support /var/log/dotcom-components
 
-                    /usr/local/node/pm2 start --uid dotcom-components --gid support dist/server.js
+                    /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
                     /opt/aws-kinesis-agent/configure-aws-kinesis-agent ${AWS::Region} ${ELKStream} /var/log/dotcom-components/dotcom-components.log
         DependsOn:

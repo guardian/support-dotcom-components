@@ -52,10 +52,11 @@ const styles = {
         display: flex;
         flex-direction: column;
         height: 100%;
-        margin-top: 8px;
+        box-sizing: border-box;
+        padding-top: 8px;
+        padding-bottom: 16px;
     `,
     ctaContainer: css`
-        margin-bottom: 16px;
         display: flex;
         justify-content: flex-end;
     `,

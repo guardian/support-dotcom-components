@@ -14,7 +14,6 @@ import { EpicTracking } from './ContributionsEpicTypes';
 import { Variant } from '../../../lib/variants';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
-import { LiveblogEpicCardIconsTestVariants } from '../../../tests/liveblogEpicCardIconsTest';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
@@ -149,7 +148,6 @@ interface LiveblogEpicCtaProps {
     baseUrl?: string;
     countryCode?: string;
     tracking: EpicTracking;
-    cardIconsTestVariant: LiveblogEpicCardIconsTestVariants;
 }
 
 const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
@@ -157,7 +155,6 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     baseUrl,
     tracking,
     countryCode,
-    cardIconsTestVariant,
 }: LiveblogEpicCtaProps) => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl || DEFAULT_CTA_BASE_URL,
@@ -169,13 +166,11 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
             <LinkButton css={cta} priority="primary" href={url}>
                 {text || DEFAULT_CTA_TEXT}
             </LinkButton>
-            {cardIconsTestVariant === LiveblogEpicCardIconsTestVariants.variant && (
-                <img
-                    src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
-                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                    css={paymentMethods}
-                />
-            )}
+            <img
+                src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
+                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                css={paymentMethods}
+            />
         </div>
     );
 };
@@ -187,9 +182,7 @@ interface LiveblogEpicProps {
     numArticles: number;
 }
 
-export const ContributionsLiveblogEpicComponent: (
-    cardIconsTestVariant: LiveblogEpicCardIconsTestVariants,
-) => React.FC<LiveblogEpicProps> = cardIconsTestVariant => ({
+export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     variant,
     countryCode,
     numArticles,
@@ -217,13 +210,8 @@ export const ContributionsLiveblogEpicComponent: (
                     text={variant.cta?.text}
                     baseUrl={variant.cta?.baseUrl}
                     tracking={tracking}
-                    cardIconsTestVariant={cardIconsTestVariant}
                 />
             </section>
         </>
     );
 };
-
-export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ContributionsLiveblogEpicComponent(
-    LiveblogEpicCardIconsTestVariants.control,
-);

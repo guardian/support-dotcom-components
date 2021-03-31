@@ -101,6 +101,9 @@
                 },
                 "lastOneOffContributionDate": {
                     "type": "number"
+                },
+                "modulesVersion": {
+                    "type": "string"
                 }
             },
             "required": [

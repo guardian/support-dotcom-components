@@ -16,11 +16,11 @@ import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { EpicSeparateArticleCountTestVariants } from '../../../tests/epicArticleCountTest';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { ContributionsEpicArticleCountInline } from './ContributionsEpicArticleCountInline';
+import { OphanComponentEvent } from '../../../types/OphanTypes';
+import { OphanTracking } from '../shared/ArticleCountOptOut';
 
-// Spacing values below are multiples of 4.
-// See https://www.theguardian.design/2a1e5182b/p/449bd5
 const wrapperStyles = css`
-    padding: ${space[1]}px ${space[1]}px ${space[3]}px;
+    padding: ${space[1]}px ${space[2]}px ${space[3]}px;
     border-top: 1px solid ${palette.brandAlt[400]};
     background-color: ${palette.neutral[97]};
 
@@ -82,6 +82,16 @@ const imageStyles = css`
     object-fit: cover;
 `;
 
+const articleCountAboveContainerStyles = css`
+    margin-bottom: ${space[4]}px;
+`;
+
+const articleCountInlineContainerStyles = css`
+    float: left;
+    margin-top: 6px;
+    margin-right: ${space[4]}px;
+`;
+
 export type EpicProps = {
     variant: Variant;
     tracking: EpicTracking;
@@ -89,12 +99,15 @@ export type EpicProps = {
     numArticles: number;
     // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
+    email?: string;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 };
 
 type HighlightedProps = {
     highlightedText: string;
     countryCode?: string;
     numArticles: number;
+    tracking?: OphanTracking;
 };
 
 type BodyProps = {
@@ -103,6 +116,7 @@ type BodyProps = {
     countryCode?: string;
     numArticles: number;
     acVariant: EpicSeparateArticleCountTestVariants;
+    tracking?: OphanTracking;
 };
 
 interface OnReminderOpen {
@@ -112,18 +126,24 @@ interface OnReminderOpen {
 interface EpicHeaderProps {
     text: string;
     numArticles: number;
+    tracking?: OphanTracking;
 }
 
-const EpicHeader: React.FC<EpicHeaderProps> = ({ text, numArticles }: EpicHeaderProps) => {
-    const elements = replaceArticleCount(text, numArticles, 'epic');
+const EpicHeader: React.FC<EpicHeaderProps> = ({
+    text,
+    numArticles,
+    tracking,
+}: EpicHeaderProps) => {
+    const elements = replaceArticleCount(text, numArticles, 'epic', tracking);
     return <h2 css={headingStyles}>{elements}</h2>;
 };
 
 const Highlighted: React.FC<HighlightedProps> = ({
     highlightedText,
     numArticles,
+    tracking,
 }: HighlightedProps) => {
-    const elements = replaceArticleCount(highlightedText, numArticles, 'epic');
+    const elements = replaceArticleCount(highlightedText, numArticles, 'epic', tracking);
 
     return (
         <strong css={highlightWrapperStyles}>
@@ -137,14 +157,16 @@ interface EpicBodyParagraphProps {
     paragraph: string;
     numArticles: number;
     highlighted: JSX.Element | null;
+    tracking?: OphanTracking;
 }
 
 const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     paragraph,
     numArticles,
     highlighted,
+    tracking,
 }: EpicBodyParagraphProps) => {
-    const elements = replaceArticleCount(paragraph, numArticles, 'epic');
+    const elements = replaceArticleCount(paragraph, numArticles, 'epic', tracking);
 
     return (
         <p css={bodyStyles}>
@@ -160,6 +182,7 @@ const EpicBody: React.FC<BodyProps> = ({
     paragraphs,
     highlightedText,
     acVariant,
+    tracking,
 }: BodyProps) => {
     return (
         <>
@@ -178,15 +201,21 @@ const EpicBody: React.FC<BodyProps> = ({
                                 />
                             ) : null
                         }
+                        tracking={tracking}
                     />
                 );
 
                 if (acVariant === EpicSeparateArticleCountTestVariants.inline && idx === 1) {
                     return (
-                        <ContributionsEpicArticleCountInline
-                            numArticles={numArticles}
-                            paragraphElement={paragraphElement}
-                        />
+                        <div>
+                            <div css={articleCountInlineContainerStyles}>
+                                <ContributionsEpicArticleCountInline
+                                    numArticles={numArticles}
+                                    tracking={tracking}
+                                />
+                            </div>
+                            {paragraphElement}
+                        </div>
                     );
                 }
                 return paragraphElement;
@@ -203,6 +232,8 @@ export const ContributionsEpicComponent: (
     countryCode,
     numArticles,
     onReminderOpen,
+    email,
+    submitComponentEvent,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
@@ -225,10 +256,20 @@ export const ContributionsEpicComponent: (
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
+    const ophanTracking: OphanTracking | undefined = submitComponentEvent && {
+        submitComponentEvent,
+        componentType: 'ACQUISITIONS_EPIC',
+    };
+
     return (
         <section css={wrapperStyles}>
             {acVariant === EpicSeparateArticleCountTestVariants.above && (
-                <ContributionsEpicArticleCountAbove numArticles={numArticles} />
+                <div css={articleCountAboveContainerStyles}>
+                    <ContributionsEpicArticleCountAbove
+                        numArticles={numArticles}
+                        tracking={ophanTracking}
+                    />
+                </div>
             )}
 
             {tickerSettings && tickerSettings.tickerData && (
@@ -249,7 +290,13 @@ export const ContributionsEpicComponent: (
                 </div>
             )}
 
-            {cleanHeading && <EpicHeader text={cleanHeading} numArticles={numArticles} />}
+            {cleanHeading && (
+                <EpicHeader
+                    text={cleanHeading}
+                    numArticles={numArticles}
+                    tracking={ophanTracking}
+                />
+            )}
 
             <EpicBody
                 paragraphs={cleanParagraphs}
@@ -257,36 +304,39 @@ export const ContributionsEpicComponent: (
                 countryCode={countryCode}
                 numArticles={numArticles}
                 acVariant={acVariant}
+                tracking={ophanTracking}
             />
 
-            {!isReminderActive && (
-                <ContributionsEpicButtons
-                    variant={variant}
-                    tracking={tracking}
-                    countryCode={countryCode}
-                    onOpenReminderClick={(): void => {
-                        const buttonCopyAsString = showReminderFields?.reminderCta
-                            .toLowerCase()
-                            .replace(/\s/g, '-');
+            <ContributionsEpicButtons
+                variant={variant}
+                tracking={tracking}
+                countryCode={countryCode}
+                onOpenReminderClick={(): void => {
+                    const buttonCopyAsString = showReminderFields?.reminderCta
+                        .toLowerCase()
+                        .replace(/\s/g, '-');
 
-                        // This callback let's the platform react to the user interaction with the
-                        // 'Remind me' button
-                        if (onReminderOpen) {
-                            onReminderOpen({
-                                buttonCopyAsString,
-                            } as OnReminderOpen);
-                        }
+                    // This callback let's the platform react to the user interaction with the
+                    // 'Remind me' button
+                    if (onReminderOpen) {
+                        onReminderOpen({
+                            buttonCopyAsString,
+                        } as OnReminderOpen);
+                    }
 
-                        setIsReminderActive(true);
-                    }}
-                />
-            )}
+                    setIsReminderActive(true);
+                }}
+                submitComponentEvent={submitComponentEvent}
+                isReminderActive={isReminderActive}
+            />
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
+                    initialEmailAddress={email}
                     reminderPeriod={showReminderFields.reminderPeriod}
                     reminderLabel={showReminderFields.reminderLabel}
                     onCloseReminderClick={(): void => setIsReminderActive(false)}
+                    submitComponentEvent={submitComponentEvent}
                 />
             )}
         </section>
