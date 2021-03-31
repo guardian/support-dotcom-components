@@ -61,9 +61,7 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
     };
 };
 
-export const createTestsGeneratorForChannel = (
-    bannerChannel: BannerChannel,
-): BannerTestGenerator => {
+const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channelFile = BannerChannelFiles[bannerChannel];
     const key = `banner/${isProd ? 'PROD' : 'CODE'}/${channelFile}`;
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
