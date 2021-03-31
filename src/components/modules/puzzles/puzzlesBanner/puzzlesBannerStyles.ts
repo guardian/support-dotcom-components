@@ -153,15 +153,19 @@ export const hide = css`
 `;
 
 export const minimiseHint = css`
+    ${until.desktop} {
+        display: none;
+    }
+
     ${textSans.small()}
     margin: ${space[1]}px 0;
-    display: flex;
-    align-items: center;
 
     svg {
+        position: relative;
+        top: 0.25em;
+        height: 1.25em;
         margin-right: ${space[1]}px;
         fill: currentColor;
-        height: 1.25em;
     }
 `;
 
