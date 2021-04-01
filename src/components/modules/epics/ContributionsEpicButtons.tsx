@@ -7,10 +7,7 @@ import { Cta, Variant } from '../../../lib/variants';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 import { getCookie } from '../../../lib/cookies';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
-import {
-    OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
-    OPHAN_COMPONENT_EVENT_REMINDER_VIEW,
-} from './utils/ophan';
+import { getReminderViewEvent, OPHAN_COMPONENT_EVENT_REMINDER_OPEN } from './utils/ophan';
 import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
 const buttonWrapperStyles = css`
@@ -92,6 +89,7 @@ interface ContributionsEpicButtonsProps {
     onOpenReminderClick: () => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     isReminderActive: boolean;
+    isSignedIn: boolean;
 }
 
 export const ContributionsEpicButtons = ({
@@ -101,6 +99,7 @@ export const ContributionsEpicButtons = ({
     onOpenReminderClick,
     submitComponentEvent,
     isReminderActive,
+    isSignedIn,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
 
@@ -113,7 +112,7 @@ export const ContributionsEpicButtons = ({
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent && showReminderFields && !hasSetReminder) {
-            submitComponentEvent(OPHAN_COMPONENT_EVENT_REMINDER_VIEW);
+            submitComponentEvent(getReminderViewEvent(isSignedIn));
         }
     }, [hasBeenSeen]);
 

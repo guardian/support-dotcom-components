@@ -5,13 +5,14 @@ const OPHAN_COMPONENT_ID_REMINDER_OPEN = 'contributions-epic-reminder-open';
 const OPHAN_COMPONENT_ID_REMINDER_SET = 'contributions-epic-reminder-set';
 const OPHAN_COMPONENT_ID_REMINDER_CLOSE = 'contributions-epic-reminder-close';
 
-export const OPHAN_COMPONENT_EVENT_REMINDER_VIEW: OphanComponentEvent = {
+export const getReminderViewEvent = (isSignedIn: boolean): OphanComponentEvent => ({
     component: {
         componentType: 'ACQUISITIONS_EPIC',
         id: OPHAN_COMPONENT_ID_REMINDER_VIEW,
     },
     action: 'VIEW',
-};
+    value: isSignedIn.toString(),
+});
 
 export const OPHAN_COMPONENT_EVENT_REMINDER_OPEN: OphanComponentEvent = {
     component: {
