@@ -3,7 +3,8 @@ import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
-import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
+import { Link } from '@guardian/src-link';
+import { SvgArrowDownStraight, SvgArrowUpStraight, SvgInfo } from '@guardian/src-icons';
 import {
     createClickEventFromTracking,
     createViewEventFromTracking,
@@ -156,7 +157,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 Puzzles&nbsp;App
                             </h3>
                             <div css={appStoreButtonContainer}>
-                                <a
+                                <Link
                                     href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -166,18 +167,20 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                         src={appStore.apple}
                                         alt="Download on the Apple App Store"
                                     />
-                                </a>
-                                <a
+                                </Link>
+                                <Link
                                     href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={handleAppStoreClickFor('google')}
                                 >
                                     <img src={appStore.google} alt="Get it on Google Play" />
-                                </a>
+                                </Link>
                             </div>
                             {isKeyboardUser && (
-                                <p css={minimiseHint}>Hit escape to minimise this banner</p>
+                                <p css={minimiseHint}>
+                                    <SvgInfo /> You can minimise this banner using the escape key
+                                </p>
                             )}
                         </div>
                         <div css={[squaresContainer, hideOnMinimise]}>
