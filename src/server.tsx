@@ -123,9 +123,9 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
 
     return [
-        ...regular.tests,
         epicSeparateArticleCountTestUkAus,
         epicSeparateArticleCountTestEuRow,
+        ...regular.tests,
         ...hardCoded,
     ];
 };
@@ -136,9 +136,9 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
 
     return [
-        ...regular.tests,
         epicSeparateArticleCountTestUkAus,
         epicSeparateArticleCountTestEuRow,
+        ...regular.tests,
         ...hardCoded,
         ...holdback.tests,
     ];
