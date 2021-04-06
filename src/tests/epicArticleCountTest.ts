@@ -26,7 +26,7 @@ export const epicSeparateArticleCountTestUkAus: Test = {
     sections: [],
     excludedTagIds: [],
     excludedSections: [],
-    alwaysAsk: false,
+    alwaysAsk: true,
     maxViews: {
         maxViewsCount: 4,
         maxViewsDays: 30,
