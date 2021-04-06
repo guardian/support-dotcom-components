@@ -58,7 +58,7 @@ export const epicSeparateArticleCountTestUkAus: Test = {
             cta: CTA,
         },
     ],
-    highPriority: true,
+    highPriority: false,
     useLocalViewLog: true,
     articlesViewedSettings: {
         minViews: 5,

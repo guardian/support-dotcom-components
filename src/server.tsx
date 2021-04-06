@@ -685,7 +685,7 @@ app.post('/puzzles', async (req: express.Request, res: express.Response) => {
 
 app.use(errorHandlingMiddleware);
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 8082;
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
