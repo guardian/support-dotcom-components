@@ -3,6 +3,7 @@ import { EpicTests } from '../lib/variants';
 export const configuredTests: EpicTests = {
     tests: [
         {
+            kind: 'COPY',
             name: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
             isOn: true,
             locations: [],

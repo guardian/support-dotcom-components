@@ -56,7 +56,7 @@ const EPIC_TEST_LIST_FILE_LOOKUP: EpicTestListTestFileLookup = {
 
 export const fetchConfiguredEpicTests = async (testList: EpicTestList): Promise<EpicTests> => {
     const file = EPIC_TEST_LIST_FILE_LOOKUP[testList];
-    const key = `epic/${isProd ? 'PROD' : 'CODE'}/${file}`;
+    const key = `epic/${isProd ? 'PROD' : 'DEV'}/${file}`;
 
     return fetchS3Data('gu-contributions-public', key).then(JSON.parse);
 };

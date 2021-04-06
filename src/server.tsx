@@ -113,6 +113,11 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
+const EPIC_DESIGN_TESTS = {
+    [epicSeparateArticleCountTestUkAus.name]: epicSeparateArticleCountTestUkAus,
+    [epicSeparateArticleCountTestEuRow.name]: epicSeparateArticleCountTestEuRow,
+};
+
 const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
     if (shouldHoldBack) {
@@ -122,12 +127,17 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
 
-    return [
-        epicSeparateArticleCountTestUkAus,
-        epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
-        ...hardCoded,
-    ];
+    const tests = regular.tests.map(
+        (test: Test): Test => {
+            if (test.kind === 'DESIGN' && test.name in EPIC_DESIGN_TESTS) {
+                return EPIC_DESIGN_TESTS[test.name] as Test;
+            } else {
+                return test;
+            }
+        },
+    );
+
+    return [...tests, ...hardCoded];
 };
 
 const getForceableArticleEpicTests = async (): Promise<Test[]> => {

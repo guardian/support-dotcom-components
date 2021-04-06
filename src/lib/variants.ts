@@ -70,6 +70,7 @@ interface ControlProportionSettings {
 }
 
 export interface Test {
+    kind: 'COPY' | 'DESIGN';
     name: string;
     isOn: boolean;
     locations: CountryGroupId[];

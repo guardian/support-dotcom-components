@@ -23,6 +23,7 @@ export const askFourEarningHardcodedTest = async (): Promise<Test> => {
     const defaultEpicVariant = await fetchDefaultEpicContentCached();
 
     return {
+        kind: 'COPY',
         name: 'ContributionsEpicAskFourEarning',
         expiry: '2021-01-27',
         campaignId: 'kr1_epic_ask_four_earning',

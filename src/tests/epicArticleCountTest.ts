@@ -16,7 +16,8 @@ export enum EpicSeparateArticleCountTestVariants {
 }
 
 export const epicSeparateArticleCountTestUkAus: Test = {
-    name: 'EpicSeparateArticleCountTestR2__UK_AUS',
+    kind: 'DESIGN',
+    name: 'EPIC_DESIGN_TEST_R2__UK_AUS',
     campaignId: 'EpicSeparateArticleCountTest',
     isOn: true,
     locations: ['GBPCountries', 'AUDCountries'],
@@ -31,7 +32,7 @@ export const epicSeparateArticleCountTestUkAus: Test = {
         maxViewsDays: 30,
         minDaysBetweenViews: 0,
     },
-    userCohort: 'AllNonSupporters',
+    userCohort: 'Everyone',
     isLiveBlog: false,
     hasCountryName: true,
     variants: [
@@ -66,7 +67,8 @@ export const epicSeparateArticleCountTestUkAus: Test = {
 };
 
 export const epicSeparateArticleCountTestEuRow: Test = {
-    name: 'EpicSeparateArticleCountTestR2__EU_ROW',
+    kind: 'DESIGN',
+    name: 'EPIC_DESIGN_TEST_R2__EU_ROW',
     campaignId: 'EpicSeparateArticleCountTest',
     isOn: true,
     locations: ['EURCountries', 'NZDCountries', 'Canada', 'International'],
