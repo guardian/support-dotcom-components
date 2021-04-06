@@ -71,6 +71,13 @@ export const createClickEventFromTracking = (
     componentId: string,
 ): OphanComponentEvent => {
     const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+    const abTest =
+        abTestName && abTestVariant
+            ? {
+                  name: abTestName,
+                  variant: abTestVariant,
+              }
+            : null;
 
     return {
         component: {
@@ -79,10 +86,7 @@ export const createClickEventFromTracking = (
             campaignCode,
             id: componentId,
         },
-        abTest: {
-            name: abTestName,
-            variant: abTestVariant,
-        },
+        ...(abTest ? { abTest } : {}),
         action: 'CLICK',
     };
 };
@@ -92,6 +96,13 @@ export const createViewEventFromTracking = (
     componentId: string,
 ): OphanComponentEvent => {
     const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+    const abTest =
+        abTestName && abTestVariant
+            ? {
+                  name: abTestName,
+                  variant: abTestVariant,
+              }
+            : null;
 
     return {
         component: {
@@ -100,10 +111,7 @@ export const createViewEventFromTracking = (
             campaignCode,
             id: componentId,
         },
-        abTest: {
-            name: abTestName,
-            variant: abTestVariant,
-        },
+        ...(abTest ? { abTest } : {}),
         action: 'VIEW',
     };
 };
