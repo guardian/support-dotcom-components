@@ -1,7 +1,7 @@
 import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
 import { Test, Variant } from '../lib/variants';
 import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
-import { OphanComponentEvent } from '../types/OphanTypes';
+import { OphanAction, OphanComponentEvent } from '../types/OphanTypes';
 import { addRegionIdToSupportUrl } from './geolocation';
 
 type LinkParams = {
@@ -66,44 +66,30 @@ export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant
 export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
     `AMP__${testName}__${variantName}`;
 
-export const createClickEventFromTracking = (
-    tracking: BannerTracking,
-    componentId: string,
-): OphanComponentEvent => {
-    const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+const createEventFromTracking = (action: OphanAction) => {
+    return (tracking: BannerTracking, componentId: string): OphanComponentEvent => {
+        const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+        const abTest =
+            abTestName && abTestVariant
+                ? {
+                      name: abTestName,
+                      variant: abTestVariant,
+                  }
+                : null;
 
-    return {
-        component: {
-            componentType,
-            products,
-            campaignCode,
-            id: componentId,
-        },
-        abTest: {
-            name: abTestName,
-            variant: abTestVariant,
-        },
-        action: 'CLICK',
+        return {
+            component: {
+                componentType,
+                products,
+                campaignCode,
+                id: componentId,
+            },
+            ...(abTest ? { abTest } : {}),
+            action,
+        };
     };
 };
 
-export const createViewEventFromTracking = (
-    tracking: BannerTracking,
-    componentId: string,
-): OphanComponentEvent => {
-    const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+export const createClickEventFromTracking = createEventFromTracking('CLICK');
 
-    return {
-        component: {
-            componentType,
-            products,
-            campaignCode,
-            id: componentId,
-        },
-        abTest: {
-            name: abTestName,
-            variant: abTestVariant,
-        },
-        action: 'VIEW',
-    };
-};
+export const createViewEventFromTracking = createEventFromTracking('VIEW');
