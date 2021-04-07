@@ -64,4 +64,5 @@ export interface HeaderTargeting {
     edition: string;
     countryCode: string;
     modulesVersion?: string;
+    mvtId: number;
 }
