@@ -49,7 +49,7 @@ type EpicTestListTestFileLookup = {
 };
 
 const EPIC_TEST_LIST_FILE_LOOKUP: EpicTestListTestFileLookup = {
-    ARTICLE: 'epic-tests.json',
+    ARTICLE: 'epic-tests-tom-10p-time.json',
     ARTICLE_HOLDBACK: 'epic-holdback-tests.json',
     LIVEBLOG: 'liveblog-epic-tests.json',
 };
