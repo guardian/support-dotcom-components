@@ -51,6 +51,7 @@ import { OphanComponentEvent } from './types/OphanTypes';
 import { logger } from './utils/logging';
 import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
 import {
+    DesignTest,
     epicSeparateArticleCountTestEuRow,
     epicSeparateArticleCountTestUkAus,
 } from './tests/epicArticleCountTest';
@@ -97,7 +98,7 @@ interface BannerDataResponse {
 
 const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE'),
-    60,
+    2,
     `fetchConfiguredEpicTests_ARTICLE`,
 );
 
@@ -130,7 +131,8 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const tests = regular.tests.map(
         (test: Test): Test => {
             if (test.kind === 'DESIGN' && test.name in EPIC_DESIGN_TESTS) {
-                return EPIC_DESIGN_TESTS[test.name] as Test;
+                const designTest = EPIC_DESIGN_TESTS[test.name] as DesignTest;
+                return { ...test, ...designTest };
             } else {
                 return test;
             }
@@ -145,13 +147,7 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
 
-    return [
-        epicSeparateArticleCountTestUkAus,
-        epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
-        ...hardCoded,
-        ...holdback.tests,
-    ];
+    return [...regular.tests, ...hardCoded, ...holdback.tests];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {

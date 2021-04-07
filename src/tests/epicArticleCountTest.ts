@@ -15,26 +15,12 @@ export enum EpicSeparateArticleCountTestVariants {
     inline = 'inline',
 }
 
-export const epicSeparateArticleCountTestUkAus: Test = {
-    kind: 'DESIGN',
+export type DesignTest = { name: string } & Partial<Test>;
+
+export const epicSeparateArticleCountTestUkAus: DesignTest = {
     name: 'EPIC_DESIGN_TEST_R2__UK_AUS',
     campaignId: 'EpicSeparateArticleCountTest',
-    isOn: true,
-    locations: ['GBPCountries', 'AUDCountries'],
     audience: 1,
-    tagIds: [],
-    sections: [],
-    excludedTagIds: [],
-    excludedSections: [],
-    alwaysAsk: true,
-    maxViews: {
-        maxViewsCount: 4,
-        maxViewsDays: 30,
-        minDaysBetweenViews: 0,
-    },
-    userCohort: 'Everyone',
-    isLiveBlog: false,
-    hasCountryName: true,
     variants: [
         {
             name: EpicSeparateArticleCountTestVariants.control,
@@ -58,34 +44,10 @@ export const epicSeparateArticleCountTestUkAus: Test = {
             cta: CTA,
         },
     ],
-    highPriority: false,
-    useLocalViewLog: true,
-    articlesViewedSettings: {
-        minViews: 5,
-        periodInWeeks: 52,
-    },
 };
 
-export const epicSeparateArticleCountTestEuRow: Test = {
-    kind: 'DESIGN',
+export const epicSeparateArticleCountTestEuRow: DesignTest = {
     name: 'EPIC_DESIGN_TEST_R2__EU_ROW',
-    campaignId: 'EpicSeparateArticleCountTest',
-    isOn: true,
-    locations: ['EURCountries', 'NZDCountries', 'Canada', 'International'],
-    audience: 1,
-    tagIds: [],
-    sections: [],
-    excludedTagIds: [],
-    excludedSections: [],
-    alwaysAsk: false,
-    maxViews: {
-        maxViewsCount: 4,
-        maxViewsDays: 30,
-        minDaysBetweenViews: 0,
-    },
-    userCohort: 'AllNonSupporters',
-    isLiveBlog: false,
-    hasCountryName: true,
     variants: [
         {
             name: EpicSeparateArticleCountTestVariants.control,
@@ -109,10 +71,4 @@ export const epicSeparateArticleCountTestEuRow: Test = {
             cta: CTA,
         },
     ],
-    highPriority: true,
-    useLocalViewLog: true,
-    articlesViewedSettings: {
-        minViews: 5,
-        periodInWeeks: 52,
-    },
 };
