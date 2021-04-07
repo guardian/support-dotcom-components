@@ -43,7 +43,7 @@ import {
     moduleInfos,
     epic as epicModule,
     liveblogEpic as liveblogEpicModule,
-    puzzlesBanner,
+    puzzlesBanner, header,
 } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
@@ -54,6 +54,8 @@ import {
     epicSeparateArticleCountTestEuRow,
     epicSeparateArticleCountTestUkAus,
 } from './tests/epicArticleCountTest';
+import {selectHeaderTest} from "./tests/header/headerSelection";
+import {HeaderPageTracking, HeaderTargeting, HeaderTestTracking, HeaderTracking} from "./types/HeaderTypes";
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -287,6 +289,33 @@ const buildBannerData = async (
     }
 };
 
+const buildHeaderData = async (pageTracking: HeaderPageTracking, targeting: HeaderTargeting, baseUrl: string) => {
+    const testSelection = await selectHeaderTest(targeting);
+    if (testSelection) {
+        const {test,variant} = testSelection;
+        const testTracking: HeaderTestTracking = {
+            abTestName: test.name,
+            abTestVariant: variant.name,
+            campaignCode: `${test.name}_${variant.name}`,
+            componentType: 'ACQUISITIONS_HEADER',
+        };
+        return {
+            data: {
+                module: {
+                    url: `${baseUrl}/${header.endpointPathBuilder(targeting.modulesVersion)}`,
+                    name: header.name,
+                    props: {
+                        content: variant.content,
+                        tracking: { ...pageTracking, ...testTracking },
+                        countryCode: targeting.countryCode,
+                    },
+                }
+            }
+        }
+    }
+    return { data: undefined };
+};
+
 // TODO replace with module-friendly solution
 /* app.get(
     '/epic',
@@ -398,6 +427,16 @@ app.post(
         } catch (error) {
             next(error);
         }
+    },
+);
+
+app.post(
+    '/header',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        console.log(req.body)
+        const { tracking, targeting } = req.body;
+        const response = await buildHeaderData(tracking, targeting, baseUrl(req));
+        res.send(response);
     },
 );
 

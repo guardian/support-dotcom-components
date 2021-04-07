@@ -3,6 +3,7 @@ import { Test, Variant } from '../lib/variants';
 import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
 import { OphanComponentEvent } from '../types/OphanTypes';
 import { addRegionIdToSupportUrl } from './geolocation';
+import {HeaderTracking} from "../types/HeaderTypes";
 
 type LinkParams = {
     REFPVID: string;
@@ -13,7 +14,7 @@ type LinkParams = {
 // TODO: Unify Epic and Banner tracking?
 export const addTrackingParams = (
     baseUrl: string,
-    params: EpicTracking | BannerTracking,
+    params: EpicTracking | BannerTracking | HeaderTracking,
 ): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
@@ -45,7 +46,7 @@ export const addTrackingParams = (
 
 export const addRegionIdAndTrackingParamsToSupportUrl = (
     baseUrl: string,
-    tracking: EpicTracking | BannerTracking,
+    tracking: EpicTracking | BannerTracking | HeaderTracking,
     countryCode?: string,
 ): string => {
     const isSupportUrl = /\bsupport\./.test(baseUrl);
