@@ -1,5 +1,5 @@
 // TODO - share with banner/epic!
-import {OphanComponentType} from "./OphanTypes";
+import { OphanComponentType } from './OphanTypes';
 
 type Audience =
     | 'AllExistingSupporters'

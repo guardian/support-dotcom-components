@@ -3,7 +3,7 @@ import { Test, Variant } from '../lib/variants';
 import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
 import { OphanComponentEvent } from '../types/OphanTypes';
 import { addRegionIdToSupportUrl } from './geolocation';
-import {HeaderTracking} from "../types/HeaderTypes";
+import { HeaderTracking } from '../types/HeaderTypes';
 
 type LinkParams = {
     REFPVID: string;

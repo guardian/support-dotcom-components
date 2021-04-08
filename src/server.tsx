@@ -43,7 +43,8 @@ import {
     moduleInfos,
     epic as epicModule,
     liveblogEpic as liveblogEpicModule,
-    puzzlesBanner, header,
+    puzzlesBanner,
+    header,
 } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
@@ -54,8 +55,12 @@ import {
     epicSeparateArticleCountTestEuRow,
     epicSeparateArticleCountTestUkAus,
 } from './tests/epicArticleCountTest';
-import {selectHeaderTest} from "./tests/header/headerSelection";
-import {HeaderPageTracking, HeaderTargeting, HeaderTestTracking, HeaderTracking} from "./types/HeaderTypes";
+import { selectHeaderTest } from './tests/header/headerSelection';
+import {
+    HeaderPageTracking,
+    HeaderTargeting,
+    HeaderTestTracking,
+} from './types/HeaderTypes';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -289,10 +294,14 @@ const buildBannerData = async (
     }
 };
 
-const buildHeaderData = async (pageTracking: HeaderPageTracking, targeting: HeaderTargeting, baseUrl: string) => {
+const buildHeaderData = async (
+    pageTracking: HeaderPageTracking,
+    targeting: HeaderTargeting,
+    baseUrl: string,
+) => {
     const testSelection = await selectHeaderTest(targeting);
     if (testSelection) {
-        const {test,variant} = testSelection;
+        const { test, variant } = testSelection;
         const testTracking: HeaderTestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
@@ -309,9 +318,9 @@ const buildHeaderData = async (pageTracking: HeaderPageTracking, targeting: Head
                         tracking: { ...pageTracking, ...testTracking },
                         countryCode: targeting.countryCode,
                     },
-                }
-            }
-        }
+                },
+            },
+        };
     }
     return { data: undefined };
 };
@@ -433,10 +442,13 @@ app.post(
 app.post(
     '/header',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        console.log(req.body)
-        const { tracking, targeting } = req.body;
-        const response = await buildHeaderData(tracking, targeting, baseUrl(req));
-        res.send(response);
+        try {
+            const { tracking, targeting } = req.body;
+            const response = await buildHeaderData(tracking, targeting, baseUrl(req));
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
     },
 );
 
