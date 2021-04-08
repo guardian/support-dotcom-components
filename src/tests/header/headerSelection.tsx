@@ -4,7 +4,7 @@ import {header} from "../../modules";
 const modulePathBuilder = header.endpointPathBuilder;
 
 const nonSupportersTest: HeaderTest = {
-    name: 'header-non-supporter',
+    name: 'RemoteRRHeaderLinksTest',
     audience: 'AllNonSupporters',
     variants: [
         {
