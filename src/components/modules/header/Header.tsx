@@ -64,7 +64,10 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
     const addTracking = (baseUrl: string): string =>
-        addRegionIdAndTrackingParamsToSupportUrl(baseUrl, props.tracking, props.countryCode);
+        // Deliberately do not include the countryCode for now, because DCR does not. This will make the initial AB
+        // test fair.
+        addRegionIdAndTrackingParamsToSupportUrl(baseUrl, props.tracking);
+    // addRegionIdAndTrackingParamsToSupportUrl(baseUrl, props.tracking, props.countryCode);
 
     return (
         <div>
