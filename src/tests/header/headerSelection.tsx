@@ -8,7 +8,7 @@ const nonSupportersTest: HeaderTest = {
     audience: 'AllNonSupporters',
     variants: [
         {
-            name: 'control',
+            name: 'remote',
             modulePathBuilder,
             content: {
                 heading: 'Support the Guardian',
@@ -20,22 +20,6 @@ const nonSupportersTest: HeaderTest = {
                 secondaryCta: {
                     url: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
-                },
-            },
-        },
-        {
-            name: 'v1',
-            modulePathBuilder,
-            content: {
-                heading: 'Support the Guardian',
-                subheading: 'Available for everyone, funded by readers',
-                primaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
-                    text: 'Subscribe',
-                },
-                secondaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
-                    text: 'Contribute',
                 },
             },
         },
