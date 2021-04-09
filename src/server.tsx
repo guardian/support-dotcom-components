@@ -56,11 +56,7 @@ import {
     epicSeparateArticleCountTestUkAus,
 } from './tests/epicArticleCountTest';
 import { selectHeaderTest } from './tests/header/headerSelection';
-import {
-    HeaderPageTracking,
-    HeaderTargeting,
-    HeaderTestTracking,
-} from './types/HeaderTypes';
+import { HeaderPageTracking, HeaderTargeting, HeaderTestTracking } from './types/HeaderTypes';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -319,6 +315,7 @@ const buildHeaderData = async (
                         countryCode: targeting.countryCode,
                     },
                 },
+                meta: testTracking,
             },
         };
     }
