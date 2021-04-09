@@ -85,6 +85,9 @@ export const heading = css`
 export const appStoreButtonContainer = css`
     display: flex;
     flex-direction: column;
+    z-index: 2;
+    position: relative;
+    align-items: flex-start;
 
     a {
         margin-bottom: ${space[2]}px;
@@ -152,12 +155,24 @@ export const hide = css`
 `;
 
 export const minimiseHint = css`
+    ${until.desktop} {
+        display: none;
+    }
+
     ${textSans.small()}
     margin: ${space[1]}px 0;
+
+    svg {
+        position: relative;
+        top: 0.25em;
+        height: 1.25em;
+        margin-right: ${space[1]}px;
+        fill: currentColor;
+    }
 `;
 
 function paddingOffsetFor(breakpointWidth: number) {
-    return `calc((100vw - ${breakpointWidth - space[5]}px) / 2)`;
+    return `calc((100vw - ${breakpointWidth - space[9]}px) / 2)`;
 }
 
 export const minimisedBanner = css`
@@ -167,16 +182,16 @@ export const minimisedBanner = css`
     bottom: 0;
     height: 136px;
     width: auto;
-    padding-right: ${space[3]}px;
+    border-right: none;
     transition: width 1s;
 
     ${from.mobileLandscape} {
-        padding-right: ${space[5]}px;
         height: 176px;
     }
 
     /* Maintain a right-hand offset that matches the edge of the main container */
     ${from.tablet} {
+        border-right: ${squareBorder};
         padding-right: ${paddingOffsetFor(breakpoints.tablet)};
     }
 

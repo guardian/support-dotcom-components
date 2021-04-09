@@ -328,6 +328,7 @@ export const ContributionsEpicComponent: (
                 }}
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
+                isSignedIn={Boolean(email)}
             />
 
             {isReminderActive && showReminderFields && (
