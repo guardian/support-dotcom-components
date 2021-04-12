@@ -21,7 +21,6 @@ import {
     BannerProps,
     BannerTargeting,
     BannerTestTracking,
-    BannerTracking,
     PuzzlesBannerProps,
 } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
@@ -267,9 +266,6 @@ export const buildPuzzlesData = async (
     params: Params,
     req: express.Request,
 ): Promise<PuzzlesDataResponse> => {
-    const puzzlesTracking: Partial<BannerTracking> = {
-        componentType: 'ACQUISITIONS_OTHER',
-    };
     if (targeting.showSupportMessaging) {
         return {
             data: {
@@ -281,7 +277,7 @@ export const buildPuzzlesData = async (
                     props: {
                         tracking: {
                             ...pageTracking,
-                            ...puzzlesTracking,
+                            componentType: 'ACQUISITIONS_OTHER',
                         },
                     },
                 },

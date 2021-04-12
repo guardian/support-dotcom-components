@@ -20,9 +20,9 @@ export type BannerTargeting = {
 };
 
 export type BannerTestTracking = {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
+    abTestName?: string;
+    abTestVariant?: string;
+    campaignCode?: string;
     componentType: OphanComponentType;
     products?: OphanProduct[];
 };
@@ -35,8 +35,6 @@ export type BannerPageTracking = {
 };
 
 export type BannerTracking = BannerTestTracking & BannerPageTracking;
-
-export type PuzzlesBannerTracking = Partial<BannerTestTracking> & Partial<BannerPageTracking>;
 
 export type BannerDataRequestPayload = {
     tracking: BannerPageTracking;
@@ -119,7 +117,7 @@ export interface BannerProps {
 }
 
 export interface PuzzlesBannerProps {
-    tracking: PuzzlesBannerTracking;
+    tracking: BannerTracking;
     content?: BannerContent;
     mobileContent?: BannerContent;
     countryCode?: string;
