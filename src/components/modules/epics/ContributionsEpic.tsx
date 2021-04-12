@@ -263,7 +263,7 @@ export const ContributionsEpicComponent: (
 
     return (
         <section css={wrapperStyles}>
-            {acVariant === EpicSeparateArticleCountTestVariants.above && (
+            {variant.separateArticleCount?.type === 'above' && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAbove
                         numArticles={numArticles}

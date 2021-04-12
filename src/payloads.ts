@@ -27,10 +27,6 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { epic as epicModule, liveblogEpic as liveblogEpicModule, puzzlesBanner } from './modules';
-import {
-    epicSeparateArticleCountTestEuRow,
-    epicSeparateArticleCountTestUkAus,
-} from './tests/epicArticleCountTest';
 
 interface EpicDataResponse {
     data?: {
@@ -95,12 +91,7 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
 
-    return [
-        epicSeparateArticleCountTestUkAus,
-        epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
-        ...hardCoded,
-    ];
+    return [...regular.tests, ...hardCoded];
 };
 
 const getForceableArticleEpicTests = async (): Promise<Test[]> => {
@@ -108,13 +99,7 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
 
-    return [
-        epicSeparateArticleCountTestUkAus,
-        epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
-        ...hardCoded,
-        ...holdback.tests,
-    ];
+    return [...regular.tests, ...hardCoded, ...holdback.tests];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
