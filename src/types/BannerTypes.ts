@@ -116,16 +116,8 @@ export interface BannerProps {
     hasOptedOutOfArticleCount?: boolean;
 }
 
-export interface PuzzlesBannerProps {
+export interface PuzzlesBannerProps extends Partial<BannerProps> {
     tracking: BannerTracking;
-    content?: BannerContent;
-    mobileContent?: BannerContent;
-    countryCode?: string;
-    isSupporter?: boolean;
-    tickerSettings?: TickerSettings;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    numArticles?: number;
-    hasOptedOutOfArticleCount?: boolean;
 }
 
 export interface RawVariantParams {
