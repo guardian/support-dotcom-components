@@ -36,6 +36,8 @@ export type BannerPageTracking = {
 
 export type BannerTracking = BannerTestTracking & BannerPageTracking;
 
+export type PuzzlesBannerTracking = Partial<BannerTestTracking> & Partial<BannerPageTracking>;
+
 export type BannerDataRequestPayload = {
     tracking: BannerPageTracking;
     targeting: BannerTargeting;
@@ -116,8 +118,16 @@ export interface BannerProps {
     hasOptedOutOfArticleCount?: boolean;
 }
 
-export interface PuzzlesBannerProps extends Partial<BannerProps> {
-    tracking: BannerTracking;
+export interface PuzzlesBannerProps {
+    tracking: PuzzlesBannerTracking;
+    content?: BannerContent;
+    mobileContent?: BannerContent;
+    countryCode?: string;
+    isSupporter?: boolean;
+    tickerSettings?: TickerSettings;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    numArticles?: number;
+    hasOptedOutOfArticleCount?: boolean;
 }
 
 export interface RawVariantParams {
