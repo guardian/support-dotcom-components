@@ -29,6 +29,13 @@ export const banner = css`
         flex-direction: column;
         align-items: flex-end;
     }
+
+    @media print {
+        &,
+        & * {
+            display: none;
+        }
+    }
 `;
 
 export const bannerContents = css`
