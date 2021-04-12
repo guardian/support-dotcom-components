@@ -277,6 +277,9 @@ export const buildPuzzlesData = async (
                     props: {
                         tracking: {
                             ...pageTracking,
+                            abTestName: 'default',
+                            abTestVariant: 'control',
+                            campaignCode: 'PUZZLES_BANNER',
                             componentType: 'ACQUISITIONS_OTHER',
                         },
                     },

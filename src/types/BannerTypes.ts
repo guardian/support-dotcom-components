@@ -20,9 +20,9 @@ export type BannerTargeting = {
 };
 
 export type BannerTestTracking = {
-    abTestName?: string;
-    abTestVariant?: string;
-    campaignCode?: string;
+    abTestName: string;
+    abTestVariant: string;
+    campaignCode: string;
     componentType: OphanComponentType;
     products?: OphanProduct[];
 };
