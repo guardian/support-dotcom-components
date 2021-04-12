@@ -39,7 +39,7 @@ export interface TickerSettings {
     tickerData?: TickerData;
 }
 
-interface MaxViews {
+export interface MaxViews {
     maxViewsCount: number;
     maxViewsDays: number;
     minDaysBetweenViews: number;
@@ -67,6 +67,15 @@ export interface Variant {
     showReminderFields?: ReminderFields;
     modulePathBuilder?: (version?: string) => string;
     separateArticleCount?: SeparateArticleCount;
+
+    // Variant level maxViews are for special targeting tests. These
+    // are handled differently to our usual copy/design tests. To
+    // set up a targeting test, the test should be set to alwaysAsk
+    // and each variant should have a maxViews set. We then check if a
+    // a user should actually see an epic after they have been assigned to
+    // the test + variant. This means users **wont** fall through to a test
+    // with lower priority.
+    maxViews?: MaxViews;
 }
 
 interface ControlProportionSettings {
@@ -369,10 +378,16 @@ export const findTestAndVariant = (
             showReminderFields,
         };
 
-        return {
-            result: { test, variant: variantWithReminder },
-            debug: includeDebug ? debug : undefined,
-        };
+        const shouldThrottleVariant =
+            !!variant.maxViews &&
+            shouldThrottle(targeting.epicViewLog || [], variant.maxViews, test.name);
+
+        if (!shouldThrottleVariant) {
+            return {
+                result: { test, variant: variantWithReminder },
+                debug: includeDebug ? debug : undefined,
+            };
+        }
     }
 
     return { debug: includeDebug ? debug : undefined };
