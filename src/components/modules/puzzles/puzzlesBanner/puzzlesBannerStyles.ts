@@ -29,6 +29,13 @@ export const banner = css`
         flex-direction: column;
         align-items: flex-end;
     }
+
+    @media print {
+        &,
+        & * {
+            display: none;
+        }
+    }
 `;
 
 export const bannerContents = css`
@@ -86,6 +93,9 @@ export const heading = css`
 export const appStoreButtonContainer = css`
     display: flex;
     flex-direction: column;
+    z-index: 2;
+    position: relative;
+    align-items: flex-start;
 
     a {
         margin-bottom: ${space[2]}px;
