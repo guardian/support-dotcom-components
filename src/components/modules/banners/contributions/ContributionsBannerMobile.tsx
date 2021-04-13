@@ -1,6 +1,6 @@
 import React from 'react';
 import { commonStyles } from './ContributionsBannerCommonStyles';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';

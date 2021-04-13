@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from 'emotion-theming';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';

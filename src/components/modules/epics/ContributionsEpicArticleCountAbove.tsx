@@ -1,7 +1,7 @@
 import React from 'react';
 import { body } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { ArticleCountOptOut, OphanTracking } from '../shared/ArticleCountOptOut';
 
 const containerStyles = css`

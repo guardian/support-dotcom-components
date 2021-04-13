@@ -29,12 +29,15 @@ const tsOpts = {
 };
 
 const globals = {
-    react: 'guardian.automat.preact',
-    '@emotion/core': 'guardian.automat.emotionCore',
+    react: 'guardian.automat.react',
+    '@emotion/react': 'guardian.automat.emotionReact',
 };
 
-const config = (args) => {
-    const modules = args.moduleName ? [moduleInfos.find(i => i.name === args.moduleName)] : moduleInfos;
+const config = args => {
+    const modules = args.moduleName
+        ? [moduleInfos.find(i => i.name === args.moduleName)]
+        : moduleInfos;
+
     return modules.map(module => {
         const isProd = process.env.NODE_ENV === 'production';
         const sourcemaps = !isProd; // Nb: set to false if testing IE11
@@ -47,7 +50,9 @@ const config = (args) => {
             },
             external: id => Object.keys(globals).some(key => id == key),
             plugins: [
-                resolveNode(),
+                resolveNode({
+                    mainFields: ['main'],
+                }),
                 commonjs(),
                 json(),
                 typescript(tsOpts),

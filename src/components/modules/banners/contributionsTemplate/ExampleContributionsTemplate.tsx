@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { ThemeProvider } from 'emotion-theming';
 import { Button, LinkButton, buttonBrandAlt } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
