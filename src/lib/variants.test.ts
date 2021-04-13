@@ -587,7 +587,6 @@ describe('withinMaxViews filter', () => {
         { date: new Date('2019-07-21T10:24:00').valueOf(), testId: 'example-1' },
         { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
     ];
-
     const now = new Date('2019-08-17T10:24:00');
     const filter = withinMaxViews(viewLog, now);
 
