@@ -50,6 +50,10 @@ export interface Cta {
     baseUrl: string;
 }
 
+export interface SeparateArticleCount {
+    type: 'above';
+}
+
 export interface Variant {
     name: string;
     heading?: string;
@@ -62,6 +66,7 @@ export interface Variant {
     backgroundImageUrl?: string;
     showReminderFields?: ReminderFields;
     modulePathBuilder?: (version?: string) => string;
+    separateArticleCount?: SeparateArticleCount;
 }
 
 interface ControlProportionSettings {
