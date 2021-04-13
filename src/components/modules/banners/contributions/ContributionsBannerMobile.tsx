@@ -67,8 +67,8 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
             <div css={styles.ctaContainer}>
                 <ContributionsBannerCta
                     onContributeClick={onContributeClick}
-                    ctaText={content.ctaText}
-                    ctaUrl={content.ctaUrl}
+                    ctaText={content.primaryCta?.ctaText || ''}
+                    ctaUrl={content.primaryCta?.ctaUrl || ''}
                     stacked={true}
                 />
             </div>
