@@ -67,6 +67,10 @@ export const squaresContainer = css`
         right: 0;
     }
 
+    ${until.mobileMedium} {
+        bottom: 40px;
+    }
+
     ${from.desktop} {
         padding-right: 44px;
     }
