@@ -81,6 +81,10 @@ export const heading = css`
     ${headline.large({ fontWeight: 'bold' })};
     margin: 0 0 ${space[6]}px;
 
+    ${until.mobileMedium} {
+        ${headline.medium({ fontWeight: 'bold' })}
+    }
+
     ${between.tablet.and.desktop} {
         ${headline.small({ fontWeight: 'bold' })}
     }
