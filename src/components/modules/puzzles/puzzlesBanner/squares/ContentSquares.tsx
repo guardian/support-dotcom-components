@@ -26,6 +26,7 @@ function withIECompatibleGap(rowsOrCols: string[], gap: string) {
 
 const squareSizes = {
     mobile: {
+        xsmall: 84,
         small: space[24],
         medium: 120,
         large: 152,
@@ -41,15 +42,28 @@ const contentSquare = css`
     border-bottom: ${squareBorder};
     padding-top: 0;
     box-shadow: ${squareBoxShadow};
-    min-width: ${squareSizes.mobile.small}px;
-    min-height: ${squareSizes.mobile.small}px;
+    min-width: ${squareSizes.mobile.xsmall}px;
+    min-height: ${squareSizes.mobile.xsmall}px;
+
+    ${until.mobileMedium} {
+        font-size: 15px;
+    }
 
     p {
         width: 100%;
         padding: ${space[1]}px;
         padding-left: 0;
         margin: 0;
-        margin-left: -2px;
+        margin-left: -4px;
+
+        ${from.mobileMedium} {
+            margin-left: --2px;
+        }
+    }
+
+    ${from.mobileMedium} {
+        min-width: ${squareSizes.mobile.small}px;
+        min-height: ${squareSizes.mobile.small}px;
     }
 
     ${from.tablet} {
@@ -71,6 +85,11 @@ const bottomLeftOnMobile = css`
         width: ${squareSizes.mobile.medium}px;
         height: ${squareSizes.mobile.medium}px;
     }
+
+    ${until.mobileMedium} {
+        width: ${squareSizes.mobile.small}px;
+        height: ${squareSizes.mobile.small}px;
+    }
 `;
 
 const bottomRightOnMobile = css`
@@ -79,6 +98,11 @@ const bottomRightOnMobile = css`
         grid-column: 3;
         width: ${squareSizes.mobile.large}px;
         height: ${squareSizes.mobile.large}px;
+    }
+
+    ${until.mobileMedium} {
+        width: ${squareSizes.mobile.medium}px;
+        height: ${squareSizes.mobile.medium}px;
     }
 `;
 

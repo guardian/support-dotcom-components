@@ -93,7 +93,7 @@ export const heading = css`
 export const appStoreButtonContainer = css`
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 3;
     position: relative;
     align-items: flex-start;
 
