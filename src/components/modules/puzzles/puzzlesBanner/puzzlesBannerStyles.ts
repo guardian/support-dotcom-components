@@ -67,6 +67,10 @@ export const squaresContainer = css`
         right: 0;
     }
 
+    ${until.mobileMedium} {
+        bottom: 40px;
+    }
+
     ${from.desktop} {
         padding-right: 44px;
     }
@@ -81,6 +85,10 @@ export const heading = css`
     ${headline.large({ fontWeight: 'bold' })};
     margin: 0 0 ${space[6]}px;
 
+    ${until.mobileMedium} {
+        ${headline.medium({ fontWeight: 'bold' })}
+    }
+
     ${between.tablet.and.desktop} {
         ${headline.small({ fontWeight: 'bold' })}
     }
@@ -93,7 +101,7 @@ export const heading = css`
 export const appStoreButtonContainer = css`
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 3;
     position: relative;
     align-items: flex-start;
 
