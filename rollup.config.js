@@ -23,17 +23,19 @@ const tsOpts = {
     strict: true,
     noImplicitReturns: true,
     esModuleInterop: true,
-    jsx: 'preserve',
+    jsx: 'react-jsx',
     include: ['src/**/*'],
     exclude: ['node_modules', '**/*.test.ts', 'src/factories/*', 'src/cdk/*'],
     tsconfig: false,
+    skipLibCheck: true,
 };
 
 const globals = {
-    react: 'guardian.automat.react',
+    // react: 'guardian.automat.react',
     '@emotion/react': 'guardian.automat.emotionReact',
     preact: 'guardian.automat.preact',
-    '@emotion/core': 'guardian.automat.emotionCore',
+    react: 'guardian.automat.react',
+    // '@emotion/core': 'guardian.automat.emotionCore',
 };
 
 const config = args => {

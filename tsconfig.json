@@ -7,13 +7,19 @@
         "noUncheckedIndexedAccess": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
-        "jsx": "react",
+        "jsx": "react-jsx",
         "outDir": "dist",
         "typeRoots": ["./src/@types", "./node_modules/@types", "node_modules/@types"],
         "rootDirs": ["src", "stories"],
         "baseUrl": "src",
-        "types": ["node", "jest", "@emotion/core"]
+        "types": ["node", "jest", "@emotion/react"],
+        "skipLibCheck": true
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "src/**/*.test.ts", "src/factories/*", "src/tests/banners/*.tests.ts"]
+    "exclude": [
+        "node_modules",
+        "src/**/*.test.ts",
+        "src/factories/*",
+        "src/tests/banners/*.tests.ts"
+    ]
 }
