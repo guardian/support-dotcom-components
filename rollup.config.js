@@ -7,6 +7,7 @@ require('ts-node').register({
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { moduleInfos } = require('./src/modules.ts');
 
+import alias from '@rollup/plugin-alias';
 import resolveNode from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
@@ -29,12 +30,16 @@ const tsOpts = {
 };
 
 const globals = {
-    react: 'guardian.automat.preact',
+    react: 'guardian.automat.react',
+    '@emotion/react': 'guardian.automat.emotionReact',
+    preact: 'guardian.automat.preact',
     '@emotion/core': 'guardian.automat.emotionCore',
 };
 
-const config = (args) => {
-    const modules = args.moduleName ? [moduleInfos.find(i => i.name === args.moduleName)] : moduleInfos;
+const config = args => {
+    const modules = args.moduleName
+        ? [moduleInfos.find(i => i.name === args.moduleName)]
+        : moduleInfos;
     return modules.map(module => {
         const isProd = process.env.NODE_ENV === 'production';
         const sourcemaps = !isProd; // Nb: set to false if testing IE11
@@ -47,6 +52,12 @@ const config = (args) => {
             },
             external: id => Object.keys(globals).some(key => id == key),
             plugins: [
+                alias({
+                    entries: [
+                        { find: 'react', replacement: 'preact/compat' },
+                        { find: 'react-dom', replacement: 'preact/compat' },
+                    ],
+                }),
                 resolveNode(),
                 commonjs(),
                 json(),
