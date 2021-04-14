@@ -66,6 +66,9 @@ const EU_ROW_LESS_ENGAGED_PARAGRAPHS = [
 const HIGHLIGHTED_TEXT =
     'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.';
 
+const US_HIGHLIGHTED_TEXT =
+    'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.';
+
 const CTA: Cta = {
     text: 'Support The Guardian',
     baseUrl: 'https://support.theguardian.com/contribute',
@@ -75,15 +78,19 @@ const CTA: Cta = {
 
 const BASE_VARIANT = {
     modulePathBuilder: epic.endpointPathBuilder,
-    highlightedText: HIGHLIGHTED_TEXT,
     cta: CTA,
 };
 
-function getVariants(paragraphs: string[], kind: 'HIGHLY_ENGAGED' | 'LESS_ENGAGED'): Variant[] {
+function getVariants(
+    paragraphs: string[],
+    kind: 'HIGHLY_ENGAGED' | 'LESS_ENGAGED',
+    highlightedText: string = HIGHLIGHTED_TEXT,
+): Variant[] {
     const control = {
         ...BASE_VARIANT,
         name: 'control',
         paragraphs,
+        highlightedText,
         maxViews: CONTROL_MAX_VIEWS,
     };
 
@@ -117,8 +124,13 @@ export const UK_AUS_LESS_ENGAGED_VARIANTS = getVariants(
 export const US_HIGHLY_ENGAGED_VARIANTS = getVariants(
     US_HIGHLY_ENGAGED_PARAGRAPHS,
     'HIGHLY_ENGAGED',
+    US_HIGHLIGHTED_TEXT,
 );
-export const US_LESS_ENGAGED_VARIANTS = getVariants(US_LESS_ENGAGED_PARAGRAPHS, 'LESS_ENGAGED');
+export const US_LESS_ENGAGED_VARIANTS = getVariants(
+    US_LESS_ENGAGED_PARAGRAPHS,
+    'LESS_ENGAGED',
+    US_HIGHLIGHTED_TEXT,
+);
 
 export const EU_ROW_HIGHLY_ENGAGED_VARIANTS = getVariants(
     EU_ROW_HIGHLY_ENGAGED_PARAGRAPHS,
