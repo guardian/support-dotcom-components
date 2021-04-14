@@ -57,7 +57,7 @@ const contentSquare = css`
         margin-left: -4px;
 
         ${from.mobileMedium} {
-            margin-left: --2px;
+            margin-left: -2px;
         }
     }
 
