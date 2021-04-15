@@ -12,6 +12,7 @@ import {
     withinArticleViewedSettings,
     userInTest,
     isNotExpired,
+    SecondaryCtaType,
 } from './variants';
 import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
 import { withNowAs } from '../utils/withNowAs';
@@ -49,9 +50,12 @@ const testDefault: Test = {
                 baseUrl: 'https://support.theguardian.com/contribute',
             },
             secondaryCta: {
-                text: 'Read our pledge',
-                baseUrl:
-                    'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
+                type: SecondaryCtaType.Custom,
+                cta: {
+                    text: 'Read our pledge',
+                    baseUrl:
+                        'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
+                },
             },
         },
     ],
