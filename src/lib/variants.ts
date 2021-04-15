@@ -5,7 +5,7 @@ import {
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from './targeting';
 import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
-import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from './history';
+import { historyWithinArticlesViewedSettings } from './history';
 import { isRecentOneOffContributor } from './dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { getReminderFields, ReminderFields } from './reminderFields';
@@ -247,29 +247,6 @@ export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     test: (test): boolean => userCohorts.includes(test.userCohort),
 });
 
-// Prevent cases like "...you've read 0 articles...".
-// This could happen when the article history required by the test
-// is different than the date range used by the template itself.
-export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52): Filter => ({
-    id: 'hasNoZeroArticleCount',
-    test: (test, targeting): boolean => {
-        const mustHaveHistory =
-            test.articlesViewedSettings && test.articlesViewedSettings.periodInWeeks;
-
-        if (!mustHaveHistory) {
-            return true;
-        }
-
-        const numArticlesInWeeks = getArticleViewCountForWeeks(
-            targeting.weeklyArticleHistory || [],
-            templateWeeks,
-            now,
-        );
-
-        return numArticlesInWeeks > 0;
-    },
-});
-
 export const shouldNotRender = (epicType: EpicType): Filter => ({
     id: 'shouldNotRender',
     test: (_, targeting): boolean => !shouldNotRenderEpic(targeting, epicType),
@@ -339,7 +316,6 @@ export const findTestAndVariant = (
         matchesCountryGroups,
         withinMaxViews(targeting.epicViewLog || []),
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-        hasNoZeroArticleCount(),
         respectArticleCountOptOut,
     ];
 
