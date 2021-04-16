@@ -3,8 +3,8 @@ import { header } from '../../modules';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
-const nonSupportersTest: HeaderTest = {
-    name: 'RemoteRrHeaderLinksTest',
+const nonSupportersTestNonUK: HeaderTest = {
+    name: 'RemoteRrHeaderLinksTest__NonUK',
     audience: 'AllNonSupporters',
     variants: [
         {
@@ -25,6 +25,28 @@ const nonSupportersTest: HeaderTest = {
         },
     ],
 };
+const nonSupportersTestUK: HeaderTest = {
+    name: 'RemoteRrHeaderLinksTest__UK',
+    audience: 'AllNonSupporters',
+    variants: [
+        {
+            name: 'remote',
+            modulePathBuilder,
+            content: {
+                heading: 'Support the Guardian',
+                subheading: 'Available for everyone, funded by readers',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Subscribe',
+                },
+                secondaryCta: {
+                    url: 'https://support.theguardian.com/contribute',
+                    text: 'Contribute',
+                },
+            },
+        },
+    ],
+};
 const supportersTest: HeaderTest = {
     name: 'header-supporter',
     audience: 'AllNonSupporters',
@@ -40,10 +62,15 @@ const supportersTest: HeaderTest = {
     ],
 };
 
+const getNonSupportersTest = (edition: string): HeaderTest =>
+    edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
+
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
-    const test = targeting.showSupportMessaging ? nonSupportersTest : supportersTest;
+    const test = targeting.showSupportMessaging
+        ? getNonSupportersTest(targeting.edition)
+        : supportersTest;
     const variant = test.variants[targeting.mvtId % test.variants.length];
     if (test && variant) {
         return Promise.resolve({
