@@ -40,15 +40,22 @@ const linkStyles = css`
     svg {
         width: 24px;
     }
-    ${until.mobileMedium} {
-        svg {
-            display: none;
-        }
-    }
 `;
 
 const hiddenUntilTablet = css`
     ${until.tablet} {
+        display: none;
+    }
+`;
+
+const hiddenUntilMobileMedium = css`
+    ${until.mobileMedium} {
+        display: none;
+    }
+`;
+
+const hiddenFromMobileMedium = css`
+    ${from.mobileMedium} {
         display: none;
     }
 `;
@@ -84,7 +91,14 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                         icon={<SvgArrowRightStraight />}
                         iconSide="right"
                         nudgeIcon={true}
-                        css={linkStyles}
+                        css={[hiddenUntilMobileMedium, linkStyles]}
+                    >
+                        {primaryCta.text}
+                    </LinkButton>
+                    <LinkButton
+                        priority="primary"
+                        href={addTracking(primaryCta.url)}
+                        css={[hiddenFromMobileMedium, linkStyles]}
                     >
                         {primaryCta.text}
                     </LinkButton>
