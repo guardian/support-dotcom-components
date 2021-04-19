@@ -56,18 +56,15 @@ export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise
         tickerData: tickerData,
     }));
 
-export const addTickerDataToVariant = (variant: Variant): Promise<Variant> => {
+export const getTickerSettings = (variant: Variant): Promise<TickerSettings | undefined> => {
     if (variant.tickerSettings) {
         const tickerSettings = variant.tickerSettings;
 
         return fetchTickerDataCached(tickerSettings).then((tickerData: TickerData) => ({
-            ...variant,
-            tickerSettings: {
-                ...tickerSettings,
-                tickerData,
-            },
+            ...tickerSettings,
+            tickerData,
         }));
     } else {
-        return Promise.resolve(variant);
+        return Promise.resolve(undefined);
     }
 };

@@ -1,5 +1,5 @@
 import { epic } from '../modules';
-import { Cta, MaxViews, Test, Variant } from '../lib/variants';
+import { Cta, MaxViews, SecondaryCta, SecondaryCtaType, Test, Variant } from '../lib/variants';
 import { ArticlesViewedSettings } from '../types/shared';
 
 // ---- MaxViews ---- //
@@ -74,11 +74,16 @@ const CTA: Cta = {
     baseUrl: 'https://support.theguardian.com/contribute',
 };
 
+const SECONDARY_CTA: SecondaryCta = {
+    type: SecondaryCtaType.ContributionsReminder,
+};
+
 // ---- Variants ---- //
 
 const BASE_VARIANT = {
     modulePathBuilder: epic.endpointPathBuilder,
     cta: CTA,
+    secondaryCta: SECONDARY_CTA,
 };
 
 function getVariants(

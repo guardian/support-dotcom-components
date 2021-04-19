@@ -15,7 +15,7 @@ import { getAllHardcodedTests } from './tests';
 import { Params } from './lib/params';
 import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { baseUrl } from './lib/env';
-import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
+import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
 import {
     BannerPageTracking,
     BannerProps,
@@ -28,6 +28,7 @@ import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { epic as epicModule, liveblogEpic as liveblogEpicModule, puzzlesBanner } from './modules';
 import { tests as epicTargetingTests } from './tests/epicTargetingTest';
+import { getReminderFields } from './lib/reminderFields';
 
 interface EpicDataResponse {
     data?: {
@@ -145,7 +146,10 @@ export const buildEpicData = async (
 
     const { test, variant } = result.result;
 
-    const variantWithTickerData = await addTickerDataToVariant(variant);
+    const tickerSettings = await getTickerSettings(variant);
+    const showReminderFields = getReminderFields(variant, targeting);
+
+    const variantWithTickerAndReminder = { ...variant, tickerSettings, showReminderFields };
 
     const testTracking: EpicTestTracking = {
         abTestName: test.name,
@@ -157,7 +161,7 @@ export const buildEpicData = async (
     };
 
     const props: EpicProps = {
-        variant: variantWithTickerData,
+        variant: variantWithTickerAndReminder,
         tracking: { ...pageTracking, ...testTracking },
         numArticles: getArticleViewCountForWeeks(
             targeting.weeklyArticleHistory,
@@ -167,14 +171,14 @@ export const buildEpicData = async (
     };
 
     const modulePathBuilder: (version?: string) => string =
-        variantWithTickerData.modulePathBuilder ||
+        variantWithTickerAndReminder.modulePathBuilder ||
         (type === 'ARTICLE'
             ? epicModule.endpointPathBuilder
             : liveblogEpicModule.endpointPathBuilder);
 
     return {
         data: {
-            variant: variantWithTickerData,
+            variant: variantWithTickerAndReminder,
             meta: testTracking,
             module: {
                 url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,

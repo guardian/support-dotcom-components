@@ -1,6 +1,6 @@
 import { EpicTestTracking, EpicPageTracking, EpicTracking } from '../ContributionsEpicTypes';
 import { EpicProps } from '../ContributionsEpic';
-import { Variant } from '../../../../lib/variants';
+import { SecondaryCtaType, Variant } from '../../../../lib/variants';
 
 const variant: Variant = {
     name: 'control',
@@ -18,9 +18,12 @@ const variant: Variant = {
         baseUrl: 'https://support.theguardian.com/contribute',
     },
     secondaryCta: {
-        text: 'Read our pledge',
-        baseUrl:
-            'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
+        type: SecondaryCtaType.Custom,
+        cta: {
+            text: 'Read our pledge',
+            baseUrl:
+                'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
+        },
     },
 };
 
