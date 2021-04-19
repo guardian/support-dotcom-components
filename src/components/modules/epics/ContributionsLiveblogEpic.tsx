@@ -79,7 +79,7 @@ const ctaContainer: SerializedStyles = css`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    *:first-child {
+    *:first-of-type {
         margin-right: 25px;
     }
 

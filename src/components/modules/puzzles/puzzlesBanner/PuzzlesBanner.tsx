@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CacheProvider } from '@emotion/core';
-import createCache from '@emotion/cache';
+// import { CacheProvider } from '@emotion/react';
+// import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
@@ -10,7 +10,7 @@ import {
     createViewEventFromTracking,
 } from '../../../../lib/tracking';
 import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
-import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
+// import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { useTabDetection } from '../../../hooks/useTabDetection';
@@ -58,9 +58,9 @@ const bannerStateChangeComponentIds: { [key in BannerStateChange]: string } = {
 };
 
 // A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
-const emotionCache = createCache({
-    stylisPlugins: [gridPrefixerPlugin()],
-});
+// const emotionCache = createCache({
+//     stylisPlugins: [gridPrefixerPlugin()],
+// });
 
 const desktopPackshot = {
     url: packshot.desktop,
@@ -144,63 +144,60 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     }, []);
 
     return (
-        <CacheProvider value={emotionCache}>
-            <section css={[banner, isMinimised ? minimisedBanner : '']}>
-                <Container css={hideOnMinimise}>
-                    <div css={[bannerContents, hideOnMinimise]}>
-                        <div css={[headingSection, hideOnMinimise]}>
-                            <h3 css={heading}>
-                                Discover
-                                <br />
-                                The&nbsp;Guardian
-                                <br />
-                                Puzzles&nbsp;App
-                            </h3>
-                            <div css={appStoreButtonContainer}>
-                                <Link
-                                    href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={handleAppStoreClickFor('apple')}
-                                >
-                                    <img
-                                        src={appStore.apple}
-                                        alt="Download on the Apple App Store"
-                                    />
-                                </Link>
-                                <Link
-                                    href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={handleAppStoreClickFor('google')}
-                                >
-                                    <img src={appStore.google} alt="Get it on Google Play" />
-                                </Link>
-                            </div>
-                            {isKeyboardUser && (
-                                <p css={minimiseHint}>
-                                    <SvgInfo /> You can minimise this banner using the escape key
-                                </p>
-                            )}
+        // <CacheProvider value={emotionCache}>
+        <section css={[banner, isMinimised ? minimisedBanner : '']}>
+            <Container css={hideOnMinimise}>
+                <div css={[bannerContents, hideOnMinimise]}>
+                    <div css={[headingSection, hideOnMinimise]}>
+                        <h3 css={heading}>
+                            Discover
+                            <br />
+                            The&nbsp;Guardian
+                            <br />
+                            Puzzles&nbsp;App
+                        </h3>
+                        <div css={appStoreButtonContainer}>
+                            <Link
+                                href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={handleAppStoreClickFor('apple')}
+                            >
+                                <img src={appStore.apple} alt="Download on the Apple App Store" />
+                            </Link>
+                            <Link
+                                href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={handleAppStoreClickFor('google')}
+                            >
+                                <img src={appStore.google} alt="Get it on Google Play" />
+                            </Link>
                         </div>
-                        <div css={[squaresContainer, hideOnMinimise]}>
-                            <ContentSquares />
-                            <div css={imageContainer}>
-                                <ResponsiveImage
-                                    images={[tabletPackshot, desktopPackshot]}
-                                    baseImage={tabletPackshot}
-                                />
-                            </div>
-                            <TabletDesktopSquares minimiseButton={MinimiseButton} />
-                        </div>
+                        {isKeyboardUser && (
+                            <p css={minimiseHint}>
+                                <SvgInfo /> You can minimise this banner using the escape key
+                            </p>
+                        )}
                     </div>
-                </Container>
-                <MobileSquares minimiseButton={MinimiseButton} cssOverrides={hideOnMinimise} />
-                <div css={[hideOnExpand, minimisedContentContainer]}>
-                    <MinimisedContentSquare minimiseButton={MinimiseButton} />
-                    <MinimisedBorderSquares />
+                    <div css={[squaresContainer, hideOnMinimise]}>
+                        <ContentSquares />
+                        <div css={imageContainer}>
+                            <ResponsiveImage
+                                images={[tabletPackshot, desktopPackshot]}
+                                baseImage={tabletPackshot}
+                            />
+                        </div>
+                        <TabletDesktopSquares minimiseButton={MinimiseButton} />
+                    </div>
                 </div>
-            </section>
-        </CacheProvider>
+            </Container>
+            <MobileSquares minimiseButton={MinimiseButton} cssOverrides={hideOnMinimise} />
+            <div css={[hideOnExpand, minimisedContentContainer]}>
+                <MinimisedContentSquare minimiseButton={MinimiseButton} />
+                <MinimisedBorderSquares />
+            </div>
+        </section>
+        // </CacheProvider>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { commonStyles } from './ContributionsBannerCommonStyles';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
@@ -17,13 +17,13 @@ const styles = {
     `,
     heading: css`
         ${headline.xsmall({ fontWeight: 'bold' })};
-        max-width: 90%; // to avoid pushing the close button off screen on mobile devices with extra large font
+        max-width: 90%; /* to avoid pushing the close button off screen on mobile devices with extra large font */
     `,
     copy: css`
         margin-top: 2px;
     `,
     ctaContainer: css`
-        > :first-child {
+        *:first-of-type {
             margin-right: 5px;
         }
         margin-top: 20px;

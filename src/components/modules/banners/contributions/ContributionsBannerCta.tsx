@@ -3,7 +3,7 @@ import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 

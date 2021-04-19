@@ -4,7 +4,7 @@ import { ContributionsEpic, EpicProps } from './ContributionsEpic';
 import { TickerCountType, TickerEndType } from '../../../lib/variants';
 import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 
 const containerStyles = css`

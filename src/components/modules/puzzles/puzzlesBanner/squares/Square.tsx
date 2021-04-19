@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { squareBorder } from '../puzzlesBannerStyles';
 

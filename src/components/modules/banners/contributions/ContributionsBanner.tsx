@@ -2,7 +2,7 @@ import React from 'react';
 import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral } from '@guardian/src-foundations';

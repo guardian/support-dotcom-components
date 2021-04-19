@@ -1,5 +1,5 @@
 import { Plugin } from '@emotion/stylis';
-
+// This needs to use `StylisPlug` from `@emotion/cache` and then updates the function as required.
 /*
     A Stylis plugin for transforming grid rules to work better in IE11
     Adapted from here:

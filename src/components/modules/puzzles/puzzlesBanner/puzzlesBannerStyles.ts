@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { breakpoints, space } from '@guardian/src-foundations';
