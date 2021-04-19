@@ -13,9 +13,7 @@ import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { EpicSeparateArticleCountTestVariants } from '../../../tests/epicArticleCountTest';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
-import { ContributionsEpicArticleCountInline } from './ContributionsEpicArticleCountInline';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
 
@@ -86,12 +84,6 @@ const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
 
-const articleCountInlineContainerStyles = css`
-    float: left;
-    margin-top: 6px;
-    margin-right: ${space[4]}px;
-`;
-
 export type EpicProps = {
     variant: Variant;
     tracking: EpicTracking;
@@ -115,7 +107,6 @@ type BodyProps = {
     highlightedText?: string;
     countryCode?: string;
     numArticles: number;
-    acVariant: EpicSeparateArticleCountTestVariants;
     tracking?: OphanTracking;
 };
 
@@ -181,7 +172,6 @@ const EpicBody: React.FC<BodyProps> = ({
     numArticles,
     paragraphs,
     highlightedText,
-    acVariant,
     tracking,
 }: BodyProps) => {
     return (
@@ -205,28 +195,13 @@ const EpicBody: React.FC<BodyProps> = ({
                     />
                 );
 
-                if (acVariant === EpicSeparateArticleCountTestVariants.inline && idx === 1) {
-                    return (
-                        <div>
-                            <div css={articleCountInlineContainerStyles}>
-                                <ContributionsEpicArticleCountInline
-                                    numArticles={numArticles}
-                                    tracking={tracking}
-                                />
-                            </div>
-                            {paragraphElement}
-                        </div>
-                    );
-                }
                 return paragraphElement;
             })}
         </>
     );
 };
 
-export const ContributionsEpicComponent: (
-    acVariant: EpicSeparateArticleCountTestVariants,
-) => React.FC<EpicProps> = acVariant => ({
+export const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
@@ -263,7 +238,7 @@ export const ContributionsEpicComponent: (
 
     return (
         <section css={wrapperStyles}>
-            {acVariant === EpicSeparateArticleCountTestVariants.above && (
+            {variant.separateArticleCount?.type === 'above' && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAbove
                         numArticles={numArticles}
@@ -303,7 +278,6 @@ export const ContributionsEpicComponent: (
                 highlightedText={cleanHighlighted}
                 countryCode={countryCode}
                 numArticles={numArticles}
-                acVariant={acVariant}
                 tracking={ophanTracking}
             />
 
@@ -343,7 +317,3 @@ export const ContributionsEpicComponent: (
         </section>
     );
 };
-
-export const ContributionsEpic: React.FC<EpicProps> = ContributionsEpicComponent(
-    EpicSeparateArticleCountTestVariants.control,
-);

@@ -97,3 +97,14 @@ WithTicker.args = {
         },
     },
 };
+
+export const WithSeparateArticleCount = Template.bind({});
+WithSeparateArticleCount.args = {
+    variant: {
+        ...props.variant,
+        separateArticleCount: {
+            type: 'above',
+        },
+    },
+    numArticles: 99,
+};

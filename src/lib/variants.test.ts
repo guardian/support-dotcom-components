@@ -11,7 +11,6 @@ import {
     withinMaxViews,
     withinArticleViewedSettings,
     userInTest,
-    hasNoZeroArticleCount,
     isNotExpired,
 } from './variants';
 import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
@@ -587,7 +586,6 @@ describe('withinMaxViews filter', () => {
         { date: new Date('2019-07-21T10:24:00').valueOf(), testId: 'example-1' },
         { date: new Date('2019-08-11T10:24:00').valueOf(), testId: 'example-1' },
     ];
-
     const now = new Date('2019-08-17T10:24:00');
     const filter = withinMaxViews(viewLog, now);
 
@@ -647,48 +645,6 @@ describe('withinMaxViews filter', () => {
         const got = filter.test(test, targetingDefault);
 
         expect(got).toBe(true);
-    });
-});
-
-// Avoids selecting a test that uses article count when the value would be zero
-describe('hasNoZeroArticleCount filter', () => {
-    const now = new Date('2010-03-31T12:30:00');
-    it('should pass if no need for article history', () => {
-        const test: Test = {
-            ...testDefault,
-            articlesViewedSettings: undefined,
-        };
-        const filter = hasNoZeroArticleCount(now);
-
-        const got = filter.test(test, targetingDefault);
-
-        expect(got).toBe(true);
-    });
-
-    it('should pass if replacement value is greater than 0', () => {
-        const history = [{ week: 18330, count: 1 }];
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: history,
-        };
-        const filter = hasNoZeroArticleCount(now);
-
-        const got = filter.test(testDefault, targeting);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail if replacement value is 0', () => {
-        const history = [{ week: 18330, count: 0 }];
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: history,
-        };
-        const filter = hasNoZeroArticleCount(now);
-
-        const got = filter.test(testDefault, targeting);
-
-        expect(got).toBe(false);
     });
 });
 
