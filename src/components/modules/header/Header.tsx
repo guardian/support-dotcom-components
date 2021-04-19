@@ -70,10 +70,10 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
 
     return (
         <div>
-            <div css={messageStyles(false)}>
+            <div css={[hiddenUntilTablet, messageStyles(false)]}>
                 <span>{heading}</span>
             </div>
-            <div css={subMessageStyles}>
+            <div css={[hiddenUntilTablet, subMessageStyles]}>
                 <div>{subheading}</div>
             </div>
             {primaryCta && (
