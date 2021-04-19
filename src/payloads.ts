@@ -26,7 +26,12 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { epic as epicModule, liveblogEpic as liveblogEpicModule, puzzlesBanner, header } from './modules';
+import {
+    epic as epicModule,
+    liveblogEpic as liveblogEpicModule,
+    puzzlesBanner,
+    header,
+} from './modules';
 import { tests as epicTargetingTests } from './tests/epicTargetingTest';
 import {
     HeaderPageTracking,
