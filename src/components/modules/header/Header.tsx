@@ -40,16 +40,15 @@ const linkStyles = css`
     svg {
         width: 24px;
     }
+    ${until.mobileMedium} {
+        svg {
+            display: none;
+        }
+    }
 `;
 
 const hiddenUntilTablet = css`
     ${until.tablet} {
-        display: none;
-    }
-`;
-
-const hiddenFromTablet = css`
-    ${from.tablet} {
         display: none;
     }
 `;
@@ -71,55 +70,39 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
 
     return (
         <div>
-            <div css={hiddenUntilTablet}>
-                <div css={messageStyles(false)}>
-                    <span>{heading}</span>
-                </div>
-                <div css={subMessageStyles}>
-                    <div>{subheading}</div>
-                </div>
-                {primaryCta && (
-                    <ThemeProvider theme={buttonReaderRevenueBrand}>
-                        <LinkButton
-                            priority="primary"
-                            href={addTracking(primaryCta.url)}
-                            icon={<SvgArrowRightStraight />}
-                            iconSide="right"
-                            nudgeIcon={true}
-                            css={linkStyles}
-                        >
-                            {primaryCta.text}
-                        </LinkButton>
-                    </ThemeProvider>
-                )}
-                {secondaryCta && (
-                    <ThemeProvider theme={buttonReaderRevenueBrand}>
-                        <LinkButton
-                            priority="primary"
-                            href={addTracking(secondaryCta.url)}
-                            icon={<SvgArrowRightStraight />}
-                            iconSide="right"
-                            nudgeIcon={true}
-                            css={linkStyles}
-                        >
-                            {secondaryCta.text}
-                        </LinkButton>
-                    </ThemeProvider>
-                )}
+            <div css={messageStyles(false)}>
+                <span>{heading}</span>
             </div>
-
+            <div css={subMessageStyles}>
+                <div>{subheading}</div>
+            </div>
             {primaryCta && (
-                <div css={hiddenFromTablet}>
-                    <ThemeProvider theme={buttonReaderRevenueBrand}>
-                        <LinkButton
-                            priority="primary"
-                            href={addTracking(primaryCta.url)}
-                            css={linkStyles}
-                        >
-                            {primaryCta.text}
-                        </LinkButton>
-                    </ThemeProvider>
-                </div>
+                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <LinkButton
+                        priority="primary"
+                        href={addTracking(primaryCta.url)}
+                        icon={<SvgArrowRightStraight />}
+                        iconSide="right"
+                        nudgeIcon={true}
+                        css={linkStyles}
+                    >
+                        {primaryCta.text}
+                    </LinkButton>
+                </ThemeProvider>
+            )}
+            {secondaryCta && (
+                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <LinkButton
+                        priority="primary"
+                        href={addTracking(secondaryCta.url)}
+                        icon={<SvgArrowRightStraight />}
+                        iconSide="right"
+                        nudgeIcon={true}
+                        css={[hiddenUntilTablet, linkStyles]}
+                    >
+                        {secondaryCta.text}
+                    </LinkButton>
+                </ThemeProvider>
             )}
         </div>
     );
