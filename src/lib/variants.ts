@@ -8,7 +8,7 @@ import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
 import { historyWithinArticlesViewedSettings } from './history';
 import { isRecentOneOffContributor } from './dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
-import { getReminderFields, ReminderFields } from './reminderFields';
+import { ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
 import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
 
@@ -50,6 +50,22 @@ export interface Cta {
     baseUrl: string;
 }
 
+export enum SecondaryCtaType {
+    Custom = 'CustomSecondaryCta',
+    ContributionsReminder = 'ContributionsReminderSecondaryCta',
+}
+
+interface CustomSecondaryCta {
+    type: SecondaryCtaType.Custom;
+    cta: Cta;
+}
+
+interface ContributionsReminderSecondaryCta {
+    type: SecondaryCtaType.ContributionsReminder;
+}
+
+export type SecondaryCta = CustomSecondaryCta | ContributionsReminderSecondaryCta;
+
 export interface SeparateArticleCount {
     type: 'above';
 }
@@ -61,7 +77,7 @@ export interface Variant {
     highlightedText?: string;
     tickerSettings?: TickerSettings;
     cta?: Cta;
-    secondaryCta?: Cta;
+    secondaryCta?: SecondaryCta;
     footer?: string;
     backgroundImageUrl?: string;
     showReminderFields?: ReminderFields;
@@ -298,7 +314,6 @@ export const findTestAndVariant = (
     const debug: Debug = {};
 
     const userCohorts = getUserCohorts(targeting);
-    const isSupporter = userCohorts.includes('AllExistingSupporters');
 
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
@@ -344,15 +359,6 @@ export const findTestAndVariant = (
 
     if (test) {
         const variant = selectVariant(test, targeting.mvtId || 1);
-        // Never show reminder feature to supporters
-        const showReminderFields = isSupporter
-            ? undefined
-            : getReminderFields(variant.showReminderFields);
-
-        const variantWithReminder: Variant = {
-            ...variant,
-            showReminderFields,
-        };
 
         const shouldThrottleVariant =
             !!variant.maxViews &&
@@ -360,7 +366,7 @@ export const findTestAndVariant = (
 
         if (!shouldThrottleVariant) {
             return {
-                result: { test, variant: variantWithReminder },
+                result: { test, variant },
                 debug: includeDebug ? debug : undefined,
             };
         }

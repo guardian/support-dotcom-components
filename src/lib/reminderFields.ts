@@ -1,3 +1,6 @@
+import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
+import { getUserCohorts, Variant } from './variants';
+
 export interface ReminderFields {
     reminderCta: string;
     reminderLabel: string;
@@ -26,6 +29,16 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const getReminderFields = (reminderFields?: ReminderFields): ReminderFields => {
-    return !!reminderFields ? reminderFields : buildReminderFields();
+export const getReminderFields = (
+    variant: Variant,
+    targeting: EpicTargeting,
+): ReminderFields | undefined => {
+    const userCohorts = getUserCohorts(targeting);
+    const isSupporter = userCohorts.includes('AllExistingSupporters');
+
+    if (isSupporter) {
+        return undefined;
+    }
+
+    return !!variant.showReminderFields ? variant.showReminderFields : buildReminderFields();
 };
