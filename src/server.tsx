@@ -19,7 +19,7 @@ import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
 import { logger } from './utils/logging';
 import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
-import { buildBannerData, buildEpicData, buildPuzzlesData } from './payloads';
+import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -144,6 +144,19 @@ app.post(
                 isPaidContent: payload.targeting.isPaidContent,
             };
 
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.post(
+    '/header',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const { tracking, targeting } = req.body;
+            const response = await buildHeaderData(tracking, targeting, baseUrl(req));
             res.send(response);
         } catch (error) {
             next(error);

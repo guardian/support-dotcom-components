@@ -26,7 +26,19 @@ import {
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { epic as epicModule, liveblogEpic as liveblogEpicModule, puzzlesBanner } from './modules';
+import {
+    HeaderPageTracking,
+    HeaderProps,
+    HeaderTargeting,
+    HeaderTestTracking,
+} from './types/HeaderTypes';
+import { selectHeaderTest } from './tests/header/headerSelection';
+import {
+    epic as epicModule,
+    liveblogEpic as liveblogEpicModule,
+    puzzlesBanner,
+    header,
+} from './modules';
 import { getReminderFields } from './lib/reminderFields';
 
 interface EpicDataResponse {
@@ -63,6 +75,17 @@ interface PuzzlesDataResponse {
         meta: Record<string, unknown>;
     };
     debug?: Debug;
+}
+
+interface HeaderDataResponse {
+    data?: {
+        module: {
+            url: string;
+            name: string;
+            props: HeaderProps;
+        };
+        meta: HeaderTestTracking;
+    };
 }
 
 const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
@@ -278,4 +301,36 @@ export const buildPuzzlesData = async (
         };
     }
     return {};
+};
+
+export const buildHeaderData = async (
+    pageTracking: HeaderPageTracking,
+    targeting: HeaderTargeting,
+    baseUrl: string,
+): Promise<HeaderDataResponse> => {
+    const testSelection = await selectHeaderTest(targeting);
+    if (testSelection) {
+        const { test, variant } = testSelection;
+        const testTracking: HeaderTestTracking = {
+            abTestName: test.name,
+            abTestVariant: variant.name,
+            campaignCode: `${test.name}_${variant.name}`,
+            componentType: 'ACQUISITIONS_HEADER',
+        };
+        return {
+            data: {
+                module: {
+                    url: `${baseUrl}/${header.endpointPathBuilder(targeting.modulesVersion)}`,
+                    name: header.name,
+                    props: {
+                        content: variant.content,
+                        tracking: { ...pageTracking, ...testTracking },
+                        countryCode: targeting.countryCode,
+                    },
+                },
+                meta: testTracking,
+            },
+        };
+    }
+    return { data: undefined };
 };
