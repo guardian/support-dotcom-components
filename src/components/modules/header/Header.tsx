@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { css } from '@emotion/core';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { brandAlt, brandText } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
+import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from 'emotion-theming';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderProps } from '../../../types/HeaderTypes';
@@ -42,24 +43,6 @@ const linkStyles = css`
     }
 `;
 
-const hiddenUntilTablet = css`
-    ${until.tablet} {
-        display: none;
-    }
-`;
-
-const hiddenUntilMobileMedium = css`
-    ${until.mobileMedium} {
-        display: none;
-    }
-`;
-
-const hiddenFromMobileMedium = css`
-    ${from.mobileMedium} {
-        display: none;
-    }
-`;
-
 const subMessageStyles = css`
     color: ${brandText.primary};
     ${textSans.medium()};
@@ -77,46 +60,54 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
 
     return (
         <div>
-            <div css={[hiddenUntilTablet, messageStyles(false)]}>
-                <span>{heading}</span>
-            </div>
-            <div css={[hiddenUntilTablet, subMessageStyles]}>
-                <div>{subheading}</div>
-            </div>
+            <Hide below="tablet">
+                <div css={messageStyles(false)}>
+                    <span>{heading}</span>
+                </div>
+                <div css={subMessageStyles}>
+                    <div>{subheading}</div>
+                </div>
+            </Hide>
             {primaryCta && (
                 <ThemeProvider theme={buttonReaderRevenueBrand}>
-                    <LinkButton
-                        priority="primary"
-                        href={addTracking(primaryCta.url)}
-                        icon={<SvgArrowRightStraight />}
-                        iconSide="right"
-                        nudgeIcon={true}
-                        css={[hiddenUntilMobileMedium, linkStyles]}
-                    >
-                        {primaryCta.text}
-                    </LinkButton>
-                    <LinkButton
-                        priority="primary"
-                        href={addTracking(primaryCta.url)}
-                        css={[hiddenFromMobileMedium, linkStyles]}
-                    >
-                        {primaryCta.text}
-                    </LinkButton>
+                    <Hide below="mobileMedium">
+                        <LinkButton
+                            priority="primary"
+                            href={addTracking(primaryCta.url)}
+                            icon={<SvgArrowRightStraight />}
+                            iconSide="right"
+                            nudgeIcon={true}
+                            css={linkStyles}
+                        >
+                            {primaryCta.text}
+                        </LinkButton>
+                    </Hide>
+                    <Hide above="mobileMedium">
+                        <LinkButton
+                            priority="primary"
+                            href={addTracking(primaryCta.url)}
+                            css={linkStyles}
+                        >
+                            {primaryCta.text}
+                        </LinkButton>
+                    </Hide>
                 </ThemeProvider>
             )}
             {secondaryCta && (
-                <ThemeProvider theme={buttonReaderRevenueBrand}>
-                    <LinkButton
-                        priority="primary"
-                        href={addTracking(secondaryCta.url)}
-                        icon={<SvgArrowRightStraight />}
-                        iconSide="right"
-                        nudgeIcon={true}
-                        css={[hiddenUntilTablet, linkStyles]}
-                    >
-                        {secondaryCta.text}
-                    </LinkButton>
-                </ThemeProvider>
+                <Hide below="tablet">
+                    <ThemeProvider theme={buttonReaderRevenueBrand}>
+                        <LinkButton
+                            priority="primary"
+                            href={addTracking(secondaryCta.url)}
+                            icon={<SvgArrowRightStraight />}
+                            iconSide="right"
+                            nudgeIcon={true}
+                            css={linkStyles}
+                        >
+                            {secondaryCta.text}
+                        </LinkButton>
+                    </ThemeProvider>
+                </Hide>
             )}
         </div>
     );
