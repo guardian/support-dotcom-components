@@ -11,6 +11,7 @@ import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
 import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
+import { Adventure } from './adventure';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -92,6 +93,8 @@ export interface Variant {
     // the test + variant. This means users **wont** fall through to a test
     // with lower priority.
     maxViews?: MaxViews;
+
+    adventure?: Adventure;
 }
 
 interface ControlProportionSettings {

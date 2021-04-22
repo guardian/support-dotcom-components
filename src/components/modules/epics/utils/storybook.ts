@@ -2,7 +2,7 @@ import { EpicTestTracking, EpicPageTracking, EpicTracking } from '../Contributio
 import { EpicProps } from '../ContributionsEpic';
 import { SecondaryCtaType, Variant } from '../../../../lib/variants';
 
-const variant: Variant = {
+export const variant: Variant = {
     name: 'control',
     heading: 'Since you’re here...',
     paragraphs: [
