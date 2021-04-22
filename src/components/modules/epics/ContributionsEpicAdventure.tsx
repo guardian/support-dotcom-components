@@ -73,7 +73,7 @@ const adventure: { [name: string]: AdventureState } = build([
     {
         name: 'start',
         paragraphs: () => [
-            `Would you be surprised to know that you're one of our top readers globally?`,
+            `Would you be surprised to hear that you're one of our top readers globally?`,
         ],
         options: [
             {
@@ -129,7 +129,7 @@ const adventure: { [name: string]: AdventureState } = build([
         ],
         options: [
             {
-                targetName: 'end',
+                targetName: 'yes',
                 text: 'Count me in!',
             },
             {
@@ -146,9 +146,9 @@ const adventure: { [name: string]: AdventureState } = build([
         options: [],
     },
     {
-        name: 'end',
+        name: 'yes',
         paragraphs: () => [
-            'If there were ever a time to join us, it is now. You can power Guardian journalism and help sustain our future.',
+            'Great! If there were ever a time to join us, it is now. You can power Guardian journalism and help sustain our future.',
         ],
         options: [],
     },
