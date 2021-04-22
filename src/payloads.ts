@@ -41,6 +41,7 @@ import {
 } from './modules';
 import { getReminderFields } from './lib/reminderFields';
 import { contributionsEpicAdventureTest } from './tests/ContributionsEpicAdventureTest';
+import { productChooserEpicTest } from './tests/ProductChooserEpicTest';
 
 interface EpicDataResponse {
     data?: {
@@ -116,8 +117,9 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
     const adventure = await contributionsEpicAdventureTest();
+    const chooser = await productChooserEpicTest();
 
-    return [adventure, ...regular.tests, ...hardCoded];
+    return [chooser, adventure, ...regular.tests, ...hardCoded];
 };
 
 const getForceableArticleEpicTests = async (): Promise<Test[]> => {
@@ -125,8 +127,9 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const hardCoded = await getAllHardcodedTests();
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
     const adventure = await contributionsEpicAdventureTest();
+    const chooser = await productChooserEpicTest();
 
-    return [adventure, ...regular.tests, ...hardCoded, ...holdback.tests];
+    return [chooser, adventure, ...regular.tests, ...hardCoded, ...holdback.tests];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {

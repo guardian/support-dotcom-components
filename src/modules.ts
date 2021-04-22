@@ -23,6 +23,11 @@ export const epicAdventure: ModuleInfo = getDefaultModuleInfo(
     'epics/ContributionsEpicAdventure',
 );
 
+export const epicChooser: ModuleInfo = getDefaultModuleInfo(
+    'epic-chooser',
+    'epics/ProductChooserEpicAdventure',
+);
+
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
     'epics/ContributionsLiveblogEpic',
@@ -52,6 +57,7 @@ export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header'
 
 export const moduleInfos: ModuleInfo[] = [
     epicAdventure,
+    epicChooser,
     epic,
     liveblogEpic,
     contributionsBanner,
