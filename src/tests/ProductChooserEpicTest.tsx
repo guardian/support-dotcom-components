@@ -88,7 +88,7 @@ export const productChooser: Adventure | null = buildAdventure([
     },
 ]);
 
-export const contributionsEpicAdventureTest = (): Promise<Test> => {
+export const productChooserEpicTest = (): Promise<Test> => {
     if (productChooser) {
         return Promise.resolve({
             name: 'ContributionsEpicAdventure',
