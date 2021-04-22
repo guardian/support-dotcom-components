@@ -61,10 +61,6 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     const [currentState, setCurrentState] = useState<AdventureState | undefined>(
         adventure ? adventure['start'] : undefined,
     );
-    const stateInfo = {
-        numArticles,
-        countryCode,
-    };
 
     if (adventure) {
         const cleanHighlighted = replaceNonArticleCountPlaceholders(
@@ -76,9 +72,13 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
             <section css={wrapperStyles}>
                 {currentState && (
                     <div>
-                        {currentState.paragraphs(stateInfo).map((para, idx) => (
+                        {currentState.paragraphs.map((para, idx) => (
                             <div css={bodyStyles} key={`${currentState.name}-para-${idx}`}>
-                                {para}
+                                {replaceArticleCount(
+                                    replaceNonArticleCountPlaceholders(para, countryCode),
+                                    numArticles,
+                                    'epic',
+                                )}
                             </div>
                         ))}
                         <div css={optionsContainer}>
