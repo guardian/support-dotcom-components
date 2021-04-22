@@ -25,7 +25,7 @@ export const epicAdventure: ModuleInfo = getDefaultModuleInfo(
 
 export const epicChooser: ModuleInfo = getDefaultModuleInfo(
     'epic-chooser',
-    'epics/ProductChooserEpicAdventure',
+    'epics/ProductChooserEpic',
 );
 
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
