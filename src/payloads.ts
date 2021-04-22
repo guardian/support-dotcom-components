@@ -124,8 +124,9 @@ const getForceableArticleEpicTests = async (): Promise<Test[]> => {
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
     const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
+    const adventure = await contributionsEpicAdventureTest();
 
-    return [...regular.tests, ...hardCoded, ...holdback.tests];
+    return [adventure, ...regular.tests, ...hardCoded, ...holdback.tests];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
