@@ -4,14 +4,28 @@ This app serves Reader Revenue messages (epics and banners) to theguardian.com.
 
 See [architecture](docs/architecture.md) for details.
 
+## Setup
+
+To set up, first run 
+`nvm use`
+`yarn`
+
+Then you can follow the instructions below to run the server locally.
+
 ## Development
 
-### Run the dev server
+You may want to run in conjunction with DCR, or you can use storybook if you just want to develop quickly.
 
-```
-$ yarn dev
-$ PORT=8080 yarn dev # override the port to listen on
-```
+### Run the dev server for use with DCR
+
+`NODE_OPTIONS="--max-old-space-size=80000" AWS_PROFILE=membership PORT=8082 yarn dev`
+
+Then you can access it on
+http://localhost:8080
+
+If you want to run it on a different port, use
+
+`$ PORT=8080 yarn dev`
 
 Additionally you can watch for module changes with:
 
@@ -35,6 +49,8 @@ We use Storybook for developing React components.
 ```
 $ yarn storybook
 ```
+
+The browser should automatically open at http://localhost:6006/
 
 ## Update JSON Schema
 
