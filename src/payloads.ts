@@ -40,6 +40,7 @@ import {
     header,
 } from './modules';
 import { getReminderFields } from './lib/reminderFields';
+import { contributionsEpicAdventureTest } from './tests/ContributionsEpicAdventureTest';
 
 interface EpicDataResponse {
     data?: {
@@ -114,8 +115,9 @@ const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
     }
     const regular = await fetchConfiguredArticleEpicTestsCached();
     const hardCoded = await getAllHardcodedTests();
+    const adventure = await contributionsEpicAdventureTest();
 
-    return [...regular.tests, ...hardCoded];
+    return [adventure, ...regular.tests, ...hardCoded];
 };
 
 const getForceableArticleEpicTests = async (): Promise<Test[]> => {
