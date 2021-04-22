@@ -15,6 +15,8 @@ const contributionsProps: EpicProps = {
     variant: {
         ...variant,
         adventure: productChooser || {},
+        highlightedText: undefined,
+        cta: undefined,
     },
 };
 

@@ -5,20 +5,30 @@ import { Adventure, buildAdventure } from '../lib/adventure';
 export const productChooser: Adventure | null = buildAdventure([
     {
         name: 'start',
-        paragraphs: [`JOHN Would you be surprised to hear that you're one of our top readers globally?`],
+        paragraphs: [
+            `You've read 73 articles in the last year… we have a small favour to ask. Through these challenging times, millions rely on the Guardian for independent journalism that stands for truth and integrity. Readers chose to support us financially either through contributions or subscriptions more than 1.5 million times in 2020, joining supporters in 180 countries.`,
+            `Would you be willing to support us financially?`,
+        ],
         options: [
             {
-                targetName: 'article-count',
-                text: 'Yes!',
+                targetName: 'subscriptions',
+                text: 'Tell me about your subscriptions',
             },
             {
-                targetName: 'article-count',
-                text: 'No',
+                targetName: 'start',
+                text: 'Just let me give you some money',
+                href: 'https://support.theguardian.com/',
+            },
+            {
+                targetName: 'help',
+                text: 'I’m not sure what’s best!',
+                subtext:
+                    'We will ask you a few questions to determine which option best matches your preferences.',
             },
         ],
     },
     {
-        name: 'article-count',
+        name: 'subscriptions',
         paragraphs: [
             `Well - you've read %%ARTICLE_COUNT%% articles in the last year! And you’re not alone; through these turbulent and challenging times, millions rely on the Guardian for independent journalism that stands for truth and integrity.`,
             'Would you like to know how readers are supporting the Guardian?',
@@ -41,13 +51,13 @@ export const productChooser: Adventure | null = buildAdventure([
         ],
         options: [
             {
-                targetName: 'why',
+                targetName: 'supporters',
                 text: 'Why should I support the Guardian?',
             },
         ],
     },
     {
-        name: 'why',
+        name: 'help',
         paragraphs: [
             'With your help, we will continue to provide high-impact reporting that can counter misinformation and offer an authoritative, trustworthy source of news for everyone. With no shareholders or billionaire owner, we set our own agenda and provide truth-seeking journalism that’s free from commercial and political influence. When it’s never mattered more, we can investigate and challenge without fear or favour.',
         ],
@@ -100,12 +110,6 @@ export const contributionsEpicAdventureTest = (): Promise<Test> => {
                     name: 'control',
                     paragraphs: [],
                     modulePathBuilder: epicAdventure.endpointPathBuilder,
-                    cta: {
-                        baseUrl: 'https://support.theguardian.com/contribute',
-                        text: 'Support the Guardian',
-                    },
-                    highlightedText:
-                        'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.',
                     adventure: productChooser,
                 },
             ],

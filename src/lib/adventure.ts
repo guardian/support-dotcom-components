@@ -1,6 +1,8 @@
 interface AdventureOption {
     targetName: string;
     text: string;
+    href?: string;
+    subtext?: string;
 }
 export interface AdventureState {
     name: string;
