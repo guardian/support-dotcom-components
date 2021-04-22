@@ -17,7 +17,7 @@ export const buildAdventure = (states: AdventureState[]): Adventure | null => {
         return acc;
     }, {});
 
-    const isValid = Object.entries(adventure).every(([name, state]) =>
+    const isValid = Object.entries(adventure).every(([, state]) =>
         state.options.every(option => {
             const exists = !!adventure[option.targetName];
             if (!exists) {
