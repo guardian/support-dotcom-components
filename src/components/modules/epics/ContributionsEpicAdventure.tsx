@@ -69,7 +69,7 @@ const build = (states: AdventureState[]): Adventure =>
         return acc;
     }, {});
 
-const adventure: { [name: string]: AdventureState } = build([
+const adventure: Adventure = build([
     {
         name: 'start',
         paragraphs: () => [
