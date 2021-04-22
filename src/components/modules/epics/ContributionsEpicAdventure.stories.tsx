@@ -14,7 +14,7 @@ const contributionsProps: EpicProps = {
     countryCode: 'GB',
     variant: {
         ...variant,
-        adventure: contributionsAdventure,
+        adventure: contributionsAdventure || {},
     },
 };
 

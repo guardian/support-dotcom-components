@@ -2,7 +2,7 @@ import { Test } from '../lib/variants';
 import { epicAdventure } from '../modules';
 import { Adventure, buildAdventure } from '../lib/adventure';
 
-export const contributionsAdventure: Adventure = buildAdventure([
+export const contributionsAdventure: Adventure | null = buildAdventure([
     {
         name: 'start',
         paragraphs: [`Would you be surprised to hear that you're one of our top readers globally?`],
@@ -79,36 +79,39 @@ export const contributionsAdventure: Adventure = buildAdventure([
 ]);
 
 export const contributionsEpicAdventureTest = (): Promise<Test> => {
-    return Promise.resolve({
-        name: 'ContributionsEpicAdventure',
-        expiry: '2025-01-27',
-        campaignId: 'ContributionsEpicAdventure',
-        isOn: true,
-        locations: [],
-        audience: 1,
-        tagIds: [],
-        sections: [],
-        excludedTagIds: [],
-        excludedSections: [],
-        alwaysAsk: true,
-        userCohort: 'AllNonSupporters',
-        isLiveBlog: false,
-        hasCountryName: false,
-        variants: [
-            {
-                name: 'control',
-                paragraphs: [],
-                modulePathBuilder: epicAdventure.endpointPathBuilder,
-                cta: {
-                    baseUrl: 'https://support.theguardian.com/contribute',
-                    text: 'Support the Guardian',
+    if (contributionsAdventure) {
+        return Promise.resolve({
+            name: 'ContributionsEpicAdventure',
+            expiry: '2025-01-27',
+            campaignId: 'ContributionsEpicAdventure',
+            isOn: true,
+            locations: [],
+            audience: 1,
+            tagIds: [],
+            sections: [],
+            excludedTagIds: [],
+            excludedSections: [],
+            alwaysAsk: true,
+            userCohort: 'AllNonSupporters',
+            isLiveBlog: false,
+            hasCountryName: false,
+            variants: [
+                {
+                    name: 'control',
+                    paragraphs: [],
+                    modulePathBuilder: epicAdventure.endpointPathBuilder,
+                    cta: {
+                        baseUrl: 'https://support.theguardian.com/contribute',
+                        text: 'Support the Guardian',
+                    },
+                    highlightedText:
+                        'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.',
+                    adventure: contributionsAdventure,
                 },
-                highlightedText:
-                    'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.',
-                adventure: contributionsAdventure,
-            },
-        ],
-        highPriority: false,
-        useLocalViewLog: false,
-    });
+            ],
+            highPriority: false,
+            useLocalViewLog: false,
+        });
+    }
+    return Promise.reject('Invalid adventure');
 };

@@ -9,8 +9,24 @@ export interface AdventureState {
 }
 export type Adventure = { [name: string]: AdventureState };
 
-export const buildAdventure = (states: AdventureState[]): Adventure =>
-    states.reduce<Adventure>((acc, state) => {
+export const buildAdventure = (states: AdventureState[]): Adventure | null => {
+    const adventure = states.reduce<Adventure>((acc, state) => {
         acc[state.name] = state;
         return acc;
     }, {});
+
+    const isValid = Object.entries(adventure).every(([name, state]) =>
+        state.options.every(option => {
+            const exists = !!adventure[option.targetName];
+            if (!exists) {
+                console.log('Missing target state', option.targetName);
+            }
+            return exists;
+        }),
+    );
+
+    if (isValid) {
+        return adventure;
+    }
+    return null;
+};
