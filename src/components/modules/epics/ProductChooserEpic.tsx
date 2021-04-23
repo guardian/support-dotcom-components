@@ -4,7 +4,7 @@ import { css } from '@emotion/core';
 import { palette, space } from '@guardian/src-foundations';
 import { replaceNonArticleCountPlaceholders } from '../../../lib/placeholders';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
-import { Button } from '@guardian/src-button';
+import { Button, LinkButton } from '@guardian/src-button';
 import { body } from '@guardian/src-foundations/typography';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { AdventureState } from '../../../lib/adventure';
@@ -84,15 +84,29 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                             </div>
                         ))}
                         <div css={optionsContainer}>
-                            {currentState.options.map((option, idx) => (
-                                <Button
-                                    key={`${currentState.name}-option-${idx}`}
-                                    priority="secondary"
-                                    onClick={() => setCurrentState(adventure[option.targetName])}
-                                >
-                                    {option.text}
-                                </Button>
-                            ))}
+                            {currentState.options.map((option, idx) =>
+                                option.href ? (
+                                    <LinkButton
+                                        key={`${currentState.name}-option-${idx}`}
+                                        priority="primary"
+                                        href={option.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {option.text}
+                                    </LinkButton>
+                                ) : (
+                                    <Button
+                                        key={`${currentState.name}-option-${idx}`}
+                                        priority="secondary"
+                                        onClick={() =>
+                                            setCurrentState(adventure[option.targetName])
+                                        }
+                                    >
+                                        {option.text}
+                                    </Button>
+                                ),
+                            )}
                         </div>
                     </div>
                 )}
