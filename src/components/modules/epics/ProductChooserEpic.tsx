@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { EpicProps } from './ContributionsEpic';
 import { css } from '@emotion/core';
 import { palette, space } from '@guardian/src-foundations';
+import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { replaceNonArticleCountPlaceholders } from '../../../lib/placeholders';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { Button, LinkButton } from '@guardian/src-button';
@@ -90,6 +91,8 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                                         key={`${currentState.name}-option-${idx}`}
                                         priority="primary"
                                         href={option.href}
+                                        icon={<SvgArrowRightStraight />}
+                                        iconSide="right"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
