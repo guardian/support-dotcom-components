@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { EpicProps } from './ContributionsEpic';
 import { css } from '@emotion/core';
 import { palette, space } from '@guardian/src-foundations';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { SvgArrowRightStraight, SvgChevronLeftSingle } from '@guardian/src-icons';
 import { replaceNonArticleCountPlaceholders } from '../../../lib/placeholders';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { Button, LinkButton } from '@guardian/src-button';
@@ -31,7 +31,9 @@ const bodyStyles = css`
 `;
 
 const optionsContainer = css`
-    * + * {
+    display: flex;
+
+    > * + * {
         margin-left: 10px;
     }
 `;
@@ -61,9 +63,22 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     submitComponentEvent,
 }: EpicProps) => {
     const { adventure } = variant;
-    const [currentState, setCurrentState] = useState<AdventureState | undefined>(
-        adventure ? adventure['start'] : undefined,
+    const [states, setStates] = useState<AdventureState[] | undefined>(
+        adventure && adventure['start'] ? [adventure['start']] : undefined,
     );
+    const currentState = states && states[states.length - 1];
+
+    const pushState = (state: AdventureState) => {
+        setStates([...(states || []), state]);
+    };
+
+    const popState = () => {
+        if (states) {
+            const newStates = [...states];
+            newStates.pop();
+            setStates(newStates);
+        }
+    };
 
     if (adventure) {
         const cleanHighlighted = replaceNonArticleCountPlaceholders(
@@ -85,6 +100,17 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                             </div>
                         ))}
                         <div css={optionsContainer}>
+                            {states && states.length > 1 && (
+                                <Button
+                                    priority="secondary"
+                                    onClick={() => popState()}
+                                    icon={<SvgChevronLeftSingle />}
+                                    hideLabel
+                                >
+                                    Back
+                                </Button>
+                            )}
+
                             {currentState.options.map((option, idx) =>
                                 option.href ? (
                                     <LinkButton
@@ -103,7 +129,9 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                                         key={`${currentState.name}-option-${idx}`}
                                         priority="secondary"
                                         onClick={() =>
-                                            setCurrentState(adventure[option.targetName])
+                                            pushState(
+                                                adventure[option.targetName] as AdventureState,
+                                            )
                                         }
                                     >
                                         {option.text}
