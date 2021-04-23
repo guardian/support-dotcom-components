@@ -287,14 +287,17 @@ app.post(
             'https://amp.theguardian.com',
             'http://localhost:3030',
             'https://amp.code.dev-theguardian.com',
+            'hackday@editorial.theguardian.com',
         ],
         credentials: true,
         allowedHeaders: ['x-gu-geoip-country-code'],
+        exposedHeaders: ['AMP-Access-Control-Allow-Source-Origin'],
     }),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { email, reminderDate } = req.body;
-            const countryCode = req.header('X-GU-GeoIP-Country-Code');
+
+            const countryCode = req.header('X-GU-GeoIP-Country-Code') || 'GB';
             const reminderSignupData: OneOffSignupRequest = {
                 email: email,
                 reminderPeriod: reminderDate,
@@ -312,6 +315,10 @@ app.post(
             });
 
             res.setHeader('Origin', req.header('Origin') || '*');
+            res.setHeader(
+                'AMP-Access-Control-Allow-Source-Origin',
+                'hackday@editorial.theguardian.com',
+            );
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Cache-Control', 'private, no-store');
             res.setHeader('Surrogate-Control', 'max-age=0');
