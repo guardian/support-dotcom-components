@@ -66,7 +66,9 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                 </div>
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
-                    <Button priority="tertiary">On</Button>
+                    <Button priority="tertiary" size="small">
+                        On
+                    </Button>
                 </div>
             </div>
         </>
