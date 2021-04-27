@@ -106,7 +106,12 @@ const closeButtonContainerStyles = css`
         position: relative;
         top: auto;
         right: auto;
-        float: right;
+
+        margin-left: ${space[2]}px;
+    }
+
+    ${from.desktop} {
+        margin-left: ${space[5]}px;
     }
 `;
 
@@ -187,7 +192,12 @@ const ctasContainerStyles = css`
     ${from.desktop} {
         display: flex;
         justify-content: flex-end;
+        padding-right: 56px;
     }
+`;
+
+const bodyAndCloseButtonContainerStyles = css`
+    display: flex;
 `;
 
 const G200Banner: React.FC<ContributionsBannerProps> = ({
@@ -241,14 +251,14 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
 
     const BodyAndCtas = () => (
         <Stack css={bottomContainerStyles} space={5}>
-            <div>
-                <div css={closeButtonContainerStyles}>
-                    <Hide below="tablet">
-                        <G200BannerCloseButton onClose={onCloseClick} />
-                    </Hide>
-                </div>
-
+            <div css={bodyAndCloseButtonContainerStyles}>
                 <G200BannerBody mobileContent={mobileContent} content={content} />
+
+                <Hide below="tablet">
+                    <div css={closeButtonContainerStyles}>
+                        <G200BannerCloseButton onClose={onCloseClick} />
+                    </div>
+                </Hide>
             </div>
 
             <div css={ctasContainerStyles}>

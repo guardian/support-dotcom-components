@@ -64,7 +64,7 @@ const desktopSecondLineContainerStyles = css`
 
     ${from.desktop} {
         width: 251px;
-        margin-top: 10px;
+        margin-top: 9px;
     }
 `;
 
@@ -74,7 +74,7 @@ const desktopThirdLineContainerStyles = css`
 
     ${from.desktop} {
         width: 158px;
-        margin-top: 5px;
+        margin-top: 4px;
     }
 `;
 

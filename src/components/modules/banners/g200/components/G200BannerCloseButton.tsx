@@ -3,11 +3,12 @@ import { css } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
 import { Button, buttonBrand } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
-import { news } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/src-foundations/palette';
 
 const closeButtonStyles = css`
     &:hover {
-        background-color: ${news[300]};
+        background-color: ${neutral[0]};
+        border-color: ${neutral[0]};
     }
 `;
 

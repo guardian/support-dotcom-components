@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
 import { space } from '@guardian/src-foundations';
 import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-button';
-import { news, neutral } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/src-foundations/palette';
 import { Inline, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { ContributionsBannerRenderedContent } from '../../contributions/ContributionsBannerWrapper';
@@ -16,11 +16,17 @@ const containerStyles = css`
 
 const primaryCtaStyles = css`
     color: ${neutral[0]};
+
+    &:hover {
+        color: ${neutral[100]};
+        background-color: ${neutral[0]};
+    }
 `;
 
 const secondaryCtaStyles = css`
     &:hover {
-        background-color: ${news[300]};
+        background-color: ${neutral[0]};
+        border-color: ${neutral[0]};
     }
 `;
 
