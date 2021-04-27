@@ -43,7 +43,7 @@ const topContainerStyles = css`
 
     ${from.wide} {
         width: 100%;
-        border-left: 1px solid white;
+        margin-left: -20px;
     }
 `;
 
@@ -76,7 +76,7 @@ const logoContainerStyles = css`
     ${from.tablet} {
         top: auto;
         bottom: -70px;
-        left: ${space[5]}px;
+        left: 0;
 
         width: 124px;
     }
@@ -120,22 +120,22 @@ const imageContainerStyles = css`
 
     ${from.tablet} {
         padding: 0;
-        margin-top: -42px;
-        margin-left: -30px;
+        margin-top: -33px;
+        margin-left: -20px;
 
-        width: 110%;
+        width: 107%;
     }
 
     ${from.desktop} {
-        margin-top: -152px;
+        margin-top: -180px;
         margin-left: -17px;
         width: 105%;
     }
 
     ${from.wide} {
-        margin-top: -166px;
-        margin-left: 0;
-        width: 100%;
+        margin-top: -185px;
+        margin-left: 44px;
+        width: 420px;
     }
 `;
 
@@ -185,6 +185,10 @@ const ctasContainerStyles = css`
         display: flex;
         justify-content: flex-end;
     }
+`;
+
+const logoColumnStyles = css`
+    border-right: 1px solid white;
 `;
 
 const G200Banner: React.FC<ContributionsBannerProps> = ({
@@ -294,7 +298,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
 
                 <Hide below="wide">
                     <Columns>
-                        <Column width={3 / 16}>
+                        <Column width={3 / 16} cssOverrides={logoColumnStyles}>
                             <Logo />
                         </Column>
 

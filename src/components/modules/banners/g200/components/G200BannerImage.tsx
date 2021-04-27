@@ -22,7 +22,7 @@ const G200BannerImage: React.FC = () => {
                     media="(max-width: 739px)"
                     srcSet="https://media.guim.co.uk/a388afcdb86e3abe360df93297a8b128feb6c97d/0_0_600_233/600.png"
                 />
-                <source srcSet="https://media.guim.co.uk/044def2953b03db4fa798a5d62f47be80eacfa5e/0_0_476_372/476.png" />
+                <source srcSet="https://media.guim.co.uk/70d7202a2de37d5a214b58e1fc08ed86f3fc4400/0_0_800_636/800.png" />
 
                 <img src="https://media.guim.co.uk/a388afcdb86e3abe360df93297a8b128feb6c97d/0_0_600_233/600.png" />
             </picture>

@@ -25,7 +25,7 @@ const containerStyles = css`
     }
 
     ${from.wide} {
-        padding: ${space[3]}px ${space[5]}px 0;
+        padding: ${space[3]}px ${space[3]}px 0;
     }
 `;
 
