@@ -29,7 +29,7 @@ Default.args = {
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
-            text: 'Read more',
+            text: 'Join the party',
             baseUrl: 'https://theguardian.com',
         },
     },

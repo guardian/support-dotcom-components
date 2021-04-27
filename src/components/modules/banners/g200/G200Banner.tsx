@@ -189,7 +189,12 @@ const thirdLineStyles = css`
 `;
 
 const ctasContainerStyles = css`
+    ${from.tablet} {
+        width: calc(100% + 20px);
+    }
+
     ${from.desktop} {
+        width: 100%;
         display: flex;
         justify-content: flex-end;
         padding-right: 56px;
