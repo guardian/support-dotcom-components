@@ -1,14 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { headline } from '@guardian/src-foundations/typography';
+import { body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
 import { space } from '@guardian/src-foundations';
 import { ContributionsBannerRenderedContent } from '../../contributions/ContributionsBannerWrapper';
 
 const containerStyles = css`
-    ${headline.xxxsmall({ fontWeight: 'bold' })}
-    line-height: 25.5px;
+    ${body.medium({ fontWeight: 'bold' })}
     color: ${neutral[100]};
 `;
 

@@ -20,6 +20,7 @@ const containerStyles = css`
     background: ${news[400]};
     display: flex;
     flex-direction: column;
+    border-top: 1px solid white;
 
     ${from.tablet} {
         flex-direction: row;
@@ -38,12 +39,14 @@ const topContainerStyles = css`
     ${from.tablet} {
         flex-direction: column-reverse;
         border-right: 1px solid white;
+        width: calc(100% + 10px);
         height: 100%;
     }
 
     ${from.wide} {
-        width: 100%;
-        margin-left: -20px;
+        width: calc(100% + 20px);
+        margin-left: -10px;
+        border-left: 1px solid white;
     }
 `;
 
@@ -128,20 +131,20 @@ const imageContainerStyles = css`
 
     ${from.desktop} {
         margin-top: -180px;
-        margin-left: -17px;
-        width: 105%;
+        margin-left: -6px;
+        width: 480px;
     }
 
     ${from.wide} {
-        margin-top: -185px;
-        margin-left: 44px;
+        margin-top: -188px;
+        margin-left: 63px;
         width: 420px;
     }
 `;
 
 const lineExtensionContainer = css`
     position: absolute;
-    width: calc(50% - 10px);
+    width: 50%;
     height: 100%;
 `;
 
@@ -185,10 +188,6 @@ const ctasContainerStyles = css`
         display: flex;
         justify-content: flex-end;
     }
-`;
-
-const logoColumnStyles = css`
-    border-right: 1px solid white;
 `;
 
 const G200Banner: React.FC<ContributionsBannerProps> = ({
@@ -298,7 +297,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
 
                 <Hide below="wide">
                     <Columns>
-                        <Column width={3 / 16} cssOverrides={logoColumnStyles}>
+                        <Column width={3 / 16}>
                             <Logo />
                         </Column>
 
