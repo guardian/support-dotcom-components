@@ -150,7 +150,11 @@ const firstLineStyles = css`
     border-bottom: 1px solid white;
 
     ${from.tablet} {
-        margin-top: 50px;
+        margin-top: 55px;
+    }
+
+    ${from.desktop} {
+        margin-top: 64px;
     }
 `;
 
@@ -159,20 +163,20 @@ const secondLineStyles = css`
     border-bottom: 1px solid white;
 
     ${from.tablet} {
-        margin-top: 54px;
+        margin-top: 55px;
     }
 
     ${from.desktop} {
-        margin-top: 52px;
+        margin-top: 64px;
     }
 `;
 
 const thirdLineStyles = css`
-    margin-top: 54px;
+    margin-top: 55px;
     border-bottom: 1px solid white;
 
     ${from.desktop} {
-        margin-top: 56px;
+        margin-top: 64px;
     }
 `;
 
