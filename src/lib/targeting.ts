@@ -5,7 +5,7 @@ import {
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { daysSince } from '../lib/dates';
 
-const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
+const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
 const lowValueTags = ['guardian-masterclasses/guardian-masterclasses'];
 

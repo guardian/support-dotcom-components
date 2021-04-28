@@ -5,10 +5,10 @@ import {
 } from '../components/modules/epics/ContributionsEpicTypes';
 import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from './targeting';
 import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
-import { getArticleViewCountForWeeks, historyWithinArticlesViewedSettings } from './history';
+import { historyWithinArticlesViewedSettings } from './history';
 import { isRecentOneOffContributor } from './dates';
 import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
-import { getReminderFields, ReminderFields } from './reminderFields';
+import { ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
 import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
 
@@ -39,7 +39,7 @@ export interface TickerSettings {
     tickerData?: TickerData;
 }
 
-interface MaxViews {
+export interface MaxViews {
     maxViewsCount: number;
     maxViewsDays: number;
     minDaysBetweenViews: number;
@@ -50,6 +50,26 @@ export interface Cta {
     baseUrl: string;
 }
 
+export enum SecondaryCtaType {
+    Custom = 'CustomSecondaryCta',
+    ContributionsReminder = 'ContributionsReminderSecondaryCta',
+}
+
+interface CustomSecondaryCta {
+    type: SecondaryCtaType.Custom;
+    cta: Cta;
+}
+
+interface ContributionsReminderSecondaryCta {
+    type: SecondaryCtaType.ContributionsReminder;
+}
+
+export type SecondaryCta = CustomSecondaryCta | ContributionsReminderSecondaryCta;
+
+export interface SeparateArticleCount {
+    type: 'above';
+}
+
 export interface Variant {
     name: string;
     heading?: string;
@@ -57,11 +77,21 @@ export interface Variant {
     highlightedText?: string;
     tickerSettings?: TickerSettings;
     cta?: Cta;
-    secondaryCta?: Cta;
+    secondaryCta?: SecondaryCta;
     footer?: string;
     backgroundImageUrl?: string;
     showReminderFields?: ReminderFields;
     modulePathBuilder?: (version?: string) => string;
+    separateArticleCount?: SeparateArticleCount;
+
+    // Variant level maxViews are for special targeting tests. These
+    // are handled differently to our usual copy/design tests. To
+    // set up a targeting test, the test should be set to alwaysAsk
+    // and each variant should have a maxViews set. We then check if a
+    // a user should actually see an epic after they have been assigned to
+    // the test + variant. This means users **wont** fall through to a test
+    // with lower priority.
+    maxViews?: MaxViews;
 }
 
 interface ControlProportionSettings {
@@ -233,29 +263,6 @@ export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
     test: (test): boolean => userCohorts.includes(test.userCohort),
 });
 
-// Prevent cases like "...you've read 0 articles...".
-// This could happen when the article history required by the test
-// is different than the date range used by the template itself.
-export const hasNoZeroArticleCount = (now: Date = new Date(), templateWeeks = 52): Filter => ({
-    id: 'hasNoZeroArticleCount',
-    test: (test, targeting): boolean => {
-        const mustHaveHistory =
-            test.articlesViewedSettings && test.articlesViewedSettings.periodInWeeks;
-
-        if (!mustHaveHistory) {
-            return true;
-        }
-
-        const numArticlesInWeeks = getArticleViewCountForWeeks(
-            targeting.weeklyArticleHistory || [],
-            templateWeeks,
-            now,
-        );
-
-        return numArticlesInWeeks > 0;
-    },
-});
-
 export const shouldNotRender = (epicType: EpicType): Filter => ({
     id: 'shouldNotRender',
     test: (_, targeting): boolean => !shouldNotRenderEpic(targeting, epicType),
@@ -307,7 +314,6 @@ export const findTestAndVariant = (
     const debug: Debug = {};
 
     const userCohorts = getUserCohorts(targeting);
-    const isSupporter = userCohorts.includes('AllExistingSupporters');
 
     // Also need to include canRun of individual variants (only relevant for
     // manually configured tests).
@@ -325,7 +331,6 @@ export const findTestAndVariant = (
         matchesCountryGroups,
         withinMaxViews(targeting.epicViewLog || []),
         withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-        hasNoZeroArticleCount(),
         respectArticleCountOptOut,
     ];
 
@@ -354,20 +359,17 @@ export const findTestAndVariant = (
 
     if (test) {
         const variant = selectVariant(test, targeting.mvtId || 1);
-        // Never show reminder feature to supporters
-        const showReminderFields = isSupporter
-            ? undefined
-            : getReminderFields(variant.showReminderFields);
 
-        const variantWithReminder: Variant = {
-            ...variant,
-            showReminderFields,
-        };
+        const shouldThrottleVariant =
+            !!variant.maxViews &&
+            shouldThrottle(targeting.epicViewLog || [], variant.maxViews, test.name);
 
-        return {
-            result: { test, variant: variantWithReminder },
-            debug: includeDebug ? debug : undefined,
-        };
+        if (!shouldThrottleVariant) {
+            return {
+                result: { test, variant },
+                debug: includeDebug ? debug : undefined,
+            };
+        }
     }
 
     return { debug: includeDebug ? debug : undefined };

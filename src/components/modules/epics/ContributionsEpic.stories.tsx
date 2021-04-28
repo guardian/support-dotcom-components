@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsEpic, EpicProps } from './ContributionsEpic';
-import { TickerCountType, TickerEndType } from '../../../lib/variants';
+import { SecondaryCtaType, TickerCountType, TickerEndType } from '../../../lib/variants';
 import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';
 import { css } from '@emotion/react';
@@ -54,7 +54,9 @@ export const WithReminder = Template.bind({});
 WithReminder.args = {
     variant: {
         ...props.variant,
-        secondaryCta: undefined,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
         showReminderFields: {
             reminderCta: 'Remind me in May',
             reminderPeriod: '2020-05-01',
@@ -68,7 +70,9 @@ WithPrefilledReminder.args = {
     email: 'example@guardian.co.uk',
     variant: {
         ...props.variant,
-        secondaryCta: undefined,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
         showReminderFields: {
             reminderCta: 'Remind me in May',
             reminderPeriod: '2020-05-01',
@@ -96,4 +100,15 @@ WithTicker.args = {
             },
         },
     },
+};
+
+export const WithSeparateArticleCount = Template.bind({});
+WithSeparateArticleCount.args = {
+    variant: {
+        ...props.variant,
+        separateArticleCount: {
+            type: 'above',
+        },
+    },
+    numArticles: 99,
 };

@@ -1,59 +1,25 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
-import { fetchConfiguredEpicTests } from './api/contributionsApi';
-import { cacheAsync } from './lib/cache';
-import {
-    EpicPageTracking,
-    EpicTargeting,
-    EpicTestTracking,
-    EpicType,
-} from './components/modules/epics/ContributionsEpicTypes';
+import { EpicType } from './components/modules/epics/ContributionsEpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
-import { Debug, findTestAndVariant, Result, Variant, Test } from './lib/variants';
-import { getArticleViewCountForWeeks } from './lib/history';
-import {
-    buildAmpEpicCampaignCode,
-    buildBannerCampaignCode,
-    buildCampaignCode,
-} from './lib/tracking';
+import { buildAmpEpicCampaignCode } from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
-import { getAllHardcodedTests } from './tests';
-import { getQueryParams, Params } from './lib/params';
+import { getQueryParams } from './lib/params';
 import { ampEpic } from './tests/amp/ampEpic';
 import fs from 'fs';
-import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { baseUrl, isDev, isProd } from './lib/env';
-import { addTickerDataToSettings, addTickerDataToVariant } from './lib/fetchTickerData';
-import {
-    BannerPageTracking,
-    BannerProps,
-    BannerTargeting,
-    BannerTestTracking,
-} from './types/BannerTypes';
-import { selectBannerTest } from './tests/banners/bannerSelection';
-import { getCachedTests } from './tests/banners/bannerTests';
-import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import {
-    ModuleInfo,
-    moduleInfos,
-    epic as epicModule,
-    liveblogEpic as liveblogEpicModule,
-    puzzlesBanner,
-} from './modules';
+import { ModuleInfo, moduleInfos } from './modules';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
 import { logger } from './utils/logging';
 import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
-import {
-    epicSeparateArticleCountTestEuRow,
-    epicSeparateArticleCountTestUkAus,
-} from './tests/epicArticleCountTest';
+import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -70,222 +36,6 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.header('Content-Type', 'text/plain');
     res.send('OK');
 });
-
-interface EpicDataResponse {
-    data?: {
-        module: {
-            url: string;
-            props: EpicProps;
-        };
-        variant: Variant;
-        meta: EpicTestTracking;
-    };
-    debug?: Debug;
-}
-
-interface BannerDataResponse {
-    data?: {
-        module: {
-            url: string;
-            name: string;
-            props: BannerProps;
-        };
-        meta: BannerTestTracking;
-    };
-    debug?: Debug;
-}
-
-const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE'),
-    60,
-    `fetchConfiguredEpicTests_ARTICLE`,
-);
-
-const [, fetchConfiguredArticleEpicHoldbackTestsCached] = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
-    60,
-    `fetchConfiguredEpicTests_ARTICLE_HOLDBACK`,
-);
-
-const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
-    () => fetchConfiguredEpicTests('LIVEBLOG'),
-    60,
-    `fetchConfiguredEpicTests_LIVEBLOG`,
-);
-
-const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
-    const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
-    if (shouldHoldBack) {
-        const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
-        return holdback.tests;
-    }
-    const regular = await fetchConfiguredArticleEpicTestsCached();
-    const hardCoded = await getAllHardcodedTests();
-
-    return [
-        epicSeparateArticleCountTestUkAus,
-        epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
-        ...hardCoded,
-    ];
-};
-
-const getForceableArticleEpicTests = async (): Promise<Test[]> => {
-    const regular = await fetchConfiguredArticleEpicTestsCached();
-    const hardCoded = await getAllHardcodedTests();
-    const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
-
-    return [
-        epicSeparateArticleCountTestUkAus,
-        epicSeparateArticleCountTestEuRow,
-        ...regular.tests,
-        ...hardCoded,
-        ...holdback.tests,
-    ];
-};
-
-const getLiveblogEpicTests = async (): Promise<Test[]> => {
-    const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
-    return [...configuredTests.tests];
-};
-
-const buildEpicData = async (
-    pageTracking: EpicPageTracking,
-    targeting: EpicTargeting,
-    type: EpicType,
-    params: Params,
-    baseUrl: string,
-): Promise<EpicDataResponse> => {
-    let result: Result;
-
-    if (params.force) {
-        const tests = await (type === 'ARTICLE'
-            ? getForceableArticleEpicTests()
-            : getLiveblogEpicTests());
-
-        const test = tests.find(test => test.name === params.force?.testName);
-        const variant = test?.variants.find(v => v.name === params.force?.variantName);
-        result = test && variant ? { result: { test, variant } } : {};
-    } else {
-        const tests = await (type === 'ARTICLE'
-            ? getArticleEpicTests(targeting.mvtId || 0)
-            : getLiveblogEpicTests());
-
-        result = findTestAndVariant(tests, targeting, type, params.debug);
-    }
-
-    if (process.env.log_targeting === 'true') {
-        console.log(
-            `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(targeting)}`,
-        );
-    }
-
-    if (!result.result) {
-        return { data: undefined, debug: result.debug };
-    }
-
-    const { test, variant } = result.result;
-
-    const variantWithTickerData = await addTickerDataToVariant(variant);
-
-    const testTracking: EpicTestTracking = {
-        abTestName: test.name,
-        abTestVariant: variant.name,
-        campaignCode: buildCampaignCode(test, variant),
-        campaignId: `epic_${test.campaignId || test.name}`,
-        componentType: 'ACQUISITIONS_EPIC',
-        products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
-    };
-
-    const props: EpicProps = {
-        variant: variantWithTickerData,
-        tracking: { ...pageTracking, ...testTracking },
-        numArticles: getArticleViewCountForWeeks(
-            targeting.weeklyArticleHistory,
-            test.articlesViewedSettings?.periodInWeeks,
-        ),
-        countryCode: targeting.countryCode,
-    };
-
-    const modulePathBuilder: (version?: string) => string =
-        variantWithTickerData.modulePathBuilder ||
-        (type === 'ARTICLE'
-            ? epicModule.endpointPathBuilder
-            : liveblogEpicModule.endpointPathBuilder);
-
-    return {
-        data: {
-            variant: variantWithTickerData,
-            meta: testTracking,
-            module: {
-                url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
-                props,
-            },
-        },
-        debug: result.debug,
-    };
-};
-
-const buildBannerData = async (
-    pageTracking: BannerPageTracking,
-    targeting: BannerTargeting,
-    params: Params,
-    req: express.Request,
-): Promise<BannerDataResponse> => {
-    const selectedTest = await selectBannerTest(
-        targeting,
-        pageTracking,
-        baseUrl(req),
-        getCachedTests,
-        bannerDeployCaches,
-        params.force,
-    );
-
-    if (selectedTest) {
-        const { test, variant, moduleUrl, moduleName } = selectedTest;
-
-        const testTracking: BannerTestTracking = {
-            abTestName: test.name,
-            abTestVariant: variant.name,
-            campaignCode: buildBannerCampaignCode(test, variant),
-            componentType: variant.componentType,
-            ...(variant.products && { products: variant.products }),
-        };
-
-        const tickerSettings = variant.tickerSettings
-            ? await addTickerDataToSettings(variant.tickerSettings)
-            : undefined;
-
-        const props: BannerProps = {
-            tracking: { ...pageTracking, ...testTracking },
-            bannerChannel: test.bannerChannel,
-            isSupporter: !targeting.showSupportMessaging,
-            countryCode: targeting.countryCode,
-            content: variant.bannerContent,
-            mobileContent: variant.mobileBannerContent,
-            numArticles: getArticleViewCountForWeeks(
-                targeting.weeklyArticleHistory,
-                test.articlesViewedSettings?.periodInWeeks,
-            ),
-            hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
-            tickerSettings,
-        };
-
-        return {
-            data: {
-                module: {
-                    url: moduleUrl,
-                    name: moduleName,
-                    props: props,
-                },
-                meta: testTracking,
-            },
-        };
-    } else {
-        // No banner
-        return { data: undefined };
-    }
-};
 
 // TODO replace with module-friendly solution
 /* app.get(
@@ -394,6 +144,19 @@ app.post(
                 isPaidContent: payload.targeting.isPaidContent,
             };
 
+            res.send(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.post(
+    '/header',
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const { tracking, targeting } = req.body;
+            const response = await buildHeaderData(tracking, targeting, baseUrl(req));
             res.send(response);
         } catch (error) {
             next(error);
@@ -647,28 +410,22 @@ app.get(
 );
 
 app.post('/puzzles', async (req: express.Request, res: express.Response) => {
-    const { tracking, targeting } = req.body;
-    // Exclude AB test & campaign properties that relate to the admin console; we don't care about them for puzzles
-    const puzzlesTracking: Partial<BannerTestTracking> = {
-        componentType: 'ACQUISITIONS_OTHER',
-    };
+    const payload = validateBannerPayload(req.body);
+    const { tracking, targeting } = payload;
+    const response = await buildPuzzlesData(tracking, targeting, req.params, req);
 
-    const response = {
-        data: {
-            module: {
-                url: `${baseUrl(req)}/${puzzlesBanner.endpointPathBuilder(
-                    targeting ? targeting.modulesVersion : targeting,
-                )}`,
-                name: 'PuzzlesBanner',
-                props: {
-                    tracking: {
-                        ...tracking,
-                        ...puzzlesTracking,
-                    },
-                },
-            },
-            meta: {},
-        },
+    // for response logging
+    res.locals.didRenderBanner = !!response.data;
+    res.locals.clientName = tracking.clientName;
+    // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
+    res.locals.bannerTargeting = {
+        shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
+        showSupportMessaging: targeting.showSupportMessaging,
+        alreadyVisitedCount: targeting.alreadyVisitedCount,
+        countryCode: targeting.countryCode,
+        engagementBannerLastClosedAt: targeting.engagementBannerLastClosedAt,
+        subscriptionBannerLastClosedAt: targeting.subscriptionBannerLastClosedAt,
+        isPaidContent: targeting.isPaidContent,
     };
     res.send(response);
 });

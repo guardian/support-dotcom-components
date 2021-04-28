@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicTracking } from './ContributionsEpicTypes';
-import { Cta, Variant } from '../../../lib/variants';
+import { Cta, SecondaryCtaType, Variant } from '../../../lib/variants';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 import { getCookie } from '../../../lib/cookies';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
@@ -129,13 +129,16 @@ export const ContributionsEpicButtons = ({
                 <>
                     <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
 
-                    {secondaryCta && secondaryCta.baseUrl && secondaryCta.text ? (
+                    {secondaryCta?.type === SecondaryCtaType.Custom &&
+                    secondaryCta.cta.baseUrl &&
+                    secondaryCta.cta.text ? (
                         <SecondaryCtaButton
-                            cta={secondaryCta}
+                            cta={secondaryCta.cta}
                             tracking={tracking}
                             countryCode={countryCode}
                         />
                     ) : (
+                        secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
                         showReminderFields &&
                         !hasSetReminder && (
                             <div css={buttonMargins}>

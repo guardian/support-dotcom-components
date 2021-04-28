@@ -17,14 +17,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
-export const epicACAbove: ModuleInfo = getDefaultModuleInfo(
-    'epic-ac-above',
-    'epics/ContributionsEpicWithArticleCountAbove',
-);
-export const epicACInline: ModuleInfo = getDefaultModuleInfo(
-    'epic-ac-inline',
-    'epics/ContributionsEpicWithArticleCountInline',
-);
 
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
@@ -51,13 +43,14 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
     'puzzles/puzzlesBanner/PuzzlesBanner',
 );
 
+export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    // epicACAbove,
-    // epicACInline,
-    // liveblogEpic,
+    liveblogEpic,
     contributionsBanner,
-    // digiSubs,
-    // guardianWeekly,
-    // puzzlesBanner,
+    digiSubs,
+    guardianWeekly,
+    puzzlesBanner,
+    header,
 ];

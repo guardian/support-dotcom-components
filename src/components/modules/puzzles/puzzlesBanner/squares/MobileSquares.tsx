@@ -14,11 +14,15 @@ const mobileSquareGrid = css`
     ${from.tablet} {
         display: none;
     }
-    margin-top: -${space[12]}px;
+
+    margin-top: -72px;
     width: 100%;
     max-width: 374px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    ${from.mobileMedium} {
+        margin-top: -${space[12]}px;
+    }
 `;
 
 const firstRow = css`
