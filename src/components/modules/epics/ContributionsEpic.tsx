@@ -7,7 +7,7 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
-import {EpicProps} from './ContributionsEpicTypes';
+import { EpicProps } from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
