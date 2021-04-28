@@ -3,8 +3,9 @@
 import React from 'react';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
-import { css } from '@emotion/core';
 import { Button } from '@guardian/src-button';
+import { Link } from '@guardian/src-link';
+import { css } from '@emotion/core';
 
 // --- Styles --- //
 
@@ -21,17 +22,67 @@ const headerContainerStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 `;
 
 const articleCountTextStyles = css`
-    ${textSans.medium({ fontWeight: 'bold' })};
+    ${textSans.small()};
+    margin-right: ${space[1]}px;
 `;
 
 const articleCountWrapperStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
+`;
+
+const articleCountCtaStyles = css`
+    ${textSans.small({ fontWeight: 'bold' })};
+`;
+
+const articleCountOptCtasContainer = css`
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    justify-content: space-between;
+    height: 65px;
+`;
+
+const articleCountDescriptionTopContainer = css`
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    margin-top: ${space[2]}px;
+`;
+
+const articleCountDescriptionContainer = css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: ${space[2]}px 0;
+`;
+
+const articleCountBodyTextStyles = css`
+    ${textSans.medium()};
+    width: 60%;
+`;
+
+const articleCountOptInCtaStyles = css`
+    background-color: #000000;
+`;
+
+const articleCountOptOutCtaStyles = css`
+    color: #000000;
+    border: 1px solid #000000;
+    text-align: right;
+`;
+
+const trackingSettingsContainerStyles = css`
+    ${textSans.small()};
+    margin: ${space[1]}px;
+`;
+
+const privacySettingsLinkStyles = css`
+    ${textSans.small({ fontWeight: 'bold' })};
 `;
 
 // --- Types --- //
@@ -66,9 +117,40 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                 </div>
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
-                    <Button priority="tertiary" size="small">
-                        On
-                    </Button>
+
+                    <Link priority="secondary" href="/" cssOverrides={articleCountCtaStyles}>
+                        on
+                    </Link>
+                </div>
+            </div>
+            <div css={articleCountDescriptionTopContainer}>
+                <div css={articleCountDescriptionContainer}>
+                    <div css={articleCountBodyTextStyles}>
+                        We are counting the number of Guardian articles you&apos;ve read on this
+                        device. Can we continue showing you your article count?
+                    </div>
+                    <div css={articleCountOptCtasContainer}>
+                        <Button
+                            priority="primary"
+                            size="xsmall"
+                            cssOverrides={articleCountOptInCtaStyles}
+                        >
+                            Yes, thats OK
+                        </Button>
+                        <Button
+                            priority="tertiary"
+                            size="xsmall"
+                            cssOverrides={articleCountOptOutCtaStyles}
+                        >
+                            No, opt me out
+                        </Button>
+                    </div>
+                </div>
+                <div css={trackingSettingsContainerStyles}>
+                    To opt out of other tracking activity, manage your{' '}
+                    <Link priority="secondary" cssOverrides={privacySettingsLinkStyles}>
+                        Privacy Settings
+                    </Link>
                 </div>
             </div>
         </>
