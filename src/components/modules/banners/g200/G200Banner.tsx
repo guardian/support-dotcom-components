@@ -91,7 +91,7 @@ const logoContainerStyles = css`
         left: auto;
         right: auto;
 
-        margin-top: ${space[2]}px;
+        margin-top: 0;
         width: 186px;
     }
 `;
@@ -205,6 +205,10 @@ const bodyAndCloseButtonContainerStyles = css`
     display: flex;
 `;
 
+const logoColumnStyles = css`
+    padding-top: ${space[3]}px;
+`;
+
 const G200Banner: React.FC<ContributionsBannerProps> = ({
     mobileContent,
     content,
@@ -312,7 +316,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
 
                 <Hide below="wide">
                     <Columns>
-                        <Column width={3 / 16}>
+                        <Column cssOverrides={logoColumnStyles} width={3 / 16}>
                             <Logo />
                         </Column>
 
