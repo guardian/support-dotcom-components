@@ -23,7 +23,7 @@ const styles = {
         margin-top: 2px;
     `,
     ctaContainer: css`
-        *:first-of-type {
+        > :first-child {
             margin-right: 5px;
         }
         margin-top: 20px;

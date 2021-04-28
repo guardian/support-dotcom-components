@@ -9,12 +9,10 @@
         "moduleResolution": "node",
         "jsx": "react-jsx",
         "outDir": "dist",
-        "typeRoots": ["./src/@types", "./node_modules/@types", "node_modules/@types"],
+        "typeRoots": ["./src/@types", "./node_modules/@types"],
         "rootDirs": ["src", "stories"],
         "baseUrl": "src",
-        "types": ["node", "jest", "@emotion/react"],
-        "skipLibCheck": true,
-        "jsxImportSource": "@emotion/react"
+        "types": ["node", "jest"]
     },
     "include": ["src/**/*"],
     "exclude": [

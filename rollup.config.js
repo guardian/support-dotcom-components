@@ -26,7 +26,6 @@ const tsOpts = {
     include: ['src/**/*'],
     exclude: ['node_modules', '**/*.test.ts', 'src/factories/*', 'src/cdk/*'],
     tsconfig: false,
-    skipLibCheck: true,
     jsxImportSource: '@emotion/react',
 };
 
@@ -44,18 +43,14 @@ const config = args => {
         const isProd = process.env.NODE_ENV === 'production';
         const sourcemaps = !isProd; // Nb: set to false if testing IE11
         return {
-            // external: [], // ['**/@emotion/*', 'react', 'preact'],
             input: module.srcPath,
             output: {
                 file: module.distPath,
                 format: 'es',
                 sourcemap: sourcemaps ? 'inline' : false,
-                // globals: globals,
             },
 
-            external: id => {
-                return Object.keys(globals).some(key => key == id);
-            },
+            external: id => Object.keys(globals).some(key => key == id),
 
             plugins: [
                 resolveNode(),
