@@ -43,7 +43,7 @@ const topContainerStyles = css`
         height: 100%;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         width: calc(100% + 20px);
         margin-left: -10px;
         border-left: 1px solid white;
@@ -84,7 +84,7 @@ const logoContainerStyles = css`
         width: 124px;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         position: relative;
         top: auto;
         bottom: auto;
@@ -92,6 +92,10 @@ const logoContainerStyles = css`
         right: auto;
 
         margin-top: 0;
+        width: 140px;
+    }
+
+    ${from.wide} {
         width: 186px;
     }
 `;
@@ -140,7 +144,7 @@ const imageContainerStyles = css`
         width: 480px;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         margin-top: -188px;
         margin-left: 63px;
         width: 420px;
@@ -247,7 +251,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
             <div css={logoAndHeaderContainerStyles}>
                 <div css={logoContainerStyles}>
                     <Hide below="tablet">
-                        <Hide above="wide">
+                        <Hide above="leftCol">
                             <G200BannerLogo />
                         </Hide>
                     </Hide>
@@ -284,7 +288,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
     return (
         <div css={containerStyles}>
             <Hide below="tablet">
-                <Hide above="wide">
+                <Hide above="leftCol">
                     <div css={lineExtensionContainer}>
                         <div css={firstLineStyles} />
                         <div css={secondLineStyles} />
@@ -301,13 +305,31 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
 
             <Container>
                 <Hide below="tablet">
-                    <Hide above="wide">
+                    <Hide above="leftCol">
                         <Columns>
                             <Column width={6 / 12}>
                                 <HeaderAndImage />
                             </Column>
 
                             <Column width={6 / 12}>
+                                <BodyAndCtas />
+                            </Column>
+                        </Columns>
+                    </Hide>
+                </Hide>
+
+                <Hide below="leftCol">
+                    <Hide above="wide">
+                        <Columns>
+                            <Column cssOverrides={logoColumnStyles} width={2 / 14}>
+                                <Logo />
+                            </Column>
+
+                            <Column width={6 / 14}>
+                                <HeaderAndImage />
+                            </Column>
+
+                            <Column width={6 / 14}>
                                 <BodyAndCtas />
                             </Column>
                         </Columns>

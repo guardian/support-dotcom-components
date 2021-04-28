@@ -24,7 +24,7 @@ const containerStyles = css`
         padding: ${space[3]}px 0 0;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         padding: ${space[3]}px ${space[3]}px 0;
     }
 `;
@@ -92,7 +92,7 @@ const linesContainerStyles = css`
         border-top: none;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         display: block;
     }
 `;
@@ -105,7 +105,7 @@ const firstLineStyles = css`
         margin-top: 42px;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         margin-top: 64px;
     }
 `;
@@ -118,7 +118,7 @@ const secondLineStyles = css`
         margin-top: 42px;
     }
 
-    ${from.wide} {
+    ${from.leftCol} {
         margin-top: 64px;
     }
 `;
@@ -160,7 +160,7 @@ const G200BannerHeader: React.FC = () => {
 
                 <div css={secondLineStyles}></div>
 
-                <Hide below="wide">
+                <Hide below="leftCol">
                     <div css={thirdLineStyles}></div>
                 </Hide>
             </div>
