@@ -6,24 +6,25 @@ import {
 } from '../../../../lib/tracking';
 import React, { useState } from 'react';
 import { ThemeProvider } from 'emotion-theming';
+import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button, LinkButton, buttonBrand, buttonReaderRevenue } from '@guardian/src-button';
 import { Link, linkBrand } from '@guardian/src-link';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
-    contentContainer,
+    columns,
     topLeftComponent,
+    bottomRightComponent,
     heading,
     messageText,
     siteMessage,
-    bottomRightComponent,
+    packShotContainer,
     packShot,
     iconPanel,
     logoContainer,
-    packShotContainer,
     closeButton,
-    notNowButton,
+    closeButtonContainer,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
@@ -94,16 +95,14 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         ? fallbackMessageText
         : content?.messageText || '';
 
-    const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onSubscribeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
     };
 
-    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onSignInClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -135,75 +134,89 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <section css={banner} data-target={bannerId}>
-                    <div css={contentContainer}>
-                        <div css={topLeftComponent}>
-                            <h3 css={heading}>
-                                {replaceArticleCount(cleanHeadingText || '', numArticles, 'banner')}
-                            </h3>
-                            <p css={messageText}>
-                                {replaceArticleCount(cleanMessageText || '', numArticles, 'banner')}
-                            </p>
-                            <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
-                                    href={subscriptionUrlWithTracking}
-                                    onClick={onSubscribeClick}
-                                >
-                                    {content?.cta || 'Subscribe'}
-                                </LinkButton>
-                            </ThemeProvider>
-                            <ThemeProvider theme={buttonBrand}>
-                                <Button
-                                    cssOverrides={notNowButton}
-                                    priority="subdued"
-                                    data-link-name={notNowComponentId}
-                                    onClick={onNotNowClick}
-                                >
-                                    Not now
-                                </Button>
-                            </ThemeProvider>
-                            <div css={siteMessage}>
-                                Already a subscriber?{' '}
-                                <ThemeProvider theme={linkBrand}>
-                                    <Link
-                                        data-link-name={signInComponentId}
-                                        onClick={onSignInClick}
-                                        subdued
-                                    >
-                                        Sign in
-                                    </Link>{' '}
-                                </ThemeProvider>
-                                to not see this again
-                            </div>
-                        </div>
-                        <div css={bottomRightComponent}>
-                            <div css={packShotContainer}>
-                                <div css={packShot}>
-                                    <ResponsiveImage
-                                        images={[mobileImg, baseImg]}
-                                        baseImage={baseImg}
-                                    />
+                    <Container>
+                        <Columns cssOverrides={columns} collapseBelow="tablet">
+                            <Column cssOverrides={topLeftComponent} width={7 / 12}>
+                                <h3 css={heading}>
+                                    {replaceArticleCount(
+                                        cleanHeadingText || '',
+                                        numArticles,
+                                        'banner',
+                                    )}
+                                </h3>
+                                <p css={messageText}>
+                                    {replaceArticleCount(
+                                        cleanMessageText || '',
+                                        numArticles,
+                                        'banner',
+                                    )}
+                                </p>
+                                <Inline space={3}>
+                                    <ThemeProvider theme={buttonReaderRevenue}>
+                                        <LinkButton
+                                            href={subscriptionUrlWithTracking}
+                                            onClick={onSubscribeClick}
+                                        >
+                                            {content?.cta || 'Subscribe'}
+                                        </LinkButton>
+                                    </ThemeProvider>
+                                    <ThemeProvider theme={buttonBrand}>
+                                        <Button
+                                            // cssOverrides={notNowButton}
+                                            priority="subdued"
+                                            data-link-name={notNowComponentId}
+                                            onClick={onNotNowClick}
+                                        >
+                                            Not now
+                                        </Button>
+                                    </ThemeProvider>
+                                </Inline>
+                                <div css={siteMessage}>
+                                    Already a subscriber?{' '}
+                                    <ThemeProvider theme={linkBrand}>
+                                        <Link
+                                            data-link-name={signInComponentId}
+                                            onClick={onSignInClick}
+                                            subdued
+                                        >
+                                            Sign in
+                                        </Link>{' '}
+                                    </ThemeProvider>
+                                    to not see this again
                                 </div>
-                            </div>
-                            <div css={iconPanel}>
-                                <ThemeProvider theme={buttonBrand}>
-                                    <Button
-                                        size="small"
-                                        cssOverrides={closeButton}
-                                        priority="tertiary"
-                                        onClick={onCloseClick}
-                                        data-link-name={closeComponentId}
-                                        icon={<SvgCross />}
-                                        hideLabel
-                                    >
-                                        Close
-                                    </Button>
-                                </ThemeProvider>
-                                <div css={logoContainer}>
-                                    <SvgGuardianLogo />
+                            </Column>
+                            <Column cssOverrides={bottomRightComponent}>
+                                <div css={packShotContainer}>
+                                    <div css={packShot}>
+                                        <ResponsiveImage
+                                            images={[mobileImg, baseImg]}
+                                            baseImage={baseImg}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </Column>
+                            <Column width={1 / 12} cssOverrides={closeButtonContainer}>
+                                <div css={iconPanel}>
+                                    <ThemeProvider theme={buttonBrand}>
+                                        <Button
+                                            size="small"
+                                            cssOverrides={closeButton}
+                                            priority="tertiary"
+                                            onClick={onCloseClick}
+                                            data-link-name={closeComponentId}
+                                            icon={<SvgCross />}
+                                            hideLabel
+                                        >
+                                            Close
+                                        </Button>
+                                    </ThemeProvider>
+                                    <div css={logoContainer}>
+                                        <SvgGuardianLogo />
+                                    </div>
+                                </div>
+                            </Column>
+                        </Columns>
+                    </Container>
                 </section>
             ) : null}
         </>
