@@ -34,18 +34,11 @@ const articleCountWrapperStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-right: ${space[4]}px;
 `;
 
 const articleCountCtaStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
-`;
-
-const articleCountOptCtasContainer = css`
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    justify-content: space-between;
-    height: 65px;
 `;
 
 const articleCountDescriptionTopContainer = css`
@@ -66,14 +59,23 @@ const articleCountBodyTextStyles = css`
     width: 60%;
 `;
 
+const articleCountOptCtasContainer = css`
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: ${space[2]}px;
+    justify-content: space-between;
+    height: 60px;
+`;
+
 const articleCountOptInCtaStyles = css`
     background-color: #000000;
+    padding-left: ${space[5]}px;
 `;
 
 const articleCountOptOutCtaStyles = css`
     color: #000000;
     border: 1px solid #000000;
-    text-align: right;
 `;
 
 const trackingSettingsContainerStyles = css`
