@@ -5,6 +5,9 @@ import {
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
 import React, { useState } from 'react';
+import { ThemeProvider } from 'emotion-theming';
+import { Button, LinkButton, buttonBrand, buttonReaderRevenue } from '@guardian/src-button';
+import { Link, linkBrand } from '@guardian/src-link';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
@@ -13,20 +16,14 @@ import {
     topLeftComponent,
     heading,
     messageText,
-    buttonTextDesktop,
-    buttonTextTablet,
-    buttonTextMobile,
     siteMessage,
     bottomRightComponent,
     packShot,
     iconPanel,
-    closeButton,
     logoContainer,
-    notNowButton,
-    becomeASubscriberButton,
-    linkStyle,
-    signInLink,
     packShotContainer,
+    closeButton,
+    notNowButton,
 } from './digitalSubscriptionsBannerStyles';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
@@ -83,6 +80,11 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
 
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
+    const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
+        subscriptionUrl,
+        tracking,
+        countryCode,
+    );
 
     const cleanHeadingText = containsNonArticleCountPlaceholder(content?.heading || '')
         ? fallbackHeading
@@ -94,16 +96,10 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
 
     const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         evt.preventDefault();
-        const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
-            subscriptionUrl,
-            tracking,
-            countryCode,
-        );
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = subscriptionUrlWithTracking;
     };
 
     const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -147,29 +143,35 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                             <p css={messageText}>
                                 {replaceArticleCount(cleanMessageText || '', numArticles, 'banner')}
                             </p>
-                            <a css={linkStyle} onClick={onSubscribeClick}>
-                                <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
-                                    <span css={buttonTextDesktop}>Become a digital subscriber</span>
-                                    <span css={buttonTextTablet}>Become a subscriber</span>
-                                    <span css={buttonTextMobile}>Subscribe now</span>
-                                </div>
-                            </a>
-                            <button
-                                css={notNowButton}
-                                data-link-name={notNowComponentId}
-                                onClick={onNotNowClick}
-                            >
-                                Not now
-                            </button>
+                            <ThemeProvider theme={buttonReaderRevenue}>
+                                <LinkButton
+                                    href={subscriptionUrlWithTracking}
+                                    onClick={onSubscribeClick}
+                                >
+                                    {content?.cta || 'Subscribe'}
+                                </LinkButton>
+                            </ThemeProvider>
+                            <ThemeProvider theme={buttonBrand}>
+                                <Button
+                                    cssOverrides={notNowButton}
+                                    priority="subdued"
+                                    data-link-name={notNowComponentId}
+                                    onClick={onNotNowClick}
+                                >
+                                    Not now
+                                </Button>
+                            </ThemeProvider>
                             <div css={siteMessage}>
                                 Already a subscriber?{' '}
-                                <a
-                                    css={signInLink}
-                                    data-link-name={signInComponentId}
-                                    onClick={onSignInClick}
-                                >
-                                    Sign in
-                                </a>{' '}
+                                <ThemeProvider theme={linkBrand}>
+                                    <Link
+                                        data-link-name={signInComponentId}
+                                        onClick={onSignInClick}
+                                        subdued
+                                    >
+                                        Sign in
+                                    </Link>{' '}
+                                </ThemeProvider>
                                 to not see this again
                             </div>
                         </div>
@@ -183,14 +185,19 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                 </div>
                             </div>
                             <div css={iconPanel}>
-                                <button
-                                    onClick={onCloseClick}
-                                    css={closeButton}
-                                    data-link-name={closeComponentId}
-                                    aria-label="Close"
-                                >
-                                    <SvgCross />
-                                </button>
+                                <ThemeProvider theme={buttonBrand}>
+                                    <Button
+                                        size="small"
+                                        cssOverrides={closeButton}
+                                        priority="tertiary"
+                                        onClick={onCloseClick}
+                                        data-link-name={closeComponentId}
+                                        icon={<SvgCross />}
+                                        hideLabel
+                                    >
+                                        Close
+                                    </Button>
+                                </ThemeProvider>
                                 <div css={logoContainer}>
                                     <SvgGuardianLogo />
                                 </div>

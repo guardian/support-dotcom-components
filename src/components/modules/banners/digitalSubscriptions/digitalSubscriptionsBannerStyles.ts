@@ -1,6 +1,6 @@
 import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
-import { neutral, brandAlt, text } from '@guardian/src-foundations/palette';
+import { neutral, text } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
@@ -130,29 +130,8 @@ export const linkStyle = css`
     }
 `;
 
-export const becomeASubscriberButton = css`
-    cursor: pointer;
-    display: inline-block;
-    border-radius: 1.875rem;
-    background-color: ${brandAlt[400]};
-    padding: ${space[2]}px ${space[6]}px;
-    color: ${text.primary};
-    ${textSans.medium()};
-    font-weight: bold;
-`;
-
 export const notNowButton = css`
-    ${textSans.medium()};
     margin-left: ${space[3]}px;
-    font-weight: bold;
-    color: ${text.ctaPrimary};
-    border: 0;
-    border-radius: 0.25rem;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    outline: inherit;
 `;
 
 export const buttonTextDesktop = css`
@@ -287,35 +266,9 @@ export const logoContainer = css`
 `;
 
 export const closeButton = css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 1px solid ${neutral[100]};
-    border-radius: 50%;
-    outline: none;
-    background: transparent;
-    cursor: pointer;
-    width: ${closeButtonWidthHeight};
-    height: ${closeButtonWidthHeight};
-    svg {
-        width: 25px;
-        height: 25px;
-        fill: ${neutral[100]};
-        transition: background-color 0.5s ease;
-        border-radius: 50%;
-    }
-    :hover {
-        cursor: pointer;
-        background-color: rgba(237, 237, 237, 0.5);
-    }
     ${until.desktop} {
         position: absolute;
         top: 10px;
         right: 10px;
     }
-`;
-
-export const signInLink = css`
-    cursor: pointer;
 `;
