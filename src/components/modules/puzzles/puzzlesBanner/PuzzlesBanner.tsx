@@ -3,8 +3,7 @@ import { CacheProvider } from '@emotion/core';
 import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
-import { SvgArrowDownStraight, SvgArrowUpStraight, SvgInfo } from '@guardian/src-icons';
+import { SvgArrowDownStraight, SvgArrowUpStraight } from '@guardian/src-icons';
 import {
     createClickEventFromTracking,
     createViewEventFromTracking,
@@ -13,28 +12,26 @@ import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
 import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
-import { useTabDetection } from '../../../hooks/useTabDetection';
 import { MobileSquares } from './squares/MobileSquares';
 import { TabletDesktopSquares } from './squares/TabletDesktopSquares';
 import { ContentSquares } from './squares/ContentSquares';
 import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
 import { MinimisedBorderSquares } from './squares/MinimisedBorderSquares';
 import {
-    appStoreButtonContainer,
     banner,
     bannerContents,
-    heading,
-    headingSection,
     hide,
     imageContainer,
     minimisedBanner,
     minimiseButton,
+    minimiseButtonMin,
+    minimiseButtonMax,
     minimisedContentContainer,
-    minimiseHint,
     squaresContainer,
 } from './puzzlesBannerStyles';
-import { appStore, packshot } from './images';
+import { packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
+import PuzzlesBannerHeader from './PuzzlesBannerHeader';
 
 type AppStore = 'apple' | 'google';
 type BannerState = 'minimised' | 'expanded';
@@ -75,7 +72,6 @@ const tabletPackshot = {
 
 export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
     const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
-    const isKeyboardUser = useTabDetection();
 
     const hideOnMinimise = isMinimised ? hide : '';
     const hideOnExpand = isMinimised ? '' : hide;
@@ -121,8 +117,12 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
 
     const MinimiseButton = (
         <Button
-            size="small"
-            cssOverrides={minimiseButton}
+            size="xsmall"
+            cssOverrides={
+                isMinimised
+                    ? [minimiseButton, minimiseButtonMin]
+                    : [minimiseButton, minimiseButtonMax]
+            }
             icon={isMinimised ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
             onClick={minimise}
             hideLabel
@@ -148,54 +148,24 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
             <section css={[banner, isMinimised ? minimisedBanner : '']}>
                 <Container css={hideOnMinimise}>
                     <div css={[bannerContents, hideOnMinimise]}>
-                        <div css={[headingSection, hideOnMinimise]}>
-                            <h3 css={heading}>
-                                Discover
-                                <br />
-                                The&nbsp;Guardian
-                                <br />
-                                Puzzles&nbsp;App
-                            </h3>
-                            <div css={appStoreButtonContainer}>
-                                <Link
-                                    href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={handleAppStoreClickFor('apple')}
-                                >
-                                    <img
-                                        src={appStore.apple}
-                                        alt="Download on the Apple App Store"
-                                    />
-                                </Link>
-                                <Link
-                                    href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={handleAppStoreClickFor('google')}
-                                >
-                                    <img src={appStore.google} alt="Get it on Google Play" />
-                                </Link>
-                            </div>
-                            {isKeyboardUser && (
-                                <p css={minimiseHint}>
-                                    <SvgInfo /> You can minimise this banner using the escape key
-                                </p>
-                            )}
-                        </div>
+                        <PuzzlesBannerHeader
+                            handleAppStoreClickFor={handleAppStoreClickFor}
+                            minimiseButton={MinimiseButton}
+                            hideOnMinimise={hideOnMinimise}
+                        />
                         <div css={[squaresContainer, hideOnMinimise]}>
-                            <ContentSquares />
+                            <ContentSquares minimiseButton={MinimiseButton} />
                             <div css={imageContainer}>
                                 <ResponsiveImage
                                     images={[tabletPackshot, desktopPackshot]}
                                     baseImage={tabletPackshot}
                                 />
                             </div>
-                            <TabletDesktopSquares minimiseButton={MinimiseButton} />
+                            <TabletDesktopSquares />
                         </div>
                     </div>
                 </Container>
-                <MobileSquares minimiseButton={MinimiseButton} cssOverrides={hideOnMinimise} />
+                <MobileSquares cssOverrides={hideOnMinimise} />
                 <div css={[hideOnExpand, minimisedContentContainer]}>
                     <MinimisedContentSquare minimiseButton={MinimiseButton} />
                     <MinimisedBorderSquares />

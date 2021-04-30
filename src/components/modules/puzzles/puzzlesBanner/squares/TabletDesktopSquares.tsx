@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
-import { minimiseButtonContainer } from '../puzzlesBannerStyles';
 
 type TabletDesktopSquaresProps = {
     minimiseButton: React.ReactNode;
@@ -41,7 +40,7 @@ function gridPlacement(row: number, column: number) {
     `;
 }
 
-export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ minimiseButton }) => {
+export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = () => {
     return (
         <div css={backgroundSquaresGrid}>
             <Square
@@ -57,12 +56,7 @@ export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ mini
             <Square colour="pink" removeBorder={['top']} cssOverrides={gridPlacement(1, 3)} />
             <Square colour="pink" removeBorder={['right']} cssOverrides={gridPlacement(2, 1)} />
             <Square colour="pink" removeBorder={['right']} cssOverrides={gridPlacement(2, 2)} />
-            <Square
-                colour="purple"
-                cssOverrides={[minimiseButtonContainer, nudgeSquareRight, gridPlacement(2, 3)]}
-            >
-                {minimiseButton}
-            </Square>
+            <Square colour="purple" cssOverrides={[nudgeSquareRight, gridPlacement(2, 3)]} />
         </div>
     );
 };

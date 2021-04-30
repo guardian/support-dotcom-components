@@ -24,6 +24,14 @@ function withIECompatibleGap(rowsOrCols: string[], gap: string) {
     return rowsOrCols.join(` ${gap} `);
 }
 
+const minimiseButtonContainer = css`
+    align-self: flex-end;
+    padding: 0 ${space[2]}px ${space[1]}px 0;
+    ${until.tablet} {
+        display: none;
+    }
+`;
+
 const squareSizes = {
     mobile: {
         xsmall: 84,
@@ -200,6 +208,10 @@ type ContentSquareProps = {
     cssOverrides?: SerializedStyles[];
 };
 
+type ContentSquaresProps = {
+    minimiseButton: React.ReactNode;
+};
+
 const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = [] }) => {
     return (
         <Square colour="white" cssOverrides={[contentSquare, ...cssOverrides]}>
@@ -209,7 +221,7 @@ const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = 
     );
 };
 
-export const ContentSquares: React.FC = () => {
+export const ContentSquares: React.FC<ContentSquaresProps> = ({ minimiseButton }) => {
     return (
         <div css={contentSquaresGrid}>
             <ContentSquare cssOverrides={[bottomLeftOnMobile, desktopGridPlacement(1, 1)]}>
@@ -225,6 +237,7 @@ export const ContentSquares: React.FC = () => {
                     Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
                     <span css={textHighlight}>sudokus,</span> wherever you&nbsp;are.
                 </p>
+                <div css={minimiseButtonContainer}>{minimiseButton}</div>
             </ContentSquare>
             <ContentSquare cssOverrides={[qrCodeSquare, desktopGridPlacement(3, 1)]}>
                 <div css={qrCodeContainer}>

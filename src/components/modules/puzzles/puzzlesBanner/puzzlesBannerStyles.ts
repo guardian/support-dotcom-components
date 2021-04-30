@@ -78,7 +78,9 @@ export const squaresContainer = css`
 
 export const headingSection = css`
     max-width: 500px;
-    margin-right: ${space[6]}px;
+    ${from.tablet} {
+        margin-right: ${space[6]}px;
+    }
 `;
 
 export const heading = css`
@@ -86,11 +88,13 @@ export const heading = css`
     margin: 0 0 ${space[6]}px;
 
     ${until.mobileMedium} {
-        ${headline.medium({ fontWeight: 'bold' })}
+        display: inline-flex;
+        width: 70%;
+        ${headline.medium({ fontWeight: 'bold' })};
     }
 
     ${between.tablet.and.desktop} {
-        ${headline.small({ fontWeight: 'bold' })}
+        ${headline.small({ fontWeight: 'bold' })};
     }
 
     ${from.leftCol} {
@@ -131,13 +135,47 @@ export const minimiseButtonContainer = css`
 
 export const minimiseButton = css`
     border: none;
+    align-self: flex-end;
+    z-index: 20;
+`;
+
+export const minimiseButtonMin = css`
     background-color: ${neutral[97]};
     color: ${neutral[7]};
-    align-self: flex-end;
 
     &:hover {
         background-color: ${neutral[7]};
         color: ${neutral[97]};
+    }
+`;
+
+export const minimiseButtonMax = css`
+    background-color: ${neutral[97]};
+    color: ${neutral[7]};
+
+    ${from.tablet} {
+        background-color: ${neutral[20]};
+        color: ${neutral[100]};
+    }
+
+    &:hover {
+        background-color: ${neutral[46]};
+    }
+`;
+
+export const headerFlex = css`
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+`;
+
+export const mobileMinimiseButton = css`
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: ${space[3]}px;
+
+    ${from.tablet} {
+        display: none;
     }
 `;
 
