@@ -1,5 +1,5 @@
 import { EpicTestTracking, EpicPageTracking, EpicTracking } from '../ContributionsEpicTypes';
-import { EpicProps } from '../ContributionsEpic';
+import { EpicProps } from '../ContributionsEpicTypes';
 import { SecondaryCtaType, Variant } from '../../../../lib/variants';
 
 const variant: Variant = {
