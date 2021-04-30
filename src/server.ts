@@ -48,7 +48,7 @@ app.post(
             const epicType: EpicType = 'ARTICLE';
 
             const { tracking, targeting } = req.body;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
             const response = await buildEpicData(
                 tracking,
                 targeting,
@@ -79,7 +79,7 @@ app.post(
             const epicType: EpicType = 'LIVEBLOG';
 
             const { tracking, targeting } = req.body;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
             const response = await buildEpicData(
                 tracking,
                 targeting,
@@ -106,7 +106,7 @@ app.post(
             const payload = validateBannerPayload(req.body);
 
             const { tracking, targeting } = payload;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
 
             const response = await buildBannerData(tracking, targeting, params, req);
 
