@@ -6,7 +6,7 @@ import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';
 import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
-import {EpicProps} from "./ContributionsEpicTypes";
+import { EpicProps } from './ContributionsEpicTypes';
 
 const containerStyles = css`
     margin: 3em auto;

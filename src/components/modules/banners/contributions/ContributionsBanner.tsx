@@ -90,6 +90,7 @@ const columnCounts = {
 
 const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     onContributeClick,
+    onSecondaryCtaClick,
     onCloseClick,
     content,
     mobileContent,
@@ -116,14 +117,26 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     const buttons = (
         <div css={styles.buttonsContainer}>
             <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
-            <div css={styles.ctaContainer}>
-                <ContributionsBannerCta
-                    onContributeClick={onContributeClick}
-                    ctaText={content.ctaText}
-                    ctaUrl={content.ctaUrl}
-                    stacked={true}
-                />
-            </div>
+            {content.primaryCta && (
+                <div css={styles.ctaContainer}>
+                    <ContributionsBannerCta
+                        onContributeClick={onContributeClick}
+                        ctaText={content.primaryCta.ctaText}
+                        ctaUrl={content.primaryCta.ctaUrl}
+                        stacked={true}
+                    />
+                </div>
+            )}
+            {content.secondaryCta && (
+                <div css={styles.ctaContainer}>
+                    <ContributionsBannerCta
+                        onContributeClick={onSecondaryCtaClick}
+                        ctaText={content.secondaryCta.ctaText}
+                        ctaUrl={content.secondaryCta.ctaUrl}
+                        stacked={true}
+                    />
+                </div>
+            )}
         </div>
     );
 

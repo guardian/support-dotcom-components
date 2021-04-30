@@ -16,17 +16,24 @@ import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;
 const ctaComponentId = `${bannerId} : cta`;
+const secondaryCtaComponentId = `${bannerId} : secondary-cta`;
+
+export interface ContributionsBannerEnrichedCta {
+    ctaUrl: string;
+    ctaText: string;
+}
 
 export interface ContributionsBannerRenderedContent {
     highlightedText: JSX.Element[] | null;
     messageText: JSX.Element[];
     heading: JSX.Element[] | null;
-    ctaUrl: string;
-    ctaText: string;
+    primaryCta: ContributionsBannerEnrichedCta | null;
+    secondaryCta: ContributionsBannerEnrichedCta | null;
 }
 
 export interface ContributionsBannerProps {
     onContributeClick: () => void;
+    onSecondaryCtaClick: () => void;
     onCloseClick: () => void;
     content: ContributionsBannerRenderedContent;
     mobileContent?: ContributionsBannerRenderedContent;
@@ -48,9 +55,16 @@ const withBannerData = (
     // For safety, this function throws if not all placeholders are replaced
     const buildRenderedContent = (
         bannerContent: BannerContent,
-        cta: Cta,
     ): ContributionsBannerRenderedContent => {
-        const ctaUrl = addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode);
+        const buildEnrichedCta = (cta: Cta): ContributionsBannerEnrichedCta => ({
+            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode),
+            ctaText: cta.text,
+        });
+
+        const primaryCta = bannerContent.cta ? buildEnrichedCta(bannerContent.cta) : null;
+        const secondaryCta = bannerContent.secondaryCta
+            ? buildEnrichedCta(bannerContent.secondaryCta)
+            : null;
 
         const cleanHighlightedText =
             bannerContent.highlightedText &&
@@ -91,8 +105,8 @@ const withBannerData = (
             highlightedText: highlightedTextWithArticleCount,
             messageText: messageTextWithArticleCount,
             heading: headingWithArticleCount,
-            ctaUrl,
-            ctaText: cta.text,
+            primaryCta,
+            secondaryCta,
         };
     };
 
@@ -100,6 +114,16 @@ const withBannerData = (
         const componentClickEvent = createClickEventFromTracking(
             bannerProps.tracking,
             ctaComponentId,
+        );
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+    };
+
+    const onSecondaryCtaClick = (): void => {
+        const componentClickEvent = createClickEventFromTracking(
+            bannerProps.tracking,
+            secondaryCtaComponentId,
         );
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -115,16 +139,13 @@ const withBannerData = (
     };
 
     try {
-        const renderedContent =
-            content && content.cta && buildRenderedContent(content, content.cta);
-        const renderedMobileContent =
-            mobileContent &&
-            mobileContent.cta &&
-            buildRenderedContent(mobileContent, mobileContent.cta);
+        const renderedContent = content && buildRenderedContent(content);
+        const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
 
         if (renderedContent) {
             const props: ContributionsBannerProps = {
                 onContributeClick,
+                onSecondaryCtaClick,
                 onCloseClick,
                 content: renderedContent,
                 mobileContent: renderedMobileContent,

@@ -14,8 +14,8 @@
   "scripts": {
     "riffraff": "node-riffraff-artifact",
     "modules-dev": "rollup --watch --config",
-    "server-dev": "export stage=DEV; ts-node-dev --transpile-only src/server.ts",
     "modules": "rollup --config",
+    "server-dev": "export stage=DEV; ts-node-dev --transpile-only src/server.ts",
     "dev": "export stage=DEV; yarn modules & ts-node-dev --transpile-only src/server.ts",
     "test": "export stage=DEV; jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
