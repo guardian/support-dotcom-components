@@ -7,14 +7,12 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
-import {EpicProps, EpicTracking} from './ContributionsEpicTypes';
+import {EpicProps} from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
-import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
 
 const wrapperStyles = css`
