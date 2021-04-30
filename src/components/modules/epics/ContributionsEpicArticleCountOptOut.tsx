@@ -160,9 +160,13 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
             ) : (
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
-                    <Link priority="secondary" href="/" cssOverrides={articleCountCtaStyles}>
+                    <ButtonLink
+                        priority="secondary"
+                        onClick={toggleButton}
+                        cssOverrides={articleCountCtaStyles}
+                    >
                         off
-                    </Link>
+                    </ButtonLink>
                     <div css={articleCountOffWarningStyles}>!</div>
                 </div>
             )}
@@ -172,32 +176,32 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                         <div css={styles2}></div>
                         <div css={styles3}></div>
                     </div>
-                    {isArticleCountOn ? (
-                        <div css={articleCountDescriptionContainer}>
-                            <div css={articleCountBodyTextStyles}>
-                                We are counting the number of Guardian articles you&apos;ve read on
-                                this device. Can we continue showing you your article count?
-                            </div>
-                            <div css={articleCountOptCtasContainer}>
-                                <Button
-                                    priority="primary"
-                                    size="xsmall"
-                                    cssOverrides={articleCountOptInCtaStyles}
-                                >
-                                    Yes, thats OK
-                                </Button>
-                                <Button
-                                    priority="tertiary"
-                                    size="xsmall"
-                                    cssOverrides={articleCountOptOutCtaStyles}
-                                >
-                                    No, opt me out
-                                </Button>
-                            </div>
-                        </div>
-                    ) : (
-                        <>
-                            <div css={articleCountDescriptionContainer}>
+                    <div css={articleCountDescriptionContainer}>
+                        {isArticleCountOn ? (
+                            <>
+                                <div css={articleCountBodyTextStyles}>
+                                    We are counting the number of Guardian articles you&apos;ve read
+                                    on this device. Can we continue showing you your article count?
+                                </div>
+                                <div css={articleCountOptCtasContainer}>
+                                    <Button
+                                        priority="primary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptInCtaStyles}
+                                    >
+                                        Yes, thats OK
+                                    </Button>
+                                    <Button
+                                        priority="tertiary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptOutCtaStyles}
+                                    >
+                                        No, opt me out
+                                    </Button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
                                 <div css={articleCountBodyTextStyles}>
                                     We are no longer counting the number of Guardian articles
                                     you&apos;ve read on this device. Can we start showing your
@@ -219,9 +223,9 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         No, thank you
                                     </Button>
                                 </div>
-                            </div>
-                        </>
-                    )}
+                            </>
+                        )}
+                    </div>
                     <div css={trackingSettingsContainerStyles}>
                         To opt out of other tracking activity, manage your{' '}
                         <Link priority="secondary" cssOverrides={privacySettingsLinkStyles}>
