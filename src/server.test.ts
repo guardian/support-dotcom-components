@@ -18,6 +18,30 @@ jest.mock('./api/contributionsApi', () => {
         getAmpExperimentData: jest.fn().mockImplementation(() => Promise.resolve({})),
     };
 });
+jest.mock('./tests/amp/ampEpicTests', () => {
+    return {
+        getAmpExperimentData: jest.fn().mockImplementation(() => Promise.resolve({})),
+    };
+});
+jest.mock('./tests/banners/bannerDeployCache', () => {
+    return {
+        bannerDeployCaches: {
+            contributions: jest.fn().mockImplementation(() => Promise.resolve({})),
+            subscriptions: jest.fn().mockImplementation(() => Promise.resolve({})),
+        },
+    };
+});
+
+jest.mock('./tests/banners/ChannelBannerTests', () => {
+    return {
+        channel1BannersAllTestsGenerator: jest
+            .fn()
+            .mockImplementation(() => () => Promise.resolve([])),
+        channel2BannersAllTestsGenerator: jest
+            .fn()
+            .mockImplementation(() => () => Promise.resolve([])),
+    };
+});
 
 describe('POST /epic', () => {
     it('should return epic data', async () => {
