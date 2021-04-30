@@ -68,6 +68,8 @@ const getBaseImg = (countryCode: string | undefined): Img => ({
 const fallbackHeading = 'Start a digital subscription today';
 const fallbackMessageText =
     'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.';
+const fallbackCta = 'Subscribe';
+const fallbackSecondaryCta = 'Not now';
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     bannerChannel,
@@ -157,7 +159,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                             href={subscriptionUrlWithTracking}
                                             onClick={onSubscribeClick}
                                         >
-                                            {content?.cta || 'Subscribe'}
+                                            {content?.cta?.text || fallbackCta}
                                         </LinkButton>
                                     </ThemeProvider>
                                     <ThemeProvider theme={buttonBrand}>
@@ -167,7 +169,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                             data-link-name={notNowComponentId}
                                             onClick={onNotNowClick}
                                         >
-                                            Not now
+                                            {content?.secondaryCta?.text || fallbackSecondaryCta}
                                         </Button>
                                     </ThemeProvider>
                                 </Inline>

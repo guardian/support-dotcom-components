@@ -1,4 +1,8 @@
 import React, { useState, ReactElement } from 'react';
+import { ThemeProvider } from 'emotion-theming';
+import { Container, Columns, Column, Inline } from '@guardian/src-layout';
+import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
+import { Link } from '@guardian/src-link';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
@@ -9,17 +13,12 @@ import {
     iconAndCloseAlign,
     iconAndClosePosition,
     logoContainer,
-    closeButton,
     paragraph,
-    buttonTextDesktop,
-    buttonTextMobileTablet,
     siteMessage,
     bottomRightComponent,
     packShotContainer,
     packShotTablet,
     packShotMobileAndDesktop,
-    notNowButton,
-    becomeASubscriberButton,
     linkStyle,
     signInLink,
 } from './guardianWeeklyBannerStyles';
@@ -50,14 +49,16 @@ type ButtonPropTypes = {
 };
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
-    <button
+    <Button
         data-link-name={closeComponentId}
-        css={closeButton}
         onClick={props.onClick}
-        aria-label="Close"
+        icon={<SvgCross />}
+        size="small"
+        priority="tertiary"
+        hideLabel
     >
-        <SvgCross />
-    </button>
+        Close
+    </Button>
 );
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
@@ -68,28 +69,24 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     countryCode,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
+    const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
+        content?.cta?.baseUrl || subscriptionUrl,
+        tracking,
+        countryCode,
+    );
 
-    const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
-        const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
-            subscriptionUrl,
-            tracking,
-            countryCode,
-        );
+    const onSubscribeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = subscriptionUrlWithTracking;
     };
 
-    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onSignInClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = signInUrl;
     };
 
     const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -116,60 +113,67 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
         <>
             {showBanner ? (
                 <section css={banner} data-target={bannerId}>
-                    <div css={contentContainer}>
-                        <div css={iconAndClosePosition}>
-                            <div css={iconAndCloseAlign}>
-                                <div css={logoContainer}>
-                                    <SvgRoundel />
+                    <Container css={contentContainer}>
+                        <Columns collapseBelow="tablet">
+                            <Column width={6 / 12} css={topLeftComponent}>
+                                <h3 css={heading}>{content?.heading}</h3>
+                                <p css={paragraph}>{content?.messageText}</p>
+                                <Inline space={1}>
+                                    <ThemeProvider theme={buttonReaderRevenue}>
+                                        <LinkButton
+                                            data-link-name={ctaComponentId}
+                                            css={linkStyle}
+                                            onClick={onSubscribeClick}
+                                            href={subscriptionUrlWithTracking}
+                                        >
+                                            {content?.cta?.text || 'Subscribe'}
+                                        </LinkButton>
+                                    </ThemeProvider>
+                                    <Button
+                                        priority="subdued"
+                                        data-link-name={notNowComponentId}
+                                        onClick={onNotNowClick}
+                                    >
+                                        Not now
+                                    </Button>
+                                </Inline>
+                                <div css={siteMessage}>
+                                    Already a subscriber?{' '}
+                                    <Link
+                                        css={signInLink}
+                                        data-link-name={signInComponentId}
+                                        onClick={onSignInClick}
+                                        href={signInUrl}
+                                        priority="secondary"
+                                        subdued
+                                    >
+                                        Sign in
+                                    </Link>{' '}
+                                    to not see this again
                                 </div>
-                                <CloseButton onClick={onCloseClick} />
-                            </div>
-                        </div>
-                        <div css={topLeftComponent}>
-                            <h3 css={heading}>{content?.heading}</h3>
-                            <p css={paragraph}>{content?.messageText}</p>
-                            <a
-                                data-link-name={ctaComponentId}
-                                css={linkStyle}
-                                onClick={onSubscribeClick}
-                            >
-                                <div css={becomeASubscriberButton}>
-                                    <span css={buttonTextDesktop}>
-                                        Become a Guardian Weekly subscriber
-                                    </span>
-                                    <span css={buttonTextMobileTablet}>Subscribe now</span>
+                            </Column>
+                            <Column width={5 / 12} css={bottomRightComponent}>
+                                <div css={packShotContainer}>
+                                    <img css={packShotTablet} src={tabletImage} alt="" />
+                                    <img
+                                        css={packShotMobileAndDesktop}
+                                        src={mobileAndDesktopImg}
+                                        alt=""
+                                    />
                                 </div>
-                            </a>
-                            <button
-                                data-link-name={notNowComponentId}
-                                css={notNowButton}
-                                onClick={onNotNowClick}
-                            >
-                                Not now
-                            </button>
-                            <div css={siteMessage}>
-                                Already a subscriber?{' '}
-                                <a
-                                    css={signInLink}
-                                    data-link-name={signInComponentId}
-                                    onClick={onSignInClick}
-                                >
-                                    Sign in
-                                </a>{' '}
-                                to not see this again
-                            </div>
-                        </div>
-                        <div css={bottomRightComponent}>
-                            <div css={packShotContainer}>
-                                <img css={packShotTablet} src={tabletImage} alt="" />
-                                <img
-                                    css={packShotMobileAndDesktop}
-                                    src={mobileAndDesktopImg}
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                    </div>
+                            </Column>
+                            <Column width={1 / 12}>
+                                <div css={iconAndClosePosition}>
+                                    <div css={iconAndCloseAlign}>
+                                        <div css={logoContainer}>
+                                            <SvgRoundel />
+                                        </div>
+                                        <CloseButton onClick={onCloseClick} />
+                                    </div>
+                                </div>
+                            </Column>
+                        </Columns>
+                    </Container>
                 </section>
             ) : null}
         </>
