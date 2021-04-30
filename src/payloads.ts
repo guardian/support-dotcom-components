@@ -8,7 +8,7 @@ import {
     EpicTestTracking,
     EpicType,
 } from './components/modules/epics/ContributionsEpicTypes';
-import { Debug, findTestAndVariant, Result, Variant, Test } from './lib/variants';
+import { Debug, findTestAndVariant, findForcedTestAndVariant, Variant, Test } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 
@@ -106,24 +106,23 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
+const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<Test[]> => {
+    const [regular, holdback, hardcoded] = await Promise.all([
+        fetchConfiguredArticleEpicTestsCached(),
+        fetchConfiguredArticleEpicHoldbackTestsCached(),
+        getAllHardcodedTests(),
+    ]);
+
+    if (isForcingTest) {
+        return [...regular.tests, ...holdback.tests, ...hardcoded];
+    }
+
     const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
     if (shouldHoldBack) {
-        const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
-        return holdback.tests;
+        return [...holdback.tests];
     }
-    const regular = await fetchConfiguredArticleEpicTestsCached();
-    const hardCoded = await getAllHardcodedTests();
 
-    return [...regular.tests, ...hardCoded];
-};
-
-const getForceableArticleEpicTests = async (): Promise<Test[]> => {
-    const regular = await fetchConfiguredArticleEpicTestsCached();
-    const hardCoded = await getAllHardcodedTests();
-    const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
-
-    return [...regular.tests, ...hardCoded, ...holdback.tests];
+    return [...regular.tests, ...hardcoded];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
@@ -138,23 +137,13 @@ export const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    let result: Result;
+    const tests = await (type === 'ARTICLE'
+        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
+        : getLiveblogEpicTests());
 
-    if (params.force) {
-        const tests = await (type === 'ARTICLE'
-            ? getForceableArticleEpicTests()
-            : getLiveblogEpicTests());
-
-        const test = tests.find(test => test.name === params.force?.testName);
-        const variant = test?.variants.find(v => v.name === params.force?.variantName);
-        result = test && variant ? { result: { test, variant } } : {};
-    } else {
-        const tests = await (type === 'ARTICLE'
-            ? getArticleEpicTests(targeting.mvtId || 0)
-            : getLiveblogEpicTests());
-
-        result = findTestAndVariant(tests, targeting, type, params.debug);
-    }
+    const result = params.force
+        ? findForcedTestAndVariant(tests, params.force)
+        : findTestAndVariant(tests, targeting, type, params.debug);
 
     if (process.env.log_targeting === 'true') {
         console.log(
