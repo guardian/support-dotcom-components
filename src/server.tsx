@@ -37,26 +37,6 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-// TODO replace with module-friendly solution
-/* app.get(
-    '/epic',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const { pageTracking, targeting } = testData;
-            const params = getQueryParams(req);
-            const data = await buildEpicData(pageTracking, targeting, params, baseUrl(req));
-            const moduleUrl = data.data?.module.url;
-            const js = import(moduleUrl);
-
-            // server-side render react
-            const htmlDoc = renderHtmlDocument({ html, css, js });
-            res.send(htmlDoc);
-        } catch (error) {
-            next(error);
-        }
-    },
-); */
-
 app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
