@@ -1,10 +1,10 @@
 // --- Imports --- //
 
-import React from 'react';
+import React, { useState } from 'react';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
+import { Link, ButtonLink } from '@guardian/src-link';
 import { css } from '@emotion/core';
 
 // --- Styles --- //
@@ -34,7 +34,7 @@ const articleCountWrapperStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-right: ${space[4]}px;
+    margin-right: ${space[2]}px;
 `;
 
 const articleCountCtaStyles = css`
@@ -63,7 +63,6 @@ const articleCountOptCtasContainer = css`
     display: flex;
     flex-direction: column;
     margin-left: auto;
-    margin-right: ${space[2]}px;
     justify-content: space-between;
     height: 60px;
 `;
@@ -87,6 +86,31 @@ const privacySettingsLinkStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
 `;
 
+const styles1 = css`
+    width: 10px;
+    position: absolute;
+    right: 15px;
+    top: -12px;
+`;
+const styles2 = css`
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 11px solid black;
+`;
+const styles3 = css`
+    margin-top: -10px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 11px solid white;
+    right: 0;
+`;
+
+const articleCountOffWarningStyles = css`
+    ${textSans.small({ fontWeight: 'bold' })};
+    color: ${palette.news[400]};
+    margin-left: ${space[1]}px;
+`;
+
 // --- Types --- //
 
 interface Props {
@@ -95,6 +119,7 @@ interface Props {
 
 export interface ContributionsEpicArticleCountOptOutProps {
     numArticles: number;
+    isArticleCountOn: boolean;
 }
 
 // -- Components -- //
@@ -110,51 +135,101 @@ export const ContributionsEpicArticleCountAbove: React.FC<Props> = ({ numArticle
 
 export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArticleCountOptOutProps> = ({
     numArticles,
+    isArticleCountOn,
 }: ContributionsEpicArticleCountOptOutProps) => {
+    const [isOpen, setIsOpen] = useState(true);
+
+    const toggleButton = () => setIsOpen(!isOpen);
+
     return (
         <>
-            <div css={headerContainerStyles}>
-                <div>
+            {isArticleCountOn ? (
+                <div css={headerContainerStyles}>
                     <ContributionsEpicArticleCountAbove numArticles={numArticles} />
+                    <div css={articleCountWrapperStyles}>
+                        <div css={articleCountTextStyles}>Article count</div>
+                        <ButtonLink
+                            priority="secondary"
+                            onClick={toggleButton}
+                            cssOverrides={articleCountCtaStyles}
+                        >
+                            on
+                        </ButtonLink>
+                    </div>
                 </div>
+            ) : (
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
-
                     <Link priority="secondary" href="/" cssOverrides={articleCountCtaStyles}>
-                        on
+                        off
                     </Link>
+                    <div css={articleCountOffWarningStyles}>!</div>
                 </div>
-            </div>
-            <div css={articleCountDescriptionTopContainer}>
-                <div css={articleCountDescriptionContainer}>
-                    <div css={articleCountBodyTextStyles}>
-                        We are counting the number of Guardian articles you&apos;ve read on this
-                        device. Can we continue showing you your article count?
+            )}
+            {isOpen && (
+                <div css={articleCountDescriptionTopContainer}>
+                    <div css={styles1}>
+                        <div css={styles2}></div>
+                        <div css={styles3}></div>
                     </div>
-                    <div css={articleCountOptCtasContainer}>
-                        <Button
-                            priority="primary"
-                            size="xsmall"
-                            cssOverrides={articleCountOptInCtaStyles}
-                        >
-                            Yes, thats OK
-                        </Button>
-                        <Button
-                            priority="tertiary"
-                            size="xsmall"
-                            cssOverrides={articleCountOptOutCtaStyles}
-                        >
-                            No, opt me out
-                        </Button>
+                    {isArticleCountOn ? (
+                        <div css={articleCountDescriptionContainer}>
+                            <div css={articleCountBodyTextStyles}>
+                                We are counting the number of Guardian articles you&apos;ve read on
+                                this device. Can we continue showing you your article count?
+                            </div>
+                            <div css={articleCountOptCtasContainer}>
+                                <Button
+                                    priority="primary"
+                                    size="xsmall"
+                                    cssOverrides={articleCountOptInCtaStyles}
+                                >
+                                    Yes, thats OK
+                                </Button>
+                                <Button
+                                    priority="tertiary"
+                                    size="xsmall"
+                                    cssOverrides={articleCountOptOutCtaStyles}
+                                >
+                                    No, opt me out
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <div css={articleCountDescriptionContainer}>
+                                <div css={articleCountBodyTextStyles}>
+                                    We are no longer counting the number of Guardian articles
+                                    you&apos;ve read on this device. Can we start showing your
+                                    article count?
+                                </div>
+                                <div css={articleCountOptCtasContainer}>
+                                    <Button
+                                        priority="primary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptInCtaStyles}
+                                    >
+                                        Yes, opt me in
+                                    </Button>
+                                    <Button
+                                        priority="tertiary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptOutCtaStyles}
+                                    >
+                                        No, thank you
+                                    </Button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                    <div css={trackingSettingsContainerStyles}>
+                        To opt out of other tracking activity, manage your{' '}
+                        <Link priority="secondary" cssOverrides={privacySettingsLinkStyles}>
+                            Privacy Settings
+                        </Link>
                     </div>
                 </div>
-                <div css={trackingSettingsContainerStyles}>
-                    To opt out of other tracking activity, manage your{' '}
-                    <Link priority="secondary" cssOverrides={privacySettingsLinkStyles}>
-                        Privacy Settings
-                    </Link>
-                </div>
-            </div>
+            )}
         </>
     );
 };

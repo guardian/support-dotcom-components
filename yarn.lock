@@ -2415,12 +2415,12 @@
     yaml "^1.7.2"
     yargs "^15.1.0"
 
-"@guardian/src-accordion@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-accordion/-/src-accordion-3.5.0.tgz#318a169a50c072164e2a6da467ede9454c882427"
-  integrity sha512-GiSdHP46537XHp8xIXuEGBZtBTxzpFssAZJA7mBnIpu5W6Fz+Qb5JgM+btU1YIOEJZYJiyWhElOVXCX0NMNPrA==
+"@guardian/src-accordion@^2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@guardian/src-accordion/-/src-accordion-2.8.2.tgz#6ac05421f65a35e38f2cfad29a18a39b9b7f7667"
+  integrity sha512-U9Ni0z9h2sN76S16o4RgCTVybcZ1RzXSiyuP5oUVCUA+UzaxARl4jz+JWM43b0ie9kHMzDU4I0q2PpmE2NWeSw==
   dependencies:
-    "@guardian/src-helpers" "^3.5.0"
+    "@guardian/src-helpers" "^2.8.2"
 
 "@guardian/src-brand@^2.8.2":
   version "2.8.2"
@@ -2439,24 +2439,12 @@
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-2.8.2.tgz#5c6478a159059b044d6b0ac59688b7cae50b21b5"
   integrity sha512-DUluJNGcOIgx5/EvgE4T5JZSKfceR+oMMZw8UAUVWOrKH8W9xeE4AGCquZlh/COXJDCP6YvDyRW6yk4EVqEwww==
 
-"@guardian/src-foundations@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.5.0.tgz#b31d8a2a41c594bbc4551c9d53738f2515f321f5"
-  integrity sha512-Xx5kq1bJLKpghBRnFjzKAfnZsWcP76aQfTf7sA1hgq61o/CXHYTTL2iv3AF186zvxEMZ1oZ+Xo0E8TvzX1aLBQ==
-
 "@guardian/src-helpers@^2.8.2":
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-2.8.2.tgz#ea5bd0ebe3ef874aeee0d87655e530d99fa68e5c"
   integrity sha512-b9AU/HB1RJsj1rmB1bSKixXUbVwcgCiXsdhOiPv0WsZ/5Lhwv0hOXXS9mTXOKsLx96xNlP5dHugBQfYLMnL4/w==
   dependencies:
     "@guardian/src-foundations" "^2.8.2"
-
-"@guardian/src-helpers@^3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-helpers/-/src-helpers-3.5.0.tgz#9b685ef8b900a6df2ca86ca2a5dc8f810b2fb650"
-  integrity sha512-6fav708zODa0fkhlj67k8xdu4MAEQUaUgj8HjIYFU6qiohZI6cS57U5RrQlXV5BYAhz6vts9/EMzjawxV5IHcA==
-  dependencies:
-    "@guardian/src-foundations" "^3.5.0"
 
 "@guardian/src-icons@^2.8.2":
   version "2.8.2"

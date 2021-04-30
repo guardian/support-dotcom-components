@@ -11,6 +11,7 @@ export default {
     title: 'Epics/ContributionsEpicArticleCountOptOut',
     args: {
         numArticles: 989,
+        isArticleCountOn: true,
     },
     decorators: [EpicDecorator],
 } as Meta;
@@ -19,4 +20,10 @@ const Template: Story<ContributionsEpicArticleCountOptOutProps> = (
     props: ContributionsEpicArticleCountOptOutProps,
 ) => <ContributionsEpicArticleCountOptOut {...props} />;
 
-export const Default = Template.bind({});
+export const ArticleCountOn = Template.bind({});
+
+export const ArticleCountOff = Template.bind({});
+
+ArticleCountOff.args = {
+    isArticleCountOn: false,
+};
