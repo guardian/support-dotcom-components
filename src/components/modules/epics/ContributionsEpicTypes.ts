@@ -1,6 +1,6 @@
-import {OphanComponentEvent, OphanComponentType, OphanProduct} from '../../../types/OphanTypes';
+import { OphanComponentEvent, OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
 import { WeeklyArticleHistory } from '../../../types/shared';
-import {Variant} from "../../../lib/variants";
+import { Variant } from '../../../lib/variants';
 
 export type EpicPageTracking = {
     ophanPageId: string;
