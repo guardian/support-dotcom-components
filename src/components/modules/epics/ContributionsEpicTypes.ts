@@ -1,5 +1,6 @@
-import { OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
+import { OphanComponentEvent, OphanComponentType, OphanProduct } from '../../../types/OphanTypes';
 import { WeeklyArticleHistory } from '../../../types/shared';
+import { Variant } from '../../../lib/variants';
 
 export type EpicPageTracking = {
     ophanPageId: string;
@@ -68,3 +69,14 @@ export type EpicPayload = {
 };
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
+
+export type EpicProps = {
+    variant: Variant;
+    tracking: EpicTracking;
+    countryCode?: string;
+    numArticles: number;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    onReminderOpen?: Function;
+    email?: string;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+};
