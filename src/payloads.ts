@@ -3,6 +3,7 @@ import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
     EpicPageTracking,
+    EpicProps,
     EpicTargeting,
     EpicTestTracking,
     EpicType,
@@ -13,7 +14,6 @@ import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 
 import { getAllHardcodedTests } from './tests';
 import { Params } from './lib/params';
-import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
 import {

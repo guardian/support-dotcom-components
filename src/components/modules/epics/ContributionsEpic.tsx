@@ -7,7 +7,7 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
-import { EpicTracking } from './ContributionsEpicTypes';
+import {EpicProps, EpicTracking} from './ContributionsEpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
@@ -83,17 +83,6 @@ const imageStyles = css`
 const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
-
-export type EpicProps = {
-    variant: Variant;
-    tracking: EpicTracking;
-    countryCode?: string;
-    numArticles: number;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    onReminderOpen?: Function;
-    email?: string;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-};
 
 type HighlightedProps = {
     highlightedText: string;
