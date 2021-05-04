@@ -145,7 +145,7 @@ export const buildEpicData = async (
 ): Promise<EpicDataResponse> => {
     const { enableEpics } = await cachedChannelSwitches();
     if (!enableEpics) {
-        return { data: undefined };
+        return {};
     }
 
     const tests = await (type === 'ARTICLE'
