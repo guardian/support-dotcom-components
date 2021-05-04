@@ -219,7 +219,7 @@ export const buildBannerData = async (
 ): Promise<BannerDataResponse> => {
     const { enableBanners } = await cachedChannelSwitches();
     if (!enableBanners) {
-        return { data: undefined };
+        return {};
     }
 
     const selectedTest = await selectBannerTest(
