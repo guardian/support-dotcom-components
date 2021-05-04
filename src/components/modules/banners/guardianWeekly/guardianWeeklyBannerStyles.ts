@@ -50,18 +50,16 @@ export const topLeftComponent = css`
 export const heading = css`
     ${headline.xsmall({ fontWeight: 'bold' })};
     margin: 0;
-    max-width: 80%;
+    /* Headline should never overflow the close button (plus logo) */
+    max-width: calc(100% - ${height.ctaSmall + space[1]}px);
 
-    ${from.mobileLandscape} {
-        max-width: 70%;
+    ${from.mobileMedium} {
+        ${headline.small({ fontWeight: 'bold' })};
+        max-width: calc(100% - ${height.ctaSmall * 2 + space[2]}px);
     }
 
     ${from.phablet} {
         max-width: 100%;
-    }
-
-    ${from.mobileMedium} {
-        ${headline.small({ fontWeight: 'bold' })};
     }
 
     ${from.desktop} {
@@ -70,7 +68,7 @@ export const heading = css`
     }
 
     ${from.leftCol} {
-        max-width: 90%;
+        max-width: 80%;
     }
 `;
 
