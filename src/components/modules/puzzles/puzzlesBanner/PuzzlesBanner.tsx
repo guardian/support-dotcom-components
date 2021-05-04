@@ -80,6 +80,10 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     const hideOnMinimise = isMinimised ? hide : '';
     const hideOnExpand = isMinimised ? '' : hide;
 
+    if (window.navigator.userAgent.match(/MSIE|Trident/)) {
+        return null;
+    }
+
     function handleAppStoreClickFor(store: AppStore) {
         return function onAppStoreClick() {
             const componentClickEvent = createClickEventFromTracking(
