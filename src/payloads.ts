@@ -39,6 +39,7 @@ import {
 } from './modules';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
+import { logger } from './utils/logging';
 
 interface EpicDataResponse {
     data?: {
@@ -106,21 +107,27 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
 );
 
 const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<Test[]> => {
-    const [regular, holdback] = await Promise.all([
-        fetchConfiguredArticleEpicTestsCached(),
-        fetchConfiguredArticleEpicHoldbackTestsCached(),
-    ]);
+    try {
+        const [regular, holdback] = await Promise.all([
+            fetchConfiguredArticleEpicTestsCached(),
+            fetchConfiguredArticleEpicHoldbackTestsCached(),
+        ]);
 
-    if (isForcingTest) {
-        return [...regular.tests, ...holdback.tests, fallbackEpicTest];
+        if (isForcingTest) {
+            return [...regular.tests, ...holdback.tests, fallbackEpicTest];
+        }
+
+        const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
+        if (shouldHoldBack) {
+            return [...holdback.tests];
+        }
+
+        return [...regular.tests, fallbackEpicTest];
+    } catch (err) {
+        logger.warn(`Error getting article epic tests: ${err}`);
+
+        return [fallbackEpicTest];
     }
-
-    const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
-    if (shouldHoldBack) {
-        return [...holdback.tests];
-    }
-
-    return [...regular.tests, fallbackEpicTest];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
