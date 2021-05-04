@@ -1,11 +1,11 @@
 import { css } from '@emotion/core';
 import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
-import { neutral, text, brandAlt } from '@guardian/src-foundations/palette';
-import { from } from '@guardian/src-foundations/mq';
+import { neutral, text } from '@guardian/src-foundations/palette';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
+import { height } from '@guardian/src-foundations/size';
 
 const mainBannerBackground = '#66c2e9';
-const closeButtonWidthHeight = 35;
 
 export const banner = css`
     html {
@@ -22,48 +22,28 @@ export const banner = css`
     width: 100%;
     background-color: ${mainBannerBackground};
     color: ${neutral[7]};
+    position: relative;
+
+    a,
+    button {
+        color: inherit;
+    }
 `;
 
-export const contentContainer = css`
-    display: flex;
-    flex-direction: column;
+export const columns = css`
     position: relative;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 980px;
 
-    ${from.tablet} {
-        flex-direction: row;
-    }
-    ${from.leftCol} {
-        max-width: 1140px;
-    }
-    ${from.wide} {
-        max-width: 1300px;
+    ${between.tablet.and.desktop} {
+        position: static;
     }
 `;
 
 export const topLeftComponent = css`
-    width: 100%;
-    padding: ${space[2]}px ${space[3]}px 0 ${space[3]}px;
-    display: relative;
+    padding-top: ${space[2]}px;
 
-    button {
-        margin-left: ${space[3]}px;
-    }
-    ${from.tablet} {
-        padding: ${space[2]}px ${space[4]}px 0 ${space[4]}px;
-        width: 50%;
-    }
-    ${from.desktop} {
-        width: 43%;
-    }
-    ${from.leftCol} {
-        width: 47%;
-    }
-
-    @media screen and (min-width: 1400px) {
-        padding-left: 0;
+    ${between.tablet.and.desktop} {
+        /* TODO: When we upgrade Source we can ditch this in favour of the responsive column width prop */
+        width: calc((100% + 20px) * 0.4 - 20px);
     }
 `;
 
@@ -90,7 +70,7 @@ export const heading = css`
     }
 
     ${from.leftCol} {
-        max-width: 80%;
+        max-width: 90%;
     }
 `;
 
@@ -100,66 +80,9 @@ export const paragraph = css`
     margin: ${space[2]}px 0 ${space[6]}px;
     max-width: 100%;
 
-    ${from.mobileLandscape} {
-        max-width: 80%;
-    }
-
-    ${from.tablet} {
-        max-width: 100%;
-    }
-
     ${from.desktop} {
         font-size: 20px;
     }
-
-    ${from.leftCol} {
-        max-width: 90%;
-    }
-`;
-
-export const buttonTextDesktop = css`
-    display: none;
-    ${from.leftCol} {
-        display: block;
-    }
-`;
-
-export const buttonTextMobileTablet = css`
-    display: block;
-    ${from.leftCol} {
-        display: none;
-    }
-`;
-
-export const linkStyle = css`
-    cursor: pointer;
-    text-decoration: none;
-    :visited {
-        color: ${text.primary};
-    }
-`;
-
-export const becomeASubscriberButton = css`
-    display: inline-block;
-    border-radius: 1.875rem;
-    background-color: ${brandAlt[400]};
-    padding: ${space[2]}px ${space[6]}px;
-    color: ${text.primary};
-    ${textSans.medium()};
-    font-weight: bold;
-`;
-
-export const notNowButton = css`
-    ${textSans.medium()};
-    font-weight: bold;
-    color: ${text.primary};
-    border: 0;
-    border-radius: 0.25rem;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    outline: inherit;
 `;
 
 export const siteMessage = css`
@@ -174,32 +97,10 @@ export const siteMessage = css`
 `;
 
 export const bottomRightComponent = css`
-    max-height: 215px;
-    overflow: hidden;
-    margin-top: -25px;
-    ${from.mobileMedium} {
-        max-height: 280px;
-        margin-top: -15px;
-    }
-    ${from.tablet} {
-        display: flex;
-        align-items: flex-end;
-        margin-top: 0;
-        max-width: 60%;
-        max-height: 100%;
-    }
-    ${from.desktop} {
-        align-items: center;
-        max-width: 60%;
-        margin-top: 0;
-        max-height: 100%;
-    }
-    ${from.leftCol} {
-        padding-right: 0;
-    }
-    ${from.wide} {
-        width: 45%;
-    }
+    margin-bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 `;
 
 export const packShotContainer = css`
@@ -207,109 +108,70 @@ export const packShotContainer = css`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: flex-end;
     margin: 0;
-    max-width: 100%;
+    padding-top: ${space[2]}px;
+    min-height: 170px;
+    height: 100%;
+    width: 100%;
+
+    ${between.tablet.and.desktop} {
+        position: static;
+    }
 
     ${from.desktop} {
         flex-direction: row;
         align-self: flex-end;
+        padding-top: ${height.ctaSmall + space[1]}px;
     }
 
     ${from.wide} {
-        margin-top: ${space[4]}px;
-    }
-`;
-
-export const packShotMobileAndDesktop = css`
-    display: block;
-    width: 90%;
-    margin: 0 auto;
-
-    img {
-        position: absolute;
-        bottom: 0;
-        max-width: 100%;
-        max-height: 100%;
+        padding-top: ${space[4]}px;
     }
 
-    ${from.mobileMedium} {
-        width: 95%;
-        margin-top: ${space[2]}px;
-    }
-
-    ${from.phablet} {
-        width: 90%;
-        margin-top: ${space[4]}px;
-    }
-
-    ${from.tablet} {
-        display: none;
-    }
-
-    ${from.desktop} {
-        display: block;
-        width: 93%;
-    }
-
-    ${from.leftCol} {
-        width: 110%;
-        margin: 0;
-    }
-
-    ${from.leftCol} {
+    picture {
+        display: flex;
         width: 100%;
-        margin: 0;
-    }
-`;
-
-export const packShotTablet = css`
-    display: none;
-
-    ${from.tablet} {
-        display: block;
-        width: 100%;
-        margin: 0;
+        height: 100%;
+        justify-content: flex-end;
+        align-items: flex-end;
+        ${between.tablet.and.desktop} {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
     }
 
     img {
-        position: absolute;
-        bottom: 0;
-        right: 0;
         max-width: 100%;
-        max-height: 100%;
-    }
-
-    ${from.desktop} {
-        display: none;
+        height: 100%;
     }
 `;
 
 export const iconAndClosePosition = css`
-    display: block;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-
-    ${from.leftCol} {
-        right: ${space[4]}px;
-    }
-
-    @media screen and (min-width: 1400px) {
-        right: 0;
-    }
-`;
-
-export const iconAndCloseAlign = css`
-    display: inline-flex;
+    display: flex;
     justify-content: flex-end;
+    padding-top: ${space[2]}px;
+    min-width: ${height.ctaMedium * 2}px;
+
+    ${until.leftCol} {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+    }
+
+    ${between.tablet.and.desktop} {
+        padding-right: ${space[2]}px;
+    }
 `;
 
 export const logoContainer = css`
     display: none;
     ${from.mobileMedium} {
         display: block;
-        width: ${closeButtonWidthHeight}px;
-        height: ${closeButtonWidthHeight}px;
+        width: ${height.ctaSmall}px;
+        height: ${height.ctaSmall}px;
         svg {
             width: 100%;
         }
@@ -317,37 +179,4 @@ export const logoContainer = css`
     ${from.leftCol} {
         margin-left: ${space[3]}px;
     }
-`;
-
-export const closeButton = css`
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 1px solid ${text.primary};
-    border-radius: 50%;
-    outline: none;
-    background: transparent;
-    cursor: pointer;
-    width: ${closeButtonWidthHeight}px;
-    height: ${closeButtonWidthHeight}px;
-    svg {
-        width: 25px;
-        height: 25px;
-        fill: ${text.primary};
-        transition: background-color 0.5s ease;
-        border-radius: 50%;
-    }
-    :hover {
-        cursor: pointer;
-        background-color: rgba(237, 237, 237, 0.5);
-    }
-    margin-left: ${space[1]}px;
-    ${from.mobileLandscape} {
-        margin-left: ${space[2]}px;
-    }
-`;
-
-export const signInLink = css`
-    cursor: pointer;
 `;
