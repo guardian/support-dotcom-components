@@ -2,9 +2,9 @@ import {
     EpicTestTracking,
     EpicPageTracking,
     EpicTracking,
-    SecondaryCtaType,
     EpicVariant,
 } from '../../../../types/EpicTypes';
+import { SecondaryCtaType } from '../../../../types/shared';
 import { EpicProps } from '../../../../types/EpicTypes';
 
 const variant: EpicVariant = {

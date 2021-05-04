@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
-import { EpicTracking, EpicVariant, SecondaryCtaType } from '../../../types/EpicTypes';
+import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
+import { SecondaryCtaType } from '../../../types/shared';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
-import { getCookie } from '../../../lib/cookies';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { getReminderViewEvent, OPHAN_COMPONENT_EVENT_REMINDER_OPEN } from './utils/ophan';
 import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { Cta } from '../../../types/shared';
+import { hasSetReminder } from '../utils/reminders';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -104,14 +105,13 @@ export const ContributionsEpicButtons = ({
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
 
     const { cta, secondaryCta, showReminderFields } = variant;
-    const hasSetReminder = getCookie('gu_epic_contribution_reminder');
 
     if (!cta) {
         return null;
     }
 
     useEffect(() => {
-        if (hasBeenSeen && submitComponentEvent && showReminderFields && !hasSetReminder) {
+        if (hasBeenSeen && submitComponentEvent && showReminderFields && !hasSetReminder()) {
             submitComponentEvent(getReminderViewEvent(isSignedIn));
         }
     }, [hasBeenSeen]);
@@ -140,7 +140,7 @@ export const ContributionsEpicButtons = ({
                     ) : (
                         secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
                         showReminderFields &&
-                        !hasSetReminder && (
+                        !hasSetReminder() && (
                             <div css={buttonMargins}>
                                 <Button onClickAction={openReminder} isTertiary>
                                     {showReminderFields.reminderCta}

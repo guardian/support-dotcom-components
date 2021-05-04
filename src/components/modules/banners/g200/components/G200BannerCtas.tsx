@@ -7,6 +7,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { Inline, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerTextContent } from '../../common/types';
+import { SecondaryCtaType } from '../../../../../types/shared';
 
 const containerStyles = css`
     > * {
@@ -64,6 +65,16 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
         content.mobileContent?.secondaryCta ?? content.mainContent.secondaryCta;
     const mobilePrimaryCta = content.mobileContent?.primaryCta ?? content.mainContent.primaryCta;
 
+    const secondaryCtaHref =
+        mobileSecondaryCta?.type === SecondaryCtaType.Custom
+            ? mobileSecondaryCta.cta.ctaUrl
+            : undefined;
+
+    const secondaryCtaText =
+        mobileSecondaryCta?.type === SecondaryCtaType.Custom
+            ? mobileSecondaryCta.cta.ctaText
+            : undefined;
+
     return (
         <Inline cssOverrides={containerStyles} space={2}>
             <ThemeProvider theme={buttonBrand}>
@@ -71,12 +82,12 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                     <Hide above="tablet">
                         <LinkButton
                             onClick={onSecondaryCtaClick}
-                            href={mobileSecondaryCta.ctaUrl}
+                            href={secondaryCtaHref}
                             cssOverrides={secondaryCtaStyles}
                             priority="tertiary"
                             size="xsmall"
                         >
-                            {mobileSecondaryCta.ctaText}
+                            {secondaryCtaText}
                         </LinkButton>
                     </Hide>
                 )}
@@ -85,12 +96,12 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                     <Hide below="tablet">
                         <LinkButton
                             onClick={onSecondaryCtaClick}
-                            href={content.mainContent.secondaryCta.ctaUrl}
+                            href={secondaryCtaHref}
                             cssOverrides={secondaryCtaStyles}
                             priority="tertiary"
                             size="small"
                         >
-                            {content.mainContent.secondaryCta.ctaText}
+                            {secondaryCtaText}
                         </LinkButton>
                     </Hide>
                 )}

@@ -1,10 +1,10 @@
 import { isProd } from '../lib/env';
 
-type ReminderPlatform = 'WEB' | 'AMP';
+export type ReminderPlatform = 'WEB' | 'AMP';
 
-type ReminderComponent = 'EPIC' | 'BANNER';
+export type ReminderComponent = 'EPIC' | 'BANNER';
 
-type ReminderStage = 'PRE' | 'POST';
+export type ReminderStage = 'PRE' | 'POST';
 
 interface BaseSignupRequest {
     email: string;

@@ -12,7 +12,8 @@ import {
     userInTest,
     isNotExpired,
 } from './epicSelection';
-import { EpicTargeting, EpicTest, SecondaryCtaType } from '../../types/EpicTypes';
+import { EpicTargeting, EpicTest } from '../../types/EpicTypes';
+import { SecondaryCtaType } from '../../types/shared';
 import { withNowAs } from '../../utils/withNowAs';
 
 const testDefault: EpicTest = {

@@ -3,6 +3,7 @@ import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBanner';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { StorybookWrapper, BannerWrapper } from '../../../../utils/StorybookWrapper';
 import { BannerContent, BannerProps, BannerTracking } from '../../../../types/BannerTypes';
+import { SecondaryCtaType } from '../../../../types/shared';
 
 export default {
     component: DigitalSubscriptionsBanner,
@@ -42,8 +43,11 @@ export const defaultStory = (): ReactElement => {
             'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
         ),
         secondaryCta: {
-            text: 'Hide this',
-            baseUrl: '',
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Hide this',
+                baseUrl: '',
+            },
         },
     };
 

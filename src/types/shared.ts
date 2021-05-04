@@ -19,6 +19,41 @@ export const ctaSchema = z.object({
     baseUrl: z.string(),
 });
 
+export enum SecondaryCtaType {
+    Custom = 'CustomSecondaryCta',
+    ContributionsReminder = 'ContributionsReminderSecondaryCta',
+}
+
+export const secondaryCtaTypeSchema = z.enum([
+    'CustomSecondaryCta',
+    'ContributionsReminderSecondaryCta',
+]);
+
+interface CustomSecondaryCta {
+    type: SecondaryCtaType.Custom;
+    cta: Cta;
+}
+
+export const customSecondaryCtaSchema = z.object({
+    type: z.literal('CustomSecondaryCta'),
+    cta: ctaSchema,
+});
+
+interface ContributionsReminderSecondaryCta {
+    type: SecondaryCtaType.ContributionsReminder;
+}
+
+export const contributionsReminderSecondaryCtaSchema = z.object({
+    type: z.literal('ContributionsReminderSecondaryCta'),
+});
+
+export type SecondaryCta = CustomSecondaryCta | ContributionsReminderSecondaryCta;
+
+export const secondaryCtaSchema = z.union([
+    customSecondaryCtaSchema,
+    contributionsReminderSecondaryCtaSchema,
+]);
+
 export type Audience =
     | 'AllExistingSupporters'
     | 'AllNonSupporters'

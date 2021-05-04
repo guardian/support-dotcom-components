@@ -2,6 +2,7 @@ import { OphanComponentEvent, OphanComponentType, OphanProduct } from './OphanTy
 import {
     ArticlesViewedSettings,
     Cta,
+    SecondaryCta,
     Test,
     TickerSettings,
     Variant,
@@ -94,22 +95,6 @@ export interface MaxViews {
     maxViewsDays: number;
     minDaysBetweenViews: number;
 }
-
-export enum SecondaryCtaType {
-    Custom = 'CustomSecondaryCta',
-    ContributionsReminder = 'ContributionsReminderSecondaryCta',
-}
-
-interface CustomSecondaryCta {
-    type: SecondaryCtaType.Custom;
-    cta: Cta;
-}
-
-interface ContributionsReminderSecondaryCta {
-    type: SecondaryCtaType.ContributionsReminder;
-}
-
-export type SecondaryCta = CustomSecondaryCta | ContributionsReminderSecondaryCta;
 
 export interface SeparateArticleCount {
     type: 'above';
