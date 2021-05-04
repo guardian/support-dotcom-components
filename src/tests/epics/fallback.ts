@@ -27,7 +27,7 @@ export const fallbackEpicTest: Test = {
                 'In these perilous times, a truth-seeking global news organisation like the Guardian is essential. We have no shareholders or billionaire owner, meaning our journalism is free from commercial and political influence – this makes us different. When it’s never been more important, our independence allows us to fearlessly investigate, challenge and expose those in power.',
             ],
             highlightedText:
-                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
+                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.',
             cta: {
                 baseUrl: 'https://support.theguardian.com/contribute',
                 text: 'Support the Guardian',
