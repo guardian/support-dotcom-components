@@ -144,7 +144,7 @@ export const minimiseButtonMin = css`
     color: ${neutral[7]};
 
     &:hover {
-        background-color: ${neutral[7]};
+        background-color: ${neutral[46]};
         color: ${neutral[97]};
     }
 `;
@@ -234,13 +234,13 @@ export const minimisedBanner = css`
     position: absolute;
     right: 0;
     bottom: 0;
-    height: 136px;
+    height: 62px;
     width: auto;
     border-right: none;
     transition: width 1s;
 
     ${from.mobileLandscape} {
-        height: 176px;
+        height: 65px;
     }
 
     /* Maintain a right-hand offset that matches the edge of the main container */
@@ -263,17 +263,23 @@ export const minimisedBanner = css`
 `;
 
 const minimisedContainerSize = {
-    mobile: 132,
-    tablet: 172,
+    mobile: {
+        width: 132,
+        height: 62,
+    },
+    tablet: {
+        width: 145,
+        height: 64,
+    },
 };
 
 export const minimisedContentContainer = css`
     position: relative;
-    width: ${minimisedContainerSize.mobile}px;
-    height: ${minimisedContainerSize.mobile}px;
+    width: ${minimisedContainerSize.mobile.width}px;
+    height: ${minimisedContainerSize.mobile.height}px;
 
     ${from.mobileLandscape} {
-        width: ${minimisedContainerSize.tablet}px;
-        height: ${minimisedContainerSize.tablet}px;
+        width: ${minimisedContainerSize.tablet.width}px;
+        height: ${minimisedContainerSize.tablet.height}px;
     }
 `;

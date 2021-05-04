@@ -5,7 +5,6 @@ import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
 
 type MobileSquaresProps = {
-    minimiseButton: React.ReactNode;
     cssOverrides?: SerializedStyles | string;
 };
 

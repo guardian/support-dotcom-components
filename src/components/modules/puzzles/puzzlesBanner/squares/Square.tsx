@@ -16,7 +16,6 @@ type SquareProps = {
 
 const basicSquare = css`
     border: ${squareBorder};
-    border-bottom: none;
     position: relative;
     width: 100%;
     /* Creates a 1:1 aspect ratio */
@@ -30,6 +29,7 @@ const squareContents = css`
     left: 0;
     bottom: 0;
     right: 0;
+    border-bottom: ${squareBorder};
 `;
 
 const squareColours: { [key in SquareColour]: SerializedStyles } = {
@@ -64,6 +64,26 @@ function getBorderRemoval(borderSide: BorderSide) {
 }
 
 export const Square: React.FC<SquareProps> = ({
+    colour,
+    children,
+    cssOverrides,
+    removeBorder = [],
+}) => {
+    return (
+        <div
+            css={[
+                basicSquare,
+                squareColours[colour],
+                cssOverrides,
+                removeBorder.map(getBorderRemoval),
+            ]}
+        >
+            {children && <div css={squareContents}>{children}</div>}
+        </div>
+    );
+};
+
+export const Rectangle: React.FC<SquareProps> = ({
     colour,
     children,
     cssOverrides,

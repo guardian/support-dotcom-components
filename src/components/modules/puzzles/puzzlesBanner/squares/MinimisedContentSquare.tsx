@@ -15,11 +15,11 @@ const squareContainer = css`
 `;
 
 const heading = css`
-    ${headline.xxsmall({ fontWeight: 'bold' })};
-    margin: 0;
+    ${headline.xxxsmall({ fontWeight: 'bold' })};
+    margin: ${space[3]}px 0 0;
 
     ${from.mobileLandscape} {
-        ${headline.small({ fontWeight: 'bold' })}
+        ${headline.xxsmall({ fontWeight: 'bold' })}
     }
 `;
 
@@ -40,20 +40,13 @@ const content = css`
     }
 `;
 
-type MinimisedContentSquareProps = {
-    minimiseButton: React.ReactNode;
-};
-
-export const MinimisedContentSquare: React.FC<MinimisedContentSquareProps> = ({
-    minimiseButton,
-}) => {
+export const MinimisedContentSquare: React.FC = () => {
     return (
         <div css={squareContainer}>
             <Square colour="purple" cssOverrides={removeTopBorder}>
                 <SquareSide />
                 <div css={content}>
                     <h3 css={heading}>Master every challenge</h3>
-                    {minimiseButton}
                 </div>
             </Square>
         </div>

@@ -3,10 +3,6 @@ import { css } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 
-type TabletDesktopSquaresProps = {
-    minimiseButton: React.ReactNode;
-};
-
 const backgroundSquaresGrid = css`
     ${until.tablet} {
         display: none;
@@ -40,7 +36,7 @@ function gridPlacement(row: number, column: number) {
     `;
 }
 
-export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = () => {
+export const TabletDesktopSquares: React.FC = () => {
     return (
         <div css={backgroundSquaresGrid}>
             <Square
