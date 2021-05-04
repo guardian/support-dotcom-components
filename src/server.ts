@@ -37,26 +37,6 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-// TODO replace with module-friendly solution
-/* app.get(
-    '/epic',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const { pageTracking, targeting } = testData;
-            const params = getQueryParams(req);
-            const data = await buildEpicData(pageTracking, targeting, params, baseUrl(req));
-            const moduleUrl = data.data?.module.url;
-            const js = import(moduleUrl);
-
-            // server-side render react
-            const htmlDoc = renderHtmlDocument({ html, css, js });
-            res.send(htmlDoc);
-        } catch (error) {
-            next(error);
-        }
-    },
-); */
-
 app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -68,7 +48,7 @@ app.post(
             const epicType: EpicType = 'ARTICLE';
 
             const { tracking, targeting } = req.body;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
             const response = await buildEpicData(
                 tracking,
                 targeting,
@@ -99,7 +79,7 @@ app.post(
             const epicType: EpicType = 'LIVEBLOG';
 
             const { tracking, targeting } = req.body;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
             const response = await buildEpicData(
                 tracking,
                 targeting,
@@ -126,7 +106,7 @@ app.post(
             const payload = validateBannerPayload(req.body);
 
             const { tracking, targeting } = payload;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
 
             const response = await buildBannerData(tracking, targeting, params, req);
 

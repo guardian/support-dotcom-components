@@ -11,6 +11,7 @@ import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
 import { ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
 import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
+import { TestVariant } from './params';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -373,4 +374,11 @@ export const findTestAndVariant = (
     }
 
     return { debug: includeDebug ? debug : undefined };
+};
+
+export const findForcedTestAndVariant = (tests: Test[], force: TestVariant): Result => {
+    const test = tests.find(test => test.name === force.testName);
+    const variant = test?.variants.find(v => v.name === force.variantName);
+
+    return test && variant ? { result: { test, variant } } : {};
 };
