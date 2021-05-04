@@ -36,6 +36,8 @@ import {
     minimisedContentContainer,
     minimiseHint,
     squaresContainer,
+    siteMessage,
+    signInLink,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
@@ -76,6 +78,9 @@ const tabletPackshot = {
     media: '(max-width: 979px)',
     alt: 'The Guardian Puzzles app on mobile devices',
 };
+
+const signInUrl = `https://profile.theguardian.com/signin?`; // Need to add appropriate utm tracking to this link
+const signInComponentId = `${bannerId} : sign in`;
 
 export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
     const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
@@ -123,6 +128,15 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         onMinimiseClick(stateChange);
     }
 
+    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+        evt.preventDefault();
+        const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+        window.location.href = signInUrl;
+    };
+
     const MinimiseButton = (
         <Button
             size="xsmall"
@@ -137,6 +151,12 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         >
             Minimise
         </Button>
+    );
+
+    const MinimiseHint = (
+        <p css={minimiseHint}>
+            <SvgInfo /> You can minimise this banner using the escape key
+        </p>
     );
 
     // Enable keyboard users to minimise the banner quickly
@@ -188,11 +208,20 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                     <img src={appStore.google} alt="Get it on Google Play" />
                                 </Link>
                             </div>
-                            {isKeyboardUser && (
-                                <p css={minimiseHint}>
-                                    <SvgInfo /> You can minimise this banner using the escape key
-                                </p>
-                            )}
+                            <div css={siteMessage}>
+                                Already a subscriber?{' '}
+                                <Link
+                                    href={signInUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    css={signInLink}
+                                    data-link-name={signInComponentId}
+                                    onClick={onSignInClick}
+                                >
+                                    Sign in
+                                </Link>{' '}
+                                to not see this again
+                            </div>
                         </div>
                         <div css={[squaresContainer, hideOnMinimise]}>
                             <ContentSquares minimiseButton={MinimiseButton} />
@@ -202,7 +231,10 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                     baseImage={tabletPackshot}
                                 />
                             </div>
-                            <TabletDesktopSquares />
+                            <TabletDesktopSquares
+                                minimiseHint={MinimiseHint}
+                                isKeyboardUser={isKeyboardUser}
+                            />
                         </div>
                     </div>
                 </Container>

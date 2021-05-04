@@ -283,3 +283,16 @@ export const minimisedContentContainer = css`
         height: ${minimisedContainerSize.tablet.height}px;
     }
 `;
+
+export const siteMessage = css`
+    ${textSans.medium()};
+`;
+
+export const signInLink = css`
+    font-weight: bold;
+    color: inherit;
+    text-decoration: none;
+    :hover {
+        color: inherit;
+    }
+`;
