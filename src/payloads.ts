@@ -11,8 +11,6 @@ import {
 import { Debug, findTestAndVariant, findForcedTestAndVariant, Variant, Test } from './lib/variants';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
-
-import { getAllHardcodedTests } from './tests';
 import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
@@ -39,6 +37,7 @@ import {
     puzzlesBanner,
     header,
 } from './modules';
+import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 
 interface EpicDataResponse {
@@ -107,14 +106,13 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
 );
 
 const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<Test[]> => {
-    const [regular, holdback, hardcoded] = await Promise.all([
+    const [regular, holdback] = await Promise.all([
         fetchConfiguredArticleEpicTestsCached(),
         fetchConfiguredArticleEpicHoldbackTestsCached(),
-        getAllHardcodedTests(),
     ]);
 
     if (isForcingTest) {
-        return [...regular.tests, ...holdback.tests, ...hardcoded];
+        return [...regular.tests, ...holdback.tests, fallbackEpicTest];
     }
 
     const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
@@ -122,7 +120,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
         return [...holdback.tests];
     }
 
-    return [...regular.tests, ...hardcoded];
+    return [...regular.tests, fallbackEpicTest];
 };
 
 const getLiveblogEpicTests = async (): Promise<Test[]> => {
