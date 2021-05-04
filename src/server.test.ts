@@ -44,7 +44,7 @@ jest.mock('./tests/banners/ChannelBannerTests', () => {
 });
 jest.mock('./channelSwitches', () => {
     return {
-        cachedChannelSwitches: jest.fn().mockImplementation(() => () =>
+        cachedChannelSwitches: jest.fn().mockImplementation(() =>
             Promise.resolve({
                 enableEpics: true,
                 enableBanners: true,
