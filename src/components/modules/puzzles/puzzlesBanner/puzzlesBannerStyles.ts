@@ -301,7 +301,7 @@ export const minimisedContentContainer = css`
 `;
 
 export const siteMessage = css`
-    ${textSans.medium()};
+    ${textSans.small()};
     position: absolute;
     bottom: 20px;
 
