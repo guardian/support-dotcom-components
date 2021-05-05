@@ -4,7 +4,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 
 type TabletAndDesktopSquaresProps = {
-    minimiseHint: React.Node;
+    minimiseHint: React.ReactNode;
     isKeyboardUser: boolean;
 };
 
