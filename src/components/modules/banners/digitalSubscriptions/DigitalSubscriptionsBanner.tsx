@@ -110,7 +110,6 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = signInUrl;
     };
 
     const onCloseClick = (): void => {
@@ -177,6 +176,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                     Already a subscriber?{' '}
                                     <ThemeProvider theme={linkBrand}>
                                         <Link
+                                            href={signInUrl}
                                             data-link-name={signInComponentId}
                                             onClick={onSignInClick}
                                             subdued
