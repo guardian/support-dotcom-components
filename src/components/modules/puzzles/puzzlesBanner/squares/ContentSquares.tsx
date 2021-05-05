@@ -224,19 +224,19 @@ const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = 
 export const ContentSquares: React.FC<ContentSquaresProps> = ({ minimiseButton }) => {
     return (
         <div css={contentSquaresGrid}>
-            <ContentSquare cssOverrides={[bottomLeftOnMobile, desktopGridPlacement(1, 1)]}>
-                <p>Solve with&nbsp;no distractions</p>
+            <ContentSquare cssOverrides={[bottomRightOnMobile, desktopGridPlacement(1, 1)]}>
+                <p>
+                    Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
+                    <span css={textHighlight}>sudokus,</span> wherever you&nbsp;are.
+                </p>
             </ContentSquare>
             <ContentSquare
                 cssOverrides={[topRightOnMobile, downShiftedSquare, desktopGridPlacement(1, 5)]}
             >
                 <p>Share and play with friends</p>
             </ContentSquare>
-            <ContentSquare cssOverrides={[bottomRightOnMobile, desktopGridPlacement(1, 7)]}>
-                <p>
-                    Choose from over 15,000 <span css={textHighlight}>crosswords</span> and&nbsp;
-                    <span css={textHighlight}>sudokus,</span> wherever you&nbsp;are.
-                </p>
+            <ContentSquare cssOverrides={[bottomLeftOnMobile, desktopGridPlacement(1, 7)]}>
+                <p>Solve with&nbsp;no distractions</p>
                 <div css={minimiseButtonContainer}>{minimiseButton}</div>
             </ContentSquare>
             <ContentSquare cssOverrides={[qrCodeSquare, desktopGridPlacement(3, 1)]}>

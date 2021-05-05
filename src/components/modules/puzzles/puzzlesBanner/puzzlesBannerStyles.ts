@@ -77,7 +77,6 @@ export const squaresContainer = css`
 `;
 
 export const headingSection = css`
-    /* max-width: 500px; */
     ${from.tablet} {
         margin-right: ${space[6]}px;
     }
