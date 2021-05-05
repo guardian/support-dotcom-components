@@ -26,6 +26,7 @@ import {
     closeButton,
     closeButtonContainer,
 } from './digitalSubscriptionsBannerStyles';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { ResponsiveImage } from '../../../ResponsiveImage';
@@ -112,8 +113,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         window.location.href = signInUrl;
     };
 
-    const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onCloseClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -122,8 +122,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         setChannelClosedTimestamp(bannerChannel);
     };
 
-    const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onNotNowClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, notNowComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -131,6 +130,8 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         setShowBanner(false);
         setChannelClosedTimestamp(bannerChannel);
     };
+
+    useEscapeShortcut(onCloseClick, []);
 
     return (
         <>
@@ -164,7 +165,6 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
                                     </ThemeProvider>
                                     <ThemeProvider theme={buttonBrand}>
                                         <Button
-                                            // cssOverrides={notNowButton}
                                             priority="subdued"
                                             data-link-name={notNowComponentId}
                                             onClick={onNotNowClick}

@@ -17,6 +17,7 @@ import {
     bottomRightComponent,
     packShotContainer,
 } from './guardianWeeklyBannerStyles';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import {
@@ -124,6 +125,8 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
         setShowBanner(false);
         setChannelClosedTimestamp(bannerChannel);
     };
+
+    useEscapeShortcut(onCloseClick, []);
 
     return (
         <>
