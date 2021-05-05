@@ -112,11 +112,28 @@ export const appStoreButtonContainer = css`
         margin-bottom: ${space[2]}px;
     }
 
-    ${from.leftCol} {
+    ${from.tablet} {
         flex-direction: row;
 
         a:not(:last-of-type) {
-            margin-right: ${space[4]}px;
+            margin-right: ${space[2]}px;
+        }
+
+        img {
+            max-width: 90px;
+        }
+    }
+
+    ${from.desktop} {
+        img {
+            max-width: 138px;
+        }
+    }
+
+    ${from.leftCol} {
+        img {
+            max-width: 160px;
+            width: 160px;
         }
     }
 `;
@@ -285,12 +302,15 @@ export const minimisedContentContainer = css`
 
 export const siteMessage = css`
     ${textSans.medium()};
+    position: absolute;
+    bottom: 20px;
 
     ${until.tablet} {
-        position: absolute;
-        bottom: 20px;
         z-index: 30;
-        ${textSans.small()};
+    }
+
+    ${until.desktop} {
+        ${textSans.xsmall()};
     }
 `;
 
@@ -304,10 +324,9 @@ export const signInLink = css`
     }
 `;
 
-export const desktopText = css`
+export const showOnDesktop = css`
     display: none;
-
-    ${from.mobileMedium} {
-        display: inline-block;
+    ${between.tablet.and.leftCol} {
+        display: block;
     }
 `;

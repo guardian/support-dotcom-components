@@ -38,7 +38,7 @@ import {
     squaresContainer,
     siteMessage,
     signInLink,
-    desktopText,
+    showOnDesktop,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
@@ -210,7 +210,8 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 </Link>
                             </div>
                             <div css={siteMessage}>
-                                Already a subscriber?{' '}
+                                Already a subscriber?
+                                <br css={showOnDesktop} />{' '}
                                 <Link
                                     href={signInUrl}
                                     target="_blank"
@@ -221,7 +222,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 >
                                     Sign in
                                 </Link>{' '}
-                                to not see this <span css={desktopText}>again</span>
+                                to not see this again
                             </div>
                         </div>
                         <div css={[squaresContainer, hideOnMinimise]}>
