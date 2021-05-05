@@ -86,10 +86,10 @@ const signInComponentId = `${bannerId} : sign in`;
 
 export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
     const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
+    const isKeyboardUser = useTabDetection();
 
     const hideOnMinimise = isMinimised ? hide : '';
     const hideOnExpand = isMinimised ? '' : hide;
-    const isKeyboardUser = useTabDetection();
 
     function handleAppStoreClickFor(store: AppStore) {
         return function onAppStoreClick() {
