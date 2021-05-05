@@ -93,6 +93,7 @@ Resources:
                                 Effect: Allow
                                 Resource:
                                     - !Sub arn:aws:s3:::support-admin-console/${Stage}/banner-deploy/*
+                                    - !Sub arn:aws:s3:::support-admin-console/${Stage}/channel-switches.json
                                     - !Sub arn:aws:s3:::gu-contributions-public/epic/${Stage}/*
                                     - !Sub arn:aws:s3:::gu-contributions-public/banner/${Stage}/*
                             -   Action:

@@ -40,6 +40,7 @@ import {
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';
+import { cachedChannelSwitches } from './channelSwitches';
 
 interface EpicDataResponse {
     data?: {
@@ -142,6 +143,11 @@ export const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
+    const { enableEpics } = await cachedChannelSwitches();
+    if (!enableEpics) {
+        return {};
+    }
+
     const tests = await (type === 'ARTICLE'
         ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
         : getLiveblogEpicTests());
@@ -211,6 +217,11 @@ export const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
+    const { enableBanners } = await cachedChannelSwitches();
+    if (!enableBanners) {
+        return {};
+    }
+
     const selectedTest = await selectBannerTest(
         targeting,
         pageTracking,
@@ -272,6 +283,10 @@ export const buildPuzzlesData = async (
     params: Params,
     req: express.Request,
 ): Promise<PuzzlesDataResponse> => {
+    const { enableBanners } = await cachedChannelSwitches();
+    if (!enableBanners) {
+        return {};
+    }
     if (targeting.showSupportMessaging) {
         return {
             data: {
