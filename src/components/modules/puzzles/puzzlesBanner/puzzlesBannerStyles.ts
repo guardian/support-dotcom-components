@@ -77,7 +77,7 @@ export const squaresContainer = css`
 `;
 
 export const headingSection = css`
-    max-width: 500px;
+    /* max-width: 500px; */
     ${from.tablet} {
         margin-right: ${space[6]}px;
     }
@@ -286,13 +286,29 @@ export const minimisedContentContainer = css`
 
 export const siteMessage = css`
     ${textSans.medium()};
+
+    ${until.tablet} {
+        position: absolute;
+        bottom: 20px;
+        z-index: 30;
+        ${textSans.small()};
+    }
 `;
 
 export const signInLink = css`
     font-weight: bold;
+    font-size: inherit;
     color: inherit;
     text-decoration: none;
     :hover {
         color: inherit;
+    }
+`;
+
+export const desktopText = css`
+    display: none;
+
+    ${from.mobileMedium} {
+        display: inline-block;
     }
 `;

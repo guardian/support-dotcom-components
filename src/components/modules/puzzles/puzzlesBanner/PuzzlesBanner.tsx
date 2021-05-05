@@ -38,6 +38,7 @@ import {
     squaresContainer,
     siteMessage,
     signInLink,
+    desktopText,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
@@ -220,7 +221,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 >
                                     Sign in
                                 </Link>{' '}
-                                to not see this again
+                                to not see this <span css={desktopText}>again</span>
                             </div>
                         </div>
                         <div css={[squaresContainer, hideOnMinimise]}>

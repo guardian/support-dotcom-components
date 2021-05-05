@@ -43,7 +43,7 @@ export const MobileSquares: React.FC<MobileSquaresProps> = ({ cssOverrides }) =>
             <Square colour="purple" cssOverrides={firstRow} removeBorder={['right']} />
             <Square colour="pink" removeBorder={['right']} />
             <Square colour="pink" cssOverrides={secondRow} removeBorder={['right']} />
-            <Square colour="purple" removeBorder={['right']} />
+            <Square colour="pink" removeBorder={['right']} />
             <Square colour="grey" removeBorder={['right']} />
             <Square
                 colour="purple"
@@ -51,7 +51,7 @@ export const MobileSquares: React.FC<MobileSquaresProps> = ({ cssOverrides }) =>
                 removeBorder={['right']}
             />
             <Square colour="grey" removeBorder={['right']} />
-            <Square colour="pink" removeBorder={['right']} />
+            <Square colour="purple" removeBorder={['right']} />
             <Square colour="purple" removeBorder={['right']} />
         </div>
     );
