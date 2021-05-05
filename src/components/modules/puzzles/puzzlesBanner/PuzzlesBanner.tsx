@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { CacheProvider } from '@emotion/react';
-// import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
@@ -10,7 +8,6 @@ import {
     createViewEventFromTracking,
 } from '../../../../lib/tracking';
 import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
-// import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { useTabDetection } from '../../../hooks/useTabDetection';
@@ -57,11 +54,6 @@ const bannerStateChangeComponentIds: { [key in BannerStateChange]: string } = {
     expand: `${bannerId} : expand`,
 };
 
-// A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
-// const emotionCache = createCache({
-//     stylisPlugins: [gridPrefixerPlugin()],
-// });
-
 const desktopPackshot = {
     url: packshot.desktop,
     media: '(min-width: 980px)',
@@ -80,7 +72,8 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     const hideOnMinimise = isMinimised ? hide : '';
     const hideOnExpand = isMinimised ? '' : hide;
 
-    if (window.navigator.userAgent.match(/MSIE|Trident/)) {
+    // Exclude IE
+    if (window?.navigator?.userAgent?.match(/MSIE|Trident/)) {
         return null;
     }
 
@@ -148,7 +141,6 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     }, []);
 
     return (
-        // <CacheProvider value={emotionCache}>
         <section css={[banner, isMinimised ? minimisedBanner : '']}>
             <Container css={hideOnMinimise}>
                 <div css={[bannerContents, hideOnMinimise]}>
@@ -202,6 +194,5 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                 <MinimisedBorderSquares />
             </div>
         </section>
-        // </CacheProvider>
     );
 };
