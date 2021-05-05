@@ -80,7 +80,8 @@ const tabletPackshot = {
     alt: 'The Guardian Puzzles app on mobile devices',
 };
 
-const signInUrl = `https://profile.theguardian.com/signin?`; // Need to add appropriate utm tracking to this link
+const signInUrl =
+    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=PuzzleSignin&CMP_TU=mrtn&CMP_BUNIT=digipac';
 const signInComponentId = `${bannerId} : sign in`;
 
 export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
