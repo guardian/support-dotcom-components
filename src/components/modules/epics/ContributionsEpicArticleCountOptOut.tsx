@@ -18,7 +18,7 @@ const optOutContainer = css`
     color: ${palette.opinion[400]};
 `;
 
-const headerContainerStyles = css`
+const articleCountOnHeaderContainerStyles = css`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -56,11 +56,11 @@ const articleCountDescriptionContainer = css`
 `;
 
 const articleCountBodyTextStyles = css`
-    ${textSans.medium()};
-    width: 60%;
+    ${textSans.small()};
+    width: 65%;
 `;
 
-const articleCountOptCtasContainer = css`
+const articleCountCtasContainerStyles = css`
     display: flex;
     flex-direction: column;
     margin-left: auto;
@@ -70,7 +70,6 @@ const articleCountOptCtasContainer = css`
 
 const articleCountOptInCtaStyles = css`
     background-color: #000000;
-    padding-left: ${space[5]}px;
 `;
 
 const articleCountOptOutCtaStyles = css`
@@ -79,12 +78,13 @@ const articleCountOptOutCtaStyles = css`
 `;
 
 const trackingSettingsContainerStyles = css`
-    ${textSans.small()};
-    margin: ${space[1]}px;
+    ${textSans.xsmall()};
+    margin-top: ${space[4]}px;
+    margin-bottom: ${space[5]}px;
 `;
 
 const privacySettingsLinkStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })};
+    ${textSans.xsmall({ fontWeight: 'bold' })};
 `;
 
 const styles1 = css`
@@ -145,7 +145,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     return (
         <>
             {isArticleCountOn ? (
-                <div css={headerContainerStyles}>
+                <div css={articleCountOnHeaderContainerStyles}>
                     <ContributionsEpicArticleCountAbove numArticles={numArticles} />
                     <div css={articleCountWrapperStyles}>
                         <div css={articleCountTextStyles}>Article count</div>
@@ -182,13 +182,14 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                             <>
                                 <div css={articleCountBodyTextStyles}>
                                     We are counting the number of Guardian articles you&apos;ve read
-                                    on this device. Can we continue showing you your article count?
+                                    on this device. Can we continue showing your article count?
                                 </div>
-                                <div css={articleCountOptCtasContainer}>
+                                <div css={articleCountCtasContainerStyles}>
                                     <Button
                                         priority="primary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptInCtaStyles}
+                                        onClick={toggleButton}
                                     >
                                         Yes, thats OK
                                     </Button>
@@ -208,7 +209,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                     you&apos;ve read on this device. Can we start showing your
                                     article count?
                                 </div>
-                                <div css={articleCountOptCtasContainer}>
+                                <div css={articleCountCtasContainerStyles}>
                                     <Button
                                         priority="primary"
                                         size="xsmall"
@@ -220,6 +221,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="tertiary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptOutCtaStyles}
+                                        onClick={toggleButton}
                                     >
                                         No, thank you
                                     </Button>
