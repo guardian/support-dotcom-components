@@ -35,6 +35,7 @@ const articleCountWrapperStyles = css`
     flex-direction: row;
     align-items: center;
     margin-right: ${space[2]}px;
+    justify-content: flex-end;
 `;
 
 const articleCountCtaStyles = css`
