@@ -3,14 +3,24 @@ import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
 
 const containerStyles = css`
-    img {
-        display: block;
-        width: 100%;
-        object-fit: cover;
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 38.83%;
 
-        ${from.tablet} {
-            margin-bottom: 0;
-        }
+    ${from.tablet} {
+        padding-bottom: 79.5%;
+    }
+
+    img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        object-fit: cover;
     }
 `;
 
