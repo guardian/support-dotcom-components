@@ -3,11 +3,13 @@ import contributionsBannerWrapper, { ContributionsBannerProps } from './Contribu
 import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/core';
+import { space } from '@guardian/src-foundations';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral } from '@guardian/src-foundations';
 import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
+import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 
 const styles = {
@@ -51,16 +53,17 @@ const styles = {
     buttonsContainer: css`
         display: flex;
         flex-direction: column;
+        align-items: flex-end;
         height: 100%;
         box-sizing: border-box;
         padding-top: 8px;
         padding-bottom: 16px;
     `,
-    ctaContainer: css`
-        display: flex;
-        justify-content: flex-end;
+    ctasContainer: css`
+        & > * + * {
+            margin-top: ${space[3]}px;
+        }
     `,
-
     tabletAndDesktop: css`
         display: none;
         ${between.tablet.and.leftCol} {
@@ -117,26 +120,25 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     const buttons = (
         <div css={styles.buttonsContainer}>
             <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
-            {content.primaryCta && (
-                <div css={styles.ctaContainer}>
+
+            <div css={styles.ctasContainer}>
+                {content.primaryCta && (
                     <ContributionsBannerCta
                         onContributeClick={onContributeClick}
                         ctaText={content.primaryCta.ctaText}
                         ctaUrl={content.primaryCta.ctaUrl}
                         stacked={true}
                     />
-                </div>
-            )}
-            {content.secondaryCta && (
-                <div css={styles.ctaContainer}>
-                    <ContributionsBannerCta
-                        onContributeClick={onSecondaryCtaClick}
+                )}
+
+                {content.secondaryCta && (
+                    <ContributionsBannerSecondaryCta
+                        onCtaClick={onSecondaryCtaClick}
                         ctaText={content.secondaryCta.ctaText}
                         ctaUrl={content.secondaryCta.ctaUrl}
-                        stacked={true}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 
@@ -145,6 +147,7 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
             <ContributionsBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onContributeClick}
+                onSecondaryCtaClick={onSecondaryCtaClick}
                 content={mobileContent || content}
             />
 

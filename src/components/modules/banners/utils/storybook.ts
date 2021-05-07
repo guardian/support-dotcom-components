@@ -23,6 +23,10 @@ export const content: BannerContent = {
         baseUrl: 'https://support.theguardian.com/contribute',
         text: 'Support The Guardian',
     },
+    secondaryCta: {
+        baseUrl: 'https://support.theguardian.com/contribute',
+        text: 'Learn more',
+    },
 };
 
 export const tickerSettings = {
