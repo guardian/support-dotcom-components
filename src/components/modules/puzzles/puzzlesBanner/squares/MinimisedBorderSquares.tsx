@@ -11,6 +11,8 @@ const smallSquareSizes = {
     tablet: 43,
 };
 
+const buttonContainerSize = 24;
+
 const container = css`
     position: absolute;
     width: 98%;
@@ -56,8 +58,8 @@ const topRight = css`
 
 const minimiseButtonContainer = css`
     align-self: center;
-    width: 24px;
-    height: 24px;
+    width: ${buttonContainerSize}px;
+    height: ${buttonContainerSize}px;
     position: absolute;
     right: 2px;
 
