@@ -214,7 +214,6 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 Already a subscriber?
                                 <br css={showOnDesktop} />{' '}
                                 <Link
-                                    href={signInUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     css={signInLink}
