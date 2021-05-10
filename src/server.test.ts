@@ -41,6 +41,16 @@ jest.mock('./tests/banners/ChannelBannerTests', () => {
             .mockImplementation(() => () => Promise.resolve([])),
     };
 });
+jest.mock('./channelSwitches', () => {
+    return {
+        cachedChannelSwitches: jest.fn().mockImplementation(() =>
+            Promise.resolve({
+                enableEpics: true,
+                enableBanners: true,
+            }),
+        ),
+    };
+});
 
 describe('POST /epic', () => {
     it('should return epic data', async () => {

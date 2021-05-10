@@ -11,15 +11,6 @@ const styles = {
     ctaButton: (stacked: boolean): SerializedStyles => css`
         ${stacked ? 'margin-bottom: 0.5rem' : 'margin-right: 14px'};
     `,
-    cta: (stacked: boolean): SerializedStyles => css`
-        display: flex;
-        flex-direction: ${stacked ? 'column' : 'row'};
-        align-items: ${stacked ? 'flex-start' : 'center'};
-        ${from.tablet} {
-            width: auto;
-            justify-content: flex-start;
-        }
-    `,
     paymentMethods: css`
         display: block;
         max-height: 1.25rem;
@@ -44,7 +35,7 @@ export const ContributionsBannerCta: React.FC<ContributionsBannerCtaProps> = ({
     stacked,
 }: ContributionsBannerCtaProps) => {
     return (
-        <div css={styles.cta(stacked)}>
+        <div>
             <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                 <LinkButton
                     data-link-name="contributions-banner : cta"

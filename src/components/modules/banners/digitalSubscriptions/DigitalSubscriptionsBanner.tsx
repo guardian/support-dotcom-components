@@ -5,29 +5,28 @@ import {
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
 import React, { useState } from 'react';
+import { ThemeProvider } from 'emotion-theming';
+import { Container, Columns, Column, Inline } from '@guardian/src-layout';
+import { Button, LinkButton, buttonBrand, buttonReaderRevenue } from '@guardian/src-button';
+import { Link, linkBrand } from '@guardian/src-link';
 import { SvgGuardianLogo } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
-    contentContainer,
+    columns,
     topLeftComponent,
+    bottomRightComponent,
     heading,
     messageText,
-    buttonTextDesktop,
-    buttonTextTablet,
-    buttonTextMobile,
     siteMessage,
-    bottomRightComponent,
+    packShotContainer,
     packShot,
     iconPanel,
-    closeButton,
     logoContainer,
-    notNowButton,
-    becomeASubscriberButton,
-    linkStyle,
-    signInLink,
-    packShotContainer,
+    closeButton,
+    closeButtonContainer,
 } from './digitalSubscriptionsBannerStyles';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { ResponsiveImage } from '../../../ResponsiveImage';
@@ -70,6 +69,8 @@ const getBaseImg = (countryCode: string | undefined): Img => ({
 const fallbackHeading = 'Start a digital subscription today';
 const fallbackMessageText =
     'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.';
+const fallbackCta = 'Subscribe';
+const fallbackSecondaryCta = 'Not now';
 
 export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
     bannerChannel,
@@ -83,6 +84,11 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
 
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
+    const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
+        subscriptionUrl,
+        tracking,
+        countryCode,
+    );
 
     const cleanHeadingText = containsNonArticleCountPlaceholder(content?.heading || '')
         ? fallbackHeading
@@ -92,31 +98,21 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         ? fallbackMessageText
         : content?.messageText || '';
 
-    const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
-        const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
-            subscriptionUrl,
-            tracking,
-            countryCode,
-        );
+    const onSubscribeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = subscriptionUrlWithTracking;
     };
 
-    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onSignInClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = signInUrl;
     };
 
-    const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onCloseClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -125,8 +121,7 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         setChannelClosedTimestamp(bannerChannel);
     };
 
-    const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onNotNowClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, notNowComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -135,68 +130,95 @@ export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
         setChannelClosedTimestamp(bannerChannel);
     };
 
+    useEscapeShortcut(onCloseClick, []);
+
     return (
         <>
             {showBanner ? (
                 <section css={banner} data-target={bannerId}>
-                    <div css={contentContainer}>
-                        <div css={topLeftComponent}>
-                            <h3 css={heading}>
-                                {replaceArticleCount(cleanHeadingText || '', numArticles, 'banner')}
-                            </h3>
-                            <p css={messageText}>
-                                {replaceArticleCount(cleanMessageText || '', numArticles, 'banner')}
-                            </p>
-                            <a css={linkStyle} onClick={onSubscribeClick}>
-                                <div data-link-name={ctaComponentId} css={becomeASubscriberButton}>
-                                    <span css={buttonTextDesktop}>Become a digital subscriber</span>
-                                    <span css={buttonTextTablet}>Become a subscriber</span>
-                                    <span css={buttonTextMobile}>Subscribe now</span>
+                    <Container>
+                        <Columns cssOverrides={columns} collapseBelow="tablet">
+                            <Column cssOverrides={topLeftComponent} width={7 / 12}>
+                                <h3 css={heading}>
+                                    {replaceArticleCount(
+                                        cleanHeadingText || '',
+                                        numArticles,
+                                        'banner',
+                                    )}
+                                </h3>
+                                <p css={messageText}>
+                                    {replaceArticleCount(
+                                        cleanMessageText || '',
+                                        numArticles,
+                                        'banner',
+                                    )}
+                                </p>
+                                <Inline space={3}>
+                                    <ThemeProvider theme={buttonReaderRevenue}>
+                                        <LinkButton
+                                            href={subscriptionUrlWithTracking}
+                                            onClick={onSubscribeClick}
+                                        >
+                                            {content?.cta?.text || fallbackCta}
+                                        </LinkButton>
+                                    </ThemeProvider>
+                                    <ThemeProvider theme={buttonBrand}>
+                                        <Button
+                                            priority="subdued"
+                                            data-link-name={notNowComponentId}
+                                            onClick={onNotNowClick}
+                                        >
+                                            {content?.secondaryCta?.text || fallbackSecondaryCta}
+                                        </Button>
+                                    </ThemeProvider>
+                                </Inline>
+                                <div css={siteMessage}>
+                                    Already a subscriber?{' '}
+                                    <ThemeProvider theme={linkBrand}>
+                                        <Link
+                                            href={signInUrl}
+                                            data-link-name={signInComponentId}
+                                            onClick={onSignInClick}
+                                            subdued
+                                        >
+                                            Sign in
+                                        </Link>{' '}
+                                    </ThemeProvider>
+                                    to not see this again
                                 </div>
-                            </a>
-                            <button
-                                css={notNowButton}
-                                data-link-name={notNowComponentId}
-                                onClick={onNotNowClick}
-                            >
-                                Not now
-                            </button>
-                            <div css={siteMessage}>
-                                Already a subscriber?{' '}
-                                <a
-                                    css={signInLink}
-                                    data-link-name={signInComponentId}
-                                    onClick={onSignInClick}
-                                >
-                                    Sign in
-                                </a>{' '}
-                                to not see this again
-                            </div>
-                        </div>
-                        <div css={bottomRightComponent}>
-                            <div css={packShotContainer}>
-                                <div css={packShot}>
-                                    <ResponsiveImage
-                                        images={[mobileImg, baseImg]}
-                                        baseImage={baseImg}
-                                    />
+                            </Column>
+                            <Column cssOverrides={bottomRightComponent}>
+                                <div css={packShotContainer}>
+                                    <div css={packShot}>
+                                        <ResponsiveImage
+                                            images={[mobileImg, baseImg]}
+                                            baseImage={baseImg}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div css={iconPanel}>
-                                <button
-                                    onClick={onCloseClick}
-                                    css={closeButton}
-                                    data-link-name={closeComponentId}
-                                    aria-label="Close"
-                                >
-                                    <SvgCross />
-                                </button>
-                                <div css={logoContainer}>
-                                    <SvgGuardianLogo />
+                            </Column>
+                            <Column width={1 / 12} cssOverrides={closeButtonContainer}>
+                                <div css={iconPanel}>
+                                    <ThemeProvider theme={buttonBrand}>
+                                        <Button
+                                            size="small"
+                                            cssOverrides={closeButton}
+                                            priority="tertiary"
+                                            onClick={onCloseClick}
+                                            data-link-name={closeComponentId}
+                                            icon={<SvgCross />}
+                                            hideLabel
+                                        >
+                                            Close
+                                        </Button>
+                                    </ThemeProvider>
+                                    <div css={logoContainer}>
+                                        <SvgGuardianLogo />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </Column>
+                        </Columns>
+                    </Container>
                 </section>
             ) : null}
         </>

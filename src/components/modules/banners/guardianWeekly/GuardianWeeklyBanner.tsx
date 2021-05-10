@@ -1,34 +1,30 @@
 import React, { useState, ReactElement } from 'react';
+import { ThemeProvider } from 'emotion-theming';
+import { Container, Columns, Column, Inline } from '@guardian/src-layout';
+import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
+import { Link } from '@guardian/src-link';
 import { SvgRoundel } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
-    contentContainer,
+    columns,
     topLeftComponent,
     heading,
-    iconAndCloseAlign,
     iconAndClosePosition,
     logoContainer,
-    closeButton,
     paragraph,
-    buttonTextDesktop,
-    buttonTextMobileTablet,
     siteMessage,
     bottomRightComponent,
     packShotContainer,
-    packShotTablet,
-    packShotMobileAndDesktop,
-    notNowButton,
-    becomeASubscriberButton,
-    linkStyle,
-    signInLink,
 } from './guardianWeeklyBannerStyles';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
+import { ResponsiveImage } from '../../../ResponsiveImage';
 
 const subscriptionUrl = 'https://support.theguardian.com/subscribe/weekly';
 const signInUrl =
@@ -45,19 +41,43 @@ const mobileAndDesktopImg =
 const tabletImage =
     'https://i.guim.co.uk/img/media/a213adf3f68f788b3f9434a1e88787fce1fa10bd/322_0_2430_1632/500.png?quality=85&s=70749c1c97ffaac614c1e357d3e7f616';
 
+// Responsive image props
+const baseImg = {
+    url: mobileAndDesktopImg,
+    media: '(min-width: 980px)',
+    alt: 'The Guardian Weekly magazine',
+};
+
+const images = [
+    {
+        url: mobileAndDesktopImg,
+        media: '(max-width: 739px)',
+    },
+    {
+        url: tabletImage,
+        media: '(min-width: 740px) and (max-width: 979px)',
+    },
+    baseImg,
+];
+
+const defaultCta = 'Subscribe';
+const defaultSecondaryCta = 'Not now';
+
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
-    <button
+    <Button
         data-link-name={closeComponentId}
-        css={closeButton}
         onClick={props.onClick}
-        aria-label="Close"
+        icon={<SvgCross />}
+        size="small"
+        priority="tertiary"
+        hideLabel
     >
-        <SvgCross />
-    </button>
+        Close
+    </Button>
 );
 
 export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
@@ -68,32 +88,27 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
     countryCode,
 }: BannerProps) => {
     const [showBanner, setShowBanner] = useState(true);
+    const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
+        content?.cta?.baseUrl || subscriptionUrl,
+        tracking,
+        countryCode,
+    );
 
-    const onSubscribeClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
-        const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
-            subscriptionUrl,
-            tracking,
-            countryCode,
-        );
+    const onSubscribeClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = subscriptionUrlWithTracking;
     };
 
-    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onSignInClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = signInUrl;
     };
 
-    const onCloseClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onCloseClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -102,8 +117,7 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
         setChannelClosedTimestamp(bannerChannel);
     };
 
-    const onNotNowClick = (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onNotNowClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, notNowComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
@@ -112,64 +126,63 @@ export const GuardianWeeklyBanner: React.FC<BannerProps> = ({
         setChannelClosedTimestamp(bannerChannel);
     };
 
+    useEscapeShortcut(onCloseClick, []);
+
     return (
         <>
             {showBanner ? (
                 <section css={banner} data-target={bannerId}>
-                    <div css={contentContainer}>
-                        <div css={iconAndClosePosition}>
-                            <div css={iconAndCloseAlign}>
-                                <div css={logoContainer}>
-                                    <SvgRoundel />
+                    <Container>
+                        <Columns cssOverrides={columns} collapseBelow="tablet">
+                            <Column width={5 / 12} css={topLeftComponent}>
+                                <h3 css={heading}>{content?.heading}</h3>
+                                <p css={paragraph}>{content?.messageText}</p>
+                                <Inline space={3}>
+                                    <ThemeProvider theme={buttonReaderRevenue}>
+                                        <LinkButton
+                                            data-link-name={ctaComponentId}
+                                            onClick={onSubscribeClick}
+                                            href={subscriptionUrlWithTracking}
+                                        >
+                                            {content?.cta?.text || defaultCta}
+                                        </LinkButton>
+                                    </ThemeProvider>
+                                    <Button
+                                        priority="subdued"
+                                        data-link-name={notNowComponentId}
+                                        onClick={onNotNowClick}
+                                    >
+                                        {content?.secondaryCta?.text || defaultSecondaryCta}
+                                    </Button>
+                                </Inline>
+                                <div css={siteMessage}>
+                                    Already a subscriber?{' '}
+                                    <Link
+                                        data-link-name={signInComponentId}
+                                        onClick={onSignInClick}
+                                        href={signInUrl}
+                                        subdued
+                                    >
+                                        Sign in
+                                    </Link>{' '}
+                                    to not see this again
                                 </div>
-                                <CloseButton onClick={onCloseClick} />
-                            </div>
-                        </div>
-                        <div css={topLeftComponent}>
-                            <h3 css={heading}>{content?.heading}</h3>
-                            <p css={paragraph}>{content?.messageText}</p>
-                            <a
-                                data-link-name={ctaComponentId}
-                                css={linkStyle}
-                                onClick={onSubscribeClick}
-                            >
-                                <div css={becomeASubscriberButton}>
-                                    <span css={buttonTextDesktop}>
-                                        Become a Guardian Weekly subscriber
-                                    </span>
-                                    <span css={buttonTextMobileTablet}>Subscribe now</span>
+                            </Column>
+                            <Column cssOverrides={bottomRightComponent}>
+                                <div css={packShotContainer}>
+                                    <ResponsiveImage images={images} baseImage={baseImg} />
                                 </div>
-                            </a>
-                            <button
-                                data-link-name={notNowComponentId}
-                                css={notNowButton}
-                                onClick={onNotNowClick}
-                            >
-                                Not now
-                            </button>
-                            <div css={siteMessage}>
-                                Already a subscriber?{' '}
-                                <a
-                                    css={signInLink}
-                                    data-link-name={signInComponentId}
-                                    onClick={onSignInClick}
-                                >
-                                    Sign in
-                                </a>{' '}
-                                to not see this again
+                            </Column>
+                            <div css={iconAndClosePosition}>
+                                <Inline space={1}>
+                                    <div css={logoContainer}>
+                                        <SvgRoundel />
+                                    </div>
+                                    <CloseButton onClick={onCloseClick} />
+                                </Inline>
                             </div>
-                        </div>
-                        <div css={bottomRightComponent}>
-                            <div css={packShotContainer}>
-                                <img css={packShotTablet} src={tabletImage} alt="" />
-                                <img
-                                    css={packShotMobileAndDesktop}
-                                    src={mobileAndDesktopImg}
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                    </div>
+                        </Columns>
+                    </Container>
                 </section>
             ) : null}
         </>
