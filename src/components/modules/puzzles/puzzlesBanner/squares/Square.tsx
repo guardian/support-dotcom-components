@@ -82,23 +82,3 @@ export const Square: React.FC<SquareProps> = ({
         </div>
     );
 };
-
-export const Rectangle: React.FC<SquareProps> = ({
-    colour,
-    children,
-    cssOverrides,
-    removeBorder = [],
-}) => {
-    return (
-        <div
-            css={[
-                basicSquare,
-                squareColours[colour],
-                cssOverrides,
-                removeBorder.map(getBorderRemoval),
-            ]}
-        >
-            {children && <div css={squareContents}>{children}</div>}
-        </div>
-    );
-};
