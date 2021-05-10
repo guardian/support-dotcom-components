@@ -16,6 +16,13 @@ import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
+import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleCountOptOut';
+import {
+    addArticleCountOptOutCookie,
+    removeArticleCountFromLocalStorage,
+    removeArticleCountOptOutCookie,
+    hasArticleCountOptOutCookie,
+} from '../shared/helpers/articleCountOptOut';
 
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
@@ -211,6 +218,8 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     submitComponentEvent,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
+    const [hasOptedOut, setHasOptedOut] = useState(hasArticleCountOptOutCookie());
+
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
@@ -231,6 +240,17 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
+    const onArticleCountOptOut = () => {
+        setHasOptedOut(true);
+        addArticleCountOptOutCookie();
+        removeArticleCountFromLocalStorage();
+    };
+
+    const onArticleCountOptIn = () => {
+        setHasOptedOut(false);
+        removeArticleCountOptOutCookie();
+    };
+
     const ophanTracking: OphanTracking | undefined = submitComponentEvent && {
         submitComponentEvent,
         componentType: 'ACQUISITIONS_EPIC',
@@ -240,9 +260,15 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         <section css={wrapperStyles}>
             {variant.separateArticleCount?.type === 'above' && (
                 <div css={articleCountAboveContainerStyles}>
-                    <ContributionsEpicArticleCountAbove
+                    {/* <ContributionsEpicArticleCountAbove
                         numArticles={numArticles}
                         tracking={ophanTracking}
+                    /> */}
+                    <ContributionsEpicArticleCountOptOut
+                        numArticles={numArticles}
+                        isArticleCountOn={!hasOptedOut}
+                        onArticleCountOptOut={onArticleCountOptOut}
+                        onArticleCountOptIn={onArticleCountOptIn}
                     />
                 </div>
             )}

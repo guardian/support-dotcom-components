@@ -1,6 +1,6 @@
 // --- Imports --- //
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
@@ -42,10 +42,11 @@ const articleCountCtaStyles = css`
     ${textSans.small({ fontWeight: 'bold' })};
 `;
 
-const articleCountDescriptionTopContainer = css`
+const articleCountDescriptionTopContainerStyles = css`
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000;
     margin-top: ${space[2]}px;
+    position: relative;
 `;
 
 const articleCountDescriptionContainer = css`
@@ -80,38 +81,34 @@ const articleCountOptOutCtaStyles = css`
 const trackingSettingsContainerStyles = css`
     ${textSans.xsmall()};
     margin-top: ${space[4]}px;
-    margin-bottom: ${space[5]}px;
+    margin-bottom: ${space[2]}px;
 `;
 
 const privacySettingsLinkStyles = css`
     ${textSans.xsmall({ fontWeight: 'bold' })};
 `;
 
-const styles1 = css`
-    width: 10px;
+const style1 = css`
     position: absolute;
-    right: 15px;
-    top: -12px;
-`;
-const styles2 = css`
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 11px solid black;
-`;
-const styles3 = css`
-    margin-top: -10px;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 11px solid white;
-    right: 0;
+    right: 9px;
+    top: -20px;
 `;
 
-const articleCountOffWarningStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })};
-    color: ${palette.news[400]};
-    margin-left: ${space[1]}px;
+const style2 = css`
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid ${palette.neutral[20]};
 `;
 
+const style3 = css`
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid #000;
+    border-bottom: 10px solid ${palette.neutral[97]};
+    margin-top: -18.2px;
+`;
 // --- Types --- //
 
 interface Props {
@@ -121,6 +118,8 @@ interface Props {
 export interface ContributionsEpicArticleCountOptOutProps {
     numArticles: number;
     isArticleCountOn: boolean;
+    onArticleCountOptOut: () => void;
+    onArticleCountOptIn: () => void;
 }
 
 // -- Components -- //
@@ -137,10 +136,22 @@ export const ContributionsEpicArticleCountAbove: React.FC<Props> = ({ numArticle
 export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArticleCountOptOutProps> = ({
     numArticles,
     isArticleCountOn,
+    onArticleCountOptOut,
+    onArticleCountOptIn,
 }: ContributionsEpicArticleCountOptOutProps) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     const toggleButton = () => setIsOpen(!isOpen);
+
+    const onOptOut = () => {
+        toggleButton();
+        onArticleCountOptOut();
+    };
+
+    const onOptIn = () => {
+        toggleButton();
+        onArticleCountOptIn();
+    };
 
     return (
         <>
@@ -168,21 +179,20 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                     >
                         off
                     </ButtonLink>
-                    <div css={articleCountOffWarningStyles}>!</div>
                 </div>
             )}
             {isOpen && (
-                <div css={articleCountDescriptionTopContainer}>
-                    <div css={styles1}>
-                        <div css={styles2}></div>
-                        <div css={styles3}></div>
+                <div css={articleCountDescriptionTopContainerStyles}>
+                    <div css={style1}>
+                        <div css={style2}></div>
+                        <div css={style3}></div>
                     </div>
                     <div css={articleCountDescriptionContainer}>
                         {isArticleCountOn ? (
                             <>
                                 <div css={articleCountBodyTextStyles}>
                                     We are counting the number of Guardian articles you&apos;ve read
-                                    on this device. Can we continue showing your article count?
+                                    on this browser. Can we continue showing your article count?
                                 </div>
                                 <div css={articleCountCtasContainerStyles}>
                                     <Button
@@ -197,6 +207,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="tertiary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptOutCtaStyles}
+                                        onClick={onOptOut}
                                     >
                                         No, opt me out
                                     </Button>
@@ -206,7 +217,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                             <>
                                 <div css={articleCountBodyTextStyles}>
                                     We are no longer counting the number of Guardian articles
-                                    you&apos;ve read on this device. Can we start showing your
+                                    you&apos;ve read on this browser. Can we start showing your
                                     article count?
                                 </div>
                                 <div css={articleCountCtasContainerStyles}>
@@ -214,6 +225,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="primary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptInCtaStyles}
+                                        onClick={onOptIn}
                                     >
                                         Yes, opt me in
                                     </Button>

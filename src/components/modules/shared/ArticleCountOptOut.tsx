@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { addCookie } from '../../../lib/cookies';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
 import { OphanComponentEvent, OphanComponentType } from '../../../types/OphanTypes';
@@ -13,14 +12,10 @@ import {
     ophanComponentEventOptOutView,
 } from './helpers/ophan';
 import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-
-const ARTICLE_COUNT_OPT_OUT_COOKIE = {
-    name: 'gu_article_count_opt_out',
-    daysToLive: 90,
-};
-
-const DAILY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.dailyArticleCount';
-const WEEKLY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.weeklyArticleCount';
+import {
+    addArticleCountOptOutCookie,
+    removeArticleCountFromLocalStorage,
+} from './helpers/articleCountOptOut';
 
 export type ArticleCountOptOutType = 'epic' | 'banner' | 'global-eoy-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
@@ -111,18 +106,6 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
             tracking.submitComponentEvent(ophanComponentEventOptOutView(tracking.componentType));
         }
     }, [hasBeenSeen]);
-
-    const addArticleCountOptOutCookie = (): void =>
-        addCookie(
-            ARTICLE_COUNT_OPT_OUT_COOKIE.name,
-            new Date().getTime().toString(),
-            ARTICLE_COUNT_OPT_OUT_COOKIE.daysToLive,
-        );
-
-    const removeArticleCountFromLocalStorage = (): void => {
-        window.localStorage.removeItem(DAILY_ARTICLE_COUNT_STORAGE_KEY);
-        window.localStorage.removeItem(WEEKLY_ARTICLE_COUNT_STORAGE_KEY);
-    };
 
     const onOptOut = (): void => {
         addArticleCountOptOutCookie();
