@@ -136,7 +136,6 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
         }
-        window.location.href = signInUrl;
     };
 
     const MinimiseButton = (
@@ -214,6 +213,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 Already a subscriber?
                                 <br css={showOnDesktop} />{' '}
                                 <Link
+                                    href={signInUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     css={signInLink}
