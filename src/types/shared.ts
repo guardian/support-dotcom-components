@@ -10,3 +10,8 @@ export interface ArticlesViewedSettings {
     maxViews?: number;
     periodInWeeks: number;
 }
+
+export interface ControlProportionSettings {
+    proportion: number;
+    offset: number;
+}
