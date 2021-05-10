@@ -1,7 +1,7 @@
 import { TickerSettings } from '../lib/variants';
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
-import { ArticlesViewedSettings, WeeklyArticleHistory } from './shared';
+import { ArticlesViewedSettings, ControlProportionSettings, WeeklyArticleHistory } from './shared';
 
 // TODO - it may be worth sharing some types with Epic tests
 
@@ -94,6 +94,7 @@ export interface BannerTest {
     articlesViewedSettings?: ArticlesViewedSettings;
     audienceOffset?: number;
     audience?: number;
+    controlProportionSettings?: ControlProportionSettings;
 }
 
 // The result of selecting a test+variant for a user

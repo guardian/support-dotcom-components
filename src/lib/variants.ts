@@ -358,7 +358,11 @@ export const findTestAndVariant = (
     );
 
     if (test) {
-        const variant = selectVariant(test, targeting.mvtId || 1);
+        const variant = selectVariant(
+            test.variants,
+            targeting.mvtId || 1,
+            test.controlProportionSettings,
+        );
 
         const shouldThrottleVariant =
             !!variant.maxViews &&
