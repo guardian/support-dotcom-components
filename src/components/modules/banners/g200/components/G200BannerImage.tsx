@@ -12,6 +12,11 @@ const containerStyles = css`
         padding-bottom: 79.5%;
     }
 
+    // this block just targets ie
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        padding-bottom: 38.83%;
+    }
+
     img {
         position: absolute;
         width: 100%;
