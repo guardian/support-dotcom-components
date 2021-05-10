@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
-import { squareBorder } from '../puzzlesBannerStyles';
+import { squareBorder } from '../puzzlesStyleUtils';
 
 type SquareColour = 'white' | 'grey' | 'pink' | 'purple';
 

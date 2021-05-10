@@ -21,7 +21,7 @@ import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
 import { MinimisedBorderSquares } from './squares/MinimisedBorderSquares';
 import {
     appStoreButtonContainer,
-    banner,
+    puzzlesBanner,
     bannerContents,
     heading,
     headerFlex,
@@ -175,7 +175,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
 
     return (
         <CacheProvider value={emotionCache}>
-            <section css={[banner, isMinimised ? minimisedBanner : '']}>
+            <section css={[puzzlesBanner, isMinimised ? minimisedBanner : '']}>
                 <Container css={hideOnMinimise}>
                     <div css={[bannerContents, hideOnMinimise]}>
                         <div css={[headingSection, hideOnMinimise]}>

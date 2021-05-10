@@ -6,7 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
-import { squareBorder, squareBoxShadow } from '../puzzlesBannerStyles';
+import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 import { qrCode } from '../images';
 
 function desktopGridPlacement(row: number, column: number) {

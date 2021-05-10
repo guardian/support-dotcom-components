@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
-import { squareBorder, squareBoxShadow } from '../puzzlesBannerStyles';
+import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
