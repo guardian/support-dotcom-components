@@ -85,6 +85,7 @@ export const createTestsGeneratorForChannel = (
                             minPageViews: testParams.minArticlesBeforeShowingBanner,
                             articlesViewedSettings: testParams.articlesViewedSettings,
                             variants: testParams.variants.map(BannerVariantFromParams),
+                            controlProportionSettings: testParams.controlProportionSettings,
                         };
                     },
                 );

@@ -7,7 +7,11 @@ import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from './targeting';
 import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
 import { historyWithinArticlesViewedSettings } from './history';
 import { isRecentOneOffContributor } from './dates';
-import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
+import {
+    ArticlesViewedSettings,
+    ControlProportionSettings,
+    WeeklyArticleHistory,
+} from '../types/shared';
 import { ReminderFields } from './reminderFields';
 import { selectVariant } from './ab';
 import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
@@ -93,11 +97,6 @@ export interface Variant {
     // the test + variant. This means users **wont** fall through to a test
     // with lower priority.
     maxViews?: MaxViews;
-}
-
-interface ControlProportionSettings {
-    proportion: number;
-    offset: number;
 }
 
 export interface Test {
@@ -359,7 +358,11 @@ export const findTestAndVariant = (
     );
 
     if (test) {
-        const variant = selectVariant(test, targeting.mvtId || 1);
+        const variant = selectVariant(
+            test.variants,
+            targeting.mvtId || 1,
+            test.controlProportionSettings,
+        );
 
         const shouldThrottleVariant =
             !!variant.maxViews &&
