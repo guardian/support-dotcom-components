@@ -4,12 +4,9 @@ import { headline } from '@guardian/src-foundations/typography/cjs';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { breakpoints, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
+import { squareBorder } from './puzzlesStyleUtils';
 
-export const squareBorder = `2px solid ${neutral[0]}`;
-
-export const squareBoxShadow = '0px 6px 0px rgba(0, 0, 0, 0.25)';
-
-export const banner = css`
+export const puzzlesBanner = css`
     html {
         box-sizing: border-box;
     }
@@ -77,8 +74,9 @@ export const squaresContainer = css`
 `;
 
 export const headingSection = css`
-    max-width: 500px;
-    margin-right: ${space[6]}px;
+    ${from.tablet} {
+        margin-right: ${space[6]}px;
+    }
 `;
 
 export const heading = css`
@@ -86,11 +84,13 @@ export const heading = css`
     margin: 0 0 ${space[6]}px;
 
     ${until.mobileMedium} {
-        ${headline.medium({ fontWeight: 'bold' })}
+        display: inline-flex;
+        width: 70%;
+        ${headline.medium({ fontWeight: 'bold' })};
     }
 
     ${between.tablet.and.desktop} {
-        ${headline.small({ fontWeight: 'bold' })}
+        ${headline.small({ fontWeight: 'bold' })};
     }
 
     ${from.leftCol} {
@@ -109,11 +109,28 @@ export const appStoreButtonContainer = css`
         margin-bottom: ${space[2]}px;
     }
 
-    ${from.leftCol} {
+    ${from.tablet} {
         flex-direction: row;
 
         a:not(:last-of-type) {
-            margin-right: ${space[4]}px;
+            margin-right: ${space[2]}px;
+        }
+
+        img {
+            max-width: 90px;
+        }
+    }
+
+    ${from.desktop} {
+        img {
+            max-width: 138px;
+        }
+    }
+
+    ${from.leftCol} {
+        img {
+            max-width: 160px;
+            width: 160px;
         }
     }
 `;
@@ -131,13 +148,47 @@ export const minimiseButtonContainer = css`
 
 export const minimiseButton = css`
     border: none;
+    align-self: flex-end;
+    z-index: 20;
+`;
+
+export const minimiseButtonMin = css`
     background-color: ${neutral[97]};
     color: ${neutral[7]};
-    align-self: flex-end;
 
     &:hover {
-        background-color: ${neutral[7]};
+        background-color: ${neutral[46]};
         color: ${neutral[97]};
+    }
+`;
+
+export const minimiseButtonMax = css`
+    background-color: ${neutral[97]};
+    color: ${neutral[7]};
+
+    ${from.tablet} {
+        background-color: ${neutral[20]};
+        color: ${neutral[100]};
+    }
+
+    &:hover {
+        background-color: ${neutral[46]};
+    }
+`;
+
+export const headerFlex = css`
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+`;
+
+export const mobileMinimiseButton = css`
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: ${space[3]}px;
+
+    ${from.tablet} {
+        display: none;
     }
 `;
 
@@ -196,13 +247,13 @@ export const minimisedBanner = css`
     position: absolute;
     right: 0;
     bottom: 0;
-    height: 136px;
+    height: 62px;
     width: auto;
     border-right: none;
     transition: width 1s;
 
     ${from.mobileLandscape} {
-        height: 176px;
+        height: 65px;
     }
 
     /* Maintain a right-hand offset that matches the edge of the main container */
@@ -225,17 +276,54 @@ export const minimisedBanner = css`
 `;
 
 const minimisedContainerSize = {
-    mobile: 132,
-    tablet: 172,
+    mobile: {
+        width: 132,
+        height: 62,
+    },
+    tablet: {
+        width: 145,
+        height: 64,
+    },
 };
 
 export const minimisedContentContainer = css`
     position: relative;
-    width: ${minimisedContainerSize.mobile}px;
-    height: ${minimisedContainerSize.mobile}px;
+    width: ${minimisedContainerSize.mobile.width}px;
+    height: ${minimisedContainerSize.mobile.height}px;
 
     ${from.mobileLandscape} {
-        width: ${minimisedContainerSize.tablet}px;
-        height: ${minimisedContainerSize.tablet}px;
+        width: ${minimisedContainerSize.tablet.width}px;
+        height: ${minimisedContainerSize.tablet.height}px;
+    }
+`;
+
+export const siteMessage = css`
+    ${textSans.small()};
+    position: absolute;
+    bottom: 20px;
+
+    ${until.tablet} {
+        z-index: 30;
+    }
+
+    ${until.desktop} {
+        ${textSans.xsmall()};
+    }
+`;
+
+export const signInLink = css`
+    font-weight: bold;
+    font-size: inherit;
+    color: inherit;
+    text-decoration: none;
+    :hover {
+        color: inherit;
+    }
+`;
+
+export const showOnDesktop = css`
+    display: none;
+    ${between.tablet.and.leftCol} {
+        display: block;
     }
 `;
