@@ -1,9 +1,5 @@
 import { Factory } from 'fishery';
-import {
-    EpicTestTracking,
-    EpicPageTracking,
-    EpicTracking,
-} from '../types/EpicTypes';
+import { EpicTestTracking, EpicPageTracking, EpicTracking } from '../types/EpicTypes';
 
 export const pageTracking = Factory.define<EpicPageTracking>(() => ({
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',

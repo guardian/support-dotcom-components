@@ -1,8 +1,4 @@
-import {
-    EpicTargeting,
-    EpicType,
-    ViewLog,
-} from '../types/EpicTypes';
+import { EpicTargeting, EpicType, ViewLog } from '../types/EpicTypes';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];

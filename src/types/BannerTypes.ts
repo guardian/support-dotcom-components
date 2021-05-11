@@ -1,7 +1,8 @@
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
 import {
-    ArticlesViewedSettings, Audience,
+    ArticlesViewedSettings,
+    Audience,
     Cta,
     Test,
     TickerSettings,
