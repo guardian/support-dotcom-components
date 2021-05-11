@@ -233,7 +233,7 @@ export const findTestAndVariant = (
     );
 
     if (test) {
-        const variant = selectVariant(test, targeting.mvtId || 1);
+        const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
         const shouldThrottleVariant =
             !!variant.maxViews &&

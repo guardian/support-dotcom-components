@@ -8,6 +8,7 @@ import {
     TickerSettings,
     Variant,
     WeeklyArticleHistory,
+    ControlProportionSettings,
 } from './shared';
 
 export type BannerTargeting = {
@@ -89,6 +90,7 @@ export interface BannerTest extends Test<BannerVariant> {
     articlesViewedSettings?: ArticlesViewedSettings;
     audienceOffset?: number;
     audience?: number;
+    controlProportionSettings?: ControlProportionSettings;
 }
 
 // The result of selecting a test+variant for a user
@@ -139,4 +141,5 @@ export interface RawTestParams {
     locations: CountryGroupId[];
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;
+    controlProportionSettings?: ControlProportionSettings;
 }

@@ -4,6 +4,7 @@ export interface Variant {
 export interface Test<V extends Variant> {
     name: string;
     variants: V[];
+    controlProportionSettings?: ControlProportionSettings;
 }
 
 export interface Cta {
@@ -55,4 +56,9 @@ export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;
     periodInWeeks: number;
+}
+
+export interface ControlProportionSettings {
+    proportion: number;
+    offset: number;
 }

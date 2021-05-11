@@ -3,8 +3,7 @@ import {
     BannerTargeting,
     BannerTestSelection,
     BannerChannel,
-    BannerTest,
-    BannerVariant,
+    BannerTest, BannerVariant,
 } from '../../types/BannerTypes';
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
@@ -12,6 +11,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
 import { Audience } from '../../types/shared';
+import { selectVariant } from '../../lib/ab';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -131,7 +131,7 @@ export const selectBannerTest = async (
             userIsInTest(test, targeting.mvtId) &&
             (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches))
         ) {
-            const variant = test.variants[targeting.mvtId % test.variants.length] as BannerVariant;
+            const variant: BannerVariant = selectVariant(test, targeting.mvtId);
             const bannerTestSelection = {
                 test,
                 variant,
