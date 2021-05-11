@@ -5,10 +5,12 @@ import {
     EpicPageTracking,
     EpicProps,
     EpicTargeting,
+    EpicTest,
     EpicTestTracking,
     EpicType,
-} from './components/modules/epics/ContributionsEpicTypes';
-import { Debug, findTestAndVariant, findForcedTestAndVariant, Variant, Test } from './lib/variants';
+    EpicVariant,
+} from './types/EpicTypes';
+import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import { Params } from './lib/params';
@@ -48,7 +50,7 @@ interface EpicDataResponse {
             url: string;
             props: EpicProps;
         };
-        variant: Variant;
+        variant: EpicVariant;
         meta: EpicTestTracking;
     };
     debug?: Debug;
@@ -107,7 +109,7 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<Test[]> => {
+const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
     try {
         const [regular, holdback] = await Promise.all([
             fetchConfiguredArticleEpicTestsCached(),
@@ -131,7 +133,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
     }
 };
 
-const getLiveblogEpicTests = async (): Promise<Test[]> => {
+const getLiveblogEpicTests = async (): Promise<EpicTest[]> => {
     const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
     return [...configuredTests.tests];
 };

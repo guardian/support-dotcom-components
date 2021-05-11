@@ -1,7 +1,6 @@
 import {
     findTestAndVariant,
     getUserCohorts,
-    Test,
     hasCountryCode,
     matchesCountryGroups,
     hasSectionOrTags,
@@ -12,12 +11,11 @@ import {
     withinArticleViewedSettings,
     userInTest,
     isNotExpired,
-    SecondaryCtaType,
-} from './variants';
-import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
-import { withNowAs } from '../utils/withNowAs';
+} from './epicSelection';
+import { EpicTargeting, EpicTest, SecondaryCtaType } from '../../types/EpicTypes';
+import { withNowAs } from '../../utils/withNowAs';
 
-const testDefault: Test = {
+const testDefault: EpicTest = {
     name: 'example-1',
     isOn: true,
     locations: [],
@@ -126,7 +124,7 @@ describe('findTestAndVariant', () => {
     });
 
     it('should not return showReminderFields if user is a supporter', () => {
-        const testWithoutArticlesViewedSettings: Test = {
+        const testWithoutArticlesViewedSettings: EpicTest = {
             ...testDefault,
             articlesViewedSettings: undefined,
             userCohort: 'AllExistingSupporters',
@@ -213,7 +211,7 @@ describe('getUserCohort', () => {
 
 describe('hasCountryCode filter', () => {
     it('should fail when country name is invalid/unknown', () => {
-        const test: Test = { ...testDefault, hasCountryName: true };
+        const test: EpicTest = { ...testDefault, hasCountryName: true };
         const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'UK' };
 
         const got = hasCountryCode.test(test, targeting);
@@ -222,7 +220,7 @@ describe('hasCountryCode filter', () => {
     });
 
     it('should pass when country name is valid', () => {
-        const test: Test = { ...testDefault, hasCountryName: true };
+        const test: EpicTest = { ...testDefault, hasCountryName: true };
         const targeting: EpicTargeting = { ...targetingDefault, countryCode: 'GB' };
 
         const got = hasCountryCode.test(test, targeting);
@@ -231,7 +229,7 @@ describe('hasCountryCode filter', () => {
     });
 
     it('should pass when country name irrelevant if test doesnt need it', () => {
-        const test: Test = { ...testDefault, hasCountryName: false };
+        const test: EpicTest = { ...testDefault, hasCountryName: false };
         const targeting: EpicTargeting = { ...targetingDefault, countryCode: undefined };
 
         const got = hasCountryCode.test(test, targeting);
@@ -261,7 +259,7 @@ describe('userInTest filter', () => {
 
 describe('inCorrectCohort filter', () => {
     it('should pass when overlapping cohorts', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             userCohort: 'AllNonSupporters',
         };
@@ -277,7 +275,7 @@ describe('inCorrectCohort filter', () => {
     });
 
     it('should fail when no overlapping cohorts', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             userCohort: 'AllExistingSupporters',
         };
@@ -291,7 +289,7 @@ describe('inCorrectCohort filter', () => {
 
 describe('hasSectionOrTags filter', () => {
     it('should pass if section matches', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             sections: ['environment'],
         };
@@ -306,7 +304,7 @@ describe('hasSectionOrTags filter', () => {
     });
 
     it('should fail if section does not match and no tags defined', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             sections: ['environment'],
         };
@@ -327,7 +325,7 @@ describe('hasSectionOrTags filter', () => {
                 type: 'tone',
             },
         ];
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             sections: ['environment'],
             tagIds: tags.map(tag => tag.id),
@@ -350,7 +348,7 @@ describe('hasSectionOrTags filter', () => {
                 type: 'tone',
             },
         ];
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             sections: ['environment'],
             tagIds: tags.map(tag => tag.id),
@@ -372,7 +370,7 @@ describe('hasSectionOrTags filter', () => {
     });
 
     it('should pass if no section or tag requirements', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             sections: [],
             tagIds: [],
@@ -390,7 +388,7 @@ describe('hasSectionOrTags filter', () => {
 
 describe('excludeSection filter', () => {
     it('should pass if section is not in the blacklist', () => {
-        const test: Test = { ...testDefault, excludedSections: ['environment'] };
+        const test: EpicTest = { ...testDefault, excludedSections: ['environment'] };
         const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'football' };
 
         const got = excludeSection.test(test, targeting);
@@ -399,7 +397,7 @@ describe('excludeSection filter', () => {
     });
 
     it('should fail if section is in the blacklist', () => {
-        const test: Test = { ...testDefault, excludedSections: ['environment'] };
+        const test: EpicTest = { ...testDefault, excludedSections: ['environment'] };
         const targeting: EpicTargeting = { ...targetingDefault, sectionName: 'environment' };
 
         const got = excludeSection.test(test, targeting);
@@ -410,7 +408,7 @@ describe('excludeSection filter', () => {
 
 describe('excludeTags filter', () => {
     it('should pass if no tags in the blacklist', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             excludedTagIds: ['football/football'],
         };
@@ -426,7 +424,7 @@ describe('excludeTags filter', () => {
 
     it('should fail if at least one tag in the blacklist', () => {
         const tags = [{ id: 'football/football', type: 'tone' }];
-        const test: Test = { ...testDefault, excludedTagIds: ['football/football'] };
+        const test: EpicTest = { ...testDefault, excludedTagIds: ['football/football'] };
         const targeting: EpicTargeting = { ...targetingDefault, tags: tags };
 
         const got = excludeTags.test(test, targeting);
@@ -448,7 +446,7 @@ describe('matchesCountryGroups filter', () => {
     });
 
     it('should fail if location is set but user location unknown', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             locations: ['GBPCountries'],
         };
@@ -463,7 +461,7 @@ describe('matchesCountryGroups filter', () => {
     });
 
     it('should pass if user in country group', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
         };
@@ -478,7 +476,7 @@ describe('matchesCountryGroups filter', () => {
     });
 
     it('should fail if user not in country group', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             locations: ['EURCountries'],
         };
@@ -523,7 +521,7 @@ describe('withinArticleViewedSettings filter', () => {
     });
 
     it('should pass when below (or at) max articles viewed', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             articlesViewedSettings: {
                 minViews: 5,
@@ -544,7 +542,7 @@ describe('withinArticleViewedSettings filter', () => {
     });
 
     it('should fail when above max articles viewed', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             articlesViewedSettings: {
                 minViews: 5,
@@ -565,7 +563,7 @@ describe('withinArticleViewedSettings filter', () => {
     });
 
     it('should pass when no article viewed settings', () => {
-        const test: Test = {
+        const test: EpicTest = {
             ...testDefault,
             articlesViewedSettings: undefined,
         };

@@ -1,9 +1,15 @@
-import { TickerSettings } from '../lib/variants';
 import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
-import { ArticlesViewedSettings, ControlProportionSettings, WeeklyArticleHistory } from './shared';
-
-// TODO - it may be worth sharing some types with Epic tests
+import {
+    ArticlesViewedSettings,
+    Audience,
+    Cta,
+    Test,
+    TickerSettings,
+    Variant,
+    WeeklyArticleHistory,
+    ControlProportionSettings,
+} from './shared';
 
 export type BannerTargeting = {
     alreadyVisitedCount: number;
@@ -41,11 +47,6 @@ export type BannerDataRequestPayload = {
     targeting: BannerTargeting;
 };
 
-export interface Cta {
-    text: string;
-    baseUrl: string;
-}
-
 export interface BannerContent {
     heading?: string;
     messageText: string;
@@ -62,7 +63,7 @@ export enum BannerTemplate {
     G200Banner = 'G200Banner',
 }
 
-export interface BannerVariant {
+export interface BannerVariant extends Variant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePathBuilder: (version?: string) => string;
@@ -75,18 +76,13 @@ export interface BannerVariant {
 
 export type BannerChannel = 'contributions' | 'subscriptions';
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
-export type BannerAudience =
-    | 'AllExistingSupporters'
-    | 'AllNonSupporters'
-    | 'Everyone'
-    | 'PostAskPauseSingleContributors';
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
-export interface BannerTest {
+export interface BannerTest extends Test<BannerVariant> {
     name: string;
     bannerChannel: BannerChannel;
-    testAudience: BannerAudience;
+    testAudience: Audience;
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
@@ -141,7 +137,7 @@ export interface RawTestParams {
     nickname: string;
     isOn: boolean;
     minArticlesBeforeShowingBanner: number;
-    userCohort: BannerAudience;
+    userCohort: Audience;
     locations: CountryGroupId[];
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;

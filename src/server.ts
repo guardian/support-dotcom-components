@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
-import { EpicType } from './components/modules/epics/ContributionsEpicTypes';
+import { EpicType } from './types/EpicTypes';
 import cors from 'cors';
 import { validateBannerPayload, validateEpicPayload } from './lib/validation';
 import { buildAmpEpicCampaignCode } from './lib/tracking';

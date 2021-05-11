@@ -1,7 +1,7 @@
-import { Test } from './variants';
 import { selectVariant, withinRange } from './ab';
+import { EpicTest } from '../types/EpicTypes';
 
-const test: Test = {
+const test: EpicTest = {
     name: 'example-1',
     isOn: true,
     locations: [],
@@ -43,32 +43,32 @@ const controlProportionSettings = {
 
 describe('selectVariant', () => {
     it('should select control (no controlProportion)', () => {
-        const variant = selectVariant(test.variants, 0);
+        const variant = selectVariant(test, 0);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (no controlProportion)', () => {
-        const variant = selectVariant(test.variants, 1);
+        const variant = selectVariant(test, 1);
         expect(variant.name).toBe('v1');
     });
 
     it('should select control (lower end of controlProportion)', () => {
-        const variant = selectVariant(test.variants, 500000, controlProportionSettings);
+        const variant = selectVariant({ ...test, controlProportionSettings }, 500000);
         expect(variant.name).toBe('control');
     });
 
     it('should select control (upper end of controlProportion)', () => {
-        const variant = selectVariant(test.variants, 599999, controlProportionSettings);
+        const variant = selectVariant({ ...test, controlProportionSettings }, 599999);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (below controlProportion)', () => {
-        const variant = selectVariant(test.variants, 499999, controlProportionSettings);
+        const variant = selectVariant({ ...test, controlProportionSettings }, 499999);
         expect(variant.name).toBe('v1');
     });
 
     it('should select variant (above controlProportion)', () => {
-        const variant = selectVariant(test.variants, 600000, controlProportionSettings);
+        const variant = selectVariant({ ...test, controlProportionSettings }, 600000);
         expect(variant.name).toBe('v1');
     });
 });

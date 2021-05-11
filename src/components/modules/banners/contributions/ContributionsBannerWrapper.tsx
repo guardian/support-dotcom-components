@@ -5,13 +5,14 @@ import {
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
 import React from 'react';
-import { BannerContent, BannerProps, Cta } from '../../../../types/BannerTypes';
+import { BannerContent, BannerProps } from '../../../../types/BannerTypes';
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../../lib/placeholders';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
+import { Cta } from '../../../../types/shared';
 
 const bannerId = 'contributions-banner';
 const closeComponentId = `${bannerId} : close`;

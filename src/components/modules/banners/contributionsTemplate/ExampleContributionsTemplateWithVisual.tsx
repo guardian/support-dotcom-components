@@ -13,7 +13,7 @@ import ContributionsTemplateBody from './ContributionsTemplateBody';
 import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { TickerSettings } from '../../../../lib/variants';
+import { TickerSettings } from '../../../../types/shared';
 
 const closeButtonStyles = css`
     color: ${neutral[7]};

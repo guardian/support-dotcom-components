@@ -13,7 +13,7 @@ const compilerOptions = {
 };
 
 const program = TJS.getProgramFromFiles(
-    [path.resolve('./src/components/modules/epics/ContributionsEpicTypes.ts')],
+    [path.resolve('./src/types/EpicTypes.ts')],
     compilerOptions,
     basePath,
 );

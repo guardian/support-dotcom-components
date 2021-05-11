@@ -1,8 +1,8 @@
 import { selectAmpEpicTestAndVariant } from './ampEpicTests';
 import { CountryGroupId } from '../../lib/geolocation';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
-import { TickerCountType, TickerEndType } from '../../lib/variants';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import { TickerCountType, TickerEndType } from '../../types/shared';
 
 jest.mock('../../lib/fetchTickerData', () => {
     return {

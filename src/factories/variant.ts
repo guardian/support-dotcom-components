@@ -1,7 +1,7 @@
 import { Factory } from 'fishery';
-import { Variant } from '../lib/variants';
+import { EpicVariant } from '../types/EpicTypes';
 
-export default Factory.define<Variant>(() => ({
+export default Factory.define<EpicVariant>(() => ({
     name: 'Example Variant',
     heading: 'Since you’re here...',
     paragraphs: [
