@@ -3,7 +3,8 @@ import {
     BannerTargeting,
     BannerTestSelection,
     BannerChannel,
-    BannerTest, BannerVariant,
+    BannerTest,
+    BannerVariant,
 } from '../../types/BannerTypes';
 import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
