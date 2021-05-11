@@ -100,6 +100,7 @@ export type EpicProps = {
     onReminderOpen?: Function;
     email?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    openCmp?: () => void;
 };
 
 type HighlightedProps = {
@@ -216,6 +217,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     onReminderOpen,
     email,
     submitComponentEvent,
+    openCmp,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(hasArticleCountOptOutCookie());
@@ -269,6 +271,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                         isArticleCountOn={!hasOptedOut}
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}
+                        openCmp={openCmp}
                     />
                 </div>
             )}

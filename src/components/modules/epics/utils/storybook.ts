@@ -49,4 +49,6 @@ const tracking: EpicTracking = {
     ...testTracking,
 };
 
-export const props: EpicProps = { variant, tracking, numArticles: 0 };
+const openCmp = (): void => console.log('open cmp');
+
+export const props: EpicProps = { variant, tracking, numArticles: 0, openCmp };

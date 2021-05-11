@@ -1,6 +1,6 @@
 // --- Imports --- //
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
@@ -120,6 +120,7 @@ export interface ContributionsEpicArticleCountOptOutProps {
     isArticleCountOn: boolean;
     onArticleCountOptOut: () => void;
     onArticleCountOptIn: () => void;
+    openCmp?: () => void;
 }
 
 // -- Components -- //
@@ -138,6 +139,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     isArticleCountOn,
     onArticleCountOptOut,
     onArticleCountOptIn,
+    openCmp,
 }: ContributionsEpicArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -243,9 +245,13 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                     </div>
                     <div css={trackingSettingsContainerStyles}>
                         To opt out of other tracking activity, manage your{' '}
-                        <Link priority="secondary" cssOverrides={privacySettingsLinkStyles}>
+                        <ButtonLink
+                            priority="secondary"
+                            cssOverrides={privacySettingsLinkStyles}
+                            onClick={openCmp}
+                        >
                             Privacy Settings
-                        </Link>
+                        </ButtonLink>
                     </div>
                 </div>
             )}
