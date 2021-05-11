@@ -145,4 +145,5 @@ export interface RawTestParams {
     locations: CountryGroupId[];
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;
+    controlProportionSettings?: ControlProportionSettings;
 }
