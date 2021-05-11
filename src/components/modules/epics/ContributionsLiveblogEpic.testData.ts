@@ -3,7 +3,7 @@ import {
     EpicPageTracking,
     EpicTracking,
     EpicTargeting,
-} from './ContributionsEpicTypes';
+} from '../../../types/EpicTypes';
 
 const content = {
     paragraphs: [

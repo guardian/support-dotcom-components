@@ -10,8 +10,7 @@ import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
 } from '../../../lib/placeholders';
-import { EpicTracking } from './ContributionsEpicTypes';
-import { Variant } from '../../../lib/variants';
+import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 
@@ -176,7 +175,7 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
 };
 
 interface LiveblogEpicProps {
-    variant: Variant;
+    variant: EpicVariant;
     tracking: EpicTracking;
     countryCode?: string;
     numArticles: number;

@@ -1,6 +1,6 @@
-import { SecondaryCtaType, Test } from '../../lib/variants';
+import { EpicTest, SecondaryCtaType } from '../../types/EpicTypes';
 
-export const fallbackEpicTest: Test = {
+export const fallbackEpicTest: EpicTest = {
     name: 'FallbackEpicTest',
     isOn: true,
     locations: [],

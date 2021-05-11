@@ -1,6 +1,6 @@
-import { EpicTests } from '../lib/variants';
 import { isProd } from '../lib/env';
 import { fetchS3Data } from '../utils/S3';
+import { EpicTests } from '../types/EpicTypes';
 
 type EpicTestList = 'ARTICLE' | 'ARTICLE_HOLDBACK' | 'LIVEBLOG';
 

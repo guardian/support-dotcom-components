@@ -3,7 +3,6 @@ import {
     BannerTargeting,
     BannerTestSelection,
     BannerChannel,
-    BannerAudience,
     BannerTest,
     BannerVariant,
 } from '../../types/BannerTypes';
@@ -12,6 +11,7 @@ import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
+import { Audience } from '../../types/shared';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -64,7 +64,7 @@ export const redeployedSinceLastClosed = (
     return Promise.resolve(true);
 };
 
-const audienceMatches = (showSupportMessaging: boolean, testAudience: BannerAudience): boolean => {
+const audienceMatches = (showSupportMessaging: boolean, testAudience: Audience): boolean => {
     switch (testAudience) {
         case 'AllNonSupporters':
             return showSupportMessaging;

@@ -1,11 +1,5 @@
-// TODO - share with banner/epic!
 import { OphanComponentType } from './OphanTypes';
-
-type Audience =
-    | 'AllExistingSupporters'
-    | 'AllNonSupporters'
-    | 'Everyone'
-    | 'PostAskPauseSingleContributors';
+import { Audience, Test, Variant } from './shared';
 
 interface Cta {
     url: string;
@@ -19,13 +13,13 @@ interface HeaderContent {
     secondaryCta?: Cta;
 }
 
-interface HeaderVariant {
+interface HeaderVariant extends Variant {
     name: string;
     content: HeaderContent;
     modulePathBuilder: (version?: string) => string;
 }
 
-export interface HeaderTest {
+export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
     audience: Audience;
     variants: HeaderVariant[];

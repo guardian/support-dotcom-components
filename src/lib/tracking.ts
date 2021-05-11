@@ -1,5 +1,4 @@
-import { EpicTracking } from '../components/modules/epics/ContributionsEpicTypes';
-import { Test, Variant } from '../lib/variants';
+import { EpicTest, EpicTracking, EpicVariant } from '../types/EpicTypes';
 import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
 import { OphanAction, OphanComponentEvent } from '../types/OphanTypes';
 import { addRegionIdToSupportUrl } from './geolocation';
@@ -58,7 +57,7 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
 
 const campaignPrefix = 'gdnwb_copts_memco';
 
-export const buildCampaignCode = (test: Test, variant: Variant): string =>
+export const buildCampaignCode = (test: EpicTest, variant: EpicVariant): string =>
     `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;
 
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>

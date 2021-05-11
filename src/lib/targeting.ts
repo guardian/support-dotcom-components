@@ -2,7 +2,7 @@ import {
     EpicTargeting,
     EpicType,
     ViewLog,
-} from '../components/modules/epics/ContributionsEpicTypes';
+} from '../types/EpicTypes';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];

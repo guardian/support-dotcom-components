@@ -1,4 +1,4 @@
-import { Test, Variant } from './variants';
+import { EpicTest, EpicVariant } from '../types/EpicTypes';
 
 const maxMvt = 1000000;
 
@@ -17,7 +17,7 @@ export const withinRange = (lower: number, proportion: number, mvtId: number): b
  * If controlProportionSettings is set then we use this to define the range of mvt values for the control variant.
  * Otherwise we evenly distribute all variants across maxMvt.
  */
-export const selectVariant = (test: Test, mvtId: number): Variant => {
+export const selectVariant = (test: EpicTest, mvtId: number): EpicVariant => {
     const control = test.variants.find(v => v.name.toLowerCase() === 'control');
     if (test.controlProportionSettings && control) {
         if (
@@ -30,9 +30,9 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
             return control;
         } else {
             const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
-            return otherVariants[mvtId % otherVariants.length] as Variant;
+            return otherVariants[mvtId % otherVariants.length] as EpicVariant;
         }
     }
 
-    return test.variants[mvtId % test.variants.length] as Variant;
+    return test.variants[mvtId % test.variants.length] as EpicVariant;
 };
