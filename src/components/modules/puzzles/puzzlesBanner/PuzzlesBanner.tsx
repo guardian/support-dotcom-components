@@ -130,8 +130,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         onMinimiseClick(stateChange);
     }
 
-    const onSignInClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
-        evt.preventDefault();
+    const onSignInClick = (): void => {
         const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
         if (submitComponentEvent) {
             submitComponentEvent(componentClickEvent);
