@@ -7,7 +7,7 @@ const OPHAN_COMPONENT_ID_REMINDER_CLOSE = 'contributions-epic-reminder-close';
 
 export const getReminderViewEvent = (isSignedIn: boolean): OphanComponentEvent => ({
     component: {
-        componentType: 'ACQUISITIONS_EPIC',
+        componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_REMINDER_VIEW,
     },
     action: 'VIEW',
@@ -16,7 +16,7 @@ export const getReminderViewEvent = (isSignedIn: boolean): OphanComponentEvent =
 
 export const OPHAN_COMPONENT_EVENT_REMINDER_OPEN: OphanComponentEvent = {
     component: {
-        componentType: 'ACQUISITIONS_EPIC',
+        componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_REMINDER_OPEN,
     },
     action: 'CLICK',
@@ -24,7 +24,7 @@ export const OPHAN_COMPONENT_EVENT_REMINDER_OPEN: OphanComponentEvent = {
 
 export const OPHAN_COMPONENT_EVENT_REMINDER_SET: OphanComponentEvent = {
     component: {
-        componentType: 'ACQUISITIONS_EPIC',
+        componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_REMINDER_SET,
     },
     action: 'CLICK',
@@ -32,7 +32,7 @@ export const OPHAN_COMPONENT_EVENT_REMINDER_SET: OphanComponentEvent = {
 
 export const OPHAN_COMPONENT_EVENT_REMINDER_CLOSE: OphanComponentEvent = {
     component: {
-        componentType: 'ACQUISITIONS_EPIC',
+        componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_REMINDER_CLOSE,
     },
     action: 'CLICK',
