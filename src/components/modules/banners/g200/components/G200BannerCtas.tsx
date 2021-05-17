@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
