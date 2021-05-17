@@ -3,21 +3,21 @@ import { SerializedStyles } from '@emotion/utils';
 import { BannerTextContent } from './types';
 import { BannerContentRenderer } from './BannerContentRenderer';
 
-type BannerContentStyleableAreas = 'container' | 'heading' | 'body' | 'copy' | 'highlightedText';
+type BannerTextStyleableAreas = 'container' | 'heading' | 'body' | 'copy' | 'highlightedText';
 
-type BannerContentStyles = {
-    [key in BannerContentStyleableAreas]?: SerializedStyles | SerializedStyles[];
+type BannerTextStyles = {
+    [key in BannerTextStyleableAreas]?: SerializedStyles | SerializedStyles[];
 };
 
-type BannerContentProps = {
+type BannerTextProps = {
     content: BannerTextContent;
     styles: {
-        mobile?: BannerContentStyles;
-        desktop: BannerContentStyles;
+        mobile?: BannerTextStyles;
+        desktop: BannerTextStyles;
     };
 };
 
-export const BannerText: React.FC<BannerContentProps> = ({ styles, content }) => {
+export const BannerText: React.FC<BannerTextProps> = ({ styles, content }) => {
     const mobileStyles = styles.mobile || styles.desktop;
     const desktopStyles = styles.desktop;
 

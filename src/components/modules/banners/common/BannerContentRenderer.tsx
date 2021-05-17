@@ -2,17 +2,20 @@ import React from 'react';
 import { BannerTextContent, BannerRenderedContent } from './types';
 import { Hide } from '@guardian/src-layout';
 
-type BannerBreakpointContent = {
+type BannerContentForRender = {
     renderContent: BannerRenderedContent;
     isMobile: boolean;
 };
 
-type BannerCtaProps = {
+type BannerContentRendererProps = {
     content: BannerTextContent;
-    render: (breakpointContent: BannerBreakpointContent) => JSX.Element;
+    render: (breakpointContent: BannerContentForRender) => JSX.Element;
 };
 
-export const BannerContentRenderer: React.FC<BannerCtaProps> = ({ content, render }) => {
+export const BannerContentRenderer: React.FC<BannerContentRendererProps> = ({
+    content,
+    render,
+}) => {
     const { mainContent } = content;
     const mobileContent = content.mobileContent || mainContent;
 
