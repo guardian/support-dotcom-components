@@ -41,6 +41,10 @@ export const defaultStory = (): ReactElement => {
             'mobileMessageText',
             'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
         ),
+        secondaryCta: {
+            text: 'Hide this',
+            baseUrl: '',
+        },
     };
 
     const props: BannerProps = {

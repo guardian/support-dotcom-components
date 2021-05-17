@@ -24,7 +24,8 @@ import {
     closeButtonContainer,
 } from './digitalSubscriptionsBannerStyles';
 import { ResponsiveImage } from '../../../ResponsiveImage';
-import { BannerContent } from '../common/BannerContent';
+import { BannerText } from '../common/BannerText';
+import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import bannerWrapper from '../common/BannerWrapper';
 
@@ -77,7 +78,7 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
             <Container>
                 <Columns cssOverrides={columns} collapseBelow="tablet">
                     <Column cssOverrides={topLeftComponent} width={7 / 12}>
-                        <BannerContent
+                        <BannerText
                             styles={{
                                 desktop: {
                                     heading,
@@ -86,26 +87,33 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                             }}
                             content={content}
                         />
-                        <Inline space={3}>
-                            <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
-                                    href={content.mainContent.primaryCta?.ctaUrl}
-                                    onClick={onCtaClick}
-                                >
-                                    {content.mainContent.primaryCta?.ctaText || fallbackCta}
-                                </LinkButton>
-                            </ThemeProvider>
-                            <ThemeProvider theme={buttonBrand}>
-                                <Button
-                                    priority="subdued"
-                                    data-link-name={notNowComponentId}
-                                    onClick={onCloseClick}
-                                >
-                                    {content.mainContent.secondaryCta?.ctaText ||
-                                        fallbackSecondaryCta}
-                                </Button>
-                            </ThemeProvider>
-                        </Inline>
+                        <BannerContentRenderer
+                            content={content}
+                            render={({ renderContent }) => {
+                                return (
+                                    <Inline space={3}>
+                                        <ThemeProvider theme={buttonReaderRevenue}>
+                                            <LinkButton
+                                                href={renderContent.primaryCta?.ctaUrl}
+                                                onClick={onCtaClick}
+                                            >
+                                                {renderContent.primaryCta?.ctaText || fallbackCta}
+                                            </LinkButton>
+                                        </ThemeProvider>
+                                        <ThemeProvider theme={buttonBrand}>
+                                            <Button
+                                                priority="subdued"
+                                                data-link-name={notNowComponentId}
+                                                onClick={onCloseClick}
+                                            >
+                                                {renderContent.secondaryCta?.ctaText ||
+                                                    fallbackSecondaryCta}
+                                            </Button>
+                                        </ThemeProvider>
+                                    </Inline>
+                                );
+                            }}
+                        />
                         <div css={siteMessage}>
                             Already a subscriber?{' '}
                             <ThemeProvider theme={linkBrand}>

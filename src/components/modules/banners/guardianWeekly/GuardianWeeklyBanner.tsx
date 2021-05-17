@@ -18,7 +18,8 @@ import {
     packShotContainer,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../../ResponsiveImage';
-import { BannerContent } from '../common/BannerContent';
+import { BannerText } from '../common/BannerText';
+import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import bannerWrapper from '../common/BannerWrapper';
 
@@ -86,7 +87,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
             <Container>
                 <Columns cssOverrides={columns} collapseBelow="tablet">
                     <Column width={5 / 12} css={topLeftComponent}>
-                        <BannerContent
+                        <BannerText
                             styles={{
                                 desktop: {
                                     heading,
@@ -95,24 +96,32 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                             }}
                             content={content}
                         />
-                        <Inline space={3}>
-                            <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
-                                    data-link-name={ctaComponentId}
-                                    onClick={onCtaClick}
-                                    href={content.mainContent.primaryCta?.ctaUrl}
-                                >
-                                    {content.mainContent.primaryCta?.ctaText || defaultCta}
-                                </LinkButton>
-                            </ThemeProvider>
-                            <Button
-                                priority="subdued"
-                                data-link-name={notNowComponentId}
-                                onClick={onCloseClick}
-                            >
-                                {content.mainContent.secondaryCta?.ctaText || defaultSecondaryCta}
-                            </Button>
-                        </Inline>
+                        <BannerContentRenderer
+                            content={content}
+                            render={({ renderContent }) => {
+                                return (
+                                    <Inline space={3}>
+                                        <ThemeProvider theme={buttonReaderRevenue}>
+                                            <LinkButton
+                                                href={renderContent.primaryCta?.ctaUrl}
+                                                data-link-name={ctaComponentId}
+                                                onClick={onCtaClick}
+                                            >
+                                                {renderContent.primaryCta?.ctaText || defaultCta}
+                                            </LinkButton>
+                                        </ThemeProvider>
+                                        <Button
+                                            priority="subdued"
+                                            data-link-name={notNowComponentId}
+                                            onClick={onCloseClick}
+                                        >
+                                            {renderContent.secondaryCta?.ctaText ||
+                                                defaultSecondaryCta}
+                                        </Button>
+                                    </Inline>
+                                );
+                            }}
+                        />
                         <div css={siteMessage}>
                             Already a subscriber?{' '}
                             <Link
