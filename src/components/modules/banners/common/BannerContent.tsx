@@ -1,6 +1,6 @@
 import React from 'react';
 import { SerializedStyles } from '@emotion/utils';
-import { BannerRenderedContent } from './types';
+import { BannerTextContent } from './types';
 import { Hide } from '@guardian/src-layout';
 
 type BannerContentStyleableAreas = 'container' | 'heading' | 'body' | 'copy' | 'highlightedText';
@@ -10,16 +10,16 @@ type BannerContentStyles = {
 };
 
 type BannerContentProps = {
-    content: Partial<BannerRenderedContent>;
-    mobileContent?: Partial<BannerRenderedContent>;
+    content: BannerTextContent;
     styles: {
         mobile?: BannerContentStyles;
         desktop: BannerContentStyles;
     };
 };
 
-export const BannerContent: React.FC<BannerContentProps> = ({ styles, content, mobileContent }) => {
-    const mobContent = mobileContent || content;
+export const BannerContent: React.FC<BannerContentProps> = ({ styles, content }) => {
+    const { mainContent } = content;
+    const mobileContent = content.mobileContent || mainContent;
     const mobileStyles = styles.mobile || styles.desktop;
     const desktopStyles = styles.desktop;
 
@@ -27,15 +27,15 @@ export const BannerContent: React.FC<BannerContentProps> = ({ styles, content, m
         <>
             <Hide above="tablet">
                 <div css={mobileStyles.container}>
-                    <h2 css={mobileStyles.heading}>{mobContent.heading}</h2>
+                    <h2 css={mobileStyles.heading}>{mobileContent.heading}</h2>
                     <div css={mobileStyles.body}>
                         <div css={mobileStyles.copy}>
-                            {mobContent.messageText}
-                            {mobContent.highlightedText && (
+                            {mobileContent.messageText}
+                            {mobileContent.highlightedText && (
                                 <>
                                     {' '}
                                     <span css={mobileStyles.highlightedText}>
-                                        {mobContent.highlightedText}
+                                        {mobileContent.highlightedText}
                                     </span>
                                 </>
                             )}
@@ -45,15 +45,15 @@ export const BannerContent: React.FC<BannerContentProps> = ({ styles, content, m
             </Hide>
             <Hide below="tablet">
                 <div css={desktopStyles.container}>
-                    <h2 css={desktopStyles.heading}>{content.heading}</h2>
+                    <h2 css={desktopStyles.heading}>{mainContent.heading}</h2>
                     <div css={desktopStyles.body}>
                         <div css={desktopStyles.copy}>
-                            {content.messageText}
-                            {content.highlightedText && (
+                            {mainContent.messageText}
+                            {mainContent.highlightedText && (
                                 <>
                                     {' '}
                                     <span css={desktopStyles.highlightedText}>
-                                        {content.highlightedText}
+                                        {mainContent.highlightedText}
                                     </span>
                                 </>
                             )}

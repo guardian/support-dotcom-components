@@ -68,7 +68,6 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     onSignInClick,
     countryCode,
     content,
-    mobileContent,
 }) => {
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
@@ -86,12 +85,14 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                 },
                             }}
                             content={content}
-                            mobileContent={mobileContent}
                         />
                         <Inline space={3}>
                             <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton href={content.primaryCta?.ctaUrl} onClick={onCtaClick}>
-                                    {content.primaryCta?.ctaText || fallbackCta}
+                                <LinkButton
+                                    href={content.mainContent.primaryCta?.ctaUrl}
+                                    onClick={onCtaClick}
+                                >
+                                    {content.mainContent.primaryCta?.ctaText || fallbackCta}
                                 </LinkButton>
                             </ThemeProvider>
                             <ThemeProvider theme={buttonBrand}>
@@ -100,7 +101,8 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                     data-link-name={notNowComponentId}
                                     onClick={onCloseClick}
                                 >
-                                    {content.secondaryCta?.ctaText || fallbackSecondaryCta}
+                                    {content.mainContent.secondaryCta?.ctaText ||
+                                        fallbackSecondaryCta}
                                 </Button>
                             </ThemeProvider>
                         </Inline>

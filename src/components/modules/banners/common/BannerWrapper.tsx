@@ -135,8 +135,10 @@ const withBannerData = (
                 onSecondaryCtaClick,
                 onCloseClick,
                 onSignInClick,
-                content: renderedContent,
-                mobileContent: renderedMobileContent,
+                content: {
+                    mainContent: renderedContent,
+                    mobileContent: renderedMobileContent,
+                },
                 countryCode,
             };
             return <Banner {...props} />;

@@ -80,7 +80,6 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
     onCloseClick,
     onSignInClick,
     content,
-    mobileContent,
 }) => {
     return (
         <section css={banner} data-target={bannerId}>
@@ -95,16 +94,15 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                 },
                             }}
                             content={content}
-                            mobileContent={mobileContent}
                         />
                         <Inline space={3}>
                             <ThemeProvider theme={buttonReaderRevenue}>
                                 <LinkButton
                                     data-link-name={ctaComponentId}
                                     onClick={onCtaClick}
-                                    href={content.primaryCta?.ctaUrl}
+                                    href={content.mainContent.primaryCta?.ctaUrl}
                                 >
-                                    {content.primaryCta?.ctaText || defaultCta}
+                                    {content.mainContent.primaryCta?.ctaText || defaultCta}
                                 </LinkButton>
                             </ThemeProvider>
                             <Button
@@ -112,7 +110,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                 data-link-name={notNowComponentId}
                                 onClick={onCloseClick}
                             >
-                                {content.secondaryCta?.ctaText || defaultSecondaryCta}
+                                {content.mainContent.secondaryCta?.ctaText || defaultSecondaryCta}
                             </Button>
                         </Inline>
                         <div css={siteMessage}>

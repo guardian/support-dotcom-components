@@ -13,12 +13,16 @@ export interface BannerRenderedContent {
     secondaryCta: BannerEnrichedCta | null;
 }
 
+export interface BannerTextContent {
+    mainContent: BannerRenderedContent;
+    mobileContent?: BannerRenderedContent;
+}
+
 export interface BannerRenderProps {
     onCtaClick: () => void;
     onSecondaryCtaClick: () => void;
     onCloseClick: () => void;
     onSignInClick?: () => void;
-    content: BannerRenderedContent;
-    mobileContent?: BannerRenderedContent;
+    content: BannerTextContent;
     countryCode?: string;
 }
