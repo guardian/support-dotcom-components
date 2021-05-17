@@ -23,14 +23,11 @@ import {
     closeButton,
     closeButtonContainer,
 } from './digitalSubscriptionsBannerStyles';
-import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { ResponsiveImage } from '../../../ResponsiveImage';
-// import { BannerBodyAndHeading } from '../common/BannerBodyAndHeading';
 import { BannerContent } from '../common/BannerContent';
 import { BannerRenderProps } from '../common/types';
 import bannerWrapper from '../common/BannerWrapper';
 
-// const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
 const bannerId = 'subscription-banner';
@@ -76,8 +73,6 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
 
-    useEscapeShortcut(onCloseClick, []);
-
     return (
         <section css={banner} data-target={bannerId}>
             <Container>
@@ -85,12 +80,13 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                     <Column cssOverrides={topLeftComponent} width={7 / 12}>
                         <BannerContent
                             styles={{
-                                heading,
-                                copy: messageText,
+                                desktop: {
+                                    heading,
+                                    copy: messageText,
+                                },
                             }}
                             {...content}
                         />
-
                         <Inline space={3}>
                             <ThemeProvider theme={buttonReaderRevenue}>
                                 <LinkButton

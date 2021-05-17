@@ -35,9 +35,18 @@ export const defaultStory = (): ReactElement => {
         ),
     };
 
+    const mobileContent: BannerContent = {
+        heading: text('mobileHeading', "We're powered by you"),
+        messageText: text(
+            'mobileMessageText',
+            'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+        ),
+    };
+
     const props: BannerProps = {
         bannerChannel: 'subscriptions',
         content,
+        mobileContent,
         isSupporter: false,
         tracking,
         countryCode: 'GB',
