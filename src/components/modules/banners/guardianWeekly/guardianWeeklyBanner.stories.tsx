@@ -35,9 +35,18 @@ export const defaultStory = (): ReactElement => {
         ),
     };
 
+    const mobileContent: BannerContent = {
+        heading: text('Mobile heading', 'In print every week'),
+        messageText: text(
+            'Mobile messageText',
+            "Make sense of a chaotic world with The Guardian's weekly news magazine.",
+        ),
+    };
+
     const props: BannerProps = {
         bannerChannel: 'subscriptions',
         content,
+        mobileContent,
         isSupporter: false,
         tracking,
     };

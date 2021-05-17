@@ -64,11 +64,11 @@ const fallbackSecondaryCta = 'Not now';
 
 const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     onCtaClick,
-    onSecondaryCtaClick,
     onCloseClick,
     onSignInClick,
     countryCode,
-    ...content
+    content,
+    mobileContent,
 }) => {
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
@@ -85,24 +85,22 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                     copy: messageText,
                                 },
                             }}
-                            {...content}
+                            content={content}
+                            mobileContent={mobileContent}
                         />
                         <Inline space={3}>
                             <ThemeProvider theme={buttonReaderRevenue}>
-                                <LinkButton
-                                    href={content.content.primaryCta?.ctaUrl}
-                                    onClick={onCtaClick}
-                                >
-                                    {content.content.primaryCta?.ctaText || fallbackCta}
+                                <LinkButton href={content.primaryCta?.ctaUrl} onClick={onCtaClick}>
+                                    {content.primaryCta?.ctaText || fallbackCta}
                                 </LinkButton>
                             </ThemeProvider>
                             <ThemeProvider theme={buttonBrand}>
                                 <Button
                                     priority="subdued"
                                     data-link-name={notNowComponentId}
-                                    onClick={onSecondaryCtaClick}
+                                    onClick={onCloseClick}
                                 >
-                                    {content.content.secondaryCta?.ctaText || fallbackSecondaryCta}
+                                    {content.secondaryCta?.ctaText || fallbackSecondaryCta}
                                 </Button>
                             </ThemeProvider>
                         </Inline>
@@ -157,6 +155,6 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const wrapped = bannerWrapper(DigitalSubscriptionsBanner, 'subscriptions-banner', 'subscriptions');
+const wrapped = bannerWrapper(DigitalSubscriptionsBanner, bannerId, 'subscriptions');
 
 export { wrapped as DigitalSubscriptionsBanner };
