@@ -11,6 +11,7 @@ import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
+import { BannerText } from '../common/BannerText';
 
 const styles = {
     bannerContainer: css`
@@ -25,6 +26,7 @@ const styles = {
         }
     `,
     heading: css`
+        margin: 0;
         ${headline.large({ fontWeight: 'bold' })}
         padding-bottom: 10px;
         ${from.leftCol} {
@@ -99,22 +101,21 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     mobileContent,
 }: ContributionsBannerProps) => {
     const BodyAndHeading = () => (
-        <div css={styles.bodyAndHeading}>
-            <div css={styles.heading}>{content.heading}</div>
-            <div css={styles.body}>
-                <div css={[commonStyles.copy, styles.copy]}>
-                    {content.messageText}
-                    {content.highlightedText && (
-                        <>
-                            {' '}
-                            <span css={commonStyles.highlightedText}>
-                                {content.highlightedText}
-                            </span>
-                        </>
-                    )}
-                </div>
-            </div>
-        </div>
+        <BannerText
+            styles={{
+                desktop: {
+                    container: styles.bodyAndHeading,
+                    heading: styles.heading,
+                    body: styles.body,
+                    copy: [commonStyles.copy, styles.copy],
+                    highlightedText: commonStyles.highlightedText,
+                },
+            }}
+            content={{
+                mainContent: content,
+                mobileContent,
+            }}
+        />
     );
 
     const buttons = (
