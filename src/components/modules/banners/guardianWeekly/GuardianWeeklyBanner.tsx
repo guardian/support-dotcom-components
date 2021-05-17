@@ -99,15 +99,16 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                         <BannerContentRenderer
                             content={content}
                             render={({ renderContent }) => {
+                                const { primaryCta, secondaryCta } = renderContent;
                                 return (
                                     <Inline space={3}>
                                         <ThemeProvider theme={buttonReaderRevenue}>
                                             <LinkButton
-                                                href={renderContent.primaryCta?.ctaUrl}
+                                                href={primaryCta?.ctaUrl}
                                                 data-link-name={ctaComponentId}
                                                 onClick={onCtaClick}
                                             >
-                                                {renderContent.primaryCta?.ctaText || defaultCta}
+                                                {primaryCta?.ctaText || defaultCta}
                                             </LinkButton>
                                         </ThemeProvider>
                                         <Button
@@ -115,8 +116,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                             data-link-name={notNowComponentId}
                                             onClick={onCloseClick}
                                         >
-                                            {renderContent.secondaryCta?.ctaText ||
-                                                defaultSecondaryCta}
+                                            {secondaryCta?.ctaText || defaultSecondaryCta}
                                         </Button>
                                     </Inline>
                                 );

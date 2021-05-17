@@ -26,17 +26,19 @@ export const BannerText: React.FC<BannerTextProps> = ({ styles, content }) => {
             content={content}
             render={({ renderContent, isMobile }) => {
                 const renderStyles = isMobile ? mobileStyles : desktopStyles;
+                const { heading, messageText, highlightedText } = renderContent;
+
                 return (
                     <div css={renderStyles.container}>
-                        <h2 css={renderStyles.heading}>{renderContent.heading}</h2>
+                        <h2 css={renderStyles.heading}>{heading}</h2>
                         <div css={renderStyles.body}>
                             <div css={renderStyles.copy}>
-                                {renderContent.messageText}
-                                {renderContent.highlightedText && (
+                                {messageText}
+                                {highlightedText && (
                                     <>
                                         {' '}
                                         <span css={renderStyles.highlightedText}>
-                                            {renderContent.highlightedText}
+                                            {highlightedText}
                                         </span>
                                     </>
                                 )}

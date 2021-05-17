@@ -90,14 +90,15 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                         <BannerContentRenderer
                             content={content}
                             render={({ renderContent }) => {
+                                const { primaryCta, secondaryCta } = renderContent;
                                 return (
                                     <Inline space={3}>
                                         <ThemeProvider theme={buttonReaderRevenue}>
                                             <LinkButton
-                                                href={renderContent.primaryCta?.ctaUrl}
+                                                href={primaryCta?.ctaUrl}
                                                 onClick={onCtaClick}
                                             >
-                                                {renderContent.primaryCta?.ctaText || fallbackCta}
+                                                {primaryCta?.ctaText || fallbackCta}
                                             </LinkButton>
                                         </ThemeProvider>
                                         <ThemeProvider theme={buttonBrand}>
@@ -106,8 +107,7 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                                 data-link-name={notNowComponentId}
                                                 onClick={onCloseClick}
                                             >
-                                                {renderContent.secondaryCta?.ctaText ||
-                                                    fallbackSecondaryCta}
+                                                {secondaryCta?.ctaText || fallbackSecondaryCta}
                                             </Button>
                                         </ThemeProvider>
                                     </Inline>
