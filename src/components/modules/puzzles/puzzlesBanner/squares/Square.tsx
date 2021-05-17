@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
-import { squareBorder } from '../puzzlesBannerStyles';
+import { squareBorder } from '../puzzlesStyleUtils';
 
 type SquareColour = 'white' | 'grey' | 'pink' | 'purple';
 
@@ -16,7 +16,6 @@ type SquareProps = {
 
 const basicSquare = css`
     border: ${squareBorder};
-    border-bottom: none;
     position: relative;
     width: 100%;
     /* Creates a 1:1 aspect ratio */
@@ -30,6 +29,7 @@ const squareContents = css`
     left: 0;
     bottom: 0;
     right: 0;
+    border-bottom: ${squareBorder};
 `;
 
 const squareColours: { [key in SquareColour]: SerializedStyles } = {

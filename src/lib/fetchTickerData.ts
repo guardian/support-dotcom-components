@@ -1,6 +1,7 @@
-import { TickerCountType, TickerData, TickerSettings, Variant } from './variants';
 import fetch, { Response } from 'node-fetch';
 import { cacheAsync } from './cache';
+import { TickerCountType, TickerData, TickerSettings } from '../types/shared';
+import { EpicVariant } from '../types/EpicTypes';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people
@@ -56,7 +57,7 @@ export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise
         tickerData: tickerData,
     }));
 
-export const getTickerSettings = (variant: Variant): Promise<TickerSettings | undefined> => {
+export const getTickerSettings = (variant: EpicVariant): Promise<TickerSettings | undefined> => {
     if (variant.tickerSettings) {
         const tickerSettings = variant.tickerSettings;
 

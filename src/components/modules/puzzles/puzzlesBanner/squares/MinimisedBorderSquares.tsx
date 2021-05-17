@@ -2,16 +2,18 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
-import { squareBorder, squareBoxShadow } from '../puzzlesBannerStyles';
+import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 import { from } from '@guardian/src-foundations/mq';
+import { space } from '@guardian/src-foundations';
 
 const smallSquareSizes = {
-    mobile: 32,
-    tablet: 42,
+    mobile: 33,
+    tablet: 43,
 };
 
+const buttonContainerSize = 24;
+
 const container = css`
-    pointer-events: none;
     position: absolute;
     width: 98%;
     height: 98%;
@@ -54,7 +56,25 @@ const topRight = css`
     transform: translateY(-90%);
 `;
 
-export const MinimisedBorderSquares: React.FC = () => {
+const minimiseButtonContainer = css`
+    align-self: center;
+    width: ${buttonContainerSize}px;
+    height: ${buttonContainerSize}px;
+    position: absolute;
+    right: 2px;
+
+    ${from.mobileLandscape} {
+        right: ${space[2]}px;
+    }
+`;
+
+type MinimisedBorderSquaresProps = {
+    minimiseButton: React.ReactNode;
+};
+
+export const MinimisedBorderSquares: React.FC<MinimisedBorderSquaresProps> = ({
+    minimiseButton,
+}) => {
     return (
         <div css={container}>
             <div css={[squareContainer, bottomLeft]}>
@@ -70,6 +90,7 @@ export const MinimisedBorderSquares: React.FC = () => {
             <div css={[squareContainer, topRight]}>
                 <Square colour="grey" cssOverrides={squareOverrides}>
                     <SquareSide small />
+                    <div css={minimiseButtonContainer}>{minimiseButton}</div>
                 </Square>
             </div>
         </div>

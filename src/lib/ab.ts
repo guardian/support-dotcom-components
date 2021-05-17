@@ -1,4 +1,4 @@
-import { Test, Variant } from './variants';
+import { Test, Variant } from '../types/shared';
 
 const maxMvt = 1000000;
 
@@ -17,8 +17,9 @@ export const withinRange = (lower: number, proportion: number, mvtId: number): b
  * If controlProportionSettings is set then we use this to define the range of mvt values for the control variant.
  * Otherwise we evenly distribute all variants across maxMvt.
  */
-export const selectVariant = (test: Test, mvtId: number): Variant => {
+export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvtId: number): V => {
     const control = test.variants.find(v => v.name.toLowerCase() === 'control');
+
     if (test.controlProportionSettings && control) {
         if (
             withinRange(
@@ -30,9 +31,9 @@ export const selectVariant = (test: Test, mvtId: number): Variant => {
             return control;
         } else {
             const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
-            return otherVariants[mvtId % otherVariants.length] as Variant;
+            return otherVariants[mvtId % otherVariants.length] as V;
         }
     }
 
-    return test.variants[mvtId % test.variants.length] as Variant;
+    return test.variants[mvtId % test.variants.length] as V;
 };

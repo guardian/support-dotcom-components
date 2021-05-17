@@ -3,10 +3,8 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
-import { minimiseButtonContainer } from '../puzzlesBannerStyles';
 
 type MobileSquaresProps = {
-    minimiseButton: React.ReactNode;
     cssOverrides?: SerializedStyles | string;
 };
 
@@ -39,13 +37,13 @@ const noLeftBorderOnSmallestScreens = css`
     }
 `;
 
-export const MobileSquares: React.FC<MobileSquaresProps> = ({ minimiseButton, cssOverrides }) => {
+export const MobileSquares: React.FC<MobileSquaresProps> = ({ cssOverrides }) => {
     return (
         <div css={[mobileSquareGrid, cssOverrides]}>
             <Square colour="purple" cssOverrides={firstRow} removeBorder={['right']} />
             <Square colour="pink" removeBorder={['right']} />
             <Square colour="pink" cssOverrides={secondRow} removeBorder={['right']} />
-            <Square colour="purple" removeBorder={['right']} />
+            <Square colour="pink" removeBorder={['right']} />
             <Square colour="grey" removeBorder={['right']} />
             <Square
                 colour="purple"
@@ -53,10 +51,8 @@ export const MobileSquares: React.FC<MobileSquaresProps> = ({ minimiseButton, cs
                 removeBorder={['right']}
             />
             <Square colour="grey" removeBorder={['right']} />
-            <Square colour="pink" removeBorder={['right']} />
-            <Square colour="purple" removeBorder={['right']} cssOverrides={minimiseButtonContainer}>
-                {minimiseButton}
-            </Square>
+            <Square colour="purple" removeBorder={['right']} />
+            <Square colour="purple" removeBorder={['right']} />
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import { TickerCountType, TickerEndType } from '../../../../lib/variants';
+import { TickerCountType, TickerEndType } from '../../../../types/shared';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export const tracking: BannerTracking = {

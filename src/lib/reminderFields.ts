@@ -1,5 +1,5 @@
-import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
-import { getUserCohorts, Variant } from './variants';
+import { EpicTargeting, EpicVariant } from '../types/EpicTypes';
+import { getUserCohorts } from '../tests/epics/epicSelection';
 
 export interface ReminderFields {
     reminderCta: string;
@@ -30,7 +30,7 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
 };
 
 export const getReminderFields = (
-    variant: Variant,
+    variant: EpicVariant,
     targeting: EpicTargeting,
 ): ReminderFields | undefined => {
     const userCohorts = getUserCohorts(targeting);

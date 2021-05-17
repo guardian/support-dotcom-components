@@ -18,17 +18,24 @@ import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
 import { MinimisedBorderSquares } from './squares/MinimisedBorderSquares';
 import {
     appStoreButtonContainer,
-    banner,
+    puzzlesBanner,
     bannerContents,
     heading,
+    headerFlex,
     headingSection,
     hide,
     imageContainer,
     minimisedBanner,
     minimiseButton,
+    minimiseButtonMax,
+    minimiseButtonMin,
+    mobileMinimiseButton,
     minimisedContentContainer,
     minimiseHint,
     squaresContainer,
+    siteMessage,
+    signInLink,
+    showOnDesktop,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
@@ -64,6 +71,10 @@ const tabletPackshot = {
     media: '(max-width: 979px)',
     alt: 'The Guardian Puzzles app on mobile devices',
 };
+
+const signInUrl =
+    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=PuzzleSignin&CMP_TU=mrtn&CMP_BUNIT=digipac';
+const signInComponentId = `${bannerId} : sign in`;
 
 export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
     const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
@@ -116,16 +127,33 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         onMinimiseClick(stateChange);
     }
 
+    const onSignInClick = (): void => {
+        const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+    };
+
     const MinimiseButton = (
         <Button
-            size="small"
-            cssOverrides={minimiseButton}
+            size="xsmall"
+            cssOverrides={
+                isMinimised
+                    ? [minimiseButton, minimiseButtonMin]
+                    : [minimiseButton, minimiseButtonMax]
+            }
             icon={isMinimised ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
             onClick={minimise}
             hideLabel
         >
             Minimise
         </Button>
+    );
+
+    const MinimiseHint = (
+        <p css={minimiseHint}>
+            <SvgInfo /> You can minimise this banner using the escape key
+        </p>
     );
 
     // Enable keyboard users to minimise the banner quickly
@@ -141,17 +169,20 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     }, []);
 
     return (
-        <section css={[banner, isMinimised ? minimisedBanner : '']}>
+        <section css={[puzzlesBanner, isMinimised ? minimisedBanner : '']}>
             <Container css={hideOnMinimise}>
                 <div css={[bannerContents, hideOnMinimise]}>
                     <div css={[headingSection, hideOnMinimise]}>
-                        <h3 css={heading}>
-                            Discover
-                            <br />
-                            The&nbsp;Guardian
-                            <br />
-                            Puzzles&nbsp;App
-                        </h3>
+                        <div css={headerFlex}>
+                            <h3 css={heading}>
+                                Discover
+                                <br />
+                                The&nbsp;Guardian
+                                <br />
+                                Puzzles&nbsp;App
+                            </h3>
+                            <div css={mobileMinimiseButton}>{MinimiseButton}</div>
+                        </div>
                         <div css={appStoreButtonContainer}>
                             <Link
                                 href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
@@ -170,28 +201,41 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 <img src={appStore.google} alt="Get it on Google Play" />
                             </Link>
                         </div>
-                        {isKeyboardUser && (
-                            <p css={minimiseHint}>
-                                <SvgInfo /> You can minimise this banner using the escape key
-                            </p>
-                        )}
+                        <div css={siteMessage}>
+                            Already a subscriber?
+                            <br css={showOnDesktop} />{' '}
+                            <Link
+                                href={signInUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                css={signInLink}
+                                data-link-name={signInComponentId}
+                                onClick={onSignInClick}
+                            >
+                                Sign in
+                            </Link>{' '}
+                            to not see this again
+                        </div>
                     </div>
                     <div css={[squaresContainer, hideOnMinimise]}>
-                        <ContentSquares />
+                        <ContentSquares minimiseButton={MinimiseButton} />
                         <div css={imageContainer}>
                             <ResponsiveImage
                                 images={[tabletPackshot, desktopPackshot]}
                                 baseImage={tabletPackshot}
                             />
                         </div>
-                        <TabletDesktopSquares minimiseButton={MinimiseButton} />
+                        <TabletDesktopSquares
+                            minimiseHint={MinimiseHint}
+                            isKeyboardUser={isKeyboardUser}
+                        />
                     </div>
                 </div>
             </Container>
-            <MobileSquares minimiseButton={MinimiseButton} cssOverrides={hideOnMinimise} />
+            <MobileSquares cssOverrides={hideOnMinimise} />
             <div css={[hideOnExpand, minimisedContentContainer]}>
-                <MinimisedContentSquare minimiseButton={MinimiseButton} />
-                <MinimisedBorderSquares />
+                <MinimisedContentSquare />
+                <MinimisedBorderSquares minimiseButton={MinimiseButton} />
             </div>
         </section>
     );

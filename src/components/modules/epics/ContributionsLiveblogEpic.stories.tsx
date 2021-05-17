@@ -3,9 +3,8 @@ import { ContributionsLiveblogEpic } from './ContributionsLiveblogEpic';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import testData from './ContributionsLiveblogEpic.testData';
-import { Variant } from '../../../lib/variants';
 import { getArticleViewCountForWeeks } from '../../../lib/history';
-import { EpicTracking } from './ContributionsEpicTypes';
+import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
 
 export default {
     component: ContributionsLiveblogEpic,
@@ -23,7 +22,7 @@ const numArticles = getArticleViewCountForWeeks(
 
 export const defaultStory = (): ReactElement => {
     // Epic content props
-    const variant: Variant = {
+    const variant: EpicVariant = {
         name: 'Test Epic',
         paragraphs: object('paragraphs', testData.content.paragraphs),
         cta: {

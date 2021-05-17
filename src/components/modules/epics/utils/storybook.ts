@@ -1,8 +1,13 @@
-import { EpicTestTracking, EpicPageTracking, EpicTracking } from '../ContributionsEpicTypes';
-import { EpicProps } from '../ContributionsEpicTypes';
-import { SecondaryCtaType, Variant } from '../../../../lib/variants';
+import {
+    EpicTestTracking,
+    EpicPageTracking,
+    EpicTracking,
+    SecondaryCtaType,
+    EpicVariant,
+} from '../../../../types/EpicTypes';
+import { EpicProps } from '../../../../types/EpicTypes';
 
-const variant: Variant = {
+const variant: EpicVariant = {
     name: 'control',
     heading: 'Since you’re here...',
     paragraphs: [

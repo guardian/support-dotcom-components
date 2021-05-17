@@ -1,4 +1,4 @@
-import { EpicPayload } from '../components/modules/epics/ContributionsEpicTypes';
+import { EpicPayload } from '../types/EpicTypes';
 import { Validator } from 'jsonschema';
 import * as path from 'path';
 import * as fs from 'fs';

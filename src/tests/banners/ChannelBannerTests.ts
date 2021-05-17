@@ -83,6 +83,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                             minPageViews: testParams.minArticlesBeforeShowingBanner,
                             articlesViewedSettings: testParams.articlesViewedSettings,
                             variants: testParams.variants.map(BannerVariantFromParams),
+                            controlProportionSettings: testParams.controlProportionSettings,
                         };
                     },
                 );
