@@ -1,8 +1,17 @@
+import * as z from 'zod';
+
 export type OphanProduct =
     | 'CONTRIBUTION'
     | 'MEMBERSHIP_SUPPORTER'
     | 'DIGITAL_SUBSCRIPTION'
     | 'PRINT_SUBSCRIPTION';
+
+export const ophanProductSchema = z.enum([
+    'CONTRIBUTION',
+    'MEMBERSHIP_SUPPORTER',
+    'DIGITAL_SUBSCRIPTION',
+    'PRINT_SUBSCRIPTION',
+]);
 
 export type OphanAction = 'CLICK' | 'VIEW';
 
@@ -12,6 +21,14 @@ export type OphanComponentType =
     | 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'
     | 'ACQUISITIONS_HEADER'
     | 'ACQUISITIONS_OTHER';
+
+export const ophanComponentTypeSchema = z.enum([
+    'ACQUISITIONS_EPIC',
+    'ACQUISITIONS_ENGAGEMENT_BANNER',
+    'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    'ACQUISITIONS_HEADER',
+    'ACQUISITIONS_OTHER',
+]);
 
 export type OphanComponent = {
     componentType: OphanComponentType;
