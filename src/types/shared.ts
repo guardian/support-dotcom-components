@@ -74,7 +74,7 @@ export const tickerSettingsSchema = z.object({
     countType: tickerCountTypeSchema,
     currencySymbol: z.string(),
     copy: tickerCopySchema,
-    tickerData: tickerDataSchema,
+    tickerData: tickerDataSchema.optional(),
 });
 
 export type WeeklyArticleLog = {
