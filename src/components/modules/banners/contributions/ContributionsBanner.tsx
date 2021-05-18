@@ -1,4 +1,5 @@
 import React from 'react';
+import * as z from 'zod';
 import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
@@ -11,6 +12,8 @@ import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
+import { withParsedProps } from '../../shared/ModuleWrapper';
+import { BannerProps } from '../../../../types/BannerTypes';
 
 const styles = {
     bannerContainer: css`
@@ -184,6 +187,91 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = contributionsBannerWrapper(ContributionsBanner);
+const tickerEndTypeSchema = z.enum(['unlimited', 'hardstop']);
 
-export { wrapped as ContributionsBanner };
+const tickerCountTypeSchema = z.enum(['money', 'people']);
+
+const tickerCopySchema = z.object({
+    countLabel: z.string(),
+    goalReachedPrimary: z.string(),
+    goalReachedSecondary: z.string(),
+});
+
+const tickerDataSchema = z.object({
+    total: z.number(),
+    goal: z.number(),
+});
+
+const tickerSettingsSchema = z.object({
+    endType: tickerEndTypeSchema,
+    countType: tickerCountTypeSchema,
+    currencySymbol: z.string(),
+    copy: tickerCopySchema,
+    tickerData: tickerDataSchema,
+});
+
+const ctaSchema = z.object({
+    text: z.string(),
+    baseUrl: z.string(),
+});
+
+const bannerContentSchema = z.object({
+    heading: z.string().optional(),
+    messageText: z.string(),
+    mobileMessageText: z.string().optional(),
+    highlightedText: z.string().optional(),
+    cta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
+});
+
+const bannerChannelSchema = z.enum(['contributions', 'subscriptions']);
+
+const ophanComponentTypeSchema = z.enum([
+    'ACQUISITIONS_EPIC',
+    'ACQUISITIONS_ENGAGEMENT_BANNER',
+    'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    'ACQUISITIONS_HEADER',
+    'ACQUISITIONS_OTHER',
+]);
+
+const ophanProductSchema = z.enum([
+    'CONTRIBUTION',
+    'MEMBERSHIP_SUPPORTER',
+    'DIGITAL_SUBSCRIPTION',
+    'PRINT_SUBSCRIPTION',
+]);
+
+const bannerTrackingSchema = z.object({
+    abTestName: z.string(),
+    abTestVariant: z.string(),
+    campaignCode: z.string(),
+    componentType: ophanComponentTypeSchema,
+    products: z.array(ophanProductSchema).optional(),
+    ophanPageId: z.string(),
+    platformId: z.string(),
+    referrerUrl: z.string(),
+    clientName: z.string(),
+});
+
+const bannerSchema = z.object({
+    tracking: bannerTrackingSchema,
+    bannerChannel: bannerChannelSchema,
+    content: bannerContentSchema.optional(),
+    mobileContent: bannerContentSchema.optional(),
+    countryCode: z.string().optional(),
+    isSupporter: z.boolean().optional(),
+    tickerSettings: tickerSettingsSchema.optional(),
+    submitComponentEvent: z.any(),
+    numArticles: z.number().optional(),
+    hasOptedOutOfArticleCount: z.boolean().optional(),
+});
+
+const validate = (props: unknown): props is BannerProps => {
+    const result = bannerSchema.safeParse(props);
+    return result.success;
+};
+
+const banner = contributionsBannerWrapper(ContributionsBanner);
+const wrapped = withParsedProps(banner, validate);
+
+export { wrapped as ContributionsBanner, banner as ContributionsBannerUnwrapped };
