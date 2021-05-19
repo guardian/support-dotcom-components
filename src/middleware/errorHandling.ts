@@ -1,5 +1,4 @@
 import express from 'express';
-import { ValidationError } from '../lib/validation';
 import { logger } from '../utils/logging';
 
 export const errorHandling = (
@@ -13,13 +12,7 @@ export const errorHandling = (
 ): void => {
     const { message } = error;
 
-    switch (error.constructor) {
-        case ValidationError:
-            res.status(400).send({ error: message });
-            break;
-        default:
-            res.status(500).send({ error: message });
-    }
+    res.status(500).send({ error: message });
 
     logger.error('Something went wrong: ', message);
 };

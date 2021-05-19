@@ -21,9 +21,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "yarn modules && tsc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "generate-schemas": "ts-node ./src/scripts/generate-json-schema.ts",
-    "validate-schemas": "./src/scripts/validate-schema-updates.sh"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-compat": "^7.8.3",

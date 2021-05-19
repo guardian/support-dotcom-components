@@ -22,7 +22,6 @@ NODE_ENV=production yarn run build
 cp package.json dist
 cp riff-raff.yaml dist
 cp cfn.yaml dist
-cp -r src/schemas dist/schemas
 
 pushd dist
 # Ensures the RiffRaff package has the node_modules needed to run
