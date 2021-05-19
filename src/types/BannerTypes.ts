@@ -104,9 +104,9 @@ export interface BannerVariant extends Variant {
     products?: OphanProduct[];
 }
 
-export type BannerChannel = 'contributions' | 'subscriptions';
-
 export const bannerChannelSchema = z.enum(['contributions', 'subscriptions']);
+
+export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 
