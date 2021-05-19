@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ContributionsBannerUnwrapped as ContributionsBanner } from './ContributionsBanner';
+import { ContributionsBannerUnvalidated as ContributionsBanner } from './ContributionsBanner';
 import { props } from '../utils/storybook';
 import { BannerProps } from '../../../../types/BannerTypes';
 

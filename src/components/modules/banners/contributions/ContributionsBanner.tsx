@@ -191,7 +191,10 @@ const validate = (props: unknown): props is BannerProps => {
     return result.success;
 };
 
-const banner = contributionsBannerWrapper(ContributionsBanner);
-const wrapped = withParsedProps(banner, validate);
+const withoutValidation = contributionsBannerWrapper(ContributionsBanner);
+const withValidation = withParsedProps(withoutValidation, validate);
 
-export { wrapped as ContributionsBanner, banner as ContributionsBannerUnwrapped };
+export {
+    withValidation as ContributionsBanner,
+    withoutValidation as ContributionsBannerUnvalidated,
+};
