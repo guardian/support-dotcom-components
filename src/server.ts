@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import compression from 'compression';
 import fetch from 'node-fetch';
 import { EpicType } from './types/EpicTypes';
 import cors from 'cors';
@@ -22,6 +23,7 @@ import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } fro
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
+app.use(compression());
 
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
