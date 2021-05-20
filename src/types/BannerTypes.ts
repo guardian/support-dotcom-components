@@ -1,4 +1,11 @@
-import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
+import * as z from 'zod';
+import {
+    OphanProduct,
+    OphanComponentType,
+    OphanComponentEvent,
+    ophanComponentTypeSchema,
+    ophanProductSchema,
+} from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
 import {
     ArticlesViewedSettings,
@@ -9,6 +16,8 @@ import {
     Variant,
     WeeklyArticleHistory,
     ControlProportionSettings,
+    ctaSchema,
+    tickerSettingsSchema,
 } from './shared';
 
 export type BannerTargeting = {
@@ -42,6 +51,18 @@ export type BannerPageTracking = {
 
 export type BannerTracking = BannerTestTracking & BannerPageTracking;
 
+const bannerTrackingSchema = z.object({
+    abTestName: z.string(),
+    abTestVariant: z.string(),
+    campaignCode: z.string(),
+    componentType: ophanComponentTypeSchema,
+    products: z.array(ophanProductSchema).optional(),
+    ophanPageId: z.string(),
+    platformId: z.string(),
+    referrerUrl: z.string(),
+    clientName: z.string(),
+});
+
 export type BannerDataRequestPayload = {
     tracking: BannerPageTracking;
     targeting: BannerTargeting;
@@ -55,6 +76,15 @@ export interface BannerContent {
     cta?: Cta;
     secondaryCta?: Cta;
 }
+
+const bannerContentSchema = z.object({
+    heading: z.string().optional(),
+    messageText: z.string(),
+    mobileMessageText: z.string().optional(),
+    highlightedText: z.string().optional(),
+    cta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
+});
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
@@ -74,7 +104,10 @@ export interface BannerVariant extends Variant {
     products?: OphanProduct[];
 }
 
-export type BannerChannel = 'contributions' | 'subscriptions';
+export const bannerChannelSchema = z.enum(['contributions', 'subscriptions']);
+
+export type BannerChannel = z.infer<typeof bannerChannelSchema>;
+
 export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
@@ -113,6 +146,19 @@ export interface BannerProps {
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
 }
+
+export const bannerSchema = z.object({
+    tracking: bannerTrackingSchema,
+    bannerChannel: bannerChannelSchema,
+    content: bannerContentSchema.optional(),
+    mobileContent: bannerContentSchema.optional(),
+    countryCode: z.string().optional(),
+    isSupporter: z.boolean().optional(),
+    tickerSettings: tickerSettingsSchema.optional(),
+    submitComponentEvent: z.any(),
+    numArticles: z.number().optional(),
+    hasOptedOutOfArticleCount: z.boolean().optional(),
+});
 
 export interface PuzzlesBannerProps extends Partial<BannerProps> {
     tracking: BannerTracking;

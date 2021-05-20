@@ -21,9 +21,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "yarn modules && tsc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "generate-schemas": "ts-node ./src/scripts/generate-json-schema.ts",
-    "validate-schemas": "./src/scripts/validate-schema-updates.sh"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-compat": "^7.8.3",
@@ -49,7 +47,8 @@
     "log4js": "^6.3.0",
     "node-fetch": "^2.6.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "zod": "^3.0.0"
   },
   "devDependencies": {
     "@aws-cdk/aws-apigateway": "^1.22.0",

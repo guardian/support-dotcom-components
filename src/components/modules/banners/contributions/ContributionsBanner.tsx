@@ -11,6 +11,8 @@ import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
+import { withParsedProps } from '../../shared/ModuleWrapper';
+import { BannerProps, bannerSchema } from '../../../../types/BannerTypes';
 
 const styles = {
     bannerContainer: css`
@@ -184,6 +186,15 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = contributionsBannerWrapper(ContributionsBanner);
+const validate = (props: unknown): props is BannerProps => {
+    const result = bannerSchema.safeParse(props);
+    return result.success;
+};
 
-export { wrapped as ContributionsBanner };
+const withoutValidation = contributionsBannerWrapper(ContributionsBanner);
+const withValidation = withParsedProps(withoutValidation, validate);
+
+export {
+    withValidation as ContributionsBanner,
+    withoutValidation as ContributionsBannerUnvalidated,
+};

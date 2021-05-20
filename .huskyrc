@@ -1,5 +1,4 @@
 {
   "hooks": {
-    "pre-push": "yarn generate-schemas && yarn validate-schemas"
   }
 }
