@@ -12,3 +12,5 @@ target/
 build-storybook.log
 logs/
 storybook-static/
+report.20210513.101609.23053.0.001.json
+report.20210517.154123.44099.0.001.json

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { body, textSans } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
-import { Link, ButtonLink } from '@guardian/src-link';
+import { ButtonLink } from '@guardian/src-link';
 import { css } from '@emotion/core';
 
 // --- Styles --- //
@@ -45,7 +45,7 @@ const articleCountCtaStyles = css`
 const articleCountDescriptionTopContainerStyles = css`
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000;
-    margin-top: ${space[2]}px;
+    margin-top: ${space[4]}px;
     position: relative;
 `;
 
@@ -71,6 +71,7 @@ const articleCountCtasContainerStyles = css`
 
 const articleCountOptInCtaStyles = css`
     background-color: #000000;
+    padding-left: 20px;
 `;
 
 const articleCountOptOutCtaStyles = css`
@@ -89,27 +90,29 @@ const privacySettingsLinkStyles = css`
 `;
 
 const style1 = css`
-    position: absolute;
-    right: 9px;
-    top: -20px;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 8px;
+        bottom: 100%;
+        width: 0;
+        height: 0;
+        border: 10px solid transparent;
+        border-bottom-color: black;
+    }
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 9px;
+        bottom: 100%;
+        width: 0;
+        height: 0;
+        border: 9px solid transparent;
+        border-bottom-color: ${palette.neutral[97]};
+    }
 `;
-
-const style2 = css`
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid ${palette.neutral[20]};
-`;
-
-const style3 = css`
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid #000;
-    border-bottom: 10px solid ${palette.neutral[97]};
-    margin-top: -18.2px;
-`;
-// --- Types --- //
 
 interface Props {
     numArticles: number;
@@ -186,8 +189,8 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
             {isOpen && (
                 <div css={articleCountDescriptionTopContainerStyles}>
                     <div css={style1}>
-                        <div css={style2}></div>
-                        <div css={style3}></div>
+                        {/* <div css={style2}></div>
+                        <div css={style3}></div> */}
                     </div>
                     <div css={articleCountDescriptionContainer}>
                         {isArticleCountOn ? (

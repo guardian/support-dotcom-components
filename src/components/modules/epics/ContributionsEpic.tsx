@@ -101,6 +101,7 @@ export type EpicProps = {
     email?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     openCmp?: () => void;
+    hasConsentForArticleCount?: boolean;
 };
 
 type HighlightedProps = {
@@ -218,6 +219,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     email,
     submitComponentEvent,
     openCmp,
+    hasConsentForArticleCount,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(hasArticleCountOptOutCookie());
@@ -260,12 +262,8 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
 
     return (
         <section css={wrapperStyles}>
-            {variant.separateArticleCount?.type === 'above' && (
+            {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
-                    {/* <ContributionsEpicArticleCountAbove
-                        numArticles={numArticles}
-                        tracking={ophanTracking}
-                    /> */}
                     <ContributionsEpicArticleCountOptOut
                         numArticles={numArticles}
                         isArticleCountOn={!hasOptedOut}
