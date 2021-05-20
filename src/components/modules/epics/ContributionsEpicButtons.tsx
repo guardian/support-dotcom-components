@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicTracking, EpicVariant, SecondaryCtaType } from '../../../types/EpicTypes';

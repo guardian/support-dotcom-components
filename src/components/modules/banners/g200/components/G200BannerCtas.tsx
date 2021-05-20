@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
@@ -109,6 +109,7 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                                 href={mobilePrimaryCta.ctaUrl}
                                 cssOverrides={primaryCtaStyles}
                                 size="xsmall"
+                                priority="primary"
                             >
                                 {mobilePrimaryCta.ctaText}
                             </LinkButton>
@@ -122,6 +123,7 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                                 href={content.primaryCta.ctaUrl}
                                 cssOverrides={primaryCtaStyles}
                                 size="small"
+                                priority="primary"
                             >
                                 {content.primaryCta.ctaText}
                             </LinkButton>

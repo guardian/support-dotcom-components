@@ -15,7 +15,6 @@ jest.mock('./api/contributionsApi', () => {
         fetchConfiguredEpicTests: jest
             .fn()
             .mockImplementation(() => Promise.resolve(configuredTests)),
-        getAmpExperimentData: jest.fn().mockImplementation(() => Promise.resolve({})),
     };
 });
 jest.mock('./tests/amp/ampEpicTests', () => {
