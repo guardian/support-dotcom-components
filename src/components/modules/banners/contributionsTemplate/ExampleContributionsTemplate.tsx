@@ -1,6 +1,6 @@
 import React from 'react';
-import { css } from '@emotion/react';
-import { ThemeProvider } from '@emotion/react';
+import { css } from '@emotion/core';
+import { ThemeProvider } from 'emotion-theming';
 import { Button, LinkButton, buttonBrandAlt } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
 import { SvgCross } from '@guardian/src-icons';

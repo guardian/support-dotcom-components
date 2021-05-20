@@ -22,23 +22,19 @@ const tsOpts = {
     strict: true,
     noImplicitReturns: true,
     esModuleInterop: true,
-    jsx: 'react-jsx',
+    jsx: 'preserve',
     include: ['src/**/*'],
     exclude: ['node_modules', '**/*.test.ts', 'src/factories/*', 'src/cdk/*'],
     tsconfig: false,
-    jsxImportSource: '@emotion/react',
 };
 
 const globals = {
-    '@emotion/react': 'guardian.automat.emotionReact',
-    '@emotion/react/jsx-runtime': 'guardian.automat.emotionReactJsxRuntime',
-    react: 'guardian.automat.react',
+    react: 'guardian.automat.preact',
+    '@emotion/core': 'guardian.automat.emotionCore',
 };
 
-const config = args => {
-    const modules = args.moduleName
-        ? [moduleInfos.find(i => i.name === args.moduleName)]
-        : moduleInfos;
+const config = (args) => {
+    const modules = args.moduleName ? [moduleInfos.find(i => i.name === args.moduleName)] : moduleInfos;
     return modules.map(module => {
         const isProd = process.env.NODE_ENV === 'production';
         const sourcemaps = !isProd; // Nb: set to false if testing IE11
@@ -49,9 +45,7 @@ const config = args => {
                 format: 'es',
                 sourcemap: sourcemaps ? 'inline' : false,
             },
-
-            external: id => Object.keys(globals).some(key => key == id),
-
+            external: id => Object.keys(globals).some(key => id == key),
             plugins: [
                 resolveNode(),
                 commonjs(),

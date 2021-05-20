@@ -6,7 +6,7 @@ import { brandAlt, brandText } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'emotion-theming';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderProps } from '../../../types/HeaderTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';

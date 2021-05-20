@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import { border } from '@guardian/src-foundations/palette';
 import { remSpace } from '@guardian/src-foundations';
 

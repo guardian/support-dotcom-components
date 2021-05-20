@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/core';
 import {
     brand,
     brandAltBackground,
@@ -11,7 +11,7 @@ import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'emotion-theming';
 import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 

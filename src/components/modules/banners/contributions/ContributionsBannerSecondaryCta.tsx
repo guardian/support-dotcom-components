@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'emotion-theming';
 import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';

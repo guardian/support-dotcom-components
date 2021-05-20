@@ -1,6 +1,6 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
+import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { ArticleCountOptOut } from '../shared/ArticleCountOptOut2';
 import { OphanTracking } from '../shared/ArticleCountOptOut';

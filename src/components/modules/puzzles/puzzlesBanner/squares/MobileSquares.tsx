@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Square } from './Square';

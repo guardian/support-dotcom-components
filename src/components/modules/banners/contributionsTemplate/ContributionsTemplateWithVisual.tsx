@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 

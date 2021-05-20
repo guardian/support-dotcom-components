@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
 
 const container = css`

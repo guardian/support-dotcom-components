@@ -3,7 +3,7 @@
 // A/B test. The aim is to deprecate this type of opt out in favour of
 // one with better UX.
 import React, { useState, useEffect } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/core';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { addCookie } from '../../../lib/cookies';

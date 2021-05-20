@@ -1,5 +1,5 @@
 import React, { useState, ReactElement } from 'react';
-import { ThemeProvider } from '@emotion/react';
+import { ThemeProvider } from 'emotion-theming';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';

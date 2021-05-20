@@ -1,4 +1,4 @@
-import { getDefaultModuleInfo, MODULES_VERSION } from './modules';
+import { getDefaultModuleInfo } from './modules';
 
 describe('getDefaultModuleInfo', () => {
     it('should create the expected paths', () => {
@@ -7,9 +7,9 @@ describe('getDefaultModuleInfo', () => {
         const expectedModuleInfo = {
             name: 'my-banner',
             srcPath: 'src/components/modules/banners/myBanner/MyBanner.tsx',
-            distPath: `dist/modules/${MODULES_VERSION}/banners/myBanner/MyBanner.js`,
-            endpointPath: `modules/${MODULES_VERSION}/banners/myBanner/MyBanner.js`,
-            devServerPath: `/../dist/modules/${MODULES_VERSION}/banners/myBanner/MyBanner.js`,
+            distPath: 'dist/modules/v1/banners/myBanner/MyBanner.js',
+            endpointPath: 'modules/v1/banners/myBanner/MyBanner.js',
+            devServerPath: '/../dist/modules/v1/banners/myBanner/MyBanner.js',
         };
 
         const moduleInfo = getDefaultModuleInfo(name, path);
@@ -17,9 +17,7 @@ describe('getDefaultModuleInfo', () => {
         expect(moduleInfo.name).toEqual(expectedModuleInfo.name);
         expect(moduleInfo.srcPath).toEqual(expectedModuleInfo.srcPath);
         expect(moduleInfo.distPath).toEqual(expectedModuleInfo.distPath);
-        expect(moduleInfo.endpointPathBuilder(MODULES_VERSION)).toEqual(
-            expectedModuleInfo.endpointPath,
-        );
+        expect(moduleInfo.endpointPathBuilder('v1')).toEqual(expectedModuleInfo.endpointPath);
         expect(moduleInfo.devServerPath).toEqual(expectedModuleInfo.devServerPath);
     });
 });

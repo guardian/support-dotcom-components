@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/core';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';

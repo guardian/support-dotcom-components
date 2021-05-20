@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import useTicker from '../../../../hooks/useTicker';

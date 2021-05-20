@@ -4,7 +4,7 @@ import { ContributionsEpic } from './ContributionsEpic';
 import { TickerCountType, TickerEndType } from '../../../types/shared';
 import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';
-import { css } from '@emotion/react';
+import { css } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
 import { EpicProps, SecondaryCtaType } from '../../../types/EpicTypes';
 
