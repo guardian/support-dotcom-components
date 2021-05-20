@@ -21,9 +21,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "yarn modules && tsc",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "generate-schemas": "ts-node ./src/scripts/generate-json-schema.ts",
-    "validate-schemas": "./src/scripts/validate-schema-updates.sh"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-compat": "^7.12.13",
@@ -46,7 +44,8 @@
     "lodash.debounce": "^4.0.8",
     "log4js": "^6.3.0",
     "node-fetch": "^2.6.1",
-    "preact": "^10.5.12"
+    "preact": "^10.5.12",
+    "zod": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
