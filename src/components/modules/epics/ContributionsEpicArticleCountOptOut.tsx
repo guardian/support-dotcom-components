@@ -86,7 +86,7 @@ const articleCountOptOutCtaStyles = css`
 const trackingSettingsContainerStyles = css`
     ${textSans.xsmall()};
     margin: ${space[4]}px auto;
-    margin-bottom: ${space[4]}px;
+    margin-bottom: ${space[2]}px;
 `;
 
 const privacySettingsLinkStyles = css`
