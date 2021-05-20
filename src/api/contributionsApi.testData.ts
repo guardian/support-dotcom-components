@@ -1,4 +1,4 @@
-import { EpicTests } from '../lib/variants';
+import { EpicTests } from '../types/EpicTypes';
 
 export const configuredTests: EpicTests = {
     tests: [

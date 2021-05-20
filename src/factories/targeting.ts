@@ -1,5 +1,5 @@
 import { Factory } from 'fishery';
-import { EpicTargeting } from '../components/modules/epics/ContributionsEpicTypes';
+import { EpicTargeting } from '../types/EpicTypes';
 
 export default Factory.define<EpicTargeting>(() => ({
     contentType: 'Article',

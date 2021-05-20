@@ -2,13 +2,16 @@ import React from 'react';
 import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { brandAlt, neutral } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
+import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
+import { withParsedProps } from '../../shared/ModuleWrapper';
+import { BannerProps, bannerSchema } from '../../../../types/BannerTypes';
 
 const styles = {
     bannerContainer: css`
@@ -51,16 +54,17 @@ const styles = {
     buttonsContainer: css`
         display: flex;
         flex-direction: column;
+        align-items: flex-end;
         height: 100%;
         box-sizing: border-box;
         padding-top: 8px;
         padding-bottom: 16px;
     `,
-    ctaContainer: css`
-        display: flex;
-        justify-content: flex-end;
+    ctasContainer: css`
+        & > * + * {
+            margin-top: ${space[3]}px;
+        }
     `,
-
     tabletAndDesktop: css`
         display: none;
         ${between.tablet.and.leftCol} {
@@ -90,6 +94,7 @@ const columnCounts = {
 
 const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     onContributeClick,
+    onSecondaryCtaClick,
     onCloseClick,
     content,
     mobileContent,
@@ -116,13 +121,24 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     const buttons = (
         <div css={styles.buttonsContainer}>
             <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
-            <div css={styles.ctaContainer}>
-                <ContributionsBannerCta
-                    onContributeClick={onContributeClick}
-                    ctaText={content.ctaText}
-                    ctaUrl={content.ctaUrl}
-                    stacked={true}
-                />
+
+            <div css={styles.ctasContainer}>
+                {content.primaryCta && (
+                    <ContributionsBannerCta
+                        onContributeClick={onContributeClick}
+                        ctaText={content.primaryCta.ctaText}
+                        ctaUrl={content.primaryCta.ctaUrl}
+                        stacked={true}
+                    />
+                )}
+
+                {content.secondaryCta && (
+                    <ContributionsBannerSecondaryCta
+                        onCtaClick={onSecondaryCtaClick}
+                        ctaText={content.secondaryCta.ctaText}
+                        ctaUrl={content.secondaryCta.ctaUrl}
+                    />
+                )}
             </div>
         </div>
     );
@@ -132,6 +148,7 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
             <ContributionsBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onContributeClick}
+                onSecondaryCtaClick={onSecondaryCtaClick}
                 content={mobileContent || content}
             />
 
@@ -168,6 +185,15 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = contributionsBannerWrapper(ContributionsBanner);
+const validate = (props: unknown): props is BannerProps => {
+    const result = bannerSchema.safeParse(props);
+    return result.success;
+};
 
-export { wrapped as ContributionsBanner };
+const withoutValidation = contributionsBannerWrapper(ContributionsBanner);
+const withValidation = withParsedProps(withoutValidation, validate);
+
+export {
+    withValidation as ContributionsBanner,
+    withoutValidation as ContributionsBannerUnvalidated,
+};

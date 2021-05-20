@@ -1,7 +1,7 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations/palette';
-import { squareBorder, squareBoxShadow } from '../puzzlesBannerStyles';
+import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 
 const squareSide = css`
     position: relative;

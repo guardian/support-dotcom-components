@@ -1,5 +1,3 @@
-import express from 'express';
-
 export interface TestVariant {
     testName: string;
     variantName: string;
@@ -10,8 +8,8 @@ export interface Params {
     force?: TestVariant;
 }
 
-export const getQueryParams = (req: express.Request): Params => {
-    const { debug, force } = req.query;
+export const getQueryParams = (query: qs.ParsedQs): Params => {
+    const { debug, force } = query;
     const debugNonEmpty = debug !== undefined;
     let parsedForce: TestVariant | undefined;
 

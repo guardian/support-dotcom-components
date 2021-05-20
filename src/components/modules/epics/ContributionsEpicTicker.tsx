@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import { css, SerializedStyles } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import useTicker from '../../../hooks/useTicker';
-import { TickerSettings } from '../../../lib/variants';
+import { TickerSettings } from '../../../types/shared';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.

@@ -1,5 +1,5 @@
-import { TickerSettings } from '../../lib/variants';
 import { fetchTickerDataCached } from '../../lib/fetchTickerData';
+import { TickerSettings } from '../../types/shared';
 
 export interface AMPTicker {
     percentage: string;

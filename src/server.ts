@@ -1,9 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from 'node-fetch';
-import { EpicType } from './components/modules/epics/ContributionsEpicTypes';
+import { EpicType } from './types/EpicTypes';
 import cors from 'cors';
-import { validateBannerPayload, validateEpicPayload } from './lib/validation';
 import { buildAmpEpicCampaignCode } from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
@@ -37,38 +36,14 @@ app.get('/healthcheck', (req: express.Request, res: express.Response) => {
     res.send('OK');
 });
 
-// TODO replace with module-friendly solution
-/* app.get(
-    '/epic',
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
-            const { pageTracking, targeting } = testData;
-            const params = getQueryParams(req);
-            const data = await buildEpicData(pageTracking, targeting, params, baseUrl(req));
-            const moduleUrl = data.data?.module.url;
-            const js = import(moduleUrl);
-
-            // server-side render react
-            const htmlDoc = renderHtmlDocument({ html, css, js });
-            res.send(htmlDoc);
-        } catch (error) {
-            next(error);
-        }
-    },
-); */
-
 app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (!isProd) {
-                validateEpicPayload(req.body);
-            }
-
             const epicType: EpicType = 'ARTICLE';
 
             const { tracking, targeting } = req.body;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
             const response = await buildEpicData(
                 tracking,
                 targeting,
@@ -92,14 +67,10 @@ app.post(
     '/liveblog-epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (!isProd) {
-                validateEpicPayload(req.body);
-            }
-
             const epicType: EpicType = 'LIVEBLOG';
 
             const { tracking, targeting } = req.body;
-            const params = getQueryParams(req);
+            const params = getQueryParams(req.query);
             const response = await buildEpicData(
                 tracking,
                 targeting,
@@ -123,10 +94,8 @@ app.post(
     '/banner',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const payload = validateBannerPayload(req.body);
-
-            const { tracking, targeting } = payload;
-            const params = getQueryParams(req);
+            const { tracking, targeting } = req.body;
+            const params = getQueryParams(req.query);
 
             const response = await buildBannerData(tracking, targeting, params, req);
 
@@ -135,13 +104,13 @@ app.post(
             res.locals.clientName = tracking.clientName;
             // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
             res.locals.bannerTargeting = {
-                shouldHideReaderRevenue: payload.targeting.shouldHideReaderRevenue,
-                showSupportMessaging: payload.targeting.showSupportMessaging,
-                alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
-                countryCode: payload.targeting.countryCode,
-                engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
-                subscriptionBannerLastClosedAt: payload.targeting.subscriptionBannerLastClosedAt,
-                isPaidContent: payload.targeting.isPaidContent,
+                shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
+                showSupportMessaging: targeting.showSupportMessaging,
+                alreadyVisitedCount: targeting.alreadyVisitedCount,
+                countryCode: targeting.countryCode,
+                engagementBannerLastClosedAt: targeting.engagementBannerLastClosedAt,
+                subscriptionBannerLastClosedAt: targeting.subscriptionBannerLastClosedAt,
+                isPaidContent: targeting.isPaidContent,
             };
 
             res.send(response);
@@ -410,8 +379,7 @@ app.get(
 );
 
 app.post('/puzzles', async (req: express.Request, res: express.Response) => {
-    const payload = validateBannerPayload(req.body);
-    const { tracking, targeting } = payload;
+    const { tracking, targeting } = req.body;
     const response = await buildPuzzlesData(tracking, targeting, req.params, req);
 
     // for response logging

@@ -1,12 +1,11 @@
 import path from 'path';
 import { configure, addLayout, Configuration, getLogger, LoggingEvent } from 'log4js';
 import { RequestLogName } from '../middleware/logging';
-import { isProd } from '../lib/env';
+import { isDev, isProd } from '../lib/env';
 
-const logLocation =
-    process.env.NODE_ENV === 'production'
-        ? '/var/log/dotcom-components/dotcom-components.log'
-        : `${path.resolve('logs')}/dotcom-components.log`;
+const logLocation = !isDev
+    ? '/var/log/dotcom-components/dotcom-components.log'
+    : `${path.resolve('logs')}/dotcom-components.log`;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const logFields = (logEvent: LoggingEvent): any => {

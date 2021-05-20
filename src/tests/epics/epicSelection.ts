@@ -1,141 +1,16 @@
-import {
-    EpicTargeting,
-    ViewLog,
-    UserCohort,
-} from '../components/modules/epics/ContributionsEpicTypes';
-import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from './targeting';
-import { getCountryName, inCountryGroups, CountryGroupId } from './geolocation';
-import { historyWithinArticlesViewedSettings } from './history';
-import { isRecentOneOffContributor } from './dates';
-import { ArticlesViewedSettings, WeeklyArticleHistory } from '../types/shared';
-import { ReminderFields } from './reminderFields';
-import { selectVariant } from './ab';
-import { EpicType } from '../components/modules/epics/ContributionsEpicTypes';
-
-export enum TickerEndType {
-    unlimited = 'unlimited',
-    hardstop = 'hardstop', // currently unsupported
-}
-export enum TickerCountType {
-    money = 'money',
-    people = 'people',
-}
-interface TickerCopy {
-    countLabel: string;
-    goalReachedPrimary: string;
-    goalReachedSecondary: string;
-}
-
-export interface TickerData {
-    total: number;
-    goal: number;
-}
-
-export interface TickerSettings {
-    endType: TickerEndType;
-    countType: TickerCountType;
-    currencySymbol: string;
-    copy: TickerCopy;
-    tickerData?: TickerData;
-}
-
-export interface MaxViews {
-    maxViewsCount: number;
-    maxViewsDays: number;
-    minDaysBetweenViews: number;
-}
-
-export interface Cta {
-    text: string;
-    baseUrl: string;
-}
-
-export enum SecondaryCtaType {
-    Custom = 'CustomSecondaryCta',
-    ContributionsReminder = 'ContributionsReminderSecondaryCta',
-}
-
-interface CustomSecondaryCta {
-    type: SecondaryCtaType.Custom;
-    cta: Cta;
-}
-
-interface ContributionsReminderSecondaryCta {
-    type: SecondaryCtaType.ContributionsReminder;
-}
-
-export type SecondaryCta = CustomSecondaryCta | ContributionsReminderSecondaryCta;
-
-export interface SeparateArticleCount {
-    type: 'above';
-}
-
-export interface Variant {
-    name: string;
-    heading?: string;
-    paragraphs: string[];
-    highlightedText?: string;
-    tickerSettings?: TickerSettings;
-    cta?: Cta;
-    secondaryCta?: SecondaryCta;
-    footer?: string;
-    backgroundImageUrl?: string;
-    showReminderFields?: ReminderFields;
-    modulePathBuilder?: (version?: string) => string;
-    separateArticleCount?: SeparateArticleCount;
-
-    // Variant level maxViews are for special targeting tests. These
-    // are handled differently to our usual copy/design tests. To
-    // set up a targeting test, the test should be set to alwaysAsk
-    // and each variant should have a maxViews set. We then check if a
-    // a user should actually see an epic after they have been assigned to
-    // the test + variant. This means users **wont** fall through to a test
-    // with lower priority.
-    maxViews?: MaxViews;
-}
-
-interface ControlProportionSettings {
-    proportion: number;
-    offset: number;
-}
-
-export interface Test {
-    name: string;
-    isOn: boolean;
-    locations: CountryGroupId[];
-    tagIds: string[];
-    sections: string[];
-    excludedTagIds: string[];
-    excludedSections: string[];
-    alwaysAsk: boolean;
-    maxViews?: MaxViews;
-    userCohort: UserCohort;
-    isLiveBlog: boolean;
-    hasCountryName: boolean;
-    variants: Variant[];
-    highPriority: boolean;
-    useLocalViewLog: boolean;
-    articlesViewedSettings?: ArticlesViewedSettings;
-
-    // TODO check with Contributions Team as not in current examples so perhaps
-    // they are always 0 and 1?
-    audience?: number;
-    audienceOffset?: number;
-
-    // These are specific to hardcoded tests
-    expiry?: string;
-    campaignId?: string;
-
-    controlProportionSettings?: ControlProportionSettings;
-}
-
-export interface EpicTests {
-    tests: Test[];
-}
+import { EpicTargeting, ViewLog, UserCohort, EpicTest, EpicVariant } from '../../types/EpicTypes';
+import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../../lib/targeting';
+import { getCountryName, inCountryGroups } from '../../lib/geolocation';
+import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import { isRecentOneOffContributor } from '../../lib/dates';
+import { WeeklyArticleHistory } from '../../types/shared';
+import { selectVariant } from '../../lib/ab';
+import { EpicType } from '../../types/EpicTypes';
+import { TestVariant } from '../../lib/params';
 
 interface Filter {
     id: string;
-    test: (test: Test, targeting: EpicTargeting) => boolean;
+    test: (test: EpicTest, targeting: EpicTargeting) => boolean;
 }
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
@@ -216,7 +91,7 @@ export const isOn: Filter = {
 
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
-    test: (test: Test): boolean => userIsInTest(test, mvtId),
+    test: (test: EpicTest): boolean => userIsInTest(test, mvtId),
 });
 
 export const hasCountryCode: Filter = {
@@ -299,14 +174,14 @@ export type Debug = { [test: string]: FilterResults };
 
 export interface Result {
     result?: {
-        test: Test;
-        variant: Variant;
+        test: EpicTest;
+        variant: EpicVariant;
     };
     debug?: Debug;
 }
 
 export const findTestAndVariant = (
-    tests: Test[],
+    tests: EpicTest[],
     targeting: EpicTargeting,
     epicType: EpicType,
     includeDebug: boolean = false,
@@ -334,7 +209,7 @@ export const findTestAndVariant = (
         respectArticleCountOptOut,
     ];
 
-    const priorityOrdered = ([] as Test[]).concat(
+    const priorityOrdered = ([] as EpicTest[]).concat(
         tests.filter(test => test.highPriority),
         tests.filter(test => !test.highPriority),
     );
@@ -358,7 +233,7 @@ export const findTestAndVariant = (
     );
 
     if (test) {
-        const variant = selectVariant(test, targeting.mvtId || 1);
+        const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
         const shouldThrottleVariant =
             !!variant.maxViews &&
@@ -373,4 +248,11 @@ export const findTestAndVariant = (
     }
 
     return { debug: includeDebug ? debug : undefined };
+};
+
+export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
+    const test = tests.find(test => test.name === force.testName);
+    const variant = test?.variants.find(v => v.name === force.variantName);
+
+    return test && variant ? { result: { test, variant } } : {};
 };

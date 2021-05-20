@@ -1,7 +1,7 @@
-import { Test } from './variants';
 import { selectVariant, withinRange } from './ab';
+import { EpicTest } from '../types/EpicTypes';
 
-const test: Test = {
+const test: EpicTest = {
     name: 'example-1',
     isOn: true,
     locations: [],

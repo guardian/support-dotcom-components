@@ -15,7 +15,40 @@ jest.mock('./api/contributionsApi', () => {
         fetchConfiguredEpicTests: jest
             .fn()
             .mockImplementation(() => Promise.resolve(configuredTests)),
+    };
+});
+jest.mock('./tests/amp/ampEpicTests', () => {
+    return {
         getAmpExperimentData: jest.fn().mockImplementation(() => Promise.resolve({})),
+    };
+});
+jest.mock('./tests/banners/bannerDeployCache', () => {
+    return {
+        bannerDeployCaches: {
+            contributions: jest.fn().mockImplementation(() => Promise.resolve({})),
+            subscriptions: jest.fn().mockImplementation(() => Promise.resolve({})),
+        },
+    };
+});
+
+jest.mock('./tests/banners/ChannelBannerTests', () => {
+    return {
+        channel1BannersAllTestsGenerator: jest
+            .fn()
+            .mockImplementation(() => () => Promise.resolve([])),
+        channel2BannersAllTestsGenerator: jest
+            .fn()
+            .mockImplementation(() => () => Promise.resolve([])),
+    };
+});
+jest.mock('./channelSwitches', () => {
+    return {
+        cachedChannelSwitches: jest.fn().mockImplementation(() =>
+            Promise.resolve({
+                enableEpics: true,
+                enableBanners: true,
+            }),
+        ),
     };
 });
 
@@ -60,13 +93,5 @@ describe('POST /epic', () => {
             componentType: 'ACQUISITIONS_EPIC',
             products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
         });
-    });
-
-    it('returns a 400 when an invalid payload is sent', async () => {
-        const res = await request(app)
-            .post('/epic')
-            .send({});
-
-        expect(res.status).toEqual(400);
     });
 });

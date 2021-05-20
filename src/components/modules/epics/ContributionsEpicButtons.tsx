@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
-import { EpicTracking } from './ContributionsEpicTypes';
-import { Cta, SecondaryCtaType, Variant } from '../../../lib/variants';
+import { EpicTracking, EpicVariant, SecondaryCtaType } from '../../../types/EpicTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 import { getCookie } from '../../../lib/cookies';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { getReminderViewEvent, OPHAN_COMPONENT_EVENT_REMINDER_OPEN } from './utils/ophan';
 import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { Cta } from '../../../types/shared';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -83,7 +83,7 @@ const SecondaryCtaButton = ({
 };
 
 interface ContributionsEpicButtonsProps {
-    variant: Variant;
+    variant: EpicVariant;
     tracking: EpicTracking;
     countryCode?: string;
     onOpenReminderClick: () => void;
@@ -150,6 +150,8 @@ export const ContributionsEpicButtons = ({
                     )}
 
                     <img
+                        width={422}
+                        height={60}
                         src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                         alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
                         css={paymentImageStyles}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -7,13 +7,11 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
-import { EpicTracking } from './ContributionsEpicTypes';
+import { EpicProps } from '../../../types/EpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
 import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleCountOptOut';
 import {
@@ -89,19 +87,6 @@ const imageStyles = css`
 const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
-
-export type EpicProps = {
-    variant: Variant;
-    tracking: EpicTracking;
-    countryCode?: string;
-    numArticles: number;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    onReminderOpen?: Function;
-    email?: string;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    openCmp?: () => void;
-    hasConsentForArticleCount?: boolean;
-};
 
 type HighlightedProps = {
     highlightedText: string;

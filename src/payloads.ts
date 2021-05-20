@@ -3,17 +3,17 @@ import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import {
     EpicPageTracking,
+    EpicProps,
     EpicTargeting,
+    EpicTest,
     EpicTestTracking,
     EpicType,
-} from './components/modules/epics/ContributionsEpicTypes';
-import { Debug, findTestAndVariant, Result, Variant, Test } from './lib/variants';
+    EpicVariant,
+} from './types/EpicTypes';
+import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
-
-import { getAllHardcodedTests } from './tests';
 import { Params } from './lib/params';
-import { EpicProps } from './components/modules/epics/ContributionsEpic';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
 import {
@@ -39,7 +39,10 @@ import {
     puzzlesBanner,
     header,
 } from './modules';
+import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
+import { logger } from './utils/logging';
+import { cachedChannelSwitches } from './channelSwitches';
 
 interface EpicDataResponse {
     data?: {
@@ -47,7 +50,7 @@ interface EpicDataResponse {
             url: string;
             props: EpicProps;
         };
-        variant: Variant;
+        variant: EpicVariant;
         meta: EpicTestTracking;
     };
     debug?: Debug;
@@ -106,27 +109,31 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const getArticleEpicTests = async (mvtId: number): Promise<Test[]> => {
-    const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
-    if (shouldHoldBack) {
-        const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
-        return holdback.tests;
+const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
+    try {
+        const [regular, holdback] = await Promise.all([
+            fetchConfiguredArticleEpicTestsCached(),
+            fetchConfiguredArticleEpicHoldbackTestsCached(),
+        ]);
+
+        if (isForcingTest) {
+            return [...regular.tests, ...holdback.tests, fallbackEpicTest];
+        }
+
+        const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
+        if (shouldHoldBack) {
+            return [...holdback.tests];
+        }
+
+        return [...regular.tests, fallbackEpicTest];
+    } catch (err) {
+        logger.warn(`Error getting article epic tests: ${err}`);
+
+        return [fallbackEpicTest];
     }
-    const regular = await fetchConfiguredArticleEpicTestsCached();
-    const hardCoded = await getAllHardcodedTests();
-
-    return [...regular.tests, ...hardCoded];
 };
 
-const getForceableArticleEpicTests = async (): Promise<Test[]> => {
-    const regular = await fetchConfiguredArticleEpicTestsCached();
-    const hardCoded = await getAllHardcodedTests();
-    const holdback = await fetchConfiguredArticleEpicHoldbackTestsCached();
-
-    return [...regular.tests, ...hardCoded, ...holdback.tests];
-};
-
-const getLiveblogEpicTests = async (): Promise<Test[]> => {
+const getLiveblogEpicTests = async (): Promise<EpicTest[]> => {
     const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
     return [...configuredTests.tests];
 };
@@ -138,23 +145,18 @@ export const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    let result: Result;
-
-    if (params.force) {
-        const tests = await (type === 'ARTICLE'
-            ? getForceableArticleEpicTests()
-            : getLiveblogEpicTests());
-
-        const test = tests.find(test => test.name === params.force?.testName);
-        const variant = test?.variants.find(v => v.name === params.force?.variantName);
-        result = test && variant ? { result: { test, variant } } : {};
-    } else {
-        const tests = await (type === 'ARTICLE'
-            ? getArticleEpicTests(targeting.mvtId || 0)
-            : getLiveblogEpicTests());
-
-        result = findTestAndVariant(tests, targeting, type, params.debug);
+    const { enableEpics } = await cachedChannelSwitches();
+    if (!enableEpics) {
+        return {};
     }
+
+    const tests = await (type === 'ARTICLE'
+        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
+        : getLiveblogEpicTests());
+
+    const result = params.force
+        ? findForcedTestAndVariant(tests, params.force)
+        : findTestAndVariant(tests, targeting, type, params.debug);
 
     if (process.env.log_targeting === 'true') {
         console.log(
@@ -217,6 +219,11 @@ export const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
+    const { enableBanners } = await cachedChannelSwitches();
+    if (!enableBanners) {
+        return {};
+    }
+
     const selectedTest = await selectBannerTest(
         targeting,
         pageTracking,
@@ -278,6 +285,10 @@ export const buildPuzzlesData = async (
     params: Params,
     req: express.Request,
 ): Promise<PuzzlesDataResponse> => {
+    const { enableBanners } = await cachedChannelSwitches();
+    if (!enableBanners) {
+        return {};
+    }
     if (targeting.showSupportMessaging) {
         return {
             data: {

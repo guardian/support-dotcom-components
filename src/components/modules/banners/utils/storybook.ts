@@ -1,4 +1,4 @@
-import { TickerCountType, TickerEndType } from '../../../../lib/variants';
+import { TickerCountType, TickerEndType } from '../../../../types/shared';
 import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
 
 export const tracking: BannerTracking = {
@@ -22,6 +22,10 @@ export const content: BannerContent = {
     cta: {
         baseUrl: 'https://support.theguardian.com/contribute',
         text: 'Support The Guardian',
+    },
+    secondaryCta: {
+        baseUrl: 'https://support.theguardian.com/contribute',
+        text: 'Learn more',
     },
 };
 

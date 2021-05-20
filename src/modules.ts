@@ -1,4 +1,4 @@
-const MODULES_VERSION = 'v1'; // The latest version of the modules
+export const MODULES_VERSION = 'v2'; // The latest version of the modules
 
 export interface ModuleInfo {
     name: string;
@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const g200Banner: ModuleInfo = getDefaultModuleInfo(
+    'g200-banner',
+    'banners/g200/G200Banner',
+);
+
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -49,6 +54,7 @@ export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    g200Banner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,

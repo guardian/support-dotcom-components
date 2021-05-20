@@ -1,11 +1,11 @@
 import React from 'react';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
-import { minimiseButtonContainer } from '../puzzlesBannerStyles';
 
-type TabletDesktopSquaresProps = {
-    minimiseButton: React.ReactNode;
+type TabletAndDesktopSquaresProps = {
+    minimiseHint: React.ReactNode;
+    isKeyboardUser: boolean;
 };
 
 const backgroundSquaresGrid = css`
@@ -34,6 +34,13 @@ const nudgeSquareRight = css`
     }
 `;
 
+const hintStyles = css`
+    text-align: right;
+    width: 80%;
+    position: absolute;
+    right: 10px;
+`;
+
 function gridPlacement(row: number, column: number) {
     return css`
         grid-row: ${row};
@@ -41,7 +48,10 @@ function gridPlacement(row: number, column: number) {
     `;
 }
 
-export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ minimiseButton }) => {
+export const TabletDesktopSquares: React.FC<TabletAndDesktopSquaresProps> = ({
+    minimiseHint,
+    isKeyboardUser,
+}) => {
     return (
         <div css={backgroundSquaresGrid}>
             <Square
@@ -57,11 +67,8 @@ export const TabletDesktopSquares: React.FC<TabletDesktopSquaresProps> = ({ mini
             <Square colour="pink" removeBorder={['top']} cssOverrides={gridPlacement(1, 3)} />
             <Square colour="pink" removeBorder={['right']} cssOverrides={gridPlacement(2, 1)} />
             <Square colour="pink" removeBorder={['right']} cssOverrides={gridPlacement(2, 2)} />
-            <Square
-                colour="purple"
-                cssOverrides={[minimiseButtonContainer, nudgeSquareRight, gridPlacement(2, 3)]}
-            >
-                {minimiseButton}
+            <Square colour="purple" cssOverrides={[nudgeSquareRight, gridPlacement(2, 3)]}>
+                {isKeyboardUser && <div css={hintStyles}>{minimiseHint}</div>}
             </Square>
         </div>
     );

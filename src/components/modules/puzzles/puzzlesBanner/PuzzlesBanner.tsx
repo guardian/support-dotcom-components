@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { CacheProvider } from '@emotion/core';
-import createCache from '@emotion/cache';
 import { Container } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
@@ -10,7 +8,6 @@ import {
     createViewEventFromTracking,
 } from '../../../../lib/tracking';
 import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
-import { gridPrefixerPlugin } from '../../../../utils/gridPrefixerPlugin';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { useTabDetection } from '../../../hooks/useTabDetection';
@@ -21,17 +18,24 @@ import { MinimisedContentSquare } from './squares/MinimisedContentSquare';
 import { MinimisedBorderSquares } from './squares/MinimisedBorderSquares';
 import {
     appStoreButtonContainer,
-    banner,
+    puzzlesBanner,
     bannerContents,
     heading,
+    headerFlex,
     headingSection,
     hide,
     imageContainer,
     minimisedBanner,
     minimiseButton,
+    minimiseButtonMax,
+    minimiseButtonMin,
+    mobileMinimiseButton,
     minimisedContentContainer,
     minimiseHint,
     squaresContainer,
+    siteMessage,
+    signInLink,
+    showOnDesktop,
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
@@ -57,11 +61,6 @@ const bannerStateChangeComponentIds: { [key in BannerStateChange]: string } = {
     expand: `${bannerId} : expand`,
 };
 
-// A custom Emotion cache to allow us to run a custom prefixer for CSS grid on IE11
-const emotionCache = createCache({
-    stylisPlugins: [gridPrefixerPlugin()],
-});
-
 const desktopPackshot = {
     url: packshot.desktop,
     media: '(min-width: 980px)',
@@ -73,12 +72,21 @@ const tabletPackshot = {
     alt: 'The Guardian Puzzles app on mobile devices',
 };
 
+const signInUrl =
+    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=PuzzleSignin&CMP_TU=mrtn&CMP_BUNIT=digipac';
+const signInComponentId = `${bannerId} : sign in`;
+
 export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
     const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
     const isKeyboardUser = useTabDetection();
 
     const hideOnMinimise = isMinimised ? hide : '';
     const hideOnExpand = isMinimised ? '' : hide;
+
+    // Exclude IE
+    if (window?.navigator?.userAgent?.match(/MSIE|Trident/)) {
+        return null;
+    }
 
     function handleAppStoreClickFor(store: AppStore) {
         return function onAppStoreClick() {
@@ -119,16 +127,33 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
         onMinimiseClick(stateChange);
     }
 
+    const onSignInClick = (): void => {
+        const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
+        if (submitComponentEvent) {
+            submitComponentEvent(componentClickEvent);
+        }
+    };
+
     const MinimiseButton = (
         <Button
-            size="small"
-            cssOverrides={minimiseButton}
+            size="xsmall"
+            cssOverrides={
+                isMinimised
+                    ? [minimiseButton, minimiseButtonMin]
+                    : [minimiseButton, minimiseButtonMax]
+            }
             icon={isMinimised ? <SvgArrowUpStraight /> : <SvgArrowDownStraight />}
             onClick={minimise}
             hideLabel
         >
             Minimise
         </Button>
+    );
+
+    const MinimiseHint = (
+        <p css={minimiseHint}>
+            <SvgInfo /> You can minimise this banner using the escape key
+        </p>
     );
 
     // Enable keyboard users to minimise the banner quickly
@@ -144,11 +169,11 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
     }, []);
 
     return (
-        <CacheProvider value={emotionCache}>
-            <section css={[banner, isMinimised ? minimisedBanner : '']}>
-                <Container css={hideOnMinimise}>
-                    <div css={[bannerContents, hideOnMinimise]}>
-                        <div css={[headingSection, hideOnMinimise]}>
+        <section css={[puzzlesBanner, isMinimised ? minimisedBanner : '']}>
+            <Container css={hideOnMinimise}>
+                <div css={[bannerContents, hideOnMinimise]}>
+                    <div css={[headingSection, hideOnMinimise]}>
+                        <div css={headerFlex}>
                             <h3 css={heading}>
                                 Discover
                                 <br />
@@ -156,51 +181,62 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 <br />
                                 Puzzles&nbsp;App
                             </h3>
-                            <div css={appStoreButtonContainer}>
-                                <Link
-                                    href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={handleAppStoreClickFor('apple')}
-                                >
-                                    <img
-                                        src={appStore.apple}
-                                        alt="Download on the Apple App Store"
-                                    />
-                                </Link>
-                                <Link
-                                    href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={handleAppStoreClickFor('google')}
-                                >
-                                    <img src={appStore.google} alt="Get it on Google Play" />
-                                </Link>
-                            </div>
-                            {isKeyboardUser && (
-                                <p css={minimiseHint}>
-                                    <SvgInfo /> You can minimise this banner using the escape key
-                                </p>
-                            )}
+                            <div css={mobileMinimiseButton}>{MinimiseButton}</div>
                         </div>
-                        <div css={[squaresContainer, hideOnMinimise]}>
-                            <ContentSquares />
-                            <div css={imageContainer}>
-                                <ResponsiveImage
-                                    images={[tabletPackshot, desktopPackshot]}
-                                    baseImage={tabletPackshot}
-                                />
-                            </div>
-                            <TabletDesktopSquares minimiseButton={MinimiseButton} />
+                        <div css={appStoreButtonContainer}>
+                            <Link
+                                href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={handleAppStoreClickFor('apple')}
+                            >
+                                <img src={appStore.apple} alt="Download on the Apple App Store" />
+                            </Link>
+                            <Link
+                                href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={handleAppStoreClickFor('google')}
+                            >
+                                <img src={appStore.google} alt="Get it on Google Play" />
+                            </Link>
+                        </div>
+                        <div css={siteMessage}>
+                            Already a subscriber?
+                            <br css={showOnDesktop} />{' '}
+                            <Link
+                                href={signInUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                css={signInLink}
+                                data-link-name={signInComponentId}
+                                onClick={onSignInClick}
+                            >
+                                Sign in
+                            </Link>{' '}
+                            to not see this again
                         </div>
                     </div>
-                </Container>
-                <MobileSquares minimiseButton={MinimiseButton} cssOverrides={hideOnMinimise} />
-                <div css={[hideOnExpand, minimisedContentContainer]}>
-                    <MinimisedContentSquare minimiseButton={MinimiseButton} />
-                    <MinimisedBorderSquares />
+                    <div css={[squaresContainer, hideOnMinimise]}>
+                        <ContentSquares minimiseButton={MinimiseButton} />
+                        <div css={imageContainer}>
+                            <ResponsiveImage
+                                images={[tabletPackshot, desktopPackshot]}
+                                baseImage={tabletPackshot}
+                            />
+                        </div>
+                        <TabletDesktopSquares
+                            minimiseHint={MinimiseHint}
+                            isKeyboardUser={isKeyboardUser}
+                        />
+                    </div>
                 </div>
-            </section>
-        </CacheProvider>
+            </Container>
+            <MobileSquares cssOverrides={hideOnMinimise} />
+            <div css={[hideOnExpand, minimisedContentContainer]}>
+                <MinimisedContentSquare />
+                <MinimisedBorderSquares minimiseButton={MinimiseButton} />
+            </div>
+        </section>
     );
 };
