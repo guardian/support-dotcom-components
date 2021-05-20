@@ -13,7 +13,6 @@ import { Variant } from '../../../lib/variants';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
 import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleCountOptOut';

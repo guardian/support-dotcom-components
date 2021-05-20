@@ -53,7 +53,7 @@ const articleCountDescriptionContainer = css`
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: ${space[2]}px 0;
+    padding: ${space[3]}px 0;
 `;
 
 const articleCountBodyTextStyles = css`
@@ -71,6 +71,10 @@ const articleCountCtasContainerStyles = css`
 
 const articleCountOptInCtaStyles = css`
     background-color: #000000;
+`;
+
+const articleCountDefaultCtaStyles = css`
+    background-color: #000000;
     padding-left: 20px;
 `;
 
@@ -81,8 +85,8 @@ const articleCountOptOutCtaStyles = css`
 
 const trackingSettingsContainerStyles = css`
     ${textSans.xsmall()};
-    margin-top: ${space[4]}px;
-    margin-bottom: ${space[2]}px;
+    margin: ${space[4]}px auto;
+    margin-bottom: ${space[4]}px;
 `;
 
 const privacySettingsLinkStyles = css`
@@ -203,7 +207,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                     <Button
                                         priority="primary"
                                         size="xsmall"
-                                        cssOverrides={articleCountOptInCtaStyles}
+                                        cssOverrides={articleCountDefaultCtaStyles}
                                         onClick={toggleButton}
                                     >
                                         Yes, thats OK
