@@ -19,7 +19,8 @@ const container = css`
 
 const paymentMethods = css`
     display: block;
-    max-height: 1.25rem;
+    height: 1.25rem;
+    width: auto;
     margin-top: ${space[2]}px;
 `;
 
@@ -38,6 +39,8 @@ const ContributionsTemplateCta: React.FC<ContributionsTemplateCtaProps> = ({
             {secondaryCta}
         </div>
         <img
+            width={422}
+            height={60}
             src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
             alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
             css={paymentMethods}
