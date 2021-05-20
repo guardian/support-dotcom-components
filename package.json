@@ -40,6 +40,7 @@
     "aws-sdk": "^2.862.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "compression": "1.7.4",
     "jsonschema": "^1.4.0",
     "lodash.debounce": "^4.0.8",
     "log4js": "^6.3.0",
