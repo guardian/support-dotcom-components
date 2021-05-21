@@ -20,6 +20,8 @@ import {
     removeArticleCountOptOutCookie,
     hasArticleCountOptOutCookie,
 } from '../shared/helpers/articleCountOptOut';
+import { EpicArticleCountOptOutTestVariants } from '../../../tests/epics/articleCountOptOut';
+import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
@@ -194,7 +196,9 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-export const ContributionsEpic: React.FC<EpicProps> = ({
+export const getContributionsEpicComponent: (
+    optOutVariant: EpicArticleCountOptOutTestVariants,
+) => React.FC<EpicProps> = optOutVariant => ({
     variant,
     tracking,
     countryCode,
@@ -248,14 +252,21 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         <section css={wrapperStyles}>
             {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
-                    <ContributionsEpicArticleCountOptOut
-                        numArticles={numArticles}
-                        isArticleCountOn={!hasOptedOut}
-                        onArticleCountOptOut={onArticleCountOptOut}
-                        onArticleCountOptIn={onArticleCountOptIn}
-                        openCmp={openCmp}
-                        submitComponentEvent={submitComponentEvent}
-                    />
+                    {optOutVariant === EpicArticleCountOptOutTestVariants.control ? (
+                        <ContributionsEpicArticleCountAbove
+                            numArticles={numArticles}
+                            tracking={ophanTracking}
+                        />
+                    ) : (
+                        <ContributionsEpicArticleCountOptOut
+                            numArticles={numArticles}
+                            isArticleCountOn={!hasOptedOut}
+                            onArticleCountOptOut={onArticleCountOptOut}
+                            onArticleCountOptIn={onArticleCountOptIn}
+                            openCmp={openCmp}
+                            submitComponentEvent={submitComponentEvent}
+                        />
+                    )}
                 </div>
             )}
 
@@ -329,3 +340,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         </section>
     );
 };
+
+export const ContributionsEpic: React.FC<EpicProps> = getContributionsEpicComponent(
+    EpicArticleCountOptOutTestVariants.control,
+);

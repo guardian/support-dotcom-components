@@ -43,6 +43,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';
 import { cachedChannelSwitches } from './channelSwitches';
+import { EpicArticleCountOptOutTest } from './tests/epics/articleCountOptOut';
 
 interface EpicDataResponse {
     data?: {
@@ -117,7 +118,12 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
         ]);
 
         if (isForcingTest) {
-            return [...regular.tests, ...holdback.tests, fallbackEpicTest];
+            return [
+                EpicArticleCountOptOutTest,
+                ...regular.tests,
+                ...holdback.tests,
+                fallbackEpicTest,
+            ];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
@@ -125,7 +131,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
             return [...holdback.tests];
         }
 
-        return [...regular.tests, fallbackEpicTest];
+        return [EpicArticleCountOptOutTest, ...regular.tests, fallbackEpicTest];
     } catch (err) {
         logger.warn(`Error getting article epic tests: ${err}`);
 

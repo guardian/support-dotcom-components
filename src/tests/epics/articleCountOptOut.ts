@@ -1,6 +1,5 @@
-import { Epic } from 'components/modules/shared/ArticleCountOptOutOverlay.stories';
 import { EpicTest } from '../../types/EpicTypes';
-import { epic } from '../../modules';
+import { epic, epicWithArticleCountOptOut } from '../../modules';
 import { SHARED_PARAGRAPHS, HIGHLIGHTED_TEXT, CTA } from './articleCountOptOutTestData';
 
 export enum EpicArticleCountOptOutTestVariants {
@@ -34,13 +33,15 @@ export const EpicArticleCountOptOutTest: EpicTest = {
             paragraphs: SHARED_PARAGRAPHS,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
+            separateArticleCount: { type: 'above' },
         },
         {
             name: EpicArticleCountOptOutTestVariants.new,
-            modulePathBuilder: epicACAbove.endpointPathBuilder,
-            paragraphs: UK_AUS_VARIANTS_PARAGRAPHS,
+            modulePathBuilder: epicWithArticleCountOptOut.endpointPathBuilder,
+            paragraphs: SHARED_PARAGRAPHS,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
+            separateArticleCount: { type: 'above' },
         },
     ],
     highPriority: true,
