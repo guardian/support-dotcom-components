@@ -19,7 +19,7 @@ const styles = {
         padding-bottom: 20px;
     `,
     heading: css`
-        ${headline.xsmall({ fontWeight: 'bold' })};
+        ${headline.xxsmall({ fontWeight: 'bold' })};
         max-width: 90%; /* to avoid pushing the close button off screen on mobile devices with extra large font */
     `,
     copy: css`

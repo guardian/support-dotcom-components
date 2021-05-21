@@ -8,13 +8,14 @@ export const commonStyles = {
         max-width: 40rem;
         display: block;
         padding-bottom: 0;
-        ${body.medium({ lineHeight: 'loose' })};
+        ${body.small({ lineHeight: 'loose' })};
         ${until.tablet} {
             strong {
                 font-weight: 800;
             }
         }
         ${from.tablet} {
+            ${body.medium({ lineHeight: 'loose' })};
             strong {
                 ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
             }
