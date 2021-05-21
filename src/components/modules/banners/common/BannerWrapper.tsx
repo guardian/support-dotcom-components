@@ -14,6 +14,7 @@ import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 import { Cta } from '../../../../types/shared';
 import { BannerId, BannerEnrichedCta, BannerRenderedContent, BannerRenderProps } from './types';
+import { getComponentIds } from './getComponentIds';
 
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
@@ -29,10 +30,7 @@ const withBannerData = (
         numArticles = 0,
     } = bannerProps;
 
-    const closeComponentId = `${bannerId} : close`;
-    const ctaComponentId = `${bannerId} : cta`;
-    const secondaryCtaComponentId = `${bannerId} : secondary-cta`;
-    const signInComponentId = `${bannerId} : sign in`;
+    const componentIds = getComponentIds(bannerId);
 
     // For safety, this function throws if not all placeholders are replaced
     const buildRenderedContent = (bannerContent: BannerContent): BannerRenderedContent => {
@@ -90,40 +88,30 @@ const withBannerData = (
         };
     };
 
-    const onCtaClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(
-            bannerProps.tracking,
-            ctaComponentId,
-        );
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
+    const clickHandlerFor = (componentId: string) => {
+        return (): void => {
+            const componentClickEvent = createClickEventFromTracking(tracking, componentId);
+            if (submitComponentEvent) {
+                submitComponentEvent(componentClickEvent);
+            }
+        };
     };
 
-    const onSecondaryCtaClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(
-            bannerProps.tracking,
-            secondaryCtaComponentId,
-        );
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
-    };
+    const onCtaClick = clickHandlerFor(componentIds.cta);
+
+    const onSecondaryCtaClick = clickHandlerFor(componentIds.secondaryCta);
 
     const onCloseClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
+        clickHandlerFor(componentIds.close)();
         onClose();
     };
 
-    const onSignInClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
+    const onNotNowClick = (): void => {
+        clickHandlerFor(componentIds.notNow)();
+        onClose();
     };
+
+    const onSignInClick = clickHandlerFor(componentIds.signIn);
 
     try {
         const renderedContent = content && buildRenderedContent(content);
@@ -135,6 +123,7 @@ const withBannerData = (
                 onSecondaryCtaClick,
                 onCloseClick,
                 onSignInClick,
+                onNotNowClick,
                 content: {
                     mainContent: renderedContent,
                     mobileContent: renderedMobileContent,

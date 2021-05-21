@@ -21,6 +21,7 @@ export interface BannerTextContent {
 export interface BannerRenderProps {
     onCtaClick: () => void;
     onSecondaryCtaClick: () => void;
+    onNotNowClick: () => void;
     onCloseClick: () => void;
     onSignInClick?: () => void;
     content: BannerTextContent;

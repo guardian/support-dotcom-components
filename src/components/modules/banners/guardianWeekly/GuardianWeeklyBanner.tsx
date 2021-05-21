@@ -80,6 +80,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
     onCtaClick,
     onCloseClick,
     onSignInClick,
+    onNotNowClick,
     content,
 }) => {
     return (
@@ -114,7 +115,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                         <Button
                                             priority="subdued"
                                             data-link-name={notNowComponentId}
-                                            onClick={onCloseClick}
+                                            onClick={onNotNowClick}
                                         >
                                             {secondaryCta?.ctaText || defaultSecondaryCta}
                                         </Button>

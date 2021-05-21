@@ -28,13 +28,12 @@ import { BannerText } from '../common/BannerText';
 import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import bannerWrapper from '../common/BannerWrapper';
+import { getComponentIds } from '../common/getComponentIds';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
 const bannerId = 'subscription-banner';
-const notNowComponentId = `${bannerId} : not now`;
-const closeComponentId = `${bannerId} : close`;
-const signInComponentId = `${bannerId} : sign in`;
+const componentIds = getComponentIds(bannerId);
 
 const ausMobImg =
     'https://i.guim.co.uk/img/media/155b9ad007e59571fe9c60218246ddf8c758e1f8/0_12_1894_1137/500.png?width=400&quality=85&s=206fa8b876a4929ed268504a9bc1695e';
@@ -66,6 +65,7 @@ const fallbackSecondaryCta = 'Not now';
 const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     onCtaClick,
     onCloseClick,
+    onNotNowClick,
     onSignInClick,
     countryCode,
     content,
@@ -96,6 +96,7 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                         <ThemeProvider theme={buttonReaderRevenue}>
                                             <LinkButton
                                                 href={primaryCta?.ctaUrl}
+                                                data-link-name={componentIds.cta}
                                                 onClick={onCtaClick}
                                             >
                                                 {primaryCta?.ctaText || fallbackCta}
@@ -104,8 +105,8 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                         <ThemeProvider theme={buttonBrand}>
                                             <Button
                                                 priority="subdued"
-                                                data-link-name={notNowComponentId}
-                                                onClick={onCloseClick}
+                                                data-link-name={componentIds.notNow}
+                                                onClick={onNotNowClick}
                                             >
                                                 {secondaryCta?.ctaText || fallbackSecondaryCta}
                                             </Button>
@@ -119,7 +120,7 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                             <ThemeProvider theme={linkBrand}>
                                 <Link
                                     href={signInUrl}
-                                    data-link-name={signInComponentId}
+                                    data-link-name={componentIds.signIn}
                                     onClick={onSignInClick}
                                     subdued
                                 >
@@ -147,7 +148,7 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                     cssOverrides={closeButton}
                                     priority="tertiary"
                                     onClick={onCloseClick}
-                                    data-link-name={closeComponentId}
+                                    data-link-name={componentIds.close}
                                     icon={<SvgCross />}
                                     hideLabel
                                 >
