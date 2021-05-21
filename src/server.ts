@@ -1,9 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import compression from 'compression';
 import fetch from 'node-fetch';
 import { EpicType } from './types/EpicTypes';
 import cors from 'cors';
-import { validateBannerPayload, validateEpicPayload } from './lib/validation';
 import { buildAmpEpicCampaignCode } from './lib/tracking';
 import {
     errorHandling as errorHandlingMiddleware,
@@ -23,6 +23,7 @@ import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } fro
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
+app.use(compression());
 
 // Note allows *all* cors. We may want to tighten this later.
 app.use(cors());
@@ -41,10 +42,6 @@ app.post(
     '/epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (!isProd) {
-                validateEpicPayload(req.body);
-            }
-
             const epicType: EpicType = 'ARTICLE';
 
             const { tracking, targeting } = req.body;
@@ -72,10 +69,6 @@ app.post(
     '/liveblog-epic',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            if (!isProd) {
-                validateEpicPayload(req.body);
-            }
-
             const epicType: EpicType = 'LIVEBLOG';
 
             const { tracking, targeting } = req.body;
@@ -103,9 +96,7 @@ app.post(
     '/banner',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const payload = validateBannerPayload(req.body);
-
-            const { tracking, targeting } = payload;
+            const { tracking, targeting } = req.body;
             const params = getQueryParams(req.query);
 
             const response = await buildBannerData(tracking, targeting, params, req);
@@ -115,13 +106,13 @@ app.post(
             res.locals.clientName = tracking.clientName;
             // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
             res.locals.bannerTargeting = {
-                shouldHideReaderRevenue: payload.targeting.shouldHideReaderRevenue,
-                showSupportMessaging: payload.targeting.showSupportMessaging,
-                alreadyVisitedCount: payload.targeting.alreadyVisitedCount,
-                countryCode: payload.targeting.countryCode,
-                engagementBannerLastClosedAt: payload.targeting.engagementBannerLastClosedAt,
-                subscriptionBannerLastClosedAt: payload.targeting.subscriptionBannerLastClosedAt,
-                isPaidContent: payload.targeting.isPaidContent,
+                shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
+                showSupportMessaging: targeting.showSupportMessaging,
+                alreadyVisitedCount: targeting.alreadyVisitedCount,
+                countryCode: targeting.countryCode,
+                engagementBannerLastClosedAt: targeting.engagementBannerLastClosedAt,
+                subscriptionBannerLastClosedAt: targeting.subscriptionBannerLastClosedAt,
+                isPaidContent: targeting.isPaidContent,
             };
 
             res.send(response);
@@ -390,8 +381,7 @@ app.get(
 );
 
 app.post('/puzzles', async (req: express.Request, res: express.Response) => {
-    const payload = validateBannerPayload(req.body);
-    const { tracking, targeting } = payload;
+    const { tracking, targeting } = req.body;
     const response = await buildPuzzlesData(tracking, targeting, req.params, req);
 
     // for response logging

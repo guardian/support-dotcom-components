@@ -1,5 +1,5 @@
-import { css } from '@emotion/core';
-import { body, headline, textSans } from '@guardian/src-foundations/typography/cjs';
+import { css } from '@emotion/react';
+import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';

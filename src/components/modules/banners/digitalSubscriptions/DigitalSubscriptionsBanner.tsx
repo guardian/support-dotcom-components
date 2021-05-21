@@ -2,7 +2,7 @@
 // @ts-ignore
 
 import React from 'react';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button, LinkButton, buttonBrand, buttonReaderRevenue } from '@guardian/src-button';
 import { Link, linkBrand } from '@guardian/src-link';

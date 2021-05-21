@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { ThemeProvider } from 'emotion-theming';
+import { ThemeProvider } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
@@ -41,6 +41,7 @@ const paymentIconContainerStyles = css`
     img {
         display: block;
         height: 12px;
+        width: auto;
 
         ${from.tablet} {
             height: 20px;
@@ -109,6 +110,7 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                                 href={mobilePrimaryCta.ctaUrl}
                                 cssOverrides={primaryCtaStyles}
                                 size="xsmall"
+                                priority="primary"
                             >
                                 {mobilePrimaryCta.ctaText}
                             </LinkButton>
@@ -122,6 +124,7 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                                 href={content.primaryCta.ctaUrl}
                                 cssOverrides={primaryCtaStyles}
                                 size="small"
+                                priority="primary"
                             >
                                 {content.primaryCta.ctaText}
                             </LinkButton>
@@ -131,6 +134,8 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
 
                 <div css={paymentIconContainerStyles}>
                     <img
+                        width={422}
+                        height={60}
                         src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
                         alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
                     />

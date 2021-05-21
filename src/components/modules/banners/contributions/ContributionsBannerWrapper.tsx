@@ -160,8 +160,8 @@ const withBannerData = (
     return null;
 };
 
-const contributionsBannerWrapper = (
+const ContributionsBannerWrapper = (
     Banner: React.FC<ContributionsBannerProps>,
 ): React.FC<BannerProps> => withCloseable(withBannerData(Banner), 'contributions');
 
-export default contributionsBannerWrapper;
+export default ContributionsBannerWrapper;

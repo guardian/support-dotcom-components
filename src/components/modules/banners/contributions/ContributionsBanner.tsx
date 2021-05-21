@@ -2,16 +2,17 @@ import React from 'react';
 import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
 import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
-import { css } from '@emotion/core';
-import { space } from '@guardian/src-foundations';
+import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { brandAlt, neutral } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import { BannerText } from '../common/BannerText';
+import { withParsedProps } from '../../shared/ModuleWrapper';
+import { BannerProps, bannerSchema } from '../../../../types/BannerTypes';
 
 const styles = {
     bannerContainer: css`
@@ -185,6 +186,15 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = contributionsBannerWrapper(ContributionsBanner);
+const validate = (props: unknown): props is BannerProps => {
+    const result = bannerSchema.safeParse(props);
+    return result.success;
+};
 
-export { wrapped as ContributionsBanner };
+const withoutValidation = contributionsBannerWrapper(ContributionsBanner);
+const withValidation = withParsedProps(withoutValidation, validate);
+
+export {
+    withValidation as ContributionsBanner,
+    withoutValidation as ContributionsBannerUnvalidated,
+};

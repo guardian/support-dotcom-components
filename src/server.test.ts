@@ -15,7 +15,6 @@ jest.mock('./api/contributionsApi', () => {
         fetchConfiguredEpicTests: jest
             .fn()
             .mockImplementation(() => Promise.resolve(configuredTests)),
-        getAmpExperimentData: jest.fn().mockImplementation(() => Promise.resolve({})),
     };
 });
 jest.mock('./tests/amp/ampEpicTests', () => {
@@ -94,13 +93,5 @@ describe('POST /epic', () => {
             componentType: 'ACQUISITIONS_EPIC',
             products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
         });
-    });
-
-    it('returns a 400 when an invalid payload is sent', async () => {
-        const res = await request(app)
-            .post('/epic')
-            .send({});
-
-        expect(res.status).toEqual(400);
     });
 });
