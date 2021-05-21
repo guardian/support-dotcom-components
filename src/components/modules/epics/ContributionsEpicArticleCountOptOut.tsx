@@ -6,6 +6,15 @@ import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { ButtonLink } from '@guardian/src-link';
 import { css } from '@emotion/core';
+import { OphanComponentEvent } from '../../../types/OphanTypes';
+import {
+    OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
+    OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE,
+    OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN,
+    OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT,
+    OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT,
+    OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
+} from './utils/ophan';
 
 // --- Styles --- //
 
@@ -128,6 +137,7 @@ export interface ContributionsEpicArticleCountOptOutProps {
     onArticleCountOptOut: () => void;
     onArticleCountOptIn: () => void;
     openCmp?: () => void;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
 
 // -- Components -- //
@@ -147,19 +157,40 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     onArticleCountOptOut,
     onArticleCountOptIn,
     openCmp,
+    submitComponentEvent,
 }: ContributionsEpicArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const toggleButton = () => setIsOpen(!isOpen);
-
-    const onOptOut = () => {
-        toggleButton();
-        onArticleCountOptOut();
+    const onToggleClick = () => {
+        setIsOpen(!isOpen);
+        submitComponentEvent &&
+            submitComponentEvent(
+                isOpen
+                    ? OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE
+                    : OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
+            );
     };
 
-    const onOptIn = () => {
-        toggleButton();
+    const onStayInClick = () => {
+        setIsOpen(false);
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN);
+    };
+
+    const onOptOutClick = () => {
+        setIsOpen(false);
+        onArticleCountOptOut();
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
+    };
+
+    const onOptInClick = () => {
+        setIsOpen(false);
         onArticleCountOptIn();
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN);
+    };
+
+    const onStayOutClick = () => {
+        setIsOpen(false);
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
     };
 
     return (
@@ -171,7 +202,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                         <div css={articleCountTextStyles}>Article count</div>
                         <ButtonLink
                             priority="secondary"
-                            onClick={toggleButton}
+                            onClick={onToggleClick}
                             cssOverrides={articleCountCtaStyles}
                         >
                             on
@@ -183,7 +214,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                     <div css={articleCountTextStyles}>Article count</div>
                     <ButtonLink
                         priority="secondary"
-                        onClick={toggleButton}
+                        onClick={onToggleClick}
                         cssOverrides={articleCountCtaStyles}
                     >
                         off
@@ -192,10 +223,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
             )}
             {isOpen && (
                 <div css={articleCountDescriptionTopContainerStyles}>
-                    <div css={style1}>
-                        {/* <div css={style2}></div>
-                        <div css={style3}></div> */}
-                    </div>
+                    <div css={style1}></div>
                     <div css={articleCountDescriptionContainer}>
                         {isArticleCountOn ? (
                             <>
@@ -208,7 +236,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="primary"
                                         size="xsmall"
                                         cssOverrides={articleCountDefaultCtaStyles}
-                                        onClick={toggleButton}
+                                        onClick={onStayInClick}
                                     >
                                         Yes, thats OK
                                     </Button>
@@ -216,7 +244,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="tertiary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptOutCtaStyles}
-                                        onClick={onOptOut}
+                                        onClick={onOptOutClick}
                                     >
                                         No, opt me out
                                     </Button>
@@ -234,7 +262,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="primary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptInCtaStyles}
-                                        onClick={onOptIn}
+                                        onClick={onOptInClick}
                                     >
                                         Yes, opt me in
                                     </Button>
@@ -242,7 +270,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                                         priority="tertiary"
                                         size="xsmall"
                                         cssOverrides={articleCountOptOutCtaStyles}
-                                        onClick={toggleButton}
+                                        onClick={onStayOutClick}
                                     >
                                         No, thank you
                                     </Button>

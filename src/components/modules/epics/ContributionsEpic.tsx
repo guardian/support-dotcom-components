@@ -254,6 +254,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}
                         openCmp={openCmp}
+                        submitComponentEvent={submitComponentEvent}
                     />
                 </div>
             )}
