@@ -102,7 +102,7 @@ const privacySettingsLinkStyles = css`
     ${textSans.xsmall({ fontWeight: 'bold' })};
 `;
 
-const style1 = css`
+const caretStyles = css`
     &:before {
         content: '';
         display: block;
@@ -223,7 +223,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
             )}
             {isOpen && (
                 <div css={articleCountDescriptionTopContainerStyles}>
-                    <div css={style1}></div>
+                    <div css={caretStyles}></div>
                     <div css={articleCountDescriptionContainer}>
                         {isArticleCountOn ? (
                             <>
