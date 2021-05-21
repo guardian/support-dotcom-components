@@ -110,7 +110,11 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
+const getArticleEpicTests = async (
+    mvtId: number,
+    isForcingTest: boolean,
+    isDcr: boolean,
+): Promise<EpicTest[]> => {
     try {
         const [regular, holdback] = await Promise.all([
             fetchConfiguredArticleEpicTestsCached(),
@@ -119,7 +123,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
 
         if (isForcingTest) {
             return [
-                EpicArticleCountOptOutTest,
+                ...(isDcr ? [EpicArticleCountOptOutTest] : []),
                 ...regular.tests,
                 ...holdback.tests,
                 fallbackEpicTest,
@@ -131,7 +135,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
             return [...holdback.tests];
         }
 
-        return [EpicArticleCountOptOutTest, ...regular.tests, fallbackEpicTest];
+        return [...(isDcr ? [EpicArticleCountOptOutTest] : []), ...regular.tests, fallbackEpicTest];
     } catch (err) {
         logger.warn(`Error getting article epic tests: ${err}`);
 
@@ -157,7 +161,11 @@ export const buildEpicData = async (
     }
 
     const tests = await (type === 'ARTICLE'
-        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
+        ? getArticleEpicTests(
+              targeting.mvtId || 1,
+              !!params.force,
+              pageTracking.clientName === 'dcr',
+          )
         : getLiveblogEpicTests());
 
     const result = params.force
