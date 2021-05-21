@@ -129,11 +129,11 @@ export const packShotContainer = css`
 
     picture {
         display: flex;
-        max-width: 450px;
         height: 100%;
         justify-content: flex-end;
         align-items: flex-end;
         ${between.tablet.and.desktop} {
+            max-width: 450px;
             position: absolute;
             right: 0;
             bottom: 0;
