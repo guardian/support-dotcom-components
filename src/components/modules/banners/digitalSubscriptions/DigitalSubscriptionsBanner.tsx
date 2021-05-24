@@ -27,7 +27,7 @@ import { ResponsiveImage } from '../../../ResponsiveImage';
 import { BannerText } from '../common/BannerText';
 import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
-import bannerWrapper from '../common/BannerWrapper';
+import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { getComponentIds } from '../common/getComponentIds';
 
 const signInUrl =
@@ -166,6 +166,6 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const wrapped = bannerWrapper(DigitalSubscriptionsBanner, bannerId, 'subscriptions');
+const wrapped = validatedBannerWrapper(DigitalSubscriptionsBanner, bannerId, 'subscriptions');
 
 export { wrapped as DigitalSubscriptionsBanner };

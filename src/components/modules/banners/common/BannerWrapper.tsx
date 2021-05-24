@@ -5,7 +5,12 @@ import {
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
 import React from 'react';
-import { BannerChannel, BannerContent, BannerProps } from '../../../../types/BannerTypes';
+import {
+    BannerChannel,
+    BannerContent,
+    BannerProps,
+    bannerSchema,
+} from '../../../../types/BannerTypes';
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
@@ -15,6 +20,7 @@ import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 import { Cta } from '../../../../types/shared';
 import { BannerId, BannerEnrichedCta, BannerRenderedContent, BannerRenderProps } from './types';
 import { getComponentIds } from './getComponentIds';
+import { withParsedProps } from '../../shared/ModuleWrapper';
 
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
@@ -139,10 +145,22 @@ const withBannerData = (
     return null;
 };
 
-const bannerWrapper = (
+export const bannerWrapper = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
     bannerChannel: BannerChannel,
 ): React.FC<BannerProps> => withCloseable(withBannerData(Banner, bannerId), bannerChannel);
 
-export default bannerWrapper;
+const validate = (props: unknown): props is BannerProps => {
+    const result = bannerSchema.safeParse(props);
+    return result.success;
+};
+
+export const validatedBannerWrapper = (
+    Banner: React.FC<BannerRenderProps>,
+    bannerId: BannerId,
+    bannerChannel: BannerChannel,
+): React.FC<BannerProps> => {
+    const withoutValidation = bannerWrapper(Banner, bannerId, bannerChannel);
+    return withParsedProps(withoutValidation, validate);
+};

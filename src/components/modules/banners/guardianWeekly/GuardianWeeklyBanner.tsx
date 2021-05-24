@@ -21,7 +21,7 @@ import { ResponsiveImage } from '../../../ResponsiveImage';
 import { BannerText } from '../common/BannerText';
 import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
-import bannerWrapper from '../common/BannerWrapper';
+import { validatedBannerWrapper } from '../common/BannerWrapper';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_gWeekly&CMP_TU=mrtn&CMP_BUNIT=subs';
@@ -155,6 +155,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const wrapped = bannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
+// const wrapped = bannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
+const validated = validatedBannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
 
-export { wrapped as GuardianWeeklyBanner };
+export { validated as GuardianWeeklyBanner };
