@@ -14,14 +14,9 @@ import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
 import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleCountOptOut';
-import {
-    addArticleCountOptOutCookie,
-    removeArticleCountFromLocalStorage,
-    removeArticleCountOptOutCookie,
-    hasArticleCountOptOutCookie,
-} from '../shared/helpers/articleCountOptOut';
 import { EpicArticleCountOptOutTestVariants } from '../../../tests/epics/articleCountOptOut';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
+import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
@@ -210,7 +205,7 @@ export const getContributionsEpicComponent: (
     hasConsentForArticleCount,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
-    const [hasOptedOut, setHasOptedOut] = useState(hasArticleCountOptOutCookie());
+    const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
@@ -231,17 +226,6 @@ export const getContributionsEpicComponent: (
     ) {
         return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
-
-    const onArticleCountOptOut = () => {
-        setHasOptedOut(true);
-        addArticleCountOptOutCookie();
-        removeArticleCountFromLocalStorage();
-    };
-
-    const onArticleCountOptIn = () => {
-        setHasOptedOut(false);
-        removeArticleCountOptOutCookie();
-    };
 
     const ophanTracking: OphanTracking | undefined = submitComponentEvent && {
         submitComponentEvent,
