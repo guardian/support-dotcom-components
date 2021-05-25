@@ -52,8 +52,8 @@ const articleCountCtaStyles = css`
 `;
 
 const articleCountDescriptionTopContainerStyles = css`
-    border-top: 1px solid #000000;
-    border-bottom: 1px solid #000000;
+    border-top: 1px solid ${palette.neutral[0]};
+    border-bottom: 1px solid ${palette.neutral[0]};
     margin-top: ${space[4]}px;
     position: relative;
 `;
@@ -76,20 +76,23 @@ const articleCountCtasContainerStyles = css`
     margin-left: auto;
     justify-content: space-between;
     height: 60px;
+    > * + * {
+        margin-top: ${space[2]}px;
+    }
 `;
 
 const articleCountOptInCtaStyles = css`
-    background-color: #000000;
+    background-color: ${palette.neutral[0]};
 `;
 
 const articleCountDefaultCtaStyles = css`
-    background-color: #000000;
+    background-color: ${palette.neutral[0]};
     padding-left: 20px;
 `;
 
 const articleCountOptOutCtaStyles = css`
-    color: #000000;
-    border: 1px solid #000000;
+    color: ${palette.neutral[0]};
+    border: 1px solid ${palette.neutral[0]};
 `;
 
 const trackingSettingsContainerStyles = css`
@@ -127,7 +130,7 @@ const caretStyles = css`
     }
 `;
 
-interface Props {
+interface ContributionsEpicArticleCountAboveProps {
     numArticles: number;
 }
 
@@ -142,7 +145,9 @@ export interface ContributionsEpicArticleCountOptOutProps {
 
 // -- Components -- //
 
-export const ContributionsEpicArticleCountAbove: React.FC<Props> = ({ numArticles }: Props) => {
+export const ContributionsEpicArticleCountAbove: React.FC<ContributionsEpicArticleCountAboveProps> = ({
+    numArticles,
+}: ContributionsEpicArticleCountAboveProps) => {
     return (
         <div css={containerStyles}>
             You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in the last

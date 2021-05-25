@@ -4,7 +4,7 @@ import {
     hasArticleCountOptOutCookie,
     removeArticleCountFromLocalStorage,
     removeArticleCountOptOutCookie,
-} from 'components/modules/shared/helpers/articleCountOptOut';
+} from '../modules/shared/helpers/articleCountOptOut';
 
 interface ArticleCountOptOut {
     hasOptedOut: boolean;
