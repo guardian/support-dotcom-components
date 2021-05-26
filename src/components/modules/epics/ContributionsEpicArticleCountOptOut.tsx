@@ -15,12 +15,23 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT,
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
+import { from, until } from '@guardian/src-foundations/mq';
 
 // --- Styles --- //
 
-const containerStyles = css`
-    ${body.medium({ fontWeight: 'bold' })};
+const topContainer = css`
+    ${until.mobileLandscape} {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+`;
+
+const articleCountAboveContainerStyles = css`
     font-style: italic;
+    ${body.small({ fontWeight: 'bold' })};
+    ${from.tablet} {
+        ${body.medium({ fontWeight: 'bold' })};
+    }
 `;
 
 const optOutContainer = css`
@@ -29,14 +40,23 @@ const optOutContainer = css`
 
 const articleCountOnHeaderContainerStyles = css`
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: space-between;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+
+    ${from.tablet} {
+        flex-direction: row;
+        align-items: center;
+    }
 `;
 
 const articleCountTextStyles = css`
-    ${textSans.small()};
+    ${textSans.xsmall()};
     margin-right: ${space[1]}px;
+
+    ${from.tablet} {
+        ${textSans.small()};
+    }
 `;
 
 const articleCountWrapperStyles = css`
@@ -44,40 +64,69 @@ const articleCountWrapperStyles = css`
     flex-direction: row;
     align-items: center;
     margin-right: ${space[2]}px;
+    margin-bottom: ${space[2]}px;
     justify-content: flex-end;
+
+    ${from.tablet} {
+        margin-bottom: 0;
+    }
 `;
 
 const articleCountCtaStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })};
+    ${textSans.xsmall({ fontWeight: 'bold' })};
+
+    ${from.tablet} {
+        ${textSans.small({ fontWeight: 'bold' })};
+    }
 `;
 
 const articleCountDescriptionTopContainerStyles = css`
+    border-bottom: 1px solid ${palette.neutral[46]};
     border-top: 1px solid ${palette.neutral[0]};
-    border-bottom: 1px solid ${palette.neutral[0]};
-    margin-top: ${space[4]}px;
     position: relative;
+
+    ${from.tablet} {
+        margin-top: ${space[4]}px;
+    }
 `;
 
 const articleCountDescriptionContainer = css`
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: ${space[3]}px 0;
+    display: flex;
+    flex-direction: column;
+    padding: ${space[1]}px ${space[1]}px 0;
+
+    ${from.tablet} {
+        flex-direction: row;
+        padding: ${space[3]}px 0;
+    }
 `;
 
 const articleCountBodyTextStyles = css`
     ${textSans.small()};
-    width: 65%;
+    width: 100%;
+
+    ${from.tablet} {
+        width: 65%;
+    }
 `;
 
 const articleCountCtasContainerStyles = css`
+    align-self: start;
     display: flex;
-    flex-direction: column;
-    margin-left: auto;
+    flex-direction: row;
+    height: ${space[5]}px;
     justify-content: space-between;
-    height: 60px;
+    margin: ${space[4]}px 0 0;
     > * + * {
-        margin-top: ${space[2]}px;
+        margin: ${space[4]}px;
+    }
+
+    ${from.tablet} {
+        flex-direction: column;
+        > * + * {
+            margin-top: ${space[2]}px;
+        }
     }
 `;
 
@@ -93,16 +142,28 @@ const articleCountDefaultCtaStyles = css`
 const articleCountOptOutCtaStyles = css`
     color: ${palette.neutral[0]};
     border: 1px solid ${palette.neutral[0]};
+    margin-top: 0;
+
+    ${from.tablet} {
+        margin-top: auto;
+    }
 `;
 
 const trackingSettingsContainerStyles = css`
-    ${textSans.xsmall()};
-    margin: ${space[4]}px auto;
-    margin-bottom: ${space[3]}px;
+    margin: ${space[4]}px auto ${space[3]}px;
+    ${textSans.xxsmall()};
+
+    ${from.tablet} {
+        ${textSans.xsmall()};
+    }
 `;
 
 const privacySettingsLinkStyles = css`
-    ${textSans.xsmall({ fontWeight: 'bold' })};
+    ${textSans.xxsmall({ fontWeight: 'bold' })};
+
+    ${from.tablet} {
+        ${textSans.xsmall({ fontWeight: 'bold' })};
+    }
 `;
 
 const caretStyles = css`
@@ -110,23 +171,48 @@ const caretStyles = css`
         content: '';
         display: block;
         position: absolute;
-        right: 8px;
-        bottom: 100%;
+        left: 84px;
+        bottom: -20px;
         width: 0;
         height: 0;
         border: 10px solid transparent;
-        border-bottom-color: black;
+        border-top-color: ${palette.neutral[0]};
     }
     &:after {
         content: '';
         display: block;
         position: absolute;
-        right: 9px;
-        bottom: 100%;
+        left: 85px;
+        bottom: -18px;
         width: 0;
         height: 0;
         border: 9px solid transparent;
-        border-bottom-color: ${palette.neutral[97]};
+        border-top-color: ${palette.neutral[97]};
+    }
+
+    ${from.tablet} {
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            right: ${space[2]}px;
+            bottom: 100%;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-bottom-color: ${palette.neutral[0]};
+        }
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            right: 9px;
+            bottom: 100%;
+            width: 0;
+            height: 0;
+            border: 9px solid transparent;
+            border-bottom-color: ${palette.neutral[97]};
+        }
     }
 `;
 
@@ -149,7 +235,7 @@ export const ContributionsEpicArticleCountAbove: React.FC<ContributionsEpicArtic
     numArticles,
 }: ContributionsEpicArticleCountAboveProps) => {
     return (
-        <div css={containerStyles}>
+        <div css={articleCountAboveContainerStyles}>
             You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in the last
             year
         </div>
@@ -199,7 +285,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     };
 
     return (
-        <>
+        <div css={topContainer}>
             {isArticleCountOn ? (
                 <div css={articleCountOnHeaderContainerStyles}>
                     <ContributionsEpicArticleCountAbove numArticles={numArticles} />
@@ -295,6 +381,6 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
