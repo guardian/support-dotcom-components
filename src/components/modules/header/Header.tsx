@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
@@ -10,6 +10,8 @@ import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderProps } from '../../../types/HeaderTypes';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
+import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { OphanAction } from '../../../types/OphanTypes';
 
 const messageStyles = (isThankYouMessage: boolean) => css`
     color: ${brandAlt[400]};
@@ -51,15 +53,44 @@ const subMessageStyles = css`
 
 export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
+    const { abTestName, abTestVariant, componentType, campaignCode } = props.tracking;
+
+    const sendOphanEvent = (action: OphanAction): void =>
+        props.submitComponentEvent({
+            component: {
+                componentType,
+                id: campaignCode,
+                campaignCode,
+            },
+            action,
+            abTest: {
+                name: abTestName,
+                variant: abTestVariant,
+            },
+        });
+
+    const [hasBeenSeen, setNode] = useHasBeenSeen(
+        {
+            threshold: 0,
+        },
+        true,
+    ) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            sendOphanEvent('VIEW');
+        }
+    }, [hasBeenSeen]);
+
+    useEffect(() => {
+        sendOphanEvent('INSERT');
+    }, []);
 
     const addTracking = (baseUrl: string): string =>
-        // Deliberately do not include the countryCode for now, because DCR does not. This will make the initial AB
-        // test fair.
-        addRegionIdAndTrackingParamsToSupportUrl(baseUrl, props.tracking);
-    // addRegionIdAndTrackingParamsToSupportUrl(baseUrl, props.tracking, props.countryCode);
+        addRegionIdAndTrackingParamsToSupportUrl(baseUrl, props.tracking, props.countryCode);
 
     return (
-        <div>
+        <div ref={setNode}>
             <Hide below="tablet">
                 <div css={messageStyles(false)}>
                     <span>{heading}</span>

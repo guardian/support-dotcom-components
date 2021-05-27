@@ -1,4 +1,4 @@
-import { OphanComponentType } from './OphanTypes';
+import {OphanComponentEvent, OphanComponentType} from './OphanTypes';
 import { Audience, Test, Variant } from './shared';
 
 interface Cta {
@@ -29,6 +29,7 @@ export interface HeaderProps {
     content: HeaderContent;
     tracking: HeaderTracking;
     countryCode?: string;
+    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
 }
 
 export interface HeaderTestSelection {
