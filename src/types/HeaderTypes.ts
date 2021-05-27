@@ -29,7 +29,7 @@ export interface HeaderProps {
     content: HeaderContent;
     tracking: HeaderTracking;
     countryCode?: string;
-    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
 
 export interface HeaderTestSelection {

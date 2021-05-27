@@ -56,6 +56,7 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
     const { abTestName, abTestVariant, componentType, campaignCode } = props.tracking;
 
     const sendOphanEvent = (action: OphanAction): void =>
+        props.submitComponentEvent &&
         props.submitComponentEvent({
             component: {
                 componentType,
