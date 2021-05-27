@@ -1,4 +1,4 @@
-import {OphanComponentEvent, OphanComponentType} from './OphanTypes';
+import { OphanComponentEvent, OphanComponentType } from './OphanTypes';
 import { Audience, Test, Variant } from './shared';
 
 interface Cta {
