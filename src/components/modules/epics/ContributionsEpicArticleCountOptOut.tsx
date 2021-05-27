@@ -15,20 +15,23 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT,
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 
 // --- Styles --- //
 
 const topContainer = css`
-    ${until.mobileLandscape} {
-        display: flex;
-        flex-direction: column-reverse;
+    display: flex;
+    flex-direction: column-reverse;
+
+    ${from.tablet} {
+        display: block;
     }
 `;
 
 const articleCountAboveContainerStyles = css`
     font-style: italic;
     ${body.small({ fontWeight: 'bold' })};
+
     ${from.tablet} {
         ${body.medium({ fontWeight: 'bold' })};
     }
@@ -50,15 +53,6 @@ const articleCountOnHeaderContainerStyles = css`
     }
 `;
 
-const articleCountTextStyles = css`
-    ${textSans.xsmall()};
-    margin-right: ${space[1]}px;
-
-    ${from.tablet} {
-        ${textSans.small()};
-    }
-`;
-
 const articleCountWrapperStyles = css`
     display: flex;
     flex-direction: row;
@@ -73,8 +67,17 @@ const articleCountWrapperStyles = css`
     }
 `;
 
+const articleCountTextStyles = css`
+    ${textSans.xxsmall()};
+    margin-right: ${space[1]}px;
+
+    ${from.tablet} {
+        ${textSans.small()};
+    }
+`;
+
 const articleCountCtaStyles = css`
-    ${textSans.xsmall({ fontWeight: 'bold' })};
+    ${textSans.xxsmall({ fontWeight: 'bold' })};
 
     ${from.tablet} {
         ${textSans.small({ fontWeight: 'bold' })};
@@ -82,8 +85,8 @@ const articleCountCtaStyles = css`
 `;
 
 const articleCountDescriptionTopContainerStyles = css`
-    border-bottom: 1px solid ${palette.neutral[46]};
     border-top: 1px solid ${palette.neutral[0]};
+    border-bottom: 1px solid ${palette.neutral[46]};
     position: relative;
     margin-bottom: ${space[2]}px;
 
@@ -168,45 +171,58 @@ const caretStyles = css`
         content: '';
         display: block;
         position: absolute;
-        right: 198px;
-        bottom: -20px;
+        left: 75px;
+        bottom: -14px;
         width: 0;
         height: 0;
-        border: 10px solid transparent;
-        border-top-color: ${palette.neutral[0]};
+        border: 7px solid transparent;
+        border-top-color: ${palette.neutral[46]};
+
+        ${from.mobileMedium} {
+            right: 267px;
+        }
+        ${from.mobileLandscape} {
+            right: 350px;
+        }
+
+        ${from.phablet} {
+            right: 530px;
+        }
+
+        ${from.tablet} {
+            left: 596px;
+            bottom: 100%;
+            border: 10px solid transparent;
+            border-bottom-color: ${palette.neutral[0]};
+        }
     }
+
     &:after {
         content: '';
         display: block;
         position: absolute;
-        right: 199px;
-        bottom: -18px;
+        left: 76px;
+        bottom: -12px;
         width: 0;
         height: 0;
-        border: 9px solid transparent;
+        border: 6px solid transparent;
         border-top-color: ${palette.neutral[97]};
-    }
 
-    ${from.tablet} {
-        &:before {
-            content: '';
-            display: block;
-            position: absolute;
-            right: ${space[2]}px;
-            bottom: 100%;
-            width: 0;
-            height: 0;
-            border: 10px solid transparent;
-            border-bottom-color: ${palette.neutral[0]};
+        ${from.mobileMedium} {
+            right: 268px;
         }
-        &:after {
-            content: '';
-            display: block;
-            position: absolute;
-            right: 9px;
+
+        ${from.mobileLandscape} {
+            right: 351px;
+        }
+
+        ${from.phablet} {
+            right: 531px;
+        }
+
+        ${from.tablet} {
+            left: 597px;
             bottom: 100%;
-            width: 0;
-            height: 0;
             border: 9px solid transparent;
             border-bottom-color: ${palette.neutral[97]};
         }
