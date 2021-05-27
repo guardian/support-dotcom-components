@@ -9,7 +9,7 @@ export const ophanProductSchema = z.enum([
 
 export type OphanProduct = z.infer<typeof ophanProductSchema>;
 
-export type OphanAction = 'CLICK' | 'VIEW';
+export type OphanAction = 'CLICK' | 'VIEW' | 'INSERT';
 
 export const ophanComponentTypeSchema = z.enum([
     'ACQUISITIONS_EPIC',
