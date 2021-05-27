@@ -65,10 +65,11 @@ const articleCountWrapperStyles = css`
     align-items: center;
     margin-right: ${space[2]}px;
     margin-bottom: ${space[2]}px;
-    justify-content: flex-end;
+    justify-content: start;
 
     ${from.tablet} {
         margin-bottom: 0;
+        justify-content: flex-end;
     }
 `;
 
@@ -84,6 +85,7 @@ const articleCountDescriptionTopContainerStyles = css`
     border-bottom: 1px solid ${palette.neutral[46]};
     border-top: 1px solid ${palette.neutral[0]};
     position: relative;
+    margin-bottom: ${space[2]}px;
 
     ${from.tablet} {
         margin-top: ${space[4]}px;
@@ -112,20 +114,20 @@ const articleCountBodyTextStyles = css`
 `;
 
 const articleCountCtasContainerStyles = css`
-    align-self: start;
     display: flex;
-    flex-direction: row;
-    height: ${space[5]}px;
-    justify-content: space-between;
-    margin: ${space[4]}px 0 0;
+    align-self: start;
+    margin-top: ${space[4]}px;
     > * + * {
-        margin: ${space[4]}px;
+        margin-left: ${space[3]}px;
     }
 
     ${from.tablet} {
         flex-direction: column;
+        margin-left: auto;
+        justify-content: space-between;
         > * + * {
             margin-top: ${space[2]}px;
+            margin-left: 0;
         }
     }
 `;
@@ -142,11 +144,6 @@ const articleCountDefaultCtaStyles = css`
 const articleCountOptOutCtaStyles = css`
     color: ${palette.neutral[0]};
     border: 1px solid ${palette.neutral[0]};
-    margin-top: 0;
-
-    ${from.tablet} {
-        margin-top: auto;
-    }
 `;
 
 const trackingSettingsContainerStyles = css`
@@ -171,7 +168,7 @@ const caretStyles = css`
         content: '';
         display: block;
         position: absolute;
-        left: 84px;
+        right: 198px;
         bottom: -20px;
         width: 0;
         height: 0;
@@ -182,7 +179,7 @@ const caretStyles = css`
         content: '';
         display: block;
         position: absolute;
-        left: 85px;
+        right: 199px;
         bottom: -18px;
         width: 0;
         height: 0;
