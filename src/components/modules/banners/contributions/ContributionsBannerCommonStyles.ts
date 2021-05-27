@@ -35,9 +35,12 @@ export const commonStyles = {
     highlightedText: css`
         background-color: ${neutral[100]};
         padding: 0.15rem 0.15rem;
-        ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
+        ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
         ${until.tablet} {
             font-weight: 800;
+        }
+        ${from.tablet} {
+            ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         }
         &::selection {
             background-color: ${brandAlt[400]};
