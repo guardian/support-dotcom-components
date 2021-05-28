@@ -15,7 +15,7 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT,
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 
 // --- Styles --- //
 
@@ -25,6 +25,7 @@ const topContainer = css`
 
     ${from.tablet} {
         display: block;
+        margin-top: 10px;
     }
 `;
 
@@ -85,13 +86,14 @@ const articleCountCtaStyles = css`
 `;
 
 const articleCountDescriptionTopContainerStyles = css`
-    border-top: 1px solid ${palette.neutral[0]};
     border-bottom: 1px solid ${palette.neutral[46]};
     position: relative;
     margin-bottom: ${space[2]}px;
 
     ${from.tablet} {
         margin-top: ${space[4]}px;
+        border-top: 1px solid ${palette.neutral[0]};
+        border-bottom: 1px solid ${palette.neutral[0]};
     }
 `;
 
@@ -103,7 +105,9 @@ const articleCountDescriptionContainer = css`
 
     ${from.tablet} {
         flex-direction: row;
-        padding: ${space[3]}px 0;
+        padding: ${space[1]}px 0;
+        align-items: start;
+        margin-top: ${space[1]}px;
     }
 `;
 
@@ -112,7 +116,7 @@ const articleCountBodyTextStyles = css`
     width: 100%;
 
     ${from.tablet} {
-        width: 65%;
+        width: 68%;
     }
 `;
 
@@ -127,9 +131,10 @@ const articleCountCtasContainerStyles = css`
     ${from.tablet} {
         flex-direction: column;
         margin-left: auto;
+        margin-top: ${space[2]}px;
         justify-content: space-between;
         > * + * {
-            margin-top: ${space[2]}px;
+            margin-top: ${space[3]}px;
             margin-left: 0;
         }
     }
@@ -141,7 +146,11 @@ const articleCountOptInCtaStyles = css`
 
 const articleCountDefaultCtaStyles = css`
     background-color: ${palette.neutral[0]};
-    padding-left: 20px;
+    padding: auto ${space[6]}px;
+
+    ${from.tablet} {
+        padding-left: ${space[5]}px;
+    }
 `;
 
 const articleCountOptOutCtaStyles = css`
@@ -171,29 +180,21 @@ const caretStyles = css`
         content: '';
         display: block;
         position: absolute;
-        left: 75px;
         bottom: -14px;
         width: 0;
         height: 0;
         border: 7px solid transparent;
         border-top-color: ${palette.neutral[46]};
 
-        ${from.mobileMedium} {
-            right: 267px;
-        }
-        ${from.mobileLandscape} {
-            right: 350px;
-        }
-
-        ${from.phablet} {
-            right: 530px;
-        }
-
         ${from.tablet} {
-            left: 596px;
+            right: 5px;
             bottom: 100%;
             border: 10px solid transparent;
             border-bottom-color: ${palette.neutral[0]};
+        }
+
+        ${until.tablet} {
+            left: 75px;
         }
     }
 
@@ -201,30 +202,21 @@ const caretStyles = css`
         content: '';
         display: block;
         position: absolute;
-        left: 76px;
         bottom: -12px;
         width: 0;
         height: 0;
         border: 6px solid transparent;
         border-top-color: ${palette.neutral[97]};
 
-        ${from.mobileMedium} {
-            right: 268px;
-        }
-
-        ${from.mobileLandscape} {
-            right: 351px;
-        }
-
-        ${from.phablet} {
-            right: 531px;
-        }
-
         ${from.tablet} {
-            left: 597px;
+            right: 6px;
             bottom: 100%;
             border: 9px solid transparent;
             border-bottom-color: ${palette.neutral[97]};
+        }
+
+        ${until.tablet} {
+            left: 76px;
         }
     }
 `;
