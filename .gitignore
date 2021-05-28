@@ -12,4 +12,3 @@ target/
 build-storybook.log
 logs/
 storybook-static/
-package-lock.json
