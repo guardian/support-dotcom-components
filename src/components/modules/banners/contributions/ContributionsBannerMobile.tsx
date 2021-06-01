@@ -8,7 +8,7 @@ import { headline } from '@guardian/src-foundations/typography';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
-import { ContributionsBannerRenderedContent } from './ContributionsBannerWrapper';
+import { BannerRenderedContent } from '../common/types';
 
 const styles = {
     container: css`
@@ -48,7 +48,7 @@ interface ContributionsBannerMobileProps {
     onContributeClick: () => void;
     onSecondaryCtaClick: () => void;
     onCloseClick: () => void;
-    content: ContributionsBannerRenderedContent;
+    content: BannerRenderedContent;
 }
 
 export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps> = ({

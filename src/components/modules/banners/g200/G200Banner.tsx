@@ -11,9 +11,8 @@ import G200BannerHeader from './components/G200BannerHeader';
 import G200BannerBody from './components/G200BannerBody';
 import G200BannerCtas from './components/G200BannerCtas';
 
-import contributionsBannerWrapper, {
-    ContributionsBannerProps,
-} from '../contributions/ContributionsBannerWrapper';
+import { BannerRenderProps } from '../common/types';
+import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 
 const containerStyles = css`
     position: relative;
@@ -213,11 +212,10 @@ const logoColumnStyles = css`
     padding-top: ${space[3]}px;
 `;
 
-const G200Banner: React.FC<ContributionsBannerProps> = ({
-    mobileContent,
+const G200Banner: React.FC<BannerRenderProps> = ({
     content,
     onCloseClick,
-    onContributeClick,
+    onCtaClick,
     onSecondaryCtaClick,
 }) => {
     const Logo = () => (
@@ -265,7 +263,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
     const BodyAndCtas = () => (
         <Stack css={bottomContainerStyles} space={5}>
             <div css={bodyAndCloseButtonContainerStyles}>
-                <G200BannerBody mobileContent={mobileContent} content={content} />
+                <G200BannerBody content={content} />
 
                 <Hide below="tablet">
                     <div css={closeButtonContainerStyles}>
@@ -276,9 +274,8 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
 
             <div css={ctasContainerStyles}>
                 <G200BannerCtas
-                    mobileContent={mobileContent}
                     content={content}
-                    onPrimaryCtaClick={onContributeClick}
+                    onPrimaryCtaClick={onCtaClick}
                     onSecondaryCtaClick={onSecondaryCtaClick}
                 />
             </div>
@@ -356,6 +353,7 @@ const G200Banner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const wrapped = contributionsBannerWrapper(G200Banner);
+const unvalidated = bannerWrapper(G200Banner, 'g200-banner', 'contributions');
+const validated = validatedBannerWrapper(G200Banner, 'g200-banner', 'contributions');
 
-export { wrapped as G200Banner };
+export { validated as G200Banner, unvalidated as G200BannerUnvalidated };

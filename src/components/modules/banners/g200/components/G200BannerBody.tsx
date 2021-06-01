@@ -4,7 +4,7 @@ import { body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
 import { space } from '@guardian/src-foundations';
-import { ContributionsBannerRenderedContent } from '../../contributions/ContributionsBannerWrapper';
+import { BannerTextContent } from '../../common/types';
 
 const containerStyles = css`
     ${body.medium({ fontWeight: 'bold' })}
@@ -26,25 +26,23 @@ const highlightedTextContainerStyles = css`
 `;
 
 interface G200BannerBodyProps {
-    mobileContent: ContributionsBannerRenderedContent | undefined;
-    content: ContributionsBannerRenderedContent;
+    content: BannerTextContent;
 }
 
-const G200BannerBody: React.FC<G200BannerBodyProps> = ({
-    mobileContent,
-    content,
-}: G200BannerBodyProps) => {
+const G200BannerBody: React.FC<G200BannerBodyProps> = ({ content }: G200BannerBodyProps) => {
     return (
         <div css={containerStyles}>
-            <Hide above="tablet">{mobileContent?.messageText ?? content.messageText}</Hide>
+            <Hide above="tablet">
+                {content.mobileContent?.messageText ?? content.mainContent.messageText}
+            </Hide>
             <Hide below="tablet">
                 <div css={desktopContainerStyles}>
-                    <div>{content.messageText}</div>
+                    <div>{content.mainContent.messageText}</div>
 
-                    {content.highlightedText && (
+                    {content.mainContent.highlightedText && (
                         <div>
                             <div css={highlightedTextContainerStyles}>
-                                {content.highlightedText}
+                                {content.mainContent.highlightedText}
                             </div>
                         </div>
                     )}

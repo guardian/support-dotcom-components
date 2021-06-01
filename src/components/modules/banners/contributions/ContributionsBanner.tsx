@@ -1,5 +1,6 @@
 import React from 'react';
-import contributionsBannerWrapper, { ContributionsBannerProps } from './ContributionsBannerWrapper';
+import { BannerRenderProps } from '../common/types';
+import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
@@ -11,8 +12,6 @@ import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import { BannerText } from '../common/BannerText';
-import { withParsedProps } from '../../shared/ModuleWrapper';
-import { BannerProps, bannerSchema } from '../../../../types/BannerTypes';
 
 const styles = {
     bannerContainer: css`
@@ -94,13 +93,12 @@ const columnCounts = {
     wide: 16,
 };
 
-const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
-    onContributeClick,
+const ContributionsBanner: React.FC<BannerRenderProps> = ({
+    onCtaClick,
     onSecondaryCtaClick,
     onCloseClick,
     content,
-    mobileContent,
-}: ContributionsBannerProps) => {
+}: BannerRenderProps) => {
     const BodyAndHeading = () => (
         <BannerText
             styles={{
@@ -112,10 +110,7 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
                     highlightedText: commonStyles.highlightedText,
                 },
             }}
-            content={{
-                mainContent: content,
-                mobileContent,
-            }}
+            content={content}
         />
     );
 
@@ -124,20 +119,20 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
             <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
 
             <div css={styles.ctasContainer}>
-                {content.primaryCta && (
+                {content.mainContent.primaryCta && (
                     <ContributionsBannerCta
-                        onContributeClick={onContributeClick}
-                        ctaText={content.primaryCta.ctaText}
-                        ctaUrl={content.primaryCta.ctaUrl}
+                        onContributeClick={onCtaClick}
+                        ctaText={content.mainContent.primaryCta.ctaText}
+                        ctaUrl={content.mainContent.primaryCta.ctaUrl}
                         stacked={true}
                     />
                 )}
 
-                {content.secondaryCta && (
+                {content.mainContent.secondaryCta && (
                     <ContributionsBannerSecondaryCta
                         onCtaClick={onSecondaryCtaClick}
-                        ctaText={content.secondaryCta.ctaText}
-                        ctaUrl={content.secondaryCta.ctaUrl}
+                        ctaText={content.mainContent.secondaryCta.ctaText}
+                        ctaUrl={content.mainContent.secondaryCta.ctaUrl}
                     />
                 )}
             </div>
@@ -148,9 +143,9 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
         <div css={styles.bannerContainer}>
             <ContributionsBannerMobile
                 onCloseClick={onCloseClick}
-                onContributeClick={onContributeClick}
+                onContributeClick={onCtaClick}
                 onSecondaryCtaClick={onSecondaryCtaClick}
-                content={mobileContent || content}
+                content={content.mobileContent || content.mainContent}
             />
 
             <Container cssOverrides={styles.columnsContainer}>
@@ -186,15 +181,11 @@ const ContributionsBanner: React.FC<ContributionsBannerProps> = ({
     );
 };
 
-const validate = (props: unknown): props is BannerProps => {
-    const result = bannerSchema.safeParse(props);
-    return result.success;
-};
+const unvalidated = bannerWrapper(ContributionsBanner, 'contributions-banner', 'contributions');
+const validated = validatedBannerWrapper(
+    ContributionsBanner,
+    'contributions-banner',
+    'contributions',
+);
 
-const withoutValidation = contributionsBannerWrapper(ContributionsBanner);
-const withValidation = withParsedProps(withoutValidation, validate);
-
-export {
-    withValidation as ContributionsBanner,
-    withoutValidation as ContributionsBannerUnvalidated,
-};
+export { validated as ContributionsBanner, unvalidated as ContributionsBannerUnvalidated };
