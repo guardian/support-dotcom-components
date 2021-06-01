@@ -1,4 +1,8 @@
-export type BannerId = 'contributions-banner' | 'subscription-banner' | 'weekly-banner';
+export type BannerId =
+    | 'contributions-banner'
+    | 'g200-banner'
+    | 'subscription-banner'
+    | 'weekly-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

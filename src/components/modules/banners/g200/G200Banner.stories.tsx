@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { G200Banner } from './G200Banner';
+import { G200BannerUnvalidated as G200Banner } from './G200Banner';
 import { props } from '../utils/storybook';
 import { BannerProps } from '../../../../types/BannerTypes';
 

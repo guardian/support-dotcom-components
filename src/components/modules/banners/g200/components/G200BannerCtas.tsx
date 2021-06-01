@@ -6,7 +6,7 @@ import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-butt
 import { neutral } from '@guardian/src-foundations/palette';
 import { Inline, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
-import { ContributionsBannerRenderedContent } from '../../contributions/ContributionsBannerWrapper';
+import { BannerTextContent } from '../../common/types';
 
 const containerStyles = css`
     > * {
@@ -50,24 +50,19 @@ const paymentIconContainerStyles = css`
 `;
 
 interface G200BannerCtasProps {
-    mobileContent: ContributionsBannerRenderedContent | undefined;
-    content: ContributionsBannerRenderedContent;
+    content: BannerTextContent;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
 }
 
 const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
-    mobileContent,
     content,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
 }) => {
-    const mobileSecondaryCta = mobileContent?.secondaryCta
-        ? mobileContent.secondaryCta
-        : content.secondaryCta;
-    const mobilePrimaryCta = mobileContent?.primaryCta
-        ? mobileContent.primaryCta
-        : content.primaryCta;
+    const mobileSecondaryCta =
+        content.mobileContent?.secondaryCta ?? content.mainContent.secondaryCta;
+    const mobilePrimaryCta = content.mobileContent?.primaryCta ?? content.mainContent.primaryCta;
 
     return (
         <Inline cssOverrides={containerStyles} space={2}>
@@ -86,16 +81,16 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                     </Hide>
                 )}
 
-                {content.secondaryCta && (
+                {content.mainContent.secondaryCta && (
                     <Hide below="tablet">
                         <LinkButton
                             onClick={onSecondaryCtaClick}
-                            href={content.secondaryCta.ctaUrl}
+                            href={content.mainContent.secondaryCta.ctaUrl}
                             cssOverrides={secondaryCtaStyles}
                             priority="tertiary"
                             size="small"
                         >
-                            {content.secondaryCta.ctaText}
+                            {content.mainContent.secondaryCta.ctaText}
                         </LinkButton>
                     </Hide>
                 )}
@@ -117,16 +112,16 @@ const G200BannerCtas: React.FC<G200BannerCtasProps> = ({
                         </Hide>
                     )}
 
-                    {content.primaryCta && (
+                    {content.mainContent.primaryCta && (
                         <Hide below="tablet">
                             <LinkButton
                                 onClick={onPrimaryCtaClick}
-                                href={content.primaryCta.ctaUrl}
+                                href={content.mainContent.primaryCta.ctaUrl}
                                 cssOverrides={primaryCtaStyles}
                                 size="small"
                                 priority="primary"
                             >
-                                {content.primaryCta.ctaText}
+                                {content.mainContent.primaryCta.ctaText}
                             </LinkButton>
                         </Hide>
                     )}
