@@ -129,3 +129,5 @@ export interface ControlProportionSettings {
     proportion: number;
     offset: number;
 }
+
+export type Stage = 'PROD' | 'CODE' | 'DEV';
