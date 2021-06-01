@@ -1,10 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import {
-    addRegionIdAndTrackingParamsToSupportUrl,
-    createClickEventFromTracking,
-} from '../../../../lib/tracking';
-import React, { useState } from 'react';
+
+import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button, LinkButton, buttonBrand, buttonReaderRevenue } from '@guardian/src-button';
@@ -26,21 +23,17 @@ import {
     closeButton,
     closeButtonContainer,
 } from './digitalSubscriptionsBannerStyles';
-import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
-import { BannerProps } from '../../../../types/BannerTypes';
-import { setChannelClosedTimestamp } from '../localStorage';
 import { ResponsiveImage } from '../../../ResponsiveImage';
-import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
-import { containsNonArticleCountPlaceholder } from '../../../../lib/placeholders';
+import { BannerText } from '../common/BannerText';
+import { BannerContentRenderer } from '../common/BannerContentRenderer';
+import { BannerRenderProps } from '../common/types';
+import { validatedBannerWrapper } from '../common/BannerWrapper';
+import { getComponentIds } from '../common/getComponentIds';
 
-const subscriptionUrl = 'https://support.theguardian.com/subscribe/digital';
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
 const bannerId = 'subscription-banner';
-const ctaComponentId = `${bannerId} : cta`;
-const notNowComponentId = `${bannerId} : not now`;
-const closeComponentId = `${bannerId} : close`;
-const signInComponentId = `${bannerId} : sign in`;
+const componentIds = getComponentIds(bannerId);
 
 const ausMobImg =
     'https://i.guim.co.uk/img/media/155b9ad007e59571fe9c60218246ddf8c758e1f8/0_12_1894_1137/500.png?width=400&quality=85&s=206fa8b876a4929ed268504a9bc1695e';
@@ -66,161 +59,113 @@ const getBaseImg = (countryCode: string | undefined): Img => ({
     media: '(min-width: 740px)',
 });
 
-const fallbackHeading = 'Start a digital subscription today';
-const fallbackMessageText =
-    'Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.';
 const fallbackCta = 'Subscribe';
 const fallbackSecondaryCta = 'Not now';
 
-export const DigitalSubscriptionsBanner: React.FC<BannerProps> = ({
-    bannerChannel,
-    content,
-    tracking,
-    submitComponentEvent,
+const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
+    onCtaClick,
+    onCloseClick,
+    onNotNowClick,
+    onSignInClick,
     countryCode,
-    numArticles = 0,
-}: BannerProps) => {
-    const [showBanner, setShowBanner] = useState(true);
-
+    content,
+}) => {
     const mobileImg = getMobileImg(countryCode);
     const baseImg = getBaseImg(countryCode);
-    const subscriptionUrlWithTracking = addRegionIdAndTrackingParamsToSupportUrl(
-        subscriptionUrl,
-        tracking,
-        countryCode,
-    );
-
-    const cleanHeadingText = containsNonArticleCountPlaceholder(content?.heading || '')
-        ? fallbackHeading
-        : content?.heading || '';
-
-    const cleanMessageText = containsNonArticleCountPlaceholder(content?.messageText || '')
-        ? fallbackMessageText
-        : content?.messageText || '';
-
-    const onSubscribeClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(tracking, ctaComponentId);
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
-    };
-
-    const onSignInClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(tracking, signInComponentId);
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
-    };
-
-    const onCloseClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(tracking, closeComponentId);
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
-        setShowBanner(false);
-        setChannelClosedTimestamp(bannerChannel);
-    };
-
-    const onNotNowClick = (): void => {
-        const componentClickEvent = createClickEventFromTracking(tracking, notNowComponentId);
-        if (submitComponentEvent) {
-            submitComponentEvent(componentClickEvent);
-        }
-        setShowBanner(false);
-        setChannelClosedTimestamp(bannerChannel);
-    };
-
-    useEscapeShortcut(onCloseClick, []);
 
     return (
-        <>
-            {showBanner ? (
-                <section css={banner} data-target={bannerId}>
-                    <Container>
-                        <Columns cssOverrides={columns} collapseBelow="tablet">
-                            <Column cssOverrides={topLeftComponent} width={7 / 12}>
-                                <h3 css={heading}>
-                                    {replaceArticleCount(
-                                        cleanHeadingText || '',
-                                        numArticles,
-                                        'banner',
-                                    )}
-                                </h3>
-                                <p css={messageText}>
-                                    {replaceArticleCount(
-                                        cleanMessageText || '',
-                                        numArticles,
-                                        'banner',
-                                    )}
-                                </p>
-                                <Inline space={3}>
-                                    <ThemeProvider theme={buttonReaderRevenue}>
-                                        <LinkButton
-                                            href={subscriptionUrlWithTracking}
-                                            onClick={onSubscribeClick}
-                                        >
-                                            {content?.cta?.text || fallbackCta}
-                                        </LinkButton>
-                                    </ThemeProvider>
-                                    <ThemeProvider theme={buttonBrand}>
-                                        <Button
-                                            priority="subdued"
-                                            data-link-name={notNowComponentId}
-                                            onClick={onNotNowClick}
-                                        >
-                                            {content?.secondaryCta?.text || fallbackSecondaryCta}
-                                        </Button>
-                                    </ThemeProvider>
-                                </Inline>
-                                <div css={siteMessage}>
-                                    Already a subscriber?{' '}
-                                    <ThemeProvider theme={linkBrand}>
-                                        <Link
-                                            href={signInUrl}
-                                            data-link-name={signInComponentId}
-                                            onClick={onSignInClick}
-                                            subdued
-                                        >
-                                            Sign in
-                                        </Link>{' '}
-                                    </ThemeProvider>
-                                    to not see this again
-                                </div>
-                            </Column>
-                            <Column cssOverrides={bottomRightComponent}>
-                                <div css={packShotContainer}>
-                                    <div css={packShot}>
-                                        <ResponsiveImage
-                                            images={[mobileImg, baseImg]}
-                                            baseImage={baseImg}
-                                        />
-                                    </div>
-                                </div>
-                            </Column>
-                            <Column width={1 / 12} cssOverrides={closeButtonContainer}>
-                                <div css={iconPanel}>
-                                    <ThemeProvider theme={buttonBrand}>
-                                        <Button
-                                            size="small"
-                                            cssOverrides={closeButton}
-                                            priority="tertiary"
-                                            onClick={onCloseClick}
-                                            data-link-name={closeComponentId}
-                                            icon={<SvgCross />}
-                                            hideLabel
-                                        >
-                                            Close
-                                        </Button>
-                                    </ThemeProvider>
-                                    <div css={logoContainer}>
-                                        <SvgGuardianLogo />
-                                    </div>
-                                </div>
-                            </Column>
-                        </Columns>
-                    </Container>
-                </section>
-            ) : null}
-        </>
+        <section css={banner} data-target={bannerId}>
+            <Container>
+                <Columns cssOverrides={columns} collapseBelow="tablet">
+                    <Column cssOverrides={topLeftComponent} width={7 / 12}>
+                        <BannerText
+                            styles={{
+                                desktop: {
+                                    heading,
+                                    copy: messageText,
+                                },
+                            }}
+                            content={content}
+                        />
+                        <BannerContentRenderer
+                            content={content}
+                            render={({ renderContent }) => {
+                                const { primaryCta, secondaryCta } = renderContent;
+                                return (
+                                    <Inline space={3}>
+                                        <ThemeProvider theme={buttonReaderRevenue}>
+                                            <LinkButton
+                                                href={primaryCta?.ctaUrl}
+                                                data-link-name={componentIds.cta}
+                                                onClick={onCtaClick}
+                                            >
+                                                {primaryCta?.ctaText || fallbackCta}
+                                            </LinkButton>
+                                        </ThemeProvider>
+                                        <ThemeProvider theme={buttonBrand}>
+                                            <Button
+                                                priority="subdued"
+                                                data-link-name={componentIds.notNow}
+                                                onClick={onNotNowClick}
+                                            >
+                                                {secondaryCta?.ctaText || fallbackSecondaryCta}
+                                            </Button>
+                                        </ThemeProvider>
+                                    </Inline>
+                                );
+                            }}
+                        />
+                        <div css={siteMessage}>
+                            Already a subscriber?{' '}
+                            <ThemeProvider theme={linkBrand}>
+                                <Link
+                                    href={signInUrl}
+                                    data-link-name={componentIds.signIn}
+                                    onClick={onSignInClick}
+                                    subdued
+                                >
+                                    Sign in
+                                </Link>{' '}
+                            </ThemeProvider>
+                            to not see this again
+                        </div>
+                    </Column>
+                    <Column cssOverrides={bottomRightComponent}>
+                        <div css={packShotContainer}>
+                            <div css={packShot}>
+                                <ResponsiveImage
+                                    images={[mobileImg, baseImg]}
+                                    baseImage={baseImg}
+                                />
+                            </div>
+                        </div>
+                    </Column>
+                    <Column width={1 / 12} cssOverrides={closeButtonContainer}>
+                        <div css={iconPanel}>
+                            <ThemeProvider theme={buttonBrand}>
+                                <Button
+                                    size="small"
+                                    cssOverrides={closeButton}
+                                    priority="tertiary"
+                                    onClick={onCloseClick}
+                                    data-link-name={componentIds.close}
+                                    icon={<SvgCross />}
+                                    hideLabel
+                                >
+                                    Close
+                                </Button>
+                            </ThemeProvider>
+                            <div css={logoContainer}>
+                                <SvgGuardianLogo />
+                            </div>
+                        </div>
+                    </Column>
+                </Columns>
+            </Container>
+        </section>
     );
 };
+
+const wrapped = validatedBannerWrapper(DigitalSubscriptionsBanner, bannerId, 'subscriptions');
+
+export { wrapped as DigitalSubscriptionsBanner };

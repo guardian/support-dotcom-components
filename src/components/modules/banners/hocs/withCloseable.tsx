@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BannerProps, BannerChannel } from '../../../../types/BannerTypes';
 import { setChannelClosedTimestamp } from '../localStorage';
+import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 
 export interface CloseableBannerProps extends BannerProps {
     onClose: () => void;
@@ -17,6 +18,8 @@ const withCloseable = (
             setChannelClosedTimestamp(bannerChannel);
             setIsOpen(false);
         };
+
+        useEscapeShortcut(onClose, []);
 
         return isOpen ? <CloseableBanner onClose={onClose} {...bannerProps} /> : null;
     };
