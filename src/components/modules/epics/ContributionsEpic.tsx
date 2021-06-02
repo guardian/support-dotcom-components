@@ -12,8 +12,11 @@ import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { OphanTracking } from '../shared/ArticleCountOptOut';
+import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleCountOptOut';
+import { EpicArticleCountOptOutTestVariants } from '../../../tests/epics/articleCountOptOut';
+import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
+import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
@@ -188,7 +191,9 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-export const ContributionsEpic: React.FC<EpicProps> = ({
+export const getContributionsEpicComponent: (
+    optOutVariant: EpicArticleCountOptOutTestVariants,
+) => React.FC<EpicProps> = optOutVariant => ({
     variant,
     tracking,
     countryCode,
@@ -196,8 +201,12 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
     onReminderOpen,
     email,
     submitComponentEvent,
+    openCmp,
+    hasConsentForArticleCount,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
+    const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
+
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
@@ -225,12 +234,23 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
 
     return (
         <section css={wrapperStyles}>
-            {variant.separateArticleCount?.type === 'above' && (
+            {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
-                    <ContributionsEpicArticleCountAbove
-                        numArticles={numArticles}
-                        tracking={ophanTracking}
-                    />
+                    {optOutVariant === EpicArticleCountOptOutTestVariants.control ? (
+                        <ContributionsEpicArticleCountAbove
+                            numArticles={numArticles}
+                            tracking={ophanTracking}
+                        />
+                    ) : (
+                        <ContributionsEpicArticleCountOptOut
+                            numArticles={numArticles}
+                            isArticleCountOn={!hasOptedOut}
+                            onArticleCountOptOut={onArticleCountOptOut}
+                            onArticleCountOptIn={onArticleCountOptIn}
+                            openCmp={openCmp}
+                            submitComponentEvent={submitComponentEvent}
+                        />
+                    )}
                 </div>
             )}
 
@@ -304,3 +324,7 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         </section>
     );
 };
+
+export const ContributionsEpic: React.FC<EpicProps> = getContributionsEpicComponent(
+    EpicArticleCountOptOutTestVariants.control,
+);

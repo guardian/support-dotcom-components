@@ -88,6 +88,8 @@ export type EpicProps = {
     onReminderOpen?: Function;
     email?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    openCmp?: () => void;
+    hasConsentForArticleCount?: boolean;
 };
 
 export interface MaxViews {
