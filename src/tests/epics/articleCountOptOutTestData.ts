@@ -32,6 +32,6 @@ export const HIGHLIGHTED_TEXT_NON_US =
     'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.';
 
 export const CTA = {
-    text: 'Support The Guardian',
+    text: 'Support the Guardian',
     baseUrl: 'https://support.theguardian.com/contribute',
 };
