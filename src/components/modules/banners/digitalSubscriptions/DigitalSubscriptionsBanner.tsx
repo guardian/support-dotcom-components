@@ -29,6 +29,7 @@ import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { getComponentIds } from '../common/getComponentIds';
+import { SecondaryCtaType } from '../../../../types/shared';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
@@ -108,7 +109,9 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                                                 data-link-name={componentIds.notNow}
                                                 onClick={onNotNowClick}
                                             >
-                                                {secondaryCta?.ctaText || fallbackSecondaryCta}
+                                                {(secondaryCta?.type === SecondaryCtaType.Custom &&
+                                                    secondaryCta.cta.ctaText) ||
+                                                    fallbackSecondaryCta}
                                             </Button>
                                         </ThemeProvider>
                                     </Inline>

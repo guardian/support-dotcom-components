@@ -11,16 +11,23 @@ import {
     BannerProps,
     bannerSchema,
 } from '../../../../types/BannerTypes';
+import { Cta, SecondaryCta, SecondaryCtaType } from '../../../../types/shared';
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../../lib/placeholders';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
-import { Cta } from '../../../../types/shared';
-import { BannerId, BannerEnrichedCta, BannerRenderedContent, BannerRenderProps } from './types';
+import {
+    BannerId,
+    BannerEnrichedCta,
+    BannerRenderedContent,
+    BannerRenderProps,
+    BannerEnrichedSecondaryCta,
+} from './types';
 import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
+import { buildReminderFields } from '../../../../lib/reminderFields';
 
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
@@ -33,6 +40,7 @@ const withBannerData = (
         content,
         mobileContent,
         countryCode,
+        email,
         numArticles = 0,
     } = bannerProps;
 
@@ -45,9 +53,22 @@ const withBannerData = (
             ctaText: cta.text,
         });
 
+        const buildEnrichedSecondaryCta = (
+            secondaryCta: SecondaryCta,
+        ): BannerEnrichedSecondaryCta => {
+            if (secondaryCta.type === SecondaryCtaType.Custom) {
+                return { type: SecondaryCtaType.Custom, cta: buildEnrichedCta(secondaryCta.cta) };
+            }
+
+            return {
+                type: SecondaryCtaType.ContributionsReminder,
+                reminderFields: buildReminderFields(),
+            };
+        };
+
         const primaryCta = bannerContent.cta ? buildEnrichedCta(bannerContent.cta) : null;
         const secondaryCta = bannerContent.secondaryCta
-            ? buildEnrichedCta(bannerContent.secondaryCta)
+            ? buildEnrichedSecondaryCta(bannerContent.secondaryCta)
             : null;
 
         const cleanHighlightedText =
@@ -104,8 +125,10 @@ const withBannerData = (
     };
 
     const onCtaClick = clickHandlerFor(componentIds.cta);
-
     const onSecondaryCtaClick = clickHandlerFor(componentIds.secondaryCta);
+    const onReminderCtaClick = clickHandlerFor(componentIds.reminderCta);
+    const onReminderSetClick = clickHandlerFor(componentIds.reminderSet);
+    const onReminderCloseClick = clickHandlerFor(componentIds.reminderClose);
 
     const onCloseClick = (): void => {
         clickHandlerFor(componentIds.close)();
@@ -127,6 +150,11 @@ const withBannerData = (
             const props: BannerRenderProps = {
                 onCtaClick,
                 onSecondaryCtaClick,
+                reminderTracking: {
+                    onReminderCtaClick,
+                    onReminderSetClick,
+                    onReminderCloseClick,
+                },
                 onCloseClick,
                 onSignInClick,
                 onNotNowClick,
@@ -135,6 +163,7 @@ const withBannerData = (
                     mobileContent: renderedMobileContent,
                 },
                 countryCode,
+                email,
             };
             return <Banner {...props} />;
         }

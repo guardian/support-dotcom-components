@@ -1,5 +1,6 @@
 import { TickerCountType, TickerEndType } from '../../../../types/shared';
-import { BannerProps, BannerContent, BannerTracking } from '../../../../types/BannerTypes';
+import { BannerProps, BannerTracking } from '../../../../types/BannerTypes';
+import { SecondaryCtaType } from '../../../../types/shared';
 
 export const tracking: BannerTracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
@@ -12,7 +13,7 @@ export const tracking: BannerTracking = {
     campaignCode: 'UsEoyAppealBanner_control',
 };
 
-export const content: BannerContent = {
+export const content = {
     heading: 'Show your support for high&#8209;impact reporting',
     messageText:
         'In the extraordinary year that was 2020, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
@@ -24,8 +25,11 @@ export const content: BannerContent = {
         text: 'Support The Guardian',
     },
     secondaryCta: {
-        baseUrl: 'https://support.theguardian.com/contribute',
-        text: 'Learn more',
+        type: SecondaryCtaType.Custom,
+        cta: {
+            baseUrl: 'https://support.theguardian.com/contribute',
+            text: 'Learn more',
+        },
     },
 };
 

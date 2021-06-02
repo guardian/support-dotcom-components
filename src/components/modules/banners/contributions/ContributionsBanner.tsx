@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { Container, Columns, Column } from '@guardian/src-layout';
+import { Container, Columns, Column, Hide } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
@@ -12,17 +12,17 @@ import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import { BannerText } from '../common/BannerText';
+import { ContributionsBannerReminder } from './ContributionsBannerReminder';
+import { SecondaryCtaType } from '../../../../types/shared';
 
 const styles = {
     bannerContainer: css`
         overflow: hidden;
         width: 100%;
         background-color: ${brandAlt[400]};
-        border-top: 1px solid ${neutral[7]};
-    `,
-    columnsContainer: css`
-        ${between.tablet.and.leftCol} {
-            border-left: 1px solid ${neutral[7]};
+        ${from.tablet} {
+            border-top: 1px solid ${neutral[7]};
+            padding-bottom: 0;
         }
     `,
     heading: css`
@@ -38,6 +38,10 @@ const styles = {
     `,
     bodyAndHeading: css`
         position: relative; // for positioning the opt-out popup
+
+        ${from.tablet} {
+            padding-bottom: ${space[5]}px;
+        }
         ${from.leftCol} {
             margin-left: -9px;
             border-left: 1px solid ${neutral[7]};
@@ -55,7 +59,6 @@ const styles = {
     buttonsContainer: css`
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
         height: 100%;
         box-sizing: border-box;
         padding-top: 8px;
@@ -64,6 +67,84 @@ const styles = {
     ctasContainer: css`
         & > * + * {
             margin-top: ${space[3]}px;
+            `,
+    reminderContainer: css`
+        position: relative;
+        margin-top: ${space[2]}px;
+
+        ${from.tablet} {
+            margin-top: 0;
+        }
+    `,
+    reminderLine: css`
+        border-top: 1px solid black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+
+        ${from.leftCol} {
+            left: calc(50% - 550px + 1120px * 0.14285714285714285 - 20px + 10px + 1px);
+        }
+
+        ${from.wide} {
+            left: calc(50% - 630px + 1280px * 0.1875 - 20px + 10px);
+        }
+
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 90px;
+            bottom: 100%;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-bottom-color: black;
+
+            ${from.tablet} {
+                left: calc(50% + 210px);
+            }
+
+            ${from.desktop} {
+                left: calc(50% + 253px);
+            }
+
+            ${from.leftCol} {
+                left: 732px;
+            }
+
+            ${from.wide} {
+                left: 733px;
+            }
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 91px;
+            bottom: 100%;
+            width: 0;
+            height: 0;
+            border: 9px solid transparent;
+            border-bottom-color: ${brandAlt[400]};
+
+            ${from.tablet} {
+                left: calc(50% + 211px);
+            }
+
+            ${from.desktop} {
+                left: calc(50% + 254px);
+            }
+
+            ${from.leftCol} {
+                left: 733px;
+            }
+
+            ${from.wide} {
+                left: 734px;
+            }
         }
     `,
     tabletAndDesktop: css`
@@ -96,9 +177,23 @@ const columnCounts = {
 const ContributionsBanner: React.FC<BannerRenderProps> = ({
     onCtaClick,
     onSecondaryCtaClick,
+    reminderTracking,
     onCloseClick,
     content,
+    email,
 }: BannerRenderProps) => {
+    const [isReminderOpen, setIsReminderOpen] = useState(false);
+
+    const onReminderCtaClick = () => {
+        reminderTracking.onReminderCtaClick();
+        setIsReminderOpen(!isReminderOpen);
+    };
+
+    const onReminderCloseClick = () => {
+        reminderTracking.onReminderCloseClick();
+        setIsReminderOpen(false);
+    };
+
     const BodyAndHeading = () => (
         <BannerText
             styles={{
@@ -130,9 +225,9 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
 
                 {content.mainContent.secondaryCta && (
                     <ContributionsBannerSecondaryCta
-                        onCtaClick={onSecondaryCtaClick}
-                        ctaText={content.mainContent.secondaryCta.ctaText}
-                        ctaUrl={content.mainContent.secondaryCta.ctaUrl}
+                        secondaryCta={content.mainContent.secondaryCta}
+                        onReminderCtaClick={onReminderCtaClick}
+                        onCustomCtaClick={onSecondaryCtaClick}
                     />
                 )}
             </div>
@@ -146,9 +241,14 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                 onContributeClick={onCtaClick}
                 onSecondaryCtaClick={onSecondaryCtaClick}
                 content={content.mobileContent || content.mainContent}
+                onReminderCtaClick={onReminderCtaClick}
+                isReminderOpen={isReminderOpen}
+                onReminderCloseClick={onReminderCloseClick}
+                trackReminderSetClick={reminderTracking.onReminderSetClick}
+                email={email}
             />
 
-            <Container cssOverrides={styles.columnsContainer}>
+            <Container>
                 <div css={styles.tabletAndDesktop}>
                     <Columns>
                         <Column width={8 / columnCounts.tablet}>
@@ -177,6 +277,31 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                     </Columns>
                 </div>
             </Container>
+
+            <Hide below="tablet">
+                {isReminderOpen &&
+                    content.mainContent.secondaryCta?.type ===
+                        SecondaryCtaType.ContributionsReminder && (
+                        <div css={styles.reminderContainer}>
+                            <div css={styles.reminderLine} />
+
+                            <Container>
+                                <Columns>
+                                    <Column width={1}>
+                                        <ContributionsBannerReminder
+                                            reminderCta={content.mainContent.secondaryCta}
+                                            trackReminderSetClick={
+                                                reminderTracking.onReminderSetClick
+                                            }
+                                            onReminderCloseClick={onReminderCloseClick}
+                                            email={email}
+                                        />
+                                    </Column>
+                                </Columns>
+                            </Container>
+                        </div>
+                    )}
+            </Hide>
         </div>
     );
 };

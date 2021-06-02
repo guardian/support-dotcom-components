@@ -10,14 +10,16 @@ import { CountryGroupId } from '../lib/geolocation';
 import {
     ArticlesViewedSettings,
     Audience,
-    Cta,
     Test,
     TickerSettings,
     Variant,
     WeeklyArticleHistory,
     ControlProportionSettings,
     ctaSchema,
+    secondaryCtaSchema,
     tickerSettingsSchema,
+    Cta,
+    SecondaryCta,
 } from './shared';
 
 export type BannerTargeting = {
@@ -74,7 +76,7 @@ export interface BannerContent {
     mobileMessageText?: string; // deprecated - use mobileBannerContent instead
     highlightedText?: string;
     cta?: Cta;
-    secondaryCta?: Cta;
+    secondaryCta?: SecondaryCta;
 }
 
 const bannerContentSchema = z.object({
@@ -83,7 +85,7 @@ const bannerContentSchema = z.object({
     mobileMessageText: z.string().optional(),
     highlightedText: z.string().optional(),
     cta: ctaSchema.optional(),
-    secondaryCta: ctaSchema.optional(),
+    secondaryCta: secondaryCtaSchema.optional(),
 });
 
 export enum BannerTemplate {
@@ -145,6 +147,7 @@ export interface BannerProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
+    email?: string;
 }
 
 export const bannerSchema = z.object({
@@ -175,7 +178,7 @@ export interface RawVariantParams {
     heading?: string;
     highlightedText?: string;
     cta?: Cta;
-    secondaryCta?: Cta;
+    secondaryCta?: SecondaryCta;
 }
 
 export interface RawTestParams {

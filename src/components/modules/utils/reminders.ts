@@ -1,4 +1,4 @@
-import { addCookie } from '../../../../lib/cookies';
+import { addCookie, getCookie } from '../../../lib/cookies';
 
 // --- Types --- //
 
@@ -21,6 +21,10 @@ export const addContributionReminderCookie = (reminderDateString: string): void 
     const reminderDate = new Date(Date.parse(reminderDateString));
 
     addCookie('gu_epic_contribution_reminder', '1', dateDiff(today, reminderDate));
+};
+
+export const hasSetReminder = (): boolean => {
+    return !!getCookie('gu_epic_contribution_reminder');
 };
 
 // --- Text utils --- //

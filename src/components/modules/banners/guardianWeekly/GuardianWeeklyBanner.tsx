@@ -22,6 +22,7 @@ import { BannerText } from '../common/BannerText';
 import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
+import { SecondaryCtaType } from '../../../../types/shared';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_gWeekly&CMP_TU=mrtn&CMP_BUNIT=subs';
@@ -117,7 +118,9 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                             data-link-name={notNowComponentId}
                                             onClick={onNotNowClick}
                                         >
-                                            {secondaryCta?.ctaText || defaultSecondaryCta}
+                                            {(secondaryCta?.type === SecondaryCtaType.Custom &&
+                                                secondaryCta.cta.ctaText) ||
+                                                defaultSecondaryCta}
                                         </Button>
                                     </Inline>
                                 );

@@ -1,4 +1,5 @@
-import { EpicTest, SecondaryCtaType } from '../../types/EpicTypes';
+import { EpicTest } from '../../types/EpicTypes';
+import { SecondaryCtaType } from '../../types/shared';
 
 export const fallbackEpicTest: EpicTest = {
     name: 'FallbackEpicTest',

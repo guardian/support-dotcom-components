@@ -6,6 +6,9 @@ export interface ComponentIds {
     secondaryCta: string;
     notNow: string;
     signIn: string;
+    reminderCta: string;
+    reminderSet: string;
+    reminderClose: string;
 }
 
 export function getComponentIds(bannerId: BannerId): ComponentIds {
@@ -15,5 +18,8 @@ export function getComponentIds(bannerId: BannerId): ComponentIds {
         secondaryCta: `${bannerId} : secondary-cta`,
         notNow: `${bannerId} : not now`,
         signIn: `${bannerId} : sign in`,
+        reminderCta: `${bannerId} : reminder-cta`,
+        reminderSet: `${bannerId} : reminder-set`,
+        reminderClose: `${bannerId} : reminder-close`,
     };
 }

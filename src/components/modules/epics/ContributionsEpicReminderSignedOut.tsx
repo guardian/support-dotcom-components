@@ -1,6 +1,6 @@
 // --- Imports --- //
 
-import React, { useState } from 'react';
+import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
@@ -9,7 +9,8 @@ import { Lines } from '../../Lines';
 import { TextInput } from '@guardian/src-text-input';
 import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
-import { ensureHasPreposition, isValidEmail, ReminderStatus } from './utils/reminders';
+import { ensureHasPreposition, ReminderStatus } from '../utils/reminders';
+import { useContributionsReminderEmailForm } from '../../hooks/useContributionsReminderEmailForm';
 
 // --- Styles --- //
 
@@ -126,34 +127,7 @@ export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicRemin
     onSetReminderClick,
     onCloseReminderClick,
 }: ContributionsEpicReminderSignedOutProps) => {
-    const [isDirty, setIsDirty] = useState(false);
-    const [emailAddress, setEmailAddress] = useState('');
-
-    const updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmailAddress(e.target.value);
-        if (isDirty) {
-            setIsDirty(false);
-        }
-    };
-
-    const isEmpty = emailAddress.trim().length === 0;
-    const isValid = isValidEmail(emailAddress);
-
-    let inputError;
-    if (isDirty && isEmpty) {
-        inputError = 'Please enter your email address';
-    } else if (isDirty && !isValid) {
-        inputError = 'Please enter a valid email address';
-    }
-
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (isValid) {
-            onSetReminderClick(emailAddress);
-        } else {
-            setIsDirty(true);
-        }
-    };
+    const { email, updateEmail, inputError, handleSubmit } = useContributionsReminderEmailForm();
 
     const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
@@ -168,7 +142,7 @@ export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicRemin
             </div>
 
             <div css={containerStyles}>
-                <form onSubmit={onSubmit}>
+                <form onSubmit={handleSubmit(() => onSetReminderClick(email))}>
                     {reminderStatus !== ReminderStatus.Completed && (
                         <>
                             <h4 css={remindHeading}>Remind me {reminderDateWithPreposition}</h4>
@@ -177,7 +151,7 @@ export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicRemin
                                     <TextInput
                                         label="Email address"
                                         error={inputError}
-                                        value={emailAddress}
+                                        value={email}
                                         onChange={updateEmail}
                                     />
                                 </div>

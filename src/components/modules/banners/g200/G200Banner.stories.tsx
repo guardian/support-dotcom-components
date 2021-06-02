@@ -3,6 +3,7 @@ import { Story, Meta } from '@storybook/react';
 import { G200BannerUnvalidated as G200Banner } from './G200Banner';
 import { props } from '../utils/storybook';
 import { BannerProps } from '../../../../types/BannerTypes';
+import { SecondaryCtaType } from '../../../../types/shared';
 
 export default {
     component: G200Banner,
@@ -29,8 +30,11 @@ Default.args = {
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
-            text: 'Join the party',
-            baseUrl: 'https://theguardian.com',
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Join the party',
+                baseUrl: 'https://theguardian.com',
+            },
         },
     },
 };
