@@ -336,7 +336,7 @@ export const buildHeaderData = async (
         const testTracking: HeaderTestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
-            campaignCode: `${test.name}_${variant.name}`,
+            campaignCode: `header_support_${test.name}_${variant.name}`,
             componentType: 'ACQUISITIONS_HEADER',
         };
         return {
