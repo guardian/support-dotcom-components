@@ -31,6 +31,10 @@ const wrapperStyles = css`
             background: ${palette.brandAlt[400]};
         }
     }
+
+    b {
+        font-weight: bold;
+    }
 `;
 
 const headingStyles = css`
