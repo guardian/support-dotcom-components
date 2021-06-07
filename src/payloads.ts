@@ -342,7 +342,7 @@ export const buildHeaderData = async (
         return {
             data: {
                 module: {
-                    url: `${baseUrl}/${header.endpointPathBuilder(targeting.modulesVersion)}`,
+                    url: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                     name: header.name,
                     props: {
                         content: variant.content,

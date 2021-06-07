@@ -55,6 +55,11 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
 
+export const headerSupportAgain: ModuleInfo = getDefaultModuleInfo(
+    'header-support-again',
+    'header/HeaderSupportAgain',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     epicWithArticleCountOptOut,
@@ -65,4 +70,5 @@ export const moduleInfos: ModuleInfo[] = [
     guardianWeekly,
     puzzlesBanner,
     header,
+    headerSupportAgain,
 ];
