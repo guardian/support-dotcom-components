@@ -62,7 +62,7 @@ const buildEpicArticleCountOptOutTest = (
     highPriority: true,
     useLocalViewLog: true,
     articlesViewedSettings: {
-        minViews: 5,
+        minViews: 0,
         maxViews: 50,
         periodInWeeks: 52,
     },
