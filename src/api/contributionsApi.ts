@@ -34,9 +34,7 @@ export const fetchConfiguredEpicTests = async (testList: EpicTestList): Promise<
             const { tests } = json;
             if (Array.isArray(tests)) {
                 return tests.map((test: EpicTest) => {
-                    const hasArticleCountInCopy = test.variants.some(
-                        variantHasArticleCountCopy,
-                    );
+                    const hasArticleCountInCopy = test.variants.some(variantHasArticleCountCopy);
 
                     return {
                         ...test,
