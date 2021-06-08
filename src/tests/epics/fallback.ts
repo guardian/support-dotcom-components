@@ -40,4 +40,5 @@ export const fallbackEpicTest: EpicTest = {
     ],
     highPriority: false,
     useLocalViewLog: false,
+    hasArticleCountInCopy: false,
 };

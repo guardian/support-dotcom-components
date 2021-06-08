@@ -21,4 +21,5 @@ export default Factory.define<EpicTest>(({ factories }) => ({
     highPriority: false,
     useLocalViewLog: false,
     variants: factories.variant.buildList(1),
+    hasArticleCountInCopy: false,
 }));

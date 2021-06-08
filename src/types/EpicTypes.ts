@@ -148,6 +148,7 @@ export interface EpicTest extends Test<EpicVariant> {
     highPriority: boolean;
     useLocalViewLog: boolean;
     articlesViewedSettings?: ArticlesViewedSettings;
+    hasArticleCountInCopy: boolean;
 
     audience?: number;
     audienceOffset?: number;
@@ -157,8 +158,4 @@ export interface EpicTest extends Test<EpicVariant> {
     campaignId?: string;
 
     controlProportionSettings?: ControlProportionSettings;
-}
-
-export interface EpicTests {
-    tests: EpicTest[];
 }

@@ -1,6 +1,7 @@
 import { isProd } from '../lib/env';
 import { fetchS3Data } from '../utils/S3';
-import { EpicTests } from '../types/EpicTypes';
+import { EpicTest, EpicVariant } from '../types/EpicTypes';
+import { containsArticleCountPlaceholder } from '../lib/placeholders';
 
 type EpicTestList = 'ARTICLE' | 'ARTICLE_HOLDBACK' | 'LIVEBLOG';
 
@@ -14,9 +15,36 @@ const EPIC_TEST_LIST_FILE_LOOKUP: EpicTestListTestFileLookup = {
     LIVEBLOG: 'liveblog-epic-tests.json',
 };
 
-export const fetchConfiguredEpicTests = async (testList: EpicTestList): Promise<EpicTests> => {
+export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {
+    const { paragraphs, heading, highlightedText } = variant;
+    return (
+        (!!heading && containsArticleCountPlaceholder(heading)) ||
+        paragraphs.some(containsArticleCountPlaceholder) ||
+        (!!highlightedText && containsArticleCountPlaceholder(highlightedText))
+    );
+};
+
+export const fetchConfiguredEpicTests = async (testList: EpicTestList): Promise<EpicTest[]> => {
     const file = EPIC_TEST_LIST_FILE_LOOKUP[testList];
     const key = `epic/${isProd ? 'PROD' : 'CODE'}/${file}`;
 
-    return fetchS3Data('gu-contributions-public', key).then(JSON.parse);
+    return fetchS3Data('gu-contributions-public', key)
+        .then(JSON.parse)
+        .then(json => {
+            const { tests } = json;
+            if (Array.isArray(tests)) {
+                return tests.map((test: EpicTest) => {
+                    const hasArticleCountInCopy = test.variants.some(
+                        variantHasArticleCountCopy,
+                    );
+
+                    return {
+                        ...test,
+                        hasArticleCountInCopy,
+                    };
+                });
+            }
+
+            return [];
+        });
 };

@@ -66,6 +66,7 @@ const buildEpicArticleCountOptOutTest = (
         maxViews: 50,
         periodInWeeks: 52,
     },
+    hasArticleCountInCopy: false,
 });
 
 export const epicArticleCountOptOutTests = [
