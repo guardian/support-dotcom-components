@@ -64,6 +64,7 @@ const testDefault: EpicTest = {
         minViews: 5,
         periodInWeeks: 52,
     },
+    hasArticleCountInCopy: true,
 };
 
 const targetingDefault: EpicTargeting = {
@@ -99,7 +100,7 @@ describe('findTestAndVariant', () => {
         expect(got?.result?.variant.name).toBe('control-example-1');
     });
 
-    it('should return undefined if test has articlesViewedSettings and user has opted out of article count', () => {
+    it('should return undefined if test has hasArticleCountInCopy and user has opted out of article count', () => {
         const tests = [testDefault];
         const targeting: EpicTargeting = {
             ...targetingDefault,

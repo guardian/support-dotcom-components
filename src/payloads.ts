@@ -126,15 +126,15 @@ const getArticleEpicTests = async (
         const optOutTests: EpicTest[] = []; // isDcr ? epicArticleCountOptOutTests : [];
 
         if (isForcingTest) {
-            return [...optOutTests, ...regular.tests, ...holdback.tests, fallbackEpicTest];
+            return [...optOutTests, ...regular, ...holdback, fallbackEpicTest];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
         if (shouldHoldBack) {
-            return [...holdback.tests];
+            return [...holdback];
         }
 
-        return [...optOutTests, ...regular.tests, fallbackEpicTest];
+        return [...optOutTests, ...regular, fallbackEpicTest];
     } catch (err) {
         logger.warn(`Error getting article epic tests: ${err}`);
 
@@ -144,7 +144,7 @@ const getArticleEpicTests = async (
 
 const getLiveblogEpicTests = async (): Promise<EpicTest[]> => {
     const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
-    return [...configuredTests.tests];
+    return configuredTests;
 };
 
 export const buildEpicData = async (

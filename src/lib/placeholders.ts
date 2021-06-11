@@ -24,3 +24,8 @@ export const containsNonArticleCountPlaceholder = (text: string): boolean => {
     const matches = text.match(PLACEHOLDER_RE)?.filter(str => str !== '%%ARTICLE_COUNT%%');
     return !!matches && matches.length > 0;
 };
+
+export const containsArticleCountPlaceholder = (text: string): boolean => {
+    const matches = text.match(/%%ARTICLE_COUNT%%/g);
+    return !!matches && matches.length > 0;
+};

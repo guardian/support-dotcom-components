@@ -34,6 +34,7 @@ const test: EpicTest = {
     ],
     highPriority: false,
     useLocalViewLog: false,
+    hasArticleCountInCopy: false,
 };
 
 const controlProportionSettings = {

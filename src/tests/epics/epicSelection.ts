@@ -160,7 +160,7 @@ export const isNotExpired = (now: Date = new Date()): Filter => ({
 export const respectArticleCountOptOut: Filter = {
     id: 'respectArticleCountOptOut',
     test: (test, targeting) => {
-        if (test.articlesViewedSettings) {
+        if (test.hasArticleCountInCopy) {
             return !targeting.hasOptedOutOfArticleCount;
         } else {
             return true;
