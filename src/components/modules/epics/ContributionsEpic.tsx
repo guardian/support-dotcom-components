@@ -22,13 +22,13 @@ import { Stage } from '../../../types/shared';
 import { isProd } from '../shared/helpers/stage';
 
 const sendEpicViewEvent = (url: string, stage?: Stage): void => {
-    // TODO - fastly
-    const endpoint = isProd(stage)
-        ? 'https://component-events.support.guardianapis.com/epic-view'
-        : 'https://component-events-code.support.guardianapis.com/epic-view';
+    const path = 'events/epic-view';
+    const host = isProd(stage)
+        ? 'https://contributions.guardianapis.com'
+        : 'https://contributions.code.dev-guardianapis.com';
     const body = JSON.stringify({ url });
 
-    fetch(endpoint, {
+    fetch(`${host}/${path}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
