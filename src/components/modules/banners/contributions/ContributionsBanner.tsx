@@ -67,7 +67,8 @@ const styles = {
     ctasContainer: css`
         & > * + * {
             margin-top: ${space[3]}px;
-            `,
+        }
+    `,
     reminderContainer: css`
         position: relative;
         margin-top: ${space[2]}px;
