@@ -5,7 +5,7 @@ import { Header } from './Header';
 import { css } from '@emotion/core';
 import { brand } from '@guardian/src-foundations';
 
-const props: HeaderProps = {
+export const props: HeaderProps = {
     content: {
         heading: 'Support the Guardian',
         subheading: 'Available for everyone, funded by readers',
@@ -36,17 +36,18 @@ const background = css`
     padding: 10px;
 `;
 
+export const HeaderDecorator = (Story: Story): JSX.Element => (
+    <div css={background}>
+        <Story />
+    </div>
+);
+
 export default {
     component: Header,
     title: 'Header/Header',
     args: props,
-    decorators: [
-        Story => (
-            <div css={background}>
-                <Story />
-            </div>
-        ),
-    ],
+    decorators: [HeaderDecorator],
+    excludeStories: ['props', 'HeaderDecorator'],
 } as Meta;
 
 const Template: Story<HeaderProps> = (props: HeaderProps) => <Header {...props} />;

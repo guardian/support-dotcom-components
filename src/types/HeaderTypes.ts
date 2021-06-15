@@ -35,7 +35,7 @@ export interface HeaderProps {
 export interface HeaderTestSelection {
     test: HeaderTest;
     variant: HeaderVariant;
-    moduleUrl: string;
+    modulePathBuilder: (version?: string) => string;
     moduleName: string;
 }
 
@@ -60,4 +60,5 @@ export interface HeaderTargeting {
     countryCode: string;
     modulesVersion?: string;
     mvtId: number;
+    lastOneOffContributionDate?: string;
 }

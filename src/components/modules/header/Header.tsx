@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 
 import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
+import { space } from '@guardian/src-foundations';
 import { brandAlt, brandText } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
+import { Link, linkBrand } from '@guardian/src-link';
 import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
@@ -16,7 +18,6 @@ import { OphanAction } from '../../../types/OphanTypes';
 const messageStyles = (isThankYouMessage: boolean) => css`
     color: ${brandAlt[400]};
     ${headline.xxsmall({ fontWeight: 'bold' })};
-    padding-top: 3px;
     margin-bottom: 3px;
 
     ${from.desktop} {
@@ -28,6 +29,37 @@ const messageStyles = (isThankYouMessage: boolean) => css`
             ? headline.small({ fontWeight: 'bold' })
             : headline.medium({ fontWeight: 'bold' })}
     }
+`;
+
+const supportAgainHeadingStyles = css`
+    ${textSans.small({ fontWeight: 'bold' })}
+    color: ${brandAlt[400]};
+    font-size: 14px;
+
+    ${from.tablet} {
+        ${headline.xxsmall({ fontWeight: 'bold' })};
+    }
+
+    ${from.desktop} {
+        ${headline.xsmall({ fontWeight: 'bold' })}
+    }
+
+    ${from.leftCol} {
+        ${headline.small({ fontWeight: 'bold' })}
+    }
+`;
+
+const supportAgainSubheadingStyles = css`
+    ${textSans.medium()};
+    color: ${brandText.primary};
+`;
+
+const supportAgainLinkStyles = css`
+    font-size: 12px;
+`;
+
+const supportAgainButtonStyles = css`
+    margin-top: ${space[2]}px;
 `;
 
 const linkStyles = css`
@@ -51,7 +83,14 @@ const subMessageStyles = css`
     margin: 5px 0;
 `;
 
-export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
+export enum HeaderVariant {
+    Control,
+    SupportAgain,
+}
+
+export const getHeader: (variant: HeaderVariant) => React.FC<HeaderProps> = (
+    variant: HeaderVariant,
+) => (props: HeaderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
     const { abTestName, abTestVariant, componentType, campaignCode } = props.tracking;
 
@@ -92,15 +131,27 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
 
     return (
         <div ref={setNode}>
-            <Hide below="tablet">
-                <div css={messageStyles(false)}>
-                    <span>{heading}</span>
+            {variant === HeaderVariant.Control ? (
+                <Hide below="tablet">
+                    <div css={messageStyles(false)}>
+                        <span>{heading}</span>
+                    </div>
+
+                    <div css={subMessageStyles}>
+                        <div>{subheading}</div>
+                    </div>
+                </Hide>
+            ) : (
+                <div>
+                    <div css={supportAgainHeadingStyles}>{heading}</div>
+
+                    <Hide below="tablet">
+                        <div css={supportAgainSubheadingStyles}>{subheading}</div>
+                    </Hide>
                 </div>
-                <div css={subMessageStyles}>
-                    <div>{subheading}</div>
-                </div>
-            </Hide>
-            {primaryCta && (
+            )}
+
+            {primaryCta && variant === HeaderVariant.Control && (
                 <ThemeProvider theme={buttonReaderRevenueBrand}>
                     <Hide below="mobileMedium">
                         <LinkButton
@@ -114,6 +165,7 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                             {primaryCta.text}
                         </LinkButton>
                     </Hide>
+
                     <Hide above="mobileMedium">
                         <LinkButton
                             priority="primary"
@@ -125,6 +177,39 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
                     </Hide>
                 </ThemeProvider>
             )}
+
+            {primaryCta && variant === HeaderVariant.SupportAgain && (
+                <>
+                    <Hide above="tablet">
+                        <ThemeProvider theme={linkBrand}>
+                            <Link
+                                priority="primary"
+                                href={addTracking(primaryCta.url)}
+                                cssOverrides={supportAgainLinkStyles}
+                            >
+                                {primaryCta.text}
+                            </Link>
+                        </ThemeProvider>
+                    </Hide>
+
+                    <Hide below="tablet">
+                        <ThemeProvider theme={buttonReaderRevenueBrand}>
+                            <LinkButton
+                                priority="primary"
+                                href={addTracking(primaryCta.url)}
+                                icon={<SvgArrowRightStraight />}
+                                iconSide="right"
+                                nudgeIcon={true}
+                                size="xsmall"
+                                cssOverrides={supportAgainButtonStyles}
+                            >
+                                {primaryCta.text}
+                            </LinkButton>
+                        </ThemeProvider>
+                    </Hide>
+                </>
+            )}
+
             {secondaryCta && (
                 <Hide below="tablet">
                     <ThemeProvider theme={buttonReaderRevenueBrand}>
@@ -144,3 +229,5 @@ export const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
         </div>
     );
 };
+
+export const Header = getHeader(HeaderVariant.Control);
