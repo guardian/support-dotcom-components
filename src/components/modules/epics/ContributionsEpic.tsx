@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
@@ -17,7 +17,7 @@ import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleC
 import { EpicArticleCountOptOutTestVariants } from '../../../tests/epics/articleCountOptOut';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
-import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { useOnSeenEffect } from '../../../hooks/useHasBeenSeen';
 import { Stage } from '../../../types/shared';
 import { isProd } from '../shared/helpers/stage';
 
@@ -235,13 +235,9 @@ export const getContributionsEpicComponent: (
 
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
 
-    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
-
-    useEffect(() => {
-        if (hasBeenSeen) {
-            sendEpicViewEvent(tracking.referrerUrl, stage);
-        }
-    }, [hasBeenSeen]);
+    const setNode = useOnSeenEffect({ threshold: 0 }, true, () => {
+        sendEpicViewEvent(tracking.referrerUrl, stage);
+    });
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
