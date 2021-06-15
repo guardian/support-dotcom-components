@@ -10,7 +10,7 @@ import {
 } from './articleCountOptOutTestData';
 import { CountryGroupId } from '../../lib/geolocation';
 
-const testName = '2021-06-02-EpicArticleCountOptOutTest';
+const testName = '2021-06-15-EpicArticleCountOptOutTest';
 
 export enum EpicArticleCountOptOutTestVariants {
     control = 'control',

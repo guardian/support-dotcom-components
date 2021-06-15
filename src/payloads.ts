@@ -43,7 +43,6 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';
 import { cachedChannelSwitches } from './channelSwitches';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { epicArticleCountOptOutTests } from './tests/epics/articleCountOptOut';
 
 interface EpicDataResponse {
@@ -114,7 +113,6 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
 const getArticleEpicTests = async (
     mvtId: number,
     isForcingTest: boolean,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isDcr: boolean,
 ): Promise<EpicTest[]> => {
     try {
@@ -123,7 +121,7 @@ const getArticleEpicTests = async (
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const optOutTests: EpicTest[] = []; // isDcr ? epicArticleCountOptOutTests : [];
+        const optOutTests: EpicTest[] = isDcr ? epicArticleCountOptOutTests : [];
 
         if (isForcingTest) {
             return [...optOutTests, ...regular, ...holdback, fallbackEpicTest];
