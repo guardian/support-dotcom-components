@@ -324,8 +324,10 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                         {isArticleCountOn ? (
                             <>
                                 <div css={articleCountBodyTextStyles}>
-                                    We are counting the number of Guardian articles you&apos;ve read
-                                    on this browser. Can we continue showing your article count?
+                                    Many readers tell us they enjoy seeing how many pieces of
+                                    Guardian journalism they’ve read, watched or listened to. So
+                                    here’s your count. Can we continue showing you this on support
+                                    appeals like this?
                                 </div>
                                 <div css={articleCountCtasContainerStyles}>
                                     <Button
@@ -349,9 +351,10 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
                         ) : (
                             <>
                                 <div css={articleCountBodyTextStyles}>
-                                    We are no longer counting the number of Guardian articles
-                                    you&apos;ve read on this browser. Can we start showing your
-                                    article count?
+                                    Many readers tell us they enjoy seeing how many pieces of
+                                    Guardian journalism they’ve read, watched or listened to. Can we
+                                    start showing you your article count on support appeals like
+                                    this?
                                 </div>
                                 <div css={articleCountCtasContainerStyles}>
                                     <Button
