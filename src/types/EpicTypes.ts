@@ -3,6 +3,7 @@ import {
     ArticlesViewedSettings,
     Cta,
     SecondaryCta,
+    Stage,
     Test,
     TickerSettings,
     Variant,
@@ -90,6 +91,7 @@ export type EpicProps = {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
+    stage?: Stage;
 };
 
 export interface MaxViews {

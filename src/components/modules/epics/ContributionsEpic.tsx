@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
@@ -17,6 +17,27 @@ import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleC
 import { EpicArticleCountOptOutTestVariants } from '../../../tests/epics/articleCountOptOut';
 import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
+import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { Stage } from '../../../types/shared';
+import { isProd } from '../shared/helpers/stage';
+
+const sendEpicViewEvent = (url: string, stage?: Stage): void => {
+    const path = 'events/epic-view';
+    const host = isProd(stage)
+        ? 'https://contributions.guardianapis.com'
+        : 'https://contributions.code.dev-guardianapis.com';
+    const body = JSON.stringify({ url });
+
+    fetch(`${host}/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+    }).then(response => {
+        if (!response.ok) {
+            console.log('Epic view event request failed', response);
+        }
+    });
+};
 
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
@@ -207,11 +228,20 @@ export const getContributionsEpicComponent: (
     submitComponentEvent,
     openCmp,
     hasConsentForArticleCount,
+    stage,
 }: EpicProps) => {
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
     const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
+
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            sendEpicViewEvent(tracking.referrerUrl, stage);
+        }
+    }, [hasBeenSeen]);
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
@@ -237,7 +267,7 @@ export const getContributionsEpicComponent: (
     };
 
     return (
-        <section css={wrapperStyles}>
+        <section ref={setNode} css={wrapperStyles}>
             {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
                     {optOutVariant === EpicArticleCountOptOutTestVariants.control ? (
