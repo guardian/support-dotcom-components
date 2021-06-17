@@ -82,25 +82,23 @@ const supportAgainTest: HeaderTest = {
     ],
 };
 
-// const monthDiff = (from: Date, to: Date): number => {
-//     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
-// };
+const monthDiff = (from: Date, to: Date): number => {
+    return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
+};
 
-const isLastOneOffContributionWithinLast2To3Months = (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const isLastOneOffContributionWithinLast2To13Months = (
     lastOneOffContributionDate?: string,
 ): boolean => {
-    return true;
-    // if (lastOneOffContributionDate === undefined) {
-    //     return false;
-    // }
+    if (lastOneOffContributionDate === undefined) {
+        return false;
+    }
 
-    // const now = new Date();
-    // const date = new Date(lastOneOffContributionDate);
+    const now = new Date();
+    const date = new Date(lastOneOffContributionDate);
 
-    // const monthsSinceLastContribution = monthDiff(date, now);
+    const monthsSinceLastContribution = monthDiff(date, now);
 
-    // return monthsSinceLastContribution === 2;
+    return monthsSinceLastContribution >= 2 && monthsSinceLastContribution <= 13;
 };
 
 const getNonSupportersTest = (edition: string): HeaderTest =>
@@ -110,7 +108,7 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
-        if (isLastOneOffContributionWithinLast2To3Months(targeting.lastOneOffContributionDate)) {
+        if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
             return supportAgainTest;
         } else if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
