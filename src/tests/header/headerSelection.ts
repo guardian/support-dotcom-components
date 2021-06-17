@@ -1,5 +1,5 @@
 import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '../../types/HeaderTypes';
-import { header } from '../../modules';
+import { header, headerSupportAgain } from '../../modules';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -62,44 +62,44 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-// const supportAgainTest: HeaderTest = {
-//     name: 'header-support-again',
-//     audience: 'AllNonSupporters',
-//     variants: [
-//         {
-//             name: 'control',
-//             modulePathBuilder: headerSupportAgain.endpointPathBuilder,
-//             content: {
-//                 heading: 'Thank you',
-//                 subheading: 'Your support powers our independent journalism',
-//                 primaryCta: {
-//                     text: 'Support us again',
-//                     url:
-//                         'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
-//                 },
-//             },
-//         },
-//     ],
-// };
+const supportAgainTest: HeaderTest = {
+    name: 'header-support-again',
+    audience: 'AllNonSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: headerSupportAgain.endpointPathBuilder,
+            content: {
+                heading: 'Thank you',
+                subheading: 'Your support powers our independent journalism',
+                primaryCta: {
+                    text: 'Support us again',
+                    url:
+                        'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
+                },
+            },
+        },
+    ],
+};
 
-// const monthDiff = (from: Date, to: Date): number => {
-//     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
-// };
+const monthDiff = (from: Date, to: Date): number => {
+    return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
+};
 
-// const isLastOneOffContributionWithinLast2To3Months = (
-//     lastOneOffContributionDate?: string,
-// ): boolean => {
-//     if (lastOneOffContributionDate === undefined) {
-//         return false;
-//     }
+const isLastOneOffContributionWithinLast2To13Months = (
+    lastOneOffContributionDate?: string,
+): boolean => {
+    if (lastOneOffContributionDate === undefined) {
+        return false;
+    }
 
-//     const now = new Date();
-//     const date = new Date(lastOneOffContributionDate);
+    const now = new Date();
+    const date = new Date(lastOneOffContributionDate);
 
-//     const monthsSinceLastContribution = monthDiff(date, now);
+    const monthsSinceLastContribution = monthDiff(date, now);
 
-//     return monthsSinceLastContribution === 2;
-// };
+    return monthsSinceLastContribution >= 2 && monthsSinceLastContribution <= 13;
+};
 
 const getNonSupportersTest = (edition: string): HeaderTest =>
     edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
@@ -108,7 +108,9 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
-        if (targeting.showSupportMessaging) {
+        if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
+            return supportAgainTest;
+        } else if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
         } else {
             return supportersTest;
