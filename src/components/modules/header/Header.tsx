@@ -46,7 +46,7 @@ const subMessageStyles = css`
     margin: 5px 0;
 `;
 
-const _Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
+const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
     return (
@@ -103,5 +103,5 @@ const _Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
         </div>
     );
 };
-
-export const Header = headerWrapper(_Header);
+const wrapped = headerWrapper(Header);
+export { wrapped as Header };
