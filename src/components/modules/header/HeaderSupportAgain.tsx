@@ -57,7 +57,7 @@ const linkStyles = css`
     }
 `;
 
-const _Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
+const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
     return (
@@ -122,4 +122,5 @@ const _Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     );
 };
 
-export const Header = headerWrapper(_Header);
+const wrapped = headerWrapper(Header);
+export { wrapped as Header };
