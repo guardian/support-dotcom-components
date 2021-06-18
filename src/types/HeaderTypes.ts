@@ -1,7 +1,7 @@
 import { OphanComponentEvent, OphanComponentType } from './OphanTypes';
 import { Audience, Test, Variant } from './shared';
 
-interface Cta {
+export interface Cta {
     url: string;
     text: string;
 }
