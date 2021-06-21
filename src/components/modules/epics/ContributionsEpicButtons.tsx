@@ -6,7 +6,11 @@ import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
 import { SecondaryCtaType } from '../../../types/shared';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
-import { getReminderViewEvent, OPHAN_COMPONENT_EVENT_REMINDER_OPEN } from './utils/ophan';
+import {
+    getReminderViewEvent,
+    OPHAN_COMPONENT_EVENT_CTAS_VIEW,
+    OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
+} from './utils/ophan';
 import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { Cta } from '../../../types/shared';
 import { hasSetReminder } from '../utils/reminders';
@@ -111,8 +115,12 @@ export const ContributionsEpicButtons = ({
     }
 
     useEffect(() => {
-        if (hasBeenSeen && submitComponentEvent && showReminderFields && !hasSetReminder()) {
-            submitComponentEvent(getReminderViewEvent(isSignedIn));
+        if (hasBeenSeen && submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_CTAS_VIEW);
+
+            if (showReminderFields && !hasSetReminder()) {
+                submitComponentEvent(getReminderViewEvent(isSignedIn));
+            }
         }
     }, [hasBeenSeen]);
 
