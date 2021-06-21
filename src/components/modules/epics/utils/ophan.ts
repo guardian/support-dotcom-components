@@ -1,5 +1,6 @@
 import { OphanComponentEvent } from '../../../../types/OphanTypes';
 
+const OPHAN_COMPONENT_ID_CTAS_VIEW = 'contributions-epic-ctas-view';
 const OPHAN_COMPONENT_ID_REMINDER_VIEW = 'contributions-epic-reminder-view';
 const OPHAN_COMPONENT_ID_REMINDER_OPEN = 'contributions-epic-reminder-open';
 const OPHAN_COMPONENT_ID_REMINDER_SET = 'contributions-epic-reminder-set';
@@ -19,6 +20,14 @@ export const getReminderViewEvent = (isSignedIn: boolean): OphanComponentEvent =
     action: 'VIEW',
     value: isSignedIn.toString(),
 });
+
+export const OPHAN_COMPONENT_EVENT_CTAS_VIEW: OphanComponentEvent = {
+    component: {
+        componentType: 'ACQUISITIONS_OTHER',
+        id: OPHAN_COMPONENT_ID_CTAS_VIEW,
+    },
+    action: 'CLICK',
+};
 
 export const OPHAN_COMPONENT_EVENT_REMINDER_OPEN: OphanComponentEvent = {
     component: {
