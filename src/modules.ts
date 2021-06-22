@@ -60,6 +60,16 @@ export const headerSupportAgain: ModuleInfo = getDefaultModuleInfo(
     'header/HeaderSupportAgain',
 );
 
+export const ausMomentHeaderSupporter: ModuleInfo = getDefaultModuleInfo(
+    'aus-moment-header-supporter',
+    'header/HeaderAusMomentSupporter',
+);
+
+export const ausMomentHeaderNonSupporter: ModuleInfo = getDefaultModuleInfo(
+    'aus-moment-header-nonsupporter',
+    'header/HeaderAusMomentNonSupporter',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     epicWithArticleCountOptOut,
@@ -71,4 +81,6 @@ export const moduleInfos: ModuleInfo[] = [
     puzzlesBanner,
     header,
     headerSupportAgain,
+    ausMomentHeaderSupporter,
+    ausMomentHeaderNonSupporter,
 ];

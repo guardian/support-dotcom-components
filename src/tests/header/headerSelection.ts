@@ -1,5 +1,10 @@
 import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '../../types/HeaderTypes';
-import { header, headerSupportAgain } from '../../modules';
+import {
+    ausMomentHeaderNonSupporter,
+    ausMomentHeaderSupporter,
+    header,
+    headerSupportAgain,
+} from '../../modules';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -104,10 +109,21 @@ const isLastOneOffContributionWithinLast2To13Months = (
 const getNonSupportersTest = (edition: string): HeaderTest =>
     edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
 
+const isAusMoment = (countryCode: string): boolean => countryCode === 'AU' && isAusMomentLive();
+
+const isAusMomentLive = () => Date.now() >= Date.parse('2021-07-19');
+
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
+        if (isAusMoment(targeting.countryCode)) {
+            if (targeting.showSupportMessaging) {
+                return ausMomentNonSupporter;
+            } else {
+                return ausMomentSupporter;
+            }
+        }
         if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
             return supportAgainTest;
         } else if (targeting.showSupportMessaging) {
@@ -128,4 +144,47 @@ export const selectHeaderTest = (
         });
     }
     return Promise.resolve(null);
+};
+
+const ausMomentSupporter: HeaderTest = {
+    name: 'aus-moment-supporter',
+    audience: 'AllExistingSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
+            content: {
+                heading: 'Thank you',
+                subheading: '',
+                primaryCta: {
+                    text: 'Hear from our supporters',
+                    url:
+                        'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_header',
+                },
+            },
+        },
+    ],
+};
+
+const ausMomentNonSupporter: HeaderTest = {
+    name: 'aus-moment-nonsupporter',
+    audience: 'AllNonSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: ausMomentHeaderNonSupporter.endpointPathBuilder,
+            content: {
+                heading: 'Support the Guarian',
+                subheading: '',
+                primaryCta: {
+                    text: 'Contribute',
+                    url: 'https://support.theguardian.com/contribute',
+                },
+                secondaryCta: {
+                    text: 'Subscribe',
+                    url: 'https://support.theguardian.com/subscribe',
+                },
+            },
+        },
+    ],
 };
