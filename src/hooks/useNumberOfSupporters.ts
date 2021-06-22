@@ -10,16 +10,11 @@ const useNumberOfSupporters = (): string => {
 
     useEffect(() => {
         const cookieValue = getCookie(AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME);
-
         if (cookieValue) {
-            setNumberOfSupporters(cookieValue);
+            setNumberOfSupporters(Number(cookieValue).toLocaleString());
         } else {
             fetchTickerData(TickerCountType.people).then((td: TickerData) => {
-                addForMinutes(
-                    AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME,
-                    `${td.total.toLocaleString('en-US')}`,
-                    60,
-                );
+                addForMinutes(AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME, `${td.total}`, 60);
                 setNumberOfSupporters(td.total.toLocaleString('en-US'));
             });
         }

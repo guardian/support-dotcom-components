@@ -1,19 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { css } from '@emotion/core';
-import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
 import { brandAlt, brandText } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
-import { Link, linkBrand } from '@guardian/src-link';
-import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import { background } from '@guardian/src-foundations/palette';
-import { fetchTickerData } from '../../../lib/fetchTickerDataClient';
-import { TickerCountType, TickerData } from '../../../types/shared';
-import { addForMinutes, getCookie } from '../../../lib/cookies';
+import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
     ${headline.medium({ fontWeight: 'bold' })}
@@ -51,28 +45,10 @@ const headerYellowHighlight = css`
     margin: 5px 0;
 `;
 
-const AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME = 'gu_aus_moment_supporter_count';
-
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
-    const { heading, primaryCta, secondaryCta } = props.content;
-    const [numberOfSupporters, setNumberOfSupporters] = useState<string>('147,784');
+    const { heading, primaryCta } = props.content;
 
-    useEffect(() => {
-        const cookieValue = getCookie(AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME);
-
-        if (cookieValue) {
-            setNumberOfSupporters(cookieValue);
-        } else {
-            fetchTickerData(TickerCountType.people).then((td: TickerData) => {
-                addForMinutes(
-                    AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME,
-                    `${td.total.toLocaleString('en-US')}`,
-                    60,
-                );
-                setNumberOfSupporters(td.total.toLocaleString('en-US'));
-            });
-        }
-    }, []);
+    const numberOfSupporters = useNumberOfSupporters();
 
     return (
         <div>
@@ -102,21 +78,6 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                         </LinkButton>
                     </ThemeProvider>
                 </>
-            )}
-
-            {secondaryCta && (
-                <ThemeProvider theme={buttonReaderRevenueBrand}>
-                    <LinkButton
-                        priority="primary"
-                        href={secondaryCta.ctaUrl}
-                        icon={<SvgArrowRightStraight />}
-                        iconSide="right"
-                        nudgeIcon={true}
-                        css={linkStyles}
-                    >
-                        {secondaryCta.ctaText}
-                    </LinkButton>
-                </ThemeProvider>
             )}
         </div>
     );
