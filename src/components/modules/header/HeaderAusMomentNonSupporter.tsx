@@ -5,6 +5,9 @@ import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { Link } from '@guardian/src-link';
+import { from } from '@guardian/src-foundations/mq';
+import { Hide } from '@guardian/src-layout';
 import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
@@ -14,9 +17,14 @@ const ausMomentHeadingStyles = css`
 `;
 
 const ausMomentSubheadingStyles = css`
-    ${textSans.medium()};
-    color: ${brandText.primary};
+    ${textSans.small()};
+    color: ${brandAlt[400]};
     margin-bottom: 5px;
+
+    ${from.tablet} {
+        ${textSans.medium()};
+        color: ${brandText.primary};
+    }
 `;
 
 const linkStyles = css`
@@ -47,48 +55,59 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
 
     return (
         <div>
-            <div>
-                <div css={ausMomentHeadingStyles}>{heading}</div>
-            </div>
-            <div>
-                <div css={ausMomentSubheadingStyles}>
-                    We&apos;re funded by{' '}
-                    <span css={headerYellowHighlight}>{numberOfSupporters} </span>
-                    readers across Australia.
+            <Hide below="tablet">
+                <div>
+                    <div css={ausMomentHeadingStyles}>{heading}</div>
                 </div>
-            </div>
+                <div>
+                    <div css={ausMomentSubheadingStyles}>
+                        Join <span css={headerYellowHighlight}>{numberOfSupporters} </span>
+                        supporters in Australia
+                    </div>
+                </div>
 
-            {primaryCta && (
-                <>
+                {primaryCta && (
+                    <>
+                        <Hide below="tablet">
+                            <ThemeProvider theme={buttonReaderRevenueBrand}>
+                                <LinkButton
+                                    priority="primary"
+                                    href={primaryCta.ctaUrl}
+                                    icon={<SvgArrowRightStraight />}
+                                    iconSide="right"
+                                    nudgeIcon={true}
+                                    css={linkStyles}
+                                >
+                                    {primaryCta.ctaText}
+                                </LinkButton>
+                            </ThemeProvider>
+                        </Hide>
+                    </>
+                )}
+
+                {secondaryCta && (
                     <ThemeProvider theme={buttonReaderRevenueBrand}>
                         <LinkButton
                             priority="primary"
-                            href={primaryCta.ctaUrl}
+                            href={secondaryCta.ctaUrl}
                             icon={<SvgArrowRightStraight />}
                             iconSide="right"
                             nudgeIcon={true}
                             css={linkStyles}
                         >
-                            {primaryCta.ctaText}
+                            {secondaryCta.ctaText}
                         </LinkButton>
                     </ThemeProvider>
-                </>
-            )}
+                )}
+            </Hide>
 
-            {secondaryCta && (
-                <ThemeProvider theme={buttonReaderRevenueBrand}>
-                    <LinkButton
-                        priority="primary"
-                        href={secondaryCta.ctaUrl}
-                        icon={<SvgArrowRightStraight />}
-                        iconSide="right"
-                        nudgeIcon={true}
-                        css={linkStyles}
-                    >
-                        {secondaryCta.ctaText}
-                    </LinkButton>
-                </ThemeProvider>
-            )}
+            <Hide above="tablet">
+                <div>
+                    <Link cssOverrides={ausMomentSubheadingStyles}>
+                        Join {numberOfSupporters} supporters in Australia
+                    </Link>
+                </div>
+            </Hide>
         </div>
     );
 };

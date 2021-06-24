@@ -111,17 +111,19 @@ const getNonSupportersTest = (edition: string): HeaderTest =>
 
 const isAusMoment = (countryCode: string): boolean => countryCode === 'AU' && isAusMomentLive();
 
-const isAusMomentLive = () => Date.now() >= Date.parse('2021-07-19');
+const isAusMomentLive = () => Date.now() >= Date.parse('2021-06-19');
 
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
         if (isAusMoment(targeting.countryCode)) {
-            if (targeting.showSupportMessaging) {
-                return ausMomentNonSupporter;
+            if (targeting.lastOneOffContributionDate) {
+                return ausMomentOneOffContributor;
+            } else if (!targeting.showSupportMessaging) {
+                return ausMomentRecurringSupporter;
             } else {
-                return ausMomentSupporter;
+                return ausMomentNonSupporter;
             }
         }
         if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
@@ -146,7 +148,7 @@ export const selectHeaderTest = (
     return Promise.resolve(null);
 };
 
-const ausMomentSupporter: HeaderTest = {
+const ausMomentRecurringSupporter: HeaderTest = {
     name: 'aus-moment-supporter',
     audience: 'AllExistingSupporters',
     variants: [
@@ -157,9 +159,27 @@ const ausMomentSupporter: HeaderTest = {
                 heading: 'Thank you',
                 subheading: '',
                 primaryCta: {
-                    text: 'Hear from our supporters',
-                    url:
-                        'https://support.theguardian.com/aus-2020-map?INTCMP=Aus_moment_2020_frontend_header',
+                    text: 'Make an extra contribution',
+                    url: 'https://support.theguardian.com/contribute',
+                },
+            },
+        },
+    ],
+};
+
+const ausMomentOneOffContributor: HeaderTest = {
+    name: 'aus-moment-supporter',
+    audience: 'AllExistingSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
+            content: {
+                heading: 'Thank you',
+                subheading: '',
+                primaryCta: {
+                    text: 'Support us again',
+                    url: 'https://support.theguardian.com/contribute',
                 },
             },
         },
@@ -174,7 +194,7 @@ const ausMomentNonSupporter: HeaderTest = {
             name: 'control',
             modulePathBuilder: ausMomentHeaderNonSupporter.endpointPathBuilder,
             content: {
-                heading: 'Support the Guarian',
+                heading: 'Support the Guardian',
                 subheading: '',
                 primaryCta: {
                     text: 'Contribute',
@@ -182,7 +202,7 @@ const ausMomentNonSupporter: HeaderTest = {
                 },
                 secondaryCta: {
                     text: 'Subscribe',
-                    url: 'https://support.theguardian.com/subscribe',
+                    url: 'https://support.theguardian.com/subsribe',
                 },
             },
         },

@@ -14,9 +14,8 @@ export default {
             heading: 'Thank you',
             primaryCta: {
                 url: '',
-                text: 'Hear from our supporters',
+                text: 'Support us again',
             },
-            secondaryCta: null,
         },
     },
     decorators: [HeaderDecorator],
@@ -24,4 +23,18 @@ export default {
 
 const Template: Story<HeaderProps> = (props: HeaderProps) => <Header {...props} />;
 
-export const Supporter = Template.bind({});
+export const SingleSupporter = Template.bind({});
+
+export const RecurringSupporter = Template.bind({});
+
+RecurringSupporter.args = {
+    ...props,
+    content: {
+        ...props.content,
+        heading: 'Thank you',
+        primaryCta: {
+            url: '',
+            text: 'Make an extra contribution',
+        },
+    },
+};
