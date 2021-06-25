@@ -241,8 +241,12 @@ export const ContributionsEpicArticleCountAbove: React.FC<ContributionsEpicArtic
 }: ContributionsEpicArticleCountAboveProps) => {
     return (
         <div css={articleCountAboveContainerStyles}>
-            You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in the last
-            year
+            {numArticles >= 5 && (
+                <>
+                    You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in
+                    the last year
+                </>
+            )}
         </div>
     );
 };
@@ -275,7 +279,8 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     const onOptOutClick = () => {
         setIsOpen(false);
         onArticleCountOptOut();
-        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
+        submitComponentEvent &&
+            submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT(numArticles));
     };
 
     const onOptInClick = () => {
