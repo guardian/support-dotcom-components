@@ -6,25 +6,27 @@ import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { Link } from '@guardian/src-link';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
-    ${headline.medium({ fontWeight: 'bold' })}
+    ${headline.small({ fontWeight: 'bold' })}
     color: ${brandAlt[400]};
+
+    ${from.tablet} {
+        ${headline.xxsmall({ fontWeight: 'bold' })}
+    }
+
+    ${from.desktop} {
+        ${headline.medium({ fontWeight: 'bold' })}
+    }
 `;
 
 const ausMomentSubheadingStyles = css`
-    ${textSans.small()};
-    color: ${brandAlt[400]};
-    margin-bottom: 5px;
-
-    ${from.tablet} {
-        ${textSans.medium()};
-        color: ${brandText.primary};
-    }
+    ${textSans.medium()};
+    color: ${brandText.primary};
 `;
 
 const linkStyles = css`
@@ -46,6 +48,15 @@ const headerYellowHighlight = css`
     color: ${brandAlt[400]};
     font-weight: 700;
     margin: 5px 0;
+`;
+
+const mobileSubheadingStyles = css`
+    ${until.mobileMedium} {
+        display: none;
+    }
+
+    ${textSans.xxsmall()}
+    color: ${brandAlt[400]};
 `;
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
@@ -103,7 +114,10 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
 
             <Hide above="tablet">
                 <div>
-                    <Link cssOverrides={ausMomentSubheadingStyles}>
+                    <Link
+                        href="http://support.theguardian.com/contribute"
+                        cssOverrides={mobileSubheadingStyles}
+                    >
                         Join {numberOfSupporters} supporters in Australia
                     </Link>
                 </div>

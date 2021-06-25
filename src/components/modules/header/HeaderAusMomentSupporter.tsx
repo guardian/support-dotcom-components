@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { from } from '@guardian/src-foundations/mq';
-import { brandAlt, brandText } from '@guardian/src-foundations';
+import { from, until } from '@guardian/src-foundations/mq';
+import { brandAlt, brandText, space } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { ThemeProvider } from '@emotion/react';
@@ -12,10 +12,20 @@ import { Hide } from '@guardian/src-layout';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
-    ${textSans.medium({ fontWeight: 'bold' })};
-    color: ${brandAlt[400]};
+    ${until.mobileMedium} {
+        display: none;
+    }
+
+    ${from.mobileMedium} {
+        ${textSans.xsmall({ fontWeight: 'bold' })};
+        color: ${brandAlt[400]};
+    }
 
     ${from.tablet} {
+        ${headline.xxsmall({ fontWeight: 'bold' })}
+    }
+
+    ${from.desktop} {
         ${headline.medium({ fontWeight: 'bold' })}
     }
 `;
@@ -23,22 +33,11 @@ const ausMomentHeadingStyles = css`
 const ausMomentSubheadingStyles = css`
     ${textSans.medium()};
     color: ${brandText.primary};
-    margin-bottom: 5px;
 `;
 
-const linkStyles = css`
-    height: 32px;
-    min-height: 32px;
-    ${textSans.medium({ fontWeight: 'bold' })};
-    border-radius: 16px;
-    padding: 0 12px 0 12px;
-    line-height: 18px;
-    margin-right: 10px;
-    margin-bottom: 6px;
-
-    svg {
-        width: 24px;
-    }
+const ctaStyles = css`
+    /* ${textSans.small({ fontWeight: 'bold' })}; */
+    margin-top: ${space[2]}px;
 `;
 
 const headerYellowHighlight = css`
@@ -48,8 +47,16 @@ const headerYellowHighlight = css`
 `;
 
 const mobileSubheadingStyles = css`
-    ${textSans.small()}
+    ${until.mobileMedium} {
+        display: none;
+    }
+
+    ${textSans.xxsmall()}
     color: ${brandAlt[400]};
+`;
+
+const ausMapLinkStyles = css`
+    color: ${brandText.primary};
 `;
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
@@ -65,11 +72,14 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
             <Hide below="tablet">
                 <div>
                     <div css={ausMomentSubheadingStyles}>
-                        You&apos;re one of the{' '}
-                        <u>
+                        You&apos;re one of{' '}
+                        <Link
+                            href="https://support.theguardian.com/aus-map?INTCMP"
+                            css={ausMapLinkStyles}
+                        >
                             <span css={headerYellowHighlight}>{numberOfSupporters} </span>
                             supporters in Australia
-                        </u>
+                        </Link>
                     </div>
                 </div>
 
@@ -82,7 +92,8 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                                 icon={<SvgArrowRightStraight />}
                                 iconSide="right"
                                 nudgeIcon={true}
-                                css={linkStyles}
+                                size="small"
+                                cssOverrides={ctaStyles}
                             >
                                 {primaryCta.ctaText}
                             </LinkButton>
