@@ -91,12 +91,14 @@ export interface ArticleCountOptOutProps {
     text: string;
     type: ArticleCountOptOutType;
     tracking?: OphanTracking;
+    numArticles: number;
 }
 
 export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
     text,
     type,
     tracking,
+    numArticles,
 }: ArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
@@ -131,7 +133,9 @@ export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
         removeArticleCountFromLocalStorage();
         setHasOptedOut(true);
         tracking &&
-            tracking.submitComponentEvent(ophanComponentEventOptOutConfirm(tracking.componentType));
+            tracking.submitComponentEvent(
+                ophanComponentEventOptOutConfirm(tracking.componentType, numArticles),
+            );
     };
 
     const onOpen = (): void => {

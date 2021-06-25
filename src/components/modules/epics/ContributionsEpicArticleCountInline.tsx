@@ -39,7 +39,13 @@ export const ContributionsEpicArticleCountInline: React.FC<Props> = ({
                 <div>You&apos;ve read</div>
                 <div css={articleCountStyles}>{numArticles}</div>
                 <div>
-                    <ArticleCountOptOut text="articles" type="epic" tracking={tracking} /> in
+                    <ArticleCountOptOut
+                        text="articles"
+                        type="epic"
+                        tracking={tracking}
+                        numArticles={numArticles}
+                    />{' '}
+                    in
                 </div>
                 <div>the last year</div>
             </div>

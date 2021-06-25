@@ -37,10 +37,12 @@ export const ophanComponentEventOptOutClose = (
 
 export const ophanComponentEventOptOutConfirm = (
     componentType: OphanComponentType,
+    count?: number,
 ): OphanComponentEvent => ({
     component: {
         componentType,
         id: OPHAN_COMPONENT_ID_OPT_OUT_CONFIRM,
     },
     action: 'CLICK',
+    value: count ? `${count}` : undefined,
 });
