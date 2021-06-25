@@ -239,12 +239,15 @@ export interface ContributionsEpicArticleCountOptOutProps {
 export const ContributionsEpicArticleCountAbove: React.FC<ContributionsEpicArticleCountAboveProps> = ({
     numArticles,
 }: ContributionsEpicArticleCountAboveProps) => {
-    return (
-        <div css={articleCountAboveContainerStyles}>
-            You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in the last
-            year
-        </div>
-    );
+    if (numArticles >= 5) {
+        return (
+            <div css={articleCountAboveContainerStyles}>
+                You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in the
+                last year
+            </div>
+        );
+    }
+    return null;
 };
 
 export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArticleCountOptOutProps> = ({
