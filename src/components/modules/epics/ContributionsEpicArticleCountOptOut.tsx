@@ -275,7 +275,8 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     const onOptOutClick = () => {
         setIsOpen(false);
         onArticleCountOptOut();
-        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
+        submitComponentEvent &&
+            submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT(numArticles));
     };
 
     const onOptInClick = () => {
