@@ -16,10 +16,6 @@ export default {
                 url: '',
                 text: 'Support us again',
             },
-            secondaryCta: {
-                url: '',
-                text: 'Support us again',
-            },
         },
     },
     decorators: [HeaderDecorator],
@@ -39,10 +35,6 @@ RecurringSupporter.args = {
         primaryCta: {
             url: '',
             text: 'Make an extra contribution',
-        },
-        secondaryCta: {
-            url: '',
-            text: 'Support us again',
         },
     },
 };
