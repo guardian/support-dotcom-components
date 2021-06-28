@@ -18,10 +18,13 @@ const ausMomentHeadingStyles = css`
     }
     ${from.tablet} {
         ${headline.xsmall({ fontWeight: 'bold' })}
+        margin-bottom: ${space[1]}px;
+
     }
 
     ${from.desktop} {
         ${headline.medium({ fontWeight: 'bold' })}
+        margin-bottom: 0;
     }
 `;
 
@@ -31,8 +34,13 @@ const ausMomentSubheadingStyles = css`
     margin-bottom: ${space[1]}px;
     line-height: 1.15;
 
+    ${from.tablet} {
+        margin-bottom: ${space[1]}px;
+    }
+
     ${from.desktop} {
         ${textSans.medium()};
+        margin-bottom: 0;
     }
 `;
 
@@ -49,6 +57,7 @@ const mobileCtaStyles = css`
 
     ${textSans.xxsmall()}
     color: ${brandAlt[400]};
+    line-height: 1.15;
 `;
 
 const linkStyles = css`
