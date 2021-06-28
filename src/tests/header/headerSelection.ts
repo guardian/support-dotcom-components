@@ -111,6 +111,7 @@ const getNonSupportersTest = (edition: string): HeaderTest =>
 
 const isAusMoment = (countryCode: string): boolean => countryCode === 'AU' && isAusMomentLive();
 
+// date is set to present for testing purposes - needs to be changed to july 17th when aus moment goes live
 const isAusMomentLive = () => Date.now() >= Date.parse('2021-06-19');
 
 export const selectHeaderTest = (
