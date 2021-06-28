@@ -40,7 +40,6 @@ const ausMomentSubheadingStyles = css`
 
     ${from.desktop} {
         ${textSans.medium()};
-        margin-bottom: 0;
     }
 `;
 
