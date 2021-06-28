@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { brandAlt, brandText } from '@guardian/src-foundations';
+import { brandAlt, brandText, space } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { ThemeProvider } from '@emotion/react';
@@ -12,11 +12,12 @@ import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
-    ${headline.small({ fontWeight: 'bold' })}
-    color: ${brandAlt[400]};
-
+    ${from.mobileMedium} {
+        ${textSans.xsmall({ fontWeight: 'bold' })}
+        color: ${brandAlt[400]};
+    }
     ${from.tablet} {
-        ${headline.xxsmall({ fontWeight: 'bold' })}
+        ${headline.xsmall({ fontWeight: 'bold' })}
     }
 
     ${from.desktop} {
@@ -25,29 +26,20 @@ const ausMomentHeadingStyles = css`
 `;
 
 const ausMomentSubheadingStyles = css`
-    ${textSans.medium()};
+    ${textSans.small()};
     color: ${brandText.primary};
-`;
+    margin-bottom: ${space[1]}px;
+    line-height: 1.15;
 
-const linkStyles = css`
-    height: 32px;
-    min-height: 32px;
-    ${textSans.small({ fontWeight: 'bold' })};
-    border-radius: 16px;
-    padding: 0 12px 0 12px;
-    line-height: 18px;
-    margin-right: 10px;
-    margin-bottom: 6px;
-
-    svg {
-        width: 24px;
+    ${from.desktop} {
+        ${textSans.medium()};
     }
 `;
 
 const headerYellowHighlight = css`
     color: ${brandAlt[400]};
     font-weight: 700;
-    margin: 5px 0;
+    margin-bottom: 5px 0;
 `;
 
 const mobileSubheadingStyles = css`
@@ -57,6 +49,28 @@ const mobileSubheadingStyles = css`
 
     ${textSans.xxsmall()}
     color: ${brandAlt[400]};
+`;
+
+const linkStyles = css`
+    height: 24px;
+    min-height: 24px;
+    ${textSans.small({ fontWeight: 'bold' })};
+    border-radius: 16px;
+    padding: 0 ${space[3]}px;
+    margin-right: 10px;
+    margin-bottom: 6px;
+
+    ${from.desktop} {
+        ${textSans.medium({ fontWeight: 'bold' })};
+        height: 36px;
+        min-height: 36px;
+        padding: 0 ${space[4]}px;
+        border-radius: 36px;
+    }
+
+    svg {
+        width: 24px;
+    }
 `;
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
@@ -87,6 +101,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                                     icon={<SvgArrowRightStraight />}
                                     iconSide="right"
                                     nudgeIcon={true}
+                                    size="xsmall"
                                     css={linkStyles}
                                 >
                                     {primaryCta.ctaText}
@@ -104,6 +119,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                             icon={<SvgArrowRightStraight />}
                             iconSide="right"
                             nudgeIcon={true}
+                            size="xsmall"
                             css={linkStyles}
                         >
                             {secondaryCta.ctaText}
