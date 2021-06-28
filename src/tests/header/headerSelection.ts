@@ -118,10 +118,10 @@ export const selectHeaderTest = (
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
         if (isAusMoment(targeting.countryCode)) {
-            if (targeting.lastOneOffContributionDate) {
-                return ausMomentOneOffContributor;
-            } else if (!targeting.showSupportMessaging) {
+            if (targeting.isRecurringContributor) {
                 return ausMomentRecurringSupporter;
+            } else if (targeting.lastOneOffContributionDate) {
+                return ausMomentOneOffContributor;
             } else {
                 return ausMomentNonSupporter;
             }
@@ -162,6 +162,10 @@ const ausMomentRecurringSupporter: HeaderTest = {
                     text: 'Make an extra contribution',
                     url: 'https://support.theguardian.com/contribute',
                 },
+                secondaryCta: {
+                    text: 'Support us again',
+                    url: 'https://support.theguardian.com/contribute',
+                },
             },
         },
     ],
@@ -178,6 +182,10 @@ const ausMomentOneOffContributor: HeaderTest = {
                 heading: 'Thank you',
                 subheading: '',
                 primaryCta: {
+                    text: 'Support us again',
+                    url: 'https://support.theguardian.com/contribute',
+                },
+                secondaryCta: {
                     text: 'Support us again',
                     url: 'https://support.theguardian.com/contribute',
                 },

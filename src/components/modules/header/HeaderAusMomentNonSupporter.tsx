@@ -42,7 +42,7 @@ const headerYellowHighlight = css`
     margin-bottom: 5px 0;
 `;
 
-const mobileSubheadingStyles = css`
+const mobileCtaStyles = css`
     ${until.mobileMedium} {
         display: none;
     }
@@ -132,7 +132,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                 <div>
                     <Link
                         href="http://support.theguardian.com/contribute"
-                        cssOverrides={mobileSubheadingStyles}
+                        cssOverrides={mobileCtaStyles}
                     >
                         Join {numberOfSupporters} supporters in Australia
                     </Link>

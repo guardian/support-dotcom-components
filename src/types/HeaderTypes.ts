@@ -61,4 +61,5 @@ export interface HeaderTargeting {
     modulesVersion?: string;
     mvtId: number;
     lastOneOffContributionDate?: string;
+    isRecurringContributor?: boolean;
 }

@@ -12,9 +12,6 @@ import { Hide } from '@guardian/src-layout';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
-    ${until.mobileMedium} {
-        display: none;
-    }
 
     ${from.mobileMedium} {
         ${textSans.xsmall({ fontWeight: 'bold' })};
@@ -22,22 +19,25 @@ const ausMomentHeadingStyles = css`
     }
 
     ${from.tablet} {
-        ${headline.xxsmall({ fontWeight: 'bold' })}
+        ${headline.xsmall({ fontWeight: 'bold' })}
+        margin-bottom: ${space[1]}px;
     }
 
     ${from.desktop} {
         ${headline.medium({ fontWeight: 'bold' })}
+        margin-bottom: 0;
     }
 `;
 
 const ausMomentSubheadingStyles = css`
-    ${textSans.medium()};
+    ${textSans.small()};
     color: ${brandText.primary};
-`;
+    margin-bottom: ${space[2]}px;
+    line-height: 1.15;
 
-const ctaStyles = css`
-    /* ${textSans.small({ fontWeight: 'bold' })}; */
-    margin-top: ${space[2]}px;
+    ${from.desktop} {
+        ${textSans.medium()};
+    }
 `;
 
 const headerYellowHighlight = css`
@@ -46,7 +46,17 @@ const headerYellowHighlight = css`
     margin: 5px 0;
 `;
 
-const mobileSubheadingStyles = css`
+const ausMapLinkStyles = css`
+    ${textSans.small()};
+    color: ${brandText.primary};
+    line-height: 1.15;
+
+    ${from.desktop} {
+        ${textSans.medium()};
+    }
+`;
+
+const mobileCtaStyles = css`
     ${until.mobileMedium} {
         display: none;
     }
@@ -55,8 +65,26 @@ const mobileSubheadingStyles = css`
     color: ${brandAlt[400]};
 `;
 
-const ausMapLinkStyles = css`
-    color: ${brandText.primary};
+const linkStyles = css`
+    height: 24px;
+    min-height: 24px;
+    ${textSans.small({ fontWeight: 'bold' })};
+    border-radius: 16px;
+    padding: 0 ${space[3]}px;
+    margin-right: 10px;
+    margin-bottom: 6px;
+
+    ${from.desktop} {
+        ${textSans.medium({ fontWeight: 'bold' })};
+        height: 36px;
+        min-height: 36px;
+        padding: 0 ${space[4]}px;
+        border-radius: 36px;
+    }
+
+    svg {
+        width: 24px;
+    }
 `;
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
@@ -66,47 +94,45 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
 
     return (
         <div>
-            <div>
-                <div css={ausMomentHeadingStyles}>{heading}</div>
-            </div>
-            <Hide below="tablet">
+            <Hide below="mobileMedium">
                 <div>
-                    <div css={ausMomentSubheadingStyles}>
-                        You&apos;re one of{' '}
-                        <Link
-                            href="https://support.theguardian.com/aus-map?INTCMP"
-                            css={ausMapLinkStyles}
-                        >
-                            <span css={headerYellowHighlight}>{numberOfSupporters} </span>
-                            supporters in Australia
-                        </Link>
-                    </div>
+                    <div css={ausMomentHeadingStyles}>{heading}</div>
                 </div>
+            </Hide>
+            <Hide below="tablet">
+                <div css={ausMomentSubheadingStyles}>
+                    You&apos;re one of{' '}
+                    <Link
+                        href="https://support.theguardian.com/aus-map?INTCMP"
+                        css={ausMapLinkStyles}
+                    >
+                        <span css={headerYellowHighlight}>{numberOfSupporters} </span>
+                        supporters in Australia
+                    </Link>
+                </div>
+            </Hide>
 
-                {primaryCta && (
-                    <>
-                        <ThemeProvider theme={buttonReaderRevenueBrand}>
+            {primaryCta && (
+                <>
+                    <ThemeProvider theme={buttonReaderRevenueBrand}>
+                        <Hide below="tablet">
                             <LinkButton
                                 priority="primary"
                                 href={primaryCta.ctaUrl}
                                 icon={<SvgArrowRightStraight />}
                                 iconSide="right"
                                 nudgeIcon={true}
-                                size="small"
-                                cssOverrides={ctaStyles}
+                                css={linkStyles}
                             >
                                 {primaryCta.ctaText}
                             </LinkButton>
-                        </ThemeProvider>
-                    </>
-                )}
-            </Hide>
+                        </Hide>
+                    </ThemeProvider>
+                </>
+            )}
             <Hide above="tablet">
                 <div>
-                    <Link
-                        href="http://support.theguardian.com/contribute"
-                        css={mobileSubheadingStyles}
-                    >
+                    <Link href="http://support.theguardian.com/contribute" css={mobileCtaStyles}>
                         Support us again
                     </Link>
                 </div>
