@@ -12,7 +12,6 @@ import { Hide } from '@guardian/src-layout';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
-
     ${from.mobileMedium} {
         ${textSans.xsmall({ fontWeight: 'bold' })};
         color: ${brandAlt[400]};

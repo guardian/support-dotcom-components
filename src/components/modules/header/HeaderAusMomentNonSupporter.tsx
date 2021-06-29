@@ -12,15 +12,9 @@ import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import useNumberOfSupporters from '../../../hooks/useNumberOfSupporters';
 
 const ausMomentHeadingStyles = css`
-    ${from.mobileMedium} {
-        ${textSans.xsmall({ fontWeight: 'bold' })}
-        color: ${brandAlt[400]};
-    }
-    ${from.tablet} {
-        ${headline.xsmall({ fontWeight: 'bold' })}
-        margin-bottom: ${space[1]}px;
-
-    }
+    ${headline.xsmall({ fontWeight: 'bold' })}
+    color: ${brandAlt[400]};
+    margin-bottom: ${space[1]}px;
 
     ${from.desktop} {
         ${headline.medium({ fontWeight: 'bold' })}
