@@ -109,10 +109,7 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const getArticleEpicTests = async (
-    mvtId: number,
-    isForcingTest: boolean,
-): Promise<EpicTest[]> => {
+const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
     try {
         const [regular, holdback] = await Promise.all([
             fetchConfiguredArticleEpicTestsCached(),
@@ -154,10 +151,7 @@ export const buildEpicData = async (
     }
 
     const tests = await (type === 'ARTICLE'
-        ? getArticleEpicTests(
-              targeting.mvtId || 1,
-              !!params.force,
-          )
+        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
         : getLiveblogEpicTests());
 
     const result = params.force
