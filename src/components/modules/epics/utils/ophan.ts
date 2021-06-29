@@ -77,14 +77,13 @@ export const OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN: OphanComponentEvent = {
     action: 'CLICK',
 };
 
-export const OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT = (count: number): OphanComponentEvent => ({
+export const OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_ARTICLE_COUNT_OPT_OUT,
     },
     action: 'CLICK',
-    value: `${count}`,
-});
+};
 
 export const OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT: OphanComponentEvent = {
     component: {

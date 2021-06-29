@@ -104,8 +104,8 @@ WithTicker.args = {
     },
 };
 
-export const WithSeparateArticleCount = Template.bind({});
-WithSeparateArticleCount.args = {
+export const WithAboveArticleCount = Template.bind({});
+WithAboveArticleCount.args = {
     variant: {
         ...props.variant,
         separateArticleCount: {
@@ -113,4 +113,17 @@ WithSeparateArticleCount.args = {
         },
     },
     numArticles: 99,
+    hasConsentForArticleCount: true,
+};
+
+export const WithAboveArticleCountNoConsent = Template.bind({});
+WithAboveArticleCountNoConsent.args = {
+    variant: {
+        ...props.variant,
+        separateArticleCount: {
+            type: 'above',
+        },
+    },
+    numArticles: 99,
+    hasConsentForArticleCount: false,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ArticleCountOptOut, OphanTracking } from '../components/modules/shared/ArticleCountOptOut';
-import { ArticleCountOptOutType } from '../components/modules/shared/ArticleCountOptOut';
+import { ArticleCountOptOutPopup, OphanTracking } from '../components/modules/shared/ArticleCountOptOutPopup';
+import { ArticleCountOptOutType } from '../components/modules/shared/ArticleCountOptOutPopup';
 
 export const replaceArticleCount = (
     text: string,
@@ -19,7 +19,7 @@ export const replaceArticleCount = (
     for (let i = 0; i < parts.length - 1; i += 1) {
         elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] as string }} />);
         elements.push(
-            <ArticleCountOptOut
+            <ArticleCountOptOutPopup
                 numArticles={numArticles}
                 nextWord={nextWords[i] as string}
                 type={articleCountOptOutType}
