@@ -119,10 +119,10 @@ export const selectHeaderTest = (
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
         if (isAusMoment(targeting.countryCode)) {
-            if (targeting.isRecurringContributor) {
-                return ausMomentRecurringSupporter;
-            } else if (targeting.lastOneOffContributionDate) {
+            if (targeting.lastOneOffContributionDate) {
                 return ausMomentOneOffContributor;
+            } else if (!targeting.showSupportMessaging) {
+                return ausMomentRecurringSupporter;
             } else {
                 return ausMomentNonSupporter;
             }
