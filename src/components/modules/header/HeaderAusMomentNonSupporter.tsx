@@ -31,15 +31,12 @@ const ausMomentHeadingStyles = css`
 const ausMomentSubheadingStyles = css`
     ${textSans.small()};
     color: ${brandText.primary};
-    margin-bottom: ${space[1]}px;
+    margin-bottom: ${space[2]}px;
     line-height: 1.15;
-
-    ${from.tablet} {
-        margin-bottom: ${space[1]}px;
-    }
 
     ${from.desktop} {
         ${textSans.medium()};
+        margin-bottom: ${space[1]}px;
     }
 `;
 
