@@ -15,7 +15,7 @@ import { ThemeProvider } from '@emotion/react';
 import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
 import { from } from '@guardian/src-foundations/mq';
 
-import { ArticleCountOptOutType } from './ArticleCountOptOut';
+import { ArticleCountOptOutType } from './ArticleCountOptOutPopup';
 
 const COLOURS = {
     epic: 'white',

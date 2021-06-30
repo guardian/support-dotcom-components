@@ -12,10 +12,8 @@ import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { OphanTracking } from '../shared/ArticleCountOptOut';
-import { ContributionsEpicArticleCountOptOut } from './ContributionsEpicArticleCountOptOut';
-import { EpicArticleCountOptOutTestVariants } from '../../../tests/epics/articleCountOptOut';
-import { ContributionsEpicArticleCountAbove } from './ContributionsEpicArticleCountAbove';
+import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
+import { ContributionsEpicArticleCountAboveWithOptOut } from './ContributionsEpicArticleCountAboveWithOptOut';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { Stage } from '../../../types/shared';
@@ -216,9 +214,7 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-export const getContributionsEpicComponent: (
-    optOutVariant: EpicArticleCountOptOutTestVariants,
-) => React.FC<EpicProps> = optOutVariant => ({
+export const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
@@ -270,21 +266,14 @@ export const getContributionsEpicComponent: (
         <section ref={setNode} css={wrapperStyles}>
             {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
-                    {optOutVariant === EpicArticleCountOptOutTestVariants.control ? (
-                        <ContributionsEpicArticleCountAbove
-                            numArticles={numArticles}
-                            tracking={ophanTracking}
-                        />
-                    ) : (
-                        <ContributionsEpicArticleCountOptOut
-                            numArticles={numArticles}
-                            isArticleCountOn={!hasOptedOut}
-                            onArticleCountOptOut={onArticleCountOptOut}
-                            onArticleCountOptIn={onArticleCountOptIn}
-                            openCmp={openCmp}
-                            submitComponentEvent={submitComponentEvent}
-                        />
-                    )}
+                    <ContributionsEpicArticleCountAboveWithOptOut
+                        numArticles={numArticles}
+                        isArticleCountOn={!hasOptedOut}
+                        onArticleCountOptOut={onArticleCountOptOut}
+                        onArticleCountOptIn={onArticleCountOptIn}
+                        openCmp={openCmp}
+                        submitComponentEvent={submitComponentEvent}
+                    />
                 </div>
             )}
 
@@ -358,7 +347,3 @@ export const getContributionsEpicComponent: (
         </section>
     );
 };
-
-export const ContributionsEpic: React.FC<EpicProps> = getContributionsEpicComponent(
-    EpicArticleCountOptOutTestVariants.control,
-);

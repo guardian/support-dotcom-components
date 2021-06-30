@@ -221,11 +221,13 @@ const caretStyles = css`
     }
 `;
 
-interface ContributionsEpicArticleCountAboveProps {
+interface ArticleCountWithToggleProps {
     numArticles: number;
+    isArticleCountOn: boolean;
+    onToggleClick: () => void;
 }
 
-export interface ContributionsEpicArticleCountOptOutProps {
+export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     numArticles: number;
     isArticleCountOn: boolean;
     onArticleCountOptOut: () => void;
@@ -236,29 +238,63 @@ export interface ContributionsEpicArticleCountOptOutProps {
 
 // -- Components -- //
 
-export const ContributionsEpicArticleCountAbove: React.FC<ContributionsEpicArticleCountAboveProps> = ({
+const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
+    isArticleCountOn,
     numArticles,
-}: ContributionsEpicArticleCountAboveProps) => {
-    return (
-        <div css={articleCountAboveContainerStyles}>
-            {numArticles >= 5 && (
-                <>
-                    You&apos;ve read <span css={optOutContainer}>{numArticles} articles</span> in
-                    the last year
-                </>
-            )}
-        </div>
-    );
+    onToggleClick,
+}: ArticleCountWithToggleProps) => {
+    if (isArticleCountOn && numArticles >= 5) {
+        return (
+            <div css={articleCountOnHeaderContainerStyles}>
+                <div css={articleCountAboveContainerStyles}>
+                    {numArticles >= 5 && (
+                        <>
+                            You&apos;ve read{' '}
+                            <span css={optOutContainer}>{numArticles} articles</span> in the last
+                            the last year
+                        </>
+                    )}
+                </div>
+                <div css={articleCountWrapperStyles}>
+                    <div css={articleCountTextStyles}>Article count</div>
+                    <ButtonLink
+                        priority="secondary"
+                        onClick={onToggleClick}
+                        cssOverrides={articleCountCtaStyles}
+                    >
+                        on
+                    </ButtonLink>
+                </div>
+            </div>
+        );
+    }
+
+    if (!isArticleCountOn) {
+        return (
+            <div css={articleCountWrapperStyles}>
+                <div css={articleCountTextStyles}>Article count</div>
+                <ButtonLink
+                    priority="secondary"
+                    onClick={onToggleClick}
+                    cssOverrides={articleCountCtaStyles}
+                >
+                    off
+                </ButtonLink>
+            </div>
+        );
+    }
+
+    return null;
 };
 
-export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArticleCountOptOutProps> = ({
+export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
     numArticles,
     isArticleCountOn,
     onArticleCountOptOut,
     onArticleCountOptIn,
     openCmp,
     submitComponentEvent,
-}: ContributionsEpicArticleCountOptOutProps) => {
+}: ContributionsEpicArticleCountAboveWithOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const onToggleClick = () => {
@@ -279,8 +315,7 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
     const onOptOutClick = () => {
         setIsOpen(false);
         onArticleCountOptOut();
-        submitComponentEvent &&
-            submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT(numArticles));
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
     };
 
     const onOptInClick = () => {
@@ -296,32 +331,12 @@ export const ContributionsEpicArticleCountOptOut: React.FC<ContributionsEpicArti
 
     return (
         <div css={topContainer}>
-            {isArticleCountOn ? (
-                <div css={articleCountOnHeaderContainerStyles}>
-                    <ContributionsEpicArticleCountAbove numArticles={numArticles} />
-                    <div css={articleCountWrapperStyles}>
-                        <div css={articleCountTextStyles}>Article count</div>
-                        <ButtonLink
-                            priority="secondary"
-                            onClick={onToggleClick}
-                            cssOverrides={articleCountCtaStyles}
-                        >
-                            on
-                        </ButtonLink>
-                    </div>
-                </div>
-            ) : (
-                <div css={articleCountWrapperStyles}>
-                    <div css={articleCountTextStyles}>Article count</div>
-                    <ButtonLink
-                        priority="secondary"
-                        onClick={onToggleClick}
-                        cssOverrides={articleCountCtaStyles}
-                    >
-                        off
-                    </ButtonLink>
-                </div>
-            )}
+            <ArticleCountWithToggle
+                isArticleCountOn={isArticleCountOn}
+                numArticles={numArticles}
+                onToggleClick={onToggleClick}
+            />
+
             {isOpen && (
                 <div css={articleCountDescriptionTopContainerStyles}>
                     <div css={caretStyles}></div>

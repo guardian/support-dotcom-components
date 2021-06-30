@@ -18,11 +18,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
 
-export const epicWithArticleCountOptOut: ModuleInfo = getDefaultModuleInfo(
-    'epic-with-article-count-opt-out',
-    'epics/ContributionsEpicWithArticleCount',
-);
-
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
     'epics/ContributionsLiveblogEpic',
@@ -62,7 +57,6 @@ export const headerSupportAgain: ModuleInfo = getDefaultModuleInfo(
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    epicWithArticleCountOptOut,
     liveblogEpic,
     contributionsBanner,
     g200Banner,

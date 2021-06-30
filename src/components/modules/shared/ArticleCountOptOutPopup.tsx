@@ -85,7 +85,7 @@ export interface ArticleCountOptOutProps {
     tracking?: OphanTracking;
 }
 
-export const ArticleCountOptOut: React.FC<ArticleCountOptOutProps> = ({
+export const ArticleCountOptOutPopup: React.FC<ArticleCountOptOutProps> = ({
     numArticles,
     nextWord,
     type,

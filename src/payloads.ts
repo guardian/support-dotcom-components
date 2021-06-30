@@ -43,7 +43,6 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';
 import { cachedChannelSwitches } from './channelSwitches';
-import { epicArticleCountOptOutTests } from './tests/epics/articleCountOptOut';
 
 interface EpicDataResponse {
     data?: {
@@ -110,21 +109,15 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
-const getArticleEpicTests = async (
-    mvtId: number,
-    isForcingTest: boolean,
-    isDcr: boolean,
-): Promise<EpicTest[]> => {
+const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
     try {
         const [regular, holdback] = await Promise.all([
             fetchConfiguredArticleEpicTestsCached(),
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const optOutTests: EpicTest[] = isDcr ? epicArticleCountOptOutTests : [];
-
         if (isForcingTest) {
-            return [...optOutTests, ...regular, ...holdback, fallbackEpicTest];
+            return [...regular, ...holdback, fallbackEpicTest];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
@@ -132,7 +125,7 @@ const getArticleEpicTests = async (
             return [...holdback];
         }
 
-        return [...optOutTests, ...regular, fallbackEpicTest];
+        return [...regular, fallbackEpicTest];
     } catch (err) {
         logger.warn(`Error getting article epic tests: ${err}`);
 
@@ -158,11 +151,7 @@ export const buildEpicData = async (
     }
 
     const tests = await (type === 'ARTICLE'
-        ? getArticleEpicTests(
-              targeting.mvtId || 1,
-              !!params.force,
-              pageTracking.clientName === 'dcr',
-          )
+        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
         : getLiveblogEpicTests());
 
     const result = params.force
