@@ -26,6 +26,7 @@ export type EpicTestTracking = {
     campaignId: string;
     componentType: OphanComponentType;
     products: OphanProduct[];
+    labels?: string[];
 };
 
 export type EpicTracking = EpicPageTracking & EpicTestTracking;
@@ -71,6 +72,7 @@ export type EpicTargeting = {
     isRecurringContributor: boolean;
     lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
     modulesVersion?: string;
+    url?: string;
 };
 
 export type EpicPayload = {
@@ -160,4 +162,6 @@ export interface EpicTest extends Test<EpicVariant> {
     campaignId?: string;
 
     controlProportionSettings?: ControlProportionSettings;
+
+    isSuperMode?: boolean;
 }

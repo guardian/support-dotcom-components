@@ -16,6 +16,7 @@ import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
+import { fetchSuperModeArticles } from './lib/superMode';
 import {
     BannerPageTracking,
     BannerProps,
@@ -109,6 +110,12 @@ const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
     `fetchConfiguredEpicTests_LIVEBLOG`,
 );
 
+const [, fetchSuperModeArticlesCached] = cacheAsync(
+    fetchSuperModeArticles,
+    60,
+    'fetchSuperModeArticles',
+);
+
 const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
     try {
         const [regular, holdback] = await Promise.all([
@@ -154,9 +161,11 @@ export const buildEpicData = async (
         ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
         : getLiveblogEpicTests());
 
+    const superModeArticles = await fetchSuperModeArticlesCached();
+
     const result = params.force
         ? findForcedTestAndVariant(tests, params.force)
-        : findTestAndVariant(tests, targeting, type, params.debug);
+        : findTestAndVariant(tests, targeting, superModeArticles, type, params.debug);
 
     if (process.env.log_targeting === 'true') {
         console.log(
@@ -182,6 +191,7 @@ export const buildEpicData = async (
         campaignId: `epic_${test.campaignId || test.name}`,
         componentType: 'ACQUISITIONS_EPIC',
         products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+        labels: !!test.isSuperMode ? ['SUPER_MODE'] : undefined,
     };
 
     const props: EpicProps = {

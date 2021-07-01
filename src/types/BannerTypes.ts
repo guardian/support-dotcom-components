@@ -42,6 +42,7 @@ export type BannerTestTracking = {
     campaignCode: string;
     componentType: OphanComponentType;
     products?: OphanProduct[];
+    labels?: string[];
 };
 
 export type BannerPageTracking = {
@@ -59,6 +60,7 @@ const bannerTrackingSchema = z.object({
     campaignCode: z.string(),
     componentType: ophanComponentTypeSchema,
     products: z.array(ophanProductSchema).optional(),
+    labels: z.array(z.string()).optional(),
     ophanPageId: z.string(),
     platformId: z.string(),
     referrerUrl: z.string(),

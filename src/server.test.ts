@@ -52,6 +52,14 @@ jest.mock('./channelSwitches', () => {
     };
 });
 
+jest.mock('./lib/superMode', () => {
+    return {
+        fetchSuperModeArticles: jest.fn().mockImplementation(() => {
+            Promise.resolve([]);
+        }),
+    };
+});
+
 describe('POST /epic', () => {
     it('should return epic data', async () => {
         const targeting = factories.targeting.build({
