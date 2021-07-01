@@ -251,7 +251,7 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
                         <>
                             You&apos;ve read{' '}
                             <span css={optOutContainer}>{numArticles} articles</span> in the last
-                            the last year
+                            year
                         </>
                     )}
                 </div>
