@@ -111,7 +111,6 @@ const getNonSupportersTest = (edition: string): HeaderTest =>
 
 const isAusMoment = (countryCode: string): boolean => countryCode === 'AU' && isAusMomentLive();
 
-// date is set to present for testing purposes - needs to be changed to july 17th when aus moment goes live
 const isAusMomentLive = () => Date.now() >= Date.parse('2021-06-19');
 
 export const selectHeaderTest = (
@@ -119,7 +118,9 @@ export const selectHeaderTest = (
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
         if (isAusMoment(targeting.countryCode)) {
-            if (targeting.lastOneOffContributionDate) {
+            if (
+                isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)
+            ) {
                 return ausMomentOneOffContributor;
             } else if (!targeting.showSupportMessaging) {
                 return ausMomentRecurringSupporter;
@@ -163,10 +164,6 @@ const ausMomentRecurringSupporter: HeaderTest = {
                     text: 'Make an extra contribution',
                     url: 'https://support.theguardian.com/contribute',
                 },
-                secondaryCta: {
-                    text: 'Support us again',
-                    url: 'https://support.theguardian.com/contribute',
-                },
             },
         },
     ],
@@ -183,10 +180,6 @@ const ausMomentOneOffContributor: HeaderTest = {
                 heading: 'Thank you',
                 subheading: '',
                 primaryCta: {
-                    text: 'Support us again',
-                    url: 'https://support.theguardian.com/contribute',
-                },
-                secondaryCta: {
                     text: 'Support us again',
                     url: 'https://support.theguardian.com/contribute',
                 },
@@ -211,7 +204,7 @@ const ausMomentNonSupporter: HeaderTest = {
                 },
                 secondaryCta: {
                     text: 'Subscribe',
-                    url: 'https://support.theguardian.com/subsribe',
+                    url: 'https://support.theguardian.com/subscribe',
                 },
             },
         },

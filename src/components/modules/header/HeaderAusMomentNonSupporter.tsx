@@ -92,21 +92,19 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
 
                 {primaryCta && (
                     <>
-                        <Hide below="tablet">
-                            <ThemeProvider theme={buttonReaderRevenueBrand}>
-                                <LinkButton
-                                    priority="primary"
-                                    href={primaryCta.ctaUrl}
-                                    icon={<SvgArrowRightStraight />}
-                                    iconSide="right"
-                                    nudgeIcon={true}
-                                    size="xsmall"
-                                    css={linkStyles}
-                                >
-                                    {primaryCta.ctaText}
-                                </LinkButton>
-                            </ThemeProvider>
-                        </Hide>
+                        <ThemeProvider theme={buttonReaderRevenueBrand}>
+                            <LinkButton
+                                priority="primary"
+                                href={primaryCta.ctaUrl}
+                                icon={<SvgArrowRightStraight />}
+                                iconSide="right"
+                                nudgeIcon={true}
+                                size="xsmall"
+                                css={linkStyles}
+                            >
+                                {primaryCta.ctaText}
+                            </LinkButton>
+                        </ThemeProvider>
                     </>
                 )}
 
@@ -127,16 +125,15 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                 )}
             </Hide>
 
-            <Hide above="tablet">
-                <div>
-                    <Link
-                        href="http://support.theguardian.com/contribute"
-                        cssOverrides={mobileCtaStyles}
-                    >
-                        Join {numberOfSupporters} supporters in Australia
-                    </Link>
-                </div>
-            </Hide>
+            {primaryCta && (
+                <Hide above="tablet">
+                    <div>
+                        <Link href={primaryCta.ctaUrl} cssOverrides={mobileCtaStyles}>
+                            Join {numberOfSupporters} supporters in Australia
+                        </Link>
+                    </div>
+                </Hide>
+            )}
         </div>
     );
 };

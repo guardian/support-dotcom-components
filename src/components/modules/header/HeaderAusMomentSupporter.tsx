@@ -103,7 +103,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                 <div css={ausMomentSubheadingStyles}>
                     You&apos;re one of{' '}
                     <Link
-                        href="https://support.theguardian.com/aus-map?INTCMP"
+                        href="https://support.theguardian.com/aus-map?INTCMP=Aus_moment_2021_header"
                         css={ausMapLinkStyles}
                     >
                         <span css={headerYellowHighlight}>{numberOfSupporters} </span>
@@ -128,15 +128,16 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                             </LinkButton>
                         </Hide>
                     </ThemeProvider>
+
+                    <Hide above="tablet">
+                        <div>
+                            <Link href={primaryCta.ctaUrl} css={mobileCtaStyles}>
+                                Support us again
+                            </Link>
+                        </div>
+                    </Hide>
                 </>
             )}
-            <Hide above="tablet">
-                <div>
-                    <Link href="http://support.theguardian.com/contribute" css={mobileCtaStyles}>
-                        Support us again
-                    </Link>
-                </div>
-            </Hide>
         </div>
     );
 };
