@@ -79,3 +79,14 @@ export const removeCookie = (name: string, currentDomainOnly: boolean = false): 
         document.cookie = `${name}=;${path}${expires} domain=${getShortDomain()};`;
     }
 };
+
+export const addForMinutes = (name: string, value: string, minutesToLive: number): void => {
+    const expires = new Date();
+
+    if (!isValidCookieValue(name) || !isValidCookieValue(value)) {
+        throw new Error(`${ERR_INVALID_COOKIE_NAME} .${name}=${value}`);
+    }
+
+    expires.setMinutes(expires.getMinutes() + minutesToLive);
+    document.cookie = `${name}=${value}; path=/; expires=${expires.toUTCString()};${getDomainAttribute()}`;
+};
