@@ -111,7 +111,7 @@ const getNonSupportersTest = (edition: string): HeaderTest =>
 
 const isAusMoment = (countryCode: string): boolean => countryCode === 'AU' && isAusMomentLive();
 
-const isAusMomentLive = () => Date.now() >= Date.parse('2021-06-19');
+const isAusMomentLive = () => Date.now() >= Date.parse('2021-07-19');
 
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
