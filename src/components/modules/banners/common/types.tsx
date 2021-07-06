@@ -4,6 +4,7 @@ import { SecondaryCtaType } from '../../../../types/shared';
 export type BannerId =
     | 'contributions-banner'
     | 'g200-banner'
+    | 'aus-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner';
 
