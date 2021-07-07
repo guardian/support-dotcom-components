@@ -96,6 +96,7 @@ Resources:
                                     - !Sub arn:aws:s3:::support-admin-console/${Stage}/channel-switches.json
                                     - !Sub arn:aws:s3:::gu-contributions-public/epic/${Stage}/*
                                     - !Sub arn:aws:s3:::gu-contributions-public/banner/${Stage}/*
+                                    - !Sub arn:aws:s3:::gu-contributions-public/super-mode/${Stage}/*
                                     - arn:aws:s3::*:membership-dist/*
                             -   Action:
                                     - s3:Get*
