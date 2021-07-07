@@ -77,7 +77,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                         return {
                             name: testParams.name,
                             bannerChannel,
-                            testAudience: testParams.userCohort,
+                            userCohort: testParams.userCohort,
                             locations: testParams.locations,
                             canRun: (): boolean => testParams.isOn,
                             minPageViews: testParams.minArticlesBeforeShowingBanner,

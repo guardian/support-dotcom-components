@@ -11,7 +11,7 @@ import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
-import { Audience } from '../../types/shared';
+import { UserCohort } from '../../types/shared';
 import { selectVariant } from '../../lib/ab';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
@@ -65,7 +65,7 @@ export const redeployedSinceLastClosed = (
     return Promise.resolve(true);
 };
 
-const audienceMatches = (showSupportMessaging: boolean, testAudience: Audience): boolean => {
+const audienceMatches = (showSupportMessaging: boolean, testAudience: UserCohort): boolean => {
     switch (testAudience) {
         case 'AllNonSupporters':
             return showSupportMessaging;
@@ -119,7 +119,7 @@ export const selectBannerTest = async (
         if (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
-            audienceMatches(targeting.showSupportMessaging, test.testAudience) &&
+            audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             test.canRun(targeting, pageTracking) &&

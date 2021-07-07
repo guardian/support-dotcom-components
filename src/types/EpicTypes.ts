@@ -1,6 +1,7 @@
 import { OphanComponentEvent, OphanComponentType, OphanProduct } from './OphanTypes';
 import {
     ArticlesViewedSettings,
+    UserCohort,
     Cta,
     SecondaryCta,
     Stage,
@@ -35,12 +36,6 @@ export type Tag = {
     id: string;
     type: string;
 };
-
-export type UserCohort =
-    | 'AllExistingSupporters'
-    | 'AllNonSupporters'
-    | 'Everyone'
-    | 'PostAskPauseSingleContributors';
 
 interface View {
     date: number;

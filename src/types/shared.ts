@@ -54,7 +54,7 @@ export const secondaryCtaSchema = z.union([
     contributionsReminderSecondaryCtaSchema,
 ]);
 
-export type Audience =
+export type UserCohort =
     | 'AllExistingSupporters'
     | 'AllNonSupporters'
     | 'Everyone'

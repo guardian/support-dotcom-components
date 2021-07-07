@@ -1,9 +1,9 @@
-import { EpicTargeting, ViewLog, UserCohort, EpicTest, EpicVariant } from '../../types/EpicTypes';
+import { EpicTargeting, ViewLog, EpicTest, EpicVariant } from '../../types/EpicTypes';
 import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../../lib/targeting';
 import { getCountryName, inCountryGroups } from '../../lib/geolocation';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { isRecentOneOffContributor } from '../../lib/dates';
-import { WeeklyArticleHistory } from '../../types/shared';
+import { UserCohort, WeeklyArticleHistory } from '../../types/shared';
 import { selectVariant } from '../../lib/ab';
 import { EpicType } from '../../types/EpicTypes';
 import { TestVariant } from '../../lib/params';
