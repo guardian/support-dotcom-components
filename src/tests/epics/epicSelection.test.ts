@@ -15,6 +15,7 @@ import {
 import { EpicTargeting, EpicTest } from '../../types/EpicTypes';
 import { SecondaryCtaType } from '../../types/shared';
 import { withNowAs } from '../../utils/withNowAs';
+import { SuperModeArticle } from '../../lib/superMode';
 
 const testDefault: EpicTest = {
     name: 'example-1',
@@ -81,6 +82,8 @@ const targetingDefault: EpicTargeting = {
     hasOptedOutOfArticleCount: false,
 };
 
+const superModeArticles: SuperModeArticle[] = [];
+
 describe('findTestAndVariant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const testWithoutArticlesViewedSettings = {
@@ -94,7 +97,7 @@ describe('findTestAndVariant', () => {
         };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, epicType);
+        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
 
         expect(got?.result?.test.name).toBe('example-1');
         expect(got?.result?.variant.name).toBe('control-example-1');
@@ -109,7 +112,7 @@ describe('findTestAndVariant', () => {
         };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, epicType);
+        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -120,7 +123,7 @@ describe('findTestAndVariant', () => {
         const targeting = { ...targetingDefault, sectionName: 'news' };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, epicType);
+        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -138,7 +141,7 @@ describe('findTestAndVariant', () => {
         };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, epicType);
+        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
 
         expect(got?.result?.variant.showReminderFields).toBe(undefined);
     });

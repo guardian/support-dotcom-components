@@ -7,6 +7,7 @@ import { WeeklyArticleHistory } from '../../types/shared';
 import { selectVariant } from '../../lib/ab';
 import { EpicType } from '../../types/EpicTypes';
 import { TestVariant } from '../../lib/params';
+import { isInSuperMode, SuperModeArticle, superModeify } from '../../lib/superMode';
 
 interface Filter {
     id: string;
@@ -183,6 +184,7 @@ export interface Result {
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
+    superModeArticles: SuperModeArticle[],
     epicType: EpicType,
     includeDebug: boolean = false,
 ): Result => {
@@ -190,61 +192,76 @@ export const findTestAndVariant = (
 
     const userCohorts = getUserCohorts(targeting);
 
-    // Also need to include canRun of individual variants (only relevant for
-    // manually configured tests).
-    // https://github.com/guardian/frontend/blob/master/static/src/javascripts/projects/common/modules/commercial/contributions-utilities.js#L378
-    const filters: Filter[] = [
-        shouldNotRender(epicType),
-        isOn,
-        isNotExpired(),
-        hasSectionOrTags,
-        userInTest(targeting.mvtId || 1),
-        inCorrectCohort(userCohorts),
-        excludeSection,
-        excludeTags,
-        hasCountryCode,
-        matchesCountryGroups,
-        withinMaxViews(targeting.epicViewLog || []),
-        withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-        respectArticleCountOptOut,
-    ];
+    const getFilters = (isSuperModePass: boolean): Filter[] => {
+        return [
+            shouldNotRender(epicType),
+            isOn,
+            isNotExpired(),
+            hasSectionOrTags,
+            userInTest(targeting.mvtId || 1),
+            inCorrectCohort(userCohorts),
+            excludeSection,
+            excludeTags,
+            hasCountryCode,
+            matchesCountryGroups,
+            // For the super mode pass, we treat all tests as "always ask" so disable this filter
+            ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
+            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
+            respectArticleCountOptOut,
+        ];
+    };
+
+    const filterTests = (tests: EpicTest[], filters: Filter[]): EpicTest | undefined => {
+        const test = tests.find(test =>
+            filters.every(filter => {
+                const got = filter.test(test, targeting);
+
+                if (debug[test.name]) {
+                    (debug[test.name] as FilterResults)[filter.id] = got;
+                } else {
+                    debug[test.name] = { [filter.id]: got };
+                }
+
+                if (!got && process.env.LOG_FAILED_TEST_FILTER === 'true') {
+                    console.log(`filter failed: ${test.name}; ${filter.id}`);
+                }
+
+                return got;
+            }),
+        );
+
+        return test;
+    };
+
+    const filterTestsWithSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
+        return (
+            filterTests(tests, getFilters(false)) ??
+            superModeify(filterTests(tests, getFilters(true)))
+        );
+    };
+
+    const filterTestsWithoutSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
+        return filterTests(tests, getFilters(false));
+    };
 
     const priorityOrdered = ([] as EpicTest[]).concat(
         tests.filter(test => test.highPriority),
         tests.filter(test => !test.highPriority),
     );
 
-    const test = priorityOrdered.find(test =>
-        filters.every(filter => {
-            const got = filter.test(test, targeting);
+    const isSuperMode = targeting.url && isInSuperMode(targeting.url, superModeArticles);
 
-            if (debug[test.name]) {
-                (debug[test.name] as FilterResults)[filter.id] = got;
-            } else {
-                debug[test.name] = { [filter.id]: got };
-            }
-
-            if (!got && process.env.LOG_FAILED_TEST_FILTER === 'true') {
-                console.log(`filter failed: ${test.name}; ${filter.id}`);
-            }
-
-            return got;
-        }),
-    );
+    const test = isSuperMode
+        ? filterTestsWithSuperModePass(priorityOrdered)
+        : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
         const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
-        const shouldThrottleVariant =
-            !!variant.maxViews &&
-            shouldThrottle(targeting.epicViewLog || [], variant.maxViews, test.name);
-
-        if (!shouldThrottleVariant) {
-            return {
-                result: { test, variant },
-                debug: includeDebug ? debug : undefined,
-            };
-        }
+        return {
+            result: { test, variant },
+            debug: includeDebug ? debug : undefined,
+        };
     }
 
     return { debug: includeDebug ? debug : undefined };

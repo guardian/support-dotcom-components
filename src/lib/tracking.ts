@@ -28,6 +28,7 @@ export const addTrackingParams = (
             referrerPageviewId: params.ophanPageId,
             referrerUrl: params.referrerUrl,
             isRemote: true, // Temp param to indicate served by remote service
+            labels: params.labels,
         }),
     );
 

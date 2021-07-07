@@ -50,6 +50,7 @@ export interface HeaderTestTracking {
     abTestVariant: string;
     campaignCode: string;
     componentType: OphanComponentType;
+    labels?: string[];
 }
 
 export type HeaderTracking = HeaderPageTracking & HeaderTestTracking;
