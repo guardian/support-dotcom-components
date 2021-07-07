@@ -180,7 +180,7 @@ export const buildEpicData = async (
     const { test, variant } = result.result;
 
     const tickerSettings = await getTickerSettings(variant);
-    const showReminderFields = getReminderFields(variant, targeting);
+    const showReminderFields = getReminderFields(variant);
 
     const variantWithTickerAndReminder = { ...variant, tickerSettings, showReminderFields };
 

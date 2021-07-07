@@ -1,5 +1,5 @@
 import { OphanComponentEvent, OphanComponentType } from './OphanTypes';
-import { Audience, Test, Variant } from './shared';
+import { UserCohort, Test, Variant } from './shared';
 
 export interface Cta {
     url: string;
@@ -21,7 +21,7 @@ interface HeaderVariant extends Variant {
 
 export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
-    audience: Audience;
+    audience: UserCohort;
     variants: HeaderVariant[];
 }
 

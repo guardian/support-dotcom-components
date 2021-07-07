@@ -5,7 +5,7 @@ import { contributionsBanner } from '../../modules';
 export const DefaultContributionsBanner: BannerTest = {
     name: 'DefaultContributionsBanner',
     bannerChannel: 'contributions',
-    testAudience: 'AllNonSupporters',
+    userCohort: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (_targeting: BannerTargeting, _pageTracking: BannerPageTracking) => true,
     minPageViews: 2,

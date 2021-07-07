@@ -53,7 +53,7 @@ describe('selectBannerTest', () => {
         const test: BannerTest = {
             name: 'test',
             bannerChannel: 'contributions',
-            testAudience: 'Everyone',
+            userCohort: 'Everyone',
             canRun: () => true,
             minPageViews: 2,
             variants: [
@@ -175,7 +175,7 @@ describe('selectBannerTest', () => {
         const test: BannerTest = {
             name: 'test',
             bannerChannel: 'subscriptions',
-            testAudience: 'Everyone',
+            userCohort: 'Everyone',
             canRun: (): boolean => true,
             minPageViews: 2,
             variants: [

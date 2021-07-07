@@ -9,7 +9,7 @@ import {
 import { CountryGroupId } from '../lib/geolocation';
 import {
     ArticlesViewedSettings,
-    Audience,
+    UserCohort,
     Test,
     TickerSettings,
     Variant,
@@ -119,7 +119,7 @@ export type BannerTestGenerator = () => Promise<BannerTest[]>;
 export interface BannerTest extends Test<BannerVariant> {
     name: string;
     bannerChannel: BannerChannel;
-    testAudience: Audience;
+    userCohort: UserCohort;
     canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
@@ -188,7 +188,7 @@ export interface RawTestParams {
     nickname: string;
     isOn: boolean;
     minArticlesBeforeShowingBanner: number;
-    userCohort: Audience;
+    userCohort: UserCohort;
     locations: CountryGroupId[];
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;
