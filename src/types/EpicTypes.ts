@@ -1,6 +1,7 @@
 import { OphanComponentEvent, OphanComponentType, OphanProduct } from './OphanTypes';
 import {
-    ArticlesViewedSettings, UserCohort,
+    ArticlesViewedSettings,
+    UserCohort,
     Cta,
     SecondaryCta,
     Stage,
