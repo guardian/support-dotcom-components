@@ -58,14 +58,6 @@ const AusBannerBody: React.FC<AusBannerBodyProps> = ({ content }: AusBannerBodyP
                         {content.mobileContent?.heading ?? content.mainContent.heading}
                     </div>
                     <div>{content.mainContent.messageText}</div>
-
-                    {content.mainContent.highlightedText && (
-                        <div>
-                            <div css={highlightedTextContainerStyles}>
-                                {content.mainContent.highlightedText}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </Hide>
         </div>

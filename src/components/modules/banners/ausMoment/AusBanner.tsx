@@ -253,11 +253,10 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                 <Hide below="tablet">
                     <Hide above="leftCol">
                         <Columns>
-                            <Column width={6 / 12}>{/* <HeaderAndImage /> */}</Column>
-
-                            <Column width={6 / 12}>
+                            <Column width={8 / 12}>
                                 <BodyAndCtas />
                             </Column>
+                            <Column width={4 / 12}>{/* <HeaderAndImage /> */}</Column>
                         </Columns>
                     </Hide>
                 </Hide>
