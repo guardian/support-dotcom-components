@@ -9,7 +9,7 @@ import AusBannerCtas from './components/AusBannerCtas';
 import AusBannerCloseButton from './components/AusBannerCloseButton';
 import { useHasBeenSeen, HasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { TickerSettings } from '../../../../types/shared';
-import { headline } from '@guardian/src-foundations/typography';
+import { headline, body } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 
@@ -170,6 +170,7 @@ const rootStyles = css`
     position: relative;
     height: 65px;
     line-height: 18px;
+    margin-bottom: ${space[3]}px;
 `;
 
 const totalCountStyles = (colour: string): SerializedStyles => css`
@@ -178,12 +179,14 @@ const totalCountStyles = (colour: string): SerializedStyles => css`
 `;
 
 const soFarCountStyles = (colour: string): SerializedStyles => css`
-    ${headline.xsmall({ fontWeight: 'bold' })};
+    ${headline.xxxsmall({ fontWeight: 'bold' })};
     color: ${colour};
 `;
 
 const countLabelStyles = css`
-    ${headline.xxxsmall()};
+    ${body.small()};
+    color: ${neutral[100]};
+    font-style: italic;
 `;
 
 const progressBarHeight = 12;
