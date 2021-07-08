@@ -176,13 +176,20 @@ export const buildEpicData = async (
         labels: !!test.isSuperMode ? ['SUPER_MODE'] : undefined,
     };
 
+    console.log('EPIC')
     const props: EpicProps = {
         variant: variantWithTickerAndReminder,
         tracking: { ...pageTracking, ...testTracking },
-        numArticles: getArticleViewCountForWeeks(
-            targeting.weeklyArticleHistory,
-            test.articlesViewedSettings?.periodInWeeks,
-        ),
+        articleCounts: {
+            total: getArticleViewCountForWeeks(
+                targeting.weeklyArticleHistory,
+                52,
+            ),
+            forTargetedWeeks: getArticleViewCountForWeeks(
+                targeting.weeklyArticleHistory,
+                test.articlesViewedSettings?.periodInWeeks,
+            ),
+        },
         countryCode: targeting.countryCode,
     };
 

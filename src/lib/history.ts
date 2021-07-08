@@ -13,6 +13,8 @@ export const getArticleViewCountForWeeks = (
     weeks: number = 52,
     rightNow: Date = new Date(),
 ): number => {
+    console.log('history', history)
+    console.log(weeks)
     const mondayThisWeek = getMondayFromDate(rightNow);
     const cutOffWeek = mondayThisWeek - weeks * 7;
 
