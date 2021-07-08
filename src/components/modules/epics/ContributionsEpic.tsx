@@ -351,7 +351,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
 const validate = (props: unknown): props is EpicProps => {
     const result = epicPropsSchema.safeParse(props);
-    console.log(result)
     return result.success;
 };
 

@@ -1,5 +1,10 @@
 import * as z from 'zod';
-import {OphanComponentType, ophanComponentTypeSchema, OphanProduct, ophanProductSchema} from "./OphanTypes";
+import {
+    OphanComponentType,
+    ophanComponentTypeSchema,
+    OphanProduct,
+    ophanProductSchema,
+} from './OphanTypes';
 
 export interface Variant {
     name: string;

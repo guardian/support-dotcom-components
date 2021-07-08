@@ -14,7 +14,6 @@ export function withParsedProps<ModuleProps>(
                 />
             );
         }
-        console.log("failed to validate")
         return null;
     };
 

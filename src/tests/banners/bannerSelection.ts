@@ -10,7 +10,7 @@ import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
-import {PageTracking, UserCohort} from '../../types/shared';
+import { PageTracking, UserCohort } from '../../types/shared';
 import { selectVariant } from '../../lib/ab';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
