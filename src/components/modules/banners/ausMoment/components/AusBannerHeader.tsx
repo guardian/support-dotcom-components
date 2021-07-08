@@ -20,13 +20,16 @@ const desktopContainerStyles = css`
 
 const headingStyles = css`
     ${headline.xxsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
-    color:#04FFFF;
+    color: #04FFFF;
+    max-width: 80%;
+    margin-bottom: ${space[1]}px;
 
     ${from.tablet} {
         ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
+        max-width: 100%;
     }
 
-    ${from.desktop} {
+    ${from.leftCol} {
         ${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
     }
 `;
@@ -46,7 +49,7 @@ const AusBannerHeader: React.FC<AusBannerHeaderProps> = ({ content }: AusBannerH
             <Hide below="tablet">
                 <div css={desktopContainerStyles}>
                     <div css={headingStyles}>
-                        {content.mainContent?.heading ?? content.mainContent.heading}
+                        {content.mobileContent?.heading ?? content.mainContent.heading}
                     </div>
                 </div>
             </Hide>

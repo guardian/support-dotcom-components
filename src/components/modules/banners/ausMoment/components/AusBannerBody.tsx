@@ -18,22 +18,6 @@ const desktopContainerStyles = css`
     }
 `;
 
-const headingStyles = css`
-    ${headline.xxsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
-    color: #04FFFF;
-    max-width: 80%;
-    margin-bottom: ${space[1]}px;
-
-    ${from.tablet} {
-        ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
-        max-width: 100%;
-    }
-
-    ${from.leftCol} {
-        ${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
-    }
-`;
-
 interface AusBannerBodyProps {
     content: BannerTextContent;
 }
@@ -42,16 +26,10 @@ const AusBannerBody: React.FC<AusBannerBodyProps> = ({ content }: AusBannerBodyP
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
-                <div css={headingStyles}>
-                    {content.mobileContent?.heading ?? content.mainContent.heading}
-                </div>
                 {content.mobileContent?.messageText ?? content.mainContent.messageText}
             </Hide>
             <Hide below="tablet">
                 <div css={desktopContainerStyles}>
-                    <div css={headingStyles}>
-                        {content.mobileContent?.heading ?? content.mainContent.heading}
-                    </div>
                     <div>{content.mainContent.messageText}</div>
                 </div>
             </Hide>
