@@ -4,7 +4,8 @@ import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import testData from './ContributionsLiveblogEpic.testData';
 import { getArticleViewCountForWeeks } from '../../../lib/history';
-import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
+import { EpicVariant } from '../../../types/EpicTypes';
+import { Tracking } from '../../../types/shared';
 
 export default {
     component: ContributionsLiveblogEpic,
@@ -32,14 +33,17 @@ export const defaultStory = (): ReactElement => {
     };
 
     // Epic metadata props
-    const epicTracking: EpicTracking = {
+    const epicTracking: Tracking = {
         ophanPageId: text('ophanPageId', testData.tracking.ophanPageId),
         componentType: testData.tracking.componentType,
         products: testData.tracking.products,
         platformId: text('platformId', testData.tracking.platformId),
         clientName: testData.tracking.clientName,
         campaignCode: text('campaignCode', testData.tracking.campaignCode),
-        campaignId: text('campaignId', testData.tracking.campaignId),
+        campaignId: text(
+            'campaignId',
+            testData.tracking.campaignId || testData.tracking.abTestName,
+        ),
         abTestName: text('abTestName', testData.tracking.abTestName),
         abTestVariant: text('abTestVariant', testData.tracking.abTestVariant),
         referrerUrl: text('referrerUrl', testData.tracking.referrerUrl),

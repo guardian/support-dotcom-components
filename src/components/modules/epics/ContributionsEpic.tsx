@@ -7,7 +7,7 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
-import { EpicProps } from '../../../types/EpicTypes';
+import { EpicProps, epicPropsSchema } from '../../../types/EpicTypes';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -18,6 +18,7 @@ import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { Stage } from '../../../types/shared';
 import { isProd } from '../shared/helpers/stage';
+import { withParsedProps } from '../shared/ModuleWrapper';
 
 const sendEpicViewEvent = (url: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -214,7 +215,7 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-export const ContributionsEpic: React.FC<EpicProps> = ({
+const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
@@ -347,3 +348,12 @@ export const ContributionsEpic: React.FC<EpicProps> = ({
         </section>
     );
 };
+
+const validate = (props: unknown): props is EpicProps => {
+    const result = epicPropsSchema.safeParse(props);
+    console.log(result)
+    return result.success;
+};
+
+const validatedEpic = withParsedProps(ContributionsEpic, validate);
+export { validatedEpic as ContributionsEpic, ContributionsEpic as ContributionsEpicUnvalidated };

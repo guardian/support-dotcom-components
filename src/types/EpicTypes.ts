@@ -1,4 +1,4 @@
-import { OphanComponentEvent, OphanComponentType, OphanProduct } from './OphanTypes';
+import { OphanComponentEvent } from './OphanTypes';
 import {
     ArticlesViewedSettings,
     UserCohort,
@@ -9,28 +9,16 @@ import {
     TickerSettings,
     Variant,
     WeeklyArticleHistory,
+    tickerSettingsSchema,
+    ctaSchema,
+    Tracking,
+    PageTracking,
+    trackingSchema,
+    secondaryCtaSchema,
 } from './shared';
 import { ReminderFields } from '../lib/reminderFields';
 import { CountryGroupId } from '../lib/geolocation';
-
-export type EpicPageTracking = {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-};
-
-export type EpicTestTracking = {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
-    campaignId: string;
-    componentType: OphanComponentType;
-    products: OphanProduct[];
-    labels?: string[];
-};
-
-export type EpicTracking = EpicPageTracking & EpicTestTracking;
+import { z } from 'zod';
 
 export type Tag = {
     id: string;
@@ -71,25 +59,11 @@ export type EpicTargeting = {
 };
 
 export type EpicPayload = {
-    tracking: EpicPageTracking;
+    tracking: PageTracking;
     targeting: EpicTargeting;
 };
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
-
-export type EpicProps = {
-    variant: EpicVariant;
-    tracking: EpicTracking;
-    countryCode?: string;
-    numArticles: number;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    onReminderOpen?: Function;
-    email?: string;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    openCmp?: () => void;
-    hasConsentForArticleCount?: boolean;
-    stage?: Stage;
-};
 
 export interface MaxViews {
     maxViewsCount: number;
@@ -97,9 +71,25 @@ export interface MaxViews {
     minDaysBetweenViews: number;
 }
 
+const maxViewsSchema = z.object({
+    maxViewsCount: z.number(),
+    maxViewsDays: z.number(),
+    minDaysBetweenViews: z.number(),
+});
+
 export interface SeparateArticleCount {
     type: 'above';
 }
+
+const separateArticleCountSchema = z.object({
+    type: z.string(),
+});
+
+const reminderFieldsSchema = z.object({
+    reminderCta: z.string(),
+    reminderLabel: z.string(),
+    reminderPeriod: z.string(),
+});
 
 export interface EpicVariant extends Variant {
     name: string;
@@ -124,6 +114,48 @@ export interface EpicVariant extends Variant {
     // with lower priority.
     maxViews?: MaxViews;
 }
+
+const variantSchema = z.object({
+    name: z.string(),
+    heading: z.string().optional(),
+    paragraphs: z.array(z.string()),
+    highlightedText: z.string().optional(),
+    tickerSettings: tickerSettingsSchema.optional(),
+    cta: ctaSchema.optional(),
+    secondaryCta: secondaryCtaSchema.optional(),
+    footer: z.string().optional(),
+    backgroundImageUrl: z.string().optional(),
+    showReminderFields: reminderFieldsSchema.optional(),
+    separateArticleCount: separateArticleCountSchema.optional(),
+    maxViews: maxViewsSchema.optional(),
+});
+
+export type EpicProps = {
+    variant: EpicVariant;
+    tracking: Tracking;
+    countryCode?: string;
+    numArticles: number;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    onReminderOpen?: Function;
+    email?: string;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    openCmp?: () => void;
+    hasConsentForArticleCount?: boolean;
+    stage?: Stage;
+};
+
+export const epicPropsSchema = z.object({
+    variant: variantSchema,
+    tracking: trackingSchema,
+    countryCode: z.string().optional(),
+    numArticles: z.number(),
+    onReminderOpen: z.any().optional(),
+    email: z.string().optional(),
+    submitComponentEvent: z.any().optional(),
+    openCmp: z.any().optional(),
+    hasConsentForArticleCount: z.boolean().optional(),
+    stage: z.string().optional(),
+});
 
 interface ControlProportionSettings {
     proportion: number;

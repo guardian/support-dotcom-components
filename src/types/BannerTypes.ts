@@ -1,11 +1,5 @@
 import * as z from 'zod';
-import {
-    OphanProduct,
-    OphanComponentType,
-    OphanComponentEvent,
-    ophanComponentTypeSchema,
-    ophanProductSchema,
-} from './OphanTypes';
+import { OphanProduct, OphanComponentType, OphanComponentEvent } from './OphanTypes';
 import { CountryGroupId } from '../lib/geolocation';
 import {
     ArticlesViewedSettings,
@@ -20,6 +14,9 @@ import {
     tickerSettingsSchema,
     Cta,
     SecondaryCta,
+    Tracking,
+    PageTracking,
+    trackingSchema,
 } from './shared';
 
 export type BannerTargeting = {
@@ -36,39 +33,8 @@ export type BannerTargeting = {
     modulesVersion?: string;
 };
 
-export type BannerTestTracking = {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
-    componentType: OphanComponentType;
-    products?: OphanProduct[];
-    labels?: string[];
-};
-
-export type BannerPageTracking = {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-};
-
-export type BannerTracking = BannerTestTracking & BannerPageTracking;
-
-const bannerTrackingSchema = z.object({
-    abTestName: z.string(),
-    abTestVariant: z.string(),
-    campaignCode: z.string(),
-    componentType: ophanComponentTypeSchema,
-    products: z.array(ophanProductSchema).optional(),
-    labels: z.array(z.string()).optional(),
-    ophanPageId: z.string(),
-    platformId: z.string(),
-    referrerUrl: z.string(),
-    clientName: z.string(),
-});
-
 export type BannerDataRequestPayload = {
-    tracking: BannerPageTracking;
+    tracking: PageTracking;
     targeting: BannerTargeting;
 };
 
@@ -112,7 +78,7 @@ export const bannerChannelSchema = z.enum(['contributions', 'subscriptions']);
 
 export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 
-export type CanRun = (targeting: BannerTargeting, pageTracking: BannerPageTracking) => boolean;
+export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
@@ -139,7 +105,7 @@ export interface BannerTestSelection {
 }
 
 export interface BannerProps {
-    tracking: BannerTracking;
+    tracking: Tracking;
     bannerChannel: BannerChannel;
     content?: BannerContent;
     mobileContent?: BannerContent;
@@ -153,7 +119,7 @@ export interface BannerProps {
 }
 
 export const bannerSchema = z.object({
-    tracking: bannerTrackingSchema,
+    tracking: trackingSchema,
     bannerChannel: bannerChannelSchema,
     content: bannerContentSchema.optional(),
     mobileContent: bannerContentSchema.optional(),
@@ -166,7 +132,7 @@ export const bannerSchema = z.object({
 });
 
 export interface PuzzlesBannerProps extends Partial<BannerProps> {
-    tracking: BannerTracking;
+    tracking: Tracking;
 }
 
 export interface RawVariantParams {

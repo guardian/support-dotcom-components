@@ -1,15 +1,7 @@
 import express from 'express';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import {
-    EpicPageTracking,
-    EpicProps,
-    EpicTargeting,
-    EpicTest,
-    EpicTestTracking,
-    EpicType,
-    EpicVariant,
-} from './types/EpicTypes';
+import { EpicProps, EpicTargeting, EpicTest, EpicType, EpicVariant } from './types/EpicTypes';
 import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
 import { getArticleViewCountForWeeks } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
@@ -17,22 +9,11 @@ import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
 import { fetchSuperModeArticles } from './lib/superMode';
-import {
-    BannerPageTracking,
-    BannerProps,
-    BannerTargeting,
-    BannerTestTracking,
-    PuzzlesBannerProps,
-} from './types/BannerTypes';
+import { BannerProps, BannerTargeting, PuzzlesBannerProps } from './types/BannerTypes';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import {
-    HeaderPageTracking,
-    HeaderProps,
-    HeaderTargeting,
-    HeaderTestTracking,
-} from './types/HeaderTypes';
+import { HeaderProps, HeaderTargeting } from './types/HeaderTypes';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import {
     epic as epicModule,
@@ -44,6 +25,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';
 import { cachedChannelSwitches } from './channelSwitches';
+import { PageTracking, TestTracking } from './types/shared';
 
 interface EpicDataResponse {
     data?: {
@@ -52,7 +34,7 @@ interface EpicDataResponse {
             props: EpicProps;
         };
         variant: EpicVariant;
-        meta: EpicTestTracking;
+        meta: TestTracking;
     };
     debug?: Debug;
 }
@@ -64,7 +46,7 @@ interface BannerDataResponse {
             name: string;
             props: BannerProps;
         };
-        meta: BannerTestTracking;
+        meta: TestTracking;
     };
     debug?: Debug;
 }
@@ -88,7 +70,7 @@ interface HeaderDataResponse {
             name: string;
             props: HeaderProps;
         };
-        meta: HeaderTestTracking;
+        meta: TestTracking;
     };
 }
 
@@ -146,7 +128,7 @@ const getLiveblogEpicTests = async (): Promise<EpicTest[]> => {
 };
 
 export const buildEpicData = async (
-    pageTracking: EpicPageTracking,
+    pageTracking: PageTracking,
     targeting: EpicTargeting,
     type: EpicType,
     params: Params,
@@ -184,7 +166,7 @@ export const buildEpicData = async (
 
     const variantWithTickerAndReminder = { ...variant, tickerSettings, showReminderFields };
 
-    const testTracking: EpicTestTracking = {
+    const testTracking: TestTracking = {
         abTestName: test.name,
         abTestVariant: variant.name,
         campaignCode: buildCampaignCode(test, variant),
@@ -224,7 +206,7 @@ export const buildEpicData = async (
 };
 
 export const buildBannerData = async (
-    pageTracking: BannerPageTracking,
+    pageTracking: PageTracking,
     targeting: BannerTargeting,
     params: Params,
     req: express.Request,
@@ -246,7 +228,7 @@ export const buildBannerData = async (
     if (selectedTest) {
         const { test, variant, moduleUrl, moduleName } = selectedTest;
 
-        const testTracking: BannerTestTracking = {
+        const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
@@ -290,7 +272,7 @@ export const buildBannerData = async (
 };
 
 export const buildPuzzlesData = async (
-    pageTracking: BannerPageTracking,
+    pageTracking: PageTracking,
     targeting: BannerTargeting,
     params: Params,
     req: express.Request,
@@ -325,14 +307,14 @@ export const buildPuzzlesData = async (
 };
 
 export const buildHeaderData = async (
-    pageTracking: HeaderPageTracking,
+    pageTracking: PageTracking,
     targeting: HeaderTargeting,
     baseUrl: string,
 ): Promise<HeaderDataResponse> => {
     const testSelection = await selectHeaderTest(targeting);
     if (testSelection) {
         const { test, variant } = testSelection;
-        const testTracking: HeaderTestTracking = {
+        const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: `header_support_${test.name}_${variant.name}`,

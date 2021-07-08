@@ -1,8 +1,8 @@
 import { TickerCountType, TickerEndType } from '../../../../types/shared';
-import { BannerProps, BannerTracking } from '../../../../types/BannerTypes';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { BannerProps } from '../../../../types/BannerTypes';
+import { SecondaryCtaType, Tracking } from '../../../../types/shared';
 
-export const tracking: BannerTracking = {
+export const tracking: Tracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     platformId: 'GUARDIAN_WEB',

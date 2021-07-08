@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBanner';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { StorybookWrapper, BannerWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerContent, BannerProps, BannerTracking } from '../../../../types/BannerTypes';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { BannerContent, BannerProps } from '../../../../types/BannerTypes';
+import { SecondaryCtaType, Tracking } from '../../../../types/shared';
 
 export default {
     component: DigitalSubscriptionsBanner,
@@ -15,7 +15,7 @@ export default {
     ],
 };
 
-const tracking: BannerTracking = {
+const tracking: Tracking = {
     ophanPageId: 'kbluzw2csbf83eaberrr',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',

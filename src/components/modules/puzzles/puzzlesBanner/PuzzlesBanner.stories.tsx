@@ -1,14 +1,14 @@
 import React, { ReactElement } from 'react';
 import { PuzzlesBanner } from './PuzzlesBanner';
 import { StorybookWrapper, BannerWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerTracking } from '../../../../types/BannerTypes';
+import { Tracking } from '../../../../types/shared';
 
 export default {
     component: PuzzlesBanner,
     title: 'Puzzles/PuzzlesBanner',
 };
 
-const tracking: BannerTracking = {
+const tracking: Tracking = {
     ophanPageId: 'kbluzw2csbf83eabettt',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',

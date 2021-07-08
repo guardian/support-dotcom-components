@@ -1,8 +1,8 @@
-import { EpicTest, EpicTracking, EpicVariant } from '../types/EpicTypes';
-import { BannerTest, BannerVariant, BannerTracking } from '../types/BannerTypes';
+import { EpicTest, EpicVariant } from '../types/EpicTypes';
+import { BannerTest, BannerVariant } from '../types/BannerTypes';
 import { OphanAction, OphanComponentEvent } from '../types/OphanTypes';
 import { addRegionIdToSupportUrl } from './geolocation';
-import { HeaderTracking } from '../types/HeaderTypes';
+import { Tracking } from '../types/shared';
 
 type LinkParams = {
     REFPVID: string;
@@ -11,10 +11,7 @@ type LinkParams = {
 };
 
 // TODO: Unify Epic and Banner tracking?
-export const addTrackingParams = (
-    baseUrl: string,
-    params: EpicTracking | BannerTracking | HeaderTracking,
-): string => {
+export const addTrackingParams = (baseUrl: string, params: Tracking): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
             source: params.platformId,
@@ -46,7 +43,7 @@ export const addTrackingParams = (
 
 export const addRegionIdAndTrackingParamsToSupportUrl = (
     baseUrl: string,
-    tracking: EpicTracking | BannerTracking | HeaderTracking,
+    tracking: Tracking,
     countryCode?: string,
 ): string => {
     const isSupportUrl = /\bsupport\./.test(baseUrl);
@@ -68,7 +65,7 @@ export const buildAmpEpicCampaignCode = (testName: string, variantName: string):
     `AMP__${testName}__${variantName}`;
 
 const createEventFromTracking = (action: OphanAction) => {
-    return (tracking: BannerTracking, componentId: string): OphanComponentEvent => {
+    return (tracking: Tracking, componentId: string): OphanComponentEvent => {
         const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
         const abTest =
             abTestName && abTestVariant
