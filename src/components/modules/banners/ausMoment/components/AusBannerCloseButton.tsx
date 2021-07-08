@@ -6,6 +6,8 @@ import { SvgCross } from '@guardian/src-icons';
 import { neutral } from '@guardian/src-foundations/palette';
 
 const closeButtonStyles = css`
+    position: absolute;
+    right: 0;
     &:hover {
         background-color: ${neutral[0]};
         border-color: ${neutral[0]};

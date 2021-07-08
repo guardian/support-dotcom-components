@@ -42,40 +42,6 @@ const bottomContainerStyles = css`
     }
 `;
 
-const logoAndHeaderContainerStyles = css`
-    position: relative;
-`;
-
-const logoContainerStyles = css`
-    position: absolute;
-    top: ${space[2]}px;
-    left: ${space[2]}px;
-    width: 88px;
-
-    ${from.tablet} {
-        top: auto;
-        bottom: -70px;
-        left: 0;
-
-        width: 124px;
-    }
-
-    ${from.leftCol} {
-        position: relative;
-        top: auto;
-        bottom: auto;
-        left: auto;
-        right: auto;
-
-        margin-top: 0;
-        width: 140px;
-    }
-
-    ${from.wide} {
-        width: 186px;
-    }
-`;
-
 const closeButtonContainerStyles = css`
     position: absolute;
     z-index: 200;
@@ -86,17 +52,11 @@ const closeButtonContainerStyles = css`
         position: relative;
         top: auto;
         right: auto;
-
-        margin-left: ${space[2]}px;
-    }
-
-    ${from.desktop} {
-        margin-left: ${space[5]}px;
     }
 `;
 
 const ctasContainerStyles = css`
-    padding: ${space[1]}px ${space[3]}px ${space[5]}px;
+    padding: ${space[1]}px 0 ${space[5]}px;
 
     ${from.tablet} {
         width: calc(100% + 20px);
@@ -130,14 +90,15 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     onCloseClick,
 }) => {
     const Body = () => (
-        <Stack css={bottomContainerStyles} space={5}>
-            <div css={bodyAndCloseButtonContainerStyles}>
-                <AusBannerBody content={content} />
-                <div css={closeButtonContainerStyles}>
-                    <AusBannerCloseButton onClose={onCloseClick} />
-                </div>
-            </div>
-        </Stack>
+        <div css={bodyAndCloseButtonContainerStyles}>
+            <AusBannerBody content={content} />
+        </div>
+    );
+
+    const CloseButton = () => (
+        <div css={closeButtonContainerStyles}>
+            <AusBannerCloseButton onClose={onCloseClick} />
+        </div>
     );
 
     const Ctas = () => (
@@ -153,9 +114,8 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
-                {/* <LogoAndCloseButton />
-                <HeaderAndImage /> */}
                 <Body />
+                <CloseButton />
                 <Ctas />
             </Hide>
 
@@ -167,6 +127,7 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                                 <Body />
                             </Column>
                             <Column width={4 / 12}>
+                                <CloseButton />
                                 <Ctas />
                             </Column>
                         </Columns>
@@ -174,12 +135,14 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                 </Hide>
 
                 <Hide below="desktop">
-                    <Column width={10 / 14}>
-                        <Body />
-                        <Ctas />
-                    </Column>
                     <Columns>
-                        <Column width={4 / 14}>{/* <HeaderAndImage /> */}</Column>
+                        <Column width={10 / 14}>
+                            <Body />
+                            <Ctas />
+                        </Column>
+                        <Column width={4 / 14}>
+                            <CloseButton />
+                        </Column>
                     </Columns>
                 </Hide>
             </Container>
