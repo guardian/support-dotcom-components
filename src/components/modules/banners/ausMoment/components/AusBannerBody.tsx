@@ -21,9 +21,12 @@ const desktopContainerStyles = css`
 const headingStyles = css`
     ${headline.xxsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
     color: #04FFFF;
+    max-width: 80%;
+    margin-bottom: ${space[1]}px;
 
     ${from.tablet} {
         ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
+        max-width: 100%;
     }
 
     ${from.leftCol} {

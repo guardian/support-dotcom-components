@@ -16,33 +16,15 @@ const containerStyles = css`
     display: flex;
     flex-direction: column;
     border-top: 1px solid white;
+    padding: ${space[1]}px ${space[3]}px ${space[1]}px;
 
     ${from.tablet} {
         flex-direction: row;
+        padding: 0 0 ${space[4]}px;
     }
 
     * {
         box-sizing: border-box;
-    }
-`;
-
-const mobileContainerStyles = css`
-    padding: ${space[1]}px ${space[3]}px ${space[1]}px;
-`;
-
-const bottomContainerStyles = css`
-    padding: ${space[1]}px ${space[3]}px ${space[5]}px;
-
-    ${from.tablet} {
-        padding: ${space[3]}px 0 ${space[5]}px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    ${from.wide} {
-        width: 100%;
     }
 `;
 
@@ -51,6 +33,10 @@ const closeButtonContainerStyles = css`
     z-index: 200;
     top: ${space[2]}px;
     right: ${space[2]}px;
+
+    ${from.tablet} {
+        padding: ${space[1]}px;
+    }
 
     ${from.tablet} {
         position: relative;
@@ -83,7 +69,7 @@ const ctasContainerStyles = css`
     }
 `;
 
-const bodyAndCloseButtonContainerStyles = css`
+const bodyContainerStyles = css`
     display: flex;
 `;
 
@@ -94,7 +80,7 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     onCloseClick,
 }) => {
     const Body = () => (
-        <div css={bodyAndCloseButtonContainerStyles}>
+        <div css={bodyContainerStyles}>
             <AusBannerBody content={content} />
         </div>
     );
@@ -118,11 +104,9 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
-                <div css={mobileContainerStyles}>
-                    <Body />
-                    <CloseButton />
-                    <Ctas />
-                </div>
+                <Body />
+                <CloseButton />
+                <Ctas />
             </Hide>
 
             <Container>

@@ -28,7 +28,7 @@ Default.args = {
     content: {
         heading: 'Together, we can be a voice for change',
         messageText:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse proin volutpat. Habitant maecenas massa ullamcorper volutpat. Elit proin Placerat est fermentum nulla porttitor est  suspendisse suspendisse porttitor est',
+            'Help us reach more people across xxx T xx Australia. One in three people in Australia read the Guardian in the last year. p Guardian in the last yea growing our readership and gaining your support so we can provide high quas. To find out more, read this letter from our editor.',
         cta: {
             text: 'Support the Guardian',
             baseUrl: 'https://support.theguardian.com/contribute',
