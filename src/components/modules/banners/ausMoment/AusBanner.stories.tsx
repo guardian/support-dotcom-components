@@ -20,6 +20,10 @@ Default.args = {
         heading: 'Your voice matters. Help us reach  more people',
         messageText:
             'Help us reach more people across xxx T xx Australia. One in three people in Australia read the Guardian in the last year. p Guardian in the last yea growing our readership and gaining your support so we can provide high quas. To find out more, read this letter from our editor.',
+        cta: {
+            text: 'Support the Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
     },
     content: {
         heading: 'Your voice matters. Help us reach  more people across Australia',

@@ -5,6 +5,7 @@ import { Stack, Hide, Container, Columns, Column } from '@guardian/src-layout';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import AusBannerBody from './components/AusBannerBody';
+import AusBannerCtas from './components/AusBannerCtas';
 
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
@@ -172,7 +173,7 @@ const logoColumnStyles = css`
     padding-top: ${space[3]}px;
 `;
 
-const AusBanner: React.FC<BannerRenderProps> = ({ content }) => {
+const AusBanner: React.FC<BannerRenderProps> = ({ content, onCtaClick, onSecondaryCtaClick }) => {
     // const Logo = () => (
     //     <div css={logoContainerStyles}>
     //         <G200BannerLogo />
@@ -228,11 +229,11 @@ const AusBanner: React.FC<BannerRenderProps> = ({ content }) => {
             </div>
 
             <div css={ctasContainerStyles}>
-                {/* <G200BannerCtas
+                <AusBannerCtas
                     content={content}
                     onPrimaryCtaClick={onCtaClick}
                     onSecondaryCtaClick={onSecondaryCtaClick}
-                /> */}
+                />
             </div>
         </Stack>
     );
