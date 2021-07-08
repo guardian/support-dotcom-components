@@ -6,8 +6,8 @@ import { palette } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/core';
-
 import useTicker from '../../../../../hooks/useTicker';
+import useNumberOfSupporters from '../../../../../hooks/useNumberOfSupporters';
 
 const rootStyles = css`
     position: relative;
@@ -16,14 +16,14 @@ const rootStyles = css`
     margin-bottom: ${space[3]}px;
 `;
 
-const totalCountStyles = (colour: string): SerializedStyles => css`
+const totalCountStyles = css`
     ${headline.xxxsmall({ fontWeight: 'bold' })};
-    color: ${colour};
+    color: ${neutral[100]};
 `;
 
-const soFarCountStyles = (colour: string): SerializedStyles => css`
+const soFarCountStyles = css`
     ${headline.xxxsmall({ fontWeight: 'bold' })};
-    color: ${colour};
+    color: ${neutral[100]};
 `;
 
 const countLabelStyles = css`
@@ -32,7 +32,7 @@ const countLabelStyles = css`
     font-style: italic;
 `;
 
-const progressBarHeight = 12;
+const progressBarHeight = 7;
 
 const progressBarContainerStyles = css`
     width: 100%;
@@ -144,8 +144,8 @@ const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
         }
     }, [hasBeenSeen]);
 
-    const total = settings.tickerData?.total || 1;
-    const goal = settings.tickerData?.goal || 1;
+    const total = useNumberOfSupporters();
+    const goal = 170000;
     const isGoalReached = total >= goal;
     const runningTotal = useTicker(total, readyToAnimate);
 
@@ -156,26 +156,16 @@ const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
         <div ref={setNode} css={rootStyles}>
             <div>
                 <div css={soFarContainerStyles}>
-                    <div css={soFarCountStyles('white')}>
+                    <div css={soFarCountStyles}>
                         {!isGoalReached}
-                        {isGoalReached
-                            ? settings.copy.goalReachedPrimary
-                            : runningTotal.toLocaleString()}
+                        {runningTotal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>
-                        {isGoalReached
-                            ? settings.copy.goalReachedSecondary
-                            : settings.copy.countLabel}
-                    </div>
+                    <div css={countLabelStyles}>{settings.copy.countLabel}</div>
                 </div>
 
                 <div css={goalContainerStyles}>
-                    <div css={totalCountStyles('white')}>
-                        {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}
-                    </div>
-                    <div css={countLabelStyles}>
-                        {isGoalReached ? settings.copy.countLabel : 'our goal'}
-                    </div>
+                    <div css={totalCountStyles}>{goal.toLocaleString()}</div>
+                    <div css={countLabelStyles}>{'our goal'}</div>
                 </div>
             </div>
 
