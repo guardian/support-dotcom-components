@@ -26,6 +26,10 @@ const containerStyles = css`
     }
 `;
 
+const mobileContainerStyles = css`
+    padding: ${space[1]}px ${space[3]}px ${space[1]}px;
+`;
+
 const bottomContainerStyles = css`
     padding: ${space[1]}px ${space[3]}px ${space[5]}px;
 
@@ -56,7 +60,7 @@ const closeButtonContainerStyles = css`
 `;
 
 const ctasContainerStyles = css`
-    padding: ${space[1]}px 0 ${space[5]}px;
+    padding: ${space[3]}px 0 ${space[3]}px;
 
     ${from.tablet} {
         width: calc(100% + 20px);
@@ -114,9 +118,11 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
-                <Body />
-                <CloseButton />
-                <Ctas />
+                <div css={mobileContainerStyles}>
+                    <Body />
+                    <CloseButton />
+                    <Ctas />
+                </div>
             </Hide>
 
             <Container>
