@@ -6,6 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import AusBannerBody from './components/AusBannerBody';
 import AusBannerCtas from './components/AusBannerCtas';
+import AusBannerCloseButton from './components/AusBannerCloseButton';
 
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
@@ -173,7 +174,12 @@ const logoColumnStyles = css`
     padding-top: ${space[3]}px;
 `;
 
-const AusBanner: React.FC<BannerRenderProps> = ({ content, onCtaClick, onSecondaryCtaClick }) => {
+const AusBanner: React.FC<BannerRenderProps> = ({
+    content,
+    onCtaClick,
+    onSecondaryCtaClick,
+    onCloseClick,
+}) => {
     // const Logo = () => (
     //     <div css={logoContainerStyles}>
     //         <G200BannerLogo />
@@ -220,12 +226,9 @@ const AusBanner: React.FC<BannerRenderProps> = ({ content, onCtaClick, onSeconda
         <Stack css={bottomContainerStyles} space={5}>
             <div css={bodyAndCloseButtonContainerStyles}>
                 <AusBannerBody content={content} />
-
-                {/* <Hide below="tablet">
-                    <div css={closeButtonContainerStyles}>
-                        <G200BannerCloseButton onClose={onCloseClick} />
-                    </div>
-                </Hide> */}
+                <div css={closeButtonContainerStyles}>
+                    <AusBannerCloseButton onClose={onCloseClick} />
+                </div>
             </div>
 
             <div css={ctasContainerStyles}>
