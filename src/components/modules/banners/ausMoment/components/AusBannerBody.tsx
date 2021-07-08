@@ -18,14 +18,6 @@ const desktopContainerStyles = css`
     }
 `;
 
-const highlightedTextContainerStyles = css`
-    color: ${neutral[0]};
-    background: ${neutral[100]};
-    display: inline;
-    padding: 2px;
-    word-wrap: break-word;
-`;
-
 const headingStyles = css`
     ${headline.xxsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
     color: #04FFFF;
@@ -34,7 +26,7 @@ const headingStyles = css`
         ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
     }
 
-    ${from.desktop} {
+    ${from.leftCol} {
         ${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
     }
 `;

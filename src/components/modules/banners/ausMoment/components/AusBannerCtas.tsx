@@ -5,7 +5,6 @@ import { space } from '@guardian/src-foundations';
 import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-button';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Inline, Hide } from '@guardian/src-layout';
-import { from } from '@guardian/src-foundations/mq';
 import { BannerTextContent } from '../../common/types';
 import { SecondaryCtaType } from '../../../../../types/shared';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
@@ -15,6 +14,7 @@ const containerStyles = css`
     > * {
         margin-bottom: 0;
     }
+    align-items: center;
 `;
 
 const primaryCtaStyles = css`
@@ -27,28 +27,11 @@ const primaryCtaStyles = css`
 `;
 
 const secondaryCtaStyles = css`
+    margin-left: ${space[12]}px;
+
     &:hover {
         background-color: ${neutral[0]};
         border-color: ${neutral[0]};
-    }
-`;
-
-const paymentIconContainerStyles = css`
-    margin-top: ${space[2]}px;
-    margin-left: ${space[3]}px;
-
-    ${from.tablet} {
-        margin-left: ${space[4]}px;
-    }
-
-    img {
-        display: block;
-        height: 12px;
-        width: auto;
-
-        ${from.tablet} {
-            height: 20px;
-        }
     }
 `;
 

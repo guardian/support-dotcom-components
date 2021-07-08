@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { news } from '@guardian/src-foundations/palette';
 import { Stack, Hide, Container, Columns, Column } from '@guardian/src-layout';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -24,25 +23,6 @@ const containerStyles = css`
 
     * {
         box-sizing: border-box;
-    }
-`;
-
-const topContainerStyles = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    ${from.tablet} {
-        flex-direction: column-reverse;
-        border-right: 1px solid white;
-        width: calc(100% + 10px);
-        height: 100%;
-    }
-
-    ${from.leftCol} {
-        width: calc(100% + 20px);
-        margin-left: -10px;
-        border-left: 1px solid white;
     }
 `;
 
@@ -115,63 +95,32 @@ const closeButtonContainerStyles = css`
     }
 `;
 
-const imageContainerStyles = css`
-    width: 100%;
-    position: relative;
-    z-index: 100;
-
-    padding: 0 ${space[6]}px;
-
-    ${from.mobileMedium} {
-        padding: ${space[3]}px ${space[1]}px 0;
-    }
-
-    ${from.tablet} {
-        padding: 0;
-        margin-top: -33px;
-        margin-left: -20px;
-
-        width: 107%;
-    }
-
-    ${from.desktop} {
-        margin-top: -180px;
-        margin-left: -6px;
-        width: 480px;
-    }
-
-    ${from.leftCol} {
-        margin-top: -188px;
-        margin-left: 63px;
-        width: 420px;
-    }
-`;
-
-const lineExtensionContainer = css`
-    position: absolute;
-    width: 50%;
-    height: 100%;
-`;
-
 const ctasContainerStyles = css`
+    padding: ${space[1]}px ${space[3]}px ${space[5]}px;
+
     ${from.tablet} {
         width: calc(100% + 20px);
+        position: absolute;
+        bottom: 0;
     }
 
     ${from.desktop} {
         width: 100%;
+        position: relative;
+    }
+
+    ${from.wide} {
+        width: 100%;
+        padding: ${space[3]}px 0 ${space[5]}px;
+        height: 100%;
         display: flex;
-        justify-content: flex-end;
-        padding-right: 56px;
+        flex-direction: column;
+        justify-content: space-between;
     }
 `;
 
 const bodyAndCloseButtonContainerStyles = css`
     display: flex;
-`;
-
-const logoColumnStyles = css`
-    padding-top: ${space[3]}px;
 `;
 
 const AusBanner: React.FC<BannerRenderProps> = ({
@@ -180,49 +129,7 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     onSecondaryCtaClick,
     onCloseClick,
 }) => {
-    // const Logo = () => (
-    //     <div css={logoContainerStyles}>
-    //         <G200BannerLogo />
-    //     </div>
-    // );
-
-    // const LogoAndCloseButton = () => (
-    //     <>
-    //         <div css={logoContainerStyles}>
-    //             <Hide above="tablet">
-    //                 <G200BannerLogo />
-    //             </Hide>
-    //         </div>
-
-    //         <div css={closeButtonContainerStyles}>
-    //             <Hide above="tablet">
-    //                 <G200BannerCloseButton onClose={onCloseClick} />
-    //             </Hide>
-    //         </div>
-    //     </>
-    // );
-
-    // const HeaderAndImage = () => (
-    //     <div css={topContainerStyles}>
-    //         <div css={imageContainerStyles}>
-    //             <G200BannerImage />
-    //         </div>
-
-    //         <div css={logoAndHeaderContainerStyles}>
-    //             <div css={logoContainerStyles}>
-    //                 <Hide below="tablet">
-    //                     <Hide above="leftCol">
-    //                         <G200BannerLogo />
-    //                     </Hide>
-    //                 </Hide>
-    //             </div>
-
-    //             <G200BannerHeader />
-    //         </div>
-    //     </div>
-    // );
-
-    const BodyAndCtas = () => (
+    const Body = () => (
         <Stack css={bottomContainerStyles} space={5}>
             <div css={bodyAndCloseButtonContainerStyles}>
                 <AusBannerBody content={content} />
@@ -230,14 +137,6 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                     <AusBannerCloseButton onClose={onCloseClick} />
                 </div>
             </div>
-
-            {/* <div css={ctasContainerStyles}>
-                <AusBannerCtas
-                    content={content}
-                    onPrimaryCtaClick={onCtaClick}
-                    onSecondaryCtaClick={onSecondaryCtaClick}
-                />
-            </div> */}
         </Stack>
     );
 
@@ -256,15 +155,16 @@ const AusBanner: React.FC<BannerRenderProps> = ({
             <Hide above="tablet">
                 {/* <LogoAndCloseButton />
                 <HeaderAndImage /> */}
-                <BodyAndCtas />
+                <Body />
+                <Ctas />
             </Hide>
 
             <Container>
                 <Hide below="tablet">
-                    <Hide above="leftCol">
+                    <Hide above="desktop">
                         <Columns>
                             <Column width={8 / 12}>
-                                <BodyAndCtas />
+                                <Body />
                             </Column>
                             <Column width={4 / 12}>
                                 <Ctas />
@@ -273,33 +173,13 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                     </Hide>
                 </Hide>
 
-                <Hide below="leftCol">
-                    <Hide above="wide">
-                        <Columns>
-                            <Column cssOverrides={logoColumnStyles} width={2 / 14}>
-                                {/* <Logo /> */}
-                            </Column>
-
-                            <Column width={6 / 14}>{/* <HeaderAndImage /> */}</Column>
-
-                            <Column width={6 / 14}>
-                                <BodyAndCtas />
-                            </Column>
-                        </Columns>
-                    </Hide>
-                </Hide>
-
-                <Hide below="wide">
+                <Hide below="desktop">
+                    <Column width={10 / 14}>
+                        <Body />
+                        <Ctas />
+                    </Column>
                     <Columns>
-                        <Column cssOverrides={logoColumnStyles} width={3 / 16}>
-                            {/* <Logo /> */}
-                        </Column>
-
-                        <Column width={6 / 16}>{/* <HeaderAndImage /> */}</Column>
-
-                        <Column width={7 / 16}>
-                            <BodyAndCtas />
-                        </Column>
+                        <Column width={4 / 14}>{/* <HeaderAndImage /> */}</Column>
                     </Columns>
                 </Hide>
             </Container>
