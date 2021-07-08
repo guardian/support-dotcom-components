@@ -231,14 +231,24 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                 </div>
             </div>
 
-            <div css={ctasContainerStyles}>
+            {/* <div css={ctasContainerStyles}>
                 <AusBannerCtas
                     content={content}
                     onPrimaryCtaClick={onCtaClick}
                     onSecondaryCtaClick={onSecondaryCtaClick}
                 />
-            </div>
+            </div> */}
         </Stack>
+    );
+
+    const Ctas = () => (
+        <div css={ctasContainerStyles}>
+            <AusBannerCtas
+                content={content}
+                onPrimaryCtaClick={onCtaClick}
+                onSecondaryCtaClick={onSecondaryCtaClick}
+            />
+        </div>
     );
 
     return (
@@ -256,7 +266,9 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                             <Column width={8 / 12}>
                                 <BodyAndCtas />
                             </Column>
-                            <Column width={4 / 12}>{/* <HeaderAndImage /> */}</Column>
+                            <Column width={4 / 12}>
+                                <Ctas />
+                            </Column>
                         </Columns>
                     </Hide>
                 </Hide>

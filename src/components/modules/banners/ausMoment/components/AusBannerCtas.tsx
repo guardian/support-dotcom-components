@@ -116,7 +116,7 @@ const AusBannerCtas: React.FC<AusBannerCtasProps> = ({
             </div>
             <ThemeProvider theme={buttonBrand}>
                 {content.mainContent.secondaryCta && (
-                    <Hide below="tablet">
+                    <Hide below="desktop">
                         <ThemeProvider theme={linkBrand}>
                             <Link
                                 onClick={onSecondaryCtaClick}
