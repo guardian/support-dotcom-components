@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
-import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
-import { SecondaryCtaType } from '../../../types/shared';
+import { EpicVariant } from '../../../types/EpicTypes';
+import { SecondaryCtaType, Tracking } from '../../../types/shared';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
 import { OphanComponentEvent } from '../../../types/OphanTypes';
 import {
@@ -43,7 +43,7 @@ const PrimaryCtaButton = ({
     countryCode,
 }: {
     cta?: Cta;
-    tracking: EpicTracking;
+    tracking: Tracking;
     countryCode?: string;
 }): JSX.Element | null => {
     if (!cta) {
@@ -73,7 +73,7 @@ const SecondaryCtaButton = ({
     countryCode,
 }: {
     cta: Cta;
-    tracking: EpicTracking;
+    tracking: Tracking;
     countryCode?: string;
 }): JSX.Element | null => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode);
@@ -89,7 +89,7 @@ const SecondaryCtaButton = ({
 
 interface ContributionsEpicButtonsProps {
     variant: EpicVariant;
-    tracking: EpicTracking;
+    tracking: Tracking;
     countryCode?: string;
     onOpenReminderClick: () => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;

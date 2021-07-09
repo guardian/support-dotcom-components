@@ -2,7 +2,8 @@ import React, { ReactElement } from 'react';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBanner';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerContent, BannerProps, BannerTracking } from '../../../../types/BannerTypes';
+import { BannerContent, BannerProps } from '../../../../types/BannerTypes';
+import { Tracking } from '../../../../types/shared';
 
 export default {
     component: GuardianWeeklyBanner,
@@ -14,7 +15,7 @@ export default {
     ],
 };
 
-const tracking: BannerTracking = {
+const tracking: Tracking = {
     ophanPageId: 'kbluzw2csbf83eabettt',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',

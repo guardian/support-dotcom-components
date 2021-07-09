@@ -1,4 +1,10 @@
 import * as z from 'zod';
+import {
+    OphanComponentType,
+    ophanComponentTypeSchema,
+    OphanProduct,
+    ophanProductSchema,
+} from './OphanTypes';
 
 export interface Variant {
     name: string;
@@ -131,3 +137,35 @@ export interface ControlProportionSettings {
 }
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
+
+export type TestTracking = {
+    abTestName: string;
+    abTestVariant: string;
+    campaignCode: string;
+    campaignId?: string;
+    componentType: OphanComponentType;
+    products?: OphanProduct[];
+    labels?: string[];
+};
+
+export type PageTracking = {
+    ophanPageId: string;
+    platformId: string;
+    referrerUrl: string;
+    clientName: string;
+};
+
+export type Tracking = TestTracking & PageTracking;
+
+export const trackingSchema = z.object({
+    abTestName: z.string(),
+    abTestVariant: z.string(),
+    campaignCode: z.string(),
+    componentType: ophanComponentTypeSchema,
+    products: z.array(ophanProductSchema).optional(),
+    labels: z.array(z.string()).optional(),
+    ophanPageId: z.string(),
+    platformId: z.string(),
+    referrerUrl: z.string(),
+    clientName: z.string(),
+});

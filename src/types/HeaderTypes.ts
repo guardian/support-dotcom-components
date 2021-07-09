@@ -1,5 +1,5 @@
-import { OphanComponentEvent, OphanComponentType } from './OphanTypes';
-import { UserCohort, Test, Variant } from './shared';
+import { OphanComponentEvent } from './OphanTypes';
+import { UserCohort, Test, Variant, Tracking } from './shared';
 
 export interface Cta {
     url: string;
@@ -27,7 +27,7 @@ export interface HeaderTest extends Test<HeaderVariant> {
 
 export interface HeaderProps {
     content: HeaderContent;
-    tracking: HeaderTracking;
+    tracking: Tracking;
     countryCode?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
@@ -38,22 +38,6 @@ export interface HeaderTestSelection {
     modulePathBuilder: (version?: string) => string;
     moduleName: string;
 }
-
-export interface HeaderPageTracking {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-}
-export interface HeaderTestTracking {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
-    componentType: OphanComponentType;
-    labels?: string[];
-}
-
-export type HeaderTracking = HeaderPageTracking & HeaderTestTracking;
 
 export interface HeaderTargeting {
     showSupportMessaging: boolean;

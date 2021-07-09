@@ -1,5 +1,4 @@
 import {
-    BannerPageTracking,
     BannerTargeting,
     BannerTestSelection,
     BannerChannel,
@@ -11,7 +10,7 @@ import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
-import { UserCohort } from '../../types/shared';
+import { PageTracking, UserCohort } from '../../types/shared';
 import { selectVariant } from '../../lib/ab';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
@@ -102,7 +101,7 @@ const getForcedVariant = (
 
 export const selectBannerTest = async (
     targeting: BannerTargeting,
-    pageTracking: BannerPageTracking,
+    pageTracking: PageTracking,
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,

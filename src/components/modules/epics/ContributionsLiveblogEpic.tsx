@@ -10,9 +10,10 @@ import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
 } from '../../../lib/placeholders';
-import { EpicTracking, EpicVariant } from '../../../types/EpicTypes';
+import { EpicVariant } from '../../../types/EpicTypes';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
+import { Tracking } from '../../../types/shared';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
@@ -146,7 +147,7 @@ interface LiveblogEpicCtaProps {
     text?: string;
     baseUrl?: string;
     countryCode?: string;
-    tracking: EpicTracking;
+    tracking: Tracking;
 }
 
 const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
@@ -176,7 +177,7 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
 
 interface LiveblogEpicProps {
     variant: EpicVariant;
-    tracking: EpicTracking;
+    tracking: Tracking;
     countryCode?: string;
     numArticles: number;
 }

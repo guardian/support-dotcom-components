@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ContributionsEpic } from './ContributionsEpic';
+import { ContributionsEpicUnvalidated as ContributionsEpic } from './ContributionsEpic';
 import { TickerCountType, TickerEndType } from '../../../types/shared';
 import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';

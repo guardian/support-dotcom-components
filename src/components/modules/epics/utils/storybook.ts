@@ -1,10 +1,5 @@
-import {
-    EpicTestTracking,
-    EpicPageTracking,
-    EpicTracking,
-    EpicVariant,
-} from '../../../../types/EpicTypes';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { EpicVariant } from '../../../../types/EpicTypes';
+import { PageTracking, SecondaryCtaType, TestTracking, Tracking } from '../../../../types/shared';
 import { EpicProps } from '../../../../types/EpicTypes';
 
 const variant: EpicVariant = {
@@ -32,7 +27,7 @@ const variant: EpicVariant = {
     },
 };
 
-const pageTracking: EpicPageTracking = {
+const pageTracking: PageTracking = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
     platformId: 'GUARDIAN_WEB',
     clientName: 'dcr',
@@ -40,7 +35,7 @@ const pageTracking: EpicPageTracking = {
         'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
 };
 
-const testTracking: EpicTestTracking = {
+const testTracking: TestTracking = {
     campaignCode: 'gdnwb_copts_memco_remote_epic_test_api',
     campaignId: 'remote_epic_test',
     abTestName: 'remote_epic_test',
@@ -49,7 +44,7 @@ const testTracking: EpicTestTracking = {
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };
 
-const tracking: EpicTracking = {
+const tracking: Tracking = {
     ...pageTracking,
     ...testTracking,
 };
