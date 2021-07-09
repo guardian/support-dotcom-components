@@ -39,9 +39,7 @@ export default {
     excludeStories: /.*Decorator$/,
 } as Meta;
 
-const Template: Story<EpicProps> = (props: EpicProps) => (
-    <ContributionsEpic {...props} />
-);
+const Template: Story<EpicProps> = (props: EpicProps) => <ContributionsEpic {...props} />;
 
 export const Default = Template.bind({});
 
