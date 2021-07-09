@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ContributionsEpicUnvalidated } from './ContributionsEpic';
+import { ContributionsEpicUnvalidated as ContributionsEpic } from './ContributionsEpic';
 import { TickerCountType, TickerEndType } from '../../../types/shared';
 import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';
@@ -32,7 +32,7 @@ export const EpicDecorator = (Story: Story): JSX.Element => (
 );
 
 export default {
-    component: ContributionsEpicUnvalidated,
+    component: ContributionsEpic,
     title: 'Epics/Contributions',
     args: props,
     decorators: [EpicDecorator],
@@ -40,7 +40,7 @@ export default {
 } as Meta;
 
 const Template: Story<EpicProps> = (props: EpicProps) => (
-    <ContributionsEpicUnvalidated {...props} />
+    <ContributionsEpic {...props} />
 );
 
 export const Default = Template.bind({});
