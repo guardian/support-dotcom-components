@@ -10,7 +10,6 @@ type LinkParams = {
     acquisitionData: string;
 };
 
-// TODO: Unify Epic and Banner tracking?
 export const addTrackingParams = (baseUrl: string, params: Tracking): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
