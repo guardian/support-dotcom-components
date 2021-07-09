@@ -268,7 +268,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAboveWithOptOut
-                        numArticles={articleCounts.total}
+                        numArticles={articleCounts.for52Weeks}
                         isArticleCountOn={!hasOptedOut}
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}

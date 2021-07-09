@@ -66,12 +66,12 @@ export type EpicPayload = {
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
 export interface ArticleCounts {
-    total: number; // The user's total article view count, which currently goes back as far as 52 weeks
+    for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
     forTargetedWeeks: number; // The user's article view count for the configured periodInWeeks
 }
 
 const articleCountsSchema = z.object({
-    total: z.number(),
+    for52Weeks: z.number(),
     forTargetedWeeks: z.number(),
 });
 

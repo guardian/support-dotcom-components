@@ -28,7 +28,7 @@ const variant: EpicVariant = {
 };
 
 const articleCounts: ArticleCounts = {
-    total: 99,
+    for52Weeks: 99,
     forTargetedWeeks: 99,
 };
 

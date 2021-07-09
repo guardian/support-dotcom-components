@@ -32,11 +32,12 @@ export const getArticleViewCounts = (
     history: WeeklyArticleHistory = [],
     weeks: number = 52,
 ): ArticleCounts => {
-    const total = getArticleViewCountForWeeks(history, 52);
-    const forTargetedWeeks = weeks === 52 ? total : getArticleViewCountForWeeks(history, weeks);
+    const for52Weeks = getArticleViewCountForWeeks(history, 52);
+    const forTargetedWeeks =
+        weeks === 52 ? for52Weeks : getArticleViewCountForWeeks(history, weeks);
 
     return {
-        total,
+        for52Weeks,
         forTargetedWeeks,
     };
 };

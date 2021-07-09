@@ -113,7 +113,7 @@ WithAboveArticleCount.args = {
         },
     },
     articleCounts: {
-        total: 99,
+        for52Weeks: 99,
         forTargetedWeeks: 99,
     },
     hasConsentForArticleCount: true,
@@ -128,7 +128,7 @@ WithAboveArticleCountNoConsent.args = {
         },
     },
     articleCounts: {
-        total: 99,
+        for52Weeks: 99,
         forTargetedWeeks: 99,
     },
     hasConsentForArticleCount: false,
