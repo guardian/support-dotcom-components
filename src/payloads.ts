@@ -3,7 +3,7 @@ import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import { EpicProps, EpicTargeting, EpicTest, EpicType, EpicVariant } from './types/EpicTypes';
 import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
-import {getArticleViewCountForWeeks, getArticleViewCounts} from './lib/history';
+import { getArticleViewCountForWeeks, getArticleViewCounts } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
