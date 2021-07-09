@@ -3,7 +3,7 @@ import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
 import { EpicProps, EpicTargeting, EpicTest, EpicType, EpicVariant } from './types/EpicTypes';
 import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
-import { getArticleViewCountForWeeks } from './lib/history';
+import {getArticleViewCountForWeeks, getArticleViewCounts} from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
 import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
@@ -176,20 +176,13 @@ export const buildEpicData = async (
         labels: !!test.isSuperMode ? ['SUPER_MODE'] : undefined,
     };
 
-    console.log('EPIC')
     const props: EpicProps = {
         variant: variantWithTickerAndReminder,
         tracking: { ...pageTracking, ...testTracking },
-        articleCounts: {
-            total: getArticleViewCountForWeeks(
-                targeting.weeklyArticleHistory,
-                52,
-            ),
-            forTargetedWeeks: getArticleViewCountForWeeks(
-                targeting.weeklyArticleHistory,
-                test.articlesViewedSettings?.periodInWeeks,
-            ),
-        },
+        articleCounts: getArticleViewCounts(
+            targeting.weeklyArticleHistory,
+            test.articlesViewedSettings?.periodInWeeks,
+        ),
         countryCode: targeting.countryCode,
     };
 

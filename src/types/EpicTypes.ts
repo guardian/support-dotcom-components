@@ -65,7 +65,7 @@ export type EpicPayload = {
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
-interface ArticleCounts {
+export interface ArticleCounts {
     total: number; // The user's total article view count, which currently goes back as far as 52 weeks
     forTargetedWeeks: number; // The user's article view count for the configured periodInWeeks
 }
@@ -144,8 +144,7 @@ export type EpicProps = {
     variant: EpicVariant;
     tracking: Tracking;
     countryCode?: string;
-    numArticles: number;
-    articleCounts?: ArticleCounts;
+    articleCounts: ArticleCounts;
     // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
     email?: string;
@@ -159,8 +158,7 @@ export const epicPropsSchema = z.object({
     variant: variantSchema,
     tracking: trackingSchema,
     countryCode: z.string().optional(),
-    numArticles: z.number(),
-    articleCounts: articleCountsSchema.optional(),
+    articleCounts: articleCountsSchema,
     onReminderOpen: z.any().optional(),
     email: z.string().optional(),
     submitComponentEvent: z.any().optional(),
