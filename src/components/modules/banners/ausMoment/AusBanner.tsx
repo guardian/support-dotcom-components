@@ -8,6 +8,8 @@ import AusBannerBody from './components/AusBannerBody';
 import AusBannerCtas from './components/AusBannerCtas';
 import AusBannerCloseButton from './components/AusBannerCloseButton';
 import AusBannerTicker from './components/AusBannerTicker';
+import AusBannerAnimation from './components/AusBannerAnimation';
+import SoundWaves from './components/SoundWaves';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { tickerSettings } from '../utils/storybook';
@@ -139,13 +141,14 @@ const AusBanner: React.FC<BannerRenderProps> = ({
 
                 <Hide below="desktop">
                     <Columns>
-                        <Column width={10 / 14}>
+                        <Column width={9 / 14}>
                             <Header />
                             <Body />
                             <Ctas />
                         </Column>
-                        <Column width={4 / 14}>
+                        <Column width={5 / 14}>
                             <CloseButton />
+                            <SoundWaves />
                         </Column>
                     </Columns>
                 </Hide>

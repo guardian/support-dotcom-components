@@ -29,6 +29,10 @@ const headingStyles = css`
         max-width: 100%;
     }
 
+    ${from.desktop} {
+        margin-bottom: ${space[3]}px;
+    }
+
     ${from.leftCol} {
         ${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
     }

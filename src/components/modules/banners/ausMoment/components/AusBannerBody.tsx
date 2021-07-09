@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { body, headline } from '@guardian/src-foundations/typography';
+import { body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
 import { space } from '@guardian/src-foundations';
@@ -10,14 +10,12 @@ import { BannerTextContent } from '../../common/types';
 const containerStyles = css`
     ${body.small({ fontWeight: 'bold' })}
     color: ${neutral[100]};
-`;
 
-const desktopContainerStyles = css`
-    > * + * {
-        margin-top: ${space[2]}px;
+    ${from.desktop} {
+        ${body.small()}
+        margin-bottom: ${space[3]}px;
     }
 `;
-
 interface AusBannerBodyProps {
     content: BannerTextContent;
 }
@@ -29,9 +27,7 @@ const AusBannerBody: React.FC<AusBannerBodyProps> = ({ content }: AusBannerBodyP
                 {content.mobileContent?.messageText ?? content.mainContent.messageText}
             </Hide>
             <Hide below="tablet">
-                <div css={desktopContainerStyles}>
-                    <div>{content.mainContent.messageText}</div>
-                </div>
+                <div>{content.mainContent.messageText}</div>
             </Hide>
         </div>
     );
