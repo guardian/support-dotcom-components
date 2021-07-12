@@ -103,6 +103,10 @@ const currentSupportersContainerStyles = css`
     z-index: 100;
     left: 22%;
     bottom: 25%;
+
+    ${from.wide} {
+        left: 30%;
+    }
 `;
 
 const goalContainerStyles = css`
