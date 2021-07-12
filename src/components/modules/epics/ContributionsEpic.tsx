@@ -219,7 +219,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
-    numArticles,
+    articleCounts,
     onReminderOpen,
     email,
     submitComponentEvent,
@@ -268,7 +268,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAboveWithOptOut
-                        numArticles={numArticles}
+                        numArticles={articleCounts.for52Weeks}
                         isArticleCountOn={!hasOptedOut}
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}
@@ -299,7 +299,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {cleanHeading && (
                 <EpicHeader
                     text={cleanHeading}
-                    numArticles={numArticles}
+                    numArticles={articleCounts.forTargetedWeeks}
                     tracking={ophanTracking}
                 />
             )}
@@ -308,7 +308,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 paragraphs={cleanParagraphs}
                 highlightedText={cleanHighlighted}
                 countryCode={countryCode}
-                numArticles={numArticles}
+                numArticles={articleCounts.forTargetedWeeks}
                 tracking={ophanTracking}
             />
 

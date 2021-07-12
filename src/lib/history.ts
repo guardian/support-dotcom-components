@@ -1,4 +1,5 @@
 import { ArticlesViewedSettings, WeeklyArticleHistory, WeeklyArticleLog } from '../types/shared';
+import { ArticleCounts } from '../types/EpicTypes';
 
 export const getMondayFromDate = (date: Date): number => {
     const day = date.getDay() || 7;
@@ -25,6 +26,20 @@ export const getArticleViewCountForWeeks = (
         (accumulator: number, currentValue: WeeklyArticleLog) => currentValue.count + accumulator,
         0,
     );
+};
+
+export const getArticleViewCounts = (
+    history: WeeklyArticleHistory = [],
+    weeks: number = 52,
+): ArticleCounts => {
+    const for52Weeks = getArticleViewCountForWeeks(history, 52);
+    const forTargetedWeeks =
+        weeks === 52 ? for52Weeks : getArticleViewCountForWeeks(history, weeks);
+
+    return {
+        for52Weeks,
+        forTargetedWeeks,
+    };
 };
 
 export const historyWithinArticlesViewedSettings = (

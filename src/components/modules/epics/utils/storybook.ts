@@ -1,4 +1,4 @@
-import { EpicVariant } from '../../../../types/EpicTypes';
+import { ArticleCounts, EpicVariant } from '../../../../types/EpicTypes';
 import { PageTracking, SecondaryCtaType, TestTracking, Tracking } from '../../../../types/shared';
 import { EpicProps } from '../../../../types/EpicTypes';
 
@@ -27,6 +27,11 @@ const variant: EpicVariant = {
     },
 };
 
+const articleCounts: ArticleCounts = {
+    for52Weeks: 99,
+    forTargetedWeeks: 99,
+};
+
 const pageTracking: PageTracking = {
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
     platformId: 'GUARDIAN_WEB',
@@ -51,4 +56,4 @@ const tracking: Tracking = {
 
 const openCmp = (): void => console.log('open cmp');
 
-export const props: EpicProps = { variant, tracking, numArticles: 0, openCmp };
+export const props: EpicProps = { variant, tracking, openCmp, articleCounts };
