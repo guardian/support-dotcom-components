@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { css } from '@emotion/core';
 
 const NUM_ANIMATION_STAGES = 6;
 const ANIMATION_STAGE_DURATION_MS = 1000;
+
+const svgCss = css`
+    height: 100%;
+`;
 
 const SoundWaves: React.FC = () => {
     const [animationStage, setAnimationStage] = useState(0);
@@ -18,7 +23,7 @@ const SoundWaves: React.FC = () => {
 
     return (
         <>
-            <svg viewBox="0 100 800 500" xmlns="http://www.w3.org/2000/svg">
+            <svg css={svgCss} viewBox="0 75 800 500" xmlns="http://www.w3.org/2000/svg">
                 <g fill={fill(animationStage >= 1)}>
                     <path
                         fillRule="evenodd"

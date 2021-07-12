@@ -34,6 +34,7 @@ const containerStyles = css`
     ${from.desktop} {
         padding-right: 0;
         margin: 0;
+        min-height: 350px;
     }
 
     * {
@@ -104,6 +105,12 @@ const goalContainerStyles = css`
     z-index: 100;
     right: 50px;
     top: 50px;
+`;
+
+const animationWrapper = css`
+    position: absolute;
+    top: 0;
+    bottom: 0;
 `;
 
 const AusBanner: React.FC<BannerRenderProps> = ({
@@ -192,10 +199,12 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                         </Column>
                         <Column width={7 / 14} css={rightContainerStyles}>
                             <CloseButton />
-                            <CurrentSupporters />
-                            <Goal />
+                            <div css={animationWrapper}>
+                                <CurrentSupporters />
+                                <Goal />
 
-                            <AusBannerAnimation />
+                                <AusBannerAnimation />
+                            </div>
                         </Column>
                     </Columns>
                 </Hide>
