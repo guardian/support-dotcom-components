@@ -9,6 +9,8 @@ import { css, SerializedStyles } from '@emotion/core';
 import useTicker from '../../../../../hooks/useTicker';
 import useNumberOfSupporters from '../../../../../hooks/useNumberOfSupporters';
 
+//-- styles --//
+
 const rootStyles = css`
     position: relative;
     height: 65px;
@@ -102,10 +104,39 @@ const goalMarkerStyles = (transform: string): SerializedStyles => css`
     transform: ${transform};
 `;
 
+// -- types -- //
+
 type MarkerProps = {
     goal: number;
     end: number;
 };
+
+type AusBannerTickerProps = {
+    settings: TickerSettings;
+    accentColour: string;
+};
+
+const numberStyles = css`
+    ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })};
+    color: #04ffff;
+    font-size: 36px;
+    background-color: 'black';
+    text-align: center;
+`;
+const textStyles = css`
+    color: #ffffff;
+    ${body.medium({ fontStyle: 'italic' })}
+    margin-top: -${space[1]}px;
+    text-align: center;
+`;
+
+const currentNumberContainerStyles = css`
+    background-color: #052962;
+    border-radius: 27px;
+    padding: 5px 15px;
+`;
+
+// -- components -- //
 
 const goal = 170000;
 
@@ -119,28 +150,6 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
         return null;
     }
 };
-
-type AusBannerTickerProps = {
-    settings: TickerSettings;
-    accentColour: string;
-};
-
-const numberStyles = css`
-    color: #04ffff;
-    font-size: 36px;
-    font-weight: 700;
-    background-color: 'black';
-`;
-const textStyles = css`
-    color: #ffffff;
-    ${body.small({ fontStyle: 'italic' })}
-`;
-
-const currentNumberContainerStyles = css`
-    background-color: #052962;
-    border-radius: 27px;
-    padding: 5px 15px;
-`;
 
 export const CurrentSupporterNumber: React.FC = () => {
     const currentSupporters = useNumberOfSupporters().toLocaleString('en-US');

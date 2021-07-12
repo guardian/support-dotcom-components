@@ -23,10 +23,10 @@ interface AusBannerBodyProps {
 const AusBannerBody: React.FC<AusBannerBodyProps> = ({ content }: AusBannerBodyProps) => {
     return (
         <div css={containerStyles}>
-            <Hide above="tablet">
+            <Hide above="desktop">
                 {content.mobileContent?.messageText ?? content.mainContent.messageText}
             </Hide>
-            <Hide below="tablet">
+            <Hide below="desktop">
                 <div>{content.mainContent.messageText}</div>
             </Hide>
         </div>

@@ -17,6 +17,7 @@ import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { tickerSettings } from '../utils/storybook';
 
+// -- styles -- //
 const containerStyles = css`
     position: relative;
     background: #052962;
@@ -87,24 +88,8 @@ const ctasContainerStyles = css`
     }
 `;
 
-const rightContainerStyles = css`
-    /* padding-right: 0; */
-`;
-
 const bodyContainerStyles = css`
     display: flex;
-`;
-
-const currentSupportersContainerStyles = css`
-    position: absolute;
-    z-index: 100;
-`;
-
-const goalContainerStyles = css`
-    position: absolute;
-    z-index: 100;
-    right: 50px;
-    top: 50px;
 `;
 
 const animationWrapper = css`
@@ -112,6 +97,26 @@ const animationWrapper = css`
     top: 0;
     bottom: 0;
 `;
+
+const currentSupportersContainerStyles = css`
+    position: absolute;
+    z-index: 100;
+    left: 22%;
+    bottom: 25%;
+`;
+
+const goalContainerStyles = css`
+    position: absolute;
+    z-index: 100;
+    left: 40%;
+    bottom: 55%;
+
+    ${from.leftCol} {
+        left: 50%;
+    }
+`;
+
+// -- components --//
 
 const AusBanner: React.FC<BannerRenderProps> = ({
     content,
@@ -192,12 +197,12 @@ const AusBanner: React.FC<BannerRenderProps> = ({
 
                 <Hide below="desktop">
                     <Columns>
-                        <Column width={7 / 14}>
+                        <Column width={8 / 14}>
                             <Header />
                             <Body />
                             <Ctas />
                         </Column>
-                        <Column width={7 / 14} css={rightContainerStyles}>
+                        <Column width={6 / 14}>
                             <CloseButton />
                             <div css={animationWrapper}>
                                 <CurrentSupporters />
