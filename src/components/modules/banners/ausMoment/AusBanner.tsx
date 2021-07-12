@@ -7,9 +7,12 @@ import AusBannerHeader from './components/AusBannerHeader';
 import AusBannerBody from './components/AusBannerBody';
 import AusBannerCtas from './components/AusBannerCtas';
 import AusBannerCloseButton from './components/AusBannerCloseButton';
-import AusBannerTicker from './components/AusBannerTicker';
+import {
+    AusBannerTicker,
+    CurrentSupporterNumber,
+    GoalSupporterNumber,
+} from './components/AusBannerTicker';
 import AusBannerAnimation from './components/AusBannerAnimation';
-import SoundWaves from './components/SoundWaves';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { tickerSettings } from '../utils/storybook';
@@ -28,9 +31,18 @@ const containerStyles = css`
         padding-bottom: ${space[4]}px;
     }
 
+    ${from.desktop} {
+        padding-right: 0;
+        margin: 0;
+    }
+
     * {
         box-sizing: border-box;
     }
+`;
+
+const desktopContainerStyles = css`
+    margin-right: 0;
 `;
 
 const closeButtonContainerStyles = css`
@@ -74,8 +86,24 @@ const ctasContainerStyles = css`
     }
 `;
 
+const rightContainerStyles = css`
+    /* padding-right: 0; */
+`;
+
 const bodyContainerStyles = css`
     display: flex;
+`;
+
+const currentSupportersContainerStyles = css`
+    position: absolute;
+    z-index: 100;
+`;
+
+const goalContainerStyles = css`
+    position: absolute;
+    z-index: 100;
+    right: 50px;
+    top: 50px;
 `;
 
 const AusBanner: React.FC<BannerRenderProps> = ({
@@ -112,6 +140,22 @@ const AusBanner: React.FC<BannerRenderProps> = ({
         return <AusBannerTicker settings={tickerSettings} accentColour={'#04FFFF'} />;
     };
 
+    const CurrentSupporters = () => {
+        return (
+            <div css={currentSupportersContainerStyles}>
+                <CurrentSupporterNumber />
+            </div>
+        );
+    };
+
+    const Goal = () => {
+        return (
+            <div css={goalContainerStyles}>
+                <GoalSupporterNumber />
+            </div>
+        );
+    };
+
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
@@ -122,7 +166,7 @@ const AusBanner: React.FC<BannerRenderProps> = ({
                 <Ctas />
             </Hide>
 
-            <Container>
+            <Container css={desktopContainerStyles}>
                 <Hide below="tablet">
                     <Hide above="desktop">
                         <Columns>
@@ -141,14 +185,17 @@ const AusBanner: React.FC<BannerRenderProps> = ({
 
                 <Hide below="desktop">
                     <Columns>
-                        <Column width={9 / 14}>
+                        <Column width={7 / 14}>
                             <Header />
                             <Body />
                             <Ctas />
                         </Column>
-                        <Column width={5 / 14}>
+                        <Column width={7 / 14} css={rightContainerStyles}>
                             <CloseButton />
-                            <SoundWaves />
+                            <CurrentSupporters />
+                            <Goal />
+
+                            <AusBannerAnimation />
                         </Column>
                     </Columns>
                 </Hide>

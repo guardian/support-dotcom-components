@@ -107,6 +107,8 @@ type MarkerProps = {
     end: number;
 };
 
+const goal = 170000;
+
 const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
     if (end > goal) {
         const markerTranslate = (goal / end) * 100 - 100;
@@ -123,7 +125,44 @@ type AusBannerTickerProps = {
     accentColour: string;
 };
 
-const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
+const numberStyles = css`
+    color: #04ffff;
+    font-size: 36px;
+    font-weight: 700;
+    background-color: 'black';
+`;
+const textStyles = css`
+    color: #ffffff;
+    ${body.small({ fontStyle: 'italic' })}
+`;
+
+const currentNumberContainerStyles = css`
+    background-color: #052962;
+    border-radius: 27px;
+    padding: 5px 15px;
+`;
+
+export const CurrentSupporterNumber: React.FC = () => {
+    const currentSupporters = useNumberOfSupporters().toLocaleString('en-US');
+    return (
+        <div css={currentNumberContainerStyles}>
+            <div css={numberStyles}>{currentSupporters}</div>
+            <div css={textStyles}>current supporters</div>
+        </div>
+    );
+};
+
+export const GoalSupporterNumber: React.FC = () => {
+    const ourGoal = goal.toLocaleString('en-US');
+    return (
+        <div css={currentNumberContainerStyles}>
+            <div css={numberStyles}>{ourGoal}</div>
+            <div css={textStyles}>Our goal</div>
+        </div>
+    );
+};
+
+export const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
     settings,
     accentColour,
 }: AusBannerTickerProps) => {
@@ -145,7 +184,7 @@ const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
     }, [hasBeenSeen]);
 
     const total = useNumberOfSupporters();
-    const goal = 170000;
+
     const isGoalReached = total >= goal;
     const runningTotal = useTicker(total, readyToAnimate);
 
@@ -178,5 +217,3 @@ const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
         </div>
     );
 };
-
-export default AusBannerTicker;
