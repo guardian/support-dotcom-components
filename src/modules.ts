@@ -65,6 +65,11 @@ export const ausMomentHeaderNonSupporter: ModuleInfo = getDefaultModuleInfo(
     'header/HeaderAusMomentNonSupporter',
 );
 
+export const ausMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'aus-moment-banner',
+    'banners/ausMoment/AusBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -77,4 +82,5 @@ export const moduleInfos: ModuleInfo[] = [
     headerSupportAgain,
     ausMomentHeaderSupporter,
     ausMomentHeaderNonSupporter,
+    ausMomentBanner,
 ];

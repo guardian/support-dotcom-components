@@ -9,7 +9,13 @@ import {
 } from '../../types/BannerTypes';
 import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
 import { isProd } from '../../lib/env';
-import { contributionsBanner, digiSubs, g200Banner, guardianWeekly } from '../../modules';
+import {
+    contributionsBanner,
+    digiSubs,
+    g200Banner,
+    guardianWeekly,
+    ausMomentBanner,
+} from '../../modules';
 import { fetchS3Data } from '../../utils/S3';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
@@ -22,6 +28,7 @@ export const BannerPaths: { [key in BannerTemplate]: (version?: string) => strin
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.G200Banner]: g200Banner.endpointPathBuilder,
+    [BannerTemplate.AusMomentBanner]: ausMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: { [key in BannerTemplate]: OphanComponentType } = {
@@ -29,6 +36,7 @@ export const BannerTemplateComponentTypes: { [key in BannerTemplate]: OphanCompo
     [BannerTemplate.DigitalSubscriptionsBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     [BannerTemplate.GuardianWeeklyBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     [BannerTemplate.G200Banner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    [BannerTemplate.AusMomentBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 export const BannerTemplateProducts: { [key in BannerTemplate]?: OphanProduct[] } = {
