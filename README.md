@@ -21,7 +21,19 @@ You may want to run in conjunction with DCR, or you can use storybook if you jus
 `NODE_OPTIONS="--max-old-space-size=80000" AWS_PROFILE=membership PORT=8082 yarn dev`
 
 Then you can access it on
-http://localhost:8080
+[http://localhost:8082](http://localhost:8082)
+
+Also we need to point our local DCR instance at the local SDC instance. I'd normally do that by updating this line here:  https://github.com/guardian/dotcom-rendering/blob/main/src/web/components/SlotBodyEnd/ReaderRevenueEpic.tsx#L178
+
+to something like
+
+```ts
+const response = await getBodyEnd(
+		contributionsPayload,
+		`http://localhost:8082/epic${queryString}`,
+	);
+```
+
 
 If you want to run it on a different port, use
 
