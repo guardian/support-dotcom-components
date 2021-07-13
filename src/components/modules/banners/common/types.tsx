@@ -1,5 +1,5 @@
 import { ReminderFields } from '../../../../lib/reminderFields';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType, TickerSettings } from '../../../../types/shared';
 
 export type BannerId =
     | 'contributions-banner'
@@ -54,4 +54,5 @@ export interface BannerRenderProps {
     content: BannerTextContent;
     countryCode?: string;
     email?: string;
+    tickerSettings?: TickerSettings;
 }

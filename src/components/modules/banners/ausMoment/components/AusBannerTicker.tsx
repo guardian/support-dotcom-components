@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHasBeenSeen, HasBeenSeen } from '../../../../../hooks/useHasBeenSeen';
-import { TickerSettings } from '../../../../../types/shared';
+import { TickerData, TickerSettings } from '../../../../../types/shared';
 import { headline, body } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/core';
 import useTicker from '../../../../../hooks/useTicker';
-import useNumberOfSupporters from '../../../../../hooks/useNumberOfSupporters';
 
 //-- styles --//
 
@@ -114,6 +113,7 @@ type MarkerProps = {
 type AusBannerTickerProps = {
     settings: TickerSettings;
     accentColour: string;
+    tickerData: TickerData;
 };
 
 const numberStyles = css`
@@ -138,8 +138,6 @@ const currentNumberContainerStyles = css`
 
 // -- components -- //
 
-const goal = 170000;
-
 const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
     if (end > goal) {
         const markerTranslate = (goal / end) * 100 - 100;
@@ -151,18 +149,23 @@ const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
     }
 };
 
-export const CurrentSupporterNumber: React.FC = () => {
-    const currentSupporters = useNumberOfSupporters().toLocaleString('en-US');
+interface CurrentSupporterNumberProps {
+    tickerData: TickerData;
+}
+
+export const CurrentSupporterNumber: React.FC<CurrentSupporterNumberProps> = ({
+    tickerData,
+}: CurrentSupporterNumberProps) => {
     return (
         <div css={currentNumberContainerStyles}>
-            <div css={numberStyles}>{currentSupporters}</div>
+            <div css={numberStyles}>{tickerData.total.toLocaleString('en-US')}</div>
             <div css={textStyles}>current supporters</div>
         </div>
     );
 };
 
-export const GoalSupporterNumber: React.FC = () => {
-    const ourGoal = goal.toLocaleString('en-US');
+export const GoalSupporterNumber: React.FC<{ goal: number }> = goal => {
+    const ourGoal = goal.toLocaleString();
     return (
         <div css={currentNumberContainerStyles}>
             <div css={numberStyles}>{ourGoal}</div>
@@ -174,6 +177,7 @@ export const GoalSupporterNumber: React.FC = () => {
 export const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
     settings,
     accentColour,
+    tickerData,
 }: AusBannerTickerProps) => {
     const [readyToAnimate, setReadyToAnimate] = useState(false);
 
@@ -192,7 +196,7 @@ export const AusBannerTicker: React.FC<AusBannerTickerProps> = ({
         }
     }, [hasBeenSeen]);
 
-    const total = useNumberOfSupporters();
+    const { total, goal } = tickerData;
 
     const isGoalReached = total >= goal;
     const runningTotal = useTicker(total, readyToAnimate);

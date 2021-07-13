@@ -90,7 +90,7 @@ const linkStyles = css`
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, primaryCta } = props.content;
 
-    const numberOfSupporters = useNumberOfSupporters().toLocaleString('en-US');
+    const numberOfSupporters = useNumberOfSupporters();
 
     return (
         <div>

@@ -15,8 +15,6 @@ import {
 import AusBannerAnimation from './components/AusBannerAnimation';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { tickerSettings } from '../utils/storybook';
-import { TickerSettings } from '../../../../types/shared';
 import { brand } from '@guardian/src-foundations';
 
 // -- styles -- //
@@ -129,7 +127,14 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     onCtaClick,
     onSecondaryCtaClick,
     onCloseClick,
+    tickerSettings,
 }) => {
+    const tickerData = tickerSettings?.tickerData;
+
+    if (!tickerSettings || !tickerData) {
+        return null;
+    }
+
     const Header = () => <AusBannerHeader content={content} />;
 
     const Body = () => (
@@ -155,21 +160,19 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     );
 
     const Ticker = () => {
-        const tickerSettingsWithCopy: TickerSettings = {
-            ...tickerSettings,
-            copy: {
-                countLabel: 'supporters in Australia',
-                goalReachedPrimary: "We've hit our goal!",
-                goalReachedSecondary: 'but you can still support us',
-            },
-        };
-        return <AusBannerTicker settings={tickerSettingsWithCopy} accentColour={'#04FFFF'} />;
+        return (
+            <AusBannerTicker
+                settings={tickerSettings}
+                accentColour={'#04FFFF'}
+                tickerData={tickerData}
+            />
+        );
     };
 
     const CurrentSupporters = () => {
         return (
             <div css={currentSupportersContainerStyles}>
-                <CurrentSupporterNumber />
+                <CurrentSupporterNumber tickerData={tickerData} />
             </div>
         );
     };
@@ -177,7 +180,7 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     const Goal = () => {
         return (
             <div css={goalContainerStyles}>
-                <GoalSupporterNumber />
+                <GoalSupporterNumber goal={tickerData.goal} />
             </div>
         );
     };
