@@ -4,9 +4,11 @@ import { ThemeProvider } from '@emotion/react';
 import { Button, buttonBrand } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { neutral } from '@guardian/src-foundations/palette';
+import { brand } from '@guardian/src-foundations';
 
 const closeButtonStyles = css`
     position: absolute;
+    background-color: ${brand[400]};
     right: 0;
     &:hover {
         background-color: ${neutral[0]};

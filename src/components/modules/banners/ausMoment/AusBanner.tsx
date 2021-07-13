@@ -16,11 +16,13 @@ import AusBannerAnimation from './components/AusBannerAnimation';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { tickerSettings } from '../utils/storybook';
+import { TickerSettings } from '../../../../types/shared';
+import { brand } from '@guardian/src-foundations';
 
 // -- styles -- //
 const containerStyles = css`
     position: relative;
-    background: #052962;
+    background: ${brand[400]};
     display: flex;
     flex-direction: column;
     border-top: 1px solid white;
@@ -153,7 +155,15 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     );
 
     const Ticker = () => {
-        return <AusBannerTicker settings={tickerSettings} accentColour={'#04FFFF'} />;
+        const tickerSettingsWithCopy: TickerSettings = {
+            ...tickerSettings,
+            copy: {
+                countLabel: 'supporters in Australia',
+                goalReachedPrimary: "We've hit our goal!",
+                goalReachedSecondary: 'but you can still support us',
+            },
+        };
+        return <AusBannerTicker settings={tickerSettingsWithCopy} accentColour={'#04FFFF'} />;
     };
 
     const CurrentSupporters = () => {
