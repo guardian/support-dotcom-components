@@ -6,7 +6,7 @@ import { TickerCountType, TickerData } from '../types/shared';
 const AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME = 'gu_aus_moment_supporter_count';
 
 const useNumberOfSupporters = (): number => {
-    const [numberOfSupporters, setNumberOfSupporters] = useState<number>('');
+    const [numberOfSupporters, setNumberOfSupporters] = useState<number>(0);
 
     useEffect(() => {
         const cookieValue = getCookie(AUS_MOMENT_SUPPORTER_COUNT_COOKIE_NAME);
