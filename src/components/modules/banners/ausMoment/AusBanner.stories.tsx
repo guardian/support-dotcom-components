@@ -3,7 +3,22 @@ import { Story, Meta } from '@storybook/react';
 import { props } from '../utils/storybook';
 import { BannerProps } from '../../../../types/BannerTypes';
 import { AusBanner } from './AusBanner';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType, TickerCountType, TickerEndType } from '../../../../types/shared';
+
+const tickerSettings = {
+    countType: TickerCountType.people,
+    endType: TickerEndType.unlimited,
+    currencySymbol: '$',
+    copy: {
+        countLabel: 'supporters in Australia',
+        goalReachedPrimary: "We've hit our goal!",
+        goalReachedSecondary: 'but you can still support us',
+    },
+    tickerData: {
+        total: 120_000,
+        goal: 150_000,
+    },
+};
 
 export default {
     component: AusBanner,
@@ -16,6 +31,7 @@ const Template: Story<BannerProps> = (props: BannerProps) => <AusBanner {...prop
 export const Default = Template.bind({});
 Default.args = {
     ...props,
+    tickerSettings,
     mobileContent: {
         heading: 'Together, we can be a voice for change',
         messageText:

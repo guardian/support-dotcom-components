@@ -164,7 +164,12 @@ export const CurrentSupporterNumber: React.FC<CurrentSupporterNumberProps> = ({
     );
 };
 
-export const GoalSupporterNumber: React.FC<{ goal: number }> = goal => {
+interface GoalSupporterNumber {
+    goal: number;
+}
+export const GoalSupporterNumber: React.FC<GoalSupporterNumber> = ({
+    goal,
+}: GoalSupporterNumber) => {
     const ourGoal = goal.toLocaleString();
     return (
         <div css={currentNumberContainerStyles}>
