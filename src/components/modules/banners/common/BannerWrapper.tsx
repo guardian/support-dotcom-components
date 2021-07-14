@@ -42,6 +42,7 @@ const withBannerData = (
         countryCode,
         email,
         numArticles = 0,
+        tickerSettings,
     } = bannerProps;
 
     const componentIds = getComponentIds(bannerId);
@@ -164,6 +165,7 @@ const withBannerData = (
                 },
                 countryCode,
                 email,
+                tickerSettings,
             };
             return <Banner {...props} />;
         }

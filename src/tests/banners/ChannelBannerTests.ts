@@ -9,8 +9,9 @@ import {
 } from '../../types/BannerTypes';
 import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
 import { isProd } from '../../lib/env';
-import { contributionsBanner, digiSubs, g200Banner, guardianWeekly } from '../../modules';
+import { contributionsBanner, digiSubs, guardianWeekly, ausMomentBanner } from '../../modules';
 import { fetchS3Data } from '../../utils/S3';
+import { TickerCountType, TickerEndType } from '../../types/shared';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
     contributions: 'banner-tests.json',
@@ -21,14 +22,14 @@ export const BannerPaths: { [key in BannerTemplate]: (version?: string) => strin
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
-    [BannerTemplate.G200Banner]: g200Banner.endpointPathBuilder,
+    [BannerTemplate.AusMomentBanner]: ausMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: { [key in BannerTemplate]: OphanComponentType } = {
     [BannerTemplate.ContributionsBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     [BannerTemplate.DigitalSubscriptionsBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     [BannerTemplate.GuardianWeeklyBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    [BannerTemplate.G200Banner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    [BannerTemplate.AusMomentBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 export const BannerTemplateProducts: { [key in BannerTemplate]?: OphanProduct[] } = {
@@ -52,6 +53,20 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
         }
     };
 
+    const tickerSettings =
+        variant.template === BannerTemplate.AusMomentBanner
+            ? {
+                  countType: TickerCountType.people,
+                  endType: TickerEndType.unlimited,
+                  currencySymbol: '$',
+                  copy: {
+                      countLabel: 'supporters in Australia',
+                      goalReachedPrimary: "We've hit our goal!",
+                      goalReachedSecondary: 'but you can still support us',
+                  },
+              }
+            : undefined;
+
     return {
         name: variant.name,
         modulePathBuilder: BannerPaths[variant.template],
@@ -60,6 +75,7 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
         mobileBannerContent: variant.mobileBannerContent,
         componentType: BannerTemplateComponentTypes[variant.template],
         products: BannerTemplateProducts[variant.template],
+        tickerSettings,
     };
 };
 
