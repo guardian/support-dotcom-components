@@ -122,7 +122,7 @@ const goalContainerStyles = css`
 
 // -- components --//
 
-const AusBanner: React.FC<BannerRenderProps> = ({
+const AusMomentBanner: React.FC<BannerRenderProps> = ({
     content,
     onCtaClick,
     onSecondaryCtaClick,
@@ -235,7 +235,6 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const unvalidated = bannerWrapper(AusBanner, 'aus-moment-banner', 'contributions');
-const validated = validatedBannerWrapper(AusBanner, 'aus-moment-banner', 'contributions');
+const validated = validatedBannerWrapper(AusMomentBanner, 'aus-moment-banner', 'contributions');
 
-export { validated as AusBanner, unvalidated as AusBannerUnvalidated };
+export { validated as AusMomentBanner };

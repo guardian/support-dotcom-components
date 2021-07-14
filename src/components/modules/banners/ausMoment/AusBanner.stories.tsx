@@ -2,7 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { props } from '../utils/storybook';
 import { BannerProps } from '../../../../types/BannerTypes';
-import { AusBanner } from './AusBanner';
+import { AusMomentBanner } from './AusBanner';
 import { SecondaryCtaType, TickerCountType, TickerEndType } from '../../../../types/shared';
 
 const tickerSettings = {
@@ -21,12 +21,12 @@ const tickerSettings = {
 };
 
 export default {
-    component: AusBanner,
+    component: AusMomentBanner,
     title: 'Banners/AusMoment',
     args: props,
 } as Meta;
 
-const Template: Story<BannerProps> = (props: BannerProps) => <AusBanner {...props} />;
+const Template: Story<BannerProps> = (props: BannerProps) => <AusMomentBanner {...props} />;
 
 export const Default = Template.bind({});
 Default.args = {
