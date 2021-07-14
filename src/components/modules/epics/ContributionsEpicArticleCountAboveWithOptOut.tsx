@@ -17,7 +17,7 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
-import {png1, png2, png3, png4, png5} from './utils/images';
+import { png1, png2, png3, png4, png5 } from './utils/images';
 
 // --- Styles --- //
 
@@ -85,7 +85,7 @@ const article = (index: number) => css`
     z-index: ${20 - index};
 
     @keyframes raise${index} {
-        ${(index * 0.5) + 30}% {
+        ${index * 0.5 + 30}% {
             left: 90%;
             top: 50%;
             opacity: 0.6;
@@ -94,8 +94,8 @@ const article = (index: number) => css`
             animation-timing-function: cubic-bezier(0, 1, 0, 1);
             border-color: rgba(0,0,0,0.2);
         }
-        ${(index * 6) + 30}% {
-            left: ${(index * 100) + 10}%;
+        ${index * 6 + 30}% {
+            left: ${index * 100 + 10}%;
             top: 1500%;
             opacity: 1;
             filter: blur(0px);
@@ -103,8 +103,8 @@ const article = (index: number) => css`
             animation-timing-function: cubic-bezier(0.53, 0.04, 0.65, 0.1);
             border-color: rgba(0,0,0,0.2);
         }
-        ${(index * 10) + 30}% {
-            left: ${(index * 70) + 10}%;
+        ${index * 10 + 30}% {
+            left: ${index * 70 + 10}%;
             top: 1300%;
             opacity: 1;
             filter: blur(0px);
