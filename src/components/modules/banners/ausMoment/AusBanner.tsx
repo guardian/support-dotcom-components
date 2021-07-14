@@ -14,7 +14,7 @@ import {
 } from './components/AusBannerTicker';
 import AusBannerAnimation from './components/AusBannerAnimation';
 import { BannerRenderProps } from '../common/types';
-import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
+import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { brand } from '@guardian/src-foundations';
 
 // -- styles -- //
@@ -81,7 +81,6 @@ const ctasContainerStyles = css`
     ${from.wide} {
         width: 100%;
         padding: ${space[3]}px 0 ${space[5]}px;
-        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -122,7 +121,7 @@ const goalContainerStyles = css`
 
 // -- components --//
 
-const AusBanner: React.FC<BannerRenderProps> = ({
+const AusMomentBanner: React.FC<BannerRenderProps> = ({
     content,
     onCtaClick,
     onSecondaryCtaClick,
@@ -235,7 +234,6 @@ const AusBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const unvalidated = bannerWrapper(AusBanner, 'aus-moment-banner', 'contributions');
-const validated = validatedBannerWrapper(AusBanner, 'aus-moment-banner', 'contributions');
+const validated = validatedBannerWrapper(AusMomentBanner, 'aus-moment-banner', 'contributions');
 
-export { validated as AusBanner, unvalidated as AusBannerUnvalidated };
+export { validated as AusMomentBanner };
