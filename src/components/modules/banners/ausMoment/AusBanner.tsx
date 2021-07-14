@@ -81,7 +81,6 @@ const ctasContainerStyles = css`
     ${from.wide} {
         width: 100%;
         padding: ${space[3]}px 0 ${space[5]}px;
-        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
