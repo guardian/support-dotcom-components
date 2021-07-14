@@ -94,6 +94,7 @@ const animationWrapper = css`
     position: absolute;
     top: 0;
     bottom: 0;
+    overflow: hidden;
 `;
 
 const currentSupportersContainerStyles = css`
