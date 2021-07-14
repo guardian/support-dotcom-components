@@ -11,8 +11,9 @@ const closeButtonStyles = css`
     background-color: ${brand[400]};
     right: 0;
     &:hover {
-        background-color: ${neutral[0]};
-        border-color: ${neutral[0]};
+        background-color: ${neutral[100]};
+        color: ${brand[400]};
+        border-color: ${brand[400]};
     }
 `;
 
