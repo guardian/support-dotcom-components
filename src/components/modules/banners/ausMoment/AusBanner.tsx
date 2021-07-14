@@ -14,7 +14,7 @@ import {
 } from './components/AusBannerTicker';
 import AusBannerAnimation from './components/AusBannerAnimation';
 import { BannerRenderProps } from '../common/types';
-import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
+import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { brand } from '@guardian/src-foundations';
 
 // -- styles -- //
