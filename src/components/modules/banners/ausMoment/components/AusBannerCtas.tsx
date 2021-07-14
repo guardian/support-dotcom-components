@@ -21,8 +21,7 @@ const primaryCtaStyles = css`
     color: ${neutral[0]};
 
     &:hover {
-        color: ${neutral[100]};
-        background-color: ${neutral[0]};
+        background-color: #04ffff;
     }
 `;
 
@@ -30,8 +29,8 @@ const secondaryCtaStyles = css`
     margin-left: ${space[12]}px;
 
     &:hover {
-        background-color: ${neutral[0]};
         border-color: ${neutral[0]};
+        color: #04ffff;
     }
 `;
 
