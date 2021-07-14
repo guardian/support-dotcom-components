@@ -23,7 +23,6 @@ const containerStyles = css`
     background: ${brand[400]};
     display: flex;
     flex-direction: column;
-    border-top: 1px solid white;
     padding: ${space[1]}px ${space[3]}px ${space[1]}px;
 
     ${from.tablet} {

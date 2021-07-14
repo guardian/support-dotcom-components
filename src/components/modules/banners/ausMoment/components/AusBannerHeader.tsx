@@ -46,7 +46,9 @@ const AusBannerHeader: React.FC<AusBannerHeaderProps> = ({ content }: AusBannerH
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
-                <div css={headingStyles}>{content.mobileContent?.heading}</div>
+                <div css={headingStyles}>
+                    {content.mobileContent?.heading ?? content.mainContent.heading}
+                </div>
             </Hide>
             <Hide below="tablet">
                 <div css={desktopContainerStyles}>
