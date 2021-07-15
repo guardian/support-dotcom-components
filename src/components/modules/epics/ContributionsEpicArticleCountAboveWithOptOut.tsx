@@ -43,22 +43,26 @@ const articleCountAboveContainerStyles = css`
 const optOutContainer = css`
     color: ${palette.opinion[400]};
     position: relative;
+    @property --num {
+        syntax: '<integer>';
+        initial-value: 0;
+        inherits: false;
+    }
 `;
 
 const staticNumber = css`
+    transition: --num 5s cubic-bezier(0, 0.5, 0, 1) 1s;
+    counter-reset: num var(--num);
+
+    --num: 0;
     &:after {
-        content: 0;
+        content: counter(num);
     }
 `;
 
 const animateNumber = (numArticles: number) => {
     return css`
-        @property --num {
-            syntax: '<integer>';
-            initial-value: 0;
-            inherits: false;
-        }
-        transition: --num 5s cubic-bezier(0, 0.5, 0, 1) 1s;
+        transition: --num 15s cubic-bezier(0, 0.5, 0, 1) 1s;
         counter-reset: num var(--num);
 
         --num: ${numArticles};
@@ -68,8 +72,9 @@ const animateNumber = (numArticles: number) => {
     `;
 };
 
-const articles = css``;
-const article = (index: number) => css`
+const articles = css`
+`;
+const article = (index: number, offset: number) => css`
     position: absolute;
 
     left: 60%;
@@ -79,13 +84,13 @@ const article = (index: number) => css`
     transform: translate(-50%, -50%) scaleX(0.2) scaleY(0.05) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
     border: 20px solid rgba(0,0,0,1);
 
-    animation: raise${index} 6s ease 1;
+    animation: raise${index}${offset} 10s ease 1;
     animation-fill-mode: forwards;
-    animation-delay: ${4 + index * 0}s;
+    animation-delay: ${13 + index * 0}s;
     z-index: ${20 - index};
 
-    @keyframes raise${index} {
-        ${index * 0.5 + 30}% {
+    @keyframes raise${index}${offset} {
+        ${index * 0.5 + offset * 0.3 + 30}% {
             left: 90%;
             top: 50%;
             opacity: 0.6;
@@ -94,18 +99,18 @@ const article = (index: number) => css`
             animation-timing-function: cubic-bezier(0, 1, 0, 1);
             border-color: rgba(0,0,0,0.2);
         }
-        ${index * 6 + 30}% {
-            left: ${index * 100 + 10}%;
-            top: 1500%;
+        ${index * 6 + offset * 3 + 30}% {
+            left: ${index * 100 + offset * 40 + 10}%;
+            top: ${1000 + (offset * 500)}%;
             opacity: 1;
             filter: blur(0px);
             transform: translate(-50%, -50%) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
             animation-timing-function: cubic-bezier(0.53, 0.04, 0.65, 0.1);
             border-color: rgba(0,0,0,0.2);
         }
-        ${index * 10 + 30}% {
-            left: ${index * 70 + 10}%;
-            top: 1300%;
+        ${index * 10 + offset * 5 + 30}% {
+            left: ${index * 70 + offset * 30 + 10}%;
+            top: ${700 + (offset * 1000)}%;
             opacity: 1;
             filter: blur(0px);
             transform: translate(-50%, -50%) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
@@ -346,14 +351,19 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
                                 </span>{' '}
                                 articles
                                 <span css={articles}>
-                                    <img css={article(1)} src={png1} />
-                                    <img css={article(2)} src={png2} />
-                                    <img css={article(3)} src={png3} />
-                                    <img css={article(4)} src={png4} />
-                                    <img css={article(5)} src={png5} />
+                                    <img css={article(1, 0)} src={png1} />
+                                    <img css={article(2, 0)} src={png2} />
+                                    <img css={article(3, 0)} src={png3} />
+                                    <img css={article(4, 0)} src={png4} />
+                                    <img css={article(5, 0)} src={png5} />
+                                    <img css={article(1, 1)} src={png2} />
+                                    <img css={article(2, 1)} src={png4} />
+                                    <img css={article(3, 1)} src={png1} />
+                                    <img css={article(4, 1)} src={png5} />
+                                    <img css={article(5, 1)} src={png3} />
                                 </span>
                             </span>{' '}
-                            year
+                            in the last year
                         </>
                     )}
                 </div>
