@@ -72,8 +72,7 @@ const animateNumber = (numArticles: number) => {
     `;
 };
 
-const articles = css`
-`;
+const articles = css``;
 const article = (index: number, offset: number) => css`
     position: absolute;
 
@@ -101,7 +100,7 @@ const article = (index: number, offset: number) => css`
         }
         ${index * 6 + offset * 3 + 30}% {
             left: ${index * 100 + offset * 40 + 10}%;
-            top: ${1000 + (offset * 500)}%;
+            top: ${1000 + offset * 500}%;
             opacity: 1;
             filter: blur(0px);
             transform: translate(-50%, -50%) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
@@ -110,7 +109,7 @@ const article = (index: number, offset: number) => css`
         }
         ${index * 10 + offset * 5 + 30}% {
             left: ${index * 70 + offset * 30 + 10}%;
-            top: ${700 + (offset * 1000)}%;
+            top: ${700 + offset * 1000}%;
             opacity: 1;
             filter: blur(0px);
             transform: translate(-50%, -50%) scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
