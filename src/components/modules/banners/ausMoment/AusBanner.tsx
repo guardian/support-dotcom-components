@@ -13,7 +13,7 @@ import {
     GoalSupporterNumber,
 } from './components/AusBannerTicker';
 import AusBannerAnimation from './components/AusBannerAnimation';
-import { SocialShareIcons, SocialShareCta } from './components/AusBannerSocialShare';
+import { SocialShareIcons, SocialShareLabel } from './components/AusBannerSocialShare';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { brand } from '@guardian/src-foundations';
@@ -132,7 +132,7 @@ const socialShareStyles = css`
         align-items: baseline;
         position: absolute;
         margin-left: ${space[4]}px;
-        bottom: ${space[4]}px;
+        bottom: ${space[2]}px;
     }
 `;
 
@@ -206,7 +206,7 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
         return (
             <div css={socialShareStyles}>
                 <SocialShareIcons />
-                <SocialShareCta />
+                <SocialShareLabel />
             </div>
         );
     };

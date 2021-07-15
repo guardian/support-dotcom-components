@@ -1,8 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { Link } from '@guardian/src-link';
 import { space } from '@guardian/src-foundations';
 import { between } from '@guardian/src-foundations/mq';
+import { textSans } from '@guardian/src-foundations/typography';
 
 const linksWrapper = css`
     > * {
@@ -10,9 +10,11 @@ const linksWrapper = css`
     }
 `;
 
-const socialShareCtaStyles = css`
+const socialShareLabelStyles = css`
     color: #ffe500;
     margin-left: ${space[2]}px;
+    ${textSans.small({ fontWeight: 'bold' })}
+    padding-bottom: ${space[1]}px;
 
     ${between.tablet.and.desktop} {
         margin-left: 0;
@@ -32,14 +34,8 @@ const links = {
         'mailto:?subject=Join%20me%20in%20supporting%20open,%20independent%20journalism&body=Join%20me%20and%20over%20one%20million%20others%20in%20supporting%20a%20different%20model%20for%20open,%20independent%20journalism.%20Together%20we%20can%20help%20safeguard%20The%20Guardian%E2%80%99s%20future%20%E2%80%93%20so%20more%20people,%20across%20the%20world,%20can%20keep%20accessing%20factual%20information%20for%20free:%20https://support.theguardian.com/contribute?INTCMP=Aus_moment_2021_banner_email',
 };
 
-const supportCtaUrl = 'support.guardian.com/contribute';
-
-export const SocialShareCta: React.FC = () => {
-    return (
-        <Link href={supportCtaUrl} cssOverrides={socialShareCtaStyles}>
-            Share your support
-        </Link>
-    );
+export const SocialShareLabel: React.FC = () => {
+    return <div css={socialShareLabelStyles}>Share your support</div>;
 };
 
 const iconStyles = css`
