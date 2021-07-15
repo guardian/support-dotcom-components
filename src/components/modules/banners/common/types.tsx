@@ -55,4 +55,5 @@ export interface BannerRenderProps {
     countryCode?: string;
     email?: string;
     tickerSettings?: TickerSettings;
+    isSupporter?: boolean;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { Hide, Container, Columns, Column } from '@guardian/src-layout';
 import { space } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { from, between } from '@guardian/src-foundations/mq';
 import AusBannerHeader from './components/AusBannerHeader';
 import AusBannerBody from './components/AusBannerBody';
 import AusBannerCtas from './components/AusBannerCtas';
@@ -13,6 +13,7 @@ import {
     GoalSupporterNumber,
 } from './components/AusBannerTicker';
 import AusBannerAnimation from './components/AusBannerAnimation';
+import { SocialShareIcons, SocialShareCta } from './components/AusBannerSocialShare';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { brand } from '@guardian/src-foundations';
@@ -35,6 +36,7 @@ const containerStyles = css`
         padding-right: 0;
         margin: 0;
         min-height: 350px;
+        border-top: 1px solid #04ffff;
     }
 
     * {
@@ -119,6 +121,21 @@ const goalContainerStyles = css`
     }
 `;
 
+const socialShareStyles = css`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: ${space[4]}px auto ${space[2]}px;
+
+    ${between.tablet.and.desktop} {
+        flex-direction: column;
+        align-items: baseline;
+        position: absolute;
+        margin-left: ${space[4]}px;
+        bottom: ${space[4]}px;
+    }
+`;
+
 // -- components --//
 
 const AusMomentBanner: React.FC<BannerRenderProps> = ({
@@ -127,6 +144,7 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
     onSecondaryCtaClick,
     onCloseClick,
     tickerSettings,
+    isSupporter,
 }) => {
     const tickerData = tickerSettings?.tickerData;
 
@@ -184,6 +202,15 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
         );
     };
 
+    const SocialShare = () => {
+        return (
+            <div css={socialShareStyles}>
+                <SocialShareIcons />
+                <SocialShareCta />
+            </div>
+        );
+    };
+
     return (
         <div css={containerStyles}>
             <Hide above="tablet">
@@ -191,7 +218,8 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
                 <Ticker />
                 <Body />
                 <CloseButton />
-                <Ctas />
+
+                {isSupporter ? <SocialShare /> : <Ctas />}
             </Hide>
 
             <Container css={desktopContainerStyles}>
@@ -205,7 +233,7 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
                             </Column>
                             <Column width={4 / 12}>
                                 <CloseButton />
-                                <Ctas />
+                                {isSupporter ? <SocialShare /> : <Ctas />}
                             </Column>
                         </Columns>
                     </Hide>
@@ -216,7 +244,7 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
                         <Column width={8 / 14}>
                             <Header />
                             <Body />
-                            <Ctas />
+                            {isSupporter ? <SocialShare /> : <Ctas />}
                         </Column>
                         <Column width={6 / 14}>
                             <CloseButton />

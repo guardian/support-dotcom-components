@@ -29,6 +29,7 @@ export default {
 const Template: Story<BannerProps> = (props: BannerProps) => <AusMomentBanner {...props} />;
 
 export const Default = Template.bind({});
+
 Default.args = {
     ...props,
     tickerSettings,
@@ -57,4 +58,11 @@ Default.args = {
             },
         },
     },
+};
+
+export const Supporter = Template.bind({});
+
+Supporter.args = {
+    ...Default.args,
+    isSupporter: true,
 };
