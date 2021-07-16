@@ -1,9 +1,10 @@
 import { ReminderFields } from '../../../../lib/reminderFields';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType, TickerSettings } from '../../../../types/shared';
 
 export type BannerId =
     | 'contributions-banner'
     | 'g200-banner'
+    | 'aus-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner';
 
@@ -53,4 +54,6 @@ export interface BannerRenderProps {
     content: BannerTextContent;
     countryCode?: string;
     email?: string;
+    tickerSettings?: TickerSettings;
+    isSupporter?: boolean;
 }

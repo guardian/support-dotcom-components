@@ -28,11 +28,6 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
-export const g200Banner: ModuleInfo = getDefaultModuleInfo(
-    'g200-banner',
-    'banners/g200/G200Banner',
-);
-
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -65,11 +60,15 @@ export const ausMomentHeaderNonSupporter: ModuleInfo = getDefaultModuleInfo(
     'header/HeaderAusMomentNonSupporter',
 );
 
+export const ausMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'aus-moment-banner',
+    'banners/ausMoment/AusBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
-    g200Banner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
@@ -77,4 +76,5 @@ export const moduleInfos: ModuleInfo[] = [
     headerSupportAgain,
     ausMomentHeaderSupporter,
     ausMomentHeaderNonSupporter,
+    ausMomentBanner,
 ];
