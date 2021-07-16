@@ -9,10 +9,15 @@ import { BannerTextContent } from '../../common/types';
 import { SecondaryCtaType } from '../../../../../types/shared';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { Link, linkBrand } from '@guardian/src-link';
+import { between } from '@guardian/src-foundations/mq';
 
 const containerStyles = css`
     > * {
         margin-bottom: 0;
+
+        ${between.tablet.and.desktop} {
+            margin-bottom: ${space[2]}px;
+        }
     }
     align-items: center;
 `;

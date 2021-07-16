@@ -8,12 +8,13 @@ import { from } from '@guardian/src-foundations/mq';
 import { BannerTextContent } from '../../common/types';
 
 const containerStyles = css`
-    ${body.small({ fontWeight: 'bold' })}
+    ${body.medium()}
     color: ${neutral[100]};
 
     ${from.desktop} {
-        ${body.small()}
+        ${body.medium()}
         margin-bottom: ${space[3]}px;
+        font-size: 16px;
     }
 `;
 interface AusBannerBodyProps {

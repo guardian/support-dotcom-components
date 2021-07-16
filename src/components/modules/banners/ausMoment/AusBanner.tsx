@@ -44,10 +44,6 @@ const containerStyles = css`
     }
 `;
 
-const desktopContainerStyles = css`
-    margin-right: 0;
-`;
-
 const closeButtonContainerStyles = css`
     position: absolute;
     z-index: 200;
@@ -222,7 +218,7 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
                 {isSupporter ? <SocialShare /> : <Ctas />}
             </Hide>
 
-            <Container css={desktopContainerStyles}>
+            <Container>
                 <Hide below="tablet">
                     <Hide above="desktop">
                         <Columns>
@@ -231,7 +227,7 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
                                 <Ticker />
                                 <Body />
                             </Column>
-                            <Column width={4 / 12}>
+                            <Column>
                                 <CloseButton />
                                 {isSupporter ? <SocialShare /> : <Ctas />}
                             </Column>
@@ -241,12 +237,12 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
 
                 <Hide below="desktop">
                     <Columns>
-                        <Column width={8 / 14}>
+                        <Column width={9 / 16}>
                             <Header />
                             <Body />
                             {isSupporter ? <SocialShare /> : <Ctas />}
                         </Column>
-                        <Column width={6 / 14}>
+                        <Column>
                             <CloseButton />
                             <div css={animationWrapper}>
                                 <CurrentSupporters />

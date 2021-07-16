@@ -24,6 +24,10 @@ const headingStyles = css`
     max-width: 80%;
     margin-bottom: ${space[1]}px;
 
+    ${from.mobileLandscape} {
+        min-height: 40px;
+    }
+
     ${from.tablet} {
         ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
         max-width: 100%;
@@ -31,10 +35,12 @@ const headingStyles = css`
 
     ${from.desktop} {
         margin-bottom: ${space[3]}px;
+        font-size: 29px;
     }
 
     ${from.leftCol} {
         ${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
+        font-size: 38px;
     }
 `;
 
