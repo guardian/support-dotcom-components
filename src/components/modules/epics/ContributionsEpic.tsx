@@ -20,12 +20,15 @@ import { Stage } from '../../../types/shared';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 
-const sendEpicViewEvent = (url: string, stage?: Stage): void => {
+const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
     const host = isProd(stage)
         ? 'https://contributions.guardianapis.com'
         : 'https://contributions.code.dev-guardianapis.com';
-    const body = JSON.stringify({ url });
+    const body = JSON.stringify({
+        url,
+        countryCode,
+    });
 
     fetch(`${host}/${path}`, {
         method: 'POST',
@@ -236,7 +239,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     useEffect(() => {
         if (hasBeenSeen) {
-            sendEpicViewEvent(tracking.referrerUrl, stage);
+            sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
         }
     }, [hasBeenSeen]);
 
