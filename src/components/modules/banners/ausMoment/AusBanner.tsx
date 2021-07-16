@@ -25,6 +25,7 @@ const containerStyles = css`
     display: flex;
     flex-direction: column;
     padding: ${space[1]}px ${space[3]}px ${space[1]}px;
+    border-top: 1px solid #04ffff;
 
     ${from.tablet} {
         flex-direction: row;
@@ -36,7 +37,6 @@ const containerStyles = css`
         padding-right: 0;
         margin: 0;
         min-height: 350px;
-        border-top: 1px solid #04ffff;
     }
 
     * {
