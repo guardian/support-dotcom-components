@@ -11,7 +11,7 @@ const containerStyles = css`
     ${body.medium()}
     color: ${neutral[100]};
 
-    ${from.desktop} {
+    ${from.tablet} {
         margin-bottom: ${space[3]}px;
         font-size: 16px;
     }
