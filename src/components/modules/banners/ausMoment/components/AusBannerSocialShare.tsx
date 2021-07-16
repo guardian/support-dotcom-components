@@ -19,10 +19,6 @@ const socialShareLabelStyles = css`
     ${between.tablet.and.desktop} {
         margin-left: 0;
     }
-
-    &:hover {
-        color: #04ffff;
-    }
 `;
 
 const links = {
