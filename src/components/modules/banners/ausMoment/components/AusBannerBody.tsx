@@ -10,11 +10,6 @@ import { BannerTextContent } from '../../common/types';
 const containerStyles = css`
     ${body.medium()}
     color: ${neutral[100]};
-    font-size: 15px;
-
-    ${from.tablet} {
-        font-size: 17px;
-    }
 
     ${from.desktop} {
         margin-bottom: ${space[3]}px;
