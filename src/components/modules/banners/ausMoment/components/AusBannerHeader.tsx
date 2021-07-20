@@ -19,10 +19,10 @@ const desktopContainerStyles = css`
 `;
 
 const headingStyles = css`
-    ${headline.xxsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
+    ${headline.xsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
     color: #04FFFF;
     max-width: 80%;
-    margin-bottom: ${space[1]}px;
+    margin-bottom: ${space[2]}px;
 
     ${from.mobileLandscape} {
         min-height: 40px;
@@ -31,6 +31,7 @@ const headingStyles = css`
     ${from.tablet} {
         ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
         max-width: 100%;
+        margin-bottom: ${space[1]}px;
     }
 
     ${from.desktop} {
