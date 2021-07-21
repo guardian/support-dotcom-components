@@ -103,7 +103,7 @@ const isLastOneOffContributionWithinLast2Months = (
 
     const monthsSinceLastContribution = monthDiff(date, now);
 
-    return monthsSinceLastContribution < 2;
+    return monthsSinceLastContribution <= 2;
 };
 
 const isLastOneOffContributionWithinLast2To13Months = (
