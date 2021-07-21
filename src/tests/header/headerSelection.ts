@@ -163,18 +163,18 @@ export const selectHeaderTest = (
             targeting.lastOneOffContributionDate,
         );
 
-        if (isAusMoment(targeting.countryCode)) {
-            if (lastContributed2To13MonthsAgo) {
-                return ausMomentOneOffContributor;
-            } else if (targeting.showSupportMessaging) {
-                return ausMomentNonSupporter;
-            }
-        }
-
         if (lastContributed2To13MonthsAgo) {
-            return supportAgainTest;
+            if (isAusMoment(targeting.countryCode)) {
+                return ausMomentOneOffContributor;
+            } else {
+                return supportAgainTest;
+            }
         } else if (targeting.showSupportMessaging) {
-            return getNonSupportersTest(targeting.edition);
+            if (isAusMoment(targeting.countryCode)) {
+                return ausMomentNonSupporter;
+            } else {
+                return getNonSupportersTest(targeting.edition);
+            }
         } else {
             return supportersTest;
         }
