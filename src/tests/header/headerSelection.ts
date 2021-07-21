@@ -166,7 +166,7 @@ export const selectHeaderTest = (
         if (isAusMoment(targeting.countryCode)) {
             if (lastContributed2To13MonthsAgo) {
                 return ausMomentOneOffContributor;
-            } else if (!targeting.showSupportMessaging) {
+            } else if (targeting.showSupportMessaging) {
                 return ausMomentNonSupporter;
             }
         }
