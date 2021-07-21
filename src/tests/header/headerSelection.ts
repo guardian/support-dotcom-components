@@ -1,5 +1,10 @@
 import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '../../types/HeaderTypes';
-import { ausMomentHeaderNonSupporter, header, headerSupportAgain } from '../../modules';
+import {
+    ausMomentHeaderNonSupporter,
+    ausMomentHeaderSupporter,
+    header,
+    headerSupportAgain,
+} from '../../modules';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -105,6 +110,25 @@ const ausMomentNonSupporter: HeaderTest = {
     ],
 };
 
+const ausMomentOneOffContributor: HeaderTest = {
+    name: 'aus-moment-supporter',
+    audience: 'AllExistingSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
+            content: {
+                heading: 'Thank you',
+                subheading: '',
+                primaryCta: {
+                    text: 'Support us again',
+                    url: 'https://support.theguardian.com/contribute',
+                },
+            },
+        },
+    ],
+};
+
 const monthDiff = (from: Date, to: Date): number => {
     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
 };
@@ -135,13 +159,19 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
+        const lastContributed2To13MonthsAgo = isLastOneOffContributionWithinLast2To13Months(
+            targeting.lastOneOffContributionDate,
+        );
+
         if (isAusMoment(targeting.countryCode)) {
-            if (!targeting.showSupportMessaging) {
+            if (lastContributed2To13MonthsAgo) {
+                return ausMomentOneOffContributor;
+            } else if (!targeting.showSupportMessaging) {
                 return ausMomentNonSupporter;
             }
         }
 
-        if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
+        if (lastContributed2To13MonthsAgo) {
             return supportAgainTest;
         } else if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
