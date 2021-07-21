@@ -50,14 +50,14 @@ export const headerSupportAgain: ModuleInfo = getDefaultModuleInfo(
     'header/HeaderSupportAgain',
 );
 
-export const ausMomentHeaderSupporter: ModuleInfo = getDefaultModuleInfo(
-    'aus-moment-header-supporter',
-    'header/HeaderAusMomentSupporter',
-);
-
 export const ausMomentHeaderNonSupporter: ModuleInfo = getDefaultModuleInfo(
     'aus-moment-header-nonsupporter',
     'header/HeaderAusMomentNonSupporter',
+);
+
+export const ausMomentHeaderSupporter: ModuleInfo = getDefaultModuleInfo(
+    'aus-moment-header-supporter',
+    'header/HeaderAusMomentSupporter',
 );
 
 export const ausMomentBanner: ModuleInfo = getDefaultModuleInfo(
@@ -74,7 +74,7 @@ export const moduleInfos: ModuleInfo[] = [
     puzzlesBanner,
     header,
     headerSupportAgain,
-    ausMomentHeaderSupporter,
     ausMomentHeaderNonSupporter,
+    ausMomentHeaderSupporter,
     ausMomentBanner,
 ];

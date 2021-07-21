@@ -87,6 +87,48 @@ const supportAgainTest: HeaderTest = {
     ],
 };
 
+const ausMomentNonSupporter: HeaderTest = {
+    name: 'aus-moment-nonsupporter',
+    audience: 'AllNonSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: ausMomentHeaderNonSupporter.endpointPathBuilder,
+            content: {
+                heading: 'Support the Guardian',
+                subheading: '',
+                primaryCta: {
+                    text: 'Contribute',
+                    url: 'https://support.theguardian.com/contribute',
+                },
+                secondaryCta: {
+                    text: 'Subscribe',
+                    url: 'https://support.theguardian.com/subscribe',
+                },
+            },
+        },
+    ],
+};
+
+const ausMomentOneOffContributor: HeaderTest = {
+    name: 'aus-moment-supporter',
+    audience: 'AllExistingSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
+            content: {
+                heading: 'Thank you',
+                subheading: '',
+                primaryCta: {
+                    text: 'Support us again',
+                    url: 'https://support.theguardian.com/contribute',
+                },
+            },
+        },
+    ],
+};
+
 const monthDiff = (from: Date, to: Date): number => {
     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
 };
@@ -117,21 +159,22 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
-        if (isAusMoment(targeting.countryCode)) {
-            if (
-                isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)
-            ) {
+        const lastContributed2To13MonthsAgo = isLastOneOffContributionWithinLast2To13Months(
+            targeting.lastOneOffContributionDate,
+        );
+
+        if (lastContributed2To13MonthsAgo) {
+            if (isAusMoment(targeting.countryCode)) {
                 return ausMomentOneOffContributor;
-            } else if (!targeting.showSupportMessaging) {
-                return ausMomentRecurringSupporter;
             } else {
-                return ausMomentNonSupporter;
+                return supportAgainTest;
             }
-        }
-        if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
-            return supportAgainTest;
         } else if (targeting.showSupportMessaging) {
-            return getNonSupportersTest(targeting.edition);
+            if (isAusMoment(targeting.countryCode)) {
+                return ausMomentNonSupporter;
+            } else {
+                return getNonSupportersTest(targeting.edition);
+            }
         } else {
             return supportersTest;
         }
@@ -148,65 +191,4 @@ export const selectHeaderTest = (
         });
     }
     return Promise.resolve(null);
-};
-
-const ausMomentRecurringSupporter: HeaderTest = {
-    name: 'aus-moment-supporter',
-    audience: 'AllExistingSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
-            content: {
-                heading: 'Thank you',
-                subheading: '',
-                primaryCta: {
-                    text: 'Make an extra contribution',
-                    url: 'https://support.theguardian.com/contribute',
-                },
-            },
-        },
-    ],
-};
-
-const ausMomentOneOffContributor: HeaderTest = {
-    name: 'aus-moment-supporter',
-    audience: 'AllExistingSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
-            content: {
-                heading: 'Thank you',
-                subheading: '',
-                primaryCta: {
-                    text: 'Support us again',
-                    url: 'https://support.theguardian.com/contribute',
-                },
-            },
-        },
-    ],
-};
-
-const ausMomentNonSupporter: HeaderTest = {
-    name: 'aus-moment-nonsupporter',
-    audience: 'AllNonSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: ausMomentHeaderNonSupporter.endpointPathBuilder,
-            content: {
-                heading: 'Support the Guardian',
-                subheading: '',
-                primaryCta: {
-                    text: 'Contribute',
-                    url: 'https://support.theguardian.com/contribute',
-                },
-                secondaryCta: {
-                    text: 'Subscribe',
-                    url: 'https://support.theguardian.com/subscribe',
-                },
-            },
-        },
-    ],
 };
