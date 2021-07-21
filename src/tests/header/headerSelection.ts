@@ -91,6 +91,21 @@ const monthDiff = (from: Date, to: Date): number => {
     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
 };
 
+const isLastOneOffContributionWithinLast2Months = (
+    lastOneOffContributionDate?: string,
+): boolean => {
+    if (lastOneOffContributionDate === undefined) {
+        return false;
+    }
+
+    const now = new Date();
+    const date = new Date(lastOneOffContributionDate);
+
+    const monthsSinceLastContribution = monthDiff(date, now);
+
+    return monthsSinceLastContribution < 2;
+};
+
 const isLastOneOffContributionWithinLast2To13Months = (
     lastOneOffContributionDate?: string,
 ): boolean => {
@@ -118,7 +133,9 @@ export const selectHeaderTest = (
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
         if (isAusMoment(targeting.countryCode)) {
-            if (
+            if (isLastOneOffContributionWithinLast2Months(targeting.lastOneOffContributionDate)) {
+                return supportersTest;
+            } else if (
                 isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)
             ) {
                 return ausMomentOneOffContributor;
@@ -128,7 +145,12 @@ export const selectHeaderTest = (
                 return ausMomentNonSupporter;
             }
         }
-        if (isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)) {
+
+        if (isLastOneOffContributionWithinLast2Months(targeting.lastOneOffContributionDate)) {
+            return supportersTest;
+        } else if (
+            isLastOneOffContributionWithinLast2To13Months(targeting.lastOneOffContributionDate)
+        ) {
             return supportAgainTest;
         } else if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
