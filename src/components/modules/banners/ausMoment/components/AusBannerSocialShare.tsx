@@ -27,7 +27,7 @@ const links = {
     twitter:
         'https://twitter.com/intent/tweet?url=https://support.theguardian.com/contribute?INTCMP=Aus_moment_2021_banner_twitter&text=I%20support%20Guardian%20Australia%20because%20I%20believe%20in%20rigorous,%20independent%20journalism%20that%E2%80%99s%20open%20for%20everyone%20to%20read.%20Join%20me%20by%20making%20a%20contribution%20and%20together%20we%20can%20be%20a%20voice%20for%20change.%20#supportGuardianAustralia',
     email:
-        'mailto:?subject=Join%20me%20in%20supporting%20open,%20independent%20journalism&body=Join%20me%20and%20over%20one%20million%20others%20in%20supporting%20a%20different%20model%20for%20open,%20independent%20journalism.%20Together%20we%20can%20help%20safeguard%20The%20Guardian%E2%80%99s%20future%20%E2%80%93%20so%20more%20people,%20across%20the%20world,%20can%20keep%20accessing%20factual%20information%20for%20free:%20https://support.theguardian.com/contribute?INTCMP=Aus_moment_2021_banner_email',
+        'mailto:?subject=Join%20me%20in%20supporting%20Guardian%20Australia&body=I%20support%20Guardian%20Australia%20because%20I%20believe%20in%20rigorous,%20independent%20journalism%20that%E2%80%99s%20open%20for%20everyone%20to%20read.%20Join%20me%20by%20making%20a%20contribution%20and%20together%20we%20can%20be%20a%20voice%20for%20change.%20#supportGuardianAustralia%20%0D%0Ahttps://support.theguardian.com/contribute?INTCMP=Aus_moment_2021_banner_email',
 };
 
 export const SocialShareLabel: React.FC = () => {
