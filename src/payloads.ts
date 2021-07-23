@@ -134,7 +134,7 @@ export const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    const { enableEpics } = await cachedChannelSwitches();
+    const { enableEpics, enableSuperMode } = await cachedChannelSwitches();
     if (!enableEpics) {
         return {};
     }
@@ -143,7 +143,7 @@ export const buildEpicData = async (
         ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
         : getLiveblogEpicTests());
 
-    const superModeArticles = await fetchSuperModeArticlesCached();
+    const superModeArticles = enableSuperMode ? await fetchSuperModeArticlesCached() : [];
 
     const result = params.force
         ? findForcedTestAndVariant(tests, params.force)

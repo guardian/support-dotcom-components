@@ -5,6 +5,7 @@ import { isProd } from './lib/env';
 interface ChannelSwitches {
     enableEpics: boolean;
     enableBanners: boolean;
+    enableSuperMode: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
