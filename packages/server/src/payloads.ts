@@ -20,7 +20,7 @@ import {
     liveblogEpic as liveblogEpicModule,
     puzzlesBanner,
     header,
-} from './modules';
+} from '@sdc/shared/config';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';

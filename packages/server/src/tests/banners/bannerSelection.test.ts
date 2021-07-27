@@ -1,7 +1,7 @@
 import { selectBannerTest } from './bannerSelection';
 import { BannerDeployCaches } from './bannerDeployCache';
 import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
-import { contributionsBanner, digiSubs } from '../../modules';
+import { contributionsBanner, digiSubs } from '@sdc/shared/config';
 
 const getBannerDeployCache = (date: string): BannerDeployCaches =>
     ({

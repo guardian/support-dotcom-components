@@ -4,7 +4,7 @@ import {
     ausMomentHeaderSupporter,
     header,
     headerSupportAgain,
-} from '../../modules';
+} from '@sdc/shared/config';
 
 const modulePathBuilder = header.endpointPathBuilder;
 

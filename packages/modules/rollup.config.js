@@ -1,12 +1,4 @@
-require('ts-node').register({
-    compilerOptions: {
-        module: 'CommonJS',
-    },
-});
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { moduleInfos } = require('./src/modules.ts');
-
+import { moduleInfos } from '@sdc/shared/config';
 import resolveNode from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';

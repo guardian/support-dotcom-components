@@ -18,7 +18,8 @@
     "@guardian/src-text-input": "^3.3.0",
     "@types/babel__standalone": "^7.1.2",
     "preact": "^10.5.12",
-    "zod": "^3.0.0"
+    "zod": "^3.0.0",
+    "@sdc/shared": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",

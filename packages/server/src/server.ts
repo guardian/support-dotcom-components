@@ -13,7 +13,7 @@ import { getQueryParams } from './lib/params';
 import { ampEpic } from './tests/amp/ampEpic';
 import fs from 'fs';
 import { baseUrl, isDev, isProd } from './lib/env';
-import { ModuleInfo, moduleInfos } from './modules';
+import { ModuleInfo, moduleInfos } from '@sdc/shared/config';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { OphanComponentEvent } from './types/OphanTypes';
