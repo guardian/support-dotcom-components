@@ -4,7 +4,7 @@ import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
-import { OphanComponentEvent, OphanComponentType } from '../../../types/OphanTypes';
+import { OphanComponentEvent, OphanComponentType } from '@sdc/shared/types';
 import {
     ophanComponentEventOptOutClose,
     ophanComponentEventOptOutConfirm,

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { PuzzlesBanner } from './PuzzlesBanner';
 import { StorybookWrapper, BannerWrapper } from '../../../../utils/StorybookWrapper';
-import { Tracking } from '../../../../types/shared';
+import { Tracking } from '@sdc/shared/types';
 
 export default {
     component: PuzzlesBanner,

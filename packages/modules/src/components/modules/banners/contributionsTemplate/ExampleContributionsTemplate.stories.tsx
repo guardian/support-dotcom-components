@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { Example } from './ExampleContributionsTemplate';
-import { BannerProps } from '../../../../types/BannerTypes';
+import { BannerProps } from '@sdc/shared/types';
 import { props } from '../utils/storybook';
 
 export default {

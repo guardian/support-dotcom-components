@@ -7,7 +7,7 @@ import {
     createClickEventFromTracking,
     createViewEventFromTracking,
 } from '../../../../lib/tracking';
-import { PuzzlesBannerProps } from '../../../../types/BannerTypes';
+import { PuzzlesBannerProps } from '@sdc/shared/types';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 import { useTabDetection } from '../../../hooks/useTabDetection';

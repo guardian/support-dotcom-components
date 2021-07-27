@@ -1,5 +1,5 @@
 import { Factory } from 'fishery';
-import { EpicTest } from '../types/EpicTypes';
+import { EpicTest } from '@sdc/shared/types';
 
 export default Factory.define<EpicTest>(({ factories }) => ({
     name: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',

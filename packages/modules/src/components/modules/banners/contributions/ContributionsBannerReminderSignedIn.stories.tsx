@@ -6,7 +6,7 @@ import {
 } from './ContributionsBannerReminderSignedIn';
 import { css } from '@emotion/core';
 import { brandAlt } from '@guardian/src-foundations/palette';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 import { ReminderStatus } from '../../utils/reminders';
 
 const containerStyles = css`

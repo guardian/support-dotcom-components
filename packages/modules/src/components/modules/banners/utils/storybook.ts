@@ -1,6 +1,10 @@
-import { TickerCountType, TickerEndType } from '../../../../types/shared';
-import { BannerProps } from '../../../../types/BannerTypes';
-import { SecondaryCtaType, Tracking } from '../../../../types/shared';
+import {
+    BannerProps,
+    TickerCountType,
+    TickerEndType,
+    SecondaryCtaType,
+    Tracking,
+} from '@sdc/shared/types';
 
 export const tracking: Tracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',

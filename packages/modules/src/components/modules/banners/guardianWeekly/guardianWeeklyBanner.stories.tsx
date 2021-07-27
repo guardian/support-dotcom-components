@@ -2,8 +2,7 @@ import React, { ReactElement } from 'react';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBanner';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerContent, BannerProps } from '../../../../types/BannerTypes';
-import { Tracking } from '../../../../types/shared';
+import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 
 export default {
     component: GuardianWeeklyBanner,

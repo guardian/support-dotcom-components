@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BannerProps, BannerChannel } from '../../../../types/BannerTypes';
+import { BannerProps, BannerChannel } from '@sdc/shared/types';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 

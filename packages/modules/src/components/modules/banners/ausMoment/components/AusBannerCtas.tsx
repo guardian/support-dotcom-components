@@ -6,7 +6,7 @@ import { LinkButton, buttonReaderRevenue, buttonBrand } from '@guardian/src-butt
 import { neutral } from '@guardian/src-foundations/palette';
 import { Inline, Hide } from '@guardian/src-layout';
 import { BannerTextContent } from '../../common/types';
-import { SecondaryCtaType } from '../../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { Link, linkBrand } from '@guardian/src-link';
 import { between } from '@guardian/src-foundations/mq';

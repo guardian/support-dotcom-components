@@ -1,8 +1,8 @@
-import { EpicTest, EpicVariant } from '../types/EpicTypes';
-import { BannerTest, BannerVariant } from '../types/BannerTypes';
-import { OphanAction, OphanComponentEvent } from '../types/OphanTypes';
+import { EpicTest, EpicVariant } from '@sdc/shared/types';
+import { BannerTest, BannerVariant } from '@sdc/shared/types';
+import { OphanAction, OphanComponentEvent } from '@sdc/shared/types';
 import { addRegionIdToSupportUrl } from './geolocation';
-import { Tracking } from '../types/shared';
+import { Tracking } from '@sdc/shared/types';
 
 type LinkParams = {
     REFPVID: string;

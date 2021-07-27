@@ -1,9 +1,8 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { props } from '../utils/storybook';
-import { BannerProps } from '../../../../types/BannerTypes';
+import { BannerProps,  SecondaryCtaType, TickerCountType, TickerEndType  } from '@sdc/shared/types';
 import { AusMomentBanner } from './AusBanner';
-import { SecondaryCtaType, TickerCountType, TickerEndType } from '../../../../types/shared';
 
 const tickerSettings = {
     countType: TickerCountType.people,

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { EpicVariant } from '../types/EpicTypes';
+import { EpicVariant } from '@sdc/shared/types';
 import { variantHasArticleCountCopy } from './contributionsApi';
 
 const baseVariant: EpicVariant = {

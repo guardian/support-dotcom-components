@@ -1,6 +1,12 @@
-import { ArticleCounts, EpicVariant } from '../../../../types/EpicTypes';
-import { PageTracking, SecondaryCtaType, TestTracking, Tracking } from '../../../../types/shared';
-import { EpicProps } from '../../../../types/EpicTypes';
+import {
+    ArticleCounts,
+    EpicVariant,
+    EpicProps,
+    PageTracking,
+    SecondaryCtaType,
+    TestTracking,
+    Tracking,
+} from '@sdc/shared/types';
 
 const variant: EpicVariant = {
     name: 'control',

@@ -1,4 +1,4 @@
-import { TickerCountType, TickerData } from '../types/shared';
+import { TickerCountType, TickerData } from '@sdc/shared/types';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people

@@ -13,7 +13,7 @@ import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryC
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 
 const styles = {
     bannerContainer: css`

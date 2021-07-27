@@ -8,7 +8,7 @@ import { space } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Button } from '@guardian/src-button';
 import { BannerEnrichedSecondaryCta } from '../common/types';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';
 
 const reminderButtonStyles = css`

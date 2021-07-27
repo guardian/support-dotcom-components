@@ -1,4 +1,4 @@
-import { OphanComponentEvent, OphanComponentType } from '../../../../types/OphanTypes';
+import { OphanComponentEvent, OphanComponentType } from '@sdc/shared/types';
 
 const OPHAN_COMPONENT_ID_OPT_OUT_VIEW = 'article-count-opt-out-view';
 const OPHAN_COMPONENT_ID_OPT_OUT_OPEN = 'article-count-opt-out-open';

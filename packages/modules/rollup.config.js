@@ -15,6 +15,10 @@ const globals = {
     react: 'guardian.automat.react',
 };
 
+const tsOpts = modueInfo => ({
+    // files: [modueInfo.srcPath],
+})
+
 const config = args => {
     const modules = args.moduleName
         ? [moduleInfos.find(i => i.name === args.moduleName)]
@@ -36,7 +40,7 @@ const config = args => {
                 resolveNode(),
                 commonjs(),
                 json(),
-                typescript(),
+                typescript(tsOpts(module)),
                 babel({
                     extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
                     babelHelpers: 'bundled',

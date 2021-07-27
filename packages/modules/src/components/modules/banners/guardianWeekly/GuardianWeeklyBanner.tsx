@@ -22,7 +22,7 @@ import { BannerText } from '../common/BannerText';
 import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_gWeekly&CMP_TU=mrtn&CMP_BUNIT=subs';

@@ -1,4 +1,4 @@
-import { BannerChannel } from '../../../types/BannerTypes';
+import { BannerChannel } from '@sdc/shared/types';
 
 const setBannerClosedTimestamp = (name: string): void =>
     localStorage.setItem(

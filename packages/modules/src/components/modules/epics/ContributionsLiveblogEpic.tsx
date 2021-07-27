@@ -10,10 +10,9 @@ import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
 } from '../../../lib/placeholders';
-import { EpicVariant } from '../../../types/EpicTypes';
+import { EpicVariant, Tracking } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
-import { Tracking } from '../../../types/shared';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;

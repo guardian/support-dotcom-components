@@ -2,17 +2,15 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
-import { EpicVariant } from '../../../types/EpicTypes';
-import { SecondaryCtaType, Tracking } from '../../../types/shared';
+import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
-import { OphanComponentEvent } from '../../../types/OphanTypes';
+import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     getReminderViewEvent,
     OPHAN_COMPONENT_EVENT_CTAS_VIEW,
     OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
 } from './utils/ophan';
 import { useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import { Cta } from '../../../types/shared';
 import { hasSetReminder } from '../utils/reminders';
 
 const buttonWrapperStyles = css`

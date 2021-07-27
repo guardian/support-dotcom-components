@@ -1,13 +1,11 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsEpicUnvalidated as ContributionsEpic } from './ContributionsEpic';
-import { TickerCountType, TickerEndType } from '../../../types/shared';
 import { props } from './utils/storybook';
 import { from } from '@guardian/src-foundations/mq';
 import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
-import { EpicProps } from '../../../types/EpicTypes';
-import { SecondaryCtaType } from '../../../types/shared';
+import { EpicProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
 
 const containerStyles = css`
     margin: 3em auto;

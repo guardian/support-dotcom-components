@@ -1,4 +1,4 @@
-import { Test, Variant } from '../types/shared';
+import { Test, Variant } from '@sdc/shared/types';
 
 const maxMvt = 1000000;
 

@@ -4,7 +4,7 @@ import { palette } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import useTicker from '../../../hooks/useTicker';
-import { TickerSettings } from '../../../types/shared';
+import { TickerSettings } from '@sdc/shared/types';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.

@@ -7,7 +7,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { Inline, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerTextContent } from '../../common/types';
-import { SecondaryCtaType } from '../../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 
 const containerStyles = css`
     > * {

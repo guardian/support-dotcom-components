@@ -10,7 +10,7 @@ import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryC
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import { BannerRenderedContent } from '../common/types';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { SecondaryCtaType } from '@sdc/shared/types';
 
 const styles = {
     container: (isReminderOpen: boolean) => css`

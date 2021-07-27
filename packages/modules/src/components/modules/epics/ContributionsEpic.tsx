@@ -7,7 +7,7 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
 } from '../../../lib/placeholders';
-import { EpicProps, epicPropsSchema } from '../../../types/EpicTypes';
+import { EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -16,7 +16,6 @@ import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
 import { ContributionsEpicArticleCountAboveWithOptOut } from './ContributionsEpicArticleCountAboveWithOptOut';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import { Stage } from '../../../types/shared';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 

@@ -1,5 +1,5 @@
 import { ReminderFields } from '../../../../lib/reminderFields';
-import { SecondaryCtaType, TickerSettings } from '../../../../types/shared';
+import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
 
 export type BannerId =
     | 'contributions-banner'

@@ -2123,7 +2123,7 @@
     is-module "^1.0.0"
     resolve "^1.17.0"
 
-"@rollup/plugin-typescript@^8.1.1":
+"@rollup/plugin-typescript@^8.2.0":
   version "8.2.3"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-typescript/-/plugin-typescript-8.2.3.tgz#d1aed5dc424623bad8ff026f13f732e7cbeee175"
   integrity sha512-bSkd+DD3wP9OLU6lPet59B6jJF29/RlxHkbwvOVOcf1nk8eQYWw24HpldEdrPo/WG0QAPD7TqI7+2y5jtdqjww==
@@ -14396,10 +14396,10 @@ zip-stream@^2.1.2:
     compress-commons "^2.1.1"
     readable-stream "^3.4.0"
 
-zod@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/zod/-/zod-3.0.0.tgz#f64304fc24c836e9cc1608d7fc2352784e18f2a5"
-  integrity sha512-4DBG6siN02ooPB1yvEEqoe32maHzKEdGgtQ2HEz6FnFtgTjwZtzJ3ScuiDgtssWfDyLnQ3MvtSj6ff5ANL4STw==
+zod@^3.2.0:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.5.1.tgz#e93ce58e182bb76f7d29ccd24feee72611f9a129"
+  integrity sha512-Gg9GTai0iDHowuYM9VNhdFMmesgt44ufzqaE5CPHshpuK5fCzbibdqCnrWuYH6ZmOn/N+BlGmwZtVSijhKmhKw==
 
 zwitch@^1.0.0:
   version "1.0.5"

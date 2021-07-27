@@ -3,7 +3,7 @@
 import React from 'react';
 import { ContributionsEpicReminderSignedIn } from './ContributionsEpicReminderSignedIn';
 import { ContributionsEpicReminderSignedOut } from './ContributionsEpicReminderSignedOut';
-import { OphanComponentEvent } from '../../../types/OphanTypes';
+import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     OPHAN_COMPONENT_EVENT_REMINDER_CLOSE,
     OPHAN_COMPONENT_EVENT_REMINDER_SET,

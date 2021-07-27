@@ -6,7 +6,7 @@ import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { ButtonLink } from '@guardian/src-link';
 import { css } from '@emotion/core';
-import { OphanComponentEvent } from '../../../types/OphanTypes';
+import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE,

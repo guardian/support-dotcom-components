@@ -1,5 +1,4 @@
-import { EpicTargeting } from '../../../types/EpicTypes';
-import { PageTracking, TestTracking, Tracking } from '../../../types/shared';
+import { EpicTargeting, PageTracking, TestTracking, Tracking } from '@sdc/shared/types';
 
 const content = {
     paragraphs: [

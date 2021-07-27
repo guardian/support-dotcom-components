@@ -4,8 +4,7 @@ import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import testData from './ContributionsLiveblogEpic.testData';
 import { getArticleViewCountForWeeks } from '../../../lib/history';
-import { EpicVariant } from '../../../types/EpicTypes';
-import { Tracking } from '../../../types/shared';
+import { EpicVariant, Tracking } from '@sdc/shared/types';
 
 export default {
     component: ContributionsLiveblogEpic,

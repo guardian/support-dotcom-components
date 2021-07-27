@@ -2,8 +2,7 @@ import React, { ReactElement } from 'react';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBanner';
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { StorybookWrapper, BannerWrapper } from '../../../../utils/StorybookWrapper';
-import { BannerContent, BannerProps } from '../../../../types/BannerTypes';
-import { SecondaryCtaType, Tracking } from '../../../../types/shared';
+import { BannerContent, BannerProps,  SecondaryCtaType, Tracking  } from '@sdc/shared/types';
 
 export default {
     component: DigitalSubscriptionsBanner,

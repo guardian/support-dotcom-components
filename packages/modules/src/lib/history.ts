@@ -1,5 +1,5 @@
-import { ArticlesViewedSettings, WeeklyArticleHistory, WeeklyArticleLog } from '../types/shared';
-import { ArticleCounts } from '../types/EpicTypes';
+import { ArticlesViewedSettings, WeeklyArticleHistory, WeeklyArticleLog } from '@sdc/shared/types';
+import { ArticleCounts } from '@sdc/shared/types';
 
 export const getMondayFromDate = (date: Date): number => {
     const day = date.getDay() || 7;

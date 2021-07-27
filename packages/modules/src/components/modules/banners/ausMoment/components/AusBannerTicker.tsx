@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHasBeenSeen, HasBeenSeen } from '../../../../../hooks/useHasBeenSeen';
-import { TickerData, TickerSettings } from '../../../../../types/shared';
+import { TickerData, TickerSettings } from '@sdc/shared/types';
 import { headline, body } from '@guardian/src-foundations/typography';
 import { palette } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';

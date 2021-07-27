@@ -2,8 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { G200BannerUnvalidated as G200Banner } from './G200Banner';
 import { props } from '../utils/storybook';
-import { BannerProps } from '../../../../types/BannerTypes';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
     component: G200Banner,

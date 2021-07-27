@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsEpicTicker, Props } from './ContributionsEpicTicker';
-import { TickerCountType, TickerEndType } from '../../../types/shared';
+import { TickerCountType, TickerEndType } from '@sdc/shared/types';
 
 export default {
     component: ContributionsEpicTicker,

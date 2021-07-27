@@ -2,8 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsBannerUnvalidated as ContributionsBanner } from './ContributionsBanner';
 import { props, content } from '../utils/storybook';
-import { BannerProps } from '../../../../types/BannerTypes';
-import { SecondaryCtaType } from '../../../../types/shared';
+import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
     component: ContributionsBanner,

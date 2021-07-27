@@ -10,8 +10,10 @@ import {
     BannerContent,
     BannerProps,
     bannerSchema,
-} from '../../../../types/BannerTypes';
-import { Cta, SecondaryCta, SecondaryCtaType } from '../../../../types/shared';
+    Cta,
+    SecondaryCta,
+    SecondaryCtaType,
+} from '@sdc/shared/types';
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
@@ -32,7 +34,7 @@ import { buildReminderFields } from '../../../../lib/reminderFields';
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-): React.FC<CloseableBannerProps> => bannerProps => {
+): React.FC<CloseableBannerProps> => (bannerProps) => {
     const {
         tracking,
         submitComponentEvent,

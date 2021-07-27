@@ -1,5 +1,5 @@
 import { Factory } from 'fishery';
-import { TestTracking, PageTracking, Tracking } from '../types/shared';
+import { TestTracking, PageTracking, Tracking } from '@sdc/shared/types';
 
 export const pageTracking = Factory.define<PageTracking>(() => ({
     ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
