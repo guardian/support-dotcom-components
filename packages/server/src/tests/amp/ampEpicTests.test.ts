@@ -1,5 +1,5 @@
 import { selectAmpEpicTestAndVariant } from './ampEpicTests';
-import { CountryGroupId } from '../../lib/geolocation';
+import { CountryGroupId } from '@sdc/shared/lib';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { TickerCountType, TickerEndType } from '@sdc/shared/types';

@@ -5,7 +5,7 @@ import {
     BannerTest,
     BannerVariant,
 } from '@sdc/shared/types';
-import { countryCodeToCountryGroupId, inCountryGroups } from '../../lib/geolocation';
+import { countryCodeToCountryGroupId, inCountryGroups } from '@sdc/shared/lib';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';

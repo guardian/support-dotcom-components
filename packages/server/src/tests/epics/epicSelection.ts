@@ -1,6 +1,6 @@
 import { EpicTargeting, ViewLog, EpicTest, EpicVariant } from '@sdc/shared/types';
 import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../../lib/targeting';
-import { getCountryName, inCountryGroups } from '../../lib/geolocation';
+import { getCountryName, inCountryGroups } from '@sdc/shared/lib';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { UserCohort, WeeklyArticleHistory } from '@sdc/shared/types';

@@ -4,7 +4,7 @@ import compression from 'compression';
 import fetch from 'node-fetch';
 import { EpicType } from '@sdc/shared/types';
 import cors from 'cors';
-import { buildAmpEpicCampaignCode } from './lib/tracking';
+import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,

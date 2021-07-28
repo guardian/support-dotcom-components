@@ -6,7 +6,7 @@ import { SvgArrowDownStraight, SvgArrowUpStraight, SvgInfo } from '@guardian/src
 import {
     createClickEventFromTracking,
     createViewEventFromTracking,
-} from '../../../../lib/tracking';
+} from '@sdc/shared/lib';
 import { PuzzlesBannerProps } from '@sdc/shared/types';
 import { ResponsiveImage } from '../../../ResponsiveImage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';

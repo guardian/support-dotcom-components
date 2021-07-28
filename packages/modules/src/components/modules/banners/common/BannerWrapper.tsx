@@ -3,7 +3,7 @@
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     createClickEventFromTracking,
-} from '../../../../lib/tracking';
+} from '@sdc/shared/lib';
 import React from 'react';
 import {
     BannerChannel,
@@ -17,7 +17,7 @@ import {
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
-} from '../../../../lib/placeholders';
+} from '@sdc/shared/lib';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 import { replaceArticleCount } from '../../../../lib/replaceArticleCount';
 import {
@@ -29,7 +29,7 @@ import {
 } from './types';
 import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
-import { buildReminderFields } from '../../../../lib/reminderFields';
+import { buildReminderFields } from '@sdc/shared/lib';
 
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,

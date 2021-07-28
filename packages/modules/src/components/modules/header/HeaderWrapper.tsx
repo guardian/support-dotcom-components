@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { HeaderProps, HeaderCta } from '@sdc/shared/types';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 

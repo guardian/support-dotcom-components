@@ -1,4 +1,4 @@
-import { ReminderFields } from '../../../../lib/reminderFields';
+import { ReminderFields } from '@sdc/shared/lib';
 import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
 
 export type BannerId =

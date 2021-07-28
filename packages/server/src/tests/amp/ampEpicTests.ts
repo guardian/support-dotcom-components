@@ -1,11 +1,11 @@
-import { inCountryGroups } from '../../lib/geolocation';
+import { inCountryGroups } from '@sdc/shared/lib';
 import { isProd } from '../../lib/env';
 import { cacheAsync } from '../../lib/cache';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
-import { replaceNonArticleCountPlaceholders } from '../../lib/placeholders';
+import { replaceNonArticleCountPlaceholders } from '@sdc/shared/lib';
 import { ampTicker } from './ampTicker';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import { buildAmpEpicCampaignCode } from '../../lib/tracking';
+import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
 import { fetchS3Data } from '../../utils/S3';
 
 /**

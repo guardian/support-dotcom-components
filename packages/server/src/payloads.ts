@@ -4,7 +4,7 @@ import { cacheAsync } from './lib/cache';
 import { EpicProps, EpicTargeting, EpicTest, EpicType, EpicVariant } from '@sdc/shared/types';
 import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
 import { getArticleViewCountForWeeks, getArticleViewCounts } from './lib/history';
-import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
+import { buildBannerCampaignCode, buildCampaignCode } from '@sdc/shared/lib';
 import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
@@ -22,7 +22,7 @@ import {
     header,
 } from '@sdc/shared/config';
 import { fallbackEpicTest } from './tests/epics/fallback';
-import { getReminderFields } from './lib/reminderFields';
+import { getReminderFields } from '@sdc/shared/lib';
 import { logger } from './utils/logging';
 import { cachedChannelSwitches } from './channelSwitches';
 import { PageTracking, TestTracking } from '@sdc/shared/types';

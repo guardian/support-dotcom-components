@@ -1,4 +1,4 @@
-import { CountryGroupId } from '../../lib/geolocation';
+import { CountryGroupId } from '@sdc/shared/lib';
 import { AMPTicker } from './ampTicker';
 import { Cta, TickerSettings } from '@sdc/shared/types';
 

@@ -1,8 +1,8 @@
-import { getLocalCurrencySymbol } from '../../lib/geolocation';
+import { getLocalCurrencySymbol } from '@sdc/shared/lib';
 import { AMPEpic } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicTests';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import { buildAmpEpicCampaignCode } from '../../lib/tracking';
+import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
 
 async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
     const testName = 'FALLBACK';

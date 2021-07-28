@@ -1,7 +1,7 @@
 import { isProd } from '../lib/env';
 import { fetchS3Data } from '../utils/S3';
 import { EpicTest, EpicVariant } from '@sdc/shared/types';
-import { containsArticleCountPlaceholder } from '../lib/placeholders';
+import { containsArticleCountPlaceholder } from '@sdc/shared/lib';
 
 type EpicTestList = 'ARTICLE' | 'ARTICLE_HOLDBACK' | 'LIVEBLOG';
 

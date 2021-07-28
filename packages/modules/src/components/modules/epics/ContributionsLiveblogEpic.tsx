@@ -9,10 +9,10 @@ import { LinkButton } from '@guardian/src-button';
 import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
-} from '../../../lib/placeholders';
+} from '@sdc/shared/lib';
 import { EpicVariant, Tracking } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '../../../lib/tracking';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;

@@ -6,7 +6,7 @@ import { from } from '@guardian/src-foundations/mq';
 import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
-} from '../../../lib/placeholders';
+} from '@sdc/shared/lib';
 import { EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
