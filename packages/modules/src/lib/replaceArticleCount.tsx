@@ -2,8 +2,8 @@ import React from 'react';
 import {
     ArticleCountOptOutPopup,
     OphanTracking,
-} from '../components/modules/shared/ArticleCountOptOutPopup';
-import { ArticleCountOptOutType } from '../components/modules/shared/ArticleCountOptOutPopup';
+} from '../modules/shared/ArticleCountOptOutPopup';
+import { ArticleCountOptOutType } from '../modules/shared/ArticleCountOptOutPopup';
 
 export const replaceArticleCount = (
     text: string,
