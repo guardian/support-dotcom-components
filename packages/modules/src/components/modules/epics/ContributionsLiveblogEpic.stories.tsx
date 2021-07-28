@@ -3,7 +3,6 @@ import { ContributionsLiveblogEpic } from './ContributionsLiveblogEpic';
 import { withKnobs, text, object } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import testData from './ContributionsLiveblogEpic.testData';
-import { getArticleViewCountForWeeks } from '../../../lib/history';
 import { EpicVariant, Tracking } from '@sdc/shared/types';
 
 export default {
@@ -14,11 +13,7 @@ export default {
 
 // Number of articles viewed
 // Used to replace the template placeholder
-const periodInWeeks = 52;
-const numArticles = getArticleViewCountForWeeks(
-    testData.targeting.weeklyArticleHistory,
-    periodInWeeks,
-);
+const numArticles = 99;
 
 export const defaultStory = (): ReactElement => {
     // Epic content props
