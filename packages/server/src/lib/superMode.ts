@@ -1,6 +1,6 @@
 import { isProd } from './env';
 import { fetchS3Data } from '../utils/S3';
-import { EpicTest } from '../types/EpicTypes';
+import { EpicTest } from '@sdc/shared/types';
 
 const S3_BUCKET = 'gu-contributions-public';
 const S3_KEY = `super-mode/${isProd ? 'PROD' : 'CODE'}/articles.json`;

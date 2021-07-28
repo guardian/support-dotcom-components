@@ -1,7 +1,7 @@
-import { BannerTargeting, BannerTest } from '../../types/BannerTypes';
+import { BannerTargeting, BannerTest } from '@sdc/shared/types';
 import { DefaultBannerContent } from './DefaultContributionsBannerContent';
 import { contributionsBanner } from '@sdc/shared/config';
-import { PageTracking } from '../../types/shared';
+import { PageTracking } from '@sdc/shared/types';
 
 export const DefaultContributionsBanner: BannerTest = {
     name: 'DefaultContributionsBanner',

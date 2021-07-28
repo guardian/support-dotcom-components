@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import fetch from 'node-fetch';
-import { EpicType } from './types/EpicTypes';
+import { EpicType } from '@sdc/shared/types';
 import cors from 'cors';
 import { buildAmpEpicCampaignCode } from './lib/tracking';
 import {
@@ -16,7 +16,7 @@ import { baseUrl, isDev, isProd } from './lib/env';
 import { ModuleInfo, moduleInfos } from '@sdc/shared/config';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
-import { OphanComponentEvent } from './types/OphanTypes';
+import { OphanComponentEvent } from '@sdc/shared/types';
 import { logger } from './utils/logging';
 import { OneOffSignupRequest, setOneOffReminderEndpoint } from './api/supportRemindersApi';
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';

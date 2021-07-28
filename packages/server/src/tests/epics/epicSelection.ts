@@ -1,11 +1,11 @@
-import { EpicTargeting, ViewLog, EpicTest, EpicVariant } from '../../types/EpicTypes';
+import { EpicTargeting, ViewLog, EpicTest, EpicVariant } from '@sdc/shared/types';
 import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../../lib/targeting';
 import { getCountryName, inCountryGroups } from '../../lib/geolocation';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { isRecentOneOffContributor } from '../../lib/dates';
-import { UserCohort, WeeklyArticleHistory } from '../../types/shared';
+import { UserCohort, WeeklyArticleHistory } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
-import { EpicType } from '../../types/EpicTypes';
+import { EpicType } from '@sdc/shared/types';
 import { TestVariant } from '../../lib/params';
 import { isInSuperMode, SuperModeArticle, superModeify } from '../../lib/superMode';
 

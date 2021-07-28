@@ -6,12 +6,12 @@ import {
     RawTestParams,
     RawVariantParams,
     BannerVariant,
-} from '../../types/BannerTypes';
-import { OphanComponentType, OphanProduct } from '../../types/OphanTypes';
+} from '@sdc/shared/types';
+import { OphanComponentType, OphanProduct } from '@sdc/shared/types';
 import { isProd } from '../../lib/env';
 import { contributionsBanner, digiSubs, guardianWeekly, ausMomentBanner } from '@sdc/shared/config';
 import { fetchS3Data } from '../../utils/S3';
-import { TickerCountType, TickerEndType } from '../../types/shared';
+import { TickerCountType, TickerEndType } from '@sdc/shared/types';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
     contributions: 'banner-tests.json',

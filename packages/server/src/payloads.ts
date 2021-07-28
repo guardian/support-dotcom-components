@@ -1,7 +1,7 @@
 import express from 'express';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cacheAsync } from './lib/cache';
-import { EpicProps, EpicTargeting, EpicTest, EpicType, EpicVariant } from './types/EpicTypes';
+import { EpicProps, EpicTargeting, EpicTest, EpicType, EpicVariant } from '@sdc/shared/types';
 import { Debug, findTestAndVariant, findForcedTestAndVariant } from './tests/epics/epicSelection';
 import { getArticleViewCountForWeeks, getArticleViewCounts } from './lib/history';
 import { buildBannerCampaignCode, buildCampaignCode } from './lib/tracking';
@@ -9,11 +9,11 @@ import { Params } from './lib/params';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
 import { fetchSuperModeArticles } from './lib/superMode';
-import { BannerProps, BannerTargeting, PuzzlesBannerProps } from './types/BannerTypes';
+import { BannerProps, BannerTargeting, PuzzlesBannerProps } from '@sdc/shared/types';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
-import { HeaderProps, HeaderTargeting } from './types/HeaderTypes';
+import { HeaderProps, HeaderTargeting } from '@sdc/shared/types';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import {
     epic as epicModule,
@@ -25,7 +25,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { getReminderFields } from './lib/reminderFields';
 import { logger } from './utils/logging';
 import { cachedChannelSwitches } from './channelSwitches';
-import { PageTracking, TestTracking } from './types/shared';
+import { PageTracking, TestTracking } from '@sdc/shared/types';
 
 interface EpicDataResponse {
     data?: {

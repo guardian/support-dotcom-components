@@ -1,6 +1,6 @@
 import { CountryGroupId } from '../../lib/geolocation';
 import { AMPTicker } from './ampTicker';
-import { Cta, TickerSettings } from '../../types/shared';
+import { Cta, TickerSettings } from '@sdc/shared/types';
 
 /**
  * Models for the data returned to AMP

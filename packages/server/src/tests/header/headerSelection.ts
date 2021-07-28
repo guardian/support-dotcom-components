@@ -1,4 +1,4 @@
-import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '../../types/HeaderTypes';
+import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
 import {
     ausMomentHeaderNonSupporter,
     ausMomentHeaderSupporter,

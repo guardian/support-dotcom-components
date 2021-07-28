@@ -1,5 +1,5 @@
 import { cacheAsync } from '../../lib/cache';
-import { BannerChannel } from '../../types/BannerTypes';
+import { BannerChannel } from '@sdc/shared/types';
 import { fetchS3Data } from '../../utils/S3';
 import { isProd } from '../../lib/env';
 import { logger } from '../../utils/logging';

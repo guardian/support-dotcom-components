@@ -1,4 +1,4 @@
-import { EpicTest } from '../types/EpicTypes';
+import { EpicTest } from '@sdc/shared/types';
 
 export const configuredTests: EpicTest[] = [
     {

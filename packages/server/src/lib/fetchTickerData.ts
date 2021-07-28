@@ -1,7 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 import { cacheAsync } from './cache';
-import { TickerCountType, TickerData, TickerSettings } from '../types/shared';
-import { EpicVariant } from '../types/EpicTypes';
+import { TickerCountType, TickerData, TickerSettings } from '@sdc/shared/types';
+import { EpicVariant } from '@sdc/shared/types';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people

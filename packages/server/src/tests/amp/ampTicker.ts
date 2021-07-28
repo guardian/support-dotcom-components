@@ -1,5 +1,5 @@
 import { fetchTickerDataCached } from '../../lib/fetchTickerData';
-import { TickerSettings } from '../../types/shared';
+import { TickerSettings } from '@sdc/shared/types';
 
 export interface AMPTicker {
     percentage: string;

@@ -1,4 +1,4 @@
-import { BannerTest, BannerTestGenerator } from '../../types/BannerTypes';
+import { BannerTest, BannerTestGenerator } from '@sdc/shared/types';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import {
     channel1BannersAllTestsGenerator,

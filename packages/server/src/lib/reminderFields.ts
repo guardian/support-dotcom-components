@@ -1,4 +1,4 @@
-import { EpicVariant } from '../types/EpicTypes';
+import { EpicVariant } from '@sdc/shared/types';
 
 export interface ReminderFields {
     reminderCta: string;

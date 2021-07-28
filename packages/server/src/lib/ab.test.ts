@@ -1,5 +1,5 @@
 import { selectVariant, withinRange } from './ab';
-import { EpicTest } from '../types/EpicTypes';
+import { EpicTest } from '@sdc/shared/types';
 
 const test: EpicTest = {
     name: 'example-1',

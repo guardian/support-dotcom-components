@@ -12,8 +12,8 @@ import {
     userInTest,
     isNotExpired,
 } from './epicSelection';
-import { EpicTargeting, EpicTest } from '../../types/EpicTypes';
-import { SecondaryCtaType } from '../../types/shared';
+import { EpicTargeting, EpicTest } from '@sdc/shared/types';
+import { SecondaryCtaType } from '@sdc/shared/types';
 import { withNowAs } from '../../utils/withNowAs';
 import { SuperModeArticle } from '../../lib/superMode';
 
