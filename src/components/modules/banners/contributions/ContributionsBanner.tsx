@@ -307,11 +307,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const unvalidated = bannerWrapper(ContributionsBanner, 'contributions-banner', 'contributions');
-const validated = validatedBannerWrapper(
-    ContributionsBanner,
-    'contributions-banner',
-    'contributions',
-);
+const unvalidated = bannerWrapper(ContributionsBanner, 'contributions-banner');
+const validated = validatedBannerWrapper(ContributionsBanner, 'contributions-banner');
 
 export { validated as ContributionsBanner, unvalidated as ContributionsBannerUnvalidated };

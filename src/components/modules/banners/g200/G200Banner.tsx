@@ -353,7 +353,7 @@ const G200Banner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const unvalidated = bannerWrapper(G200Banner, 'g200-banner', 'contributions');
-const validated = validatedBannerWrapper(G200Banner, 'g200-banner', 'contributions');
+const unvalidated = bannerWrapper(G200Banner, 'g200-banner');
+const validated = validatedBannerWrapper(G200Banner, 'g200-banner');
 
 export { validated as G200Banner, unvalidated as G200BannerUnvalidated };

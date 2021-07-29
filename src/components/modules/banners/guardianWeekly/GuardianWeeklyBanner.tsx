@@ -159,6 +159,6 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
 };
 
 // const wrapped = bannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
-const validated = validatedBannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
+const validated = validatedBannerWrapper(GuardianWeeklyBanner, bannerId);
 
 export { validated as GuardianWeeklyBanner };
