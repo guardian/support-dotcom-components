@@ -12,3 +12,4 @@ target/
 build-storybook.log
 logs/
 storybook-static/
+**/*.tsbuildinfo

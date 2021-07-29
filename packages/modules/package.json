@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "rollup --config",
-    "lint": "eslint 'src/**/*.{ts,tsx}'"
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-compat": "^7.12.13",
