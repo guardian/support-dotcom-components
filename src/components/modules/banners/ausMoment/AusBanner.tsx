@@ -258,6 +258,6 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const validated = validatedBannerWrapper(AusMomentBanner, 'aus-moment-banner', 'contributions');
+const validated = validatedBannerWrapper(AusMomentBanner, 'aus-moment-banner');
 
 export { validated as AusMomentBanner };

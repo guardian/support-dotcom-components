@@ -169,6 +169,6 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const wrapped = validatedBannerWrapper(DigitalSubscriptionsBanner, bannerId, 'subscriptions');
+const wrapped = validatedBannerWrapper(DigitalSubscriptionsBanner, bannerId);
 
 export { wrapped as DigitalSubscriptionsBanner };

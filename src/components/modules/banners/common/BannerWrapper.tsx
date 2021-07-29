@@ -5,12 +5,7 @@ import {
     createClickEventFromTracking,
 } from '../../../../lib/tracking';
 import React from 'react';
-import {
-    BannerChannel,
-    BannerContent,
-    BannerProps,
-    bannerSchema,
-} from '../../../../types/BannerTypes';
+import { BannerContent, BannerProps, bannerSchema } from '../../../../types/BannerTypes';
 import { Cta, SecondaryCta, SecondaryCtaType } from '../../../../types/shared';
 import {
     containsNonArticleCountPlaceholder,
@@ -181,8 +176,7 @@ const withBannerData = (
 export const bannerWrapper = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-    bannerChannel: BannerChannel,
-): React.FC<BannerProps> => withCloseable(withBannerData(Banner, bannerId), bannerChannel);
+): React.FC<BannerProps> => withCloseable(withBannerData(Banner, bannerId));
 
 const validate = (props: unknown): props is BannerProps => {
     const result = bannerSchema.safeParse(props);
@@ -192,8 +186,7 @@ const validate = (props: unknown): props is BannerProps => {
 export const validatedBannerWrapper = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-    bannerChannel: BannerChannel,
 ): React.FC<BannerProps> => {
-    const withoutValidation = bannerWrapper(Banner, bannerId, bannerChannel);
+    const withoutValidation = bannerWrapper(Banner, bannerId);
     return withParsedProps(withoutValidation, validate);
 };
