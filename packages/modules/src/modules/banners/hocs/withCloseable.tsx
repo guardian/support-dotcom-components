@@ -4,26 +4,28 @@ import { setChannelClosedTimestamp } from '../localStorage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 
 export interface CloseableBannerProps extends BannerProps {
-    onClose: () => void;
+	onClose: () => void;
 }
 
 const withCloseable = (
-    CloseableBanner: React.FC<CloseableBannerProps>,
-    bannerChannel: BannerChannel,
+	CloseableBanner: React.FC<CloseableBannerProps>,
+	bannerChannel: BannerChannel,
 ): React.FC<BannerProps> => {
-    const Banner: React.FC<BannerProps> = (bannerProps: BannerProps) => {
-        const [isOpen, setIsOpen] = useState(true);
+	const Banner: React.FC<BannerProps> = (bannerProps: BannerProps) => {
+		const [isOpen, setIsOpen] = useState(true);
 
-        const onClose = (): void => {
-            setChannelClosedTimestamp(bannerChannel);
-            setIsOpen(false);
-        };
+		const onClose = (): void => {
+			setChannelClosedTimestamp(bannerChannel);
+			setIsOpen(false);
+		};
 
-        useEscapeShortcut(onClose, []);
+		useEscapeShortcut(onClose, []);
 
-        return isOpen ? <CloseableBanner onClose={onClose} {...bannerProps} /> : null;
-    };
-    return Banner;
+		return isOpen ? (
+			<CloseableBanner onClose={onClose} {...bannerProps} />
+		) : null;
+	};
+	return Banner;
 };
 
 export default withCloseable;

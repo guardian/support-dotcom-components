@@ -1,9 +1,9 @@
 const CDNFontPath = 'https://assets.guim.co.uk/static/frontend';
 
 interface TemplateData {
-    html: string;
-    css: string;
-    js: string;
+	html: string;
+	css: string;
+	js: string;
 }
 
 export const fontFaces = `
@@ -114,8 +114,12 @@ const renderComponentJs = (js: string): string => `
     <script>const init = ${js}; init({ epicRoot: document, onReminderOpen: function(params) { console.log('onReminderOpen: ', params) } });</script>
 `;
 
-export const renderHtmlDocument = ({ html, css, js = '' }: TemplateData): string =>
-    `<!DOCTYPE html>
+export const renderHtmlDocument = ({
+	html,
+	css,
+	js = '',
+}: TemplateData): string =>
+	`<!DOCTYPE html>
     <html lang="en-GB">
       <head>
         <meta charset="utf-8" />

@@ -7,48 +7,48 @@ import { SquareSide } from './SquareSide';
 import { from } from '@guardian/src-foundations/mq';
 
 const squareContainer = css`
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
 `;
 
 const heading = css`
-    ${headline.xxxsmall({ fontWeight: 'bold' })};
-    margin: ${space[3]}px 0 0;
+	${headline.xxxsmall({ fontWeight: 'bold' })};
+	margin: ${space[3]}px 0 0;
 
-    ${from.mobileLandscape} {
-        ${headline.xxsmall({ fontWeight: 'bold' })}
-    }
+	${from.mobileLandscape} {
+		${headline.xxsmall({ fontWeight: 'bold' })}
+	}
 `;
 
 const removeTopBorder = css`
-    border-top: none;
+	border-top: none;
 `;
 
 const content = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    padding-right: ${space[2]}px;
-    padding-bottom: ${space[2]}px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	padding-right: ${space[2]}px;
+	padding-bottom: ${space[2]}px;
 
-    ${from.mobileLandscape} {
-        padding-bottom: ${space[3]}px;
-    }
+	${from.mobileLandscape} {
+		padding-bottom: ${space[3]}px;
+	}
 `;
 
 export const MinimisedContentSquare: React.FC = () => {
-    return (
-        <div css={squareContainer}>
-            <Square colour="purple" cssOverrides={removeTopBorder}>
-                <SquareSide />
-                <div css={content}>
-                    <h3 css={heading}>Master every challenge</h3>
-                </div>
-            </Square>
-        </div>
-    );
+	return (
+		<div css={squareContainer}>
+			<Square colour="purple" cssOverrides={removeTopBorder}>
+				<SquareSide />
+				<div css={content}>
+					<h3 css={heading}>Master every challenge</h3>
+				</div>
+			</Square>
+		</div>
+	);
 };

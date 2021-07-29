@@ -8,62 +8,65 @@ import { from } from '@guardian/src-foundations/mq';
 import { BannerTextContent } from '../../common/types';
 
 const containerStyles = css`
-    ${body.small({ fontWeight: 'bold' })}
-    color: ${neutral[100]};
+	${body.small({ fontWeight: 'bold' })}
+	color: ${neutral[100]};
 `;
 
 const desktopContainerStyles = css`
-    > * + * {
-        margin-top: ${space[2]}px;
-    }
+	> * + * {
+		margin-top: ${space[2]}px;
+	}
 `;
 
 const headingStyles = css`
-    ${headline.xsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
-    color: #04FFFF;
-    max-width: 80%;
-    margin-bottom: ${space[2]}px;
+	${headline.xsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
+	color: #04FFFF;
+	max-width: 80%;
+	margin-bottom: ${space[2]}px;
 
-    ${from.mobileLandscape} {
-        min-height: 40px;
-    }
+	${from.mobileLandscape} {
+		min-height: 40px;
+	}
 
-    ${from.tablet} {
-        ${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
-        max-width: 100%;
-        margin-bottom: ${space[1]}px;
-    }
+	${from.tablet} {
+		${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
+		max-width: 100%;
+		margin-bottom: ${space[1]}px;
+	}
 
-    ${from.desktop} {
-        margin-bottom: ${space[3]}px;
-        font-size: 29px;
-    }
+	${from.desktop} {
+		margin-bottom: ${space[3]}px;
+		font-size: 29px;
+	}
 
-    ${from.leftCol} {
-        ${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
-        font-size: 38px;
-    }
+	${from.leftCol} {
+		${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
+		font-size: 38px;
+	}
 `;
 
 interface AusBannerHeaderProps {
-    content: BannerTextContent;
+	content: BannerTextContent;
 }
 
-const AusBannerHeader: React.FC<AusBannerHeaderProps> = ({ content }: AusBannerHeaderProps) => {
-    return (
-        <div css={containerStyles}>
-            <Hide above="tablet">
-                <div css={headingStyles}>
-                    {content.mobileContent?.heading ?? content.mainContent.heading}
-                </div>
-            </Hide>
-            <Hide below="tablet">
-                <div css={desktopContainerStyles}>
-                    <div css={headingStyles}>{content.mainContent.heading}</div>
-                </div>
-            </Hide>
-        </div>
-    );
+const AusBannerHeader: React.FC<AusBannerHeaderProps> = ({
+	content,
+}: AusBannerHeaderProps) => {
+	return (
+		<div css={containerStyles}>
+			<Hide above="tablet">
+				<div css={headingStyles}>
+					{content.mobileContent?.heading ??
+						content.mainContent.heading}
+				</div>
+			</Hide>
+			<Hide below="tablet">
+				<div css={desktopContainerStyles}>
+					<div css={headingStyles}>{content.mainContent.heading}</div>
+				</div>
+			</Hide>
+		</div>
+	);
 };
 
 export default AusBannerHeader;

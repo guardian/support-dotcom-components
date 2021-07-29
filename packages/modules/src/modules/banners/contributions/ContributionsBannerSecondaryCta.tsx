@@ -12,48 +12,47 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';
 
 const reminderButtonStyles = css`
-    color: ${neutral[0]};
-    margin-left: ${space[4]}px;
+	color: ${neutral[0]};
+	margin-left: ${space[4]}px;
 `;
 
 export interface ContributionsBannerSecondaryCtaProps {
-    secondaryCta: BannerEnrichedSecondaryCta;
-    onCustomCtaClick: () => void;
-    onReminderCtaClick: () => void;
+	secondaryCta: BannerEnrichedSecondaryCta;
+	onCustomCtaClick: () => void;
+	onReminderCtaClick: () => void;
 }
 
-export const ContributionsBannerSecondaryCta: React.FC<ContributionsBannerSecondaryCtaProps> = ({
-    secondaryCta,
-    onCustomCtaClick,
-    onReminderCtaClick,
-}) => {
-    return (
-        <>
-            {secondaryCta.type === SecondaryCtaType.Custom && (
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                    <LinkButton
-                        priority="tertiary"
-                        size="small"
-                        icon={<SvgArrowRightStraight />}
-                        iconSide="right"
-                        nudgeIcon={true}
-                        onClick={onCustomCtaClick}
-                        href={secondaryCta.cta.ctaUrl}
-                    >
-                        {secondaryCta.cta.ctaText}
-                    </LinkButton>
-                </ThemeProvider>
-            )}
+export const ContributionsBannerSecondaryCta: React.FC<ContributionsBannerSecondaryCtaProps> =
+	({ secondaryCta, onCustomCtaClick, onReminderCtaClick }) => {
+		return (
+			<>
+				{secondaryCta.type === SecondaryCtaType.Custom && (
+					<ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+						<LinkButton
+							priority="tertiary"
+							size="small"
+							icon={<SvgArrowRightStraight />}
+							iconSide="right"
+							nudgeIcon={true}
+							onClick={onCustomCtaClick}
+							href={secondaryCta.cta.ctaUrl}
+						>
+							{secondaryCta.cta.ctaText}
+						</LinkButton>
+					</ThemeProvider>
+				)}
 
-            {secondaryCta?.type === SecondaryCtaType.ContributionsReminder && !hasSetReminder() && (
-                <Button
-                    cssOverrides={reminderButtonStyles}
-                    priority="subdued"
-                    onClick={onReminderCtaClick}
-                >
-                    {secondaryCta.reminderFields.reminderCta}
-                </Button>
-            )}
-        </>
-    );
-};
+				{secondaryCta?.type ===
+					SecondaryCtaType.ContributionsReminder &&
+					!hasSetReminder() && (
+						<Button
+							cssOverrides={reminderButtonStyles}
+							priority="subdued"
+							onClick={onReminderCtaClick}
+						>
+							{secondaryCta.reminderFields.reminderCta}
+						</Button>
+					)}
+			</>
+		);
+	};

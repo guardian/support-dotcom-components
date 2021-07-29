@@ -10,6 +10,7 @@
     "server": "yarn workspace @sdc/server",
     "modules": "yarn workspace @sdc/modules",
     "shared": "yarn workspace @sdc/shared",
+    "lint": "yarn workspaces run lint",
     "clean-dist": "find ./packages -path '**/node_modules' -prune -false -o -type d -name 'dist' -exec rm -r {} +",
     "clean-tsbuildinfo": "find ./packages -type f -name '*.tsbuildinfo' -exec rm {} +",
     "clean": "yarn clean-dist && yarn clean-tsbuildinfo",
@@ -18,5 +19,12 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "@guardian/eslint-config-typescript": "^0.6.0",
+    "@guardian/prettier": "^0.6.0",
+    "eslint": "^7.31.0",
+    "eslint-plugin-react": "^7.24.0",
+    "prettier": "^2.3.2"
+  }
 }

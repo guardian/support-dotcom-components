@@ -6,33 +6,33 @@ import { SvgCross } from '@guardian/src-icons';
 import { neutral } from '@guardian/src-foundations/palette';
 
 const closeButtonStyles = css`
-    &:hover {
-        background-color: ${neutral[0]};
-        border-color: ${neutral[0]};
-    }
+	&:hover {
+		background-color: ${neutral[0]};
+		border-color: ${neutral[0]};
+	}
 `;
 
 interface G200BannerCloseButtonProps {
-    onClose: () => void;
+	onClose: () => void;
 }
 
 const G200BannerCloseButton: React.FC<G200BannerCloseButtonProps> = ({
-    onClose,
+	onClose,
 }: G200BannerCloseButtonProps) => {
-    return (
-        <ThemeProvider theme={buttonBrand}>
-            <Button
-                onClick={onClose}
-                cssOverrides={closeButtonStyles}
-                priority="tertiary"
-                size="small"
-                icon={<SvgCross />}
-                hideLabel
-            >
-                Close
-            </Button>
-        </ThemeProvider>
-    );
+	return (
+		<ThemeProvider theme={buttonBrand}>
+			<Button
+				onClick={onClose}
+				cssOverrides={closeButtonStyles}
+				priority="tertiary"
+				size="small"
+				icon={<SvgCross />}
+				hideLabel
+			>
+				Close
+			</Button>
+		</ThemeProvider>
+	);
 };
 
 export default G200BannerCloseButton;

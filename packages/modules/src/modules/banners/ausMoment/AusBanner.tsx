@@ -8,256 +8,263 @@ import AusBannerBody from './components/AusBannerBody';
 import AusBannerCtas from './components/AusBannerCtas';
 import AusBannerCloseButton from './components/AusBannerCloseButton';
 import {
-    AusBannerTicker,
-    CurrentSupporterNumber,
-    GoalSupporterNumber,
+	AusBannerTicker,
+	CurrentSupporterNumber,
+	GoalSupporterNumber,
 } from './components/AusBannerTicker';
 import AusBannerAnimation from './components/AusBannerAnimation';
-import { SocialShareIcons, SocialShareLabel } from './components/AusBannerSocialShare';
+import {
+	SocialShareIcons,
+	SocialShareLabel,
+} from './components/AusBannerSocialShare';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { brand } from '@guardian/src-foundations';
 
 // -- styles -- //
 const containerStyles = css`
-    position: relative;
-    background: ${brand[400]};
-    display: flex;
-    flex-direction: column;
-    padding: ${space[1]}px ${space[3]}px ${space[1]}px;
-    border-top: 1px solid #04ffff;
+	position: relative;
+	background: ${brand[400]};
+	display: flex;
+	flex-direction: column;
+	padding: ${space[1]}px ${space[3]}px ${space[1]}px;
+	border-top: 1px solid #04ffff;
 
-    ${from.tablet} {
-        flex-direction: row;
-        padding-left: 0;
-        padding-bottom: ${space[4]}px;
-    }
+	${from.tablet} {
+		flex-direction: row;
+		padding-left: 0;
+		padding-bottom: ${space[4]}px;
+	}
 
-    ${from.desktop} {
-        padding-right: 0;
-        margin: 0;
-        min-height: 350px;
-    }
+	${from.desktop} {
+		padding-right: 0;
+		margin: 0;
+		min-height: 350px;
+	}
 
-    * {
-        box-sizing: border-box;
-    }
+	* {
+		box-sizing: border-box;
+	}
 `;
 
 const closeButtonContainerStyles = css`
-    position: absolute;
-    z-index: 200;
-    top: ${space[2]}px;
-    right: ${space[2]}px;
+	position: absolute;
+	z-index: 200;
+	top: ${space[2]}px;
+	right: ${space[2]}px;
 
-    ${from.tablet} {
-        padding: ${space[1]}px;
-    }
+	${from.tablet} {
+		padding: ${space[1]}px;
+	}
 
-    ${from.tablet} {
-        position: relative;
-        top: auto;
-        right: auto;
-    }
+	${from.tablet} {
+		position: relative;
+		top: auto;
+		right: auto;
+	}
 `;
 
 const ctasContainerStyles = css`
-    padding: ${space[3]}px 0 ${space[3]}px;
+	padding: ${space[3]}px 0 ${space[3]}px;
 
-    ${from.tablet} {
-        width: calc(100% + 20px);
-        position: absolute;
-        bottom: 0;
-    }
+	${from.tablet} {
+		width: calc(100% + 20px);
+		position: absolute;
+		bottom: 0;
+	}
 
-    ${from.desktop} {
-        width: 100%;
-        position: relative;
-    }
+	${from.desktop} {
+		width: 100%;
+		position: relative;
+	}
 
-    ${from.wide} {
-        width: 100%;
-        padding: ${space[3]}px 0 ${space[5]}px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+	${from.wide} {
+		width: 100%;
+		padding: ${space[3]}px 0 ${space[5]}px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
 `;
 
 const bodyContainerStyles = css`
-    display: flex;
+	display: flex;
 `;
 
 const animationWrapper = css`
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    overflow: hidden;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	overflow: hidden;
 `;
 
 const currentSupportersContainerStyles = css`
-    position: absolute;
-    z-index: 100;
-    left: 22%;
-    bottom: 25%;
+	position: absolute;
+	z-index: 100;
+	left: 22%;
+	bottom: 25%;
 
-    ${from.wide} {
-        left: 30%;
-    }
+	${from.wide} {
+		left: 30%;
+	}
 `;
 
 const goalContainerStyles = css`
-    position: absolute;
-    z-index: 100;
-    left: 40%;
-    bottom: 55%;
+	position: absolute;
+	z-index: 100;
+	left: 40%;
+	bottom: 55%;
 
-    ${from.leftCol} {
-        left: 50%;
-    }
+	${from.leftCol} {
+		left: 50%;
+	}
 `;
 
 const socialShareStyles = css`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: ${space[4]}px auto ${space[2]}px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: ${space[4]}px auto ${space[2]}px;
 
-    ${between.tablet.and.desktop} {
-        flex-direction: column;
-        align-items: baseline;
-        position: absolute;
-        margin-left: ${space[4]}px;
-        bottom: ${space[2]}px;
-    }
+	${between.tablet.and.desktop} {
+		flex-direction: column;
+		align-items: baseline;
+		position: absolute;
+		margin-left: ${space[4]}px;
+		bottom: ${space[2]}px;
+	}
 `;
 
 // -- components --//
 
 const AusMomentBanner: React.FC<BannerRenderProps> = ({
-    content,
-    onCtaClick,
-    onSecondaryCtaClick,
-    onCloseClick,
-    tickerSettings,
-    isSupporter,
+	content,
+	onCtaClick,
+	onSecondaryCtaClick,
+	onCloseClick,
+	tickerSettings,
+	isSupporter,
 }) => {
-    const tickerData = tickerSettings?.tickerData;
+	const tickerData = tickerSettings?.tickerData;
 
-    if (!tickerSettings || !tickerData) {
-        return null;
-    }
+	if (!tickerSettings || !tickerData) {
+		return null;
+	}
 
-    const Header = () => <AusBannerHeader content={content} />;
+	const Header = () => <AusBannerHeader content={content} />;
 
-    const Body = () => (
-        <div css={bodyContainerStyles}>
-            <AusBannerBody content={content} />
-        </div>
-    );
+	const Body = () => (
+		<div css={bodyContainerStyles}>
+			<AusBannerBody content={content} />
+		</div>
+	);
 
-    const CloseButton = () => (
-        <div css={closeButtonContainerStyles}>
-            <AusBannerCloseButton onClose={onCloseClick} />
-        </div>
-    );
+	const CloseButton = () => (
+		<div css={closeButtonContainerStyles}>
+			<AusBannerCloseButton onClose={onCloseClick} />
+		</div>
+	);
 
-    const Ctas = () => (
-        <div css={ctasContainerStyles}>
-            <AusBannerCtas
-                content={content}
-                onPrimaryCtaClick={onCtaClick}
-                onSecondaryCtaClick={onSecondaryCtaClick}
-            />
-        </div>
-    );
+	const Ctas = () => (
+		<div css={ctasContainerStyles}>
+			<AusBannerCtas
+				content={content}
+				onPrimaryCtaClick={onCtaClick}
+				onSecondaryCtaClick={onSecondaryCtaClick}
+			/>
+		</div>
+	);
 
-    const Ticker = () => {
-        return (
-            <AusBannerTicker
-                settings={tickerSettings}
-                accentColour={'#04FFFF'}
-                tickerData={tickerData}
-            />
-        );
-    };
+	const Ticker = () => {
+		return (
+			<AusBannerTicker
+				settings={tickerSettings}
+				accentColour={'#04FFFF'}
+				tickerData={tickerData}
+			/>
+		);
+	};
 
-    const CurrentSupporters = () => {
-        return (
-            <div css={currentSupportersContainerStyles}>
-                <CurrentSupporterNumber tickerData={tickerData} />
-            </div>
-        );
-    };
+	const CurrentSupporters = () => {
+		return (
+			<div css={currentSupportersContainerStyles}>
+				<CurrentSupporterNumber tickerData={tickerData} />
+			</div>
+		);
+	};
 
-    const Goal = () => {
-        return (
-            <div css={goalContainerStyles}>
-                <GoalSupporterNumber goal={tickerData.goal} />
-            </div>
-        );
-    };
+	const Goal = () => {
+		return (
+			<div css={goalContainerStyles}>
+				<GoalSupporterNumber goal={tickerData.goal} />
+			</div>
+		);
+	};
 
-    const SocialShare = () => {
-        return (
-            <div css={socialShareStyles}>
-                <SocialShareIcons />
-                <SocialShareLabel />
-            </div>
-        );
-    };
+	const SocialShare = () => {
+		return (
+			<div css={socialShareStyles}>
+				<SocialShareIcons />
+				<SocialShareLabel />
+			</div>
+		);
+	};
 
-    return (
-        <div css={containerStyles}>
-            <Hide above="tablet">
-                <Header />
-                <Ticker />
-                <Body />
-                <CloseButton />
+	return (
+		<div css={containerStyles}>
+			<Hide above="tablet">
+				<Header />
+				<Ticker />
+				<Body />
+				<CloseButton />
 
-                {isSupporter ? <SocialShare /> : <Ctas />}
-            </Hide>
+				{isSupporter ? <SocialShare /> : <Ctas />}
+			</Hide>
 
-            <Container>
-                <Hide below="tablet">
-                    <Hide above="desktop">
-                        <Columns>
-                            <Column width={8 / 12}>
-                                <Header />
-                                <Ticker />
-                                <Body />
-                            </Column>
-                            <Column>
-                                <CloseButton />
-                                {isSupporter ? <SocialShare /> : <Ctas />}
-                            </Column>
-                        </Columns>
-                    </Hide>
-                </Hide>
+			<Container>
+				<Hide below="tablet">
+					<Hide above="desktop">
+						<Columns>
+							<Column width={8 / 12}>
+								<Header />
+								<Ticker />
+								<Body />
+							</Column>
+							<Column>
+								<CloseButton />
+								{isSupporter ? <SocialShare /> : <Ctas />}
+							</Column>
+						</Columns>
+					</Hide>
+				</Hide>
 
-                <Hide below="desktop">
-                    <Columns>
-                        <Column width={9 / 16}>
-                            <Header />
-                            <Body />
-                            {isSupporter ? <SocialShare /> : <Ctas />}
-                        </Column>
-                        <Column>
-                            <CloseButton />
-                            <div css={animationWrapper}>
-                                <CurrentSupporters />
-                                <Goal />
+				<Hide below="desktop">
+					<Columns>
+						<Column width={9 / 16}>
+							<Header />
+							<Body />
+							{isSupporter ? <SocialShare /> : <Ctas />}
+						</Column>
+						<Column>
+							<CloseButton />
+							<div css={animationWrapper}>
+								<CurrentSupporters />
+								<Goal />
 
-                                <AusBannerAnimation />
-                            </div>
-                        </Column>
-                    </Columns>
-                </Hide>
-            </Container>
-        </div>
-    );
+								<AusBannerAnimation />
+							</div>
+						</Column>
+					</Columns>
+				</Hide>
+			</Container>
+		</div>
+	);
 };
 
-const validated = validatedBannerWrapper(AusMomentBanner, 'aus-moment-banner', 'contributions');
+const validated = validatedBannerWrapper(
+	AusMomentBanner,
+	'aus-moment-banner',
+	'contributions',
+);
 
 export { validated as AusMomentBanner };

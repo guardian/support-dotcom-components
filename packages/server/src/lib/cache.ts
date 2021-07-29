@@ -1,9 +1,6 @@
 import { logger } from '../utils/logging';
 
-interface Cache {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-}
+type Cache = Record<string, unknown>;
 const cache: Cache = {};
 
 const retryIntervalMs = 20 * 1000;
@@ -22,51 +19,57 @@ const retryIntervalMs = 20 * 1000;
  * @param warm      if true then immediately run fn
  */
 export const cacheAsync = <T>(
-    fn: () => Promise<T>,
-    ttlSec: number,
-    key: string,
-    warm: boolean = false,
+	fn: () => Promise<T>,
+	ttlSec: number,
+	key: string,
+	warm = false,
 ): [() => void, () => Promise<T>] => {
-    const getValue = async (): Promise<T> => {
-        if (cache[key] !== undefined) {
-            return Promise.resolve(cache[key] as T);
-        } else {
-            // First read attempt on this key. Fetch an initial value and setup the refresh scheduler
-            try {
-                const result: T = await fn();
-                cache[key] = result;
-                return Promise.resolve(result);
-            } catch (err) {
-                logger.warn(`Failed to make initial request for ${key}: ${err}`);
-                return Promise.reject(
-                    new Error(`Failed to make initial request for ${key}: ${err}`),
-                );
-            } finally {
-                const scheduleRefresh = (ms: number): void => {
-                    setTimeout(async () => {
-                        try {
-                            cache[key] = await fn();
-                            scheduleRefresh(ttlSec * 1000);
-                        } catch (err) {
-                            logger.warn(`Error refreshing cached value for key ${key}: ${err}`);
-                            scheduleRefresh(retryIntervalMs);
-                        }
-                    }, ms);
-                };
+	const getValue = async (): Promise<T> => {
+		if (cache[key] !== undefined) {
+			return Promise.resolve(cache[key] as T);
+		} else {
+			// First read attempt on this key. Fetch an initial value and setup the refresh scheduler
+			try {
+				const result: T = await fn();
+				cache[key] = result;
+				return Promise.resolve(result);
+			} catch (err) {
+				logger.warn(
+					`Failed to make initial request for ${key}: ${err}`,
+				);
+				return Promise.reject(
+					new Error(
+						`Failed to make initial request for ${key}: ${err}`,
+					),
+				);
+			} finally {
+				const scheduleRefresh = (ms: number): void => {
+					setTimeout(async () => {
+						try {
+							cache[key] = await fn();
+							scheduleRefresh(ttlSec * 1000);
+						} catch (err) {
+							logger.warn(
+								`Error refreshing cached value for key ${key}: ${err}`,
+							);
+							scheduleRefresh(retryIntervalMs);
+						}
+					}, ms);
+				};
 
-                scheduleRefresh(ttlSec * 1000);
-            }
-        }
-    };
+				scheduleRefresh(ttlSec * 1000);
+			}
+		}
+	};
 
-    const reset = (): void => {
-        cache[key] = undefined;
-    };
+	const reset = (): void => {
+		cache[key] = undefined;
+	};
 
-    if (warm) {
-        // Warm the cache now
-        getValue();
-    }
+	if (warm) {
+		// Warm the cache now
+		getValue();
+	}
 
-    return [reset, getValue];
+	return [reset, getValue];
 };

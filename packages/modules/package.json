@@ -2,7 +2,8 @@
   "name": "@sdc/modules",
   "version": "1.0.0",
   "scripts": {
-    "start": "rollup --config"
+    "start": "rollup --config",
+    "lint": "eslint 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-compat": "^7.12.13",
