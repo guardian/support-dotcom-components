@@ -15,7 +15,10 @@
     "clean-tsbuildinfo": "find ./packages -type f -name '*.tsbuildinfo' -exec rm {} +",
     "clean": "yarn clean-dist && yarn clean-tsbuildinfo",
     "prebuild": "yarn clean",
-    "build": "tsc --build"
+    "build": "yarn workspaces run build",
+    "presetup": "yarn clean",
+    "setup": "tsc --build",
+    "riffraff": "node-riffraff-artifact"
   },
   "workspaces": [
     "packages/*"

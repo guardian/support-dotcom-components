@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
-    "prestart": "tsc --build",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
+		"build": "tsc --build",
+    "prestart": "yarn build",
     "start-build": "tsc --build --watch",
-    "start-server": "nodemon dist/server.js",
-    "start": "export stage=DEV; concurrently --kill-others \"yarn start-build\" \"yarn start-server\""
+    "start-server": "stage=DEV nodemon dist/server.js",
+    "start": "concurrently --kill-others \"yarn start-build\" \"yarn start-server\""
   },
   "devDependencies": {
     "concurrently": "^6.2.0",

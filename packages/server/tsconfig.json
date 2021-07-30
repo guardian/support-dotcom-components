@@ -9,5 +9,6 @@
     "outDir": "dist"
   },
   "include": ["src"],
-  "references": [{"path": "../shared"}]
+  "exclude": ["src/**/*.test.ts", "src/factories/*"],
+  "references": [{ "path": "../shared" }]
 }

@@ -4,7 +4,8 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
   "scripts": {
-    "lint": "eslint 'src/**/*.{ts,tsx}'"
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+		"build": "tsc"
   },
   "dependencies": {
     "zod": "^3.2.0"

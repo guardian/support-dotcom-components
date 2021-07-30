@@ -2,7 +2,10 @@
   "name": "@sdc/modules",
   "version": "1.0.0",
   "scripts": {
-    "start": "rollup --config",
+		"prebuild": "tsc --build",
+    "build": "rollup --config",
+		"prestart": "tsc --build",
+    "start": "rollup --config --watch",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "storybook": "start-storybook -p 6006"
   },
