@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BannerProps, BannerChannel } from '@sdc/shared/types';
+import { BannerProps } from '@sdc/shared/types';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
 
@@ -9,13 +9,12 @@ export interface CloseableBannerProps extends BannerProps {
 
 const withCloseable = (
 	CloseableBanner: React.FC<CloseableBannerProps>,
-	bannerChannel: BannerChannel,
 ): React.FC<BannerProps> => {
 	const Banner: React.FC<BannerProps> = (bannerProps: BannerProps) => {
 		const [isOpen, setIsOpen] = useState(true);
 
 		const onClose = (): void => {
-			setChannelClosedTimestamp(bannerChannel);
+			setChannelClosedTimestamp(bannerProps.bannerChannel);
 			setIsOpen(false);
 		};
 

@@ -2,6 +2,7 @@ import type { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = [
+	'football',
 	'money',
 	'education',
 	'games',

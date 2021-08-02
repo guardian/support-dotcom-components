@@ -1,4 +1,8 @@
-import { getCountryName, inCountryGroups } from '@sdc/shared/lib';
+import {
+	countryCodeToCountryGroupId,
+	getCountryName,
+	inCountryGroups,
+} from '@sdc/shared/lib';
 import type {
 	EpicTargeting,
 	EpicTest,
@@ -288,7 +292,13 @@ export const findTestAndVariant = (
 	);
 
 	const isSuperMode =
-		targeting.url && isInSuperMode(targeting.url, superModeArticles);
+		targeting.url &&
+		targeting.countryCode &&
+		isInSuperMode(
+			targeting.url,
+			countryCodeToCountryGroupId(targeting.countryCode),
+			superModeArticles,
+		);
 
 	const test = isSuperMode
 		? filterTestsWithSuperModePass(priorityOrdered)
