@@ -1,6 +1,10 @@
 import { EpicTargeting, ViewLog, EpicTest, EpicVariant } from '../../types/EpicTypes';
 import { shouldThrottle, shouldNotRenderEpic, userIsInTest } from '../../lib/targeting';
-import { getCountryName, inCountryGroups } from '../../lib/geolocation';
+import {
+    countryCodeToCountryGroupId,
+    getCountryName,
+    inCountryGroups,
+} from '../../lib/geolocation';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { UserCohort, WeeklyArticleHistory } from '../../types/shared';
@@ -249,7 +253,14 @@ export const findTestAndVariant = (
         tests.filter(test => !test.highPriority),
     );
 
-    const isSuperMode = targeting.url && isInSuperMode(targeting.url, superModeArticles);
+    const isSuperMode =
+        targeting.url &&
+        targeting.countryCode &&
+        isInSuperMode(
+            targeting.url,
+            countryCodeToCountryGroupId(targeting.countryCode),
+            superModeArticles,
+        );
 
     const test = isSuperMode
         ? filterTestsWithSuperModePass(priorityOrdered)

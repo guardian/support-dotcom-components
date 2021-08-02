@@ -98,6 +98,11 @@ Resources:
                                     - !Sub arn:aws:s3:::gu-contributions-public/banner/${Stage}/*
                                     - !Sub arn:aws:s3:::gu-contributions-public/super-mode/${Stage}/*
                                     - arn:aws:s3::*:membership-dist/*
+                            -   Action: dynamodb:*
+                                Effect: Allow
+                                Resource:
+                                    - !Sub arn:aws:dynamodb:*:${AWS::AccountId}:table/super-mode-${Stage}
+                                    - !Sub arn:aws:dynamodb:*:${AWS::AccountId}:table/super-mode-${Stage}/index/*
                             -   Action:
                                     - s3:Get*
                                     - s3:List*
