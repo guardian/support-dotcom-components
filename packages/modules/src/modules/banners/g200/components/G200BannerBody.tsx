@@ -7,52 +7,49 @@ import { space } from '@guardian/src-foundations';
 import { BannerTextContent } from '../../common/types';
 
 const containerStyles = css`
-	${body.medium({ fontWeight: 'bold' })}
-	color: ${neutral[100]};
+    ${body.medium({ fontWeight: 'bold' })}
+    color: ${neutral[100]};
 `;
 
 const desktopContainerStyles = css`
-	> * + * {
-		margin-top: ${space[2]}px;
-	}
+    > * + * {
+        margin-top: ${space[2]}px;
+    }
 `;
 
 const highlightedTextContainerStyles = css`
-	color: ${neutral[0]};
-	background: ${neutral[100]};
-	display: inline;
-	padding: 2px;
-	word-wrap: break-word;
+    color: ${neutral[0]};
+    background: ${neutral[100]};
+    display: inline;
+    padding: 2px;
+    word-wrap: break-word;
 `;
 
 interface G200BannerBodyProps {
-	content: BannerTextContent;
+    content: BannerTextContent;
 }
 
-const G200BannerBody: React.FC<G200BannerBodyProps> = ({
-	content,
-}: G200BannerBodyProps) => {
-	return (
-		<div css={containerStyles}>
-			<Hide above="tablet">
-				{content.mobileContent?.messageText ??
-					content.mainContent.messageText}
-			</Hide>
-			<Hide below="tablet">
-				<div css={desktopContainerStyles}>
-					<div>{content.mainContent.messageText}</div>
+const G200BannerBody: React.FC<G200BannerBodyProps> = ({ content }: G200BannerBodyProps) => {
+    return (
+        <div css={containerStyles}>
+            <Hide above="tablet">
+                {content.mobileContent?.messageText ?? content.mainContent.messageText}
+            </Hide>
+            <Hide below="tablet">
+                <div css={desktopContainerStyles}>
+                    <div>{content.mainContent.messageText}</div>
 
-					{content.mainContent.highlightedText && (
-						<div>
-							<div css={highlightedTextContainerStyles}>
-								{content.mainContent.highlightedText}
-							</div>
-						</div>
-					)}
-				</div>
-			</Hide>
-		</div>
-	);
+                    {content.mainContent.highlightedText && (
+                        <div>
+                            <div css={highlightedTextContainerStyles}>
+                                {content.mainContent.highlightedText}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </Hide>
+        </div>
+    );
 };
 
 export default G200BannerBody;

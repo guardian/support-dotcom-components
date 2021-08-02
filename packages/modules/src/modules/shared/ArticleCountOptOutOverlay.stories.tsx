@@ -1,36 +1,36 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import {
-	ArticleCountOptOutOverlay,
-	ArticleCountOptOutOverlayProps,
+    ArticleCountOptOutOverlay,
+    ArticleCountOptOutOverlayProps,
 } from './ArticleCountOptOutOverlay';
 
 export default {
-	component: ArticleCountOptOutOverlay,
-	title: 'Shared/ArticleCountOptOutOverlay',
-	args: {
-		type: 'banner',
-		hasOptedOut: false,
-		onClose: (): void => console.log('close'),
-		onOptOut: (): void => console.log('close'),
-	},
+    component: ArticleCountOptOutOverlay,
+    title: 'Shared/ArticleCountOptOutOverlay',
+    args: {
+        type: 'banner',
+        hasOptedOut: false,
+        onClose: (): void => console.log('close'),
+        onOptOut: (): void => console.log('close'),
+    },
 } as Meta;
 
-const Template: Story<ArticleCountOptOutOverlayProps> = (
-	props: ArticleCountOptOutOverlayProps,
-) => <ArticleCountOptOutOverlay {...props} />;
+const Template: Story<ArticleCountOptOutOverlayProps> = (props: ArticleCountOptOutOverlayProps) => (
+    <ArticleCountOptOutOverlay {...props} />
+);
 
 export const Epic = Template.bind({});
 Epic.args = {
-	type: 'epic',
+    type: 'epic',
 };
 
 export const Banner = Template.bind({});
 Banner.args = {
-	type: 'banner',
+    type: 'banner',
 };
 
 export const GlobalEoyAppealBanner = Template.bind({});
 GlobalEoyAppealBanner.args = {
-	type: 'global-eoy-banner',
+    type: 'global-eoy-banner',
 };

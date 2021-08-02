@@ -10,102 +10,98 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 
 const messageStyles = (isThankYouMessage: boolean) => css`
-	color: ${brandAlt[400]};
-	${headline.xxsmall({ fontWeight: 'bold' })};
-	margin-bottom: 3px;
+    color: ${brandAlt[400]};
+    ${headline.xxsmall({ fontWeight: 'bold' })};
+    margin-bottom: 3px;
 
-	${from.desktop} {
-		${headline.xsmall({ fontWeight: 'bold' })}
-	}
+    ${from.desktop} {
+        ${headline.xsmall({ fontWeight: 'bold' })}
+    }
 
-	${from.leftCol} {
-		${isThankYouMessage
-			? headline.small({ fontWeight: 'bold' })
-			: headline.medium({ fontWeight: 'bold' })}
-	}
+    ${from.leftCol} {
+        ${isThankYouMessage
+            ? headline.small({ fontWeight: 'bold' })
+            : headline.medium({ fontWeight: 'bold' })}
+    }
 `;
 
 const linkStyles = css`
-	height: 32px;
-	min-height: 32px;
-	${textSans.small({ fontWeight: 'bold' })};
-	border-radius: 16px;
-	padding: 0 12px 0 12px;
-	line-height: 18px;
-	margin-right: 10px;
-	margin-bottom: 6px;
+    height: 32px;
+    min-height: 32px;
+    ${textSans.small({ fontWeight: 'bold' })};
+    border-radius: 16px;
+    padding: 0 12px 0 12px;
+    line-height: 18px;
+    margin-right: 10px;
+    margin-bottom: 6px;
 
-	svg {
-		width: 24px;
-	}
+    svg {
+        width: 24px;
+    }
 `;
 
 const subMessageStyles = css`
-	color: ${brandText.primary};
-	${textSans.medium()};
-	margin: 5px 0;
+    color: ${brandText.primary};
+    ${textSans.medium()};
+    margin: 5px 0;
 `;
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
-	const { heading, subheading, primaryCta, secondaryCta } = props.content;
+    const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
-	return (
-		<div>
-			<Hide below="tablet">
-				<div css={messageStyles(false)}>
-					<span>{heading}</span>
-				</div>
+    return (
+        <div>
+            <Hide below="tablet">
+                <div css={messageStyles(false)}>
+                    <span>{heading}</span>
+                </div>
 
-				<div css={subMessageStyles}>
-					<div>{subheading}</div>
-				</div>
-			</Hide>
+                <div css={subMessageStyles}>
+                    <div>{subheading}</div>
+                </div>
+            </Hide>
 
-			{primaryCta && (
-				<ThemeProvider theme={buttonReaderRevenueBrand}>
-					<Hide below="mobileMedium">
-						<LinkButton
-							priority="primary"
-							href={primaryCta.ctaUrl}
-							icon={<SvgArrowRightStraight />}
-							iconSide="right"
-							nudgeIcon={true}
-							css={linkStyles}
-						>
-							{primaryCta.ctaText}
-						</LinkButton>
-					</Hide>
+            {primaryCta && (
+                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <Hide below="mobileMedium">
+                        <LinkButton
+                            priority="primary"
+                            href={primaryCta.ctaUrl}
+                            icon={<SvgArrowRightStraight />}
+                            iconSide="right"
+                            nudgeIcon={true}
+                            css={linkStyles}
+                        >
+                            {primaryCta.ctaText}
+                        </LinkButton>
+                    </Hide>
 
-					<Hide above="mobileMedium">
-						<LinkButton
-							priority="primary"
-							href={primaryCta.ctaUrl}
-							css={linkStyles}
-						>
-							{primaryCta.ctaText}
-						</LinkButton>
-					</Hide>
-				</ThemeProvider>
-			)}
+                    <Hide above="mobileMedium">
+                        <LinkButton priority="primary" href={primaryCta.ctaUrl} css={linkStyles}>
+                            {primaryCta.ctaText}
+                        </LinkButton>
+                    </Hide>
+                </ThemeProvider>
+            )}
 
-			{secondaryCta && (
-				<Hide below="tablet">
-					<ThemeProvider theme={buttonReaderRevenueBrand}>
-						<LinkButton
-							priority="primary"
-							href={secondaryCta.ctaUrl}
-							icon={<SvgArrowRightStraight />}
-							iconSide="right"
-							nudgeIcon={true}
-							css={linkStyles}
-						>
-							{secondaryCta.ctaText}
-						</LinkButton>
-					</ThemeProvider>
-				</Hide>
-			)}
-		</div>
-	);
+            {secondaryCta && (
+                <Hide below="tablet">
+                    <ThemeProvider theme={buttonReaderRevenueBrand}>
+                        <LinkButton
+                            priority="primary"
+                            href={secondaryCta.ctaUrl}
+                            icon={<SvgArrowRightStraight />}
+                            iconSide="right"
+                            nudgeIcon={true}
+                            css={linkStyles}
+                        >
+                            {secondaryCta.ctaText}
+                        </LinkButton>
+                    </ThemeProvider>
+                </Hide>
+            )}
+        </div>
+    );
 };
 const wrapped = headerWrapper(Header);
 export { wrapped as Header };

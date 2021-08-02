@@ -3,15 +3,15 @@ import { css } from '@emotion/react';
 import { body } from '@guardian/src-foundations/typography';
 
 const container = css`
-	${body.medium()}
+    ${body.medium()}
 `;
 
 interface ContributionsTemplateBodyProps {
-	copy: React.ReactElement;
+    copy: React.ReactElement;
 }
 
 const ContributionsTemplateBody: React.FC<ContributionsTemplateBodyProps> = ({
-	copy,
+    copy,
 }: ContributionsTemplateBodyProps) => <div css={container}>{copy}</div>;
 
 export default ContributionsTemplateBody;

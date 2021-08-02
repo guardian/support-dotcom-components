@@ -1,26 +1,25 @@
 import { useState, useEffect } from 'react';
 
 const useTicker = (total: number, readyToAnimate: boolean): number => {
-	const [runningTotal, setRunningTotal] = useState<number>(0);
+    const [runningTotal, setRunningTotal] = useState<number>(0);
 
-	useEffect(() => {
-		if (readyToAnimate && runningTotal < total) {
-			window.requestAnimationFrame(() => {
-				setRunningTotal((prevRunningTotal) => {
-					const newRunningTotal =
-						prevRunningTotal + Math.floor(total / 100);
+    useEffect(() => {
+        if (readyToAnimate && runningTotal < total) {
+            window.requestAnimationFrame(() => {
+                setRunningTotal((prevRunningTotal) => {
+                    const newRunningTotal = prevRunningTotal + Math.floor(total / 100);
 
-					if (newRunningTotal > total) {
-						return total;
-					}
+                    if (newRunningTotal > total) {
+                        return total;
+                    }
 
-					return newRunningTotal;
-				});
-			});
-		}
-	}, [readyToAnimate, runningTotal, total]);
+                    return newRunningTotal;
+                });
+            });
+        }
+    }, [readyToAnimate, runningTotal, total]);
 
-	return runningTotal;
+    return runningTotal;
 };
 
 export default useTicker;

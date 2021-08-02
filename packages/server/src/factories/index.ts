@@ -5,10 +5,10 @@ import { pageTracking, testTracking, tracking } from './tracking';
 import variant from './variant';
 
 export const factories = register({
-	pageTracking,
-	targeting,
-	test,
-	testTracking,
-	tracking,
-	variant,
+    pageTracking,
+    targeting,
+    test,
+    testTracking,
+    tracking,
+    variant,
 });

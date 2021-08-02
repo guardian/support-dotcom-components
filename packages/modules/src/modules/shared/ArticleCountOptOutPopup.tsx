@@ -6,155 +6,145 @@ import { from } from '@guardian/src-foundations/mq';
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
 import { OphanComponentEvent, OphanComponentType } from '@sdc/shared/types';
 import {
-	ophanComponentEventOptOutClose,
-	ophanComponentEventOptOutConfirm,
-	ophanComponentEventOptOutOpen,
-	ophanComponentEventOptOutView,
+    ophanComponentEventOptOutClose,
+    ophanComponentEventOptOutConfirm,
+    ophanComponentEventOptOutOpen,
+    ophanComponentEventOptOutView,
 } from './helpers/ophan';
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import {
-	addArticleCountOptOutCookie,
-	removeArticleCountFromLocalStorage,
+    addArticleCountOptOutCookie,
+    removeArticleCountFromLocalStorage,
 } from './helpers/articleCountOptOut';
 
 export type ArticleCountOptOutType = 'epic' | 'banner' | 'global-eoy-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
-	type === 'banner' || type === 'global-eoy-banner';
+    type === 'banner' || type === 'global-eoy-banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
-	display: inline-block;
+    display: inline-block;
 
-	${from.tablet} {
-		${!isBanner(type) ? 'position: relative;' : ''}
-	}
+    ${from.tablet} {
+        ${!isBanner(type) ? 'position: relative;' : ''}
+    }
 `;
 
 const articleCountButton = css`
-	background: none;
-	border: none;
-	padding: 0;
-	cursor: pointer;
-	border-bottom: 1px solid;
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: inherit;
-	font-style: inherit;
-	color: inherit;
-	&:focus {
-		outline: none !important;
-	}
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-bottom: 1px solid;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    color: inherit;
+    &:focus {
+        outline: none !important;
+    }
 `;
 
-const overlayContainer = (
-	type: ArticleCountOptOutType,
-): SerializedStyles => css`
-	position: absolute;
-	z-index: 100;
-	${isBanner(type)
-		? css`
-				top: 0px;
-				left: 0px;
-		  `
-		: css`
-				left: ${space[4]}px;
-				right: ${space[4]}px;
-				${isBanner(type) ? 'bottom: 21px;' : ''}
-		  `}
-	display: block;
+const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
+    position: absolute;
+    z-index: 100;
+    ${isBanner(type)
+        ? css`
+              top: 0px;
+              left: 0px;
+          `
+        : css`
+              left: ${space[4]}px;
+              right: ${space[4]}px;
+              ${isBanner(type) ? 'bottom: 21px;' : ''}
+          `}
+    display: block;
 
-	${from.tablet} {
-		${isBanner(type)
-			? css`
-					top: 10px;
-					left: 10px;
-					width: 450px;
-			  `
-			: css`
-					width: 400px;
-					left: 0;
-			  `}
-	}
+    ${from.tablet} {
+        ${isBanner(type)
+            ? css`
+                  top: 10px;
+                  left: 10px;
+                  width: 450px;
+              `
+            : css`
+                  width: 400px;
+                  left: 0;
+              `}
+    }
 `;
 
 export interface OphanTracking {
-	componentType: OphanComponentType;
-	submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
+    componentType: OphanComponentType;
+    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
 }
 
 export interface ArticleCountOptOutProps {
-	numArticles: number;
-	nextWord: string | null;
-	type: ArticleCountOptOutType;
-	tracking?: OphanTracking;
+    numArticles: number;
+    nextWord: string | null;
+    type: ArticleCountOptOutType;
+    tracking?: OphanTracking;
 }
 
 export const ArticleCountOptOutPopup: React.FC<ArticleCountOptOutProps> = ({
-	numArticles,
-	nextWord,
-	type,
-	tracking,
+    numArticles,
+    nextWord,
+    type,
+    tracking,
 }: ArticleCountOptOutProps) => {
-	const [isOpen, setIsOpen] = useState(false);
-	const [hasOptedOut, setHasOptedOut] = useState(false);
-	const [hasBeenSeen, setNode] = useHasBeenSeen(
-		{
-			rootMargin: '-18px',
-			threshold: 0,
-		},
-		true,
-	);
+    const [isOpen, setIsOpen] = useState(false);
+    const [hasOptedOut, setHasOptedOut] = useState(false);
+    const [hasBeenSeen, setNode] = useHasBeenSeen(
+        {
+            rootMargin: '-18px',
+            threshold: 0,
+        },
+        true,
+    );
 
-	useEffect(() => {
-		if (hasBeenSeen && tracking) {
-			tracking.submitComponentEvent(
-				ophanComponentEventOptOutView(tracking.componentType),
-			);
-		}
-	}, [hasBeenSeen]);
+    useEffect(() => {
+        if (hasBeenSeen && tracking) {
+            tracking.submitComponentEvent(ophanComponentEventOptOutView(tracking.componentType));
+        }
+    }, [hasBeenSeen]);
 
-	const onOptOut = (): void => {
-		addArticleCountOptOutCookie();
-		removeArticleCountFromLocalStorage();
-		setHasOptedOut(true);
-		tracking &&
-			tracking.submitComponentEvent(
-				ophanComponentEventOptOutConfirm(tracking.componentType),
-			);
-	};
+    const onOptOut = (): void => {
+        addArticleCountOptOutCookie();
+        removeArticleCountFromLocalStorage();
+        setHasOptedOut(true);
+        tracking &&
+            tracking.submitComponentEvent(ophanComponentEventOptOutConfirm(tracking.componentType));
+    };
 
-	const onOpen = (): void => {
-		setIsOpen(true);
-		tracking &&
-			tracking.submitComponentEvent(
-				ophanComponentEventOptOutOpen(tracking.componentType),
-			);
-	};
+    const onOpen = (): void => {
+        setIsOpen(true);
+        tracking &&
+            tracking.submitComponentEvent(ophanComponentEventOptOutOpen(tracking.componentType));
+    };
 
-	const onClose = (): void => {
-		setIsOpen(false);
-		tracking &&
-			tracking.submitComponentEvent(
-				ophanComponentEventOptOutClose(tracking.componentType),
-			);
-	};
+    const onClose = (): void => {
+        setIsOpen(false);
+        tracking &&
+            tracking.submitComponentEvent(ophanComponentEventOptOutClose(tracking.componentType));
+    };
 
-	const onToggle = (): void => (isOpen ? onClose() : onOpen());
+    const onToggle = (): void => (isOpen ? onClose() : onOpen());
 
-	return (
-		<div ref={setNode} css={optOutContainer(type)}>
-			<button css={articleCountButton} onClick={onToggle}>
-				{`${numArticles}${nextWord ? nextWord : ''}`}
-			</button>
-			{isOpen && (
-				<div css={overlayContainer(type)}>
-					<ArticleCountOptOutOverlay
-						type={type}
-						hasOptedOut={hasOptedOut}
-						onOptOut={onOptOut}
-						onClose={onClose}
-					/>
-				</div>
-			)}
-		</div>
-	);
+    return (
+        <div ref={setNode} css={optOutContainer(type)}>
+            <button css={articleCountButton} onClick={onToggle}>
+                {`${numArticles}${nextWord ? nextWord : ''}`}
+            </button>
+            {isOpen && (
+                <div css={overlayContainer(type)}>
+                    <ArticleCountOptOutOverlay
+                        type={type}
+                        hasOptedOut={hasOptedOut}
+                        onOptOut={onOptOut}
+                        onClose={onClose}
+                    />
+                </div>
+            )}
+        </div>
+    );
 };

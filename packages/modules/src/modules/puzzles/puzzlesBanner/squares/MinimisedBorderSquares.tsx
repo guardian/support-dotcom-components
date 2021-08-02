@@ -7,92 +7,92 @@ import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
 const smallSquareSizes = {
-	mobile: 33,
-	tablet: 43,
+    mobile: 33,
+    tablet: 43,
 };
 
 const buttonContainerSize = 24;
 
 const container = css`
-	position: absolute;
-	width: 98%;
-	height: 98%;
-	bottom: 0;
-	right: 0;
+    position: absolute;
+    width: 98%;
+    height: 98%;
+    bottom: 0;
+    right: 0;
 `;
 
 const squareContainer = css`
-	position: absolute;
-	width: ${smallSquareSizes.mobile}px;
-	height: ${smallSquareSizes.mobile}px;
+    position: absolute;
+    width: ${smallSquareSizes.mobile}px;
+    height: ${smallSquareSizes.mobile}px;
 
-	${from.mobileLandscape} {
-		width: ${smallSquareSizes.tablet}px;
-		height: ${smallSquareSizes.tablet}px;
-	}
+    ${from.mobileLandscape} {
+        width: ${smallSquareSizes.tablet}px;
+        height: ${smallSquareSizes.tablet}px;
+    }
 `;
 
 const squareOverrides = css`
-	border-bottom: ${squareBorder};
-	box-shadow: ${squareBoxShadow};
+    border-bottom: ${squareBorder};
+    box-shadow: ${squareBoxShadow};
 `;
 
 const bottomLeft = css`
-	bottom: 2px;
-	left: 0;
-	transform: translateX(-100%);
+    bottom: 2px;
+    left: 0;
+    transform: translateX(-100%);
 `;
 
 const topLeft = css`
-	z-index: -1;
-	top: 0;
-	left: 20px;
-	transform: translateY(-70%);
+    z-index: -1;
+    top: 0;
+    left: 20px;
+    transform: translateY(-70%);
 `;
 
 const topRight = css`
-	top: 0;
-	right: 10px;
-	transform: translateY(-90%);
+    top: 0;
+    right: 10px;
+    transform: translateY(-90%);
 `;
 
 const minimiseButtonContainer = css`
-	align-self: center;
-	width: ${buttonContainerSize}px;
-	height: ${buttonContainerSize}px;
-	position: absolute;
-	right: 2px;
+    align-self: center;
+    width: ${buttonContainerSize}px;
+    height: ${buttonContainerSize}px;
+    position: absolute;
+    right: 2px;
 
-	${from.mobileLandscape} {
-		right: ${space[2]}px;
-	}
+    ${from.mobileLandscape} {
+        right: ${space[2]}px;
+    }
 `;
 
 type MinimisedBorderSquaresProps = {
-	minimiseButton: React.ReactNode;
+    minimiseButton: React.ReactNode;
 };
 
 export const MinimisedBorderSquares: React.FC<MinimisedBorderSquaresProps> = ({
-	minimiseButton,
+    minimiseButton,
 }) => {
-	return (
-		<div css={container}>
-			<div css={[squareContainer, bottomLeft]}>
-				<Square colour="white" cssOverrides={squareOverrides}>
-					<SquareSide small />
-				</Square>
-			</div>
-			<div css={[squareContainer, topLeft]}>
-				<Square colour="pink" cssOverrides={squareOverrides}>
-					<SquareSide small />
-				</Square>
-			</div>
-			<div css={[squareContainer, topRight]}>
-				<Square colour="grey" cssOverrides={squareOverrides}>
-					<SquareSide small />
-					<div css={minimiseButtonContainer}>{minimiseButton}</div>
-				</Square>
-			</div>
-		</div>
-	);
+    return (
+        <div css={container}>
+            <div css={[squareContainer, bottomLeft]}>
+                <Square colour="white" cssOverrides={squareOverrides}>
+                    <SquareSide small />
+                </Square>
+            </div>
+            <div css={[squareContainer, topLeft]}>
+                <Square colour="pink" cssOverrides={squareOverrides}>
+                    <SquareSide small />
+                </Square>
+            </div>
+            <div css={[squareContainer, topRight]}>
+                <Square colour="grey" cssOverrides={squareOverrides}>
+                    <SquareSide small />
+                    <div css={minimiseButtonContainer}>{minimiseButton}</div>
+                </Square>
+            </div>
+        </div>
+    );
 };
