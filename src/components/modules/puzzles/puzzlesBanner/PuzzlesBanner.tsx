@@ -185,7 +185,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                         </div>
                         <div css={appStoreButtonContainer}>
                             <Link
-                                href="https://apps.apple.com/app/apple-store/id1487780661?pt=304191&ct=Puzzles_Banner&mt=8"
+                                href="https://app.adjust.com/smu5odi?adgroup=CrosswordSectionBanner"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={handleAppStoreClickFor('apple')}
@@ -193,7 +193,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
                                 <img src={appStore.apple} alt="Download on the Apple App Store" />
                             </Link>
                             <Link
-                                href="https://play.google.com/store/apps/details?id=uk.co.guardian.puzzles&referrer=utm_source%3Dtheguardian.com%26utm_medium%3Dpuzzle_banner%26utm_campaign%3DUS2020"
+                                href="https://app.adjust.com/smu5odi?adgroup=CrosswordSectionBanner"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={handleAppStoreClickFor('google')}
