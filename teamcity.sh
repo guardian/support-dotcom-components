@@ -12,6 +12,7 @@ nvm use
 npm install -g yarn
 
 yarn install
+yarn setup
 yarn lint
 yarn test
 
