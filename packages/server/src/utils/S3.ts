@@ -2,8 +2,6 @@ import AWS from 'aws-sdk';
 import type { GetObjectOutput } from 'aws-sdk/clients/s3';
 import { isDev } from '../lib/env';
 
-console.log({ isDev });
-
 if (isDev) {
     AWS.config.credentials = new AWS.SharedIniFileCredentials({
         profile: 'membership',
