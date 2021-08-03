@@ -20,7 +20,7 @@ yarn test
 NODE_ENV=production yarn run build
 
 # These also need to be in the RiffRaff package
-cp package.json packages/server/dist
+cp packages/server/package.json packages/server/dist
 cp riff-raff.yaml packages/server/dist
 cp cfn.yaml packages/server/dist
 
