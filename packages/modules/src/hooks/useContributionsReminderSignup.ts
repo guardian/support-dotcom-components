@@ -52,7 +52,7 @@ export function useContributionsReminderSignup(
                 'Content-Type': 'application/json',
             },
         })
-            .then((response) => {
+            .then(response => {
                 if (!response.ok) {
                     setReminderStatus(ReminderStatus.Error);
                 } else {

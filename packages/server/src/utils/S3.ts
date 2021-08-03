@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import type { GetObjectOutput } from 'aws-sdk/clients/s3';
+import { GetObjectOutput } from 'aws-sdk/clients/s3';
 import { isDev } from '../lib/env';
 
 console.log({ isDev });
@@ -26,5 +26,5 @@ export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
                 );
             }
         })
-        .catch((err) => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
+        .catch(err => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
 };

@@ -1,4 +1,4 @@
-import type { EpicTargeting } from '@sdc/shared/types';
+import { EpicTargeting } from '@sdc/shared/types';
 import { Factory } from 'fishery';
 
 export default Factory.define<EpicTargeting>(() => ({

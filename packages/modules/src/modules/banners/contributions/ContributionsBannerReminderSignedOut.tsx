@@ -111,110 +111,41 @@ export interface ContributionsBannerReminderSignedOutProps {
     onReminderSetClick: (email: string) => void;
 }
 
-export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerReminderSignedOutProps> =
-    ({ reminderCta, reminderStatus, onReminderSetClick }) => {
-        const { email, inputError, updateEmail, handleSubmit } =
-            useContributionsReminderEmailForm();
+export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerReminderSignedOutProps> = ({
+    reminderCta,
+    reminderStatus,
+    onReminderSetClick,
+}) => {
+    const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();
 
-        return (
-            <>
-                <Hide above="tablet">
-                    <Columns>
-                        <Column width={1}>
-                            {reminderStatus !== ReminderStatus.Completed && (
-                                <Body
-                                    onSubmit={handleSubmit(() => onReminderSetClick(email))}
-                                    email={email}
-                                    updateEmail={updateEmail}
-                                    inputError={inputError}
-                                    reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                    reminderStatus={reminderStatus}
-                                />
-                            )}
-
-                            {reminderStatus === ReminderStatus.Completed && (
-                                <ThankYou
-                                    reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                />
-                            )}
-                        </Column>
-                    </Columns>
-                </Hide>
-
-                <Hide below="tablet">
-                    <Hide above="leftCol">
-                        <Columns>
-                            {reminderStatus !== ReminderStatus.Completed && (
-                                <Column width={1}>
-                                    <Body
-                                        onSubmit={handleSubmit(() => onReminderSetClick(email))}
-                                        email={email}
-                                        updateEmail={updateEmail}
-                                        inputError={inputError}
-                                        reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                        reminderStatus={reminderStatus}
-                                    />
-                                </Column>
-                            )}
-
-                            {reminderStatus === ReminderStatus.Completed && (
-                                <>
-                                    <Column width={9 / 16}>
-                                        <ThankYou
-                                            reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                        />
-                                    </Column>
-
-                                    <Column width={4 / 16}> </Column>
-                                </>
-                            )}
-                        </Columns>
-                    </Hide>
-                </Hide>
-
-                <Hide below="leftCol">
-                    <Hide above="wide">
-                        <Columns>
-                            <Column width={2 / 14}> </Column>
-
-                            {reminderStatus !== ReminderStatus.Completed && (
-                                <>
-                                    <Column width={10 / 14}>
-                                        <Body
-                                            onSubmit={handleSubmit(() => onReminderSetClick(email))}
-                                            email={email}
-                                            updateEmail={updateEmail}
-                                            inputError={inputError}
-                                            reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                            reminderStatus={reminderStatus}
-                                        />
-                                    </Column>
-
-                                    <Column width={2 / 16}> </Column>
-                                </>
-                            )}
-
-                            {reminderStatus === ReminderStatus.Completed && (
-                                <>
-                                    <Column width={9 / 14}>
-                                        <ThankYou
-                                            reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                        />
-                                    </Column>
-
-                                    <Column width={3 / 14}> </Column>
-                                </>
-                            )}
-                        </Columns>
-                    </Hide>
-                </Hide>
-
-                <Hide below="wide">
-                    <Columns>
-                        <Column width={3 / 16}> </Column>
-
+    return (
+        <>
+            <Hide above="tablet">
+                <Columns>
+                    <Column width={1}>
                         {reminderStatus !== ReminderStatus.Completed && (
-                            <Column width={13 / 16}>
+                            <Body
+                                onSubmit={handleSubmit(() => onReminderSetClick(email))}
+                                email={email}
+                                updateEmail={updateEmail}
+                                inputError={inputError}
+                                reminderLabel={reminderCta.reminderFields.reminderLabel}
+                                reminderStatus={reminderStatus}
+                            />
+                        )}
+
+                        {reminderStatus === ReminderStatus.Completed && (
+                            <ThankYou reminderLabel={reminderCta.reminderFields.reminderLabel} />
+                        )}
+                    </Column>
+                </Columns>
+            </Hide>
+
+            <Hide below="tablet">
+                <Hide above="leftCol">
+                    <Columns>
+                        {reminderStatus !== ReminderStatus.Completed && (
+                            <Column width={1}>
                                 <Body
                                     onSubmit={handleSubmit(() => onReminderSetClick(email))}
                                     email={email}
@@ -239,9 +170,78 @@ export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerR
                         )}
                     </Columns>
                 </Hide>
-            </>
-        );
-    };
+            </Hide>
+
+            <Hide below="leftCol">
+                <Hide above="wide">
+                    <Columns>
+                        <Column width={2 / 14}> </Column>
+
+                        {reminderStatus !== ReminderStatus.Completed && (
+                            <>
+                                <Column width={10 / 14}>
+                                    <Body
+                                        onSubmit={handleSubmit(() => onReminderSetClick(email))}
+                                        email={email}
+                                        updateEmail={updateEmail}
+                                        inputError={inputError}
+                                        reminderLabel={reminderCta.reminderFields.reminderLabel}
+                                        reminderStatus={reminderStatus}
+                                    />
+                                </Column>
+
+                                <Column width={2 / 16}> </Column>
+                            </>
+                        )}
+
+                        {reminderStatus === ReminderStatus.Completed && (
+                            <>
+                                <Column width={9 / 14}>
+                                    <ThankYou
+                                        reminderLabel={reminderCta.reminderFields.reminderLabel}
+                                    />
+                                </Column>
+
+                                <Column width={3 / 14}> </Column>
+                            </>
+                        )}
+                    </Columns>
+                </Hide>
+            </Hide>
+
+            <Hide below="wide">
+                <Columns>
+                    <Column width={3 / 16}> </Column>
+
+                    {reminderStatus !== ReminderStatus.Completed && (
+                        <Column width={13 / 16}>
+                            <Body
+                                onSubmit={handleSubmit(() => onReminderSetClick(email))}
+                                email={email}
+                                updateEmail={updateEmail}
+                                inputError={inputError}
+                                reminderLabel={reminderCta.reminderFields.reminderLabel}
+                                reminderStatus={reminderStatus}
+                            />
+                        </Column>
+                    )}
+
+                    {reminderStatus === ReminderStatus.Completed && (
+                        <>
+                            <Column width={9 / 16}>
+                                <ThankYou
+                                    reminderLabel={reminderCta.reminderFields.reminderLabel}
+                                />
+                            </Column>
+
+                            <Column width={4 / 16}> </Column>
+                        </>
+                    )}
+                </Columns>
+            </Hide>
+        </>
+    );
+};
 
 interface BodyProps {
     reminderLabel: string;

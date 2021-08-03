@@ -1,5 +1,5 @@
 import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '@sdc/shared/lib';
-import type {
+import {
     EpicTargeting,
     EpicTest,
     EpicType,
@@ -11,8 +11,8 @@ import type {
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
-import type { TestVariant } from '../../lib/params';
-import type { SuperModeArticle } from '../../lib/superMode';
+import { TestVariant } from '../../lib/params';
+import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import { shouldNotRenderEpic, shouldThrottle, userIsInTest } from '../../lib/targeting';
 
@@ -55,14 +55,14 @@ export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
 export const hasSectionOrTags: Filter = {
     id: 'hasSectionOrTags',
     test: (test, targeting) => {
-        const cleanedTags = test.tagIds.filter((tagId) => tagId !== '');
+        const cleanedTags = test.tagIds.filter(tagId => tagId !== '');
 
         if (cleanedTags.length === 0 && test.sections.length === 0) {
             return true;
         }
 
-        const intersectingTags = cleanedTags.filter((tagId) =>
-            targeting.tags.map((tag) => tag.id).includes(tagId),
+        const intersectingTags = cleanedTags.filter(tagId =>
+            targeting.tags.map(tag => tag.id).includes(tagId),
         );
 
         const hasSection = test.sections.includes(targeting.sectionName);
@@ -85,7 +85,7 @@ export const excludeTags: Filter = {
         }
 
         const intersection = test.excludedTagIds.filter(
-            (tagId) => !targeting.tags.map((tag) => tag.id).includes(tagId),
+            tagId => !targeting.tags.map(tag => tag.id).includes(tagId),
         );
 
         return intersection.length > 0;
@@ -219,8 +219,8 @@ export const findTestAndVariant = (
     };
 
     const filterTests = (tests: EpicTest[], filters: Filter[]): EpicTest | undefined => {
-        const test = tests.find((test) =>
-            filters.every((filter) => {
+        const test = tests.find(test =>
+            filters.every(filter => {
                 const got = filter.test(test, targeting);
 
                 if (debug[test.name]) {
@@ -252,8 +252,8 @@ export const findTestAndVariant = (
     };
 
     const priorityOrdered = ([] as EpicTest[]).concat(
-        tests.filter((test) => test.highPriority),
-        tests.filter((test) => !test.highPriority),
+        tests.filter(test => test.highPriority),
+        tests.filter(test => !test.highPriority),
     );
 
     const isSuperMode =
@@ -282,8 +282,8 @@ export const findTestAndVariant = (
 };
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
-    const test = tests.find((test) => test.name === force.testName);
-    const variant = test?.variants.find((v) => v.name === force.variantName);
+    const test = tests.find(test => test.name === force.testName);
+    const variant = test?.variants.find(v => v.name === force.variantName);
 
     return test && variant ? { result: { test, variant } } : {};
 };

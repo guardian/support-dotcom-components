@@ -121,99 +121,94 @@ export interface ContributionsEpicReminderSignedOutProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicReminderSignedOutProps> =
-    ({
-        reminderLabel,
-        reminderStatus,
-        onSetReminderClick,
-        onCloseReminderClick,
-    }: ContributionsEpicReminderSignedOutProps) => {
-        const { email, updateEmail, inputError, handleSubmit } =
-            useContributionsReminderEmailForm();
+export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicReminderSignedOutProps> = ({
+    reminderLabel,
+    reminderStatus,
+    onSetReminderClick,
+    onCloseReminderClick,
+}: ContributionsEpicReminderSignedOutProps) => {
+    const { email, updateEmail, inputError, handleSubmit } = useContributionsReminderEmailForm();
 
-        const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
+    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
-        return (
-            <div css={rootStyles}>
-                <button css={closeButtonStyles} onClick={(): void => onCloseReminderClick()}>
-                    <SvgCross />
-                </button>
+    return (
+        <div css={rootStyles}>
+            <button css={closeButtonStyles} onClick={(): void => onCloseReminderClick()}>
+                <SvgCross />
+            </button>
 
-                <div css={lineWrapperStyles}>
-                    <Lines />
-                </div>
+            <div css={lineWrapperStyles}>
+                <Lines />
+            </div>
 
-                <div css={containerStyles}>
-                    <form onSubmit={handleSubmit(() => onSetReminderClick(email))}>
-                        {reminderStatus !== ReminderStatus.Completed && (
-                            <>
-                                <h4 css={remindHeading}>Remind me {reminderDateWithPreposition}</h4>
-                                <div css={formWrapper}>
-                                    <div css={inputWrapper}>
-                                        <TextInput
-                                            label="Email address"
-                                            error={inputError}
-                                            value={email}
-                                            onChange={updateEmail}
-                                        />
-                                    </div>
-                                    <Button
-                                        iconSide="right"
-                                        icon={<SvgArrowRightStraight />}
-                                        type="submit"
-                                        disabled={reminderStatus === ReminderStatus.Submitting}
-                                        css={getCustomSubmitStyles(
-                                            reminderStatus === ReminderStatus.Submitting,
-                                        )}
-                                    >
-                                        Set a reminder
-                                    </Button>
-                                </div>
-                            </>
-                        )}
-
-                        {reminderStatus === ReminderStatus.Error && (
-                            <p css={errorTextStyles}>
-                                Sorry we couldn&apos;t set a reminder for you this time. Please try
-                                again later.
-                            </p>
-                        )}
-                    </form>
-
+            <div css={containerStyles}>
+                <form onSubmit={handleSubmit(() => onSetReminderClick(email))}>
                     {reminderStatus !== ReminderStatus.Completed && (
-                        <p css={formTextStyles}>
-                            We will send you a maximum of two emails {reminderDateWithPreposition}.
-                            To find out what personal data we collect and how we use it, view our{' '}
-                            <a
-                                css={linkStyles}
-                                href="https://www.theguardian.com/help/privacy-policy"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Privacy Policy
+                        <>
+                            <h4 css={remindHeading}>Remind me {reminderDateWithPreposition}</h4>
+                            <div css={formWrapper}>
+                                <div css={inputWrapper}>
+                                    <TextInput
+                                        label="Email address"
+                                        error={inputError}
+                                        value={email}
+                                        onChange={updateEmail}
+                                    />
+                                </div>
+                                <Button
+                                    iconSide="right"
+                                    icon={<SvgArrowRightStraight />}
+                                    type="submit"
+                                    disabled={reminderStatus === ReminderStatus.Submitting}
+                                    css={getCustomSubmitStyles(
+                                        reminderStatus === ReminderStatus.Submitting,
+                                    )}
+                                >
+                                    Set a reminder
+                                </Button>
+                            </div>
+                        </>
+                    )}
+
+                    {reminderStatus === ReminderStatus.Error && (
+                        <p css={errorTextStyles}>
+                            Sorry we couldn&apos;t set a reminder for you this time. Please try
+                            again later.
+                        </p>
+                    )}
+                </form>
+
+                {reminderStatus !== ReminderStatus.Completed && (
+                    <p css={formTextStyles}>
+                        We will send you a maximum of two emails {reminderDateWithPreposition}. To
+                        find out what personal data we collect and how we use it, view our{' '}
+                        <a
+                            css={linkStyles}
+                            href="https://www.theguardian.com/help/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Privacy Policy
+                        </a>
+                        .
+                    </p>
+                )}
+
+                {reminderStatus === ReminderStatus.Completed && (
+                    <>
+                        <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
+                        <p css={successTextStyles}>
+                            We will be in touch to invite you to contribute. Look out for a message
+                            in your inbox {reminderDateWithPreposition}. If you have any questions
+                            about contributing, please{' '}
+                            <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
+                                contact us
                             </a>
                             .
                         </p>
-                    )}
-
-                    {reminderStatus === ReminderStatus.Completed && (
-                        <>
-                            <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
-                            <p css={successTextStyles}>
-                                We will be in touch to invite you to contribute. Look out for a
-                                message in your inbox {reminderDateWithPreposition}. If you have any
-                                questions about contributing, please{' '}
-                                <a
-                                    href="mailto:contribution.support@theguardian.com"
-                                    css={linkStyles}
-                                >
-                                    contact us
-                                </a>
-                                .
-                            </p>
-                        </>
-                    )}
-                </div>
+                    </>
+                )}
             </div>
-        );
-    };
+        </div>
+    );
+};

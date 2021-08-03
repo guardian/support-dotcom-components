@@ -1,4 +1,4 @@
-import type { BannerContent } from '@sdc/shared/types';
+import { BannerContent } from '@sdc/shared/types';
 
 export const DefaultBannerContent: BannerContent = {
     heading: 'We chose a different approach. Will you support it?',

@@ -1,5 +1,5 @@
 import path from 'path';
-import type { Configuration, LoggingEvent } from 'log4js';
+import { Configuration, LoggingEvent } from 'log4js';
 import { addLayout, configure, getLogger } from 'log4js';
 import { isDev, isProd } from '../lib/env';
 import { RequestLogName } from '../middleware/logging';
@@ -33,7 +33,7 @@ const logFields = (logEvent: LoggingEvent): any => {
 };
 
 addLayout('json', () => {
-    return (logEvent) => {
+    return logEvent => {
         return JSON.stringify(logFields(logEvent));
     };
 });

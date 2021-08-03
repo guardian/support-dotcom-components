@@ -30,6 +30,6 @@ const parse = (json: any): Promise<TickerData> => {
 
 export const fetchTickerData = (tickerType: TickerCountType): Promise<TickerData> =>
     fetch(tickerUrl(tickerType))
-        .then((response) => checkForErrors(response))
-        .then((response) => response.json())
+        .then(response => checkForErrors(response))
+        .then(response => response.json())
         .then(parse);

@@ -1,5 +1,5 @@
 import { contributionsBanner } from '@sdc/shared/config';
-import type { BannerTargeting, BannerTest, PageTracking } from '@sdc/shared/types';
+import { BannerTargeting, BannerTest, PageTracking } from '@sdc/shared/types';
 import { DefaultBannerContent } from './DefaultContributionsBannerContent';
 
 export const DefaultContributionsBanner: BannerTest = {

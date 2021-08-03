@@ -376,7 +376,7 @@ const extendedCurrencySymbol = {
 export const countryCodeToCountryGroupId = (countryCode: string): CountryGroupId => {
     const availableCountryGroupIds = Object.keys(countryGroups) as CountryGroupId[];
 
-    const foundCountryGroupId = availableCountryGroupIds.find((countryGroupId) =>
+    const foundCountryGroupId = availableCountryGroupIds.find(countryGroupId =>
         countryGroups[countryGroupId].countries.includes(countryCode),
     );
 

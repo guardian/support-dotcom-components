@@ -82,10 +82,12 @@ describe('POST /epic', () => {
         });
         const pageTracking = factories.pageTracking.build();
 
-        const res = await request(app).post('/epic').send({
-            tracking: pageTracking,
-            targeting,
-        });
+        const res = await request(app)
+            .post('/epic')
+            .send({
+                tracking: pageTracking,
+                targeting,
+            });
 
         expect(res.status).toEqual(200);
         expect(res.body).toHaveProperty('data');

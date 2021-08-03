@@ -128,7 +128,7 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
 }: LiveblogEpicBodyProps) => {
     return (
         <div css={textContainer}>
-            {paragraphs.map((paragraph) => (
+            {paragraphs.map(paragraph => (
                 <LiveblogEpicBodyParagraph
                     key={paragraph}
                     paragraph={paragraph}
@@ -187,7 +187,7 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     numArticles,
     tracking,
 }: LiveblogEpicProps): JSX.Element | null => {
-    const cleanParagraphs = variant.paragraphs.map((paragraph) =>
+    const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
     const cleanHeading =

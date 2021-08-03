@@ -1,4 +1,4 @@
-import type express from 'express';
+import express from 'express';
 
 export type AmpVariantAssignments = Record<string, string>;
 

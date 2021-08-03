@@ -1,6 +1,6 @@
 import { contributionsBanner, digiSubs } from '@sdc/shared/config';
-import type { BannerTargeting, BannerTest } from '@sdc/shared/types';
-import type { BannerDeployCaches } from './bannerDeployCache';
+import { BannerTargeting, BannerTest } from '@sdc/shared/types';
+import { BannerDeployCaches } from './bannerDeployCache';
 import { selectBannerTest } from './bannerSelection';
 
 const getBannerDeployCache = (date: string): BannerDeployCaches =>
@@ -89,7 +89,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result && result.test.name).toBe('test');
             });
         });
@@ -105,7 +105,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
@@ -127,7 +127,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result && result.test.name).toBe('test');
             });
         });
@@ -143,7 +143,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
@@ -210,7 +210,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result && result.test.name).toBe('test');
             });
         });
@@ -226,7 +226,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result).toBe(null);
             });
         });
@@ -248,7 +248,7 @@ describe('selectBannerTest', () => {
                 cache,
                 undefined,
                 now,
-            ).then((result) => {
+            ).then(result => {
                 expect(result && result.test.name).toBe('test');
             });
         });

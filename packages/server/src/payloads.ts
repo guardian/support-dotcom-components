@@ -5,7 +5,7 @@ import {
     puzzlesBanner,
 } from '@sdc/shared/config';
 import { buildBannerCampaignCode, buildCampaignCode, getReminderFields } from '@sdc/shared/lib';
-import type {
+import {
     BannerProps,
     BannerTargeting,
     EpicProps,
@@ -19,20 +19,20 @@ import type {
     PuzzlesBannerProps,
     TestTracking,
 } from '@sdc/shared/types';
-import type express from 'express';
+import express from 'express';
 import { fetchConfiguredEpicTests } from './api/contributionsApi';
 import { cachedChannelSwitches } from './channelSwitches';
 import { cacheAsync } from './lib/cache';
 import { baseUrl } from './lib/env';
 import { addTickerDataToSettings, getTickerSettings } from './lib/fetchTickerData';
 import { getArticleViewCountForWeeks, getArticleViewCounts } from './lib/history';
-import type { Params } from './lib/params';
+import { Params } from './lib/params';
 import { fetchSuperModeArticles } from './lib/superMode';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
-import type { Debug } from './tests/epics/epicSelection';
+import { Debug } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logger } from './utils/logging';

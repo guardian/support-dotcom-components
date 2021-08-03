@@ -1,6 +1,6 @@
 import { SecondaryCtaType } from '@sdc/shared/types';
-import type { EpicTargeting, EpicTest } from '@sdc/shared/types';
-import type { SuperModeArticle } from '../../lib/superMode';
+import { EpicTargeting, EpicTest } from '@sdc/shared/types';
+import { SuperModeArticle } from '../../lib/superMode';
 import { withNowAs } from '../../utils/withNowAs';
 import {
     excludeSection,
@@ -342,7 +342,7 @@ describe('hasSectionOrTags filter', () => {
         const test: EpicTest = {
             ...testDefault,
             sections: ['environment'],
-            tagIds: tags.map((tag) => tag.id),
+            tagIds: tags.map(tag => tag.id),
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
@@ -365,7 +365,7 @@ describe('hasSectionOrTags filter', () => {
         const test: EpicTest = {
             ...testDefault,
             sections: ['environment'],
-            tagIds: tags.map((tag) => tag.id),
+            tagIds: tags.map(tag => tag.id),
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,

@@ -1,5 +1,5 @@
 import { countryCodeToCountryGroupId, inCountryGroups } from '@sdc/shared/lib';
-import type {
+import {
     BannerChannel,
     BannerTargeting,
     BannerTest,
@@ -10,9 +10,9 @@ import type {
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
-import type { TestVariant } from '../../lib/params';
+import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
-import type { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
+import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -47,14 +47,14 @@ export const redeployedSinceLastClosed = (
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
     if (bannerChannel === 'subscriptions') {
-        return bannerDeployCaches.subscriptions().then((deployTimes) => {
+        return bannerDeployCaches.subscriptions().then(deployTimes => {
             return (
                 !subscriptionBannerLastClosedAt ||
                 deployTimes[region] > new Date(subscriptionBannerLastClosedAt)
             );
         });
     } else if (bannerChannel === 'contributions') {
-        return bannerDeployCaches.contributions().then((deployTimes) => {
+        return bannerDeployCaches.contributions().then(deployTimes => {
             return (
                 !engagementBannerLastClosedAt ||
                 deployTimes[region] > new Date(engagementBannerLastClosedAt)
@@ -83,10 +83,10 @@ const getForcedVariant = (
     targeting: BannerTargeting,
 ): BannerTestSelection | null => {
     const test = tests.find(
-        (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
+        test => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );
     const variant = test?.variants.find(
-        (v) => v.name.toLowerCase() === forcedTestVariant.variantName.toLowerCase(),
+        v => v.name.toLowerCase() === forcedTestVariant.variantName.toLowerCase(),
     );
 
     if (test && variant) {

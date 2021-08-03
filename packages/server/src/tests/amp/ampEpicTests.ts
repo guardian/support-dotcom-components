@@ -3,11 +3,11 @@ import {
     inCountryGroups,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
-import type { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { cacheAsync } from '../../lib/cache';
 import { isProd } from '../../lib/env';
 import { fetchS3Data } from '../../utils/S3';
-import type { AMPEpic, AmpEpicTest } from './ampEpicModels';
+import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { ampTicker } from './ampTicker';
 
 /**
@@ -19,7 +19,7 @@ import { ampTicker } from './ampTicker';
 const fetchAmpEpicTests = (): Promise<AmpEpicTest[]> =>
     fetchS3Data('gu-contributions-public', `epic/${isProd ? 'PROD' : 'CODE'}/amp-epic-tests.json`)
         .then(JSON.parse)
-        .then((data) => {
+        .then(data => {
             return data.tests;
         });
 
@@ -50,10 +50,10 @@ export const getAmpExperimentData = async (): Promise<AmpExperiments> => {
     cachedTests.forEach((test: AmpEpicTest) => {
         const variants: Record<string, number> = {};
 
-        const variantNames = test.variants.map((variant) => variant.name);
+        const variantNames = test.variants.map(variant => variant.name);
         const variantAudiencePercentage = 100 / variantNames.length;
 
-        variantNames.forEach((variantName) => {
+        variantNames.forEach(variantName => {
             variants[variantName] = variantAudiencePercentage - 0.0000000001;
         });
 
@@ -70,7 +70,7 @@ export const selectAmpEpicTestAndVariant = async (
     ampVariantAssignments: AmpVariantAssignments,
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
-    const test = tests.find((test) => test.isOn && inCountryGroups(countryCode, test.locations));
+    const test = tests.find(test => test.isOn && inCountryGroups(countryCode, test.locations));
 
     if (test && test.variants) {
         const assignedVariantName = ampVariantAssignments[test.name];
@@ -80,7 +80,7 @@ export const selectAmpEpicTestAndVariant = async (
         }
 
         const variant = test.variants.find(
-            (variant) => variant.name.toUpperCase() === assignedVariantName.toUpperCase(),
+            variant => variant.name.toUpperCase() === assignedVariantName.toUpperCase(),
         );
 
         if (variant) {
@@ -89,7 +89,7 @@ export const selectAmpEpicTestAndVariant = async (
                 testName: test.name,
                 variantName: variant.name,
                 heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
-                paragraphs: variant.paragraphs.map((p) =>
+                paragraphs: variant.paragraphs.map(p =>
                     replaceNonArticleCountPlaceholders(p, countryCode),
                 ),
                 highlightedText: replaceNonArticleCountPlaceholders(
@@ -120,7 +120,7 @@ export const selectAmpEpicTestAndVariant = async (
 // These should have been replaced, but do a final check just in case
 const hasPlaceholder = (epic: AMPEpic): boolean =>
     (!!epic.heading && epic.heading.includes('%%')) ||
-    epic.paragraphs.some((p) => p.includes('%%')) ||
+    epic.paragraphs.some(p => p.includes('%%')) ||
     (!!epic.highlightedText && epic.highlightedText.includes('%%'));
 
 export const selectAmpEpic = (
@@ -128,5 +128,5 @@ export const selectAmpEpic = (
     countryCode?: string,
 ): Promise<AMPEpic | null> =>
     getCachedAmpEpicTests()
-        .then((tests) => selectAmpEpicTestAndVariant(tests, ampVariantAssignments, countryCode))
-        .then((test) => (!!test && hasPlaceholder(test) ? null : test));
+        .then(tests => selectAmpEpicTestAndVariant(tests, ampVariantAssignments, countryCode))
+        .then(test => (!!test && hasPlaceholder(test) ? null : test));

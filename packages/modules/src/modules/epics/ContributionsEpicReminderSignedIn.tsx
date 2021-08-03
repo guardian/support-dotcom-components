@@ -101,103 +101,102 @@ export interface ContributionsEpicReminderSignedInProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> =
-    ({
-        reminderLabel,
-        reminderStatus,
-        onSetReminderClick,
-        onCloseReminderClick,
-    }: ContributionsEpicReminderSignedInProps) => {
-        const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
+export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> = ({
+    reminderLabel,
+    reminderStatus,
+    onSetReminderClick,
+    onCloseReminderClick,
+}: ContributionsEpicReminderSignedInProps) => {
+    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
-        return (
-            <div css={rootStyles}>
-                <div css={closeButtonContainerStyles}>
-                    <Button
-                        onClick={onCloseReminderClick}
-                        icon={<SvgCross />}
-                        priority="subdued"
-                        size="small"
-                        hideLabel
-                    >
-                        Close
-                    </Button>
-                </div>
+    return (
+        <div css={rootStyles}>
+            <div css={closeButtonContainerStyles}>
+                <Button
+                    onClick={onCloseReminderClick}
+                    icon={<SvgCross />}
+                    priority="subdued"
+                    size="small"
+                    hideLabel
+                >
+                    Close
+                </Button>
+            </div>
 
-                <div css={lineWrapperStyles}>
-                    <Lines />
-                </div>
+            <div css={lineWrapperStyles}>
+                <Lines />
+            </div>
 
-                {reminderStatus === ReminderStatus.Completed ? (
-                    <>
-                        <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
-                        <p css={successTextStyles}>
-                            We will be in touch to invite you to contribute. Look out for a message
-                            in your inbox {reminderDateWithPreposition}. If you have any questions
-                            about contributing, please{' '}
-                            <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
-                                contact us
-                            </a>
-                            .
-                        </p>
-                    </>
-                ) : (
-                    <>
-                        <p css={bodyCopyStyles}>
-                            Show your support for the Guardian at a later date. To make this easier,
-                            set a reminder and we’ll email you {reminderDateWithPreposition}.
-                        </p>
+            {reminderStatus === ReminderStatus.Completed ? (
+                <>
+                    <h4 css={remindHeading}>Thank you! Your reminder is set.</h4>
+                    <p css={successTextStyles}>
+                        We will be in touch to invite you to contribute. Look out for a message in
+                        your inbox {reminderDateWithPreposition}. If you have any questions about
+                        contributing, please{' '}
+                        <a href="mailto:contribution.support@theguardian.com" css={linkStyles}>
+                            contact us
+                        </a>
+                        .
+                    </p>
+                </>
+            ) : (
+                <>
+                    <p css={bodyCopyStyles}>
+                        Show your support for the Guardian at a later date. To make this easier, set
+                        a reminder and we’ll email you {reminderDateWithPreposition}.
+                    </p>
 
-                        <div css={ctaContainerStyles}>
-                            <div>
-                                <Hide above="tablet">
-                                    <Button
-                                        onClick={onSetReminderClick}
-                                        disabled={reminderStatus === ReminderStatus.Submitting}
-                                    >
-                                        Set a reminder
-                                    </Button>
-                                </Hide>
+                    <div css={ctaContainerStyles}>
+                        <div>
+                            <Hide above="tablet">
+                                <Button
+                                    onClick={onSetReminderClick}
+                                    disabled={reminderStatus === ReminderStatus.Submitting}
+                                >
+                                    Set a reminder
+                                </Button>
+                            </Hide>
 
-                                <Hide below="tablet">
-                                    <Button
-                                        onClick={onSetReminderClick}
-                                        icon={<SvgCheckmark />}
-                                        iconSide="left"
-                                        disabled={reminderStatus === ReminderStatus.Submitting}
-                                    >
-                                        Set a reminder
-                                    </Button>
-                                </Hide>
-                            </div>
-
-                            <Button onClick={onCloseReminderClick} priority="subdued">
-                                Not now
-                            </Button>
+                            <Hide below="tablet">
+                                <Button
+                                    onClick={onSetReminderClick}
+                                    icon={<SvgCheckmark />}
+                                    iconSide="left"
+                                    disabled={reminderStatus === ReminderStatus.Submitting}
+                                >
+                                    Set a reminder
+                                </Button>
+                            </Hide>
                         </div>
 
-                        {reminderStatus === ReminderStatus.Error && (
-                            <p css={errorTextStyles}>
-                                Sorry we couldn&apos;t set a reminder for you this time. Please try
-                                again later.
-                            </p>
-                        )}
+                        <Button onClick={onCloseReminderClick} priority="subdued">
+                            Not now
+                        </Button>
+                    </div>
 
-                        <p css={infoCopyStyles}>
-                            We will send you a maximum of two emails {reminderDateWithPreposition}.
-                            To find out what personal data we collect and how we use it, view our{' '}
-                            <a
-                                css={linkStyles}
-                                href="https://www.theguardian.com/help/privacy-policy"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Privacy Policy
-                            </a>
-                            .
+                    {reminderStatus === ReminderStatus.Error && (
+                        <p css={errorTextStyles}>
+                            Sorry we couldn&apos;t set a reminder for you this time. Please try
+                            again later.
                         </p>
-                    </>
-                )}
-            </div>
-        );
-    };
+                    )}
+
+                    <p css={infoCopyStyles}>
+                        We will send you a maximum of two emails {reminderDateWithPreposition}. To
+                        find out what personal data we collect and how we use it, view our{' '}
+                        <a
+                            css={linkStyles}
+                            href="https://www.theguardian.com/help/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Privacy Policy
+                        </a>
+                        .
+                    </p>
+                </>
+            )}
+        </div>
+    );
+};

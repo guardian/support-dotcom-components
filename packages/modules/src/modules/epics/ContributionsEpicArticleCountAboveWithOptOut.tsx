@@ -287,129 +287,128 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     return null;
 };
 
-export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> =
-    ({
-        numArticles,
-        isArticleCountOn,
-        onArticleCountOptOut,
-        onArticleCountOptIn,
-        openCmp,
-        submitComponentEvent,
-    }: ContributionsEpicArticleCountAboveWithOptOutProps) => {
-        const [isOpen, setIsOpen] = useState(false);
+export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
+    numArticles,
+    isArticleCountOn,
+    onArticleCountOptOut,
+    onArticleCountOptIn,
+    openCmp,
+    submitComponentEvent,
+}: ContributionsEpicArticleCountAboveWithOptOutProps) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-        const onToggleClick = () => {
-            setIsOpen(!isOpen);
-            submitComponentEvent &&
-                submitComponentEvent(
-                    isOpen
-                        ? OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE
-                        : OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
-                );
-        };
-
-        const onStayInClick = () => {
-            setIsOpen(false);
-            submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN);
-        };
-
-        const onOptOutClick = () => {
-            setIsOpen(false);
-            onArticleCountOptOut();
-            submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
-        };
-
-        const onOptInClick = () => {
-            setIsOpen(false);
-            onArticleCountOptIn();
-            submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN);
-        };
-
-        const onStayOutClick = () => {
-            setIsOpen(false);
-            submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
-        };
-
-        return (
-            <div css={topContainer}>
-                <ArticleCountWithToggle
-                    isArticleCountOn={isArticleCountOn}
-                    numArticles={numArticles}
-                    onToggleClick={onToggleClick}
-                />
-
-                {isOpen && (
-                    <div css={articleCountDescriptionTopContainerStyles}>
-                        <div css={caretStyles}></div>
-                        <div css={articleCountDescriptionContainer}>
-                            {isArticleCountOn ? (
-                                <>
-                                    <div css={articleCountBodyTextStyles}>
-                                        Many readers tell us they enjoy seeing how many pieces of
-                                        Guardian journalism they’ve read, watched or listened to. So
-                                        here’s your count. Can we continue showing you this on
-                                        support appeals like this?
-                                    </div>
-                                    <div css={articleCountCtasContainerStyles}>
-                                        <Button
-                                            priority="primary"
-                                            size="xsmall"
-                                            cssOverrides={articleCountDefaultCtaStyles}
-                                            onClick={onStayInClick}
-                                        >
-                                            Yes, thats OK
-                                        </Button>
-                                        <Button
-                                            priority="tertiary"
-                                            size="xsmall"
-                                            cssOverrides={articleCountOptOutCtaStyles}
-                                            onClick={onOptOutClick}
-                                        >
-                                            No, opt me out
-                                        </Button>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div css={articleCountBodyTextStyles}>
-                                        Many readers tell us they enjoy seeing how many pieces of
-                                        Guardian journalism they’ve read, watched or listened to.
-                                        Can we start showing you your article count on support
-                                        appeals like this?
-                                    </div>
-                                    <div css={articleCountCtasContainerStyles}>
-                                        <Button
-                                            priority="primary"
-                                            size="xsmall"
-                                            cssOverrides={articleCountOptInCtaStyles}
-                                            onClick={onOptInClick}
-                                        >
-                                            Yes, opt me in
-                                        </Button>
-                                        <Button
-                                            priority="tertiary"
-                                            size="xsmall"
-                                            cssOverrides={articleCountOptOutCtaStyles}
-                                            onClick={onStayOutClick}
-                                        >
-                                            No, thank you
-                                        </Button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                        <div css={trackingSettingsContainerStyles}>
-                            To opt out of other tracking activity, manage your{' '}
-                            <ButtonLink
-                                priority="secondary"
-                                cssOverrides={privacySettingsLinkStyles}
-                                onClick={openCmp}
-                            >
-                                Privacy Settings
-                            </ButtonLink>
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
+    const onToggleClick = () => {
+        setIsOpen(!isOpen);
+        submitComponentEvent &&
+            submitComponentEvent(
+                isOpen
+                    ? OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE
+                    : OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
+            );
     };
+
+    const onStayInClick = () => {
+        setIsOpen(false);
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN);
+    };
+
+    const onOptOutClick = () => {
+        setIsOpen(false);
+        onArticleCountOptOut();
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
+    };
+
+    const onOptInClick = () => {
+        setIsOpen(false);
+        onArticleCountOptIn();
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN);
+    };
+
+    const onStayOutClick = () => {
+        setIsOpen(false);
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
+    };
+
+    return (
+        <div css={topContainer}>
+            <ArticleCountWithToggle
+                isArticleCountOn={isArticleCountOn}
+                numArticles={numArticles}
+                onToggleClick={onToggleClick}
+            />
+
+            {isOpen && (
+                <div css={articleCountDescriptionTopContainerStyles}>
+                    <div css={caretStyles}></div>
+                    <div css={articleCountDescriptionContainer}>
+                        {isArticleCountOn ? (
+                            <>
+                                <div css={articleCountBodyTextStyles}>
+                                    Many readers tell us they enjoy seeing how many pieces of
+                                    Guardian journalism they’ve read, watched or listened to. So
+                                    here’s your count. Can we continue showing you this on support
+                                    appeals like this?
+                                </div>
+                                <div css={articleCountCtasContainerStyles}>
+                                    <Button
+                                        priority="primary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountDefaultCtaStyles}
+                                        onClick={onStayInClick}
+                                    >
+                                        Yes, thats OK
+                                    </Button>
+                                    <Button
+                                        priority="tertiary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptOutCtaStyles}
+                                        onClick={onOptOutClick}
+                                    >
+                                        No, opt me out
+                                    </Button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div css={articleCountBodyTextStyles}>
+                                    Many readers tell us they enjoy seeing how many pieces of
+                                    Guardian journalism they’ve read, watched or listened to. Can we
+                                    start showing you your article count on support appeals like
+                                    this?
+                                </div>
+                                <div css={articleCountCtasContainerStyles}>
+                                    <Button
+                                        priority="primary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptInCtaStyles}
+                                        onClick={onOptInClick}
+                                    >
+                                        Yes, opt me in
+                                    </Button>
+                                    <Button
+                                        priority="tertiary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptOutCtaStyles}
+                                        onClick={onStayOutClick}
+                                    >
+                                        No, thank you
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <div css={trackingSettingsContainerStyles}>
+                        To opt out of other tracking activity, manage your{' '}
+                        <ButtonLink
+                            priority="secondary"
+                            cssOverrides={privacySettingsLinkStyles}
+                            onClick={openCmp}
+                        >
+                            Privacy Settings
+                        </ButtonLink>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};

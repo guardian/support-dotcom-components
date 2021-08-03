@@ -1,4 +1,4 @@
-import type { EpicTest } from '@sdc/shared/types';
+import { EpicTest } from '@sdc/shared/types';
 import { selectVariant, withinRange } from './ab';
 
 const test: EpicTest = {

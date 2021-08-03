@@ -1,4 +1,4 @@
-import type { TickerSettings } from '@sdc/shared/types';
+import { TickerSettings } from '@sdc/shared/types';
 import { fetchTickerDataCached } from '../../lib/fetchTickerData';
 
 export interface AMPTicker {
@@ -11,7 +11,7 @@ export interface AMPTicker {
 }
 
 export const ampTicker = (tickerSettings: TickerSettings): Promise<AMPTicker> =>
-    fetchTickerDataCached(tickerSettings).then((data) => {
+    fetchTickerDataCached(tickerSettings).then(data => {
         const prefix = tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
         const goalReached = data.total >= data.goal;
         const totalPlusFifteen = data.total + data.total * 0.15;

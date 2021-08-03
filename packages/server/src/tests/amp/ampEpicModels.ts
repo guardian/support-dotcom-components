@@ -1,6 +1,6 @@
-import type { CountryGroupId } from '@sdc/shared/lib';
-import type { Cta, TickerSettings } from '@sdc/shared/types';
-import type { AMPTicker } from './ampTicker';
+import { CountryGroupId } from '@sdc/shared/lib';
+import { Cta, TickerSettings } from '@sdc/shared/types';
+import { AMPTicker } from './ampTicker';
 
 /**
  * Models for the data returned to AMP

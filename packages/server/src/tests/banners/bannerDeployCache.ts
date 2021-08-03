@@ -1,4 +1,4 @@
-import type { BannerChannel } from '@sdc/shared/types';
+import { BannerChannel } from '@sdc/shared/types';
 import { cacheAsync } from '../../lib/cache';
 import { isProd } from '../../lib/env';
 import { logger } from '../../utils/logging';

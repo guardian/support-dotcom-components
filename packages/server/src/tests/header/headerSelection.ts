@@ -4,7 +4,7 @@ import {
     header,
     headerSupportAgain,
 } from '@sdc/shared/config';
-import type { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
+import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -79,7 +79,8 @@ const supportAgainTest: HeaderTest = {
                 subheading: 'Your support powers our independent journalism',
                 primaryCta: {
                     text: 'Support us again',
-                    url: 'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
+                    url:
+                        'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
                 },
             },
         },

@@ -1,4 +1,4 @@
-import type { BannerTest, BannerTestGenerator } from '@sdc/shared/types';
+import { BannerTest, BannerTestGenerator } from '@sdc/shared/types';
 import { cacheAsync } from '../../lib/cache';
 import {
     channel1BannersAllTestsGenerator,
@@ -18,9 +18,9 @@ const testGenerators: BannerTestGenerator[] = [
 ];
 
 const getTests = (): Promise<BannerTest[]> =>
-    Promise.all(testGenerators.map((testGenerator) => testGenerator())).then(
-        (bannerTests: BannerTest[][]) => flattenArray(bannerTests),
-    );
+    Promise.all(
+        testGenerators.map(testGenerator => testGenerator()),
+    ).then((bannerTests: BannerTest[][]) => flattenArray(bannerTests));
 
 const [, getCachedTests] = cacheAsync<BannerTest[]>(getTests, 60, 'bannerTests', true);
 

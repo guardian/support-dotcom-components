@@ -1,5 +1,5 @@
 import { containsArticleCountPlaceholder } from '@sdc/shared/lib';
-import type { EpicTest, EpicVariant } from '@sdc/shared/types';
+import { EpicTest, EpicVariant } from '@sdc/shared/types';
 import { isProd } from '../lib/env';
 import { fetchS3Data } from '../utils/S3';
 
@@ -30,7 +30,7 @@ export const fetchConfiguredEpicTests = async (testList: EpicTestList): Promise<
 
     return fetchS3Data('gu-contributions-public', key)
         .then(JSON.parse)
-        .then((json) => {
+        .then(json => {
             const { tests } = json;
             if (Array.isArray(tests)) {
                 return tests.map((test: EpicTest) => {

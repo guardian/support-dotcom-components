@@ -1,6 +1,6 @@
 import { buildAmpEpicCampaignCode, getLocalCurrencySymbol } from '@sdc/shared/lib';
-import type { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import type { AMPEpic } from './ampEpicModels';
+import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import { AMPEpic } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicTests';
 
 async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {

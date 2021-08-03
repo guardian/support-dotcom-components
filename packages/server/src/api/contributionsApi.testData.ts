@@ -1,4 +1,4 @@
-import type { EpicTest } from '@sdc/shared/types';
+import { EpicTest } from '@sdc/shared/types';
 
 export const configuredTests: EpicTest[] = [
     {
@@ -59,7 +59,7 @@ export const configuredTests: EpicTest[] = [
                     text: 'Support The Guardian',
                     baseUrl: 'https://support.theguardian.com/contribute',
                 },
-                modulePathBuilder: (version) => `${version ?? 'v1'}/epic.js`,
+                modulePathBuilder: version => `${version ?? 'v1'}/epic.js`,
             },
         ],
         highPriority: false,

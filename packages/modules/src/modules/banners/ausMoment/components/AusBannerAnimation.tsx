@@ -13,7 +13,7 @@ const SoundWaves: React.FC = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setAnimationStage((stage) => (stage + 1) % NUM_ANIMATION_STAGES);
+            setAnimationStage(stage => (stage + 1) % NUM_ANIMATION_STAGES);
         }, ANIMATION_STAGE_DURATION_MS);
 
         return () => clearInterval(interval);

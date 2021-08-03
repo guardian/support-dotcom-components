@@ -33,7 +33,7 @@ const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): vo
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
-    }).then((response) => {
+    }).then(response => {
         if (!response.ok) {
             console.log('Epic view event request failed', response);
         }
@@ -248,7 +248,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     );
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
-    const cleanParagraphs = variant.paragraphs.map((paragraph) =>
+    const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
 

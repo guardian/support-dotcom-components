@@ -1,4 +1,4 @@
-import type { Test, Variant } from '@sdc/shared/types';
+import { Test, Variant } from '@sdc/shared/types';
 
 const maxMvt = 1000000;
 
@@ -18,7 +18,7 @@ export const withinRange = (lower: number, proportion: number, mvtId: number): b
  * Otherwise we evenly distribute all variants across maxMvt.
  */
 export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvtId: number): V => {
-    const control = test.variants.find((v) => v.name.toLowerCase() === 'control');
+    const control = test.variants.find(v => v.name.toLowerCase() === 'control');
 
     if (test.controlProportionSettings && control) {
         if (
@@ -30,7 +30,7 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
         ) {
             return control;
         } else {
-            const otherVariants = test.variants.filter((v) => v.name.toLowerCase() !== 'control');
+            const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
             return otherVariants[mvtId % otherVariants.length];
         }
     }

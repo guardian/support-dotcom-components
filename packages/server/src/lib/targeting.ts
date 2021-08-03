@@ -1,4 +1,4 @@
-import type { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
+import { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
 import { daysSince } from '../lib/dates';
 
 const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
@@ -22,25 +22,25 @@ export const shouldThrottle = (
     let views = log;
 
     if (testId) {
-        views = log.filter((view) => view.testId === testId);
+        views = log.filter(view => view.testId === testId);
     }
 
-    const viewsInThrottleWindow = views.filter((view) => {
+    const viewsInThrottleWindow = views.filter(view => {
         return daysSince(new Date(view.date), now) < config.maxViewsDays;
     });
 
     const hasReachedViewsLimitInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
 
     const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
-        (view) => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
+        view => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
     );
 
     return hasReachedViewsLimitInWindow || withinMinDaysSinceLastView;
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): boolean => {
-    const isLowValueSection = lowValueSections.some((id) => id === meta.sectionName);
-    const isLowValueTag = lowValueTags.some((id) => meta.tags.some((pageTag) => pageTag.id === id));
+    const isLowValueSection = lowValueSections.some(id => id === meta.sectionName);
+    const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
 
     return (
         meta.shouldHideReaderRevenue ||

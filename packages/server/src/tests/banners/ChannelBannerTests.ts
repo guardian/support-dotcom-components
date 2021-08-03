@@ -1,5 +1,5 @@
 import { ausMomentBanner, contributionsBanner, digiSubs, guardianWeekly } from '@sdc/shared/config';
-import type {
+import {
     BannerChannel,
     BannerTest,
     BannerTestGenerator,
@@ -92,21 +92,23 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
     return () =>
         fetchS3Data('gu-contributions-public', key)
             .then(JSON.parse)
-            .then((json) => json['tests'])
-            .then((tests) => {
-                return tests.map((testParams: RawTestParams): BannerTest => {
-                    return {
-                        name: testParams.name,
-                        bannerChannel,
-                        userCohort: testParams.userCohort,
-                        locations: testParams.locations,
-                        canRun: (): boolean => testParams.isOn,
-                        minPageViews: testParams.minArticlesBeforeShowingBanner,
-                        articlesViewedSettings: testParams.articlesViewedSettings,
-                        variants: testParams.variants.map(BannerVariantFromParams),
-                        controlProportionSettings: testParams.controlProportionSettings,
-                    };
-                });
+            .then(json => json['tests'])
+            .then(tests => {
+                return tests.map(
+                    (testParams: RawTestParams): BannerTest => {
+                        return {
+                            name: testParams.name,
+                            bannerChannel,
+                            userCohort: testParams.userCohort,
+                            locations: testParams.locations,
+                            canRun: (): boolean => testParams.isOn,
+                            minPageViews: testParams.minArticlesBeforeShowingBanner,
+                            articlesViewedSettings: testParams.articlesViewedSettings,
+                            variants: testParams.variants.map(BannerVariantFromParams),
+                            controlProportionSettings: testParams.controlProportionSettings,
+                        };
+                    },
+                );
             });
 };
 

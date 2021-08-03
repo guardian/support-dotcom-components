@@ -1,4 +1,4 @@
-import type express from 'express';
+import express from 'express';
 import { logger } from '../utils/logging';
 
 export const RequestLogName = 'request';

@@ -30,164 +30,157 @@ import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
 import { buildReminderFields } from '@sdc/shared/lib';
 
-const withBannerData =
-    (Banner: React.FC<BannerRenderProps>, bannerId: BannerId): React.FC<CloseableBannerProps> =>
-    (bannerProps) => {
-        const {
-            tracking,
-            submitComponentEvent,
-            onClose,
-            content,
-            mobileContent,
-            countryCode,
-            email,
-            numArticles = 0,
-            tickerSettings,
-            isSupporter,
-        } = bannerProps;
+const withBannerData = (
+    Banner: React.FC<BannerRenderProps>,
+    bannerId: BannerId,
+): React.FC<CloseableBannerProps> => bannerProps => {
+    const {
+        tracking,
+        submitComponentEvent,
+        onClose,
+        content,
+        mobileContent,
+        countryCode,
+        email,
+        numArticles = 0,
+        tickerSettings,
+        isSupporter,
+    } = bannerProps;
 
-        const componentIds = getComponentIds(bannerId);
+    const componentIds = getComponentIds(bannerId);
 
-        // For safety, this function throws if not all placeholders are replaced
-        const buildRenderedContent = (bannerContent: BannerContent): BannerRenderedContent => {
-            const buildEnrichedCta = (cta: Cta): BannerEnrichedCta => ({
-                ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
-                    cta.baseUrl,
-                    tracking,
-                    countryCode,
-                ),
-                ctaText: cta.text,
-            });
+    // For safety, this function throws if not all placeholders are replaced
+    const buildRenderedContent = (bannerContent: BannerContent): BannerRenderedContent => {
+        const buildEnrichedCta = (cta: Cta): BannerEnrichedCta => ({
+            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode),
+            ctaText: cta.text,
+        });
 
-            const buildEnrichedSecondaryCta = (
-                secondaryCta: SecondaryCta,
-            ): BannerEnrichedSecondaryCta => {
-                if (secondaryCta.type === SecondaryCtaType.Custom) {
-                    return {
-                        type: SecondaryCtaType.Custom,
-                        cta: buildEnrichedCta(secondaryCta.cta),
-                    };
-                }
-
+        const buildEnrichedSecondaryCta = (
+            secondaryCta: SecondaryCta,
+        ): BannerEnrichedSecondaryCta => {
+            if (secondaryCta.type === SecondaryCtaType.Custom) {
                 return {
-                    type: SecondaryCtaType.ContributionsReminder,
-                    reminderFields: buildReminderFields(),
+                    type: SecondaryCtaType.Custom,
+                    cta: buildEnrichedCta(secondaryCta.cta),
                 };
-            };
-
-            const primaryCta = bannerContent.cta ? buildEnrichedCta(bannerContent.cta) : null;
-            const secondaryCta = bannerContent.secondaryCta
-                ? buildEnrichedSecondaryCta(bannerContent.secondaryCta)
-                : null;
-
-            const cleanHighlightedText =
-                bannerContent.highlightedText &&
-                replaceNonArticleCountPlaceholders(
-                    bannerContent.highlightedText,
-                    countryCode,
-                ).trim();
-
-            const cleanMessageText = replaceNonArticleCountPlaceholders(
-                bannerContent.messageText,
-                countryCode,
-            ).trim();
-
-            const cleanHeading = replaceNonArticleCountPlaceholders(
-                bannerContent.heading,
-                countryCode,
-            ).trim();
-
-            const copyHasPlaceholder =
-                containsNonArticleCountPlaceholder(cleanMessageText) ||
-                (!!cleanHighlightedText &&
-                    containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
-                (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
-
-            const headingWithArticleCount = !!cleanHeading
-                ? replaceArticleCount(cleanHeading, numArticles, 'banner')
-                : null;
-            const messageTextWithArticleCount = replaceArticleCount(
-                cleanMessageText,
-                numArticles,
-                'banner',
-            );
-            const highlightedTextWithArticleCount = !!cleanHighlightedText
-                ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
-                : null;
-
-            if (copyHasPlaceholder) {
-                throw Error('Banner copy contains placeholders, abandoning.');
             }
 
             return {
-                highlightedText: highlightedTextWithArticleCount,
-                messageText: messageTextWithArticleCount,
-                heading: headingWithArticleCount,
-                primaryCta,
-                secondaryCta,
+                type: SecondaryCtaType.ContributionsReminder,
+                reminderFields: buildReminderFields(),
             };
         };
 
-        const clickHandlerFor = (componentId: string) => {
-            return (): void => {
-                const componentClickEvent = createClickEventFromTracking(tracking, componentId);
-                if (submitComponentEvent) {
-                    submitComponentEvent(componentClickEvent);
-                }
-            };
-        };
+        const primaryCta = bannerContent.cta ? buildEnrichedCta(bannerContent.cta) : null;
+        const secondaryCta = bannerContent.secondaryCta
+            ? buildEnrichedSecondaryCta(bannerContent.secondaryCta)
+            : null;
 
-        const onCtaClick = clickHandlerFor(componentIds.cta);
-        const onSecondaryCtaClick = clickHandlerFor(componentIds.secondaryCta);
-        const onReminderCtaClick = clickHandlerFor(componentIds.reminderCta);
-        const onReminderSetClick = clickHandlerFor(componentIds.reminderSet);
-        const onReminderCloseClick = clickHandlerFor(componentIds.reminderClose);
+        const cleanHighlightedText =
+            bannerContent.highlightedText &&
+            replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode).trim();
 
-        const onCloseClick = (): void => {
-            clickHandlerFor(componentIds.close)();
-            onClose();
-        };
+        const cleanMessageText = replaceNonArticleCountPlaceholders(
+            bannerContent.messageText,
+            countryCode,
+        ).trim();
 
-        const onNotNowClick = (): void => {
-            clickHandlerFor(componentIds.notNow)();
-            onClose();
-        };
+        const cleanHeading = replaceNonArticleCountPlaceholders(
+            bannerContent.heading,
+            countryCode,
+        ).trim();
 
-        const onSignInClick = clickHandlerFor(componentIds.signIn);
+        const copyHasPlaceholder =
+            containsNonArticleCountPlaceholder(cleanMessageText) ||
+            (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
+            (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
-        try {
-            const renderedContent = content && buildRenderedContent(content);
-            const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
+        const headingWithArticleCount = !!cleanHeading
+            ? replaceArticleCount(cleanHeading, numArticles, 'banner')
+            : null;
+        const messageTextWithArticleCount = replaceArticleCount(
+            cleanMessageText,
+            numArticles,
+            'banner',
+        );
+        const highlightedTextWithArticleCount = !!cleanHighlightedText
+            ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
+            : null;
 
-            if (renderedContent) {
-                const props: BannerRenderProps = {
-                    onCtaClick,
-                    onSecondaryCtaClick,
-                    reminderTracking: {
-                        onReminderCtaClick,
-                        onReminderSetClick,
-                        onReminderCloseClick,
-                    },
-                    onCloseClick,
-                    onSignInClick,
-                    onNotNowClick,
-                    content: {
-                        mainContent: renderedContent,
-                        mobileContent: renderedMobileContent,
-                    },
-                    countryCode,
-                    email,
-                    tickerSettings,
-                    isSupporter,
-                };
-                return <Banner {...props} />;
-            }
-        } catch (err) {
-            console.log(err);
+        if (copyHasPlaceholder) {
+            throw Error('Banner copy contains placeholders, abandoning.');
         }
 
-        return null;
+        return {
+            highlightedText: highlightedTextWithArticleCount,
+            messageText: messageTextWithArticleCount,
+            heading: headingWithArticleCount,
+            primaryCta,
+            secondaryCta,
+        };
     };
+
+    const clickHandlerFor = (componentId: string) => {
+        return (): void => {
+            const componentClickEvent = createClickEventFromTracking(tracking, componentId);
+            if (submitComponentEvent) {
+                submitComponentEvent(componentClickEvent);
+            }
+        };
+    };
+
+    const onCtaClick = clickHandlerFor(componentIds.cta);
+    const onSecondaryCtaClick = clickHandlerFor(componentIds.secondaryCta);
+    const onReminderCtaClick = clickHandlerFor(componentIds.reminderCta);
+    const onReminderSetClick = clickHandlerFor(componentIds.reminderSet);
+    const onReminderCloseClick = clickHandlerFor(componentIds.reminderClose);
+
+    const onCloseClick = (): void => {
+        clickHandlerFor(componentIds.close)();
+        onClose();
+    };
+
+    const onNotNowClick = (): void => {
+        clickHandlerFor(componentIds.notNow)();
+        onClose();
+    };
+
+    const onSignInClick = clickHandlerFor(componentIds.signIn);
+
+    try {
+        const renderedContent = content && buildRenderedContent(content);
+        const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
+
+        if (renderedContent) {
+            const props: BannerRenderProps = {
+                onCtaClick,
+                onSecondaryCtaClick,
+                reminderTracking: {
+                    onReminderCtaClick,
+                    onReminderSetClick,
+                    onReminderCloseClick,
+                },
+                onCloseClick,
+                onSignInClick,
+                onNotNowClick,
+                content: {
+                    mainContent: renderedContent,
+                    mobileContent: renderedMobileContent,
+                },
+                countryCode,
+                email,
+                tickerSettings,
+                isSupporter,
+            };
+            return <Banner {...props} />;
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
+    return null;
+};
 
 export const bannerWrapper = (
     Banner: React.FC<BannerRenderProps>,

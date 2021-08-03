@@ -1,14 +1,14 @@
 import fs from 'fs';
-import type { ModuleInfo } from '@sdc/shared/config';
+import { ModuleInfo } from '@sdc/shared/config';
 import { moduleInfos } from '@sdc/shared/config';
 import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
-import type { EpicType, OphanComponentEvent } from '@sdc/shared/types';
+import { EpicType, OphanComponentEvent } from '@sdc/shared/types';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
 import fetch from 'node-fetch';
-import type { OneOffSignupRequest } from './api/supportRemindersApi';
+import { OneOffSignupRequest } from './api/supportRemindersApi';
 import { setOneOffReminderEndpoint } from './api/supportRemindersApi';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { baseUrl, isDev, isProd } from './lib/env';
@@ -373,7 +373,7 @@ app.get(
                 JSON.stringify(ophanComponentEvent),
             )}`;
 
-            fetch(ophanUrl).then((ophanResponse) => {
+            fetch(ophanUrl).then(ophanResponse => {
                 res.json({
                     ophanUrl: ophanUrl,
                     ophanResponseStatus: ophanResponse.status,

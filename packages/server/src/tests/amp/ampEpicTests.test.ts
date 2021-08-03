@@ -1,7 +1,7 @@
-import type { CountryGroupId } from '@sdc/shared/lib';
+import { CountryGroupId } from '@sdc/shared/lib';
 import { TickerCountType, TickerEndType } from '@sdc/shared/types';
-import type { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import type { AMPEpic, AmpEpicTest } from './ampEpicModels';
+import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
+import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpicTestAndVariant } from './ampEpicTests';
 
 jest.mock('../../lib/fetchTickerData', () => {

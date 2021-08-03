@@ -84,137 +84,141 @@ export interface ContributionsBannerReminderSignedInProps {
     onReminderCloseClick: () => void;
 }
 
-export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerReminderSignedInProps> =
-    ({ reminderCta, reminderStatus, onReminderSetClick, onReminderCloseClick }) => {
-        const Body = () => (
-            <div css={bodyContainerStyles}>
-                {reminderStatus !== ReminderStatus.Completed && (
-                    <>
-                        <div css={bodyCopyContainerStyles}>
-                            Show your support for the Guardian at a later date. To make this easier,
-                            set a reminder and we’ll email you in May.
+export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerReminderSignedInProps> = ({
+    reminderCta,
+    reminderStatus,
+    onReminderSetClick,
+    onReminderCloseClick,
+}) => {
+    const Body = () => (
+        <div css={bodyContainerStyles}>
+            {reminderStatus !== ReminderStatus.Completed && (
+                <>
+                    <div css={bodyCopyContainerStyles}>
+                        Show your support for the Guardian at a later date. To make this easier, set
+                        a reminder and we’ll email you in May.
+                    </div>
+
+                    {reminderStatus === ReminderStatus.Error && (
+                        <div css={errorCopyContainerStyles}>
+                            Sorry we couldn&apos;t set a reminder for you this time. Please try
+                            again later.
                         </div>
+                    )}
 
-                        {reminderStatus === ReminderStatus.Error && (
-                            <div css={errorCopyContainerStyles}>
-                                Sorry we couldn&apos;t set a reminder for you this time. Please try
-                                again later.
-                            </div>
-                        )}
+                    <div css={infoCopyContainerStyles}>
+                        We will send you a maximum of two emails in{' '}
+                        {reminderCta.reminderFields.reminderLabel}. To find out what personal data
+                        we collect and how we use it, view our{' '}
+                        <a
+                            css={privacyLinkSyles}
+                            href="https://www.theguardian.com/help/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Privacy policy
+                        </a>
+                    </div>
+                </>
+            )}
 
-                        <div css={infoCopyContainerStyles}>
-                            We will send you a maximum of two emails in{' '}
-                            {reminderCta.reminderFields.reminderLabel}. To find out what personal
-                            data we collect and how we use it, view our{' '}
-                            <a
-                                css={privacyLinkSyles}
-                                href="https://www.theguardian.com/help/privacy-policy"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Privacy policy
-                            </a>
-                        </div>
-                    </>
-                )}
+            {reminderStatus === ReminderStatus.Completed && (
+                <>
+                    <div css={thankyouHeaderStyles}>Thank you! Your reminder is set</div>
 
-                {reminderStatus === ReminderStatus.Completed && (
-                    <>
-                        <div css={thankyouHeaderStyles}>Thank you! Your reminder is set</div>
+                    <div css={thankyouBodyStyles}>
+                        We will be in touch to invite you to contribute. Look out for a messsage in
+                        your inbox in {reminderCta.reminderFields.reminderLabel}. If you have any
+                        questions about contributing, please{' '}
+                        <a
+                            href="mailto:contribution.support@theguardian.com"
+                            css={contactLinkStyles}
+                        >
+                            contact us
+                        </a>
+                    </div>
+                </>
+            )}
+        </div>
+    );
 
-                        <div css={thankyouBodyStyles}>
-                            We will be in touch to invite you to contribute. Look out for a messsage
-                            in your inbox in {reminderCta.reminderFields.reminderLabel}. If you have
-                            any questions about contributing, please{' '}
-                            <a
-                                href="mailto:contribution.support@theguardian.com"
-                                css={contactLinkStyles}
-                            >
-                                contact us
-                            </a>
-                        </div>
-                    </>
-                )}
+    const Ctas = () => (
+        <div css={ctaContainerStyles}>
+            <div>
+                <ThemeProvider theme={buttonBrandAlt}>
+                    <div>
+                        <Button
+                            onClick={onReminderSetClick}
+                            size="small"
+                            priority="tertiary"
+                            icon={<SvgCheckmark />}
+                            iconSide="right"
+                            disabled={reminderStatus === ReminderStatus.Submitting}
+                        >
+                            Set a reminder
+                        </Button>
+                    </div>
+
+                    <div css={secondaryCtaContainerStyles}>
+                        <Button onClick={onReminderCloseClick} priority="subdued">
+                            Not now
+                        </Button>
+                    </div>
+                </ThemeProvider>
             </div>
-        );
+        </div>
+    );
 
-        const Ctas = () => (
-            <div css={ctaContainerStyles}>
-                <div>
-                    <ThemeProvider theme={buttonBrandAlt}>
-                        <div>
-                            <Button
-                                onClick={onReminderSetClick}
-                                size="small"
-                                priority="tertiary"
-                                icon={<SvgCheckmark />}
-                                iconSide="right"
-                                disabled={reminderStatus === ReminderStatus.Submitting}
-                            >
-                                Set a reminder
-                            </Button>
-                        </div>
+    return (
+        <>
+            <Hide above="tablet">
+                <Columns>
+                    <Column width={1}>
+                        <Body />
+                        {reminderStatus !== ReminderStatus.Completed && <Ctas />}
+                    </Column>
+                </Columns>
+            </Hide>
 
-                        <div css={secondaryCtaContainerStyles}>
-                            <Button onClick={onReminderCloseClick} priority="subdued">
-                                Not now
-                            </Button>
-                        </div>
-                    </ThemeProvider>
-                </div>
-            </div>
-        );
-
-        return (
-            <>
-                <Hide above="tablet">
+            <Hide below="tablet">
+                <Hide above="leftCol">
                     <Columns>
-                        <Column width={1}>
+                        <Column width={8 / 12}>
                             <Body />
+                        </Column>
+                        <Column width={4 / 12}>
                             {reminderStatus !== ReminderStatus.Completed && <Ctas />}
                         </Column>
                     </Columns>
                 </Hide>
+            </Hide>
 
-                <Hide below="tablet">
-                    <Hide above="leftCol">
-                        <Columns>
-                            <Column width={8 / 12}>
-                                <Body />
-                            </Column>
-                            <Column width={4 / 12}>
-                                {reminderStatus !== ReminderStatus.Completed && <Ctas />}
-                            </Column>
-                        </Columns>
-                    </Hide>
-                </Hide>
-
-                <Hide below="leftCol">
-                    <Hide above="wide">
-                        <Columns>
-                            <Column width={2 / 14}> </Column>
-                            <Column width={8 / 14}>
-                                <Body />
-                            </Column>
-                            <Column width={4 / 14}>
-                                {reminderStatus !== ReminderStatus.Completed && <Ctas />}
-                            </Column>
-                        </Columns>
-                    </Hide>
-                </Hide>
-
-                <Hide below="wide">
+            <Hide below="leftCol">
+                <Hide above="wide">
                     <Columns>
-                        <Column width={3 / 16}> </Column>
-                        <Column width={8 / 16}>
+                        <Column width={2 / 14}> </Column>
+                        <Column width={8 / 14}>
                             <Body />
                         </Column>
-                        <Column width={4 / 16}>
+                        <Column width={4 / 14}>
                             {reminderStatus !== ReminderStatus.Completed && <Ctas />}
                         </Column>
-                        <Column width={1 / 16}> </Column>
                     </Columns>
                 </Hide>
-            </>
-        );
-    };
+            </Hide>
+
+            <Hide below="wide">
+                <Columns>
+                    <Column width={3 / 16}> </Column>
+                    <Column width={8 / 16}>
+                        <Body />
+                    </Column>
+                    <Column width={4 / 16}>
+                        {reminderStatus !== ReminderStatus.Completed && <Ctas />}
+                    </Column>
+                    <Column width={1 / 16}> </Column>
+                </Columns>
+            </Hide>
+        </>
+    );
+};

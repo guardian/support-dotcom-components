@@ -1,4 +1,4 @@
-import type { PageTracking, TestTracking, Tracking } from '@sdc/shared/types';
+import { PageTracking, TestTracking, Tracking } from '@sdc/shared/types';
 import { Factory } from 'fishery';
 
 export const pageTracking = Factory.define<PageTracking>(() => ({

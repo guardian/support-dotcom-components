@@ -1,6 +1,6 @@
-import type { EpicVariant, TickerData, TickerSettings } from '@sdc/shared/types';
+import { EpicVariant, TickerData, TickerSettings } from '@sdc/shared/types';
 import { TickerCountType } from '@sdc/shared/types';
-import type { Response } from 'node-fetch';
+import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import { cacheAsync } from './cache';
 
@@ -40,8 +40,8 @@ export const fetchTickerDataCached = async (
         return fetch(tickerUrl(tickerSettings.countType), {
             timeout: 1000 * 20,
         })
-            .then((response) => checkForErrors(response))
-            .then((response) => response.json())
+            .then(response => checkForErrors(response))
+            .then(response => response.json())
             .then(parse);
     };
 
@@ -55,7 +55,7 @@ export const fetchTickerDataCached = async (
 };
 
 export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise<TickerSettings> =>
-    fetchTickerDataCached(tickerSettings).then((tickerData) => ({
+    fetchTickerDataCached(tickerSettings).then(tickerData => ({
         ...tickerSettings,
         tickerData: tickerData,
     }));
