@@ -1,24 +1,11 @@
+import {
+    OneOffSignupRequest,
+    ReminderComponent,
+    ReminderPlatform,
+    ReminderStage,
+} from '@sdc/shared/src/types';
 import { useState } from 'react';
 import { addContributionReminderCookie, ReminderStatus } from '../modules/utils/reminders';
-
-export type ReminderPlatform = 'WEB' | 'AMP';
-
-export type ReminderComponent = 'EPIC' | 'BANNER';
-
-export type ReminderStage = 'PRE' | 'POST';
-
-interface BaseSignupRequest {
-    email: string;
-    reminderPlatform: ReminderPlatform;
-    reminderComponent: ReminderComponent;
-    reminderStage: ReminderStage;
-    country?: string;
-    reminderOption?: string;
-}
-
-export type OneOffSignupRequest = BaseSignupRequest & {
-    reminderPeriod: string;
-};
 
 const CREATE_ONE_OFF_REMINDER_ENDPOINT = 'https://support.theguardian.com/reminders/create/one-off';
 

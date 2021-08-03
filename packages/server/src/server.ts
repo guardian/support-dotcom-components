@@ -1,14 +1,12 @@
 import fs from 'fs';
-import { ModuleInfo } from '@sdc/shared/config';
-import { moduleInfos } from '@sdc/shared/config';
+import { ModuleInfo, moduleInfos } from '@sdc/shared/config';
 import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
-import { EpicType, OphanComponentEvent } from '@sdc/shared/types';
+import { EpicType, OphanComponentEvent, OneOffSignupRequest } from '@sdc/shared/types';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
 import fetch from 'node-fetch';
-import { OneOffSignupRequest } from './api/supportRemindersApi';
 import { setOneOffReminderEndpoint } from './api/supportRemindersApi';
 import { getAmpVariantAssignments } from './lib/ampVariantAssignments';
 import { baseUrl, isDev, isProd } from './lib/env';
