@@ -13,7 +13,7 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     srcPath: `src/modules/${path}.tsx`,
     distPath: `dist/modules/${MODULES_VERSION}/${path}.js`,
     endpointPathBuilder: (version: string = MODULES_VERSION) => `modules/${version}/${path}.js`,
-    devServerPath: `/../dist/modules/${MODULES_VERSION}/${path}.js`,
+    devServerPath: `/../../modules/dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
