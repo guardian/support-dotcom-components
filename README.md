@@ -6,10 +6,9 @@ See [architecture](docs/architecture.md) for details.
 
 ## Setup
 
-To set up, first run
+This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
 
 ```bash
-nvm use
 yarn
 ```
 
@@ -31,7 +30,7 @@ Which need the `@sdc/shared` package to have been built.
 
 ### Server
 
-To run the server run
+To start the server run
 
 ```bash
 yarn server start
@@ -77,12 +76,30 @@ Where a list of module names can be found [here](./packages/shared/src/config/mo
 
 ### Run the tests
 
+To run the tests run
+
 ```bash
 yarn test
 yarn test path/to/specific/test.ts
 ```
 
-### SSH access
+### Project structure
+
+This repo consists of 3 packages, managed by [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). The three packages are:
+
+- server
+- modules
+- shared
+
+`server` is an express app that runs on `node`. All the code inside this package **must** be suitable for running on `node`.
+
+`modules` is a set of react components that are bundled into `js` modules by `rollup` and rendered on dotcom. All the code inside this package **must** be suitable for running in a browser.
+
+`shared` is a npm package containing shared code for `server` and `modules`. All the code inside this package **must** be platform agnostic.
+
+`server` and `modules` both have a dependency on `shared`. To avoid having to manually build `shared` we make use of [typescript project references](https://www.typescriptlang.org/docs/handbook/project-references.html). This means when we e.g use typescript to build the `server` project it will automatically rebuild `shared` if it needs to.
+
+## SSH access
 
 To ssh onto an instance use:
 `ssm ssh --profile <aws profile> -x --ssm-tunnel -i <instance ID>`
