@@ -7,6 +7,7 @@ const ARTICLE_COUNT_OPT_OUT_COOKIE = {
 
 const DAILY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.dailyArticleCount';
 const WEEKLY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.weeklyArticleCount';
+const ARTICLES_THIS_WEEK_STORAGE_KEY = 'gu.history.articlesThisWeek';
 
 export const addArticleCountOptOutCookie = (): void =>
     addCookie(
@@ -21,6 +22,7 @@ export const removeArticleCountOptOutCookie = (): void =>
 export const removeArticleCountFromLocalStorage = (): void => {
     window.localStorage.removeItem(DAILY_ARTICLE_COUNT_STORAGE_KEY);
     window.localStorage.removeItem(WEEKLY_ARTICLE_COUNT_STORAGE_KEY);
+    window.localStorage.removeItem(ARTICLES_THIS_WEEK_STORAGE_KEY);
 };
 
 export const hasArticleCountOptOutCookie = (): boolean =>
