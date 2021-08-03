@@ -4,12 +4,12 @@
   "main": "dist/server.js",
   "scripts": {
     "lint": "eslint 'src/**/*.{ts,tsx}'",
-		"build": "tsc --build",
+    "build": "tsc --build",
     "prestart": "yarn build",
     "start-build": "tsc --build --watch",
     "start-server": "stage=DEV nodemon dist/server.js",
     "start": "concurrently --kill-others \"yarn start-build\" \"yarn start-server\"",
-		"test": "jest"
+    "test": "jest"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
