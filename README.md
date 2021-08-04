@@ -74,6 +74,12 @@ yarn modules start --moduleName=<MODULE_NAME>
 
 Where a list of module names can be found [here](./packages/shared/src/config/modules.ts).
 
+**NB**: Rollup doesn't have support for project references. This means it won't automatically build the `shared` project when running `yarn modules start`. If you don't have it built already (running `yarn setup` will have built it, so you probably do), you can always build it manually with
+
+```bash
+yarn shared build
+```
+
 ### Run the tests
 
 To run the tests run
