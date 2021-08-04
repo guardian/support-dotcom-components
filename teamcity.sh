@@ -16,8 +16,7 @@ yarn setup
 yarn lint
 yarn test
 
-# rm -rf node_modules
-# yarn install --production
-NODE_ENV=production yarn build
+NODE_ENV=production yarn server build
+NODE_ENV=production yarn modules build
 
 yarn run riffraff

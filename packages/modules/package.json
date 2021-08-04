@@ -1,6 +1,7 @@
 {
   "name": "@sdc/modules",
   "version": "1.0.0",
+  "license": "MIT",
   "scripts": {
     "prebuild": "tsc --build",
     "build": "rollup --config",

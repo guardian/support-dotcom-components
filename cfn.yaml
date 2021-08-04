@@ -282,7 +282,7 @@ Resources:
                     mkdir /var/log/dotcom-components
                     chown -R dotcom-components:support /var/log/dotcom-components
 
-                    /usr/local/node/pm2 start --uid dotcom-components --gid support packages/server/dist/server.js
+                    /usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
                     /opt/aws-kinesis-agent/configure-aws-kinesis-agent ${AWS::Region} ${ELKStream} /var/log/dotcom-components/dotcom-components.log
         DependsOn:
