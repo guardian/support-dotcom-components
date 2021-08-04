@@ -1,24 +1,10 @@
 {
-    "compilerOptions": {
-        "target": "es2018",
-        "strict": true,
-        "module": "CommonJS",
-        "noImplicitReturns": true,
-        "noUncheckedIndexedAccess": true,
-        "esModuleInterop": true,
-        "moduleResolution": "node",
-        "jsx": "react-jsx",
-        "outDir": "dist",
-        "typeRoots": ["./src/@types", "./node_modules/@types"],
-        "rootDirs": ["src", "stories"],
-        "baseUrl": "src",
-        "types": ["node", "jest"]
-    },
-    "include": ["src/**/*"],
-    "exclude": [
-        "node_modules",
-        "src/**/*.test.ts",
-        "src/factories/*",
-        "src/tests/banners/*.tests.ts"
-    ]
+  "references": [
+    { "path": "./packages/server" },
+    { "path": "./packages/modules" },
+    { "path": "./packages/shared" },
+  ],
+  "files": [],
+  "include": [],
+  "exclude": ["**/node_modules"]
 }
