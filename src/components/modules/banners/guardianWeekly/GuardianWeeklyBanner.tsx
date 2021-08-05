@@ -3,7 +3,7 @@ import { ThemeProvider } from '@emotion/react';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
-import { SvgRoundel } from '@guardian/src-brand';
+import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
@@ -147,7 +147,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                     <div css={iconAndClosePosition}>
                         <Inline space={1}>
                             <div css={logoContainer}>
-                                <SvgRoundel />
+                                <SvgRoundelDefault />
                             </div>
                             <CloseButton onClick={onCloseClick} />
                         </Inline>
