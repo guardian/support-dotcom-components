@@ -218,7 +218,11 @@ const AusMomentBanner: React.FC<BannerRenderProps> = ({
                 {isSupporter ? <SocialShare /> : <Ctas />}
             </Hide>
 
-            <Container>
+            <Container
+                cssOverrides={css`
+                    width: 100%;
+                `}
+            >
                 <Hide below="tablet">
                     <Hide above="desktop">
                         <Columns>
