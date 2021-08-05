@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2018",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
+    "noEmit": true
+  },
+  "include": ["src"],
+  "references": [{"path": "../shared"}]
+}

@@ -6,73 +6,107 @@ See [architecture](docs/architecture.md) for details.
 
 ## Setup
 
-To set up, first run 
-`nvm use`
-`yarn`
+This project uses [nvm](https://github.com/nvm-sh/nvm). You should run `nvm use` in your terminal before running any of the following commands. To set up, first run
 
-Then you can follow the instructions below to run the server locally.
+```bash
+yarn
+```
+
+This will install all the project dependencies. Next run
+
+```bash
+yarn setup
+```
+
+This will do an initial build of the project. This should make your IDE happy with imports like
+
+```ts
+import { EpicProps } from '@sdc/shared/types;
+```
+
+Which need the `@sdc/shared` package to have been built.
 
 ## Development
 
-You may want to run in conjunction with DCR, or you can use storybook if you just want to develop quickly.
+### Server
 
-### Run the dev server for use with DCR
+To start the server run
 
-`NODE_OPTIONS="--max-old-space-size=80000" AWS_PROFILE=membership PORT=8082 yarn dev`
-
-Then you can access it on
-[http://localhost:8082](http://localhost:8082)
-
-Also we need to point our local DCR instance at the local SDC instance. I'd normally do that by updating this line here:  https://github.com/guardian/dotcom-rendering/blob/main/src/web/components/SlotBodyEnd/ReaderRevenueEpic.tsx#L178
-
-to something like
-
-```ts
-const response = await getBodyEnd(
-		contributionsPayload,
-		`http://localhost:8082/epic${queryString}`,
-	);
+```bash
+yarn server start
 ```
 
+This will start `tsc` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
 
-If you want to run it on a different port, use
+#### DCR
 
-`$ PORT=8080 yarn dev`
+A local instance of DCR will use the `SDC_URL` environment variable to get the url for requests to SDC. To point DCR at a local instance of SDC we can therefore run DCR like
 
-Additionally you can watch for module changes with:
+```bash
+SDC_URL=http://localhost:<SDC_PORT> make dev
+```
 
-`$ yarn modules-dev`
+Where the default value for `<SDC_PORT>` is `8082`.
 
-And to speed things up if you're only working on a single module:
+### Modules
 
-`$ yarn modules-dev --moduleName=epic`
+#### Storybook
+
+The fastest way to develop modules is to work in storybook. To do this run
+
+```bash
+yarn modules storybook
+```
+
+#### Building the modules
+
+Storybook is great for working in isolation, but often you will want to see the components rendering on a local DCR page. To do this, start the server, then in a new window run
+
+```bash
+yarn modules start
+```
+
+This will start building all of the modules. This can be quite slow, so to build a specific module we can run
+
+```bash
+yarn modules start --moduleName=<MODULE_NAME>
+```
+
+Where a list of module names can be found [here](./packages/shared/src/config/modules.ts).
+
+**NB**: Rollup doesn't have support for project references. This means it won't automatically build the `shared` project when running `yarn modules start`. If you don't have it built already (running `yarn setup` will have built it, so you probably do), you can always build it manually with
+
+```bash
+yarn shared build
+```
 
 ### Run the tests
 
-```
-$ yarn test
-$ yarn test path/to/specific/test.ts
-```
+To run the tests run
 
-### Run Storybook
-
-We use Storybook for developing React components.
-
-```
-$ yarn storybook
+```bash
+yarn test
+yarn test path/to/specific/test.ts
 ```
 
-The browser should automatically open at http://localhost:6006/
+### Project structure
 
-## Update JSON Schema
+This repo consists of 3 packages, managed by [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). The three packages are:
 
-Update JSON schema based on TypeScript definitions:
+- server
+- modules
+- shared
 
-```
-$ yarn generate-schema
-```
+`server` is an express app that runs on `node`. All the code inside this package **must** be suitable for running on `node`.
 
-### SSH access
+`modules` is a set of react components that are bundled into `js` modules by `rollup` and rendered on dotcom. All the code inside this package **must** be suitable for running in a browser.
+
+`shared` is a npm package containing shared code for `server` and `modules`. All the code inside this package **must** be platform agnostic.
+
+`server` and `modules` both have a dependency on `shared`. To avoid having to manually build `shared` we make use of [typescript project references](https://www.typescriptlang.org/docs/handbook/project-references.html). This means when we e.g use typescript to build the `server` project it will automatically rebuild `shared` if it needs to.
+
+## SSH access
+
 To ssh onto an instance use:
 `ssm ssh --profile <aws profile> -x --ssm-tunnel -i <instance ID>`
 
@@ -82,7 +116,7 @@ We use versioning on the modules for backwards-incompatible upgrades. For exampl
 
 Module versions are not tied to main branch builds. We release new versions infrequently. These versions represent a contract between the platforms and dotcom-components.
 
-The latest version is defined in [modules.ts](src/modules.ts).
+The latest version is defined in [modules.ts](./packages/shared/src/config/modules.ts).
 
 Version history is documented in [module-versions.md](/module-versions.md).
 
@@ -94,4 +128,4 @@ E.g. a client request to:
 
 is routed to:
 
-`<s3-bucket-domain>/PROD/dotcom-components-modules-upload/v1/banners/contributions/ContributionsBanner.js` 
+`<s3-bucket-domain>/PROD/dotcom-components-modules-upload/v1/banners/contributions/ContributionsBanner.js`
