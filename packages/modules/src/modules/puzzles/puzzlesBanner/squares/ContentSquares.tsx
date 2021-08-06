@@ -7,7 +7,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
-import { qrCode } from '../images';
+// import { qrCode } from '../images';
 
 function desktopGridPlacement(row: number, column: number) {
     return css`
@@ -136,32 +136,32 @@ const downShiftedSquare = css`
     }
 `;
 
-const qrCodeSquare = css`
-    border-bottom: none;
-    box-shadow: none;
+// const qrCodeSquare = css`
+//     border-bottom: none;
+//     box-shadow: none;
 
-    & * {
-        box-shadow: none;
-    }
+//     & * {
+//         box-shadow: none;
+//     }
 
-    ${until.tablet} {
-        display: none;
-    }
-`;
+//     ${until.tablet} {
+//         display: none;
+//     }
+// `;
 
-const qrCodeContainer = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: ${space[3]}px;
+// const qrCodeContainer = css`
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     padding-bottom: ${space[3]}px;
 
-    ${until.desktop} {
-        img {
-            width: 84px;
-            height: 84px;
-        }
-    }
-`;
+//     ${until.desktop} {
+//         img {
+//             width: 84px;
+//             height: 84px;
+//         }
+//     }
+// `;
 
 const textHighlight = css`
     background-color: ${brandAlt[400]};
@@ -239,7 +239,7 @@ export const ContentSquares: React.FC<ContentSquaresProps> = ({ minimiseButton }
                 <p>Solve with&nbsp;no distractions</p>
                 <div css={minimiseButtonContainer}>{minimiseButton}</div>
             </ContentSquare>
-            <ContentSquare cssOverrides={[qrCodeSquare, desktopGridPlacement(3, 1)]}>
+            {/* <ContentSquare cssOverrides={[qrCodeSquare, desktopGridPlacement(3, 1)]}>
                 <div css={qrCodeContainer}>
                     <p>
                         <span css={textHighlight}>Scan to download</span>
@@ -251,7 +251,7 @@ export const ContentSquares: React.FC<ContentSquaresProps> = ({ minimiseButton }
                         height="100"
                     />
                 </div>
-            </ContentSquare>
+            </ContentSquare> */}
         </div>
     );
 };
