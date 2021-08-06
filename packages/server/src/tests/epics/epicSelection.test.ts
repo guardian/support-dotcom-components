@@ -277,11 +277,10 @@ describe('inCorrectCohort filter', () => {
             ...testDefault,
             userCohort: 'AllNonSupporters',
         };
-        const filter = inCorrectCohort([
-            'PostAskPauseSingleContributors',
-            'AllNonSupporters',
-            'Everyone',
-        ]);
+        const filter = inCorrectCohort(
+            ['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone'],
+            false,
+        );
 
         const got = filter.test(test, targetingDefault);
 
@@ -293,7 +292,19 @@ describe('inCorrectCohort filter', () => {
             ...testDefault,
             userCohort: 'AllExistingSupporters',
         };
-        const filter = inCorrectCohort(['AllNonSupporters', 'Everyone']);
+        const filter = inCorrectCohort(['AllNonSupporters', 'Everyone'], false);
+
+        const got = filter.test(test, targetingDefault);
+
+        expect(got).toBe(false);
+    });
+
+    it('should fail for super mode when test targets supporters', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            userCohort: 'AllExistingSupporters',
+        };
+        const filter = inCorrectCohort(['AllExistingSupporters', 'Everyone'], true);
 
         const got = filter.test(test, targetingDefault);
 

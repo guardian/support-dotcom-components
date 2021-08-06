@@ -141,9 +141,15 @@ export const withinArticleViewedSettings = (
         historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
 });
 
-export const inCorrectCohort = (userCohorts: UserCohort[]): Filter => ({
+export const inCorrectCohort = (userCohorts: UserCohort[], isSuperModePass: boolean): Filter => ({
     id: 'inCorrectCohort',
-    test: (test): boolean => userCohorts.includes(test.userCohort),
+    test: (test): boolean => {
+        if (isSuperModePass && test.userCohort === 'AllExistingSupporters') {
+            // Do not apply Super Mode to supporter epics
+            return false;
+        }
+        return userCohorts.includes(test.userCohort);
+    },
 });
 
 export const shouldNotRender = (epicType: EpicType): Filter => ({
@@ -206,7 +212,7 @@ export const findTestAndVariant = (
             isNotExpired(),
             hasSectionOrTags,
             userInTest(targeting.mvtId || 1),
-            inCorrectCohort(userCohorts),
+            inCorrectCohort(userCohorts, isSuperModePass),
             excludeSection,
             excludeTags,
             hasCountryCode,
