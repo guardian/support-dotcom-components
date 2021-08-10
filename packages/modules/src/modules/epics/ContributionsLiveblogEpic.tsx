@@ -13,6 +13,7 @@ import {
 import { EpicVariant, Tracking } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
+import { ArticleCounts } from '@sdc/shared/types';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
@@ -178,13 +179,13 @@ interface LiveblogEpicProps {
     variant: EpicVariant;
     tracking: Tracking;
     countryCode?: string;
-    numArticles: number;
+    articleCounts: ArticleCounts;
 }
 
 export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     variant,
     countryCode,
-    numArticles,
+    articleCounts,
     tracking,
 }: LiveblogEpicProps): JSX.Element | null => {
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
@@ -204,7 +205,10 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
         <>
             {cleanHeading && <div css={yellowHeading}>{cleanHeading}</div>}
             <section css={container}>
-                <LiveblogEpicBody paragraphs={cleanParagraphs} numArticles={numArticles} />
+                <LiveblogEpicBody
+                    paragraphs={cleanParagraphs}
+                    numArticles={articleCounts.forTargetedWeeks}
+                />
                 <LiveblogEpicCta
                     text={variant.cta?.text}
                     baseUrl={variant.cta?.baseUrl}

@@ -13,7 +13,10 @@ export default {
 
 // Number of articles viewed
 // Used to replace the template placeholder
-const numArticles = 99;
+const articleCounts = {
+    for52Weeks: 99,
+    forTargetedWeeks: 99,
+};
 
 export const defaultStory = (): ReactElement => {
     // Epic content props
@@ -52,7 +55,7 @@ export const defaultStory = (): ReactElement => {
                 variant={variant}
                 tracking={epicTracking}
                 countryCode={countryCode}
-                numArticles={numArticles}
+                articleCounts={articleCounts}
             />
         </StorybookWrapper>
     );
