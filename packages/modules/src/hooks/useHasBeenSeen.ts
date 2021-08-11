@@ -23,15 +23,20 @@ const useHasBeenSeen = (options: IntersectionObserverInit, debounce?: boolean): 
             observer.current.disconnect();
         }
 
-        observer.current = new window.IntersectionObserver(intersectionCallback, options);
+        if (window.IntersectionObserver) {
+            observer.current = new window.IntersectionObserver(intersectionCallback, options);
 
-        const { current: currentObserver } = observer;
+            const { current: currentObserver } = observer;
 
-        if (node) {
-            currentObserver.observe(node);
+            if (node) {
+                currentObserver.observe(node);
+            }
+
+            return (): void => currentObserver.disconnect();
+        } else {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            return (): void => {};
         }
-
-        return (): void => currentObserver.disconnect();
     }, [node, options, intersectionCallback]);
 
     return [hasBeenSeen, setNode];
