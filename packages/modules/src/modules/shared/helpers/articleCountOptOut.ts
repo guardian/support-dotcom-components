@@ -7,7 +7,7 @@ const ARTICLE_COUNT_OPT_OUT_COOKIE = {
 
 const DAILY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.dailyArticleCount';
 const WEEKLY_ARTICLE_COUNT_STORAGE_KEY = 'gu.history.weeklyArticleCount';
-const ARTICLES_THIS_WEEK_STORAGE_KEY = 'gu.history.articlesThisWeek';
+const ARTICLES_THIS_WEEK_STORAGE_KEY = 'gu.history.articleCountsThisWeek';
 
 export const addArticleCountOptOutCookie = (): void =>
     addCookie(
