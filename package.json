@@ -18,7 +18,7 @@
     "build": "yarn workspaces run build",
     "presetup": "yarn clean",
     "setup": "tsc --build",
-    "test": "export stage=DEV; yarn server test && yarn shared test && yarn modules test",
+    "test": "export stage=DEV; yarn workspaces run test",
     "riffraff": "node-riffraff-artifact"
   },
   "workspaces": [
