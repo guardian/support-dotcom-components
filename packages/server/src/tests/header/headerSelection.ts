@@ -1,9 +1,4 @@
-import {
-    ausMomentHeaderNonSupporter,
-    ausMomentHeaderSupporter,
-    header,
-    headerSupportAgain,
-} from '@sdc/shared/config';
+import { header, headerSupportAgain } from '@sdc/shared/config';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
 
 const modulePathBuilder = header.endpointPathBuilder;
@@ -30,6 +25,7 @@ const nonSupportersTestNonUK: HeaderTest = {
         },
     ],
 };
+
 const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     audience: 'AllNonSupporters',
@@ -52,6 +48,7 @@ const nonSupportersTestUK: HeaderTest = {
         },
     ],
 };
+
 const supportersTest: HeaderTest = {
     name: 'header-supporter',
     audience: 'AllNonSupporters',
@@ -87,48 +84,6 @@ const supportAgainTest: HeaderTest = {
     ],
 };
 
-const ausMomentNonSupporter: HeaderTest = {
-    name: 'aus-moment-nonsupporter',
-    audience: 'AllNonSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: ausMomentHeaderNonSupporter.endpointPathBuilder,
-            content: {
-                heading: 'Support the Guardian',
-                subheading: '',
-                primaryCta: {
-                    text: 'Contribute',
-                    url: 'https://support.theguardian.com/contribute',
-                },
-                secondaryCta: {
-                    text: 'Subscribe',
-                    url: 'https://support.theguardian.com/subscribe',
-                },
-            },
-        },
-    ],
-};
-
-const ausMomentOneOffContributor: HeaderTest = {
-    name: 'aus-moment-supporter',
-    audience: 'AllExistingSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: ausMomentHeaderSupporter.endpointPathBuilder,
-            content: {
-                heading: 'Thank you',
-                subheading: '',
-                primaryCta: {
-                    text: 'Support us again',
-                    url: 'https://support.theguardian.com/contribute',
-                },
-            },
-        },
-    ],
-};
-
 const monthDiff = (from: Date, to: Date): number => {
     return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
 };
@@ -151,10 +106,6 @@ const isLastOneOffContributionWithinLast2To13Months = (
 const getNonSupportersTest = (edition: string): HeaderTest =>
     edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
 
-const isAusMoment = (countryCode: string): boolean => countryCode === 'AU' && isAusMomentLive();
-
-const isAusMomentLive = () => false;
-
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
@@ -164,17 +115,9 @@ export const selectHeaderTest = (
         );
 
         if (lastContributed2To13MonthsAgo) {
-            if (isAusMoment(targeting.countryCode)) {
-                return ausMomentOneOffContributor;
-            } else {
-                return supportAgainTest;
-            }
+            return supportAgainTest;
         } else if (targeting.showSupportMessaging) {
-            if (isAusMoment(targeting.countryCode)) {
-                return ausMomentNonSupporter;
-            } else {
-                return getNonSupportersTest(targeting.edition);
-            }
+            return getNonSupportersTest(targeting.edition);
         } else {
             return supportersTest;
         }
