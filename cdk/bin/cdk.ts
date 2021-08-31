@@ -3,9 +3,9 @@
 
 import 'source-map-support/register';
 import { App } from '@aws-cdk/core';
-import { Cfn } from '../lib/cfn';
+import { DotcomComponents } from '../lib/dotcom-components';
 
 const app = new App();
 //  TODO: Add stack name
 //   e.g. { stack: "SomeStack" }
-new Cfn(app, 'Cfn', { stack: 'support' });
+new DotcomComponents(app, 'Cfn', { stack: 'support' });
