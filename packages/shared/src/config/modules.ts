@@ -50,21 +50,6 @@ export const headerSupportAgain: ModuleInfo = getDefaultModuleInfo(
     'header/HeaderSupportAgain',
 );
 
-export const ausMomentHeaderNonSupporter: ModuleInfo = getDefaultModuleInfo(
-    'aus-moment-header-nonsupporter',
-    'header/HeaderAusMomentNonSupporter',
-);
-
-export const ausMomentHeaderSupporter: ModuleInfo = getDefaultModuleInfo(
-    'aus-moment-header-supporter',
-    'header/HeaderAusMomentSupporter',
-);
-
-export const ausMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'aus-moment-banner',
-    'banners/ausMoment/AusBanner',
-);
-
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -74,7 +59,4 @@ export const moduleInfos: ModuleInfo[] = [
     puzzlesBanner,
     header,
     headerSupportAgain,
-    ausMomentHeaderNonSupporter,
-    ausMomentHeaderSupporter,
-    ausMomentBanner,
 ];
