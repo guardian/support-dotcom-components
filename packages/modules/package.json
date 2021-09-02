@@ -17,15 +17,16 @@
     "@emotion/react": "^11.1.5",
     "@guardian/src-brand": "3.8.0",
     "@guardian/src-button": "3.8.0",
+    "@guardian/src-choice-card": "^3.8.0",
     "@guardian/src-foundations": "3.8.0",
     "@guardian/src-icons": "3.8.0",
     "@guardian/src-layout": "3.8.0",
     "@guardian/src-link": "3.8.0",
     "@guardian/src-text-input": "3.8.0",
+    "@sdc/shared": "1.0.0",
     "@types/babel__standalone": "^7.1.2",
     "preact": "^10.5.12",
-    "zod": "^3.2.0",
-    "@sdc/shared": "1.0.0"
+    "zod": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

@@ -6,6 +6,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { EpicProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { UK_DATA } from '@sdc/server/src/tests/epics/choiceCardsTestData';
 
 const containerStyles = css`
     margin: 3em auto;
@@ -130,4 +131,24 @@ WithAboveArticleCountNoConsent.args = {
         forTargetedWeeks: 99,
     },
     hasConsentForArticleCount: false,
+};
+
+export const WithChoiceCards = Template.bind({});
+WithChoiceCards.args = {
+    variant: {
+        ...props.variant,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+        showReminderFields: {
+            reminderCta: 'Remind me in September',
+            reminderPeriod: '2021-09-01',
+            reminderLabel: 'September',
+        },
+        choiceCardSettings: {
+            showChoiceCards: true,
+            amounts: UK_DATA.AMOUNTS,
+            currencySymbol: '£',
+        },
+    },
 };

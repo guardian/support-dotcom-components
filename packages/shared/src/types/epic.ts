@@ -15,6 +15,7 @@ import {
     PageTracking,
     trackingSchema,
     secondaryCtaSchema,
+    ChoiceCardSettings,
 } from './shared';
 import { ReminderFields } from '../lib/reminderFields';
 import { CountryGroupId } from '../lib/geolocation';
@@ -114,6 +115,7 @@ export interface EpicVariant extends Variant {
     showReminderFields?: ReminderFields;
     modulePathBuilder?: (version?: string) => string;
     separateArticleCount?: SeparateArticleCount;
+    choiceCardSettings?: ChoiceCardSettings;
 
     // Variant level maxViews are for special targeting tests. These
     // are handled differently to our usual copy/design tests. To
@@ -172,6 +174,15 @@ interface ControlProportionSettings {
     offset: number;
 }
 
+export interface ChoiceCardAmounts {
+    [index: string]: number[];
+}
+
+export interface EpicChoiceCardProps {
+    amounts: ChoiceCardAmounts;
+    currencySymbol: string;
+}
+
 export interface EpicTest extends Test<EpicVariant> {
     name: string;
     isOn: boolean;
@@ -201,4 +212,6 @@ export interface EpicTest extends Test<EpicVariant> {
     controlProportionSettings?: ControlProportionSettings;
 
     isSuperMode?: boolean;
+
+    choiceCardAmounts?: ChoiceCardAmounts;
 }

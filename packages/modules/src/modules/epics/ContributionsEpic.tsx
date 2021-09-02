@@ -18,6 +18,7 @@ import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
+import { ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -232,7 +233,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
+    const { backgroundImageUrl, showReminderFields, tickerSettings, choiceCardSettings } = variant;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -313,6 +314,13 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 numArticles={articleCounts.forTargetedWeeks}
                 tracking={ophanTracking}
             />
+
+            {choiceCardSettings?.showChoiceCards && (
+                <ContributionsEpicChoiceCards
+                    amounts={choiceCardSettings.amounts}
+                    currencySymbol={choiceCardSettings.currencySymbol}
+                />
+            )}
 
             <ContributionsEpicButtons
                 variant={variant}
