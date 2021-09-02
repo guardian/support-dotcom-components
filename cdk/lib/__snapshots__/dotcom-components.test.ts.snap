@@ -3,6 +3,18 @@
 exports[`The Cfn stack matches the snapshot 1`] = `
 Object {
   "Mappings": Object {
+    "stagemapping": Object {
+      "CODE": Object {
+        "domainName": "dotcom-components-code.support.guardianapis.com",
+        "maxInstances": 2,
+        "minInstances": 1,
+      },
+      "PROD": Object {
+        "domainName": "dotcom-components.support.guardianapis.com",
+        "maxInstances": 6,
+        "minInstances": 3,
+      },
+    },
     "stages": Object {
       "CODE": Object {
         "lower": "code",
@@ -15,9 +27,24 @@ Object {
       },
     },
   },
+  "Outputs": Object {
+    "LoadBalancerDotcomcomponentsDnsName": Object {
+      "Description": "DNS entry for LoadBalancerDotcomcomponents",
+      "Value": Object {
+        "Fn::GetAtt": Array [
+          "LoadBalancerDotcomcomponentsFF5A6F9F",
+          "DNSName",
+        ],
+      },
+    },
+  },
   "Parameters": Object {
     "AMI": Object {
       "Description": "AMI ID to be provded by RiffRaff. Should include Docker at least. Our Amazon Linux 2 Docker recipe is recommended here.",
+      "Type": "AWS::EC2::Image::Id",
+    },
+    "AMIDotcomcomponents": Object {
+      "Description": "Amazon Machine Image ID for the app dotcom-components. Use this in conjunction with AMIgo to keep AMIs up to date.",
       "Type": "AWS::EC2::Image::Id",
     },
     "AZs": Object {
@@ -33,6 +60,11 @@ Object {
     },
     "CertificateArn": Object {
       "Type": "String",
+    },
+    "DistributionBucketName": Object {
+      "Default": "/account/services/artifact.bucket",
+      "Description": "SSM parameter containing the S3 bucket name holding distribution artifacts",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
     "DockerTag": Object {
       "Description": "Once the s3 artifact is docker loaded, this tag is used to determine which container to start",
@@ -50,9 +82,19 @@ Object {
       "Default": "small",
       "Type": "String",
     },
+    "InstanceTypeDotcomcomponents": Object {
+      "Default": "t3.small",
+      "Description": "EC2 Instance Type for the app dotcom-components",
+      "Type": "String",
+    },
     "KMSKey": Object {
       "Description": "KMS key used to decrypt parameter store secrets",
       "Type": "String",
+    },
+    "LoggingStreamName": Object {
+      "Default": "/account/services/logging.stream.name",
+      "Description": "SSM parameter containing the Name (not ARN) on the kinesis stream",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
     "MaxCapacity": Object {
       "Default": 2,
@@ -99,8 +141,19 @@ Object {
       "Type": "Number",
     },
     "VpcId": Object {
-      "Description": "VPC in which instances will run",
-      "Type": "AWS::EC2::VPC::Id",
+      "Default": "/account/vpc/primary/id",
+      "Description": "Virtual Private Cloud to run EC2 instances within",
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>",
+    },
+    "dotcomcomponentsPrivateSubnets": Object {
+      "Default": "/account/vpc/primary/subnets/private",
+      "Description": "A list of private subnets",
+      "Type": "AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>",
+    },
+    "dotcomcomponentsPublicSubnets": Object {
+      "Default": "/account/vpc/primary/subnets/public",
+      "Description": "A list of public subnets",
+      "Type": "AWS::SSM::Parameter::Value<List<AWS::EC2::Subnet::Id>>",
     },
   },
   "Resources": Object {
@@ -124,9 +177,7 @@ Object {
           Object {
             "Key": "App",
             "PropagateAtLaunch": true,
-            "Value": Object {
-              "Ref": "App",
-            },
+            "Value": "dotcom-components",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -216,9 +267,7 @@ Object {
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": Object {
-              "Ref": "App",
-            },
+            "Value": "dotcom-components",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -243,9 +292,7 @@ Object {
             },
           },
         ],
-        "VpcId": Object {
-          "Ref": "VpcId",
-        },
+        "VpcId": "cfn/VpcId",
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
@@ -340,6 +387,12 @@ chown -R dotcom-components:support /var/log/dotcom-components
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent \${AWS::Region} \${ELKStream} /var/log/dotcom-components/dotcom-components.log
 ",
               Object {
+                "BaseUrl": Object {
+                  "Ref": "BaseUrl",
+                },
+                "ELKStream": Object {
+                  "Ref": "ELKStream",
+                },
                 "Stage": Object {
                   "Ref": "Stage",
                 },
@@ -370,6 +423,221 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
     },
+    "AutoScalingGroupDotcomcomponentsASG512C0EA8": Object {
+      "Properties": Object {
+        "HealthCheckGracePeriod": 120,
+        "HealthCheckType": "ELB",
+        "LaunchConfigurationName": Object {
+          "Ref": "AutoScalingGroupDotcomcomponentsLaunchConfig85091051",
+        },
+        "MaxSize": Object {
+          "Fn::FindInMap": Array [
+            "stagemapping",
+            Object {
+              "Ref": "Stage",
+            },
+            "maxInstances",
+          ],
+        },
+        "MinSize": Object {
+          "Fn::FindInMap": Array [
+            "stagemapping",
+            Object {
+              "Ref": "Stage",
+            },
+            "minInstances",
+          ],
+        },
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "PropagateAtLaunch": true,
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:pattern-name",
+            "PropagateAtLaunch": true,
+            "Value": "GuEc2App",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "PropagateAtLaunch": true,
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "PropagateAtLaunch": true,
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Name",
+            "PropagateAtLaunch": true,
+            "Value": "cfn/AutoScalingGroupDotcomcomponents",
+          },
+          Object {
+            "Key": "Stack",
+            "PropagateAtLaunch": true,
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "PropagateAtLaunch": true,
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "TargetGroupARNs": Array [
+          Object {
+            "Ref": "TargetGroupDotcomcomponents54FF73AB",
+          },
+        ],
+        "VPCZoneIdentifier": Object {
+          "Ref": "dotcomcomponentsPrivateSubnets",
+        },
+      },
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+    },
+    "AutoScalingGroupDotcomcomponentsInstanceProfile55946DEC": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
+    },
+    "AutoScalingGroupDotcomcomponentsLaunchConfig85091051": Object {
+      "DependsOn": Array [
+        "InstanceRoleDotcomcomponents2E8FDE7D",
+      ],
+      "Properties": Object {
+        "IamInstanceProfile": Object {
+          "Ref": "AutoScalingGroupDotcomcomponentsInstanceProfile55946DEC",
+        },
+        "ImageId": Object {
+          "Ref": "AMIDotcomcomponents",
+        },
+        "InstanceType": Object {
+          "Ref": "InstanceTypeDotcomcomponents",
+        },
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
+              "GroupId",
+            ],
+          },
+          Object {
+            "Fn::GetAtt": Array [
+              "WazuhSecurityGroup",
+              "GroupId",
+            ],
+          },
+        ],
+        "UserData": Object {
+          "Fn::Base64": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "#!/bin/bash
+
+groupadd support
+useradd -r -m -s /usr/bin/nologin -g support dotcom-components
+cd /home/dotcom-components
+
+aws --region eu-west-1 s3 cp s3://",
+                Object {
+                  "Ref": "DistributionBucketName",
+                },
+                "/support/",
+                Object {
+                  "Ref": "Stage",
+                },
+                "/dotcom-components/dotcom-components.tar ./
+mkdir dotcom-components
+tar -xvf dotcom-components.tar --directory dotcom-components
+
+chown -R dotcom-components:support dotcom-components
+
+cd dotcom-components
+
+export TERM=xterm-256color
+export NODE_ENV=production
+export stage=",
+                Object {
+                  "Ref": "Stage",
+                },
+                "
+export base_url=",
+                Object {
+                  "Ref": "BaseUrl",
+                },
+                "
+
+mkdir /var/log/dotcom-components
+chown -R dotcom-components:support /var/log/dotcom-components
+
+/usr/local/node/pm2 start --uid dotcom-components --gid support server.js
+
+/opt/aws-kinesis-agent/configure-aws-kinesis-agent ",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                " ",
+                Object {
+                  "Ref": "ELKStream",
+                },
+                " /var/log/dotcom-components/dotcom-components.log",
+              ],
+            ],
+          },
+        },
+      },
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+    },
+    "CertificateDotcomcomponents88C2E1C7": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "DomainName": Object {
+          "Fn::FindInMap": Array [
+            "stagemapping",
+            Object {
+              "Ref": "Stage",
+            },
+            "domainName",
+          ],
+        },
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "ValidationMethod": "DNS",
+      },
+      "Type": "AWS::CertificateManager::Certificate",
+      "UpdateReplacePolicy": "Retain",
+    },
     "DescribeEC2Policy": Object {
       "Properties": Object {
         "PolicyDocument": Object {
@@ -394,6 +662,225 @@ chown -R dotcom-components:support /var/log/dotcom-components
         ],
       },
       "Type": "AWS::IAM::Policy",
+    },
+    "DescribeEC2PolicyFF5F9295": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeAutoScalingGroups",
+                "ec2:DescribeTags",
+                "ec2:DescribeInstances",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "describe-ec2-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "GetDistributablePolicyDotcomcomponentsDB5B987B": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:s3:::",
+                    Object {
+                      "Ref": "DistributionBucketName",
+                    },
+                    "/support/",
+                    Object {
+                      "Ref": "Stage",
+                    },
+                    "/dotcom-components/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "GetDistributablePolicyDotcomcomponentsDB5B987B",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "GuHttpsEgressSecurityGroupDotcomcomponents3638A075": Object {
+      "Properties": Object {
+        "GroupDescription": "Allow all outbound HTTPS traffic",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound HTTPS traffic",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "GuHttpsEgressSecurityGroupDotcomcomponentsfromcfnLoadBalancerDotcomcomponentsSecurityGroupE953877E3030690B8132": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "FromPort": 3030,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
+            "GroupId",
+          ],
+        },
+        "ToPort": 3030,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "GuLogShippingPolicy981BFE5A": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "kinesis:Describe*",
+                "kinesis:Put*",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:kinesis:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stream/",
+                    Object {
+                      "Ref": "LoggingStreamName",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "GuLogShippingPolicy981BFE5A",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "InstanceRoleDotcomcomponents2E8FDE7D": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "ec2.",
+                      Object {
+                        "Ref": "AWS::URLSuffix",
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Path": "/",
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
     },
     "LB8A12904C": Object {
       "Metadata": Object {
@@ -429,9 +916,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": Object {
-              "Ref": "App",
-            },
+            "Value": "dotcom-components",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -498,9 +983,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": Object {
-              "Ref": "App",
-            },
+            "Value": "dotcom-components",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -529,9 +1012,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         ],
         "TargetType": "instance",
         "UnhealthyThresholdCount": 5,
-        "VpcId": Object {
-          "Ref": "VpcId",
-        },
+        "VpcId": "cfn/VpcId",
       },
       "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
     },
@@ -553,9 +1034,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": Object {
-              "Ref": "App",
-            },
+            "Value": "dotcom-components",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -576,9 +1055,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             },
           },
         ],
-        "VpcId": Object {
-          "Ref": "VpcId",
-        },
+        "VpcId": "cfn/VpcId",
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
@@ -605,6 +1082,314 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "ToPort": 3030,
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "ListenerDotcomcomponentsF68CDC56": Object {
+      "Properties": Object {
+        "Certificates": Array [
+          Object {
+            "CertificateArn": Object {
+              "Ref": "CertificateDotcomcomponents88C2E1C7",
+            },
+          },
+        ],
+        "DefaultActions": Array [
+          Object {
+            "TargetGroupArn": Object {
+              "Ref": "TargetGroupDotcomcomponents54FF73AB",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": Object {
+          "Ref": "LoadBalancerDotcomcomponentsFF5A6F9F",
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "LoadBalancerDotcomcomponentsFF5A6F9F": Object {
+      "Properties": Object {
+        "LoadBalancerAttributes": Array [
+          Object {
+            "Key": "deletion_protection.enabled",
+            "Value": "true",
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": Array [
+          Object {
+            "Fn::GetAtt": Array [
+              "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
+              "GroupId",
+            ],
+          },
+        ],
+        "Subnets": Object {
+          "Ref": "dotcomcomponentsPublicSubnets",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "LoadBalancerDotcomcomponentsSecurityGroupD06C9706": Object {
+      "Properties": Object {
+        "GroupDescription": "Automatically created Security Group for ELB cfnLoadBalancerDotcomcomponentsFFDD63DE",
+        "SecurityGroupIngress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "LoadBalancerDotcomcomponentsSecurityGrouptocfnGuHttpsEgressSecurityGroupDotcomcomponents5B0C5960303092CC03B2": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
+            "GroupId",
+          ],
+        },
+        "FromPort": 3030,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 3030,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "ParameterStoreReadDotcomcomponents7A7C8BD4": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "ssm:GetParametersByPath",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:ssm:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/",
+                    Object {
+                      "Ref": "Stage",
+                    },
+                    "/support/dotcom-components",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "parameter-store-read-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "SSMRunCommandPolicy244E1613": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "ec2messages:AcknowledgeMessage",
+                "ec2messages:DeleteMessage",
+                "ec2messages:FailMessage",
+                "ec2messages:GetEndpoint",
+                "ec2messages:GetMessages",
+                "ec2messages:SendReply",
+                "ssm:UpdateInstanceInformation",
+                "ssm:ListInstanceAssociations",
+                "ssm:DescribeInstanceProperties",
+                "ssm:DescribeDocumentParameters",
+                "ssmmessages:CreateControlChannel",
+                "ssmmessages:CreateDataChannel",
+                "ssmmessages:OpenControlChannel",
+                "ssmmessages:OpenDataChannel",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ssm-run-command-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "TargetGroupDotcomcomponents54FF73AB": Object {
+      "Properties": Object {
+        "HealthCheckIntervalSeconds": 10,
+        "HealthCheckPath": "/healthcheck",
+        "HealthCheckProtocol": "HTTP",
+        "HealthCheckTimeoutSeconds": 5,
+        "HealthyThresholdCount": 5,
+        "Port": 3030,
+        "Protocol": "HTTP",
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "TargetGroupAttributes": Array [
+          Object {
+            "Key": "deregistration_delay.timeout_seconds",
+            "Value": "30",
+          },
+        ],
+        "TargetType": "instance",
+        "UnhealthyThresholdCount": 2,
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "WazuhSecurityGroup": Object {
+      "Properties": Object {
+        "GroupDescription": "Allow outbound traffic from wazuh agent to manager",
+        "SecurityGroupEgress": Array [
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Wazuh event logging",
+            "FromPort": 1514,
+            "IpProtocol": "tcp",
+            "ToPort": 1514,
+          },
+          Object {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Wazuh agent registration",
+            "FromPort": 1515,
+            "IpProtocol": "tcp",
+            "ToPort": 1515,
+          },
+        ],
+        "Tags": Array [
+          Object {
+            "Key": "App",
+            "Value": "dotcom-components",
+          },
+          Object {
+            "Key": "gu:cdk:version",
+            "Value": "23.5.1",
+          },
+          Object {
+            "Key": "gu:repo",
+            "Value": "guardian/support-dotcom-components",
+          },
+          Object {
+            "Key": "Stack",
+            "Value": "support",
+          },
+          Object {
+            "Key": "Stage",
+            "Value": Object {
+              "Ref": "Stage",
+            },
+          },
+        ],
+        "VpcId": Object {
+          "Ref": "VpcId",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
     },
     "roleC7B7E775": Object {
       "Metadata": Object {
@@ -814,7 +1599,14 @@ chown -R dotcom-components:support /var/log/dotcom-components
                   "Action": "kinesis:Put*",
                   "Effect": "Allow",
                   "Resource": Object {
-                    "Fn::Sub": "arn:aws:kinesis:*:\${AWS::AccountId}:stream/\${ELKStream}",
+                    "Fn::Sub": Array [
+                      "arn:aws:kinesis:*:\${AWS::AccountId}:stream/\${ELKStream}",
+                      Object {
+                        "ELKStream": Object {
+                          "Ref": "ELKStream",
+                        },
+                      },
+                    ],
                   },
                 },
               ],
@@ -826,9 +1618,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "Tags": Array [
           Object {
             "Key": "App",
-            "Value": Object {
-              "Ref": "App",
-            },
+            "Value": "dotcom-components",
           },
           Object {
             "Key": "gu:cdk:version",
