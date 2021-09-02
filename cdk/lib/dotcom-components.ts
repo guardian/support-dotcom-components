@@ -1,4 +1,5 @@
 import path from 'path';
+import type { Policy } from '@aws-cdk/aws-iam';
 import { CfnInclude } from '@aws-cdk/cloudformation-include';
 import type { App } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
@@ -13,6 +14,7 @@ import {
     GuStack,
     GuStringParameter,
 } from '@guardian/cdk/lib/constructs/core';
+import { GuDynamoDBReadPolicy, GuGetS3ObjectsPolicy } from '@guardian/cdk/lib/constructs/iam';
 
 const yamlTemplateFilePath = path.join(__dirname, '../cfn.yaml');
 
@@ -58,6 +60,24 @@ chown -R dotcom-components:support /var/log/dotcom-components
             elkStream.valueAsString
         } /var/log/dotcom-components/dotcom-components.log`;
 
+        const policies: Policy[] = [
+            new GuGetS3ObjectsPolicy(this, 'S3ReadPolicySupportAdminConsole', {
+                bucketName: 'support-admin-console',
+                paths: [`${this.stage}/banner-deploy/*`, `${this.stage}/channel-switches.json`],
+            }),
+            new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyGuContributionsPublic', {
+                bucketName: 'gu-contributions-public',
+                paths: [`epic/${this.stage}/*`, `banner/${this.stage}/*`],
+            }),
+            new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
+                tableName: `super-mode-${this.stage}`,
+            }),
+            // TODO: remove when secondary indexes are included in GuDynamoDBRead
+            new GuDynamoDBReadPolicy(this, 'DynamoReadPolicySecondaryIndex', {
+                tableName: `super-mode-${this.stage}/index/*`,
+            }),
+        ];
+
         new GuEc2App(this, {
             applicationPort: 3030,
             app: appName,
@@ -74,6 +94,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
             // TODO: review monitoring config
             monitoringConfiguration: { noMonitoring: true },
             userData,
+            roleConfiguration: {
+                additionalPolicies: policies,
+            },
+            // TODO: review scaling policy on cpu usage
+            scaling: { PROD: { minimumInstances: 3, maximumInstances: 18 } },
         });
 
         // TODO: Once this code has been removed we can delete old acm certificates

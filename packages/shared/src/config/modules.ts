@@ -72,7 +72,7 @@ export const moduleInfos: ModuleInfo[] = [
     // digiSubs,
     // guardianWeekly,
     // puzzlesBanner,
-    // header,
+    header,
     // headerSupportAgain,
     // ausMomentHeaderNonSupporter,
     // ausMomentHeaderSupporter,
