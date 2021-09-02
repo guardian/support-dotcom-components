@@ -4,11 +4,7 @@ import { CfnInclude } from '@aws-cdk/cloudformation-include';
 import type { App } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
 import { Stage } from '@guardian/cdk/lib/constants/stage';
-import type {
-    GuParameter,
-    GuStackProps,
-    GuStageParameter,
-} from '@guardian/cdk/lib/constructs/core';
+import type { GuStackProps, GuStageParameter } from '@guardian/cdk/lib/constructs/core';
 import {
     GuDistributionBucketParameter,
     GuStack,
@@ -108,7 +104,6 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 Stage: this.getParam<GuStageParameter>('Stage'),
                 BaseUrl: baseUrl,
                 ELKStream: elkStream,
-                VpcId: this.getParam<GuParameter>('VpcId'),
             },
         });
     }

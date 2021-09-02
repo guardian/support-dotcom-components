@@ -14,7 +14,7 @@ Parameters:
     InstanceSize:
         Type: String
         Default: small
-    VpcId:
+    OldVpcId:
         Type: AWS::EC2::VPC::Id
         Description: VPC in which instances will run
     Subnets:
@@ -212,7 +212,7 @@ Resources:
                     Value:
                         Ref: Stage
             VpcId:
-                Ref: VpcId
+                Ref: OldVpcId
         Metadata:
             aws:cdk:path: AlbEc2Stack/ASG/InstanceSecurityGroup/Resource
     ASGInstanceSecurityGroupfromAlbEc2StackLBSecurityGroup7075EADF3030EFB7F736:
@@ -392,7 +392,7 @@ Resources:
                     Value:
                         Ref: Stage
             VpcId:
-                Ref: VpcId
+                Ref: OldVpcId
         Metadata:
             aws:cdk:path: AlbEc2Stack/LB/SecurityGroup/Resource
     LBSecurityGrouptoAlbEc2StackASGInstanceSecurityGroupEE06B44E303026BD048F:
@@ -453,6 +453,6 @@ Resources:
             TargetType: instance
             UnhealthyThresholdCount: 5
             VpcId:
-                Ref: VpcId
+                Ref: OldVpcId
         Metadata:
             aws:cdk:path: AlbEc2Stack/LB/Listener/TargetGroup/Resource
