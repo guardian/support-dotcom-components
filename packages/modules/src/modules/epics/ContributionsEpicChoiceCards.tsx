@@ -1,23 +1,44 @@
+import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import React, { useState } from 'react';
-import { ChoiceCardFrequencies, EpicChoiceCardProps } from '@sdc/shared/dist/types';
+import { ChoiceCardAmounts, ChoiceCardFrequency } from '@sdc/shared/dist/types';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
+
+export interface ChoiceCardSelection {
+    frequency: ChoiceCardFrequency;
+    amount: number | 'other';
+}
+
+interface EpicChoiceCardProps {
+    amounts: ChoiceCardAmounts;
+    selection: ChoiceCardSelection;
+    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+}
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     amounts,
+    selection,
+    setSelectionsCallback,
 }: EpicChoiceCardProps) => {
-    const [contributionFrequency, setContributionFrequency] = useState<ChoiceCardFrequencies>(
-        'MONTHLY',
-    );
-
     const currencySymbol = getLocalCurrencySymbol();
+
+    const updateAmount = (amount: number | 'other') =>
+        setSelectionsCallback({
+            frequency: selection.frequency,
+            amount: amount,
+        });
+
+    const updateFrequency = (frequency: ChoiceCardFrequency) =>
+        setSelectionsCallback({
+            frequency: frequency,
+            amount: amounts[frequency][1],
+        });
 
     const frequencySuffix = () => {
         return {
             SINGLE: '',
             MONTHLY: ' per month',
             ANNUAL: ' per year',
-        }[contributionFrequency];
+        }[selection.frequency];
     };
 
     return (
@@ -28,20 +49,22 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                     value="single"
                     label="Single"
                     id="single"
-                    onChange={() => setContributionFrequency('SINGLE')}
+                    checked={selection.frequency == 'SINGLE'}
+                    onChange={() => updateFrequency('SINGLE')}
                 />
                 <ChoiceCard
                     value="monthly"
                     label="Monthly"
                     id="monthly"
-                    defaultChecked={true}
-                    onChange={() => setContributionFrequency('MONTHLY')}
+                    checked={selection.frequency == 'MONTHLY'}
+                    onChange={() => updateFrequency('MONTHLY')}
                 />
                 <ChoiceCard
                     value="annual"
                     label="Annual"
                     id="annual"
-                    onChange={() => setContributionFrequency('ANNUAL')}
+                    checked={selection.frequency == 'ANNUAL'}
+                    onChange={() => updateFrequency('ANNUAL')}
                 />
             </ChoiceCardGroup>
             <br />
@@ -49,19 +72,28 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 <ChoiceCard
                     value="first"
                     label={`${currencySymbol}${
-                        amounts[contributionFrequency][0]
+                        amounts[selection.frequency][0]
                     }${frequencySuffix()}`}
                     id="first"
+                    checked={selection.amount == amounts[selection.frequency][0]}
+                    onChange={() => updateAmount(amounts[selection.frequency][0])}
                 />
                 <ChoiceCard
                     value="second"
                     label={`${currencySymbol}${
-                        amounts[contributionFrequency][1]
+                        amounts[selection.frequency][1]
                     }${frequencySuffix()}`}
                     id="second"
-                    defaultChecked={true}
+                    checked={selection.amount == amounts[selection.frequency][1]}
+                    onChange={() => updateAmount(amounts[selection.frequency][1])}
                 />
-                <ChoiceCard value="third" label="Other" id="third" />
+                <ChoiceCard
+                    value="third"
+                    label="Other"
+                    id="third"
+                    checked={selection.amount == 'other'}
+                    onChange={() => updateAmount('other')}
+                />
             </ChoiceCardGroup>
         </div>
     );

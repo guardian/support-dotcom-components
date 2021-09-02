@@ -15,7 +15,6 @@ import {
     PageTracking,
     trackingSchema,
     secondaryCtaSchema,
-    ChoiceCardSettings,
 } from './shared';
 import { ReminderFields } from '../lib/reminderFields';
 import { CountryGroupId } from '../lib/geolocation';
@@ -176,14 +175,10 @@ interface ControlProportionSettings {
     offset: number;
 }
 
-export type ChoiceCardFrequencies = 'SINGLE' | 'MONTHLY' | 'ANNUAL';
+export type ChoiceCardFrequency = 'SINGLE' | 'MONTHLY' | 'ANNUAL';
 export type ChoiceCardAmounts = {
-    [index in ChoiceCardFrequencies]: number[];
+    [index in ChoiceCardFrequency]: number[];
 };
-
-export interface EpicChoiceCardProps {
-    amounts: ChoiceCardAmounts;
-}
 
 export interface EpicTest extends Test<EpicVariant> {
     name: string;

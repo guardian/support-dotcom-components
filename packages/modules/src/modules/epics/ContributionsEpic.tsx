@@ -18,7 +18,7 @@ import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
-import { ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
+import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -230,6 +230,12 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
+    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
+        variant.choiceCardAmounts && {
+            frequency: 'MONTHLY',
+            amount: variant.choiceCardAmounts['MONTHLY'][1],
+        },
+    );
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
@@ -315,7 +321,13 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 tracking={ophanTracking}
             />
 
-            {choiceCardAmounts && <ContributionsEpicChoiceCards amounts={choiceCardAmounts} />}
+            {choiceCardSelection && choiceCardAmounts && (
+                <ContributionsEpicChoiceCards
+                    amounts={choiceCardAmounts}
+                    setSelectionsCallback={setChoiceCardSelection}
+                    selection={choiceCardSelection}
+                />
+            )}
 
             <ContributionsEpicButtons
                 variant={variant}
@@ -339,6 +351,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
                 isSignedIn={Boolean(email)}
+                choiceCardSelection={choiceCardSelection}
             />
 
             {isReminderActive && showReminderFields && (
