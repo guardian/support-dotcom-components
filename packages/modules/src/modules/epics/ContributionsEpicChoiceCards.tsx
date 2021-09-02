@@ -2,6 +2,21 @@ import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
 import { ChoiceCardAmounts, ChoiceCardFrequency } from '@sdc/shared/dist/types';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
+import { css } from '@emotion/react';
+import { until } from '@guardian/src-foundations/mq';
+
+const choiceCardGroupOverrides = css`
+    ${until.mobileLandscape} {
+        > div {
+            display: flex !important;
+        }
+
+        > div label:nth-of-type(2) {
+            margin-left: 4px !important;
+            margin-right: 4px !important;
+        }
+    }
+`;
 
 export interface ChoiceCardSelection {
     frequency: ChoiceCardFrequency;
@@ -44,7 +59,11 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     return (
         <div>
             <br />
-            <ChoiceCardGroup name="contribution-frequency" columns={3}>
+            <ChoiceCardGroup
+                name="contribution-frequency"
+                columns={3}
+                css={choiceCardGroupOverrides}
+            >
                 <ChoiceCard
                     value="single"
                     label="Single"
