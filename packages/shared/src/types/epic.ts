@@ -115,7 +115,6 @@ export interface EpicVariant extends Variant {
     showReminderFields?: ReminderFields;
     modulePathBuilder?: (version?: string) => string;
     separateArticleCount?: SeparateArticleCount;
-    choiceCardSettings?: ChoiceCardSettings;
 
     // Variant level maxViews are for special targeting tests. These
     // are handled differently to our usual copy/design tests. To
@@ -125,6 +124,9 @@ export interface EpicVariant extends Variant {
     // the test + variant. This means users **wont** fall through to a test
     // with lower priority.
     maxViews?: MaxViews;
+
+    // For hard coded choice cards test
+    choiceCardAmounts?: ChoiceCardAmounts;
 }
 
 const variantSchema = z.object({
@@ -174,13 +176,13 @@ interface ControlProportionSettings {
     offset: number;
 }
 
-export interface ChoiceCardAmounts {
-    [index: string]: number[];
-}
+export type ChoiceCardFrequencies = 'SINGLE' | 'MONTHLY' | 'ANNUAL';
+export type ChoiceCardAmounts = {
+    [index in ChoiceCardFrequencies]: number[];
+};
 
 export interface EpicChoiceCardProps {
     amounts: ChoiceCardAmounts;
-    currencySymbol: string;
 }
 
 export interface EpicTest extends Test<EpicVariant> {

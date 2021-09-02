@@ -145,10 +145,6 @@ WithChoiceCards.args = {
             reminderPeriod: '2021-09-01',
             reminderLabel: 'September',
         },
-        choiceCardSettings: {
-            showChoiceCards: true,
-            amounts: UK_DATA.AMOUNTS,
-            currencySymbol: '£',
-        },
+        choiceCardAmounts: UK_DATA.AMOUNTS,
     },
 };

@@ -233,7 +233,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const { backgroundImageUrl, showReminderFields, tickerSettings, choiceCardSettings } = variant;
+    const { backgroundImageUrl, showReminderFields, tickerSettings, choiceCardAmounts } = variant;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -315,12 +315,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 tracking={ophanTracking}
             />
 
-            {choiceCardSettings?.showChoiceCards && (
-                <ContributionsEpicChoiceCards
-                    amounts={choiceCardSettings.amounts}
-                    currencySymbol={choiceCardSettings.currencySymbol}
-                />
-            )}
+            {choiceCardAmounts && <ContributionsEpicChoiceCards amounts={choiceCardAmounts} />}
 
             <ContributionsEpicButtons
                 variant={variant}

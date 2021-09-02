@@ -1,12 +1,16 @@
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
 import React, { useState } from 'react';
-import { EpicChoiceCardProps } from '@sdc/shared/dist/types';
+import { ChoiceCardFrequencies, EpicChoiceCardProps } from '@sdc/shared/dist/types';
+import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     amounts,
-    currencySymbol,
 }: EpicChoiceCardProps) => {
-    const [contributionFrequency, setContributionFrequency] = useState('MONTHLY');
+    const [contributionFrequency, setContributionFrequency] = useState<ChoiceCardFrequencies>(
+        'MONTHLY',
+    );
+
+    const currencySymbol = getLocalCurrencySymbol();
 
     const frequencySuffix = () => {
         return {
