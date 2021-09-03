@@ -15,7 +15,7 @@ deployments:
         app: dotcom-components
         parameters:
             cloudFormationStackName: dotcom-components
-            templatePath: cfn.yaml
+            templatePath: Cfn.template.json
             cloudFormationStackByTags: false
             amiTags:
                 Recipe: support-dotcom-components-bionic-ARM

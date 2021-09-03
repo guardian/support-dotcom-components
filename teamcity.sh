@@ -19,4 +19,8 @@ yarn test
 NODE_ENV=production yarn server build
 NODE_ENV=production yarn modules build
 
+pushd cdk
+./script/ci
+popd
+
 yarn run riffraff

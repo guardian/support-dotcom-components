@@ -9,7 +9,7 @@
         },
         {
             "action": "dotcom-components-cloudformation",
-            "path": "cfn.yaml",
+            "path": "cdk/cdk.out/Cfn.template.json",
             "compress": false
         },
         {
