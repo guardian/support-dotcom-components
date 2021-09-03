@@ -2,7 +2,7 @@ import { ChoiceCardAmounts, EpicTest } from '@sdc/shared/src/types/epic';
 import { epic } from '@sdc/shared/src/config/modules';
 import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CA_DATA, NZ_DATA, CTAS } from './choiceCardsTestData';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
-import { ArticlesViewedSettings } from '@sdc/shared/types';
+import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
 
 const testName = '2021-09-03-EpicChoiceCardsTest';
 
@@ -47,6 +47,9 @@ const buildEpicChoiceCardsTest = (
             cta: CTAS.control,
             choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
+            secondaryCta: {
+                type: SecondaryCtaType.ContributionsReminder,
+            },
         },
         {
             name: EpicChoiceCardsTestVariants.variant1,
@@ -56,6 +59,9 @@ const buildEpicChoiceCardsTest = (
             cta: CTAS.variant1,
             choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
+            secondaryCta: {
+                type: SecondaryCtaType.ContributionsReminder,
+            },
         },
         {
             name: EpicChoiceCardsTestVariants.variant2,
@@ -65,6 +71,9 @@ const buildEpicChoiceCardsTest = (
             cta: CTAS.variant2,
             choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
+            secondaryCta: {
+                type: SecondaryCtaType.ContributionsReminder,
+            },
         },
     ],
     highPriority: true,
