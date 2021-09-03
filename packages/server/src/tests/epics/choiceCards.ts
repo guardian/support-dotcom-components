@@ -44,7 +44,7 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.control,
-            separateArticleCount: articlesViewedSettings ? { type: 'above' } : undefined,
+            separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
         },
         {
             name: EpicChoiceCardsTestVariants.variant1,
@@ -52,7 +52,7 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.variant1,
-            separateArticleCount: articlesViewedSettings ? { type: 'above' } : undefined,
+            separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
         },
         {
             name: EpicChoiceCardsTestVariants.variant2,
@@ -60,7 +60,7 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.variant2,
-            separateArticleCount: articlesViewedSettings ? { type: 'above' } : undefined,
+            separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
         },
     ],
     highPriority: true,
