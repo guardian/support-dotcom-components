@@ -102,6 +102,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
         const ec2AppAsg = ec2App.autoScalingGroup;
         Tags.of(ec2AppAsg).add('gu:riffraff:new-asg', 'true');
 
+        ec2App.autoScalingGroup.scaleOnCpuUtilization('CpuScalingPolicy', {
+            targetUtilizationPercent: 50,
+        });
+
         // TODO: Once this code has been removed we can delete old acm certificates
         new CfnInclude(this, 'Template', {
             templateFile: yamlTemplateFilePath,

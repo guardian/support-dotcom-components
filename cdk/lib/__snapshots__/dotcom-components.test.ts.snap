@@ -608,6 +608,21 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::AutoScaling::LaunchConfiguration",
     },
+    "AutoScalingGroupDotcomcomponentsScalingPolicyCpuScalingPolicy29FF9AE6": Object {
+      "Properties": Object {
+        "AutoScalingGroupName": Object {
+          "Ref": "AutoScalingGroupDotcomcomponentsASG512C0EA8",
+        },
+        "PolicyType": "TargetTrackingScaling",
+        "TargetTrackingConfiguration": Object {
+          "PredefinedMetricSpecification": Object {
+            "PredefinedMetricType": "ASGAverageCPUUtilization",
+          },
+          "TargetValue": 50,
+        },
+      },
+      "Type": "AWS::AutoScaling::ScalingPolicy",
+    },
     "CertificateDotcomcomponents88C2E1C7": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
