@@ -2,6 +2,7 @@ import path from 'path';
 import type { Policy } from '@aws-cdk/aws-iam';
 import { CfnInclude } from '@aws-cdk/cloudformation-include';
 import type { App } from '@aws-cdk/core';
+import { Tags } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
 import { Stage } from '@guardian/cdk/lib/constants/stage';
 import type { GuStackProps, GuStageParameter } from '@guardian/cdk/lib/constructs/core';
@@ -74,7 +75,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             }),
         ];
 
-        new GuEc2App(this, {
+        const ec2App = new GuEc2App(this, {
             applicationPort: 3030,
             app: appName,
             access: { scope: AccessScope.PUBLIC },
@@ -96,6 +97,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
             // TODO: review scaling policy on cpu usage
             scaling: { PROD: { minimumInstances: 3, maximumInstances: 18 } },
         });
+
+        // TODO: remove this when we just have one ASG (deleted the old one)
+        const ec2AppAsg = ec2App.autoScalingGroup;
+        Tags.of(ec2AppAsg).add('gu:riffraff:new-asg', 'true');
 
         // TODO: Once this code has been removed we can delete old acm certificates
         new CfnInclude(this, 'Template', {
