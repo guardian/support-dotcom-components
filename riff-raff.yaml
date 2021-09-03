@@ -26,3 +26,4 @@ deployments:
         dependencies: [ dotcom-components-cloudformation ]
         parameters:
             bucket: membership-dist
+            asgMigrationInProgress: true
