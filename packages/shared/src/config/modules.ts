@@ -66,15 +66,15 @@ export const ausMomentBanner: ModuleInfo = getDefaultModuleInfo(
 );
 
 export const moduleInfos: ModuleInfo[] = [
-    // epic,
-    // liveblogEpic,
-    // contributionsBanner,
-    // digiSubs,
-    // guardianWeekly,
-    // puzzlesBanner,
+    epic,
+    liveblogEpic,
+    contributionsBanner,
+    digiSubs,
+    guardianWeekly,
+    puzzlesBanner,
     header,
-    // headerSupportAgain,
-    // ausMomentHeaderNonSupporter,
-    // ausMomentHeaderSupporter,
-    // ausMomentBanner,
+    headerSupportAgain,
+    ausMomentHeaderNonSupporter,
+    ausMomentHeaderSupporter,
+    ausMomentBanner,
 ];
