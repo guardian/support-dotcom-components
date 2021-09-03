@@ -31,11 +31,11 @@ import { fetchSuperModeArticles } from './lib/superMode';
 import { bannerDeployCaches } from './tests/banners/bannerDeployCache';
 import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
-import { findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
-import { Debug } from './tests/epics/epicSelection';
+import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logger } from './utils/logging';
+import { epicChoiceCardsTests } from './tests/epics/choiceCards';
 
 interface EpicDataResponse {
     data?: {
@@ -124,7 +124,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
             return [...holdback];
         }
 
-        return [...regular, fallbackEpicTest];
+        return [...epicChoiceCardsTests, ...regular, fallbackEpicTest];
     } catch (err) {
         logger.warn(`Error getting article epic tests: ${err}`);
 
@@ -133,8 +133,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
 };
 
 const getLiveblogEpicTests = async (): Promise<EpicTest[]> => {
-    const configuredTests = await fetchConfiguredLiveblogEpicTestsCached();
-    return configuredTests;
+    return await fetchConfiguredLiveblogEpicTestsCached();
 };
 
 export const buildEpicData = async (
