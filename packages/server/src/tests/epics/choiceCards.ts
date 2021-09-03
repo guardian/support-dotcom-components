@@ -4,7 +4,7 @@ import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CA_DATA, NZ_DATA, CTAS } from './c
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { ArticlesViewedSettings } from '@sdc/shared/types';
 
-const testName = '2021-08-25-EpicChoiceCardsTest';
+const testName = '2021-09-03-EpicChoiceCardsTest';
 
 export enum EpicChoiceCardsTestVariants {
     control = 'control',
