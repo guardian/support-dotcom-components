@@ -1,6 +1,6 @@
-import { EpicTest } from '@sdc/shared/src/types/epic';
+import { ChoiceCardAmounts, EpicTest } from '@sdc/shared/src/types/epic';
 import { epic } from '@sdc/shared/src/config/modules';
-import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CTAS } from './choiceCardsTestData';
+import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CA_DATA, NZ_DATA, CTAS } from './choiceCardsTestData';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { ArticlesViewedSettings } from '@sdc/shared/types';
 
@@ -17,6 +17,7 @@ const buildEpicChoiceCardsTest = (
     suffix: string,
     paragraphs: string[],
     highlightedText: string,
+    choiceCardAmounts: ChoiceCardAmounts,
     articlesViewedSettings?: ArticlesViewedSettings,
 ): EpicTest => ({
     name: `${testName}__${suffix}`,
@@ -44,6 +45,7 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.control,
+            choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
         },
         {
@@ -52,6 +54,7 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.variant1,
+            choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
         },
         {
@@ -60,6 +63,7 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.variant2,
+            choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
         },
     ],
@@ -70,87 +74,125 @@ const buildEpicChoiceCardsTest = (
 });
 
 export const epicChoiceCardsTests = [
-    // UK_TOP_READERS
+    // TOP READERS /////////////////////////////////////////////////////////////
+    buildEpicChoiceCardsTest(
+        ['GBPCountries'],
+        'UK',
+        UK_DATA.TOP_READER.PARAGRAPHS,
+        UK_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        UK_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
+    buildEpicChoiceCardsTest(
+        ['UnitedStates'],
+        'US',
+        US_DATA.TOP_READER.PARAGRAPHS,
+        US_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        US_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
+    buildEpicChoiceCardsTest(
+        ['EURCountries'],
+        'EU',
+        EU_DATA.TOP_READER.PARAGRAPHS,
+        EU_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        EU_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
+    buildEpicChoiceCardsTest(
+        ['International'],
+        'ROW',
+        ROW_DATA.TOP_READER.PARAGRAPHS,
+        ROW_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        ROW_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
+    buildEpicChoiceCardsTest(
+        ['Canada'],
+        'CA',
+        CA_DATA.TOP_READER.PARAGRAPHS,
+        CA_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        CA_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
+    buildEpicChoiceCardsTest(
+        ['NZDCountries'],
+        'NZ',
+        NZ_DATA.TOP_READER.PARAGRAPHS,
+        NZ_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        NZ_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
+    // REGULAR READERS /////////////////////////////////////////////////////////
     buildEpicChoiceCardsTest(
         ['GBPCountries'],
         'UK',
         UK_DATA.REGULAR_READER.PARAGRAPHS,
         UK_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        {
-            periodInWeeks: 52,
-            minViews: 50,
-        },
+        UK_DATA.AMOUNTS,
     ),
 
-    // US_TOP_READERS
     buildEpicChoiceCardsTest(
         ['UnitedStates'],
         'US',
         US_DATA.REGULAR_READER.PARAGRAPHS,
         US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        {
-            periodInWeeks: 52,
-            minViews: 50,
-        },
+        US_DATA.AMOUNTS,
     ),
 
-    // EU_TOP_READERS
     buildEpicChoiceCardsTest(
         ['EURCountries'],
         'EU',
         EU_DATA.REGULAR_READER.PARAGRAPHS,
         EU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        {
-            periodInWeeks: 52,
-            minViews: 50,
-        },
+        EU_DATA.AMOUNTS,
     ),
 
-    // ROW_TOP_READERS
     buildEpicChoiceCardsTest(
         ['International'],
         'ROW',
         ROW_DATA.REGULAR_READER.PARAGRAPHS,
         ROW_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        {
-            periodInWeeks: 52,
-            minViews: 50,
-        },
+        ROW_DATA.AMOUNTS,
     ),
 
-    // UK_REGULAR_READERS
     buildEpicChoiceCardsTest(
-        ['GBPCountries'],
-        'UK',
-        UK_DATA.REGULAR_READER.PARAGRAPHS,
-        UK_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        {
-            periodInWeeks: 52,
-            minViews: 50,
-        },
+        ['Canada'],
+        'CA',
+        CA_DATA.REGULAR_READER.PARAGRAPHS,
+        CA_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+        CA_DATA.AMOUNTS,
     ),
 
-    // US_REGULAR_READERS
     buildEpicChoiceCardsTest(
-        ['UnitedStates'],
-        'US',
-        US_DATA.REGULAR_READER.PARAGRAPHS,
-        US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-    ),
-
-    // EU_REGULAR_READERS
-    buildEpicChoiceCardsTest(
-        ['EURCountries'],
-        'EU',
-        EU_DATA.REGULAR_READER.PARAGRAPHS,
-        EU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-    ),
-
-    // ROW_REGULAR_READERS
-    buildEpicChoiceCardsTest(
-        ['International'],
-        'ROW',
-        ROW_DATA.REGULAR_READER.PARAGRAPHS,
-        ROW_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+        ['NZDCountries'],
+        'NZ',
+        NZ_DATA.REGULAR_READER.PARAGRAPHS,
+        NZ_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+        NZ_DATA.AMOUNTS,
     ),
 ];

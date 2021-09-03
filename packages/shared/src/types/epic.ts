@@ -16,8 +16,7 @@ import {
     trackingSchema,
     secondaryCtaSchema,
 } from './shared';
-import { ReminderFields } from '../lib/reminderFields';
-import { CountryGroupId } from '../lib/geolocation';
+import { ReminderFields, CountryGroupId } from '../lib';
 import { z } from 'zod';
 
 export type Tag = {
