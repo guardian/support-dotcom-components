@@ -6,7 +6,6 @@ import { from } from '@guardian/src-foundations/mq';
 import { css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { EpicProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
-import { UK_DATA } from '@sdc/server/src/tests/epics/choiceCardsTestData';
 
 const containerStyles = css`
     margin: 3em auto;
@@ -145,6 +144,10 @@ WithChoiceCards.args = {
             reminderPeriod: '2021-09-01',
             reminderLabel: 'September',
         },
-        choiceCardAmounts: UK_DATA.AMOUNTS,
+        choiceCardAmounts: {
+            SINGLE: [30, 60],
+            MONTHLY: [3, 6],
+            ANNUAL: [60, 120],
+        },
     },
 };

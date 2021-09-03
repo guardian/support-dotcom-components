@@ -1,5 +1,5 @@
-import { ChoiceCardAmounts, EpicTest } from '@sdc/shared/src/types/epic';
-import { epic, epicWithChoiceCards } from '@sdc/shared/src/config/modules';
+import { EpicTest } from '@sdc/shared/src/types/epic';
+import { epic } from '@sdc/shared/src/config/modules';
 import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CTAS } from './choiceCardsTestData';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { ArticlesViewedSettings } from '@sdc/shared/types';
@@ -17,7 +17,6 @@ const buildEpicChoiceCardsTest = (
     suffix: string,
     paragraphs: string[],
     highlightedText: string,
-    choiceCardAmounts: ChoiceCardAmounts,
     articlesViewedSettings?: ArticlesViewedSettings,
 ): EpicTest => ({
     name: `${testName}__${suffix}`,
@@ -45,30 +44,29 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.control,
-            separateArticleCount: { type: 'above' },
+            separateArticleCount: articlesViewedSettings ? { type: 'above' } : undefined,
         },
         {
             name: EpicChoiceCardsTestVariants.variant1,
-            modulePathBuilder: epicWithChoiceCards.endpointPathBuilder,
+            modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.variant1,
-            separateArticleCount: { type: 'above' },
+            separateArticleCount: articlesViewedSettings ? { type: 'above' } : undefined,
         },
         {
             name: EpicChoiceCardsTestVariants.variant2,
-            modulePathBuilder: epicWithChoiceCards.endpointPathBuilder,
+            modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.variant2,
-            separateArticleCount: { type: 'above' },
+            separateArticleCount: articlesViewedSettings ? { type: 'above' } : undefined,
         },
     ],
     highPriority: true,
     useLocalViewLog: true,
     hasArticleCountInCopy: !!articlesViewedSettings,
     articlesViewedSettings,
-    choiceCardAmounts,
 });
 
 export const epicChoiceCardsTests = [
@@ -78,7 +76,6 @@ export const epicChoiceCardsTests = [
         'UK',
         UK_DATA.REGULAR_READER.PARAGRAPHS,
         UK_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        UK_DATA.AMOUNTS,
         {
             periodInWeeks: 52,
             minViews: 50,
@@ -91,7 +88,6 @@ export const epicChoiceCardsTests = [
         'US',
         US_DATA.REGULAR_READER.PARAGRAPHS,
         US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        US_DATA.AMOUNTS,
         {
             periodInWeeks: 52,
             minViews: 50,
@@ -104,7 +100,6 @@ export const epicChoiceCardsTests = [
         'EU',
         EU_DATA.REGULAR_READER.PARAGRAPHS,
         EU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        EU_DATA.AMOUNTS,
         {
             periodInWeeks: 52,
             minViews: 50,
@@ -117,7 +112,6 @@ export const epicChoiceCardsTests = [
         'ROW',
         ROW_DATA.REGULAR_READER.PARAGRAPHS,
         ROW_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        ROW_DATA.AMOUNTS,
         {
             periodInWeeks: 52,
             minViews: 50,
@@ -130,7 +124,6 @@ export const epicChoiceCardsTests = [
         'UK',
         UK_DATA.REGULAR_READER.PARAGRAPHS,
         UK_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        UK_DATA.AMOUNTS,
         {
             periodInWeeks: 52,
             minViews: 50,
@@ -143,7 +136,6 @@ export const epicChoiceCardsTests = [
         'US',
         US_DATA.REGULAR_READER.PARAGRAPHS,
         US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        US_DATA.AMOUNTS,
     ),
 
     // EU_REGULAR_READERS
@@ -152,7 +144,6 @@ export const epicChoiceCardsTests = [
         'EU',
         EU_DATA.REGULAR_READER.PARAGRAPHS,
         EU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        EU_DATA.AMOUNTS,
     ),
 
     // ROW_REGULAR_READERS
@@ -161,6 +152,5 @@ export const epicChoiceCardsTests = [
         'ROW',
         ROW_DATA.REGULAR_READER.PARAGRAPHS,
         ROW_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        ROW_DATA.AMOUNTS,
     ),
 ];

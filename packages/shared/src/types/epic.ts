@@ -209,6 +209,4 @@ export interface EpicTest extends Test<EpicVariant> {
     controlProportionSettings?: ControlProportionSettings;
 
     isSuperMode?: boolean;
-
-    choiceCardAmounts?: ChoiceCardAmounts;
 }
