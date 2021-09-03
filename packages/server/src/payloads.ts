@@ -116,7 +116,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
         ]);
 
         if (isForcingTest) {
-            return [...regular, ...holdback, fallbackEpicTest];
+            return [...epicChoiceCardsTests, ...regular, ...holdback, fallbackEpicTest];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
