@@ -5,7 +5,13 @@ import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 
-const choiceCardGroupOverrides = css`
+const radioInputOverride = css`
+    input[type='radio'] {
+        visibility: hidden !important;
+    }
+`;
+
+const frequencyChoiceCardGroupOverrides = css`
     ${until.mobileLandscape} {
         > div {
             display: flex !important;
@@ -62,7 +68,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                css={choiceCardGroupOverrides}
+                css={[frequencyChoiceCardGroupOverrides, radioInputOverride]}
             >
                 <ChoiceCard
                     value="single"
@@ -87,7 +93,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
             <br />
-            <ChoiceCardGroup name="contribution-amount">
+            <ChoiceCardGroup name="contribution-amount" css={radioInputOverride}>
                 <ChoiceCard
                     value="first"
                     label={`${currencySymbol}${
