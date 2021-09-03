@@ -45,7 +45,6 @@ const buildEpicChoiceCardsTest = (
             paragraphs: paragraphs,
             highlightedText: highlightedText,
             cta: CTAS.control,
-            choiceCardAmounts: choiceCardAmounts,
             separateArticleCount: articlesViewedSettings ? undefined : { type: 'above' },
             secondaryCta: {
                 type: SecondaryCtaType.ContributionsReminder,
