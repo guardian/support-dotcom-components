@@ -1,4 +1,4 @@
-import { ausMomentBanner, contributionsBanner, digiSubs, guardianWeekly } from '@sdc/shared/config';
+import { contributionsBanner, digiSubs, guardianWeekly } from '@sdc/shared/config';
 import {
     BannerChannel,
     BannerTest,
@@ -9,7 +9,7 @@ import {
     RawTestParams,
     RawVariantParams,
 } from '@sdc/shared/types';
-import { BannerTemplate, TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { BannerTemplate } from '@sdc/shared/types';
 import { isProd } from '../../lib/env';
 import { fetchS3Data } from '../../utils/S3';
 
@@ -24,7 +24,6 @@ export const BannerPaths: {
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
-    [BannerTemplate.AusMomentBanner]: ausMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {
@@ -33,7 +32,6 @@ export const BannerTemplateComponentTypes: {
     [BannerTemplate.ContributionsBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     [BannerTemplate.DigitalSubscriptionsBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     [BannerTemplate.GuardianWeeklyBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    [BannerTemplate.AusMomentBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 export const BannerTemplateProducts: {
@@ -59,19 +57,7 @@ const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
         }
     };
 
-    const tickerSettings =
-        variant.template === BannerTemplate.AusMomentBanner
-            ? {
-                  countType: TickerCountType.people,
-                  endType: TickerEndType.unlimited,
-                  currencySymbol: '$',
-                  copy: {
-                      countLabel: 'supporters in Australia',
-                      goalReachedPrimary: "We've hit our goal!",
-                      goalReachedSecondary: 'but you can still support us',
-                  },
-              }
-            : undefined;
+    const tickerSettings = undefined;
 
     return {
         name: variant.name,
