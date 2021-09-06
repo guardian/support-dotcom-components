@@ -27,7 +27,15 @@ const buildEpicChoiceCardsTest = (
     audience: 1,
     tagIds: [],
     sections: [],
-    excludedTagIds: [],
+    excludedTagIds: [
+        'world/german-federal-election-2021',
+        'world/series/the-merkel-years',
+        'world/germany',
+        'world/europe-news',
+        'world/angela-merkel',
+        'world/eu',
+        'world/series/this-is-europe',
+    ],
     excludedSections: [],
     alwaysAsk: false,
     maxViews: {
