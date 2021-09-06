@@ -85,7 +85,7 @@ export const epicChoiceCardsTests = [
     // TOP READERS /////////////////////////////////////////////////////////////
     buildEpicChoiceCardsTest(
         ['GBPCountries'],
-        'UK',
+        'TOP_UK',
         UK_DATA.TOP_READER.PARAGRAPHS,
         UK_DATA.TOP_READER.HIGHLIGHTED_TEXT,
         UK_DATA.AMOUNTS,
@@ -97,7 +97,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['UnitedStates'],
-        'US',
+        'TOP_US',
         US_DATA.TOP_READER.PARAGRAPHS,
         US_DATA.TOP_READER.HIGHLIGHTED_TEXT,
         US_DATA.AMOUNTS,
@@ -109,7 +109,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['EURCountries'],
-        'EU',
+        'TOP_EU',
         EU_DATA.TOP_READER.PARAGRAPHS,
         EU_DATA.TOP_READER.HIGHLIGHTED_TEXT,
         EU_DATA.AMOUNTS,
@@ -121,7 +121,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['International'],
-        'ROW',
+        'TOP_ROW',
         ROW_DATA.TOP_READER.PARAGRAPHS,
         ROW_DATA.TOP_READER.HIGHLIGHTED_TEXT,
         ROW_DATA.AMOUNTS,
@@ -133,7 +133,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['Canada'],
-        'CA',
+        'TOP_CA',
         CA_DATA.TOP_READER.PARAGRAPHS,
         CA_DATA.TOP_READER.HIGHLIGHTED_TEXT,
         CA_DATA.AMOUNTS,
@@ -145,7 +145,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['NZDCountries'],
-        'NZ',
+        'TOP_NZ',
         NZ_DATA.TOP_READER.PARAGRAPHS,
         NZ_DATA.TOP_READER.HIGHLIGHTED_TEXT,
         NZ_DATA.AMOUNTS,
@@ -158,7 +158,7 @@ export const epicChoiceCardsTests = [
     // REGULAR READERS /////////////////////////////////////////////////////////
     buildEpicChoiceCardsTest(
         ['GBPCountries'],
-        'UK',
+        'REGULAR_UK',
         UK_DATA.REGULAR_READER.PARAGRAPHS,
         UK_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         UK_DATA.AMOUNTS,
@@ -166,7 +166,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['UnitedStates'],
-        'US',
+        'REGULAR_US',
         US_DATA.REGULAR_READER.PARAGRAPHS,
         US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         US_DATA.AMOUNTS,
@@ -174,7 +174,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['EURCountries'],
-        'EU',
+        'REGULAR_EU',
         EU_DATA.REGULAR_READER.PARAGRAPHS,
         EU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         EU_DATA.AMOUNTS,
@@ -182,7 +182,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['International'],
-        'ROW',
+        'REGULAR_ROW',
         ROW_DATA.REGULAR_READER.PARAGRAPHS,
         ROW_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         ROW_DATA.AMOUNTS,
@@ -190,7 +190,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['Canada'],
-        'CA',
+        'REGULAR_CA',
         CA_DATA.REGULAR_READER.PARAGRAPHS,
         CA_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         CA_DATA.AMOUNTS,
@@ -198,7 +198,7 @@ export const epicChoiceCardsTests = [
 
     buildEpicChoiceCardsTest(
         ['NZDCountries'],
-        'NZ',
+        'REGULAR_NZ',
         NZ_DATA.REGULAR_READER.PARAGRAPHS,
         NZ_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         NZ_DATA.AMOUNTS,
