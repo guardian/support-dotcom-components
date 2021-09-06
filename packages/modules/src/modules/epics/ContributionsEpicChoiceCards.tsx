@@ -33,14 +33,16 @@ interface EpicChoiceCardProps {
     amounts: ChoiceCardAmounts;
     selection: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    countryCode?: string;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     amounts,
     selection,
     setSelectionsCallback,
+    countryCode,
 }: EpicChoiceCardProps) => {
-    const currencySymbol = getLocalCurrencySymbol();
+    const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     const updateAmount = (amount: number | 'other') =>
         setSelectionsCallback({

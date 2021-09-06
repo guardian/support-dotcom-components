@@ -326,6 +326,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     amounts={choiceCardAmounts}
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
+                    countryCode={countryCode}
                 />
             )}
 
