@@ -108,15 +108,21 @@ const [, fetchSuperModeArticlesCached] = cacheAsync(
     'fetchSuperModeArticles',
 );
 
-const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promise<EpicTest[]> => {
+const getArticleEpicTests = async (
+    mvtId: number,
+    isForcingTest: boolean,
+    enableHardcodedEpicTests: boolean,
+): Promise<EpicTest[]> => {
     try {
         const [regular, holdback] = await Promise.all([
             fetchConfiguredArticleEpicTestsCached(),
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
+        const hardcodedTests = enableHardcodedEpicTests ? epicChoiceCardsTests : [];
+
         if (isForcingTest) {
-            return [...epicChoiceCardsTests, ...regular, ...holdback, fallbackEpicTest];
+            return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
@@ -124,7 +130,7 @@ const getArticleEpicTests = async (mvtId: number, isForcingTest: boolean): Promi
             return [...holdback];
         }
 
-        return [...epicChoiceCardsTests, ...regular, fallbackEpicTest];
+        return [...hardcodedTests, ...regular, fallbackEpicTest];
     } catch (err) {
         logger.warn(`Error getting article epic tests: ${err}`);
 
@@ -143,13 +149,17 @@ export const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    const { enableEpics, enableSuperMode } = await cachedChannelSwitches();
+    const {
+        enableEpics,
+        enableSuperMode,
+        enableHardcodedEpicTests,
+    } = await cachedChannelSwitches();
     if (!enableEpics) {
         return {};
     }
 
     const tests = await (type === 'ARTICLE'
-        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force)
+        ? getArticleEpicTests(targeting.mvtId || 1, !!params.force, enableHardcodedEpicTests)
         : getLiveblogEpicTests());
 
     const superModeArticles = enableSuperMode ? await fetchSuperModeArticlesCached() : [];

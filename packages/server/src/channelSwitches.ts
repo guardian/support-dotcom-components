@@ -6,6 +6,7 @@ interface ChannelSwitches {
     enableEpics: boolean;
     enableBanners: boolean;
     enableSuperMode: boolean;
+    enableHardcodedEpicTests: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
