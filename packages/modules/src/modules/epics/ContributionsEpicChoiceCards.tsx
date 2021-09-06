@@ -1,6 +1,10 @@
 import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import { ChoiceCardAmounts, ChoiceCardFrequency } from '@sdc/shared/dist/types';
+import {
+    ChoiceCardAmounts,
+    ChoiceCardFrequency,
+    OphanComponentEvent,
+} from '@sdc/shared/dist/types';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
@@ -34,6 +38,7 @@ interface EpicChoiceCardProps {
     selection: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     countryCode?: string;
+    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -41,20 +46,34 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     selection,
     setSelectionsCallback,
     countryCode,
+    submitComponentEvent,
 }: EpicChoiceCardProps) => {
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const updateAmount = (amount: number | 'other') =>
+    const trackClick = (type: 'amount' | 'frequency'): void =>
+        submitComponentEvent({
+            component: {
+                componentType: 'ACQUISITIONS_OTHER',
+                id: `contributions-epic-choice-cards-change-${type}`,
+            },
+            action: 'CLICK',
+        });
+
+    const updateAmount = (amount: number | 'other') => {
+        trackClick('amount');
         setSelectionsCallback({
             frequency: selection.frequency,
             amount: amount,
         });
+    };
 
-    const updateFrequency = (frequency: ChoiceCardFrequency) =>
+    const updateFrequency = (frequency: ChoiceCardFrequency) => {
+        trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
             amount: amounts[frequency][1],
         });
+    };
 
     const frequencySuffix = () => {
         return {

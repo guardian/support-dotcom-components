@@ -321,12 +321,13 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 tracking={ophanTracking}
             />
 
-            {choiceCardSelection && choiceCardAmounts && (
+            {choiceCardSelection && choiceCardAmounts && submitComponentEvent && (
                 <ContributionsEpicChoiceCards
                     amounts={choiceCardAmounts}
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
                     countryCode={countryCode}
+                    submitComponentEvent={submitComponentEvent}
                 />
             )}
 
