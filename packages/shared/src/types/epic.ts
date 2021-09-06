@@ -16,8 +16,7 @@ import {
     trackingSchema,
     secondaryCtaSchema,
 } from './shared';
-import { ReminderFields } from '../lib/reminderFields';
-import { CountryGroupId } from '../lib/geolocation';
+import { ReminderFields, CountryGroupId } from '../lib';
 import { z } from 'zod';
 
 export type Tag = {
@@ -123,6 +122,9 @@ export interface EpicVariant extends Variant {
     // the test + variant. This means users **wont** fall through to a test
     // with lower priority.
     maxViews?: MaxViews;
+
+    // For hard coded choice cards test
+    choiceCardAmounts?: ChoiceCardAmounts;
 }
 
 const variantSchema = z.object({
@@ -171,6 +173,11 @@ interface ControlProportionSettings {
     proportion: number;
     offset: number;
 }
+
+export type ChoiceCardFrequency = 'SINGLE' | 'MONTHLY' | 'ANNUAL';
+export type ChoiceCardAmounts = {
+    [index in ChoiceCardFrequency]: number[];
+};
 
 export interface EpicTest extends Test<EpicVariant> {
     name: string;

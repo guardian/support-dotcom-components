@@ -1783,6 +1783,15 @@
   dependencies:
     "@guardian/src-helpers" "^3.8.0"
 
+"@guardian/src-choice-card@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-choice-card/-/src-choice-card-3.8.0.tgz#fb0d239fb6758b3b97f9fa5032330a09988c084a"
+  integrity sha512-eQy7mZ4Vcyobqptwc4pfu73dpdrcgPPNBKis6IYGl2bkpf9U2W1CFpNxLp3u8HiWR4BfiZz1stR93ySycoOf6Q==
+  dependencies:
+    "@guardian/src-helpers" "^3.8.0"
+    "@guardian/src-label" "^3.8.0"
+    "@guardian/src-user-feedback" "^3.8.0"
+
 "@guardian/src-foundations@3.8.0", "@guardian/src-foundations@^3.8.0":
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.8.0.tgz#2a17748cced540ea137618feddc85d2b12c16023"

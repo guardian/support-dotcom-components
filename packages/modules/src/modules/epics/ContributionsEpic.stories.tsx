@@ -131,3 +131,23 @@ WithAboveArticleCountNoConsent.args = {
     },
     hasConsentForArticleCount: false,
 };
+
+export const WithChoiceCards = Template.bind({});
+WithChoiceCards.args = {
+    variant: {
+        ...props.variant,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+        showReminderFields: {
+            reminderCta: 'Remind me in September',
+            reminderPeriod: '2021-09-01',
+            reminderLabel: 'September',
+        },
+        choiceCardAmounts: {
+            SINGLE: [30, 60],
+            MONTHLY: [3, 6],
+            ANNUAL: [60, 120],
+        },
+    },
+};

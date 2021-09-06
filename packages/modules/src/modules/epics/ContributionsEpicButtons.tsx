@@ -12,6 +12,7 @@ import {
 } from './utils/ophan';
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
+import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -93,6 +94,7 @@ interface ContributionsEpicButtonsProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     isReminderActive: boolean;
     isSignedIn: boolean;
+    choiceCardSelection?: ChoiceCardSelection;
 }
 
 export const ContributionsEpicButtons = ({
@@ -103,14 +105,22 @@ export const ContributionsEpicButtons = ({
     submitComponentEvent,
     isReminderActive,
     isSignedIn,
+    choiceCardSelection,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
-
     const { cta, secondaryCta, showReminderFields } = variant;
 
     if (!cta) {
         return null;
     }
+
+    const getCta = (cta: Cta): Cta =>
+        choiceCardSelection
+            ? {
+                  text: cta.text,
+                  baseUrl: `${cta.baseUrl}?selected-contribution-type=${choiceCardSelection.frequency}&selected-amount=${choiceCardSelection.amount}`,
+              }
+            : cta;
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
@@ -133,7 +143,11 @@ export const ContributionsEpicButtons = ({
         <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
             {!isReminderActive && (
                 <>
-                    <PrimaryCtaButton cta={cta} tracking={tracking} countryCode={countryCode} />
+                    <PrimaryCtaButton
+                        cta={getCta(cta)}
+                        tracking={tracking}
+                        countryCode={countryCode}
+                    />
 
                     {secondaryCta?.type === SecondaryCtaType.Custom &&
                     secondaryCta.cta.baseUrl &&

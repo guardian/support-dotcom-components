@@ -18,6 +18,7 @@ import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
+import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -229,10 +230,16 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
+    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
+        variant.choiceCardAmounts && {
+            frequency: 'MONTHLY',
+            amount: variant.choiceCardAmounts['MONTHLY'][1],
+        },
+    );
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const { backgroundImageUrl, showReminderFields, tickerSettings } = variant;
+    const { backgroundImageUrl, showReminderFields, tickerSettings, choiceCardAmounts } = variant;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -314,6 +321,16 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 tracking={ophanTracking}
             />
 
+            {choiceCardSelection && choiceCardAmounts && submitComponentEvent && (
+                <ContributionsEpicChoiceCards
+                    amounts={choiceCardAmounts}
+                    setSelectionsCallback={setChoiceCardSelection}
+                    selection={choiceCardSelection}
+                    countryCode={countryCode}
+                    submitComponentEvent={submitComponentEvent}
+                />
+            )}
+
             <ContributionsEpicButtons
                 variant={variant}
                 tracking={tracking}
@@ -336,6 +353,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
                 isSignedIn={Boolean(email)}
+                choiceCardSelection={choiceCardSelection}
             />
 
             {isReminderActive && showReminderFields && (
