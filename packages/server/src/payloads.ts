@@ -149,7 +149,11 @@ export const buildEpicData = async (
     params: Params,
     baseUrl: string,
 ): Promise<EpicDataResponse> => {
-    const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = await cachedChannelSwitches();
+    const {
+        enableEpics,
+        enableSuperMode,
+        enableHardcodedEpicTests,
+    } = await cachedChannelSwitches();
     if (!enableEpics) {
         return {};
     }
