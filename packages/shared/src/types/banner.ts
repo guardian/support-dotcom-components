@@ -103,6 +103,18 @@ export interface BannerTestSelection {
     moduleName: string;
 }
 
+interface AbandonedContribution {
+    type: 'CONTRIBUTION';
+    amount: number;
+    contributionType: 'SINGLE' | 'MONTHLY' | 'ANNUAL';
+}
+
+interface AbandonedDigisub {
+    type: 'DIGITAL_SUBSCRIPTION';
+}
+
+export type AbandonedCart = AbandonedContribution | AbandonedDigisub; // TODO - other products
+
 export interface BannerProps {
     tracking: Tracking;
     bannerChannel: BannerChannel;
@@ -115,6 +127,7 @@ export interface BannerProps {
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
     email?: string;
+    abandonedCart?: AbandonedCart;
 }
 
 export const bannerSchema = z.object({
