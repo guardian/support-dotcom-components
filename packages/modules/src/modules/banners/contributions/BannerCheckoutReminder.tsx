@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { Container, Columns, Column, Hide } from '@guardian/src-layout';
+import { Container, Columns, Column } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
-import { headline, body } from '@guardian/src-foundations/typography';
-import { brandAlt, neutral, space, brand } from '@guardian/src-foundations';
-import { ContributionsBannerMobile } from './ContributionsBannerMobile';
+import { body } from '@guardian/src-foundations/typography';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
-import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
 import {
     ContributionsBannerExpandButton,
     ContributionsBannerCollapseButton,
 } from './ContributionsBannerExpandButton';
 import { BannerText } from '../common/BannerText';
-import { ContributionsBannerReminder } from './ContributionsBannerReminder';
-import { SecondaryCtaType, ChoiceCardAmounts } from '@sdc/shared/types';
 import {
     ContributionsEpicChoiceCards,
     ChoiceCardSelection,
@@ -188,10 +184,7 @@ const columnCounts = {
 const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
     onCtaClick,
     onSecondaryCtaClick,
-    reminderTracking,
-    onCloseClick,
     content,
-    email,
     abandonedCart,
     choiceCardAmounts,
     countryCode,
@@ -200,12 +193,15 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
     const [isBannerOpen, setIsBannerOpen] = useState(false);
 
     const getDefaultChoiceCardSelection = (): ChoiceCardSelection | undefined => {
-        if (abandonedCart && abandonedCart.type === 'CONTRIBUTION') {
-            const amount = choiceCardAmounts[abandonedCart.contributionType].includes(abandonedCart.amount)
-                ? abandonedCart.amount
-                : 'other'
-            return { frequency: abandonedCart.contributionType, amount: amount };
-        } else if (choiceCardAmounts) {
+        if (choiceCardAmounts) {
+            if (abandonedCart && abandonedCart.type === 'CONTRIBUTION') {
+                const amount = choiceCardAmounts[abandonedCart.contributionType].includes(
+                    abandonedCart.amount,
+                )
+                    ? abandonedCart.amount
+                    : 'other';
+                return { frequency: abandonedCart.contributionType, amount: amount };
+            }
             return {
                 frequency: 'MONTHLY',
                 amount: choiceCardAmounts['MONTHLY'][1],
@@ -221,11 +217,6 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
     const onReminderCtaClick = () => {
         // reminderTracking.onReminderCtaClick();
         setIsReminderOpen(!isReminderOpen);
-    };
-
-    const onReminderCloseClick = () => {
-        // reminderTracking.onReminderCloseClick();
-        setIsReminderOpen(false);
     };
 
     const onExpandClick = () => {
@@ -264,9 +255,9 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
     );
 
     const getCta = (url: string): string =>
-    choiceCardSelection
-        ? `${url}&selected-contribution-type=${choiceCardSelection.frequency}&selected-amount=${choiceCardSelection.amount}`
-        : url;
+        choiceCardSelection
+            ? `${url}&selected-contribution-type=${choiceCardSelection.frequency}&selected-amount=${choiceCardSelection.amount}`
+            : url;
 
     const buttons = (
         <div css={styles.buttonsContainer}>
@@ -305,8 +296,6 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
         </div>
     );
 
-
-
     return (
         <div css={styles.bannerContainer}>
             <Container>
@@ -342,7 +331,9 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
                                             setSelectionsCallback={setChoiceCardSelection}
                                             selection={choiceCardSelection}
                                             countryCode={countryCode}
-                                            submitComponentEvent={() => {}}
+                                            submitComponentEvent={() => {
+                                                console.log('submit!');
+                                            }}
                                         />
                                     )}
                                     {buttons}

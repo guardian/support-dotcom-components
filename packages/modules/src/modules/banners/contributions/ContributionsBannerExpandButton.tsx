@@ -1,13 +1,9 @@
 import React from 'react';
-import { SvgRoundelDefault } from '@guardian/src-brand';
 import { ThemeProvider } from '@emotion/react';
 import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
-import { SvgCross } from '@guardian/src-icons';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
-import { neutral } from '@guardian/src-foundations';
-import { SvgChevronDownSingle, SvgChevronUpSingle } from "@guardian/src-icons"
+import { SvgChevronDownSingle, SvgChevronUpSingle } from '@guardian/src-icons';
 
 const styles = {
     expandButtonContainer: css`
@@ -17,7 +13,7 @@ const styles = {
     `,
     expandButtonStyles: css`
         font-size: 12px;
-    `
+    `,
 };
 
 interface ContributionsBannerExpandProps {
@@ -32,21 +28,21 @@ export const ContributionsBannerExpandButton: React.FC<ContributionsBannerExpand
     onExpandClick,
 }: ContributionsBannerExpandProps) => {
     return (
-            <div css={styles.expandButtonContainer}>
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                    <LinkButton
-                        aria-label="Expand"
-                        data-link-name="contributions-banner : open"
-                        priority="subdued"
-                        size="xsmall"
-                        onClick={onExpandClick}
-                        icon={<SvgChevronDownSingle />}
-                        cssOverrides={styles.expandButtonStyles}
-                    >
-                        CHECK OUT
-                    </LinkButton>
-                </ThemeProvider>
-            </div>
+        <div css={styles.expandButtonContainer}>
+            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                <LinkButton
+                    aria-label="Expand"
+                    data-link-name="contributions-banner : open"
+                    priority="subdued"
+                    size="xsmall"
+                    onClick={onExpandClick}
+                    icon={<SvgChevronDownSingle />}
+                    cssOverrides={styles.expandButtonStyles}
+                >
+                    CHECK OUT
+                </LinkButton>
+            </ThemeProvider>
+        </div>
     );
 };
 
@@ -54,20 +50,20 @@ export const ContributionsBannerCollapseButton: React.FC<ContributionsBannerColl
     onCollapseClick,
 }: ContributionsBannerCollapseProps) => {
     return (
-            <div css={styles.expandButtonContainer}>
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-                    <LinkButton
-                        aria-label="Expand"
-                        data-link-name="contributions-banner : open"
-                        priority="subdued"
-                        size="xsmall"
-                        onClick={onCollapseClick}
-                        icon={<SvgChevronUpSingle />}
-                        cssOverrides={styles.expandButtonStyles}
-                    >
-                        COLLAPSE
-                    </LinkButton>
-                </ThemeProvider>
-            </div>
+        <div css={styles.expandButtonContainer}>
+            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                <LinkButton
+                    aria-label="Expand"
+                    data-link-name="contributions-banner : open"
+                    priority="subdued"
+                    size="xsmall"
+                    onClick={onCollapseClick}
+                    icon={<SvgChevronUpSingle />}
+                    cssOverrides={styles.expandButtonStyles}
+                >
+                    COLLAPSE
+                </LinkButton>
+            </ThemeProvider>
+        </div>
     );
 };

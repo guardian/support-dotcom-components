@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsBannerUnvalidated as BannerCheckoutReminder } from './BannerCheckoutReminder';
-import { props, content } from '../utils/storybook';
+import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
@@ -15,7 +15,7 @@ const Template: Story<BannerProps> = (props: BannerProps) => <BannerCheckoutRemi
 export const Default = Template.bind({});
 Default.args = {
     content: {
-        heading: "Forgot something? Complete your £30 monthly contributions",
+        heading: 'Forgot something? Complete your £30 monthly contributions',
         cta: {
             text: 'Support the Guardian',
             baseUrl: 'http://support.theguardian.com/contribute',
@@ -30,10 +30,10 @@ Default.args = {
         ANNUAL: [60, 120],
     },
     abandonedCart: {
-        type: "CONTRIBUTION",
+        type: 'CONTRIBUTION',
         amount: 80,
-        contributionType: "MONTHLY"
-    }
+        contributionType: 'MONTHLY',
+    },
 };
 
 // export const WithPrefilledReminder = Template.bind({});
