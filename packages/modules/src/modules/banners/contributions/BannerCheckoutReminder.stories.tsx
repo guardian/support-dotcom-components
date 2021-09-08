@@ -16,10 +16,24 @@ export const Default = Template.bind({});
 Default.args = {
     content: {
         heading: "Forgot something? Complete your £30 monthly contributions",
+        cta: {
+            text: 'Support the Guardian',
+            baseUrl: 'http://support.theguardian.com/contribute',
+        },
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
+    choiceCardAmounts: {
+        SINGLE: [30, 60],
+        MONTHLY: [3, 6],
+        ANNUAL: [60, 120],
+    },
+    abandonedCart: {
+        type: "CONTRIBUTION",
+        amount: 80,
+        contributionType: "MONTHLY"
+    }
 };
 
 // export const WithPrefilledReminder = Template.bind({});

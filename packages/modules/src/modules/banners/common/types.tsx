@@ -1,5 +1,5 @@
 import { ReminderFields } from '@sdc/shared/lib';
-import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
+import { SecondaryCtaType, TickerSettings, AbandonedCart, ChoiceCardAmounts } from '@sdc/shared/types';
 
 export type BannerId =
     | 'contributions-banner'
@@ -58,4 +58,6 @@ export interface BannerRenderProps {
     email?: string;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
+    abandonedCart?: AbandonedCart;
+    choiceCardAmounts?: ChoiceCardAmounts;
 }

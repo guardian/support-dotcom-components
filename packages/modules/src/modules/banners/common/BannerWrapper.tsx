@@ -45,6 +45,8 @@ const withBannerData = (
         numArticles = 0,
         tickerSettings,
         isSupporter,
+        choiceCardAmounts,
+        abandonedCart,
     } = bannerProps;
 
     const componentIds = getComponentIds(bannerId);
@@ -172,6 +174,8 @@ const withBannerData = (
                 email,
                 tickerSettings,
                 isSupporter,
+                abandonedCart,
+                choiceCardAmounts,
             };
             return <Banner {...props} />;
         }

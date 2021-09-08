@@ -17,8 +17,11 @@ import {
 } from './ContributionsBannerExpandButton';
 import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
-import { SecondaryCtaType } from '@sdc/shared/types';
-import { ContrbutionsEpicChoiceCards } from '../../epics/ContributionsEpicChoiceCards';
+import { SecondaryCtaType, ChoiceCardAmounts } from '@sdc/shared/types';
+import {
+    ContributionsEpicChoiceCards,
+    ChoiceCardSelection,
+} from '../../epics/ContributionsEpicChoiceCards';
 
 const styles = {
     bannerContainer: css`
@@ -80,17 +83,19 @@ const styles = {
         padding-top: 2px;
     `,
     buttonsContainer: css`
-        /* display: flex; */
-        /* flex-direction: column; */
+        display: flex;
+        flex-direction: row;
         height: 100%;
         box-sizing: border-box;
-        /* padding-top: 8px;
-        padding-bottom: 16px; */
+        padding-top: 8px;
+        padding-bottom: 16px;
     `,
     ctasContainer: css`
         & > * + * {
             margin-top: ${space[3]}px;
         }
+        display: flex;
+        flex-direction: row;
     `,
     reminderContainer: css`
         position: relative;
@@ -179,6 +184,7 @@ const columnCounts = {
     leftCol: 14,
     wide: 16,
 };
+
 const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
     onCtaClick,
     onSecondaryCtaClick,
@@ -186,9 +192,31 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
     onCloseClick,
     content,
     email,
+    abandonedCart,
+    choiceCardAmounts,
+    countryCode,
 }: BannerRenderProps) => {
     const [isReminderOpen, setIsReminderOpen] = useState(false);
     const [isBannerOpen, setIsBannerOpen] = useState(false);
+
+    const getDefaultChoiceCardSelection = (): ChoiceCardSelection | undefined => {
+        if (abandonedCart && abandonedCart.type === 'CONTRIBUTION') {
+            const amount = choiceCardAmounts[abandonedCart.contributionType].includes(abandonedCart.amount)
+                ? abandonedCart.amount
+                : 'other'
+            return { frequency: abandonedCart.contributionType, amount: amount };
+        } else if (choiceCardAmounts) {
+            return {
+                frequency: 'MONTHLY',
+                amount: choiceCardAmounts['MONTHLY'][1],
+            };
+        }
+        return undefined;
+    };
+
+    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
+        getDefaultChoiceCardSelection(),
+    );
 
     const onReminderCtaClick = () => {
         // reminderTracking.onReminderCtaClick();
@@ -235,6 +263,11 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
         />
     );
 
+    const getCta = (url: string): string =>
+    choiceCardSelection
+        ? `${url}&selected-contribution-type=${choiceCardSelection.frequency}&selected-amount=${choiceCardSelection.amount}`
+        : url;
+
     const buttons = (
         <div css={styles.buttonsContainer}>
             <div css={styles.ctasContainer}>
@@ -242,7 +275,7 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
                     <ContributionsBannerCta
                         onContributeClick={onCtaClick}
                         ctaText={content.mainContent.primaryCta.ctaText}
-                        ctaUrl={content.mainContent.primaryCta.ctaUrl}
+                        ctaUrl={getCta(content.mainContent.primaryCta.ctaUrl)}
                         stacked={true}
                     />
                 )}
@@ -272,11 +305,13 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
         </div>
     );
 
+
+
     return (
         <div css={styles.bannerContainer}>
             <Container>
                 {isBannerOpen && (
-                    <Container>
+                    <>
                         <div css={styles.tabletAndDesktop}>
                             <Columns>
                                 <Column width={3 / columnCounts.desktop}>
@@ -301,13 +336,22 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
                                 <Column width={3 / columnCounts.wide}> </Column>
                                 <Column width={8 / columnCounts.wide}>
                                     <BodyAndHeading />
+                                    {choiceCardSelection && choiceCardAmounts && (
+                                        <ContributionsEpicChoiceCards
+                                            amounts={choiceCardAmounts}
+                                            setSelectionsCallback={setChoiceCardSelection}
+                                            selection={choiceCardSelection}
+                                            countryCode={countryCode}
+                                            submitComponentEvent={() => {}}
+                                        />
+                                    )}
                                     {buttons}
                                 </Column>
                                 <Column width={4 / columnCounts.wide}>{collapseButton}</Column>
                                 <Column width={1 / columnCounts.wide}> </Column>
                             </Columns>
                         </div>
-                    </Container>
+                    </>
                 )}
             </Container>
 
@@ -342,41 +386,9 @@ const BannerCheckoutReminder: React.FC<BannerRenderProps> = ({
                     </div>
                 </Container>
             )}
-            <Hide below="tablet">
-                {isReminderOpen &&
-                    content.mainContent.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder && (
-                        <div css={styles.reminderContainer}>
-                            <div css={styles.reminderLine} />
-
-                            <Container>
-                                {/* <Columns> */}
-                                {/* <Column width={1}> */}
-                                <ContributionsBannerReminder
-                                    reminderCta={content.mainContent.secondaryCta}
-                                    trackReminderSetClick={reminderTracking.onReminderSetClick}
-                                    onReminderCloseClick={onReminderCloseClick}
-                                    email={email}
-                                />
-                                {/* </Column> */}
-                                {/* </Columns> */}
-                            </Container>
-                            {choiceCardSelection && choiceCardAmounts && submitComponentEvent && (
-                            <ContrbutionsEpicChoiceCards
-                                amounts={choiceCardAmounts}
-                                setSelectionsCallback={setChoiceCardSelection}
-                                selection={choiceCardSelection}
-                                countryCode={countryCode}
-                                submitComponentEvent={submitComponentEvent}
-                            />
-                            )}
-                        </div>
-                    )}
-            </Hide>
         </div>
     );
 };
-
 const unvalidated = bannerWrapper(BannerCheckoutReminder, 'contributions-banner');
 const validated = validatedBannerWrapper(BannerCheckoutReminder, 'contributions-banner');
 
