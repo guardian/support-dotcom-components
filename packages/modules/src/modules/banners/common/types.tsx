@@ -50,6 +50,8 @@ export interface BannerRenderProps {
     onNotNowClick: () => void;
     onCloseClick: () => void;
     onSignInClick?: () => void;
+    onExpandClick?: () => void;
+    onCollapseClick?: () => void;
     reminderTracking: ContributionsReminderTracking;
     content: BannerTextContent;
     countryCode?: string;

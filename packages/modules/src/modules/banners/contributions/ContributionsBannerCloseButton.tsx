@@ -46,11 +46,6 @@ export const ContributionsBannerCloseButton: React.FC<ContributionsCloseButtonPr
 }: ContributionsCloseButtonProps) => {
     return (
         <div css={styles.roundelAndCloseButtonContainer}>
-            <div css={styles.roundelContainer}>
-                <div css={styles.roundel}>
-                    <SvgRoundelDefault />
-                </div>
-            </div>
             <div css={styles.closeButtonContainer}>
                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                     <Button

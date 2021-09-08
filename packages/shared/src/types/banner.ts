@@ -40,7 +40,7 @@ export type BannerDataRequestPayload = {
 
 export interface BannerContent {
     heading?: string;
-    messageText: string;
+    messageText?: string;
     mobileMessageText?: string; // deprecated - use mobileBannerContent instead
     highlightedText?: string;
     cta?: Cta;
