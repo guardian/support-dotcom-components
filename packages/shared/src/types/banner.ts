@@ -18,6 +18,7 @@ import {
     PageTracking,
     trackingSchema,
 } from './shared';
+import { ChoiceCardAmounts } from './epic';
 
 export type BannerTargeting = {
     alreadyVisitedCount: number;
@@ -128,6 +129,7 @@ export interface BannerProps {
     hasOptedOutOfArticleCount?: boolean;
     email?: string;
     abandonedCart?: AbandonedCart;
+    choiceCardAmounts?: ChoiceCardAmounts;
 }
 
 export const bannerSchema = z.object({
