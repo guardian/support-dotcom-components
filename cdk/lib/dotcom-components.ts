@@ -92,6 +92,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 http5xxAlarm: {
                     tolerated5xxPercentage: 0.002,
                     numberOfMinutesAboveThresholdBeforeAlarm: 1,
+                    alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
                 },
                 unhealthyInstancesAlarm: true,
                 snsTopicName: 'reader-revenue-dev',

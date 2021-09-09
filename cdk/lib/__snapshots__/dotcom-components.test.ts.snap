@@ -983,10 +983,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "Fn::Join": Array [
             "",
             Array [
-              "High 5XX error % from dotcom-components in ",
+              "URGENT 9-5 - high 5XX error rate on ",
               Object {
                 "Ref": "Stage",
               },
+              " support-dotcom-components",
             ],
           ],
         },
