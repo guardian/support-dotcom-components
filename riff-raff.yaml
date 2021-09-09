@@ -17,6 +17,7 @@ deployments:
             cloudFormationStackName: dotcom-components
             templatePath: Cfn.template.json
             cloudFormationStackByTags: false
+            amiParameter: AMIDotcomcomponents
             amiTags:
                 Recipe: support-dotcom-components-bionic-ARM
                 AmigoStage: PROD
@@ -26,4 +27,3 @@ deployments:
         dependencies: [ dotcom-components-cloudformation ]
         parameters:
             bucket: membership-dist
-            asgMigrationInProgress: true
