@@ -1,19 +1,14 @@
-import path from 'path';
 import type { Policy } from '@aws-cdk/aws-iam';
-import { CfnInclude } from '@aws-cdk/cloudformation-include';
 import type { App } from '@aws-cdk/core';
-import { Tags } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
 import { Stage } from '@guardian/cdk/lib/constants/stage';
-import type { GuStackProps, GuStageParameter } from '@guardian/cdk/lib/constructs/core';
+import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import {
     GuDistributionBucketParameter,
     GuStack,
     GuStringParameter,
 } from '@guardian/cdk/lib/constructs/core';
 import { GuDynamoDBReadPolicy, GuGetS3ObjectsPolicy } from '@guardian/cdk/lib/constructs/iam';
-
-const yamlTemplateFilePath = path.join(__dirname, '../cfn.yaml');
 
 export class DotcomComponents extends GuStack {
     constructor(scope: App, id: string, props: GuStackProps) {
@@ -94,26 +89,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
             roleConfiguration: {
                 additionalPolicies: policies,
             },
-            // TODO: review scaling policy on cpu usage
             scaling: { PROD: { minimumInstances: 3, maximumInstances: 18 } },
         });
 
-        // TODO: remove this when we just have one ASG (deleted the old one)
-        const ec2AppAsg = ec2App.autoScalingGroup;
-        Tags.of(ec2AppAsg).add('gu:riffraff:new-asg', 'true');
-
         ec2App.autoScalingGroup.scaleOnCpuUtilization('CpuScalingPolicy', {
             targetUtilizationPercent: 50,
-        });
-
-        // TODO: Once this code has been removed we can delete old acm certificates
-        new CfnInclude(this, 'Template', {
-            templateFile: yamlTemplateFilePath,
-            parameters: {
-                Stage: this.getParam<GuStageParameter>('Stage'),
-                BaseUrl: baseUrl,
-                ELKStream: elkStream,
-            },
         });
     }
 }
