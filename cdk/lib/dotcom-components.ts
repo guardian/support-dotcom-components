@@ -88,8 +88,14 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     domainName: 'dotcom-components.support.guardianapis.com',
                 },
             },
-            // TODO: review monitoring config
-            monitoringConfiguration: { noMonitoring: true },
+            monitoringConfiguration: {
+                http5xxAlarm: {
+                    tolerated5xxPercentage: 0.002,
+                    numberOfMinutesAboveThresholdBeforeAlarm: 1,
+                },
+                unhealthyInstancesAlarm: true,
+                snsTopicName: 'reader-revenue-dev',
+            },
             userData,
             roleConfiguration: {
                 additionalPolicies: policies,
