@@ -1,14 +1,6 @@
 import { ChoiceCardAmounts, EpicTest } from '@sdc/shared/src/types/epic';
 import { epic } from '@sdc/shared/src/config/modules';
-import {
-    UK_DATA,
-    EU_DATA,
-    ROW_DATA,
-    CA_DATA,
-    NZ_DATA,
-    CTAS,
-    AU_DATA,
-} from './choiceCardsTestData';
+import { UK_DATA, EU_DATA, ROW_DATA, CA_DATA, NZ_DATA, CTAS, AU_DATA } from './choiceCardsTestData';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
 
