@@ -103,17 +103,17 @@ export const epicChoiceCardsTests = [
         },
     ),
 
-    buildEpicChoiceCardsTest(
-        ['UnitedStates'],
-        'TOP_US',
-        US_DATA.TOP_READER.PARAGRAPHS,
-        US_DATA.TOP_READER.HIGHLIGHTED_TEXT,
-        US_DATA.AMOUNTS,
-        {
-            periodInWeeks: 52,
-            minViews: 50,
-        },
-    ),
+    // buildEpicChoiceCardsTest(
+    //     ['UnitedStates'],
+    //     'TOP_US',
+    //     US_DATA.TOP_READER.PARAGRAPHS,
+    //     US_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+    //     US_DATA.AMOUNTS,
+    //     {
+    //         periodInWeeks: 52,
+    //         minViews: 50,
+    //     },
+    // ),
 
     buildEpicChoiceCardsTest(
         ['EURCountries'],
@@ -172,13 +172,13 @@ export const epicChoiceCardsTests = [
         UK_DATA.AMOUNTS,
     ),
 
-    buildEpicChoiceCardsTest(
-        ['UnitedStates'],
-        'REGULAR_US',
-        US_DATA.REGULAR_READER.PARAGRAPHS,
-        US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        US_DATA.AMOUNTS,
-    ),
+    // buildEpicChoiceCardsTest(
+    //     ['UnitedStates'],
+    //     'REGULAR_US',
+    //     US_DATA.REGULAR_READER.PARAGRAPHS,
+    //     US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+    //     US_DATA.AMOUNTS,
+    // ),
 
     buildEpicChoiceCardsTest(
         ['EURCountries'],
