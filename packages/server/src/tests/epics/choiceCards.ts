@@ -1,6 +1,14 @@
 import { ChoiceCardAmounts, EpicTest } from '@sdc/shared/src/types/epic';
 import { epic } from '@sdc/shared/src/config/modules';
-import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CA_DATA, NZ_DATA, CTAS } from './choiceCardsTestData';
+import {
+    UK_DATA,
+    EU_DATA,
+    ROW_DATA,
+    CA_DATA,
+    NZ_DATA,
+    CTAS,
+    AU_DATA,
+} from './choiceCardsTestData';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
 
@@ -103,6 +111,18 @@ export const epicChoiceCardsTests = [
         },
     ),
 
+    buildEpicChoiceCardsTest(
+        ['AUDCountries'],
+        'TOP_AU',
+        AU_DATA.TOP_READER.PARAGRAPHS,
+        AU_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        AU_DATA.AMOUNTS,
+        {
+            periodInWeeks: 52,
+            minViews: 50,
+        },
+    ),
+
     // buildEpicChoiceCardsTest(
     //     ['UnitedStates'],
     //     'TOP_US',
@@ -170,6 +190,14 @@ export const epicChoiceCardsTests = [
         UK_DATA.REGULAR_READER.PARAGRAPHS,
         UK_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
         UK_DATA.AMOUNTS,
+    ),
+
+    buildEpicChoiceCardsTest(
+        ['AUDCountries'],
+        'REGULAR_AU',
+        AU_DATA.REGULAR_READER.PARAGRAPHS,
+        AU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+        AU_DATA.AMOUNTS,
     ),
 
     // buildEpicChoiceCardsTest(
