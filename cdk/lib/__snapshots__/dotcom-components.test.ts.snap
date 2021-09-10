@@ -978,7 +978,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             ],
           },
         ],
-        "AlarmDescription": "dotcom-components exceeded 0.002% error rate",
+        "AlarmDescription": "dotcom-components exceeded 0.1% error rate",
         "AlarmName": Object {
           "Fn::Join": Array [
             "",
@@ -1069,7 +1069,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             "ReturnData": false,
           },
         ],
-        "Threshold": 0.002,
+        "Threshold": 0.1,
         "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
