@@ -1,6 +1,6 @@
 import { ChoiceCardAmounts, EpicTest } from '@sdc/shared/src/types/epic';
 import { epic } from '@sdc/shared/src/config/modules';
-import { UK_DATA, EU_DATA, ROW_DATA, US_DATA, CA_DATA, NZ_DATA, CTAS } from './choiceCardsTestData';
+import { UK_DATA, EU_DATA, ROW_DATA, CA_DATA, NZ_DATA, CTAS, AU_DATA } from './choiceCardsTestData';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
 
@@ -104,16 +104,28 @@ export const epicChoiceCardsTests = [
     ),
 
     buildEpicChoiceCardsTest(
-        ['UnitedStates'],
-        'TOP_US',
-        US_DATA.TOP_READER.PARAGRAPHS,
-        US_DATA.TOP_READER.HIGHLIGHTED_TEXT,
-        US_DATA.AMOUNTS,
+        ['AUDCountries'],
+        'TOP_AU',
+        AU_DATA.TOP_READER.PARAGRAPHS,
+        AU_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+        AU_DATA.AMOUNTS,
         {
             periodInWeeks: 52,
             minViews: 50,
         },
     ),
+
+    // buildEpicChoiceCardsTest(
+    //     ['UnitedStates'],
+    //     'TOP_US',
+    //     US_DATA.TOP_READER.PARAGRAPHS,
+    //     US_DATA.TOP_READER.HIGHLIGHTED_TEXT,
+    //     US_DATA.AMOUNTS,
+    //     {
+    //         periodInWeeks: 52,
+    //         minViews: 50,
+    //     },
+    // ),
 
     buildEpicChoiceCardsTest(
         ['EURCountries'],
@@ -173,12 +185,20 @@ export const epicChoiceCardsTests = [
     ),
 
     buildEpicChoiceCardsTest(
-        ['UnitedStates'],
-        'REGULAR_US',
-        US_DATA.REGULAR_READER.PARAGRAPHS,
-        US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
-        US_DATA.AMOUNTS,
+        ['AUDCountries'],
+        'REGULAR_AU',
+        AU_DATA.REGULAR_READER.PARAGRAPHS,
+        AU_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+        AU_DATA.AMOUNTS,
     ),
+
+    // buildEpicChoiceCardsTest(
+    //     ['UnitedStates'],
+    //     'REGULAR_US',
+    //     US_DATA.REGULAR_READER.PARAGRAPHS,
+    //     US_DATA.REGULAR_READER.HIGHLIGHTED_TEXT,
+    //     US_DATA.AMOUNTS,
+    // ),
 
     buildEpicChoiceCardsTest(
         ['EURCountries'],

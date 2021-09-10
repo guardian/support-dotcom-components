@@ -24,7 +24,7 @@ const EU_AND_ROW_DATA = {
     },
 };
 
-export const UK_DATA = {
+const UK_AU_DATA = {
     TOP_READER: {
         PARAGRAPHS: [
             '… congratulations on being one of our top readers globally. Did you know you’ve read %%ARTICLE_COUNT%% articles in the last year? Thank you for choosing the Guardian on so many occasions.',
@@ -48,10 +48,23 @@ export const UK_DATA = {
         HIGHLIGHTED_TEXT:
             'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.',
     },
+};
+
+export const UK_DATA = {
+    ...UK_AU_DATA,
     AMOUNTS: {
         SINGLE: [30, 60],
         MONTHLY: [3, 6],
         ANNUAL: [60, 120],
+    },
+};
+
+export const AU_DATA = {
+    ...UK_AU_DATA,
+    AMOUNTS: {
+        SINGLE: [60, 100],
+        MONTHLY: [10, 20],
+        ANNUAL: [80, 250],
     },
 };
 
