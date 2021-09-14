@@ -412,7 +412,7 @@ describe('hasSectionOrTags filter', () => {
 });
 
 describe('excludeSection filter', () => {
-    it('should pass if section is not in the blacklist', () => {
+    it('should pass if section is not in the exclusion list', () => {
         const test: EpicTest = {
             ...testDefault,
             excludedSections: ['environment'],
@@ -427,7 +427,7 @@ describe('excludeSection filter', () => {
         expect(got).toBe(true);
     });
 
-    it('should fail if section is in the blacklist', () => {
+    it('should fail if section is in the exclusion list', () => {
         const test: EpicTest = {
             ...testDefault,
             excludedSections: ['environment'],
@@ -444,14 +444,18 @@ describe('excludeSection filter', () => {
 });
 
 describe('excludeTags filter', () => {
-    it('should pass if no tags in the blacklist', () => {
+    it('should pass if no tags in the exclusion list', () => {
+        const tags = [
+            { id: 'environment/series/the-polluters', type: 'tone' },
+            { id: 'world/eu', type: 'keyword' },
+        ];
         const test: EpicTest = {
             ...testDefault,
-            excludedTagIds: ['football/football'],
+            excludedTagIds: ['football/football', 'world/germany'],
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            tags: [{ id: 'environment/series/the-polluters', type: 'tone' }],
+            tags,
         };
 
         const got = excludeTags.test(test, targeting);
@@ -459,11 +463,14 @@ describe('excludeTags filter', () => {
         expect(got).toBe(true);
     });
 
-    it('should fail if at least one tag in the blacklist', () => {
-        const tags = [{ id: 'football/football', type: 'tone' }];
+    it('should fail if at least one tag in the exclusion list', () => {
+        const tags = [
+            { id: 'football/football', type: 'tone' },
+            { id: 'world/eu', type: 'keyword' },
+        ];
         const test: EpicTest = {
             ...testDefault,
-            excludedTagIds: ['football/football'],
+            excludedTagIds: ['football/football', 'world/germany'],
         };
         const targeting: EpicTargeting = { ...targetingDefault, tags: tags };
 
