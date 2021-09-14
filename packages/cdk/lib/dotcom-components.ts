@@ -1,8 +1,8 @@
-import type { Policy } from '@aws-cdk/aws-iam';
-import type { App } from '@aws-cdk/core';
+import { Policy } from '@aws-cdk/aws-iam';
+import { App } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
 import { Stage } from '@guardian/cdk/lib/constants/stage';
-import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
+import { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import {
     GuDistributionBucketParameter,
     GuStack,
