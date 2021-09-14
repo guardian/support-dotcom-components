@@ -84,11 +84,8 @@ export const excludeTags: Filter = {
             return true;
         }
 
-        const intersection = test.excludedTagIds.filter(
-            tagId => !targeting.tags.map(tag => tag.id).includes(tagId),
-        );
-
-        return intersection.length > 0;
+        const contentTagIds = targeting.tags.map(tag => tag.id);
+        return !contentTagIds.some(contentTag => test.excludedTagIds.includes(contentTag));
     },
 };
 
