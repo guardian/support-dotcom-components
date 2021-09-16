@@ -14,32 +14,46 @@ const container = css`
 `;
 
 const topMessageContainer = css`
-    position: relative;
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    transform: translateY(-50%);
     height: 50px;
 `;
 
-const topMessage = (index: number) => {
+const topMessage = (index: number, pos: number, finalOpacity: number, offset: number) => {
     return css`
         position: absolute;
-        top: 0;
+        top: ${offset}px;
         ${headline.xxsmall({ fontWeight: 'bold' })}
         margin-top: 0;
         margin-bottom: ${space[3]}px;
+        left: ${pos}%;
+        transform: translateX(${pos * -1}%);
+        width: 40%;
         
+        background-color: white;
+        padding: 30px;
+        border-radius: 20px;
+        // ${finalOpacity ? '' : 'border: 2px solid black;'}
         
         animation-name: message${index};
-        animation-duration: 5s;
+        animation-duration: 10s;
         animation-delay: ${index * 5}s;
+        animation-fill-mode: forwards;
         opacity: 0;
         
         @keyframes message${index} {
             0% {
             }
-            50% {
+            25% {
+                opacity: 1;
+            }
+            75% {
                 opacity: 1;
             }
             100% {
-                opacity: 0;
+                opacity: ${finalOpacity};
             }
         }
     `;
@@ -50,54 +64,62 @@ const animatedColumns = css`
 `;
 
 const leftCol = css`
-    width: 50%;
-    position: relative;
-    float: left;
+    width: 70%;
+    position: absolute;
+    left: 20%;
     height: 400px;
-    background-color: white;
     overflow: hidden;
 `;
 
 const centreCol = css`
-    width: 30%;
+    width: 20%;
     position: absolute;
-    transform: translateX(-50%);
-    left: 60%;
+    left: 0%;
     height: 400px;
     overflow: hidden;
 `;
 const dateCss = css`
     background-color: white;
     padding: 10px;
-    border-radius: 50%;
-    border-color: lightgrey;
+    border-radius: 10px;
+    border: 1px solid grey;
+`;
+
+const thankYou = css`
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid lightgrey;
+    position: absolute;
+    left: 50%;
+    width: 70%;
+    transform: translateX(-50%);
 `;
 
 const rightCol = css`
-    width: 30%;
-    position: relative;
-    float: right;
+    width: 70%;
+    position: absolute;
+    left: 10%;
     height: 400px;
-    background-color: white;
     overflow: hidden;
 `;
 
 const datePosition = (dateString: string) => {
     const time = new Date(dateString).getTime();
     const percentage = (time - rangeLow) / (rangeHigh - rangeLow);
-    return animatePosition(percentage, time.toString());
+    return animatePosition(10, percentage, time.toString(), 0.2, 3);
 };
 
-const animatePosition = (percentage: number, id: string) => {
-    const phases = 4;
+const animatePosition = (initialDelay: number, percentage: number, id: string, quickFade: number, multiplier: number) => {
+    const phases = 6;
     const phase = Math.floor(percentage * phases);
     const withinPhase = (percentage - ((1 / phases) * phase)) * phases;
-    console.log('percentage: ' + percentage + ',phase: ' + phase + ', withinPhase: ' + withinPhase);
+    // console.log('percentage: ' + percentage + ',phase: ' + phase + ', withinPhase: ' + withinPhase);
     return css`
         position: absolute;
         animation-name: scrollIt${id};
-        animation-duration: 10s;
-        animation-delay: ${10 + (withinPhase * 5) + (phase * 5)}s;
+        animation-duration: 5s;
+        animation-delay: ${initialDelay + (withinPhase * multiplier) + (phase * multiplier)}s;
         animation-fill-mode: forwards;
         top: 0px;
         opacity: 0;
@@ -115,9 +137,7 @@ const animatePosition = (percentage: number, id: string) => {
                 opacity: 1;
             }
             20% {
-                transform: translateY(${withinPhase * -90}%);
-                top: ${withinPhase * 90}%;
-                opacity: 0.3;
+                opacity: ${quickFade};
             }
             100% {
                 filter: blur(2px);
@@ -130,12 +150,6 @@ const animatePosition = (percentage: number, id: string) => {
 export const EpicEnvironment: React.FC<Props> = (allProps: Props) => {
     return (
         <div css={container}>
-            <div css={topMessageContainer}>
-                <div css={topMessage(0)}>We have produced 3000 environment articles in the past year...</div>
-                <div css={topMessage(1)}>...and over a million readers have supported us...</div>
-                <div css={topMessage(6)}>...we aren't going to give up now...</div>
-                <div css={topMessage(7)}>...please show your support today</div>
-            </div>
             <div css={animatedColumns}>
                 <div css={leftCol}>
                     {articles.map(article => (
@@ -145,23 +159,36 @@ export const EpicEnvironment: React.FC<Props> = (allProps: Props) => {
                     ))}
                 </div>
                 <div css={rightCol}>
-                    {console.log('con', contributions)}
+                    {/*{console.log('con', contributions)}*/}
                     {contributions.map((contribution, index) => (
-                        <div css={animatePosition(contribution, "R"+index.toString())}>
-                            <Button onClickAction={() => {}} showArrow>
-                                Support The Guardian
-                            </Button>
+                        <div css={animatePosition(33, contribution, "R"+index.toString(), 0.2, 2)}>
+                            <div css={thankYou}>
+                                Thank you for your valuable contribution ❤️
+                            </div>
                         </div>
                     ))}
                 </div>
                 <div css={centreCol}>
                     {dates.map((date, index) => {
                         return (
-                            <div css={animatePosition(index / dates.length, "D" + index.toString())}>
+                            <div css={animatePosition(10, index / dates.length, "D" + index.toString(), 1, 3)}>
                                 <div css={dateCss}>{date}</div>
                             </div>
                         );
                     })}
+                </div>
+            </div>
+            <div css={topMessageContainer}>
+                <div css={topMessage(0, 10, 0, 0)}>We have published 3000 environment articles in the past year</div>
+                <div css={topMessage(1, 70, 0, 150)}>here are just a few of them...</div>
+                <div css={topMessage(5, 60, 0, 0)}>Our work is only possible due to your support</div>
+                <div css={topMessage(6, 60, 0, 150)}>over a million readers like you have done so</div>
+                <div css={topMessage(8, 50, 1, 50)}>No one can afford to give up now</div>
+                <div css={topMessage(9, 50, 1, 130)}>Please support us today</div>
+                <div css={topMessage(10, 50, 1, 220)}>
+                    <Button onClickAction={() => {}} showArrow>
+                        Support The Guardian
+                    </Button>
                 </div>
             </div>
         </div>
