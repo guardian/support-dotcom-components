@@ -19,6 +19,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
+import {EpicEnvironment} from "./EpicEnvironment";
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -254,6 +255,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         countryCode,
     );
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
+    const envionment = variant.envionment;
 
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
@@ -313,13 +315,17 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 />
             )}
 
-            <EpicBody
-                paragraphs={cleanParagraphs}
-                highlightedText={cleanHighlighted}
-                countryCode={countryCode}
-                numArticles={articleCounts.forTargetedWeeks}
-                tracking={ophanTracking}
-            />
+            {envionment ? (
+                <EpicEnvironment />
+            ) : (
+                <EpicBody
+                    paragraphs={cleanParagraphs}
+                    highlightedText={cleanHighlighted}
+                    countryCode={countryCode}
+                    numArticles={articleCounts.forTargetedWeeks}
+                    tracking={ophanTracking}
+                />
+            )}
 
             {choiceCardSelection && choiceCardAmounts && submitComponentEvent && (
                 <ContributionsEpicChoiceCards

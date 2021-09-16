@@ -125,6 +125,7 @@ export interface EpicVariant extends Variant {
 
     // For hard coded choice cards test
     choiceCardAmounts?: ChoiceCardAmounts;
+    envionment?: boolean;
 }
 
 const variantSchema = z.object({

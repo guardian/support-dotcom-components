@@ -151,3 +151,19 @@ WithChoiceCards.args = {
         },
     },
 };
+
+export const EnvironmentArticles = Template.bind({});
+EnvironmentArticles.args = {
+    variant: {
+        ...props.variant,
+        separateArticleCount: {
+            type: 'above',
+        },
+        envionment: true,
+    },
+    articleCounts: {
+        for52Weeks: 99,
+        forTargetedWeeks: 99,
+    },
+    hasConsentForArticleCount: true,
+};
