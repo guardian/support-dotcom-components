@@ -160,6 +160,7 @@ EnvironmentArticles.args = {
             type: 'above',
         },
         envionment: true,
+        heading: undefined,
     },
     articleCounts: {
         for52Weeks: 99,
