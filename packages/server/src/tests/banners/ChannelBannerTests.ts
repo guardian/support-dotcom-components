@@ -1,4 +1,9 @@
-import { contributionsBanner, digiSubs, guardianWeekly } from '@sdc/shared/config';
+import {
+    contributionsBanner,
+    digiSubs,
+    guardianWeekly,
+    investigationsMomentBanner,
+} from '@sdc/shared/config';
 import {
     BannerChannel,
     BannerTest,
@@ -22,6 +27,7 @@ export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
+    [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };

@@ -58,6 +58,7 @@ const bannerContentSchema = z.object({
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
+    InvestigationsMomentBanner = 'InvestigationsMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
 }

@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'investigations-moment-banner',
+    'banners/investigationsMoment/InvestigationsMomentBanner',
+);
+
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -54,6 +59,7 @@ export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    investigationsMomentBanner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
