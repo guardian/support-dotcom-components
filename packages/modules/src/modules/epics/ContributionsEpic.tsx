@@ -276,19 +276,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     return (
         <section ref={setNode} css={wrapperStyles}>
-            {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
-                <div css={articleCountAboveContainerStyles}>
-                    <ContributionsEpicArticleCountAboveWithOptOut
-                        numArticles={articleCounts.for52Weeks}
-                        isArticleCountOn={!hasOptedOut}
-                        onArticleCountOptOut={onArticleCountOptOut}
-                        onArticleCountOptIn={onArticleCountOptIn}
-                        openCmp={openCmp}
-                        submitComponentEvent={submitComponentEvent}
-                    />
-                </div>
-            )}
-
             {tickerSettings && tickerSettings.tickerData && (
                 <ContributionsEpicTicker
                     settings={tickerSettings}
@@ -307,25 +294,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 </div>
             )}
 
-            {cleanHeading && (
-                <EpicHeader
-                    text={cleanHeading}
-                    numArticles={articleCounts.forTargetedWeeks}
-                    tracking={ophanTracking}
-                />
-            )}
-
-            {envionment ? (
-                <EpicEnvironment />
-            ) : (
-                <EpicBody
-                    paragraphs={cleanParagraphs}
-                    highlightedText={cleanHighlighted}
-                    countryCode={countryCode}
-                    numArticles={articleCounts.forTargetedWeeks}
-                    tracking={ophanTracking}
-                />
-            )}
+            <EpicEnvironment />
 
             {choiceCardSelection && choiceCardAmounts && submitComponentEvent && (
                 <ContributionsEpicChoiceCards

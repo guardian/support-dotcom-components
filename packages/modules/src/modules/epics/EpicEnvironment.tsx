@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { Button } from './Button';
 import { headline } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import {palette, space} from '@guardian/src-foundations';
 
 const container = css`
     position: relative;
@@ -28,16 +28,15 @@ const topMessage = (index: number, pos: number, finalOpacity: number, offset: nu
         margin-bottom: ${space[3]}px;
         left: ${pos}%;
         transform: translateX(${pos * -1}%);
-        width: 40%;
+        width: 47%;
         
         background-color: white;
         padding: 30px;
         border-radius: 20px;
-        // ${finalOpacity ? '' : 'border: 2px solid black;'}
         
         animation-name: message${index};
         animation-duration: 6s;
-        animation-delay: ${index * 2}s;
+        animation-delay: ${globalDelay + (index * 2)}s;
         animation-fill-mode: forwards;
         opacity: 0;
         
@@ -81,8 +80,8 @@ const dateCss = css`
     border: 1px solid grey;
 `;
 
-const thankYou = css`
-    background-color: white;
+const thankYou = (colour: string) => css`
+    background-color: ${colour};
     padding: 10px;
     border-radius: 10px;
     border: 1px solid lightgrey;
@@ -121,7 +120,7 @@ const animatePosition = (
         position: absolute;
         animation-name: scrollIt${id};
         animation-duration: 5s;
-        animation-delay: ${initialDelay + withinPhase * multiplier + phase * multiplier}s;
+        animation-delay: ${globalDelay + initialDelay + withinPhase * multiplier + phase * multiplier}s;
         animation-fill-mode: forwards;
         top: 0px;
         opacity: 0;
@@ -167,7 +166,7 @@ export const EpicEnvironment: React.FC<unknown> = () => {
                             key={index}
                             css={animatePosition(11, contribution, 'R' + index.toString(), 1, 1)}
                         >
-                            <div css={thankYou}>
+                            <div css={thankYou(colours[Math.floor(Math.random() * colours.length)])}>
                                 Thank you for{' '}
                                 {products[Math.floor(Math.random() * products.length)]} ❤️
                             </div>
@@ -216,15 +215,24 @@ export const EpicEnvironment: React.FC<unknown> = () => {
                     We have published 3,000 environment articles in the past year
                 </div>
                 <div css={topMessage(1, 70, 0, 150)}>Here are just a few of them...</div>
-                <div css={topMessage(4, 60, 0, 0)}>
+                <div css={topMessage(4, 60, 0, 100)}>
                     Our work is only possible thanks to your support
                 </div>
-                <div css={topMessage(5, 60, 0, 150)}>
-                    A million readers like you have already done so
+                <div css={topMessage(5, 60, 0, 180)}>
+                    More than 1.5 million in 180 countries have already done so
                 </div>
                 <div css={topMessage(8, 50, 1, 50)}>We can&apos;t afford to give up now</div>
-                <div css={topMessage(8, 50, 1, 130)}>Please support us today</div>
-                <div css={topMessage(9, 50, 1, 220)}>
+                <div css={topMessage(9, 50, 1, 130)}>
+                    <span
+                        css={css`
+                            padding: 2px;
+                            background-color: ${palette.brandAlt[400]};
+                        `}
+                    >
+                        Please support us today
+                    </span>
+                </div>
+                <div css={topMessage(10, 50, 1, 220)}>
                     <Button onClickAction={'https://support.theguardian.com'} showArrow>
                         Support The Guardian
                     </Button>
@@ -241,6 +249,8 @@ const products = [
     'joining us as a member',
     'becoming a patron',
 ];
+
+const colours = ['#ddd', '#dfd', '#fdd', '#ddf', '#fff'];
 
 const dates = [
     'October 2020',
@@ -286,6 +296,8 @@ const month = [
     'November',
     'December',
 ];
+
+const globalDelay = 6;
 
 // const dates2 = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'];
 const dates2 = Array.from({ length: 10 }, () => {
