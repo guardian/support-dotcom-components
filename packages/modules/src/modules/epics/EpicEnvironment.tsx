@@ -36,8 +36,8 @@ const topMessage = (index: number, pos: number, finalOpacity: number, offset: nu
         // ${finalOpacity ? '' : 'border: 2px solid black;'}
         
         animation-name: message${index};
-        animation-duration: 10s;
-        animation-delay: ${index * 5}s;
+        animation-duration: 6s;
+        animation-delay: ${index * 2}s;
         animation-fill-mode: forwards;
         opacity: 0;
         
@@ -103,7 +103,7 @@ const contributionsCol = css`
 const datePosition = (dateString: string) => {
     const time = new Date(dateString).getTime();
     const percentage = (time - rangeLow) / (rangeHigh - rangeLow);
-    return animatePosition(10, percentage, time.toString(), 0.2, 3);
+    return animatePosition(3, percentage, time.toString(), 0.2, 1);
 };
 
 const animatePosition = (
@@ -113,7 +113,7 @@ const animatePosition = (
     quickFade: number,
     multiplier: number,
 ) => {
-    const phases = 6;
+    const phases = 3;
     const phase = Math.floor(percentage * phases);
     const withinPhase = (percentage - (1 / phases) * phase) * phases;
     // console.log('percentage: ' + percentage + ',phase: ' + phase + ', withinPhase: ' + withinPhase);
@@ -149,7 +149,7 @@ const animatePosition = (
     `;
 };
 
-export const EpicEnvironment: React.FC<null> = () => {
+export const EpicEnvironment: React.FC<unknown> = () => {
     return (
         <div css={container}>
             <div css={animatedColumns}>
@@ -165,9 +165,12 @@ export const EpicEnvironment: React.FC<null> = () => {
                     {contributions.map((contribution, index) => (
                         <div
                             key={index}
-                            css={animatePosition(32, contribution, 'R' + index.toString(), 1, 2)}
+                            css={animatePosition(11, contribution, 'R' + index.toString(), 1, 1)}
                         >
-                            <div css={thankYou}>Thank you for {products[Math.floor(Math.random()*products.length)]} ❤️</div>
+                            <div css={thankYou}>
+                                Thank you for{' '}
+                                {products[Math.floor(Math.random() * products.length)]} ❤️
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -177,11 +180,11 @@ export const EpicEnvironment: React.FC<null> = () => {
                             <div
                                 key={index}
                                 css={animatePosition(
-                                    10,
+                                    3,
                                     index / dates.length,
                                     'D' + index.toString(),
                                     1,
-                                    3,
+                                    1,
                                 )}
                             >
                                 <div css={dateCss}>{date}</div>
@@ -195,11 +198,11 @@ export const EpicEnvironment: React.FC<null> = () => {
                             <div
                                 key={index}
                                 css={animatePosition(
-                                    32,
+                                    11,
                                     index / dates2.length,
                                     'D' + index.toString(),
                                     1,
-                                    2,
+                                    1,
                                 )}
                             >
                                 <div css={dateCss}>{date}</div>
@@ -209,19 +212,19 @@ export const EpicEnvironment: React.FC<null> = () => {
                 </div>
             </div>
             <div css={topMessageContainer}>
-                <div css={topMessage(0, 10, 0, 0)}>
-                    We have published 3000 environment articles in the past year
+                <div css={topMessage(0, 50, 0, 0)}>
+                    We have published 3,000 environment articles in the past year
                 </div>
-                <div css={topMessage(1, 70, 0, 150)}>here are just a few of them...</div>
-                <div css={topMessage(5, 60, 0, 0)}>
-                    Our work is only possible due to your support
+                <div css={topMessage(1, 70, 0, 150)}>Here are just a few of them...</div>
+                <div css={topMessage(4, 60, 0, 0)}>
+                    Our work is only possible thanks to your support
                 </div>
-                <div css={topMessage(6, 60, 0, 150)}>
-                    over a million readers like you have done so
+                <div css={topMessage(5, 60, 0, 150)}>
+                    A million readers like you have already done so
                 </div>
-                <div css={topMessage(8, 50, 1, 50)}>No one can afford to give up now</div>
-                <div css={topMessage(9, 50, 1, 130)}>Please support us today</div>
-                <div css={topMessage(10, 50, 1, 220)}>
+                <div css={topMessage(8, 50, 1, 50)}>We can&apos;t afford to give up now</div>
+                <div css={topMessage(8, 50, 1, 130)}>Please support us today</div>
+                <div css={topMessage(9, 50, 1, 220)}>
                     <Button onClickAction={'https://support.theguardian.com'} showArrow>
                         Support The Guardian
                     </Button>
@@ -237,7 +240,7 @@ const products = [
     'subscribing to our paper',
     'joining us as a member',
     'becoming a patron',
-]
+];
 
 const dates = [
     'October 2020',
@@ -254,7 +257,47 @@ const dates = [
     'September 2021',
 ];
 
-const dates2 = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'];
+const ntho = function(d: number) {
+    if (d > 3 && d < 21) {
+        return 'th';
+    }
+    switch (d % 10) {
+        case 1:
+            return 'st';
+        case 2:
+            return 'nd';
+        case 3:
+            return 'rd';
+        default:
+            return 'th';
+    }
+};
+const month = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+];
+
+// const dates2 = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'];
+const dates2 = Array.from({ length: 10 }, () => {
+    const date = new Date();
+    const daysAgo = Math.random() * 365;
+    date.setDate(date.getDate() - daysAgo);
+    const ord = ntho(date.getDate());
+    console.log('ORD', ord);
+    return (
+        month[date.getMonth()] + ' ' + date.getFullYear()
+    );
+}).sort();
 
 const contributions = Array.from({ length: 20 }, () => Math.random()).sort();
 
