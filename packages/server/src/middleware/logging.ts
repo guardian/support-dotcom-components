@@ -17,6 +17,7 @@ export const logging = (
             didRenderBanner: res.locals.didRenderBanner,
             clientName: res.locals.clientName || 'unknown',
             bannerTargeting: res.locals.bannerTargeting,
+            epicTargeting: res.locals.epicTargeting,
         }),
     );
     next();

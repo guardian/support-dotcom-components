@@ -60,6 +60,9 @@ app.post(
             // for response logging
             res.locals.didRenderEpic = !!response.data;
             res.locals.clientName = tracking.clientName;
+            res.locals.epicTargeting = {
+                weeklyArticleHistory: (targeting.weeklyArticleHistory ?? []).slice(0, 6).map(c => JSON.stringify(c)),
+            };
 
             res.send(response);
         } catch (error) {
