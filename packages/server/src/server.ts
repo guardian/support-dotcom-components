@@ -67,7 +67,7 @@ app.post(
             res.locals.clientName = tracking.clientName;
             res.locals.epicTargeting = {
                 weeklyArticleHistory: (targeting.weeklyArticleHistory ?? [])
-                    .slice(0, 4)
+                    .slice(0, 3)
                     .map((c: WeeklyArticleLog) => JSON.stringify(c)),
             };
 
