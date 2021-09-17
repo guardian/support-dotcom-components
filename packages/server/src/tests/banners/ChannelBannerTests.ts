@@ -27,11 +27,10 @@ export const BannerPaths: {
 };
 
 export const BannerTemplateComponentTypes: {
-    [key in BannerTemplate]: OphanComponentType;
+    [key in BannerChannel]: OphanComponentType;
 } = {
-    [BannerTemplate.ContributionsBanner]: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-    [BannerTemplate.DigitalSubscriptionsBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    [BannerTemplate.GuardianWeeklyBanner]: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    contributions: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    subscriptions: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
 };
 
 export const BannerTemplateProducts: {
@@ -41,33 +40,35 @@ export const BannerTemplateProducts: {
     [BannerTemplate.GuardianWeeklyBanner]: ['PRINT_SUBSCRIPTION'],
 };
 
-const BannerVariantFromParams = (variant: RawVariantParams): BannerVariant => {
-    const bannerContent = () => {
-        if (variant.bannerContent) {
-            return variant.bannerContent;
-        } else {
-            // legacy model
-            return {
-                messageText: variant.body,
-                heading: variant.heading,
-                highlightedText: variant.highlightedText,
-                cta: variant.cta,
-                secondaryCta: variant.secondaryCta,
-            };
-        }
-    };
+const BannerVariantFromParams = (forChannel: BannerChannel) => {
+    return (variant: RawVariantParams): BannerVariant => {
+        const bannerContent = () => {
+            if (variant.bannerContent) {
+                return variant.bannerContent;
+            } else {
+                // legacy model
+                return {
+                    messageText: variant.body,
+                    heading: variant.heading,
+                    highlightedText: variant.highlightedText,
+                    cta: variant.cta,
+                    secondaryCta: variant.secondaryCta,
+                };
+            }
+        };
 
-    const tickerSettings = undefined;
+        const tickerSettings = undefined;
 
-    return {
-        name: variant.name,
-        modulePathBuilder: BannerPaths[variant.template],
-        moduleName: variant.template,
-        bannerContent: bannerContent(),
-        mobileBannerContent: variant.mobileBannerContent,
-        componentType: BannerTemplateComponentTypes[variant.template],
-        products: BannerTemplateProducts[variant.template],
-        tickerSettings,
+        return {
+            name: variant.name,
+            modulePathBuilder: BannerPaths[variant.template],
+            moduleName: variant.template,
+            bannerContent: bannerContent(),
+            mobileBannerContent: variant.mobileBannerContent,
+            componentType: BannerTemplateComponentTypes[forChannel],
+            products: BannerTemplateProducts[variant.template],
+            tickerSettings,
+        };
     };
 };
 
@@ -90,7 +91,9 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                             canRun: (): boolean => testParams.isOn,
                             minPageViews: testParams.minArticlesBeforeShowingBanner,
                             articlesViewedSettings: testParams.articlesViewedSettings,
-                            variants: testParams.variants.map(BannerVariantFromParams),
+                            variants: testParams.variants.map(
+                                BannerVariantFromParams(bannerChannel),
+                            ),
                             controlProportionSettings: testParams.controlProportionSettings,
                         };
                     },
