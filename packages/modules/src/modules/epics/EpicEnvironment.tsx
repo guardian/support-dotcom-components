@@ -1,10 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import {Button} from "./Button";
-import {headline} from "@guardian/src-foundations/typography";
-import {space} from "@guardian/src-foundations";
-
-type Props = {};
+import { Button } from './Button';
+import { headline } from '@guardian/src-foundations/typography';
+import { space } from '@guardian/src-foundations';
 
 const container = css`
     position: relative;
@@ -59,11 +57,9 @@ const topMessage = (index: number, pos: number, finalOpacity: number, offset: nu
     `;
 };
 
-const animatedColumns = css`
+const animatedColumns = css``;
 
-`;
-
-const leftCol = css`
+const articlesCol = css`
     width: 70%;
     position: absolute;
     left: 20%;
@@ -71,7 +67,7 @@ const leftCol = css`
     overflow: hidden;
 `;
 
-const centreCol = css`
+const datesCol = css`
     width: 20%;
     position: absolute;
     left: 0%;
@@ -96,10 +92,10 @@ const thankYou = css`
     transform: translateX(-50%);
 `;
 
-const rightCol = css`
+const contributionsCol = css`
     width: 70%;
     position: absolute;
-    left: 10%;
+    left: 15%;
     height: 400px;
     overflow: hidden;
 `;
@@ -110,16 +106,22 @@ const datePosition = (dateString: string) => {
     return animatePosition(10, percentage, time.toString(), 0.2, 3);
 };
 
-const animatePosition = (initialDelay: number, percentage: number, id: string, quickFade: number, multiplier: number) => {
+const animatePosition = (
+    initialDelay: number,
+    percentage: number,
+    id: string,
+    quickFade: number,
+    multiplier: number,
+) => {
     const phases = 6;
     const phase = Math.floor(percentage * phases);
-    const withinPhase = (percentage - ((1 / phases) * phase)) * phases;
+    const withinPhase = (percentage - (1 / phases) * phase) * phases;
     // console.log('percentage: ' + percentage + ',phase: ' + phase + ', withinPhase: ' + withinPhase);
     return css`
         position: absolute;
         animation-name: scrollIt${id};
         animation-duration: 5s;
-        animation-delay: ${initialDelay + (withinPhase * multiplier) + (phase * multiplier)}s;
+        animation-delay: ${initialDelay + withinPhase * multiplier + phase * multiplier}s;
         animation-fill-mode: forwards;
         top: 0px;
         opacity: 0;
@@ -147,31 +149,59 @@ const animatePosition = (initialDelay: number, percentage: number, id: string, q
     `;
 };
 
-export const EpicEnvironment: React.FC<Props> = (allProps: Props) => {
+export const EpicEnvironment: React.FC<null> = () => {
     return (
         <div css={container}>
             <div css={animatedColumns}>
-                <div css={leftCol}>
-                    {articles.map(article => (
-                        <div css={datePosition(article[0])}>
+                <div css={articlesCol}>
+                    {articles.map((article, index) => (
+                        <div key={index} css={datePosition(article[0])}>
                             <a href={article[2]}>{article[1]}</a>
                         </div>
                     ))}
                 </div>
-                <div css={rightCol}>
+                <div css={contributionsCol}>
                     {/*{console.log('con', contributions)}*/}
                     {contributions.map((contribution, index) => (
-                        <div css={animatePosition(33, contribution, "R"+index.toString(), 0.2, 2)}>
-                            <div css={thankYou}>
-                                Thank you for your valuable contribution ❤️
-                            </div>
+                        <div
+                            key={index}
+                            css={animatePosition(32, contribution, 'R' + index.toString(), 1, 2)}
+                        >
+                            <div css={thankYou}>Thank you for {products[Math.floor(Math.random()*products.length)]} ❤️</div>
                         </div>
                     ))}
                 </div>
-                <div css={centreCol}>
+                <div css={datesCol}>
                     {dates.map((date, index) => {
                         return (
-                            <div css={animatePosition(10, index / dates.length, "D" + index.toString(), 1, 3)}>
+                            <div
+                                key={index}
+                                css={animatePosition(
+                                    10,
+                                    index / dates.length,
+                                    'D' + index.toString(),
+                                    1,
+                                    3,
+                                )}
+                            >
+                                <div css={dateCss}>{date}</div>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div css={datesCol}>
+                    {dates2.map((date, index) => {
+                        return (
+                            <div
+                                key={index}
+                                css={animatePosition(
+                                    32,
+                                    index / dates2.length,
+                                    'D' + index.toString(),
+                                    1,
+                                    2,
+                                )}
+                            >
                                 <div css={dateCss}>{date}</div>
                             </div>
                         );
@@ -179,14 +209,20 @@ export const EpicEnvironment: React.FC<Props> = (allProps: Props) => {
                 </div>
             </div>
             <div css={topMessageContainer}>
-                <div css={topMessage(0, 10, 0, 0)}>We have published 3000 environment articles in the past year</div>
+                <div css={topMessage(0, 10, 0, 0)}>
+                    We have published 3000 environment articles in the past year
+                </div>
                 <div css={topMessage(1, 70, 0, 150)}>here are just a few of them...</div>
-                <div css={topMessage(5, 60, 0, 0)}>Our work is only possible due to your support</div>
-                <div css={topMessage(6, 60, 0, 150)}>over a million readers like you have done so</div>
+                <div css={topMessage(5, 60, 0, 0)}>
+                    Our work is only possible due to your support
+                </div>
+                <div css={topMessage(6, 60, 0, 150)}>
+                    over a million readers like you have done so
+                </div>
                 <div css={topMessage(8, 50, 1, 50)}>No one can afford to give up now</div>
                 <div css={topMessage(9, 50, 1, 130)}>Please support us today</div>
                 <div css={topMessage(10, 50, 1, 220)}>
-                    <Button onClickAction={() => {}} showArrow>
+                    <Button onClickAction={'https://support.theguardian.com'} showArrow>
                         Support The Guardian
                     </Button>
                 </div>
@@ -194,6 +230,14 @@ export const EpicEnvironment: React.FC<Props> = (allProps: Props) => {
         </div>
     );
 };
+
+const products = [
+    'your valuable contribution',
+    'your digital subscription',
+    'subscribing to our paper',
+    'joining us as a member',
+    'becoming a patron',
+]
 
 const dates = [
     'October 2020',
@@ -210,7 +254,9 @@ const dates = [
     'September 2021',
 ];
 
-const contributions = Array.from({ length: 50 }, () => Math.random()).sort();
+const dates2 = ['2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021'];
+
+const contributions = Array.from({ length: 20 }, () => Math.random()).sort();
 
 const rangeLow = new Date('2019-09-16T04:00:45Z').getTime();
 const rangeHigh = new Date('2020-08-07T09:00:33Z').getTime();

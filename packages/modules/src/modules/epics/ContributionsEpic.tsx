@@ -19,7 +19,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
-import {EpicEnvironment} from "./EpicEnvironment";
+import { EpicEnvironment } from './EpicEnvironment';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
