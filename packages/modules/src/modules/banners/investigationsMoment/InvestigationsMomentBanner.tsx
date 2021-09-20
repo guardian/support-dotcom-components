@@ -1,172 +1,125 @@
 import React from 'react';
-import { css, ThemeProvider } from '@emotion/react';
-import { brandAlt, neutral, space } from '@guardian/src-foundations';
-import { headline, body } from '@guardian/src-foundations/typography';
+import { css } from '@emotion/react';
+import { neutral, space } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { Button, buttonBrandAlt, buttonReaderRevenue, LinkButton } from '@guardian/src-button';
-import { SecondaryCtaType } from '@sdc/shared/src/types';
-import { SvgCross } from '@guardian/src-icons';
-import { ArticleCountOptOutPopup } from '../../shared/ArticleCountOptOutPopup';
+import { InvestigationsMomentBannerHeader } from './components/InvestigationsMomentBannerHeader';
+import { InvestigationsMomentBannerArticleCount } from './components/InvestigationsMomentBannerArticleCount';
+import { InvestigationsMomentBannerBody } from './components/InvestigationsMomentBannerBody';
+import { InvestigationsMomentBannerCtas } from './components/InvestigationsMomentBannerCtas';
+import { Hide } from '@guardian/src-layout';
 
 const bannerStyles = {
     container: css`
+        position: relative;
+        overflow: hidden;
         background: ${neutral[0]};
         border-top: 1px solid ${neutral[0]};
 
         * {
             box-sizing: border-box;
         }
-    `,
-    headerContainer: css`
-        position: relative;
-    `,
-    header: css`
-        background: ${neutral[100]};
-        padding: ${space[2]}px ${space[3]}px;
-        margin: 0;
 
-        h2 {
-            ${headline.xsmall({ fontWeight: 'bold' })}
-            max-width: 160px;
-            margin: 0;
+        ${from.tablet} {
+            background: ${neutral[100]};
         }
     `,
-    shadowTriangle: css`
-        width: 100px;
+    desktopShadowRight: css`
         position: absolute;
+        display: flex;
+        justify-content: flex-end;
         top: 0;
         right: 0;
+        bottom: 0;
+
+        svg {
+            display: block;
+            height: 90%;
+        }
     `,
-    closeButtonContainer: css`
+    desktopShadowBottom: css`
         position: absolute;
-        top: ${space[2]}px;
-        right: ${space[3]}px;
-    `,
-    closeButton: css`
-        background-color: ${neutral[100]};
-        color: ${neutral[0]};
+        bottom: 0;
+        left: 0;
+        right: 20px;
+
+        svg {
+            display: block;
+        }
     `,
     bottomContainer: css`
         padding: ${space[2]}px ${space[3]}px ${space[3]}px;
-    `,
-    articleCount: css`
-        ${headline.xxxsmall({ fontWeight: 'bold' })}
-        font-size: 15px;
-        color: ${brandAlt[400]};
-    `,
-    body: css`
-        ${body.small()}
-        margin-top: ${space[1]}px;
-        color: ${neutral[100]};
 
-        p {
-            margin: 0;
+        ${from.tablet} {
+            max-width: 70%;
+            padding: ${space[2]}px ${space[5]}px 80px;
         }
+    `,
+    bodyContainer: css`
+        margin-top: ${space[1]}px;
     `,
     ctasContainer: css`
         display: flex;
         flex-direction: row;
         margin-top: ${space[4]}px;
 
-        & > * + * {
-            margin-left: ${space[4]}px;
+        ${from.tablet} {
+            margin-top: ${space[6]}px;
+            justify-content: flex-end;
+            margin-right: -65px;
         }
-    `,
-    primaryCtaContainer: css`
-        display: flex;
-        flex-direction: column;
-    `,
-    paymentIconsContainer: css`
-        margin-top: ${space[1]}px;
-        margin-left: ${space[4]}px;
-
-        img {
-            height: 12px;
-            width: auto;
-        }
-    `,
-    secondaryCta: css`
-        background-color: ${neutral[0]};
-        border: 1px solid ${neutral[100]};
     `,
 };
 
 function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: BannerRenderProps) {
     return (
         <div css={bannerStyles.container}>
-            <div css={bannerStyles.headerContainer}>
-                <header css={bannerStyles.header}>
-                    <h2>{content.mainContent.heading}</h2>
-                </header>
-
-                <div css={bannerStyles.shadowTriangle}>
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 130 0, 130 100" />
-                    </svg>
-                </div>
-
-                <div css={bannerStyles.closeButtonContainer}>
-                    <Button
-                        onClick={onCloseClick}
-                        cssOverrides={bannerStyles.closeButton}
-                        icon={<SvgCross />}
-                        size="xsmall"
-                        hideLabel
-                    >
-                        Close
-                    </Button>
-                </div>
+            <div>
+                <InvestigationsMomentBannerHeader
+                    heading={content.mainContent.heading}
+                    mobileHeading={content.mobileContent?.heading ?? null}
+                    onCloseClick={onCloseClick}
+                />
             </div>
 
             <div css={bannerStyles.bottomContainer}>
                 {numArticles && (
-                    <section css={bannerStyles.articleCount}>
-                        You have read{' '}
-                        <ArticleCountOptOutPopup
-                            numArticles={numArticles}
-                            nextWord=" articles"
-                            type="banner"
-                        />{' '}
-                        in the past year
+                    <section>
+                        <InvestigationsMomentBannerArticleCount numArticles={numArticles} />
                     </section>
                 )}
 
-                <section css={bannerStyles.body}>
-                    <p>{content.mainContent.messageText}</p>
+                <section css={bannerStyles.bodyContainer}>
+                    <InvestigationsMomentBannerBody
+                        messageText={content.mainContent.messageText}
+                        mobileMessageText={content.mobileContent?.messageText ?? null}
+                    />
                 </section>
 
                 <section css={bannerStyles.ctasContainer}>
-                    <div css={bannerStyles.primaryCtaContainer}>
-                        <ThemeProvider theme={buttonReaderRevenue}>
-                            <LinkButton size="small" priority="primary">
-                                {content.mainContent.primaryCta?.ctaText}
-                            </LinkButton>
-                        </ThemeProvider>
-
-                        <div css={bannerStyles.paymentIconsContainer}>
-                            <img
-                                width={422}
-                                height={60}
-                                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                            />
-                        </div>
-                    </div>
-
-                    {content.mainContent.secondaryCta?.type === SecondaryCtaType.Custom && (
-                        <ThemeProvider theme={buttonBrandAlt}>
-                            <LinkButton
-                                cssOverrides={bannerStyles.secondaryCta}
-                                size="small"
-                                priority="primary"
-                            >
-                                {content.mainContent.secondaryCta.cta.ctaText}
-                            </LinkButton>
-                        </ThemeProvider>
-                    )}
+                    <InvestigationsMomentBannerCtas
+                        primaryCta={content.mainContent.primaryCta}
+                        secondaryCta={content.mainContent.secondaryCta}
+                        mobilePrimaryCta={content.mobileContent?.primaryCta ?? null}
+                        mobileSecondaryCta={content.mobileContent?.secondaryCta ?? null}
+                    />
                 </section>
             </div>
+
+            <Hide below="tablet">
+                <div css={bannerStyles.desktopShadowRight}>
+                    <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 100 0, 100 200" />
+                    </svg>
+                </div>
+
+                <div css={bannerStyles.desktopShadowBottom}>
+                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 100, 1000 100, 0 0" />
+                    </svg>
+                </div>
+            </Hide>
         </div>
     );
 }

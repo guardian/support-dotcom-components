@@ -16,13 +16,9 @@ export const Default = Template.bind({});
 Default.args = {
     ...props,
     mobileContent: {
-        messageText:
-            'The Guardian is a work in progress. Support us from as little as £1 and we will progress together. Can fit in some.',
-    },
-    content: {
         heading: 'Invest in investigative journalism',
         messageText:
-            'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity. With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner,',
+            'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity. With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy',
         cta: {
             text: 'Support us',
             baseUrl: 'https://support.theguardian.com/contribute',
@@ -31,6 +27,22 @@ Default.args = {
             type: SecondaryCtaType.Custom,
             cta: {
                 text: 'Learn more',
+                baseUrl: 'https://theguardian.com',
+            },
+        },
+    },
+    content: {
+        heading: 'Invest in investigative journalism',
+        messageText:
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone. Show your support today from just $1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support the Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
+        secondaryCta: {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Learn more about us',
                 baseUrl: 'https://theguardian.com',
             },
         },
