@@ -1,7 +1,12 @@
 import fs from 'fs';
 import { ModuleInfo, moduleInfos } from '@sdc/shared/config';
 import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
-import { EpicType, OphanComponentEvent, OneOffSignupRequest } from '@sdc/shared/types';
+import {
+    EpicType,
+    OphanComponentEvent,
+    OneOffSignupRequest,
+    WeeklyArticleLog,
+} from '@sdc/shared/types';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
@@ -60,6 +65,11 @@ app.post(
             // for response logging
             res.locals.didRenderEpic = !!response.data;
             res.locals.clientName = tracking.clientName;
+            res.locals.epicTargeting = {
+                weeklyArticleHistory: (targeting.weeklyArticleHistory ?? [])
+                    .slice(0, 3)
+                    .map((c: WeeklyArticleLog) => JSON.stringify(c)),
+            };
 
             res.send(response);
         } catch (error) {
