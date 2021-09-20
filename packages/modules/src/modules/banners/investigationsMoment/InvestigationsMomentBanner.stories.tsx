@@ -20,20 +20,20 @@ Default.args = {
             'The Guardian is a work in progress. Support us from as little as £1 and we will progress together. Can fit in some.',
     },
     content: {
+        heading: 'Invest in investigative journalism',
         messageText:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse proin volutpat. Habitant maecenas massa ullamcorper volutpat. Elit proin Placerat est fermentum nulla porttitor est  suspendisse suspendisse porttitor est',
-        highlightedText:
-            'The Guardian is a work in progress. Support us from as little as £1 and we will progress together.',
+            'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity. With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner,',
         cta: {
-            text: 'Support the Guardian',
+            text: 'Support us',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Join the party',
+                text: 'Learn more',
                 baseUrl: 'https://theguardian.com',
             },
         },
     },
+    numArticles: 50,
 };

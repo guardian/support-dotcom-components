@@ -57,4 +57,5 @@ export interface BannerRenderProps {
     email?: string;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
+    numArticles?: number;
 }
