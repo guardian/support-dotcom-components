@@ -4,7 +4,7 @@ import { neutral, news, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { buttonBrandAlt, buttonReaderRevenue, LinkButton } from '@guardian/src-button';
-import { SecondaryCtaType } from '@sdc/shared/src/types';
+import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 
