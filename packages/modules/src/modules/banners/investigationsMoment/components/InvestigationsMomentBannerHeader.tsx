@@ -25,10 +25,18 @@ const styles = {
                 max-width: none;
                 font-size: 32px;
             }
+
+            ${from.desktop} {
+                ${headline.large({ fontWeight: 'bold' })}
+            }
+        }
+
+        ${from.mobileLandscape} {
+            padding: ${space[2]}px ${space[5]}px;
         }
 
         ${from.tablet} {
-            padding: ${space[2]}px ${space[5]}px;
+            padding: ${space[2]}px 0;
         }
     `,
     closeButtonContainer: css`

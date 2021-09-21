@@ -17,6 +17,10 @@ const styles = {
         ${from.tablet} {
             color: ${neutral[0]};
         }
+
+        ${from.desktop} {
+            font-size: 17px;
+        }
     `,
 };
 

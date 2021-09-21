@@ -16,6 +16,10 @@ const styles = {
             font-size: 17px;
             color: ${news[400]};
         }
+
+        ${from.desktop} {
+            font-size: 20px;
+        }
     `,
 };
 

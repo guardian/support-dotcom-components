@@ -8,9 +8,9 @@ import { InvestigationsMomentBannerHeader } from './components/InvestigationsMom
 import { InvestigationsMomentBannerArticleCount } from './components/InvestigationsMomentBannerArticleCount';
 import { InvestigationsMomentBannerBody } from './components/InvestigationsMomentBannerBody';
 import { InvestigationsMomentBannerCtas } from './components/InvestigationsMomentBannerCtas';
-import { Hide } from '@guardian/src-layout';
+import { Container, Hide } from '@guardian/src-layout';
 
-const bannerStyles = {
+const styles = {
     container: css`
         position: relative;
         overflow: hidden;
@@ -37,6 +37,12 @@ const bannerStyles = {
             display: block;
             height: 90%;
         }
+
+        ${from.desktop} {
+            svg {
+                height: 95%;
+            }
+        }
     `,
     desktopShadowBottom: css`
         position: absolute;
@@ -48,12 +54,23 @@ const bannerStyles = {
             display: block;
         }
     `,
+    headerContainer: css`
+        margin: 0 -${space[3]}px;
+
+        ${from.mobileLandscape} {
+            margin: 0 -${space[5]}px;
+        }
+
+        ${from.tablet} {
+            margin: 0;
+        }
+    `,
     bottomContainer: css`
-        padding: ${space[2]}px ${space[3]}px ${space[3]}px;
+        padding: ${space[2]}px 0 ${space[3]}px;
 
         ${from.tablet} {
             max-width: 70%;
-            padding: ${space[2]}px ${space[5]}px 80px;
+            padding-bottom: 80px;
         }
     `,
     bodyContainer: css`
@@ -74,8 +91,8 @@ const bannerStyles = {
 
 function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: BannerRenderProps) {
     return (
-        <div css={bannerStyles.container}>
-            <div>
+        <Container cssOverrides={styles.container}>
+            <div css={styles.headerContainer}>
                 <InvestigationsMomentBannerHeader
                     heading={content.mainContent.heading}
                     mobileHeading={content.mobileContent?.heading ?? null}
@@ -83,21 +100,21 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                 />
             </div>
 
-            <div css={bannerStyles.bottomContainer}>
+            <div css={styles.bottomContainer}>
                 {numArticles && (
                     <section>
                         <InvestigationsMomentBannerArticleCount numArticles={numArticles} />
                     </section>
                 )}
 
-                <section css={bannerStyles.bodyContainer}>
+                <section css={styles.bodyContainer}>
                     <InvestigationsMomentBannerBody
                         messageText={content.mainContent.messageText}
                         mobileMessageText={content.mobileContent?.messageText ?? null}
                     />
                 </section>
 
-                <section css={bannerStyles.ctasContainer}>
+                <section css={styles.ctasContainer}>
                     <InvestigationsMomentBannerCtas
                         primaryCta={content.mainContent.primaryCta}
                         secondaryCta={content.mainContent.secondaryCta}
@@ -107,20 +124,34 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                 </section>
             </div>
 
-            <Hide below="tablet">
-                <div css={bannerStyles.desktopShadowRight}>
+            <Hide below="tablet" above="desktop">
+                <div css={styles.desktopShadowRight}>
                     <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="0 0, 100 0, 100 200" />
                     </svg>
                 </div>
 
-                <div css={bannerStyles.desktopShadowBottom}>
+                <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="0 100, 1000 100, 0 0" />
                     </svg>
                 </div>
             </Hide>
-        </div>
+
+            <Hide below="desktop">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 300 0, 300 400" />
+                    </svg>
+                </div>
+
+                <div css={styles.desktopShadowBottom}>
+                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 100, 1000 100, 0 0" />
+                    </svg>
+                </div>
+            </Hide>
+        </Container>
     );
 }
 
