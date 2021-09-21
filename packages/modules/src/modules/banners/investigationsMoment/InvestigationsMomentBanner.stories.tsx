@@ -12,8 +12,8 @@ export default {
 
 const Template: Story<BannerProps> = (props: BannerProps) => <InvestigationsMoment {...props} />;
 
-export const Default = Template.bind({});
-Default.args = {
+export const WithoutArticleCount = Template.bind({});
+WithoutArticleCount.args = {
     ...props,
     mobileContent: {
         heading: 'Invest in investigative journalism',
@@ -47,5 +47,11 @@ Default.args = {
             },
         },
     },
+    numArticles: 0,
+};
+
+export const WithArticleCount = Template.bind({});
+WithArticleCount.args = {
+    ...WithoutArticleCount.args,
     numArticles: 50,
 };

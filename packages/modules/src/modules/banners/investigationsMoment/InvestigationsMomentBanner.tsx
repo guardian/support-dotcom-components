@@ -131,7 +131,7 @@ function InvestigationsMomentBanner({
             </div>
 
             <div css={styles.bottomContainer}>
-                {numArticles && (
+                {numArticles !== undefined && numArticles > 5 && (
                     <section>
                         <InvestigationsMomentBannerArticleCount numArticles={numArticles} />
                     </section>
