@@ -29,6 +29,10 @@ const styles = {
             ${from.desktop} {
                 ${headline.large({ fontWeight: 'bold' })}
             }
+
+            ${from.leftCol} {
+                ${headline.xlarge({ fontWeight: 'bold' })}
+            }
         }
 
         ${from.mobileLandscape} {

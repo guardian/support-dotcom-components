@@ -27,6 +27,7 @@ const styles = {
     `,
     desktopShadowRight: css`
         position: absolute;
+        pointer-events: none;
         display: flex;
         justify-content: flex-end;
         top: 0;
@@ -43,9 +44,16 @@ const styles = {
                 height: 95%;
             }
         }
+
+        ${from.leftCol} {
+            svg {
+                height: 90%;
+            }
+        }
     `,
     desktopShadowBottom: css`
         position: absolute;
+        pointer-events: none;
         bottom: 0;
         left: 0;
         right: 20px;
@@ -138,10 +146,24 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                 </div>
             </Hide>
 
-            <Hide below="desktop">
+            <Hide below="desktop" above="leftCol">
                 <div css={styles.desktopShadowRight}>
                     <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="0 0, 300 0, 300 400" />
+                    </svg>
+                </div>
+
+                <div css={styles.desktopShadowBottom}>
+                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 100, 1000 100, 0 0" />
+                    </svg>
+                </div>
+            </Hide>
+
+            <Hide below="leftCol">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 350 400" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 350 0, 350 400" />
                     </svg>
                 </div>
 
