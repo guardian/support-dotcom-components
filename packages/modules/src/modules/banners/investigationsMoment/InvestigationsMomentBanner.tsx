@@ -66,6 +66,7 @@ const styles = {
 
         ${from.wide} {
             height: 120px;
+            width: 1200px;
             right: auto;
         }
     `,
