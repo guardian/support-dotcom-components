@@ -114,7 +114,13 @@ const styles = {
     `,
 };
 
-function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: BannerRenderProps) {
+function InvestigationsMomentBanner({
+    content,
+    onCloseClick,
+    numArticles,
+    onCtaClick,
+    onSecondaryCtaClick,
+}: BannerRenderProps) {
     return (
         <Container cssOverrides={styles.container}>
             <div css={styles.headerContainer}>
@@ -144,6 +150,8 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                         secondaryCta={content.mainContent.secondaryCta}
                         mobilePrimaryCta={content.mobileContent?.primaryCta ?? null}
                         mobileSecondaryCta={content.mobileContent?.secondaryCta ?? null}
+                        onPrimaryCtaClick={onCtaClick}
+                        onSecondaryCtaClick={onSecondaryCtaClick}
                     />
                 </section>
             </div>

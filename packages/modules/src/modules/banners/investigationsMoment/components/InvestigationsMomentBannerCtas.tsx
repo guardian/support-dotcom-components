@@ -41,6 +41,8 @@ interface InvestigationsMomentBannerCtasProps {
     secondaryCta: BannerEnrichedSecondaryCta | null;
     mobilePrimaryCta: BannerEnrichedCta | null;
     mobileSecondaryCta: BannerEnrichedSecondaryCta | null;
+    onPrimaryCtaClick: () => void;
+    onSecondaryCtaClick: () => void;
 }
 
 export function InvestigationsMomentBannerCtas({
@@ -48,6 +50,8 @@ export function InvestigationsMomentBannerCtas({
     secondaryCta,
     mobilePrimaryCta: maybeMobilePrimaryCta,
     mobileSecondaryCta: maybeMobileSecondaryCta,
+    onPrimaryCtaClick,
+    onSecondaryCtaClick,
 }: InvestigationsMomentBannerCtasProps): JSX.Element {
     const mobilePrimaryCta = maybeMobilePrimaryCta ?? primaryCta;
     const mobileSecondaryCta = maybeMobileSecondaryCta ?? secondaryCta;
@@ -60,7 +64,12 @@ export function InvestigationsMomentBannerCtas({
                         <ButtonWithPaymentIcons
                             button={
                                 <ThemeProvider theme={buttonReaderRevenue}>
-                                    <LinkButton size="small" priority="primary">
+                                    <LinkButton
+                                        href={mobilePrimaryCta.ctaUrl}
+                                        onClick={onPrimaryCtaClick}
+                                        size="small"
+                                        priority="primary"
+                                    >
                                         {mobilePrimaryCta.ctaText}
                                     </LinkButton>
                                 </ThemeProvider>
@@ -74,6 +83,8 @@ export function InvestigationsMomentBannerCtas({
                         <ButtonWithPaymentIcons
                             button={
                                 <LinkButton
+                                    href={primaryCta.ctaUrl}
+                                    onClick={onPrimaryCtaClick}
                                     cssOverrides={styles.desktopPrimaryCta}
                                     size="small"
                                     priority="primary"
@@ -93,6 +104,8 @@ export function InvestigationsMomentBannerCtas({
                     <Hide above="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>
                             <LinkButton
+                                href={mobileSecondaryCta.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
                                 cssOverrides={styles.secondaryCta}
                                 size="small"
                                 priority="primary"
@@ -107,6 +120,8 @@ export function InvestigationsMomentBannerCtas({
                     <Hide below="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>
                             <LinkButton
+                                href={secondaryCta.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
                                 cssOverrides={styles.secondaryCta}
                                 size="small"
                                 priority="primary"
