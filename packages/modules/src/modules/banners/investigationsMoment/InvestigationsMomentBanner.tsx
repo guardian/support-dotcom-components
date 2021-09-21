@@ -2,13 +2,14 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
+import { Container, Hide } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { InvestigationsMomentBannerHeader } from './components/InvestigationsMomentBannerHeader';
 import { InvestigationsMomentBannerArticleCount } from './components/InvestigationsMomentBannerArticleCount';
 import { InvestigationsMomentBannerBody } from './components/InvestigationsMomentBannerBody';
 import { InvestigationsMomentBannerCtas } from './components/InvestigationsMomentBannerCtas';
-import { Container, Hide } from '@guardian/src-layout';
+import { InvestigationsMomentBannerCloseButton } from './components/InvestigationsMomentBannerCloseButton';
 
 const styles = {
     container: css`
@@ -32,7 +33,12 @@ const styles = {
         justify-content: flex-end;
         top: 0;
         right: 0;
-        bottom: 0;
+        width: 100px;
+
+        ${from.tablet} {
+            bottom: 0;
+            width: auto;
+        }
 
         svg {
             display: block;
@@ -96,6 +102,16 @@ const styles = {
             margin-right: -65px;
         }
     `,
+    closeButtonContainer: css`
+        position: absolute;
+        top: ${space[2]}px;
+        right: ${space[4]}px;
+
+        ${from.leftCol} {
+            top: ${space[3]}px;
+            right: ${space[5]}px;
+        }
+    `,
 };
 
 function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: BannerRenderProps) {
@@ -105,7 +121,6 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                 <InvestigationsMomentBannerHeader
                     heading={content.mainContent.heading}
                     mobileHeading={content.mobileContent?.heading ?? null}
-                    onCloseClick={onCloseClick}
                 />
             </div>
 
@@ -132,6 +147,14 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                     />
                 </section>
             </div>
+
+            <Hide above="tablet">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 130 0, 130 100" />
+                    </svg>
+                </div>
+            </Hide>
 
             <Hide below="tablet" above="desktop">
                 <div css={styles.desktopShadowRight}>
@@ -188,6 +211,10 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                     </svg>
                 </div>
             </Hide>
+
+            <div css={styles.closeButtonContainer}>
+                <InvestigationsMomentBannerCloseButton onCloseClick={onCloseClick} />
+            </div>
         </Container>
     );
 }
