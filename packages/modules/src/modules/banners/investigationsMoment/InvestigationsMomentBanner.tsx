@@ -37,16 +37,12 @@ const styles = {
         svg {
             display: block;
             height: 90%;
-        }
 
-        ${from.desktop} {
-            svg {
+            ${from.desktop} {
                 height: 95%;
             }
-        }
 
-        ${from.leftCol} {
-            svg {
+            ${from.leftCol} {
                 height: 90%;
             }
         }
@@ -60,6 +56,11 @@ const styles = {
 
         svg {
             display: block;
+        }
+
+        ${from.wide} {
+            height: 120px;
+            right: auto;
         }
     `,
     headerContainer: css`
@@ -160,10 +161,24 @@ function InvestigationsMomentBanner({ content, onCloseClick, numArticles }: Bann
                 </div>
             </Hide>
 
-            <Hide below="leftCol">
+            <Hide below="leftCol" above="wide">
                 <div css={styles.desktopShadowRight}>
                     <svg viewBox="0 0 350 400" xmlns="http://www.w3.org/2000/svg">
                         <polygon points="0 0, 350 0, 350 400" />
+                    </svg>
+                </div>
+
+                <div css={styles.desktopShadowBottom}>
+                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 100, 1000 100, 0 0" />
+                    </svg>
+                </div>
+            </Hide>
+
+            <Hide below="wide">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 530 400" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 530 0, 530 400" />
                     </svg>
                 </div>
 
