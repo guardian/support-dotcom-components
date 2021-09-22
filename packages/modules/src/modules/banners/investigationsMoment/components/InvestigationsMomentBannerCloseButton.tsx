@@ -20,13 +20,23 @@ const styles = {
         }
     `,
     closeButton: css`
+        border: 1px solid ${neutral[100]};
         background-color: ${neutral[100]};
         color: ${neutral[0]};
+
+        &:hover {
+            background-color: ${neutral[0]};
+            color: ${neutral[100]};
+        }
 
         ${from.tablet} {
             background-color: ${neutral[0]};
             color: ${neutral[100]};
-            border: 1px solid ${neutral[100]};
+
+            &:hover {
+                background-color: ${neutral[100]};
+                color: ${neutral[0]};
+            }
         }
     `,
 };

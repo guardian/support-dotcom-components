@@ -34,15 +34,21 @@ const styles = {
         top: 0;
         right: 0;
         width: 100px;
+        height: 80px;
 
         ${from.tablet} {
             bottom: 0;
             width: auto;
+            height: auto;
         }
 
         svg {
             display: block;
-            height: 90%;
+            height: 100%;
+
+            ${from.tablet} {
+                height: 90%;
+            }
 
             ${from.desktop} {
                 height: 95%;
@@ -65,8 +71,8 @@ const styles = {
         }
 
         ${from.wide} {
-            height: 120px;
-            width: 1200px;
+            height: 125px;
+            width: 1250px;
             right: auto;
         }
     `,
@@ -159,8 +165,8 @@ function InvestigationsMomentBanner({
 
             <Hide above="tablet">
                 <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 130 0, 130 100" />
+                    <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 100 0, 100 80" />
                     </svg>
                 </div>
             </Hide>

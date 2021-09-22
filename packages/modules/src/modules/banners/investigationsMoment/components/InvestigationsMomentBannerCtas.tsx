@@ -26,13 +26,37 @@ const styles = {
             }
         }
     `,
+    mobilePrimaryCta: css`
+        color: ${neutral[0]};
+
+        &:hover {
+            background-color: ${neutral[100]};
+        }
+    `,
     desktopPrimaryCta: css`
+        border: 1px solid ${news[400]};
         background-color: ${news[400]};
         color: ${neutral[100]};
+
+        ${from.tablet} {
+            &:hover {
+                background-color: ${neutral[100]};
+                color: ${news[400]};
+            }
+        }
     `,
     secondaryCta: css`
         background-color: ${neutral[0]};
         border: 1px solid ${neutral[100]};
+
+        &:hover {
+            background-color: ${neutral[100]};
+            color: ${neutral[0]};
+        }
+
+        ${from.tablet} {
+            border: 1px solid ${neutral[0]};
+        }
     `,
 };
 
@@ -67,6 +91,7 @@ export function InvestigationsMomentBannerCtas({
                                     <LinkButton
                                         href={mobilePrimaryCta.ctaUrl}
                                         onClick={onPrimaryCtaClick}
+                                        cssOverrides={styles.mobilePrimaryCta}
                                         size="small"
                                         priority="primary"
                                     >
@@ -148,8 +173,12 @@ const buttonWithPaymentIconStyles = {
         margin-left: ${space[4]}px;
 
         img {
-            height: 12px;
+            height: 14px;
             width: auto;
+
+            ${from.tablet} {
+                height: 17px;
+            }
         }
     `,
 };
@@ -165,9 +194,9 @@ function ButtonWithPaymentIcons({ button }: ButtonWithPaymentIconProps) {
 
             <div css={buttonWithPaymentIconStyles.paymentIconsContainer}>
                 <img
-                    width={422}
-                    height={60}
-                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                    width={497}
+                    height={88}
+                    src="https://media.guim.co.uk/40745a456b9da26eccca15a615dd0e406839ceb6/0_0_1549_274/500.png"
                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
                 />
             </div>
