@@ -352,6 +352,7 @@ export const buildHeaderData = async (
                         content: variant.content,
                         tracking: { ...pageTracking, ...testTracking },
                         countryCode: targeting.countryCode,
+                        numArticles: targeting.numArticles,
                     },
                 },
                 meta: testTracking,

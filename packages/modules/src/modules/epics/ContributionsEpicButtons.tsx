@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
-import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
+import { EpicVariant, SecondaryCtaType, Tracking, Cta, ArticleCounts } from '@sdc/shared/types';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import {
@@ -40,20 +40,23 @@ const PrimaryCtaButton = ({
     cta,
     tracking,
     countryCode,
-}: {
+    numArticles,
+}: // articleCounts,
+{
     cta?: Cta;
     tracking: Tracking;
     countryCode?: string;
+    numArticles: ArticleCounts;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
     }
-
     const buttonText = cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
         tracking,
+        numArticles.for52Weeks,
         countryCode,
     );
 
@@ -69,13 +72,20 @@ const PrimaryCtaButton = ({
 const SecondaryCtaButton = ({
     cta,
     tracking,
+    numArticles,
     countryCode,
 }: {
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
+    numArticles: ArticleCounts;
 }): JSX.Element | null => {
-    const url = addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode);
+    const url = addRegionIdAndTrackingParamsToSupportUrl(
+        cta.baseUrl,
+        tracking,
+        numArticles.for52Weeks,
+        countryCode,
+    );
 
     return (
         <div css={buttonMargins}>
@@ -95,6 +105,7 @@ interface ContributionsEpicButtonsProps {
     isReminderActive: boolean;
     isSignedIn: boolean;
     choiceCardSelection?: ChoiceCardSelection;
+    numArticles: ArticleCounts;
 }
 
 export const ContributionsEpicButtons = ({
@@ -106,7 +117,9 @@ export const ContributionsEpicButtons = ({
     isReminderActive,
     isSignedIn,
     choiceCardSelection,
-}: ContributionsEpicButtonsProps): JSX.Element | null => {
+    numArticles,
+}: // articleCounts,
+ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
     const { cta, secondaryCta, showReminderFields } = variant;
 
@@ -146,6 +159,7 @@ export const ContributionsEpicButtons = ({
                     <PrimaryCtaButton
                         cta={getCta(cta)}
                         tracking={tracking}
+                        numArticles={numArticles}
                         countryCode={countryCode}
                     />
 
@@ -156,6 +170,7 @@ export const ContributionsEpicButtons = ({
                             cta={secondaryCta.cta}
                             tracking={tracking}
                             countryCode={countryCode}
+                            numArticles={numArticles}
                         />
                     ) : (
                         secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&

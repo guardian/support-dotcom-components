@@ -354,6 +354,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 isReminderActive={isReminderActive}
                 isSignedIn={Boolean(email)}
                 choiceCardSelection={choiceCardSelection}
+                articleCounts={articleCounts}
             />
 
             {isReminderActive && showReminderFields && (
