@@ -4,6 +4,7 @@ import { brandAlt, news } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
+import { Hide } from '@guardian/src-layout';
 
 const styles = {
     container: css`
@@ -33,7 +34,20 @@ export function InvestigationsMomentBannerArticleCount({
     return (
         <p css={styles.container}>
             You have read{' '}
-            <ArticleCountOptOutPopup numArticles={numArticles} nextWord=" articles" type="banner" />{' '}
+            <Hide above="tablet">
+                <ArticleCountOptOutPopup
+                    numArticles={numArticles}
+                    nextWord=" articles"
+                    type="banner"
+                />
+            </Hide>
+            <Hide below="tablet">
+                <ArticleCountOptOutPopup
+                    numArticles={numArticles}
+                    nextWord=" articles"
+                    type="investigations-moment-banner"
+                />
+            </Hide>{' '}
             in the past year
         </p>
     );
