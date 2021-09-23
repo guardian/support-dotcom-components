@@ -148,6 +148,8 @@ function InvestigationsMomentBanner({
                     <InvestigationsMomentBannerBody
                         messageText={content.mainContent.messageText}
                         mobileMessageText={content.mobileContent?.messageText ?? null}
+                        highlightedText={content.mainContent.highlightedText ?? null}
+                        mobileHighlightedText={content.mobileContent?.highlightedText ?? null}
                     />
                 </section>
 

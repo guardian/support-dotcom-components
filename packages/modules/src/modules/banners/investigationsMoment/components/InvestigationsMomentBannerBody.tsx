@@ -22,26 +22,37 @@ const styles = {
             font-size: 17px;
         }
     `,
+    highlightedTextContainer: css`
+        font-weight: bold;
+    `,
 };
 
 interface InvestigationsMomentBannerBodyProps {
     messageText: JSX.Element | JSX.Element[];
     mobileMessageText: JSX.Element | JSX.Element[] | null;
+    highlightedText: JSX.Element[] | null;
+    mobileHighlightedText: JSX.Element[] | null;
 }
 
 export function InvestigationsMomentBannerBody({
     messageText,
     mobileMessageText,
+    highlightedText,
+    mobileHighlightedText,
 }: InvestigationsMomentBannerBodyProps): JSX.Element {
     return (
         <div css={styles.container}>
-            <Hide above="tablet">
-                <p>{mobileMessageText ?? messageText}</p>
-            </Hide>
+            <p>
+                <span>
+                    <Hide above="tablet">{mobileMessageText ?? messageText}</Hide>
+                    <Hide below="tablet">{messageText}</Hide>
+                </span>{' '}
+                <span css={styles.highlightedTextContainer}>
+                    <Hide above="tablet">{mobileHighlightedText ?? highlightedText}</Hide>
 
-            <Hide below="tablet">
-                <p>{messageText}</p>
-            </Hide>
+                    <Hide below="tablet">{highlightedText}</Hide>
+                </span>
+            </p>
         </div>
     );
 }
