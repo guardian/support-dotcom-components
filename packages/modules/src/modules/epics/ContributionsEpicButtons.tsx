@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
-import { EpicVariant, SecondaryCtaType, Tracking, Cta, ArticleCounts } from '@sdc/shared/types';
+import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import {
