@@ -51,6 +51,7 @@ const PrimaryCtaButton = ({
     if (!cta) {
         return null;
     }
+
     const buttonText = cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
