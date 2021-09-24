@@ -17,9 +17,9 @@ import {
     removeArticleCountFromLocalStorage,
 } from './helpers/articleCountOptOut';
 
-export type ArticleCountOptOutType = 'epic' | 'banner' | 'global-eoy-banner';
+export type ArticleCountOptOutType = 'epic' | 'banner' | 'investigations-moment-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
-    type === 'banner' || type === 'global-eoy-banner';
+    type === 'banner' || type === 'investigations-moment-banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;

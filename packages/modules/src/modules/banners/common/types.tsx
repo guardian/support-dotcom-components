@@ -5,6 +5,7 @@ export type BannerId =
     | 'contributions-banner'
     | 'g200-banner'
     | 'aus-moment-banner'
+    | 'investigations-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner';
 
@@ -56,4 +57,5 @@ export interface BannerRenderProps {
     email?: string;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
+    numArticles?: number;
 }

@@ -30,7 +30,7 @@ Banner.args = {
     type: 'banner',
 };
 
-export const GlobalEoyAppealBanner = Template.bind({});
-GlobalEoyAppealBanner.args = {
-    type: 'global-eoy-banner',
+export const InvestigationsMoment = Template.bind({});
+InvestigationsMoment.args = {
+    type: 'investigations-moment-banner',
 };

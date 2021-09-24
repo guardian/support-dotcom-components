@@ -172,6 +172,7 @@ const withBannerData = (
                 email,
                 tickerSettings,
                 isSupporter,
+                numArticles,
             };
             return <Banner {...props} />;
         }
