@@ -46,7 +46,7 @@ const PrimaryCtaButton = ({
     cta?: Cta;
     tracking: Tracking;
     countryCode?: string;
-    numArticles: ArticleCounts;
+    numArticles: number;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
@@ -56,7 +56,7 @@ const PrimaryCtaButton = ({
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
         tracking,
-        numArticles.for52Weeks,
+        numArticles,
         countryCode,
     );
 
@@ -78,12 +78,12 @@ const SecondaryCtaButton = ({
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
-    numArticles: ArticleCounts;
+    numArticles: number;
 }): JSX.Element | null => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
-        numArticles.for52Weeks,
+        numArticles,
         countryCode,
     );
 
@@ -105,7 +105,7 @@ interface ContributionsEpicButtonsProps {
     isReminderActive: boolean;
     isSignedIn: boolean;
     choiceCardSelection?: ChoiceCardSelection;
-    numArticles: ArticleCounts;
+    numArticles: number;
 }
 
 export const ContributionsEpicButtons = ({
