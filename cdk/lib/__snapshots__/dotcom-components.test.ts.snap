@@ -1002,6 +1002,18 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     ],
                   ],
                 },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:s3:::support-admin-console/",
+                      Object {
+                        "Ref": "Stage",
+                      },
+                      "/configured-amounts.json",
+                    ],
+                  ],
+                },
               ],
             },
           ],
