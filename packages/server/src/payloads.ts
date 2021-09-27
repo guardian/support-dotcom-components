@@ -184,7 +184,7 @@ export const buildEpicData = async (
     const tickerSettings = await getTickerSettings(variant);
     const showReminderFields = getReminderFields(variant);
 
-    const variantWithTickerAndReminderAndChoiceCardAmounts = {
+    const propsVariant = {
         ...variant,
         tickerSettings,
         showReminderFields,
@@ -202,7 +202,7 @@ export const buildEpicData = async (
     };
 
     const props: EpicProps = {
-        variant: variantWithTickerAndReminderAndChoiceCardAmounts,
+        variant: propsVariant,
         tracking: { ...pageTracking, ...testTracking },
         articleCounts: getArticleViewCounts(
             targeting.weeklyArticleHistory,
@@ -212,14 +212,14 @@ export const buildEpicData = async (
     };
 
     const modulePathBuilder: (version?: string) => string =
-        variantWithTickerAndReminderAndChoiceCardAmounts.modulePathBuilder ||
+        propsVariant.modulePathBuilder ||
         (type === 'ARTICLE'
             ? epicModule.endpointPathBuilder
             : liveblogEpicModule.endpointPathBuilder);
 
     return {
         data: {
-            variant: variantWithTickerAndReminderAndChoiceCardAmounts,
+            variant: propsVariant,
             meta: testTracking,
             module: {
                 url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
