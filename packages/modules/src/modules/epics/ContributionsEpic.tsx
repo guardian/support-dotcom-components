@@ -19,6 +19,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
+import { countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -230,16 +231,24 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
+    const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
         variant.choiceCardAmounts && {
             frequency: 'MONTHLY',
-            amount: variant.choiceCardAmounts['MONTHLY'][1],
+            amount: variant.choiceCardAmounts[countryGroupId]['MONTHLY'][1].value,
         },
     );
+
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const { backgroundImageUrl, showReminderFields, tickerSettings, choiceCardAmounts } = variant;
+    const {
+        backgroundImageUrl,
+        showReminderFields,
+        tickerSettings,
+        showChoiceCards,
+        choiceCardAmounts,
+    } = variant;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -321,7 +330,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 tracking={ophanTracking}
             />
 
-            {choiceCardSelection && choiceCardAmounts && submitComponentEvent && (
+            {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
                     amounts={choiceCardAmounts}
                     setSelectionsCallback={setChoiceCardSelection}

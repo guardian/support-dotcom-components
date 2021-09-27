@@ -35,7 +35,7 @@ import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epi
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logger } from './utils/logging';
-import { epicChoiceCardsTests } from './tests/epics/choiceCards';
+import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
 interface EpicDataResponse {
     data?: {
@@ -119,7 +119,7 @@ const getArticleEpicTests = async (
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const hardcodedTests = enableHardcodedEpicTests ? epicChoiceCardsTests : [];
+        const hardcodedTests = enableHardcodedEpicTests ? [] : [];
 
         if (isForcingTest) {
             return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
@@ -180,13 +180,15 @@ export const buildEpicData = async (
 
     const { test, variant } = result.result;
 
+    const choiceCardAmounts = await cachedChoiceCardAmounts();
     const tickerSettings = await getTickerSettings(variant);
     const showReminderFields = getReminderFields(variant);
 
-    const variantWithTickerAndReminder = {
+    const variantWithTickerAndReminderAndChoiceCardAmounts = {
         ...variant,
         tickerSettings,
         showReminderFields,
+        choiceCardAmounts,
     };
 
     const testTracking: TestTracking = {
@@ -200,7 +202,7 @@ export const buildEpicData = async (
     };
 
     const props: EpicProps = {
-        variant: variantWithTickerAndReminder,
+        variant: variantWithTickerAndReminderAndChoiceCardAmounts,
         tracking: { ...pageTracking, ...testTracking },
         articleCounts: getArticleViewCounts(
             targeting.weeklyArticleHistory,
@@ -210,14 +212,14 @@ export const buildEpicData = async (
     };
 
     const modulePathBuilder: (version?: string) => string =
-        variantWithTickerAndReminder.modulePathBuilder ||
+        variantWithTickerAndReminderAndChoiceCardAmounts.modulePathBuilder ||
         (type === 'ARTICLE'
             ? epicModule.endpointPathBuilder
             : liveblogEpicModule.endpointPathBuilder);
 
     return {
         data: {
-            variant: variantWithTickerAndReminder,
+            variant: variantWithTickerAndReminderAndChoiceCardAmounts,
             meta: testTracking,
             module: {
                 url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,

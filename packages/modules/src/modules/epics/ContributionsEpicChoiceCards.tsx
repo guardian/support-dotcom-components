@@ -8,6 +8,7 @@ import {
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
+import { countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 
 const frequencyChoiceCardGroupOverrides = css`
     ${until.mobileLandscape} {
@@ -37,7 +38,7 @@ interface EpicChoiceCardProps {
     selection: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     countryCode?: string;
-    submitComponentEvent: (componentEvent: OphanComponentEvent) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -48,15 +49,20 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     submitComponentEvent,
 }: EpicChoiceCardProps) => {
     const currencySymbol = getLocalCurrencySymbol(countryCode);
+    const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
+    const amountsForCountryGroup = amounts[countryGroupId];
 
-    const trackClick = (type: 'amount' | 'frequency'): void =>
-        submitComponentEvent({
-            component: {
-                componentType: 'ACQUISITIONS_OTHER',
-                id: `contributions-epic-choice-cards-change-${type}`,
-            },
-            action: 'CLICK',
-        });
+    const trackClick = (type: 'amount' | 'frequency'): void => {
+        if (submitComponentEvent) {
+            submitComponentEvent({
+                component: {
+                    componentType: 'ACQUISITIONS_OTHER',
+                    id: `contributions-epic-choice-cards-change-${type}`,
+                },
+                action: 'CLICK',
+            });
+        }
+    };
 
     const updateAmount = (amount: number | 'other') => {
         trackClick('amount');
@@ -70,13 +76,13 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
-            amount: amounts[frequency][1],
+            amount: amountsForCountryGroup[frequency][1].value,
         });
     };
 
     const frequencySuffix = () => {
         return {
-            SINGLE: '',
+            ONE_OFF: '',
             MONTHLY: ' per month',
             ANNUAL: ' per year',
         }[selection.frequency];
@@ -91,22 +97,22 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 css={frequencyChoiceCardGroupOverrides}
             >
                 <ChoiceCard
-                    value="single"
                     label="Single"
-                    id="single"
-                    checked={selection.frequency == 'SINGLE'}
-                    onChange={() => updateFrequency('SINGLE')}
+                    value="one_off"
+                    id="one_off"
+                    checked={selection.frequency == 'ONE_OFF'}
+                    onChange={() => updateFrequency('ONE_OFF')}
                 />
                 <ChoiceCard
-                    value="monthly"
                     label="Monthly"
+                    value="monthly"
                     id="monthly"
                     checked={selection.frequency == 'MONTHLY'}
                     onChange={() => updateFrequency('MONTHLY')}
                 />
                 <ChoiceCard
-                    value="annual"
                     label="Annual"
+                    value="annual"
                     id="annual"
                     checked={selection.frequency == 'ANNUAL'}
                     onChange={() => updateFrequency('ANNUAL')}
@@ -117,20 +123,28 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 <ChoiceCard
                     value="first"
                     label={`${currencySymbol}${
-                        amounts[selection.frequency][0]
+                        amountsForCountryGroup[selection.frequency][0].value
                     }${frequencySuffix()}`}
                     id="first"
-                    checked={selection.amount == amounts[selection.frequency][0]}
-                    onChange={() => updateAmount(amounts[selection.frequency][0])}
+                    checked={
+                        selection.amount == amountsForCountryGroup[selection.frequency][0].value
+                    }
+                    onChange={() =>
+                        updateAmount(amountsForCountryGroup[selection.frequency][0].value)
+                    }
                 />
                 <ChoiceCard
                     value="second"
                     label={`${currencySymbol}${
-                        amounts[selection.frequency][1]
+                        amountsForCountryGroup[selection.frequency][1].value
                     }${frequencySuffix()}`}
                     id="second"
-                    checked={selection.amount == amounts[selection.frequency][1]}
-                    onChange={() => updateAmount(amounts[selection.frequency][1])}
+                    checked={
+                        selection.amount == amountsForCountryGroup[selection.frequency][1].value
+                    }
+                    onChange={() =>
+                        updateAmount(amountsForCountryGroup[selection.frequency][1].value)
+                    }
                 />
                 <ChoiceCard
                     value="third"

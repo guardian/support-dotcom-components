@@ -140,14 +140,117 @@ WithChoiceCards.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
         showReminderFields: {
-            reminderCta: 'Remind me in September',
-            reminderPeriod: '2021-09-01',
-            reminderLabel: 'September',
+            reminderCta: 'Remind me in October',
+            reminderPeriod: '2021-10-01',
+            reminderLabel: 'October',
         },
+        showChoiceCards: true,
         choiceCardAmounts: {
-            SINGLE: [30, 60],
-            MONTHLY: [3, 6],
-            ANNUAL: [60, 120],
+            GBPCountries: {
+                ONE_OFF: [
+                    { value: 30 },
+                    { value: 60, isDefault: true },
+                    { value: 120 },
+                    { value: 240 },
+                ],
+                MONTHLY: [{ value: 3 }, { value: 6 }, { value: 9, isDefault: true }, { value: 15 }],
+                ANNUAL: [
+                    { value: 60 },
+                    { value: 120, isDefault: true },
+                    { value: 240 },
+                    { value: 480 },
+                ],
+            },
+            UnitedStates: {
+                ONE_OFF: [
+                    { value: 25 },
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                ],
+                MONTHLY: [{ value: 7 }, { value: 15, isDefault: true }, { value: 30 }],
+                ANNUAL: [
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+            },
+            AUDCountries: {
+                ONE_OFF: [
+                    { value: 60 },
+                    { value: 100, isDefault: true },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+                MONTHLY: [{ value: 10 }, { value: 20, isDefault: true }, { value: 40 }],
+                ANNUAL: [
+                    { value: 80, isDefault: true },
+                    { value: 250 },
+                    { value: 500 },
+                    { value: 750 },
+                ],
+            },
+            EURCountries: {
+                ONE_OFF: [
+                    { value: 25 },
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                ],
+                MONTHLY: [{ value: 6 }, { value: 10, isDefault: true }, { value: 20 }],
+                ANNUAL: [
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+            },
+            International: {
+                ONE_OFF: [
+                    { value: 25 },
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                ],
+                MONTHLY: [{ value: 5 }, { value: 10, isDefault: true }, { value: 20 }],
+                ANNUAL: [
+                    { value: 60, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+            },
+            NZDCountries: {
+                ONE_OFF: [
+                    { value: 50 },
+                    { value: 100, isDefault: true },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+                MONTHLY: [{ value: 10 }, { value: 20, isDefault: true }, { value: 50 }],
+                ANNUAL: [
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+            },
+            Canada: {
+                ONE_OFF: [
+                    { value: 25 },
+                    { value: 50, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                ],
+                MONTHLY: [{ value: 5 }, { value: 10, isDefault: true }, { value: 20 }],
+                ANNUAL: [
+                    { value: 60, isDefault: true },
+                    { value: 100 },
+                    { value: 250 },
+                    { value: 500 },
+                ],
+            },
         },
     },
 };
