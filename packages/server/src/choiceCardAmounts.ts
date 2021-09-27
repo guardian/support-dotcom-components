@@ -4,7 +4,7 @@ import { fetchS3Data } from './utils/S3';
 import { ChoiceCardAmounts } from '@sdc/shared/dist/types';
 
 const getChoiceCardAmounts = (): Promise<ChoiceCardAmounts> =>
-    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`).then(
+    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/amounts.json`).then(
         JSON.parse,
     );
 
