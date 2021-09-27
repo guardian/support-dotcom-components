@@ -4,9 +4,10 @@ import { fetchS3Data } from './utils/S3';
 import { ChoiceCardAmounts } from '@sdc/shared/types';
 
 const getChoiceCardAmounts = (): Promise<ChoiceCardAmounts> =>
-    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/amounts.json`).then(
-        JSON.parse,
-    );
+    fetchS3Data(
+        'support-admin-console',
+        `${isProd ? 'PROD' : 'CODE'}/configured-amounts.json`,
+    ).then(JSON.parse);
 
 const [, cachedChoiceCardAmounts] = cacheAsync<ChoiceCardAmounts>(
     getChoiceCardAmounts,
