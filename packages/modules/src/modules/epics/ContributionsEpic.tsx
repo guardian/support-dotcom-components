@@ -362,6 +362,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
                 isSignedIn={Boolean(email)}
+                showChoiceCards={showChoiceCards}
                 choiceCardSelection={choiceCardSelection}
             />
 

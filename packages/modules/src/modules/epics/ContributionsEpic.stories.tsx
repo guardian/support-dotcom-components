@@ -149,154 +149,434 @@ WithChoiceCards.args = {
             GBPCountries: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 45],
-                        defaultAmount: 10,
+                        amounts: [30, 60, 120, 240],
+                        defaultAmount: 60,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 20,
+                        amounts: [3, 6, 9, 15],
+                        defaultAmount: 9,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 15,
+                        amounts: [60, 120, 240, 480],
+                        defaultAmount: 120,
                     },
                 },
                 test: {
-                    name: 'GBP_COUNTRIES_AMOUNTS_TEST',
-                    isLive: true,
+                    name: '2021-09-02_AMOUNTS_R5__UK',
+                    isLive: false,
                     variants: [
                         {
-                            name: 'V1',
+                            name: 'V2_LOWER',
                             amounts: {
                                 ONE_OFF: {
-                                    amounts: [5, 10, 20, 25, 30],
-                                    defaultAmount: 20,
+                                    amounts: [30, 60, 120, 240],
+                                    defaultAmount: 60,
                                 },
                                 MONTHLY: {
-                                    amounts: [5, 15, 30, 40, 80],
-                                    defaultAmount: 15,
+                                    amounts: [3, 5, 10, 15],
+                                    defaultAmount: 5,
                                 },
                                 ANNUAL: {
-                                    amounts: [100, 150, 250, 500],
-                                    defaultAmount: 250,
-                                },
-                            },
-                        },
-                        {
-                            name: 'V2',
-                            amounts: {
-                                ONE_OFF: {
-                                    amounts: [10, 50, 100, 150],
-                                    defaultAmount: 100,
-                                },
-                                MONTHLY: {
-                                    amounts: [10, 20, 40, 50],
-                                    defaultAmount: 50,
-                                },
-                                ANNUAL: {
-                                    amounts: [150, 300, 500, 750],
-                                    defaultAmount: 500,
+                                    amounts: [60, 120, 240, 480],
+                                    defaultAmount: 120,
                                 },
                             },
                         },
                     ],
-                    seed: 398375,
+                    seed: 917618,
                 },
             },
             UnitedStates: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [25, 50, 100, 250],
+                        defaultAmount: 50,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [7, 15, 30],
+                        defaultAmount: 15,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [50, 100, 250, 500],
+                        defaultAmount: 50,
                     },
+                },
+                test: {
+                    name: '2021-03-11_AMOUNTS_R2__US',
+                    isLive: false,
+                    variants: [
+                        {
+                            name: 'V1_HIGHER_STRETCH',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [7, 15, 30, 50],
+                                    defaultAmount: 15,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 930202,
                 },
             },
             EURCountries: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [25, 50, 100, 250],
+                        defaultAmount: 50,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [6, 10, 20],
+                        defaultAmount: 10,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [50, 100, 250, 500],
+                        defaultAmount: 50,
                     },
+                },
+                test: {
+                    name: '2021-03-11_AMOUNTS_R2__EU',
+                    isLive: false,
+                    variants: [
+                        {
+                            name: 'V1_HIGHER_STRETCH',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [6, 10, 25, 50],
+                                    defaultAmount: 10,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 250, 500],
+                                    defaultAmount: 50,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V2_HIGHER_DEFAULT',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [6, 8, 12, 24],
+                                    defaultAmount: 12,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 150, 200],
+                                    defaultAmount: 100,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 628626,
                 },
             },
             AUDCountries: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [60, 100, 250, 500],
+                        defaultAmount: 100,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [10, 20, 40],
+                        defaultAmount: 20,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [80, 250, 500, 750],
+                        defaultAmount: 80,
                     },
+                },
+                test: {
+                    name: '2021-03-11_AMOUNTS_R2__AU',
+                    isLive: false,
+                    variants: [
+                        {
+                            name: 'V1_HIGHER_STRETCH',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [60, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [10, 20, 40, 60],
+                                    defaultAmount: 20,
+                                },
+                                ANNUAL: {
+                                    amounts: [80, 250, 500, 750],
+                                    defaultAmount: 80,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V2_HIGHER_DEFAULT',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [60, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [10, 20, 30, 40],
+                                    defaultAmount: 30,
+                                },
+                                ANNUAL: {
+                                    amounts: [80, 150, 300, 500],
+                                    defaultAmount: 150,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V3_LOWER_OPENING',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [60, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [8, 20, 40],
+                                    defaultAmount: 20,
+                                },
+                                ANNUAL: {
+                                    amounts: [60, 250, 500, 750],
+                                    defaultAmount: 60,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 605059,
                 },
             },
             International: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [25, 50, 100, 250],
+                        defaultAmount: 50,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [5, 10, 20],
+                        defaultAmount: 10,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [60, 100, 250, 500],
+                        defaultAmount: 60,
                     },
+                },
+                test: {
+                    name: '2021-03-11_AMOUNTS_R2__INT',
+                    isLive: false,
+                    variants: [
+                        {
+                            name: 'V1_HIGHER_STRETCH',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [6, 10, 25, 40],
+                                    defaultAmount: 10,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 250, 500],
+                                    defaultAmount: 50,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V2_HIGHER_DEFAULT',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [6, 8, 12, 30],
+                                    defaultAmount: 12,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 150, 200],
+                                    defaultAmount: 100,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V3_LOWER_OPENING',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [4, 10, 20],
+                                    defaultAmount: 10,
+                                },
+                                ANNUAL: {
+                                    amounts: [40, 100, 250, 500],
+                                    defaultAmount: 40,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 943978,
                 },
             },
             NZDCountries: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [50, 100, 250, 500],
+                        defaultAmount: 100,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [10, 20, 50],
+                        defaultAmount: 20,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [50, 100, 250, 500],
+                        defaultAmount: 50,
                     },
+                },
+                test: {
+                    name: '2021-03-11_AMOUNTS_R2__NZ',
+                    isLive: false,
+                    variants: [
+                        {
+                            name: 'V1_HIGHER_STRETCH',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [50, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [10, 20, 50, 100],
+                                    defaultAmount: 20,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 500, 750],
+                                    defaultAmount: 50,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V2_HIGHER_DEFAULT',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [50, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [10, 15, 25, 50],
+                                    defaultAmount: 25,
+                                },
+                                ANNUAL: {
+                                    amounts: [50, 100, 500, 750],
+                                    defaultAmount: 100,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V3_LOWER_OPENING',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [50, 100, 250, 500],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [8, 20, 50],
+                                    defaultAmount: 20,
+                                },
+                                ANNUAL: {
+                                    amounts: [40, 100, 500, 750],
+                                    defaultAmount: 40,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 628456,
                 },
             },
             Canada: {
                 control: {
                     ONE_OFF: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [25, 50, 100, 250],
+                        defaultAmount: 50,
                     },
                     MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [5, 10, 20],
+                        defaultAmount: 10,
                     },
                     ANNUAL: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 5,
+                        amounts: [60, 100, 250, 500],
+                        defaultAmount: 60,
                     },
+                },
+                test: {
+                    name: '2021-03-11_AMOUNTS_R2__CA',
+                    isLive: false,
+                    variants: [
+                        {
+                            name: 'V1_HIGHER_STRETCH',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [5, 10, 25, 40],
+                                    defaultAmount: 10,
+                                },
+                                ANNUAL: {
+                                    amounts: [60, 100, 250, 500],
+                                    defaultAmount: 60,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V2_HIGHER_DEFAULT',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [6, 8, 12, 24],
+                                    defaultAmount: 12,
+                                },
+                                ANNUAL: {
+                                    amounts: [60, 100, 150, 200],
+                                    defaultAmount: 100,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V3_LOWER_OPENING',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [25, 50, 100, 250],
+                                    defaultAmount: 50,
+                                },
+                                MONTHLY: {
+                                    amounts: [4, 10, 20],
+                                    defaultAmount: 10,
+                                },
+                                ANNUAL: {
+                                    amounts: [40, 100, 250, 500],
+                                    defaultAmount: 40,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 775798,
                 },
             },
         },

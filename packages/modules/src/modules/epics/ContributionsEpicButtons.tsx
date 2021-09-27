@@ -94,6 +94,7 @@ interface ContributionsEpicButtonsProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     isReminderActive: boolean;
     isSignedIn: boolean;
+    showChoiceCards?: boolean;
     choiceCardSelection?: ChoiceCardSelection;
 }
 
@@ -105,6 +106,7 @@ export const ContributionsEpicButtons = ({
     submitComponentEvent,
     isReminderActive,
     isSignedIn,
+    showChoiceCards,
     choiceCardSelection,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
@@ -115,7 +117,7 @@ export const ContributionsEpicButtons = ({
     }
 
     const getCta = (cta: Cta): Cta =>
-        choiceCardSelection
+        showChoiceCards && choiceCardSelection
             ? {
                   text: cta.text,
                   baseUrl: `${cta.baseUrl}?selected-contribution-type=${choiceCardSelection.frequency}&selected-amount=${choiceCardSelection.amount}`,
