@@ -55,7 +55,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         const policies: Policy[] = [
             new GuGetS3ObjectsPolicy(this, 'S3ReadPolicySupportAdminConsole', {
                 bucketName: 'support-admin-console',
-                paths: [`${this.stage}/banner-deploy/*`, `${this.stage}/channel-switches.json`],
+                paths: [`${this.stage}/banner-deploy/*`, `${this.stage}/channel-switches.json`, `${this.stage}/configured-amounts.json`],
             }),
             new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyGuContributionsPublic', {
                 bucketName: 'gu-contributions-public',
