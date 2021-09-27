@@ -173,12 +173,36 @@ interface ControlProportionSettings {
     offset: number;
 }
 
-export type ChoiceCardAmount = { value: number; isDefault?: boolean };
-export type ChoiceCardFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
+export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
+
+export interface AmountSelection {
+    amounts: number[];
+    defaultAmount: number;
+}
+
+export type ContributionAmounts = {
+    [key in ContributionFrequency]: AmountSelection;
+};
+
+export interface AmountsTestVariant {
+    name: string;
+    amounts: ContributionAmounts;
+}
+
+export interface AmountsTest {
+    name: string;
+    isLive: boolean;
+    variants: AmountsTestVariant[];
+    seed: number;
+}
+
+export type ConfiguredRegionAmounts = {
+    control: ContributionAmounts;
+    test?: AmountsTest;
+};
+
 export type ChoiceCardAmounts = {
-    [index in CountryGroupId]: {
-        [index in ChoiceCardFrequency]: ChoiceCardAmount[];
-    };
+    [key in CountryGroupId]: ConfiguredRegionAmounts;
 };
 
 export interface EpicTest extends Test<EpicVariant> {

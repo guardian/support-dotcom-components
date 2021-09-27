@@ -147,109 +147,157 @@ WithChoiceCards.args = {
         showChoiceCards: true,
         choiceCardAmounts: {
             GBPCountries: {
-                ONE_OFF: [
-                    { value: 30 },
-                    { value: 60, isDefault: true },
-                    { value: 120 },
-                    { value: 240 },
-                ],
-                MONTHLY: [{ value: 3 }, { value: 6 }, { value: 9, isDefault: true }, { value: 15 }],
-                ANNUAL: [
-                    { value: 60 },
-                    { value: 120, isDefault: true },
-                    { value: 240 },
-                    { value: 480 },
-                ],
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 45],
+                        defaultAmount: 10,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 20,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 15,
+                    },
+                },
+                test: {
+                    name: 'GBP_COUNTRIES_AMOUNTS_TEST',
+                    isLive: true,
+                    variants: [
+                        {
+                            name: 'V1',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [5, 10, 20, 25, 30],
+                                    defaultAmount: 20,
+                                },
+                                MONTHLY: {
+                                    amounts: [5, 15, 30, 40, 80],
+                                    defaultAmount: 15,
+                                },
+                                ANNUAL: {
+                                    amounts: [100, 150, 250, 500],
+                                    defaultAmount: 250,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V2',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [10, 50, 100, 150],
+                                    defaultAmount: 100,
+                                },
+                                MONTHLY: {
+                                    amounts: [10, 20, 40, 50],
+                                    defaultAmount: 50,
+                                },
+                                ANNUAL: {
+                                    amounts: [150, 300, 500, 750],
+                                    defaultAmount: 500,
+                                },
+                            },
+                        },
+                    ],
+                    seed: 398375,
+                },
             },
             UnitedStates: {
-                ONE_OFF: [
-                    { value: 25 },
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                ],
-                MONTHLY: [{ value: 7 }, { value: 15, isDefault: true }, { value: 30 }],
-                ANNUAL: [
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                    { value: 500 },
-                ],
-            },
-            AUDCountries: {
-                ONE_OFF: [
-                    { value: 60 },
-                    { value: 100, isDefault: true },
-                    { value: 250 },
-                    { value: 500 },
-                ],
-                MONTHLY: [{ value: 10 }, { value: 20, isDefault: true }, { value: 40 }],
-                ANNUAL: [
-                    { value: 80, isDefault: true },
-                    { value: 250 },
-                    { value: 500 },
-                    { value: 750 },
-                ],
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                },
             },
             EURCountries: {
-                ONE_OFF: [
-                    { value: 25 },
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                ],
-                MONTHLY: [{ value: 6 }, { value: 10, isDefault: true }, { value: 20 }],
-                ANNUAL: [
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                    { value: 500 },
-                ],
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                },
+            },
+            AUDCountries: {
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                },
             },
             International: {
-                ONE_OFF: [
-                    { value: 25 },
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                ],
-                MONTHLY: [{ value: 5 }, { value: 10, isDefault: true }, { value: 20 }],
-                ANNUAL: [
-                    { value: 60, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                    { value: 500 },
-                ],
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                },
             },
             NZDCountries: {
-                ONE_OFF: [
-                    { value: 50 },
-                    { value: 100, isDefault: true },
-                    { value: 250 },
-                    { value: 500 },
-                ],
-                MONTHLY: [{ value: 10 }, { value: 20, isDefault: true }, { value: 50 }],
-                ANNUAL: [
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                    { value: 500 },
-                ],
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                },
             },
             Canada: {
-                ONE_OFF: [
-                    { value: 25 },
-                    { value: 50, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                ],
-                MONTHLY: [{ value: 5 }, { value: 10, isDefault: true }, { value: 20 }],
-                ANNUAL: [
-                    { value: 60, isDefault: true },
-                    { value: 100 },
-                    { value: 250 },
-                    { value: 500 },
-                ],
+                control: {
+                    ONE_OFF: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    MONTHLY: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                    ANNUAL: {
+                        amounts: [5, 10, 15, 20],
+                        defaultAmount: 5,
+                    },
+                },
             },
         },
     },

@@ -19,7 +19,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
-import { countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
+import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -235,7 +235,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
         variant.choiceCardAmounts && {
             frequency: 'MONTHLY',
-            amount: variant.choiceCardAmounts[countryGroupId]['MONTHLY'][1].value,
+            amount: variant.choiceCardAmounts[countryGroupId]['control']['MONTHLY']['amounts'][1],
         },
     );
 
