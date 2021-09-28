@@ -33,8 +33,20 @@ const styles = {
         justify-content: flex-end;
         top: 0;
         right: 0;
-        width: 100px;
+        width: 150px;
         height: 80px;
+
+        ${from.mobileMedium} {
+            width: 200px;
+        }
+
+        ${from.mobileLandscape} {
+            width: 300px;
+        }
+
+        ${from.phablet} {
+            width: 475px;
+        }
 
         ${from.tablet} {
             bottom: 0;
@@ -165,10 +177,34 @@ function InvestigationsMomentBanner({
                 </section>
             </div>
 
-            <Hide above="tablet">
+            <Hide above="mobileMedium">
                 <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 100 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 100 0, 100 80" />
+                    <svg viewBox="0 0 150 80" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 150 0, 150 80" />
+                    </svg>
+                </div>
+            </Hide>
+
+            <Hide below="mobileMedium" above="mobileLandscape">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 200 0, 200 80" />
+                    </svg>
+                </div>
+            </Hide>
+
+            <Hide below="mobileLandscape" above="phablet">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 300 0, 300 80" />
+                    </svg>
+                </div>
+            </Hide>
+
+            <Hide below="phablet" above="tablet">
+                <div css={styles.desktopShadowRight}>
+                    <svg viewBox="0 0 475 80" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="0 0, 475 0, 475 80" />
                     </svg>
                 </div>
             </Hide>
