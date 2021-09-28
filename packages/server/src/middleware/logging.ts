@@ -10,6 +10,7 @@ export const logging = (
 ): void => {
     res.on('finish', () =>
         logger.info(RequestLogName, {
+            body: res.statusCode === 500 ? req.body : undefined,
             status: res.statusCode,
             method: req.method,
             path: req.path,
