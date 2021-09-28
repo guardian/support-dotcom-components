@@ -31,6 +31,7 @@ const variant: EpicVariant = {
                 'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
         },
     },
+    showChoiceCards: false,
 };
 
 const articleCounts: ArticleCounts = {
