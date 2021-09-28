@@ -275,6 +275,8 @@ export const findTestAndVariant = (
     if (test) {
         const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
+        console.log({ test, variant });
+
         return {
             result: { test, variant },
             debug: includeDebug ? debug : undefined,
