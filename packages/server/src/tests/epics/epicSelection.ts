@@ -15,6 +15,7 @@ import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import { shouldNotRenderEpic, shouldThrottle, userIsInTest } from '../../lib/targeting';
+import { logger } from '../../utils/logging';
 
 interface Filter {
     id: string;
@@ -275,7 +276,8 @@ export const findTestAndVariant = (
     if (test) {
         const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
-        console.log({ test, variant });
+        // console.log({ test, variant });
+        logger.error('ABC123 logging test & variant: ', { test, variant });
 
         return {
             result: { test, variant },
