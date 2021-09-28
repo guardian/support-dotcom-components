@@ -177,7 +177,7 @@ const buttonWithPaymentIconStyles = {
             width: auto;
 
             ${from.tablet} {
-                height: 17px;
+                height: 20px;
             }
         }
     `,
