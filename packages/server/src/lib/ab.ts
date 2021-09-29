@@ -31,7 +31,10 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
             return control;
         } else {
             const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
-            return otherVariants[mvtId % otherVariants.length];
+            if (otherVariants.length > 0) {
+                return otherVariants[mvtId % otherVariants.length];
+            }
+            return control;
         }
     }
 

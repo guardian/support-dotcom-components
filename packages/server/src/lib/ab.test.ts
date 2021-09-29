@@ -72,6 +72,15 @@ describe('selectVariant', () => {
         const variant = selectVariant({ ...test, controlProportionSettings }, 600000);
         expect(variant.name).toBe('v1');
     });
+
+    it('should select control if no variants', () => {
+        const controlOnly = {
+            ...test,
+            variants: [test.variants[0]],
+        };
+        const variant = selectVariant({ ...controlOnly, controlProportionSettings }, 600000);
+        expect(variant.name).toBe('control');
+    });
 });
 
 describe('withinRange', () => {
