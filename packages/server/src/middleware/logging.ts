@@ -9,7 +9,7 @@ export const logging = (
     next: express.NextFunction,
 ): void => {
     res.on('finish', () =>
-        logger.info(RequestLogName, {
+        logger.info({
             status: res.statusCode,
             method: req.method,
             path: req.path,
