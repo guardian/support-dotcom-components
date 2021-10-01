@@ -27,7 +27,7 @@ import {
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 import { ampEpic } from './tests/amp/ampEpic';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
-import { logger } from './utils/logging';
+import { logger, logInfo } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
 const app = express();
@@ -238,7 +238,7 @@ app.post('/epic/compare-variant-decision', async (req: express.Request, res: exp
         gotCampaignId !== expectedCampaignId;
 
     if (notBothFalsy && notTheSame) {
-        logger.info(
+        logInfo(
             'comparison failed with data: ' +
                 JSON.stringify({
                     status: 'comparison failed',

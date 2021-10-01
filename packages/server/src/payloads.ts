@@ -34,7 +34,7 @@ import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
-import { logger } from './utils/logging';
+import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
 interface EpicDataResponse {
@@ -132,7 +132,7 @@ const getArticleEpicTests = async (
 
         return [...hardcodedTests, ...regular, fallbackEpicTest];
     } catch (err) {
-        logger.warn(`Error getting article epic tests: ${err}`);
+        logWarn(`Error getting article epic tests: ${err}`);
 
         return [fallbackEpicTest];
     }
