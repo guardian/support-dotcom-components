@@ -1,6 +1,10 @@
 import fs from 'fs';
 import { ModuleInfo, moduleInfos } from '@sdc/shared/config';
-import { buildAmpEpicCampaignCode } from '@sdc/shared/lib';
+import {
+    buildAmpEpicCampaignCode,
+    countryCodeToCountryGroupId,
+    getLocalCurrencySymbol,
+} from '@sdc/shared/lib';
 import {
     EpicType,
     OphanComponentEvent,
@@ -24,6 +28,7 @@ import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } fro
 import { ampEpic } from './tests/amp/ampEpic';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { logger } from './utils/logging';
+import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -325,6 +330,53 @@ app.get(
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const response = await ampEpic(ampVariantAssignments, countryCode);
+
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Cache-Control', 'private, no-store');
+            res.setHeader('Surrogate-Control', 'max-age=0');
+
+            res.json(response);
+        } catch (error) {
+            next(error);
+        }
+    },
+);
+
+app.get(
+    '/amp/choice_cards_data',
+    cors({
+        origin: [
+            'https://amp-theguardian-com.cdn.ampproject.org',
+            'https://amp.theguardian.com',
+            'http://localhost:3030',
+            'https://amp.code.dev-theguardian.com',
+        ],
+        credentials: true,
+        allowedHeaders: ['x-gu-geoip-country-code'],
+    }),
+    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        try {
+            const countryCode = req.header('X-GU-GeoIP-Country-Code') || 'GB';
+            const currencySymbol = getLocalCurrencySymbol(countryCode);
+            const countryGroupId = countryCodeToCountryGroupId(countryCode);
+            const choiceCardAmounts = await cachedChoiceCardAmounts();
+            const response = {
+                amounts: {
+                    ONE_OFF: choiceCardAmounts[countryGroupId]['control']['ONE_OFF'].amounts.slice(
+                        0,
+                        2,
+                    ),
+                    MONTHLY: choiceCardAmounts[countryGroupId]['control']['MONTHLY'].amounts.slice(
+                        0,
+                        2,
+                    ),
+                    ANNUAL: choiceCardAmounts[countryGroupId]['control']['ANNUAL'].amounts.slice(
+                        0,
+                        2,
+                    ),
+                },
+                currencySymbol,
+            };
 
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Cache-Control', 'private, no-store');
