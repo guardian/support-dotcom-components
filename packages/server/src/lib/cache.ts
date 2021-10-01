@@ -1,4 +1,4 @@
-import { logger } from '../utils/logging';
+import { logWarn } from '../utils/logging';
 
 type Cache = Record<string, unknown>;
 const cache: Cache = {};
@@ -34,7 +34,7 @@ export const cacheAsync = <T>(
                 cache[key] = result;
                 return Promise.resolve(result);
             } catch (err) {
-                logger.warn(`Failed to make initial request for ${key}: ${err}`);
+                logWarn(`Failed to make initial request for ${key}: ${err}`);
                 return Promise.reject(
                     new Error(`Failed to make initial request for ${key}: ${err}`),
                 );
@@ -45,7 +45,7 @@ export const cacheAsync = <T>(
                             cache[key] = await fn();
                             scheduleRefresh(ttlSec * 1000);
                         } catch (err) {
-                            logger.warn(`Error refreshing cached value for key ${key}: ${err}`);
+                            logWarn(`Error refreshing cached value for key ${key}: ${err}`);
                             scheduleRefresh(retryIntervalMs);
                         }
                     }, ms);

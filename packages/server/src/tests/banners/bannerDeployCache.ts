@@ -1,7 +1,7 @@
 import { BannerChannel } from '@sdc/shared/types';
 import { cacheAsync } from '../../lib/cache';
 import { isProd } from '../../lib/env';
-import { logger } from '../../utils/logging';
+import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
 
 export type ReaderRevenueRegion =
@@ -27,7 +27,7 @@ const fetchBannerDeployTimes = (bannerChannel: BannerChannel) => (): Promise<Ban
                     RestOfWorld: new Date(data.RestOfWorld.timestamp),
                     EuropeanUnion: new Date(data.EuropeanUnion.timestamp),
                 };
-                logger.info(`Got banner deploy times for ${channel}`, times);
+                logInfo(`Got banner deploy times for ${channel}, times: ${JSON.stringify(times)}`);
                 return times;
             })
     );

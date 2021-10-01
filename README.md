@@ -110,6 +110,10 @@ This repo consists of 3 packages, managed by [yarn workspaces](https://classic.y
 To ssh onto an instance use:
 `ssm ssh --profile <aws profile> -x --ssm-tunnel -i <instance ID>`
 
+## Logging
+
+When running locally a simple `console.log` is all you need. However, if you want to produce logs that can be viewed in kibana the simplest way to go is to use the `logInfo`/`logWarn`/`logError` functions exported from `logging.ts`. These take a `message` string that you can search for under the `message` field in kibana. If you want additional flexibility, you can use the `logger.info`/`logger.warn`/`logger.error` methods on the exported `logger` object instead. These methods take an object with any key/values that will appear as top level keys in kibana. However, getting the types wrong (e.g if you did `logger.info({ message: ["foo", "bar"]}))` would result in kibana silently rejecting the log and it therefore not being searchable (as `message` must be a string).
+
 ## Module versions
 
 We use versioning on the modules for backwards-incompatible upgrades. For example when we need to upgrade the emotion dependency, which the platforms (DCR+frontend) must also have.

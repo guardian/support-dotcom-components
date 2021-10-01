@@ -1,5 +1,5 @@
 import express from 'express';
-import { logger } from '../utils/logging';
+import { logInfo } from '../utils/logging';
 
 export const errorHandling = (
     error: Error,
@@ -14,5 +14,5 @@ export const errorHandling = (
 
     res.status(500).send({ error: message });
 
-    logger.error('Something went wrong: ', message);
+    logInfo('Something went wrong: ' + message);
 };

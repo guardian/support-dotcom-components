@@ -2,14 +2,12 @@ import path from 'path';
 import { Configuration, LoggingEvent } from 'log4js';
 import { addLayout, configure, getLogger } from 'log4js';
 import { isDev, isProd } from '../lib/env';
-import { RequestLogName } from '../middleware/logging';
 
 const logLocation = !isDev
     ? '/var/log/dotcom-components/dotcom-components.log'
     : `${path.resolve('logs')}/dotcom-components.log`;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const logFields = (logEvent: LoggingEvent): any => {
+const logFields = (logEvent: LoggingEvent) => {
     const fields = {
         stack: 'support',
         app: 'dotcom-components',
@@ -18,18 +16,12 @@ const logFields = (logEvent: LoggingEvent): any => {
         level: logEvent.level.levelStr,
         level_value: logEvent.level.level,
     };
+    const data = logEvent.data[0];
 
-    if (logEvent.data[0] === RequestLogName && typeof logEvent.data[1] === 'object') {
-        return {
-            ...fields,
-            ...logEvent.data[1],
-        };
-    } else {
-        return {
-            ...fields,
-            message: logEvent.data,
-        };
-    }
+    return {
+        ...fields,
+        ...data,
+    };
 };
 
 addLayout('json', () => {
@@ -61,3 +53,15 @@ const log4jConfig = (layout: string): Configuration => ({
 configure(log4jConfig('json'));
 export const logger = getLogger(process.env.NODE_ENV);
 logger.info('Created log4j logger');
+
+export function logInfo(message: string): void {
+    logger.info({ message });
+}
+
+export function logError(message: string): void {
+    logger.error({ message });
+}
+
+export function logWarn(message: string): void {
+    logger.warn({ message });
+}
