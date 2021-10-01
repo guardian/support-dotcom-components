@@ -27,7 +27,7 @@ import {
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 import { ampEpic } from './tests/amp/ampEpic';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
-import { logger, logInfo } from './utils/logging';
+import { logInfo } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
 const app = express();

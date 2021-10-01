@@ -25,7 +25,7 @@ async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
             campaignCode: campaignCode,
             componentId: campaignCode,
         },
-        choiceCards: true,
+        showChoiceCards: true,
     };
 }
 
