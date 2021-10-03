@@ -41,8 +41,7 @@ const PrimaryCtaButton = ({
     tracking,
     countryCode,
     numArticles,
-}: // articleCounts,
-{
+}: {
     cta?: Cta;
     tracking: Tracking;
     countryCode?: string;
@@ -119,8 +118,7 @@ export const ContributionsEpicButtons = ({
     isSignedIn,
     choiceCardSelection,
     numArticles,
-}: // articleCounts,
-ContributionsEpicButtonsProps): JSX.Element | null => {
+}: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
     const { cta, secondaryCta, showReminderFields } = variant;
 

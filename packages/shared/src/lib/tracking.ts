@@ -14,7 +14,7 @@ type LinkParams = {
 export const addTrackingParams = (
     baseUrl: string,
     params: Tracking,
-    numArticles: number,
+    numArticles?: number,
 ): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
