@@ -33,7 +33,7 @@ export function InvestigationsMomentBannerArticleCount({
 }: InvestigationsMomentBannerArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
-            You have read{' '}
+            You&apos;ve read{' '}
             <Hide above="tablet">
                 <ArticleCountOptOutPopup
                     numArticles={numArticles}
@@ -48,7 +48,7 @@ export function InvestigationsMomentBannerArticleCount({
                     type="investigations-moment-banner"
                 />
             </Hide>{' '}
-            in the past year
+            in the last year
         </p>
     );
 }
