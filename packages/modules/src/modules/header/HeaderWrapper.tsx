@@ -26,9 +26,15 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
         tracking,
         countryCode,
         submitComponentEvent,
+        numArticles,
     }) => {
         const buildEnrichedCta = (cta: HeaderCta): HeaderEnrichedCta => ({
-            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(cta.url, tracking, countryCode),
+            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
+                cta.url,
+                tracking,
+                numArticles,
+                countryCode,
+            ),
             ctaText: cta.text,
         });
 

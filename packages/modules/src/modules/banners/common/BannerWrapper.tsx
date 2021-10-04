@@ -52,7 +52,12 @@ const withBannerData = (
     // For safety, this function throws if not all placeholders are replaced
     const buildRenderedContent = (bannerContent: BannerContent): BannerRenderedContent => {
         const buildEnrichedCta = (cta: Cta): BannerEnrichedCta => ({
-            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(cta.baseUrl, tracking, countryCode),
+            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
+                cta.baseUrl,
+                tracking,
+                numArticles,
+                countryCode,
+            ),
             ctaText: cta.text,
         });
 

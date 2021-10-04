@@ -147,6 +147,7 @@ interface LiveblogEpicCtaProps {
     text?: string;
     baseUrl?: string;
     countryCode?: string;
+    numArticles?: number;
     tracking: Tracking;
 }
 
@@ -154,11 +155,13 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     text,
     baseUrl,
     tracking,
+    numArticles,
     countryCode,
 }: LiveblogEpicCtaProps) => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl || DEFAULT_CTA_BASE_URL,
         tracking,
+        numArticles,
         countryCode,
     );
     return (
