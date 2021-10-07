@@ -178,6 +178,7 @@ const columnCounts = {
 
 const ContributionsBanner: React.FC<BannerRenderProps> = ({
     onCtaClick,
+    onSignInClick,
     onSecondaryCtaClick,
     reminderTracking,
     onCloseClick,
@@ -209,7 +210,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
             }}
             content={content}
         >
-            <ContributionsBannerSignInCta />
+            <ContributionsBannerSignInCta onSignInClick={onSignInClick} />
         </BannerText>
     );
 
@@ -250,7 +251,9 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                 onReminderCloseClick={onReminderCloseClick}
                 trackReminderSetClick={reminderTracking.onReminderSetClick}
                 email={email}
-            />
+            >
+                <ContributionsBannerSignInCta onSignInClick={onSignInClick} />
+            </ContributionsBannerMobile>
 
             <Container>
                 <div css={styles.tabletAndDesktop}>

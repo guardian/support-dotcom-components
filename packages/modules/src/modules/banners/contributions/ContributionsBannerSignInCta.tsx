@@ -7,6 +7,8 @@ const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
 
 const boldText = css`
+    font-family: inherit;
+    font-size: inherit;
     font-weight: 700;
 `;
 
@@ -15,11 +17,20 @@ const signInCta = css`
     margin: ${space[4]}px 0 0;
 `;
 
-export const ContributionsBannerSignInCta: React.FC = () => {
+type BannerSignInCtaProps = {
+    onSignInClick?: () => void;
+};
+
+export const ContributionsBannerSignInCta: React.FC<BannerSignInCtaProps> = ({ onSignInClick }) => {
     return (
         <p css={[signInCta, boldText]}>
             Already a supporter?{' '}
-            <Link href={signInUrl} priority="secondary" cssOverrides={boldText}>
+            <Link
+                onClick={onSignInClick}
+                href={signInUrl}
+                priority="secondary"
+                cssOverrides={boldText}
+            >
                 Sign in
             </Link>{' '}
             and we promise to ask you less.
