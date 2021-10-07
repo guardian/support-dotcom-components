@@ -1,9 +1,9 @@
 import { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
 import { daysSince } from '../lib/dates';
 
-const lowValueSections = ['football', 'money', 'education', 'games', 'teacher-network', 'careers'];
+const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
-const lowValueTags = ['guardian-masterclasses/guardian-masterclasses'];
+const lowValueTags = ['tone/matchreports', 'guardian-masterclasses/guardian-masterclasses'];
 
 export interface ThrottleConfig {
     maxViewsDays: number;

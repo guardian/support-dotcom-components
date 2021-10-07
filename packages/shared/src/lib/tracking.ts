@@ -8,9 +8,14 @@ type LinkParams = {
     REFPVID: string;
     INTCMP: string;
     acquisitionData: string;
+    numArticles: number;
 };
 
-export const addTrackingParams = (baseUrl: string, params: Tracking): string => {
+export const addTrackingParams = (
+    baseUrl: string,
+    params: Tracking,
+    numArticles?: number,
+): string => {
     const acquisitionData = encodeURIComponent(
         JSON.stringify({
             source: params.platformId,
@@ -32,9 +37,12 @@ export const addTrackingParams = (baseUrl: string, params: Tracking): string => 
         REFPVID: params.ophanPageId || 'not_found',
         INTCMP: params.campaignCode || '',
         acquisitionData: acquisitionData,
+        numArticles,
     };
 
-    const queryString = Object.entries(trackingLinkParams).map(([key, value]) => `${key}=${value}`);
+    const queryString = Object.entries(trackingLinkParams)
+        .filter(([, value]) => value !== undefined)
+        .map(([key, value]) => `${key}=${value}`);
     const alreadyHasQueryString = baseUrl.includes('?');
 
     return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
@@ -43,12 +51,13 @@ export const addTrackingParams = (baseUrl: string, params: Tracking): string => 
 export const addRegionIdAndTrackingParamsToSupportUrl = (
     baseUrl: string,
     tracking: Tracking,
+    numArticles?: number,
     countryCode?: string,
 ): string => {
     const isSupportUrl = /\bsupport\./.test(baseUrl);
 
     return isSupportUrl
-        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking)
+        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles)
         : baseUrl;
 };
 

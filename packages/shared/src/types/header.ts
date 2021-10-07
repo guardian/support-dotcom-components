@@ -30,6 +30,7 @@ export interface HeaderProps {
     tracking: Tracking;
     countryCode?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    numArticles?: number;
 }
 
 export interface HeaderTestSelection {
@@ -46,4 +47,5 @@ export interface HeaderTargeting {
     modulesVersion?: string;
     mvtId: number;
     lastOneOffContributionDate?: string;
+    numArticles?: number;
 }
