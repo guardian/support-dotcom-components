@@ -29,6 +29,7 @@ import { ampEpic } from './tests/amp/ampEpic';
 import { getAmpExperimentData } from './tests/amp/ampEpicTests';
 import { logInfo } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import { buildReminderFields } from '@sdc/shared/lib';
 
 const app = express();
 app.use(express.json({ limit: '50mb' }));
@@ -327,62 +328,73 @@ app.get(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             // We use the fastly geo header for determining the correct currency symbol
-            const countryCode = req.header('X-GU-GeoIP-Country-Code');
-            const ampVariantAssignments = getAmpVariantAssignments(req);
-            const response = await ampEpic(ampVariantAssignments, countryCode);
-
-            res.setHeader('Content-Type', 'application/json');
-            res.setHeader('Cache-Control', 'private, no-store');
-            res.setHeader('Surrogate-Control', 'max-age=0');
-
-            res.json(response);
-        } catch (error) {
-            next(error);
-        }
-    },
-);
-
-app.get(
-    '/amp/choice_cards_data',
-    cors({
-        origin: [
-            'https://amp-theguardian-com.cdn.ampproject.org',
-            'https://amp.theguardian.com',
-            'http://localhost:3030',
-            'https://amp.code.dev-theguardian.com',
-        ],
-        credentials: true,
-        allowedHeaders: ['x-gu-geoip-country-code'],
-    }),
-    async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-        try {
             const countryCode = req.header('X-GU-GeoIP-Country-Code') || 'GB';
-            const currencySymbol = getLocalCurrencySymbol(countryCode);
             const countryGroupId = countryCodeToCountryGroupId(countryCode);
             const choiceCardAmounts = await cachedChoiceCardAmounts();
-            const response = {
-                amounts: {
-                    ONE_OFF: choiceCardAmounts[countryGroupId]['control']['ONE_OFF'].amounts.slice(
-                        0,
-                        2,
-                    ),
-                    MONTHLY: choiceCardAmounts[countryGroupId]['control']['MONTHLY'].amounts.slice(
-                        0,
-                        2,
-                    ),
-                    ANNUAL: choiceCardAmounts[countryGroupId]['control']['ANNUAL'].amounts.slice(
-                        0,
-                        2,
-                    ),
+            const ampVariantAssignments = getAmpVariantAssignments(req);
+            const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const acquisitionData = {
+                source: 'GOOGLE_AMP',
+                componentType: 'ACQUISITIONS_EPIC',
+                componentId: epic.cta.componentId,
+                campaignCode: epic.cta.campaignCode,
+                abTest: {
+                    name: epic.testName,
+                    variant: epic.variantName,
                 },
-                currencySymbol,
+                referrerUrl: req.query.webUrl,
+            };
+            const ampState = {
+                ctaUrl: `${epic.cta.url}?INTCMP=${
+                    epic.cta.campaignCode
+                }&acquisitionData=${JSON.stringify(acquisitionData)}`,
+                reminder: {
+                    ...buildReminderFields(),
+                    hideButtons: false,
+                    hideReminderWrapper: true,
+                    hideSuccessMessage: true,
+                    hideFailureMessage: true,
+                    hideReminderCta: false,
+                    hideReminderForm: false,
+                },
+                choiceCards: epic.showChoiceCards
+                    ? {
+                          choiceCardSelection: {
+                              frequency: 'MONTHLY',
+                              amount:
+                                  choiceCardAmounts[countryGroupId]['control']['MONTHLY']
+                                      .amounts[1],
+                          },
+                          amounts: {
+                              ONE_OFF: choiceCardAmounts[countryGroupId]['control'][
+                                  'ONE_OFF'
+                              ].amounts.slice(0, 2),
+                              MONTHLY: choiceCardAmounts[countryGroupId]['control'][
+                                  'MONTHLY'
+                              ].amounts.slice(0, 2),
+                              ANNUAL: choiceCardAmounts[countryGroupId]['control'][
+                                  'ANNUAL'
+                              ].amounts.slice(0, 2),
+                          },
+                          choiceCardLabelSuffix: {
+                              ONE_OFF: '',
+                              MONTHLY: ' per month',
+                              ANNUAL: ' per year',
+                          },
+                          classNames: {
+                              choiceCard: 'epicChoiceCard',
+                              choiceCardSelected: 'epicChoiceCard epicChoiceCardSelected',
+                          },
+                          currencySymbol: getLocalCurrencySymbol(countryCode),
+                      }
+                    : false,
             };
 
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Cache-Control', 'private, no-store');
             res.setHeader('Surrogate-Control', 'max-age=0');
 
-            res.json(response);
+            res.json({ ...epic, ...ampState });
         } catch (error) {
             next(error);
         }
