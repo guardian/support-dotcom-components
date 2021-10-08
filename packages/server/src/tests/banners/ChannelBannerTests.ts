@@ -1,5 +1,6 @@
 import {
     contributionsBanner,
+    contributionsBannerWithSignIn,
     digiSubs,
     guardianWeekly,
     investigationsMomentBanner,
@@ -27,6 +28,8 @@ export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
+    [BannerTemplate.ContributionsBannerWithSignIn]:
+        contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
