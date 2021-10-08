@@ -104,7 +104,7 @@ export const selectAmpEpicTestAndVariant = async (
                     componentId: campaignCode,
                     campaignCode: campaignCode,
                 },
-                choiceCards: variant.showChoiceCards,
+                showChoiceCards: variant.showChoiceCards,
             };
 
             if (variant.tickerSettings) {
