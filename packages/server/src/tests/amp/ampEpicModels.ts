@@ -20,6 +20,7 @@ export interface AMPEpic {
     highlightedText?: string;
     cta: AMPCta;
     ticker?: AMPTicker;
+    showChoiceCards?: boolean;
 }
 
 /**
@@ -32,6 +33,7 @@ export interface AmpEpicTestVariant {
     highlightedText?: string;
     cta?: Cta;
     tickerSettings?: TickerSettings;
+    showChoiceCards?: boolean;
 }
 
 export interface AmpEpicTest {
