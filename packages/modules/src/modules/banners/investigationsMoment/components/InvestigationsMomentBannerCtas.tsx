@@ -60,42 +60,42 @@ const styles = {
     `,
 };
 
+interface BreakpointCtas {
+    primary: BannerEnrichedCta | null;
+    secondary: BannerEnrichedSecondaryCta | null;
+}
+
 interface InvestigationsMomentBannerCtasProps {
-    primaryCta: BannerEnrichedCta | null;
-    secondaryCta: BannerEnrichedSecondaryCta | null;
-    mobilePrimaryCta: BannerEnrichedCta | null;
-    mobileSecondaryCta: BannerEnrichedSecondaryCta | null;
+    mobileCtas: BreakpointCtas | null;
+    desktopCtas: BreakpointCtas;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
 }
 
 export function InvestigationsMomentBannerCtas({
-    primaryCta,
-    secondaryCta,
-    mobilePrimaryCta: maybeMobilePrimaryCta,
-    mobileSecondaryCta: maybeMobileSecondaryCta,
+    desktopCtas,
+    mobileCtas: maybeMobileCtas,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
 }: InvestigationsMomentBannerCtasProps): JSX.Element {
-    const mobilePrimaryCta = maybeMobilePrimaryCta ?? primaryCta;
-    const mobileSecondaryCta = maybeMobileSecondaryCta ?? secondaryCta;
+    const mobileCtas = maybeMobileCtas ?? desktopCtas;
 
     return (
         <div css={styles.container}>
             <div>
-                {mobilePrimaryCta && (
+                {mobileCtas.primary && (
                     <Hide above="tablet">
                         <ButtonWithPaymentIcons
                             button={
                                 <ThemeProvider theme={buttonReaderRevenue}>
                                     <LinkButton
-                                        href={mobilePrimaryCta.ctaUrl}
+                                        href={mobileCtas.primary.ctaUrl}
                                         onClick={onPrimaryCtaClick}
                                         cssOverrides={styles.mobilePrimaryCta}
                                         size="small"
                                         priority="primary"
                                     >
-                                        {mobilePrimaryCta.ctaText}
+                                        {mobileCtas.primary.ctaText}
                                     </LinkButton>
                                 </ThemeProvider>
                             }
@@ -103,12 +103,12 @@ export function InvestigationsMomentBannerCtas({
                     </Hide>
                 )}
 
-                {primaryCta && (
+                {desktopCtas.primary && (
                     <Hide below="tablet">
                         <ButtonWithPaymentIcons
                             button={
                                 <LinkButton
-                                    href={primaryCta.ctaUrl}
+                                    href={desktopCtas.primary.ctaUrl}
                                     onClick={onPrimaryCtaClick}
                                     cssOverrides={styles.desktopPrimaryCta}
                                     size="small"
@@ -116,7 +116,7 @@ export function InvestigationsMomentBannerCtas({
                                     icon={<SvgArrowRightStraight />}
                                     iconSide="right"
                                 >
-                                    {primaryCta.ctaText}
+                                    {desktopCtas.primary.ctaText}
                                 </LinkButton>
                             }
                         />
@@ -125,33 +125,33 @@ export function InvestigationsMomentBannerCtas({
             </div>
 
             <div>
-                {mobileSecondaryCta?.type === SecondaryCtaType.Custom && (
+                {mobileCtas.secondary?.type === SecondaryCtaType.Custom && (
                     <Hide above="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>
                             <LinkButton
-                                href={mobileSecondaryCta.cta.ctaUrl}
+                                href={mobileCtas.secondary.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
                                 cssOverrides={styles.secondaryCta}
                                 size="small"
                                 priority="primary"
                             >
-                                {mobileSecondaryCta.cta.ctaText}
+                                {mobileCtas.secondary.cta.ctaText}
                             </LinkButton>
                         </ThemeProvider>
                     </Hide>
                 )}
 
-                {secondaryCta?.type === SecondaryCtaType.Custom && (
+                {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
                     <Hide below="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>
                             <LinkButton
-                                href={secondaryCta.cta.ctaUrl}
+                                href={desktopCtas.secondary.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
                                 cssOverrides={styles.secondaryCta}
                                 size="small"
                                 priority="primary"
                             >
-                                {secondaryCta.cta.ctaText}
+                                {desktopCtas.secondary.cta.ctaText}
                             </LinkButton>
                         </ThemeProvider>
                     </Hide>

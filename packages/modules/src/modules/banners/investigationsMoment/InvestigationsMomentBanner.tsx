@@ -167,10 +167,18 @@ function InvestigationsMomentBanner({
 
                 <section css={styles.ctasContainer}>
                     <InvestigationsMomentBannerCtas
-                        primaryCta={content.mainContent.primaryCta}
-                        secondaryCta={content.mainContent.secondaryCta}
-                        mobilePrimaryCta={content.mobileContent?.primaryCta ?? null}
-                        mobileSecondaryCta={content.mobileContent?.secondaryCta ?? null}
+                        desktopCtas={{
+                            primary: content.mainContent.primaryCta,
+                            secondary: content.mainContent.secondaryCta,
+                        }}
+                        mobileCtas={
+                            content.mobileContent
+                                ? {
+                                      primary: content.mobileContent.primaryCta,
+                                      secondary: content.mobileContent.secondaryCta,
+                                  }
+                                : null
+                        }
                         onPrimaryCtaClick={onCtaClick}
                         onSecondaryCtaClick={onSecondaryCtaClick}
                     />
