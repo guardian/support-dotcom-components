@@ -19,6 +19,11 @@ export const selectWithSeed = <V extends Variant>(
     seed: string,
     variants: V[],
 ): V => {
+    if (variants.length === 1) {
+        // optimisation as it's common for a 'test' to have a single variant
+        return variants[0];
+    }
+
     const n: number = Math.abs(seedrandom(mvtId + seed).int32());
     return variants[n % variants.length];
 };
