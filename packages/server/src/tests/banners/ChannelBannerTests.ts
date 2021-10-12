@@ -2,6 +2,7 @@ import {
     contributionsBanner,
     contributionsBannerWithSignIn,
     digiSubs,
+    environmentMomentBanner,
     guardianWeekly,
     investigationsMomentBanner,
 } from '@sdc/shared/config';
@@ -31,6 +32,7 @@ export const BannerPaths: {
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
+    [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };
