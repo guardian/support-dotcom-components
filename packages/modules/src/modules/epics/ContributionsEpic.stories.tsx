@@ -582,3 +582,27 @@ WithChoiceCards.args = {
         },
     },
 };
+
+export const WithSignInLink = Template.bind({});
+WithSignInLink.args = {
+    variant: {
+        ...props.variant,
+        showSignInLink: true,
+    },
+};
+
+export const WithReminderAndSignInLink = Template.bind({});
+WithReminder.args = {
+    variant: {
+        ...props.variant,
+        showSignInLink: true,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+        showReminderFields: {
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
+        },
+    },
+};

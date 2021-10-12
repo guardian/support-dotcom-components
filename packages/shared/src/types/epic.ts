@@ -124,6 +124,7 @@ export interface EpicVariant extends Variant {
     // the test + variant. This means users **wont** fall through to a test
     // with lower priority.
     maxViews?: MaxViews;
+    showSignInLink?: boolean;
 }
 
 const variantSchema = z.object({
@@ -139,6 +140,7 @@ const variantSchema = z.object({
     showReminderFields: reminderFieldsSchema.optional(),
     separateArticleCount: separateArticleCountSchema.optional(),
     maxViews: maxViewsSchema.optional(),
+    showSignInLink: z.boolean().optional(),
 });
 
 export type EpicProps = {
