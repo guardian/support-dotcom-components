@@ -1,8 +1,8 @@
 import { EpicTest } from '@sdc/shared/types';
-import { selectVariant, withinRange } from './ab';
+import { selectVariant, withinRange, selectWithSeed } from './ab';
 
 const test: EpicTest = {
-    name: 'example-1',
+    name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
     isOn: true,
     locations: [],
     tagIds: [],
@@ -44,12 +44,12 @@ const controlProportionSettings = {
 
 describe('selectVariant', () => {
     it('should select control (no controlProportion)', () => {
-        const variant = selectVariant(test, 0);
+        const variant = selectVariant(test, 4);
         expect(variant.name).toBe('control');
     });
 
     it('should select variant (no controlProportion)', () => {
-        const variant = selectVariant(test, 1);
+        const variant = selectVariant(test, 2);
         expect(variant.name).toBe('v1');
     });
 
@@ -110,5 +110,22 @@ describe('withinRange', () => {
 
     it('should return false if above upper and below lower (wrap)', () => {
         expect(withinRange(999990, 0.1, 99990)).toBe(false);
+    });
+});
+
+describe('selectWithSeed', () => {
+    it('should evenly distribute to the variants', () => {
+        const variantCounts: { [key: string]: number } = {
+            control: 0,
+            v1: 0,
+        };
+
+        for (let mvt = 0; mvt < 5000; mvt++) {
+            const variant = selectWithSeed(mvt, 'testName', test.variants);
+            variantCounts[variant.name]++;
+        }
+
+        // Uses pseudorandom generator so they may not match precisely
+        expect(Math.abs(variantCounts.control - variantCounts.v1)).toBeLessThan(10);
     });
 });
