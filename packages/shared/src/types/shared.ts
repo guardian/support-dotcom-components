@@ -145,6 +145,16 @@ export interface ControlProportionSettings {
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
+/**
+ * Secondary tests are for experimenting with targeting, e.g. measuring the impact of not showing banners on certain sections.
+ * It is not a message test and should not affect what the user sees once they're in a test.
+ * But we do need to carry the test/variant names through in the tracking.
+ */
+export interface SecondaryAbTest {
+    testName: string;
+    variantName: string;
+}
+
 export type TestTracking = {
     abTestName: string;
     abTestVariant: string;
@@ -153,6 +163,7 @@ export type TestTracking = {
     componentType: OphanComponentType;
     products?: OphanProduct[];
     labels?: string[];
+    secondaryAbTest?: SecondaryAbTest;
 };
 
 export type PageTracking = {
