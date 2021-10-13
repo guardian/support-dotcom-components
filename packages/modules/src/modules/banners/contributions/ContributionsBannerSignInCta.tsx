@@ -5,7 +5,7 @@ import { Link } from '@guardian/src-link';
 
 // TODO: replace with correct UTM parameters
 const signInUrl =
-    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
+    'https://profile.theguardian.com/signin??utm_source=gdnwb&utm_medium=banner&utm_campaign=SigninContributionsBanner_Exisitng&CMP_TU=mrtn&CMP_BUNIT=subs';
 
 const boldText = css`
     font-family: inherit;
