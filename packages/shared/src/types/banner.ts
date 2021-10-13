@@ -17,6 +17,7 @@ import {
     Tracking,
     PageTracking,
     trackingSchema,
+    SecondaryAbTest,
 } from './shared';
 
 export type BannerTargeting = {
@@ -103,6 +104,7 @@ export interface BannerTestSelection {
     variant: BannerVariant;
     moduleUrl: string;
     moduleName: string;
+    secondaryAbTest?: SecondaryAbTest;
 }
 
 export interface BannerProps {
