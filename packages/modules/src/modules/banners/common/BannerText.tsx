@@ -15,9 +15,10 @@ type BannerTextProps = {
         mobile?: BannerTextStyles;
         desktop: BannerTextStyles;
     };
+    children?: React.ReactNode;
 };
 
-export const BannerText: React.FC<BannerTextProps> = ({ styles, content }) => {
+export const BannerText: React.FC<BannerTextProps> = ({ styles, content, children }) => {
     const mobileStyles = styles.mobile || styles.desktop;
     const desktopStyles = styles.desktop;
 
@@ -42,6 +43,7 @@ export const BannerText: React.FC<BannerTextProps> = ({ styles, content }) => {
                                         </span>
                                     </>
                                 )}
+                                {children}
                             </div>
                         </div>
                     </div>

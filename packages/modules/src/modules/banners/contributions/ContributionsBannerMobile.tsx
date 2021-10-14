@@ -110,6 +110,7 @@ interface ContributionsBannerMobileProps {
     trackReminderSetClick: () => void;
     isReminderOpen: boolean;
     email?: string;
+    children?: React.ReactNode;
 }
 
 export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps> = ({
@@ -122,6 +123,7 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
     onReminderCloseClick,
     trackReminderSetClick,
     email,
+    children,
 }: ContributionsBannerMobileProps) => {
     const reminderRef = useRef<HTMLDivElement>(null);
 
@@ -145,6 +147,7 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
                         <span css={commonStyles.highlightedText}>{content.highlightedText}</span>
                     </>
                 )}
+                {children}
             </div>
 
             <div css={styles.ctasContainer}>
