@@ -15,7 +15,7 @@ const signInLinkText = css`
 
 // TODO: replace with correct UTM parameters
 const signInUrl =
-    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
+    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SigninEPIC_Exisitng&CMP_TU=mrtn&CMP_BUNIT=subs';
 
 export const ContributionsEpicSignInCta: React.FC = () => {
     return (
