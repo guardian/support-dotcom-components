@@ -13,6 +13,7 @@ import { EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
+import { ContributionsEpicPaymentRequestButton } from './ContributionsEpicPaymentRequestButton';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
 import { ContributionsEpicArticleCountAboveWithOptOut } from './ContributionsEpicArticleCountAboveWithOptOut';
@@ -386,6 +387,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 choiceCardSelection={choiceCardSelection}
                 numArticles={articleCounts.for52Weeks}
             />
+
+            <ContributionsEpicPaymentRequestButton />
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
