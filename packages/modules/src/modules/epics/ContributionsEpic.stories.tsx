@@ -592,7 +592,7 @@ WithSignInLink.args = {
 };
 
 export const WithReminderAndSignInLink = Template.bind({});
-WithReminder.args = {
+WithReminderAndSignInLink.args = {
     variant: {
         ...props.variant,
         showSignInLink: true,
