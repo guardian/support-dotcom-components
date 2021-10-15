@@ -11,6 +11,7 @@ const OPHAN_COMPONENT_ID_ARTICLE_COUNT_STAY_IN = 'contributions-epic-article-cou
 const OPHAN_COMPONENT_ID_ARTICLE_COUNT_OPT_OUT = 'contributions-epic-article-count-opt-out';
 const OPHAN_COMPONENT_ID_ARTICLE_COUNT_STAY_OUT = 'contributions-epic-article-count-stay-out';
 const OPHAN_COMPONENT_ID_ARTICLE_COUNT_OPT_IN = 'contributions-epic-article-count-opt-in';
+const OPHAN_COMPONENT_ID_SIGN_IN = 'contributions-epic-sign-in';
 
 export const getReminderViewEvent = (isSignedIn: boolean): OphanComponentEvent => ({
     component: {
@@ -97,6 +98,14 @@ export const OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_ARTICLE_COUNT_OPT_IN,
+    },
+    action: 'CLICK',
+};
+
+export const OPHAN_COMPONENT_SIGN_IN: OphanComponentEvent = {
+    component: {
+        componentType: 'ACQUISITIONS_OTHER',
+        id: OPHAN_COMPONENT_ID_SIGN_IN,
     },
     action: 'CLICK',
 };
