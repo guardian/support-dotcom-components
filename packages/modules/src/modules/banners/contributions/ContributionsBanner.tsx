@@ -20,6 +20,7 @@ const styles = {
         overflow: hidden;
         width: 100%;
         background-color: ${brandAlt[400]};
+        color: ${neutral[7]};
         ${from.tablet} {
             border-top: 1px solid ${neutral[7]};
             padding-bottom: 0;
