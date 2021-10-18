@@ -33,7 +33,7 @@ describe('selectBannerTest', () => {
         const cache = getBannerDeployCache(secondDate);
 
         const targeting: BannerTargeting = {
-            alreadyVisitedCount: 3,
+            alreadyVisitedCount: 53,
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
@@ -155,7 +155,7 @@ describe('selectBannerTest', () => {
         const cache = getBannerDeployCache(secondDate);
 
         const targeting: BannerTargeting = {
-            alreadyVisitedCount: 3,
+            alreadyVisitedCount: 53,
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
