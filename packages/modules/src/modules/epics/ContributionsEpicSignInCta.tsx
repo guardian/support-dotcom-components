@@ -16,7 +16,7 @@ const signInLinkText = css`
 `;
 
 const signInUrl =
-    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SigninEPIC_Exisitng&CMP_TU=mrtn&CMP_BUNIT=subs';
+    'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SigninEPIC_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
 
 interface ContributionsEpicSignInProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
