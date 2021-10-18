@@ -1,7 +1,7 @@
-import { SecondaryAbTest, Test, Variant } from '@sdc/shared/types';
+import { TargetingAbTest, Test, Variant } from '@sdc/shared/types';
 import { selectVariant } from './ab';
 
-type TargetingTestDecision = SecondaryAbTest & {
+type TargetingTestDecision = TargetingAbTest & {
     canShow: boolean;
 };
 

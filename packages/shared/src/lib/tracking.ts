@@ -26,7 +26,7 @@ export const addTrackingParams = (
                 name: params.abTestName,
                 variant: params.abTestVariant,
             },
-            secondaryAbTest: params.secondaryAbTest,
+            targetingAbTest: params.targetingAbTest,
             referrerPageviewId: params.ophanPageId,
             referrerUrl: params.referrerUrl,
             isRemote: true, // Temp param to indicate served by remote service
