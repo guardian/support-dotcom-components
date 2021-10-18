@@ -19,6 +19,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
+import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
@@ -329,6 +330,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 numArticles={articleCounts.forTargetedWeeks}
                 tracking={ophanTracking}
             />
+            {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
             {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
