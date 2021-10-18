@@ -101,7 +101,22 @@ const getForcedVariant = (
     return null;
 };
 
-const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [];
+const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
+    {
+        name: 'BannerTargetingTest',
+        canInclude: (targeting: BannerTargeting) => targeting.countryCode === 'GB',
+        variants: [
+            {
+                name: 'Control',
+                canShow: () => true,
+            },
+            {
+                name: 'Variant',
+                canShow: (targeting: BannerTargeting) => targeting.alreadyVisitedCount >= 50,
+            },
+        ],
+    },
+];
 
 export const selectBannerTest = async (
     targeting: BannerTargeting,
