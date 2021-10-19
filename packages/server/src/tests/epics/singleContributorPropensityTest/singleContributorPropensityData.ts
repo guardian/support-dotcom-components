@@ -11,7 +11,9 @@ const fetchSingleContributorPropensityIds = (): void => {
         `${isProd ? 'PROD' : 'CODE'}/single-contributor-propensity-test/ids.txt`,
         line => singleContributorPropensityIds.add(line),
         () =>
-            logger.info(`Loaded ${singleContributorPropensityIds.size} singleContributorPropensityIds`),
+            logger.info(
+                `Loaded ${singleContributorPropensityIds.size} singleContributorPropensityIds`,
+            ),
     );
 };
 
