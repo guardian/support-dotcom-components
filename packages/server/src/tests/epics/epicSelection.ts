@@ -97,6 +97,11 @@ export const isOn: Filter = {
     test: (test): boolean => test.isOn,
 };
 
+export const canShow = (targeting: EpicTargeting): Filter => ({
+    id: 'canShow',
+    test: (test): boolean => (test.canShow ? test.canShow(targeting) : true),
+});
+
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
     test: (test: EpicTest): boolean => userIsInTest(test, mvtId),
@@ -218,6 +223,7 @@ export const findTestAndVariant = (
         return [
             shouldNotRender(epicType),
             isOn,
+            canShow(targeting),
             isNotExpired(),
             hasSectionOrTags,
             userInTest(targeting.mvtId || 1),
