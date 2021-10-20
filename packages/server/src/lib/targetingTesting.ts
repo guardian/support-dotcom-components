@@ -1,8 +1,9 @@
 import { TargetingAbTest, Test, Variant } from '@sdc/shared/types';
 import { selectVariant } from './ab';
 
-type TargetingTestDecision = TargetingAbTest & {
+type TargetingTestDecision = {
     canShow: boolean;
+    test: TargetingAbTest;
 };
 
 interface TargetingTestVariant<T> extends Variant {
@@ -35,8 +36,10 @@ export const selectTargetingTest = <T>(
         const variant: TargetingTestVariant<T> = selectVariant(test, mvtId);
         return {
             canShow: variant.canShow(targeting),
-            testName: test.name,
-            variantName: variant.name,
+            test: {
+                testName: test.name,
+                variantName: variant.name,
+            },
         };
     } else {
         return null;
