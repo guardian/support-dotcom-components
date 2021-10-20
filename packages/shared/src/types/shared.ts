@@ -146,7 +146,7 @@ export interface ControlProportionSettings {
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
 /**
- * Secondary tests are for experimenting with targeting.
+ * Targeting tests are for experimenting with targeting rules.
  * It is not a message test and should not affect what the user sees once they're in a test.
  * But we do need to carry the test/variant names through in the tracking.
  */
