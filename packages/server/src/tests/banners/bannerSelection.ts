@@ -146,7 +146,7 @@ export const selectBannerTest = async (
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: variant.moduleName,
-                targetingAbTest: targetingTest ? targetingTest : undefined,
+                targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
 
             return Promise.resolve(bannerTestSelection);

@@ -43,8 +43,10 @@ describe('selectTargetingTest', () => {
         const decision = selectTargetingTest(2, targeting, bannerTargetingTests);
         expect(decision).toEqual({
             canShow: true,
-            testName: 'BannerTargetingTest',
-            variantName: 'Control',
+            test: {
+                testName: 'BannerTargetingTest',
+                variantName: 'Control',
+            },
         });
     });
 
@@ -52,8 +54,10 @@ describe('selectTargetingTest', () => {
         const decision = selectTargetingTest(1, targeting, bannerTargetingTests);
         expect(decision).toEqual({
             canShow: false,
-            testName: 'BannerTargetingTest',
-            variantName: 'Variant',
+            test: {
+                testName: 'BannerTargetingTest',
+                variantName: 'Variant',
+            },
         });
     });
 
@@ -65,8 +69,10 @@ describe('selectTargetingTest', () => {
         );
         expect(decision).toEqual({
             canShow: true,
-            testName: 'BannerTargetingTest',
-            variantName: 'Variant',
+            test: {
+                testName: 'BannerTargetingTest',
+                variantName: 'Variant',
+            },
         });
     });
 });
