@@ -35,7 +35,7 @@ export const addTrackingParams = (
             componentId: params.campaignCode,
             componentType: params.componentType,
             campaignCode: params.campaignCode,
-            abTests: abTests,
+            abTests,
             referrerPageviewId: params.ophanPageId,
             referrerUrl: params.referrerUrl,
             isRemote: true, // Temp param to indicate served by remote service
