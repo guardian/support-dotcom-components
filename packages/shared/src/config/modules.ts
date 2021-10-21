@@ -1,4 +1,4 @@
-export const MODULES_VERSION = 'v2'; // The latest version of the modules
+export const MODULES_VERSION = 'v3'; // The latest version of the modules
 
 export interface ModuleInfo {
     name: string;

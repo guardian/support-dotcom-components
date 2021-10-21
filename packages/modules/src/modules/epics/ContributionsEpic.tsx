@@ -5,6 +5,8 @@ import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import {
     containsNonArticleCountPlaceholder,
+    createInsertEventFromTracking,
+    createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
 import { EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
@@ -255,9 +257,21 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     useEffect(() => {
         if (hasBeenSeen) {
+            // For the event stream
             sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
+
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
         }
-    }, [hasBeenSeen]);
+    }, [hasBeenSeen, submitComponentEvent]);
+
+    useEffect(() => {
+        if (submitComponentEvent) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [submitComponentEvent]);
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,

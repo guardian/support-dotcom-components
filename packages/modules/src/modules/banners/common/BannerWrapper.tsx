@@ -3,8 +3,10 @@
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     createClickEventFromTracking,
+    createInsertEventFromTracking,
+    createViewEventFromTracking,
 } from '@sdc/shared/lib';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -29,6 +31,7 @@ import {
 import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
 import { buildReminderFields } from '@sdc/shared/lib';
+import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
@@ -46,6 +49,25 @@ const withBannerData = (
         tickerSettings,
         isSupporter,
     } = bannerProps;
+
+    const [hasBeenSeen, setNode] = useHasBeenSeen(
+        {
+            threshold: 0,
+        },
+        true,
+    ) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen && submitComponentEvent) {
+            submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
+
+    useEffect(() => {
+        if (submitComponentEvent) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [submitComponentEvent]);
 
     const componentIds = getComponentIds(bannerId);
 
@@ -179,7 +201,11 @@ const withBannerData = (
                 isSupporter,
                 numArticles,
             };
-            return <Banner {...props} />;
+            return (
+                <div ref={setNode}>
+                    <Banner {...props} />
+                </div>
+            );
         }
     } catch (err) {
         console.log(err);
