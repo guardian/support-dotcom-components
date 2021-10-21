@@ -14,6 +14,10 @@ describe('addTrackingParams', () => {
             campaignId: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
             abTestName: '2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron',
             abTestVariant: 'v2_stay_quiet',
+            targetingAbTest: {
+                testName: 'my-tracking-test',
+                variantName: 'control',
+            },
             referrerUrl:
                 'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
         });
@@ -24,7 +28,8 @@ describe('addTrackingParams', () => {
         const got = addTrackingParams(buttonBaseUrl, trackingData, numArticles);
 
         const want =
-            'https://support.theguardian.com/contribute/climate-pledge-2019?REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTest%22%3A%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
+            'https://support.theguardian.com/contribute/climate-pledge-2019?REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTests%22%3A%5B%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%2C%7B%22name%22%3A%22my-tracking-test%22%2C%22variant%22%3A%22control%22%7D%5D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
+
         expect(got).toEqual(want);
     });
     it('should return a correctly formatted URL when the base URL already has a query string', () => {
@@ -46,7 +51,7 @@ describe('addTrackingParams', () => {
         const got = addTrackingParams(buttonBaseUrl, trackingData, numArticles);
 
         const want =
-            'https://support.theguardian.com/contribute/climate-pledge-2019?foo=bar&REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTest%22%3A%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
+            'https://support.theguardian.com/contribute/climate-pledge-2019?foo=bar&REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTests%22%3A%5B%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%5D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
         expect(got).toEqual(want);
     });
 });
@@ -93,7 +98,7 @@ describe('addRegionIdAndTrackingParamsToSupportUrl', () => {
         );
 
         const want =
-            'https://support.theguardian.com/uk/contribute/climate-pledge-2019?REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTest%22%3A%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
+            'https://support.theguardian.com/uk/contribute/climate-pledge-2019?REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTests%22%3A%5B%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%5D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
         expect(got).toEqual(want);
     });
 });
