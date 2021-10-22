@@ -46,7 +46,7 @@ export base_url=${baseUrl.valueAsString}
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
-/usr/local/node/pm2 start --uid dotcom-components --gid support server.js
+/usr/local/node/pm2 start --uid dotcom-components --gid support server.js --max-memory-restart 3000M
 
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent ${this.region} ${
             elkStream.valueAsString
