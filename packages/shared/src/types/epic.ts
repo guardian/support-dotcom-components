@@ -51,7 +51,7 @@ export type EpicTargeting = {
     lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
     modulesVersion?: string;
     url?: string;
-    browserId?: string;
+    browserId?: string; // Only present if the user has consented to browserId-based targeting
 };
 
 export type EpicPayload = {
