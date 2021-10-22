@@ -17,5 +17,5 @@ export const logEpicView = (testId: string): void => {
         testId,
     });
 
-    localStorage.set(viewLogKey, viewLog.slice(-50));
+    localStorage.setItem(viewLogKey, JSON.stringify(viewLog.slice(-50)));
 };
