@@ -6,6 +6,7 @@ export type BannerId =
     | 'g200-banner'
     | 'aus-moment-banner'
     | 'investigations-moment-banner'
+    | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner';
 
