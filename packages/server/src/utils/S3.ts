@@ -49,7 +49,5 @@ export const streamS3DataByLine = (
     if (onComplete) {
         stream.on('close', onComplete);
     }
-    stream.on('error', error =>
-        logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`),
-    );
+    stream.on('error', error => logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`));
 };
