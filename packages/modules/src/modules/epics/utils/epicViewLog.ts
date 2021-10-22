@@ -10,12 +10,17 @@ interface EpicView {
 }
 
 export const logEpicView = (testId: string): void => {
-    const viewLog: EpicView[] = (localStorage.getItem(viewLogKey) || []) as EpicView[];
+    const item = localStorage.getItem(viewLogKey);
+    const viewLog: EpicView[] = (item ? JSON.parse(item).value : []) as EpicView[];
 
     viewLog.push({
         date: new Date().getTime(),
         testId,
     });
 
-    localStorage.setItem(viewLogKey, JSON.stringify(viewLog.slice(-50)));
+    const newValue = {
+        value: viewLog.slice(-50),
+    };
+
+    localStorage.setItem(viewLogKey, JSON.stringify(newValue));
 };
