@@ -23,6 +23,7 @@ import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
+import { logEpicView } from './utils/epicViewLog';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -259,6 +260,9 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         if (hasBeenSeen) {
             // For the event stream
             sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
+
+            // For epic view count
+            logEpicView(tracking.abTestName);
 
             // For ophan
             if (submitComponentEvent) {
