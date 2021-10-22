@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 import { GetObjectOutput } from 'aws-sdk/clients/s3';
 import readline from 'readline';
 import { isDev } from '../lib/env';
-import { logger } from './logging';
+import { logError } from './logging';
 
 if (isDev) {
     AWS.config.credentials = new AWS.SharedIniFileCredentials({
@@ -50,6 +50,6 @@ export const streamS3DataByLine = (
         stream.on('close', onComplete);
     }
     stream.on('error', error =>
-        logger.error(`Error streaming from S3 for ${bucket}/${key}: ${error}`),
+        logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`),
     );
 };

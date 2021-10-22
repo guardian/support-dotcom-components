@@ -1,19 +1,17 @@
 import { isProd } from '../../../lib/env';
 import { streamS3DataByLine } from '../../../utils/S3';
-import { logger } from '../../../utils/logging';
+import { logInfo } from '../../../utils/logging';
 
 const singleContributorPropensityIds: Set<string> = new Set<string>();
 
 const fetchSingleContributorPropensityIds = (): void => {
-    logger.info('Loading singleContributorPropensityIds...');
+    logInfo('Loading singleContributorPropensityIds...');
     streamS3DataByLine(
         'support-admin-console',
         `${isProd ? 'PROD' : 'CODE'}/single-contributor-propensity-test/ids.txt`,
         line => singleContributorPropensityIds.add(line),
         () =>
-            logger.info(
-                `Loaded ${singleContributorPropensityIds.size} singleContributorPropensityIds`,
-            ),
+            logInfo(`Loaded ${singleContributorPropensityIds.size} singleContributorPropensityIds`),
     );
 };
 
