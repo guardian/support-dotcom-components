@@ -239,7 +239,7 @@ export base_url=",
 mkdir /var/log/dotcom-components
 chown -R dotcom-components:support /var/log/dotcom-components
 
-/usr/local/node/pm2 start --uid dotcom-components --gid support server.js --max-memory-restart 3000M
+/usr/local/node/pm2 start --uid dotcom-components --gid support server.js
 
 /opt/aws-kinesis-agent/configure-aws-kinesis-agent ",
                 Object {
