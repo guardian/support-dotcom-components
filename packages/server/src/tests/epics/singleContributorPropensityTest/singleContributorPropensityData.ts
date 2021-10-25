@@ -6,7 +6,7 @@ const singleContributorPropensityIds: Set<string> = new Set<string>();
 
 const fetchSingleContributorPropensityIds = (): void => {
     logInfo('Loading singleContributorPropensityIds...');
-    console.log('MEMORY1', process.memoryUsage().heapUsed / 1024 / 1024);
+    logInfo(`MEMORY1: ${process.memoryUsage().heapUsed / 1024 / 1024}`);
     streamS3DataByLine(
         'support-admin-console',
         `${isProd ? 'PROD' : 'CODE'}/single-contributor-propensity-test/ids.txt`,
@@ -20,7 +20,7 @@ const fetchSingleContributorPropensityIds = (): void => {
         },
         () => {
             logInfo(`Loaded ${singleContributorPropensityIds.size} singleContributorPropensityIds`);
-            console.log('MEMORY2', process.memoryUsage().heapUsed / 1024 / 1024);
+            logInfo(`MEMORY2: ${process.memoryUsage().heapUsed / 1024 / 1024}`);
         },
     );
 };
