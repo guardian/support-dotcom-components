@@ -59,6 +59,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     `${this.stage}/banner-deploy/*`,
                     `${this.stage}/channel-switches.json`,
                     `${this.stage}/configured-amounts.json`,
+                    `${this.stage}/single-contributor-propensity-test`,
                 ],
             }),
             new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyGuContributionsPublic', {
