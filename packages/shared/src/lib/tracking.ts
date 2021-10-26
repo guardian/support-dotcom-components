@@ -93,6 +93,13 @@ const createEventFromTracking = (action: OphanAction) => {
                   }
                 : null;
 
+        const targetingAbTest = tracking.targetingAbTest
+            ? {
+                  name: tracking.targetingAbTest.testName,
+                  variant: tracking.targetingAbTest.variantName,
+              }
+            : null;
+
         return {
             component: {
                 componentType,
@@ -101,6 +108,7 @@ const createEventFromTracking = (action: OphanAction) => {
                 id: componentId,
             },
             ...(abTest ? { abTest } : {}),
+            ...(targetingAbTest ? { targetingAbTest } : {}),
             action,
         };
     };
