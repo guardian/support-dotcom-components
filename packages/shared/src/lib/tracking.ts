@@ -99,3 +99,5 @@ const createEventFromTracking = (action: OphanAction) => {
 export const createClickEventFromTracking = createEventFromTracking('CLICK');
 
 export const createViewEventFromTracking = createEventFromTracking('VIEW');
+
+export const createInsertEventFromTracking = createEventFromTracking('INSERT');

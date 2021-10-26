@@ -5,6 +5,8 @@ import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import {
     containsNonArticleCountPlaceholder,
+    createInsertEventFromTracking,
+    createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
 import { EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
@@ -21,6 +23,7 @@ import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
+import { logEpicView } from './utils/epicViewLog';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -255,9 +258,24 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     useEffect(() => {
         if (hasBeenSeen) {
+            // For the event stream
             sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
+
+            // For epic view count
+            logEpicView(tracking.abTestName);
+
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
         }
-    }, [hasBeenSeen]);
+    }, [hasBeenSeen, submitComponentEvent]);
+
+    useEffect(() => {
+        if (submitComponentEvent) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [submitComponentEvent]);
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,

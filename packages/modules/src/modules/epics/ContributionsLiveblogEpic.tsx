@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
@@ -9,11 +9,16 @@ import { LinkButton } from '@guardian/src-button';
 import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
+    createViewEventFromTracking,
+    createInsertEventFromTracking,
 } from '@sdc/shared/lib';
 import { EpicVariant, Tracking } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { ArticleCounts } from '@sdc/shared/types';
+import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
+import { logEpicView } from './utils/epicViewLog';
+import { OphanComponentEvent } from '@sdc/shared/dist/types';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;
@@ -183,6 +188,7 @@ interface LiveblogEpicProps {
     tracking: Tracking;
     countryCode?: string;
     articleCounts: ArticleCounts;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
 
 export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
@@ -190,7 +196,28 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     countryCode,
     articleCounts,
     tracking,
+    submitComponentEvent,
 }: LiveblogEpicProps): JSX.Element | null => {
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            // For epic view count
+            logEpicView(tracking.abTestName);
+
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
+
+    useEffect(() => {
+        if (submitComponentEvent) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [submitComponentEvent]);
+
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
         replaceNonArticleCountPlaceholders(paragraph, countryCode),
     );
@@ -205,7 +232,7 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     }
 
     return (
-        <>
+        <div ref={setNode}>
             {cleanHeading && <div css={yellowHeading}>{cleanHeading}</div>}
             <section css={container}>
                 <LiveblogEpicBody
@@ -218,6 +245,6 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
                     tracking={tracking}
                 />
             </section>
-        </>
+        </div>
     );
 };
