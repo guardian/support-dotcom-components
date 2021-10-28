@@ -2,8 +2,8 @@ import { TargetingTest } from '../../lib/targetingTesting';
 import { BannerTargeting } from '@sdc/shared/types';
 
 const isFootballMatch = (targeting: BannerTargeting): boolean => {
-    if (targeting.section === 'football' && targeting.tags) {
-        return !!targeting.tags.find(
+    if (targeting.sectionId === 'football' && targeting.tagIds) {
+        return !!targeting.tagIds.find(
             tag => tag === 'tone/minutebyminute' || tag === 'tone/matchreports',
         );
     }
@@ -11,9 +11,9 @@ const isFootballMatch = (targeting: BannerTargeting): boolean => {
 };
 
 export const variantCanShow = (targeting: BannerTargeting): boolean => {
-    if (targeting.section) {
+    if (targeting.sectionId) {
         return (
-            !['fashion', 'tv-and-radio', 'travel'].includes(targeting.section) &&
+            !['fashion', 'tv-and-radio', 'travel'].includes(targeting.sectionId) &&
             !isFootballMatch(targeting)
         );
     }

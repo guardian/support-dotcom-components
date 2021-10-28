@@ -32,8 +32,8 @@ export type BannerTargeting = {
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
     modulesVersion?: string;
-    section?: string;
-    tags?: string[];
+    sectionId?: string;
+    tagIds?: string[];
 };
 
 export type BannerDataRequestPayload = {

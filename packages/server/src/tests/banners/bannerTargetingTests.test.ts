@@ -20,7 +20,7 @@ describe('Section exclusions', () => {
     it('returns true if politics', () => {
         const canShow = variantCanShow({
             ...targeting,
-            section: 'politics',
+            sectionId: 'politics',
         });
         expect(canShow).toBe(true);
     });
@@ -28,7 +28,7 @@ describe('Section exclusions', () => {
     it('returns false if fashion', () => {
         const canShow = variantCanShow({
             ...targeting,
-            section: 'fashion',
+            sectionId: 'fashion',
         });
         expect(canShow).toBe(false);
     });
@@ -36,8 +36,8 @@ describe('Section exclusions', () => {
     it('returns false if football match report', () => {
         const canShow = variantCanShow({
             ...targeting,
-            section: 'football',
-            tags: ['tone/matchreports'],
+            sectionId: 'football',
+            tagIds: ['tone/matchreports'],
         });
         expect(canShow).toBe(false);
     });
@@ -45,8 +45,8 @@ describe('Section exclusions', () => {
     it('returns true if football but not match report', () => {
         const canShow = variantCanShow({
             ...targeting,
-            section: 'football',
-            tags: ['tone/features'],
+            sectionId: 'football',
+            tagIds: ['tone/features'],
         });
         expect(canShow).toBe(true);
     });
