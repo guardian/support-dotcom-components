@@ -13,6 +13,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
+import { selectTargetingTest, TargetingTest } from '../../lib/targetingTesting';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -100,6 +101,8 @@ const getForcedVariant = (
     return null;
 };
 
+const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [];
+
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
@@ -113,6 +116,11 @@ export const selectBannerTest = async (
 
     if (forcedTestVariant) {
         return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl, targeting));
+    }
+
+    const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
+    if (targetingTest && !targetingTest.canShow) {
+        return Promise.resolve(null);
     }
 
     for (const test of tests) {
@@ -138,6 +146,7 @@ export const selectBannerTest = async (
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: variant.moduleName,
+                targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
 
             return Promise.resolve(bannerTestSelection);

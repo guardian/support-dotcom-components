@@ -29,13 +29,16 @@ export type OphanComponent = {
     labels?: string[];
 };
 
+interface OphanAbTest {
+    name: string;
+    variant: string;
+}
+
 export type OphanComponentEvent = {
     component: OphanComponent;
     action: OphanAction;
     value?: string;
     id?: string;
-    abTest?: {
-        name: string;
-        variant: string;
-    };
+    abTest?: OphanAbTest;
+    targetingAbTest?: OphanAbTest;
 };

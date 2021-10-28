@@ -251,13 +251,14 @@ export const buildBannerData = async (
     );
 
     if (selectedTest) {
-        const { test, variant, moduleUrl, moduleName } = selectedTest;
+        const { test, variant, moduleUrl, moduleName, targetingAbTest } = selectedTest;
 
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: buildBannerCampaignCode(test, variant),
             componentType: variant.componentType,
+            targetingAbTest,
             ...(variant.products && { products: variant.products }),
         };
 
