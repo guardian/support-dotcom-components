@@ -13,7 +13,8 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
-import { selectTargetingTest, TargetingTest } from '../../lib/targetingTesting';
+import { selectTargetingTest } from '../../lib/targetingTesting';
+import { bannerTargetingTests } from './bannerTargetingTests';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -100,8 +101,6 @@ const getForcedVariant = (
     }
     return null;
 };
-
-const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [];
 
 export const selectBannerTest = async (
     targeting: BannerTargeting,
