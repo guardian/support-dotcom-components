@@ -249,7 +249,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
-    // email is a legacy parameter to be removed after dcr is updated to pass fetchEmail
     const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const {

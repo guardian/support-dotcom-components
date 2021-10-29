@@ -188,8 +188,6 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
 }: BannerRenderProps) => {
     const [isReminderOpen, setIsReminderOpen] = useState(false);
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
-
-    // email is a legacy parameter to be removed after dcr is updated to pass fetchEmail
     const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const onReminderCtaClick = () => {
