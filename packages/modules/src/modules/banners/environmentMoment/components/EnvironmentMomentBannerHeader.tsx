@@ -22,7 +22,7 @@ const iconAndTextContainer = css`
     display: flex;
     position: relative;
     z-index: 100;
-    margin-left: ${space[4]}px;
+    margin-left: ${space[3]}px;
 
     ${from.tablet} {
         margin-left: ${space[9]}px;
@@ -75,7 +75,6 @@ const iconContainer = css`
 const textContainer = css`
     display: flex;
     flex-direction: column;
-    margin-left: ${space[2]}px;
     ${headline.small({ fontWeight: 'bold' })}
     font-size: 30px;
     white-space: nowrap;
