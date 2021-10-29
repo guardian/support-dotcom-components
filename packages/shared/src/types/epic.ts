@@ -151,6 +151,7 @@ export type EpicProps = {
     // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
     email?: string;
+    fetchEmail?: () => Promise<string | null>;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
@@ -164,6 +165,7 @@ export const epicPropsSchema = z.object({
     articleCounts: articleCountsSchema,
     onReminderOpen: z.any().optional(),
     email: z.string().optional(),
+    fetchEmail: z.any().optional(),
     submitComponentEvent: z.any().optional(),
     openCmp: z.any().optional(),
     hasConsentForArticleCount: z.boolean().optional(),

@@ -24,6 +24,7 @@ import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './Contributio
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 import { logEpicView } from './utils/epicViewLog';
+import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -230,6 +231,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     articleCounts,
     onReminderOpen,
     email,
+    fetchEmail,
     submitComponentEvent,
     openCmp,
     hasConsentForArticleCount,
@@ -245,6 +247,10 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
+
+    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
+    // email is a legacy parameter to be removed after dcr is updated to pass fetchEmail
+    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const {
         backgroundImageUrl,
@@ -377,11 +383,16 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                         } as OnReminderOpen);
                     }
 
-                    setIsReminderActive(true);
+                    fetchEmailDefined().then(resolvedEmail => {
+                        if (resolvedEmail) {
+                            setFetchedEmail(resolvedEmail);
+                        }
+                        setIsReminderActive(true);
+                    });
                 }}
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
-                isSignedIn={Boolean(email)}
+                isSignedIn={Boolean(fetchedEmail)}
                 showChoiceCards={showChoiceCards}
                 choiceCardSelection={choiceCardSelection}
                 numArticles={articleCounts.for52Weeks}
@@ -389,7 +400,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
-                    initialEmailAddress={email}
+                    initialEmailAddress={fetchedEmail}
                     reminderPeriod={showReminderFields.reminderPeriod}
                     reminderLabel={showReminderFields.reminderLabel}
                     onCloseReminderClick={(): void => setIsReminderActive(false)}
