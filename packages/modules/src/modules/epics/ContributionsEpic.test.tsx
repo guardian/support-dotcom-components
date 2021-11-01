@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import React from 'react';
-import {render, fireEvent, waitFor, screen} from '@testing-library/react';
-import {props as baseProps} from './utils/storybook';
-import {ContributionsEpicUnvalidated as ContributionsEpic} from './ContributionsEpic';
-import {EpicProps, SecondaryCtaType} from '@sdc/shared/types';
-import {ReminderFields} from "@sdc/shared/dist/lib";
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { props as baseProps } from './utils/storybook';
+import { ContributionsEpicUnvalidated as ContributionsEpic } from './ContributionsEpic';
+import { EpicProps, SecondaryCtaType } from '@sdc/shared/types';
+import { ReminderFields } from '@sdc/shared/dist/lib';
 
 describe('ContributionsEpic', () => {
     it('renders the epic', () => {
@@ -25,22 +25,27 @@ describe('ContributionsEpic', () => {
             reminderLabel: 'May',
         };
         const props: EpicProps = {
-            ...baseProps, variant: {
-                ...baseProps.variant, secondaryCta: {
+            ...baseProps,
+            variant: {
+                ...baseProps.variant,
+                secondaryCta: {
                     type: SecondaryCtaType.ContributionsReminder,
-                }, heading, showReminderFields
-            }
+                },
+                heading,
+                showReminderFields,
+            },
         };
 
         render(<ContributionsEpic {...props} />);
 
         expect(screen.queryByRole('textbox')).toBeNull();
+        expect(screen.queryByText('Set a reminder')).toBeNull();
 
         fireEvent.click(screen.getByText('Remind me in May'));
 
         await waitFor(() => {
             expect(screen.getByRole('textbox'));
-            screen.getAllByText(/.*Set a reminder.*/)
+            screen.getAllByText(/.*Set a reminder.*/);
         });
     });
 
@@ -52,15 +57,19 @@ describe('ContributionsEpic', () => {
             reminderLabel: 'May',
         };
 
-        const fetchEmail = jest.fn(() => Promise.resolve("test@guardian.co.uk"));
+        const fetchEmail = jest.fn(() => Promise.resolve('test@guardian.co.uk'));
 
         const props: EpicProps = {
-            ...baseProps, variant: {
-                ...baseProps.variant, secondaryCta: {
+            ...baseProps,
+            variant: {
+                ...baseProps.variant,
+                secondaryCta: {
                     type: SecondaryCtaType.ContributionsReminder,
-                }, heading, showReminderFields
+                },
+                heading,
+                showReminderFields,
             },
-            fetchEmail
+            fetchEmail,
         };
 
         render(<ContributionsEpic {...props} />);
@@ -74,7 +83,7 @@ describe('ContributionsEpic', () => {
         await waitFor(() => {
             expect(fetchEmail).toHaveBeenCalled();
             expect(screen.queryByRole('textbox')).toBeNull();
-            screen.getAllByText(/.*Set a reminder.*/)
+            screen.getAllByText(/.*Set a reminder.*/);
         });
     });
 });
