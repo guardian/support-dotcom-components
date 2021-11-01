@@ -5,7 +5,7 @@ export const defineFetchEmail = (
     fetchEmail: (() => Promise<string | null>) | undefined,
 ): (() => Promise<string | null>) => {
     if (fetchEmail) {
-        return fetchEmail
+        return fetchEmail;
     } else if (email) {
         return () => Promise.resolve(email);
     } else {
