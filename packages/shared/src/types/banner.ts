@@ -120,6 +120,7 @@ export interface BannerProps {
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
     email?: string;
+    fetchEmail?: () => Promise<string | null>;
 }
 
 export const bannerSchema = z.object({
@@ -133,6 +134,8 @@ export const bannerSchema = z.object({
     submitComponentEvent: z.any(),
     numArticles: z.number().optional(),
     hasOptedOutOfArticleCount: z.boolean().optional(),
+    email: z.string().optional(),
+    fetchEmail: z.any().optional(),
 });
 
 export interface PuzzlesBannerProps extends Partial<BannerProps> {

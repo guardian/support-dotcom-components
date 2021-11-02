@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { Container, Columns, Column, Hide } from '@guardian/src-layout';
+import { Column, Columns, Container, Hide } from '@guardian/src-layout';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
@@ -14,6 +14,7 @@ import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton
 import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
     bannerContainer: css`
@@ -183,12 +184,21 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
     onCloseClick,
     content,
     email,
+    fetchEmail,
 }: BannerRenderProps) => {
     const [isReminderOpen, setIsReminderOpen] = useState(false);
+    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
+    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const onReminderCtaClick = () => {
         reminderTracking.onReminderCtaClick();
-        setIsReminderOpen(!isReminderOpen);
+
+        fetchEmailDefined().then(resolvedEmail => {
+            if (resolvedEmail) {
+                setFetchedEmail(resolvedEmail);
+            }
+            setIsReminderOpen(!isReminderOpen);
+        });
     };
 
     const onReminderCloseClick = () => {
@@ -247,7 +257,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                 isReminderOpen={isReminderOpen}
                 onReminderCloseClick={onReminderCloseClick}
                 trackReminderSetClick={reminderTracking.onReminderSetClick}
-                email={email}
+                email={fetchedEmail}
             />
 
             <Container>
@@ -296,7 +306,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                                                 reminderTracking.onReminderSetClick
                                             }
                                             onReminderCloseClick={onReminderCloseClick}
-                                            email={email}
+                                            email={fetchedEmail}
                                         />
                                     </Column>
                                 </Columns>

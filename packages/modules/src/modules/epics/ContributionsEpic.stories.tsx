@@ -67,7 +67,13 @@ WithReminder.args = {
 
 export const WithPrefilledReminder = Template.bind({});
 WithPrefilledReminder.args = {
-    email: 'example@guardian.co.uk',
+    fetchEmail: () => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('test@guardian.co.uk');
+            }, 500);
+        });
+    },
     variant: {
         ...props.variant,
         secondaryCta: {

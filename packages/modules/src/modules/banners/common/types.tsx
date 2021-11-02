@@ -56,6 +56,7 @@ export interface BannerRenderProps {
     content: BannerTextContent;
     countryCode?: string;
     email?: string;
+    fetchEmail?: () => Promise<string | null>;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
     numArticles?: number;

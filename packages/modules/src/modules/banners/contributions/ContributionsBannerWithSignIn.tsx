@@ -15,6 +15,7 @@ import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { ContributionsBannerSignInCta } from './ContributionsBannerSignInCta';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
     bannerContainer: css`
@@ -184,12 +185,21 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
     onCloseClick,
     content,
     email,
+    fetchEmail,
 }: BannerRenderProps) => {
     const [isReminderOpen, setIsReminderOpen] = useState(false);
+    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
+    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const onReminderCtaClick = () => {
         reminderTracking.onReminderCtaClick();
-        setIsReminderOpen(!isReminderOpen);
+
+        fetchEmailDefined().then(resolvedEmail => {
+            if (resolvedEmail) {
+                setFetchedEmail(resolvedEmail);
+            }
+            setIsReminderOpen(!isReminderOpen);
+        });
     };
 
     const onReminderCloseClick = () => {
@@ -250,7 +260,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                 isReminderOpen={isReminderOpen}
                 onReminderCloseClick={onReminderCloseClick}
                 trackReminderSetClick={reminderTracking.onReminderSetClick}
-                email={email}
+                email={fetchedEmail}
             >
                 <ContributionsBannerSignInCta onSignInClick={onSignInClick} />
             </ContributionsBannerMobile>
@@ -301,7 +311,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                                                 reminderTracking.onReminderSetClick
                                             }
                                             onReminderCloseClick={onReminderCloseClick}
-                                            email={email}
+                                            email={fetchedEmail}
                                         />
                                     </Column>
                                 </Columns>
