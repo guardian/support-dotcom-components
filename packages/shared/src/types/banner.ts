@@ -32,6 +32,7 @@ export type BannerTargeting = {
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
     modulesVersion?: string;
+    browserId?: string;
 };
 
 export type BannerDataRequestPayload = {
@@ -85,6 +86,13 @@ export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) =>
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
+export interface PropensityThresholds {
+    guardianWeekly: {
+        min: number;
+        max: number;
+    };
+}
+
 export interface BannerTest extends Test<BannerVariant> {
     name: string;
     bannerChannel: BannerChannel;
@@ -97,6 +105,7 @@ export interface BannerTest extends Test<BannerVariant> {
     audienceOffset?: number;
     audience?: number;
     controlProportionSettings?: ControlProportionSettings;
+    propensityThresholds?: PropensityThresholds;
 }
 
 // The result of selecting a test+variant for a user
@@ -166,4 +175,5 @@ export interface RawTestParams {
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;
     controlProportionSettings?: ControlProportionSettings;
+    propensityThresholds: PropensityThresholds;
 }

@@ -6,6 +6,7 @@ import {
     BannerTestSelection,
     BannerVariant,
     PageTracking,
+    PropensityThresholds,
     UserCohort,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
@@ -14,6 +15,7 @@ import { TestVariant } from '../../lib/params';
 import { userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { selectTargetingTest, TargetingTest } from '../../lib/targetingTesting';
+import { getUserPropensity } from '../../lib/propensity';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -101,6 +103,28 @@ const getForcedVariant = (
     return null;
 };
 
+const propensityThresholdMet = (
+    userPropensity: number | null,
+    thresholds?: PropensityThresholds,
+): boolean => {
+    //
+    console.log({ userPropensity });
+    console.log({ thresholds });
+
+    if (thresholds === undefined) {
+        return true;
+    }
+
+    if (userPropensity === null) {
+        return false;
+    }
+
+    return (
+        userPropensity >= thresholds.guardianWeekly.min &&
+        userPropensity < thresholds.guardianWeekly.max
+    );
+};
+
 const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [];
 
 export const selectBannerTest = async (
@@ -113,6 +137,11 @@ export const selectBannerTest = async (
     now: Date = new Date(),
 ): Promise<BannerTestSelection | null> => {
     const tests = await getTests();
+
+    const userPropensity = targeting.browserId
+        ? await getUserPropensity(targeting.browserId)
+        : null;
+    console.log({ userPropensity });
 
     if (forcedTestVariant) {
         return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl, targeting));
@@ -138,7 +167,8 @@ export const selectBannerTest = async (
                 now,
             ) &&
             userIsInTest(test, targeting.mvtId) &&
-            (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches))
+            (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches)) &&
+            propensityThresholdMet(userPropensity, test.propensityThresholds)
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
             const bannerTestSelection = {

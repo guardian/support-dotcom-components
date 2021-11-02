@@ -22,8 +22,8 @@
     "@types/lodash.debounce": "^4.0.6",
     "@types/node": "^14.14.25",
     "@types/node-fetch": "^2.5.4",
-    "@types/supertest": "^2.0.8",
     "@types/seedrandom": "^3.0.1",
+    "@types/supertest": "^2.0.8",
     "concurrently": "^6.2.0",
     "fetch-mock": "^8.3.1",
     "fishery": "^0.3.0",
@@ -52,6 +52,7 @@
     "lodash.debounce": "^4.0.8",
     "log4js": "^6.3.0",
     "node-fetch": "^2.6.1",
+    "redis": "^4.0.0-rc.3",
     "seedrandom": "^3.0.5",
     "zod": "^3.2.0"
   }
