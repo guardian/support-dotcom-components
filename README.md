@@ -33,7 +33,7 @@ Which need the `@sdc/shared` package to have been built.
 To start the server run
 
 ```bash
-yarn server start
+NODE_OPTIONS="--max-old-space-size=80000" AWS_PROFILE=membership PORT=8082 yarn server start
 ```
 
 This will start `tsc` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
