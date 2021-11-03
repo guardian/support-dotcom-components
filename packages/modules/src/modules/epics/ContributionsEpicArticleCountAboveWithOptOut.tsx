@@ -356,7 +356,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
                                         cssOverrides={articleCountDefaultCtaStyles}
                                         onClick={onStayInClick}
                                     >
-                                        Yes, thats OK
+                                        Yes, that&apos;s OK
                                     </Button>
                                     <Button
                                         priority="tertiary"
