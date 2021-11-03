@@ -1,4 +1,4 @@
-import { header, headerSupportAgain } from '@sdc/shared/config';
+import { header } from '@sdc/shared/config';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
 
 const modulePathBuilder = header.endpointPathBuilder;
@@ -64,45 +64,6 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const supportAgainTest: HeaderTest = {
-    name: 'header-support-again',
-    audience: 'AllNonSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: headerSupportAgain.endpointPathBuilder,
-            content: {
-                heading: 'Thank you',
-                subheading: 'Your support powers our independent journalism',
-                primaryCta: {
-                    text: 'Support us again',
-                    url:
-                        'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
-                },
-            },
-        },
-    ],
-};
-
-const monthDiff = (from: Date, to: Date): number => {
-    return 12 * (to.getFullYear() - from.getFullYear()) + (to.getMonth() - from.getMonth());
-};
-
-const isLastOneOffContributionWithinLast2To13Months = (
-    lastOneOffContributionDate?: string,
-): boolean => {
-    if (lastOneOffContributionDate === undefined) {
-        return false;
-    }
-
-    const now = new Date();
-    const date = new Date(lastOneOffContributionDate);
-
-    const monthsSinceLastContribution = monthDiff(date, now);
-
-    return monthsSinceLastContribution >= 2 && monthsSinceLastContribution <= 13;
-};
-
 const getNonSupportersTest = (edition: string): HeaderTest =>
     edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
 
@@ -110,13 +71,7 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     const select = (): HeaderTest => {
-        const lastContributed2To13MonthsAgo = isLastOneOffContributionWithinLast2To13Months(
-            targeting.lastOneOffContributionDate,
-        );
-
-        if (lastContributed2To13MonthsAgo) {
-            return supportAgainTest;
-        } else if (targeting.showSupportMessaging) {
+        if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
         } else {
             return supportersTest;
