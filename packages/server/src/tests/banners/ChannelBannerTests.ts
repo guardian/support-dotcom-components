@@ -21,7 +21,7 @@ import { isProd } from '../../lib/env';
 import { fetchS3Data } from '../../utils/S3';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
-    contributions: 'banner-tests.json',
+    contributions: 'banner-tests-propensity-hackday.json',
     subscriptions: 'banner-tests2.json',
 };
 

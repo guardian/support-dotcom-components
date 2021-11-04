@@ -86,12 +86,17 @@ export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) =>
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
-export interface PropensityThresholds {
-    guardianWeekly: {
-        min: number;
-        max: number;
-    };
+export const productSchema = z.enum(['guardianWeekly', 'contributions', 'digitalSubscription']);
+export type Product = z.infer<typeof productSchema>;
+
+interface Threshold {
+    min: number;
+    max: number;
 }
+
+export type PropensityThresholds = {
+    [key in Product]?: Threshold;
+};
 
 export interface BannerTest extends Test<BannerVariant> {
     name: string;
@@ -175,5 +180,5 @@ export interface RawTestParams {
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;
     controlProportionSettings?: ControlProportionSettings;
-    propensityThresholds: PropensityThresholds;
+    propensityThresholds?: PropensityThresholds;
 }

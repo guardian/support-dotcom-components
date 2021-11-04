@@ -107,10 +107,6 @@ const propensityThresholdMet = (
     userPropensity: number | null,
     thresholds?: PropensityThresholds,
 ): boolean => {
-    //
-    console.log({ userPropensity });
-    console.log({ thresholds });
-
     if (thresholds === undefined) {
         return true;
     }
@@ -119,10 +115,9 @@ const propensityThresholdMet = (
         return false;
     }
 
-    return (
-        userPropensity >= thresholds.guardianWeekly.min &&
-        userPropensity < thresholds.guardianWeekly.max
-    );
+    const gwThresholds = thresholds.guardianWeekly ?? { min: 0, max: 1 };
+
+    return userPropensity >= gwThresholds.min && userPropensity < gwThresholds.max;
 };
 
 const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [];
