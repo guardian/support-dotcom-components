@@ -68,7 +68,7 @@ export const hasSectionOrTags: Filter = {
             targeting.tags.map(tag => tag.id).includes(tagId),
         );
 
-        const hasSection = test.sections.includes(targeting.sectionName);
+        const hasSection = test.sections.includes(targeting.sectionId || targeting.sectionName);
         const hasTags = intersectingTags.length > 0;
 
         return hasSection || hasTags;
@@ -77,7 +77,8 @@ export const hasSectionOrTags: Filter = {
 
 export const excludeSection: Filter = {
     id: 'excludeSection',
-    test: (test, targeting) => !test.excludedSections.includes(targeting.sectionName),
+    test: (test, targeting) =>
+        !test.excludedSections.includes(targeting.sectionId || targeting.sectionName),
 };
 
 export const excludeTags: Filter = {

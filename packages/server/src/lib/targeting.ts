@@ -1,5 +1,5 @@
 import { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
-import { daysSince } from '../lib/dates';
+import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -39,7 +39,9 @@ export const shouldThrottle = (
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): boolean => {
-    const isLowValueSection = lowValueSections.some(id => id === meta.sectionName);
+    const isLowValueSection = lowValueSections.some(
+        id => id === meta.sectionId || meta.sectionName,
+    );
     const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
 
     return (

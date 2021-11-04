@@ -15,7 +15,7 @@ describe('shouldNotRenderEpic', () => {
     });
 
     it('returns true for blacklisted section', () => {
-        const data = factories.targeting.build({ sectionName: 'careers' });
+        const data = factories.targeting.build({ sectionId: 'careers' });
         const got = shouldNotRenderEpic(data, 'ARTICLE');
         expect(got).toBe(true);
     });

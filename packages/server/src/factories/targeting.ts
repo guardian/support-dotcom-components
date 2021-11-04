@@ -3,7 +3,7 @@ import { Factory } from 'fishery';
 
 export default Factory.define<EpicTargeting>(() => ({
     contentType: 'Article',
-    sectionName: 'culture',
+    sectionId: 'culture',
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
