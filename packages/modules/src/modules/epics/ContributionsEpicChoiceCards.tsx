@@ -19,6 +19,19 @@ const frequencyChoiceCardGroupOverrides = css`
     }
 `;
 
+const hideChoiceCardGroupLegend = css`
+    legend {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+`;
+
 // This `position: relative` is necessary to stop it jumping to the top of the page when a button is clicked
 const container = css`
     position: relative;
@@ -90,7 +103,8 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                css={frequencyChoiceCardGroupOverrides}
+                css={[frequencyChoiceCardGroupOverrides, hideChoiceCardGroupLegend]}
+                label="Contribution frequency"
             >
                 <ChoiceCard
                     label="Single"
@@ -115,7 +129,11 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
             <br />
-            <ChoiceCardGroup name="contribution-amount">
+            <ChoiceCardGroup
+                name="contribution-amount"
+                label="Contribution amount"
+                css={hideChoiceCardGroupLegend}
+            >
                 <ChoiceCard
                     value="first"
                     label={`${currencySymbol}${
