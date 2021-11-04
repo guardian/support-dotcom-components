@@ -22,7 +22,7 @@ export const variantCanShow = (targeting: BannerTargeting): boolean => {
 
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
-        name: '2021-10-29_BannerTargeting_SectionExclusions',
+        name: '2021-11-04_BannerTargeting_SectionExclusions',
         canInclude: () => true,
         variants: [
             {
