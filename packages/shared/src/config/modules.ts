@@ -18,6 +18,8 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
 
+// TODO: add the new epic module here
+
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
     'epics/ContributionsLiveblogEpic',

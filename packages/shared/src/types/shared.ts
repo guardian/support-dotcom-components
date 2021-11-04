@@ -125,9 +125,14 @@ export interface ChoiceCardSettings {
     showChoiceCards: boolean;
 }
 
+export type TagCounts = {
+    [tag: string]: number;
+};
+
 export type WeeklyArticleLog = {
     week: number;
     count: number;
+    tags?: TagCounts;
 };
 
 export type WeeklyArticleHistory = WeeklyArticleLog[];
