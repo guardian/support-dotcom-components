@@ -36,6 +36,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import {topUpTest} from "./tests/epics/tipJarTest";
 
 interface EpicDataResponse {
     data?: {
@@ -119,7 +120,7 @@ const getArticleEpicTests = async (
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const hardcodedTests = enableHardcodedEpicTests ? [] : [];
+        const hardcodedTests = enableHardcodedEpicTests ? [topUpTest] : [];
 
         if (isForcingTest) {
             return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];

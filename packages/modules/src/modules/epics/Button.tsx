@@ -66,7 +66,7 @@ export const Button: React.FC<Props> = (allProps: Props) => {
             <ThemeProvider theme={contributionsTheme}>
                 <LinkButton
                     href={onClickAction}
-                    icon={<SvgArrowRightStraight />}
+                    icon={showArrow ? <SvgArrowRightStraight /> : undefined}
                     iconSide="right"
                     target="_blank"
                     rel="noopener noreferrer"
