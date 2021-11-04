@@ -75,7 +75,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         ];
 
         const ec2App = new GuEc2App(this, {
-            applicationPort: 3030,
+            applicationPort: 8082,
             app: appName,
             access: { scope: AccessScope.PUBLIC },
             certificateProps: {
