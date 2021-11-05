@@ -49,7 +49,7 @@ export const getArticleViewCountByTagForWeeks = (
     const weeksInWindow = getWeeksInWindow(history, weeks, rightNow);
 
     return weeksInWindow.reduce((accumulator: number, articleLog: WeeklyArticleLog) => {
-        const countForTag = articleLog.tags ? articleLog.tags[tagId] : 0;
+        const countForTag = articleLog.tags && articleLog.tags[tagId] ? articleLog.tags[tagId] : 0;
         return accumulator + countForTag;
     }, 0);
 };
@@ -65,7 +65,7 @@ export const getArticleViewCounts = (
     const getCountForTargetingWeeks = (): number => {
         if (articlesViewedByTagSettings) {
             // Sum the counts for each tag
-            articlesViewedByTagSettings.tagIds.reduce((sum, tagId) => {
+            return articlesViewedByTagSettings.tagIds.reduce((sum, tagId) => {
                 const countForTag = getArticleViewCountByTagForWeeks(
                     tagId,
                     history,
