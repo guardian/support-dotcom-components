@@ -15,6 +15,7 @@ import {
     PageTracking,
     trackingSchema,
     secondaryCtaSchema,
+    ArticlesViewedByTagSettings,
 } from './shared';
 import { ReminderFields, CountryGroupId } from '../lib';
 import { z } from 'zod';
@@ -226,6 +227,7 @@ export interface EpicTest extends Test<EpicVariant> {
     highPriority: boolean;
     useLocalViewLog: boolean;
     articlesViewedSettings?: ArticlesViewedSettings;
+    articlesViewedByTagSettings?: ArticlesViewedByTagSettings;
     hasArticleCountInCopy: boolean;
 
     audience?: number;

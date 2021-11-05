@@ -143,6 +143,10 @@ export interface ArticlesViewedSettings {
     periodInWeeks: number;
 }
 
+export type ArticlesViewedByTagSettings = {
+    [tag: string]: ArticlesViewedSettings;
+};
+
 export interface ControlProportionSettings {
     proportion: number;
     offset: number;

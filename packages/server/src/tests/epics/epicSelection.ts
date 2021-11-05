@@ -10,12 +10,14 @@ import {
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
-import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import {
+    historyWithinArticlesViewedSettings,
+    historyWithinArticlesViewedSettingsByTag,
+} from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import { shouldNotRenderEpic, shouldThrottle, userIsInTest } from '../../lib/targeting';
-import { ARTICLE_COUNT_BY_TAG_TEST_NAME } from './articleCountByTagTest';
 
 interface Filter {
     id: string;
@@ -139,6 +141,15 @@ export const withinArticleViewedSettings = (
         historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
 });
 
+export const withinArticleViewedByTagSettings = (
+    history: WeeklyArticleHistory,
+    now: Date = new Date(),
+): Filter => ({
+    id: 'withinArticleViewedByTagSettings',
+    test: (test): boolean =>
+        historyWithinArticlesViewedSettingsByTag(test.articlesViewedByTagSettings, history, now),
+});
+
 export const inCorrectCohort = (userCohorts: UserCohort[], isSuperModePass: boolean): Filter => ({
     id: 'inCorrectCohort',
     test: (test): boolean => {
@@ -180,18 +191,6 @@ export const respectArticleCountOptOut: Filter = {
     },
 };
 
-const applyArticleCountByTagFilterToHardCodedTest: Filter = {
-    id: 'applyArticleCountByTagFilterToHardCodedTests',
-    test: (test, targeting) => {
-        if (test.name !== ARTICLE_COUNT_BY_TAG_TEST_NAME) {
-            // We only want to apply filtering logic when it's the hardcoded test
-            return true;
-        }
-        // TODO: here we need to do some logic e.g check the targeting to find out ac by tag count in last X weeks and see if it's over the threshold
-        return false;
-    },
-};
-
 type FilterResults = Record<string, boolean>;
 
 export type Debug = Record<string, FilterResults>;
@@ -229,9 +228,9 @@ export const findTestAndVariant = (
             matchesCountryGroups,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
-            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             respectArticleCountOptOut,
-            applyArticleCountByTagFilterToHardCodedTest,
+            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
+            withinArticleViewedByTagSettings(targeting.weeklyArticleHistory || []),
         ];
     };
 
