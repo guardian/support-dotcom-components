@@ -2,7 +2,7 @@ import { EpicTest } from '@sdc/shared/types';
 import { epic } from '@sdc/shared/config';
 import { CTA, HIGHLIGHTED_TEXT, PARAGRAPHS } from './articleCountByTagTestData';
 
-export const ARTICLE_COUNT_BY_TAG_TEST_NAME = 'EpicArticleCountByTagTest';
+export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-05_EpicArticleCountByTagTest';
 
 export enum EpicArticleCountByTagTestVariants {
     control = 'control',
