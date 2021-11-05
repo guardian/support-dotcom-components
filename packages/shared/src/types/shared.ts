@@ -143,9 +143,11 @@ export interface ArticlesViewedSettings {
     periodInWeeks: number;
 }
 
-export type ArticlesViewedByTagSettings = {
-    [tag: string]: ArticlesViewedSettings;
-};
+export interface ArticlesViewedByTagSettings {
+    tagIds: string[];
+    minViews: number;
+    periodInWeeks: number;
+}
 
 export interface ControlProportionSettings {
     proportion: number;

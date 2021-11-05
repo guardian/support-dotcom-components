@@ -74,4 +74,14 @@ export const epicArticleCountByTagTest: EpicTest = {
         minViews: 5,
         periodInWeeks: 52,
     },
+    articlesViewedByTagSettings: {
+        'environment/climate-change': {
+            minViews: 5,
+            periodInWeeks: 52,
+        },
+        'environment/environment': {
+            minViews: 5,
+            periodInWeeks: 52,
+        },
+    },
 };

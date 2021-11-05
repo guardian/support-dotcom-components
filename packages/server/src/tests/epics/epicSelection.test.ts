@@ -631,14 +631,9 @@ describe('withinArticleViewedSettings filter', () => {
 describe('withinArticleViewedByTagSettings filter', () => {
     const now = new Date('2020-03-31T12:30:00');
     const articlesViewedByTagSettings: ArticlesViewedByTagSettings = {
-        'environment/climate-change': {
-            minViews: 5,
-            periodInWeeks: 52,
-        },
-        'science/science': {
-            minViews: 5,
-            periodInWeeks: 52,
-        },
+        minViews: 5,
+        periodInWeeks: 52,
+        tagIds: ['environment/climate-change', 'science/science'],
     };
 
     it('should pass when no articlesViewedByTagSettings', () => {
