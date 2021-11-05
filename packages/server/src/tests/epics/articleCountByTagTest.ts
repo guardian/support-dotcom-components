@@ -1,6 +1,11 @@
 import { EpicTest } from '@sdc/shared/types';
 import { epic } from '@sdc/shared/config';
-import { CTA, HIGHLIGHTED_TEXT, PARAGRAPHS } from './articleCountByTagTestData';
+import {
+    CTA,
+    HIGHLIGHTED_TEXT,
+    CONTROL_PARAGRAPHS,
+    VARIANT_PARAGRAPHS,
+} from './articleCountByTagTestData';
 
 export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-05_EpicArticleCountByTagTest';
 
@@ -29,12 +34,13 @@ export const epicArticleCountByTagTest: EpicTest = {
     sections: [],
     excludedTagIds: [],
     excludedSections: [],
-    alwaysAsk: false,
-    maxViews: {
-        maxViewsCount: 4,
-        maxViewsDays: 30,
-        minDaysBetweenViews: 0,
-    },
+    // alwaysAsk: false,
+    alwaysAsk: true,
+    // maxViews: {
+    //     maxViewsCount: 4,
+    //     maxViewsDays: 30,
+    //     minDaysBetweenViews: 0,
+    // },
     userCohort: 'AllNonSupporters',
     isLiveBlog: false,
     hasCountryName: true,
@@ -43,7 +49,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             name: EpicArticleCountByTagTestVariants.control,
             modulePathBuilder: epic.endpointPathBuilder,
             // TODO: Replace with proper copy
-            paragraphs: PARAGRAPHS,
+            paragraphs: CONTROL_PARAGRAPHS,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
@@ -52,7 +58,10 @@ export const epicArticleCountByTagTest: EpicTest = {
             name: EpicArticleCountByTagTestVariants.v1,
             modulePathBuilder: epic.endpointPathBuilder,
             // TODO: Replace with proper copy
-            paragraphs: PARAGRAPHS,
+            paragraphs: [
+                '… and in the last six weeks alone, %%ARTICLE_COUNT%% of these were about the climate crisis. Thank you for turning to the Guardian.',
+                ...VARIANT_PARAGRAPHS,
+            ],
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
@@ -62,7 +71,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             // TODO: This one will actually have to be the new epic modules e.g epicWithClimateAC
             modulePathBuilder: epic.endpointPathBuilder,
             // TODO: Replace with proper copy
-            paragraphs: PARAGRAPHS,
+            paragraphs: ['… thank you for turning to the Guardian.', ...VARIANT_PARAGRAPHS],
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
