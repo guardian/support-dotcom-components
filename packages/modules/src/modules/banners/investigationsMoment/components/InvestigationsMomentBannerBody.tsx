@@ -30,8 +30,8 @@ const styles = {
 interface InvestigationsMomentBannerBodyProps {
     messageText: JSX.Element | JSX.Element[];
     mobileMessageText: JSX.Element | JSX.Element[] | null;
-    highlightedText: JSX.Element[] | null;
-    mobileHighlightedText: JSX.Element[] | null;
+    highlightedText: JSX.Element | JSX.Element[] | null;
+    mobileHighlightedText: JSX.Element | JSX.Element[] | null;
 }
 
 export function InvestigationsMomentBannerBody({

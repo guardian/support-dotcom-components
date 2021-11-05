@@ -36,7 +36,7 @@ export interface ContributionsReminderTracking {
 export interface BannerRenderedContent {
     heading: JSX.Element | JSX.Element[] | null;
     messageText: JSX.Element | JSX.Element[];
-    highlightedText?: JSX.Element[] | null;
+    highlightedText?: JSX.Element | JSX.Element[] | null;
     primaryCta: BannerEnrichedCta | null;
     secondaryCta: BannerEnrichedSecondaryCta | null;
 }

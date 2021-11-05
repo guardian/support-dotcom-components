@@ -2,7 +2,7 @@ import React from 'react';
 import { ArticleCountOptOutPopup, OphanTracking } from '../modules/shared/ArticleCountOptOutPopup';
 import { ArticleCountOptOutType } from '../modules/shared/ArticleCountOptOutPopup';
 
-export const replaceArticleCount = (
+export const replaceArticleCountWithLink = (
     text: string,
     numArticles: number,
     articleCountOptOutType: ArticleCountOptOutType,
@@ -36,4 +36,17 @@ export const replaceArticleCount = (
     );
 
     return elements;
+};
+
+export const replaceArticleCount = (
+    text: string,
+    numArticles: number,
+    articleCountOptOutType: ArticleCountOptOutType,
+    tracking?: OphanTracking,
+    optOutLink: boolean = true,
+): Array<JSX.Element> | JSX.Element => {
+    if (optOutLink) {
+        return replaceArticleCountWithLink(text, numArticles, articleCountOptOutType, tracking);
+    }
+    return <>{text.replace(/%%ARTICLE_COUNT%%/, `${numArticles}`)}</>;
 };
