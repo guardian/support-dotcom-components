@@ -1,21 +1,28 @@
 import { TargetingTest } from '../../lib/targetingTesting';
 import { BannerTargeting } from '@sdc/shared/types';
 
-const isFootballMatch = (targeting: BannerTargeting): boolean => {
-    if (targeting.sectionId === 'football' && targeting.tagIds) {
-        return !!targeting.tagIds.find(
-            tag => tag === 'tone/minutebyminute' || tag === 'tone/matchreports',
-        );
-    }
-    return false;
+type SectionAndTagExclusions = {
+    [sectionId: string]: string[];
+};
+
+const exclusions: SectionAndTagExclusions = {
+    football: ['tone/minutebyminute', 'tone/matchreports'],
+    fashion: [],
+    'tv-and-radio': [],
+    travel: [],
 };
 
 export const variantCanShow = (targeting: BannerTargeting): boolean => {
-    if (targeting.sectionId) {
-        return (
-            !['fashion', 'tv-and-radio', 'travel'].includes(targeting.sectionId) &&
-            !isFootballMatch(targeting)
-        );
+    const { sectionId, tagIds } = targeting;
+
+    if (sectionId && !!exclusions[sectionId]) {
+        const excludedTagIds = exclusions[sectionId];
+        if (!excludedTagIds.length) {
+            return false;
+        }
+
+        const foundTagId = (tagIds || []).some(tag => excludedTagIds.includes(tag));
+        return !foundTagId;
     }
     return true;
 };
