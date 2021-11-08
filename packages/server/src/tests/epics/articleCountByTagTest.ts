@@ -10,7 +10,7 @@ import {
 } from './articleCountByTagTestData';
 import { CountryGroupId } from '@sdc/shared/lib';
 
-export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-05_EpicArticleCountByTagTest';
+export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-09_EpicArticleCountByTagTest';
 
 export enum EpicArticleCountByTagTestVariants {
     control = 'control',
@@ -33,13 +33,12 @@ const buildEpicArticleCountByTagTest = (
     sections: [],
     excludedTagIds: [],
     excludedSections: [],
-    // alwaysAsk: false,
-    alwaysAsk: true,
-    // maxViews: {
-    //     maxViewsCount: 4,
-    //     maxViewsDays: 30,
-    //     minDaysBetweenViews: 0,
-    // },
+    alwaysAsk: false,
+    maxViews: {
+        maxViewsCount: 4,
+        maxViewsDays: 30,
+        minDaysBetweenViews: 0,
+    },
     userCohort: 'AllNonSupporters',
     isLiveBlog: false,
     hasCountryName: true,
