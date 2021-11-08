@@ -53,6 +53,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
+            showChoiceCards: true,
         },
         {
             name: EpicArticleCountByTagTestVariants.v1,
@@ -61,6 +62,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
+            showChoiceCards: true,
         },
         {
             name: EpicArticleCountByTagTestVariants.v2,
@@ -69,6 +71,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
+            showChoiceCards: true,
         },
     ],
     highPriority: true,
