@@ -4,7 +4,8 @@ import {
     CTA,
     HIGHLIGHTED_TEXT,
     CONTROL_PARAGRAPHS,
-    VARIANT_PARAGRAPHS,
+    VARIANT1_PARAGRAPHS,
+    VARIANT2_PARAGRAPHS,
 } from './articleCountByTagTestData';
 
 export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-05_EpicArticleCountByTagTest';
@@ -56,10 +57,7 @@ export const epicArticleCountByTagTest: EpicTest = {
         {
             name: EpicArticleCountByTagTestVariants.v1,
             modulePathBuilder: epic.endpointPathBuilder,
-            paragraphs: [
-                '… and in the last six weeks alone, %%ARTICLE_COUNT%% of these were about the climate crisis. Thank you for turning to the Guardian.',
-                ...VARIANT_PARAGRAPHS,
-            ],
+            paragraphs: VARIANT1_PARAGRAPHS,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
@@ -67,7 +65,7 @@ export const epicArticleCountByTagTest: EpicTest = {
         {
             name: EpicArticleCountByTagTestVariants.v2,
             modulePathBuilder: epicACByTag.endpointPathBuilder,
-            paragraphs: ['… thank you for turning to the Guardian.', ...VARIANT_PARAGRAPHS],
+            paragraphs: VARIANT2_PARAGRAPHS,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
             separateArticleCount: { type: 'above' },
