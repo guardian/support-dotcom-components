@@ -32,5 +32,8 @@ ArticleCountOff.args = {
 };
 
 ArticleCountOnBelow5.args = {
-    numArticles: 1,
+    articleCounts: {
+        forTargetedWeeks: 5,
+        for52Weeks: 10,
+    },
 };

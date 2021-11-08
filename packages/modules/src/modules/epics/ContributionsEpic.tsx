@@ -344,7 +344,7 @@ export const getContributionsEpic: (
             {showAboveArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAboveWithOptOut
-                        numArticles={articleCounts.for52Weeks}
+                        articleCounts={articleCounts}
                         isArticleCountOn={!hasOptedOut}
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}
