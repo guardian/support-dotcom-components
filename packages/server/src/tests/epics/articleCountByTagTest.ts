@@ -21,9 +21,10 @@ export enum EpicArticleCountByTagTestVariants {
 const buildEpicArticleCountByTagTest = (
     highlightedText: string,
     countries: CountryGroupId[],
+    suffix: string,
 ): EpicTest => ({
-    name: ARTICLE_COUNT_BY_TAG_TEST_NAME,
-    campaignId: ARTICLE_COUNT_BY_TAG_TEST_NAME,
+    name: `${ARTICLE_COUNT_BY_TAG_TEST_NAME}__${suffix}`,
+    campaignId: `${ARTICLE_COUNT_BY_TAG_TEST_NAME}__${suffix}`,
     hasArticleCountInCopy: false,
     isOn: true,
     locations: countries,
@@ -87,7 +88,10 @@ const buildEpicArticleCountByTagTest = (
 export const epicArticleCountByTagTestGlobal = buildEpicArticleCountByTagTest(
     GLOBAL_HIGHLIGHTED_TEXT,
     ['Canada', 'AUDCountries', 'NZDCountries', 'GBPCountries', 'EURCountries', 'International'],
+    'Global',
 );
-export const epicArticleCountByTagTestUS = buildEpicArticleCountByTagTest(US_HIGHLIGHTED_TEXT, [
-    'UnitedStates',
-]);
+export const epicArticleCountByTagTestUS = buildEpicArticleCountByTagTest(
+    US_HIGHLIGHTED_TEXT,
+    ['UnitedStates'],
+    'US',
+);
