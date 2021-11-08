@@ -50,14 +50,14 @@ const articleCountOnHeaderContainerStyles = css`
 
     ${from.tablet} {
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
     }
 `;
 
 const articleCountWrapperStyles = css`
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     margin-right: ${space[2]}px;
     margin-bottom: ${space[2]}px;
     justify-content: start;
@@ -225,6 +225,7 @@ interface ArticleCountWithToggleProps {
     numArticles: number;
     isArticleCountOn: boolean;
     onToggleClick: () => void;
+    aboveArticleCountByTag: boolean;
 }
 
 export interface ContributionsEpicArticleCountAboveWithOptOutProps {
@@ -234,6 +235,7 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     onArticleCountOptIn: () => void;
     openCmp?: () => void;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    aboveArticleCountByTag: boolean;
 }
 
 // -- Components -- //
@@ -242,16 +244,26 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     isArticleCountOn,
     numArticles,
     onToggleClick,
+    aboveArticleCountByTag,
 }: ArticleCountWithToggleProps) => {
     if (isArticleCountOn && numArticles >= 5) {
+        const timeWindowCopy = aboveArticleCountByTag ? (
+            <span>
+                about the
+                <br />
+                climate crisis in the last six weeks
+            </span>
+        ) : (
+            'in the last year'
+        );
         return (
             <div css={articleCountOnHeaderContainerStyles}>
                 <div css={articleCountAboveContainerStyles}>
                     {numArticles >= 5 && (
                         <>
                             You&apos;ve read{' '}
-                            <span css={optOutContainer}>{numArticles} articles</span> in the last
-                            year
+                            <span css={optOutContainer}>{numArticles} articles</span>{' '}
+                            {timeWindowCopy}
                         </>
                     )}
                 </div>
@@ -294,6 +306,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
     onArticleCountOptIn,
     openCmp,
     submitComponentEvent,
+    aboveArticleCountByTag,
 }: ContributionsEpicArticleCountAboveWithOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -335,6 +348,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
                 isArticleCountOn={isArticleCountOn}
                 numArticles={numArticles}
                 onToggleClick={onToggleClick}
+                aboveArticleCountByTag={aboveArticleCountByTag}
             />
 
             {isOpen && (

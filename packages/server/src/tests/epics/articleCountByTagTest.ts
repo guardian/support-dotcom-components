@@ -1,5 +1,5 @@
 import { EpicTest } from '@sdc/shared/types';
-import { epic } from '@sdc/shared/config';
+import { epic, epicACByTag } from '@sdc/shared/config';
 import {
     CTA,
     HIGHLIGHTED_TEXT,
@@ -48,7 +48,6 @@ export const epicArticleCountByTagTest: EpicTest = {
         {
             name: EpicArticleCountByTagTestVariants.control,
             modulePathBuilder: epic.endpointPathBuilder,
-            // TODO: Replace with proper copy
             paragraphs: CONTROL_PARAGRAPHS,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
@@ -57,7 +56,6 @@ export const epicArticleCountByTagTest: EpicTest = {
         {
             name: EpicArticleCountByTagTestVariants.v1,
             modulePathBuilder: epic.endpointPathBuilder,
-            // TODO: Replace with proper copy
             paragraphs: [
                 '… and in the last six weeks alone, %%ARTICLE_COUNT%% of these were about the climate crisis. Thank you for turning to the Guardian.',
                 ...VARIANT_PARAGRAPHS,
@@ -68,9 +66,7 @@ export const epicArticleCountByTagTest: EpicTest = {
         },
         {
             name: EpicArticleCountByTagTestVariants.v2,
-            // TODO: This one will actually have to be the new epic modules e.g epicWithClimateAC
-            modulePathBuilder: epic.endpointPathBuilder,
-            // TODO: Replace with proper copy
+            modulePathBuilder: epicACByTag.endpointPathBuilder,
             paragraphs: ['… thank you for turning to the Guardian.', ...VARIANT_PARAGRAPHS],
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,

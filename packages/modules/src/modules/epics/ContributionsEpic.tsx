@@ -252,10 +252,9 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-// TODO: We'll have to turn this into a function that returns an Epic
-// e.g https://github.com/guardian/support-dotcom-components/pull/456/files#diff-ac06266d74967899108118ed90d5ad5bd8bf6f6ea351b83740679543bb591788R194
-// because the 3rd variant will need to be a new module
-const ContributionsEpic: React.FC<EpicProps> = ({
+export const getContributionsEpic: (
+    aboveArticleCountByTag: boolean,
+) => React.FC<EpicProps> = aboveArticleCountByTag => ({
     variant,
     tracking,
     countryCode,
@@ -351,6 +350,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                         onArticleCountOptIn={onArticleCountOptIn}
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
+                        aboveArticleCountByTag={aboveArticleCountByTag}
                     />
                 </div>
             )}
@@ -452,5 +452,6 @@ const validate = (props: unknown): props is EpicProps => {
     return result.success;
 };
 
-const validatedEpic = withParsedProps(ContributionsEpic, validate);
-export { validatedEpic as ContributionsEpic, ContributionsEpic as ContributionsEpicUnvalidated };
+const validatedEpic = withParsedProps(getContributionsEpic(false), validate);
+const unValidatedEpic = getContributionsEpic(false);
+export { validatedEpic as ContributionsEpic, unValidatedEpic as ContributionsEpicUnvalidated };
