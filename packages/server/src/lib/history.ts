@@ -64,15 +64,8 @@ export const getArticleViewCounts = (
 
     const getCountForTargetingWeeks = (): number => {
         if (articlesViewedByTagSettings) {
-            // Sum the counts for each tag
-            return articlesViewedByTagSettings.tagIds.reduce((sum, tagId) => {
-                const countForTag = getArticleViewCountByTagForWeeks(
-                    tagId,
-                    history,
-                    articlesViewedByTagSettings.periodInWeeks,
-                );
-                return sum + countForTag;
-            }, 0);
+            const { tagId, periodInWeeks } = articlesViewedByTagSettings;
+            return getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks);
         }
         return weeks === 52 ? for52Weeks : getArticleViewCountForWeeks(history, weeks);
     };
@@ -111,10 +104,7 @@ export const historyWithinArticlesViewedSettingsByTag = (
         return true;
     }
 
-    const { minViews, periodInWeeks } = articlesViewedSettings;
-    // At least one of the tags must match
-    return articlesViewedSettings.tagIds.some(tagId => {
-        const count = getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks, now);
-        return count >= minViews;
-    });
+    const { tagId, minViews, periodInWeeks } = articlesViewedSettings;
+    const count = getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks, now);
+    return count >= minViews;
 };

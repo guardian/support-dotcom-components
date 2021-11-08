@@ -633,7 +633,7 @@ describe('withinArticleViewedByTagSettings filter', () => {
     const articlesViewedByTagSettings: ArticlesViewedByTagSettings = {
         minViews: 5,
         periodInWeeks: 52,
-        tagIds: ['environment/climate-change', 'science/science'],
+        tagId: 'environment/climate-change',
     };
 
     it('should pass when no articlesViewedByTagSettings', () => {

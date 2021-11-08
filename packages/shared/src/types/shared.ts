@@ -144,7 +144,7 @@ export interface ArticlesViewedSettings {
 }
 
 export interface ArticlesViewedByTagSettings {
-    tagIds: string[];
+    tagId: string;
     minViews: number;
     periodInWeeks: number;
 }
