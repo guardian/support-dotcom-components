@@ -4,6 +4,7 @@ import { ChoiceCardAmounts, ContributionFrequency, OphanComponentEvent } from '@
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
+import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 
 const frequencyChoiceCardGroupOverrides = css`
@@ -21,14 +22,7 @@ const frequencyChoiceCardGroupOverrides = css`
 
 const hideChoiceCardGroupLegend = css`
     legend {
-        border: 0;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
+        ${visuallyHidden};
     }
 `;
 
