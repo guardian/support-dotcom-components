@@ -4,6 +4,7 @@ import { ChoiceCardAmounts, ContributionFrequency, OphanComponentEvent } from '@
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
+import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 
 const frequencyChoiceCardGroupOverrides = css`
@@ -16,6 +17,12 @@ const frequencyChoiceCardGroupOverrides = css`
             margin-left: 4px !important;
             margin-right: 4px !important;
         }
+    }
+`;
+
+const hideChoiceCardGroupLegend = css`
+    legend {
+        ${visuallyHidden};
     }
 `;
 
@@ -90,7 +97,8 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                css={frequencyChoiceCardGroupOverrides}
+                css={[frequencyChoiceCardGroupOverrides, hideChoiceCardGroupLegend]}
+                label="Contribution frequency"
             >
                 <ChoiceCard
                     label="Single"
@@ -115,7 +123,11 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
             <br />
-            <ChoiceCardGroup name="contribution-amount">
+            <ChoiceCardGroup
+                name="contribution-amount"
+                label="Contribution amount"
+                css={hideChoiceCardGroupLegend}
+            >
                 <ChoiceCard
                     value="first"
                     label={`${currencySymbol}${
