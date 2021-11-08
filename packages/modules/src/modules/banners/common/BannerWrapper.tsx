@@ -149,32 +149,26 @@ const withBannerData = (
         };
     };
 
-    const clickHandlerFor = (componentId: string) => {
+    const clickHandlerFor = (componentId: string, close: boolean) => {
         return (): void => {
             const componentClickEvent = createClickEventFromTracking(tracking, componentId);
             if (submitComponentEvent) {
                 submitComponentEvent(componentClickEvent);
             }
+            if (close) {
+                onClose();
+            }
         };
     };
 
-    const onCtaClick = clickHandlerFor(componentIds.cta);
-    const onSecondaryCtaClick = clickHandlerFor(componentIds.secondaryCta);
-    const onReminderCtaClick = clickHandlerFor(componentIds.reminderCta);
-    const onReminderSetClick = clickHandlerFor(componentIds.reminderSet);
-    const onReminderCloseClick = clickHandlerFor(componentIds.reminderClose);
-
-    const onCloseClick = (): void => {
-        clickHandlerFor(componentIds.close)();
-        onClose();
-    };
-
-    const onNotNowClick = (): void => {
-        clickHandlerFor(componentIds.notNow)();
-        onClose();
-    };
-
-    const onSignInClick = clickHandlerFor(componentIds.signIn);
+    const onCtaClick = clickHandlerFor(componentIds.cta, true);
+    const onSecondaryCtaClick = clickHandlerFor(componentIds.secondaryCta, true);
+    const onReminderCtaClick = clickHandlerFor(componentIds.reminderCta, false);
+    const onReminderSetClick = clickHandlerFor(componentIds.reminderSet, false);
+    const onReminderCloseClick = clickHandlerFor(componentIds.reminderClose, false);
+    const onCloseClick = clickHandlerFor(componentIds.close, true);
+    const onNotNowClick = clickHandlerFor(componentIds.notNow, true);
+    const onSignInClick = clickHandlerFor(componentIds.signIn, false);
 
     try {
         const renderedContent = content && buildRenderedContent(content);
