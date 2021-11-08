@@ -2,11 +2,13 @@ import { EpicTest } from '@sdc/shared/types';
 import { epic, epicACByTag } from '@sdc/shared/config';
 import {
     CTA,
-    HIGHLIGHTED_TEXT,
+    GLOBAL_HIGHLIGHTED_TEXT,
+    US_HIGHLIGHTED_TEXT,
     CONTROL_PARAGRAPHS,
     VARIANT1_PARAGRAPHS,
     VARIANT2_PARAGRAPHS,
 } from './articleCountByTagTestData';
+import { CountryGroupId } from '@sdc/shared/lib';
 
 export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-05_EpicArticleCountByTagTest';
 
@@ -16,20 +18,15 @@ export enum EpicArticleCountByTagTestVariants {
     v2 = 'v2',
 }
 
-export const epicArticleCountByTagTest: EpicTest = {
+const buildEpicArticleCountByTagTest = (
+    highlightedText: string,
+    countries: CountryGroupId[],
+): EpicTest => ({
     name: ARTICLE_COUNT_BY_TAG_TEST_NAME,
     campaignId: ARTICLE_COUNT_BY_TAG_TEST_NAME,
     hasArticleCountInCopy: false,
     isOn: true,
-    locations: [
-        'UnitedStates',
-        'Canada',
-        'AUDCountries',
-        'NZDCountries',
-        'GBPCountries',
-        'EURCountries',
-        'International',
-    ],
+    locations: countries,
     audience: 1,
     tagIds: [],
     sections: [],
@@ -50,7 +47,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             name: EpicArticleCountByTagTestVariants.control,
             modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: CONTROL_PARAGRAPHS,
-            highlightedText: HIGHLIGHTED_TEXT,
+            highlightedText,
             cta: CTA,
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
@@ -59,7 +56,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             name: EpicArticleCountByTagTestVariants.v1,
             modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: VARIANT1_PARAGRAPHS,
-            highlightedText: HIGHLIGHTED_TEXT,
+            highlightedText,
             cta: CTA,
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
@@ -68,7 +65,7 @@ export const epicArticleCountByTagTest: EpicTest = {
             name: EpicArticleCountByTagTestVariants.v2,
             modulePathBuilder: epicACByTag.endpointPathBuilder,
             paragraphs: VARIANT2_PARAGRAPHS,
-            highlightedText: HIGHLIGHTED_TEXT,
+            highlightedText,
             cta: CTA,
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
@@ -85,4 +82,12 @@ export const epicArticleCountByTagTest: EpicTest = {
         periodInWeeks: 6,
         tagIds: ['environment/climate-change', 'environment/environment'],
     },
-};
+});
+
+export const epicArticleCountByTagTestGlobal = buildEpicArticleCountByTagTest(
+    GLOBAL_HIGHLIGHTED_TEXT,
+    ['Canada', 'AUDCountries', 'NZDCountries', 'GBPCountries', 'EURCountries', 'International'],
+);
+export const epicArticleCountByTagTestUS = buildEpicArticleCountByTagTest(US_HIGHLIGHTED_TEXT, [
+    'UnitedStates',
+]);

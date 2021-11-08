@@ -36,7 +36,10 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
-import { epicArticleCountByTagTest } from './tests/epics/articleCountByTagTest';
+import {
+    epicArticleCountByTagTestGlobal,
+    epicArticleCountByTagTestUS,
+} from './tests/epics/articleCountByTagTest';
 
 interface EpicDataResponse {
     data?: {
@@ -120,7 +123,9 @@ const getArticleEpicTests = async (
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const hardcodedTests = enableHardcodedEpicTests ? [epicArticleCountByTagTest] : [];
+        const hardcodedTests = enableHardcodedEpicTests
+            ? [epicArticleCountByTagTestUS, epicArticleCountByTagTestGlobal]
+            : [];
 
         if (isForcingTest) {
             return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];

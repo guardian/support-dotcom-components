@@ -22,8 +22,11 @@ export const VARIANT2_PARAGRAPHS = [
     ...otherParagraphs,
 ];
 
-export const HIGHLIGHTED_TEXT =
+export const GLOBAL_HIGHLIGHTED_TEXT =
     'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.';
+
+export const US_HIGHLIGHTED_TEXT =
+    'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.';
 
 export const CTA = {
     text: 'Support the Guardian',
