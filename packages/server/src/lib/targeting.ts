@@ -39,9 +39,8 @@ export const shouldThrottle = (
 };
 
 export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): boolean => {
-    const isLowValueSection = lowValueSections.some(
-        id => id === meta.sectionId || meta.sectionName,
-    );
+    const section = meta.sectionId || meta.sectionName;
+    const isLowValueSection = !!section && lowValueSections.includes(section);
     const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
 
     return (

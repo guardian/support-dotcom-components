@@ -33,7 +33,7 @@ export type ViewLog = View[];
 
 export type EpicTargeting = {
     contentType: string;
-    sectionName: string; // Deprecated - use sectionId
+    sectionName?: string; // Deprecated - use sectionId
     sectionId?: string;
     shouldHideReaderRevenue: boolean;
 
