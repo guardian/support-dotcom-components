@@ -1,10 +1,10 @@
-import { EpicTest } from '@sdc/shared/types';
+import { EpicTest, SecondaryCtaType } from '@sdc/shared/types';
 import { epic, epicACByTag } from '@sdc/shared/config';
 import {
+    CONTROL_PARAGRAPHS,
     CTA,
     GLOBAL_HIGHLIGHTED_TEXT,
     US_HIGHLIGHTED_TEXT,
-    CONTROL_PARAGRAPHS,
     VARIANT1_PARAGRAPHS,
     VARIANT2_PARAGRAPHS,
 } from './articleCountByTagTestData';
@@ -49,6 +49,7 @@ const buildEpicArticleCountByTagTest = (
             paragraphs: CONTROL_PARAGRAPHS,
             highlightedText,
             cta: CTA,
+            secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
         },
@@ -58,6 +59,7 @@ const buildEpicArticleCountByTagTest = (
             paragraphs: VARIANT1_PARAGRAPHS,
             highlightedText,
             cta: CTA,
+            secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
         },
@@ -67,6 +69,7 @@ const buildEpicArticleCountByTagTest = (
             paragraphs: VARIANT2_PARAGRAPHS,
             highlightedText,
             cta: CTA,
+            secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
         },
