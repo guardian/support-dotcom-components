@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import * as stripeJs from '@stripe/react-stripe-js';
-import { Elements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
+import { Elements, PaymentRequestButtonElement, useStripe } from '@stripe/react-stripe-js';
+import { loadStripe, PaymentRequest, CanMakePaymentResult } from '@stripe/stripe-js';
 
 const Container: React.FC = () => {
     const [stripe] = useState(loadStripe('pk_live_auSwLB4KBzbN3JOUVHvKMe6f'));
@@ -16,9 +15,8 @@ const Container: React.FC = () => {
 export { Container as ContributionsEpicPaymentRequestButton };
 
 const ContributionsEpicPaymentRequestButton: React.FC = () => {
-    const stripe = stripeJs.useStripe();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [paymentRequest, setPaymentRequest] = useState<any | null>(null);
+    const stripe = useStripe();
+    const [paymentRequest, setPaymentRequest] = useState<null | PaymentRequest>(null);
 
     useEffect(() => {
         if (stripe) {
@@ -33,8 +31,7 @@ const ContributionsEpicPaymentRequestButton: React.FC = () => {
                 requestPayerEmail: true,
             });
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            paymentRequest.canMakePayment().then(function(result: any) {
+            paymentRequest.canMakePayment().then(function(result: CanMakePaymentResult | null) {
                 if (result) {
                     console.log('[PRB]: ', { result });
                     setPaymentRequest(paymentRequest);
