@@ -447,7 +447,7 @@ export const getContributionsEpic: (
     );
 };
 
-const validate = (props: unknown): props is EpicProps => {
+export const validate = (props: unknown): props is EpicProps => {
     const result = epicPropsSchema.safeParse(props);
     return result.success;
 };
