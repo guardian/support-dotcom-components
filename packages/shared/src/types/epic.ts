@@ -216,7 +216,7 @@ export interface EpicTest extends Test<EpicVariant> {
     isOn: boolean;
     locations: CountryGroupId[];
     tagIds: string[];
-    sections: string[];
+    sections: string[]; // sectionIds
     excludedTagIds: string[];
     excludedSections: string[];
     alwaysAsk: boolean;
