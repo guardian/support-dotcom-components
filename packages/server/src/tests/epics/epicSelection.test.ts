@@ -1,4 +1,4 @@
-import { SecondaryCtaType } from '@sdc/shared/types';
+import { ArticlesViewedByTagSettings, SecondaryCtaType } from '@sdc/shared/types';
 import { EpicTargeting, EpicTest } from '@sdc/shared/types';
 import { SuperModeArticle } from '../../lib/superMode';
 import { withNowAs } from '../../utils/withNowAs';
@@ -14,6 +14,7 @@ import {
     matchesCountryGroups,
     userInTest,
     withinArticleViewedSettings,
+    withinArticleViewedByTagSettings,
     withinMaxViews,
 } from './epicSelection';
 
@@ -622,6 +623,72 @@ describe('withinArticleViewedSettings filter', () => {
         const filter = withinArticleViewedSettings(history, now);
 
         const got = filter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+});
+
+describe('withinArticleViewedByTagSettings filter', () => {
+    const now = new Date('2020-03-31T12:30:00');
+    const articlesViewedByTagSettings: ArticlesViewedByTagSettings = {
+        minViews: 5,
+        periodInWeeks: 52,
+        tagId: 'environment/climate-change',
+    };
+
+    it('should pass when no articlesViewedByTagSettings', () => {
+        const history = [{ week: 18330, count: 2500 }];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history,
+        };
+        const filter = withinArticleViewedByTagSettings(history, now);
+
+        const got = filter.test({ ...testDefault }, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail when below min articles viewed for any tag', () => {
+        const history = [
+            {
+                week: 18330,
+                count: 5,
+                tags: {
+                    'environment/climate-change': 1,
+                    'science/science': 2,
+                },
+            },
+        ];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history,
+        };
+        const filter = withinArticleViewedByTagSettings(history, now);
+
+        const got = filter.test({ ...testDefault, articlesViewedByTagSettings }, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should succeed when above min articles viewed for any tag', () => {
+        const history = [
+            {
+                week: 18330,
+                count: 5,
+                tags: {
+                    'environment/climate-change': 5,
+                    'science/science': 2,
+                },
+            },
+        ];
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            weeklyArticleHistory: history,
+        };
+        const filter = withinArticleViewedByTagSettings(history, now);
+
+        const got = filter.test({ ...testDefault, articlesViewedByTagSettings }, targeting);
 
         expect(got).toBe(true);
     });

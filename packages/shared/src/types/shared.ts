@@ -125,9 +125,14 @@ export interface ChoiceCardSettings {
     showChoiceCards: boolean;
 }
 
+export type TagCounts = {
+    [tag: string]: number;
+};
+
 export type WeeklyArticleLog = {
     week: number;
     count: number;
+    tags?: TagCounts;
 };
 
 export type WeeklyArticleHistory = WeeklyArticleLog[];
@@ -135,6 +140,12 @@ export type WeeklyArticleHistory = WeeklyArticleLog[];
 export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;
+    periodInWeeks: number;
+}
+
+export interface ArticlesViewedByTagSettings {
+    tagId: string;
+    minViews: number;
     periodInWeeks: number;
 }
 

@@ -10,7 +10,10 @@ import {
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
-import { historyWithinArticlesViewedSettings } from '../../lib/history';
+import {
+    historyWithinArticlesViewedSettings,
+    historyWithinArticlesViewedSettingsByTag,
+} from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
@@ -138,6 +141,15 @@ export const withinArticleViewedSettings = (
         historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
 });
 
+export const withinArticleViewedByTagSettings = (
+    history: WeeklyArticleHistory,
+    now: Date = new Date(),
+): Filter => ({
+    id: 'withinArticleViewedByTagSettings',
+    test: (test): boolean =>
+        historyWithinArticlesViewedSettingsByTag(test.articlesViewedByTagSettings, history, now),
+});
+
 export const inCorrectCohort = (userCohorts: UserCohort[], isSuperModePass: boolean): Filter => ({
     id: 'inCorrectCohort',
     test: (test): boolean => {
@@ -216,8 +228,9 @@ export const findTestAndVariant = (
             matchesCountryGroups,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
-            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             respectArticleCountOptOut,
+            withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
+            withinArticleViewedByTagSettings(targeting.weeklyArticleHistory || []),
         ];
     };
 

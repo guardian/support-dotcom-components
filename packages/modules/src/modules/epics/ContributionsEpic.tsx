@@ -123,6 +123,7 @@ type HighlightedProps = {
     countryCode?: string;
     numArticles: number;
     tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 };
 
 type BodyProps = {
@@ -131,6 +132,7 @@ type BodyProps = {
     countryCode?: string;
     numArticles: number;
     tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 };
 
 interface OnReminderOpen {
@@ -141,14 +143,22 @@ interface EpicHeaderProps {
     text: string;
     numArticles: number;
     tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 }
 
 const EpicHeader: React.FC<EpicHeaderProps> = ({
     text,
     numArticles,
     tracking,
+    showAboveArticleCount,
 }: EpicHeaderProps) => {
-    const elements = replaceArticleCount(text, numArticles, 'epic', tracking);
+    const elements = replaceArticleCount(
+        text,
+        numArticles,
+        'epic',
+        tracking,
+        !showAboveArticleCount,
+    );
     return <h2 css={headingStyles}>{elements}</h2>;
 };
 
@@ -156,8 +166,15 @@ const Highlighted: React.FC<HighlightedProps> = ({
     highlightedText,
     numArticles,
     tracking,
+    showAboveArticleCount,
 }: HighlightedProps) => {
-    const elements = replaceArticleCount(highlightedText, numArticles, 'epic', tracking);
+    const elements = replaceArticleCount(
+        highlightedText,
+        numArticles,
+        'epic',
+        tracking,
+        !showAboveArticleCount,
+    );
 
     return (
         <strong css={highlightWrapperStyles}>
@@ -172,6 +189,7 @@ interface EpicBodyParagraphProps {
     numArticles: number;
     highlighted: JSX.Element | null;
     tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 }
 
 const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
@@ -179,8 +197,15 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
     numArticles,
     highlighted,
     tracking,
+    showAboveArticleCount,
 }: EpicBodyParagraphProps) => {
-    const elements = replaceArticleCount(paragraph, numArticles, 'epic', tracking);
+    const elements = replaceArticleCount(
+        paragraph,
+        numArticles,
+        'epic',
+        tracking,
+        !showAboveArticleCount,
+    );
 
     return (
         <p css={bodyStyles}>
@@ -196,6 +221,7 @@ const EpicBody: React.FC<BodyProps> = ({
     paragraphs,
     highlightedText,
     tracking,
+    showAboveArticleCount,
 }: BodyProps) => {
     return (
         <>
@@ -211,10 +237,12 @@ const EpicBody: React.FC<BodyProps> = ({
                                     highlightedText={highlightedText}
                                     countryCode={countryCode}
                                     numArticles={numArticles}
+                                    showAboveArticleCount={showAboveArticleCount}
                                 />
                             ) : null
                         }
                         tracking={tracking}
+                        showAboveArticleCount={showAboveArticleCount}
                     />
                 );
 
@@ -224,7 +252,9 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-const ContributionsEpic: React.FC<EpicProps> = ({
+export const getContributionsEpic: (
+    aboveArticleCountByTag: boolean,
+) => React.FC<EpicProps> = aboveArticleCountByTag => ({
     variant,
     tracking,
     countryCode,
@@ -305,17 +335,22 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         componentType: 'ACQUISITIONS_EPIC',
     };
 
+    const showAboveArticleCount = !!(
+        variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount
+    );
+
     return (
         <section ref={setNode} css={wrapperStyles}>
-            {variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount && (
+            {showAboveArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAboveWithOptOut
-                        numArticles={articleCounts.for52Weeks}
+                        articleCounts={articleCounts}
                         isArticleCountOn={!hasOptedOut}
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
+                        aboveArticleCountByTag={aboveArticleCountByTag}
                     />
                 </div>
             )}
@@ -343,6 +378,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     text={cleanHeading}
                     numArticles={articleCounts.forTargetedWeeks}
                     tracking={ophanTracking}
+                    showAboveArticleCount={showAboveArticleCount}
                 />
             )}
 
@@ -352,6 +388,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 countryCode={countryCode}
                 numArticles={articleCounts.forTargetedWeeks}
                 tracking={ophanTracking}
+                showAboveArticleCount={showAboveArticleCount}
             />
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
@@ -410,10 +447,11 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     );
 };
 
-const validate = (props: unknown): props is EpicProps => {
+export const validate = (props: unknown): props is EpicProps => {
     const result = epicPropsSchema.safeParse(props);
     return result.success;
 };
 
-const validatedEpic = withParsedProps(ContributionsEpic, validate);
-export { validatedEpic as ContributionsEpic, ContributionsEpic as ContributionsEpicUnvalidated };
+const validatedEpic = withParsedProps(getContributionsEpic(false), validate);
+const unValidatedEpic = getContributionsEpic(false);
+export { validatedEpic as ContributionsEpic, unValidatedEpic as ContributionsEpicUnvalidated };

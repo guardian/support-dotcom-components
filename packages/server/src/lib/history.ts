@@ -1,16 +1,30 @@
 import {
     ArticleCounts,
     ArticlesViewedSettings,
+    ArticlesViewedByTagSettings,
     WeeklyArticleHistory,
     WeeklyArticleLog,
 } from '@sdc/shared/types';
 
+// From https://github.com/guardian/automat-client-v2/blob/master/src/contributions/lib/dates.ts#L4
 export const getMondayFromDate = (date: Date): number => {
-    const day = date.getDay() || 7;
-    if (day !== 1) {
-        date.setHours(-24 * (day - 1));
-    }
-    return Math.floor(date.getTime() / 86400000);
+    const day = date.getDay() || 7; // Sunday is 0, so set it to 7
+    const time = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() - (day - 1));
+    return time / 86400000;
+};
+
+const getWeeksInWindow = (
+    history: WeeklyArticleHistory = [],
+    weeks = 52,
+    rightNow: Date = new Date(),
+): WeeklyArticleLog[] => {
+    const mondayThisWeek = getMondayFromDate(rightNow);
+    const cutOffWeek = mondayThisWeek - weeks * 7;
+
+    // Filter only weeks within cutoff period
+    return history.filter(
+        (weeklyArticleLog: WeeklyArticleLog) => weeklyArticleLog.week >= cutOffWeek,
+    );
 };
 
 export const getArticleViewCountForWeeks = (
@@ -18,31 +32,47 @@ export const getArticleViewCountForWeeks = (
     weeks = 52,
     rightNow: Date = new Date(),
 ): number => {
-    const mondayThisWeek = getMondayFromDate(rightNow);
-    const cutOffWeek = mondayThisWeek - weeks * 7;
-
-    // Filter only weeks within cutoff period
-    const weeksInWindow = history.filter(
-        (weeklyArticleLog: WeeklyArticleLog) => weeklyArticleLog.week >= cutOffWeek,
-    );
+    const weeksInWindow = getWeeksInWindow(history, weeks, rightNow);
 
     return weeksInWindow.reduce(
-        (accumulator: number, currentValue: WeeklyArticleLog) => currentValue.count + accumulator,
+        (accumulator: number, articleLog: WeeklyArticleLog) => articleLog.count + accumulator,
         0,
     );
 };
 
+export const getArticleViewCountByTagForWeeks = (
+    tagId: string,
+    history: WeeklyArticleHistory = [],
+    weeks = 52,
+    rightNow: Date = new Date(),
+): number => {
+    const weeksInWindow = getWeeksInWindow(history, weeks, rightNow);
+
+    return weeksInWindow.reduce((accumulator: number, articleLog: WeeklyArticleLog) => {
+        const countForTag = articleLog.tags?.[tagId] ?? 0;
+        return accumulator + countForTag;
+    }, 0);
+};
+
+// If articlesViewedByTagSettings is set then use this for the `forTargetedWeeks` count
 export const getArticleViewCounts = (
     history: WeeklyArticleHistory = [],
+    articlesViewedByTagSettings?: ArticlesViewedByTagSettings,
     weeks = 52,
 ): ArticleCounts => {
     const for52Weeks = getArticleViewCountForWeeks(history, 52);
-    const forTargetedWeeks =
-        weeks === 52 ? for52Weeks : getArticleViewCountForWeeks(history, weeks);
+
+    const getCountForTargetingWeeks = (): number => {
+        if (articlesViewedByTagSettings) {
+            const { tagId, periodInWeeks } = articlesViewedByTagSettings;
+            return getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks);
+        }
+        return weeks === 52 ? for52Weeks : getArticleViewCountForWeeks(history, weeks);
+    };
 
     return {
         for52Weeks,
-        forTargetedWeeks,
+        forTargetedWeeks: getCountForTargetingWeeks(),
     };
 };
 
@@ -63,4 +93,18 @@ export const historyWithinArticlesViewedSettings = (
     const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
 
     return minViewsOk && maxViewsOk;
+};
+
+export const historyWithinArticlesViewedSettingsByTag = (
+    articlesViewedSettings?: ArticlesViewedByTagSettings,
+    history: WeeklyArticleHistory = [],
+    now: Date = new Date(),
+): boolean => {
+    if (!articlesViewedSettings) {
+        return true;
+    }
+
+    const { tagId, minViews, periodInWeeks } = articlesViewedSettings;
+    const count = getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks, now);
+    return count >= minViews;
 };
