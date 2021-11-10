@@ -35,13 +35,20 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(compression());
 
-const corsOptions = isProd
-    ? {
-          origin: 'https://www.theguardian.com',
-      }
-    : {
-          origin: '*',
-      };
+const corsOrigin = () => {
+    switch (process.env.stage) {
+        case 'PROD':
+            return 'https://www.theguardian.com';
+        case 'CODE':
+            return 'https://m.code.dev-theguardian.com';
+        default:
+            return '*';
+    }
+};
+
+const corsOptions = {
+    origin: corsOrigin(),
+};
 app.use(cors(corsOptions));
 
 app.use(loggingMiddleware);
