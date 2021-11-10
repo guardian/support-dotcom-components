@@ -1,13 +1,6 @@
 import { EpicTest, SecondaryCtaType } from '@sdc/shared/types';
 import { epic, epicACByTag } from '@sdc/shared/config';
-import {
-    CONTROL_PARAGRAPHS,
-    CTA,
-    GLOBAL_HIGHLIGHTED_TEXT,
-    US_HIGHLIGHTED_TEXT,
-    VARIANT1_PARAGRAPHS,
-    VARIANT2_PARAGRAPHS,
-} from './articleCountByTagTestData';
+import { Copy, GLOBAL_COPY, US_COPY, CTA } from './articleCountByTagTestData';
 import { CountryGroupId } from '@sdc/shared/lib';
 
 export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-09_EpicArticleCountByTagTest';
@@ -19,7 +12,7 @@ export enum EpicArticleCountByTagTestVariants {
 }
 
 const buildEpicArticleCountByTagTest = (
-    highlightedText: string,
+    copy: Copy,
     countries: CountryGroupId[],
     suffix: string,
 ): EpicTest => ({
@@ -46,8 +39,8 @@ const buildEpicArticleCountByTagTest = (
         {
             name: EpicArticleCountByTagTestVariants.control,
             modulePathBuilder: epic.endpointPathBuilder,
-            paragraphs: CONTROL_PARAGRAPHS,
-            highlightedText,
+            paragraphs: copy.controlParagraphs,
+            highlightedText: copy.highlightedText,
             cta: CTA,
             secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
@@ -56,8 +49,8 @@ const buildEpicArticleCountByTagTest = (
         {
             name: EpicArticleCountByTagTestVariants.v1,
             modulePathBuilder: epic.endpointPathBuilder,
-            paragraphs: VARIANT1_PARAGRAPHS,
-            highlightedText,
+            paragraphs: copy.v1Paragraphs,
+            highlightedText: copy.highlightedText,
             cta: CTA,
             secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
@@ -66,8 +59,8 @@ const buildEpicArticleCountByTagTest = (
         {
             name: EpicArticleCountByTagTestVariants.v2,
             modulePathBuilder: epicACByTag.endpointPathBuilder,
-            paragraphs: VARIANT2_PARAGRAPHS,
-            highlightedText,
+            paragraphs: copy.v2Paragraphs,
+            highlightedText: copy.highlightedText,
             cta: CTA,
             secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
@@ -88,12 +81,12 @@ const buildEpicArticleCountByTagTest = (
 });
 
 export const epicArticleCountByTagTestGlobal = buildEpicArticleCountByTagTest(
-    GLOBAL_HIGHLIGHTED_TEXT,
+    GLOBAL_COPY,
     ['Canada', 'AUDCountries', 'NZDCountries', 'GBPCountries', 'EURCountries', 'International'],
     'Global',
 );
 export const epicArticleCountByTagTestUS = buildEpicArticleCountByTagTest(
-    US_HIGHLIGHTED_TEXT,
+    US_COPY,
     ['UnitedStates'],
     'US',
 );
