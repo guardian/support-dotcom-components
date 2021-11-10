@@ -1,10 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     createClickEventFromTracking,
     createInsertEventFromTracking,
     createViewEventFromTracking,
+    GIVING_TUESDAY_REMINDER_FIELDS,
 } from '@sdc/shared/lib';
 import React, { useEffect } from 'react';
 import {
@@ -96,7 +95,8 @@ const withBannerData = (
 
             return {
                 type: SecondaryCtaType.ContributionsReminder,
-                reminderFields: buildReminderFields(),
+                reminderFields:
+                    countryCode === 'US' ? GIVING_TUESDAY_REMINDER_FIELDS : buildReminderFields(),
             };
         };
 

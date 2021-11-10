@@ -19,6 +19,7 @@ export function useContributionsReminderSignup(
     reminderPlatform: ReminderPlatform,
     reminderComponent: ReminderComponent,
     reminderStage: ReminderStage,
+    reminderOption?: string,
 ): ContributionsReminderSignup {
     const [reminderStatus, setReminderStatus] = useState<ReminderStatus>(ReminderStatus.Editing);
 
@@ -29,6 +30,7 @@ export function useContributionsReminderSignup(
             reminderPlatform,
             reminderComponent,
             reminderStage,
+            reminderOption,
         };
 
         setReminderStatus(ReminderStatus.Submitting);

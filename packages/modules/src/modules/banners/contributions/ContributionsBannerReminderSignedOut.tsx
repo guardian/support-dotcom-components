@@ -9,7 +9,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { TextInput } from '@guardian/src-text-input';
 import { SvgCheckmark } from '@guardian/src-icons';
 import { BannerEnrichedReminderCta } from '../common/types';
-import { ReminderStatus } from '../../utils/reminders';
+import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';
 
 const bodyContainerStyles = css`
@@ -260,9 +260,11 @@ function Body({
     onSubmit,
     reminderStatus,
 }: BodyProps) {
+    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
+
     return (
         <div css={bodyContainerStyles}>
-            <div css={bodyCopyContainerStyles}>Remind me in {reminderLabel}</div>
+            <div css={bodyCopyContainerStyles}>Remind me {reminderDateWithPreposition}</div>
             <form onSubmit={onSubmit} css={formContainerStyles}>
                 <TextInput
                     label="Email address"
@@ -315,13 +317,16 @@ interface ThankYouProps {
 }
 
 function ThankYou({ reminderLabel }: ThankYouProps) {
+    const reminderLabelWithPreposition = ensureHasPreposition(reminderLabel);
+
     return (
         <div css={bodyContainerStyles}>
             <div css={thankyouHeaderStyles}>Thank you! Your reminder is set</div>
 
             <div css={thankyouBodyStyles}>
                 We will be in touch to invite you to contribute. Look out for a messsage in your
-                inbox in {reminderLabel}. If you have any questions about contributing, please{' '}
+                inbox {reminderLabelWithPreposition}. If you have any questions about contributing,
+                please{' '}
                 <a href="mailto:contribution.support@theguardian.com" css={contactLinkStyles}>
                     contact us
                 </a>

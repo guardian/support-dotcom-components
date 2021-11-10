@@ -8,7 +8,7 @@ import { Columns, Column, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { SvgCheckmark } from '@guardian/src-icons';
 import { BannerEnrichedReminderCta } from '../common/types';
-import { ReminderStatus } from '../../utils/reminders';
+import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 
 const bodyContainerStyles = css`
     padding: 10px 0;
@@ -90,6 +90,10 @@ export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerRe
     onReminderSetClick,
     onReminderCloseClick,
 }) => {
+    const reminderDateWithPreposition = ensureHasPreposition(
+        reminderCta.reminderFields.reminderLabel,
+    );
+
     const Body = () => (
         <div css={bodyContainerStyles}>
             {reminderStatus !== ReminderStatus.Completed && (
@@ -107,9 +111,8 @@ export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerRe
                     )}
 
                     <div css={infoCopyContainerStyles}>
-                        We will send you a maximum of two emails in{' '}
-                        {reminderCta.reminderFields.reminderLabel}. To find out what personal data
-                        we collect and how we use it, view our{' '}
+                        We will send you a maximum of two emails {reminderDateWithPreposition}. To
+                        find out what personal data we collect and how we use it, view our{' '}
                         <a
                             css={privacyLinkSyles}
                             href="https://www.theguardian.com/help/privacy-policy"
@@ -128,8 +131,8 @@ export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerRe
 
                     <div css={thankyouBodyStyles}>
                         We will be in touch to invite you to contribute. Look out for a messsage in
-                        your inbox in {reminderCta.reminderFields.reminderLabel}. If you have any
-                        questions about contributing, please{' '}
+                        your inbox {reminderDateWithPreposition}. If you have any questions about
+                        contributing, please{' '}
                         <a
                             href="mailto:contribution.support@theguardian.com"
                             css={contactLinkStyles}

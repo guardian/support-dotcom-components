@@ -22,6 +22,7 @@ export const ContributionsBannerReminder: React.FC<ContributionsBannerReminderPr
         'WEB',
         'BANNER',
         'PRE',
+        reminderCta.reminderFields.reminderOption,
     );
 
     const onReminderSetClick = (email: string) => {
