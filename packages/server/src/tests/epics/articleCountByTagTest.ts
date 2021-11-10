@@ -83,7 +83,7 @@ const buildEpicArticleCountByTagTest = (
     articlesViewedByTagSettings: {
         minViews: 5,
         periodInWeeks: 6,
-        tagId: 'environment/climate-crisis',
+        tagId: 'environment/environment',
     },
 });
 
