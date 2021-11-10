@@ -48,5 +48,11 @@ export const replaceArticleCount = (
     if (optOutLink) {
         return replaceArticleCountWithLink(text, numArticles, articleCountOptOutType, tracking);
     }
-    return <>{text.replace(/%%ARTICLE_COUNT%%/, `${numArticles}`)}</>;
+    return (
+        <span
+            dangerouslySetInnerHTML={{
+                __html: text.replace(/%%ARTICLE_COUNT%%/, `${numArticles}`),
+            }}
+        />
+    );
 };
