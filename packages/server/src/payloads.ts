@@ -188,7 +188,7 @@ export const buildEpicData = async (
 
     const choiceCardAmounts = await cachedChoiceCardAmounts();
     const tickerSettings = await getTickerSettings(variant);
-    const showReminderFields = getReminderFields(variant);
+    const showReminderFields = getReminderFields(variant, targeting.countryCode);
 
     const propsVariant = {
         ...variant,
