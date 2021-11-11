@@ -58,10 +58,9 @@ WithReminder.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
         showReminderFields: {
-            reminderCta: 'Remind me on Giving Tuesday',
-            reminderPeriod: '2021-11-01',
-            reminderLabel: 'on Giving Tuesday',
-            reminderOption: 'giving-tuesday-2021',
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
         },
     },
 };
@@ -81,10 +80,9 @@ WithPrefilledReminder.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
         showReminderFields: {
-            reminderCta: 'Remind me on Giving Tuesday',
-            reminderPeriod: '2021-11-01',
-            reminderLabel: 'on Giving Tuesday',
-            reminderOption: 'giving-tuesday-2021',
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
         },
     },
 };

@@ -16,7 +16,6 @@ export const Default = Template.bind({});
 
 export const WithReminder = Template.bind({});
 WithReminder.args = {
-    countryCode: 'US',
     content: {
         ...content,
         secondaryCta: {
