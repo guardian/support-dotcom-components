@@ -35,9 +35,21 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(compression());
 
-// Note allows *all* cors. We may want to tighten this later.
-app.use(cors());
-app.options('*', [cors()]);
+const corsOrigin = () => {
+    switch (process.env.stage) {
+        case 'PROD':
+            return 'https://www.theguardian.com';
+        case 'CODE':
+            return 'https://m.code.dev-theguardian.com';
+        default:
+            return '*';
+    }
+};
+
+const corsOptions = {
+    origin: corsOrigin(),
+};
+app.use(cors(corsOptions));
 
 app.use(loggingMiddleware);
 
