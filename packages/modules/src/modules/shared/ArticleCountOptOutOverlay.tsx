@@ -5,6 +5,7 @@ import {
     brandAltBackground,
     brandAltLine,
     brandAltText,
+    culture,
     neutral,
 } from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
@@ -21,24 +22,28 @@ const COLOURS = {
     epic: 'white',
     banner: brandAltText.primary,
     ['investigations-moment-banner']: neutral[0],
+    ['us-eoy-moment-banner']: neutral[0],
 };
 
 const BACKGROUND_COLOURS = {
     epic: brand[400],
     banner: brandAltBackground.primary,
     ['investigations-moment-banner']: neutral[100],
+    ['us-eoy-moment-banner']: '#FFEEDB',
 };
 
 const BORDER_COLOURS = {
     epic: 'transparent',
     banner: brandAltLine.primary,
     ['investigations-moment-banner']: neutral[0],
+    ['us-eoy-moment-banner']: neutral[0],
 };
 
 const BUTTON_THEMES = {
     epic: brandTheme,
     banner: brandAltTheme,
     ['investigations-moment-banner']: buttonDefaultTheme,
+    ['us-eoy-moment-banner']: buttonDefaultTheme,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
@@ -86,6 +91,7 @@ const NOTE_LINK_COLOURS = {
     epic: neutral[100],
     banner: brandAltText.primary,
     ['investigations-moment-banner']: neutral[0],
+    ['us-eoy-moment-banner']: neutral[0],
 };
 
 const BUTTON_OVERRIDES = {
@@ -98,6 +104,16 @@ const BUTTON_OVERRIDES = {
 
         &:hover {
             background-color: ${neutral[86]};
+        }
+    `,
+    ['us-eoy-moment-banner']: css`
+        color: ${neutral[7]};
+        border: 1px solid ${neutral[7]};
+
+        &:hover {
+            background-color: ${culture[350]};
+            color: ${neutral[100]};
+            border: 1px solid ${culture[350]};
         }
     `,
 };
@@ -113,6 +129,17 @@ const PRIMARY_BUTTON_OVERRIDES = {
         &:hover {
             background-color: ${neutral[46]};
             border-color: ${neutral[46]};
+        }
+    `,
+    ['us-eoy-moment-banner']: css`
+        background-color: ${neutral[7]};
+        color: ${neutral[100]};
+        border: 1px solid ${neutral[7]};
+
+        &:hover {
+            background-color: ${culture[350]};
+            color: ${neutral[100]};
+            border: 1px solid ${culture[350]};
         }
     `,
 };

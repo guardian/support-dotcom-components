@@ -1,0 +1,119 @@
+import React from 'react';
+import { css } from '@emotion/react';
+import { from } from '@guardian/src-foundations/mq';
+import { space } from '@guardian/src-foundations';
+
+const container = css`
+    width: 40%;
+    padding-top: 45%;
+    position: relative;
+    float: right;
+    overflow-y: clip;
+
+    ${from.mobileMedium} {
+        padding-top: 40%;
+        width: 43%;
+    }
+
+    ${from.mobileLandscape} {
+        padding-top: 30%;
+    }
+
+    ${from.phablet} {
+        padding-top: 25%;
+    }
+
+    ${from.tablet} {
+        padding-top: 0;
+        height: 100%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 42%;
+    }
+
+    ${from.desktop} {
+        width: 34%;
+    }
+
+    ${from.desktop} {
+        width: 36%;
+        right: -2%;
+    }
+
+    ${from.leftCol} {
+        width: 34%;
+    }
+`;
+
+const imageContainer = css`
+    margin-right: -${space[3]}px;
+    margin-left: -32px;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    ${from.mobileMedium} {
+        bottom: -11%;
+    }
+
+    ${from.mobileLandscape} {
+        margin-right: -${space[5]}px;
+        bottom: -40%;
+    }
+
+    ${from.phablet} {
+        bottom: -55%;
+    }
+
+    ${from.tablet} {
+        margin-left: 0;
+        margin-right: 0;
+        bottom: 0%;
+        padding-left: 3%;
+    }
+
+    ${from.desktop} {
+        bottom: 0%;
+        padding-left: 5%;
+    }
+
+    ${from.leftCol} {
+        right: -25%;
+        bottom: -10%;
+    }
+
+    ${from.wide} {
+        bottom: -25%;
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+`;
+
+const UsEoyMomentBannerVisual = (): JSX.Element => (
+    <div css={container}>
+        <div css={imageContainer}>
+            <picture>
+                <source
+                    media="(max-width: 979px)"
+                    srcSet="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg"
+                />
+                <source
+                    media="(max-width: 1299px)"
+                    srcSet="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg"
+                />
+                <source srcSet="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg" />
+                <img src="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg" />
+            </picture>
+        </div>
+    </div>
+);
+
+export default UsEoyMomentBannerVisual;
