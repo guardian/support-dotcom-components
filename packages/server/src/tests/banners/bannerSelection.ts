@@ -61,9 +61,10 @@ export const redeployedSinceLastClosed = (
             return true; // banner not yet closed
         }
 
-        const manualDeployTimes = await bannerDeployCaches[bannerChannel]();
+        const lastManualDeploy = await bannerDeployCaches[bannerChannel]().then(
+            deployTimes => deployTimes[region],
+        );
         const lastClosed = new Date(lastClosedRaw);
-        const lastManualDeploy = manualDeployTimes[region];
         return (
             lastManualDeploy > lastClosed || lastScheduledDeploy[bannerChannel](now) > lastClosed
         );
