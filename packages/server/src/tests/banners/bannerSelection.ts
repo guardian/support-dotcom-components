@@ -32,7 +32,10 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
     }
 };
 
-// Has the banner been redeployed since the user last closed it?
+/**
+ * Has the banner been redeployed since the user last closed it?
+ * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
+ */
 export const redeployedSinceLastClosed = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,

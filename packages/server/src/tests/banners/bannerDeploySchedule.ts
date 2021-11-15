@@ -1,3 +1,8 @@
+/**
+ * Banner deploy schedule -
+ * We automatically schedule banner re-deploys, per channel (but not per region).
+ */
+
 interface ScheduledBannerDeploy {
     dayOfWeek: number; // 0-6, where 0 is Sunday
     hour: number; // 0-23

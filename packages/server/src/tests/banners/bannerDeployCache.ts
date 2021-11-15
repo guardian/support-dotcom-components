@@ -4,6 +4,12 @@ import { isProd } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
 
+/**
+ * Banner deploy cache -
+ * Banners can be manually re-deployed from the RRCP.
+ * This file maintains a cache of these deploy times, per channel and per region.
+ */
+
 export type ReaderRevenueRegion =
     | 'UnitedKingdom'
     | 'UnitedStates'
