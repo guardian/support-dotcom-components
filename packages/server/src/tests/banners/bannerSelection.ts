@@ -55,7 +55,7 @@ export const redeployedSinceLastClosed = (
         bannerChannel: 'contributions' | 'subscriptions',
     ): Promise<boolean> => {
         if (!lastClosedRaw) {
-            return Promise.resolve(true); // banner not yet closed
+            return true; // banner not yet closed
         }
 
         const manualDeployTimes = await bannerDeployCaches[bannerChannel]();
