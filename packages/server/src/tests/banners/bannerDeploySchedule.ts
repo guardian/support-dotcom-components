@@ -21,11 +21,17 @@ const channel2Schedule: ScheduledBannerDeploy[] = [
     },
 ];
 
-const previousDay = (date: Date, dayOfWeek: number, hour: number) => {
+const previousDay = (date: Date, dayOfWeek: number, hour: number): Date => {
     const withDay = new Date(date.setDate(date.getDate() - ((date.getDay() + 7 - dayOfWeek) % 7)));
     return new Date(withDay.setHours(hour, 0, 0));
 };
 
+/**
+ * Returns a new Date in the past. E.g. if dayOfWeek is 2 and hour is 6, it goes back to the previous Tuesday at 06:00.
+ * @param date Current date
+ * @param dayOfWeek Day of the week to go back to. From 0-6, where 0 is sunday
+ * @param hour Hour of the day to go back to
+ */
 export const previousScheduledDate = (date: Date, dayOfWeek: number, hour: number): Date => {
     const dateCopy = new Date(date);
     const dateToUse =
