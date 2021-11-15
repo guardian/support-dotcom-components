@@ -37,7 +37,7 @@ export const previousScheduledDate = (date: Date, dayOfWeek: number, hour: numbe
     return new Date(withPreviousDay.setHours(hour, 0, 0));
 };
 
-const lastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
+const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
     const deployDateTimes = scheduledDeploys.map(deploy =>
         previousScheduledDate(date, deploy.dayOfWeek, deploy.hour),
     );
@@ -45,8 +45,7 @@ const lastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy
     return sorted[0];
 };
 
-export const lastChannel1ScheduledDeploy = (date: Date): Date =>
-    lastScheduledDeploy(date, channel1Schedule);
-
-export const lastChannel2ScheduledDeploy = (date: Date): Date =>
-    lastScheduledDeploy(date, channel2Schedule);
+export const lastScheduledDeploy = {
+    contributions: (date: Date): Date => getLastScheduledDeploy(date, channel1Schedule),
+    subscriptions: (date: Date): Date => getLastScheduledDeploy(date, channel2Schedule),
+};
