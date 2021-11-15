@@ -32,7 +32,7 @@ describe('previousScheduledDate', () => {
     });
 });
 
-describe('lastChannel2ScheduledDeploy', () => {
+describe('lastScheduledDeploy, subscriptions', () => {
     it('returns previous monday if currently tuesday', () => {
         const date = new Date('2021-11-09 09:00:00');
         const result = lastScheduledDeploy.subscriptions(date);
