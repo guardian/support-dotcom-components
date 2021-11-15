@@ -44,8 +44,7 @@ export const previousScheduledDate = (date: Date, dayOfWeek: number, hour: numbe
             ? new Date(dateCopy.setDate(dateCopy.getDate() - 1)) // scheduled for later today, so go back to previous week
             : dateCopy;
 
-    const withPreviousDay = previousDay(dateToUse, dayOfWeek, hour);
-    return new Date(withPreviousDay.setHours(hour, 0, 0));
+    return previousDay(dateToUse, dayOfWeek, hour);
 };
 
 const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
