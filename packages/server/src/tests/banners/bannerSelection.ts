@@ -44,19 +44,9 @@ export const redeployedSinceLastClosed = (
 ): Promise<boolean> => {
     const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
-    if (
-        (bannerChannel === 'subscriptions' && !subscriptionBannerLastClosedAt) ||
-        (bannerChannel === 'contributions' && !engagementBannerLastClosedAt)
-    ) {
-        return Promise.resolve(true);
-    }
-
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
-    const canShow = async (
-        lastClosedRaw: string | undefined,
-        bannerChannel: 'contributions' | 'subscriptions',
-    ): Promise<boolean> => {
+    const canShow = async (lastClosedRaw: string | undefined): Promise<boolean> => {
         if (!lastClosedRaw) {
             return true; // banner not yet closed
         }
@@ -70,13 +60,11 @@ export const redeployedSinceLastClosed = (
         );
     };
 
-    if (bannerChannel === 'subscriptions') {
-        return canShow(subscriptionBannerLastClosedAt, bannerChannel);
-    } else if (bannerChannel === 'contributions') {
-        return canShow(engagementBannerLastClosedAt, bannerChannel);
-    }
-
-    return Promise.resolve(true);
+    return canShow(
+        bannerChannel === 'subscriptions'
+            ? subscriptionBannerLastClosedAt
+            : engagementBannerLastClosedAt,
+    );
 };
 
 const audienceMatches = (showSupportMessaging: boolean, testAudience: UserCohort): boolean => {
