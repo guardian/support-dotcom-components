@@ -38,9 +38,9 @@ app.use(compression());
 const corsOrigin = () => {
     switch (process.env.stage) {
         case 'PROD':
-            return 'https://www.theguardian.com';
+            return ['https://www.theguardian.com', 'http://localhost:3030'];
         case 'CODE':
-            return 'https://m.code.dev-theguardian.com';
+            return ['https://m.code.dev-theguardian.com', 'http://localhost:3030'];
         default:
             return '*';
     }
