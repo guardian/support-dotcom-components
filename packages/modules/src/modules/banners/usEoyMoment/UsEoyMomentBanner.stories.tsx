@@ -2,7 +2,7 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { UsEoyMomentBannerUnvalidated as UsEoyMoment } from './UsEoyMomentBanner';
 import { props } from '../utils/storybook';
-import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
+import { BannerProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
 
 export default {
     component: UsEoyMoment,
@@ -12,40 +12,32 @@ export default {
 
 const Template: Story<BannerProps> = (props: BannerProps) => <UsEoyMoment {...props} />;
 
+// where do these props come from in prod?
 export const WithoutArticleCount = Template.bind({});
 WithoutArticleCount.args = {
     ...props,
     mobileContent: {
-        heading: 'Invest in investigative journalism',
+        heading: 'Join us in the fight for America’s future',
         messageText:
-            'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity. With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy',
+            'One year ago, we outlined our plans to confront the escalating climate crisis. We promised to report with authority on the defining issue of our lifetime',
         cta: {
-            text: 'Support us',
-            baseUrl: 'https://support.theguardian.com/contribute',
-        },
-        secondaryCta: {
-            type: SecondaryCtaType.Custom,
-            cta: {
-                text: 'Learn more',
-                baseUrl: 'https://theguardian.com',
-            },
+            text: 'Support The Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute', // do we want to make this US specific?
         },
     },
     content: {
-        heading: 'Invest in investigative journalism',
+        heading: 'Join us in the fight for America’s future',
         messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
-        highlightedText:
-            'Show your support today from just $1, or sustain us long term with a little more. Thank you.',
+            'One year ago, we outlined our plans to confront the escalating climate crisis. We promised to report with authority on the defining issue of our lifetime – giving it the sustained attention it demands. Then came the global pandemic. Today we want to update you on our progress, and assure you that the Guardian will not sideline the climate emergency in 2020, or in the years to come. Generosity from supporters like you sustains our open, independent',
         cta: {
             text: 'Support the Guardian',
-            baseUrl: 'https://support.theguardian.com/contribute',
+            baseUrl: 'https://support.theguardian.com/contribute', // do we want to make this US specific?
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Learn more about us',
-                baseUrl: 'https://theguardian.com',
+                text: 'Hear from our editor',
+                baseUrl: 'https://theguardian.com', // what is the link for this?
             },
         },
     },
@@ -56,4 +48,18 @@ export const WithArticleCount = Template.bind({});
 WithArticleCount.args = {
     ...WithoutArticleCount.args,
     numArticles: 50,
+    tickerSettings: {
+        countType: TickerCountType.money,
+        endType: TickerEndType.hardstop,
+        currencySymbol: '$',
+        copy: {
+            countLabel: 'contributed',
+            goalReachedPrimary: "It's not too late to give!",
+            goalReachedSecondary: '',
+        },
+        tickerData: {
+            total: 120_000,
+            goal: 150_000,
+        },
+    },
 };

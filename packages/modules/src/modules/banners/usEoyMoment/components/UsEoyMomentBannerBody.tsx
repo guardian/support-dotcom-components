@@ -8,7 +8,7 @@ import { body } from '@guardian/src-foundations/typography';
 const styles = {
     container: css`
         ${body.small()}
-        color: ${neutral[100]};
+        color: ${neutral[0]};
 
         p {
             margin: 0;

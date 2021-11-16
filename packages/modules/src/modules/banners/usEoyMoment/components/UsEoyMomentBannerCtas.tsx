@@ -125,22 +125,6 @@ export function UsEoyMomentBannerCtas({
             </div>
 
             <div>
-                {mobileCtas.secondary?.type === SecondaryCtaType.Custom && (
-                    <Hide above="tablet">
-                        <ThemeProvider theme={buttonBrandAlt}>
-                            <LinkButton
-                                href={mobileCtas.secondary.cta.ctaUrl}
-                                onClick={onSecondaryCtaClick}
-                                cssOverrides={styles.secondaryCta}
-                                size="small"
-                                priority="primary"
-                            >
-                                {mobileCtas.secondary.cta.ctaText}
-                            </LinkButton>
-                        </ThemeProvider>
-                    </Hide>
-                )}
-
                 {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
                     <Hide below="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>

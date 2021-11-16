@@ -1,8 +1,8 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { news, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { Container, Hide } from '@guardian/src-layout';
+import { Container } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { UsEoyMomentBannerHeader } from './components/UsEoyMomentBannerHeader';
@@ -10,82 +10,23 @@ import { UsEoyMomentBannerArticleCount } from './components/UsEoyMomentBannerArt
 import { UsEoyMomentBannerBody } from './components/UsEoyMomentBannerBody';
 import { UsEoyMomentBannerCtas } from './components/UsEoyMomentBannerCtas';
 import { UsEoyMomentBannerCloseButton } from './components/UsEoyMomentBannerCloseButton';
+import ContributionsTemplateTicker from '../contributionsTemplate/ContributionsTemplateTicker';
+import { TickerCountType, TickerEndType } from '@sdc/shared/src/types';
+// import UsEoyMomentBannerVisual from './components/UsEoyMomentBannerVisual';
 
 const styles = {
     container: css`
         position: relative;
         overflow: hidden;
-        background: ${neutral[0]};
-        border-top: 1px solid ${neutral[0]};
+        background: #fdefe0;
+        border-top: 1px solid ${news[400]};
 
         * {
             box-sizing: border-box;
         }
 
         ${from.tablet} {
-            background: ${neutral[100]};
-        }
-    `,
-    desktopShadowRight: css`
-        position: absolute;
-        pointer-events: none;
-        display: flex;
-        justify-content: flex-end;
-        top: 0;
-        right: 0;
-        width: 150px;
-        height: 80px;
-
-        ${from.mobileMedium} {
-            width: 200px;
-        }
-
-        ${from.mobileLandscape} {
-            width: 300px;
-        }
-
-        ${from.phablet} {
-            width: 475px;
-        }
-
-        ${from.tablet} {
-            bottom: 0;
-            width: auto;
-            height: auto;
-        }
-
-        svg {
-            display: block;
-            height: 100%;
-
-            ${from.tablet} {
-                height: 90%;
-            }
-
-            ${from.desktop} {
-                height: 95%;
-            }
-
-            ${from.leftCol} {
-                height: 90%;
-            }
-        }
-    `,
-    desktopShadowBottom: css`
-        position: absolute;
-        pointer-events: none;
-        bottom: 0;
-        left: 0;
-        right: 20px;
-
-        svg {
-            display: block;
-        }
-
-        ${from.wide} {
-            height: 125px;
-            width: 1250px;
-            right: auto;
+            background: #fdefe0;
         }
     `,
     headerContainer: css`
@@ -117,7 +58,7 @@ const styles = {
 
         ${from.tablet} {
             margin-top: ${space[6]}px;
-            justify-content: flex-end;
+            /* justify-content: flex-end; */
             margin-right: -65px;
         }
     `,
@@ -131,6 +72,21 @@ const styles = {
             right: ${space[5]}px;
         }
     `,
+};
+
+const tickerSettings = {
+    countType: TickerCountType.money,
+    endType: TickerEndType.hardstop,
+    currencySymbol: '$',
+    copy: {
+        countLabel: 'contributed',
+        goalReachedPrimary: "It's not too late to give!",
+        goalReachedSecondary: '',
+    },
+    tickerData: {
+        total: 120_000,
+        goal: 150_000,
+    },
 };
 
 function UsEoyMomentBanner({
@@ -149,11 +105,22 @@ function UsEoyMomentBanner({
                 />
             </div>
 
+            {/* <UsEoyMomentBannerVisual /> */}
+
             <div css={styles.bottomContainer}>
                 {numArticles !== undefined && numArticles > 5 && (
                     <section>
                         <UsEoyMomentBannerArticleCount numArticles={numArticles} />
                     </section>
+                )}
+
+                {/* ticker */}
+                {/* can we override ContributionsTemplateTicker styles or do we need a new component? */}
+                {tickerSettings && tickerSettings.tickerData && (
+                    <ContributionsTemplateTicker
+                        settings={tickerSettings}
+                        accentColour={news[400]}
+                    />
                 )}
 
                 <section css={styles.bodyContainer}>
@@ -175,7 +142,7 @@ function UsEoyMomentBanner({
                             content.mobileContent
                                 ? {
                                       primary: content.mobileContent.primaryCta,
-                                      secondary: content.mobileContent.secondaryCta,
+                                      secondary: null,
                                   }
                                 : null
                         }
@@ -184,95 +151,6 @@ function UsEoyMomentBanner({
                     />
                 </section>
             </div>
-
-            <Hide above="mobileMedium">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 150 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 150 0, 150 80" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="mobileMedium" above="mobileLandscape">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 200 0, 200 80" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="mobileLandscape" above="phablet">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 300 0, 300 80" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="phablet" above="tablet">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 475 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 475 0, 475 80" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="tablet" above="desktop">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 100 0, 100 200" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="desktop" above="leftCol">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 300 0, 300 400" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="leftCol" above="wide">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 350 400" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 350 0, 350 400" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
-            </Hide>
-
-            <Hide below="wide">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 530 400" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 530 0, 530 400" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
-            </Hide>
-
             <div css={styles.closeButtonContainer}>
                 <UsEoyMomentBannerCloseButton onCloseClick={onCloseClick} />
             </div>

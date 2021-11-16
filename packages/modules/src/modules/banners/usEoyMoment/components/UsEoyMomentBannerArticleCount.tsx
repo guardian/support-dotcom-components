@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brandAlt, news } from '@guardian/src-foundations';
+import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
@@ -10,12 +10,11 @@ const styles = {
     container: css`
         ${headline.xxxsmall({ fontWeight: 'bold' })}
         font-size: 15px;
-        color: ${brandAlt[400]};
+        color: ${neutral[46]}; // TODO get specific colour
         margin: 0;
 
         ${from.tablet} {
             font-size: 17px;
-            color: ${news[400]};
         }
 
         ${from.desktop} {

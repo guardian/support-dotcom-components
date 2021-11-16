@@ -1,16 +1,14 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { news, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { Hide } from '@guardian/src-layout';
 
 const styles = {
     container: css`
         position: relative;
     `,
     header: css`
-        background: ${neutral[100]};
         padding: ${space[2]}px ${space[3]}px;
         margin: 0;
 
@@ -18,6 +16,7 @@ const styles = {
             ${headline.xsmall({ fontWeight: 'bold' })}
             max-width: 160px;
             margin: 0;
+            color: ${news[400]};
 
             ${from.tablet} {
                 max-width: none;
@@ -55,10 +54,7 @@ export function UsEoyMomentBannerHeader({
     return (
         <div css={styles.container}>
             <header css={styles.header}>
-                <h2>
-                    <Hide above="tablet">{mobileHeading ?? heading}</Hide>
-                    <Hide below="tablet">{heading}</Hide>
-                </h2>
+                <h2>{mobileHeading ?? heading}</h2>
             </header>
         </div>
     );
