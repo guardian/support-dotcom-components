@@ -1,3 +1,5 @@
+import { set } from 'date-fns';
+
 /**
  * Banner deploy schedule -
  * We automatically schedule banner re-deploys, per channel (but not per region).
@@ -26,25 +28,25 @@ const channel2Schedule: ScheduledBannerDeploy[] = [
     },
 ];
 
-const previousDay = (date: Date, dayOfWeek: number, hour: number): Date => {
-    const withDay = new Date(date.setDate(date.getDate() - ((date.getDay() + 7 - dayOfWeek) % 7)));
-    return new Date(withDay.setHours(hour, 0, 0));
-};
+const previousDay = (date: Date, dayOfWeek: number, hour: number): Date =>
+    set(date, {
+        date: date.getDate() - ((date.getDay() + 7 - dayOfWeek) % 7),
+        hours: hour,
+    });
 
 /**
  * Returns a new Date in the past. E.g. if dayOfWeek is 2 and hour is 6, it goes back to the previous Tuesday at 06:00.
- * @param date Current date
+ * @param now Current date
  * @param dayOfWeek Day of the week to go back to. From 0-6, where 0 is sunday
  * @param hour Hour of the day to go back to
  */
-export const previousScheduledDate = (date: Date, dayOfWeek: number, hour: number): Date => {
-    const dateCopy = new Date(date);
-    const dateToUse =
-        dateCopy.getDay() === dayOfWeek && dateCopy.getHours() < hour
-            ? new Date(dateCopy.setDate(dateCopy.getDate() - 1)) // scheduled for later today, so go back to previous week
-            : dateCopy;
+export const previousScheduledDate = (now: Date, dayOfWeek: number, hour: number): Date => {
+    const date =
+        now.getDay() === dayOfWeek && now.getHours() < hour
+            ? set(now, { date: now.getDate() - 1 }) // scheduled for later today, so go back to previous week
+            : now;
 
-    return previousDay(dateToUse, dayOfWeek, hour);
+    return previousDay(date, dayOfWeek, hour);
 };
 
 const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
