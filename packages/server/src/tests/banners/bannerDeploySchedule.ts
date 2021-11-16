@@ -1,4 +1,4 @@
-import { set } from 'date-fns';
+import { compareDesc, setHours, subDays } from 'date-fns';
 
 /**
  * Banner deploy schedule -
@@ -28,11 +28,8 @@ const channel2Schedule: ScheduledBannerDeploy[] = [
     },
 ];
 
-const previousDay = (date: Date, dayOfWeek: number, hour: number): Date =>
-    set(date, {
-        date: date.getDate() - ((date.getDay() + 7 - dayOfWeek) % 7),
-        hours: hour,
-    });
+const previousDay = (date: Date, dayOfWeek: number): Date =>
+    subDays(date, (date.getDay() + 7 - dayOfWeek) % 7);
 
 /**
  * Returns a new Date in the past. E.g. if dayOfWeek is 2 and hour is 6, it goes back to the previous Tuesday at 06:00.
@@ -43,17 +40,17 @@ const previousDay = (date: Date, dayOfWeek: number, hour: number): Date =>
 export const previousScheduledDate = (now: Date, dayOfWeek: number, hour: number): Date => {
     const date =
         now.getDay() === dayOfWeek && now.getHours() < hour
-            ? set(now, { date: now.getDate() - 1 }) // scheduled for later today, so go back to previous week
+            ? subDays(now, 1) // scheduled for later today, so go back to previous week
             : now;
 
-    return previousDay(date, dayOfWeek, hour);
+    return setHours(previousDay(date, dayOfWeek), hour);
 };
 
 const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
     const deployDateTimes = scheduledDeploys.map(deploy =>
         previousScheduledDate(date, deploy.dayOfWeek, deploy.hour),
     );
-    const sorted = deployDateTimes.sort((a, b) => b.getTime() - a.getTime());
+    const sorted = deployDateTimes.sort(compareDesc);
     return sorted[0];
 };
 
