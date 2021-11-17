@@ -15,6 +15,7 @@ import { userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
+import { lastScheduledDeploy } from './bannerDeploySchedule';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -31,40 +32,39 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
     }
 };
 
-// Has the banner been redeployed since the user last closed it?
+/**
+ * Has the banner been redeployed since the user last closed it?
+ * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
+ */
 export const redeployedSinceLastClosed = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
     bannerDeployCaches: BannerDeployCaches,
+    now: Date,
 ): Promise<boolean> => {
     const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
 
-    if (
-        (bannerChannel === 'subscriptions' && !subscriptionBannerLastClosedAt) ||
-        (bannerChannel === 'contributions' && !engagementBannerLastClosedAt)
-    ) {
-        return Promise.resolve(true);
-    }
-
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
 
-    if (bannerChannel === 'subscriptions') {
-        return bannerDeployCaches.subscriptions().then(deployTimes => {
-            return (
-                !subscriptionBannerLastClosedAt ||
-                deployTimes[region] > new Date(subscriptionBannerLastClosedAt)
-            );
-        });
-    } else if (bannerChannel === 'contributions') {
-        return bannerDeployCaches.contributions().then(deployTimes => {
-            return (
-                !engagementBannerLastClosedAt ||
-                deployTimes[region] > new Date(engagementBannerLastClosedAt)
-            );
-        });
-    }
+    const canShow = async (lastClosedRaw: string | undefined): Promise<boolean> => {
+        if (!lastClosedRaw) {
+            return true; // banner not yet closed
+        }
 
-    return Promise.resolve(true);
+        const lastManualDeploy = await bannerDeployCaches[bannerChannel]().then(
+            deployTimes => deployTimes[region],
+        );
+        const lastClosed = new Date(lastClosedRaw);
+        return (
+            lastManualDeploy > lastClosed || lastScheduledDeploy[bannerChannel](now) > lastClosed
+        );
+    };
+
+    return canShow(
+        bannerChannel === 'subscriptions'
+            ? subscriptionBannerLastClosedAt
+            : engagementBannerLastClosedAt,
+    );
 };
 
 const audienceMatches = (showSupportMessaging: boolean, testAudience: UserCohort): boolean => {
@@ -137,7 +137,12 @@ export const selectBannerTest = async (
                 now,
             ) &&
             userIsInTest(test, targeting.mvtId) &&
-            (await redeployedSinceLastClosed(targeting, test.bannerChannel, bannerDeployCaches))
+            (await redeployedSinceLastClosed(
+                targeting,
+                test.bannerChannel,
+                bannerDeployCaches,
+                now,
+            ))
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
             const bannerTestSelection = {
