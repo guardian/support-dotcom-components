@@ -49,6 +49,7 @@ const singleContributorPropensityTest = (
                 type: 'above',
             },
             showChoiceCards: true,
+            defaultChoiceCardFrequency: 'MONTHLY',
         },
         {
             name: 'variant',
@@ -66,6 +67,7 @@ const singleContributorPropensityTest = (
                 type: 'above',
             },
             showChoiceCards: true,
+            defaultChoiceCardFrequency: 'ONE_OFF',
         },
     ],
     highPriority: false,

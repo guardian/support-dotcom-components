@@ -270,7 +270,7 @@ export const getContributionsEpic: (
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
         variant.choiceCardAmounts && {
-            frequency: 'MONTHLY',
+            frequency: variant.defaultChoiceCardFrequency || 'MONTHLY',
             amount: variant.choiceCardAmounts[countryGroupId]['control']['MONTHLY']['amounts'][1],
         },
     );

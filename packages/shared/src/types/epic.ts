@@ -112,6 +112,7 @@ export interface EpicVariant extends Variant {
     separateArticleCount?: SeparateArticleCount;
     showChoiceCards?: boolean;
     choiceCardAmounts?: ChoiceCardAmounts;
+    defaultChoiceCardFrequency?: ContributionFrequency;
 
     // Variant level maxViews are for special targeting tests. These
     // are handled differently to our usual copy/design tests. To
