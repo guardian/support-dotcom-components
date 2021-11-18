@@ -3,7 +3,7 @@ import { epic, epicACByTag } from '@sdc/shared/config';
 import { Copy, GLOBAL_COPY, US_COPY, CTA } from './articleCountByTagTestData';
 import { CountryGroupId } from '@sdc/shared/lib';
 
-export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-09_EpicArticleCountByTagTest';
+export const ARTICLE_COUNT_BY_TAG_TEST_NAME = '2021-11-18_EpicArticleCountByTagTest';
 
 export enum EpicArticleCountByTagTestVariants {
     control = 'control',
@@ -22,7 +22,7 @@ const buildEpicArticleCountByTagTest = (
     isOn: true,
     locations: countries,
     audience: 1,
-    tagIds: [],
+    tagIds: ['environment/environment'],
     sections: [],
     excludedTagIds: [],
     excludedSections: [],
