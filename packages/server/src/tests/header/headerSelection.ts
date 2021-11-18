@@ -1,5 +1,5 @@
 import { header } from '@sdc/shared/config';
-import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
+import { Edition, HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -13,6 +13,29 @@ const nonSupportersTestNonUK: HeaderTest = {
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/contribute',
+                    text: 'Contribute',
+                },
+                secondaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Subscribe',
+                },
+            },
+        },
+    ],
+};
+
+const nonSupportersTestUS: HeaderTest = {
+    name: 'RemoteRrHeaderLinksTest__US',
+    audience: 'AllNonSupporters',
+    variants: [
+        {
+            name: 'remote',
+            modulePathBuilder,
+            content: {
+                heading: 'Support the Guardian',
+                subheading: 'Make a year-end gift',
                 primaryCta: {
                     url: 'https://support.theguardian.com/contribute',
                     text: 'Contribute',
@@ -64,8 +87,37 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const getNonSupportersTest = (edition: string): HeaderTest =>
-    edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
+const supportersTestUS: HeaderTest = {
+    name: 'header-supporter',
+    audience: 'AllExistingSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder,
+            content: {
+                heading: 'Thank you',
+                subheading: 'Your support powers our independent journalism',
+            },
+        },
+    ],
+};
+
+const getNonSupportersTest = (edition: Edition): HeaderTest => {
+    if (edition === 'UK') {
+        return nonSupportersTestUK;
+    }
+    if (edition === 'US') {
+        return nonSupportersTestUS;
+    }
+    return nonSupportersTestNonUK;
+};
+
+const getSupportersTest = (edition: Edition): HeaderTest => {
+    if (edition === 'US') {
+        return supportersTestUS;
+    }
+    return supportersTest;
+};
 
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
@@ -74,7 +126,7 @@ export const selectHeaderTest = (
         if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
         } else {
-            return supportersTest;
+            return getSupportersTest(targeting.edition);
         }
     };
 
