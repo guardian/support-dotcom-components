@@ -40,7 +40,7 @@ import {
     epicArticleCountByTagTestGlobal,
     epicArticleCountByTagTestUS,
 } from './tests/epics/articleCountByTagTest';
-import { singleContributorPropensityTest } from './tests/epics/singleContributorPropensityTest/singleContributorPropensityTest';
+import { singleContributorPropensityTests } from './tests/epics/singleContributorPropensityTest/singleContributorPropensityTest';
 
 interface EpicDataResponse {
     data?: {
@@ -126,7 +126,7 @@ const getArticleEpicTests = async (
 
         const hardcodedTests = enableHardcodedEpicTests
             ? [
-                  singleContributorPropensityTest,
+                  ...singleContributorPropensityTests,
                   epicArticleCountByTagTestUS,
                   epicArticleCountByTagTestGlobal,
               ]
