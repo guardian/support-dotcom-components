@@ -34,6 +34,7 @@ import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
+import { inEpicPaymentTestDraft } from './tests/epics/inEpicPaymentTest';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
@@ -126,7 +127,13 @@ const getArticleEpicTests = async (
         const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
         if (isForcingTest) {
-            return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
+            return [
+                inEpicPaymentTestDraft,
+                ...hardcodedTests,
+                ...regular,
+                ...holdback,
+                fallbackEpicTest,
+            ];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
