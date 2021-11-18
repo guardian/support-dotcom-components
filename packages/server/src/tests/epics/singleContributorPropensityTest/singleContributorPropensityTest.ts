@@ -1,4 +1,4 @@
-import { Cta, EpicTargeting, EpicTest, SecondaryCta, SecondaryCtaType } from '@sdc/shared/types';
+import { EpicTargeting, EpicTest, SecondaryCtaType } from '@sdc/shared/types';
 import { inSingleContributorPropensityTest } from './singleContributorPropensityData';
 import {
     GLOBAL_PARAGRAPHS,
@@ -8,14 +8,6 @@ import {
     VARIANT_HIGHLIGHTED_TEXT,
 } from './singleContributorPropensityTestCopy';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
-
-const cta: Cta = {
-    baseUrl: 'https://support.theguardian.com/contribute',
-    text: 'Support the Guardian',
-};
-const secondaryCta: SecondaryCta = {
-    type: SecondaryCtaType.ContributionsReminder,
-};
 
 const singleContributorPropensityTest = (
     suffix: string,
@@ -46,8 +38,13 @@ const singleContributorPropensityTest = (
             name: 'control',
             paragraphs,
             highlightedText: controlHighlightedText,
-            cta,
-            secondaryCta,
+            cta: {
+                baseUrl: 'https://support.theguardian.com/contribute',
+                text: 'Support the Guardian',
+            },
+            secondaryCta: {
+                type: SecondaryCtaType.ContributionsReminder,
+            },
             separateArticleCount: {
                 type: 'above',
             },
@@ -56,8 +53,14 @@ const singleContributorPropensityTest = (
             name: 'variant',
             paragraphs,
             highlightedText: VARIANT_HIGHLIGHTED_TEXT,
-            cta,
-            secondaryCta,
+            cta: {
+                baseUrl:
+                    'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
+                text: 'Support the Guardian',
+            },
+            secondaryCta: {
+                type: SecondaryCtaType.ContributionsReminder,
+            },
             separateArticleCount: {
                 type: 'above',
             },
