@@ -15,3 +15,5 @@ export const US_HIGHLIGHTED_TEXT =
     'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.';
 export const HIGHLIGHTED_TEXT =
     'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.';
+export const VARIANT_HIGHLIGHTED_TEXT =
+    'You can make a contribution from as little as %%CURRENCY_SYMBOL%%1 – a quick, flexible way to show your support for Guardian journalism, and help sustain our future. Thank you.';

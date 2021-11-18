@@ -5,6 +5,7 @@ import {
     HIGHLIGHTED_TEXT,
     UK_AU_US_PARAGRAPHS,
     US_HIGHLIGHTED_TEXT,
+    VARIANT_HIGHLIGHTED_TEXT,
 } from './singleContributorPropensityTestCopy';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 
@@ -19,7 +20,7 @@ const secondaryCta: SecondaryCta = {
 const singleContributorPropensityTest = (
     suffix: string,
     paragraphs: string[],
-    highlightedText: string,
+    controlHighlightedText: string,
     hasCountryName: boolean,
     locations: CountryGroupId[],
 ): EpicTest => ({
@@ -44,7 +45,7 @@ const singleContributorPropensityTest = (
         {
             name: 'control',
             paragraphs,
-            highlightedText,
+            highlightedText: controlHighlightedText,
             cta,
             secondaryCta,
             separateArticleCount: {
@@ -54,7 +55,7 @@ const singleContributorPropensityTest = (
         {
             name: 'variant',
             paragraphs,
-            highlightedText,
+            highlightedText: VARIANT_HIGHLIGHTED_TEXT,
             cta,
             secondaryCta,
             separateArticleCount: {
