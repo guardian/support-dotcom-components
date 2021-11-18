@@ -48,6 +48,7 @@ const singleContributorPropensityTest = (
             separateArticleCount: {
                 type: 'above',
             },
+            showChoiceCards: true,
         },
         {
             name: 'variant',
@@ -64,6 +65,7 @@ const singleContributorPropensityTest = (
             separateArticleCount: {
                 type: 'above',
             },
+            showChoiceCards: true,
         },
     ],
     highPriority: false,
