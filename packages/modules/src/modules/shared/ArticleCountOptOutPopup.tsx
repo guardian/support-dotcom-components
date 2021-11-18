@@ -17,9 +17,13 @@ import {
     removeArticleCountFromLocalStorage,
 } from './helpers/articleCountOptOut';
 
-export type ArticleCountOptOutType = 'epic' | 'banner' | 'investigations-moment-banner';
+export type ArticleCountOptOutType =
+    | 'epic'
+    | 'banner'
+    | 'investigations-moment-banner'
+    | 'us-eoy-moment-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
-    type === 'banner' || type === 'investigations-moment-banner';
+    type === 'banner' || type === 'investigations-moment-banner' || type === 'us-eoy-moment-banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;

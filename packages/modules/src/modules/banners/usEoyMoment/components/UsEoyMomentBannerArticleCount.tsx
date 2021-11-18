@@ -37,14 +37,14 @@ export function UsEoyMomentBannerArticleCount({
                 <ArticleCountOptOutPopup
                     numArticles={numArticles}
                     nextWord=" articles"
-                    type="banner"
+                    type="us-eoy-moment-banner"
                 />
             </Hide>
             <Hide below="tablet">
                 <ArticleCountOptOutPopup
                     numArticles={numArticles}
                     nextWord=" articles"
-                    type="investigations-moment-banner"
+                    type="us-eoy-moment-banner"
                 />
             </Hide>{' '}
             in the last year
