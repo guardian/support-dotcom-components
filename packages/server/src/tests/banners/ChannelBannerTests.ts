@@ -5,6 +5,7 @@ import {
     environmentMomentBanner,
     guardianWeekly,
     investigationsMomentBanner,
+    usEoyMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -33,6 +34,7 @@ export const BannerPaths: {
         contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };

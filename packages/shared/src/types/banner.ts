@@ -66,6 +66,7 @@ export enum BannerTemplate {
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
+    UsEoyMomentBanner = 'UsEoyMomentBanner',
 }
 
 export interface BannerVariant extends Variant {
