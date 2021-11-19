@@ -11,11 +11,10 @@ const styles = {
         ${headline.xxxsmall({ fontWeight: 'bold' })}
         font-size: 15px;
         color: ${neutral[20]};
-        margin: 0 0 ${space[3]}px;
+        margin: 0 0 ${space[6]}px;
 
         ${from.tablet} {
             font-size: 17px;
-            color: #707070;
         }
 
         ${from.desktop} {

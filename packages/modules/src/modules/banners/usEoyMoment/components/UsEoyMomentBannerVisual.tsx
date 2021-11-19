@@ -81,12 +81,7 @@ const imageContainer = css`
     }
 
     ${from.leftCol} {
-        right: -25%;
-        bottom: -10%;
-    }
-
-    ${from.wide} {
-        bottom: -25%;
+        right: -5%;
     }
 
     img {
@@ -103,7 +98,7 @@ const UsEoyMomentBannerVisual = (): JSX.Element => (
             <picture>
                 <source
                     media="(max-width: 979px)"
-                    srcSet="hhttps://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5"
+                    srcSet="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5"
                 />
                 <source
                     media="(max-width: 1299px)"
