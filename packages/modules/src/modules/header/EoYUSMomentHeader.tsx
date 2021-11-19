@@ -15,9 +15,14 @@ const messageStyles = css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     margin-bottom: 3px;
 
-    ${until.tablet} {
+    ${until.mobileLandscape} {
         margin-bottom: 0;
         ${textSans.xxsmall({ fontWeight: 'bold' })}
+    }
+
+    ${until.tablet} {
+        margin-bottom: 0;
+        ${textSans.xsmall({ fontWeight: 'bold' })}
     }
 
     ${from.leftCol} {
@@ -47,7 +52,11 @@ const linkStyles = css`
 const mobileLinkStyles = css`
     &,
     &:hover {
-        ${textSans.xxsmall()}
+        ${until.mobileLandscape} {
+            ${textSans.xxsmall()}
+
+        }
+        ${textSans.xsmall()}
         color: ${brandAlt[400]};
         line-height: 1.15;
     }
