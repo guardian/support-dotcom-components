@@ -1,5 +1,6 @@
 import { header, usEOYHeader } from '@sdc/shared/config';
 import { Edition, HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
+import { isAfter, isBefore } from 'date-fns';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -122,18 +123,25 @@ const supportersTestUS: HeaderTest = {
     ],
 };
 
+const usEoyPeriodStart = new Date(2021, 11, 22);
+const usEoyPeriodEnd = new Date(2022, 1, 1);
+
+const isInUsEoyPeriod = (date: Date): boolean => {
+    return isAfter(date, usEoyPeriodStart) && isBefore(date, usEoyPeriodEnd);
+};
+
 const getNonSupportersTest = (edition: Edition): HeaderTest => {
     if (edition === 'UK') {
         return nonSupportersTestUK;
     }
-    if (edition === 'US') {
+    if (edition === 'US' && isInUsEoyPeriod(new Date())) {
         return nonSupportersTestUS;
     }
     return nonSupportersTestNonUK;
 };
 
 const getSupportersTest = (edition: Edition): HeaderTest => {
-    if (edition === 'US') {
+    if (edition === 'US' && isInUsEoyPeriod(new Date())) {
         return supportersTestUS;
     }
     return supportersTest;
