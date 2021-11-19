@@ -1,4 +1,4 @@
-import { header } from '@sdc/shared/config';
+import { header, usEOYHeader } from '@sdc/shared/config';
 import { Edition, HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
 
 const modulePathBuilder = header.endpointPathBuilder;
@@ -32,7 +32,7 @@ const nonSupportersTestUS: HeaderTest = {
     variants: [
         {
             name: 'remote',
-            modulePathBuilder,
+            modulePathBuilder: usEOYHeader.endpointPathBuilder,
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Make a year-end gift',
@@ -101,7 +101,7 @@ const supportersTestUS: HeaderTest = {
     variants: [
         {
             name: 'control',
-            modulePathBuilder,
+            modulePathBuilder: usEOYHeader.endpointPathBuilder,
             content: {
                 heading: 'Thank you for supporting us',
                 subheading: '',
