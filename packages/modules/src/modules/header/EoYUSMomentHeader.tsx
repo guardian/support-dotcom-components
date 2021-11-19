@@ -10,23 +10,18 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import { Link } from '@guardian/src-link';
 
-const messageStyles = (isThankYouMessage: boolean) => css`
-    ${until.tablet} {
-        ${textSans.xsmall({ fontWeight: 'bold' })}
-    }
-
+const messageStyles = css`
     color: ${brandAlt[400]};
     ${headline.xxsmall({ fontWeight: 'bold' })};
     margin-bottom: 3px;
 
-    ${from.desktop} {
-        ${headline.xsmall({ fontWeight: 'bold' })}
+    ${until.tablet} {
+        margin-bottom: 0;
+        ${textSans.xxsmall({ fontWeight: 'bold' })}
     }
 
     ${from.leftCol} {
-        ${isThankYouMessage
-            ? headline.small({ fontWeight: 'bold' })
-            : headline.medium({ fontWeight: 'bold' })}
+        ${headline.xsmall({ fontWeight: 'bold' })}
     }
 `;
 
@@ -39,7 +34,10 @@ const linkStyles = css`
     line-height: 18px;
     margin-right: 10px;
     margin-bottom: 6px;
-    margin-top: 12px;
+
+    ${from.tablet} {
+        margin-top: 12px;
+    }
 
     svg {
         width: 24px;
@@ -49,7 +47,7 @@ const linkStyles = css`
 const mobileLinkStyles = css`
     &,
     &:hover {
-        ${textSans.xsmall()}
+        ${textSans.xxsmall()}
         color: ${brandAlt[400]};
         line-height: 1.15;
     }
@@ -70,7 +68,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     return (
         <div>
             <Hide below="tablet">
-                <div css={messageStyles(false)}>
+                <div css={messageStyles}>
                     <span>{heading}</span>
                 </div>
 
@@ -82,7 +80,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
             </Hide>
             {mobileContent?.heading && (
                 <Hide above="tablet">
-                    <div css={messageStyles(false)}>
+                    <div css={messageStyles}>
                         <span>{mobileContent.heading}</span>
                     </div>
                 </Hide>
