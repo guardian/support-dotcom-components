@@ -16,6 +16,7 @@ interface HeaderContent {
 interface HeaderVariant extends Variant {
     name: string;
     content: HeaderContent;
+    mobileContent?: HeaderContent;
     modulePathBuilder: (version?: string) => string;
 }
 
@@ -28,6 +29,7 @@ export interface HeaderTest extends Test<HeaderVariant> {
 export interface HeaderProps {
     content: HeaderContent;
     tracking: Tracking;
+    mobileContent?: HeaderContent;
     countryCode?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { brandAlt, brandText } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
@@ -11,6 +11,10 @@ import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import { Link } from '@guardian/src-link';
 
 const messageStyles = (isThankYouMessage: boolean) => css`
+    ${until.tablet} {
+        ${textSans.xsmall({ fontWeight: 'bold' })}
+    }
+
     color: ${brandAlt[400]};
     ${headline.xxsmall({ fontWeight: 'bold' })};
     margin-bottom: 3px;
@@ -35,6 +39,7 @@ const linkStyles = css`
     line-height: 18px;
     margin-right: 10px;
     margin-bottom: 6px;
+    margin-top: 12px;
 
     svg {
         width: 24px;
@@ -44,6 +49,7 @@ const linkStyles = css`
 const mobileLinkStyles = css`
     &,
     &:hover {
+        ${textSans.xsmall()}
         color: ${brandAlt[400]};
         line-height: 1.15;
     }
@@ -57,6 +63,9 @@ const subMessageStyles = css`
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
+    const mobileContent = props.mobileContent;
+
+    const mobileCta = mobileContent?.primaryCta ?? primaryCta;
 
     return (
         <div>
@@ -65,10 +74,19 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                     <span>{heading}</span>
                 </div>
 
-                <div css={subMessageStyles}>
-                    <div>{subheading}</div>
-                </div>
+                {subheading && (
+                    <div css={subMessageStyles}>
+                        <div>{subheading}</div>
+                    </div>
+                )}
             </Hide>
+            {mobileContent?.heading && (
+                <Hide above="tablet">
+                    <div css={messageStyles(false)}>
+                        <span>{mobileContent.heading}</span>
+                    </div>
+                </Hide>
+            )}
 
             {primaryCta && (
                 <>
@@ -87,8 +105,8 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                         </ThemeProvider>
                     </Hide>
                     <Hide above="tablet">
-                        <Link priority="primary" href={primaryCta.ctaUrl} css={mobileLinkStyles}>
-                            Make a year-end gift
+                        <Link priority="primary" href={mobileCta?.ctaUrl} css={mobileLinkStyles}>
+                            {mobileCta?.ctaText}
                         </Link>
                     </Hide>
                 </>

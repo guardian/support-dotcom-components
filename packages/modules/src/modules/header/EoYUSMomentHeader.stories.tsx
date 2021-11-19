@@ -14,8 +14,16 @@ export const props: HeaderProps = {
             text: 'Contribute',
         },
         secondaryCta: {
-            url: '',
+            url: 'https://support.theguardian.com/subscribe',
             text: 'Subscribe',
+        },
+    },
+    mobileContent: {
+        heading: '',
+        subheading: '',
+        primaryCta: {
+            url: 'https://support.theguardian.com/contribute',
+            text: 'Make a year-end gift',
         },
     },
     tracking: {
@@ -53,3 +61,23 @@ export default {
 const Template: Story<HeaderProps> = (props: HeaderProps) => <Header {...props} />;
 
 export const DefaultHeader = Template.bind({});
+
+export const SupportersHeader = Template.bind({});
+SupportersHeader.args = {
+    content: {
+        heading: 'Thank you for supporting us',
+        subheading: '',
+        primaryCta: {
+            url: 'https://support.theguardian.com/subscribe',
+            text: 'Make an extra contribution',
+        },
+    },
+    mobileContent: {
+        heading: 'Thank you for your support',
+        subheading: '',
+        primaryCta: {
+            url: 'https://support.theguardian.com/subscribe',
+            text: 'Contribute again',
+        },
+    },
+};

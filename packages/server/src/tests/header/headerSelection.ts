@@ -27,7 +27,7 @@ const nonSupportersTestNonUK: HeaderTest = {
 };
 
 const nonSupportersTestUS: HeaderTest = {
-    name: 'RemoteRrHeaderLinksTest__US',
+    name: 'RemoteRrHeaderLinksTest__USEOY',
     audience: 'AllNonSupporters',
     variants: [
         {
@@ -43,6 +43,14 @@ const nonSupportersTestUS: HeaderTest = {
                 secondaryCta: {
                     url: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
+                },
+            },
+            mobileContent: {
+                heading: '',
+                subheading: '',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/contribute',
+                    text: 'Make a year-end gift',
                 },
             },
         },
@@ -88,15 +96,27 @@ const supportersTest: HeaderTest = {
 };
 
 const supportersTestUS: HeaderTest = {
-    name: 'header-supporter',
+    name: 'header-supporter__USEOY',
     audience: 'AllExistingSupporters',
     variants: [
         {
             name: 'control',
             modulePathBuilder,
             content: {
-                heading: 'Thank you',
-                subheading: 'Your support powers our independent journalism',
+                heading: 'Thank you for supporting us',
+                subheading: '',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Make an extra contribution',
+                },
+            },
+            mobileContent: {
+                heading: 'Thank you for your support',
+                subheading: '',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Contribute again',
+                },
             },
         },
     ],
