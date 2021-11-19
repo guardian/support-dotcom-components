@@ -88,7 +88,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                 )}
             </Hide>
             {mobileContent?.heading && (
-                <Hide above="tablet">
+                <Hide above="tablet" below="mobileMedium">
                     <div css={messageStyles}>
                         <span>{mobileContent.heading}</span>
                     </div>
@@ -111,7 +111,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                             </LinkButton>
                         </ThemeProvider>
                     </Hide>
-                    <Hide above="tablet">
+                    <Hide above="tablet" below="mobileMedium">
                         <Link priority="primary" href={mobileCta?.ctaUrl} css={mobileLinkStyles}>
                             {mobileCta?.ctaText}
                         </Link>
