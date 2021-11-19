@@ -103,14 +103,15 @@ const UsEoyMomentBannerVisual = (): JSX.Element => (
             <picture>
                 <source
                     media="(max-width: 979px)"
-                    srcSet="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg"
+                    srcSet="hhttps://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5"
                 />
                 <source
                     media="(max-width: 1299px)"
-                    srcSet="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg"
+                    srcSet="
+                    https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg?width=600&quality=85&s=2859c5b61e0b033bfe458b32d29fdc7e"
                 />
-                <source srcSet="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg" />
-                <img src="https://media.guim.co.uk/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg" />
+                <source srcSet="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg?width=600&quality=85&s=2859c5b61e0b033bfe458b32d29fdc7e" />
+                <img src="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5" />
             </picture>
         </div>
     </div>
