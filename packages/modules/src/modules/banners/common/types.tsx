@@ -8,7 +8,8 @@ export type BannerId =
     | 'investigations-moment-banner'
     | 'environment-moment-banner'
     | 'subscription-banner'
-    | 'weekly-banner';
+    | 'weekly-banner'
+    | 'us-eoy-moment-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

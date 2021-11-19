@@ -5,6 +5,7 @@ import {
     environmentMomentBanner,
     guardianWeekly,
     investigationsMomentBanner,
+    usEoyMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -15,6 +16,8 @@ import {
     OphanProduct,
     RawTestParams,
     RawVariantParams,
+    TickerCountType,
+    TickerEndType,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
 import { isProd } from '../../lib/env';
@@ -33,6 +36,7 @@ export const BannerPaths: {
         contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };
@@ -68,7 +72,19 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
             }
         };
 
-        const tickerSettings = undefined;
+        const tickerSettings =
+            variant.template === BannerTemplate.UsEoyMomentBanner
+                ? {
+                      countType: TickerCountType.money,
+                      endType: TickerEndType.unlimited,
+                      currencySymbol: '$',
+                      copy: {
+                          countLabel: 'contributed',
+                          goalReachedPrimary: "We've hit our goal!",
+                          goalReachedSecondary: 'but you can still support us',
+                      },
+                  }
+                : undefined;
 
         return {
             name: variant.name,
