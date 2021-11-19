@@ -32,6 +32,7 @@ const soFarCountStyles = css`
     ${textSans.xsmall({ fontWeight: 'bold' })};
     font-size: 13px;
     color: ${neutral[0]};
+    line-height: 1.3;
 
     ${from.desktop} {
         font-size: 17px;
@@ -40,6 +41,13 @@ const soFarCountStyles = css`
 
 const countLabelStyles = css`
     ${textSans.xsmall()};
+    font-size: 13px;
+    color: ${neutral[0]};
+    line-height: 1.3;
+
+    ${from.desktop} {
+        font-size: 17px;
+    }
 `;
 
 const progressBarHeight = 12;
