@@ -50,7 +50,7 @@ export const environmentMomentBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const usEoyMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'us-eoy-banner',
-    'banners/usEoyMoment/USEoyMomentBanner',
+    'banners/usEoyMoment/UsEoyMomentBanner',
 );
 
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
