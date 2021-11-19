@@ -16,6 +16,8 @@ import {
     OphanProduct,
     RawTestParams,
     RawVariantParams,
+    TickerCountType,
+    TickerEndType,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
 import { isProd } from '../../lib/env';
@@ -70,7 +72,19 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
             }
         };
 
-        const tickerSettings = undefined;
+        const tickerSettings =
+            variant.template === BannerTemplate.UsEoyMomentBanner
+                ? {
+                      countType: TickerCountType.money,
+                      endType: TickerEndType.unlimited,
+                      currencySymbol: '$',
+                      copy: {
+                          countLabel: 'contributions',
+                          goalReachedPrimary: "We've hit our goal!",
+                          goalReachedSecondary: 'but you can still support us',
+                      },
+                  }
+                : undefined;
 
         return {
             name: variant.name,
