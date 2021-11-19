@@ -4,6 +4,7 @@ export interface ReminderFields {
     reminderCta: string;
     reminderLabel: string;
     reminderPeriod: string;
+    reminderOption?: string;
 }
 
 const getReminderDate = (date: Date): Date => {
@@ -28,6 +29,18 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const getReminderFields = (variant: EpicVariant): ReminderFields | undefined => {
-    return !!variant.showReminderFields ? variant.showReminderFields : buildReminderFields();
+export const GIVING_TUESDAY_REMINDER_FIELDS: ReminderFields = {
+    reminderCta: `Remind me on Giving Tuesday`,
+    reminderPeriod: `2021-11-01`,
+    reminderLabel: 'on Giving Tuesday',
+    reminderOption: 'giving-tuesday-2021',
+};
+
+export const getReminderFields = (
+    variant: EpicVariant,
+    countryCode?: string,
+): ReminderFields | undefined => {
+    return variant.showReminderFields ?? countryCode === 'US'
+        ? GIVING_TUESDAY_REMINDER_FIELDS
+        : buildReminderFields();
 };

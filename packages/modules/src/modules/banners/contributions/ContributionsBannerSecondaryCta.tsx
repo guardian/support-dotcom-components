@@ -14,6 +14,11 @@ import { hasSetReminder } from '../../utils/reminders';
 const reminderButtonStyles = css`
     color: ${neutral[0]};
     margin-left: ${space[4]}px;
+
+    /* TODO: Remove this after Giving Tuesday */
+    @media (min-width: 740px) and (max-width: 769px) {
+        display: none;
+    }
 `;
 
 export interface ContributionsBannerSecondaryCtaProps {

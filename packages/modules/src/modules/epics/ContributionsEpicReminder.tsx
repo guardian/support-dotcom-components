@@ -9,13 +9,13 @@ import {
     OPHAN_COMPONENT_EVENT_REMINDER_SET,
 } from './utils/ophan';
 import { useContributionsReminderSignup } from '../../hooks/useContributionsReminderSignup';
+import { ReminderFields } from '@sdc/shared/src/lib';
 
 // --- Types --- //
 
 export interface ContributionsEpicReminderProps {
     initialEmailAddress?: string;
-    reminderPeriod: string;
-    reminderLabel: string;
+    reminderFields: ReminderFields;
     onCloseReminderClick: () => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
 }
@@ -24,16 +24,16 @@ export interface ContributionsEpicReminderProps {
 
 export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
     initialEmailAddress,
-    reminderLabel,
-    reminderPeriod,
+    reminderFields,
     onCloseReminderClick,
     submitComponentEvent,
 }: ContributionsEpicReminderProps) => {
     const { reminderStatus, createReminder } = useContributionsReminderSignup(
-        reminderPeriod,
+        reminderFields.reminderPeriod,
         'WEB',
         'EPIC',
         'PRE',
+        reminderFields.reminderOption,
     );
 
     const onSetReminderClick = (email: string) => {
@@ -52,14 +52,14 @@ export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps>
 
     return initialEmailAddress ? (
         <ContributionsEpicReminderSignedIn
-            reminderLabel={reminderLabel}
+            reminderLabel={reminderFields.reminderLabel}
             reminderStatus={reminderStatus}
             onSetReminderClick={() => onSetReminderClick(initialEmailAddress)}
             onCloseReminderClick={closeReminder}
         />
     ) : (
         <ContributionsEpicReminderSignedOut
-            reminderLabel={reminderLabel}
+            reminderLabel={reminderFields.reminderLabel}
             reminderStatus={reminderStatus}
             onSetReminderClick={onSetReminderClick}
             onCloseReminderClick={closeReminder}

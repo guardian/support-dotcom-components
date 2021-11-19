@@ -437,8 +437,7 @@ export const getContributionsEpic: (
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
                     initialEmailAddress={fetchedEmail}
-                    reminderPeriod={showReminderFields.reminderPeriod}
-                    reminderLabel={showReminderFields.reminderLabel}
+                    reminderFields={showReminderFields}
                     onCloseReminderClick={(): void => setIsReminderActive(false)}
                     submitComponentEvent={submitComponentEvent}
                 />
