@@ -79,7 +79,7 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
                       endType: TickerEndType.unlimited,
                       currencySymbol: '$',
                       copy: {
-                          countLabel: 'contributions',
+                          countLabel: 'contributed',
                           goalReachedPrimary: "We've hit our goal!",
                           goalReachedSecondary: 'but you can still support us',
                       },

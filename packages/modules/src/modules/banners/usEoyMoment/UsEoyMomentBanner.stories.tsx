@@ -51,7 +51,7 @@ WithoutArticleCount.args = {
             goalReachedSecondary: "It's not too late to give!",
         },
         tickerData: {
-            total: 180000,
+            total: 120000,
             goal: 150000,
         },
     },
