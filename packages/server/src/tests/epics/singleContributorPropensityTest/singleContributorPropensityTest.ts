@@ -57,7 +57,7 @@ const singleContributorPropensityTest = (
             highlightedText: VARIANT_HIGHLIGHTED_TEXT,
             cta: {
                 baseUrl:
-                    'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
+                    'https://support.theguardian.com/contribute',
                 text: 'Continue',
             },
             secondaryCta: {
