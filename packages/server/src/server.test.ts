@@ -51,6 +51,12 @@ jest.mock('./channelSwitches', () => {
         ),
     };
 });
+jest.mock('./tests/epics/singleContributorPropensityTest/singleContributorPropensityData', () => {
+    return {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        fetchSingleContributorPropensityIds: jest.fn().mockImplementation(() => {}),
+    };
+});
 jest.mock('./choiceCardAmounts', () => {
     return {
         cachedChoiceCardAmounts: jest.fn().mockImplementation(() =>

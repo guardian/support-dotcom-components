@@ -46,16 +46,12 @@ export type EpicTargeting = {
     countryCode?: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
-
-    // Note, it turns out that showSupportMessaging (defined in the Members Data
-    // API) does not capture every case of recurring contributors or last
-    // contributions (i.e. the latter two are not simply a subset of the first -
-    // we need all three!).
     showSupportMessaging: boolean;
     isRecurringContributor: boolean;
     lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
     modulesVersion?: string;
     url?: string;
+    browserId?: string; // Only present if the user has consented to browserId-based targeting
 };
 
 export type EpicPayload = {
@@ -116,6 +112,7 @@ export interface EpicVariant extends Variant {
     separateArticleCount?: SeparateArticleCount;
     showChoiceCards?: boolean;
     choiceCardAmounts?: ChoiceCardAmounts;
+    defaultChoiceCardFrequency?: ContributionFrequency;
 
     // Variant level maxViews are for special targeting tests. These
     // are handled differently to our usual copy/design tests. To
@@ -240,4 +237,5 @@ export interface EpicTest extends Test<EpicVariant> {
     controlProportionSettings?: ControlProportionSettings;
 
     isSuperMode?: boolean;
+    canShow?: (targeting: EpicTargeting) => boolean;
 }
