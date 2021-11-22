@@ -123,7 +123,7 @@ const supportersTestUS: HeaderTest = {
     ],
 };
 
-const usEoyPeriodStart = new Date(2021, 11, 22);
+const usEoyPeriodStart = new Date(2021, 10, 22);
 const usEoyPeriodEnd = new Date(2022, 1, 1);
 
 const isInUsEoyPeriod = (date: Date): boolean => {
