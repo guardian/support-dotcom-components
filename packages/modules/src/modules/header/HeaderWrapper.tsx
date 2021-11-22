@@ -51,11 +51,11 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
         };
 
         const mobilePrimaryCta = mobileContent?.primaryCta
-            ? buildEnrichedCta(mobileContent?.primaryCta)
+            ? buildEnrichedCta(mobileContent.primaryCta)
             : primaryCta;
 
         const mobileSecondaryCta = mobileContent?.secondaryCta
-            ? buildEnrichedCta(mobileContent?.secondaryCta)
+            ? buildEnrichedCta(mobileContent.secondaryCta)
             : secondaryCta;
 
         const renderedMobileContent = mobileContent
