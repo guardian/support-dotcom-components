@@ -73,7 +73,7 @@ SupportersHeader.args = {
         },
     },
     mobileContent: {
-        heading: 'Thank you for your support',
+        heading: 'Thank you',
         subheading: '',
         primaryCta: {
             url: 'https://support.theguardian.com/subscribe',
