@@ -1,5 +1,6 @@
-import { header } from '@sdc/shared/config';
-import { HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
+import { header, usEOYHeader } from '@sdc/shared/config';
+import { Edition, HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
+import { isAfter, isBefore } from 'date-fns';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -20,6 +21,37 @@ const nonSupportersTestNonUK: HeaderTest = {
                 secondaryCta: {
                     url: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
+                },
+            },
+        },
+    ],
+};
+
+const nonSupportersTestUS: HeaderTest = {
+    name: 'RemoteRrHeaderLinksTest__USEOY',
+    audience: 'AllNonSupporters',
+    variants: [
+        {
+            name: 'remote',
+            modulePathBuilder: usEOYHeader.endpointPathBuilder,
+            content: {
+                heading: 'Support the Guardian',
+                subheading: 'Make a year-end gift',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/contribute',
+                    text: 'Contribute',
+                },
+                secondaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Subscribe',
+                },
+            },
+            mobileContent: {
+                heading: '',
+                subheading: '',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/contribute',
+                    text: 'Make a year-end gift',
                 },
             },
         },
@@ -64,8 +96,56 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const getNonSupportersTest = (edition: string): HeaderTest =>
-    edition === 'UK' ? nonSupportersTestUK : nonSupportersTestNonUK;
+const supportersTestUS: HeaderTest = {
+    name: 'header-supporter__USEOY',
+    audience: 'AllExistingSupporters',
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: usEOYHeader.endpointPathBuilder,
+            content: {
+                heading: 'Thank you for supporting us',
+                subheading: '',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Make an extra contribution',
+                },
+            },
+            mobileContent: {
+                heading: 'Thank you',
+                subheading: '',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Contribute again',
+                },
+            },
+        },
+    ],
+};
+
+const usEoyPeriodStart = new Date(2021, 11, 22);
+const usEoyPeriodEnd = new Date(2022, 1, 1);
+
+const isInUsEoyPeriod = (date: Date): boolean => {
+    return isAfter(date, usEoyPeriodStart) && isBefore(date, usEoyPeriodEnd);
+};
+
+const getNonSupportersTest = (edition: Edition): HeaderTest => {
+    if (edition === 'UK') {
+        return nonSupportersTestUK;
+    }
+    if (edition === 'US' && isInUsEoyPeriod(new Date())) {
+        return nonSupportersTestUS;
+    }
+    return nonSupportersTestNonUK;
+};
+
+const getSupportersTest = (edition: Edition): HeaderTest => {
+    if (edition === 'US' && isInUsEoyPeriod(new Date())) {
+        return supportersTestUS;
+    }
+    return supportersTest;
+};
 
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
@@ -74,7 +154,7 @@ export const selectHeaderTest = (
         if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
         } else {
-            return supportersTest;
+            return getSupportersTest(targeting.edition);
         }
     };
 

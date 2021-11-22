@@ -18,11 +18,13 @@ export interface HeaderRenderedContent {
 
 export interface HeaderRenderProps {
     content: HeaderRenderedContent;
+    mobileContent?: HeaderRenderedContent;
 }
 
 export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<HeaderProps> => {
     const Wrapped: React.FC<HeaderProps> = ({
         content,
+        mobileContent,
         tracking,
         countryCode,
         submitComponentEvent,
@@ -47,6 +49,23 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
             primaryCta,
             secondaryCta,
         };
+
+        const mobilePrimaryCta = mobileContent?.primaryCta
+            ? buildEnrichedCta(mobileContent.primaryCta)
+            : primaryCta;
+
+        const mobileSecondaryCta = mobileContent?.secondaryCta
+            ? buildEnrichedCta(mobileContent.secondaryCta)
+            : secondaryCta;
+
+        const renderedMobileContent = mobileContent
+            ? ({
+                  heading: mobileContent.heading,
+                  subheading: mobileContent.subheading,
+                  primaryCta: mobilePrimaryCta,
+                  secondaryCta: mobileSecondaryCta,
+              } as HeaderRenderedContent)
+            : undefined;
 
         const { abTestName, abTestVariant, componentType, campaignCode } = tracking;
 
@@ -84,7 +103,7 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
 
         return (
             <div ref={setNode}>
-                <Header content={renderedContent} />
+                <Header content={renderedContent} mobileContent={renderedMobileContent} />
             </div>
         );
     };

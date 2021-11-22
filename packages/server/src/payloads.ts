@@ -360,6 +360,7 @@ export const buildHeaderData = async (
                     name: header.name,
                     props: {
                         content: variant.content,
+                        mobileContent: variant.mobileContent,
                         tracking: { ...pageTracking, ...testTracking },
                         countryCode: targeting.countryCode,
                         numArticles: targeting.numArticles,
