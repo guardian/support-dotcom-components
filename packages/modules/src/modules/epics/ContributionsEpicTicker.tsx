@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
-import { headline } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../hooks/useHasBeenSeen';
 import useTicker from '../../hooks/useTicker';
 import { TickerSettings } from '@sdc/shared/types';
@@ -19,15 +19,15 @@ const rootStyles = css`
 `;
 
 const totalCountStyles = css`
-    ${headline.xxxsmall({ fontWeight: 'bold' })};
+    ${textSans.medium({ fontWeight: 'bold' })}
 `;
 
 const soFarCountStyles = css`
-    ${headline.xsmall({ fontWeight: 'bold' })};
+    ${textSans.medium({ fontWeight: 'bold' })}
 `;
 
 const countLabelStyles = css`
-    ${headline.xxxsmall({ fontStyle: 'italic' })};
+    ${textSans.medium()}
 `;
 
 const progressBarHeight = 10;
@@ -35,7 +35,7 @@ const progressBarHeight = 10;
 const progressBarContainerStyles = css`
     width: 100%;
     height: ${progressBarHeight}px;
-    background-color: ${palette.neutral[86]};
+    background-color: #dda7a1;
     position: absolute;
     bottom: 0;
     margin-top: 40px;
@@ -75,7 +75,7 @@ const filledProgressStyles = (end: number, runningTotal: number, total: number):
         bottom: 0;
         transform: ${progressBarTransform(end, runningTotal, total)};
         transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${palette.brandAlt[400]};
+        background-color: ${palette.news[400]};
     `;
 
 const goalContainerStyles: SerializedStyles = css`
