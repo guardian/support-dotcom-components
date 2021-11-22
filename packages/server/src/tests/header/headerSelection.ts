@@ -107,7 +107,8 @@ const supportersTestUS: HeaderTest = {
                 heading: 'Thank you for supporting us',
                 subheading: '',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    url:
+                        'https://support.theguardian.com/us/contribute?selected-contribution-type=ONE_OFF',
                     text: 'Make an extra contribution',
                 },
             },
@@ -115,7 +116,8 @@ const supportersTestUS: HeaderTest = {
                 heading: 'Thank you',
                 subheading: '',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    url:
+                        'https://support.theguardian.com/us/contribute?selected-contribution-type=ONE_OFF',
                     text: 'Contribute again',
                 },
             },
@@ -130,6 +132,14 @@ const isInUsEoyPeriod = (date: Date): boolean => {
     return isAfter(date, usEoyPeriodStart) && isBefore(date, usEoyPeriodEnd);
 };
 
+const hasNotContributedDuringUsEoyPeriod = (lastOneOffContributionDate?: string): boolean => {
+    if (!lastOneOffContributionDate) {
+        return true;
+    }
+
+    return isBefore(new Date(Date.parse(lastOneOffContributionDate)), usEoyPeriodStart);
+};
+
 const getNonSupportersTest = (edition: Edition): HeaderTest => {
     if (edition === 'UK') {
         return nonSupportersTestUK;
@@ -140,8 +150,12 @@ const getNonSupportersTest = (edition: Edition): HeaderTest => {
     return nonSupportersTestNonUK;
 };
 
-const getSupportersTest = (edition: Edition): HeaderTest => {
-    if (edition === 'US' && isInUsEoyPeriod(new Date())) {
+const getSupportersTest = (edition: Edition, lastOneOffContributionDate?: string): HeaderTest => {
+    if (
+        edition === 'US' &&
+        isInUsEoyPeriod(new Date()) &&
+        hasNotContributedDuringUsEoyPeriod(lastOneOffContributionDate)
+    ) {
         return supportersTestUS;
     }
     return supportersTest;
@@ -154,7 +168,7 @@ export const selectHeaderTest = (
         if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
         } else {
-            return getSupportersTest(targeting.edition);
+            return getSupportersTest(targeting.edition, targeting.lastOneOffContributionDate);
         }
     };
 
