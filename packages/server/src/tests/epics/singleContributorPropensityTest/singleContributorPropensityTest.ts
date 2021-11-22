@@ -40,7 +40,7 @@ const singleContributorPropensityTest = (
             highlightedText: controlHighlightedText,
             cta: {
                 baseUrl: 'https://support.theguardian.com/contribute',
-                text: 'Support the Guardian',
+                text: 'Continue',
             },
             secondaryCta: {
                 type: SecondaryCtaType.ContributionsReminder,
@@ -58,7 +58,7 @@ const singleContributorPropensityTest = (
             cta: {
                 baseUrl:
                     'https://support.theguardian.com/contribute?selected-contribution-type=ONE_OFF',
-                text: 'Support the Guardian',
+                text: 'Continue',
             },
             secondaryCta: {
                 type: SecondaryCtaType.ContributionsReminder,
