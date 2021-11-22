@@ -9,6 +9,8 @@ const container = css`
     position: relative;
     float: right;
     overflow-y: clip;
+    clip-path: inset(0% -100% 0% -100%);
+    -webkit-clip-path: inset(0% -100% 0% -100%);
 
     ${from.mobileMedium} {
         padding-top: 40%;
@@ -30,6 +32,8 @@ const container = css`
         bottom: 0;
         right: 0;
         width: 42%;
+        clip-path: none;
+        -webkit-clip-path: none;
     }
 
     ${from.desktop} {
