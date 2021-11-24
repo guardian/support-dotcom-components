@@ -36,7 +36,7 @@ const tracking: Tracking = {
 
 const targeting: EpicTargeting = {
     contentType: 'Article',
-    sectionName: 'environment',
+    sectionId: 'environment',
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,

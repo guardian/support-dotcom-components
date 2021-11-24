@@ -71,7 +71,7 @@ const testDefault: EpicTest = {
 
 const targetingDefault: EpicTargeting = {
     contentType: 'Article',
-    sectionName: 'environment',
+    sectionId: 'environment',
     shouldHideReaderRevenue: false,
     isMinuteArticle: false,
     isPaidContent: false,
@@ -121,7 +121,7 @@ describe('findTestAndVariant', () => {
     it('should return undefined when no matching test variant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
-        const targeting = { ...targetingDefault, sectionName: 'news' };
+        const targeting = { ...targetingDefault, sectionId: 'news' };
         const epicType = 'ARTICLE';
 
         const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
@@ -321,7 +321,7 @@ describe('hasSectionOrTags filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'environment',
+            sectionId: 'environment',
         };
 
         const got = hasSectionOrTags.test(test, targeting);
@@ -336,7 +336,7 @@ describe('hasSectionOrTags filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'business',
+            sectionId: 'business',
         };
 
         const got = hasSectionOrTags.test(test, targeting);
@@ -358,7 +358,7 @@ describe('hasSectionOrTags filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'business',
+            sectionId: 'business',
             tags: tags,
         };
 
@@ -381,7 +381,7 @@ describe('hasSectionOrTags filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'business',
+            sectionId: 'business',
             tags: [
                 {
                     id: 'business/some-business-tag',
@@ -403,7 +403,7 @@ describe('hasSectionOrTags filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'business',
+            sectionId: 'business',
         };
 
         const got = hasSectionOrTags.test(test, targeting);
@@ -420,7 +420,7 @@ describe('excludeSection filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'football',
+            sectionId: 'football',
         };
 
         const got = excludeSection.test(test, targeting);
@@ -435,7 +435,7 @@ describe('excludeSection filter', () => {
         };
         const targeting: EpicTargeting = {
             ...targetingDefault,
-            sectionName: 'environment',
+            sectionId: 'environment',
         };
 
         const got = excludeSection.test(test, targeting);

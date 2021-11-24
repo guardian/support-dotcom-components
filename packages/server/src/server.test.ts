@@ -511,7 +511,7 @@ describe('POST /epic', () => {
     it('should return epic data', async () => {
         const targeting = factories.targeting.build({
             contentType: 'Article',
-            sectionName: 'environment',
+            sectionId: 'environment',
             shouldHideReaderRevenue: false,
             isMinuteArticle: false,
             isPaidContent: false,

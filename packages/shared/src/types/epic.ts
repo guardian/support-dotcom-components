@@ -33,7 +33,8 @@ export type ViewLog = View[];
 
 export type EpicTargeting = {
     contentType: string;
-    sectionName: string;
+    sectionName?: string; // Deprecated - use sectionId
+    sectionId?: string;
     shouldHideReaderRevenue: boolean;
 
     // TODO let's replace these with Design Type/a single property after migration
@@ -212,7 +213,7 @@ export interface EpicTest extends Test<EpicVariant> {
     isOn: boolean;
     locations: CountryGroupId[];
     tagIds: string[];
-    sections: string[];
+    sections: string[]; // section IDs
     excludedTagIds: string[];
     excludedSections: string[];
     alwaysAsk: boolean;
