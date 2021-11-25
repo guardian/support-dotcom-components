@@ -9,7 +9,7 @@ import {
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
-import { EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
+import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -268,10 +268,14 @@ export const getContributionsEpic: (
     stage,
 }: EpicProps) => {
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
+    const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
         variant.choiceCardAmounts && {
-            frequency: variant.defaultChoiceCardFrequency || 'MONTHLY',
-            amount: variant.choiceCardAmounts[countryGroupId]['control']['MONTHLY']['amounts'][1],
+            frequency: defaultFrequency,
+            amount:
+                variant.choiceCardAmounts[countryGroupId]['control'][defaultFrequency][
+                    'amounts'
+                ][1],
         },
     );
 
