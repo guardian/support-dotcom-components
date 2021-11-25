@@ -96,22 +96,44 @@ const imageContainer = css`
     }
 `;
 
-const UsEoyMomentBannerVisual = (): JSX.Element => (
+interface UsEoyMomentBannerVisualProps {
+    isGivingTuesday: boolean;
+}
+
+const UsEoyMomentBannerVisual = ({
+    isGivingTuesday,
+}: UsEoyMomentBannerVisualProps): JSX.Element => (
     <div css={container}>
         <div css={imageContainer}>
-            <picture>
-                <source
-                    media="(max-width: 979px)"
-                    srcSet="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5"
-                />
-                <source
-                    media="(max-width: 1299px)"
-                    srcSet="
+            {isGivingTuesday ? (
+                <picture>
+                    <source
+                        media="(max-width: 979px)"
+                        // TODO: update images
+                        srcSet="https://media.guim.co.uk/59cd29e896d058a0e633322f0000527065ea79e6/0_0_600_424/500.jpg"
+                    />
+                    <source
+                        media="(max-width: 1299px)"
+                        srcSet="https://media.guim.co.uk/59cd29e896d058a0e633322f0000527065ea79e6/0_0_600_424/500.jpg"
+                    />
+                    <source srcSet="https://media.guim.co.uk/59cd29e896d058a0e633322f0000527065ea79e6/0_0_600_424/500.jpg" />
+                    <img src="https://media.guim.co.uk/59cd29e896d058a0e633322f0000527065ea79e6/0_0_600_424/500.jpg" />
+                </picture>
+            ) : (
+                <picture>
+                    <source
+                        media="(max-width: 979px)"
+                        srcSet="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5"
+                    />
+                    <source
+                        media="(max-width: 1299px)"
+                        srcSet="
                     https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg?width=600&quality=85&s=2859c5b61e0b033bfe458b32d29fdc7e"
-                />
-                <source srcSet="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg?width=600&quality=85&s=2859c5b61e0b033bfe458b32d29fdc7e" />
-                <img src="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5" />
-            </picture>
+                    />
+                    <source srcSet="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/600.jpg?width=600&quality=85&s=2859c5b61e0b033bfe458b32d29fdc7e" />
+                    <img src="https://i.guim.co.uk/img/media/fb8279054062d480d5f14c7098accc980fb5dd45/0_0_600_724/414.jpg?width=414&quality=85&s=d1aa5690af8abb2c696c528eb44e5ca5" />
+                </picture>
+            )}
         </div>
     </div>
 );
