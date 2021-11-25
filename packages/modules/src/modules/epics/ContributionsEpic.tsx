@@ -267,11 +267,12 @@ export const getContributionsEpic: (
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
+    const frequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
         variant.choiceCardAmounts && {
-            frequency: variant.defaultChoiceCardFrequency || 'MONTHLY',
-            amount: variant.choiceCardAmounts[countryGroupId]['control']['MONTHLY']['amounts'][1],
+            frequency: frequency,
+            amount: variant.choiceCardAmounts[countryGroupId]['control'][frequency]['amounts'][1],
         },
     );
 
