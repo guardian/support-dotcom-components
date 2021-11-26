@@ -29,7 +29,7 @@ const nonSupportersTestNonUK: HeaderTest = {
 
 const nonSupportersTestUS = (): HeaderTest => {
     const givingTuesdayStart = new Date('2021-11-29T17:00:00'); //remove "Subscribe" Monday 12:00 PM EST
-    const givingTuesdayEnd = new Date('2021-11-01T09:00:00'); //re-add "Subscribe" on Wednesday morning GMT
+    const givingTuesdayEnd = new Date('2021-12-01T09:00:00'); //re-add "Subscribe" on Wednesday morning GMT
     const currentDateTime = new Date();
     const shouldShowSubscribeButton = !(
         currentDateTime >= givingTuesdayStart && currentDateTime <= givingTuesdayEnd
