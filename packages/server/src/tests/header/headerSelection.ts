@@ -27,35 +27,45 @@ const nonSupportersTestNonUK: HeaderTest = {
     ],
 };
 
-const nonSupportersTestUS: HeaderTest = {
-    name: 'RemoteRrHeaderLinksTest__USEOY',
-    audience: 'AllNonSupporters',
-    variants: [
-        {
-            name: 'remote',
-            modulePathBuilder: usEOYHeader.endpointPathBuilder,
-            content: {
-                heading: 'Support the Guardian',
-                subheading: 'Make a year-end gift',
-                primaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
-                    text: 'Contribute',
+const nonSupportersTestUS = (): HeaderTest => {
+    const givingTuesdayStart = new Date('2021-11-29T17:00:00'); //remove "Subscribe" Monday 12:00 PM EST
+    const givingTuesdayEnd = new Date('2021-11-01T09:00:00'); //re-add "Subscribe" on Wednesday morning GMT
+    const currentDateTime = new Date();
+    const shouldShowSubscribeButton =
+        givingTuesdayStart <= currentDateTime && currentDateTime <= givingTuesdayEnd;
+
+    return {
+        name: 'RemoteRrHeaderLinksTest__USEOY',
+        audience: 'AllNonSupporters',
+        variants: [
+            {
+                name: 'remote',
+                modulePathBuilder: usEOYHeader.endpointPathBuilder,
+                content: {
+                    heading: 'Support the Guardian',
+                    subheading: 'Make a year-end gift',
+                    primaryCta: {
+                        url: 'https://support.theguardian.com/contribute',
+                        text: 'Contribute',
+                    },
+                    ...(shouldShowSubscribeButton && {
+                        secondaryCta: {
+                            url: 'https://support.theguardian.com/subscribe',
+                            text: 'Subscribe',
+                        },
+                    }),
                 },
-                secondaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
-                    text: 'Subscribe',
+                mobileContent: {
+                    heading: '',
+                    subheading: '',
+                    primaryCta: {
+                        url: 'https://support.theguardian.com/contribute',
+                        text: 'Make a year-end gift',
+                    },
                 },
             },
-            mobileContent: {
-                heading: '',
-                subheading: '',
-                primaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
-                    text: 'Make a year-end gift',
-                },
-            },
-        },
-    ],
+        ],
+    };
 };
 
 const nonSupportersTestUK: HeaderTest = {
@@ -145,7 +155,7 @@ const getNonSupportersTest = (edition: Edition): HeaderTest => {
         return nonSupportersTestUK;
     }
     if (edition === 'US' && isInUsEoyPeriod(new Date())) {
-        return nonSupportersTestUS;
+        return nonSupportersTestUS();
     }
     return nonSupportersTestNonUK;
 };
