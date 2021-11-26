@@ -28,21 +28,11 @@ const nonSupportersTestNonUK: HeaderTest = {
 };
 
 const nonSupportersTestUS = (): HeaderTest => {
-    const givingTuesdayStart = new Date(2021, 10, 29, 17, 0); //remove "Subscribe" Monday 12:00 PM EST
-    const givingTuesdayEnd = new Date(2021, 11, 1, 9, 0); //re-add "Subscribe" on Wednesday morning GMT
-
-    const isGivingTuesday = (date: Date): boolean => {
-        return isAfter(date, givingTuesdayStart) && isBefore(date, givingTuesdayEnd);
-    };
-
-    const maybeSecondaryCta = isGivingTuesday(new Date())
-        ? undefined
-        : {
-              secondaryCta: {
-                  url: 'https://support.theguardian.com/subscribe',
-                  text: 'Subscribe',
-              },
-          };
+    const givingTuesdayStart = new Date('2021-11-29T17:00:00'); //remove "Subscribe" Monday 12:00 PM EST
+    const givingTuesdayEnd = new Date('2021-11-01T09:00:00'); //re-add "Subscribe" on Wednesday morning GMT
+    const currentDateTime = new Date();
+    const shouldShowSubscribeButton =
+        givingTuesdayStart <= currentDateTime && currentDateTime <= givingTuesdayEnd;
 
     return {
         name: 'RemoteRrHeaderLinksTest__USEOY',
@@ -58,7 +48,12 @@ const nonSupportersTestUS = (): HeaderTest => {
                         url: 'https://support.theguardian.com/contribute',
                         text: 'Contribute',
                     },
-                    ...maybeSecondaryCta,
+                    ...(shouldShowSubscribeButton && {
+                        secondaryCta: {
+                            url: 'https://support.theguardian.com/subscribe',
+                            text: 'Subscribe',
+                        },
+                    }),
                 },
                 mobileContent: {
                     heading: '',
