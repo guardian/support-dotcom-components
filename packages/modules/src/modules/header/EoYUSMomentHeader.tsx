@@ -10,6 +10,10 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
 import { Link } from '@guardian/src-link';
 
+const containerStyles = css`
+    line-height: 1.15;
+`;
+
 const messageStyles = css`
     color: ${brandAlt[400]};
     ${headline.xxsmall({ fontWeight: 'bold' })};
@@ -65,7 +69,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const mobileCta = mobileContent?.primaryCta ?? primaryCta;
 
     return (
-        <div>
+        <div css={containerStyles}>
             <Hide below="tablet">
                 <div css={messageStyles}>
                     <span>{heading}</span>
