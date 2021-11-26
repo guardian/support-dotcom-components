@@ -58,6 +58,11 @@ const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDep
     return sorted[0];
 };
 
+export interface ScheduledBannerDeploys {
+    contributions: ScheduledBannerDeploy[];
+    subscriptions: ScheduledBannerDeploy[];
+}
+
 export const lastScheduledDeploy = {
     contributions: (date: Date): Date => getLastScheduledDeploy(date, channel1Schedule),
     subscriptions: (date: Date): Date => getLastScheduledDeploy(date, channel2Schedule),

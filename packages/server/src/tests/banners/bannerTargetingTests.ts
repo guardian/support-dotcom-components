@@ -42,4 +42,18 @@ export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
             },
         ],
     },
+    {
+        name: '2021-11-26_BannerTargeting_DeploySchedule',
+        canInclude: () => true,
+        variants: [
+            {
+                name: 'control',
+                canShow: () => true,
+            },
+            {
+                name: 'variant',
+                canShow: variantCanShow,
+            },
+        ],
+    },
 ];
