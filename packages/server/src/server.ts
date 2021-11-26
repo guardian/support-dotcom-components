@@ -35,12 +35,13 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(compression());
 
+const dotcomDevOrigins = ['http://localhost:3030', 'http://localhost:9000'];
 const corsOrigin = () => {
     switch (process.env.stage) {
         case 'PROD':
-            return ['https://www.theguardian.com', 'http://localhost:3030'];
+            return ['https://www.theguardian.com', ...dotcomDevOrigins];
         case 'CODE':
-            return ['https://m.code.dev-theguardian.com', 'http://localhost:3030'];
+            return ['https://m.code.dev-theguardian.com', ...dotcomDevOrigins];
         default:
             return '*';
     }
