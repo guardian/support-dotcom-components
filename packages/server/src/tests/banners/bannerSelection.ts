@@ -56,7 +56,9 @@ export const redeployedSinceLastClosed = (
         );
         const lastClosed = new Date(lastClosedRaw);
         return (
-            lastManualDeploy > lastClosed || lastScheduledDeploy[bannerChannel](now) > lastClosed
+            lastManualDeploy > lastClosed ||
+            // Exclude US from scheduled deploys
+            (targeting.countryCode !== 'US' && lastScheduledDeploy[bannerChannel](now) > lastClosed)
         );
     };
 
