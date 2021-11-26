@@ -11,21 +11,21 @@ interface ScheduledBannerDeploy {
 }
 
 const channel1Schedule: ScheduledBannerDeploy[] = [
-    {
-        dayOfWeek: 0,
-        hour: 9,
-    },
+    // {
+    //     dayOfWeek: 0,
+    //     hour: 9,
+    // },
 ];
 
 const channel2Schedule: ScheduledBannerDeploy[] = [
-    {
-        dayOfWeek: 1,
-        hour: 8,
-    },
-    {
-        dayOfWeek: 5,
-        hour: 8,
-    },
+    // {
+    //     dayOfWeek: 1,
+    //     hour: 8,
+    // },
+    // {
+    //     dayOfWeek: 5,
+    //     hour: 8,
+    // },
 ];
 
 const previousDay = (date: Date, dayOfWeek: number): Date =>
