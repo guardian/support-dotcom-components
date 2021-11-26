@@ -3,8 +3,8 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
-const container = css`
-    width: 40%;
+const container = (isGivingTuesday: boolean) => css`
+    width: ${isGivingTuesday ? '50%' : '40%'};
     padding-top: 45%;
     position: relative;
     float: right;
@@ -14,15 +14,17 @@ const container = css`
 
     ${from.mobileMedium} {
         padding-top: 40%;
-        width: 43%;
+        width: ${isGivingTuesday ? '55%' : '43%'};
     }
 
     ${from.mobileLandscape} {
-        padding-top: 30%;
+        padding-top: ${isGivingTuesday ? '0' : '30%'};
+        padding-bottom: ${isGivingTuesday ? '35%' : '0'};
     }
 
     ${from.phablet} {
         padding-top: 25%;
+        padding-bottom: 0;
     }
 
     ${from.tablet} {
@@ -50,17 +52,18 @@ const container = css`
     }
 `;
 
-const imageContainer = css`
-    margin-right: -${space[3]}px;
+const imageContainer = (isGivingTuesday: boolean) => css`
+    margin-right: ${isGivingTuesday ? `-${space[6]}px` : `-${space[3]}px`};
     margin-left: -32px;
 
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: ${isGivingTuesday ? '-12%' : '0'};
 
     ${from.mobileMedium} {
-        bottom: -11%;
+        margin-right: -${space[3]}px;
+        bottom: ${isGivingTuesday ? '-20%' : '-11%'};
     }
 
     ${from.mobileLandscape} {
@@ -70,22 +73,24 @@ const imageContainer = css`
 
     ${from.phablet} {
         bottom: -55%;
+        margin-left: ${space[5]}px;
     }
 
     ${from.tablet} {
         margin-left: 0;
         margin-right: 0;
-        bottom: 0%;
+        bottom: ${isGivingTuesday ? `${space[6]}px` : '0'};
         padding-left: 3%;
     }
 
     ${from.desktop} {
-        bottom: 0%;
+        bottom: ${isGivingTuesday ? `${space[6]}px` : '0'};
         padding-left: 5%;
     }
 
     ${from.leftCol} {
         right: -5%;
+        bottom: ${isGivingTuesday ? `${space[6]}px` : '0'};
     }
 
     img {
@@ -103,8 +108,8 @@ interface UsEoyMomentBannerVisualProps {
 const UsEoyMomentBannerVisual = ({
     isGivingTuesday,
 }: UsEoyMomentBannerVisualProps): JSX.Element => (
-    <div css={container}>
-        <div css={imageContainer}>
+    <div css={container(isGivingTuesday)}>
+        <div css={imageContainer(isGivingTuesday)}>
             {isGivingTuesday ? (
                 <picture>
                     <source

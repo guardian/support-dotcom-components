@@ -123,6 +123,7 @@ function getUsEoyMomentBanner(isGivingTuesday: boolean): React.FC<BannerRenderPr
                         <UsEoyMomentBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent?.heading ?? null}
+                            isGivingTuesday={isGivingTuesday}
                         />
                     </div>
 
