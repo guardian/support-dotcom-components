@@ -20,7 +20,7 @@ const styles = {
             width: max-content;
 
             ${from.mobileLandscape} {
-                max-width: ${isGivingTuesday ? '150px' : '210px'};
+                max-width: ${isGivingTuesday ? '125px' : '210px'};
                 font-size: ${isGivingTuesday ? '28px' : '24px'};
             }
 
