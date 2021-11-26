@@ -1,4 +1,4 @@
-import { compareDesc, setHours, subDays } from 'date-fns';
+import { compareDesc, set, subDays } from 'date-fns';
 
 /**
  * Banner deploy schedule -
@@ -11,21 +11,21 @@ interface ScheduledBannerDeploy {
 }
 
 const channel1Schedule: ScheduledBannerDeploy[] = [
-    // {
-    //     dayOfWeek: 0,
-    //     hour: 9,
-    // },
+    {
+        dayOfWeek: 0,
+        hour: 9,
+    },
 ];
 
 const channel2Schedule: ScheduledBannerDeploy[] = [
-    // {
-    //     dayOfWeek: 1,
-    //     hour: 8,
-    // },
-    // {
-    //     dayOfWeek: 5,
-    //     hour: 8,
-    // },
+    {
+        dayOfWeek: 1,
+        hour: 8,
+    },
+    {
+        dayOfWeek: 5,
+        hour: 8,
+    },
 ];
 
 const previousDay = (date: Date, dayOfWeek: number): Date =>
@@ -43,7 +43,11 @@ export const previousScheduledDate = (now: Date, dayOfWeek: number, hour: number
             ? subDays(now, 1) // scheduled for later today, so go back to previous week
             : now;
 
-    return setHours(previousDay(date, dayOfWeek), hour);
+    return set(previousDay(date, dayOfWeek), {
+        hours: hour,
+        minutes: 0,
+        seconds: 0,
+    });
 };
 
 const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
