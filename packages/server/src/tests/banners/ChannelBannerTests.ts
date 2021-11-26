@@ -76,7 +76,8 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
         };
 
         const tickerSettings =
-            variant.template === BannerTemplate.UsEoyMomentBanner
+            variant.template === BannerTemplate.UsEoyMomentBanner ||
+            variant.template === BannerTemplate.UsEoyMomentGivingTuesdayBanner
                 ? {
                       countType: TickerCountType.money,
                       endType: TickerEndType.unlimited,
