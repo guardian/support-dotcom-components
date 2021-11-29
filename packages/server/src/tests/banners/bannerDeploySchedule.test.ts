@@ -1,4 +1,8 @@
-import { lastScheduledDeploy, previousScheduledDate } from './bannerDeploySchedule';
+import {
+    defaultDeploySchedule,
+    getLastScheduledDeploy,
+    previousScheduledDate,
+} from './bannerDeploySchedule';
 
 const days = {
     sunday: 0,
@@ -34,18 +38,26 @@ describe('previousScheduledDate', () => {
 
 describe('lastScheduledDeploy, subscriptions', () => {
     it('returns previous monday if currently tuesday', () => {
-        const date = new Date('2021-11-09 09:00:00');
-        const result = lastScheduledDeploy.subscriptions(date);
+        const result = getLastScheduledDeploy(
+            new Date('2021-11-09 09:00:00'),
+            defaultDeploySchedule.subscriptions,
+        );
         expect(result).toEqual(new Date('2021-11-08 08:00:00'));
     });
 
     it('returns previous friday if currently sunday', () => {
-        const result = lastScheduledDeploy.subscriptions(new Date('2021-11-07 09:00:00'));
+        const result = getLastScheduledDeploy(
+            new Date('2021-11-07 09:00:00'),
+            defaultDeploySchedule.subscriptions,
+        );
         expect(result).toEqual(new Date('2021-11-05 08:00:00'));
     });
 
     it('returns today (friday) if currently friday and within an hour of the last deploy', () => {
-        const result = lastScheduledDeploy.subscriptions(new Date('2021-11-26 08:30:00'));
+        const result = getLastScheduledDeploy(
+            new Date('2021-11-26 08:30:00'),
+            defaultDeploySchedule.subscriptions,
+        );
         expect(result).toEqual(new Date('2021-11-26 08:00:00'));
     });
 });

@@ -29,22 +29,8 @@ export const variantCanShow = (targeting: BannerTargeting): boolean => {
 
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
-        name: '2021-11-04_BannerTargeting_SectionExclusions',
-        canInclude: () => true,
-        variants: [
-            {
-                name: 'control',
-                canShow: () => true,
-            },
-            {
-                name: 'variant',
-                canShow: variantCanShow,
-            },
-        ],
-    },
-    {
         name: '2021-11-26_BannerTargeting_DeploySchedule',
-        canInclude: () => true,
+        canInclude: (targeting: BannerTargeting) => targeting.countryCode !== 'US',
         variants: [
             {
                 name: 'control',
@@ -52,7 +38,21 @@ export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
             },
             {
                 name: 'variant',
-                canShow: variantCanShow,
+                canShow: () => true,
+                deploySchedule: {
+                    contributions: [
+                        {
+                            dayOfWeek: 0,
+                            hour: 9,
+                        },
+                    ],
+                    subscriptions: [
+                        {
+                            dayOfWeek: 5,
+                            hour: 8,
+                        },
+                    ],
+                },
             },
         ],
     },
