@@ -11,7 +11,7 @@ type TargetingTestDecision = {
 interface TargetingTestVariant<T> extends Variant {
     name: string;
     canShow: (targeting: T) => boolean; // Can a message be shown?
-    deploySchedule?: ScheduledBannerDeploys;
+    deploySchedule?: ScheduledBannerDeploys; // Overrides default deploy schedule
 }
 
 /**
