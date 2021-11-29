@@ -8,28 +8,29 @@ const styles = {
     container: css`
         position: relative;
     `,
-    header: css`
+    header: (isGivingTuesday: boolean) => css`
         padding: ${space[2]}px ${space[3]}px;
         margin: 0;
 
         h2 {
             ${headline.xsmall({ fontWeight: 'bold' })}
-            max-width: 150px;
+            max-width: ${isGivingTuesday ? '100px' : '150px'};
             margin: 0;
             color: ${news[400]};
             width: max-content;
 
             ${from.mobileLandscape} {
-                max-width: 210px;
+                max-width: ${isGivingTuesday ? '125px' : '210px'};
+                font-size: ${isGivingTuesday ? '28px' : '24px'};
             }
 
             ${from.phablet} {
-                max-width: 300px;
+                max-width: ${isGivingTuesday ? '275px' : '300px'};
                 font-size: 34px;
             }
 
             ${from.tablet} {
-                max-width: 400px;
+                max-width: ${isGivingTuesday ? '280px' : '400px'};
                 font-size: 34px;
             }
 
@@ -56,15 +57,17 @@ const styles = {
 interface UsEoyMomentBannerHeaderProps {
     heading: JSX.Element | JSX.Element[] | null;
     mobileHeading: JSX.Element | JSX.Element[] | null;
+    isGivingTuesday: boolean;
 }
 
 export function UsEoyMomentBannerHeader({
     heading,
     mobileHeading,
+    isGivingTuesday,
 }: UsEoyMomentBannerHeaderProps): JSX.Element {
     return (
         <div css={styles.container}>
-            <header css={styles.header}>
+            <header css={styles.header(isGivingTuesday)}>
                 <h2>{mobileHeading ?? heading}</h2>
             </header>
         </div>

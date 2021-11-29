@@ -6,6 +6,7 @@ import {
     guardianWeekly,
     investigationsMomentBanner,
     usEoyMomentBanner,
+    usEoyMomentGivingTuesdayBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -37,6 +38,8 @@ export const BannerPaths: {
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
     [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentGivingTuesdayBanner]:
+        usEoyMomentGivingTuesdayBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };
@@ -73,7 +76,8 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
         };
 
         const tickerSettings =
-            variant.template === BannerTemplate.UsEoyMomentBanner
+            variant.template === BannerTemplate.UsEoyMomentBanner ||
+            variant.template === BannerTemplate.UsEoyMomentGivingTuesdayBanner
                 ? {
                       countType: TickerCountType.money,
                       endType: TickerEndType.unlimited,
