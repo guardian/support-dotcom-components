@@ -83,7 +83,7 @@ const imageContainer = (isGivingTuesday: boolean) => css`
         margin-left: 3%;
         ${isGivingTuesday
             ? `
-                width: 120%;
+                width: 105%;
                 left: 3%;
                 clip-path: inset(0 0 0 2%);
                 `
@@ -95,8 +95,7 @@ const imageContainer = (isGivingTuesday: boolean) => css`
         margin-left: 5%;
         ${isGivingTuesday
             ? `
-                width: 130%;
-                margin-left: 0;
+                width: 110%;
                 clip-path: inset(0 0 0 3%);
                 transform: translateX(-6%);
                 `
@@ -108,8 +107,9 @@ const imageContainer = (isGivingTuesday: boolean) => css`
         bottom: ${isGivingTuesday ? `${space[6]}px` : '0'};
         ${isGivingTuesday
             ? `
-                width: 105%;
+                width: 95%;
                 transform: translateX(2%);
+                margin-left: 0;
                 `
             : ''}
     }
