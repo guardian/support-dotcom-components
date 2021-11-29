@@ -12,6 +12,7 @@ const exclusions: SectionAndTagExclusions = {
     travel: [],
 };
 
+// TODO - remove?
 export const variantCanShow = (targeting: BannerTargeting): boolean => {
     const { sectionId, tagIds } = targeting;
 
