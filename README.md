@@ -38,15 +38,15 @@ yarn server start
 
 This will start `tsc` in `watch` mode to recompile on file changes and `nodemon` to run the resulting javascript and restart after recompilation.
 
+The server runs on port 8082 locally.
+
 #### DCR
 
 A local instance of DCR will use the `SDC_URL` environment variable to get the url for requests to SDC. To point DCR at a local instance of SDC we can therefore run DCR like
 
 ```bash
-SDC_URL=http://localhost:<SDC_PORT> make dev
+SDC_URL=http://localhost:8082 make dev
 ```
-
-Where the default value for `<SDC_PORT>` is `8082`.
 
 ### Modules
 
