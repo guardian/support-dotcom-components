@@ -29,11 +29,11 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const GIVING_TUESDAY_REMINDER_FIELDS: ReminderFields = {
-    reminderCta: `Remind me on Giving Tuesday`,
-    reminderPeriod: `2021-11-01`,
-    reminderLabel: 'on Giving Tuesday',
-    reminderOption: 'giving-tuesday-2021',
+export const NYE_REMINDER_FIELDS: ReminderFields = {
+    reminderCta: "Remind me on New Year's Eve",
+    reminderPeriod: '2021-12-01',
+    reminderLabel: "on New Year's Eve",
+    reminderOption: 'nye-2021',
 };
 
 export const getReminderFields = (
@@ -41,6 +41,6 @@ export const getReminderFields = (
     countryCode?: string,
 ): ReminderFields | undefined => {
     return variant.showReminderFields ?? countryCode === 'US'
-        ? GIVING_TUESDAY_REMINDER_FIELDS
+        ? NYE_REMINDER_FIELDS
         : buildReminderFields();
 };
