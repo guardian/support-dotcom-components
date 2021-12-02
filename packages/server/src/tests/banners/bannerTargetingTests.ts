@@ -12,7 +12,7 @@ const exclusions: SectionAndTagExclusions = {
     travel: [],
 };
 
-// TODO - remove?
+// TODO - remove or use this logic. We're still waiting for full results from this test to become available
 export const variantCanShow = (targeting: BannerTargeting): boolean => {
     const { sectionId, tagIds } = targeting;
 
@@ -30,7 +30,7 @@ export const variantCanShow = (targeting: BannerTargeting): boolean => {
 
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
-        name: '2021-11-26_BannerTargeting_DeploySchedule',
+        name: '2021-12-02_BannerTargeting_SubsOncePerWeek',
         canInclude: (targeting: BannerTargeting) => targeting.countryCode !== 'US',
         variants: [
             {
