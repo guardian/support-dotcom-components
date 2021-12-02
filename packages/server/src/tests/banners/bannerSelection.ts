@@ -15,7 +15,11 @@ import { userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
-import { lastScheduledDeploy } from './bannerDeploySchedule';
+import {
+    getLastScheduledDeploy,
+    ScheduledBannerDeploys,
+    defaultDeploySchedule,
+} from './bannerDeploySchedule';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -40,6 +44,7 @@ export const redeployedSinceLastClosed = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
     bannerDeployCaches: BannerDeployCaches,
+    scheduledBannerDeploys: ScheduledBannerDeploys,
     now: Date,
 ): Promise<boolean> => {
     const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
@@ -58,7 +63,8 @@ export const redeployedSinceLastClosed = (
         return (
             lastManualDeploy > lastClosed ||
             // Exclude US from scheduled deploys
-            (targeting.countryCode !== 'US' && lastScheduledDeploy[bannerChannel](now) > lastClosed)
+            (targeting.countryCode !== 'US' &&
+                getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed)
         );
     };
 
@@ -125,6 +131,8 @@ export const selectBannerTest = async (
     }
 
     for (const test of tests) {
+        const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
+
         if (
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
@@ -143,6 +151,7 @@ export const selectBannerTest = async (
                 targeting,
                 test.bannerChannel,
                 bannerDeployCaches,
+                deploySchedule,
                 now,
             ))
         ) {

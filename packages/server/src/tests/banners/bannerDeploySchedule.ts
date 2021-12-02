@@ -10,23 +10,29 @@ interface ScheduledBannerDeploy {
     hour: number; // 0-23
 }
 
-const channel1Schedule: ScheduledBannerDeploy[] = [
-    {
-        dayOfWeek: 0,
-        hour: 9,
-    },
-];
+export interface ScheduledBannerDeploys {
+    contributions: ScheduledBannerDeploy[];
+    subscriptions: ScheduledBannerDeploy[];
+}
 
-const channel2Schedule: ScheduledBannerDeploy[] = [
-    {
-        dayOfWeek: 1,
-        hour: 8,
-    },
-    {
-        dayOfWeek: 5,
-        hour: 8,
-    },
-];
+export const defaultDeploySchedule: ScheduledBannerDeploys = {
+    contributions: [
+        {
+            dayOfWeek: 0,
+            hour: 9,
+        },
+    ],
+    subscriptions: [
+        {
+            dayOfWeek: 1,
+            hour: 8,
+        },
+        {
+            dayOfWeek: 5,
+            hour: 8,
+        },
+    ],
+};
 
 const previousDay = (date: Date, dayOfWeek: number): Date =>
     subDays(date, (date.getDay() + 7 - dayOfWeek) % 7);
@@ -50,15 +56,13 @@ export const previousScheduledDate = (now: Date, dayOfWeek: number, hour: number
     });
 };
 
-const getLastScheduledDeploy = (date: Date, scheduledDeploys: ScheduledBannerDeploy[]): Date => {
+export const getLastScheduledDeploy = (
+    date: Date,
+    scheduledDeploys: ScheduledBannerDeploy[],
+): Date => {
     const deployDateTimes = scheduledDeploys.map(deploy =>
         previousScheduledDate(date, deploy.dayOfWeek, deploy.hour),
     );
     const sorted = deployDateTimes.sort(compareDesc);
     return sorted[0];
-};
-
-export const lastScheduledDeploy = {
-    contributions: (date: Date): Date => getLastScheduledDeploy(date, channel1Schedule),
-    subscriptions: (date: Date): Date => getLastScheduledDeploy(date, channel2Schedule),
 };

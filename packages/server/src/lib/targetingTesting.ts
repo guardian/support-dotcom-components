@@ -1,14 +1,17 @@
 import { TargetingAbTest, Test, Variant } from '@sdc/shared/types';
 import { selectVariant } from './ab';
+import { ScheduledBannerDeploys } from '../tests/banners/bannerDeploySchedule';
 
 type TargetingTestDecision = {
     canShow: boolean;
+    deploySchedule?: ScheduledBannerDeploys;
     test: TargetingAbTest;
 };
 
 interface TargetingTestVariant<T> extends Variant {
     name: string;
     canShow: (targeting: T) => boolean; // Can a message be shown?
+    deploySchedule?: ScheduledBannerDeploys; // Overrides default deploy schedule
 }
 
 /**
@@ -36,6 +39,7 @@ export const selectTargetingTest = <T>(
         const variant: TargetingTestVariant<T> = selectVariant(test, mvtId);
         return {
             canShow: variant.canShow(targeting),
+            deploySchedule: variant.deploySchedule,
             test: {
                 testName: test.name,
                 variantName: variant.name,
