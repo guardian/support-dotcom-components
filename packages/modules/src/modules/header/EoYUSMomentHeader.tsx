@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { from, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { brandAlt, brandText } from '@guardian/src-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
@@ -17,10 +17,13 @@ const containerStyles = css`
 const messageStyles = css`
     color: ${brandAlt[400]};
     ${headline.xxsmall({ fontWeight: 'bold' })};
-    margin-bottom: 3px;
 
     ${until.tablet} {
         ${textSans.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
+    }
+
+    ${between.tablet.and.leftCol} {
+        ${headline.xxxsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
     }
 
     ${from.leftCol} {
@@ -48,9 +51,10 @@ const linkStyles = css`
 `;
 
 const mobileLinkStyles = css`
+    font-weight: bold;
     &,
     &:hover {
-        ${textSans.xsmall({ lineHeight: 'tight' })}
+        ${textSans.xsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
         color: ${brandAlt[400]};
         line-height: 1.15;
     }
@@ -59,7 +63,6 @@ const mobileLinkStyles = css`
 const subMessageStyles = css`
     color: ${brandText.primary};
     ${textSans.medium()};
-    margin: 5px 0;
 `;
 
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
