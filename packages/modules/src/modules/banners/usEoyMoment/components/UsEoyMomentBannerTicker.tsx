@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { neutral, palette } from '@guardian/src-foundations';
+import { neutral, news, palette, space } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
@@ -16,6 +16,7 @@ const rootStyles = css`
     position: relative;
     height: 65px;
     line-height: 18px;
+    overflow: hidden;
 `;
 
 const totalCountStyles = css`
@@ -39,10 +40,12 @@ const soFarCountStyles = css`
     }
 `;
 
-const countLabelStyles = css`
-    ${textSans.xsmall()};
+const countLabelStyles = (isGoalReached: boolean, goalText: boolean): SerializedStyles => css`
+    ${isGoalReached && goalText
+        ? `${textSans.xsmall({ fontWeight: 'bold' })}`
+        : `${textSans.xsmall()}`};
     font-size: 13px;
-    color: ${neutral[0]};
+    color: ${isGoalReached && goalText ? `${news[400]}` : `${neutral[0]}`};
     line-height: 1.3;
 
     ${from.desktop} {
@@ -82,7 +85,7 @@ const progressBarTransform = (end: number, runningTotal: number, total: number):
         return 'translateX(-100%)';
     }
 
-    const percentage = (total / end) * 100 - 100;
+    const percentage = (total / end) * 100 - 95;
 
     return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
 };
@@ -104,37 +107,24 @@ const filledProgressStyles = (
         background-color: ${colour};
     `;
 
-const goalContainerStyles = css`
+const goalContainerStyles = (isGoalReached: boolean) => css`
     position: absolute;
     right: 0;
     bottom: ${progressBarHeight + 5}px;
     text-align: right;
-`;
+    margin-right: ${isGoalReached ? '12%' : 0};
 
-const goalMarkerStyles = (transform: string): SerializedStyles => css`
-    border-right: 2px solid ${palette.neutral[7]};
-    content: ' ';
-    display: block;
-    height: 12px;
-    margin-top: -2px;
-    transform: ${transform};
-`;
-
-type MarkerProps = {
-    goal: number;
-    end: number;
-};
-
-const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
-    if (end > goal) {
-        const markerTranslate = (goal / end) * 100 - 100;
-        const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
-
-        return <div css={goalMarkerStyles(markerTransform)} />;
-    } else {
-        return null;
+    &::after {
+        content: '';
+        width: 0;
+        height: 150%;
+        z-index: 1;
+        margin-left: ${space[1]}px;
+        position: absolute;
+        border: 1px solid black;
+        top: 0;
     }
-};
+`;
 
 type UsEoyMomentBannerTickerProps = {
     tickerSettings: TickerSettings;
@@ -177,25 +167,23 @@ const UsEoyMomentBannerTicker: React.FC<UsEoyMomentBannerTickerProps> = ({
             <div>
                 <div css={soFarContainerStyles}>
                     <div css={soFarCountStyles}>
-                        {!isGoalReached && currencySymbol}
-                        {isGoalReached
-                            ? tickerSettings.copy.goalReachedPrimary
-                            : runningTotal.toLocaleString()}
+                        {currencySymbol}
+                        {runningTotal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>
-                        {isGoalReached
-                            ? tickerSettings.copy.goalReachedSecondary
-                            : tickerSettings.copy.countLabel}
+                    <div css={countLabelStyles(isGoalReached, false)}>
+                        {tickerSettings.copy.countLabel}
                     </div>
                 </div>
 
-                <div css={goalContainerStyles}>
+                <div css={goalContainerStyles(isGoalReached)}>
                     <div css={totalCountStyles}>
                         {currencySymbol}
-                        {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}
+                        {isGoalReached
+                            ? `${goal.toLocaleString()} goal reached`
+                            : goal.toLocaleString()}
                     </div>
-                    <div css={countLabelStyles}>
-                        {isGoalReached ? tickerSettings.copy.countLabel : 'our goal'}
+                    <div css={countLabelStyles(isGoalReached, true)}>
+                        {isGoalReached ? "But it's not too late to give" : 'our goal'}
                     </div>
                 </div>
             </div>
@@ -204,7 +192,6 @@ const UsEoyMomentBannerTicker: React.FC<UsEoyMomentBannerTickerProps> = ({
                 <div css={progressBarStyles}>
                     <div css={filledProgressStyles(end, runningTotal, total, accentColour)}></div>
                 </div>
-                <Marker goal={goal} end={end} />
             </div>
         </div>
     );
