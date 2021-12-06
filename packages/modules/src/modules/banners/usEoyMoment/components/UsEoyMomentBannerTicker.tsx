@@ -179,7 +179,7 @@ const UsEoyMomentBannerTicker: React.FC<UsEoyMomentBannerTickerProps> = ({
                     <div css={totalCountStyles}>
                         {currencySymbol}
                         {isGoalReached
-                            ? `${runningTotal.toLocaleString()} goal reached`
+                            ? `${goal.toLocaleString()} goal reached`
                             : goal.toLocaleString()}
                     </div>
                     <div css={countLabelStyles(isGoalReached, true)}>
