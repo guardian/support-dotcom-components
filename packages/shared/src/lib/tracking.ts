@@ -47,7 +47,7 @@ export const addTrackingParams = (
         REFPVID: params.ophanPageId || 'not_found',
         INTCMP: params.campaignCode || '',
         acquisitionData: acquisitionData,
-        numArticles,
+        numArticles: numArticles || 0,
     };
 
     const queryString = Object.entries(trackingLinkParams)

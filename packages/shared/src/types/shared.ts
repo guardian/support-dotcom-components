@@ -5,7 +5,6 @@ import {
     OphanProduct,
     ophanProductSchema,
 } from './ophan';
-import { ChoiceCardAmounts } from './epic';
 
 export interface Variant {
     name: string;
@@ -118,12 +117,6 @@ export const tickerSettingsSchema = z.object({
     copy: tickerCopySchema,
     tickerData: tickerDataSchema.optional(),
 });
-
-export interface ChoiceCardSettings {
-    amounts: ChoiceCardAmounts;
-    currencySymbol: string;
-    showChoiceCards: boolean;
-}
 
 export type TagCounts = {
     [tag: string]: number;

@@ -1,11 +1,6 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
-    optimization: {
-        // sideEffects: false
-        usedExports: true
-    },
     entry: './src/public.ts',
     target: 'node',
     output: {
@@ -17,12 +12,7 @@ module.exports = {
     },
     module: {
         rules: [
-            // { test: /\.ts$/, use: { loader: 'ts-loader', options: { projectReferences: true } } },
-            {
-                test: /\.tsx?$/,
-                use: ['babel-loader','ts-loader'],
-                exclude: /node_modules/,
-            },
+            { test: /\.ts$/, use: { loader: 'ts-loader', options: { projectReferences: true } } },
         ],
     },
     ignoreWarnings: [

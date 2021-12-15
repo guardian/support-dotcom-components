@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "es6",
+        "module": "CommonJS",
         "target": "ES2020",
         "esModuleInterop": true,
         "moduleResolution": "node",
@@ -8,6 +8,6 @@
         "strict": true,
         "outDir": "dist"
     },
-    "include": ["src"],
+    "include": ["src/public.ts"],
 //    "references": [{ "path": "../shared" }]
 }
