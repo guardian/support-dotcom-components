@@ -36,7 +36,6 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
-import { singleContributorPropensityTests } from './tests/epics/singleContributorPropensityTest/singleContributorPropensityTest';
 
 interface EpicDataResponse {
     data?: {
@@ -109,6 +108,8 @@ const [, fetchSuperModeArticlesCached] = cacheAsync(
     'fetchSuperModeArticles',
 );
 
+const hardcodedEpicTests: EpicTest[] = [];
+
 const getArticleEpicTests = async (
     mvtId: number,
     isForcingTest: boolean,
@@ -120,9 +121,7 @@ const getArticleEpicTests = async (
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const hardcodedTests = enableHardcodedEpicTests
-            ? [...singleContributorPropensityTests]
-            : [];
+        const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
         if (isForcingTest) {
             return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
