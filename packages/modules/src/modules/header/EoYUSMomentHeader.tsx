@@ -65,6 +65,12 @@ const subMessageStyles = css`
     ${textSans.medium()};
 `;
 
+// override user agent styles
+const headingStyles = css`
+    font-size: 100%;
+    margin: 0;
+`;
+
 const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
     const mobileContent = props.mobileContent;
@@ -75,7 +81,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
         <div css={containerStyles}>
             <Hide below="tablet">
                 <div css={messageStyles}>
-                    <span>{heading}</span>
+                    <h2 css={headingStyles}>{heading}</h2>
                 </div>
 
                 {subheading && (
