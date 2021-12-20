@@ -1,5 +1,5 @@
 import { CountryGroupId } from '@sdc/shared/lib';
-import { Cta, TickerSettings } from '@sdc/shared/types';
+import { Cta, TickerSettings, ContributionFrequency } from '@sdc/shared/types';
 import { AMPTicker } from './ampTicker';
 
 /**
@@ -21,6 +21,7 @@ export interface AMPEpic {
     cta: AMPCta;
     ticker?: AMPTicker;
     showChoiceCards?: boolean;
+    defaultChoiceCardFrequency?: ContributionFrequency;
 }
 
 /**
@@ -34,6 +35,7 @@ export interface AmpEpicTestVariant {
     cta?: Cta;
     tickerSettings?: TickerSettings;
     showChoiceCards?: boolean;
+    defaultChoiceCardFrequency?: ContributionFrequency;
 }
 
 export interface AmpEpicTest {
