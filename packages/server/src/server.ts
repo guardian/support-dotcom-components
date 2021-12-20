@@ -346,6 +346,7 @@ app.get(
             const choiceCardAmounts = await cachedChoiceCardAmounts();
             const ampVariantAssignments = getAmpVariantAssignments(req);
             const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const defaultChoiceCardFrequency = epic.defaultChoiceCardFrequency || 'MONTHLY';
             const acquisitionData = {
                 source: 'GOOGLE_AMP',
                 componentType: 'ACQUISITIONS_EPIC',
@@ -373,10 +374,11 @@ app.get(
                 choiceCards: epic.showChoiceCards
                     ? {
                           choiceCardSelection: {
-                              frequency: 'MONTHLY',
+                              frequency: defaultChoiceCardFrequency,
                               amount:
-                                  choiceCardAmounts[countryGroupId]['control']['MONTHLY']
-                                      .amounts[1],
+                                  choiceCardAmounts[countryGroupId]['control'][
+                                      defaultChoiceCardFrequency
+                                  ].amounts[1],
                           },
                           amounts: {
                               ONE_OFF: choiceCardAmounts[countryGroupId]['control'][
