@@ -108,6 +108,7 @@ const [, fetchSuperModeArticlesCached] = cacheAsync(
     'fetchSuperModeArticles',
 );
 
+// Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [];
 
 const getArticleEpicTests = async (
