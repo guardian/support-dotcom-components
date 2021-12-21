@@ -15,6 +15,7 @@ const supportAgainHeadingStyles = css`
     ${textSans.small({ fontWeight: 'bold' })}
     color: ${brandAlt[400]};
     font-size: 14px;
+    margin: 0;
 
     ${from.tablet} {
         ${headline.xxsmall({ fontWeight: 'bold' })};
@@ -63,7 +64,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
     return (
         <div>
             <div>
-                <div css={supportAgainHeadingStyles}>{heading}</div>
+                <h2 css={supportAgainHeadingStyles}>{heading}</h2>
 
                 <Hide below="tablet">
                     <div css={supportAgainSubheadingStyles}>{subheading}</div>
