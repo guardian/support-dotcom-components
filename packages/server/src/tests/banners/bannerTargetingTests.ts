@@ -40,17 +40,17 @@ export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
             {
                 name: 'variant',
                 canShow: () => true,
-                // Only deploy the subs banner on a Monday
+                // Subs Saturday, Contribs Monday
                 deploySchedule: {
                     contributions: [
                         {
-                            dayOfWeek: 0,
+                            dayOfWeek: 1,
                             hour: 9,
                         },
                     ],
                     subscriptions: [
                         {
-                            dayOfWeek: 1,
+                            dayOfWeek: 6,
                             hour: 8,
                         },
                     ],
