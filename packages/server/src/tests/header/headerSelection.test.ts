@@ -1,256 +1,91 @@
-// import { contributionsBanner, digiSubs } from '@sdc/shared/config';
-// import { BannerTargeting, BannerTest } from '@sdc/shared/types';
-// import { BannerDeployCaches } from './bannerDeployCache';
-// import { selectBannerTest } from './bannerSelection';
+import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
+import { selectHardcodedTest } from './headerSelection';
 
-// const getBannerDeployCache = (date: string): BannerDeployCaches =>
-//     ({
-//         subscriptions: () =>
-//             Promise.resolve({
-//                 UnitedKingdom: new Date(date),
-//                 UnitedStates: new Date(date),
-//                 Australia: new Date(date),
-//                 RestOfWorld: new Date(date),
-//                 EuropeanUnion: new Date(date),
-//             }),
-//         contributions: () =>
-//             Promise.resolve({
-//                 UnitedKingdom: new Date(date),
-//                 UnitedStates: new Date(date),
-//                 Australia: new Date(date),
-//                 RestOfWorld: new Date(date),
-//                 EuropeanUnion: new Date(date),
-//             }),
-//     } as BannerDeployCaches);
+describe('selectHardcodedTest', () => {
+    it('should return an object including a HeaderTest and a HeaderVariant', () => {
 
-// describe('selectBannerTest', () => {
-//     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
-//     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
+        const mockTargetingObject_1: HeaderTargeting = {
+            "showSupportMessaging": true,
+            "edition": "UK",
+            "countryCode": "ck", // Cook Islands (New Zealand dollar region)
+            "modulesVersion": "v3",
+            "mvtId": 900263
+        };
 
-//     describe('Contributions banner rules', () => {
-//         const now = new Date('2020-03-31T12:30:00');
+        const result_1: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_1);
+        const result_1_test: HeaderTest = result_1.test;
+        const result_1_variant: HeaderVariant = result_1.variant;
+        expect(result_1).toBeDefined();
+        expect(result_1).toHaveProperty('test');
+        expect(result_1).toHaveProperty('variant');
+        expect(result_1).toHaveProperty('moduleName');
+        expect(result_1).toHaveProperty('modulePathBuilder');
+        expect(result_1_test).toHaveProperty('name');
+        expect(result_1_test.name).toBe('header-supporter');
+        expect(result_1_variant).toHaveProperty('name');
+        expect(result_1_variant.name).toBe('control');
 
-//         const cache = getBannerDeployCache(secondDate);
+        const mockTargetingObject_2: HeaderTargeting = {
+            "showSupportMessaging": false,
+            "edition": "UK",
+            "countryCode": "ck",
+            "modulesVersion": "v3",
+            "mvtId": 900263
+        };
 
-//         const targeting: BannerTargeting = {
-//             alreadyVisitedCount: 3,
-//             shouldHideReaderRevenue: false,
-//             isPaidContent: false,
-//             showSupportMessaging: true,
-//             mvtId: 3,
-//             countryCode: 'AU',
-//             engagementBannerLastClosedAt: firstDate,
-//             hasOptedOutOfArticleCount: false,
-//         };
+        const result_2: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_2);
+        const result_2_test: HeaderTest = result_2.test;
+        const result_2_variant: HeaderVariant = result_2.variant;
+        expect(result_2).toBeDefined();
+        expect(result_2).toHaveProperty('test');
+        expect(result_2).toHaveProperty('variant');
+        expect(result_2).toHaveProperty('moduleName');
+        expect(result_2).toHaveProperty('modulePathBuilder');
+        expect(result_2_test).toHaveProperty('name');
+        expect(result_2_test.name).toBe('RemoteRrHeaderLinksTest__NonUK');
+        expect(result_2_variant).toHaveProperty('name');
+        expect(result_2_variant.name).toBe('remote');
 
-//         const tracking = {
-//             ophanPageId: '',
-//             platformId: '',
-//             referrerUrl: '',
-//             clientName: '',
-//         };
+        const mockTargetingObject_3: HeaderTargeting = {
+            "showSupportMessaging": true,
+            "edition": "UK",
+            "countryCode": "im", // Isle of Man (UK sterling region)
+            "modulesVersion": "v3",
+            "mvtId": 900263
+        };
 
-//         const test: BannerTest = {
-//             name: 'test',
-//             bannerChannel: 'contributions',
-//             userCohort: 'Everyone',
-//             canRun: () => true,
-//             minPageViews: 2,
-//             variants: [
-//                 {
-//                     name: 'variant',
-//                     modulePathBuilder: contributionsBanner.endpointPathBuilder,
-//                     moduleName: 'ContributionsBanner',
-//                     bannerContent: {
-//                         messageText: 'body',
-//                         highlightedText: 'highlighted text',
-//                         cta: {
-//                             text: 'cta',
-//                             baseUrl: 'https://support.theguardian.com',
-//                         },
-//                     },
-//                     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-//                 },
-//             ],
-//             articlesViewedSettings: {
-//                 minViews: 5,
-//                 periodInWeeks: 52,
-//             },
-//         };
+        const result_3: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_3);
+        const result_3_test: HeaderTest = result_3.test;
+        const result_3_variant: HeaderVariant = result_3.variant;
+        expect(result_3).toBeDefined();
+        expect(result_3).toHaveProperty('test');
+        expect(result_3).toHaveProperty('variant');
+        expect(result_3).toHaveProperty('moduleName');
+        expect(result_3).toHaveProperty('modulePathBuilder');
+        expect(result_3_test).toHaveProperty('name');
+        expect(result_3_test.name).toBe('header-supporter');
+        expect(result_3_variant).toHaveProperty('name');
+        expect(result_3_variant.name).toBe('control');
 
-//         it('returns test if enough article views', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
-//                 }),
-//                 tracking,
-//                 '',
-//                 () => Promise.resolve([test]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result && result.test.name).toBe('test');
-//             });
-//         });
+        const mockTargetingObject_4: HeaderTargeting = {
+            "showSupportMessaging": false,
+            "edition": "UK",
+            "countryCode": "im",
+            "modulesVersion": "v3",
+            "mvtId": 900263
+        };
 
-//         it('returns null if not enough article views', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
-//                 }),
-//                 tracking,
-//                 '',
-//                 () => Promise.resolve([test]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result).toBe(null);
-//             });
-//         });
-
-//         it('returns test if no articlesViewedSettings', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
-//                 }),
-//                 tracking,
-//                 '',
-//                 () =>
-//                     Promise.resolve([
-//                         {
-//                             ...test,
-//                             articlesViewedSettings: undefined,
-//                         },
-//                     ]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result && result.test.name).toBe('test');
-//             });
-//         });
-
-//         it('returns null if opted out', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     hasOptedOutOfArticleCount: true,
-//                 }),
-//                 tracking,
-//                 '',
-//                 () => Promise.resolve([test]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result).toBe(null);
-//             });
-//         });
-//     });
-
-//     describe('Channel 2 banner rules', () => {
-//         const now = new Date('2020-03-31T12:30:00');
-
-//         const cache = getBannerDeployCache(secondDate);
-
-//         const targeting: BannerTargeting = {
-//             alreadyVisitedCount: 3,
-//             shouldHideReaderRevenue: false,
-//             isPaidContent: false,
-//             showSupportMessaging: true,
-//             mvtId: 3,
-//             countryCode: 'GB',
-//             engagementBannerLastClosedAt: firstDate,
-//             hasOptedOutOfArticleCount: false,
-//         };
-
-//         const tracking = {
-//             ophanPageId: '',
-//             platformId: '',
-//             referrerUrl: '',
-//             clientName: '',
-//         };
-
-//         const test: BannerTest = {
-//             name: 'test',
-//             bannerChannel: 'subscriptions',
-//             userCohort: 'Everyone',
-//             canRun: (): boolean => true,
-//             minPageViews: 2,
-//             variants: [
-//                 {
-//                     name: 'variant',
-//                     modulePathBuilder: digiSubs.endpointPathBuilder,
-//                     moduleName: 'DigitalSubscriptionsBanner',
-//                     bannerContent: {
-//                         messageText: 'body',
-//                         cta: {
-//                             text: 'cta',
-//                             baseUrl: 'https://support.theguardian.com',
-//                         },
-//                     },
-//                     componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-//                 },
-//             ],
-//             articlesViewedSettings: {
-//                 minViews: 5,
-//                 periodInWeeks: 52,
-//             },
-//         };
-
-//         it('returns test if enough article views', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
-//                 }),
-//                 tracking,
-//                 '',
-//                 () => Promise.resolve([test]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result && result.test.name).toBe('test');
-//             });
-//         });
-
-//         it('returns null if not enough article views', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
-//                 }),
-//                 tracking,
-//                 '',
-//                 () => Promise.resolve([test]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result).toBe(null);
-//             });
-//         });
-
-//         it('returns test if no articlesViewedSettings', () => {
-//             return selectBannerTest(
-//                 Object.assign(targeting, {
-//                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
-//                 }),
-//                 tracking,
-//                 '',
-//                 () =>
-//                     Promise.resolve([
-//                         {
-//                             ...test,
-//                             articlesViewedSettings: undefined,
-//                         },
-//                     ]),
-//                 cache,
-//                 undefined,
-//                 now,
-//             ).then(result => {
-//                 expect(result && result.test.name).toBe('test');
-//             });
-//         });
-//     });
-// });
+        const result_4: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_4);
+        const result_4_test: HeaderTest = result_4.test;
+        const result_4_variant: HeaderVariant = result_4.variant;
+        expect(result_4).toBeDefined();
+        expect(result_4).toHaveProperty('test');
+        expect(result_4).toHaveProperty('variant');
+        expect(result_4).toHaveProperty('moduleName');
+        expect(result_4).toHaveProperty('modulePathBuilder');
+        expect(result_4_test).toHaveProperty('name');
+        expect(result_4_test.name).toBe('RemoteRrHeaderLinksTest__UK');
+        expect(result_4_variant).toHaveProperty('name');
+        expect(result_4_variant.name).toBe('remote');
+    })
+})

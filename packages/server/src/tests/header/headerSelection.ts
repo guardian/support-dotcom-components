@@ -155,7 +155,7 @@ const selectBestTest = (
     };
 };
 
-const selectHardcodedTest = (targeting: HeaderTargeting): HeaderTestSelection => {
+export const selectHardcodedTest = (targeting: HeaderTargeting): HeaderTestSelection => {
     console.log('SELECT HARDCODED TEST');
     console.log('TARGETING');
     console.log(targeting);
