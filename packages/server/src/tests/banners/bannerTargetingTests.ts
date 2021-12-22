@@ -30,7 +30,7 @@ export const variantCanShow = (targeting: BannerTargeting): boolean => {
 
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
-        name: '2021-12-02_BannerTargeting_SubsOncePerWeek',
+        name: '2021-12-22_BannerTargeting_SubsOncePerWeek',
         canInclude: (targeting: BannerTargeting) => targeting.countryCode !== 'US',
         variants: [
             {
