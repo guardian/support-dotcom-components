@@ -4,7 +4,7 @@ import {
     ArticlesViewedByTagSettings,
     WeeklyArticleHistory,
     WeeklyArticleLog,
-} from '@sdc/shared/types';
+} from '../types/shared';
 
 // From https://github.com/guardian/automat-client-v2/blob/master/src/contributions/lib/dates.ts#L4
 export const getMondayFromDate = (date: Date): number => {

@@ -1,8 +1,8 @@
 {
-  "name": "@sdc/public",
+  "name": "@sdc/dotcom",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/public.js",
+  "main": "dist/dotcom.js",
   "scripts": {
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "build": "webpack --config webpack.prod.js",

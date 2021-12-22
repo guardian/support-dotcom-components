@@ -130,6 +130,11 @@ export type WeeklyArticleLog = {
 
 export type WeeklyArticleHistory = WeeklyArticleLog[];
 
+export interface ArticleCounts {
+    for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
+    forTargetedWeeks: number; // The user's article view count for the configured periodInWeeks
+}
+
 export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;

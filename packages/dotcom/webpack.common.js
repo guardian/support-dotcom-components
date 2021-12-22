@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/public.ts',
+    entry: './src/dotcom.ts',
     target: 'node',
     output: {
-        filename: 'public.js',
+        filename: 'dotcom.js',
         path: path.resolve(__dirname, 'dist'),
     },
     resolve: {

@@ -1,6 +1,7 @@
 import { OphanComponentEvent } from './ophan';
 import {
     ArticlesViewedSettings,
+    ArticleCounts,
     UserCohort,
     Cta,
     SecondaryCta,
@@ -17,7 +18,8 @@ import {
     secondaryCtaSchema,
     ArticlesViewedByTagSettings,
 } from './shared';
-import { ReminderFields, CountryGroupId } from '../lib';
+import { ReminderFields } from '../lib/reminderFields';
+import { CountryGroupId } from '../lib/geolocation';
 import { z } from 'zod';
 
 export type Tag = {
@@ -61,11 +63,6 @@ export type EpicPayload = {
 };
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
-
-export interface ArticleCounts {
-    for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
-    forTargetedWeeks: number; // The user's article view count for the configured periodInWeeks
-}
 
 const articleCountsSchema = z.object({
     for52Weeks: z.number(),

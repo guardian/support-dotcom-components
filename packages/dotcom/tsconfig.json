@@ -8,6 +8,8 @@
         "strict": true,
         "outDir": "dist"
     },
-    "include": ["src/public.ts"],
+    "include": [
+        "src/dotcom.ts"
+    ],
 //    "references": [{ "path": "../shared" }]
 }
