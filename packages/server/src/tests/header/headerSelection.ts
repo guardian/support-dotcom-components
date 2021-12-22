@@ -1,6 +1,5 @@
-import { header, usEOYHeader } from '@sdc/shared/config';
+import { header } from '@sdc/shared/config';
 import { Edition, HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
-import { isAfter, isBefore } from 'date-fns';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -28,41 +27,32 @@ const nonSupportersTestNonUK: HeaderTest = {
 };
 
 const nonSupportersTestUS = (): HeaderTest => {
-    const givingTuesdayStart = new Date('2021-11-29T17:00:00'); //remove "Subscribe" Monday 12:00 PM EST
-    const givingTuesdayEnd = new Date('2021-12-01T09:00:00'); //re-add "Subscribe" on Wednesday morning GMT
-    const currentDateTime = new Date();
-    const shouldShowSubscribeButton = !(
-        currentDateTime >= givingTuesdayStart && currentDateTime <= givingTuesdayEnd
-    );
+    const nyeStart = new Date('2021-12-31T00:00:00');
+    const nyeEnd = new Date('2022-01-02T00:00:00');
+    const now = new Date();
+
+    const shouldShowSubscribeButton = now < nyeStart || now > nyeEnd;
 
     return {
-        name: 'RemoteRrHeaderLinksTest__USEOY',
+        name: 'RemoteRrHeaderLinksTest__US',
         audience: 'AllNonSupporters',
         variants: [
             {
                 name: 'remote',
-                modulePathBuilder: usEOYHeader.endpointPathBuilder,
+                modulePathBuilder,
                 content: {
                     heading: 'Support the Guardian',
-                    subheading: 'Make a year-end gift',
+                    subheading: 'Available for everyone, funded by readers',
                     primaryCta: {
                         url: 'https://support.theguardian.com/contribute',
                         text: 'Contribute',
                     },
-                    ...(shouldShowSubscribeButton && {
-                        secondaryCta: {
-                            url: 'https://support.theguardian.com/subscribe',
-                            text: 'Subscribe',
-                        },
-                    }),
-                },
-                mobileContent: {
-                    heading: '',
-                    subheading: '',
-                    primaryCta: {
-                        url: 'https://support.theguardian.com/contribute',
-                        text: 'Make a year-end gift',
-                    },
+                    secondaryCta: shouldShowSubscribeButton
+                        ? {
+                              url: 'https://support.theguardian.com/subscribe',
+                              text: 'Subscribe',
+                          }
+                        : undefined,
                 },
             },
         ],
@@ -107,69 +97,13 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const supportersTestUS: HeaderTest = {
-    name: 'header-supporter__USEOY',
-    audience: 'AllExistingSupporters',
-    variants: [
-        {
-            name: 'control',
-            modulePathBuilder: usEOYHeader.endpointPathBuilder,
-            content: {
-                heading: 'Thank you for supporting us',
-                subheading: '',
-                primaryCta: {
-                    url:
-                        'https://support.theguardian.com/us/contribute?selected-contribution-type=ONE_OFF',
-                    text: 'Make an extra contribution',
-                },
-            },
-            mobileContent: {
-                heading: 'Thank you',
-                subheading: '',
-                primaryCta: {
-                    url:
-                        'https://support.theguardian.com/us/contribute?selected-contribution-type=ONE_OFF',
-                    text: 'Contribute again',
-                },
-            },
-        },
-    ],
-};
-
-const usEoyPeriodStart = new Date(2021, 10, 22);
-const usEoyPeriodEnd = new Date(2022, 1, 1);
-
-const isInUsEoyPeriod = (date: Date): boolean => {
-    return isAfter(date, usEoyPeriodStart) && isBefore(date, usEoyPeriodEnd);
-};
-
-const hasNotContributedDuringUsEoyPeriod = (lastOneOffContributionDate?: string): boolean => {
-    if (!lastOneOffContributionDate) {
-        return true;
-    }
-
-    return isBefore(new Date(Date.parse(lastOneOffContributionDate)), usEoyPeriodStart);
-};
-
 const getNonSupportersTest = (edition: Edition): HeaderTest => {
     if (edition === 'UK') {
         return nonSupportersTestUK;
-    }
-    if (edition === 'US' && isInUsEoyPeriod(new Date())) {
+    } else if (edition === 'US') {
         return nonSupportersTestUS();
     }
     return nonSupportersTestNonUK;
-};
-
-const getSupportersTest = (edition: Edition, lastOneOffContributionDate?: string): HeaderTest => {
-    if (
-        edition === 'US' &&
-        isInUsEoyPeriod(new Date()) &&
-        hasNotContributedDuringUsEoyPeriod(lastOneOffContributionDate)
-    ) {
-        return supportersTestUS;
-    }
-    return supportersTest;
 };
 
 export const selectHeaderTest = (
@@ -179,7 +113,7 @@ export const selectHeaderTest = (
         if (targeting.showSupportMessaging) {
             return getNonSupportersTest(targeting.edition);
         } else {
-            return getSupportersTest(targeting.edition, targeting.lastOneOffContributionDate);
+            return supportersTest;
         }
     };
 
