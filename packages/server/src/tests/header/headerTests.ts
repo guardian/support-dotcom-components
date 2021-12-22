@@ -1,16 +1,10 @@
-import { header } from '@sdc/shared/config';
-
 import { HeaderTest } from '@sdc/shared/types';
-
 import { cacheAsync } from '../../lib/cache';
-
-import { isProd, isDev } from '../../lib/env';
-
+import { isProd } from '../../lib/env';
 import { fetchS3Data } from '../../utils/S3';
 
 const fetchConfiguredHeaderTests = (): Promise<HeaderTest[] | []> => {
-
-    const env = (isProd) ? 'PROD' : (isDev) ? 'DEV' : 'CODE';
+    const env = isProd ? 'PROD' : 'CODE';
 
     const key = `header/${env}/header-tests.json`;
 
@@ -18,7 +12,7 @@ const fetchConfiguredHeaderTests = (): Promise<HeaderTest[] | []> => {
     return fetchS3Data('gu-contributions-public', key)
         .then(JSON.parse)
         .then(json => json['tests'])
-        .catch(e => []);
+        .catch(() => []);
 };
 
 const [, fetchConfiguredHeaderTestsCached] = cacheAsync(
@@ -27,6 +21,4 @@ const [, fetchConfiguredHeaderTestsCached] = cacheAsync(
     `fetchConfiguredHeaderTests`,
 );
 
-export {
-    fetchConfiguredHeaderTestsCached,
-};
+export { fetchConfiguredHeaderTestsCached };
