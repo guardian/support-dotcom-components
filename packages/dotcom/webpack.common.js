@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/dotcom.ts',
-    target: 'node',
+    entry: './src/index.ts',
+    // target: 'node',
+    target: ['web', 'es6'],
     output: {
-        filename: 'dotcom.js',
+        filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
     },
     resolve: {

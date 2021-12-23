@@ -9,7 +9,6 @@
         "outDir": "dist"
     },
     "include": [
-        "src/dotcom.ts"
+        "src/index.ts"
     ],
-//    "references": [{ "path": "../shared" }]
 }

@@ -2,10 +2,11 @@
   "name": "@sdc/dotcom",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/dotcom.js",
+  "main": "dist/index.js",
+  "files": ["dist/**/*"],
   "scripts": {
     "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js && yarn types",
     "build-dev": "webpack --config webpack.dev.js",
     "types": "tsc --project tsconfig.types.json",
     "test": "jest"

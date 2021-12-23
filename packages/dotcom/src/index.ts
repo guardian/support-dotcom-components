@@ -6,5 +6,7 @@
  */
 // export * from '../../shared/src/lib/history';
 // export { HeaderTargeting } from '../../shared/src/types/header';
-// export { EpicPayload } from '../../shared/src/types/epic';
-export { EpicPayload } from '@sdc/shared/types';
+// Must import the actual code, not from @sdc/shared/types
+export { EpicPayload } from '../../shared/src/types/epic';
+// export { EpicPayload } from '@sdc/shared/types';
+export { getViewLog, logView } from '../../shared/src/lib/viewLog';
