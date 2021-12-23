@@ -97,11 +97,6 @@ const selectBestTest = (
     targeting: HeaderTargeting,
     allTests: HeaderTest[],
 ): HeaderTestSelection => {
-    console.log('SELECT BEST TEST');
-    console.log('TARGETING');
-    console.log(targeting);
-    console.log('ALLTESTS');
-    console.log(allTests);
 
     // If there is a need to return other specific hardcoded tests/variants, include required logic to identify, and required return, here
 
@@ -156,9 +151,6 @@ const selectBestTest = (
 };
 
 export const selectHardcodedTest = (targeting: HeaderTargeting): HeaderTestSelection => {
-    console.log('SELECT HARDCODED TEST');
-    console.log('TARGETING');
-    console.log(targeting);
 
     // Currently we have 3 hardcoded test/variants in this file
     let selectedTest, selectedVariant;
