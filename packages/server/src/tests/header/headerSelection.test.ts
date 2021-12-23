@@ -3,13 +3,12 @@ import { selectHardcodedTest } from './headerSelection';
 
 describe('selectHardcodedTest', () => {
     it('should return an object including a HeaderTest and a HeaderVariant', () => {
-
         const mockTargetingObject_1: HeaderTargeting = {
-            "showSupportMessaging": true,
-            "edition": "UK",
-            "countryCode": "ck", // Cook Islands (New Zealand dollar region)
-            "modulesVersion": "v3",
-            "mvtId": 900263
+            showSupportMessaging: true,
+            edition: 'UK',
+            countryCode: 'ck', // Cook Islands (New Zealand dollar region)
+            modulesVersion: 'v3',
+            mvtId: 900263,
         };
 
         const result_1: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_1);
@@ -26,11 +25,11 @@ describe('selectHardcodedTest', () => {
         expect(result_1_variant.name).toBe('control');
 
         const mockTargetingObject_2: HeaderTargeting = {
-            "showSupportMessaging": false,
-            "edition": "UK",
-            "countryCode": "ck",
-            "modulesVersion": "v3",
-            "mvtId": 900263
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'ck',
+            modulesVersion: 'v3',
+            mvtId: 900263,
         };
 
         const result_2: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_2);
@@ -47,11 +46,11 @@ describe('selectHardcodedTest', () => {
         expect(result_2_variant.name).toBe('remote');
 
         const mockTargetingObject_3: HeaderTargeting = {
-            "showSupportMessaging": true,
-            "edition": "UK",
-            "countryCode": "im", // Isle of Man (UK sterling region)
-            "modulesVersion": "v3",
-            "mvtId": 900263
+            showSupportMessaging: true,
+            edition: 'UK',
+            countryCode: 'im', // Isle of Man (UK sterling region)
+            modulesVersion: 'v3',
+            mvtId: 900263,
         };
 
         const result_3: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_3);
@@ -68,11 +67,11 @@ describe('selectHardcodedTest', () => {
         expect(result_3_variant.name).toBe('control');
 
         const mockTargetingObject_4: HeaderTargeting = {
-            "showSupportMessaging": false,
-            "edition": "UK",
-            "countryCode": "im",
-            "modulesVersion": "v3",
-            "mvtId": 900263
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
         };
 
         const result_4: HeaderTestSelection = selectHardcodedTest(mockTargetingObject_4);
@@ -87,5 +86,5 @@ describe('selectHardcodedTest', () => {
         expect(result_4_test.name).toBe('RemoteRrHeaderLinksTest__UK');
         expect(result_4_variant).toHaveProperty('name');
         expect(result_4_variant.name).toBe('remote');
-    })
-})
+    });
+});

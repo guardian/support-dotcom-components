@@ -97,7 +97,6 @@ const selectBestTest = (
     targeting: HeaderTargeting,
     allTests: HeaderTest[],
 ): HeaderTestSelection => {
-
     // If there is a need to return other specific hardcoded tests/variants, include required logic to identify, and required return, here
 
     // In case the allTests array is empty, return a hardcoded test/variant
@@ -151,7 +150,6 @@ const selectBestTest = (
 };
 
 export const selectHardcodedTest = (targeting: HeaderTargeting): HeaderTestSelection => {
-
     // Currently we have 3 hardcoded test/variants in this file
     let selectedTest, selectedVariant;
 
