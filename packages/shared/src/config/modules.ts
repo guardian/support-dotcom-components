@@ -75,8 +75,6 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
 
-export const usEOYHeader: ModuleInfo = getDefaultModuleInfo('header', 'header/EoYUSMomentHeader');
-
 export const moduleInfos: ModuleInfo[] = [
     epic,
     epicACByTag,
@@ -91,5 +89,4 @@ export const moduleInfos: ModuleInfo[] = [
     guardianWeekly,
     puzzlesBanner,
     header,
-    usEOYHeader,
 ];
