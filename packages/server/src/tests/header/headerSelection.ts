@@ -8,8 +8,8 @@ import { fetchConfiguredHeaderTestsCached } from './headerTests';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
-// --- hardcoded tests
-const nonSupportersTestNonUK: HeaderTest = {
+// --- hardcoded tests - we export these so the Jest test can test something
+export const nonSupportersTestNonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
     userCohort: 'AllNonSupporters',
     isOn: true,
@@ -41,7 +41,7 @@ const nonSupportersTestNonUK: HeaderTest = {
     ],
 };
 
-const nonSupportersTestUK: HeaderTest = {
+export const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     userCohort: 'AllNonSupporters',
     isOn: true,
@@ -66,7 +66,7 @@ const nonSupportersTestUK: HeaderTest = {
     ],
 };
 
-const supportersTest: HeaderTest = {
+export const supportersTest: HeaderTest = {
     name: 'header-supporter',
     userCohort: 'AllExistingSupporters',
     isOn: true,
@@ -91,9 +91,10 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const existingSupportersAndEveryone = ['Everyone', 'AllExistingSupporters'];
+const isNotReportedAsSupporter = ['AllNonSupporters'];
 
-const selectBestTest = (
+// Again, exported for Jest testing
+export const selectBestTest = (
     targeting: HeaderTargeting,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
@@ -110,11 +111,11 @@ const selectBestTest = (
             return false;
         }
 
-        if (!locations.includes(countryGroupId)) {
+        if (showSupportMessaging && !isNotReportedAsSupporter.includes(userCohort)) {
             return false;
         }
 
-        if (showSupportMessaging && !existingSupportersAndEveryone.includes(userCohort)) {
+        if (!locations.includes(countryGroupId)) {
             return false;
         }
 
