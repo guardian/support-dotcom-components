@@ -3,7 +3,6 @@ import {
     createClickEventFromTracking,
     createInsertEventFromTracking,
     createViewEventFromTracking,
-    NYE_REMINDER_FIELDS,
 } from '@sdc/shared/lib';
 import React, { useEffect } from 'react';
 import {
@@ -95,7 +94,7 @@ const withBannerData = (
 
             return {
                 type: SecondaryCtaType.ContributionsReminder,
-                reminderFields: countryCode === 'US' ? NYE_REMINDER_FIELDS : buildReminderFields(),
+                reminderFields: buildReminderFields(),
             };
         };
 

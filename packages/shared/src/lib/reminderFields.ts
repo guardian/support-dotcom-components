@@ -29,18 +29,6 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const NYE_REMINDER_FIELDS: ReminderFields = {
-    reminderCta: "Remind me on New Year's Eve",
-    reminderPeriod: '2021-12-01',
-    reminderLabel: "on New Year's Eve",
-    reminderOption: 'nye-2021',
-};
-
-export const getReminderFields = (
-    variant: EpicVariant,
-    countryCode?: string,
-): ReminderFields | undefined => {
-    return variant.showReminderFields ?? countryCode === 'US'
-        ? NYE_REMINDER_FIELDS
-        : buildReminderFields();
+export const getReminderFields = (variant: EpicVariant): ReminderFields | undefined => {
+    return variant.showReminderFields ?? buildReminderFields();
 };
