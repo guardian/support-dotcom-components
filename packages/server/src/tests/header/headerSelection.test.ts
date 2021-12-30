@@ -1,19 +1,18 @@
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
-import { selectBestTest, nonSupportersTestNonUK, nonSupportersTestUK, supportersTest } from './headerSelection';
+import { selectBestTest } from './headerSelection';
 
 describe('selectBestTest', () => {
     it('should return an object including a HeaderTest and a HeaderVariant', () => {
-
         interface NullReturn {
             name: string;
-        };
+        }
 
         const testHasReturnedNull: NullReturn = {
-            name: 'test returned is null', 
+            name: 'test returned is null',
         };
 
         const variantHasReturnedNull: NullReturn = {
-            name: 'variant returned is null', 
+            name: 'variant returned is null',
         };
 
         // Not a supporter, not in UK
@@ -26,8 +25,12 @@ describe('selectBestTest', () => {
         };
 
         const result_1: HeaderTestSelection | null = selectBestTest(mockTargetingObject_1, []);
-        const result_1_test: HeaderTest | NullReturn = (result_1) ? result_1.test : testHasReturnedNull;
-        const result_1_variant: HeaderVariant | NullReturn = (result_1) ? result_1.variant : variantHasReturnedNull;
+        const result_1_test: HeaderTest | NullReturn = result_1
+            ? result_1.test
+            : testHasReturnedNull;
+        const result_1_variant: HeaderVariant | NullReturn = result_1
+            ? result_1.variant
+            : variantHasReturnedNull;
         expect(result_1).toBeDefined();
         expect(result_1).toHaveProperty('test');
         expect(result_1).toHaveProperty('variant');
@@ -48,8 +51,12 @@ describe('selectBestTest', () => {
         };
 
         const result_2: HeaderTestSelection | null = selectBestTest(mockTargetingObject_2, []);
-        const result_2_test: HeaderTest | NullReturn = (result_2) ? result_2.test : testHasReturnedNull;
-        const result_2_variant: HeaderVariant | NullReturn = (result_2) ? result_2.variant : variantHasReturnedNull;
+        const result_2_test: HeaderTest | NullReturn = result_2
+            ? result_2.test
+            : testHasReturnedNull;
+        const result_2_variant: HeaderVariant | NullReturn = result_2
+            ? result_2.variant
+            : variantHasReturnedNull;
         expect(result_2).toBeDefined();
         expect(result_2).toHaveProperty('test');
         expect(result_2).toHaveProperty('variant');
@@ -70,8 +77,12 @@ describe('selectBestTest', () => {
         };
 
         const result_3: HeaderTestSelection | null = selectBestTest(mockTargetingObject_3, []);
-        const result_3_test: HeaderTest | NullReturn = (result_3) ? result_3.test : testHasReturnedNull;
-        const result_3_variant: HeaderVariant | NullReturn = (result_3) ? result_3.variant : variantHasReturnedNull;
+        const result_3_test: HeaderTest | NullReturn = result_3
+            ? result_3.test
+            : testHasReturnedNull;
+        const result_3_variant: HeaderVariant | NullReturn = result_3
+            ? result_3.variant
+            : variantHasReturnedNull;
         expect(result_3).toBeDefined();
         expect(result_3).toHaveProperty('test');
         expect(result_3).toHaveProperty('variant');
@@ -92,8 +103,12 @@ describe('selectBestTest', () => {
         };
 
         const result_4: HeaderTestSelection | null = selectBestTest(mockTargetingObject_4, []);
-        const result_4_test: HeaderTest | NullReturn = (result_4) ? result_4.test : testHasReturnedNull;
-        const result_4_variant: HeaderVariant | NullReturn = (result_4) ? result_4.variant : variantHasReturnedNull;
+        const result_4_test: HeaderTest | NullReturn = result_4
+            ? result_4.test
+            : testHasReturnedNull;
+        const result_4_variant: HeaderVariant | NullReturn = result_4
+            ? result_4.variant
+            : variantHasReturnedNull;
         expect(result_4).toBeDefined();
         expect(result_4).toHaveProperty('test');
         expect(result_4).toHaveProperty('variant');
