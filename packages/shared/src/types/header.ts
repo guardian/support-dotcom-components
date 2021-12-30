@@ -2,7 +2,7 @@ import { OphanComponentEvent } from './ophan';
 
 import { CountryGroupId } from '../lib/geolocation';
 
-import { ControlProportionSettings, UserCohort, Test, Variant, Tracking } from './shared';
+import { UserCohort, Test, Variant, Tracking } from './shared';
 
 export interface HeaderCta {
     url: string;
@@ -57,22 +57,4 @@ export interface HeaderTargeting {
     mvtId: number;
     lastOneOffContributionDate?: string;
     numArticles?: number;
-}
-
-export type HeaderTestGenerator = () => Promise<HeaderTest[]>;
-
-export interface RawHeaderVariantParams {
-    name: string;
-    content: HeaderContent;
-    mobileContent?: HeaderContent;
-}
-
-export interface RawHeaderTestParams {
-    name: string;
-    nickname: string;
-    isOn: boolean;
-    locations: CountryGroupId[];
-    userCohort: UserCohort;
-    variants: RawHeaderVariantParams[];
-    controlProportionSettings?: ControlProportionSettings;
 }

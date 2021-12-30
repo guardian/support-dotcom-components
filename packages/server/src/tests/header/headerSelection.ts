@@ -96,78 +96,39 @@ const existingSupportersAndEveryone = ['Everyone', 'AllExistingSupporters'];
 const selectBestTest = (
     targeting: HeaderTargeting,
     allTests: HeaderTest[],
-): HeaderTestSelection => {
-    // If there is a need to return other specific hardcoded tests/variants, include required logic to identify, and required return, here
-
-    // In case the allTests array is empty, return a hardcoded test/variant
-    if (!allTests.length) {
-        return selectHardcodedTest(targeting);
-    }
-
-    // Cascade through allTests to match supplied targeting data to the first test that meets requirements - if no test meets requirements, return an appropriate hardcoded test/variant
-    let selectedTest;
+): HeaderTestSelection | null => {
+    allTests.push(supportersTest, nonSupportersTestUK, nonSupportersTestNonUK);
 
     const { showSupportMessaging, countryCode } = targeting;
 
     const countryGroupId = countryCodeToCountryGroupId(countryCode.toUpperCase());
 
-    for (let i = 0, iz = allTests.length; i < iz; i++) {
-        const test = allTests[i];
-
+    const selectedTest: HeaderTest | undefined = allTests.find(test => {
         const { isOn, userCohort, locations } = test;
 
-        if (isOn) {
-            if (showSupportMessaging && existingSupportersAndEveryone.indexOf(userCohort) >= 0) {
-                if (locations.indexOf(countryGroupId) >= 0) {
-                    selectedTest = test;
-                    break;
-                }
-            } else {
-                if (locations.indexOf(countryGroupId) >= 0) {
-                    selectedTest = test;
-                    break;
-                }
-            }
+        if (!isOn) {
+            return false;
         }
-    }
+
+        if (!locations.includes(countryGroupId)) {
+            return false;
+        }
+
+        if (showSupportMessaging && !existingSupportersAndEveryone.includes(userCohort)) {
+            return false;
+        }
+
+        return true;
+    });
+
     // Failed to find a matching test, or the matching test has an empty variants Array
     if (!selectedTest || !selectedTest.variants.length) {
-        return selectHardcodedTest(targeting);
+        return null;
     }
 
-    // Identify the required variant
     const selectedVariant: HeaderVariant = selectVariant(selectedTest, targeting.mvtId);
 
-    // Return the selected test and variant
     selectedVariant.modulePathBuilder = modulePathBuilder;
-
-    return {
-        test: selectedTest,
-        variant: selectedVariant,
-        moduleName: header.name,
-        modulePathBuilder,
-    };
-};
-
-export const selectHardcodedTest = (targeting: HeaderTargeting): HeaderTestSelection => {
-    // Currently we have 3 hardcoded test/variants in this file
-    let selectedTest, selectedVariant;
-
-    const { showSupportMessaging, countryCode } = targeting;
-
-    const countryGroupId = countryCodeToCountryGroupId(countryCode.toUpperCase());
-
-    if (showSupportMessaging) {
-        (selectedTest = supportersTest), (selectedVariant = supportersTest.variants[0]);
-    } else {
-        if ('GBPCountries' === countryGroupId) {
-            (selectedTest = nonSupportersTestUK),
-                (selectedVariant = nonSupportersTestUK.variants[0]);
-        } else {
-            (selectedTest = nonSupportersTestNonUK),
-                (selectedVariant = nonSupportersTestNonUK.variants[0]);
-        }
-    }
 
     return {
         test: selectedTest,
@@ -182,5 +143,5 @@ export const selectHeaderTest = (
 ): Promise<HeaderTestSelection | null> => {
     return fetchConfiguredHeaderTestsCached()
         .then((allTests: HeaderTest[]) => selectBestTest(targeting, allTests))
-        .catch(() => selectHardcodedTest(targeting));
+        .catch(() => null);
 };
