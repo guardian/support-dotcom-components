@@ -8,8 +8,8 @@ import { fetchConfiguredHeaderTestsCached } from './headerTests';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
-// --- hardcoded tests - we export these so the Jest test can test something
-export const nonSupportersTestNonUK: HeaderTest = {
+// --- hardcoded tests
+const nonSupportersTestNonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
     userCohort: 'AllNonSupporters',
     isOn: true,
@@ -41,7 +41,7 @@ export const nonSupportersTestNonUK: HeaderTest = {
     ],
 };
 
-export const nonSupportersTestUK: HeaderTest = {
+const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     userCohort: 'AllNonSupporters',
     isOn: true,
@@ -66,7 +66,7 @@ export const nonSupportersTestUK: HeaderTest = {
     ],
 };
 
-export const supportersTest: HeaderTest = {
+const supportersTest: HeaderTest = {
     name: 'header-supporter',
     userCohort: 'AllExistingSupporters',
     isOn: true,
@@ -98,8 +98,6 @@ export const selectBestTest = (
     targeting: HeaderTargeting,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
-    allTests.push(supportersTest, nonSupportersTestUK, nonSupportersTestNonUK);
-
     const { showSupportMessaging, countryCode } = targeting;
 
     const countryGroupId = countryCodeToCountryGroupId(countryCode.toUpperCase());
@@ -115,10 +113,13 @@ export const selectBestTest = (
             return false;
         }
 
-        if (!locations.includes(countryGroupId)) {
+        if (!showSupportMessaging && isNotReportedAsSupporter.includes(userCohort)) {
             return false;
         }
 
+        if (!locations.includes(countryGroupId)) {
+            return false;
+        }
         return true;
     });
 
@@ -143,6 +144,12 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     return fetchConfiguredHeaderTestsCached()
-        .then((allTests: HeaderTest[]) => selectBestTest(targeting, allTests))
+        .then((allTests: HeaderTest[]) => {
+            if (allTests == null) {
+                allTests = [];
+            }
+            allTests.push(supportersTest, nonSupportersTestUK, nonSupportersTestNonUK);
+            return selectBestTest(targeting, allTests);
+        })
         .catch(() => null);
 };

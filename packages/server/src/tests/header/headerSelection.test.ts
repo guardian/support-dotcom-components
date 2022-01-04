@@ -1,8 +1,95 @@
+import { header } from '@sdc/shared/config';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 import { selectBestTest } from './headerSelection';
 
 describe('selectBestTest', () => {
     it('should return an object including a HeaderTest and a HeaderVariant', () => {
+        // Mock HeaderTest[] array, as selectBestTest() expects an array which has already had the hardcoded tests (which we are testing against here) added to it
+        const modulePathBuilder = header.endpointPathBuilder;
+
+        const mockTests: HeaderTest[] = [
+            {
+                name: 'RemoteRrHeaderLinksTest__NonUK',
+                userCohort: 'AllNonSupporters',
+                isOn: true,
+                locations: [
+                    'AUDCountries',
+                    'Canada',
+                    'EURCountries',
+                    'NZDCountries',
+                    'UnitedStates',
+                    'International',
+                ],
+                variants: [
+                    {
+                        name: 'remote',
+                        modulePathBuilder,
+                        content: {
+                            heading: 'Support the Guardian',
+                            subheading: 'Available for everyone, funded by readers',
+                            primaryCta: {
+                                url: 'https://support.theguardian.com/contribute',
+                                text: 'Contribute',
+                            },
+                            secondaryCta: {
+                                url: 'https://support.theguardian.com/subscribe',
+                                text: 'Subscribe',
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                name: 'RemoteRrHeaderLinksTest__UK',
+                userCohort: 'AllNonSupporters',
+                isOn: true,
+                locations: ['GBPCountries'],
+                variants: [
+                    {
+                        name: 'remote',
+                        modulePathBuilder,
+                        content: {
+                            heading: 'Support the Guardian',
+                            subheading: 'Available for everyone, funded by readers',
+                            primaryCta: {
+                                url: 'https://support.theguardian.com/subscribe',
+                                text: 'Subscribe',
+                            },
+                            secondaryCta: {
+                                url: 'https://support.theguardian.com/contribute',
+                                text: 'Contribute',
+                            },
+                        },
+                    },
+                ],
+            },
+            {
+                name: 'header-supporter',
+                userCohort: 'AllExistingSupporters',
+                isOn: true,
+                locations: [
+                    'AUDCountries',
+                    'Canada',
+                    'EURCountries',
+                    'GBPCountries',
+                    'NZDCountries',
+                    'UnitedStates',
+                    'International',
+                ],
+                variants: [
+                    {
+                        name: 'control',
+                        modulePathBuilder,
+                        content: {
+                            heading: 'Thank you',
+                            subheading: 'Your support powers our independent journalism',
+                        },
+                    },
+                ],
+            },
+        ];
+
+        // Handle null returns - tests will still fail if presented with this but should give better indication of why test failed
         interface NullReturn {
             name: string;
         }
@@ -15,7 +102,7 @@ describe('selectBestTest', () => {
             name: 'variant returned is null',
         };
 
-        // Not a supporter, not in UK
+        // Mock targeting data: not a supporter, not in UK
         const mockTargetingObject_1: HeaderTargeting = {
             showSupportMessaging: true,
             edition: 'UK',
@@ -24,7 +111,10 @@ describe('selectBestTest', () => {
             mvtId: 900263,
         };
 
-        const result_1: HeaderTestSelection | null = selectBestTest(mockTargetingObject_1, []);
+        const result_1: HeaderTestSelection | null = selectBestTest(
+            mockTargetingObject_1,
+            mockTests,
+        );
         const result_1_test: HeaderTest | NullReturn = result_1
             ? result_1.test
             : testHasReturnedNull;
@@ -41,7 +131,7 @@ describe('selectBestTest', () => {
         expect(result_1_variant).toHaveProperty('name');
         expect(result_1_variant.name).toBe('remote');
 
-        // Is a supporter, not in UK
+        // Mock targeting data: is a supporter, not in UK
         const mockTargetingObject_2: HeaderTargeting = {
             showSupportMessaging: false,
             edition: 'UK',
@@ -50,7 +140,10 @@ describe('selectBestTest', () => {
             mvtId: 900263,
         };
 
-        const result_2: HeaderTestSelection | null = selectBestTest(mockTargetingObject_2, []);
+        const result_2: HeaderTestSelection | null = selectBestTest(
+            mockTargetingObject_2,
+            mockTests,
+        );
         const result_2_test: HeaderTest | NullReturn = result_2
             ? result_2.test
             : testHasReturnedNull;
@@ -67,7 +160,7 @@ describe('selectBestTest', () => {
         expect(result_2_variant).toHaveProperty('name');
         expect(result_2_variant.name).toBe('control');
 
-        // Not a supporter, is in UK
+        // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_3: HeaderTargeting = {
             showSupportMessaging: true,
             edition: 'UK',
@@ -76,7 +169,10 @@ describe('selectBestTest', () => {
             mvtId: 900263,
         };
 
-        const result_3: HeaderTestSelection | null = selectBestTest(mockTargetingObject_3, []);
+        const result_3: HeaderTestSelection | null = selectBestTest(
+            mockTargetingObject_3,
+            mockTests,
+        );
         const result_3_test: HeaderTest | NullReturn = result_3
             ? result_3.test
             : testHasReturnedNull;
@@ -93,7 +189,7 @@ describe('selectBestTest', () => {
         expect(result_3_variant).toHaveProperty('name');
         expect(result_3_variant.name).toBe('remote');
 
-        // Is a supporter, is in UK
+        // Mock targeting data: is a supporter, is in UK
         const mockTargetingObject_4: HeaderTargeting = {
             showSupportMessaging: false,
             edition: 'UK',
@@ -102,7 +198,10 @@ describe('selectBestTest', () => {
             mvtId: 900263,
         };
 
-        const result_4: HeaderTestSelection | null = selectBestTest(mockTargetingObject_4, []);
+        const result_4: HeaderTestSelection | null = selectBestTest(
+            mockTargetingObject_4,
+            mockTests,
+        );
         const result_4_test: HeaderTest | NullReturn = result_4
             ? result_4.test
             : testHasReturnedNull;
