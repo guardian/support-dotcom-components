@@ -34,6 +34,9 @@ export const selectWithSeed = <V extends Variant>(
  */
 export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvtId: number): V => {
     const control = test.variants.find(v => v.name.toLowerCase() === 'control');
+    const seed = test.name.startsWith('SINGLE_FRONT_DOOR') ? 'SINGLE_FRONT_DOOR' : test.name;
+
+    console.log('SEED --->', seed);
 
     if (test.controlProportionSettings && control) {
         if (
@@ -47,11 +50,11 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
         } else {
             const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
             if (otherVariants.length > 0) {
-                return selectWithSeed(mvtId, test.name, otherVariants);
+                return selectWithSeed(mvtId, seed, otherVariants);
             }
             return control;
         }
     }
 
-    return selectWithSeed(mvtId, test.name, test.variants);
+    return selectWithSeed(mvtId, seed, test.variants);
 };

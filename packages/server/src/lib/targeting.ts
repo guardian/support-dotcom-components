@@ -1,4 +1,4 @@
-import { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
+import { EpicTargeting, EpicType, ViewLog, Test, Variant } from '@sdc/shared/types';
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
@@ -52,15 +52,14 @@ export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): bo
     );
 };
 
-interface Test {
-    audienceOffset?: number;
-    audience?: number;
-}
-
 // https://github.com/guardian/ab-testing/blob/main/packages/ab-core/src/core.ts#L56
-export const userIsInTest = (test: Test, mvtId: number): boolean => {
+export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): boolean => {
+    const audienceSize = test.name.startsWith('SINGLE_FRONT_DOOR') ? 0.3 : test.audience || 1;
+
+    console.log('audienceSize --->', audienceSize);
+
     const maxMVTId = 1000000;
     const lowest = maxMVTId * (test.audienceOffset || 0);
-    const highest = lowest + maxMVTId * (test.audience || 1);
+    const highest = lowest + maxMVTId * audienceSize;
     return mvtId >= lowest && mvtId <= highest;
 };

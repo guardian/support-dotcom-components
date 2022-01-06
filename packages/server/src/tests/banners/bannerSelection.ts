@@ -128,8 +128,12 @@ export const selectBannerTest = async (
         return Promise.resolve(null);
     }
 
+    console.log('tests --->', tests);
+
     for (const test of tests) {
         const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
+
+        console.log('test name --->', test.name);
 
         if (
             !targeting.shouldHideReaderRevenue &&
@@ -153,6 +157,7 @@ export const selectBannerTest = async (
                 now,
             ))
         ) {
+            console.log('selected test name --->', test.name);
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
             const bannerTestSelection = {
                 test,
