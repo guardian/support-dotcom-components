@@ -341,6 +341,10 @@ export const buildHeaderData = async (
     targeting: HeaderTargeting,
     baseUrl: string,
 ): Promise<HeaderDataResponse> => {
+    const { enableHeaders } = await cachedChannelSwitches();
+    if (!enableHeaders) {
+        return {};
+    }
     const testSelection = await selectHeaderTest(targeting);
     if (testSelection) {
         const { test, variant } = testSelection;
