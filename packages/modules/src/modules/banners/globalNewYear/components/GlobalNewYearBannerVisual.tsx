@@ -100,7 +100,6 @@ const imageContainer = css`
 const GlobalNewYearBannerVisual = (): JSX.Element => (
     <div css={container}>
         <div css={imageContainer}>
-            {/*eslint-disable */}
             <svg viewBox="0 0 897 925" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g>
                     <path
@@ -3041,7 +3040,6 @@ const GlobalNewYearBannerVisual = (): JSX.Element => (
                     />
                 </g>
             </svg>
-            {/*eslint-enable */}
         </div>
     </div>
 );
