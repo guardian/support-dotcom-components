@@ -5,19 +5,18 @@ import { space } from '@guardian/src-foundations';
 
 const container = css`
     width: 50%;
-    padding-top: 45%;
+    padding-top: 55%;
     position: relative;
     float: right;
-    overflow: hidden;
+    clip-path: inset(0% -100% 0% -100%);
+    -webkit-clip-path: inset(0% -100% 0% -100%);
 
     ${from.mobileMedium} {
-        padding-top: 40%;
         width: 55%;
     }
 
     ${from.mobileLandscape} {
-        padding-top: 0;
-        padding-bottom: 35%;
+        padding-top: 45%;
     }
 
     ${from.phablet} {
@@ -50,20 +49,26 @@ const container = css`
 
 const imageContainer = css`
     position: absolute;
-    left: 0;
+    left: -35px;
     right: 0;
-    bottom: -100px;
-    width: 100%;
+    bottom: -60px;
+    width: 140%;
 
     ${from.mobileMedium} {
+        left: -20px;
+        width: 120%;
         margin-right: -${space[3]}px;
     }
 
     ${from.mobileLandscape} {
+        bottom: -70px;
+        left: 0;
         margin-right: -${space[5]}px;
+        width: 100%;
     }
 
     ${from.phablet} {
+        bottom: -80px;
         margin-left: ${space[5]}px;
     }
 

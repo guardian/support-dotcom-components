@@ -10,7 +10,7 @@ const styles = {
         position: relative;
     `,
     header: css`
-        padding: ${space[2]}px ${space[3]}px;
+        padding: ${space[2]}px 0 ${space[2]}px ${space[3]}px;
         margin: 0;
 
         h2 {
