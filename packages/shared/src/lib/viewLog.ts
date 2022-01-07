@@ -11,9 +11,13 @@
 // the Frontend view log. As Automat grows, we'll move towards a more
 // centralised way of managing the slot state from an upper level.
 
-// The key must be backwards compatible with Frontend.
-import { ViewLog } from '../types';
+interface View {
+    date: number;
+    testId: string;
+}
+export type ViewLog = View[];
 
+// The key must be backwards compatible with Frontend.
 const viewKey = 'gu.contributions.views';
 
 // Hard limit on the number of entries to keep in the viewLog.

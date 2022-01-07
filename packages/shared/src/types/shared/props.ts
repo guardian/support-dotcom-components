@@ -1,19 +1,8 @@
 import * as z from 'zod';
-import {
-    OphanComponentType,
-    ophanComponentTypeSchema,
-    OphanProduct,
-    ophanProductSchema,
-} from './ophan';
+import { ophanComponentTypeSchema, ophanProductSchema } from '../ophan';
+import { PageTracking, TestTracking } from '../shared';
 
-export interface Variant {
-    name: string;
-}
-export interface Test<V extends Variant> {
-    name: string;
-    variants: V[];
-    controlProportionSettings?: ControlProportionSettings;
-}
+export type Stage = 'PROD' | 'CODE' | 'DEV';
 
 export interface Cta {
     text: string;
@@ -59,12 +48,6 @@ export const secondaryCtaSchema = z.union([
     customSecondaryCtaSchema,
     contributionsReminderSecondaryCtaSchema,
 ]);
-
-export type UserCohort =
-    | 'AllExistingSupporters'
-    | 'AllNonSupporters'
-    | 'Everyone'
-    | 'PostAskPauseSingleContributors';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -117,70 +100,6 @@ export const tickerSettingsSchema = z.object({
     copy: tickerCopySchema,
     tickerData: tickerDataSchema.optional(),
 });
-
-export type TagCounts = {
-    [tag: string]: number;
-};
-
-export type WeeklyArticleLog = {
-    week: number;
-    count: number;
-    tags?: TagCounts;
-};
-
-export type WeeklyArticleHistory = WeeklyArticleLog[];
-
-export interface ArticleCounts {
-    for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
-    forTargetedWeeks: number; // The user's article view count for the configured periodInWeeks
-}
-
-export interface ArticlesViewedSettings {
-    minViews: number;
-    maxViews?: number;
-    periodInWeeks: number;
-}
-
-export interface ArticlesViewedByTagSettings {
-    tagId: string;
-    minViews: number;
-    periodInWeeks: number;
-}
-
-export interface ControlProportionSettings {
-    proportion: number;
-    offset: number;
-}
-
-export type Stage = 'PROD' | 'CODE' | 'DEV';
-
-/**
- * Targeting tests are for experimenting with targeting rules.
- * It is not a message test and should not affect what the user sees once they're in a test.
- * But we do need to carry the test/variant names through in the tracking.
- */
-export interface TargetingAbTest {
-    testName: string;
-    variantName: string;
-}
-
-export type TestTracking = {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
-    campaignId?: string;
-    componentType: OphanComponentType;
-    products?: OphanProduct[];
-    labels?: string[];
-    targetingAbTest?: TargetingAbTest;
-};
-
-export type PageTracking = {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-};
 
 export type Tracking = TestTracking & PageTracking;
 

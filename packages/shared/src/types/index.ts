@@ -4,3 +4,4 @@ export * from './header';
 export * from './ophan';
 export * from './shared';
 export * from './reminders';
+export { ViewLog } from '../lib/viewLog';

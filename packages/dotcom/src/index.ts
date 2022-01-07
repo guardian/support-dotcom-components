@@ -10,3 +10,5 @@
 // export { EpicPayload } from '../../shared/src/types/epic';
 // export { EpicPayload } from '@sdc/shared/types';
 export { getViewLog, logView } from '../../shared/src/lib/viewLog';
+
+// export { EpicPayload } from '../../shared/src/types/epic/payload';
