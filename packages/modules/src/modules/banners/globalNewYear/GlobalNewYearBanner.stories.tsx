@@ -1,0 +1,50 @@
+import React from 'react';
+import { Story, Meta } from '@storybook/react';
+import { GlobalNewYearBanner } from './GlobalNewYearBanner';
+import { props } from '../utils/storybook';
+import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
+
+export default {
+    component: GlobalNewYearBanner,
+    title: 'Banners/GlobalNewYear',
+    args: props,
+} as Meta;
+
+const Template: Story<BannerProps> = (props: BannerProps) => <GlobalNewYearBanner {...props} />;
+
+export const WithoutArticleCount = Template.bind({});
+WithoutArticleCount.args = {
+    ...props,
+    mobileContent: {
+        heading: 'What if the headline is very long like this?',
+        messageText:
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone. Show your support today from just $1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support The Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
+    },
+    content: {
+        heading: 'What if the headline is very long like this?',
+        messageText:
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone. Show your support today from just $1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support the Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
+        secondaryCta: {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Hear from our editor',
+                baseUrl: 'https://theguardian.com',
+            },
+        },
+    },
+    numArticles: 0,
+};
+
+export const WithArticleCount = Template.bind({});
+WithArticleCount.args = {
+    ...WithoutArticleCount.args,
+    numArticles: 321,
+};

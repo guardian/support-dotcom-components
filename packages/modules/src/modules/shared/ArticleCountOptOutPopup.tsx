@@ -21,9 +21,13 @@ export type ArticleCountOptOutType =
     | 'epic'
     | 'banner'
     | 'investigations-moment-banner'
-    | 'us-eoy-moment-banner';
+    | 'us-eoy-moment-banner'
+    | 'global-new-year-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
-    type === 'banner' || type === 'investigations-moment-banner' || type === 'us-eoy-moment-banner';
+    type === 'banner' ||
+    type === 'investigations-moment-banner' ||
+    type === 'us-eoy-moment-banner' ||
+    type === 'global-new-year-banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;
