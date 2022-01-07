@@ -32,6 +32,7 @@ const styles = {
     headerContainer: css`
         margin: 0 -${space[3]}px;
         display: inline-block;
+        max-width: 50%;
 
         ${from.mobileLandscape} {
             margin: 0 -${space[5]}px;
@@ -39,6 +40,7 @@ const styles = {
 
         ${from.tablet} {
             margin: 0;
+            max-width: none;
         }
     `,
     horizontalRule: css`

@@ -15,7 +15,6 @@ const styles = {
 
         h2 {
             ${headline.xsmall({ fontWeight: 'bold' })}
-            max-width: 55%;
             margin: 0;
             color: ${neutral[0]};
             font-size: 24px;
