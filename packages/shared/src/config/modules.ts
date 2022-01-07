@@ -60,7 +60,7 @@ export const usEoyMomentGivingTuesdayBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
     'global-new-year-banner',
-    'banners/globalNewYear/globalNewYearBanner',
+    'banners/globalNewYear/GlobalNewYearBanner',
 );
 
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
