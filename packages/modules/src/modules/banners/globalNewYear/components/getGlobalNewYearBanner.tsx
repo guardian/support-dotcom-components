@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brand, neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Container } from '@guardian/src-layout';
 import { BannerRenderProps } from '../../common/types';
@@ -14,7 +14,7 @@ import GlobalNewYearBannerVisual from './GlobalNewYearBannerVisual';
 const styles = {
     outerContainer: css`
         background: #f79e1b;
-        border-top: 1px solid ${brand[400]};
+        border-top: 1px solid ${neutral[0]};
     `,
     container: css`
         position: relative;
@@ -32,15 +32,26 @@ const styles = {
     headerContainer: css`
         margin: 0 -${space[3]}px;
         display: inline-block;
-        max-width: 50%;
+        max-width: 45%;
 
         ${from.mobileLandscape} {
+            max-width: 50%;
             margin: 0 -${space[5]}px;
         }
 
         ${from.tablet} {
+            max-width: 58%;
             margin: 0;
-            max-width: none;
+        }
+
+        ${from.desktop} {
+            max-width: 66%;
+            font-size: 43px;
+        }
+
+        ${from.leftCol} {
+            max-width: 64%;
+            font-size: 50px;
         }
     `,
     horizontalRule: css`
@@ -67,10 +78,6 @@ const styles = {
 
         ${from.desktop} {
             max-width: 66%;
-        }
-
-        ${from.leftCol} {
-            max-width: 64%;
         }
 
         ${from.leftCol} {

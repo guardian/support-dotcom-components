@@ -21,22 +21,15 @@ const styles = {
             line-height: 115%;
 
             ${from.tablet} {
-                max-width: 55%;
                 font-size: 36px;
             }
 
             ${from.desktop} {
-                max-width: 65%;
                 font-size: 43px;
             }
 
             ${from.leftCol} {
-                max-width: 75%;
                 font-size: 50px;
-            }
-
-            ${from.wide} {
-                max-width: 85%;
             }
         }
 
