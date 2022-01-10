@@ -20,6 +20,7 @@ const styles = {
         position: relative;
         overflow: hidden;
         max-width: 1300px;
+        margin: 0 auto;
 
         * {
             box-sizing: border-box;
@@ -50,7 +51,12 @@ const styles = {
         }
 
         ${from.leftCol} {
-            max-width: 64%;
+            max-width: 70%;
+            font-size: 50px;
+        }
+
+        ${from.wide} {
+            max-width: 74%;
             font-size: 50px;
         }
     `,
