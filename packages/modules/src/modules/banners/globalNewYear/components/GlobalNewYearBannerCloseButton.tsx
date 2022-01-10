@@ -1,9 +1,9 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brand } from '@guardian/src-foundations';
 import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
+import { neutral } from '@guardian/src-foundations/palette';
 
 const styles = {
     container: css`
@@ -11,8 +11,8 @@ const styles = {
     `,
     closeButton: css`
         background-color: #f79e1b;
-        color: ${brand[400]};
-        border: 1px solid ${brand[400]};
+        color: ${neutral[0]};
+        border: 1px solid ${neutral[0]};
 
         &:hover {
             background-color: white;

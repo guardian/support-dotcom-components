@@ -6,6 +6,7 @@ import { LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { neutral } from '@guardian/src-foundations/palette';
 
 const styles = {
     container: css`
@@ -24,6 +25,16 @@ const styles = {
         &:hover {
             background-color: white;
             color: #007abc;
+        }
+    `,
+
+    tertiaryCta: css`
+        background-color: #f79e1b;
+        color: ${neutral[0]};
+        border: 1px solid ${neutral[0]};
+
+        &:hover {
+            background-color: white;
         }
     `,
 };
@@ -90,6 +101,7 @@ export function GlobalNewYearBannerCtas({
                             onClick={onSecondaryCtaClick}
                             size="default"
                             priority="tertiary"
+                            cssOverrides={styles.tertiaryCta}
                         >
                             {desktopCtas.secondary.cta.ctaText}
                         </LinkButton>
