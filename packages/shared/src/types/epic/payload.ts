@@ -1,5 +1,5 @@
-import { ViewLog } from '../../lib/viewLog';
-import { PageTracking, WeeklyArticleHistory } from '../shared';
+import { EpicViewLog } from '../../lib/viewLog';
+import { PageTracking, WeeklyArticleHistory } from '../shared/payload';
 
 export type Tag = {
     id: string;
@@ -12,13 +12,12 @@ export type EpicTargeting = {
     sectionId?: string;
     shouldHideReaderRevenue: boolean;
 
-    // TODO let's replace these with Design Type/a single property after migration
     isMinuteArticle: boolean;
     isPaidContent: boolean;
 
     tags: Tag[];
     mvtId?: number;
-    epicViewLog?: ViewLog;
+    epicViewLog?: EpicViewLog;
     countryCode?: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;

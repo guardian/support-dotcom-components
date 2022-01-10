@@ -11,5 +11,5 @@
         "emitDeclarationOnly": true
     },
     "exclude": ["**/*.test.ts", "dist/**/*"],
-    "files": ["./src/index.ts"]
+    "files": ["./src/index.ts","./src/types.ts"]
 }

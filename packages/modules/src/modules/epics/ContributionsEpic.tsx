@@ -23,8 +23,8 @@ import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
-import { logEpicView } from './utils/epicViewLog';
 import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
+import { logEpicView } from '@sdc/shared/lib';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';

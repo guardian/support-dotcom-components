@@ -16,3 +16,12 @@ export type WeeklyArticleLog = {
 };
 
 export type WeeklyArticleHistory = WeeklyArticleLog[];
+
+/**
+ * This interface is duplicated from the @guardian/libs definition of StorageFactory. This is to avoid adding the
+ * whole library as a dependency.
+ */
+export interface LocalStorage {
+    set(key: string, value: unknown): void;
+    get(key: string): any;
+}
