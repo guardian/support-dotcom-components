@@ -9,6 +9,7 @@ deployments:
             prefixStack: false
             cacheControl: max-age=300
             surrogateControl: max-age=300
+            publicReadAcl: true
 
     dotcom-components-cloudformation:
         type: cloud-formation

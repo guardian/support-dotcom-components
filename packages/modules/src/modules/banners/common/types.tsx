@@ -10,7 +10,8 @@ export type BannerId =
     | 'subscription-banner'
     | 'weekly-banner'
     | 'us-eoy-moment-banner'
-    | 'us-eoy-giving-tuesday-moment-banner';
+    | 'us-eoy-giving-tuesday-moment-banner'
+    | 'global-new-year-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;
