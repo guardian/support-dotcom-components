@@ -1,4 +1,3 @@
-// Returns the previous monday for the given date, in days since epoch
 import { LocalStorage, TagCounts, WeeklyArticleHistory, WeeklyArticleLog } from '../types/payloads';
 
 const weeklyArticleCountKey = 'gu.history.weeklyArticleCount';
@@ -11,6 +10,7 @@ export interface ArticleCountsThisWeek {
     };
 }
 
+// Returns the previous monday for the given date, in days since epoch
 export const getMondayFromDate = (date: Date): number => {
     const day = date.getDay() || 7; // Sunday is 0, so set it to 7
     const time = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() - (day - 1));
@@ -18,7 +18,7 @@ export const getMondayFromDate = (date: Date): number => {
 };
 
 /**
- * Return the weekly article history object
+ * Returns the weekly article history object
  */
 export const getWeeklyArticleHistory = (
     localStorage: LocalStorage,
@@ -58,6 +58,7 @@ const articleHasBeenViewedThisWeek = (localStorage: LocalStorage, pageId: string
 
 const tagsOfInterest = new Set<string>([
     'environment/climate-change',
+    'environment/climate-crisis',
     'environment/environment',
     'science/science',
     'politics/politics',

@@ -1,3 +1,7 @@
+/**
+ * Note - zod validators for these ophan types are in /props/shared.ts
+ * This is to avoid including zod in the dotcom library
+ */
 export type OphanProduct =
     | 'CONTRIBUTION'
     | 'MEMBERSHIP_SUPPORTER'

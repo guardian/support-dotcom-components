@@ -1,9 +1,9 @@
+import { LocalStorage } from '../types/payloads/shared';
+
 /**
  * We log epic views in this local storage item.
  * This is used to limit the number of epics a browser sees in a period of time.
  */
-import { LocalStorage } from '../types/payloads/shared';
-
 const viewLogKey = 'gu.contributions.views';
 
 const maxLogEntries = 50;
