@@ -21,7 +21,7 @@ yarn setup
 This will do an initial build of the project. This should make your IDE happy with imports like
 
 ```ts
-import { EpicProps } from '@sdc/shared/types;
+import { EpicProps } from '@sdc/shared/types;'
 ```
 
 Which need the `@sdc/shared` package to have been built.
