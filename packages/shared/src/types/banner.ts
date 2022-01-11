@@ -68,7 +68,6 @@ export enum BannerTemplate {
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     UsEoyMomentBanner = 'UsEoyMomentBanner',
     UsEoyMomentGivingTuesdayBanner = 'UsEoyMomentGivingTuesdayBanner',
-    GlobalNewYearBanner = 'GlobalNewYearBanner',
 }
 
 export interface BannerVariant extends Variant {

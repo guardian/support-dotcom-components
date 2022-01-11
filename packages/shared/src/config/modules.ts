@@ -58,11 +58,6 @@ export const usEoyMomentGivingTuesdayBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/usEoyMoment/UsEoyMomentGivingTuesdayBanner',
 );
 
-export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
-    'global-new-year-banner',
-    'banners/globalNewYear/GlobalNewYearBanner',
-);
-
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -90,7 +85,6 @@ export const moduleInfos: ModuleInfo[] = [
     environmentMomentBanner,
     usEoyMomentBanner,
     usEoyMomentGivingTuesdayBanner,
-    globalNewYearBanner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,

@@ -23,7 +23,6 @@ const COLOURS = {
     banner: brandAltText.primary,
     ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
-    ['global-new-year-banner']: neutral[0],
 };
 
 const BACKGROUND_COLOURS = {
@@ -31,7 +30,6 @@ const BACKGROUND_COLOURS = {
     banner: brandAltBackground.primary,
     ['investigations-moment-banner']: neutral[100],
     ['us-eoy-moment-banner']: '#FFEEDB',
-    ['global-new-year-banner']: '#F79E1B',
 };
 
 const BORDER_COLOURS = {
@@ -39,7 +37,6 @@ const BORDER_COLOURS = {
     banner: brandAltLine.primary,
     ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
-    ['global-new-year-banner']: neutral[0],
 };
 
 const BUTTON_THEMES = {
@@ -47,7 +44,6 @@ const BUTTON_THEMES = {
     banner: brandAltTheme,
     ['investigations-moment-banner']: buttonDefaultTheme,
     ['us-eoy-moment-banner']: buttonDefaultTheme,
-    ['global-new-year-banner']: buttonDefaultTheme,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
@@ -96,7 +92,6 @@ const NOTE_LINK_COLOURS = {
     banner: brandAltText.primary,
     ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
-    ['global-new-year-banner']: neutral[0],
 };
 
 const BUTTON_OVERRIDES = {
@@ -119,16 +114,6 @@ const BUTTON_OVERRIDES = {
             background-color: ${culture[350]};
             color: ${neutral[100]};
             border: 1px solid ${culture[350]};
-        }
-    `,
-    ['global-new-year-banner']: css`
-        color: ${neutral[7]};
-        border: 1px solid ${neutral[7]};
-
-        &:hover {
-            background-color: ${brand[500]};
-            color: ${neutral[100]};
-            border: 1px solid ${brand[500]};
         }
     `,
 };
@@ -155,17 +140,6 @@ const PRIMARY_BUTTON_OVERRIDES = {
             background-color: ${culture[350]};
             color: ${neutral[100]};
             border: 1px solid ${culture[350]};
-        }
-    `,
-    ['global-new-year-banner']: css`
-        background-color: ${neutral[0]};
-        color: ${neutral[100]};
-        border: 1px solid ${neutral[0]};
-
-        &:hover {
-            background-color: ${brand[500]};
-            color: ${neutral[100]};
-            border: 1px solid ${brand[500]};
         }
     `,
 };
