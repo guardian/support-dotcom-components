@@ -14,7 +14,7 @@ import GlobalNewYearBannerVisual from './GlobalNewYearBannerVisual';
 const styles = {
     outerContainer: css`
         background: #f79e1b;
-        border-top: 1px solid ${neutral[0]};
+        border-top: 3px solid ${neutral[0]};
     `,
     container: css`
         position: relative;
