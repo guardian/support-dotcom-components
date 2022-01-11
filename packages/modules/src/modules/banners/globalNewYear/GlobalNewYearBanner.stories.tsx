@@ -16,20 +16,20 @@ export const WithoutArticleCount = Template.bind({});
 WithoutArticleCount.args = {
     ...props,
     content: {
-        heading: 'Will you please help carry us into 2022...',
+        heading: 'As 2022 begins, will you support us?',
         messageText:
             'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone. <strong>Show your support today from just $1, or sustain us long term with a little more. Thank you.</strong>',
         cta: {
             text: 'Support the Guardian',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
-        secondaryCta: {
-            type: SecondaryCtaType.Custom,
-            cta: {
-                text: 'Hear from our editor',
-                baseUrl: 'https://theguardian.com',
-            },
-        },
+        // secondaryCta: {
+        //     type: SecondaryCtaType.Custom,
+        //     cta: {
+        //         text: 'Hear from our editor',
+        //         baseUrl: 'https://theguardian.com',
+        //     },
+        // },
     },
     numArticles: 0,
 };
