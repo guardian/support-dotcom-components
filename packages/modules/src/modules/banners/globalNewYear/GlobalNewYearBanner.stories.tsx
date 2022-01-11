@@ -23,13 +23,13 @@ WithoutArticleCount.args = {
             text: 'Support the Guardian',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
-        // secondaryCta: {
-        //     type: SecondaryCtaType.Custom,
-        //     cta: {
-        //         text: 'Hear from our editor',
-        //         baseUrl: 'https://theguardian.com',
-        //     },
-        // },
+        secondaryCta: {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Hear from our editor',
+                baseUrl: 'https://theguardian.com',
+            },
+        },
     },
     numArticles: 0,
 };
