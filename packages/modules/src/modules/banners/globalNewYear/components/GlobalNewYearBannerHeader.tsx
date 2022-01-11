@@ -17,19 +17,19 @@ const styles = {
             ${headline.xsmall({ fontWeight: 'bold' })}
             margin: 0;
             color: ${neutral[0]};
-            font-size: 24px;
+            font-size: 30px;
             line-height: 115%;
 
             ${from.tablet} {
-                font-size: 36px;
+                font-size: 34px;
             }
 
             ${from.desktop} {
-                font-size: 43px;
+                font-size: 47px;
             }
 
             ${from.leftCol} {
-                font-size: 50px;
+                font-size: 55px;
             }
         }
 
