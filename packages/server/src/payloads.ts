@@ -364,7 +364,7 @@ export const buildHeaderData = async (
             data: {
                 module: {
                     url: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-                    name: header.name,
+                    name: 'Header',
                     props: {
                         content: variant.content,
                         mobileContent: variant.mobileContent,

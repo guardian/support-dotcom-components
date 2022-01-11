@@ -1,4 +1,4 @@
-import { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
+import { EpicTargeting, EpicType, EpicViewLog } from '@sdc/shared/types';
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
@@ -14,7 +14,7 @@ export interface ThrottleConfig {
 // Note, if testID is provided, will thottle against views only for that
 // specific test, otherwise will apply a global throttle.
 export const shouldThrottle = (
-    log: ViewLog,
+    log: EpicViewLog,
     config: ThrottleConfig,
     testId?: string,
     now: Date = new Date(),
