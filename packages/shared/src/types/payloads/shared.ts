@@ -23,5 +23,6 @@ export type WeeklyArticleHistory = WeeklyArticleLog[];
  */
 export interface LocalStorage {
     set(key: string, value: unknown): void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     get(key: string): any;
 }

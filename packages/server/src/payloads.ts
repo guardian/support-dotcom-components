@@ -1,6 +1,5 @@
 import {
     epic as epicModule,
-    header,
     liveblogEpic as liveblogEpicModule,
     puzzlesBanner,
 } from '@sdc/shared/config';
