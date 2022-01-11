@@ -18,7 +18,7 @@ WithoutArticleCount.args = {
     content: {
         heading: 'Will you please help carry us into 2022...',
         messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone. Show your support today from just $1, or sustain us long term with a little more. Thank you.',
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone. <strong>Show your support today from just $1, or sustain us long term with a little more. Thank you.</strong>',
         cta: {
             text: 'Support the Guardian',
             baseUrl: 'https://support.theguardian.com/contribute',
