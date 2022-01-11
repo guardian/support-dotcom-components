@@ -54,11 +54,6 @@ const styles = {
             max-width: 70%;
             font-size: 50px;
         }
-
-        ${from.wide} {
-            max-width: 74%;
-            font-size: 50px;
-        }
     `,
     horizontalRule: css`
         clear: both;
