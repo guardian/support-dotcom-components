@@ -1,5 +1,5 @@
 // Returns the previous monday for the given date, in days since epoch
-import { LocalStorage, TagCounts, WeeklyArticleHistory, WeeklyArticleLog } from '../types';
+import { LocalStorage, TagCounts, WeeklyArticleHistory, WeeklyArticleLog } from '../types/payloads';
 
 const weeklyArticleCountKey = 'gu.history.weeklyArticleCount';
 const articleCountsThisWeekKey = 'gu.history.articleCountsThisWeek';

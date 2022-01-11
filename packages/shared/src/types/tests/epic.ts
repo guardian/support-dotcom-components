@@ -3,14 +3,12 @@ import {
     ArticlesViewedByTagSettings,
     ArticlesViewedSettings,
     ControlProportionSettings,
-    Cta,
-    SecondaryCta,
     Test,
-    TickerSettings,
     UserCohort,
     Variant,
-} from '../shared';
-import { EpicTargeting } from './payload';
+} from './shared';
+import { EpicTargeting } from '../payloads';
+import { Cta, SecondaryCta, TickerSettings } from '../props';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 

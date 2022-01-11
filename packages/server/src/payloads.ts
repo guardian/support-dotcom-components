@@ -46,6 +46,7 @@ interface EpicDataResponse {
     data?: {
         module: {
             url: string;
+            name: string;
             props: EpicProps;
         };
         variant: EpicVariant;
@@ -235,6 +236,7 @@ export const buildEpicData = async (
             meta: testTracking,
             module: {
                 url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
+                name: 'ContributionsEpic',
                 props,
             },
         },

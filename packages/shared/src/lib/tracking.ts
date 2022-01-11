@@ -1,8 +1,7 @@
-import { BannerTest, BannerVariant } from '../types/banner';
 import { OphanAction, OphanComponentEvent } from '../types/ophan';
 import { addRegionIdToSupportUrl } from './geolocation';
-import { Tracking } from '../types/shared';
-import { EpicTest, EpicVariant } from '../types/epic/test';
+import { EpicTest, EpicVariant, Tracking } from '../types';
+import { BannerTest, BannerVariant } from '../types/tests/banner';
 
 type LinkParams = {
     REFPVID: string;

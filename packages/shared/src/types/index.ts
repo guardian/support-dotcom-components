@@ -1,7 +1,6 @@
-export * from './banner';
-export * from './epic';
-export * from './header';
 export * from './ophan';
-export * from './shared';
 export * from './reminders';
+export * from './props';
+export * from './payloads';
+export * from './tests';
 export { EpicViewLog } from '../lib/viewLog';

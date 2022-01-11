@@ -1,1 +1,2 @@
-export { EpicPayload } from '../../shared/src/types/epic/payload';
+export * from '../../shared/src/types/payloads';
+export { ModuleDataResponse, ModuleData } from './requests';

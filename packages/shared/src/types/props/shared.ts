@@ -1,6 +1,6 @@
 import * as z from 'zod';
-import { ophanComponentTypeSchema, ophanProductSchema } from '../ophan';
-import { PageTracking, TestTracking } from '../shared';
+import { PageTracking } from '../payloads';
+import { TestTracking } from '../tests';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
@@ -100,6 +100,21 @@ export const tickerSettingsSchema = z.object({
     copy: tickerCopySchema,
     tickerData: tickerDataSchema.optional(),
 });
+
+export const ophanProductSchema = z.enum([
+    'CONTRIBUTION',
+    'MEMBERSHIP_SUPPORTER',
+    'DIGITAL_SUBSCRIPTION',
+    'PRINT_SUBSCRIPTION',
+]);
+
+export const ophanComponentTypeSchema = z.enum([
+    'ACQUISITIONS_EPIC',
+    'ACQUISITIONS_ENGAGEMENT_BANNER',
+    'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    'ACQUISITIONS_HEADER',
+    'ACQUISITIONS_OTHER',
+]);
 
 export type Tracking = TestTracking & PageTracking;
 

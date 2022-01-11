@@ -2,13 +2,13 @@ import { z } from 'zod';
 import {
     ctaSchema,
     secondaryCtaSchema,
+    Stage,
     tickerSettingsSchema,
     Tracking,
     trackingSchema,
-} from '../shared/props';
+} from './shared';
 import { OphanComponentEvent } from '../ophan';
-import { EpicVariant } from './test';
-import { Stage } from '../shared';
+import { EpicVariant } from '../tests';
 
 export interface ArticleCounts {
     for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
