@@ -10,7 +10,9 @@
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "build": "rollup -c",
     "types": "tsc --project tsconfig.types.json",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "publishDryRun": "yarn build && yarn types && npm publish --dry-run",
+    "publish": "yarn build && yarn types && npm publish"
   },
   "devDependencies": {
     "jest": "^26.6.3",
