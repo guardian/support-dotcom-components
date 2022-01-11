@@ -6,12 +6,11 @@ import {
     BannerTestSelection,
     BannerVariant,
     PageTracking,
-    UserCohort,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
-import { userIsInTest } from '../../lib/targeting';
+import { audienceMatches, userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
@@ -73,17 +72,6 @@ export const redeployedSinceLastClosed = (
             ? subscriptionBannerLastClosedAt
             : engagementBannerLastClosedAt,
     );
-};
-
-const audienceMatches = (showSupportMessaging: boolean, testAudience: UserCohort): boolean => {
-    switch (testAudience) {
-        case 'AllNonSupporters':
-            return showSupportMessaging;
-        case 'AllExistingSupporters':
-            return !showSupportMessaging;
-        default:
-            return true;
-    }
 };
 
 const getForcedVariant = (

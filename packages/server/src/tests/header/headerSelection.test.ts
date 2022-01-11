@@ -59,6 +59,30 @@ const remote_UK: HeaderTest = {
         },
     ],
 };
+const locationsNotSet: HeaderTest = {
+    name: 'LocationsArrayEmpty',
+    userCohort: 'AllNonSupporters',
+    isOn: true,
+    locations: [],
+    variants: [
+        {
+            name: 'remote',
+            modulePathBuilder,
+            content: {
+                heading: 'Support the Guardian',
+                subheading: 'Available for everyone, funded by readers',
+                primaryCta: {
+                    url: 'https://support.theguardian.com/subscribe',
+                    text: 'Subscribe',
+                },
+                secondaryCta: {
+                    url: 'https://support.theguardian.com/contribute',
+                    text: 'Contribute',
+                },
+            },
+        },
+    ],
+};
 const header_supporter: HeaderTest = {
     name: 'header-supporter',
     userCohort: 'AllExistingSupporters',
@@ -97,13 +121,13 @@ const variantHasReturnedNull: NullReturn = {
     name: 'variant returned is null',
 };
 
-// Local testing - to make sure the selectBestTest algorithm isn't relying on the order in which header test objects are presented to it, to select the test we expect it to select for each of the Jest tests below, vary the order of header test objects in the mockTests array before running `yarn test`
-const mockTests: HeaderTest[] = [remote_nonUK, remote_UK, header_supporter];
-// const mockTests: HeaderTest[] = [remote_nonUK, header_supporter, remote_UK];
-// const mockTests: HeaderTest[] = [remote_UK, remote_nonUK, header_supporter];
-// const mockTests: HeaderTest[] = [remote_UK, header_supporter, remote_nonUK];
-// const mockTests: HeaderTest[] = [header_supporter, remote_nonUK, remote_UK];
-// const mockTests: HeaderTest[] = [header_supporter, remote_UK, remote_nonUK];
+const mockTests: HeaderTest[] = [remote_nonUK, header_supporter, remote_UK, locationsNotSet];
+const mockTestEmptyLocations: HeaderTest[] = [
+    remote_nonUK,
+    locationsNotSet,
+    header_supporter,
+    remote_UK,
+];
 
 describe('selectBestTest', () => {
     it('It should return a non-UK non-supporter header test', () => {
@@ -225,5 +249,36 @@ describe('selectBestTest', () => {
         expect(result_4_test.name).toBe('header-supporter');
         expect(result_4_variant).toHaveProperty('name');
         expect(result_4_variant.name).toBe('control');
+    });
+
+    it('All non-supporters should return a global locations test if encountered before a test that includes their region', () => {
+        // Mock targeting data: not a supporter, is in UK
+        const mockTargetingObject_5: HeaderTargeting = {
+            showSupportMessaging: true,
+            edition: 'UK',
+            countryCode: 'im', // Isle of Man (UK sterling region)
+            modulesVersion: 'v3',
+            mvtId: 900263,
+        };
+
+        const result_5: HeaderTestSelection | null = selectBestTest(
+            mockTargetingObject_5,
+            mockTestEmptyLocations,
+        );
+        const result_5_test: HeaderTest | NullReturn = result_5
+            ? result_5.test
+            : testHasReturnedNull;
+        const result_5_variant: HeaderVariant | NullReturn = result_5
+            ? result_5.variant
+            : variantHasReturnedNull;
+        expect(result_5).toBeDefined();
+        expect(result_5).toHaveProperty('test');
+        expect(result_5).toHaveProperty('variant');
+        expect(result_5).toHaveProperty('moduleName');
+        expect(result_5).toHaveProperty('modulePathBuilder');
+        expect(result_5_test).toHaveProperty('name');
+        expect(result_5_test.name).toBe('LocationsArrayEmpty');
+        expect(result_5_variant).toHaveProperty('name');
+        expect(result_5_variant.name).toBe('remote');
     });
 });

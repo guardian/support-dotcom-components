@@ -1,8 +1,10 @@
 import { header } from '@sdc/shared/config';
-import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
+import { inCountryGroups } from '@sdc/shared/lib';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
+import { audienceMatches } from '../../lib/targeting';
+// import { audienceMatches, userIsInTest } from '../../lib/targeting';
 
 import { fetchConfiguredHeaderTestsCached } from './headerTests';
 
@@ -91,16 +93,12 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const isNotReportedAsSupporter = ['AllNonSupporters'];
-
-// Again, exported for Jest testing
+// Exported for Jest testing
 export const selectBestTest = (
     targeting: HeaderTargeting,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
     const { showSupportMessaging, countryCode } = targeting;
-
-    const countryGroupId = countryCodeToCountryGroupId(countryCode.toUpperCase());
 
     const selectedTest: HeaderTest | undefined = allTests.find(test => {
         const { isOn, userCohort, locations } = test;
@@ -109,17 +107,17 @@ export const selectBestTest = (
             return false;
         }
 
-        if (showSupportMessaging && !isNotReportedAsSupporter.includes(userCohort)) {
+        if (!audienceMatches(showSupportMessaging, userCohort)) {
             return false;
         }
 
-        if (!showSupportMessaging && isNotReportedAsSupporter.includes(userCohort)) {
+        const testCountryCode = countryCode != null ? countryCode.toUpperCase() : '';
+        if (!inCountryGroups(testCountryCode, locations)) {
             return false;
         }
 
-        if (!locations.includes(countryGroupId)) {
-            return false;
-        }
+        // Need an extra test here to check if user is in AB variant? - userIsInTest()
+
         return true;
     });
 

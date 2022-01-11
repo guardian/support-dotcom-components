@@ -1,4 +1,4 @@
-import { EpicTargeting, EpicType, ViewLog } from '@sdc/shared/types';
+import { EpicTargeting, EpicType, UserCohort, ViewLog } from '@sdc/shared/types';
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
@@ -63,4 +63,18 @@ export const userIsInTest = (test: Test, mvtId: number): boolean => {
     const lowest = maxMVTId * (test.audienceOffset || 0);
     const highest = lowest + maxMVTId * (test.audience || 1);
     return mvtId >= lowest && mvtId <= highest;
+};
+
+export const audienceMatches = (
+    showSupportMessaging: boolean,
+    testAudience: UserCohort,
+): boolean => {
+    switch (testAudience) {
+        case 'AllNonSupporters':
+            return showSupportMessaging;
+        case 'AllExistingSupporters':
+            return !showSupportMessaging;
+        default:
+            return true;
+    }
 };
