@@ -93,6 +93,8 @@ const supportersTest: HeaderTest = {
     ],
 };
 
+const hardcodedTests = [supportersTest, nonSupportersTestUK, nonSupportersTestNonUK];
+
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: HeaderTargeting,
@@ -142,12 +144,9 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
     return fetchConfiguredHeaderTestsCached()
-        .then((allTests: HeaderTest[]) => {
-            if (allTests == null) {
-                allTests = [];
-            }
-            allTests.push(supportersTest, nonSupportersTestUK, nonSupportersTestNonUK);
+        .then((configuredTests: HeaderTest[]) => {
+            const allTests = [...configuredTests, ...hardcodedTests];
             return selectBestTest(targeting, allTests);
         })
-        .catch(() => null);
+        .catch(() => selectBestTest(targeting, hardcodedTests));
 };
