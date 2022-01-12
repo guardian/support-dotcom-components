@@ -64,7 +64,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             }),
             new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyGuContributionsPublic', {
                 bucketName: 'gu-contributions-public',
-                paths: [`epic/${this.stage}/*`, `header/${this.stage}/*`, `banner/${this.stage}/*`],
+                paths: [`epic/${this.stage}/*`, `banner/${this.stage}/*`],
             }),
             new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
                 tableName: `super-mode-${this.stage}`,
