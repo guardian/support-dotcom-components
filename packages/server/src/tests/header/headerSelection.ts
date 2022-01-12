@@ -140,10 +140,9 @@ export const selectBestTest = (
     };
 };
 
-async function doHeaderTestsFetch(targeting: HeaderTargeting) {
+export const selectHeaderTest = async (
+    targeting: HeaderTargeting,
+): Promise<HeaderTestSelection | null> => {
     const configuredTests = await fetchConfiguredHeaderTestsCached().catch(() => []);
     return selectBestTest(targeting, [...configuredTests, ...hardcodedTests]);
-}
-
-export const selectHeaderTest = (targeting: HeaderTargeting): Promise<HeaderTestSelection | null> =>
-    doHeaderTestsFetch(targeting);
+};
