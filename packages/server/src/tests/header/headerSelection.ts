@@ -6,7 +6,7 @@ const modulePathBuilder = header.endpointPathBuilder;
 
 const nonSupportersTestNonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
-    audience: 'AllNonSupporters',
+    userCohort: 'AllNonSupporters',
     variants: [
         {
             name: 'remote',
@@ -37,7 +37,7 @@ const nonSupportersTestUS = (): HeaderTest => {
 
     return {
         name: 'RemoteRrHeaderLinksTest__USEOY',
-        audience: 'AllNonSupporters',
+        userCohort: 'AllNonSupporters',
         variants: [
             {
                 name: 'remote',
@@ -71,7 +71,7 @@ const nonSupportersTestUS = (): HeaderTest => {
 
 const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
-    audience: 'AllNonSupporters',
+    userCohort: 'AllNonSupporters',
     variants: [
         {
             name: 'remote',
@@ -94,7 +94,7 @@ const nonSupportersTestUK: HeaderTest = {
 
 const supportersTest: HeaderTest = {
     name: 'header-supporter',
-    audience: 'AllNonSupporters',
+    userCohort: 'AllNonSupporters',
     variants: [
         {
             name: 'control',
@@ -109,7 +109,7 @@ const supportersTest: HeaderTest = {
 
 const supportersTestUS: HeaderTest = {
     name: 'header-supporter__USEOY',
-    audience: 'AllExistingSupporters',
+    userCohort: 'AllExistingSupporters',
     variants: [
         {
             name: 'control',

@@ -22,7 +22,7 @@ interface HeaderVariant extends Variant {
 
 export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
-    audience: UserCohort;
+    userCohort: UserCohort;
     variants: HeaderVariant[];
 }
 
