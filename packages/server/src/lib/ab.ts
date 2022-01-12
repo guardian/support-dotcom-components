@@ -36,8 +36,6 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
     const control = test.variants.find(v => v.name.toLowerCase() === 'control');
     const seed = test.name.startsWith('SINGLE_FRONT_DOOR') ? 'SINGLE_FRONT_DOOR' : test.name;
 
-    console.log('SEED --->', seed);
-
     if (test.controlProportionSettings && control) {
         if (
             withinRange(
