@@ -5,6 +5,7 @@ import { fetchS3Data } from './utils/S3';
 interface ChannelSwitches {
     enableEpics: boolean;
     enableBanners: boolean;
+    enableHeaders: boolean;
     enableSuperMode: boolean;
     enableHardcodedEpicTests: boolean;
 }

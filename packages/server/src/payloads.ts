@@ -36,11 +36,6 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
-import {
-    epicArticleCountByTagTestGlobal,
-    epicArticleCountByTagTestUS,
-} from './tests/epics/articleCountByTagTest';
-import { singleContributorPropensityTests } from './tests/epics/singleContributorPropensityTest/singleContributorPropensityTest';
 
 interface EpicDataResponse {
     data?: {
@@ -113,6 +108,9 @@ const [, fetchSuperModeArticlesCached] = cacheAsync(
     'fetchSuperModeArticles',
 );
 
+// Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
+const hardcodedEpicTests: EpicTest[] = [];
+
 const getArticleEpicTests = async (
     mvtId: number,
     isForcingTest: boolean,
@@ -124,13 +122,7 @@ const getArticleEpicTests = async (
             fetchConfiguredArticleEpicHoldbackTestsCached(),
         ]);
 
-        const hardcodedTests = enableHardcodedEpicTests
-            ? [
-                  ...singleContributorPropensityTests,
-                  epicArticleCountByTagTestUS,
-                  epicArticleCountByTagTestGlobal,
-              ]
-            : [];
+        const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
         if (isForcingTest) {
             return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
@@ -193,7 +185,7 @@ export const buildEpicData = async (
 
     const choiceCardAmounts = await cachedChoiceCardAmounts();
     const tickerSettings = await getTickerSettings(variant);
-    const showReminderFields = getReminderFields(variant, targeting.countryCode);
+    const showReminderFields = getReminderFields(variant);
 
     const propsVariant = {
         ...variant,
@@ -349,6 +341,10 @@ export const buildHeaderData = async (
     targeting: HeaderTargeting,
     baseUrl: string,
 ): Promise<HeaderDataResponse> => {
+    const { enableHeaders } = await cachedChannelSwitches();
+    if (!enableHeaders) {
+        return {};
+    }
     const testSelection = await selectHeaderTest(targeting);
     if (testSelection) {
         const { test, variant } = testSelection;

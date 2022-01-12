@@ -58,6 +58,11 @@ export const usEoyMomentGivingTuesdayBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/usEoyMoment/UsEoyMomentGivingTuesdayBanner',
 );
 
+export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
+    'global-new-year-banner',
+    'banners/globalNewYear/GlobalNewYearBanner',
+);
+
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -75,8 +80,6 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
 
-export const usEOYHeader: ModuleInfo = getDefaultModuleInfo('header', 'header/EoYUSMomentHeader');
-
 export const moduleInfos: ModuleInfo[] = [
     epic,
     epicACByTag,
@@ -87,9 +90,9 @@ export const moduleInfos: ModuleInfo[] = [
     environmentMomentBanner,
     usEoyMomentBanner,
     usEoyMomentGivingTuesdayBanner,
+    globalNewYearBanner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
     header,
-    usEOYHeader,
 ];
