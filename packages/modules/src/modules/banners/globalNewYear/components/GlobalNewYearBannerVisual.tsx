@@ -73,9 +73,9 @@ const imageContainer = css`
     }
 
     ${from.tablet} {
-        bottom: -25%;
+        bottom: -30%;
         left: -10%;
-        width: 125%;
+        width: 115%;
     }
 
     ${from.desktop} {

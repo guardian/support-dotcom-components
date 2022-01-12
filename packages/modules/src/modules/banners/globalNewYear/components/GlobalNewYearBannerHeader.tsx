@@ -17,8 +17,12 @@ const styles = {
             ${headline.xsmall({ fontWeight: 'bold' })}
             margin: 0;
             color: ${neutral[0]};
-            font-size: 30px;
+            font-size: 24px;
             line-height: 115%;
+
+            ${from.mobileLandscape} {
+                font-size: 30px;
+            }
 
             ${from.tablet} {
                 font-size: 34px;
