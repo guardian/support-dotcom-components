@@ -140,13 +140,10 @@ export const selectBestTest = (
     };
 };
 
-export const selectHeaderTest = (
-    targeting: HeaderTargeting,
-): Promise<HeaderTestSelection | null> => {
-    return fetchConfiguredHeaderTestsCached()
-        .then((configuredTests: HeaderTest[]) => {
-            const allTests = [...configuredTests, ...hardcodedTests];
-            return selectBestTest(targeting, allTests);
-        })
-        .catch(() => selectBestTest(targeting, hardcodedTests));
-};
+async function doHeaderTestsFetch(targeting: HeaderTargeting) {
+    const configuredTests = await fetchConfiguredHeaderTestsCached().catch(() => []);
+    return selectBestTest(targeting, [...configuredTests, ...hardcodedTests]);
+}
+
+export const selectHeaderTest = (targeting: HeaderTargeting): Promise<HeaderTestSelection | null> =>
+    doHeaderTestsFetch(targeting);
