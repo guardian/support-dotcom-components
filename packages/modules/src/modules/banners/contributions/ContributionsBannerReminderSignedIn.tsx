@@ -130,7 +130,7 @@ export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerRe
                     <div css={thankyouHeaderStyles}>Thank you! Your reminder is set</div>
 
                     <div css={thankyouBodyStyles}>
-                        We will be in touch to invite you to contribute. Look out for a messsage in
+                        We will be in touch to invite you to contribute. Look out for a message in
                         your inbox {reminderDateWithPreposition}. If you have any questions about
                         contributing, please{' '}
                         <a

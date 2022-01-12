@@ -185,7 +185,7 @@ export const buildEpicData = async (
 
     const choiceCardAmounts = await cachedChoiceCardAmounts();
     const tickerSettings = await getTickerSettings(variant);
-    const showReminderFields = getReminderFields(variant, targeting.countryCode);
+    const showReminderFields = getReminderFields(variant);
 
     const propsVariant = {
         ...variant,
@@ -341,6 +341,10 @@ export const buildHeaderData = async (
     targeting: HeaderTargeting,
     baseUrl: string,
 ): Promise<HeaderDataResponse> => {
+    const { enableHeaders } = await cachedChannelSwitches();
+    if (!enableHeaders) {
+        return {};
+    }
     const testSelection = await selectHeaderTest(targeting);
     if (testSelection) {
         const { test, variant } = testSelection;
