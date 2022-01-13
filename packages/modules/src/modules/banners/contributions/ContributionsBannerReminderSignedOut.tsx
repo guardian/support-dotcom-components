@@ -324,7 +324,7 @@ function ThankYou({ reminderLabel }: ThankYouProps) {
             <div css={thankyouHeaderStyles}>Thank you! Your reminder is set</div>
 
             <div css={thankyouBodyStyles}>
-                We will be in touch to invite you to contribute. Look out for a messsage in your
+                We will be in touch to invite you to contribute. Look out for a message in your
                 inbox {reminderLabelWithPreposition}. If you have any questions about contributing,
                 please{' '}
                 <a href="mailto:contribution.support@theguardian.com" css={contactLinkStyles}>

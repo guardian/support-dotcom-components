@@ -23,6 +23,10 @@ const styles = {
         p {
             margin: 0;
         }
+
+        strong {
+            font-weight: bold;
+        }
     `,
     highlightedTextContainer: css`
         font-weight: bold;
