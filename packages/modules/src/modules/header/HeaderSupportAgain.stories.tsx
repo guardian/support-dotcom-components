@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { HeaderProps } from '@sdc/shared/types';
-import { Header } from './HeaderSupportAgain';
+import { HeaderUnvalidated as Header } from './HeaderSupportAgain';
 import { props, HeaderDecorator } from './Header.stories';
 
 export default {

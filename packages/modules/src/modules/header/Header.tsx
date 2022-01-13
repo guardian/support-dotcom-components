@@ -7,7 +7,7 @@ import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
-import { HeaderRenderProps, headerWrapper } from './HeaderWrapper';
+import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 
 const messageStyles = (isThankYouMessage: boolean) => css`
     color: ${brandAlt[400]};
@@ -109,5 +109,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
         </div>
     );
 };
-const wrapped = headerWrapper(Header);
-export { wrapped as Header };
+
+const unvalidated = headerWrapper(Header);
+const validated = validatedHeaderWrapper(Header);
+export { validated as Header, unvalidated as HeaderUnvalidated };

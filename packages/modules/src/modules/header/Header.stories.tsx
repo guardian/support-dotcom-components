@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { HeaderProps } from '@sdc/shared/types';
-import { Header } from './Header';
+import { HeaderUnvalidated as Header } from './Header';
 import { css } from '@emotion/core';
 import { brand } from '@guardian/src-foundations';
 
