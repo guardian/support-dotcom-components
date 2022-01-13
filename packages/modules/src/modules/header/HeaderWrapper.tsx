@@ -33,7 +33,7 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
     }) => {
         const buildEnrichedCta = (cta: HeaderCta): HeaderEnrichedCta => ({
             ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
-                cta.url,
+                cta.baseUrl,
                 tracking,
                 numArticles,
                 countryCode,

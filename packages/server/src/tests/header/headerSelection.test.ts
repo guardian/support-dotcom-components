@@ -24,11 +24,11 @@ const remote_nonUK: HeaderTest = {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
+                    baseUrl: 'https://support.theguardian.com/contribute',
                     text: 'Contribute',
                 },
                 secondaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    baseUrl: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
                 },
             },
@@ -48,11 +48,11 @@ const remote_UK: HeaderTest = {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    baseUrl: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
                 },
                 secondaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
+                    baseUrl: 'https://support.theguardian.com/contribute',
                     text: 'Contribute',
                 },
             },
@@ -72,11 +72,11 @@ const locationsNotSet: HeaderTest = {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    baseUrl: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
                 },
                 secondaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
+                    baseUrl: 'https://support.theguardian.com/contribute',
                     text: 'Contribute',
                 },
             },
