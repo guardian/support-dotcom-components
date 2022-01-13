@@ -1,16 +1,5 @@
 import { UserCohort, Test, Variant } from './shared';
-
-export interface HeaderCta {
-    url: string;
-    text: string;
-}
-
-export interface HeaderContent {
-    heading: string;
-    subheading: string;
-    primaryCta?: HeaderCta;
-    secondaryCta?: HeaderCta;
-}
+import { HeaderContent } from '../props';
 
 interface HeaderVariant extends Variant {
     name: string;

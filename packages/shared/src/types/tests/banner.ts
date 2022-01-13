@@ -1,4 +1,4 @@
-import { BannerChannel, Cta, SecondaryCta, TickerSettings } from '../props';
+import { BannerChannel, BannerContent, Cta, SecondaryCta, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
@@ -10,15 +10,6 @@ import {
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { BannerTargeting, PageTracking } from '../payloads';
 import { CountryGroupId } from '../../lib';
-
-export interface BannerContent {
-    heading?: string;
-    messageText: string;
-    mobileMessageText?: string; // deprecated - use mobileBannerContent instead
-    highlightedText?: string;
-    cta?: Cta;
-    secondaryCta?: SecondaryCta;
-}
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
