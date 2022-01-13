@@ -1,12 +1,7 @@
 import * as z from 'zod';
 import { OphanComponentEvent } from './ophan';
 import { CountryGroupId } from '../lib/geolocation';
-import { UserCohort, Test, Variant, Tracking, trackingSchema, Cta } from './shared';
-
-const headerCtaSchema = z.object({
-    url: z.string(),
-    text: z.string(),
-});
+import { UserCohort, Test, Variant, Tracking, trackingSchema, Cta, ctaSchema } from './shared';
 
 interface HeaderContent {
     heading: string;
@@ -18,8 +13,8 @@ interface HeaderContent {
 const headerContentSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
-    primaryCta: headerCtaSchema.optional(),
-    secondaryCta: headerCtaSchema.optional(),
+    primaryCta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
 });
 
 export interface HeaderVariant extends Variant {
