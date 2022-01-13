@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { HeaderProps, HeaderCta } from '@sdc/shared/types';
+import { HeaderProps, HeaderCta, headerSchema } from '@sdc/shared/types';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
+import { withParsedProps } from '../shared/ModuleWrapper';
 
 export interface HeaderEnrichedCta {
     ctaUrl: string;
@@ -109,3 +110,12 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
     };
     return Wrapped;
 };
+
+const validate = (props: unknown): props is HeaderProps => {
+    const result = headerSchema.safeParse(props);
+    return result.success;
+};
+
+export const validatedHeaderWrapper = (
+    Header: React.FC<HeaderRenderProps>,
+): React.FC<HeaderProps> => withParsedProps(headerWrapper(Header), validate);

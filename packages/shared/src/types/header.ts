@@ -1,10 +1,16 @@
+import * as z from 'zod';
 import { OphanComponentEvent } from './ophan';
-import { UserCohort, Test, Variant, Tracking } from './shared';
+import { UserCohort, Test, Variant, Tracking, trackingSchema } from './shared';
 
 export interface HeaderCta {
     url: string;
     text: string;
 }
+
+const headerCtaSchema = z.object({
+    url: z.string(),
+    text: z.string(),
+});
 
 interface HeaderContent {
     heading: string;
@@ -12,6 +18,13 @@ interface HeaderContent {
     primaryCta?: HeaderCta;
     secondaryCta?: HeaderCta;
 }
+
+const headerContentSchema = z.object({
+    heading: z.string(),
+    subheading: z.string(),
+    primaryCta: headerCtaSchema.optional(),
+    secondaryCta: headerCtaSchema.optional(),
+});
 
 interface HeaderVariant extends Variant {
     name: string;
@@ -34,6 +47,15 @@ export interface HeaderProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
 }
+
+export const headerSchema = z.object({
+    content: headerContentSchema,
+    tracking: trackingSchema,
+    mobileContent: headerContentSchema.optional(),
+    countryCode: z.string().optional(),
+    submitComponentEvent: z.any(),
+    numArticles: z.number().optional(),
+});
 
 export interface HeaderTestSelection {
     test: HeaderTest;
