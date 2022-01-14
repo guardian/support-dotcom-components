@@ -252,9 +252,7 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-export const getContributionsEpic: (
-    aboveArticleCountByTag: boolean,
-) => React.FC<EpicProps> = aboveArticleCountByTag => ({
+const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
@@ -354,7 +352,7 @@ export const getContributionsEpic: (
                         onArticleCountOptIn={onArticleCountOptIn}
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
-                        aboveArticleCountByTag={aboveArticleCountByTag}
+                        aboveArticleCountByTag={false}
                     />
                 </div>
             )}
@@ -455,6 +453,6 @@ export const validate = (props: unknown): props is EpicProps => {
     return result.success;
 };
 
-const validatedEpic = withParsedProps(getContributionsEpic(false), validate);
-const unValidatedEpic = getContributionsEpic(false);
+const validatedEpic = withParsedProps(ContributionsEpic, validate);
+const unValidatedEpic = ContributionsEpic;
 export { validatedEpic as ContributionsEpic, unValidatedEpic as ContributionsEpicUnvalidated };
