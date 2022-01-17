@@ -1,19 +1,23 @@
+import * as z from 'zod';
 import { OphanComponentEvent } from './ophan';
-import { UserCohort, Test, Variant, Tracking } from './shared';
-
-export interface HeaderCta {
-    url: string;
-    text: string;
-}
+import { CountryGroupId } from '../lib/geolocation';
+import { UserCohort, Test, Variant, Tracking, trackingSchema, Cta, ctaSchema } from './shared';
 
 interface HeaderContent {
     heading: string;
     subheading: string;
-    primaryCta?: HeaderCta;
-    secondaryCta?: HeaderCta;
+    primaryCta?: Cta;
+    secondaryCta?: Cta;
 }
 
-interface HeaderVariant extends Variant {
+const headerContentSchema = z.object({
+    heading: z.string(),
+    subheading: z.string(),
+    primaryCta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
+});
+
+export interface HeaderVariant extends Variant {
     name: string;
     content: HeaderContent;
     mobileContent?: HeaderContent;
@@ -22,6 +26,8 @@ interface HeaderVariant extends Variant {
 
 export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
+    isOn: boolean;
+    locations: CountryGroupId[];
     userCohort: UserCohort;
     variants: HeaderVariant[];
 }
@@ -34,6 +40,15 @@ export interface HeaderProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
 }
+
+export const headerSchema = z.object({
+    content: headerContentSchema,
+    tracking: trackingSchema,
+    mobileContent: headerContentSchema.optional(),
+    countryCode: z.string().optional(),
+    submitComponentEvent: z.any(),
+    numArticles: z.number().optional(),
+});
 
 export interface HeaderTestSelection {
     test: HeaderTest;

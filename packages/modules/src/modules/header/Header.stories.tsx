@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { HeaderProps } from '@sdc/shared/types';
-import { Header } from './Header';
+import { HeaderUnvalidated as Header } from './Header';
 import { css } from '@emotion/core';
 import { brand } from '@guardian/src-foundations';
 
@@ -10,11 +10,11 @@ export const props: HeaderProps = {
         heading: 'Support the Guardian',
         subheading: 'Available for everyone, funded by readers',
         primaryCta: {
-            url: 'https://support.theguardian.com/contribute',
+            baseUrl: 'https://support.theguardian.com/contribute',
             text: 'Contribute',
         },
         secondaryCta: {
-            url: '',
+            baseUrl: '',
             text: 'Subscribe',
         },
     },

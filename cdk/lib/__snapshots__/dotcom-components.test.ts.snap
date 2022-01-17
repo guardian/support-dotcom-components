@@ -948,6 +948,18 @@ chown -R dotcom-components:support /var/log/dotcom-components
                   "Fn::Join": Array [
                     "",
                     Array [
+                      "arn:aws:s3:::gu-contributions-public/header/",
+                      Object {
+                        "Ref": "Stage",
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
                       "arn:aws:s3:::gu-contributions-public/banner/",
                       Object {
                         "Ref": "Stage",

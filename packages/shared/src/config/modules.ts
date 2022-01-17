@@ -18,11 +18,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
 
-export const epicACByTag: ModuleInfo = getDefaultModuleInfo(
-    'epicACByTag',
-    'epics/ContributionsEpicACByTag',
-);
-
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
     'epics/ContributionsLiveblogEpic',
@@ -82,7 +77,6 @@ export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header'
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    epicACByTag,
     liveblogEpic,
     contributionsBanner,
     contributionsBannerWithSignIn,

@@ -1,11 +1,27 @@
 import { header } from '@sdc/shared/config';
-import { Edition, HeaderTargeting, HeaderTest, HeaderTestSelection } from '@sdc/shared/types';
+import { inCountryGroups } from '@sdc/shared/lib';
+import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
+
+import { selectVariant } from '../../lib/ab';
+import { audienceMatches } from '../../lib/targeting';
+
+import { fetchConfiguredHeaderTestsCached } from './headerTests';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
+// --- hardcoded tests
 const nonSupportersTestNonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
     userCohort: 'AllNonSupporters',
+    isOn: true,
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
     variants: [
         {
             name: 'remote',
@@ -14,11 +30,11 @@ const nonSupportersTestNonUK: HeaderTest = {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
+                    baseUrl: 'https://support.theguardian.com/contribute',
                     text: 'Contribute',
                 },
                 secondaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    baseUrl: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
                 },
             },
@@ -26,42 +42,11 @@ const nonSupportersTestNonUK: HeaderTest = {
     ],
 };
 
-const nonSupportersTestUS = (): HeaderTest => {
-    const nyeStart = new Date('2021-12-31T00:00:00');
-    const nyeEnd = new Date('2022-01-02T00:00:00');
-    const now = new Date();
-
-    const shouldShowSubscribeButton = now < nyeStart || now > nyeEnd;
-
-    return {
-        name: 'RemoteRrHeaderLinksTest__US',
-        userCohort: 'AllNonSupporters',
-        variants: [
-            {
-                name: 'remote',
-                modulePathBuilder,
-                content: {
-                    heading: 'Support the Guardian',
-                    subheading: 'Available for everyone, funded by readers',
-                    primaryCta: {
-                        url: 'https://support.theguardian.com/contribute',
-                        text: 'Contribute',
-                    },
-                    secondaryCta: shouldShowSubscribeButton
-                        ? {
-                              url: 'https://support.theguardian.com/subscribe',
-                              text: 'Subscribe',
-                          }
-                        : undefined,
-                },
-            },
-        ],
-    };
-};
-
 const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     userCohort: 'AllNonSupporters',
+    isOn: true,
+    locations: ['GBPCountries'],
     variants: [
         {
             name: 'remote',
@@ -70,11 +55,11 @@ const nonSupportersTestUK: HeaderTest = {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
                 primaryCta: {
-                    url: 'https://support.theguardian.com/subscribe',
+                    baseUrl: 'https://support.theguardian.com/subscribe',
                     text: 'Subscribe',
                 },
                 secondaryCta: {
-                    url: 'https://support.theguardian.com/contribute',
+                    baseUrl: 'https://support.theguardian.com/contribute',
                     text: 'Contribute',
                 },
             },
@@ -84,7 +69,17 @@ const nonSupportersTestUK: HeaderTest = {
 
 const supportersTest: HeaderTest = {
     name: 'header-supporter',
-    userCohort: 'AllNonSupporters',
+    userCohort: 'AllExistingSupporters',
+    isOn: true,
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
     variants: [
         {
             name: 'control',
@@ -97,35 +92,53 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const getNonSupportersTest = (edition: Edition): HeaderTest => {
-    if (edition === 'UK') {
-        return nonSupportersTestUK;
-    } else if (edition === 'US') {
-        return nonSupportersTestUS();
+const hardcodedTests = [supportersTest, nonSupportersTestUK, nonSupportersTestNonUK];
+
+// Exported for Jest testing
+export const selectBestTest = (
+    targeting: HeaderTargeting,
+    allTests: HeaderTest[],
+): HeaderTestSelection | null => {
+    const { showSupportMessaging, countryCode } = targeting;
+
+    const selectedTest: HeaderTest | undefined = allTests.find(test => {
+        const { isOn, userCohort, locations } = test;
+
+        if (!isOn) {
+            return false;
+        }
+
+        if (!audienceMatches(showSupportMessaging, userCohort)) {
+            return false;
+        }
+
+        if (!inCountryGroups(countryCode, locations)) {
+            return false;
+        }
+
+        return true;
+    });
+
+    // Failed to find a matching test, or the matching test has an empty variants Array
+    if (!selectedTest || !selectedTest.variants.length) {
+        return null;
     }
-    return nonSupportersTestNonUK;
+
+    const selectedVariant: HeaderVariant = selectVariant(selectedTest, targeting.mvtId);
+
+    selectedVariant.modulePathBuilder = modulePathBuilder;
+
+    return {
+        test: selectedTest,
+        variant: selectedVariant,
+        moduleName: header.name,
+        modulePathBuilder,
+    };
 };
 
-export const selectHeaderTest = (
+export const selectHeaderTest = async (
     targeting: HeaderTargeting,
 ): Promise<HeaderTestSelection | null> => {
-    const select = (): HeaderTest => {
-        if (targeting.showSupportMessaging) {
-            return getNonSupportersTest(targeting.edition);
-        } else {
-            return supportersTest;
-        }
-    };
-
-    const test = select();
-    const variant = test.variants[targeting.mvtId % test.variants.length];
-    if (test && variant) {
-        return Promise.resolve({
-            test,
-            variant,
-            moduleName: header.name,
-            modulePathBuilder: variant.modulePathBuilder,
-        });
-    }
-    return Promise.resolve(null);
+    const configuredTests = await fetchConfiguredHeaderTestsCached().catch(() => []);
+    return selectBestTest(targeting, [...configuredTests, ...hardcodedTests]);
 };
