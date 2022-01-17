@@ -4,7 +4,6 @@ import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from 
 
 import { selectVariant } from '../../lib/ab';
 import { audienceMatches } from '../../lib/targeting';
-// import { audienceMatches, userIsInTest } from '../../lib/targeting';
 
 import { fetchConfiguredHeaderTestsCached } from './headerTests';
 
@@ -113,12 +112,9 @@ export const selectBestTest = (
             return false;
         }
 
-        const testCountryCode = countryCode != null ? countryCode.toUpperCase() : '';
-        if (!inCountryGroups(testCountryCode, locations)) {
+        if (!inCountryGroups(countryCode, locations)) {
             return false;
         }
-
-        // Need an extra test here to check if user is in AB variant? - userIsInTest()
 
         return true;
     });

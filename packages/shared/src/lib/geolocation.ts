@@ -392,12 +392,14 @@ export const inCountryGroups = (
         return true;
     }
 
+    const testCountryCode = countryCode != null ? countryCode.toUpperCase() : '';
+
     // Always False if user location unknown but test has locations set
-    if (!countryCode) {
+    if (!testCountryCode) {
         return false;
     }
 
-    return countryGroups.includes(countryCodeToCountryGroupId(countryCode));
+    return countryGroups.includes(countryCodeToCountryGroupId(testCountryCode));
 };
 
 const defaultCurrencySymbol = '£';
