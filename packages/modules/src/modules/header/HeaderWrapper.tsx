@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HeaderProps, HeaderCta, headerSchema } from '@sdc/shared/types';
+import { HeaderProps, Cta, headerSchema } from '@sdc/shared/types';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
@@ -31,9 +31,9 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
         submitComponentEvent,
         numArticles,
     }) => {
-        const buildEnrichedCta = (cta: HeaderCta): HeaderEnrichedCta => ({
+        const buildEnrichedCta = (cta: Cta): HeaderEnrichedCta => ({
             ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
-                cta.url,
+                cta.baseUrl,
                 tracking,
                 numArticles,
                 countryCode,

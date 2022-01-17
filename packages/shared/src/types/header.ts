@@ -1,32 +1,23 @@
 import * as z from 'zod';
 import { OphanComponentEvent } from './ophan';
-import { UserCohort, Test, Variant, Tracking, trackingSchema } from './shared';
-
-export interface HeaderCta {
-    url: string;
-    text: string;
-}
-
-const headerCtaSchema = z.object({
-    url: z.string(),
-    text: z.string(),
-});
+import { CountryGroupId } from '../lib/geolocation';
+import { UserCohort, Test, Variant, Tracking, trackingSchema, Cta, ctaSchema } from './shared';
 
 interface HeaderContent {
     heading: string;
     subheading: string;
-    primaryCta?: HeaderCta;
-    secondaryCta?: HeaderCta;
+    primaryCta?: Cta;
+    secondaryCta?: Cta;
 }
 
 const headerContentSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
-    primaryCta: headerCtaSchema.optional(),
-    secondaryCta: headerCtaSchema.optional(),
+    primaryCta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
 });
 
-interface HeaderVariant extends Variant {
+export interface HeaderVariant extends Variant {
     name: string;
     content: HeaderContent;
     mobileContent?: HeaderContent;
@@ -35,7 +26,9 @@ interface HeaderVariant extends Variant {
 
 export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
-    audience: UserCohort;
+    isOn: boolean;
+    locations: CountryGroupId[];
+    userCohort: UserCohort;
     variants: HeaderVariant[];
 }
 

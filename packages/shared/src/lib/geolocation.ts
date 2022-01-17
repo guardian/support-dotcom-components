@@ -397,7 +397,7 @@ export const inCountryGroups = (
         return false;
     }
 
-    return countryGroups.includes(countryCodeToCountryGroupId(countryCode));
+    return countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()));
 };
 
 const defaultCurrencySymbol = '£';
