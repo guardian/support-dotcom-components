@@ -1,29 +1,19 @@
 import * as z from 'zod';
-import { Tracking, trackingSchema } from './shared';
 import { OphanComponentEvent } from '../ophan';
-
-export interface HeaderCta {
-    url: string;
-    text: string;
-}
+import { Tracking, trackingSchema, Cta, ctaSchema } from './shared';
 
 export interface HeaderContent {
     heading: string;
     subheading: string;
-    primaryCta?: HeaderCta;
-    secondaryCta?: HeaderCta;
+    primaryCta?: Cta;
+    secondaryCta?: Cta;
 }
-
-const headerCtaSchema = z.object({
-    url: z.string(),
-    text: z.string(),
-});
 
 const headerContentSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
-    primaryCta: headerCtaSchema.optional(),
-    secondaryCta: headerCtaSchema.optional(),
+    primaryCta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
 });
 
 export interface HeaderProps {

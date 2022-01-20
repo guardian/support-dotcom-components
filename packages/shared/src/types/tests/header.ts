@@ -1,5 +1,6 @@
 import { UserCohort, Test, Variant } from './shared';
 import { HeaderContent } from '../props';
+import { CountryGroupId } from '../../lib';
 
 interface HeaderVariant extends Variant {
     name: string;
@@ -10,7 +11,9 @@ interface HeaderVariant extends Variant {
 
 export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
-    audience: UserCohort;
+    isOn: boolean;
+    locations: CountryGroupId[];
+    userCohort: UserCohort;
     variants: HeaderVariant[];
 }
 

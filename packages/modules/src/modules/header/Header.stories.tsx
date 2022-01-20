@@ -10,11 +10,11 @@ export const props: HeaderProps = {
         heading: 'Support the Guardian',
         subheading: 'Available for everyone, funded by readers',
         primaryCta: {
-            url: 'https://support.theguardian.com/contribute',
+            baseUrl: 'https://support.theguardian.com/contribute',
             text: 'Contribute',
         },
         secondaryCta: {
-            url: '',
+            baseUrl: '',
             text: 'Subscribe',
         },
     },
