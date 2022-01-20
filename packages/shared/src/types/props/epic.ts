@@ -8,7 +8,7 @@ import {
     trackingSchema,
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
-import { EpicVariant } from '../tests';
+import { EpicVariant } from '../abTests';
 
 export interface ArticleCounts {
     for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks

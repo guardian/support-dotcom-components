@@ -1,5 +1,5 @@
 import { BannerPayload, EpicPayload, HeaderPayload } from '../../shared/src/types/targeting';
-import { TestTracking } from '../../shared/src/types/tests/shared';
+import { TestTracking } from '../../shared/src/types/abTests/shared';
 
 export interface ModuleData {
     url: string;

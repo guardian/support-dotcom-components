@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { PageTracking } from '../targeting';
-import { TestTracking } from '../tests';
+import { TestTracking } from '../abTests';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
