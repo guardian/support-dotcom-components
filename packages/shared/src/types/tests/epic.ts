@@ -7,7 +7,7 @@ import {
     UserCohort,
     Variant,
 } from './shared';
-import { EpicTargeting } from '../payloads';
+import { EpicTargeting } from '../targeting';
 import { Cta, SecondaryCta, TickerSettings } from '../props';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';

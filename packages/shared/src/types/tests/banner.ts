@@ -8,7 +8,7 @@ import {
     Variant,
 } from './shared';
 import { OphanComponentType, OphanProduct } from '../ophan';
-import { BannerTargeting, PageTracking } from '../payloads';
+import { BannerTargeting, PageTracking } from '../targeting';
 import { CountryGroupId } from '../../lib';
 
 export enum BannerTemplate {

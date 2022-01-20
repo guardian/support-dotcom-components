@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { PageTracking } from '../payloads';
+import { PageTracking } from '../targeting';
 import { TestTracking } from '../tests';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
