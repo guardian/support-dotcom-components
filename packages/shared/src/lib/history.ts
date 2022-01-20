@@ -1,4 +1,9 @@
-import { LocalStorage, TagCounts, WeeklyArticleHistory, WeeklyArticleLog } from '../types/targeting';
+import {
+    LocalStorage,
+    TagCounts,
+    WeeklyArticleHistory,
+    WeeklyArticleLog,
+} from '../types/targeting';
 
 const weeklyArticleCountKey = 'gu.history.weeklyArticleCount';
 const articleCountsThisWeekKey = 'gu.history.articleCountsThisWeek';
