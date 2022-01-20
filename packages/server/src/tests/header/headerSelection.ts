@@ -3,7 +3,7 @@ import { inCountryGroups } from '@sdc/shared/lib';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
-import { audienceMatches } from '../../lib/targeting';
+import { audienceMatches, userIsInTest } from '../../lib/targeting';
 
 import { fetchConfiguredHeaderTestsCached } from './headerTests';
 
@@ -113,6 +113,10 @@ export const selectBestTest = (
         }
 
         if (!inCountryGroups(countryCode, locations)) {
+            return false;
+        }
+
+        if (!userIsInTest(test, targeting.mvtId)) {
             return false;
         }
 

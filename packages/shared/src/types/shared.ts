@@ -11,6 +11,8 @@ export interface Variant {
     name: string;
 }
 export interface Test<V extends Variant> {
+    audienceOffset?: number;
+    audience?: number;
     name: string;
     variants: V[];
     controlProportionSettings?: ControlProportionSettings;
