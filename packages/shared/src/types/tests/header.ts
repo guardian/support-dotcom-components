@@ -2,7 +2,7 @@ import { UserCohort, Test, Variant } from './shared';
 import { HeaderContent } from '../props';
 import { CountryGroupId } from '../../lib';
 
-interface HeaderVariant extends Variant {
+export interface HeaderVariant extends Variant {
     name: string;
     content: HeaderContent;
     mobileContent?: HeaderContent;
