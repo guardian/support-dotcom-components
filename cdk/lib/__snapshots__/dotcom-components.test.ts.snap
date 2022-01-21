@@ -1034,7 +1034,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                       Object {
                         "Ref": "Stage",
                       },
-                      "/single-contributor-propensity-test/*",
+                      "/guardian-weekly-propensity-test/*",
                     ],
                   ],
                 },
