@@ -34,6 +34,7 @@ export type BannerTargeting = {
     modulesVersion?: string;
     sectionId?: string;
     tagIds?: string[];
+    browserId?: string;
 };
 
 export type BannerDataRequestPayload = {
