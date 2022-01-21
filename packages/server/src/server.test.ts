@@ -51,6 +51,12 @@ jest.mock('./channelSwitches', () => {
         ),
     };
 });
+jest.mock('./tests/banners/guardianWeeklyPropensityData', () => {
+    return {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        fetchHighPropensityIds: jest.fn().mockImplementation(() => {}),
+    };
+});
 jest.mock('./choiceCardAmounts', () => {
     return {
         cachedChoiceCardAmounts: jest.fn().mockImplementation(() =>

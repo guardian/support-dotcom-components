@@ -36,6 +36,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import { bannerTargetingTests } from './tests/banners/bannerTargetingTests';
 
 interface EpicDataResponse {
     data?: {
@@ -250,6 +251,7 @@ export const buildBannerData = async (
         pageTracking,
         baseUrl(req),
         getCachedTests,
+        bannerTargetingTests,
         bannerDeployCaches,
         params.force,
     );

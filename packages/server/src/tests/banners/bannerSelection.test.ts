@@ -2,6 +2,7 @@ import { contributionsBanner, digiSubs } from '@sdc/shared/config';
 import { BannerTargeting, BannerTest } from '@sdc/shared/types';
 import { BannerDeployCaches } from './bannerDeployCache';
 import { selectBannerTest } from './bannerSelection';
+import { TargetingTest } from '../../lib/targetingTesting';
 
 const getBannerDeployCache = (date: string): BannerDeployCaches =>
     ({
@@ -31,6 +32,8 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const cache = getBannerDeployCache(secondDate);
+
+        const targetingTests: TargetingTest<BannerTargeting>[] = [];
 
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
@@ -86,6 +89,7 @@ describe('selectBannerTest', () => {
                 tracking,
                 '',
                 () => Promise.resolve([test]),
+                targetingTests,
                 cache,
                 undefined,
                 now,
@@ -102,6 +106,7 @@ describe('selectBannerTest', () => {
                 tracking,
                 '',
                 () => Promise.resolve([test]),
+                targetingTests,
                 cache,
                 undefined,
                 now,
@@ -124,6 +129,7 @@ describe('selectBannerTest', () => {
                             articlesViewedSettings: undefined,
                         },
                     ]),
+                targetingTests,
                 cache,
                 undefined,
                 now,
@@ -140,6 +146,7 @@ describe('selectBannerTest', () => {
                 tracking,
                 '',
                 () => Promise.resolve([test]),
+                targetingTests,
                 cache,
                 undefined,
                 now,
@@ -153,6 +160,8 @@ describe('selectBannerTest', () => {
         const now = new Date('2020-03-31T12:30:00');
 
         const cache = getBannerDeployCache(secondDate);
+
+        const targetingTests: TargetingTest<BannerTargeting>[] = [];
 
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
@@ -207,6 +216,7 @@ describe('selectBannerTest', () => {
                 tracking,
                 '',
                 () => Promise.resolve([test]),
+                targetingTests,
                 cache,
                 undefined,
                 now,
@@ -223,6 +233,7 @@ describe('selectBannerTest', () => {
                 tracking,
                 '',
                 () => Promise.resolve([test]),
+                targetingTests,
                 cache,
                 undefined,
                 now,
@@ -245,6 +256,7 @@ describe('selectBannerTest', () => {
                             articlesViewedSettings: undefined,
                         },
                     ]),
+                targetingTests,
                 cache,
                 undefined,
                 now,

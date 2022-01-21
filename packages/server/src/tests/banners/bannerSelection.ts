@@ -12,8 +12,7 @@ import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { audienceMatches, userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
-import { selectTargetingTest } from '../../lib/targetingTesting';
-import { bannerTargetingTests } from './bannerTargetingTests';
+import { selectTargetingTest, TargetingTest } from '../../lib/targetingTesting';
 import {
     getLastScheduledDeploy,
     ScheduledBannerDeploys,
@@ -101,6 +100,7 @@ export const selectBannerTest = async (
     pageTracking: PageTracking,
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
+    targetingTests: TargetingTest<BannerTargeting>[],
     bannerDeployCaches: BannerDeployCaches,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
@@ -111,7 +111,7 @@ export const selectBannerTest = async (
         return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl, targeting));
     }
 
-    const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
+    const targetingTest = selectTargetingTest(targeting.mvtId, targeting, targetingTests);
     if (targetingTest && !targetingTest.canShow) {
         return Promise.resolve(null);
     }
