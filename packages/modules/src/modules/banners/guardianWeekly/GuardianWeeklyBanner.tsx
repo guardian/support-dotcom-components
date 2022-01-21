@@ -46,7 +46,7 @@ const tabletImageJan22 =
 
 const bannerMobileAndDesktopImg =
     new Date() >= new Date('2022-01-24T08:00:00') ? mobileAndDesktopImgJan22 : mobileAndDesktopImg;
-const bannerTabletImageJan22 =
+const bannerTabletImg =
     new Date() >= new Date('2022-01-24T08:00:00') ? tabletImageJan22 : tabletImage;
 
 // Responsive image props
@@ -62,7 +62,7 @@ const images = [
         media: '(max-width: 739px)',
     },
     {
-        url: bannerTabletImageJan22,
+        url: bannerTabletImg,
         media: '(min-width: 740px) and (max-width: 979px)',
     },
     baseImg,
