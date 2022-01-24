@@ -1,6 +1,7 @@
 import {
     epic as epicModule,
     liveblogEpic as liveblogEpicModule,
+    ModuleInfo,
     puzzlesBanner,
 } from '@sdc/shared/config';
 import { buildBannerCampaignCode, buildCampaignCode, getReminderFields } from '@sdc/shared/lib';
@@ -215,11 +216,10 @@ export const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
+    const module: ModuleInfo = type === 'ARTICLE' ? epicModule : liveblogEpicModule;
+
     const modulePathBuilder: (version?: string) => string =
-        propsVariant.modulePathBuilder ||
-        (type === 'ARTICLE'
-            ? epicModule.endpointPathBuilder
-            : liveblogEpicModule.endpointPathBuilder);
+        propsVariant.modulePathBuilder || module.endpointPathBuilder;
 
     return {
         data: {
@@ -227,7 +227,7 @@ export const buildEpicData = async (
             meta: testTracking,
             module: {
                 url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
-                name: 'ContributionsEpic',
+                name: type === 'ARTICLE' ? 'ContributionsEpic' : 'ContributionsLiveblogEpic',
                 props,
             },
         },
