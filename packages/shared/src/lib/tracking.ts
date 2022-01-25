@@ -1,8 +1,7 @@
-import { EpicTest, EpicVariant } from '../types/epic';
-import { BannerTest, BannerVariant } from '../types/banner';
 import { OphanAction, OphanComponentEvent } from '../types/ophan';
 import { addRegionIdToSupportUrl } from './geolocation';
-import { Tracking } from '../types/shared';
+import { EpicTest, EpicVariant, Tracking } from '../types';
+import { BannerTest, BannerVariant } from '../types/abTests/banner';
 
 type LinkParams = {
     REFPVID: string;
@@ -47,7 +46,7 @@ export const addTrackingParams = (
         REFPVID: params.ophanPageId || 'not_found',
         INTCMP: params.campaignCode || '',
         acquisitionData: acquisitionData,
-        numArticles,
+        numArticles: numArticles || 0,
     };
 
     const queryString = Object.entries(trackingLinkParams)

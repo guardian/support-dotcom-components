@@ -1,7 +1,7 @@
 import {
     epic as epicModule,
-    header,
     liveblogEpic as liveblogEpicModule,
+    ModuleInfo,
     puzzlesBanner,
 } from '@sdc/shared/config';
 import { buildBannerCampaignCode, buildCampaignCode, getReminderFields } from '@sdc/shared/lib';
@@ -41,6 +41,7 @@ interface EpicDataResponse {
     data?: {
         module: {
             url: string;
+            name: string;
             props: EpicProps;
         };
         variant: EpicVariant;
@@ -215,11 +216,10 @@ export const buildEpicData = async (
         countryCode: targeting.countryCode,
     };
 
+    const module: ModuleInfo = type === 'ARTICLE' ? epicModule : liveblogEpicModule;
+
     const modulePathBuilder: (version?: string) => string =
-        propsVariant.modulePathBuilder ||
-        (type === 'ARTICLE'
-            ? epicModule.endpointPathBuilder
-            : liveblogEpicModule.endpointPathBuilder);
+        propsVariant.modulePathBuilder || module.endpointPathBuilder;
 
     return {
         data: {
@@ -227,6 +227,7 @@ export const buildEpicData = async (
             meta: testTracking,
             module: {
                 url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
+                name: type === 'ARTICLE' ? 'ContributionsEpic' : 'ContributionsLiveblogEpic',
                 props,
             },
         },
@@ -358,7 +359,7 @@ export const buildHeaderData = async (
             data: {
                 module: {
                     url: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-                    name: header.name,
+                    name: 'Header',
                     props: {
                         content: variant.content,
                         mobileContent: variant.mobileContent,

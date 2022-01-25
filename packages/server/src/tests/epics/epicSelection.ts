@@ -5,7 +5,7 @@ import {
     EpicType,
     EpicVariant,
     UserCohort,
-    ViewLog,
+    EpicViewLog,
     WeeklyArticleHistory,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
@@ -125,7 +125,7 @@ export const matchesCountryGroups: Filter = {
     test: (test, targeting): boolean => inCountryGroups(targeting.countryCode, test.locations),
 };
 
-export const withinMaxViews = (log: ViewLog, now: Date = new Date()): Filter => ({
+export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
     test: (test): boolean => {
         const defaultMaxViews = {

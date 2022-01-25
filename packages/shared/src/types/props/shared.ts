@@ -1,22 +1,8 @@
 import * as z from 'zod';
-import {
-    OphanComponentType,
-    ophanComponentTypeSchema,
-    OphanProduct,
-    ophanProductSchema,
-} from './ophan';
-import { ChoiceCardAmounts } from './epic';
+import { PageTracking } from '../targeting';
+import { TestTracking } from '../abTests';
 
-export interface Variant {
-    name: string;
-}
-export interface Test<V extends Variant> {
-    audienceOffset?: number;
-    audience?: number;
-    name: string;
-    variants: V[];
-    controlProportionSettings?: ControlProportionSettings;
-}
+export type Stage = 'PROD' | 'CODE' | 'DEV';
 
 export interface Cta {
     text: string;
@@ -62,12 +48,6 @@ export const secondaryCtaSchema = z.union([
     customSecondaryCtaSchema,
     contributionsReminderSecondaryCtaSchema,
 ]);
-
-export type UserCohort =
-    | 'AllExistingSupporters'
-    | 'AllNonSupporters'
-    | 'Everyone'
-    | 'PostAskPauseSingleContributors';
 
 export enum TickerEndType {
     unlimited = 'unlimited',
@@ -121,70 +101,20 @@ export const tickerSettingsSchema = z.object({
     tickerData: tickerDataSchema.optional(),
 });
 
-export interface ChoiceCardSettings {
-    amounts: ChoiceCardAmounts;
-    currencySymbol: string;
-    showChoiceCards: boolean;
-}
+export const ophanProductSchema = z.enum([
+    'CONTRIBUTION',
+    'MEMBERSHIP_SUPPORTER',
+    'DIGITAL_SUBSCRIPTION',
+    'PRINT_SUBSCRIPTION',
+]);
 
-export type TagCounts = {
-    [tag: string]: number;
-};
-
-export type WeeklyArticleLog = {
-    week: number;
-    count: number;
-    tags?: TagCounts;
-};
-
-export type WeeklyArticleHistory = WeeklyArticleLog[];
-
-export interface ArticlesViewedSettings {
-    minViews: number;
-    maxViews?: number;
-    periodInWeeks: number;
-}
-
-export interface ArticlesViewedByTagSettings {
-    tagId: string;
-    minViews: number;
-    periodInWeeks: number;
-}
-
-export interface ControlProportionSettings {
-    proportion: number;
-    offset: number;
-}
-
-export type Stage = 'PROD' | 'CODE' | 'DEV';
-
-/**
- * Targeting tests are for experimenting with targeting rules.
- * It is not a message test and should not affect what the user sees once they're in a test.
- * But we do need to carry the test/variant names through in the tracking.
- */
-export interface TargetingAbTest {
-    testName: string;
-    variantName: string;
-}
-
-export type TestTracking = {
-    abTestName: string;
-    abTestVariant: string;
-    campaignCode: string;
-    campaignId?: string;
-    componentType: OphanComponentType;
-    products?: OphanProduct[];
-    labels?: string[];
-    targetingAbTest?: TargetingAbTest;
-};
-
-export type PageTracking = {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-};
+export const ophanComponentTypeSchema = z.enum([
+    'ACQUISITIONS_EPIC',
+    'ACQUISITIONS_ENGAGEMENT_BANNER',
+    'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    'ACQUISITIONS_HEADER',
+    'ACQUISITIONS_OTHER',
+]);
 
 export type Tracking = TestTracking & PageTracking;
 

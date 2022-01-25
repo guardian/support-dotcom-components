@@ -17,8 +17,8 @@ import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { ArticleCounts } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
-import { logEpicView } from './utils/epicViewLog';
 import { OphanComponentEvent } from '@sdc/shared/dist/types';
+import { logEpicView } from '@sdc/shared/lib';
 
 const container: SerializedStyles = css`
     padding: 6px 10px 28px 10px;

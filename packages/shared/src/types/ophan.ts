@@ -1,25 +1,21 @@
-import * as z from 'zod';
-
-export const ophanProductSchema = z.enum([
-    'CONTRIBUTION',
-    'MEMBERSHIP_SUPPORTER',
-    'DIGITAL_SUBSCRIPTION',
-    'PRINT_SUBSCRIPTION',
-]);
-
-export type OphanProduct = z.infer<typeof ophanProductSchema>;
+/**
+ * Note - zod validators for these ophan types are in /props/shared.ts
+ * This is to avoid including zod in the dotcom library
+ */
+export type OphanProduct =
+    | 'CONTRIBUTION'
+    | 'MEMBERSHIP_SUPPORTER'
+    | 'DIGITAL_SUBSCRIPTION'
+    | 'PRINT_SUBSCRIPTION';
 
 export type OphanAction = 'CLICK' | 'VIEW' | 'INSERT';
 
-export const ophanComponentTypeSchema = z.enum([
-    'ACQUISITIONS_EPIC',
-    'ACQUISITIONS_ENGAGEMENT_BANNER',
-    'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-    'ACQUISITIONS_HEADER',
-    'ACQUISITIONS_OTHER',
-]);
-
-export type OphanComponentType = z.infer<typeof ophanComponentTypeSchema>;
+export type OphanComponentType =
+    | 'ACQUISITIONS_EPIC'
+    | 'ACQUISITIONS_ENGAGEMENT_BANNER'
+    | 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'
+    | 'ACQUISITIONS_HEADER'
+    | 'ACQUISITIONS_OTHER';
 
 export type OphanComponent = {
     componentType: OphanComponentType;
