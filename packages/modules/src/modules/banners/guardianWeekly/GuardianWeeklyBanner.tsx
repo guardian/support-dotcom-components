@@ -33,10 +33,10 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const mobileAndDesktopImg =
-    'https://i.guim.co.uk/img/media/0682b069cf2e32b987ddcfbb2b549a93be61ae36/0_0_500_240/500.png?quality=85&s=1bf9bd8af343813bd6db3f009fccf385';
+    'https://i.guim.co.uk/img/media/670c3033e71f48296798480ac22a1123602e8466/0_0_500_240/500.png?quality=85&s=c1456ddb21a061ac1a199670637b5c5a';
 
-const tabletImage =
-    'https://i.guim.co.uk/img/media/6d601169360b35c705412fbfa163c15f140efc2f/0_0_500_336/500.png?quality=85&s=21fb33ade343b7db222823c4d3160b7f';
+const tabletImg =
+    'https://i.guim.co.uk/img/media/8d1fea851030b24328e05267fdb9bcd767248aeb/0_0_500_336/500.png?quality=85&s=102abc54f37796d6f668416bdbb993f1';
 
 // Responsive image props
 const baseImg = {
@@ -51,7 +51,7 @@ const images = [
         media: '(max-width: 739px)',
     },
     {
-        url: tabletImage,
+        url: tabletImg,
         media: '(min-width: 740px) and (max-width: 979px)',
     },
     baseImg,
