@@ -83,7 +83,14 @@ export const buildAmpEpicCampaignCode = (testName: string, variantName: string):
 
 const createEventFromTracking = (action: OphanAction) => {
     return (tracking: Tracking, componentId: string): OphanComponentEvent => {
-        const { abTestName, abTestVariant, componentType, products = [], campaignCode } = tracking;
+        const {
+            abTestName,
+            abTestVariant,
+            componentType,
+            products = [],
+            labels = [],
+            campaignCode,
+        } = tracking;
         const abTest =
             abTestName && abTestVariant
                 ? {
@@ -105,6 +112,7 @@ const createEventFromTracking = (action: OphanAction) => {
                 products,
                 campaignCode,
                 id: componentId,
+                labels,
             },
             ...(abTest ? { abTest } : {}),
             ...(targetingAbTest ? { targetingAbTest } : {}),
