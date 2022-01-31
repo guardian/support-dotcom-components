@@ -21,5 +21,4 @@ export interface HeaderTestSelection {
     test: HeaderTest;
     variant: HeaderVariant;
     modulePathBuilder: (version?: string) => string;
-    moduleName: string;
 }

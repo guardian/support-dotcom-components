@@ -341,12 +341,13 @@ export const buildHeaderData = async (
     pageTracking: PageTracking,
     targeting: HeaderTargeting,
     baseUrl: string,
+    params: Params,
 ): Promise<HeaderDataResponse> => {
     const { enableHeaders } = await cachedChannelSwitches();
     if (!enableHeaders) {
         return {};
     }
-    const testSelection = await selectHeaderTest(targeting);
+    const testSelection = await selectHeaderTest(targeting, params.force);
     if (testSelection) {
         const { test, variant } = testSelection;
         const testTracking: TestTracking = {
