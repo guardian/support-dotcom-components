@@ -169,7 +169,7 @@ export const selectHeaderTest = async (
     const allTests = [...configuredTests, ...hardcodedTests];
 
     if (forcedTestVariant) {
-        return Promise.resolve(getForcedVariant(forcedTestVariant, allTests));
+        return getForcedVariant(forcedTestVariant, allTests);
     }
     return selectBestTest(targeting, allTests);
 };
