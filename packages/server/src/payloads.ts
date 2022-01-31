@@ -349,7 +349,7 @@ export const buildHeaderData = async (
     }
     const testSelection = await selectHeaderTest(targeting, params.force);
     if (testSelection) {
-        const { test, variant } = testSelection;
+        const { test, variant, modulePathBuilder } = testSelection;
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
@@ -359,7 +359,7 @@ export const buildHeaderData = async (
         return {
             data: {
                 module: {
-                    url: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
+                    url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
                     name: 'Header',
                     props: {
                         content: variant.content,

@@ -131,12 +131,10 @@ export const selectBestTest = (
 
     const selectedVariant: HeaderVariant = selectVariant(selectedTest, targeting.mvtId);
 
-    selectedVariant.modulePathBuilder = modulePathBuilder;
-
     return {
         test: selectedTest,
         variant: selectedVariant,
-        modulePathBuilder,
+        modulePathBuilder: selectedVariant.modulePathBuilder || modulePathBuilder,
     };
 };
 
@@ -155,7 +153,7 @@ const getForcedVariant = (
         return {
             test,
             variant,
-            modulePathBuilder: variant.modulePathBuilder,
+            modulePathBuilder: variant.modulePathBuilder || modulePathBuilder,
         };
     }
     return null;
