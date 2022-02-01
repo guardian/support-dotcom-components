@@ -2,21 +2,31 @@ import { cacheAsync } from './cache';
 
 jest.useFakeTimers();
 
-describe('cache', () => {
+describe('cacheAsync', () => {
     it('sets new cache value', async () => {
-        const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test1');
+        const fn = jest.fn().mockReturnValue(Promise.resolve(true));
+        const fetchData = cacheAsync<boolean>(fn, { ttlSec: 60 });
 
         const value = await fetchData();
 
         expect(value).toEqual(true);
         expect(fn).toHaveBeenCalledTimes(1);
-        reset();
+
+        fetchData.clear();
+    });
+
+    it('warms the cache', async () => {
+        const fn = jest.fn().mockReturnValue(Promise.resolve(true));
+        const fetchData = cacheAsync<boolean>(fn, { ttlSec: 60, warm: true });
+
+        expect(fn).toHaveBeenCalledTimes(1);
+
+        fetchData.clear();
     });
 
     it('sets new cache value and uses cached value', async () => {
-        const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test2');
+        const fn = jest.fn().mockReturnValue(Promise.resolve(true));
+        const fetchData = cacheAsync<boolean>(fn, { ttlSec: 60 });
 
         await fetchData();
 
@@ -26,81 +36,82 @@ describe('cache', () => {
 
         expect(fn).toHaveBeenCalledTimes(1);
 
-        reset();
+        fetchData.clear();
     });
 
     it('sets new cache value and refreshes', async () => {
-        const fn = jest.fn().mockImplementation(() => Promise.resolve(true));
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test3');
+        const fn = jest.fn().mockReturnValue(Promise.resolve(true));
+        const fetchData = cacheAsync<boolean>(fn, { ttlSec: 60 });
 
         await fetchData();
 
         expect(fn).toHaveBeenCalledTimes(1);
 
-        jest.runOnlyPendingTimers(); // fast-forward to first refresh
+        jest.runAllTimers(); // fast-forward to first refresh
+
+        await fetchData();
 
         expect(fn).toHaveBeenCalledTimes(2);
 
-        reset();
+        fetchData.clear();
     });
 
     it('retries if initial request fails', async () => {
-        // Use counter to ensure it fails on the 1st invocation only
-        let counter = 0;
-        const err = new Error('ERROR');
-        const fn = jest.fn().mockImplementation(() => {
-            counter++;
-            if (counter === 1) {
-                return Promise.reject(err);
-            } else {
-                return Promise.resolve(true);
-            }
-        });
+        const fn = jest
+            .fn()
+            .mockReturnValueOnce(Promise.reject(new Error('ERROR')))
+            .mockReturnValue(Promise.resolve(true));
 
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test4');
+        const fetchData = cacheAsync<boolean>(fn, { ttlSec: 60 });
 
-        await expect(fetchData()).rejects.toEqual(
-            new Error('Failed to make initial request for test4: Error: ERROR'),
-        );
+        await expect(fetchData()).rejects.toEqual(new Error('ERROR'));
 
         expect(fn).toHaveBeenCalledTimes(1);
 
-        jest.runOnlyPendingTimers(); // fast-forward to retry
-
-        expect(fn).toHaveBeenCalledTimes(2);
+        jest.useRealTimers();
+        await sleep(0);
+        jest.useFakeTimers();
 
         await expect(fetchData()).resolves.toEqual(true);
 
-        reset();
+        expect(fn).toHaveBeenCalledTimes(2);
+
+        fetchData.clear();
     });
 
     it('retries if a refresh fails', async () => {
-        // Use counter to ensure it fails on the 2nd invocation only
-        let counter = 0;
-        const fn = jest.fn().mockImplementation(() => {
-            counter++;
-            if (counter === 2) {
-                return Promise.reject('ERROR!');
-            } else {
-                return Promise.resolve(true);
-            }
-        });
-        const [reset, fetchData] = cacheAsync(fn, 60, 'test5');
+        const fn = jest
+            .fn()
+            .mockReturnValueOnce(Promise.resolve(true))
+            .mockReturnValueOnce(Promise.reject(new Error('ERROR')))
+            .mockReturnValue(Promise.resolve(true));
 
-        await fetchData();
+        const fetchData = cacheAsync<boolean>(fn, { ttlSec: 60 });
+
+        await expect(fetchData()).resolves.toEqual(true);
 
         expect(fn).toHaveBeenCalledTimes(1);
 
-        await fetchData();
-        jest.runOnlyPendingTimers(); // fast-forward to first refresh
+        jest.runAllTimers(); // fast-forward to first refresh
+
+        await expect(fetchData()).rejects.toEqual(new Error('ERROR'));
 
         expect(fn).toHaveBeenCalledTimes(2);
 
-        await fetchData();
-        jest.runOnlyPendingTimers(); // fast-forward to second refresh
+        jest.useRealTimers();
+        await sleep(0);
+        jest.useFakeTimers();
+
+        await expect(fetchData()).resolves.toEqual(true);
 
         expect(fn).toHaveBeenCalledTimes(3);
 
-        reset();
+        fetchData.clear();
     });
 });
+
+function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms);
+    });
+}

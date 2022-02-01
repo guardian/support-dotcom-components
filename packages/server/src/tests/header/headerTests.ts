@@ -15,10 +15,8 @@ const fetchConfiguredHeaderTests = (): Promise<HeaderTest[] | []> => {
         .catch(() => []);
 };
 
-const [, fetchConfiguredHeaderTestsCached] = cacheAsync(
-    () => fetchConfiguredHeaderTests(),
-    60,
-    `fetchConfiguredHeaderTests`,
-);
+const fetchConfiguredHeaderTestsCached = cacheAsync(() => fetchConfiguredHeaderTests(), {
+    ttlSec: 60,
+});
 
 export { fetchConfiguredHeaderTestsCached };

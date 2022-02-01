@@ -86,29 +86,22 @@ interface HeaderDataResponse {
     };
 }
 
-const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
+const fetchConfiguredArticleEpicTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE'),
-    60,
-    `fetchConfiguredEpicTests_ARTICLE`,
+    { ttlSec: 60 },
 );
 
-const [, fetchConfiguredArticleEpicHoldbackTestsCached] = cacheAsync(
+const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
-    60,
-    `fetchConfiguredEpicTests_ARTICLE_HOLDBACK`,
+    { ttlSec: 60 },
 );
 
-const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
+const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('LIVEBLOG'),
-    60,
-    `fetchConfiguredEpicTests_LIVEBLOG`,
+    { ttlSec: 60 },
 );
 
-const [, fetchSuperModeArticlesCached] = cacheAsync(
-    fetchSuperModeArticles,
-    60,
-    'fetchSuperModeArticles',
-);
+const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [];
