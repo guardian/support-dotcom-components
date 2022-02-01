@@ -159,7 +159,8 @@ app.post(
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { tracking, targeting } = req.body;
-            const response = await buildHeaderData(tracking, targeting, baseUrl(req));
+            const params = getQueryParams(req.query);
+            const response = await buildHeaderData(tracking, targeting, baseUrl(req), params);
             res.send(response);
         } catch (error) {
             next(error);

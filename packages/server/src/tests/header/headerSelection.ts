@@ -6,6 +6,7 @@ import { selectVariant } from '../../lib/ab';
 import { audienceMatches, userIsInTest } from '../../lib/targeting';
 
 import { fetchConfiguredHeaderTestsCached } from './headerTests';
+import { TestVariant } from '../../lib/params';
 
 const modulePathBuilder = header.endpointPathBuilder;
 
@@ -130,19 +131,43 @@ export const selectBestTest = (
 
     const selectedVariant: HeaderVariant = selectVariant(selectedTest, targeting.mvtId);
 
-    selectedVariant.modulePathBuilder = modulePathBuilder;
-
     return {
         test: selectedTest,
         variant: selectedVariant,
-        moduleName: header.name,
-        modulePathBuilder,
+        modulePathBuilder: selectedVariant.modulePathBuilder || modulePathBuilder,
     };
+};
+
+const getForcedVariant = (
+    forcedTestVariant: TestVariant,
+    tests: HeaderTest[],
+): HeaderTestSelection | null => {
+    const test = tests.find(
+        test => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
+    );
+    const variant = test?.variants.find(
+        v => v.name.toLowerCase() === forcedTestVariant.variantName.toLowerCase(),
+    );
+
+    if (test && variant) {
+        return {
+            test,
+            variant,
+            modulePathBuilder: variant.modulePathBuilder || modulePathBuilder,
+        };
+    }
+    return null;
 };
 
 export const selectHeaderTest = async (
     targeting: HeaderTargeting,
+    forcedTestVariant?: TestVariant,
 ): Promise<HeaderTestSelection | null> => {
     const configuredTests = await fetchConfiguredHeaderTestsCached().catch(() => []);
-    return selectBestTest(targeting, [...configuredTests, ...hardcodedTests]);
+    const allTests = [...configuredTests, ...hardcodedTests];
+
+    if (forcedTestVariant) {
+        return getForcedVariant(forcedTestVariant, allTests);
+    }
+    return selectBestTest(targeting, allTests);
 };

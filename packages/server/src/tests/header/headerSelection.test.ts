@@ -153,7 +153,6 @@ describe('selectBestTest', () => {
         expect(result_1).toBeDefined();
         expect(result_1).toHaveProperty('test');
         expect(result_1).toHaveProperty('variant');
-        expect(result_1).toHaveProperty('moduleName');
         expect(result_1).toHaveProperty('modulePathBuilder');
         expect(result_1_test).toHaveProperty('name');
         expect(result_1_test.name).toBe('RemoteRrHeaderLinksTest__NonUK');
@@ -183,7 +182,6 @@ describe('selectBestTest', () => {
         expect(result_2).toBeDefined();
         expect(result_2).toHaveProperty('test');
         expect(result_2).toHaveProperty('variant');
-        expect(result_2).toHaveProperty('moduleName');
         expect(result_2).toHaveProperty('modulePathBuilder');
         expect(result_2_test).toHaveProperty('name');
         expect(result_2_test.name).toBe('header-supporter');
@@ -213,7 +211,6 @@ describe('selectBestTest', () => {
         expect(result_3).toBeDefined();
         expect(result_3).toHaveProperty('test');
         expect(result_3).toHaveProperty('variant');
-        expect(result_3).toHaveProperty('moduleName');
         expect(result_3).toHaveProperty('modulePathBuilder');
         expect(result_3_test).toHaveProperty('name');
         expect(result_3_test.name).toBe('RemoteRrHeaderLinksTest__UK');
@@ -243,7 +240,6 @@ describe('selectBestTest', () => {
         expect(result_4).toBeDefined();
         expect(result_4).toHaveProperty('test');
         expect(result_4).toHaveProperty('variant');
-        expect(result_4).toHaveProperty('moduleName');
         expect(result_4).toHaveProperty('modulePathBuilder');
         expect(result_4_test).toHaveProperty('name');
         expect(result_4_test.name).toBe('header-supporter');
@@ -274,7 +270,6 @@ describe('selectBestTest', () => {
         expect(result_5).toBeDefined();
         expect(result_5).toHaveProperty('test');
         expect(result_5).toHaveProperty('variant');
-        expect(result_5).toHaveProperty('moduleName');
         expect(result_5).toHaveProperty('modulePathBuilder');
         expect(result_5_test).toHaveProperty('name');
         expect(result_5_test.name).toBe('LocationsArrayEmpty');
