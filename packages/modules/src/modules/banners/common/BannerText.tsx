@@ -38,7 +38,9 @@ export const BannerText: React.FC<BannerTextProps> = ({ styles, content, childre
                 return (
                     <div css={renderStyles.container}>
                         <h2 css={renderStyles.heading}>{heading}</h2>
-                        {subheading && <h3 css={renderStyles.subheading}>{subheading}</h3>}
+                        {subheading && renderStyles.subheading && (
+                            <h3 css={renderStyles.subheading}>{subheading}</h3>
+                        )}
 
                         <div css={renderStyles.body}>
                             <div css={renderStyles.copy}>
