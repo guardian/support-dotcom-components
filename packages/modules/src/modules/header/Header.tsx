@@ -69,7 +69,7 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
 
             {primaryCta && (
                 <ThemeProvider theme={buttonReaderRevenueBrand}>
-                    <Hide below="mobileMedium">
+                    <Hide below="mobileLandscape">
                         <LinkButton
                             priority="primary"
                             href={primaryCta.ctaUrl}
@@ -82,9 +82,13 @@ const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
                         </LinkButton>
                     </Hide>
 
-                    <Hide above="mobileMedium">
-                        <LinkButton priority="primary" href={primaryCta.ctaUrl} css={linkStyles}>
-                            {primaryCta.ctaText}
+                    <Hide above="mobileLandscape">
+                        <LinkButton
+                            priority="primary"
+                            href={props.mobileContent?.primaryCta?.ctaUrl || primaryCta.ctaUrl}
+                            css={linkStyles}
+                        >
+                            {props.mobileContent?.primaryCta?.ctaText || primaryCta.ctaText}
                         </LinkButton>
                     </Hide>
                 </ThemeProvider>

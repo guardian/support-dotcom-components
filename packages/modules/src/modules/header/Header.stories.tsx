@@ -18,6 +18,14 @@ export const props: HeaderProps = {
             text: 'Subscribe',
         },
     },
+    mobileContent: {
+        heading: 'Support the Guardian',
+        subheading: '',
+        primaryCta: {
+            baseUrl: 'https://support.theguardian.com/contribute',
+            text: 'Support us',
+        },
+    },
     tracking: {
         ophanPageId: 'pvid',
         platformId: 'GUARDIAN_WEB',
