@@ -32,6 +32,7 @@ export interface BannerVariant extends Variant {
     mobileBannerContent?: BannerContent;
     componentType: OphanComponentType;
     products?: OphanProduct[];
+    separateArticleCount?: boolean;
 }
 
 export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;

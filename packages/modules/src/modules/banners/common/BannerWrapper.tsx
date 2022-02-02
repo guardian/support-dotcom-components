@@ -31,6 +31,21 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { buildReminderFields } from '@sdc/shared/lib';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
+// A separate article count is rendered as a subheading
+const buildSubheading = (
+    numArticles: number,
+    separateArticleCount: boolean,
+): JSX.Element | JSX.Element[] | null => {
+    if (separateArticleCount && numArticles >= 5) {
+        return replaceArticleCount(
+            `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
+            numArticles,
+            'banner',
+        );
+    }
+    return null;
+};
+
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
@@ -47,6 +62,7 @@ const withBannerData = (
         numArticles = 0,
         tickerSettings,
         isSupporter,
+        separateArticleCount,
     } = bannerProps;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen(
@@ -134,6 +150,8 @@ const withBannerData = (
             ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
             : null;
 
+        const subheading = buildSubheading(numArticles, !!separateArticleCount);
+
         if (copyHasPlaceholder) {
             throw Error('Banner copy contains placeholders, abandoning.');
         }
@@ -142,6 +160,7 @@ const withBannerData = (
             highlightedText: highlightedTextWithArticleCount,
             messageText: messageTextWithArticleCount,
             heading: headingWithArticleCount,
+            subheading,
             primaryCta,
             secondaryCta,
         };
