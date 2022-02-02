@@ -67,6 +67,7 @@ export interface RawVariantParams {
     template: BannerTemplate;
     bannerContent: BannerContent;
     mobileBannerContent?: BannerContent;
+    separateArticleCount?: boolean;
 
     // deprecated - use bannerContent
     body: string;
