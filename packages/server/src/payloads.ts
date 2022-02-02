@@ -284,6 +284,7 @@ export const buildBannerData = async (
             ),
             hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
             tickerSettings,
+            separateArticleCount: variant.separateArticleCount,
         };
 
         return {
