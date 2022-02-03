@@ -28,6 +28,11 @@ const styles = {
         ${headline.xxsmall({ fontWeight: 'bold' })};
         max-width: 90%; /* to avoid pushing the close button off screen on mobile devices with extra large font */
     `,
+    subheading: css`
+        ${headline.xxxsmall({ fontWeight: 'bold' })};
+        padding-top: 6px;
+        padding-bottom: 10px;
+    `,
     copy: css`
         margin-top: 2px;
         padding: 0 ${space[3]}px;
@@ -140,6 +145,7 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
                 <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
             </div>
             <div css={[commonStyles.copy, styles.copy]}>
+                {content.subheading && <div css={styles.subheading}>{content.subheading}</div>}
                 {content.messageText}
                 {content.highlightedText && (
                     <>

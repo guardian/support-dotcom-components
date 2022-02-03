@@ -101,6 +101,7 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
             componentType: BannerTemplateComponentTypes[forChannel],
             products: BannerTemplateProducts[variant.template],
             tickerSettings,
+            separateArticleCount: variant.separateArticleCount,
         };
     };
 };

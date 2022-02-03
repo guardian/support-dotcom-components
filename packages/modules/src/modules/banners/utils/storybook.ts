@@ -59,4 +59,6 @@ export const props: BannerProps = {
     tracking,
     content,
     tickerSettings,
+    separateArticleCount: true,
+    numArticles: 6,
 };

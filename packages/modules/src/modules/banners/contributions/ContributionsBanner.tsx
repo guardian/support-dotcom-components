@@ -35,6 +35,15 @@ const styles = {
             padding-left: 12px;
         }
     `,
+    subheading: css`
+        margin: 0;
+        ${headline.xxsmall({ fontWeight: 'bold' })}
+        padding-top: 10px;
+        padding-bottom: 8px;
+        ${from.leftCol} {
+            padding-left: 12px;
+        }
+    `,
     body: css`
         padding-bottom: 16px;
     `,
@@ -212,6 +221,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
                 desktop: {
                     container: styles.bodyAndHeading,
                     heading: styles.heading,
+                    subheading: styles.subheading,
                     body: styles.body,
                     copy: [commonStyles.copy, styles.copy],
                     highlightedText: commonStyles.highlightedText,
