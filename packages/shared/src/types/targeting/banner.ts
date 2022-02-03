@@ -1,4 +1,4 @@
-import { PageTracking, WeeklyArticleHistory } from './shared';
+import { DailyArticleHistory, PageTracking, WeeklyArticleHistory } from './shared';
 
 export type BannerTargeting = {
     alreadyVisitedCount: number;
@@ -10,10 +10,12 @@ export type BannerTargeting = {
     mvtId: number;
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
+    dailyArticleHistory?: DailyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
     modulesVersion?: string;
     sectionId?: string;
     tagIds?: string[];
+    contentType: string;
 };
 
 export type BannerPayload = {
