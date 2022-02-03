@@ -8,6 +8,10 @@ const getCountForToday = (dailyArticleHistory?: DailyArticleHistory): number => 
     return 0;
 };
 
+const isNetworkFront = (targeting: BannerTargeting): boolean =>
+    // https://github.com/guardian/frontend/blob/5b970cd7308175cfc1bcae2d4fb8c06ee13c5fa0/common/app/model/DotcomContentType.scala#L33
+    targeting.contentType.toLowerCase() === 'network front';
+
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
         name: '2022-02-10_BannerTargeting_PageView',
@@ -27,7 +31,7 @@ export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
                 name: 'variant2',
                 canShow: (targeting: BannerTargeting): boolean => {
                     const count = getCountForToday(targeting.dailyArticleHistory);
-                    return count >= 2 || (count >= 1 && targeting.contentType === 'Network Front');
+                    return count >= 2 || (count >= 1 && isNetworkFront(targeting));
                 },
             },
         ],
