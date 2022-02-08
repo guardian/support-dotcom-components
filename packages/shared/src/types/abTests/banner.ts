@@ -18,8 +18,6 @@ export enum BannerTemplate {
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
-    UsEoyMomentBanner = 'UsEoyMomentBanner',
-    UsEoyMomentGivingTuesdayBanner = 'UsEoyMomentGivingTuesdayBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
 }
 
