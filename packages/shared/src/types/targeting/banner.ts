@@ -15,7 +15,7 @@ export type BannerTargeting = {
     modulesVersion?: string;
     sectionId?: string;
     tagIds?: string[];
-    contentType: string;
+    contentType?: string;
 };
 
 export type BannerPayload = {

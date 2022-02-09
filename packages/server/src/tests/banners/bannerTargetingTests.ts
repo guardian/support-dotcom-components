@@ -10,7 +10,7 @@ const getCountForToday = (dailyArticleHistory?: DailyArticleHistory): number => 
 
 const isNetworkFront = (targeting: BannerTargeting): boolean =>
     // https://github.com/guardian/frontend/blob/5b970cd7308175cfc1bcae2d4fb8c06ee13c5fa0/common/app/model/DotcomContentType.scala#L33
-    targeting.contentType.toLowerCase() === 'network front';
+    targeting.contentType?.toLowerCase() === 'network front';
 
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
