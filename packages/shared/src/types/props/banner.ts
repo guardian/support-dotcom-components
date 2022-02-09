@@ -18,7 +18,6 @@ export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 export interface BannerContent {
     heading?: string;
     messageText: string;
-    mobileMessageText?: string; // deprecated - use mobileBannerContent instead
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: SecondaryCta;
