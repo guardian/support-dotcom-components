@@ -5,8 +5,6 @@ import {
     environmentMomentBanner,
     guardianWeekly,
     investigationsMomentBanner,
-    usEoyMomentBanner,
-    usEoyMomentGivingTuesdayBanner,
     globalNewYearBanner,
 } from '@sdc/shared/config';
 import {
@@ -18,8 +16,6 @@ import {
     OphanProduct,
     RawTestParams,
     RawVariantParams,
-    TickerCountType,
-    TickerEndType,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
 import { isProd } from '../../lib/env';
@@ -38,9 +34,6 @@ export const BannerPaths: {
         contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
-    [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
-    [BannerTemplate.UsEoyMomentGivingTuesdayBanner]:
-        usEoyMomentGivingTuesdayBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
@@ -77,21 +70,6 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
             }
         };
 
-        const tickerSettings =
-            variant.template === BannerTemplate.UsEoyMomentBanner ||
-            variant.template === BannerTemplate.UsEoyMomentGivingTuesdayBanner
-                ? {
-                      countType: TickerCountType.money,
-                      endType: TickerEndType.unlimited,
-                      currencySymbol: '$',
-                      copy: {
-                          countLabel: 'contributed',
-                          goalReachedPrimary: "We've hit our goal!",
-                          goalReachedSecondary: 'but you can still support us',
-                      },
-                  }
-                : undefined;
-
         return {
             name: variant.name,
             modulePathBuilder: BannerPaths[variant.template],
@@ -100,7 +78,6 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
             mobileBannerContent: variant.mobileBannerContent,
             componentType: BannerTemplateComponentTypes[forChannel],
             products: BannerTemplateProducts[variant.template],
-            tickerSettings,
             separateArticleCount: variant.separateArticleCount,
         };
     };
