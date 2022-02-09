@@ -27,4 +27,5 @@ Default.args = {
             reminderLabel: 'May',
         },
     },
+    stage: 'DEV',
 };

@@ -63,6 +63,7 @@ WithReminder.args = {
             reminderLabel: 'May',
         },
     },
+    stage: 'DEV',
 };
 
 export const WithPrefilledReminder = Template.bind({});

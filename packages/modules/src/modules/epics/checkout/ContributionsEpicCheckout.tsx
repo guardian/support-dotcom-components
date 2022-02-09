@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
-import { Tracking } from '@sdc/shared/src/types';
+import { Stage, Tracking } from '@sdc/shared/types';
 import React, { RefObject } from 'react';
 
 const styles = {
@@ -10,13 +10,6 @@ const styles = {
     `,
 };
 
-// Currently components don't know if they're in DEV/CODE/PROD
-// hence why we hardcode urls to PROD. For convenience for future
-// dev work we've left in the CODE and DEV urls below.
-const BASE_URL = 'https://support.theguardian.com/contribute-in-epic';
-// const BASE_URL = 'https://support.code.dev-theguardian.com/contribute-in-epic';
-// const BASE_URL = 'https://support.thegulocal.com/contribute-in-epic';
-
 interface ContributionsEpicCheckoutProps {
     iframeRef: RefObject<HTMLIFrameElement>;
     iframeHeight: number;
@@ -25,6 +18,7 @@ interface ContributionsEpicCheckoutProps {
     numArticles?: number;
     countryCode?: string;
     reminderCta?: string;
+    stage: Stage;
 }
 
 export function ContributionsEpicCheckout({
@@ -34,8 +28,9 @@ export function ContributionsEpicCheckout({
     numArticles,
     countryCode,
     reminderCta,
+    stage,
 }: ContributionsEpicCheckoutProps): JSX.Element {
-    const iframeUrl = getIframeUrl(tracking, numArticles, countryCode, reminderCta);
+    const iframeUrl = getIframeUrl(tracking, stage, numArticles, countryCode, reminderCta);
 
     return (
         <div>
@@ -55,12 +50,13 @@ export function ContributionsEpicCheckout({
 
 function getIframeUrl(
     tracking: Tracking,
+    stage: Stage,
     numArticles?: number,
     countryCode?: string,
     reminderCta?: string,
 ) {
     return addRegionIdAndTrackingParamsToSupportUrl(
-        addReminderCtaToUrl(BASE_URL, reminderCta),
+        addReminderCtaToUrl(getBaseUrl(stage), reminderCta),
         tracking,
         numArticles,
         countryCode,
@@ -76,4 +72,13 @@ function addReminderCtaToUrl(urlString: string, reminderCta?: string) {
     url.searchParams.append('reminderCta', reminderCta);
 
     return url.toString();
+}
+
+function getBaseUrl(stage: Stage): string {
+    if (stage === 'PROD') {
+        return 'https://support.theguardian.com/contribute-in-epic';
+    } else if (stage === 'CODE') {
+        return 'https://support.code.dev-theguardian.com/contribute-in-epic';
+    }
+    return 'https://support.thegulocal.com/contribute-in-epic';
 }
