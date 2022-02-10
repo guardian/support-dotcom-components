@@ -26,7 +26,8 @@ import {
 } from './middleware';
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 import { ampEpic } from './tests/amp/ampEpic';
-import { getAmpExperimentData } from './tests/amp/ampEpicTests';
+import { getCachedAmpEpicTests } from './tests/amp/ampEpicTests';
+import { getAmpExperimentData } from './tests/amp/ampEpicSelection';
 import { logInfo } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { buildReminderFields } from '@sdc/shared/lib';
@@ -272,7 +273,8 @@ app.get(
     '/amp/experiments_data',
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const response = await getAmpExperimentData();
+            const tests = await getCachedAmpEpicTests();
+            const response = await getAmpExperimentData(tests);
 
             res.setHeader('Cache-Control', 'private, no-store');
             res.setHeader('Surrogate-Control', 'max-age=0');
@@ -346,7 +348,8 @@ app.get(
             const countryGroupId = countryCodeToCountryGroupId(countryCode);
             const choiceCardAmounts = await cachedChoiceCardAmounts();
             const ampVariantAssignments = getAmpVariantAssignments(req);
-            const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const tests = await getCachedAmpEpicTests();
+            const epic = await ampEpic(tests, ampVariantAssignments, countryCode);
             const defaultChoiceCardFrequency = epic.defaultChoiceCardFrequency || 'MONTHLY';
             const acquisitionData = {
                 source: 'GOOGLE_AMP',
@@ -436,7 +439,8 @@ app.get(
 
             const countryCode = req.header('X-GU-GeoIP-Country-Code');
             const ampVariantAssignments = getAmpVariantAssignments(req);
-            const epic = await ampEpic(ampVariantAssignments, countryCode);
+            const tests = await getCachedAmpEpicTests();
+            const epic = await ampEpic(tests, ampVariantAssignments, countryCode);
             const campaignCode = buildAmpEpicCampaignCode(epic.testName, epic.variantName);
             const { viewId, ampViewId, browserIdCookie, browserId } = req.query;
 
