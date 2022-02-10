@@ -1,28 +1,21 @@
-export interface PageTracking {
+export type PageTracking = {
     ophanPageId: string;
     platformId: string;
     referrerUrl: string;
     clientName: string;
-}
+};
 
-export interface TagCounts {
+export type TagCounts = {
     [tag: string]: number;
-}
+};
 
-export interface WeeklyArticleLog {
+export type WeeklyArticleLog = {
     week: number;
     count: number;
     tags?: TagCounts;
-}
+};
 
 export type WeeklyArticleHistory = WeeklyArticleLog[];
-
-export interface DailyArticleLog {
-    day: number;
-    count: number;
-}
-
-export type DailyArticleHistory = DailyArticleLog[];
 
 /**
  * This interface is duplicated from the @guardian/libs definition of StorageFactory. This is to avoid adding the
