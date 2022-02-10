@@ -54,33 +54,16 @@ export const BannerTemplateProducts: {
 };
 
 const BannerVariantFromParams = (forChannel: BannerChannel) => {
-    return (variant: RawVariantParams): BannerVariant => {
-        const bannerContent = () => {
-            if (variant.bannerContent) {
-                return variant.bannerContent;
-            } else {
-                // legacy model
-                return {
-                    messageText: variant.body,
-                    heading: variant.heading,
-                    highlightedText: variant.highlightedText,
-                    cta: variant.cta,
-                    secondaryCta: variant.secondaryCta,
-                };
-            }
-        };
-
-        return {
-            name: variant.name,
-            modulePathBuilder: BannerPaths[variant.template],
-            moduleName: variant.template,
-            bannerContent: bannerContent(),
-            mobileBannerContent: variant.mobileBannerContent,
-            componentType: BannerTemplateComponentTypes[forChannel],
-            products: BannerTemplateProducts[variant.template],
-            separateArticleCount: variant.separateArticleCount,
-        };
-    };
+    return (variant: RawVariantParams): BannerVariant => ({
+        name: variant.name,
+        modulePathBuilder: BannerPaths[variant.template],
+        moduleName: variant.template,
+        bannerContent: variant.bannerContent,
+        mobileBannerContent: variant.mobileBannerContent,
+        componentType: BannerTemplateComponentTypes[forChannel],
+        products: BannerTemplateProducts[variant.template],
+        separateArticleCount: variant.separateArticleCount,
+    });
 };
 
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
