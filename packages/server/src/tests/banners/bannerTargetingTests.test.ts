@@ -30,14 +30,6 @@ describe('Banner pageview targeting test', () => {
         expect(canShow).toBe(true);
     });
 
-    it('variant 2 returns false if AC = 1', () => {
-        const canShow = test.variants[2].canShow({
-            ...targeting,
-            articleCountToday: 1,
-        });
-        expect(canShow).toBe(false);
-    });
-
     it('variant 2 returns false if AC = 1 and contentType = article', () => {
         const canShow = test.variants[2].canShow({
             ...targeting,

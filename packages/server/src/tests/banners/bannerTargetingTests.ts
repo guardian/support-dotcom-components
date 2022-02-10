@@ -13,14 +13,17 @@ export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
         variants: [
             {
                 name: 'control',
+                // show banner on first page view after redeploy
                 canShow: () => true,
             },
             {
                 name: 'variant1',
+                // show on/after 1st article view of the day
                 canShow: (targeting: BannerTargeting) => (targeting.articleCountToday || 0) >= 1,
             },
             {
                 name: 'variant2',
+                // show after 1st article view of the day
                 canShow: (targeting: BannerTargeting): boolean => {
                     const count = targeting.articleCountToday || 0;
                     return count >= 2 || (count >= 1 && isNetworkFront(targeting));
