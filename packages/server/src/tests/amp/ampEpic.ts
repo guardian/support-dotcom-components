@@ -1,7 +1,7 @@
 import { buildAmpEpicCampaignCode, getLocalCurrencySymbol } from '@sdc/shared/lib';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
-import { AMPEpic } from './ampEpicModels';
-import { selectAmpEpic } from './ampEpicTests';
+import { AMPEpic, AmpEpicTest } from './ampEpicModels';
+import { selectAmpEpic } from './ampEpicSelection';
 
 async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
     const testName = 'FALLBACK';
@@ -30,10 +30,11 @@ async function ampFallbackEpic(geolocation?: string): Promise<AMPEpic> {
 }
 
 export async function ampEpic(
+    tests: AmpEpicTest[],
     ampVariantAssignments: AmpVariantAssignments,
     countryCode?: string,
 ): Promise<AMPEpic> {
-    const ampEpic = await selectAmpEpic(ampVariantAssignments, countryCode);
+    const ampEpic = await selectAmpEpic(tests, ampVariantAssignments, countryCode);
 
     // If no epic from the tool, fall back on a hardcoded epic
     return ampEpic ? ampEpic : ampFallbackEpic(countryCode);
