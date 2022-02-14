@@ -13,8 +13,8 @@ const container = css`
 `;
 
 interface EnvironmentMomentBannerBodyProps {
-    messageText: JSX.Element | JSX.Element[];
-    mobileMessageText: JSX.Element | JSX.Element[] | null;
+    messageText: (JSX.Element | JSX.Element[])[];
+    mobileMessageText: (JSX.Element | JSX.Element[])[] | null;
 }
 
 export const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = ({

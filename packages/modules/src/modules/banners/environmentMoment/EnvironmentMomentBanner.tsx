@@ -219,8 +219,8 @@ const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
 
                             <div css={bodyContainer}>
                                 <EnvironmentMomentBannerBody
-                                    messageText={content.mainContent.messageText}
-                                    mobileMessageText={content.mobileContent?.messageText ?? null}
+                                    messageText={content.mainContent.paragraphs}
+                                    mobileMessageText={content.mobileContent?.paragraphs ?? null}
                                 />
                             </div>
 

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBanner';
-import { withKnobs, text } from '@storybook/addon-knobs';
+import { withKnobs, text, array } from '@storybook/addon-knobs';
 import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 
@@ -33,6 +33,11 @@ export const defaultStory = (): ReactElement => {
             'messageText',
             "Make sense of a chaotic world with The Guardian's weekly news magazine.",
         ),
+        paragraphs: array(
+            'paragraphs',
+            ["Make sense of a chaotic world with The Guardian's weekly news magazine."],
+            '|',
+        ),
     };
 
     const mobileContent: BannerContent = {
@@ -40,6 +45,11 @@ export const defaultStory = (): ReactElement => {
         messageText: text(
             'Mobile messageText',
             "Make sense of a chaotic world with The Guardian's weekly news magazine.",
+        ),
+        paragraphs: array(
+            'Mobile paragraphs',
+            ["Make sense of a chaotic world with The Guardian's weekly news magazine."],
+            '|',
         ),
     };
 

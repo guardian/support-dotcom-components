@@ -5,13 +5,15 @@ import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
 
-const styles = {
+import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText';
+
+const styles: BannerTextStyles = {
     container: css`
         ${body.small()}
         color: ${neutral[100]};
 
         p {
-            margin: 0;
+            margin: 0 0 0.5em 0;
         }
 
         ${from.tablet} {
@@ -22,14 +24,14 @@ const styles = {
             font-size: 17px;
         }
     `,
-    highlightedTextContainer: css`
+    highlightedText: css`
         font-weight: bold;
     `,
 };
 
 interface InvestigationsMomentBannerBodyProps {
-    messageText: JSX.Element | JSX.Element[];
-    mobileMessageText: JSX.Element | JSX.Element[] | null;
+    messageText: (JSX.Element | JSX.Element[])[];
+    mobileMessageText: (JSX.Element | JSX.Element[])[] | null;
     highlightedText: JSX.Element | JSX.Element[] | null;
     mobileHighlightedText: JSX.Element | JSX.Element[] | null;
 }
@@ -42,17 +44,14 @@ export function InvestigationsMomentBannerBody({
 }: InvestigationsMomentBannerBodyProps): JSX.Element {
     return (
         <div css={styles.container}>
-            <p>
-                <span>
-                    <Hide above="tablet">{mobileMessageText ?? messageText}</Hide>
-                    <Hide below="tablet">{messageText}</Hide>
-                </span>{' '}
-                <span css={styles.highlightedTextContainer}>
-                    <Hide above="tablet">{mobileHighlightedText ?? highlightedText}</Hide>
 
-                    <Hide below="tablet">{highlightedText}</Hide>
-                </span>
-            </p>
+            <Hide above="tablet">
+                {createBannerBodyCopy(mobileMessageText ?? messageText, mobileHighlightedText ?? highlightedText, styles)}
+            </Hide>
+
+            <Hide below="tablet">
+                {createBannerBodyCopy(messageText, highlightedText, styles)}
+            </Hide>
         </div>
     );
 }

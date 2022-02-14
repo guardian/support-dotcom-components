@@ -140,8 +140,8 @@ function getGlobalNewYearBanner(): React.FC<BannerRenderProps> {
 
                         <section css={styles.bodyContainer}>
                             <GlobalNewYearBannerBody
-                                messageText={content.mainContent.messageText}
-                                mobileMessageText={content.mobileContent?.messageText ?? null}
+                                messageText={content.mainContent.paragraphs}
+                                mobileMessageText={content.mobileContent?.paragraphs ?? null}
                                 highlightedText={content.mainContent.highlightedText ?? null}
                                 mobileHighlightedText={
                                     content.mobileContent?.highlightedText ?? null

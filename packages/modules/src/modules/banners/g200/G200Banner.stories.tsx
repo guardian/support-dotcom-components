@@ -17,13 +17,15 @@ Default.args = {
     ...props,
     mobileContent: {
         messageText:
-            'The Guardian is a work in progress. Support us from as little as £1 and we will progress together. Can fit in some.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut.',
     },
     content: {
         messageText:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse proin volutpat. Habitant maecenas massa ullamcorper volutpat. Elit proin Placerat est fermentum nulla porttitor est  suspendisse suspendisse porttitor est',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse proin volutpat. Habitant maecenas massa ullamcorper volutpat. Elit proin Placerat est fermentum nulla porttitor est  suspendisse suspendisse porttitor est.',
+        paragraphs:
+            ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus enim porttitor dolor at fermentum ut. Placerat est fermentum nulla porttitor est suspendisse proin volutpat. Habitant maecenas massa ullamcorper volutpat.', 'Elit proin Placerat est fermentum nulla porttitor est  suspendisse suspendisse porttitor est.'],
         highlightedText:
-            'The Guardian is a work in progress. Support us from as little as £1 and we will progress together.',
+            'The Guardian is a work in progress. Support us from as little as %%CURRENCY_SYMBOL%%1 and we will progress together.',
         cta: {
             text: 'Support the Guardian',
             baseUrl: 'https://support.theguardian.com/contribute',
