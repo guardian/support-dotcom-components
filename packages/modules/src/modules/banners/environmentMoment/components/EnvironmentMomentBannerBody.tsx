@@ -4,13 +4,23 @@ import { body } from '@guardian/src-foundations/typography';
 import { Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 
-const container = css`
-    ${body.small()}
+import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText';
 
-    ${from.leftCol} {
-        ${body.medium()}
-    }
-`;
+const styles: BannerTextStyles = {
+    container: css`
+        ${body.small()}
+
+        ${from.leftCol} {
+            ${body.medium()}
+        }
+        p {
+            margin: 0 0 0.5em 0;
+        }
+    `,
+    highlightedText: css`
+        font-weight: bold;
+    `,
+};
 
 interface EnvironmentMomentBannerBodyProps {
     messageText: (JSX.Element | JSX.Element[])[];
@@ -21,8 +31,14 @@ export const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyPr
     messageText,
     mobileMessageText,
 }: EnvironmentMomentBannerBodyProps) => (
-    <div css={container}>
-        <Hide above="tablet">{mobileMessageText ?? messageText}</Hide>
-        <Hide below="tablet">{messageText}</Hide>
+    <div css={styles.container}>
+        <Hide above="tablet">
+            {createBannerBodyCopy(mobileMessageText ?? messageText, null, styles)}
+        </Hide>
+
+        <Hide below="tablet">
+            {createBannerBodyCopy(messageText, null, styles)}
+        </Hide>
+
     </div>
 );
