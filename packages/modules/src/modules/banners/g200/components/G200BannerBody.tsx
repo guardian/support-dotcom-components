@@ -3,7 +3,6 @@ import { css } from '@emotion/core';
 import { body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
-import { space } from '@guardian/src-foundations';
 import { BannerTextContent } from '../../common/types';
 
 import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText';
@@ -11,12 +10,6 @@ import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText'
 const containerStyles = css`
     ${body.medium({ fontWeight: 'bold' })}
     color: ${neutral[100]};
-`;
-
-const desktopContainerStyles = css`
-    > * + * {
-        margin-top: ${space[2]}px;
-    }
 `;
 
 const styles: BannerTextStyles = {
@@ -42,14 +35,15 @@ const G200BannerBody: React.FC<G200BannerBodyProps> = ({ content }: G200BannerBo
 
     return (
         <div css={containerStyles}>
-
             <Hide above="tablet">
-                {createBannerBodyCopy(mobileMessageText ?? messageText, mobileHighlightedText ?? highlightedText, styles)}
+                {createBannerBodyCopy(
+                    mobileMessageText ?? messageText,
+                    mobileHighlightedText ?? highlightedText,
+                    styles,
+                )}
             </Hide>
 
-            <Hide below="tablet">
-                {createBannerBodyCopy(messageText, highlightedText, styles)}
-            </Hide>
+            <Hide below="tablet">{createBannerBodyCopy(messageText, highlightedText, styles)}</Hide>
         </div>
     );
 };

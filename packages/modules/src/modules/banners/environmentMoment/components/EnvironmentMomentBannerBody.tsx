@@ -36,9 +36,6 @@ export const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyPr
             {createBannerBodyCopy(mobileMessageText ?? messageText, null, styles)}
         </Hide>
 
-        <Hide below="tablet">
-            {createBannerBodyCopy(messageText, null, styles)}
-        </Hide>
-
+        <Hide below="tablet">{createBannerBodyCopy(messageText, null, styles)}</Hide>
     </div>
 );

@@ -44,14 +44,15 @@ export function InvestigationsMomentBannerBody({
 }: InvestigationsMomentBannerBodyProps): JSX.Element {
     return (
         <div css={styles.container}>
-
             <Hide above="tablet">
-                {createBannerBodyCopy(mobileMessageText ?? messageText, mobileHighlightedText ?? highlightedText, styles)}
+                {createBannerBodyCopy(
+                    mobileMessageText ?? messageText,
+                    mobileHighlightedText ?? highlightedText,
+                    styles,
+                )}
             </Hide>
 
-            <Hide below="tablet">
-                {createBannerBodyCopy(messageText, highlightedText, styles)}
-            </Hide>
+            <Hide below="tablet">{createBannerBodyCopy(messageText, highlightedText, styles)}</Hide>
         </div>
     );
 }

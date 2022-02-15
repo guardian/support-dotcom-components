@@ -35,8 +35,11 @@ export const defaultStory = (): ReactElement => {
         ),
         paragraphs: array(
             'paragraphs',
-            ["And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all.", "With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps."],
-            '|'
+            [
+                "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all.",
+                'With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+            ],
+            '|',
         ),
     };
 
@@ -48,8 +51,10 @@ export const defaultStory = (): ReactElement => {
         ),
         paragraphs: array(
             'mobileParagraphs',
-            ['Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.'],
-            '|'
+            [
+                'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+            ],
+            '|',
         ),
         secondaryCta: {
             type: SecondaryCtaType.Custom,

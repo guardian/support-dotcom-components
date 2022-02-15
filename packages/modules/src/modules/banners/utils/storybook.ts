@@ -23,8 +23,8 @@ export const content = {
         'In the extraordinary year that was 2021, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
     paragraphs: [
         'In the extraordinary year that was 2022, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth.',
-        'You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.'
-        ],
+        'You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
+    ],
     mobileMessageText:
         'With 2021 offering new hope, %%ARTICLE_COUNT%% articles we commit to another year of independent journalism.',
     highlightedText: 'Support us from as little as %%CURRENCY_SYMBOL%%1.',

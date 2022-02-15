@@ -46,19 +46,19 @@ const buildSubheading = (
     return null;
 };
 
-export const getParagraphsOrMessageText = (paras: string[] | undefined, text: string | undefined): string[] => {
+export const getParagraphsOrMessageText = (
+    paras: string[] | undefined,
+    text: string | undefined,
+): string[] => {
     const bodyCopy = [];
 
     if (paras != null) {
         bodyCopy.push(...paras);
-    }
-    else if (text != null) {
+    } else if (text != null) {
         bodyCopy.push(text);
     }
     return bodyCopy;
 };
-
-
 
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
@@ -98,7 +98,10 @@ const withBannerData = (
         }
     }, [submitComponentEvent]);
 
-    const cleanParagraphsOrMessageText = (paras: string[] | undefined, text: string | undefined): string[] => {
+    const cleanParagraphsOrMessageText = (
+        paras: string[] | undefined,
+        text: string | undefined,
+    ): string[] => {
         const originalCopy = getParagraphsOrMessageText(paras, text);
 
         if (!originalCopy.length) {
@@ -112,7 +115,8 @@ const withBannerData = (
         return paras.map(p => replaceArticleCount(p, numArticles, 'banner'));
     };
 
-    const paragraphsContainNonArticleCountPlaceholder = (paras: string[]): boolean => paras.some(p => containsNonArticleCountPlaceholder(p));
+    const paragraphsContainNonArticleCountPlaceholder = (paras: string[]): boolean =>
+        paras.some(p => containsNonArticleCountPlaceholder(p));
 
     const componentIds = getComponentIds(bannerId);
 
@@ -158,7 +162,10 @@ const withBannerData = (
             countryCode,
         ).trim();
 
-        const cleanParagraphs = cleanParagraphsOrMessageText(bannerContent.paragraphs, bannerContent.messageText);
+        const cleanParagraphs = cleanParagraphsOrMessageText(
+            bannerContent.paragraphs,
+            bannerContent.messageText,
+        );
 
         const copyHasPlaceholder =
             paragraphsContainNonArticleCountPlaceholder(cleanParagraphs) ||

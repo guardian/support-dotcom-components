@@ -24,63 +24,47 @@ type BannerTextProps = {
     children?: React.ReactNode;
 };
 
-export const createBannerBodyCopy = (paras: (Array<JSX.Element> | JSX.Element)[], highlights: Array<JSX.Element> | JSX.Element | null | undefined, renderStyles: BannerTextStyles) => {
+export const createBannerBodyCopy = (
+    paras: (Array<JSX.Element> | JSX.Element)[],
+    highlights: Array<JSX.Element> | JSX.Element | null | undefined,
+    renderStyles: BannerTextStyles,
+): JSX.Element[] | JSX.Element => {
     if (paras != null && highlights != null) {
         if (Array.isArray(paras) && paras.length) {
             const len = paras.length - 1;
             return paras.map((p, index) => {
                 if (index < len) {
-                    return (
-                        <p>
-                            {p}
-                        </p>
-                    );
+                    return <p key={index}>{p}</p>;
                 }
                 return (
-                    <p>
-                        {p}
-                        &nbsp;<span css={renderStyles.highlightedText}>
-                            {highlights}
-                        </span>
+                    <p key={index}>
+                        {p} <span css={renderStyles.highlightedText}>{highlights}</span>
                     </p>
                 );
             });
         }
         return (
             <p>
-                {paras}
-                &nbsp;s<span css={renderStyles.highlightedText}>
-                    {highlights}
-                </span>
+                {paras} <span css={renderStyles.highlightedText}>{highlights}</span>
             </p>
         );
     }
     if (paras != null) {
         if (Array.isArray(paras) && paras.length) {
-            return paras.map(p => {
-                return (
-                    <p>
-                        {p}
-                    </p>
-                );
+            return paras.map((p, index) => {
+                return <p key={index}>{p}</p>;
             });
         }
-        return (
-            <p>
-                {paras}
-            </p>
-        );
+        return <p>{paras}</p>;
     }
     if (highlights != null) {
         return (
             <p>
-                <span css={renderStyles.highlightedText}>
-                    {highlights}
-                </span>
+                <span css={renderStyles.highlightedText}>{highlights}</span>
             </p>
         );
     }
-    return (<p></p>);
+    return <p></p>;
 };
 
 export const BannerText: React.FC<BannerTextProps> = ({ styles, content, children }) => {

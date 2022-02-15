@@ -31,11 +31,13 @@ export const defaultStory = (): ReactElement => {
         heading: text('heading', 'Read The Guardian in print'),
         messageText: text(
             'messageText',
-            "More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.",
+            'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
         ),
         paragraphs: array(
             'paragraphs',
-            ["More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are."],
+            [
+                'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
+            ],
             '|',
         ),
     };
