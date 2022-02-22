@@ -53,12 +53,7 @@ export interface BannerDeployCaches {
 }
 
 const cachedDeployTime = (bannerChannel: BannerChannel): (() => Promise<BannerDeployTimes>) =>
-    cacheAsync(
-        fetchBannerDeployTimes(bannerChannel),
-        fiveMinutes,
-        `fetch${bannerChannel}BannerDeployTime`,
-        true,
-    )[1];
+    cacheAsync(fetchBannerDeployTimes(bannerChannel), { ttlSec: fiveMinutes, warm: true });
 
 export const bannerDeployCaches: BannerDeployCaches = {
     contributions: cachedDeployTime('contributions'),

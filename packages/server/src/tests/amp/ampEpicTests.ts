@@ -16,9 +16,7 @@ const fetchAmpEpicTests = (): Promise<AmpEpicTest[]> =>
             return data.tests;
         });
 
-export const [, getCachedAmpEpicTests] = cacheAsync<AmpEpicTest[]>(
-    fetchAmpEpicTests,
-    60,
-    'ampEpicTests',
-    true,
-);
+export const getCachedAmpEpicTests = cacheAsync<AmpEpicTest[]>(fetchAmpEpicTests, {
+    ttlSec: 60,
+    warm: true,
+});

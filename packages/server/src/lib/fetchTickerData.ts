@@ -33,25 +33,31 @@ const parse = (json: any): Promise<TickerData> => {
     }
 };
 
+const getTickerDataForTickerTypeFetcher = (type: TickerCountType) => () => {
+    return fetch(tickerUrl(type), {
+        timeout: 1000 * 20,
+    })
+        .then(response => checkForErrors(response))
+        .then(response => response.json())
+        .then(parse);
+};
+
+const cachedTickerFetchers = {
+    [TickerCountType.people]: cacheAsync(
+        getTickerDataForTickerTypeFetcher(TickerCountType.people),
+        {
+            ttlSec: 60,
+        },
+    ),
+    [TickerCountType.money]: cacheAsync(getTickerDataForTickerTypeFetcher(TickerCountType.money), {
+        ttlSec: 60,
+    }),
+};
+
 export const fetchTickerDataCached = async (
     tickerSettings: TickerSettings,
 ): Promise<TickerData> => {
-    const fetchForType = (): Promise<TickerData> => {
-        return fetch(tickerUrl(tickerSettings.countType), {
-            timeout: 1000 * 20,
-        })
-            .then(response => checkForErrors(response))
-            .then(response => response.json())
-            .then(parse);
-    };
-
-    const [, cachedRes] = cacheAsync(
-        fetchForType,
-        60,
-        `fetchTickerData_${tickerSettings.countType}`,
-    );
-
-    return cachedRes();
+    return cachedTickerFetchers[tickerSettings.countType]();
 };
 
 export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise<TickerSettings> =>
