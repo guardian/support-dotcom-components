@@ -41,6 +41,7 @@ describe('selectBannerTest', () => {
             countryCode: 'AU',
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
         };
 
         const tracking = {
@@ -163,6 +164,7 @@ describe('selectBannerTest', () => {
             countryCode: 'GB',
             engagementBannerLastClosedAt: firstDate,
             hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
         };
 
         const tracking = {
