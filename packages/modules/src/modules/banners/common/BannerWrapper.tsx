@@ -103,11 +103,6 @@ const withBannerData = (
         text: string | undefined,
     ): string[] => {
         const originalCopy = getParagraphsOrMessageText(paras, text);
-
-        if (!originalCopy.length) {
-            return originalCopy;
-        }
-
         return originalCopy.map(p => replaceNonArticleCountPlaceholders(p).trim());
     };
 

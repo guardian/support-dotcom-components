@@ -29,42 +29,27 @@ export const createBannerBodyCopy = (
     highlights: Array<JSX.Element> | JSX.Element | null | undefined,
     renderStyles: BannerTextStyles,
 ): JSX.Element[] | JSX.Element => {
-    if (paras != null && highlights != null) {
-        if (Array.isArray(paras) && paras.length) {
-            const len = paras.length - 1;
-            return paras.map((p, index) => {
-                if (index < len) {
-                    return <p key={index}>{p}</p>;
-                }
-                return (
-                    <p key={index}>
-                        {p} <span css={renderStyles.highlightedText}>{highlights}</span>
-                    </p>
-                );
-            });
-        }
-        return (
-            <p>
-                {paras} <span css={renderStyles.highlightedText}>{highlights}</span>
-            </p>
-        );
-    }
-    if (paras != null) {
-        if (Array.isArray(paras) && paras.length) {
-            return paras.map((p, index) => {
-                return <p key={index}>{p}</p>;
-            });
-        }
-        return <p>{paras}</p>;
-    }
-    if (highlights != null) {
+    const parasToProcess = Array.isArray(paras) ? paras : [paras];
+    const len = parasToProcess.length - 1;
+
+    if (len < 0) {
         return (
             <p>
                 <span css={renderStyles.highlightedText}>{highlights}</span>
             </p>
         );
     }
-    return <p></p>;
+
+    return parasToProcess.map((p, index) => {
+        if (index < len) {
+            return <p key={index}>{p}</p>;
+        }
+        return (
+            <p key={index}>
+                {p} <span css={renderStyles.highlightedText}>{highlights}</span>
+            </p>
+        );
+    });
 };
 
 export const BannerText: React.FC<BannerTextProps> = ({ styles, content, children }) => {
