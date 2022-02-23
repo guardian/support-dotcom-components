@@ -10,10 +10,12 @@ export type BannerTargeting = {
     mvtId: number;
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
+    articleCountToday?: number;
     hasOptedOutOfArticleCount: boolean;
     modulesVersion?: string;
     sectionId?: string;
     tagIds?: string[];
+    contentType?: string;
 };
 
 export type BannerPayload = {

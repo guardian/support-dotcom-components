@@ -27,6 +27,7 @@ const targeting: BannerTargeting = {
     countryCode: 'GB',
     weeklyArticleHistory: [],
     hasOptedOutOfArticleCount: false,
+    contentType: 'Article',
 };
 
 describe('selectTargetingTest', () => {

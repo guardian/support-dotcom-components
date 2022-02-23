@@ -2,7 +2,7 @@ import { CountryGroupId } from '@sdc/shared/lib';
 import { TickerCountType, TickerEndType } from '@sdc/shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
-import { selectAmpEpicTestAndVariant } from './ampEpicTests';
+import { selectAmpEpic } from './ampEpicSelection';
 
 jest.mock('../../lib/fetchTickerData', () => {
     return {
@@ -96,13 +96,13 @@ const expectedAmpEpic: AMPEpic = {
 describe('ampEpicTests', () => {
     it('should select test with no targeting', async () => {
         const tests = [epicTest];
-        const result = await selectAmpEpicTestAndVariant(tests, ampVariantAssignments, 'GB');
+        const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual(expectedAmpEpic);
     });
 
     it('should not select test if disabled', async () => {
         const tests = [{ ...epicTest, isOn: false }];
-        const result = await selectAmpEpicTestAndVariant(tests, ampVariantAssignments, 'GB');
+        const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual(null);
     });
 
@@ -111,7 +111,7 @@ describe('ampEpicTests', () => {
             { ...epicTest, locations: ['UnitedStates' as CountryGroupId] },
             { ...epicTest, name: 'TEST2', nickname: 'TEST2' },
         ];
-        const result = await selectAmpEpicTestAndVariant(tests, ampVariantAssignments, 'GB');
+        const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual({
             ...expectedAmpEpic,
             testName: 'TEST2',

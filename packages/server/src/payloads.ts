@@ -34,7 +34,7 @@ import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
-import { inEpicPaymentTestDraft } from './tests/epics/inEpicPaymentTest';
+import { tests as inEpicPaymentTests } from './tests/epics/inEpicPayments';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
@@ -86,32 +86,25 @@ interface HeaderDataResponse {
     };
 }
 
-const [, fetchConfiguredArticleEpicTestsCached] = cacheAsync(
+const fetchConfiguredArticleEpicTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE'),
-    60,
-    `fetchConfiguredEpicTests_ARTICLE`,
+    { ttlSec: 60 },
 );
 
-const [, fetchConfiguredArticleEpicHoldbackTestsCached] = cacheAsync(
+const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
-    60,
-    `fetchConfiguredEpicTests_ARTICLE_HOLDBACK`,
+    { ttlSec: 60 },
 );
 
-const [, fetchConfiguredLiveblogEpicTestsCached] = cacheAsync(
+const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('LIVEBLOG'),
-    60,
-    `fetchConfiguredEpicTests_LIVEBLOG`,
+    { ttlSec: 60 },
 );
 
-const [, fetchSuperModeArticlesCached] = cacheAsync(
-    fetchSuperModeArticles,
-    60,
-    'fetchSuperModeArticles',
-);
+const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [];
+const hardcodedEpicTests: EpicTest[] = [...inEpicPaymentTests];
 
 const getArticleEpicTests = async (
     mvtId: number,
@@ -127,13 +120,7 @@ const getArticleEpicTests = async (
         const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
         if (isForcingTest) {
-            return [
-                inEpicPaymentTestDraft,
-                ...hardcodedTests,
-                ...regular,
-                ...holdback,
-                fallbackEpicTest,
-            ];
+            return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
         }
 
         const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience

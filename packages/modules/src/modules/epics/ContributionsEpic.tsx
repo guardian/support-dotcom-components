@@ -447,6 +447,7 @@ export const getContributionsEpic: (
                         countryCode={countryCode}
                         reminderCta={reminderCta}
                         onReminderClicked={onReminderCtaClick}
+                        stage={stage ?? 'PROD'}
                     />
                 </div>
             ) : (

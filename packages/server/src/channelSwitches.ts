@@ -15,11 +15,6 @@ const getSwitches = (): Promise<ChannelSwitches> =>
         JSON.parse,
     );
 
-const [, cachedChannelSwitches] = cacheAsync<ChannelSwitches>(
-    getSwitches,
-    60,
-    'channelSwitches',
-    true,
-);
+const cachedChannelSwitches = cacheAsync<ChannelSwitches>(getSwitches, { ttlSec: 60, warm: true });
 
 export { cachedChannelSwitches };

@@ -9,11 +9,9 @@ const getChoiceCardAmounts = (): Promise<ChoiceCardAmounts> =>
         `${isProd ? 'PROD' : 'CODE'}/configured-amounts.json`,
     ).then(JSON.parse);
 
-const [, cachedChoiceCardAmounts] = cacheAsync<ChoiceCardAmounts>(
-    getChoiceCardAmounts,
-    60,
-    'choiceCardAmounts',
-    true,
-);
+const cachedChoiceCardAmounts = cacheAsync<ChoiceCardAmounts>(getChoiceCardAmounts, {
+    ttlSec: 60,
+    warm: true,
+});
 
 export { cachedChoiceCardAmounts };

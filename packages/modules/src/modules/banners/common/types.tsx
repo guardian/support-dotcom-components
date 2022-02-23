@@ -3,14 +3,11 @@ import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
 
 export type BannerId =
     | 'contributions-banner'
-    | 'g200-banner'
     | 'aus-moment-banner'
     | 'investigations-moment-banner'
     | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner'
-    | 'us-eoy-moment-banner'
-    | 'us-eoy-giving-tuesday-moment-banner'
     | 'global-new-year-banner';
 
 export interface BannerEnrichedCta {

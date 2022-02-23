@@ -1,4 +1,4 @@
-import { BannerChannel, BannerContent, Cta, SecondaryCta, TickerSettings } from '../props';
+import { BannerChannel, BannerContent, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
@@ -18,8 +18,6 @@ export enum BannerTemplate {
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
-    UsEoyMomentBanner = 'UsEoyMomentBanner',
-    UsEoyMomentGivingTuesdayBanner = 'UsEoyMomentGivingTuesdayBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
 }
 
@@ -68,13 +66,6 @@ export interface RawVariantParams {
     bannerContent: BannerContent;
     mobileBannerContent?: BannerContent;
     separateArticleCount?: boolean;
-
-    // deprecated - use bannerContent
-    body: string;
-    heading?: string;
-    highlightedText?: string;
-    cta?: Cta;
-    secondaryCta?: SecondaryCta;
 }
 
 export interface RawTestParams {

@@ -47,16 +47,6 @@ export const environmentMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/environmentMoment/EnvironmentMomentBanner',
 );
 
-export const usEoyMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-banner',
-    'banners/usEoyMoment/UsEoyMomentBanner',
-);
-
-export const usEoyMomentGivingTuesdayBanner: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-banner',
-    'banners/usEoyMoment/UsEoyMomentGivingTuesdayBanner',
-);
-
 export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
     'global-new-year-banner',
     'banners/globalNewYear/GlobalNewYearBanner',
@@ -87,8 +77,6 @@ export const moduleInfos: ModuleInfo[] = [
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
-    usEoyMomentBanner,
-    usEoyMomentGivingTuesdayBanner,
     globalNewYearBanner,
     digiSubs,
     guardianWeekly,
