@@ -27,7 +27,6 @@ export interface BannerContent {
 
 const bannerContentSchema = z.object({
     heading: z.string().optional(),
-    // messageText: z.string(),
     messageText: z.string().optional(),
     paragraphs: z.array(z.string()).optional(),
     mobileMessageText: z.string().optional(),
