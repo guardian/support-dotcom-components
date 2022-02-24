@@ -11,7 +11,7 @@ type BannerTextStyleableAreas =
     | 'copy'
     | 'highlightedText';
 
-type BannerTextStyles = {
+export type BannerTextStyles = {
     [key in BannerTextStyleableAreas]?: SerializedStyles | SerializedStyles[];
 };
 
@@ -24,6 +24,35 @@ type BannerTextProps = {
     children?: React.ReactNode;
 };
 
+export const createBannerBodyCopy = (
+    paragraphs: (Array<JSX.Element> | JSX.Element)[],
+    highlightedText: Array<JSX.Element> | JSX.Element | null | undefined,
+    renderStyles: BannerTextStyles,
+): JSX.Element[] | JSX.Element => {
+    const paragraphsToProcess = Array.isArray(paragraphs) ? paragraphs : [paragraphs];
+    const numberOfNonFinalParagraphs = paragraphsToProcess.length - 1;
+
+    // To cover situations where there are no paragraphs to process
+    if (numberOfNonFinalParagraphs < 0) {
+        return (
+            <p>
+                <span css={renderStyles.highlightedText}>{highlightedText}</span>
+            </p>
+        );
+    }
+
+    return paragraphsToProcess.map((p, index) => {
+        if (index < numberOfNonFinalParagraphs) {
+            return <p key={index}>{p}</p>;
+        }
+        return (
+            <p key={index}>
+                {p} <span css={renderStyles.highlightedText}>{highlightedText}</span>
+            </p>
+        );
+    });
+};
+
 export const BannerText: React.FC<BannerTextProps> = ({ styles, content, children }) => {
     const mobileStyles = styles.mobile || styles.desktop;
     const desktopStyles = styles.desktop;
@@ -33,7 +62,7 @@ export const BannerText: React.FC<BannerTextProps> = ({ styles, content, childre
             content={content}
             render={({ renderContent, isMobile }) => {
                 const renderStyles = isMobile ? mobileStyles : desktopStyles;
-                const { heading, subheading, messageText, highlightedText } = renderContent;
+                const { heading, subheading, paragraphs, highlightedText } = renderContent;
 
                 return (
                     <div css={renderStyles.container}>
@@ -44,15 +73,7 @@ export const BannerText: React.FC<BannerTextProps> = ({ styles, content, childre
 
                         <div css={renderStyles.body}>
                             <div css={renderStyles.copy}>
-                                {messageText}
-                                {highlightedText && (
-                                    <>
-                                        {' '}
-                                        <span css={renderStyles.highlightedText}>
-                                            {highlightedText}
-                                        </span>
-                                    </>
-                                )}
+                                {createBannerBodyCopy(paragraphs, highlightedText, renderStyles)}
                                 {children}
                             </div>
                         </div>

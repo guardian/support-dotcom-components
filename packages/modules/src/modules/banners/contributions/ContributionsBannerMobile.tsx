@@ -8,9 +8,10 @@ import { headline } from '@guardian/src-foundations/typography';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
-import { BannerRenderedContent } from '../common/types';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import { BannerRenderedContent } from '../common/types';
+import { createBannerBodyCopy } from '../common/BannerText';
 
 const styles = {
     container: (isReminderOpen: boolean) => css`
@@ -146,13 +147,7 @@ export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps>
             </div>
             <div css={[commonStyles.copy, styles.copy]}>
                 {content.subheading && <div css={styles.subheading}>{content.subheading}</div>}
-                {content.messageText}
-                {content.highlightedText && (
-                    <>
-                        {' '}
-                        <span css={commonStyles.highlightedText}>{content.highlightedText}</span>
-                    </>
-                )}
+                {createBannerBodyCopy(content.paragraphs, content.highlightedText, commonStyles)}
                 {children}
             </div>
 

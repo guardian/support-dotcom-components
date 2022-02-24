@@ -46,6 +46,20 @@ const buildSubheading = (
     return null;
 };
 
+export const getParagraphsOrMessageText = (
+    paras: string[] | undefined,
+    text: string | undefined,
+): string[] => {
+    const bodyCopy = [];
+
+    if (paras != null) {
+        bodyCopy.push(...paras);
+    } else if (text != null) {
+        bodyCopy.push(text);
+    }
+    return bodyCopy;
+};
+
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
@@ -83,6 +97,21 @@ const withBannerData = (
             submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
         }
     }, [submitComponentEvent]);
+
+    const cleanParagraphsOrMessageText = (
+        paras: string[] | undefined,
+        text: string | undefined,
+    ): string[] => {
+        const originalCopy = getParagraphsOrMessageText(paras, text);
+        return originalCopy.map(p => replaceNonArticleCountPlaceholders(p).trim());
+    };
+
+    const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
+        return paras.map(p => replaceArticleCount(p, numArticles, 'banner'));
+    };
+
+    const paragraphsContainNonArticleCountPlaceholder = (paras: string[]): boolean =>
+        paras.some(p => containsNonArticleCountPlaceholder(p));
 
     const componentIds = getComponentIds(bannerId);
 
@@ -123,29 +152,25 @@ const withBannerData = (
             bannerContent.highlightedText &&
             replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode).trim();
 
-        const cleanMessageText = replaceNonArticleCountPlaceholders(
-            bannerContent.messageText,
-            countryCode,
-        ).trim();
-
         const cleanHeading = replaceNonArticleCountPlaceholders(
             bannerContent.heading,
             countryCode,
         ).trim();
 
+        const cleanParagraphs = cleanParagraphsOrMessageText(
+            bannerContent.paragraphs,
+            bannerContent.messageText,
+        );
+
         const copyHasPlaceholder =
-            containsNonArticleCountPlaceholder(cleanMessageText) ||
+            paragraphsContainNonArticleCountPlaceholder(cleanParagraphs) ||
             (!!cleanHighlightedText && containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
             (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
         const headingWithArticleCount = !!cleanHeading
             ? replaceArticleCount(cleanHeading, numArticles, 'banner')
             : null;
-        const messageTextWithArticleCount = replaceArticleCount(
-            cleanMessageText,
-            numArticles,
-            'banner',
-        );
+
         const highlightedTextWithArticleCount = !!cleanHighlightedText
             ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
             : null;
@@ -158,7 +183,7 @@ const withBannerData = (
 
         return {
             highlightedText: highlightedTextWithArticleCount,
-            messageText: messageTextWithArticleCount,
+            paragraphs: finaliseParagraphs(cleanParagraphs),
             heading: headingWithArticleCount,
             subheading,
             primaryCta,

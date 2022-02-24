@@ -17,7 +17,9 @@ export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 
 export interface BannerContent {
     heading?: string;
-    messageText: string;
+    messageText?: string;
+    paragraphs?: string[];
+    mobileMessageText?: string; // deprecated - use mobileBannerContent instead
     highlightedText?: string;
     cta?: Cta;
     secondaryCta?: SecondaryCta;
@@ -25,7 +27,8 @@ export interface BannerContent {
 
 const bannerContentSchema = z.object({
     heading: z.string().optional(),
-    messageText: z.string(),
+    messageText: z.string().optional(),
+    paragraphs: z.array(z.string()).optional(),
     mobileMessageText: z.string().optional(),
     highlightedText: z.string().optional(),
     cta: ctaSchema.optional(),

@@ -19,6 +19,9 @@ WithoutArticleCount.args = {
         heading: '',
         messageText:
             'We will not sideline the climate crisis. Today, one year on from our pledge, we want to update you on our progress.',
+        paragraphs: [
+            'We will not sideline the climate crisis. Today, one year on from our pledge, we want to update you on our progress.',
+        ],
         cta: {
             text: 'Support us',
             baseUrl: 'https://support.theguardian.com/contribute',
@@ -34,7 +37,11 @@ WithoutArticleCount.args = {
     content: {
         heading: '',
         messageText:
-            'One year ago, we outlined our plans to confront the escalating climate crisis. We promised to report with authority on the defining issue of our lifetime – giving it the sustained attention it demands. Then came the global pandemic.\n\nToday we want to update you on our progress, and assure you that the Guardian will not sideline the climate emergency in 2020, or in the years to come. Generosity from supporters like you sustains our open, independent journalism. Thank you',
+            'One year ago, we outlined our plans to confront the escalating climate crisis. We promised to report with authority on the defining issue of our lifetime – giving it the sustained attention it demands. Then came the global pandemic. Today we want to update you on our progress, and assure you that the Guardian will not sideline the climate emergency in 2020, or in the years to come. Generosity from supporters like you sustains our open, independent journalism. Thank you',
+        paragraphs: [
+            'One year ago, we outlined our plans to confront the escalating climate crisis. We promised to report with authority on the defining issue of our lifetime – giving it the sustained attention it demands. Then came the global pandemic.',
+            'Today we want to update you on our progress, and assure you that the Guardian will not sideline the climate emergency in 2020, or in the years to come. Generosity from supporters like you sustains our open, independent journalism. Thank you',
+        ],
         cta: {
             text: 'Read our Pledge',
             baseUrl: 'https://support.theguardian.com/contribute',

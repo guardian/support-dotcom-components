@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBanner';
-import { withKnobs, text } from '@storybook/addon-knobs';
+import { withKnobs, text, array } from '@storybook/addon-knobs';
 import { StorybookWrapper, BannerWrapper } from '../../../utils/StorybookWrapper';
 import { BannerContent, BannerProps, SecondaryCtaType, Tracking } from '@sdc/shared/types';
 
@@ -33,6 +33,14 @@ export const defaultStory = (): ReactElement => {
             'messageText',
             "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.",
         ),
+        paragraphs: array(
+            'paragraphs',
+            [
+                "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all.",
+                'With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+            ],
+            '|',
+        ),
     };
 
     const mobileContent: BannerContent = {
@@ -40,6 +48,13 @@ export const defaultStory = (): ReactElement => {
         messageText: text(
             'mobileMessageText',
             'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+        ),
+        paragraphs: array(
+            'mobileParagraphs',
+            [
+                'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from £5.99 a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+            ],
+            '|',
         ),
         secondaryCta: {
             type: SecondaryCtaType.Custom,
