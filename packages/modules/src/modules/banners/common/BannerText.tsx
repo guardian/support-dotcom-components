@@ -25,28 +25,29 @@ type BannerTextProps = {
 };
 
 export const createBannerBodyCopy = (
-    paras: (Array<JSX.Element> | JSX.Element)[],
-    highlights: Array<JSX.Element> | JSX.Element | null | undefined,
+    paragraphs: (Array<JSX.Element> | JSX.Element)[],
+    highlightedText: Array<JSX.Element> | JSX.Element | null | undefined,
     renderStyles: BannerTextStyles,
 ): JSX.Element[] | JSX.Element => {
-    const parasToProcess = Array.isArray(paras) ? paras : [paras];
-    const len = parasToProcess.length - 1;
+    const paragraphsToProcess = Array.isArray(paragraphs) ? paragraphs : [paragraphs];
+    const numberOfNonFinalParagraphs = paragraphsToProcess.length - 1;
 
-    if (len < 0) {
+    // To cover situations where there are no paragraphs to process
+    if (numberOfNonFinalParagraphs < 0) {
         return (
             <p>
-                <span css={renderStyles.highlightedText}>{highlights}</span>
+                <span css={renderStyles.highlightedText}>{highlightedText}</span>
             </p>
         );
     }
 
-    return parasToProcess.map((p, index) => {
-        if (index < len) {
+    return paragraphsToProcess.map((p, index) => {
+        if (index < numberOfNonFinalParagraphs) {
             return <p key={index}>{p}</p>;
         }
         return (
             <p key={index}>
-                {p} <span css={renderStyles.highlightedText}>{highlights}</span>
+                {p} <span css={renderStyles.highlightedText}>{highlightedText}</span>
             </p>
         );
     });
