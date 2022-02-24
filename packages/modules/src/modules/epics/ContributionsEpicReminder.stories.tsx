@@ -10,8 +10,14 @@ export default {
     component: ContributionsEpicReminder,
     title: 'Epics/ContributionsEpicReminder',
     args: {
-        reminderPeriod: '2021-05-01',
-        reminderLabel: 'May',
+        reminderFields: {
+            reminderCta: 'Remind me in May',
+            reminderLabel: 'May',
+            reminderPeriod: '2021-05-01',
+        },
+        onCloseReminderClick: () => {
+            console.log('closed');
+        },
     },
     decorators: [EpicDecorator],
 } as Meta;

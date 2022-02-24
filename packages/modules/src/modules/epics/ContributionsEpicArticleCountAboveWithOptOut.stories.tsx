@@ -10,7 +10,10 @@ export default {
     component: ContributionsEpicArticleCountAboveWithOptOut,
     title: 'Epics/ContributionsEpicArticleCountAboveWithOptOut',
     args: {
-        numArticles: 989,
+        articleCounts: {
+            forTargetedWeeks: 5,
+            for52Weeks: 10,
+        },
         isArticleCountOn: true,
     },
     decorators: [EpicDecorator],
@@ -23,17 +26,15 @@ const Template: Story<ContributionsEpicArticleCountAboveWithOptOutProps> = (
 export const ArticleCountOn = Template.bind({});
 
 export const ArticleCountOff = Template.bind({});
-
-// Nothing displays
-export const ArticleCountOnBelow5 = Template.bind({});
-
 ArticleCountOff.args = {
     isArticleCountOn: false,
 };
 
+// Nothing displays
+export const ArticleCountOnBelow5 = Template.bind({});
 ArticleCountOnBelow5.args = {
     articleCounts: {
-        forTargetedWeeks: 5,
-        for52Weeks: 10,
+        forTargetedWeeks: 3,
+        for52Weeks: 3,
     },
 };
