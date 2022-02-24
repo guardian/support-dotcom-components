@@ -46,6 +46,8 @@ const EXCLUDE_TAG_IDS = [
     'news/series/pegasus-project',
     'news/series/panama-papers',
     'news/series/suisse-secrets',
+    'world/ukraine',
+    'world/russia',
 ];
 
 function _build({
