@@ -28,7 +28,6 @@ import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } fro
 import { ampEpic } from './tests/amp/ampEpic';
 import { getCachedAmpEpicTests } from './tests/amp/ampEpicTests';
 import { getAmpExperimentData } from './tests/amp/ampEpicSelection';
-import { logInfo } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { buildReminderFields } from '@sdc/shared/lib';
 
@@ -80,6 +79,7 @@ app.post(
                 epicType,
                 params,
                 baseUrl(req),
+                req,
             );
 
             // for response logging
@@ -112,6 +112,7 @@ app.post(
                 epicType,
                 params,
                 baseUrl(req),
+                req,
             );
 
             // for response logging
@@ -204,70 +205,6 @@ const createEndpointForModule = (moduleInfo: ModuleInfo): void => {
 if (isDev) {
     moduleInfos.forEach(createEndpointForModule);
 }
-
-// TODO remove once migration complete
-app.post('/epic/compare-variant-decision', async (req: express.Request, res: express.Response) => {
-    if (process.env.log_compare_variants !== 'true') {
-        res.send('ignoring');
-        return;
-    }
-
-    const {
-        targeting,
-        expectedTest,
-        expectedVariant,
-        expectedCampaignCode,
-        expectedCampaignId,
-        frontendLog,
-    } = req.body;
-
-    const ignores = [
-        'FrontendDotcomRenderingEpic',
-        'RemoteRenderEpicRoundTwo',
-        'ContributionsEpicPrecontributionReminderRoundTwo',
-    ];
-
-    if (ignores.includes(expectedTest)) {
-        res.send('ignoring');
-        return;
-    }
-
-    const fakeTracking = {
-        ophanPageId: 'xxxxxxxxxxxxx',
-        platformId: 'GUARDIAN_WEB',
-        clientName: 'xxx',
-        referrerUrl: 'https://theguardian.com',
-    };
-
-    const got = await buildEpicData(fakeTracking, targeting, 'ARTICLE', {}, baseUrl(req));
-
-    const notBothFalsy = expectedTest || got;
-    const gotTestName = got.data?.meta.abTestName;
-    const gotVariantName = got.data?.meta.abTestVariant;
-    const gotCampaignCode = got.data?.meta.campaignCode;
-    const gotCampaignId = got.data?.meta.campaignId;
-
-    const notTheSame =
-        gotTestName !== expectedTest ||
-        gotVariantName !== expectedVariant ||
-        gotCampaignCode !== expectedCampaignCode ||
-        gotCampaignId !== expectedCampaignId;
-
-    if (notBothFalsy && notTheSame) {
-        logInfo(
-            'comparison failed with data: ' +
-                JSON.stringify({
-                    status: 'comparison failed',
-                    got: `${gotTestName}:${gotVariantName}:${gotCampaignCode}:${gotCampaignId}`,
-                    want: `${expectedTest}:${expectedVariant}:${expectedCampaignCode}:${expectedCampaignId}`,
-                    targeting,
-                    frontendLog,
-                }),
-        );
-    }
-
-    res.send('thanks');
-});
 
 app.get(
     '/amp/experiments_data',

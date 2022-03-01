@@ -86,6 +86,13 @@ interface HeaderDataResponse {
     };
 }
 
+const isIOS = (ua: string) => /(iPad|iPhone|iPod touch)/i.test(ua);
+const isAndroid = (ua: string) => /Android/i.test(ua);
+const isMobile = (req: express.Request): boolean => {
+    const ua = req.get('User-Agent');
+    return !!ua && (isIOS(ua) || isAndroid(ua));
+};
+
 const fetchConfiguredArticleEpicTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE'),
     { ttlSec: 60 },
@@ -146,6 +153,7 @@ export const buildEpicData = async (
     type: EpicType,
     params: Params,
     baseUrl: string,
+    req: express.Request,
 ): Promise<EpicDataResponse> => {
     const {
         enableEpics,
@@ -164,7 +172,14 @@ export const buildEpicData = async (
 
     const result = params.force
         ? findForcedTestAndVariant(tests, params.force)
-        : findTestAndVariant(tests, targeting, superModeArticles, type, params.debug);
+        : findTestAndVariant(
+              tests,
+              targeting,
+              isMobile(req),
+              superModeArticles,
+              type,
+              params.debug,
+          );
 
     if (process.env.log_targeting === 'true') {
         console.log(
@@ -243,6 +258,7 @@ export const buildBannerData = async (
     const selectedTest = await selectBannerTest(
         targeting,
         pageTracking,
+        isMobile(req),
         baseUrl(req),
         getCachedTests,
         bannerDeployCaches,

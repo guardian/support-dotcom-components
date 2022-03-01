@@ -9,6 +9,7 @@ export interface Test<V extends Variant> {
     controlProportionSettings?: ControlProportionSettings;
     audienceOffset?: number;
     audience?: number;
+    deviceType?: DeviceType;
 }
 
 export interface ControlProportionSettings {
@@ -54,3 +55,5 @@ export type TestTracking = {
     labels?: string[];
     targetingAbTest?: TargetingAbTest;
 };
+
+export type DeviceType = 'Mobile' | 'Desktop' | 'All';

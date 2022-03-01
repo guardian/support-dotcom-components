@@ -23,6 +23,8 @@ const getBannerDeployCache = (date: string): BannerDeployCaches =>
             }),
     } as BannerDeployCaches);
 
+const isMobile = false;
+
 describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
@@ -85,6 +87,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
+                isMobile,
                 '',
                 () => Promise.resolve([test]),
                 cache,
@@ -101,6 +104,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
+                isMobile,
                 '',
                 () => Promise.resolve([test]),
                 cache,
@@ -117,6 +121,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
+                isMobile,
                 '',
                 () =>
                     Promise.resolve([
@@ -139,6 +144,7 @@ describe('selectBannerTest', () => {
                     hasOptedOutOfArticleCount: true,
                 }),
                 tracking,
+                isMobile,
                 '',
                 () => Promise.resolve([test]),
                 cache,
@@ -207,6 +213,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
+                isMobile,
                 '',
                 () => Promise.resolve([test]),
                 cache,
@@ -223,6 +230,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
+                isMobile,
                 '',
                 () => Promise.resolve([test]),
                 cache,
@@ -239,6 +247,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
+                isMobile,
                 '',
                 () =>
                     Promise.resolve([

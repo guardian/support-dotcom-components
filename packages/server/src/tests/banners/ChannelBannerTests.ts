@@ -89,6 +89,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                                 BannerVariantFromParams(bannerChannel),
                             ),
                             controlProportionSettings: testParams.controlProportionSettings,
+                            deviceType: testParams.deviceType,
                         };
                     },
                 );
