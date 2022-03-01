@@ -162,7 +162,7 @@ app.post(
         try {
             const { tracking, targeting } = req.body;
             const params = getQueryParams(req.query);
-            const response = await buildHeaderData(tracking, targeting, baseUrl(req), params);
+            const response = await buildHeaderData(tracking, targeting, baseUrl(req), params, req);
             res.send(response);
         } catch (error) {
             next(error);

@@ -353,12 +353,13 @@ export const buildHeaderData = async (
     targeting: HeaderTargeting,
     baseUrl: string,
     params: Params,
+    req: express.Request,
 ): Promise<HeaderDataResponse> => {
     const { enableHeaders } = await cachedChannelSwitches();
     if (!enableHeaders) {
         return {};
     }
-    const testSelection = await selectHeaderTest(targeting, params.force);
+    const testSelection = await selectHeaderTest(targeting, isMobile(req), params.force);
     if (testSelection) {
         const { test, variant, modulePathBuilder } = testSelection;
         const testTracking: TestTracking = {
