@@ -61,3 +61,13 @@ export default {
 const Template: Story<HeaderProps> = (props: HeaderProps) => <Header {...props} />;
 
 export const DefaultHeader = Template.bind({});
+
+export const NoMobileCta = Template.bind({});
+NoMobileCta.args = {
+    ...DefaultHeader.args,
+    mobileContent: {
+        heading: '',
+        subheading: '',
+        primaryCta: undefined,
+    },
+};
