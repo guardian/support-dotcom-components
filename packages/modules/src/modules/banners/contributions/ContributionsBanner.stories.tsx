@@ -36,3 +36,15 @@ WithPrefilledReminder.args = {
         });
     },
 };
+
+export const WithoutSupportUrl = Template.bind({});
+WithoutSupportUrl.args = {
+    ...WithReminder.args,
+    content: {
+        ...content,
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'The Guardian',
+        },
+    },
+};

@@ -13,6 +13,7 @@ import {
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
+import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -153,6 +154,10 @@ export const ContributionsEpicButtons = ({
         onOpenReminderClick();
     };
 
+    const hasSupportCta =
+        isSupportUrl(cta.baseUrl) ||
+        (secondaryCta?.type === SecondaryCtaType.Custom && isSupportUrl(secondaryCta.cta.baseUrl));
+
     return (
         <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
             {!isReminderActive && (
@@ -185,13 +190,15 @@ export const ContributionsEpicButtons = ({
                         )
                     )}
 
-                    <img
-                        width={422}
-                        height={60}
-                        src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                        alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                        css={paymentImageStyles}
-                    />
+                    {hasSupportCta && (
+                        <img
+                            width={422}
+                            height={60}
+                            src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                            alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                            css={paymentImageStyles}
+                        />
+                    )}
                 </>
             )}
         </div>

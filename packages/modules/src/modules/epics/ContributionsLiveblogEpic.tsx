@@ -11,6 +11,7 @@ import {
     containsNonArticleCountPlaceholder,
     createViewEventFromTracking,
     createInsertEventFromTracking,
+    isSupportUrl,
 } from '@sdc/shared/lib';
 import { EpicVariant, Tracking } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
@@ -169,16 +170,20 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
         numArticles,
         countryCode,
     );
+    const hasSupportCta = !!baseUrl && isSupportUrl(baseUrl);
+
     return (
         <div css={ctaContainer}>
             <LinkButton css={cta} priority="primary" href={url}>
                 {text || DEFAULT_CTA_TEXT}
             </LinkButton>
-            <img
-                src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
-                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                css={paymentMethods}
-            />
+            {hasSupportCta && (
+                <img
+                    src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
+                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                    css={paymentMethods}
+                />
+            )}
         </div>
     );
 };
