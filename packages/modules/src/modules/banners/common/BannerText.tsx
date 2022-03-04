@@ -2,6 +2,7 @@ import React from 'react';
 import { SerializedStyles } from '@emotion/utils';
 import { BannerTextContent } from './types';
 import { BannerContentRenderer } from './BannerContentRenderer';
+import { css } from '@emotion/react';
 
 type BannerTextStyleableAreas =
     | 'container'
@@ -24,6 +25,17 @@ type BannerTextProps = {
     children?: React.ReactNode;
 };
 
+const styles = {
+    paragraphs: css`
+        > :first-child {
+            margin-top: 0;
+        }
+        > :last-child {
+            margin-bottom: 0;
+        }
+    `,
+};
+
 export const createBannerBodyCopy = (
     paragraphs: (Array<JSX.Element> | JSX.Element)[],
     highlightedText: Array<JSX.Element> | JSX.Element | null | undefined,
@@ -35,22 +47,28 @@ export const createBannerBodyCopy = (
     // To cover situations where there are no paragraphs to process
     if (numberOfNonFinalParagraphs < 0) {
         return (
-            <p>
-                <span css={renderStyles.highlightedText}>{highlightedText}</span>
-            </p>
+            <div css={styles.paragraphs}>
+                <p>
+                    <span css={renderStyles.highlightedText}>{highlightedText}</span>
+                </p>
+            </div>
         );
     }
 
-    return paragraphsToProcess.map((p, index) => {
-        if (index < numberOfNonFinalParagraphs) {
-            return <p key={index}>{p}</p>;
-        }
-        return (
-            <p key={index}>
-                {p} <span css={renderStyles.highlightedText}>{highlightedText}</span>
-            </p>
-        );
-    });
+    return (
+        <div css={styles.paragraphs}>
+            {paragraphsToProcess.map((p, index) => {
+                if (index < numberOfNonFinalParagraphs) {
+                    return <p key={index}>{p}</p>;
+                }
+                return (
+                    <p key={index}>
+                        {p} <span css={renderStyles.highlightedText}>{highlightedText}</span>
+                    </p>
+                );
+            })}
+        </div>
+    );
 };
 
 export const BannerText: React.FC<BannerTextProps> = ({ styles, content, children }) => {
