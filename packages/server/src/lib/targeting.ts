@@ -55,7 +55,7 @@ export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): bo
 // https://github.com/guardian/ab-testing/blob/main/packages/ab-core/src/core.ts#L56
 export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): boolean => {
     // Set audience size to 0.6 for Single Front Door (SFD) AB tests
-    const audienceSize = test.name.startsWith('SFD') ? 0.6 : test.audience || 1;
+    const audienceSize = test.name.startsWith('SFD') ? 0.75 : test.audience || 1;
 
     const maxMVTId = 1000000;
     const lowest = maxMVTId * (test.audienceOffset || 0);
