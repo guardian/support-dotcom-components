@@ -76,3 +76,14 @@ export const audienceMatches = (
             return true;
     }
 };
+
+export const deviceTypeMatches = <V extends Variant>(test: Test<V>, isMobile: boolean): boolean => {
+    switch (test.deviceType) {
+        case 'Mobile':
+            return isMobile;
+        case 'Desktop':
+            return !isMobile;
+        default:
+            return true;
+    }
+};
