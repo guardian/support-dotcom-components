@@ -26,3 +26,11 @@ WithoutSupportUrl.args = {
         },
     },
 };
+
+export const WhenOnDCR = Template.bind({});
+WhenOnDCR.args = {
+    tracking: {
+        ...props.tracking,
+        platformId: 'dcr',
+    },
+};
