@@ -61,7 +61,7 @@ function _build({
         name: `InEpicPaymentTest__${suffix}`,
         campaignId: `InEpicPaymentTest__${suffix}`,
         hasArticleCountInCopy: copy.hasArticleCount,
-        isOn: true,
+        isOn: false,
         locations: locations,
         audience: 1,
         tagIds: [],
