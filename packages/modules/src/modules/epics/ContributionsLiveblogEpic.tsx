@@ -237,7 +237,7 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     }
 
     return (
-        <div ref={setNode}>
+        <div data-cy="contributions-liveblog-epic" ref={setNode}>
             {cleanHeading && <div css={yellowHeading}>{cleanHeading}</div>}
             <section css={container}>
                 <LiveblogEpicBody
