@@ -54,11 +54,9 @@ export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): bo
 
 // https://github.com/guardian/ab-testing/blob/main/packages/ab-core/src/core.ts#L56
 export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): boolean => {
-    const audienceSize = test.name.startsWith('SINGLE_FRONT_DOOR') ? 0.3 : test.audience || 1;
-
     const maxMVTId = 1000000;
     const lowest = maxMVTId * (test.audienceOffset || 0);
-    const highest = lowest + maxMVTId * audienceSize;
+    const highest = lowest + maxMVTId * (test.audience || 1);
 
     return mvtId >= lowest && mvtId <= highest;
 };
