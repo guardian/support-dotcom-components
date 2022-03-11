@@ -91,17 +91,20 @@ yarn test path/to/specific/test.ts
 
 ### Project structure
 
-This repo consists of 3 packages, managed by [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). The three packages are:
+This repo consists of 4 packages, managed by [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/). The 4 packages are:
 
 - server
 - modules
 - shared
+- cdk
 
 `server` is an express app that runs on `node`. All the code inside this package **must** be suitable for running on `node`.
 
 `modules` is a set of react components that are bundled into `js` modules by `rollup` and rendered on dotcom. All the code inside this package **must** be suitable for running in a browser.
 
 `shared` is a npm package containing shared code for `server` and `modules`. All the code inside this package **must** be platform agnostic.
+
+`cdk` is a package that uses `aws-cdk` + `@guardian/cdk` to generate the cloudformation for the project.
 
 `server` and `modules` both have a dependency on `shared`. To avoid having to manually build `shared` we make use of [typescript project references](https://www.typescriptlang.org/docs/handbook/project-references.html). This means when we e.g use typescript to build the `server` project it will automatically rebuild `shared` if it needs to.
 
