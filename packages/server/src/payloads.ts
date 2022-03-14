@@ -34,7 +34,6 @@ import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
-import { tests as inEpicPaymentTests } from './tests/epics/inEpicPayments';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 
@@ -86,6 +85,13 @@ interface HeaderDataResponse {
     };
 }
 
+const isIOS = (ua: string) => /(iPad|iPhone|iPod touch)/i.test(ua);
+const isAndroid = (ua: string) => /Android/i.test(ua);
+const isMobile = (req: express.Request): boolean => {
+    const ua = req.get('User-Agent');
+    return !!ua && (isIOS(ua) || isAndroid(ua));
+};
+
 const fetchConfiguredArticleEpicTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('ARTICLE'),
     { ttlSec: 60 },
@@ -104,7 +110,7 @@ const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [...inEpicPaymentTests];
+const hardcodedEpicTests: EpicTest[] = [];
 
 const getArticleEpicTests = async (
     mvtId: number,
@@ -146,6 +152,7 @@ export const buildEpicData = async (
     type: EpicType,
     params: Params,
     baseUrl: string,
+    req: express.Request,
 ): Promise<EpicDataResponse> => {
     const {
         enableEpics,
@@ -164,7 +171,14 @@ export const buildEpicData = async (
 
     const result = params.force
         ? findForcedTestAndVariant(tests, params.force)
-        : findTestAndVariant(tests, targeting, superModeArticles, type, params.debug);
+        : findTestAndVariant(
+              tests,
+              targeting,
+              isMobile(req),
+              superModeArticles,
+              type,
+              params.debug,
+          );
 
     if (process.env.log_targeting === 'true') {
         console.log(
@@ -243,6 +257,7 @@ export const buildBannerData = async (
     const selectedTest = await selectBannerTest(
         targeting,
         pageTracking,
+        isMobile(req),
         baseUrl(req),
         getCachedTests,
         bannerDeployCaches,
@@ -337,12 +352,13 @@ export const buildHeaderData = async (
     targeting: HeaderTargeting,
     baseUrl: string,
     params: Params,
+    req: express.Request,
 ): Promise<HeaderDataResponse> => {
     const { enableHeaders } = await cachedChannelSwitches();
     if (!enableHeaders) {
         return {};
     }
-    const testSelection = await selectHeaderTest(targeting, params.force);
+    const testSelection = await selectHeaderTest(targeting, isMobile(req), params.force);
     if (testSelection) {
         const { test, variant, modulePathBuilder } = testSelection;
         const testTracking: TestTracking = {

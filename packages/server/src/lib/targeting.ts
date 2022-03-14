@@ -56,7 +56,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): bo
 export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): boolean => {
     // Set audience size to 0.6 for Single Front Door (SFD) AB tests
     const audienceSize = test.name.startsWith('SFD') ? 0.75 : test.audience || 1;
-
     const maxMVTId = 1000000;
     const lowest = maxMVTId * (test.audienceOffset || 0);
     const highest = lowest + maxMVTId * audienceSize;
@@ -73,6 +72,17 @@ export const audienceMatches = (
             return showSupportMessaging;
         case 'AllExistingSupporters':
             return !showSupportMessaging;
+        default:
+            return true;
+    }
+};
+
+export const deviceTypeMatches = <V extends Variant>(test: Test<V>, isMobile: boolean): boolean => {
+    switch (test.deviceType) {
+        case 'Mobile':
+            return isMobile;
+        case 'Desktop':
+            return !isMobile;
         default:
             return true;
     }

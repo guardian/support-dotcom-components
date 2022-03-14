@@ -16,6 +16,7 @@ import {
     withinArticleViewedSettings,
     withinArticleViewedByTagSettings,
     withinMaxViews,
+    deviceTypeMatchesFilter,
 } from './epicSelection';
 
 const testDefault: EpicTest = {
@@ -85,6 +86,8 @@ const targetingDefault: EpicTargeting = {
 
 const superModeArticles: SuperModeArticle[] = [];
 
+const isMobile = false;
+
 describe('findTestAndVariant', () => {
     it('should find the correct variant for test and targeting data', () => {
         const testWithoutArticlesViewedSettings = {
@@ -98,7 +101,7 @@ describe('findTestAndVariant', () => {
         };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
@@ -113,7 +116,7 @@ describe('findTestAndVariant', () => {
         };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -124,7 +127,7 @@ describe('findTestAndVariant', () => {
         const targeting = { ...targetingDefault, sectionId: 'news' };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
 
         expect(got.result).toBe(undefined);
     });
@@ -142,7 +145,7 @@ describe('findTestAndVariant', () => {
         };
         const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);
     });
@@ -813,5 +816,48 @@ describe('isNotExpired filter', () => {
         const got = filter.test(test, targetingDefault);
 
         expect(got).toBe(false);
+    });
+});
+
+describe('deviceTypeMatchesFilter', () => {
+    it('should return true if test.deviceType == undefined', () => {
+        const result = deviceTypeMatchesFilter(false).test(testDefault, targetingDefault);
+        expect(result).toBe(true);
+    });
+
+    it('should return true if test.deviceType == All', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            deviceType: 'All',
+        };
+        const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
+        expect(result).toBe(true);
+    });
+
+    it('should return true if test.deviceType == Desktop and not mobile', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            deviceType: 'Desktop',
+        };
+        const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
+        expect(result).toBe(true);
+    });
+
+    it('should return true if test.deviceType == Mobile and is mobile', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            deviceType: 'Mobile',
+        };
+        const result = deviceTypeMatchesFilter(true).test(test, targetingDefault);
+        expect(result).toBe(true);
+    });
+
+    it('should return false if test.deviceType == Mobile and is not mobile', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            deviceType: 'Mobile',
+        };
+        const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
+        expect(result).toBe(false);
     });
 });

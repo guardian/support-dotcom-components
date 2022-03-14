@@ -3,7 +3,7 @@ import { inCountryGroups } from '@sdc/shared/lib';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
-import { audienceMatches, userIsInTest } from '../../lib/targeting';
+import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
 
 import { fetchConfiguredHeaderTestsCached } from './headerTests';
 import { TestVariant } from '../../lib/params';
@@ -98,6 +98,7 @@ const hardcodedTests = [supportersTest, nonSupportersTestUK, nonSupportersTestNo
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: HeaderTargeting,
+    isMobile: boolean,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
     const { showSupportMessaging, countryCode } = targeting;
@@ -105,23 +106,13 @@ export const selectBestTest = (
     const selectedTest: HeaderTest | undefined = allTests.find(test => {
         const { isOn, userCohort, locations } = test;
 
-        if (!isOn) {
-            return false;
-        }
-
-        if (!audienceMatches(showSupportMessaging, userCohort)) {
-            return false;
-        }
-
-        if (!inCountryGroups(countryCode, locations)) {
-            return false;
-        }
-
-        if (!userIsInTest(test, targeting.mvtId)) {
-            return false;
-        }
-
-        return true;
+        return (
+            isOn &&
+            audienceMatches(showSupportMessaging, userCohort) &&
+            inCountryGroups(countryCode, locations) &&
+            userIsInTest(test, targeting.mvtId) &&
+            deviceTypeMatches(test, isMobile)
+        );
     });
 
     // Failed to find a matching test, or the matching test has an empty variants Array
@@ -161,6 +152,7 @@ const getForcedVariant = (
 
 export const selectHeaderTest = async (
     targeting: HeaderTargeting,
+    isMobile: boolean,
     forcedTestVariant?: TestVariant,
 ): Promise<HeaderTestSelection | null> => {
     const configuredTests = await fetchConfiguredHeaderTestsCached().catch(() => []);
@@ -169,5 +161,5 @@ export const selectHeaderTest = async (
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, allTests);
     }
-    return selectBestTest(targeting, allTests);
+    return selectBestTest(targeting, isMobile, allTests);
 };

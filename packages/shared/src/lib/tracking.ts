@@ -57,15 +57,15 @@ export const addTrackingParams = (
     return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
 };
 
+export const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);
+
 export const addRegionIdAndTrackingParamsToSupportUrl = (
     baseUrl: string,
     tracking: Tracking,
     numArticles?: number,
     countryCode?: string,
 ): string => {
-    const isSupportUrl = /\bsupport\./.test(baseUrl);
-
-    return isSupportUrl
+    return isSupportUrl(baseUrl)
         ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles)
         : baseUrl;
 };

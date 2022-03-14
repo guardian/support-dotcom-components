@@ -10,7 +10,7 @@ import {
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
-import { audienceMatches, userIsInTest } from '../../lib/targeting';
+import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
 import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
@@ -99,6 +99,7 @@ const getForcedVariant = (
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
+    isMobile: boolean,
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,
@@ -133,6 +134,7 @@ export const selectBannerTest = async (
                 now,
             ) &&
             userIsInTest(test, targeting.mvtId) &&
+            deviceTypeMatches(test, isMobile) &&
             (await redeployedSinceLastClosed(
                 targeting,
                 test.bannerChannel,

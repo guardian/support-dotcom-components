@@ -17,7 +17,12 @@ import {
 import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
-import { shouldNotRenderEpic, shouldThrottle, userIsInTest } from '../../lib/targeting';
+import {
+    deviceTypeMatches,
+    shouldNotRenderEpic,
+    shouldThrottle,
+    userIsInTest,
+} from '../../lib/targeting';
 
 interface Filter {
     id: string;
@@ -203,6 +208,11 @@ export const respectArticleCountOptOut: Filter = {
     },
 };
 
+export const deviceTypeMatchesFilter = (isMobile: boolean): Filter => ({
+    id: 'deviceTypeMatches',
+    test: (test): boolean => deviceTypeMatches(test, isMobile),
+});
+
 type FilterResults = Record<string, boolean>;
 
 export type Debug = Record<string, FilterResults>;
@@ -218,6 +228,7 @@ export interface Result {
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
+    isMobile: boolean,
     superModeArticles: SuperModeArticle[],
     epicType: EpicType,
     includeDebug = false,
@@ -244,6 +255,7 @@ export const findTestAndVariant = (
             respectArticleCountOptOut,
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             withinArticleViewedByTagSettings(targeting.weeklyArticleHistory || []),
+            deviceTypeMatchesFilter(isMobile),
         ];
     };
 

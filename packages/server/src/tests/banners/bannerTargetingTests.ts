@@ -9,7 +9,8 @@ export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
         name: '2022-02-10_BannerTargeting_PageView',
         // Exclude browsers that have not consented to article counting
-        canInclude: (targeting: BannerTargeting) => targeting.articleCountToday !== undefined,
+        // canInclude: (targeting: BannerTargeting) => targeting.articleCountToday !== undefined,
+        canInclude: () => false,
         variants: [
             {
                 name: 'control',

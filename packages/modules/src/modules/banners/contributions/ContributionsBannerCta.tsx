@@ -6,6 +6,7 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
+import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 const styles = {
     ctaButton: (stacked: boolean): SerializedStyles => css`
@@ -35,6 +36,7 @@ export const ContributionsBannerCta: React.FC<ContributionsBannerCtaProps> = ({
     ctaUrl,
     stacked,
 }: ContributionsBannerCtaProps) => {
+    const hasSupportCta = isSupportUrl(ctaUrl);
     return (
         <div>
             <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
@@ -54,13 +56,16 @@ export const ContributionsBannerCta: React.FC<ContributionsBannerCtaProps> = ({
                     {ctaText}
                 </LinkButton>
             </ThemeProvider>
-            <img
-                width={422}
-                height={60}
-                src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                css={styles.paymentMethods}
-            />
+
+            {hasSupportCta && (
+                <img
+                    width={422}
+                    height={60}
+                    src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                    css={styles.paymentMethods}
+                />
+            )}
         </div>
     );
 };
