@@ -9,13 +9,7 @@ import {
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
-import {
-    ContributionFrequency,
-    EpicProps,
-    epicPropsSchema,
-    SecondaryCtaType,
-    Stage,
-} from '@sdc/shared/types';
+import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -31,9 +25,6 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
 import { logEpicView } from '@sdc/shared/lib';
-import { ContributionsEpicCheckout } from './checkout/ContributionsEpicCheckout';
-import { hasSetReminder } from '../utils/reminders';
-import { useIframedCheckout } from './checkout/useIframedCheckout';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -125,16 +116,6 @@ const imageStyles = css`
 
 const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
-`;
-
-const checkoutContainerStyles = css`
-    margin-top: ${space[4]}px;
-    margin-left: -5px;
-    margin-right: -5px;
-
-    ${from.tablet} {
-        margin-top: ${space[6]}px;
-    }
 `;
 
 type HighlightedProps = {
@@ -271,14 +252,7 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-export enum InEpicPaymentVariant {
-    Control,
-    Variant,
-}
-
-export const getContributionsEpic: (
-    inEpicPaymentVariant: InEpicPaymentVariant,
-) => React.FC<EpicProps> = inEpicPaymentVariant => ({
+const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
@@ -367,23 +341,9 @@ export const getContributionsEpic: (
         variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount
     );
 
-    const onReminderCtaClick = () => setIsReminderActive(true);
-
-    const { iframeRef, iframeHeight, postReminderClosedMessage } = useIframedCheckout(
-        onReminderCtaClick,
-    );
-
     const onCloseReminderClick = () => {
-        postReminderClosedMessage();
         setIsReminderActive(false);
     };
-
-    const reminderCta =
-        variant.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
-        showReminderFields &&
-        !hasSetReminder()
-            ? showReminderFields.reminderCta
-            : undefined;
 
     return (
         <section ref={setNode} css={wrapperStyles}>
@@ -438,63 +398,47 @@ export const getContributionsEpic: (
             />
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
-            {inEpicPaymentVariant === InEpicPaymentVariant.Variant ? (
-                <div css={checkoutContainerStyles}>
-                    <ContributionsEpicCheckout
-                        iframeRef={iframeRef}
-                        iframeHeight={iframeHeight}
-                        tracking={tracking}
-                        countryCode={countryCode}
-                        reminderCta={reminderCta}
-                        onReminderClicked={onReminderCtaClick}
-                        stage={stage ?? 'PROD'}
-                    />
-                </div>
-            ) : (
-                <>
-                    {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
-                        <ContributionsEpicChoiceCards
-                            amounts={choiceCardAmounts}
-                            setSelectionsCallback={setChoiceCardSelection}
-                            selection={choiceCardSelection}
-                            countryCode={countryCode}
-                            submitComponentEvent={submitComponentEvent}
-                        />
-                    )}
-
-                    <ContributionsEpicButtons
-                        variant={variant}
-                        tracking={tracking}
-                        countryCode={countryCode}
-                        onOpenReminderClick={(): void => {
-                            const buttonCopyAsString = showReminderFields?.reminderCta
-                                .toLowerCase()
-                                .replace(/\s/g, '-');
-
-                            // This callback lets the platform react to the user interaction with the
-                            // 'Remind me' button
-                            if (onReminderOpen) {
-                                onReminderOpen({
-                                    buttonCopyAsString,
-                                } as OnReminderOpen);
-                            }
-
-                            fetchEmailDefined().then(resolvedEmail => {
-                                if (resolvedEmail) {
-                                    setFetchedEmail(resolvedEmail);
-                                }
-                                setIsReminderActive(true);
-                            });
-                        }}
-                        submitComponentEvent={submitComponentEvent}
-                        isReminderActive={isReminderActive}
-                        isSignedIn={Boolean(fetchedEmail)}
-                        showChoiceCards={showChoiceCards}
-                        choiceCardSelection={choiceCardSelection}
-                        numArticles={articleCounts.for52Weeks}
-                    />
-                </>
+            {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
+                <ContributionsEpicChoiceCards
+                    amounts={choiceCardAmounts}
+                    setSelectionsCallback={setChoiceCardSelection}
+                    selection={choiceCardSelection}
+                    countryCode={countryCode}
+                    submitComponentEvent={submitComponentEvent}
+                />
             )}
+
+            <ContributionsEpicButtons
+                variant={variant}
+                tracking={tracking}
+                countryCode={countryCode}
+                onOpenReminderClick={(): void => {
+                    const buttonCopyAsString = showReminderFields?.reminderCta
+                        .toLowerCase()
+                        .replace(/\s/g, '-');
+
+                    // This callback lets the platform react to the user interaction with the
+                    // 'Remind me' button
+                    if (onReminderOpen) {
+                        onReminderOpen({
+                            buttonCopyAsString,
+                        } as OnReminderOpen);
+                    }
+
+                    fetchEmailDefined().then(resolvedEmail => {
+                        if (resolvedEmail) {
+                            setFetchedEmail(resolvedEmail);
+                        }
+                        setIsReminderActive(true);
+                    });
+                }}
+                submitComponentEvent={submitComponentEvent}
+                isReminderActive={isReminderActive}
+                isSignedIn={Boolean(fetchedEmail)}
+                showChoiceCards={showChoiceCards}
+                choiceCardSelection={choiceCardSelection}
+                numArticles={articleCounts.for52Weeks}
+            />
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder
@@ -513,7 +457,6 @@ export const validate = (props: unknown): props is EpicProps => {
     return result.success;
 };
 
-const ContributionsEpic = getContributionsEpic(InEpicPaymentVariant.Control);
 const validatedEpic = withParsedProps(ContributionsEpic, validate);
 const unValidatedEpic = ContributionsEpic;
 export { validatedEpic as ContributionsEpic, unValidatedEpic as ContributionsEpicUnvalidated };
