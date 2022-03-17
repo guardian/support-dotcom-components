@@ -16,6 +16,268 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
+import { TopReaderArticleCountBadgeVariant } from './ContributionsEpic';
+
+// --- Component --- //
+
+export interface ContributionsEpicArticleCountAboveWithOptOutProps {
+    articleCounts: ArticleCounts;
+    isArticleCountOn: boolean;
+    onArticleCountOptOut: () => void;
+    onArticleCountOptIn: () => void;
+    openCmp?: () => void;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    aboveArticleCountByTag: boolean;
+    topReaderVariant: TopReaderArticleCountBadgeVariant;
+}
+
+export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
+    articleCounts,
+    isArticleCountOn,
+    onArticleCountOptOut,
+    onArticleCountOptIn,
+    openCmp,
+    submitComponentEvent,
+    aboveArticleCountByTag,
+    topReaderVariant,
+}: ContributionsEpicArticleCountAboveWithOptOutProps) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const onToggleClick = () => {
+        setIsOpen(!isOpen);
+        submitComponentEvent &&
+            submitComponentEvent(
+                isOpen
+                    ? OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE
+                    : OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
+            );
+    };
+
+    const onStayInClick = () => {
+        setIsOpen(false);
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN);
+    };
+
+    const onOptOutClick = () => {
+        setIsOpen(false);
+        onArticleCountOptOut();
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
+    };
+
+    const onOptInClick = () => {
+        setIsOpen(false);
+        onArticleCountOptIn();
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN);
+    };
+
+    const onStayOutClick = () => {
+        setIsOpen(false);
+        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
+    };
+
+    return (
+        <div css={topContainer}>
+            <ArticleCountWithToggle
+                isArticleCountOn={isArticleCountOn}
+                articleCounts={articleCounts}
+                onToggleClick={onToggleClick}
+                aboveArticleCountByTag={aboveArticleCountByTag}
+                topReaderVariant={topReaderVariant}
+            />
+
+            {isOpen && (
+                <div css={articleCountDescriptionTopContainerStyles}>
+                    <div css={caretStyles}></div>
+                    <div css={articleCountDescriptionContainer}>
+                        {isArticleCountOn ? (
+                            <>
+                                <div css={articleCountBodyTextStyles}>
+                                    Many readers tell us they enjoy seeing how many pieces of
+                                    Guardian journalism they’ve read, watched or listened to. So
+                                    here’s your count. Can we continue showing you this on support
+                                    appeals like this?
+                                </div>
+                                <div css={articleCountCtasContainerStyles}>
+                                    <Button
+                                        priority="primary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountDefaultCtaStyles}
+                                        onClick={onStayInClick}
+                                    >
+                                        Yes, that&apos;s OK
+                                    </Button>
+                                    <Button
+                                        priority="tertiary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptOutCtaStyles}
+                                        onClick={onOptOutClick}
+                                    >
+                                        No, opt me out
+                                    </Button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div css={articleCountBodyTextStyles}>
+                                    Many readers tell us they enjoy seeing how many pieces of
+                                    Guardian journalism they’ve read, watched or listened to. Can we
+                                    start showing you your article count on support appeals like
+                                    this?
+                                </div>
+                                <div css={articleCountCtasContainerStyles}>
+                                    <Button
+                                        priority="primary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptInCtaStyles}
+                                        onClick={onOptInClick}
+                                    >
+                                        Yes, opt me in
+                                    </Button>
+                                    <Button
+                                        priority="tertiary"
+                                        size="xsmall"
+                                        cssOverrides={articleCountOptOutCtaStyles}
+                                        onClick={onStayOutClick}
+                                    >
+                                        No, thank you
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <div css={trackingSettingsContainerStyles}>
+                        To opt out of other tracking activity, manage your{' '}
+                        <ButtonLink
+                            priority="secondary"
+                            cssOverrides={privacySettingsLinkStyles}
+                            onClick={openCmp}
+                        >
+                            Privacy Settings
+                        </ButtonLink>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// --- Helper components --- //
+
+interface ArticleCountWithToggleProps {
+    articleCounts: ArticleCounts;
+    isArticleCountOn: boolean;
+    onToggleClick: () => void;
+    aboveArticleCountByTag: boolean;
+    topReaderVariant: TopReaderArticleCountBadgeVariant;
+}
+
+const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
+    isArticleCountOn,
+    articleCounts,
+    onToggleClick,
+    aboveArticleCountByTag,
+    topReaderVariant,
+}: ArticleCountWithToggleProps) => {
+    // By default we display the 52-week count
+    const articleCount = aboveArticleCountByTag
+        ? articleCounts.forTargetedWeeks
+        : articleCounts.for52Weeks;
+
+    if (isArticleCountOn && articleCount >= 5) {
+        return (
+            <div css={articleCountOnHeaderContainerStyles}>
+                {topReaderVariant === TopReaderArticleCountBadgeVariant.CONTROL && (
+                    <ArticleCount
+                        articleCount={articleCount}
+                        aboveArticleCountByTag={aboveArticleCountByTag}
+                    />
+                )}
+
+                {topReaderVariant === TopReaderArticleCountBadgeVariant.V1_AC_LEAD && (
+                    <TopReaderArticleCountV1 articleCount={articleCount} />
+                )}
+
+                {topReaderVariant === TopReaderArticleCountBadgeVariant.V2_CONGRATS_LEAD && (
+                    <TopReaderArticleCountV2 articleCount={articleCount} />
+                )}
+
+                <div css={articleCountWrapperStyles}>
+                    <div css={articleCountTextStyles}>Article count</div>
+                    <ButtonLink
+                        priority="secondary"
+                        onClick={onToggleClick}
+                        cssOverrides={articleCountCtaStyles}
+                    >
+                        on
+                    </ButtonLink>
+                </div>
+            </div>
+        );
+    }
+
+    if (!isArticleCountOn) {
+        return (
+            <div css={articleCountWrapperStyles}>
+                <div css={articleCountTextStyles}>Article count</div>
+                <ButtonLink
+                    priority="secondary"
+                    onClick={onToggleClick}
+                    cssOverrides={articleCountCtaStyles}
+                >
+                    off
+                </ButtonLink>
+            </div>
+        );
+    }
+
+    return null;
+};
+
+interface ArticleCountProps {
+    articleCount: number;
+    aboveArticleCountByTag: boolean;
+}
+
+const ArticleCount: React.FC<ArticleCountProps> = ({ articleCount, aboveArticleCountByTag }) => {
+    const timeWindowCopy = aboveArticleCountByTag ? (
+        <span>
+            about the
+            <br />
+            climate crisis in the last six weeks
+        </span>
+    ) : (
+        'in the last year'
+    );
+
+    return (
+        <div css={articleCountAboveContainerStyles}>
+            You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span>{' '}
+            {timeWindowCopy}
+        </div>
+    );
+};
+
+interface TopReaderArticleCountProps {
+    articleCount: number;
+}
+
+const TopReaderArticleCountV1: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
+    return (
+        <div css={articleCountAboveContainerStyles}>
+            You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span> in the last
+            year – congratulations on being one of our top readers globally
+        </div>
+    );
+};
+
+const TopReaderArticleCountV2: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
+    return (
+        <div css={articleCountAboveContainerStyles}>
+            Congratulations on being one of our top readers globally – you&apos;ve read{' '}
+            <span css={optOutContainer}>{articleCount} articles</span> in the last year
+        </div>
+    );
+};
 
 // --- Styles --- //
 
@@ -55,6 +317,7 @@ const articleCountOnHeaderContainerStyles = css`
 `;
 
 const articleCountWrapperStyles = css`
+    flex-shrink: 0;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -63,6 +326,7 @@ const articleCountWrapperStyles = css`
     justify-content: start;
 
     ${from.tablet} {
+        margin-left: ${space[5]}px;
         margin-bottom: 0;
         justify-content: flex-end;
     }
@@ -220,214 +484,3 @@ const caretStyles = css`
         }
     }
 `;
-
-interface ArticleCountWithToggleProps {
-    articleCounts: ArticleCounts;
-    isArticleCountOn: boolean;
-    onToggleClick: () => void;
-    aboveArticleCountByTag: boolean;
-}
-
-export interface ContributionsEpicArticleCountAboveWithOptOutProps {
-    articleCounts: ArticleCounts;
-    isArticleCountOn: boolean;
-    onArticleCountOptOut: () => void;
-    onArticleCountOptIn: () => void;
-    openCmp?: () => void;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    aboveArticleCountByTag: boolean;
-}
-
-// -- Components -- //
-
-const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
-    isArticleCountOn,
-    articleCounts,
-    onToggleClick,
-    aboveArticleCountByTag,
-}: ArticleCountWithToggleProps) => {
-    // By default we display the 52-week count
-    const articleCount = aboveArticleCountByTag
-        ? articleCounts.forTargetedWeeks
-        : articleCounts.for52Weeks;
-
-    if (isArticleCountOn && articleCount >= 5) {
-        const timeWindowCopy = aboveArticleCountByTag ? (
-            <span>
-                about the
-                <br />
-                climate crisis in the last six weeks
-            </span>
-        ) : (
-            'in the last year'
-        );
-        return (
-            <div css={articleCountOnHeaderContainerStyles}>
-                <div css={articleCountAboveContainerStyles}>
-                    {articleCount >= 5 && (
-                        <>
-                            You&apos;ve read{' '}
-                            <span css={optOutContainer}>{articleCount} articles</span>{' '}
-                            {timeWindowCopy}
-                        </>
-                    )}
-                </div>
-                <div css={articleCountWrapperStyles}>
-                    <div css={articleCountTextStyles}>Article count</div>
-                    <ButtonLink
-                        priority="secondary"
-                        onClick={onToggleClick}
-                        cssOverrides={articleCountCtaStyles}
-                    >
-                        on
-                    </ButtonLink>
-                </div>
-            </div>
-        );
-    }
-
-    if (!isArticleCountOn) {
-        return (
-            <div css={articleCountWrapperStyles}>
-                <div css={articleCountTextStyles}>Article count</div>
-                <ButtonLink
-                    priority="secondary"
-                    onClick={onToggleClick}
-                    cssOverrides={articleCountCtaStyles}
-                >
-                    off
-                </ButtonLink>
-            </div>
-        );
-    }
-
-    return null;
-};
-
-export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
-    articleCounts,
-    isArticleCountOn,
-    onArticleCountOptOut,
-    onArticleCountOptIn,
-    openCmp,
-    submitComponentEvent,
-    aboveArticleCountByTag,
-}: ContributionsEpicArticleCountAboveWithOptOutProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const onToggleClick = () => {
-        setIsOpen(!isOpen);
-        submitComponentEvent &&
-            submitComponentEvent(
-                isOpen
-                    ? OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE
-                    : OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
-            );
-    };
-
-    const onStayInClick = () => {
-        setIsOpen(false);
-        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_IN);
-    };
-
-    const onOptOutClick = () => {
-        setIsOpen(false);
-        onArticleCountOptOut();
-        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT);
-    };
-
-    const onOptInClick = () => {
-        setIsOpen(false);
-        onArticleCountOptIn();
-        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN);
-    };
-
-    const onStayOutClick = () => {
-        setIsOpen(false);
-        submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
-    };
-
-    return (
-        <div css={topContainer}>
-            <ArticleCountWithToggle
-                isArticleCountOn={isArticleCountOn}
-                articleCounts={articleCounts}
-                onToggleClick={onToggleClick}
-                aboveArticleCountByTag={aboveArticleCountByTag}
-            />
-
-            {isOpen && (
-                <div css={articleCountDescriptionTopContainerStyles}>
-                    <div css={caretStyles}></div>
-                    <div css={articleCountDescriptionContainer}>
-                        {isArticleCountOn ? (
-                            <>
-                                <div css={articleCountBodyTextStyles}>
-                                    Many readers tell us they enjoy seeing how many pieces of
-                                    Guardian journalism they’ve read, watched or listened to. So
-                                    here’s your count. Can we continue showing you this on support
-                                    appeals like this?
-                                </div>
-                                <div css={articleCountCtasContainerStyles}>
-                                    <Button
-                                        priority="primary"
-                                        size="xsmall"
-                                        cssOverrides={articleCountDefaultCtaStyles}
-                                        onClick={onStayInClick}
-                                    >
-                                        Yes, that&apos;s OK
-                                    </Button>
-                                    <Button
-                                        priority="tertiary"
-                                        size="xsmall"
-                                        cssOverrides={articleCountOptOutCtaStyles}
-                                        onClick={onOptOutClick}
-                                    >
-                                        No, opt me out
-                                    </Button>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div css={articleCountBodyTextStyles}>
-                                    Many readers tell us they enjoy seeing how many pieces of
-                                    Guardian journalism they’ve read, watched or listened to. Can we
-                                    start showing you your article count on support appeals like
-                                    this?
-                                </div>
-                                <div css={articleCountCtasContainerStyles}>
-                                    <Button
-                                        priority="primary"
-                                        size="xsmall"
-                                        cssOverrides={articleCountOptInCtaStyles}
-                                        onClick={onOptInClick}
-                                    >
-                                        Yes, opt me in
-                                    </Button>
-                                    <Button
-                                        priority="tertiary"
-                                        size="xsmall"
-                                        cssOverrides={articleCountOptOutCtaStyles}
-                                        onClick={onStayOutClick}
-                                    >
-                                        No, thank you
-                                    </Button>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                    <div css={trackingSettingsContainerStyles}>
-                        To opt out of other tracking activity, manage your{' '}
-                        <ButtonLink
-                            priority="secondary"
-                            cssOverrides={privacySettingsLinkStyles}
-                            onClick={openCmp}
-                        >
-                            Privacy Settings
-                        </ButtonLink>
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-};

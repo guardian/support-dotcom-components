@@ -252,7 +252,15 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-const ContributionsEpic: React.FC<EpicProps> = ({
+export enum TopReaderArticleCountBadgeVariant {
+    CONTROL,
+    V1_AC_LEAD,
+    V2_CONGRATS_LEAD,
+}
+
+export const getEpic = (
+    topReaderVariant: TopReaderArticleCountBadgeVariant,
+): React.FC<EpicProps> => ({
     variant,
     tracking,
     countryCode,
@@ -357,6 +365,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
                         aboveArticleCountByTag={false}
+                        topReaderVariant={topReaderVariant}
                     />
                 </div>
             )}
@@ -451,6 +460,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         </section>
     );
 };
+
+const ContributionsEpic = getEpic(TopReaderArticleCountBadgeVariant.CONTROL);
 
 export const validate = (props: unknown): props is EpicProps => {
     const result = epicPropsSchema.safeParse(props);
