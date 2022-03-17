@@ -49,6 +49,7 @@ export interface BannerProps {
     email?: string;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
+    digisubPrice?: string,
 }
 
 export const bannerSchema = z.object({

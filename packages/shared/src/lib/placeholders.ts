@@ -5,15 +5,20 @@ import { getCountryName, getLocalCurrencySymbol } from './geolocation';
 export const replaceNonArticleCountPlaceholders = (
     content: string | undefined,
     countryCode?: string,
+    digisubPrice?: string,
 ): string => {
     if (!content) {
         return '';
     }
 
-    content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
+    const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
+
+    content = content.replace(/%%CURRENCY_SYMBOL%%/g, localCurrencySymbol);
 
     const countryName = getCountryName(countryCode) ?? '';
     content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
+
+    content = content.replace(/%%DIGI_SUB_PRICE%%/g, `${localCurrencySymbol}${digisubPrice}`);
 
     return content;
 };

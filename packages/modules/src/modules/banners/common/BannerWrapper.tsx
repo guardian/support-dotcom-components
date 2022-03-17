@@ -77,6 +77,7 @@ const withBannerData = (
         tickerSettings,
         isSupporter,
         separateArticleCount,
+        digisubPrice,
     } = bannerProps;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen(
@@ -103,7 +104,9 @@ const withBannerData = (
         text: string | undefined,
     ): string[] => {
         const originalCopy = getParagraphsOrMessageText(paras, text);
-        return originalCopy.map(p => replaceNonArticleCountPlaceholders(p).trim());
+
+        // I think I introduced this potential bug in a previous PR - replaceNonArticleCountPlaceholders returns '£' if countryCode not supplied
+        return originalCopy.map(p => replaceNonArticleCountPlaceholders(p, countryCode, digisubPrice).trim());
     };
 
     const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
@@ -150,11 +153,12 @@ const withBannerData = (
 
         const cleanHighlightedText =
             bannerContent.highlightedText &&
-            replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode).trim();
+            replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode, digisubPrice).trim();
 
         const cleanHeading = replaceNonArticleCountPlaceholders(
             bannerContent.heading,
             countryCode,
+            digisubPrice,
         ).trim();
 
         const cleanParagraphs = cleanParagraphsOrMessageText(

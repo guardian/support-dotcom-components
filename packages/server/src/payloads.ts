@@ -294,6 +294,9 @@ export const buildBannerData = async (
             hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
             tickerSettings,
             separateArticleCount: variant.separateArticleCount,
+
+            // Temporarily hardcoded during development
+            digisubPrice: '5.99',
         };
 
         return {
