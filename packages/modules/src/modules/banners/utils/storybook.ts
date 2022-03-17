@@ -27,7 +27,8 @@ export const content = {
     ],
     mobileMessageText:
         'With 2021 offering new hope, %%ARTICLE_COUNT%% articles we commit to another year of independent journalism. Buy digiSubs: %%DIGI_SUB_PRICE%%.',
-    highlightedText: 'Support us from as little as %%CURRENCY_SYMBOL%%1. Buy digiSubs: %%DIGI_SUB_PRICE%%.',
+    highlightedText:
+        'Support us from as little as %%CURRENCY_SYMBOL%%1. Buy digiSubs: %%DIGI_SUB_PRICE%%.',
     cta: {
         baseUrl: 'https://support.theguardian.com/contribute',
         text: 'Support The Guardian',
