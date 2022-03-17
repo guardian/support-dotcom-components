@@ -16,6 +16,7 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
+import { TopReaderArticleCountBadgeVariant } from './ContributionsEpic';
 
 // --- Styles --- //
 
@@ -55,6 +56,7 @@ const articleCountOnHeaderContainerStyles = css`
 `;
 
 const articleCountWrapperStyles = css`
+    flex-shrink: 0;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -63,6 +65,7 @@ const articleCountWrapperStyles = css`
     justify-content: start;
 
     ${from.tablet} {
+        margin-left: ${space[5]}px;
         margin-bottom: 0;
         justify-content: flex-end;
     }
@@ -226,6 +229,7 @@ interface ArticleCountWithToggleProps {
     isArticleCountOn: boolean;
     onToggleClick: () => void;
     aboveArticleCountByTag: boolean;
+    topReaderVariant: TopReaderArticleCountBadgeVariant;
 }
 
 export interface ContributionsEpicArticleCountAboveWithOptOutProps {
@@ -236,15 +240,63 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     openCmp?: () => void;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     aboveArticleCountByTag: boolean;
+    topReaderVariant: TopReaderArticleCountBadgeVariant;
 }
 
 // -- Components -- //
+
+interface ArticleCountProps {
+    articleCount: number;
+    aboveArticleCountByTag: boolean;
+}
+
+const ArticleCount: React.FC<ArticleCountProps> = ({ articleCount, aboveArticleCountByTag }) => {
+    const timeWindowCopy = aboveArticleCountByTag ? (
+        <span>
+            about the
+            <br />
+            climate crisis in the last six weeks
+        </span>
+    ) : (
+        'in the last year'
+    );
+
+    return (
+        <div css={articleCountAboveContainerStyles}>
+            You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span>{' '}
+            {timeWindowCopy}
+        </div>
+    );
+};
+
+interface TopReaderArticleCountProps {
+    articleCount: number;
+}
+
+const TopReaderArticleCountV1: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
+    return (
+        <div css={articleCountAboveContainerStyles}>
+            You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span> in the last
+            year – congratulations on being one of our top readers globally
+        </div>
+    );
+};
+
+const TopReaderArticleCountV2: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
+    return (
+        <div css={articleCountAboveContainerStyles}>
+            Congratulations on being one of our top readers globally – you&apos;ve read{' '}
+            <span css={optOutContainer}>{articleCount} articles</span> in the last year
+        </div>
+    );
+};
 
 const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     isArticleCountOn,
     articleCounts,
     onToggleClick,
     aboveArticleCountByTag,
+    topReaderVariant,
 }: ArticleCountWithToggleProps) => {
     // By default we display the 52-week count
     const articleCount = aboveArticleCountByTag
@@ -252,26 +304,23 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
         : articleCounts.for52Weeks;
 
     if (isArticleCountOn && articleCount >= 5) {
-        const timeWindowCopy = aboveArticleCountByTag ? (
-            <span>
-                about the
-                <br />
-                climate crisis in the last six weeks
-            </span>
-        ) : (
-            'in the last year'
-        );
         return (
             <div css={articleCountOnHeaderContainerStyles}>
-                <div css={articleCountAboveContainerStyles}>
-                    {articleCount >= 5 && (
-                        <>
-                            You&apos;ve read{' '}
-                            <span css={optOutContainer}>{articleCount} articles</span>{' '}
-                            {timeWindowCopy}
-                        </>
-                    )}
-                </div>
+                {topReaderVariant === TopReaderArticleCountBadgeVariant.CONTROL && (
+                    <ArticleCount
+                        articleCount={articleCount}
+                        aboveArticleCountByTag={aboveArticleCountByTag}
+                    />
+                )}
+
+                {topReaderVariant === TopReaderArticleCountBadgeVariant.V1_AC_LEAD && (
+                    <TopReaderArticleCountV1 articleCount={articleCount} />
+                )}
+
+                {topReaderVariant === TopReaderArticleCountBadgeVariant.V2_CONGRATS_LEAD && (
+                    <TopReaderArticleCountV2 articleCount={articleCount} />
+                )}
+
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
                     <ButtonLink
@@ -312,6 +361,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
     openCmp,
     submitComponentEvent,
     aboveArticleCountByTag,
+    topReaderVariant,
 }: ContributionsEpicArticleCountAboveWithOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -354,6 +404,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
                 articleCounts={articleCounts}
                 onToggleClick={onToggleClick}
                 aboveArticleCountByTag={aboveArticleCountByTag}
+                topReaderVariant={topReaderVariant}
             />
 
             {isOpen && (
