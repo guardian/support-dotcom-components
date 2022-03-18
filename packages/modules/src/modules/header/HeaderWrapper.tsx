@@ -51,20 +51,21 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
             secondaryCta,
         };
 
-        const mobilePrimaryCta = mobileContent?.primaryCta
-            ? buildEnrichedCta(mobileContent.primaryCta)
-            : primaryCta;
+        const getMobileCta = (): HeaderEnrichedCta | null => {
+            if (mobileContent) {
+                // If mobileContent is defined but its primaryCta is not then we do not render a cta at all
+                return mobileContent.primaryCta ? buildEnrichedCta(mobileContent.primaryCta) : null;
+            }
+            return primaryCta;
+        };
 
-        const mobileSecondaryCta = mobileContent?.secondaryCta
-            ? buildEnrichedCta(mobileContent.secondaryCta)
-            : secondaryCta;
+        const mobilePrimaryCta = getMobileCta();
 
         const renderedMobileContent = mobileContent
             ? ({
                   heading: mobileContent.heading,
                   subheading: mobileContent.subheading,
                   primaryCta: mobilePrimaryCta,
-                  secondaryCta: mobileSecondaryCta,
               } as HeaderRenderedContent)
             : undefined;
 
