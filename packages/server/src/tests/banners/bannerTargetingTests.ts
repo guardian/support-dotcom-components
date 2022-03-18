@@ -7,10 +7,9 @@ const isNetworkFront = (targeting: BannerTargeting): boolean =>
 
 export const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
-        name: '2022-02-10_BannerTargeting_PageView',
+        name: '2022-03-18_BannerTargeting_PageView',
         // Exclude browsers that have not consented to article counting
-        // canInclude: (targeting: BannerTargeting) => targeting.articleCountToday !== undefined,
-        canInclude: () => false,
+        canInclude: (targeting: BannerTargeting) => targeting.articleCountToday !== undefined,
         variants: [
             {
                 name: 'control',
