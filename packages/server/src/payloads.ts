@@ -296,7 +296,9 @@ export const buildBannerData = async (
             separateArticleCount: variant.separateArticleCount,
 
             // Temporarily hardcoded during development
-            digisubPrice: '5.99',
+            productPrices: {
+                digisubPrice: '5.99',
+            },
         };
 
         return {

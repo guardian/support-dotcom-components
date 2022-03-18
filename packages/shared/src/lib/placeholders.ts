@@ -5,7 +5,7 @@ import { getCountryName, getLocalCurrencySymbol } from './geolocation';
 export const replaceNonArticleCountPlaceholders = (
     content: string | undefined,
     countryCode?: string,
-    digisubPrice?: string,
+    productPrice?: string,
 ): string => {
     if (!content) {
         return '';
@@ -18,7 +18,7 @@ export const replaceNonArticleCountPlaceholders = (
     const countryName = getCountryName(countryCode) ?? '';
     content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
 
-    content = content.replace(/%%DIGI_SUB_PRICE%%/g, `${localCurrencySymbol}${digisubPrice}`);
+    content = content.replace(/%%DIGI_SUB_PRICE%%/g, `${localCurrencySymbol}${productPrice}`);
 
     return content;
 };

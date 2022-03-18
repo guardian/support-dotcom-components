@@ -35,6 +35,10 @@ const bannerContentSchema = z.object({
     secondaryCta: secondaryCtaSchema.optional(),
 });
 
+export interface ProductPrices {
+    digisubPrice?: string;
+}
+
 export interface BannerProps {
     tracking: Tracking;
     bannerChannel: BannerChannel;
@@ -49,7 +53,7 @@ export interface BannerProps {
     email?: string;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
-    digisubPrice?: string;
+    productPrices?: ProductPrices;
 }
 
 export const bannerSchema = z.object({
