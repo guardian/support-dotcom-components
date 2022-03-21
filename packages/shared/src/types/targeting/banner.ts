@@ -16,6 +16,7 @@ export type BannerTargeting = {
     sectionId?: string;
     tagIds?: string[];
     contentType?: string;
+    browserId?: string; // Only present if the user has consented to browserId-based targeting
 };
 
 export type BannerPayload = {
