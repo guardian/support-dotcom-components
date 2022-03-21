@@ -1,15 +1,13 @@
-import { logInfo } from '../../../utils/logging';
-import { streamS3DataByLine } from '../../../utils/S3';
-import { isProd } from '../../../lib/env';
 import { contributionsBanner, guardianWeekly } from '@sdc/shared/dist/config';
 import { BannerTestGenerator, BannerTargeting, BannerTest } from '@sdc/shared/dist/types';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { BannerContent } from '@sdc/shared/types';
-import { GWContent, USDigisubContent } from './propensityModelTestData';
+import { GWContent, USDigisubContent } from './propensityModelTestCopy';
+import { isInPropensityTest } from './propensityModelTestData';
 
 /**
  * This file defines a banner AB test based on ML propensity model data.
- * It targets browserIds identified as:
+ * It targets browserIds identified as both:
  * - high-propensity Guardian Weekly
  * - low-propensity Digisub
  *
@@ -17,26 +15,6 @@ import { GWContent, USDigisubContent } from './propensityModelTestData';
  * In the control, all browsers see Digisub banner.
  * In the variant, all browsers see GW banner.
  */
-
-const guardianWeeklyHighPropensityIds: Set<string> = new Set<string>();
-const fetchHighPropensityIds = (): void => {
-    logInfo('Loading guardianWeeklyHighPropensityIds...');
-    streamS3DataByLine(
-        'support-admin-console',
-        `${isProd ? 'PROD' : 'CODE'}/guardian-weekly-propensity-test/ids.txt`,
-        line => guardianWeeklyHighPropensityIds.add(line),
-        () => {
-            logInfo(
-                `Loaded ${guardianWeeklyHighPropensityIds.size} guardianWeeklyHighPropensityIds`,
-            );
-        },
-    );
-};
-
-fetchHighPropensityIds();
-
-const isInPropensityTest = (browserId: string): boolean =>
-    guardianWeeklyHighPropensityIds.has(browserId);
 
 const buildTest = (
     locations: CountryGroupId[],
