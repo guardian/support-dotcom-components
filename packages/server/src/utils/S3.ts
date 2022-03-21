@@ -1,6 +1,8 @@
 import AWS from 'aws-sdk';
 import { GetObjectOutput } from 'aws-sdk/clients/s3';
 import { isDev } from '../lib/env';
+import readline from 'readline';
+import { logError } from './logging';
 
 const getS3 = () => {
     if (isDev) {
@@ -28,4 +30,29 @@ export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
             }
         })
         .catch(err => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
+};
+
+export const streamS3DataByLine = (
+    bucket: string,
+    key: string,
+    onLine: (line: string) => void,
+    onComplete?: () => void,
+): void => {
+    const input = getS3()
+        .getObject({
+            Bucket: bucket,
+            Key: key,
+        })
+        .createReadStream();
+
+    const stream = readline.createInterface({
+        input,
+        terminal: false,
+    });
+
+    stream.on('line', onLine);
+    if (onComplete) {
+        stream.on('close', onComplete);
+    }
+    stream.on('error', error => logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`));
 };
