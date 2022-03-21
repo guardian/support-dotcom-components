@@ -14,7 +14,7 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
-    propensityModelBannerTest,
+    propensityModelBannerTest, // hardcoded test
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
 ];

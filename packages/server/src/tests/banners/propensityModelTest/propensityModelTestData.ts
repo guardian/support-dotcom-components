@@ -5,16 +5,16 @@ import { isProd } from '../../../lib/env';
 const guardianWeeklyHighPropensityIds: Set<string> = new Set<string>();
 const fetchHighPropensityIds = (): void => {
     logInfo('Loading guardianWeeklyHighPropensityIds...');
-    streamS3DataByLine(
-        'support-admin-console',
-        `${isProd ? 'PROD' : 'CODE'}/guardian-weekly-propensity-test/ids.txt`,
-        line => guardianWeeklyHighPropensityIds.add(line),
-        () => {
+    streamS3DataByLine({
+        bucket: 'support-admin-console',
+        key: `${isProd ? 'PROD' : 'CODE'}/guardian-weekly-propensity-test/ids.txt`,
+        onLine: line => guardianWeeklyHighPropensityIds.add(line),
+        onComplete: () => {
             logInfo(
                 `Loaded ${guardianWeeklyHighPropensityIds.size} guardianWeeklyHighPropensityIds`,
             );
         },
-    );
+    });
 };
 
 fetchHighPropensityIds();

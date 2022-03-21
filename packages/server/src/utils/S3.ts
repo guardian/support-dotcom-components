@@ -32,12 +32,13 @@ export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
         .catch(err => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
 };
 
-export const streamS3DataByLine = (
-    bucket: string,
-    key: string,
-    onLine: (line: string) => void,
-    onComplete?: () => void,
-): void => {
+interface S3StreamConfig {
+    bucket: string;
+    key: string;
+    onLine: (line: string) => void;
+    onComplete?: () => void;
+}
+export const streamS3DataByLine = ({ bucket, key, onLine, onComplete }: S3StreamConfig): void => {
     const input = getS3()
         .getObject({
             Bucket: bucket,
