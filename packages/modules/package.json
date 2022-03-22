@@ -25,8 +25,13 @@
     "@guardian/src-text-input": "3.8.0",
     "@sdc/shared": "1.0.0",
     "@types/babel__standalone": "^7.1.2",
+    "@guardian/braze-components": "^6.1.0",
     "preact": "^10.5.12",
-    "zod": "^3.2.0"
+    "zod": "^3.2.0",
+    "@guardian/libs": "^3.1.0",
+    "@guardian/source-foundations": "^4.0.3",
+    "@guardian/source-react-components": "^4.0.2",
+    "@guardian/source-react-components-development-kitchen": "^0.0.33"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",

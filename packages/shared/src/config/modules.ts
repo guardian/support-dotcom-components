@@ -16,6 +16,8 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     devServerPath: `/../../modules/dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
+export const brazeEpic: ModuleInfo = getDefaultModuleInfo('braze-epic', 'braze/BrazeEpic');
+
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
 
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
@@ -71,6 +73,7 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
 export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
 
 export const moduleInfos: ModuleInfo[] = [
+    brazeEpic,
     epic,
     liveblogEpic,
     contributionsBanner,

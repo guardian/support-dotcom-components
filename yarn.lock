@@ -2507,6 +2507,11 @@
   resolved "https://registry.yarnpkg.com/@guardian/automat-deps/-/automat-deps-0.3.0.tgz#93b859ce38f0ccb9ec11f3a5aec132563476d480"
   integrity sha512-KoAvRHb2By/xiLUUIN/LGvpr1m4+vu+srsoTQHR8cMI9tAiOPEGo5uNkSXt0vOWRNURjoT4AjBydZ0mdtUxmdg==
 
+"@guardian/braze-components@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@guardian/braze-components/-/braze-components-6.1.0.tgz#11e4414ed15fbd16ac005dab60c42383b913dbec"
+  integrity sha512-26dRs/zXoYXz9Ov54GRhhEB1wiB2+iAnxc+HYRmsb/tOjcyxu/YkyhFnPgHgZUX8F7y2IuB7TBx7nNGONjWYgQ==
+
 "@guardian/eslint-config-typescript@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@guardian/eslint-config-typescript/-/eslint-config-typescript-0.6.0.tgz#bdefa927e82932f566e094118ffbdd3e1c634475"
