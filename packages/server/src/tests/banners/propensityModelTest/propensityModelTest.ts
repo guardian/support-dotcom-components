@@ -2,7 +2,7 @@ import { contributionsBanner, guardianWeekly } from '@sdc/shared/dist/config';
 import { BannerTestGenerator, BannerTargeting, BannerTest } from '@sdc/shared/dist/types';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { BannerContent } from '@sdc/shared/types';
-import { GWContent, USDigisubContent } from './propensityModelTestCopy';
+import { GWContent, USDigisubContent, UKDigisubContent } from './propensityModelTestCopy';
 import { isInPropensityTest } from './propensityModelTestData';
 
 /**
@@ -22,7 +22,7 @@ const buildTest = (
     digisubContent: BannerContent,
     gwContent: BannerContent,
 ): BannerTest => ({
-    name: `2022-03-22_BannerTargeting_GW_DS_Propensity__${name}`,
+    name: `2022-03-28_BannerTargeting_GW_DS_Propensity__${name}`,
     bannerChannel: 'subscriptions',
     userCohort: 'AllNonSupporters',
     locations,
@@ -51,6 +51,6 @@ export const propensityModelBannerTest: BannerTestGenerator = () =>
     // On startup resolve immediately rather than wait to stream the browserIds, to avoid blocking all banner tests from running
     Promise.resolve([
         buildTest(['UnitedStates'], 'US', USDigisubContent, GWContent),
-        // TODO
-        buildTest(['GBPCountries'], 'UK', USDigisubContent, GWContent),
+        buildTest(['GBPCountries'], 'UK', UKDigisubContent, GWContent),
+        // TODO others
     ]);
