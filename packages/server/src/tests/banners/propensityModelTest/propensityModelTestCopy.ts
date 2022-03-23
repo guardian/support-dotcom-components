@@ -29,11 +29,12 @@ export const UKDigisubContent = digisubContent([
 
 // TODO
 export const GWContent: BannerContent = {
-    heading: '',
-    paragraphs: [],
-    highlightedText: '',
+    heading: 'Read the Guardian in print',
+    paragraphs: [
+        'Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
+    ],
     cta: {
-        baseUrl: '',
-        text: '',
+        baseUrl: 'https://support.theguardian.com/subscribe/weekly',
+        text: 'Subscribe',
     },
 };

@@ -38,7 +38,7 @@ const buildTest = (
             componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
         },
         {
-            name: 'control',
+            name: 'variant',
             modulePathBuilder: guardianWeekly.endpointPathBuilder,
             moduleName: 'GuardianWeeklyBanner',
             bannerContent: gwContent,
