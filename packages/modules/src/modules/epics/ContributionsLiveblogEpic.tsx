@@ -174,7 +174,7 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
 
     return (
         <div css={ctaContainer}>
-            <LinkButton css={cta} priority="primary" href={url}>
+            <LinkButton css={cta} priority="primary" href={url} data-ignore="global-link-styling">
                 {text || DEFAULT_CTA_TEXT}
             </LinkButton>
             {hasSupportCta && (
