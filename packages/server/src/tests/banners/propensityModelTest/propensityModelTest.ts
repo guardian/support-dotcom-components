@@ -1,5 +1,11 @@
 import { contributionsBanner, guardianWeekly } from '@sdc/shared/dist/config';
-import { BannerTestGenerator, BannerTargeting, BannerTest } from '@sdc/shared/dist/types';
+import {
+    BannerTestGenerator,
+    BannerTargeting,
+    BannerTest,
+    OphanComponentType,
+    BannerTemplate,
+} from '@sdc/shared/dist/types';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { BannerContent } from '@sdc/shared/types';
 import { GWContent, USDigisubContent, UKDigisubContent } from './propensityModelTestCopy';
@@ -15,6 +21,8 @@ import { isInPropensityTest } from './propensityModelTestData';
  * In the control, all browsers see Digisub banner.
  * In the variant, all browsers see GW banner.
  */
+
+const channelName: OphanComponentType = 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'; // aka channel 2
 
 const buildTest = (
     locations: CountryGroupId[],
@@ -33,16 +41,16 @@ const buildTest = (
         {
             name: 'control',
             modulePathBuilder: contributionsBanner.endpointPathBuilder,
-            moduleName: 'ContributionsBanner',
+            moduleName: BannerTemplate.ContributionsBanner,
             bannerContent: digisubContent,
-            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+            componentType: channelName,
         },
         {
             name: 'variant',
             modulePathBuilder: guardianWeekly.endpointPathBuilder,
-            moduleName: 'GuardianWeeklyBanner',
+            moduleName: BannerTemplate.GuardianWeeklyBanner,
             bannerContent: gwContent,
-            componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+            componentType: channelName,
         },
     ],
 });
