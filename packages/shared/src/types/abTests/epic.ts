@@ -8,7 +8,7 @@ import {
     Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
-import { Cta, SecondaryCta, TickerSettings } from '../props';
+import { Cta, Image, SecondaryCta, TickerSettings } from '../props';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -31,7 +31,7 @@ export interface EpicVariant extends Variant {
     cta?: Cta;
     secondaryCta?: SecondaryCta;
     footer?: string;
-    backgroundImageUrl?: string;
+    image?: Image;
     showReminderFields?: ReminderFields;
     modulePathBuilder?: (version?: string) => string;
     separateArticleCount?: SeparateArticleCount;
