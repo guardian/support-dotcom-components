@@ -29,31 +29,4 @@ describe('Banner pageview targeting test', () => {
         });
         expect(canShow).toBe(true);
     });
-
-    it('variant 2 returns false if AC = 1 and contentType = article', () => {
-        const canShow = test.variants[2].canShow({
-            ...targeting,
-            articleCountToday: 1,
-            contentType: 'Article',
-        });
-        expect(canShow).toBe(false);
-    });
-
-    it('variant 2 returns true if AC = 1 and contentType = Network Front', () => {
-        const canShow = test.variants[2].canShow({
-            ...targeting,
-            articleCountToday: 1,
-            contentType: 'Network Front',
-        });
-        expect(canShow).toBe(true);
-    });
-
-    it('variant 2 returns true if AC = 2 and contentType = Article', () => {
-        const canShow = test.variants[2].canShow({
-            ...targeting,
-            articleCountToday: 2,
-            contentType: 'Article',
-        });
-        expect(canShow).toBe(true);
-    });
 });
