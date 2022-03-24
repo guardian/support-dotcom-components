@@ -13,7 +13,7 @@ export default Factory.define<EpicVariant>(() => ({
     highlightedText:
         'Support The Guardian from as little as %%CURRENCY_SYMBOL%%1 - and it only takes a minute. Thank you.',
     image: {
-        url:
+        mainUrl:
             'https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixlib=rb-1.2.1&auto=format&fit=crop&w=1701&q=80',
         altText: 'An image of a cat',
     },

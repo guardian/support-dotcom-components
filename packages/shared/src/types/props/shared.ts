@@ -132,11 +132,11 @@ export const trackingSchema = z.object({
 });
 
 export interface Image {
-    url: string;
+    mainUrl: string;
     altText: string;
 }
 
 export const imageSchema = z.object({
-    url: z.string(),
+    mainUrl: z.string(),
     altText: z.string(),
 });

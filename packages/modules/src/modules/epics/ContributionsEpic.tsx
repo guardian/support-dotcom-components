@@ -380,7 +380,7 @@ export const getEpic = (
 
             {image && (
                 <div css={imageWrapperStyles}>
-                    <img src={image.url} css={imageStyles} alt={image.altText} />
+                    <img src={image.mainUrl} css={imageStyles} alt={image.altText} />
                 </div>
             )}
 
