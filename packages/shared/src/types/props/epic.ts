@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import {
     ctaSchema,
+    imageSchema,
     secondaryCtaSchema,
     Stage,
     tickerSettingsSchema,
@@ -63,7 +64,7 @@ const variantSchema = z.object({
     cta: ctaSchema.optional(),
     secondaryCta: secondaryCtaSchema.optional(),
     footer: z.string().optional(),
-    backgroundImageUrl: z.string().optional(),
+    image: imageSchema.optional(),
     showReminderFields: reminderFieldsSchema.optional(),
     separateArticleCount: separateArticleCountSchema.optional(),
     maxViews: maxViewsSchema.optional(),

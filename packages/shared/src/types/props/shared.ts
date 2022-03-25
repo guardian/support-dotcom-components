@@ -130,3 +130,13 @@ export const trackingSchema = z.object({
     referrerUrl: z.string(),
     clientName: z.string(),
 });
+
+export interface Image {
+    mainUrl: string;
+    altText: string;
+}
+
+export const imageSchema = z.object({
+    mainUrl: z.string(),
+    altText: z.string(),
+});

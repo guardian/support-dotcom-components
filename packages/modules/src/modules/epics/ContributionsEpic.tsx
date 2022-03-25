@@ -292,7 +292,7 @@ export const getEpic = (
     const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const {
-        backgroundImageUrl,
+        image,
         showReminderFields,
         tickerSettings,
         showChoiceCards,
@@ -378,13 +378,9 @@ export const getEpic = (
                 />
             )}
 
-            {backgroundImageUrl && (
+            {image && (
                 <div css={imageWrapperStyles}>
-                    <img
-                        src={backgroundImageUrl}
-                        css={imageStyles}
-                        alt="Guardian contributions message"
-                    />
+                    <img src={image.mainUrl} css={imageStyles} alt={image.altText} />
                 </div>
             )}
 
