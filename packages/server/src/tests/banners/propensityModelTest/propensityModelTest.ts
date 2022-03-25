@@ -8,8 +8,15 @@ import {
 } from '@sdc/shared/dist/types';
 import { CountryGroupId } from '@sdc/shared/dist/lib';
 import { BannerContent } from '@sdc/shared/types';
-import { GWContent, USDigisubContent, UKDigisubContent } from './propensityModelTestCopy';
+import {
+    US_ROW_DIGISUB_CONTENT,
+    UK_DIGISUB_CONTENT,
+    AU_DIGISUB_CONTENT,
+    EU_DIGISUB_CONTENT,
+    CA_NZ_DIGISUB_CONTENT,
+} from './propensityModelTestDigisubCopy';
 import { isInPropensityTest } from './propensityModelTestData';
+import { AU_GW_CONTENT, EU_GW_CONTENT, ROW_GW_CONTENT } from './propensityModelTestGWCopy';
 
 /**
  * This file defines a banner AB test based on ML propensity model data.
@@ -58,7 +65,9 @@ const buildTest = (
 export const propensityModelBannerTest: BannerTestGenerator = () =>
     // On startup resolve immediately rather than wait to stream the browserIds, to avoid blocking all banner tests from running
     Promise.resolve([
-        buildTest(['UnitedStates'], 'US', USDigisubContent, GWContent),
-        buildTest(['GBPCountries'], 'UK', UKDigisubContent, GWContent),
-        // TODO others
+        buildTest(['GBPCountries'], 'US_ROW', UK_DIGISUB_CONTENT, ROW_GW_CONTENT),
+        buildTest(['UnitedStates', 'International'], 'US', US_ROW_DIGISUB_CONTENT, ROW_GW_CONTENT),
+        buildTest(['AUDCountries'], 'AU', AU_DIGISUB_CONTENT, AU_GW_CONTENT),
+        buildTest(['EURCountries'], 'EU', EU_DIGISUB_CONTENT, EU_GW_CONTENT),
+        buildTest(['Canada', 'NZDCountries'], 'CA_NZ', CA_NZ_DIGISUB_CONTENT, ROW_GW_CONTENT),
     ]);
