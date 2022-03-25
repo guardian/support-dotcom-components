@@ -1,5 +1,4 @@
-import React from "react"
-import { useEffect } from "@storybook/addons"
+import React, { useEffect } from "react"
 import { FocusStyleManager } from "@guardian/src-foundations/utils"
 import { breakpoints } from "@guardian/src-foundations"
 import { StylesDecorator } from './StylesDecorator'
