@@ -44,6 +44,7 @@ const buildTest = (
 ): BannerTest => ({
     name: `2022-03-28_BannerTargeting_GW_DS_Propensity__${name}`,
     bannerChannel: 'subscriptions',
+    isHardcoded: true,
     userCohort: 'AllNonSupporters',
     locations,
     canRun: (targeting: BannerTargeting) =>
