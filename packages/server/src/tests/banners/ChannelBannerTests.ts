@@ -80,6 +80,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                         return {
                             name: testParams.name,
                             bannerChannel,
+                            isHardcoded: false,
                             userCohort: testParams.userCohort,
                             locations: testParams.locations,
                             canRun: (): boolean => testParams.isOn,

@@ -103,6 +103,7 @@ export const selectBannerTest = async (
     baseUrl: string,
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,
+    enableHardcodedBannerTests: boolean,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
 ): Promise<BannerTestSelection | null> => {
@@ -121,6 +122,7 @@ export const selectBannerTest = async (
         const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
 
         if (
+            (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
