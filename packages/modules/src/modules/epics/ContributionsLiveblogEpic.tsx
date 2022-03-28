@@ -21,7 +21,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { OphanComponentEvent } from '@sdc/shared/dist/types';
 import { logEpicView } from '@sdc/shared/lib';
 
-const container = (platformId: string) => css`
+const container = (clientName: string) => css`
     padding: 6px 10px 28px 10px;
     border-top: 1px solid ${brandAlt[400]};
     border-bottom: 1px solid ${neutral[86]};
@@ -40,7 +40,7 @@ const container = (platformId: string) => css`
     }
 
     ${from.tablet} {
-        padding-left: ${platformId === 'dcr' ? '60px' : '80px'};
+        padding-left: ${clientName === 'dcr' ? '60px' : '80px'};
         padding-right: 20px;
 
         & > * + * {
@@ -95,7 +95,7 @@ const ctaContainer: SerializedStyles = css`
     }
 `;
 
-const yellowHeading = (platformId: string) => css`
+const yellowHeading = (clientName: string) => css`
     ${headline.medium({ fontWeight: 'bold' })};
     font-size: 28px;
     background-color: ${brandAlt[400]};
@@ -105,7 +105,7 @@ const yellowHeading = (platformId: string) => css`
 
     padding: 8px 10px 12px 10px;
     ${from.tablet} {
-        padding-left: ${platformId === 'dcr' ? '60px' : '80px'};
+        padding-left: ${clientName === 'dcr' ? '60px' : '80px'};
         padding-right: 20px;
     }
 `;
@@ -238,8 +238,8 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
 
     return (
         <div data-cy="contributions-liveblog-epic" ref={setNode}>
-            {cleanHeading && <div css={yellowHeading(tracking.platformId)}>{cleanHeading}</div>}
-            <section css={container(tracking.platformId)}>
+            {cleanHeading && <div css={yellowHeading(tracking.clientName)}>{cleanHeading}</div>}
+            <section css={container(tracking.clientName)}>
                 <LiveblogEpicBody
                     paragraphs={cleanParagraphs}
                     numArticles={articleCounts.forTargetedWeeks}
