@@ -23,7 +23,7 @@ export const NZ_GW_CONTENT: BannerContent = {
 };
 
 export const EU_GW_CONTENT: BannerContent = {
-    heading: 'Read the Guardian in print, in New Zealand',
+    heading: 'Read the Guardian in print',
     paragraphs: [
         'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
     ],
