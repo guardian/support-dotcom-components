@@ -1,11 +1,30 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta, Story } from '@storybook/react';
-import { HeaderProps } from '@sdc/shared/types';
 import { HeaderUnvalidated as Header } from './Header';
 import { css } from '@emotion/react';
 import { brand } from '@guardian/src-foundations';
 
-const defaultProps: HeaderProps = {
+const background = css`
+    background-color: ${brand[400]};
+    padding: 10px;
+`;
+
+const HeaderDecorator = (Story: Story) => (
+    <div css={background}>
+        <Story />
+    </div>
+);
+
+export default {
+    component: Header,
+    title: 'Header/Header',
+    decorators: [HeaderDecorator],
+} as ComponentMeta<typeof Header>;
+
+const Template: ComponentStory<typeof Header> = props => <Header {...props} />;
+
+export const DefaultHeader = Template.bind({});
+DefaultHeader.args = {
     content: {
         heading: 'Support the Guardian',
         subheading: 'Available for everyone, funded by readers',
@@ -38,24 +57,3 @@ const defaultProps: HeaderProps = {
     },
     countryCode: 'GB',
 };
-
-const background = css`
-    background-color: ${brand[400]};
-    padding: 10px;
-`;
-
-const HeaderDecorator = (Story: Story) => (
-    <div css={background}>
-        <Story />
-    </div>
-);
-
-export default {
-    component: Header,
-    title: 'Header/Header',
-    decorators: [HeaderDecorator],
-} as ComponentMeta<typeof Header>;
-
-const Template: ComponentStory<typeof Header> = props => <Header {...defaultProps} {...props} />;
-
-export const DefaultHeader = Template.bind({});
