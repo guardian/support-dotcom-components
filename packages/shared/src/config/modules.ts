@@ -83,7 +83,12 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
     'puzzles/puzzlesBanner/PuzzlesBanner',
 );
 
-export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
+export const header: ModuleInfo = getDefaultModuleInfo('header', 'headers/Header');
+
+export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
+    'signInPromptHeader',
+    'headers/SignInPromptHeader',
+);
 
 export const moduleInfos: ModuleInfo[] = [
     epic,

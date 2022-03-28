@@ -1,23 +1,12 @@
 import React from 'react';
-import { ComponentStory, ComponentMeta, Story } from '@storybook/react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+
 import { HeaderUnvalidated as Header } from './Header';
-import { css } from '@emotion/react';
-import { brand } from '@guardian/src-foundations';
-
-const background = css`
-    background-color: ${brand[400]};
-    padding: 10px;
-`;
-
-const HeaderDecorator = (Story: Story) => (
-    <div css={background}>
-        <Story />
-    </div>
-);
+import HeaderDecorator from './common/HeaderDecorator';
 
 export default {
     component: Header,
-    title: 'Header/Header',
+    title: 'Headers/Header',
     decorators: [HeaderDecorator],
 } as ComponentMeta<typeof Header>;
 
@@ -38,7 +27,7 @@ DefaultHeader.args = {
         },
     },
     mobileContent: {
-        heading: 'Support the Guardian',
+        heading: '',
         subheading: '',
         primaryCta: {
             baseUrl: 'https://support.theguardian.com/contribute',

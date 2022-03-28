@@ -33,7 +33,7 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
-import { selectHeaderTest } from './tests/header/headerSelection';
+import { selectHeaderTest } from './tests/headers/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { cachedProductPrices } from './productPrices';
