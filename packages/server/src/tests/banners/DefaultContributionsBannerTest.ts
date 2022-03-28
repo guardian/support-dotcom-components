@@ -5,6 +5,7 @@ import { DefaultBannerContent } from './DefaultContributionsBannerContent';
 export const DefaultContributionsBanner: BannerTest = {
     name: 'DefaultContributionsBanner',
     bannerChannel: 'contributions',
+    isHardcoded: false,
     userCohort: 'AllNonSupporters',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     canRun: (_targeting: BannerTargeting, _pageTracking: PageTracking) => true,

@@ -8,6 +8,7 @@ interface ChannelSwitches {
     enableHeaders: boolean;
     enableSuperMode: boolean;
     enableHardcodedEpicTests: boolean;
+    enableHardcodedBannerTests: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>

@@ -29,6 +29,8 @@ describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
 
+    const enableHardcodedBannerTests = true;
+
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
@@ -56,6 +58,7 @@ describe('selectBannerTest', () => {
         const test: BannerTest = {
             name: 'test',
             bannerChannel: 'contributions',
+            isHardcoded: false,
             userCohort: 'Everyone',
             canRun: () => true,
             minPageViews: 2,
@@ -91,10 +94,29 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {
                 expect(result && result.test.name).toBe('test');
+            });
+        });
+
+        it('returns null if hardcoded tests disabled', () => {
+            return selectBannerTest(
+                Object.assign(targeting, {
+                    weeklyArticleHistory: [{ week: 18330, count: 6 }],
+                }),
+                tracking,
+                isMobile,
+                '',
+                () => Promise.resolve([{ ...test, isHardcoded: true }]),
+                cache,
+                false,
+                undefined,
+                now,
+            ).then(result => {
+                expect(result && result.test.name).toBe(null);
             });
         });
 
@@ -108,6 +130,7 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {
@@ -131,6 +154,7 @@ describe('selectBannerTest', () => {
                         },
                     ]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {
@@ -148,6 +172,7 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {
@@ -183,6 +208,7 @@ describe('selectBannerTest', () => {
         const test: BannerTest = {
             name: 'test',
             bannerChannel: 'subscriptions',
+            isHardcoded: false,
             userCohort: 'Everyone',
             canRun: (): boolean => true,
             minPageViews: 2,
@@ -217,6 +243,7 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {
@@ -234,6 +261,7 @@ describe('selectBannerTest', () => {
                 '',
                 () => Promise.resolve([test]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {
@@ -257,6 +285,7 @@ describe('selectBannerTest', () => {
                         },
                     ]),
                 cache,
+                enableHardcodedBannerTests,
                 undefined,
                 now,
             ).then(result => {

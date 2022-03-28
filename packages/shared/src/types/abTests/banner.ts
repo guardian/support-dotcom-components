@@ -41,6 +41,7 @@ export type BannerTestGenerator = () => Promise<BannerTest[]>;
 export interface BannerTest extends Test<BannerVariant> {
     name: string;
     bannerChannel: BannerChannel;
+    isHardcoded: boolean;
     userCohort: UserCohort;
     canRun: CanRun;
     minPageViews: number;

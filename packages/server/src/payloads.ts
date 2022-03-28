@@ -250,7 +250,7 @@ export const buildBannerData = async (
     params: Params,
     req: express.Request,
 ): Promise<BannerDataResponse> => {
-    const { enableBanners } = await cachedChannelSwitches();
+    const { enableBanners, enableHardcodedBannerTests } = await cachedChannelSwitches();
     if (!enableBanners) {
         return {};
     }
@@ -262,6 +262,7 @@ export const buildBannerData = async (
         baseUrl(req),
         getCachedTests,
         bannerDeployCaches,
+        enableHardcodedBannerTests,
         params.force,
     );
 
