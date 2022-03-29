@@ -14,7 +14,7 @@ export function buildTest({ suffix, locations, copy }: Options): EpicTest {
         name: `TopReaderArticleCountBadge__${suffix}`,
         campaignId: `TopReaderArticleCountBadge__${suffix}`,
         hasArticleCountInCopy: true,
-        isOn: false,
+        isOn: true,
         locations,
         audience: 1,
         tagIds: [],
