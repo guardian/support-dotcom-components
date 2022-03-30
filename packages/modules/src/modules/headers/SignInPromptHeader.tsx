@@ -65,7 +65,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
     }
 
     useEffect(() => {
-        let timeout: ReturnType<typeof setTimeout>;
+        const timeouts: ReturnType<typeof setTimeout>[] = [];
 
         if (benefitIndex === -1) {
             setBenefitIndex(0);
@@ -74,16 +74,20 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
         }
 
         if (benefitIndex < BENEFITS.length - 1) {
-            timeout = setTimeout(() => {
-                setTransitionState('exiting');
-            }, FADE_TIME_MS + REST_TIME_MS);
-            timeout = setTimeout(() => {
-                setBenefitIndex(benefitIndex + 1);
-            }, FADE_TIME_MS * 2 + REST_TIME_MS);
+            timeouts.push(
+                setTimeout(() => {
+                    setTransitionState('exiting');
+                }, FADE_TIME_MS + REST_TIME_MS),
+            );
+            timeouts.push(
+                setTimeout(() => {
+                    setBenefitIndex(benefitIndex + 1);
+                }, FADE_TIME_MS * 2 + REST_TIME_MS),
+            );
         }
 
-        () => {
-            clearTimeout(timeout);
+        return () => {
+            timeouts.forEach(timeout => clearTimeout(timeout));
         };
     }, [benefitIndex]);
 
