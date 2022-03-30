@@ -89,45 +89,41 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
         const totalDotAnimationLength = dotAnimationLength * DOTS_COUNT;
         const textAnimationStart = totalDotAnimationLength + FADE_TIME_MS + ANIMATION_DELAY_MS;
 
+        // TODO: maybe this helper should only trigger one timeout at once
+        // would avoid needing to keep track of cumulative duration in ms
+        const queueAnimation = (callback: () => void, ms: number) => {
+            timeouts.push(setTimeout(callback, ms));
+        };
+
         if (benefitIndex === -1) {
             setBenefitIndex(0);
         } else {
             for (let i = 0; i < DOTS_COUNT; i++) {
-                timeouts.push(
-                    setTimeout(() => {
-                        setDotsTransitionState(currentState => {
-                            const newState = [...currentState];
-                            newState.splice(i, 1, 'entering');
-                            return newState;
-                        });
-                    }, i * (FADE_TIME_MS + ANIMATION_DELAY_MS)),
-                );
+                queueAnimation(() => {
+                    setDotsTransitionState(currentState => {
+                        const newState = [...currentState];
+                        newState.splice(i, 1, 'entering');
+                        return newState;
+                    });
+                }, i * (FADE_TIME_MS + ANIMATION_DELAY_MS));
             }
 
-            timeouts.push(
-                setTimeout(() => {
-                    const newState = new Array(DOTS_COUNT).fill('exiting');
-                    setDotsTransitionState(newState);
-                }, totalDotAnimationLength),
-            );
-            timeouts.push(
-                setTimeout(() => {
-                    setBenefitTransitionState('entering');
-                }, textAnimationStart),
-            );
+            queueAnimation(() => {
+                const newState = new Array(DOTS_COUNT).fill('exiting');
+                setDotsTransitionState(newState);
+            }, totalDotAnimationLength);
+            queueAnimation(() => {
+                setBenefitTransitionState('entering');
+            }, textAnimationStart);
         }
 
         if (benefitIndex < BENEFITS.length - 1) {
-            timeouts.push(
-                setTimeout(() => {
-                    setBenefitTransitionState('exiting');
-                }, textAnimationStart + FADE_TIME_MS + TEXT_DELAY_MS),
-            );
-            timeouts.push(
-                setTimeout(() => {
-                    setBenefitIndex(benefitIndex + 1);
-                }, textAnimationStart + FADE_TIME_MS * 2 + TEXT_DELAY_MS + ANIMATION_DELAY_MS),
-            );
+            queueAnimation(() => {
+                setBenefitTransitionState('exiting');
+            }, textAnimationStart + FADE_TIME_MS + TEXT_DELAY_MS);
+            queueAnimation(() => {
+                setBenefitIndex(benefitIndex + 1);
+            }, textAnimationStart + FADE_TIME_MS * 2 + TEXT_DELAY_MS + ANIMATION_DELAY_MS);
         }
 
         return () => {
