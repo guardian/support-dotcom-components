@@ -25,16 +25,26 @@ const subHeadingStyles = css`
     margin: 0;
 `;
 
+const benefitsWrapper = css`
+    margin: ${space[1]}px 0 10px;
+    position: relative;
+`;
+
 const benefitStyles = css`
-    margin: ${space[1]}px 0 ${space[2]}px;
+    display: flex;
+`;
+
+const dotsWrapper = css`
+    position: absolute;
+    display: flex;
 `;
 
 const dotStyles = css`
-    display: inline-block;
     background: ${brandAlt[400]};
     width: 13px;
     height: 13px;
     border-radius: 50%;
+    margin-top: 3px;
     margin-right: ${space[2]}px;
 `;
 
@@ -77,7 +87,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
         const timeouts: ReturnType<typeof setTimeout>[] = [];
         const dotAnimationLength = FADE_TIME_MS + ANIMATION_DELAY_MS;
         const totalDotAnimationLength = dotAnimationLength * DOTS_COUNT;
-        const textAnimationStart = totalDotAnimationLength + ANIMATION_DELAY_MS;
+        const textAnimationStart = totalDotAnimationLength + FADE_TIME_MS + ANIMATION_DELAY_MS;
 
         if (benefitIndex === -1) {
             setBenefitIndex(0);
@@ -103,7 +113,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
             timeouts.push(
                 setTimeout(() => {
                     setBenefitTransitionState('entering');
-                }, totalDotAnimationLength + ANIMATION_DELAY_MS),
+                }, textAnimationStart),
             );
         }
 
@@ -116,7 +126,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
             timeouts.push(
                 setTimeout(() => {
                     setBenefitIndex(benefitIndex + 1);
-                }, textAnimationStart + FADE_TIME_MS * 2 + TEXT_DELAY_MS),
+                }, textAnimationStart + FADE_TIME_MS * 2 + TEXT_DELAY_MS + ANIMATION_DELAY_MS),
             );
         }
 
@@ -131,21 +141,22 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
                 <h2 css={headingStyles}>{heading}</h2>
                 <h3 css={subHeadingStyles}>{subheading}</h3>
 
-                {/* TODO implement animation, and possibly avoid hardcoding text */}
-                <div>
-                    {dotsTransitionState.map((dotTransitionState, index) => {
-                        const dotCss = [dotStyles, transisitionable];
+                <div css={benefitsWrapper}>
+                    <div css={dotsWrapper}>
+                        {dotsTransitionState.map((dotTransitionState, index) => {
+                            const dotCss = [dotStyles, transisitionable];
 
-                        if (dotTransitionState === 'entering') {
-                            dotCss.push(entering);
-                        }
+                            if (dotTransitionState === 'entering') {
+                                dotCss.push(entering);
+                            }
 
-                        return <span css={dotCss} key={index} />;
-                    })}
-                </div>
-                <div css={benefitCss}>
-                    <span css={dotStyles} />
-                    <span css={benefitTextStyles}>{benefitText}</span>
+                            return <div css={dotCss} key={index} />;
+                        })}
+                    </div>
+                    <div css={benefitCss}>
+                        <div css={dotStyles} />
+                        <span css={benefitTextStyles}>{benefitText}</span>
+                    </div>
                 </div>
 
                 {primaryCta && (
