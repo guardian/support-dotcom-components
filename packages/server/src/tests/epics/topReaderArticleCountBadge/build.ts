@@ -9,6 +9,8 @@ interface Options {
     copy: Copy;
 }
 
+const EXCLUDE_TAG_IDS = ['world/ukraine', 'world/russia'];
+
 export function buildTest({ suffix, locations, copy }: Options): EpicTest {
     return {
         name: `TopReaderArticleCountBadge__${suffix}`,
@@ -19,7 +21,7 @@ export function buildTest({ suffix, locations, copy }: Options): EpicTest {
         audience: 1,
         tagIds: [],
         sections: [],
-        excludedTagIds: [],
+        excludedTagIds: EXCLUDE_TAG_IDS,
         excludedSections: [],
         alwaysAsk: false,
         maxViews: {
