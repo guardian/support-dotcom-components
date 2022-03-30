@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {
+    bylineWithImageSchema,
     ctaSchema,
     imageSchema,
     secondaryCtaSchema,
@@ -69,6 +70,7 @@ const variantSchema = z.object({
     separateArticleCount: separateArticleCountSchema.optional(),
     maxViews: maxViewsSchema.optional(),
     showSignInLink: z.boolean().optional(),
+    bylineWithImage: bylineWithImageSchema.optional(),
 });
 
 export const epicPropsSchema = z.object({

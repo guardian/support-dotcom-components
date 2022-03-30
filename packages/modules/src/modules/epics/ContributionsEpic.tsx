@@ -9,7 +9,13 @@ import {
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
-import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
+import {
+    BylineWithImage,
+    ContributionFrequency,
+    EpicProps,
+    epicPropsSchema,
+    Stage,
+} from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -116,6 +122,22 @@ const imageStyles = css`
 
 const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
+`;
+
+const bylineWithImageContainer = css`
+    border: 1px solid orange;
+`;
+
+const bylineWithImageAuthor = css`
+    border: 1px solid red;
+`;
+
+const bylineWithImageHeadshot = css`
+    border: 1px solid blue;
+`;
+
+const bylineWithImageDecoration = css`
+    border: 1px solid green;
 `;
 
 type HighlightedProps = {
@@ -249,6 +271,41 @@ const EpicBody: React.FC<BodyProps> = ({
                 return paragraphElement;
             })}
         </>
+    );
+};
+
+/*
+const bylineWithImageContainer = css`
+    border: 1px solid orange;
+`;
+
+const bylineWithImageAuthor = css`
+    border: 1px solid red;
+`;
+
+const bylineWithImageHeadshot = css`
+    border: 1px solid blue;
+`;
+
+const bylineWithImageDecoration = css`
+    border: 1px solid green;
+`;
+*/
+interface BylineWithImageProps {
+    bylineWithImage: BylineWithImage;
+}
+
+const BylineWithHeadshot: React.FC<BylineWithImageProps> = ({
+    bylineWithImage,
+}: BylineWithImageProps) => {
+    const { author, headshot } = bylineWithImage;
+    const { mainUrl, altText } = headshot;
+    return (
+        <div css={bylineWithImageContainer}>
+            <p css={bylineWithImageAuthor}>{author}</p>
+            <p css={bylineWithImageHeadshot}>{mainUrl}</p>
+            <p css={bylineWithImageDecoration}>{altText}</p>
+        </div>
     );
 };
 
@@ -401,6 +458,11 @@ export const getEpic = (
                 tracking={ophanTracking}
                 showAboveArticleCount={showAboveArticleCount}
             />
+
+            {variant.bylineWithImage && (
+                <BylineWithHeadshot bylineWithImage={variant.bylineWithImage} />
+            )}
+
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
             {showChoiceCards && choiceCardSelection && choiceCardAmounts && (

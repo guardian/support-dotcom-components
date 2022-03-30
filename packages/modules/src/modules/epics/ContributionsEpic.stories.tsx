@@ -53,6 +53,21 @@ WithBackgroundImage.args = {
     },
 };
 
+export const WithBylineAndHeadshot = Template.bind({});
+WithBylineAndHeadshot.args = {
+    variant: {
+        ...props.variant,
+        bylineWithImage: {
+            author: 'Polly Toynbee',
+            headshot: {
+                mainUrl:
+                    'https://media.guim.co.uk/a2d31356be7dad09518b09aa5f39a4c7994e08c1/0_511_4262_2539/1000.jpg',
+                altText: 'An image of a cat',
+            },
+        },
+    },
+};
+
 export const WithReminder = Template.bind({});
 WithReminder.args = {
     variant: {
