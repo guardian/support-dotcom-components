@@ -7,7 +7,11 @@ import { Hide } from '@guardian/src-layout';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 
 const FADE_TIME_MS = 300;
-const REST_TIME_MS = 1500;
+const TEXT_DELAY_MS = 1500;
+const ANIMATION_DELAY_MS = 150;
+const DOTS_COUNT = 3;
+
+type TransitionState = 'entering' | 'rest' | 'exiting';
 
 const headingStyles = () => css`
     color: ${brandText.primary};
@@ -21,11 +25,11 @@ const subHeadingStyles = css`
     margin: 0;
 `;
 
-const bulletStyles = css`
+const benefitStyles = css`
     margin: ${space[1]}px 0 ${space[2]}px;
 `;
 
-const bulletPoint = css`
+const dotStyles = css`
     display: inline-block;
     background: ${brandAlt[400]};
     width: 13px;
@@ -34,7 +38,7 @@ const bulletPoint = css`
     margin-right: ${space[2]}px;
 `;
 
-const bulletTextStyles = css`
+const benefitTextStyles = css`
     color: ${brandText.primary};
     ${headline.xxxsmall()};
 `;
@@ -56,33 +60,63 @@ const BENEFITS = ['Ad free', 'Fewer interruptions', 'Newsletters and comments'];
 const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
     const { heading, subheading, primaryCta } = props.content;
     const [benefitIndex, setBenefitIndex] = useState(-1);
-    const [transitionState, setTransitionState] = useState<'entering' | 'rest' | 'exiting'>('rest');
+    const [benefitTransitionState, setBenefitTransitionState] = useState<TransitionState>('rest');
+    const [dotsTransitionState, setDotsTransitionState] = useState(() => {
+        const initialState = new Array<TransitionState>(DOTS_COUNT);
+        initialState.fill('rest');
+        return initialState;
+    });
     const benefitText = useMemo(() => BENEFITS[benefitIndex], [benefitIndex]);
-    const bulletCSS = [bulletStyles, transisitionable];
+    const benefitCss = [benefitStyles, transisitionable];
 
-    if (transitionState === 'entering') {
-        bulletCSS.push(entering);
+    if (benefitTransitionState === 'entering') {
+        benefitCss.push(entering);
     }
 
     useEffect(() => {
         const timeouts: ReturnType<typeof setTimeout>[] = [];
+        const dotAnimationLength = FADE_TIME_MS + ANIMATION_DELAY_MS;
+        const totalDotAnimationLength = dotAnimationLength * DOTS_COUNT;
+        const textAnimationStart = totalDotAnimationLength + ANIMATION_DELAY_MS;
 
         if (benefitIndex === -1) {
             setBenefitIndex(0);
         } else {
-            setTransitionState('entering');
+            for (let i = 0; i < DOTS_COUNT; i++) {
+                timeouts.push(
+                    setTimeout(() => {
+                        setDotsTransitionState(currentState => {
+                            const newState = [...currentState];
+                            newState.splice(i, 1, 'entering');
+                            return newState;
+                        });
+                    }, i * (FADE_TIME_MS + ANIMATION_DELAY_MS)),
+                );
+            }
+
+            timeouts.push(
+                setTimeout(() => {
+                    const newState = new Array(DOTS_COUNT).fill('exiting');
+                    setDotsTransitionState(newState);
+                }, totalDotAnimationLength),
+            );
+            timeouts.push(
+                setTimeout(() => {
+                    setBenefitTransitionState('entering');
+                }, totalDotAnimationLength + ANIMATION_DELAY_MS),
+            );
         }
 
         if (benefitIndex < BENEFITS.length - 1) {
             timeouts.push(
                 setTimeout(() => {
-                    setTransitionState('exiting');
-                }, FADE_TIME_MS + REST_TIME_MS),
+                    setBenefitTransitionState('exiting');
+                }, textAnimationStart + FADE_TIME_MS + TEXT_DELAY_MS),
             );
             timeouts.push(
                 setTimeout(() => {
                     setBenefitIndex(benefitIndex + 1);
-                }, FADE_TIME_MS * 2 + REST_TIME_MS),
+                }, textAnimationStart + FADE_TIME_MS * 2 + TEXT_DELAY_MS),
             );
         }
 
@@ -98,9 +132,20 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
                 <h3 css={subHeadingStyles}>{subheading}</h3>
 
                 {/* TODO implement animation, and possibly avoid hardcoding text */}
-                <div css={bulletCSS}>
-                    <span css={bulletPoint} />
-                    <span css={bulletTextStyles}>{benefitText}</span>
+                <div>
+                    {dotsTransitionState.map((dotTransitionState, index) => {
+                        const dotCss = [dotStyles, transisitionable];
+
+                        if (dotTransitionState === 'entering') {
+                            dotCss.push(entering);
+                        }
+
+                        return <span css={dotCss} key={index} />;
+                    })}
+                </div>
+                <div css={benefitCss}>
+                    <span css={dotStyles} />
+                    <span css={benefitTextStyles}>{benefitText}</span>
                 </div>
 
                 {primaryCta && (
