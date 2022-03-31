@@ -311,7 +311,13 @@ const bylineBottomDecoration = css`
     background-position: top;
     background-size: 1px calc(0.25rem * 4 + 1px);
     height: calc(0.25rem * 4 + 1px);
-    background-image: repeating-linear-gradient(to bottom, #DCDCDC, #DCDCDC 1px, transparent 1px, transparent 0.25rem);
+    background-image: repeating-linear-gradient(
+        to bottom,
+        #dcdcdc,
+        #dcdcdc 1px,
+        transparent 1px,
+        transparent 0.25rem
+    );
 `;
 
 const BylineWithHeadshot: React.FC<BylineWithImageProps> = ({

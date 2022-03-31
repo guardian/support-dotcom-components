@@ -61,8 +61,7 @@ WithBylineAndHeadshot.args = {
             name: 'Zoe Williams',
             description: 'Guardian columnist',
             headshot: {
-                mainUrl:
-                    'https://uploads.guim.co.uk/2017/10/09/Zoe-Williams,-L.png',
+                mainUrl: 'https://uploads.guim.co.uk/2017/10/09/Zoe-Williams,-L.png',
                 altText: 'Zoe Williams headshot',
             },
         },
