@@ -8,7 +8,8 @@ export type BannerId =
     | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner'
-    | 'global-new-year-banner';
+    | 'global-new-year-banner'
+    | 'election-au-moment-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

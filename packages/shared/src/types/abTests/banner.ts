@@ -20,6 +20,7 @@ export enum BannerTemplate {
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
+    ElectionAuMomentBanner = 'ElectionAuMomentBanner',
 }
 
 export interface BannerVariant extends Variant {
