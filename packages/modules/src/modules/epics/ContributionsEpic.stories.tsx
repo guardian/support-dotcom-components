@@ -58,11 +58,12 @@ WithBylineAndHeadshot.args = {
     variant: {
         ...props.variant,
         bylineWithImage: {
-            author: 'Polly Toynbee',
+            name: 'Zoe Williams',
+            description: 'Guardian columnist',
             headshot: {
                 mainUrl:
-                    'https://media.guim.co.uk/a2d31356be7dad09518b09aa5f39a4c7994e08c1/0_511_4262_2539/1000.jpg',
-                altText: 'An image of a cat',
+                    'https://uploads.guim.co.uk/2017/10/09/Zoe-Williams,-L.png',
+                altText: 'Zoe Williams headshot',
             },
         },
     },

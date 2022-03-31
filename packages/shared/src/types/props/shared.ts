@@ -142,11 +142,13 @@ export const imageSchema = z.object({
 });
 
 export interface BylineWithImage {
-    author: string;
+    name: string;
+    description?: string;
     headshot: Image;
 }
 
 export const bylineWithImageSchema = z.object({
-    author: z.string(),
+    name: z.string(),
+    description: z.string().optional(),
     headshot: imageSchema,
 });
