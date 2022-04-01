@@ -1,9 +1,13 @@
-export type PageTracking = {
-    ophanPageId: string;
-    platformId: string;
-    referrerUrl: string;
-    clientName: string;
-};
+import { z } from 'zod';
+
+export const PageTrackingSchema = z.object({
+    ophanPageId: z.string(),
+    platformId: z.string(),
+    referrerUrl: z.string(),
+    clientName: z.string(),
+});
+
+export type PageTracking = z.infer<typeof PageTrackingSchema>;
 
 export type TagCounts = {
     [tag: string]: number;
