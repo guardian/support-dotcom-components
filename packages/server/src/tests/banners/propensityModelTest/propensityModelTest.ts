@@ -42,7 +42,7 @@ const buildTest = (
     digisubContent: BannerContent,
     gwContent: BannerContent,
 ): BannerTest => ({
-    name: `2022-03-28_BannerTargeting_GW_DS_Propensity__${name}`,
+    name: `2022-04-05_BannerTargeting_GW_DS_Propensity__${name}`,
     bannerChannel: 'subscriptions',
     isHardcoded: true,
     userCohort: 'AllNonSupporters',
