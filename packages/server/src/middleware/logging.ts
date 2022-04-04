@@ -18,7 +18,10 @@ export const logging = (
             clientName: res.locals.clientName || 'unknown',
             bannerTargeting: res.locals.bannerTargeting,
             epicTargeting: res.locals.epicTargeting,
+            userAgent: isServerError(res.statusCode) ? req.headers['user-agent'] : undefined,
         }),
     );
     next();
 };
+
+const isServerError = (statusCode: number) => statusCode >= 500;
