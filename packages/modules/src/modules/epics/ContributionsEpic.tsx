@@ -299,7 +299,7 @@ const bylineDescription = css`
 const bylineHeadshotImage = css`
     height: 100%;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
 `;
 
 const bylineBottomDecoration = css`
