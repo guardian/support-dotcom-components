@@ -11,8 +11,6 @@ const TEXT_DELAY_MS = 1500;
 const ANIMATION_DELAY_MS = 150;
 const DOTS_COUNT = 3;
 
-type TransitionState = 'entering' | 'rest' | 'exiting';
-
 const headingStyles = () => css`
     color: ${brandText.primary};
     ${headline.xxsmall({ fontWeight: 'bold' })};
@@ -27,6 +25,7 @@ const subHeadingStyles = css`
 
 const benefitsWrapper = css`
     margin: ${space[1]}px 0 10px;
+    height: 20px;
     position: relative;
 `;
 
@@ -53,12 +52,12 @@ const benefitTextStyles = css`
     ${headline.xxxsmall()};
 `;
 
-const transisitionable = css`
+const fadeable = css`
     transition: opacity 150ms linear;
     opacity: 0;
 `;
 
-const entering = css`
+const visible = css`
     opacity: 1;
 `;
 
@@ -70,99 +69,121 @@ const BENEFITS = ['Ad free', 'Fewer interruptions', 'Newsletters and comments'];
 const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
     const { heading, subheading, primaryCta } = props.content;
     const [benefitIndex, setBenefitIndex] = useState(-1);
-    const [benefitTransitionState, setBenefitTransitionState] = useState<TransitionState>('rest');
-    const [dotsTransitionState, setDotsTransitionState] = useState(() => {
-        const initialState = new Array<TransitionState>(DOTS_COUNT);
-        initialState.fill('rest');
+    const [benefitVisible, setBenefitVisible] = useState<boolean>(false);
+    const [dotsVisible, setDotsVisible] = useState(() => {
+        const initialState = new Array<boolean>(DOTS_COUNT);
+        initialState.fill(false);
         return initialState;
     });
     const benefitText = useMemo(() => BENEFITS[benefitIndex], [benefitIndex]);
-    const benefitCss = [benefitStyles, transisitionable];
+    const benefitCss = [benefitStyles, fadeable];
 
-    if (benefitTransitionState === 'entering') {
-        benefitCss.push(entering);
+    if (benefitVisible) {
+        benefitCss.push(visible);
     }
 
     useEffect(() => {
-        const timeouts: ReturnType<typeof setTimeout>[] = [];
-        const dotAnimationLength = FADE_TIME_MS + ANIMATION_DELAY_MS;
-        const totalDotAnimationLength = dotAnimationLength * DOTS_COUNT;
-        const textAnimationStart = totalDotAnimationLength + FADE_TIME_MS + ANIMATION_DELAY_MS;
+        let timeout: ReturnType<typeof setTimeout> | null = null;
+        const animationSteps: { callback: () => void; ms: number }[] = [];
 
-        // TODO: maybe this helper should only trigger one timeout at once
-        // would avoid needing to keep track of cumulative duration in ms
         const queueAnimation = (callback: () => void, ms: number) => {
-            timeouts.push(setTimeout(callback, ms));
+            animationSteps.push({ callback, ms });
         };
 
         if (benefitIndex === -1) {
             setBenefitIndex(0);
-        } else {
-            for (let i = 0; i < DOTS_COUNT; i++) {
-                queueAnimation(() => {
-                    setDotsTransitionState(currentState => {
-                        const newState = [...currentState];
-                        newState.splice(i, 1, 'entering');
-                        return newState;
-                    });
-                }, i * (FADE_TIME_MS + ANIMATION_DELAY_MS));
-            }
-
-            queueAnimation(() => {
-                const newState = new Array(DOTS_COUNT).fill('exiting');
-                setDotsTransitionState(newState);
-            }, totalDotAnimationLength);
-            queueAnimation(() => {
-                setBenefitTransitionState('entering');
-            }, textAnimationStart);
+            return;
         }
+
+        for (let i = 0; i < DOTS_COUNT; i++) {
+            const delay = i === 0 ? 0 : FADE_TIME_MS + ANIMATION_DELAY_MS;
+            // Fade in individual dots
+            queueAnimation(() => {
+                setDotsVisible(currentState => {
+                    const newState = [...currentState];
+                    newState.splice(i, 1, true);
+                    return newState;
+                });
+            }, delay);
+        }
+
+        // Fade out all dots
+        queueAnimation(() => {
+            const newState = new Array(DOTS_COUNT).fill(false);
+            setDotsVisible(newState);
+        }, FADE_TIME_MS + ANIMATION_DELAY_MS);
+
+        // Fade in benefit text
+        queueAnimation(() => {
+            setBenefitVisible(true);
+        }, FADE_TIME_MS + ANIMATION_DELAY_MS);
 
         if (benefitIndex < BENEFITS.length - 1) {
+            // Fade out benefit text
             queueAnimation(() => {
-                setBenefitTransitionState('exiting');
-            }, textAnimationStart + FADE_TIME_MS + TEXT_DELAY_MS);
+                setBenefitVisible(false);
+            }, FADE_TIME_MS + TEXT_DELAY_MS);
+
+            // Trigger this effect to run again
             queueAnimation(() => {
                 setBenefitIndex(benefitIndex + 1);
-            }, textAnimationStart + FADE_TIME_MS * 2 + TEXT_DELAY_MS + ANIMATION_DELAY_MS);
+            }, FADE_TIME_MS + ANIMATION_DELAY_MS);
         }
 
+        const tick = () => {
+            const animationStep = animationSteps.shift();
+
+            if (!animationStep) {
+                return;
+            }
+
+            timeout = setTimeout(() => {
+                animationStep.callback();
+                tick();
+            }, animationStep.ms);
+        };
+
+        // Start this stage of the animation
+        tick();
+
         return () => {
-            timeouts.forEach(timeout => clearTimeout(timeout));
+            // Clear any timeouts still running in case of unexpected unmount
+            if (timeout) {
+                clearTimeout(timeout);
+            }
         };
     }, [benefitIndex]);
 
     return (
         <Hide below="mobileLandscape">
-            <div>
-                <h2 css={headingStyles}>{heading}</h2>
-                <h3 css={subHeadingStyles}>{subheading}</h3>
+            <h2 css={headingStyles}>{heading}</h2>
+            <h3 css={subHeadingStyles}>{subheading}</h3>
 
-                <div css={benefitsWrapper}>
-                    <div css={dotsWrapper}>
-                        {dotsTransitionState.map((dotTransitionState, index) => {
-                            const dotCss = [dotStyles, transisitionable];
+            <div css={benefitsWrapper}>
+                <div css={dotsWrapper}>
+                    {dotsVisible.map((dotVisible, index) => {
+                        const dotCss = [dotStyles, fadeable];
 
-                            if (dotTransitionState === 'entering') {
-                                dotCss.push(entering);
-                            }
+                        if (dotVisible) {
+                            dotCss.push(visible);
+                        }
 
-                            return <div css={dotCss} key={index} />;
-                        })}
-                    </div>
-                    <div css={benefitCss}>
-                        <div css={dotStyles} />
-                        <span css={benefitTextStyles}>{benefitText}</span>
-                    </div>
+                        return <div css={dotCss} key={index} />;
+                    })}
                 </div>
-
-                {primaryCta && (
-                    <ThemeProvider theme={buttonBrand}>
-                        <LinkButton priority="primary" href={primaryCta.ctaUrl} size="xsmall">
-                            {primaryCta.ctaText}
-                        </LinkButton>
-                    </ThemeProvider>
-                )}
+                <div css={benefitCss}>
+                    <div css={dotStyles} />
+                    <span css={benefitTextStyles}>{benefitText}</span>
+                </div>
             </div>
+
+            {primaryCta && (
+                <ThemeProvider theme={buttonBrand}>
+                    <LinkButton priority="primary" href={primaryCta.ctaUrl} size="xsmall">
+                        {primaryCta.ctaText}
+                    </LinkButton>
+                </ThemeProvider>
+            )}
         </Hide>
     );
 };
