@@ -10,6 +10,8 @@ import {
     OphanComponentEvent,
     OneOffSignupRequest,
     WeeklyArticleLog,
+    HeaderPayloadSchema,
+    HeaderPayload,
 } from '@sdc/shared/types';
 import bodyParser from 'body-parser';
 import compression from 'compression';
@@ -23,6 +25,7 @@ import { getQueryParams } from './lib/params';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
+    validation,
 } from './middleware';
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 import { ampEpic } from './tests/amp/ampEpic';
@@ -158,9 +161,10 @@ app.post(
 
 app.post(
     '/header',
+    validation(HeaderPayloadSchema),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
-            const { tracking, targeting } = req.body;
+            const { tracking, targeting } = req.body as HeaderPayload;
             const params = getQueryParams(req.query);
             const response = await buildHeaderData(tracking, targeting, baseUrl(req), params, req);
             res.send(response);
