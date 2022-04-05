@@ -23,6 +23,7 @@ import { getQueryParams } from './lib/params';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
+    bodyContainsAllFields,
 } from './middleware';
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 import { ampEpic } from './tests/amp/ampEpic';
@@ -158,6 +159,7 @@ app.post(
 
 app.post(
     '/header',
+    bodyContainsAllFields(['tracking', 'targeting']),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { tracking, targeting } = req.body;
