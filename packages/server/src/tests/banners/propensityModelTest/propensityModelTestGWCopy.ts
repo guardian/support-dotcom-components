@@ -3,10 +3,10 @@ import { BannerContent } from '@sdc/shared/dist/types';
 export const AU_GW_CONTENT: BannerContent = {
     heading: 'Read the Guardian in print, in Australia',
     paragraphs: [
-        'News moves fast. Find clarity with the Guardian Weekly – an essential roundup of news, analysis and insight, handpicked from the Guardian’s bureaux in Australia and across the globe and delivered to your door. For a limited time, save 25% on an annual subscription.',
+        'News moves fast. Find clarity with the Guardian Weekly – an essential roundup of news, analysis and insight, handpicked from the Guardian’s bureaux in Australia and across the globe and delivered to your door.',
     ],
     cta: {
-        baseUrl: 'https://support.theguardian.com/subscribe/weekly?promoCode=GW25OZ',
+        baseUrl: 'https://support.theguardian.com/subscribe/weekly',
         text: 'Learn more',
     },
 };
@@ -14,10 +14,10 @@ export const AU_GW_CONTENT: BannerContent = {
 export const NZ_GW_CONTENT: BannerContent = {
     heading: 'Read the Guardian in print, delivered to you',
     paragraphs: [
-        'News moves fast. Find clarity with the Guardian Weekly – an essential roundup of news, analysis and insight, handpicked from the Guardian’s bureaux in Australia and across the globe and delivered to your door. For a limited time, save 25% on an annual subscription.',
+        'News moves fast. Find clarity with the Guardian Weekly – an essential roundup of news, analysis and insight, handpicked from the Guardian’s bureaux in Australia and across the globe and delivered to your door.',
     ],
     cta: {
-        baseUrl: 'https://support.theguardian.com/subscribe/weekly?promoCode=GW25OZ',
+        baseUrl: 'https://support.theguardian.com/subscribe/weekly',
         text: 'Learn more',
     },
 };
