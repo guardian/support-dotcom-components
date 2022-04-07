@@ -8,7 +8,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { countryCodeToCountryGroupId, inCountryGroups } from '@sdc/shared/dist/lib';
 import { UK_DIGISUB_CONTENT, DIGISUB_CONTENT } from './propensityModelTestDigisubCopy';
-import { isInPropensityTest } from './propensityModelTestData';
+import { fetchHighPropensityIds, isInPropensityTest } from './propensityModelTestData';
 import { EU_GW_CONTENT, GW_CONTENT } from './propensityModelTestGWCopy';
 
 /**
@@ -31,8 +31,11 @@ export const PROPENSITY_MODEL_TEST_NAME = '2022-04-20_BannerTargeting_GW_DS_Prop
 const CONTROL_NAME = 'control';
 const VARIANT_NAME = 'variant';
 
-export const propensityModelBannerTest: BannerTestGenerator = () =>
-    Promise.resolve([
+export const propensityModelBannerTest: BannerTestGenerator = () => {
+    // Kick off streaming of browserIds into memory, but resolve immediately to avoid blocking other tests
+    fetchHighPropensityIds();
+
+    return Promise.resolve([
         {
             name: PROPENSITY_MODEL_TEST_NAME,
             bannerChannel: 'subscriptions',
@@ -58,6 +61,7 @@ export const propensityModelBannerTest: BannerTestGenerator = () =>
             ],
         },
     ]);
+};
 
 const getGWBanner = (variantName: string, targeting: BannerTargeting): BannerVariant => ({
     name: variantName,
