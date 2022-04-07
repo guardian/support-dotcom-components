@@ -20,7 +20,8 @@ import {
     AU_GW_CONTENT,
     EU_GW_CONTENT,
     NZ_GW_CONTENT,
-    UK_US_ROW_GW_CONTENT,
+    UK_ROW_GW_CONTENT,
+    US_CAN_GW_CONTENT,
 } from './propensityModelTestGWCopy';
 
 /**
@@ -71,15 +72,15 @@ const buildTest = (
 export const propensityModelBannerTest: BannerTestGenerator = () =>
     // On startup resolve immediately rather than wait to stream the browserIds, to avoid blocking all banner tests from running
     Promise.resolve([
-        buildTest(['GBPCountries'], 'UK', UK_DIGISUB_CONTENT, UK_US_ROW_GW_CONTENT),
+        buildTest(['GBPCountries'], 'UK', UK_DIGISUB_CONTENT, UK_ROW_GW_CONTENT),
         buildTest(
             ['UnitedStates', 'International'],
             'US_ROW',
             US_ROW_DIGISUB_CONTENT,
-            UK_US_ROW_GW_CONTENT,
+            US_CAN_GW_CONTENT,
         ),
         buildTest(['AUDCountries'], 'AU', AU_DIGISUB_CONTENT, AU_GW_CONTENT),
         buildTest(['NZDCountries'], 'NZ', CA_NZ_DIGISUB_CONTENT, NZ_GW_CONTENT),
         buildTest(['EURCountries'], 'EU', EU_DIGISUB_CONTENT, EU_GW_CONTENT),
-        buildTest(['Canada'], 'CA', CA_NZ_DIGISUB_CONTENT, UK_US_ROW_GW_CONTENT),
+        buildTest(['Canada'], 'CA', CA_NZ_DIGISUB_CONTENT, US_CAN_GW_CONTENT),
     ]);
