@@ -134,6 +134,7 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, not in UK
         const mockTargetingObject_1: HeaderTargeting = {
             showSupportMessaging: true,
+            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             modulesVersion: 'v3',
@@ -164,6 +165,7 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, not in UK
         const mockTargetingObject_2: HeaderTargeting = {
             showSupportMessaging: false,
+            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'ck',
             modulesVersion: 'v3',
@@ -194,6 +196,7 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_3: HeaderTargeting = {
             showSupportMessaging: true,
+            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
@@ -224,6 +227,7 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, is in UK
         const mockTargetingObject_4: HeaderTargeting = {
             showSupportMessaging: false,
+            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'im',
             modulesVersion: 'v3',
@@ -255,6 +259,7 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_5: HeaderTargeting = {
             showSupportMessaging: true,
+            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',

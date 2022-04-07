@@ -7,6 +7,7 @@ export interface HeaderVariant extends Variant {
     content: HeaderContent;
     mobileContent?: HeaderContent;
     modulePathBuilder?: (version?: string) => string;
+    moduleName?: string;
 }
 
 export interface HeaderTest extends Test<HeaderVariant> {
@@ -21,4 +22,5 @@ export interface HeaderTestSelection {
     test: HeaderTest;
     variant: HeaderVariant;
     modulePathBuilder: (version?: string) => string;
+    moduleName: string;
 }

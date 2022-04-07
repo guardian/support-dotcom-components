@@ -106,4 +106,5 @@ export const moduleInfos: ModuleInfo[] = [
     guardianWeekly,
     puzzlesBanner,
     header,
+    signInPromptHeader,
 ];

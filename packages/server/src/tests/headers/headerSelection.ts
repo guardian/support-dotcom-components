@@ -1,4 +1,4 @@
-import { header } from '@sdc/shared/config';
+import { header, signInPromptHeader } from '@sdc/shared/config';
 import { inCountryGroups } from '@sdc/shared/lib';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 
@@ -9,6 +9,7 @@ import { fetchConfiguredHeaderTestsCached } from './headerTests';
 import { TestVariant } from '../../lib/params';
 
 const modulePathBuilder = header.endpointPathBuilder;
+const moduleName = 'Header';
 
 // --- hardcoded tests
 const nonSupportersTestNonUK: HeaderTest = {
@@ -27,6 +28,7 @@ const nonSupportersTestNonUK: HeaderTest = {
         {
             name: 'remote',
             modulePathBuilder,
+            moduleName,
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
@@ -52,6 +54,7 @@ const nonSupportersTestUK: HeaderTest = {
         {
             name: 'remote',
             modulePathBuilder,
+            moduleName,
             content: {
                 heading: 'Support the Guardian',
                 subheading: 'Available for everyone, funded by readers',
@@ -85,9 +88,40 @@ const supportersTest: HeaderTest = {
         {
             name: 'control',
             modulePathBuilder,
+            moduleName,
             content: {
                 heading: 'Thank you',
                 subheading: 'Your support powers our independent journalism',
+            },
+        },
+    ],
+};
+
+const signInPromptTest: HeaderTest = {
+    name: 'header-sign-in-prompt',
+    userCohort: 'Everyone', // Not really true, but I don't think we have a matching cohort yet?
+    isOn: true,
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder: signInPromptHeader.endpointPathBuilder,
+            moduleName: 'SignInPromptHeader',
+            content: {
+                heading: 'Thank you for subscribing',
+                subheading: 'Enjoy the Guardian',
+                primaryCta: {
+                    baseUrl: 'https://profile.theguardian.com/register',
+                    text: 'Complete registration',
+                },
             },
         },
     ],
@@ -103,17 +137,23 @@ export const selectBestTest = (
 ): HeaderTestSelection | null => {
     const { showSupportMessaging, countryCode } = targeting;
 
-    const selectedTest: HeaderTest | undefined = allTests.find(test => {
-        const { isOn, userCohort, locations } = test;
+    let selectedTest: HeaderTest | undefined;
 
-        return (
-            isOn &&
-            audienceMatches(showSupportMessaging, userCohort) &&
-            inCountryGroups(countryCode, locations) &&
-            userIsInTest(test, targeting.mvtId) &&
-            deviceTypeMatches(test, isMobile)
-        );
-    });
+    if (targeting.showLoginMessaging) {
+        selectedTest = signInPromptTest;
+    } else {
+        selectedTest = allTests.find(test => {
+            const { isOn, userCohort, locations } = test;
+
+            return (
+                isOn &&
+                audienceMatches(showSupportMessaging, userCohort) &&
+                inCountryGroups(countryCode, locations) &&
+                userIsInTest(test, targeting.mvtId) &&
+                deviceTypeMatches(test, isMobile)
+            );
+        });
+    }
 
     // Failed to find a matching test, or the matching test has an empty variants Array
     if (!selectedTest || !selectedTest.variants.length) {
@@ -126,6 +166,7 @@ export const selectBestTest = (
         test: selectedTest,
         variant: selectedVariant,
         modulePathBuilder: selectedVariant.modulePathBuilder || modulePathBuilder,
+        moduleName: selectedVariant.moduleName || moduleName,
     };
 };
 
@@ -145,6 +186,7 @@ const getForcedVariant = (
             test,
             variant,
             modulePathBuilder: variant.modulePathBuilder || modulePathBuilder,
+            moduleName: variant.moduleName || moduleName,
         };
     }
     return null;

@@ -10,7 +10,7 @@ export const errorHandling = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     next: express.NextFunction,
 ): void => {
-    const { message } = error;
+    const message = error.message || error.toString();
 
     res.status(500).send({ error: message });
 

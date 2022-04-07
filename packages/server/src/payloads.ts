@@ -364,18 +364,19 @@ export const buildHeaderData = async (
     }
     const testSelection = await selectHeaderTest(targeting, isMobile(req), params.force);
     if (testSelection) {
-        const { test, variant, modulePathBuilder } = testSelection;
+        const { test, variant, modulePathBuilder, moduleName } = testSelection;
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: `header_support_${test.name}_${variant.name}`,
             componentType: 'ACQUISITIONS_HEADER',
         };
+
         return {
             data: {
                 module: {
                     url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
-                    name: 'Header',
+                    name: moduleName,
                     props: {
                         content: variant.content,
                         mobileContent: variant.mobileContent,

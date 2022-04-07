@@ -155,7 +155,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
     }, [benefitIndex]);
 
     return (
-        <Hide below="mobileLandscape">
+        <Hide below="tablet">
             <h2 css={headingStyles}>{heading}</h2>
             <h3 css={subHeadingStyles}>{subheading}</h3>
 
