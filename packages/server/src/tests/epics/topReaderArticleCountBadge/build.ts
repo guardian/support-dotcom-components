@@ -9,7 +9,12 @@ interface Options {
     copy: Copy;
 }
 
-const EXCLUDE_TAG_IDS = ['world/ukraine', 'world/russia'];
+const EXCLUDE_TAG_IDS = [
+    'world/ukraine',
+    'world/russia',
+    'australia-news/australian-politics',
+    'australia-news/australian-election-2022',
+];
 
 export function buildTest({ suffix, locations, copy }: Options): EpicTest {
     return {
