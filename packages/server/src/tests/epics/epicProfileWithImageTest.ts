@@ -8,7 +8,7 @@ const CTA = {
 
 const testName = '20220408_Epic-profile-with-image';
 
-export const epicProfileTest: EpicTest = {
+export const epicProfileWithImageTest: EpicTest = {
     name: testName,
     campaignId: testName,
     hasArticleCountInCopy: false,
