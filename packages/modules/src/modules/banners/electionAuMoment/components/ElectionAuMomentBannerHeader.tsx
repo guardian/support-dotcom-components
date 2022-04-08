@@ -7,7 +7,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 
 const styles = {
     header: css`
-        padding: ${space[2]}px 0;
+        padding: ${space[2]}px 0 0;
         margin: 0;
 
         h2 {
@@ -25,10 +25,6 @@ const styles = {
             ${from.desktop} {
                 ${headline.large()}
             }
-        }
-
-        ${from.mobileLandscape} {
-            padding: ${space[2]}px 0;
         }
 
         ${from.tablet} {

@@ -46,7 +46,7 @@ const styles = {
     `,
 
     bottomContainer: css`
-        padding-bottom: ${space[6]}px;
+        padding-bottom: ${space[3]}px;
 
         ${from.tablet} {
             max-width: 45%;
