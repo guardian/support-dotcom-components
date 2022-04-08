@@ -3,10 +3,8 @@ import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Hide } from '@guardian/src-layout';
 import { LinkButton } from '@guardian/src-button';
-import { SecondaryCtaType } from '@sdc/shared/types';
-import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
-import { neutral } from '@guardian/src-foundations/palette';
+import { BannerEnrichedCta } from '../../common/types';
+import { brandAltBackground } from '@guardian/src-foundations/palette';
 
 const styles = {
     container: css`
@@ -19,23 +17,18 @@ const styles = {
     `,
 
     primaryCta: css`
-        background-color: #007abc;
+        background-color: ${brandAltBackground.ctaPrimary};
         color: white;
+        margin-right: ${space[1]}px;
 
         &:hover {
-            background-color: white;
-            color: #007abc;
+            background-color: ${brandAltBackground.ctaPrimaryHover};
+            color: white;
         }
     `,
 
-    tertiaryCta: css`
-        background-color: #f79e1b;
-        color: ${neutral[0]};
-        border: 1px solid ${neutral[0]};
-
-        &:hover {
-            background-color: white;
-        }
+    secondaryCta: css`
+        color: ${brandAltBackground.ctaPrimary};
     `,
 };
 
@@ -63,19 +56,30 @@ export function ElectionAuMomentBannerCtas({
         <div css={styles.container}>
             <div>
                 {mobileCtas.primary && (
-                    <Hide above="tablet">
-                        <LinkButton
-                            href={mobileCtas.primary.ctaUrl}
-                            onClick={onPrimaryCtaClick}
-                            size="default"
-                            priority="primary"
-                            icon={<SvgArrowRightStraight />}
-                            iconSide="right"
-                            cssOverrides={styles.primaryCta}
-                        >
-                            {mobileCtas.primary.ctaText}
-                        </LinkButton>
-                    </Hide>
+                    <>
+                        <Hide above="tablet">
+                            <LinkButton
+                                href={mobileCtas.primary.ctaUrl}
+                                onClick={onPrimaryCtaClick}
+                                size="xsmall"
+                                priority="primary"
+                                cssOverrides={styles.primaryCta}
+                            >
+                                {mobileCtas.primary.ctaText}
+                            </LinkButton>
+                        </Hide>
+                        <Hide above="tablet">
+                            <LinkButton
+                                href={mobileCtas.secondary.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
+                                size="xsmall"
+                                priority="tertiary"
+                                cssOverrides={styles.secondaryCta}
+                            >
+                                {mobileCtas.secondary.cta.ctaText}
+                            </LinkButton>
+                        </Hide>
+                    </>
                 )}
 
                 {desktopCtas.primary && (
@@ -83,7 +87,7 @@ export function ElectionAuMomentBannerCtas({
                         <LinkButton
                             href={desktopCtas.primary.ctaUrl}
                             onClick={onPrimaryCtaClick}
-                            size="default"
+                            size="small"
                             priority="primary"
                             cssOverrides={styles.primaryCta}
                         >
@@ -94,14 +98,14 @@ export function ElectionAuMomentBannerCtas({
             </div>
 
             <div>
-                {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
+                {desktopCtas.secondary && (
                     <Hide below="tablet">
                         <LinkButton
                             href={desktopCtas.secondary.cta.ctaUrl}
                             onClick={onSecondaryCtaClick}
-                            size="default"
+                            size="small"
                             priority="tertiary"
-                            cssOverrides={styles.tertiaryCta}
+                            cssOverrides={styles.secondaryCta}
                         >
                             {desktopCtas.secondary.cta.ctaText}
                         </LinkButton>

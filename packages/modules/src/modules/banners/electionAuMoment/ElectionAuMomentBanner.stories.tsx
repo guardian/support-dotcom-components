@@ -16,23 +16,38 @@ export const WithoutArticleCount = Template.bind({});
 WithoutArticleCount.args = {
     ...props,
     content: {
-        heading: 'As 2022 begins, will you support us?',
-        messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+        heading: 'As Australia prepares to head to the polls...',
         paragraphs: [
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
-            'We do not shy away. And we provide all this for free, for everyone.',
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+            'Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         ],
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {
-            text: 'Support the Guardian',
+            text: 'Support independent journalism',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
                 text: 'Hear from our editor',
+                baseUrl: 'https://theguardian.com',
+            },
+        },
+    },
+    mobileContent: {
+        messageText:
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+        highlightedText:
+            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support The Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
+        secondaryCta: {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Learn more',
                 baseUrl: 'https://theguardian.com',
             },
         },

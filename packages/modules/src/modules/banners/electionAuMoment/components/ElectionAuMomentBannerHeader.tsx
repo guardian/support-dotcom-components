@@ -6,11 +6,8 @@ import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
 
 const styles = {
-    container: css`
-        position: relative;
-    `,
     header: css`
-        padding: ${space[2]}px 0 ${space[2]}px ${space[3]}px;
+        padding: ${space[2]}px 0;
         margin: 0;
 
         h2 {
@@ -20,29 +17,26 @@ const styles = {
             font-size: 24px;
             line-height: 115%;
 
-            ${from.mobileLandscape} {
-                font-size: 30px;
-            }
-
             ${from.tablet} {
-                font-size: 34px;
+                ${headline.small()}
+                font-weight: normal;
             }
 
             ${from.desktop} {
-                font-size: 47px;
-            }
-
-            ${from.leftCol} {
-                font-size: 55px;
+                ${headline.large()}
             }
         }
 
         ${from.mobileLandscape} {
-            padding: ${space[2]}px ${space[5]}px;
+            padding: ${space[2]}px 0;
         }
 
         ${from.tablet} {
-            padding: ${space[2]}px 0;
+            width: 50%;
+        }
+
+        ${from.desktop} {
+            width: 45%;
         }
     `,
 };
@@ -57,10 +51,8 @@ export function ElectionAuMomentBannerHeader({
     mobileHeading,
 }: ElectionAuMomentBannerHeaderProps): JSX.Element {
     return (
-        <div css={styles.container}>
-            <header css={styles.header}>
-                <h2>{mobileHeading ?? heading}</h2>
-            </header>
-        </div>
+        <header css={styles.header}>
+            <h2>{mobileHeading ?? heading}</h2>
+        </header>
     );
 }
