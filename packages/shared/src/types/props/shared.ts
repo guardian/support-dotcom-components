@@ -140,3 +140,15 @@ export const imageSchema = z.object({
     mainUrl: z.string(),
     altText: z.string(),
 });
+
+export interface BylineWithImage {
+    name: string;
+    description?: string;
+    headshot: Image;
+}
+
+export const bylineWithImageSchema = z.object({
+    name: z.string(),
+    description: z.string().optional(),
+    headshot: imageSchema,
+});

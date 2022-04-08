@@ -53,6 +53,21 @@ WithBackgroundImage.args = {
     },
 };
 
+export const WithBylineAndHeadshot = Template.bind({});
+WithBylineAndHeadshot.args = {
+    variant: {
+        ...props.variant,
+        bylineWithImage: {
+            name: 'Zoe Williams',
+            description: 'Guardian columnist',
+            headshot: {
+                mainUrl: 'https://uploads.guim.co.uk/2017/10/09/Zoe-Williams,-L.png',
+                altText: 'Zoe Williams headshot',
+            },
+        },
+    },
+};
+
 export const WithReminder = Template.bind({});
 WithReminder.args = {
     variant: {

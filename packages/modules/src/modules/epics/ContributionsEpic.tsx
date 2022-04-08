@@ -10,6 +10,7 @@ import {
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
+import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -401,6 +402,11 @@ export const getEpic = (
                 tracking={ophanTracking}
                 showAboveArticleCount={showAboveArticleCount}
             />
+
+            {variant.bylineWithImage && (
+                <BylineWithHeadshot bylineWithImage={variant.bylineWithImage} />
+            )}
+
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
             {showChoiceCards && choiceCardSelection && choiceCardAmounts && (

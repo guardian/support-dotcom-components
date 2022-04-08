@@ -8,7 +8,7 @@ import {
     Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
-import { Cta, Image, SecondaryCta, TickerSettings } from '../props';
+import { BylineWithImage, Cta, Image, SecondaryCta, TickerSettings } from '../props';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -38,6 +38,7 @@ export interface EpicVariant extends Variant {
     showChoiceCards?: boolean;
     choiceCardAmounts?: ChoiceCardAmounts;
     defaultChoiceCardFrequency?: ContributionFrequency;
+    bylineWithImage?: BylineWithImage;
 
     // Variant level maxViews are for special targeting tests. These
     // are handled differently to our usual copy/design tests. To
