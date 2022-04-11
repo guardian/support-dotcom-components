@@ -95,7 +95,7 @@ function getElectionAuMomentBanner(): React.FC<BannerRenderProps> {
             <div css={styles.outerContainer}>
                 <div css={styles.innerContainer}>
                     <ElectionAuMomentBannerVisual />
-                    <div css={styles.container}>
+                    <div>
                         <ElectionAuMomentBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent?.heading ?? null}
