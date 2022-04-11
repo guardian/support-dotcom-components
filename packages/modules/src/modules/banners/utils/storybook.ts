@@ -65,8 +65,4 @@ export const props: BannerProps = {
     tickerSettings,
     separateArticleCount: true,
     numArticles: 6,
-    // Temporarily hardcoded during development
-    productPrices: {
-        digisubPrice: '5.99',
-    },
 };

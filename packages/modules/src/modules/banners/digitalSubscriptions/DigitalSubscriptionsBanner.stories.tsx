@@ -30,17 +30,17 @@ export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
         heading: text(
             'heading',
-            "You've read %%ARTICLE_COUNT%% articles in the last year. Buy digiSubs: %%DIGI_SUB_PRICE%%.",
+            "You've read %%ARTICLE_COUNT%% articles in the last year. Buy digiSubs: %%PRICE_DIGISUB_MONTHLY%%.",
         ),
         messageText: text(
             'messageText',
-            "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from %%DIGI_SUB_PRICE%% a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.",
+            "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from %%PRICE_DIGISUB_MONTHLY%% a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.",
         ),
         paragraphs: array(
             'paragraphs',
             [
                 "And you're not alone. Millions have turned to the Guardian for vital, independent journalism in the last year. Reader funding powers our reporting. It protects our independence and ensures we can remain open for all.",
-                'With <strong>a digital subscription starting from %%DIGI_SUB_PRICE%% a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+                'With <strong>a digital subscription starting from %%PRICE_DIGISUB_MONTHLY%% a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
             ],
             '|',
         ),
@@ -50,12 +50,12 @@ export const defaultStory = (): ReactElement => {
         heading: text('mobileHeading', "We're powered by you"),
         messageText: text(
             'mobileMessageText',
-            'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from %%DIGI_SUB_PRICE%% a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+            'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from %%PRICE_DIGISUB_ANNUAL%% a year</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
         ),
         paragraphs: array(
             'mobileParagraphs',
             [
-                'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from %%DIGI_SUB_PRICE%% a month</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
+                'Reader funding powers our reporting. It protects our independence and ensures we can remain open for all. With <strong>a digital subscription starting from %%PRICE_DIGISUB_ANNUAL%% a year</strong>, you can enjoy the richest, ad-free Guardian experience via our award-winning apps.',
             ],
             '|',
         ),
@@ -75,9 +75,6 @@ export const defaultStory = (): ReactElement => {
         isSupporter: false,
         tracking,
         countryCode: 'GB',
-        productPrices: {
-            digisubPrice: '5.99',
-        },
     };
 
     return (

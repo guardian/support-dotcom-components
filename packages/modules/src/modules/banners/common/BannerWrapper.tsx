@@ -77,10 +77,7 @@ const withBannerData = (
         tickerSettings,
         isSupporter,
         separateArticleCount,
-        productPrices,
     } = bannerProps;
-
-    const digisubPrice = productPrices != null ? productPrices.digisubPrice : undefined;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
@@ -107,9 +104,7 @@ const withBannerData = (
     ): string[] => {
         const originalCopy = getParagraphsOrMessageText(paras, text);
 
-        return originalCopy.map(p =>
-            replaceNonArticleCountPlaceholders(p, countryCode, digisubPrice).trim(),
-        );
+        return originalCopy.map(p => replaceNonArticleCountPlaceholders(p, countryCode).trim());
     };
 
     const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
@@ -156,16 +151,11 @@ const withBannerData = (
 
         const cleanHighlightedText =
             bannerContent.highlightedText &&
-            replaceNonArticleCountPlaceholders(
-                bannerContent.highlightedText,
-                countryCode,
-                digisubPrice,
-            ).trim();
+            replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode).trim();
 
         const cleanHeading = replaceNonArticleCountPlaceholders(
             bannerContent.heading,
             countryCode,
-            digisubPrice,
         ).trim();
 
         const cleanParagraphs = cleanParagraphsOrMessageText(
