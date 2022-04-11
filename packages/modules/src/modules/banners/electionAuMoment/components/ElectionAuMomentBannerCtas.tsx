@@ -4,7 +4,7 @@ import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { LinkButton } from '@guardian/src-button';
-import { BannerEnrichedCta } from '../../common/types';
+import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
 import { brandAltBackground } from '@guardian/src-foundations/palette';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 
