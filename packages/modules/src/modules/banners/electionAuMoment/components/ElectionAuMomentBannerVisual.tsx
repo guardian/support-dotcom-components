@@ -20,7 +20,7 @@ const container = css`
     ${from.desktop} {
         width: 50%;
         /* This stops the image from overlapping the border-top */
-        margin-top: 2px;
+        margin-top: 1px;
     }
 `;
 
@@ -56,8 +56,12 @@ const ElectionAuMomentBannerVisual = (): JSX.Element => (
                     srcSet="https://media.guim.co.uk/99ecfd33fb530ce6cc47e606caac6952e7195cd1/0_0_266_89/266.png"
                 />
                 <source
-                    media="(max-width: 739px)"
+                    media="(max-width: 479px)"
                     srcSet="https://media.guim.co.uk/ad0166d7724eb2dfc6aa16fea50fe41c02324eb8/0_0_281_131/281.png"
+                />
+                <source
+                    media="(max-width: 739px)"
+                    srcSet="https://media.guim.co.uk/166b8daf89992e0263fc9eff75e2af21dab5546e/0_0_1172_552/1000.png"
                 />
                 <source
                     media="(max-width: 979px)"
