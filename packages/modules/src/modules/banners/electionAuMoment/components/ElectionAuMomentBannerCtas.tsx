@@ -7,7 +7,6 @@ import { LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
 import { brandAltBackground } from '@guardian/src-foundations/palette';
-import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 const styles = {
     container: css`
@@ -61,7 +60,7 @@ interface BreakpointCtas {
 }
 
 interface ElectionAuMomentBannerCtasProps {
-    mobileCtas: BreakpointCtas | null;
+    mobileCtas: BreakpointCtas;
     desktopCtas: BreakpointCtas;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
@@ -79,19 +78,18 @@ const PaymentCards = () => (
 
 export function ElectionAuMomentBannerCtas({
     desktopCtas,
-    mobileCtas,
+    mobileCtas: maybeMobileCtas,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
 }: ElectionAuMomentBannerCtasProps): JSX.Element {
-    const hasDesktopSupportCta = isSupportUrl(desktopCtas.primary.ctaUrl);
-    const hasMobileSupportCta = isSupportUrl(mobileCtas.primary.ctaUrl);
+    const mobileCtas = maybeMobileCtas ?? desktopCtas;
 
     return (
         <div css={styles.container}>
             <div>
                 {mobileCtas.primary && (
                     <Hide above="tablet">
-                        <div css={hasMobileSupportCta && styles.ctaWithPaymentMethods}>
+                        <div css={styles.ctaWithPaymentMethods}>
                             <LinkButton
                                 href={mobileCtas.primary.ctaUrl}
                                 onClick={onPrimaryCtaClick}
@@ -101,9 +99,9 @@ export function ElectionAuMomentBannerCtas({
                             >
                                 {mobileCtas.primary.ctaText}
                             </LinkButton>
-                            {hasMobileSupportCta && <PaymentCards />}
+                            <PaymentCards />
                         </div>
-                        {mobileCtas.secondary.type === SecondaryCtaType.Custom && (
+                        {mobileCtas.secondary?.type === SecondaryCtaType.Custom && (
                             <LinkButton
                                 href={mobileCtas.secondary.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
@@ -119,7 +117,7 @@ export function ElectionAuMomentBannerCtas({
 
                 {desktopCtas.primary && (
                     <Hide below="tablet">
-                        <div css={hasDesktopSupportCta && styles.ctaWithPaymentMethods}>
+                        <div css={styles.ctaWithPaymentMethods}>
                             <LinkButton
                                 href={desktopCtas.primary.ctaUrl}
                                 onClick={onPrimaryCtaClick}
@@ -129,7 +127,7 @@ export function ElectionAuMomentBannerCtas({
                             >
                                 {desktopCtas.primary.ctaText}
                             </LinkButton>
-                            {hasDesktopSupportCta && <PaymentCards />}
+                            <PaymentCards />
                         </div>
                     </Hide>
                 )}
