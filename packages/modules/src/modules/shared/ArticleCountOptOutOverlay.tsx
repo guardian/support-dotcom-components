@@ -24,6 +24,7 @@ const COLOURS = {
     ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-banner']: neutral[0],
+    ['election-au-moment-banner']: neutral[0],
 };
 
 const BACKGROUND_COLOURS = {
@@ -32,6 +33,7 @@ const BACKGROUND_COLOURS = {
     ['investigations-moment-banner']: neutral[100],
     ['us-eoy-moment-banner']: '#FFEEDB',
     ['global-new-year-banner']: '#F79E1B',
+    ['election-au-moment-banner']: '#e4e4e3',
 };
 
 const BORDER_COLOURS = {
@@ -40,6 +42,7 @@ const BORDER_COLOURS = {
     ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-banner']: neutral[0],
+    ['election-au-moment-banner']: neutral[0],
 };
 
 const BUTTON_THEMES = {
@@ -48,6 +51,7 @@ const BUTTON_THEMES = {
     ['investigations-moment-banner']: buttonDefaultTheme,
     ['us-eoy-moment-banner']: buttonDefaultTheme,
     ['global-new-year-banner']: buttonDefaultTheme,
+    ['election-au-moment-banner']: buttonDefaultTheme,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`

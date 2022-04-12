@@ -38,14 +38,14 @@ export function ElectionAuMomentBannerArticleCount({
                 <ArticleCountOptOutPopup
                     numArticles={numArticles}
                     nextWord=" articles"
-                    type="global-new-year-banner"
+                    type="election-au-moment-banner"
                 />
             </Hide>
             <Hide below="tablet">
                 <ArticleCountOptOutPopup
                     numArticles={numArticles}
                     nextWord=" articles"
-                    type="global-new-year-banner"
+                    type="election-au-moment-banner"
                 />
             </Hide>{' '}
             in the last year
