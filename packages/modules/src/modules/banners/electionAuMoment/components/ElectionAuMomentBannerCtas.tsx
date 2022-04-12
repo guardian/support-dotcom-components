@@ -76,6 +76,39 @@ const PaymentCards = () => (
     />
 );
 
+interface ButtonProps {
+    ctaText: string;
+    ctaUrl: string;
+    onClick: () => void;
+}
+
+const PrimaryButton = ({ ctaText, ctaUrl, onClick }: ButtonProps) => (
+    <div css={styles.ctaWithPaymentMethods}>
+        <LinkButton
+            href={ctaUrl}
+            onClick={onClick}
+            size="small"
+            priority="primary"
+            cssOverrides={styles.primaryCta}
+        >
+            {ctaText}
+        </LinkButton>
+        <PaymentCards />
+    </div>
+);
+
+const SecondaryButton = ({ ctaText, ctaUrl, onClick }: ButtonProps) => (
+    <LinkButton
+        href={ctaUrl}
+        onClick={onClick}
+        size="small"
+        priority="tertiary"
+        cssOverrides={styles.secondaryCta}
+    >
+        {ctaText}
+    </LinkButton>
+);
+
 export function ElectionAuMomentBannerCtas({
     desktopCtas,
     mobileCtas: maybeMobileCtas,
@@ -89,46 +122,28 @@ export function ElectionAuMomentBannerCtas({
             <div>
                 {mobileCtas.primary && (
                     <Hide above="tablet">
-                        <div css={styles.ctaWithPaymentMethods}>
-                            <LinkButton
-                                href={mobileCtas.primary.ctaUrl}
-                                onClick={onPrimaryCtaClick}
-                                size="small"
-                                priority="primary"
-                                cssOverrides={styles.primaryCta}
-                            >
-                                {mobileCtas.primary.ctaText}
-                            </LinkButton>
-                            <PaymentCards />
-                        </div>
+                        <PrimaryButton
+                            ctaText={mobileCtas.primary.ctaText}
+                            ctaUrl={mobileCtas.primary.ctaUrl}
+                            onClick={onPrimaryCtaClick}
+                        />
                         {mobileCtas.secondary?.type === SecondaryCtaType.Custom && (
-                            <LinkButton
-                                href={mobileCtas.secondary.cta.ctaUrl}
+                            <SecondaryButton
+                                ctaText={mobileCtas.secondary.cta.ctaText}
+                                ctaUrl={mobileCtas.secondary.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
-                                size="small"
-                                priority="tertiary"
-                                cssOverrides={styles.secondaryCta}
-                            >
-                                {mobileCtas.secondary.cta.ctaText}
-                            </LinkButton>
+                            />
                         )}
                     </Hide>
                 )}
 
                 {desktopCtas.primary && (
                     <Hide below="tablet">
-                        <div css={styles.ctaWithPaymentMethods}>
-                            <LinkButton
-                                href={desktopCtas.primary.ctaUrl}
-                                onClick={onPrimaryCtaClick}
-                                size="small"
-                                priority="primary"
-                                cssOverrides={styles.primaryCta}
-                            >
-                                {desktopCtas.primary.ctaText}
-                            </LinkButton>
-                            <PaymentCards />
-                        </div>
+                        <PrimaryButton
+                            ctaText={desktopCtas.primary.ctaText}
+                            ctaUrl={desktopCtas.primary.ctaUrl}
+                            onClick={onPrimaryCtaClick}
+                        />
                     </Hide>
                 )}
             </div>
@@ -136,15 +151,11 @@ export function ElectionAuMomentBannerCtas({
             <div>
                 {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
                     <Hide below="tablet">
-                        <LinkButton
-                            href={desktopCtas.secondary.cta.ctaUrl}
+                        <SecondaryButton
+                            ctaText={desktopCtas.secondary.cta.ctaText}
+                            ctaUrl={desktopCtas.secondary.cta.ctaUrl}
                             onClick={onSecondaryCtaClick}
-                            size="small"
-                            priority="tertiary"
-                            cssOverrides={styles.secondaryCta}
-                        >
-                            {desktopCtas.secondary.cta.ctaText}
-                        </LinkButton>
+                        />
                     </Hide>
                 )}
             </div>
