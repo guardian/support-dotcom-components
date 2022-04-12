@@ -11,6 +11,7 @@ import {
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
 import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
+import { background } from '@guardian/src-foundations/palette';
 import { SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from '@emotion/react';
 import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
@@ -101,6 +102,7 @@ const NOTE_LINK_COLOURS = {
     ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-banner']: neutral[0],
+    ['election-au-moment-banner']: neutral[0],
 };
 
 const BUTTON_OVERRIDES = {
@@ -126,6 +128,16 @@ const BUTTON_OVERRIDES = {
         }
     `,
     ['global-new-year-banner']: css`
+        color: ${neutral[7]};
+        border: 1px solid ${neutral[7]};
+
+        &:hover {
+            background-color: ${brand[500]};
+            color: ${neutral[100]};
+            border: 1px solid ${brand[500]};
+        }
+    `,
+    ['election-au-moment-banner']: css`
         color: ${neutral[7]};
         border: 1px solid ${neutral[7]};
 
@@ -170,6 +182,17 @@ const PRIMARY_BUTTON_OVERRIDES = {
             background-color: ${brand[500]};
             color: ${neutral[100]};
             border: 1px solid ${brand[500]};
+        }
+    `,
+    ['election-au-moment-banner']: css`
+        background-color: ${neutral[0]};
+        color: ${neutral[100]};
+        border: 1px solid ${neutral[0]};
+
+        &:hover {
+            background-color: ${background.ctaPrimaryHover};
+            color: ${neutral[100]};
+            border: 1px solid ${background.ctaPrimaryHover};
         }
     `,
 };
