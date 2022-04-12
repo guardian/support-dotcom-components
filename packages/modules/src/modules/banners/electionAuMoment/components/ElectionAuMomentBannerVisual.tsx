@@ -80,7 +80,10 @@ const ElectionAuMomentBannerVisual = (): JSX.Element => (
                     srcSet="https://media.guim.co.uk/4fa98ca4b70ee9b21b74d16f2586b5d6c513297f/0_319_2836_1837/2000.png"
                 />
                 <source srcSet="https://media.guim.co.uk/166b8daf89992e0263fc9eff75e2af21dab5546e/0_0_1172_744/500.png" />
-                <img src="https://media.guim.co.uk/99ecfd33fb530ce6cc47e606caac6952e7195cd1/0_0_266_89/266.png" />
+                <img
+                    src="https://media.guim.co.uk/99ecfd33fb530ce6cc47e606caac6952e7195cd1/0_0_266_89/266.png"
+                    alt="Head shots of Anthony Albanese, leader of the Australian Labor Party, and Scott Morrison, current Prime Minister and leader of the Liberal Party of Australia, who are running for the office of Prime Minister in the Australian federal election, to be held on 21 May 2022."
+                />
             </picture>
         </div>
     </div>
