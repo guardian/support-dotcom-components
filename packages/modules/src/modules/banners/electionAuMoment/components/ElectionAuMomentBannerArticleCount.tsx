@@ -4,7 +4,6 @@ import { neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
-import { Hide } from '@guardian/src-layout';
 
 const styles = {
     container: css`
@@ -34,20 +33,11 @@ export function ElectionAuMomentBannerArticleCount({
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}
-            <Hide above="tablet">
-                <ArticleCountOptOutPopup
-                    numArticles={numArticles}
-                    nextWord=" articles"
-                    type="election-au-moment-banner"
-                />
-            </Hide>
-            <Hide below="tablet">
-                <ArticleCountOptOutPopup
-                    numArticles={numArticles}
-                    nextWord=" articles"
-                    type="election-au-moment-banner"
-                />
-            </Hide>{' '}
+            <ArticleCountOptOutPopup
+                numArticles={numArticles}
+                nextWord=" articles"
+                type="election-au-moment-banner"
+            />{' '}
             in the last year
         </p>
     );
