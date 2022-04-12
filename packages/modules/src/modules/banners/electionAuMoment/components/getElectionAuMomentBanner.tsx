@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space, breakpoints } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-// import { Container } from '@guardian/src-layout';
 import { BannerRenderProps } from '../../common/types';
 import { ElectionAuMomentBannerHeader } from './ElectionAuMomentBannerHeader';
 import { ElectionAuMomentBannerArticleCount } from './ElectionAuMomentBannerArticleCount';
