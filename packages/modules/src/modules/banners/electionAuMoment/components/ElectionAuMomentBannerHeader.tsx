@@ -4,6 +4,7 @@ import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
+import { Hide } from '@guardian/src-layout';
 
 const styles = {
     header: css`
@@ -47,8 +48,17 @@ export function ElectionAuMomentBannerHeader({
     mobileHeading,
 }: ElectionAuMomentBannerHeaderProps): JSX.Element {
     return (
-        <header css={styles.header}>
-            <h2>{mobileHeading ?? heading}</h2>
-        </header>
+        <>
+            <Hide above="tablet">
+                <header css={styles.header}>
+                    <h2>{mobileHeading ?? heading}</h2>
+                </header>
+            </Hide>
+            <Hide below="tablet">
+                <header css={styles.header}>
+                    <h2>{heading}</h2>
+                </header>
+            </Hide>
+        </>
     );
 }
