@@ -17,14 +17,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
-export const epicTopReaderAcBadgeV1: ModuleInfo = getDefaultModuleInfo(
-    'epic',
-    'epics/ContributionsEpicTopReaderArticleCountBadgeV1',
-);
-export const epicTopReaderAcBadgeV2: ModuleInfo = getDefaultModuleInfo(
-    'epic',
-    'epics/ContributionsEpicTopReaderArticleCountBadgeV2',
-);
 
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
@@ -75,8 +67,6 @@ export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header'
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    epicTopReaderAcBadgeV1,
-    epicTopReaderAcBadgeV2,
     liveblogEpic,
     contributionsBanner,
     contributionsBannerWithSignIn,

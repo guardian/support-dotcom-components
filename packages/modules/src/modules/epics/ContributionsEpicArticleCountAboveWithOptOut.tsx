@@ -16,7 +16,6 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
-import { TopReaderArticleCountBadgeVariant } from './ContributionsEpic';
 
 // --- Component --- //
 
@@ -28,7 +27,6 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     openCmp?: () => void;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     aboveArticleCountByTag: boolean;
-    topReaderVariant: TopReaderArticleCountBadgeVariant;
 }
 
 export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
@@ -39,7 +37,6 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
     openCmp,
     submitComponentEvent,
     aboveArticleCountByTag,
-    topReaderVariant,
 }: ContributionsEpicArticleCountAboveWithOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -82,7 +79,6 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
                 articleCounts={articleCounts}
                 onToggleClick={onToggleClick}
                 aboveArticleCountByTag={aboveArticleCountByTag}
-                topReaderVariant={topReaderVariant}
             />
 
             {isOpen && (
@@ -168,7 +164,6 @@ interface ArticleCountWithToggleProps {
     isArticleCountOn: boolean;
     onToggleClick: () => void;
     aboveArticleCountByTag: boolean;
-    topReaderVariant: TopReaderArticleCountBadgeVariant;
 }
 
 const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
@@ -176,7 +171,6 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     articleCounts,
     onToggleClick,
     aboveArticleCountByTag,
-    topReaderVariant,
 }: ArticleCountWithToggleProps) => {
     // By default we display the 52-week count
     const articleCount = aboveArticleCountByTag
@@ -186,20 +180,14 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     if (isArticleCountOn && articleCount >= 5) {
         return (
             <div css={articleCountOnHeaderContainerStyles}>
-                {topReaderVariant === TopReaderArticleCountBadgeVariant.CONTROL && (
+                {articleCount < 50 && (
                     <ArticleCount
                         articleCount={articleCount}
                         aboveArticleCountByTag={aboveArticleCountByTag}
                     />
                 )}
 
-                {topReaderVariant === TopReaderArticleCountBadgeVariant.V1_AC_LEAD && (
-                    <TopReaderArticleCountV1 articleCount={articleCount} />
-                )}
-
-                {topReaderVariant === TopReaderArticleCountBadgeVariant.V2_CONGRATS_LEAD && (
-                    <TopReaderArticleCountV2 articleCount={articleCount} />
-                )}
+                {articleCount >= 50 && <TopReaderArticleCount articleCount={articleCount} />}
 
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
@@ -261,16 +249,7 @@ interface TopReaderArticleCountProps {
     articleCount: number;
 }
 
-const TopReaderArticleCountV1: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
-    return (
-        <div css={articleCountAboveContainerStyles}>
-            You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span> in the last
-            year – congratulations on being one of our top readers globally
-        </div>
-    );
-};
-
-const TopReaderArticleCountV2: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
+const TopReaderArticleCount: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
     return (
         <div css={articleCountAboveContainerStyles}>
             Congratulations on being one of our top readers globally – you&apos;ve read{' '}
