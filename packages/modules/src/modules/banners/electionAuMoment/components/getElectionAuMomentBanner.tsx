@@ -1,8 +1,9 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space, breakpoints } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { BannerRenderProps } from '../../common/types';
+import { Container } from '@guardian/src-layout';
 import { ElectionAuMomentBannerHeader } from './ElectionAuMomentBannerHeader';
 import { ElectionAuMomentBannerArticleCount } from './ElectionAuMomentBannerArticleCount';
 import { ElectionAuMomentBannerBody } from './ElectionAuMomentBannerBody';
@@ -22,26 +23,9 @@ const styles = {
         position: relative;
         overflow: hidden;
         width: 100%;
-        padding: 0 ${space[3]}px ${space[3]}px;
-
-        ${from.mobileLandscape} {
-            padding: 0 ${space[5]}px;
-            padding-bottom: ${space[4]}px;
-        }
-        ${from.tablet} {
-            width: ${breakpoints.tablet}px;
-        }
-        ${from.desktop} {
-            width: ${breakpoints.desktop}px;
-        }
-        ${from.leftCol} {
-            width: ${breakpoints.leftCol}px;
-        }
-        ${from.wide} {
-            width: ${breakpoints.wide}px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
+        max-width: 1300px;
+        margin: 0 auto;
+        padding-bottom: ${space[3]}px;
     `,
 
     bottomContainer: css`
@@ -92,7 +76,7 @@ function getElectionAuMomentBanner(): React.FC<BannerRenderProps> {
     }: BannerRenderProps) {
         return (
             <div css={styles.outerContainer}>
-                <div css={styles.innerContainer}>
+                <Container cssOverrides={styles.innerContainer}>
                     <ElectionAuMomentBannerVisual />
                     <div>
                         <ElectionAuMomentBannerHeader
@@ -140,7 +124,7 @@ function getElectionAuMomentBanner(): React.FC<BannerRenderProps> {
                     <div css={styles.closeButtonContainer}>
                         <ElectionAuMomentBannerCloseButton onCloseClick={onCloseClick} />
                     </div>
-                </div>
+                </Container>
             </div>
         );
     }
