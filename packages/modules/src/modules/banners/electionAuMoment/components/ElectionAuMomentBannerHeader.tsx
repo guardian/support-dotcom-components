@@ -17,6 +17,11 @@ const styles = {
             color: ${neutral[0]};
             font-size: 24px;
             line-height: 115%;
+            width: 85%;
+
+            ${from.mobileMedium} {
+                width: 100%;
+            }
 
             ${from.tablet} {
                 ${headline.small()}
