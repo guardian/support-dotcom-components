@@ -123,12 +123,16 @@ function getElectionAuMomentBanner(): React.FC<BannerRenderProps> {
                         <ElectionAuMomentBannerCtas
                             desktopCtas={{
                                 primary: content.mainContent.primaryCta,
-                                secondary: content.mainContent.secondaryCta,
+                                secondary: content.mainContent.secondaryCta ?? null,
                             }}
-                            mobileCtas={{
-                                primary: content.mobileContent?.primaryCta || null,
-                                secondary: content.mobileContent?.secondaryCta || null,
-                            }}
+                            mobileCtas={
+                                content.mobileContent
+                                    ? {
+                                          primary: content.mobileContent?.primaryCta ?? null,
+                                          secondary: content.mobileContent?.secondaryCta ?? null,
+                                      }
+                                    : null
+                            }
                             onPrimaryCtaClick={onCtaClick}
                             onSecondaryCtaClick={onSecondaryCtaClick}
                         />

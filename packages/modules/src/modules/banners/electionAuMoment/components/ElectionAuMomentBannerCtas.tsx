@@ -60,7 +60,7 @@ interface BreakpointCtas {
 }
 
 interface ElectionAuMomentBannerCtasProps {
-    mobileCtas: BreakpointCtas;
+    mobileCtas: BreakpointCtas | null;
     desktopCtas: BreakpointCtas;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
