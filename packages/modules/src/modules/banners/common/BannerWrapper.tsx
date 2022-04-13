@@ -71,6 +71,7 @@ const withBannerData = (
         content,
         mobileContent,
         countryCode,
+        prices,
         email,
         fetchEmail,
         numArticles = 0,
@@ -104,7 +105,9 @@ const withBannerData = (
     ): string[] => {
         const originalCopy = getParagraphsOrMessageText(paras, text);
 
-        return originalCopy.map(p => replaceNonArticleCountPlaceholders(p, countryCode).trim());
+        return originalCopy.map(p =>
+            replaceNonArticleCountPlaceholders(p, countryCode, prices).trim(),
+        );
     };
 
     const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
@@ -151,11 +154,16 @@ const withBannerData = (
 
         const cleanHighlightedText =
             bannerContent.highlightedText &&
-            replaceNonArticleCountPlaceholders(bannerContent.highlightedText, countryCode).trim();
+            replaceNonArticleCountPlaceholders(
+                bannerContent.highlightedText,
+                countryCode,
+                prices,
+            ).trim();
 
         const cleanHeading = replaceNonArticleCountPlaceholders(
             bannerContent.heading,
             countryCode,
+            prices,
         ).trim();
 
         const cleanParagraphs = cleanParagraphsOrMessageText(

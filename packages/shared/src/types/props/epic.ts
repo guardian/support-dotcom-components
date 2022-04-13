@@ -9,6 +9,7 @@ import {
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';
+import { Prices } from '../prices';
 
 export interface ArticleCounts {
     for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
@@ -28,6 +29,7 @@ export type EpicProps = {
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;
+    prices?: Prices;
 };
 
 /**

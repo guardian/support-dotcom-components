@@ -188,6 +188,7 @@ const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
     );
 };
 
+// TODO: work out how to add prices object to Liveblog Epics
 interface LiveblogEpicProps {
     variant: EpicVariant;
     tracking: Tracking;

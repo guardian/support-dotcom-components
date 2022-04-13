@@ -256,6 +256,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
+    prices,
     articleCounts,
     onReminderOpen,
     email,
@@ -317,11 +318,12 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
         countryCode,
+        prices,
     );
-    const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
+    const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode, prices);
 
     const cleanParagraphs = variant.paragraphs.map(paragraph =>
-        replaceNonArticleCountPlaceholders(paragraph, countryCode),
+        replaceNonArticleCountPlaceholders(paragraph, countryCode, prices),
     );
 
     if (

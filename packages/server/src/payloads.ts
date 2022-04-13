@@ -36,6 +36,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import { cachedProductPrices } from './productPrices';
 
 interface EpicDataResponse {
     data?: {
@@ -193,6 +194,7 @@ export const buildEpicData = async (
     const { test, variant } = result.result;
 
     const choiceCardAmounts = await cachedChoiceCardAmounts();
+    const productPrices = await cachedProductPrices();
     const tickerSettings = await getTickerSettings(variant);
     const showReminderFields = getReminderFields(variant);
 
@@ -222,6 +224,7 @@ export const buildEpicData = async (
             test.articlesViewedSettings?.periodInWeeks,
         ),
         countryCode: targeting.countryCode,
+        prices: productPrices,
     };
 
     const module: ModuleInfo = type === 'ARTICLE' ? epicModule : liveblogEpicModule;
@@ -253,6 +256,8 @@ export const buildBannerData = async (
     if (!enableBanners) {
         return {};
     }
+
+    const productPrices = await cachedProductPrices();
 
     const selectedTest = await selectBannerTest(
         targeting,
@@ -294,6 +299,7 @@ export const buildBannerData = async (
             hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
             tickerSettings,
             separateArticleCount: variant.separateArticleCount,
+            prices: productPrices,
         };
 
         return {
@@ -358,6 +364,7 @@ export const buildHeaderData = async (
     if (!enableHeaders) {
         return {};
     }
+    const productPrices = await cachedProductPrices();
     const testSelection = await selectHeaderTest(targeting, isMobile(req), params.force);
     if (testSelection) {
         const { test, variant, modulePathBuilder } = testSelection;
@@ -378,6 +385,7 @@ export const buildHeaderData = async (
                         tracking: { ...pageTracking, ...testTracking },
                         countryCode: targeting.countryCode,
                         numArticles: targeting.numArticles,
+                        prices: productPrices,
                     },
                 },
                 meta: testTracking,
