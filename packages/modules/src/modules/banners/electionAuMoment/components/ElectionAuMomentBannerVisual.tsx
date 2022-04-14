@@ -4,6 +4,7 @@ import { from } from '@guardian/src-foundations/mq';
 
 const container = css`
     display: none;
+    pointer-events: none;
 
     ${from.mobileMedium} {
         display: block;
