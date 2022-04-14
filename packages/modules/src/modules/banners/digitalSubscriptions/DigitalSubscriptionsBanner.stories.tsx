@@ -75,6 +75,134 @@ export const defaultStory = (): ReactElement => {
         isSupporter: false,
         tracking,
         countryCode: 'GB',
+        prices: {
+            GBPCountries: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+            UnitedStates: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+            EURCountries: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+            AUDCountries: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+            International: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+            NZDCountries: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+            Canada: {
+                GuardianWeekly: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+                Digisub: {
+                    Monthly: {
+                        price: '0.00',
+                    },
+                    Annual: {
+                        price: '0.00',
+                    },
+                },
+            },
+        },
     };
 
     return (

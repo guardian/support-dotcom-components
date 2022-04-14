@@ -11,7 +11,6 @@ interface ProductPriceData {
 interface CountryGroupPriceData {
     GuardianWeekly: ProductPriceData;
     Digisub: ProductPriceData;
-    Paper?: ProductPriceData;
 }
 export type Prices = {
     [country in CountryGroupId]: CountryGroupPriceData;
