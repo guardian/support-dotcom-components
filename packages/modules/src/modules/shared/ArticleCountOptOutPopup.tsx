@@ -22,12 +22,14 @@ export type ArticleCountOptOutType =
     | 'banner'
     | 'investigations-moment-banner'
     | 'us-eoy-moment-banner'
-    | 'global-new-year-banner';
+    | 'global-new-year-banner'
+    | 'election-au-moment-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
     type === 'banner' ||
     type === 'investigations-moment-banner' ||
     type === 'us-eoy-moment-banner' ||
-    type === 'global-new-year-banner';
+    type === 'global-new-year-banner' ||
+    type === 'election-au-moment-banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;
