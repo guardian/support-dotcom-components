@@ -5,6 +5,7 @@ import {
     countryCodeToCountryGroupId,
     getLocalCurrencySymbol,
 } from '@sdc/shared/lib';
+import { headerPayloadSchema } from '@sdc/validation';
 import {
     EpicType,
     OphanComponentEvent,
@@ -23,7 +24,7 @@ import { getQueryParams } from './lib/params';
 import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
-    bodyContainsAllFields,
+    validation,
 } from './middleware';
 import { buildBannerData, buildEpicData, buildHeaderData, buildPuzzlesData } from './payloads';
 import { ampEpic } from './tests/amp/ampEpic';
@@ -159,7 +160,7 @@ app.post(
 
 app.post(
     '/header',
-    bodyContainsAllFields(['tracking', 'targeting']),
+    validation(headerPayloadSchema),
     async (req: express.Request, res: express.Response, next: express.NextFunction) => {
         try {
             const { tracking, targeting } = req.body;

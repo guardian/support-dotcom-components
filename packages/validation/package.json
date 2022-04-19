@@ -1,0 +1,22 @@
+{
+  "name": "@sdc/validation",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "zod": "^3.2.0",
+    "@sdc/shared": "1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.3.2",
+    "fishery": "^0.3.0",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.4"
+  }
+}

@@ -3,6 +3,7 @@
     { "path": "./packages/server" },
     { "path": "./packages/modules" },
     { "path": "./packages/shared" },
+    { "path": "./packages/validation" },
   ],
   "files": [],
   "include": [],
