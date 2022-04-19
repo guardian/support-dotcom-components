@@ -258,7 +258,6 @@ export const buildBannerData = async (
     }
 
     const productPrices = await cachedProductPrices();
-    console.log('payloads.ts - buildBannerData', productPrices);
 
     const selectedTest = await selectBannerTest(
         targeting,

@@ -1,140 +1,26 @@
+import { isProd } from '../lib/env';
+import fetch from 'node-fetch';
+
 export const fetchSupportFrontendData = (endpoint: string): Promise<string> => {
-    return new Promise(resolve => {
-        // We need to do a fetch here from the URL created from the endpoint
-        // - Looks like the endpoint is open, no auth required
+    return new Promise((resolve, reject) => {
+        if (!endpoint) {
+            reject('{"error": "No endpoint value supplied"}');
+        }
 
-        // Doing this to trick TS - we will be using the endpoint to build the fetch URL
-        console.log('supportFrontend.ts:', endpoint);
+        const supportUrl = isProd
+            ? 'https://support.theguardian.com'
+            : 'https://support.code.dev-theguardian.com';
 
-        // For dev, resolve the raw /prices data as a JSON string
-        const tempPrices = JSON.stringify({
-            GBPCountries: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-            UnitedStates: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-            EURCountries: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-            AUDCountries: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-            International: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-            NZDCountries: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-            Canada: {
-                GuardianWeekly: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-                Digisub: {
-                    Monthly: {
-                        price: '0.00',
-                    },
-                    Annual: {
-                        price: '0.00',
-                    },
-                },
-            },
-        });
-        resolve(tempPrices);
+        const apiUrl = `${supportUrl}/${endpoint}`;
+
+        fetch(apiUrl)
+            .then(packet => {
+                if (!packet.ok) {
+                    reject(`{"error": "HTTP error! Status: ${packet.status}"}`);
+                }
+                return packet.text();
+            })
+            .then(res => resolve(res))
+            .catch(err => reject(`{"error": "Data fetch error: ${err.message}"}`));
     });
 };
