@@ -45,7 +45,6 @@ export const getAmpExperimentData = async (tests: AmpEpicTest[]): Promise<AmpExp
     return ampExperiments;
 };
 
-// TODO: work out how to add prices object to AMP Epics
 export const selectAmpEpic = async (
     tests: AmpEpicTest[],
     ampVariantAssignments: AmpVariantAssignments,

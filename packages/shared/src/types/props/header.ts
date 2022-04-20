@@ -1,7 +1,6 @@
 import * as z from 'zod';
 import { OphanComponentEvent } from '../ophan';
 import { Tracking, trackingSchema, Cta, ctaSchema } from './shared';
-import { Prices } from '../prices';
 
 export interface HeaderContent {
     heading: string;
@@ -24,7 +23,6 @@ export interface HeaderProps {
     countryCode?: string;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
-    prices?: Prices;
 }
 
 export const headerSchema = z.object({
