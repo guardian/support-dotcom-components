@@ -10,6 +10,7 @@ import {
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
+import { Prices } from '../prices';
 
 export const bannerChannelSchema = z.enum(['contributions', 'subscriptions']);
 
@@ -49,6 +50,7 @@ export interface BannerProps {
     email?: string;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
+    prices?: Prices;
 }
 
 export const bannerSchema = z.object({

@@ -36,6 +36,7 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import { cachedProductPrices } from './productPrices';
 
 interface EpicDataResponse {
     data?: {
@@ -254,6 +255,8 @@ export const buildBannerData = async (
         return {};
     }
 
+    const productPrices = await cachedProductPrices();
+
     const selectedTest = await selectBannerTest(
         targeting,
         pageTracking,
@@ -295,6 +298,7 @@ export const buildBannerData = async (
             hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
             tickerSettings,
             separateArticleCount: variant.separateArticleCount,
+            prices: productPrices,
         };
 
         return {

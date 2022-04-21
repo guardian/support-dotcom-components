@@ -319,6 +319,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         variant.highlightedText,
         countryCode,
     );
+
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
     const cleanParagraphs = variant.paragraphs.map(paragraph =>

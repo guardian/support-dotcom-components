@@ -1,20 +1,48 @@
-import { getCountryName, getLocalCurrencySymbol } from './geolocation';
+import { getCountryName, getLocalCurrencySymbol, countryCodeToCountryGroupId } from './geolocation';
+import { Prices } from '../types/prices';
 
 // we have to treat %%ARTICLE_COUNT%% placeholders specially as they are replaced
 // with react components, not a simple text substitution
 export const replaceNonArticleCountPlaceholders = (
     content: string | undefined,
     countryCode?: string,
+    prices?: Prices,
 ): string => {
     if (!content) {
         return '';
     }
 
-    content = content.replace(/%%CURRENCY_SYMBOL%%/g, getLocalCurrencySymbol(countryCode));
+    const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
+
+    content = content.replace(/%%CURRENCY_SYMBOL%%/g, localCurrencySymbol);
 
     const countryName = getCountryName(countryCode) ?? '';
     content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
 
+    // Pricing templates
+    const countryGroupId = countryCodeToCountryGroupId(countryCode);
+    const localPrices = prices && prices[countryGroupId] ? prices[countryGroupId] : null;
+
+    if (localPrices != null) {
+        const { GuardianWeekly, Digisub } = localPrices;
+
+        content = content.replace(
+            /%%PRICE_DIGISUB_MONTHLY%%/g,
+            `${localCurrencySymbol}${Digisub.Monthly.price}`,
+        );
+        content = content.replace(
+            /%%PRICE_DIGISUB_ANNUAL%%/g,
+            `${localCurrencySymbol}${Digisub.Annual.price}`,
+        );
+        content = content.replace(
+            /%%PRICE_GUARDIANWEEKLY_MONTHLY%%/g,
+            `${localCurrencySymbol}${GuardianWeekly.Monthly.price}`,
+        );
+        content = content.replace(
+            /%%PRICE_GUARDIANWEEKLY_ANNUAL%%/g,
+            `${localCurrencySymbol}${GuardianWeekly.Annual.price}`,
+        );
+    }
     return content;
 };
 
