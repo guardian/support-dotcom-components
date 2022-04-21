@@ -1,16 +1,12 @@
 import { getCountryName, getLocalCurrencySymbol, countryCodeToCountryGroupId } from './geolocation';
 import { GuardianProduct, Prices, RatePlan } from '../types/prices';
 
-interface PlaceholderRule {
-    placeholder: string; // e.g. 'COUNTRY_NAME'
-    substitute: () => string | undefined; // defines how to substitute the placeholder, if possible
-}
-const buildRule = (placeholder: string, substitute: () => string | undefined): PlaceholderRule => ({
-    placeholder,
-    substitute,
-});
+// Maps each placeholder to a rule for how to substitute it, if possible
+type PlaceholderRules = {
+    [placeholder in string]: () => string | undefined;
+};
 
-const buildRules = (countryCode?: string, prices?: Prices): PlaceholderRule[] => {
+const buildRules = (countryCode?: string, prices?: Prices): PlaceholderRules => {
     const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
     const countryGroupId = countryCodeToCountryGroupId(countryCode);
     const localPrices = prices && prices[countryGroupId] ? prices[countryGroupId] : null;
@@ -22,18 +18,14 @@ const buildRules = (countryCode?: string, prices?: Prices): PlaceholderRule[] =>
         return undefined;
     };
 
-    return [
-        buildRule('CURRENCY_SYMBOL', () => localCurrencySymbol),
-        buildRule('COUNTRY_NAME', () => getCountryName(countryCode)),
-        buildRule('PRICE_DIGISUB_MONTHLY', () => priceSubstitution('Digisub', 'Monthly')),
-        buildRule('PRICE_DIGISUB_ANNUAL', () => priceSubstitution('Digisub', 'Annual')),
-        buildRule('PRICE_GUARDIANWEEKLY_MONTHLY', () =>
-            priceSubstitution('GuardianWeekly', 'Monthly'),
-        ),
-        buildRule('PRICE_GUARDIANWEEKLY_ANNUAL', () =>
-            priceSubstitution('GuardianWeekly', 'Annual'),
-        ),
-    ];
+    return {
+        CURRENCY_SYMBOL: () => localCurrencySymbol,
+        COUNTRY_NAME: () => getCountryName(countryCode),
+        PRICE_DIGISUB_MONTHLY: () => priceSubstitution('Digisub', 'Monthly'),
+        PRICE_DIGISUB_ANNUAL: () => priceSubstitution('Digisub', 'Annual'),
+        PRICE_GUARDIANWEEKLY_MONTHLY: () => priceSubstitution('GuardianWeekly', 'Monthly'),
+        PRICE_GUARDIANWEEKLY_ANNUAL: () => priceSubstitution('GuardianWeekly', 'Annual'),
+    };
 };
 
 /**
@@ -53,9 +45,10 @@ export const replaceNonArticleCountPlaceholders = (
     const rules = buildRules(countryCode, prices);
 
     return content.replace(PLACEHOLDER_RE, placeholder => {
-        const rule = rules.find(rule => `%%${rule.placeholder}%%` === placeholder);
+        const trimmed = placeholder.substring(2, placeholder.length - 2); // remove %%
+        const rule = rules[trimmed];
         if (rule) {
-            const result: string | undefined = rule.substitute();
+            const result: string | undefined = rule();
             if (result) {
                 return result;
             }
