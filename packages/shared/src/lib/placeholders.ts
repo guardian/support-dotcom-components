@@ -1,69 +1,16 @@
 import { getCountryName, getLocalCurrencySymbol, countryCodeToCountryGroupId } from './geolocation';
 import { GuardianProduct, Prices, RatePlan } from '../types/prices';
 
-// we have to treat %%ARTICLE_COUNT%% placeholders specially as they are replaced
-// with react components, not a simple text substitution
-export const replaceNonArticleCountPlaceholders2 = (
-    content: string | undefined,
-    countryCode?: string,
-    prices?: Prices,
-): string => {
-    if (!content) {
-        return '';
-    }
-
-    const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
-
-    content = content.replace(/%%CURRENCY_SYMBOL%%/g, localCurrencySymbol);
-
-    const countryName = getCountryName(countryCode) ?? '';
-    content = countryName ? content.replace(/%%COUNTRY_NAME%%/g, countryName) : content;
-
-    // Pricing templates
-    const countryGroupId = countryCodeToCountryGroupId(countryCode);
-    const localPrices = prices && prices[countryGroupId] ? prices[countryGroupId] : null;
-
-    if (localPrices != null) {
-        const { GuardianWeekly, Digisub } = localPrices;
-
-        content = content.replace(
-            /%%PRICE_DIGISUB_MONTHLY%%/g,
-            `${localCurrencySymbol}${Digisub.Monthly.price}`,
-        );
-        content = content.replace(
-            /%%PRICE_DIGISUB_ANNUAL%%/g,
-            `${localCurrencySymbol}${Digisub.Annual.price}`,
-        );
-        content = content.replace(
-            /%%PRICE_GUARDIANWEEKLY_MONTHLY%%/g,
-            `${localCurrencySymbol}${GuardianWeekly.Monthly.price}`,
-        );
-        content = content.replace(
-            /%%PRICE_GUARDIANWEEKLY_ANNUAL%%/g,
-            `${localCurrencySymbol}${GuardianWeekly.Annual.price}`,
-        );
-    }
-    return content;
-};
-
 interface PlaceholderRule {
-    placeholder: string;
-    substitute: () => string | undefined;
+    placeholder: string; // e.g. 'COUNTRY_NAME'
+    substitute: () => string | undefined; // defines how to substitute the placeholder, if possible
 }
 const buildRule = (placeholder: string, substitute: () => string | undefined): PlaceholderRule => ({
     placeholder,
     substitute,
 });
 
-export const replaceNonArticleCountPlaceholders = (
-    content: string | undefined,
-    countryCode?: string,
-    prices?: Prices,
-): string => {
-    if (!content) {
-        return '';
-    }
-
+const buildRules = (countryCode?: string, prices?: Prices): PlaceholderRule[] => {
     const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
     const countryGroupId = countryCodeToCountryGroupId(countryCode);
     const localPrices = prices && prices[countryGroupId] ? prices[countryGroupId] : null;
@@ -74,7 +21,8 @@ export const replaceNonArticleCountPlaceholders = (
         }
         return undefined;
     };
-    const rules: PlaceholderRule[] = [
+
+    return [
         buildRule('CURRENCY_SYMBOL', () => localCurrencySymbol),
         buildRule('COUNTRY_NAME', () => getCountryName(countryCode)),
         buildRule('PRICE_DIGISUB_MONTHLY', () => priceSubstitution('Digisub', 'Monthly')),
@@ -86,11 +34,28 @@ export const replaceNonArticleCountPlaceholders = (
             priceSubstitution('GuardianWeekly', 'Annual'),
         ),
     ];
+};
 
-    content.replace(PLACEHOLDER_RE, placeholder => {
+/**
+ * We have to treat %%ARTICLE_COUNT%% placeholders specially as they are replaced with react components, not a simple text substitution.
+ *
+ * This function does not guarantee all placeholders will be replaced. Calling code must handle this possibility.
+ */
+export const replaceNonArticleCountPlaceholders = (
+    content: string | undefined,
+    countryCode?: string,
+    prices?: Prices,
+): string => {
+    if (!content) {
+        return '';
+    }
+
+    const rules = buildRules(countryCode, prices);
+
+    return content.replace(PLACEHOLDER_RE, placeholder => {
         const rule = rules.find(rule => `%%${rule.placeholder}%%` === placeholder);
         if (rule) {
-            const result = rule.substitute();
+            const result: string | undefined = rule.substitute();
             if (result) {
                 return result;
             }

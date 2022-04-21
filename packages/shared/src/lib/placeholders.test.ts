@@ -1,5 +1,8 @@
-import {containsNonArticleCountPlaceholder, replaceNonArticleCountPlaceholders} from './placeholders';
-import {Prices} from "../types";
+import {
+    containsNonArticleCountPlaceholder,
+    replaceNonArticleCountPlaceholders,
+} from './placeholders';
+import { Prices } from '../types';
 
 describe('containsNonArticleCountPlaceholder', () => {
     it('returns true if string contains placeholder (that is not %%ARTICLE_COUNT%%)', () => {
@@ -66,18 +69,18 @@ describe('replaceNonArticleCountPlaceholders', () => {
         EURCountries: {
             GuardianWeekly: {
                 Monthly: {
-                    price: '0.00',
+                    price: '5.99',
                 },
                 Annual: {
-                    price: '0.00',
+                    price: '99.00',
                 },
             },
             Digisub: {
                 Monthly: {
-                    price: '0.00',
+                    price: '6.00',
                 },
                 Annual: {
-                    price: '0.00',
+                    price: '120.00',
                 },
             },
         },
@@ -155,12 +158,30 @@ describe('replaceNonArticleCountPlaceholders', () => {
         },
     };
 
-    it('replaces %%COUNTRY_NAME%%', () => {
+    it('replaces %%COUNTRY_NAME%% and %%CURRENCY_SYMBOL%%', () => {
         const result = replaceNonArticleCountPlaceholders(
-            'You live in %%COUNTRY_NAME%%.',
+            'You live in %%COUNTRY_NAME%% and your currency is %%CURRENCY_SYMBOL%%.',
             'IT',
             prices,
         );
-        expect(result).toBe('You live in Italy.');
+        expect(result).toBe('You live in Italy and your currency is €.');
+    });
+
+    it('replaces %%PRICE_DIGISUB_MONTHLY%%', () => {
+        const result = replaceNonArticleCountPlaceholders(
+            'Digisub costs %%PRICE_DIGISUB_MONTHLY%% a month.',
+            'IT',
+            prices,
+        );
+        expect(result).toBe('Digisub costs €6.00 a month.');
+    });
+
+    it('replaces %%PRICE_GUARDIANWEEKLY_ANNUAL%%', () => {
+        const result = replaceNonArticleCountPlaceholders(
+            'Guardian Weekly costs %%PRICE_GUARDIANWEEKLY_ANNUAL%% a month.',
+            'IT',
+            prices,
+        );
+        expect(result).toBe('Guardian Weekly costs €99.00 a month.');
     });
 });
