@@ -182,6 +182,6 @@ describe('replaceNonArticleCountPlaceholders', () => {
             'IT',
             prices,
         );
-        expect(result).toBe('Guardian Weekly costs €99.00 a month.');
+        expect(result).toBe('Guardian Weekly costs €99.00 a year.');
     });
 });
