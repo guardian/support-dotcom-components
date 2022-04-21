@@ -12,7 +12,7 @@ const priceSubstitution = (
     ratePlan: RatePlan,
     countryCode?: string,
     prices?: Prices,
-) => {
+): string | undefined => {
     if (prices) {
         const countryGroupId = countryCodeToCountryGroupId(countryCode);
         const localPrices = prices[countryGroupId];
