@@ -178,7 +178,7 @@ describe('replaceNonArticleCountPlaceholders', () => {
 
     it('replaces %%PRICE_GUARDIANWEEKLY_ANNUAL%%', () => {
         const result = replaceNonArticleCountPlaceholders(
-            'Guardian Weekly costs %%PRICE_GUARDIANWEEKLY_ANNUAL%% a month.',
+            'Guardian Weekly costs %%PRICE_GUARDIANWEEKLY_ANNUAL%% a year.',
             'IT',
             prices,
         );
