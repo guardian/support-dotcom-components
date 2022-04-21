@@ -1,7 +1,7 @@
 import { getCountryName, getLocalCurrencySymbol, countryCodeToCountryGroupId } from './geolocation';
 import { GuardianProduct, Prices, RatePlan } from '../types/prices';
 
-// Maps each placeholder to a rule for how to substitute it, if possible
+// Maps each placeholder to a rule defining how to substitute it, if possible
 type PlaceholderRules = {
     [placeholder in string]: () => string | undefined;
 };
@@ -53,7 +53,7 @@ export const replaceNonArticleCountPlaceholders = (
                 return result;
             }
         }
-        return placeholder; // leave it unchanged - the calling code must handle this
+        return placeholder; // if unable to substitute then leave it unchanged - the calling code must handle this
     });
 };
 
