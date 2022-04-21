@@ -1,31 +1,40 @@
 import { getCountryName, getLocalCurrencySymbol, countryCodeToCountryGroupId } from './geolocation';
 import { GuardianProduct, Prices, RatePlan } from '../types/prices';
 
-// Maps each placeholder to a rule defining how to substitute it, if possible
+// Map each placeholder to a rule defining how to substitute it, if possible
+type PlaceholderRule = (params: { countryCode?: string; prices?: Prices }) => string | undefined;
 type PlaceholderRules = {
-    [placeholder in string]: () => string | undefined;
+    [placeholder in string]: PlaceholderRule;
 };
 
-const buildRules = (countryCode?: string, prices?: Prices): PlaceholderRules => {
-    const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
-    const countryGroupId = countryCodeToCountryGroupId(countryCode);
-    const localPrices = prices && prices[countryGroupId] ? prices[countryGroupId] : null;
-
-    const priceSubstitution = (product: GuardianProduct, ratePlan: RatePlan) => {
+const priceSubstitution = (
+    product: GuardianProduct,
+    ratePlan: RatePlan,
+    countryCode?: string,
+    prices?: Prices,
+) => {
+    if (prices) {
+        const countryGroupId = countryCodeToCountryGroupId(countryCode);
+        const localPrices = prices[countryGroupId];
         if (localPrices) {
+            const localCurrencySymbol = getLocalCurrencySymbol(countryCode);
             return `${localCurrencySymbol}${localPrices[product][ratePlan].price}`;
         }
-        return undefined;
-    };
+    }
+    return undefined;
+};
 
-    return {
-        CURRENCY_SYMBOL: () => localCurrencySymbol,
-        COUNTRY_NAME: () => getCountryName(countryCode),
-        PRICE_DIGISUB_MONTHLY: () => priceSubstitution('Digisub', 'Monthly'),
-        PRICE_DIGISUB_ANNUAL: () => priceSubstitution('Digisub', 'Annual'),
-        PRICE_GUARDIANWEEKLY_MONTHLY: () => priceSubstitution('GuardianWeekly', 'Monthly'),
-        PRICE_GUARDIANWEEKLY_ANNUAL: () => priceSubstitution('GuardianWeekly', 'Annual'),
-    };
+const placeholderRules: PlaceholderRules = {
+    CURRENCY_SYMBOL: ({ countryCode }) => getLocalCurrencySymbol(countryCode),
+    COUNTRY_NAME: ({ countryCode }) => getCountryName(countryCode),
+    PRICE_DIGISUB_MONTHLY: ({ countryCode, prices }) =>
+        priceSubstitution('Digisub', 'Monthly', countryCode, prices),
+    PRICE_DIGISUB_ANNUAL: ({ countryCode, prices }) =>
+        priceSubstitution('Digisub', 'Annual', countryCode, prices),
+    PRICE_GUARDIANWEEKLY_MONTHLY: ({ countryCode, prices }) =>
+        priceSubstitution('GuardianWeekly', 'Monthly', countryCode, prices),
+    PRICE_GUARDIANWEEKLY_ANNUAL: ({ countryCode, prices }) =>
+        priceSubstitution('GuardianWeekly', 'Annual', countryCode, prices),
 };
 
 /**
@@ -42,13 +51,11 @@ export const replaceNonArticleCountPlaceholders = (
         return '';
     }
 
-    const rules = buildRules(countryCode, prices);
-
     return content.replace(PLACEHOLDER_RE, placeholder => {
         const trimmed = placeholder.substring(2, placeholder.length - 2); // remove %%
-        const rule = rules[trimmed];
+        const rule = placeholderRules[trimmed];
         if (rule) {
-            const result: string | undefined = rule();
+            const result: string | undefined = rule({ countryCode, prices });
             if (result) {
                 return result;
             }
