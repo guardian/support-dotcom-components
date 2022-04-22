@@ -32,22 +32,25 @@ const notNowComponentId = `${bannerId} : not now`;
 const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
-const mobileAndDesktopImg =
-    'https://i.guim.co.uk/img/media/a5a4a122de965a757d062c4e251f0e64688132e2/0_0_500_240/500.png?quality=85&s=0b091b93297e3d820ace76eef810e904';
+const desktopImg =
+    'https://i.guim.co.uk/img/media/922b49dcb95afceb51669037d95708a7505347e6/0_0_2652_1360/2652.png?quality=85&s=dc9c5c16081ce37c1cbb0598c4c8575d';
 
 const tabletImg =
-    'https://i.guim.co.uk/img/media/c943c58125ecdf9c41c5d48b72ccf94514702821/0_0_500_336/500.png?quality=85&s=00139fa37b5087ec021a88469110ced4';
+    'https://i.guim.co.uk/img/media/a26c5a877d04e445c17caad4ef5a40d342caed89/0_0_1340_1320/1340.png?quality=85&s=f76974e0748a6193d4acc32ddee96530';
+
+const mobileImg =
+    'https://i.guim.co.uk/img/media/ca032f3fffd456898bee942442dda497137972c3/0_0_1220_660/1220.png?quality=85&s=c97e829bf2cd7523b1b112a3d0d7d339';
 
 // Responsive image props
 const baseImg = {
-    url: mobileAndDesktopImg,
+    url: desktopImg,
     media: '(min-width: 980px)',
     alt: 'The Guardian Weekly magazine',
 };
 
 const images = [
     {
-        url: mobileAndDesktopImg,
+        url: mobileImg,
         media: '(max-width: 739px)',
     },
     {
