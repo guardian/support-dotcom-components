@@ -5,7 +5,6 @@ import {
     channel2BannersAllTestsGenerator,
 } from './ChannelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
-import { propensityModelBannerTest } from './propensityModelTest/propensityModelTest';
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
@@ -14,7 +13,6 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
-    propensityModelBannerTest, // hardcoded test
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
 ];
