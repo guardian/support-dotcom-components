@@ -1,17 +1,15 @@
 import { CountryGroupId } from '../lib';
 
-interface ProductPriceData {
-    Monthly: {
+export type RatePlan = 'Monthly' | 'Annual';
+type ProductPriceData = {
+    [ratePlan in RatePlan]: {
         price: string;
     };
-    Annual: {
-        price: string;
-    };
-}
-interface CountryGroupPriceData {
-    GuardianWeekly: ProductPriceData;
-    Digisub: ProductPriceData;
-}
+};
+export type GuardianProduct = 'GuardianWeekly' | 'Digisub';
+type CountryGroupPriceData = {
+    [product in GuardianProduct]: ProductPriceData;
+};
 export type Prices = {
     [country in CountryGroupId]: CountryGroupPriceData;
 };
