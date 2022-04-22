@@ -13,6 +13,19 @@ const globals = {
     '@emotion/react': 'guardian.automat.emotionReact',
     '@emotion/react/jsx-runtime': 'guardian.automat.emotionReactJsxRuntime',
     react: 'guardian.automat.react',
+    // '@guardian/source-foundations': 'guardian.automat.sourceFoundations',
+    // '@guardian/libs': 'guardian.automat.libs',
+    // '@guardian/source-react-components': 'guardian.automat.sourceReactComponents',
+    // '@guardian/source-react-components-development-kitchen': 'guardian.automat.sourceReactComponentsDevelopmentKitchen',
+    // "@guardian/src-brand": "fdf",
+    // "@guardian/src-button": "fdf",
+    // "@guardian/src-choice-card": "fdf",
+    // "@guardian/src-foundations": "fdf",
+    // "@guardian/src-icons": "fdf",
+    // "@guardian/src-layout": "fdf",
+    // "@guardian/src-link": "fdf",
+    // "@guardian/src-text-input": "fdf",
+    // "zod": "dafs"
 };
 
 const config = args => {
