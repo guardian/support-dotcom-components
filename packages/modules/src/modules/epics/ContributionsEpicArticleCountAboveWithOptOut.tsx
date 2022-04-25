@@ -5,7 +5,7 @@ import { body, textSans } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { ButtonLink } from '@guardian/src-link';
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 import { ArticleCounts, OphanComponentEvent } from '@sdc/shared/types';
 import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
