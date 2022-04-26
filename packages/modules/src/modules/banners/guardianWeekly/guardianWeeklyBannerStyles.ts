@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { neutral, text } from '@guardian/src-foundations/palette';
-import { between, from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { height } from '@guardian/src-foundations/size';
 
@@ -17,33 +17,37 @@ export const banner = css`
         box-sizing: inherit;
     }
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
     width: 100%;
     background-color: ${mainBannerBackground};
     color: ${neutral[7]};
     position: relative;
-
     a,
     button {
         color: inherit;
     }
 `;
 
-export const columns = css`
-    position: relative;
+export const copyColumn = css`
+    transform: translateY(-36px);
+`;
 
-    ${between.tablet.and.desktop} {
-        position: static;
+export const imageColumn = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    ${from.tablet} {
+        justify-content: center;
+    }
+
+    ${from.desktop} {
+        justify-content: flex-end;
     }
 `;
 
-export const topLeftComponent = css`
-    padding-top: ${space[2]}px;
-
-    ${between.tablet.and.desktop} {
-        /* TODO: When we upgrade Source we can ditch this in favour of the responsive column width prop */
-        width: calc((100% + 20px) * 0.4 - 20px);
+export const imageContainer = css`
+    img {
+        max-width: 100%;
     }
 `;
 
@@ -58,7 +62,7 @@ export const heading = css`
         max-width: calc(100% - ${height.ctaSmall * 2 + space[2]}px);
     }
 
-    ${from.phablet} {
+    ${from.tablet} {
         max-width: 100%;
     }
 
@@ -94,74 +98,11 @@ export const siteMessage = css`
     }
 `;
 
-export const bottomRightComponent = css`
-    margin-bottom: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-`;
-
-export const packShotContainer = css`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    margin: 0;
-    padding-top: ${space[2]}px;
-    min-height: 170px;
-    height: 100%;
-    width: 100%;
-
-    ${between.tablet.and.desktop} {
-        position: static;
-    }
-
-    ${from.desktop} {
-        flex-direction: row;
-        align-self: flex-end;
-        padding-top: ${height.ctaSmall + space[1]}px;
-    }
-
-    ${from.wide} {
-        padding-top: ${space[4]}px;
-    }
-
-    picture {
-        display: flex;
-        height: 100%;
-        justify-content: flex-end;
-        align-items: flex-end;
-        ${between.tablet.and.desktop} {
-            max-width: 450px;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-        }
-    }
-
-    img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-`;
-
 export const iconAndClosePosition = css`
     display: flex;
     justify-content: flex-end;
     padding-top: ${space[2]}px;
     min-width: ${height.ctaMedium * 2}px;
-
-    ${until.leftCol} {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-    }
-
-    ${between.tablet.and.desktop} {
-        padding-right: ${space[2]}px;
-    }
 `;
 
 export const logoContainer = css`

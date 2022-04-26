@@ -7,15 +7,14 @@ import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
-    columns,
-    topLeftComponent,
+    copyColumn,
     heading,
     iconAndClosePosition,
+    imageColumn,
+    imageContainer,
     logoContainer,
     paragraph,
     siteMessage,
-    bottomRightComponent,
-    packShotContainer,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
 import { BannerText } from '../common/BannerText';
@@ -90,8 +89,18 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
     return (
         <section css={banner} data-target={bannerId}>
             <Container>
-                <Columns cssOverrides={columns} collapseBelow="tablet">
-                    <Column width={5 / 12} css={topLeftComponent}>
+                <Columns>
+                    <Column width={1} cssOverrides={iconAndClosePosition}>
+                        <Inline space={1}>
+                            <div css={logoContainer}>
+                                <SvgRoundelDefault />
+                            </div>
+                            <CloseButton onClick={onCloseClick} />
+                        </Inline>
+                    </Column>
+                </Columns>
+                <Columns collapseBelow="tablet">
+                    <Column width={1 / 2} cssOverrides={copyColumn}>
                         <BannerText
                             styles={{
                                 desktop: {
@@ -142,26 +151,17 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                             to not see this again
                         </div>
                     </Column>
-                    <Column cssOverrides={bottomRightComponent}>
-                        <div css={packShotContainer}>
+                    <Column width={1 / 2} cssOverrides={imageColumn}>
+                        <div css={imageContainer}>
                             <ResponsiveImage images={images} baseImage={baseImg} />
                         </div>
                     </Column>
-                    <div css={iconAndClosePosition}>
-                        <Inline space={1}>
-                            <div css={logoContainer}>
-                                <SvgRoundelDefault />
-                            </div>
-                            <CloseButton onClick={onCloseClick} />
-                        </Inline>
-                    </div>
                 </Columns>
             </Container>
         </section>
     );
 };
 
-// const wrapped = bannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
 const validated = validatedBannerWrapper(GuardianWeeklyBanner, bannerId);
 
 export { validated as GuardianWeeklyBanner };
