@@ -108,6 +108,64 @@ const header_supporter: HeaderTest = {
     ],
 };
 
+const header_new_supporter: HeaderTest = {
+    name: 'header-new-supporter',
+    userCohort: 'AllExistingSupporters',
+    isOn: true,
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    purchaseInfo: {
+        productType: ['RECURRING_CONTRIBUTION'],
+        userType: ['new', 'guest'],
+    },
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder,
+            content: {
+                heading: 'Thank you for your support',
+                subheading: 'Enjoy the Guardian',
+            },
+        },
+    ],
+};
+
+const header_existing_subscriber: HeaderTest = {
+    name: 'header-existing-subscriber',
+    userCohort: 'AllExistingSupporters',
+    isOn: true,
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    purchaseInfo: {
+        productType: ['DIGITAL_SUBSCRIPTION'],
+        userType: ['current'],
+    },
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder,
+            content: {
+                heading: 'Thank you for your support',
+                subheading: 'Enjoy the Guardian',
+            },
+        },
+    ],
+};
+
 // Handle null returns - tests will still fail if presented with this but should give better indication of why test failed
 interface NullReturn {
     name: string;
@@ -121,7 +179,14 @@ const variantHasReturnedNull: NullReturn = {
     name: 'variant returned is null',
 };
 
-const mockTests: HeaderTest[] = [remote_nonUK, header_supporter, remote_UK, locationsNotSet];
+const mockTests: HeaderTest[] = [
+    remote_nonUK,
+    header_supporter,
+    remote_UK,
+    locationsNotSet,
+    header_new_supporter,
+    header_existing_subscriber,
+];
 const mockTestEmptyLocations: HeaderTest[] = [
     remote_nonUK,
     locationsNotSet,
@@ -134,7 +199,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, not in UK
         const mockTargetingObject_1: HeaderTargeting = {
             showSupportMessaging: true,
-            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             modulesVersion: 'v3',
@@ -165,7 +229,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, not in UK
         const mockTargetingObject_2: HeaderTargeting = {
             showSupportMessaging: false,
-            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'ck',
             modulesVersion: 'v3',
@@ -196,7 +259,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_3: HeaderTargeting = {
             showSupportMessaging: true,
-            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
@@ -227,7 +289,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, is in UK
         const mockTargetingObject_4: HeaderTargeting = {
             showSupportMessaging: false,
-            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'im',
             modulesVersion: 'v3',
@@ -259,7 +320,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_5: HeaderTargeting = {
             showSupportMessaging: true,
-            showLoginMessaging: false,
             edition: 'UK',
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
@@ -285,5 +345,67 @@ describe('selectBestTest', () => {
         expect(result_5_test.name).toBe('LocationsArrayEmpty');
         expect(result_5_variant).toHaveProperty('name');
         expect(result_5_variant.name).toBe('remote');
+    });
+
+    it('It should return a test matching a contribution from a new user', () => {
+        // Mock targeting data: recent supporter, new user
+        const mockTargetingObject_6: HeaderTargeting = {
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
+            purchaseInfo: {
+                productType: 'RECURRING_CONTRIBUTION',
+                userType: 'new',
+            },
+        };
+
+        const result_6 = selectBestTest(mockTargetingObject_6, false, mockTests);
+        const result_6_test: HeaderTest | NullReturn = result_6
+            ? result_6.test
+            : testHasReturnedNull;
+        const result_6_variant: HeaderVariant | NullReturn = result_6
+            ? result_6.variant
+            : variantHasReturnedNull;
+        expect(result_6).toBeDefined();
+        expect(result_6).toHaveProperty('test');
+        expect(result_6).toHaveProperty('variant');
+        expect(result_6).toHaveProperty('modulePathBuilder');
+        expect(result_6_test).toHaveProperty('name');
+        expect(result_6_test.name).toBe('header-new-supporter');
+        expect(result_6_variant).toHaveProperty('name');
+        expect(result_6_variant.name).toBe('control');
+    });
+
+    it('It should return a test matching a subscription from an existing user', () => {
+        // Mock targeting data: recent supporter, existing user
+        const mockTargetingObject_7: HeaderTargeting = {
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
+            purchaseInfo: {
+                productType: 'DIGITAL_SUBSCRIPTION',
+                userType: 'current',
+            },
+        };
+
+        const result_7 = selectBestTest(mockTargetingObject_7, false, mockTests);
+        const result_7_test: HeaderTest | NullReturn = result_7
+            ? result_7.test
+            : testHasReturnedNull;
+        const result_7_variant: HeaderVariant | NullReturn = result_7
+            ? result_7.variant
+            : variantHasReturnedNull;
+        expect(result_7).toBeDefined();
+        expect(result_7).toHaveProperty('test');
+        expect(result_7).toHaveProperty('variant');
+        expect(result_7).toHaveProperty('modulePathBuilder');
+        expect(result_7_test).toHaveProperty('name');
+        expect(result_7_test.name).toBe('header-existing-subscriber');
+        expect(result_7_variant).toHaveProperty('name');
+        expect(result_7_variant.name).toBe('control');
     });
 });

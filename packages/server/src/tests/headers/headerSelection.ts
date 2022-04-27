@@ -97,9 +97,8 @@ const supportersTest: HeaderTest = {
     ],
 };
 
-const signInPromptTest: HeaderTest = {
-    name: 'header-sign-in-prompt',
-    userCohort: 'Everyone', // Not really true, but I don't think we have a matching cohort yet?
+const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
+    userCohort: 'AllExistingSupporters',
     isOn: true,
     locations: [
         'AUDCountries',
@@ -110,24 +109,129 @@ const signInPromptTest: HeaderTest = {
         'UnitedStates',
         'International',
     ],
+};
+
+const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
+    name: 'control',
+    modulePathBuilder: signInPromptHeader.endpointPathBuilder,
+    moduleName: 'SignInPromptHeader',
+};
+
+const subscriberContent = {
+    heading: 'Thank you for subscribing',
+    subheading: 'Enjoy the Guardian',
+};
+
+const supporterContent = {
+    heading: 'Thank you for your support',
+    subheading: 'Enjoy the Guardian',
+};
+
+const signInCTA = {
+    baseUrl: 'https://profile.theguardian.com/register',
+    text: 'Sign in',
+};
+
+const registerCTA = {
+    baseUrl: 'https://profile.theguardian.com/register',
+    text: 'Complete registration',
+};
+
+const signInPromptNewSubscriberTest: HeaderTest = {
+    name: 'header-sign-in-prompt-new-subscriber',
+    ...baseSignInPromptTest,
+    purchaseInfo: {
+        productType: ['DIGITAL_SUBSCRIPTION'],
+        userType: ['new', 'guest'],
+    },
     variants: [
         {
-            name: 'control',
-            modulePathBuilder: signInPromptHeader.endpointPathBuilder,
-            moduleName: 'SignInPromptHeader',
+            ...baseSignInPromptVariant,
             content: {
-                heading: 'Thank you for subscribing',
-                subheading: 'Enjoy the Guardian',
-                primaryCta: {
-                    baseUrl: 'https://profile.theguardian.com/register',
-                    text: 'Complete registration',
-                },
+                ...subscriberContent,
+                primaryCta: registerCTA,
             },
         },
     ],
 };
 
-const hardcodedTests = [supportersTest, nonSupportersTestUK, nonSupportersTestNonUK];
+const signInPromptNewSupporterTest: HeaderTest = {
+    name: 'header-sign-in-prompt-new-supporter',
+    ...baseSignInPromptTest,
+    purchaseInfo: {
+        productType: ['RECURRING_CONTRIBUTION'],
+        userType: ['new', 'guest'],
+    },
+    variants: [
+        {
+            ...baseSignInPromptVariant,
+            content: {
+                ...supporterContent,
+                primaryCta: registerCTA,
+            },
+        },
+    ],
+};
+
+const signInPromptExistingSubscriberTest: HeaderTest = {
+    name: 'header-sign-in-prompt-existing-subscriber',
+    ...baseSignInPromptTest,
+    purchaseInfo: {
+        productType: ['DIGITAL_SUBSCRIPTION'],
+        userType: ['current'],
+    },
+    variants: [
+        {
+            ...baseSignInPromptVariant,
+            content: {
+                ...subscriberContent,
+                primaryCta: signInCTA,
+            },
+        },
+    ],
+};
+
+const signInPromptExistingSupporterTest: HeaderTest = {
+    name: 'header-sign-in-prompt-existing-supporter',
+    ...baseSignInPromptTest,
+    purchaseInfo: {
+        productType: ['RECURRING_CONTRIBUTION'],
+        userType: ['current'],
+    },
+    variants: [
+        {
+            ...baseSignInPromptVariant,
+            content: {
+                ...supporterContent,
+                primaryCta: signInCTA,
+            },
+        },
+    ],
+};
+
+const hardcodedTests = [
+    supportersTest,
+    nonSupportersTestUK,
+    nonSupportersTestNonUK,
+    signInPromptNewSubscriberTest,
+    signInPromptNewSupporterTest,
+    signInPromptExistingSubscriberTest,
+    signInPromptExistingSupporterTest,
+];
+
+const purchaseMatches = (test: HeaderTest, purchaseInfo: HeaderTargeting['purchaseInfo']) => {
+    const { purchaseInfo: testPurchaseInfo } = test;
+
+    if (!purchaseInfo) {
+        return true;
+    }
+
+    const { productType, userType } = purchaseInfo;
+    const productValid = productType && testPurchaseInfo?.productType?.includes(productType);
+    const userValid = userType && testPurchaseInfo?.userType?.includes(userType);
+
+    return productValid && userValid;
+};
 
 // Exported for Jest testing
 export const selectBestTest = (
@@ -135,25 +239,20 @@ export const selectBestTest = (
     isMobile: boolean,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
-    const { showSupportMessaging, countryCode } = targeting;
+    const { showSupportMessaging, countryCode, purchaseInfo } = targeting;
 
-    let selectedTest: HeaderTest | undefined;
+    const selectedTest = allTests.find(test => {
+        const { isOn, userCohort, locations } = test;
 
-    if (targeting.showLoginMessaging) {
-        selectedTest = signInPromptTest;
-    } else {
-        selectedTest = allTests.find(test => {
-            const { isOn, userCohort, locations } = test;
-
-            return (
-                isOn &&
-                audienceMatches(showSupportMessaging, userCohort) &&
-                inCountryGroups(countryCode, locations) &&
-                userIsInTest(test, targeting.mvtId) &&
-                deviceTypeMatches(test, isMobile)
-            );
-        });
-    }
+        return (
+            isOn &&
+            audienceMatches(showSupportMessaging, userCohort) &&
+            inCountryGroups(countryCode, locations) &&
+            userIsInTest(test, targeting.mvtId) &&
+            deviceTypeMatches(test, isMobile) &&
+            purchaseMatches(test, purchaseInfo)
+        );
+    });
 
     // Failed to find a matching test, or the matching test has an empty variants Array
     if (!selectedTest || !selectedTest.variants.length) {

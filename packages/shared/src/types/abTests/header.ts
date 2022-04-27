@@ -15,6 +15,10 @@ export interface HeaderTest extends Test<HeaderVariant> {
     isOn: boolean;
     locations: CountryGroupId[];
     userCohort: UserCohort;
+    purchaseInfo?: {
+        userType: ('new' | 'guest' | 'current')[];
+        productType: ('RECURRING_CONTRIBUTION' | 'DIGITAL_SUBSCRIPTION' | 'PRINT_SUBSCRIPTION')[];
+    };
     variants: HeaderVariant[];
 }
 
