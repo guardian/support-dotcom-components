@@ -48,9 +48,11 @@ export const createBannerBodyCopy = (
     if (numberOfNonFinalParagraphs < 0) {
         return (
             <div css={styles.paragraphs}>
-                <p>
-                    <span css={renderStyles.highlightedText}>{highlightedText}</span>
-                </p>
+                {highlightedText && (
+                    <p>
+                        <span css={renderStyles.highlightedText}>{highlightedText}</span>
+                    </p>
+                )}
             </div>
         );
     }
@@ -63,7 +65,10 @@ export const createBannerBodyCopy = (
                 }
                 return (
                     <p key={index}>
-                        {p} <span css={renderStyles.highlightedText}>{highlightedText}</span>
+                        {p}{' '}
+                        {highlightedText && (
+                            <span css={renderStyles.highlightedText}>{highlightedText}</span>
+                        )}
                     </p>
                 );
             })}
