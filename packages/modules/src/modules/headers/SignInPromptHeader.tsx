@@ -61,13 +61,10 @@ const visible = css`
     opacity: 1;
 `;
 
-// TODO: find alternative to hardcoding benefits
-const BENEFITS = ['Ad free', 'Fewer interruptions', 'Newsletters and comments'];
-
 // TODO: fix conflict between IDE prettier and ESLint prettier
 // eslint-disable-next-line prettier/prettier
 const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
-    const { heading, subheading, primaryCta } = props.content;
+    const { heading, subheading, primaryCta, benefits } = props.content;
     const [benefitIndex, setBenefitIndex] = useState(-1);
     const [benefitVisible, setBenefitVisible] = useState<boolean>(false);
     const [dotsVisible, setDotsVisible] = useState(() => {
@@ -75,7 +72,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
         initialState.fill(false);
         return initialState;
     });
-    const benefitText = useMemo(() => BENEFITS[benefitIndex], [benefitIndex]);
+    const benefitText = useMemo(() => benefits?.[benefitIndex] ?? '', [benefitIndex]);
     const benefitCss = [benefitStyles, fadeable];
 
     if (benefitVisible) {
@@ -89,6 +86,10 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
         const queueAnimation = (callback: () => void, ms: number) => {
             animationSteps.push({ callback, ms });
         };
+
+        if (!benefits?.length) {
+            return;
+        }
 
         if (benefitIndex === -1) {
             setBenefitIndex(0);
@@ -118,7 +119,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
             setBenefitVisible(true);
         }, FADE_TIME_MS + ANIMATION_DELAY_MS);
 
-        if (benefitIndex < BENEFITS.length - 1) {
+        if (benefitIndex < benefits.length - 1) {
             // Fade out benefit text
             queueAnimation(() => {
                 setBenefitVisible(false);

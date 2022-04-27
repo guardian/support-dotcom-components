@@ -14,8 +14,7 @@ const Template: ComponentStory<typeof SignInPromptHeader> = props => (
     <SignInPromptHeader {...props} />
 );
 
-export const DefaultHeader = Template.bind({});
-DefaultHeader.args = {
+const baseArgs = {
     content: {
         heading: 'Thank you for subscribing',
         subheading: 'Enjoy the Guardian',
@@ -23,6 +22,7 @@ DefaultHeader.args = {
             baseUrl: 'https://profile.theguardian.com/register',
             text: 'Complete registration',
         },
+        benefits: ['Ad free', 'Fewer interruptions', 'Newsletters and comments'],
     },
     mobileContent: {
         heading: '',
@@ -37,6 +37,25 @@ DefaultHeader.args = {
         abTestVariant: 'variant-name',
         campaignCode: 'campaign-code',
         componentType: 'ACQUISITIONS_HEADER',
-    },
+    } as const,
     countryCode: 'GB',
+};
+
+export const DefaultHeader = Template.bind({});
+DefaultHeader.args = baseArgs;
+
+export const ManyBenefits = Template.bind({});
+ManyBenefits.args = {
+    ...baseArgs,
+    content: {
+        ...baseArgs.content,
+        benefits: ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'],
+    },
+};
+
+export const WithoutBenefits = Template.bind({});
+const { benefits, ...contentWithoutBenefits } = baseArgs.content;
+WithoutBenefits.args = {
+    ...baseArgs,
+    content: contentWithoutBenefits,
 };

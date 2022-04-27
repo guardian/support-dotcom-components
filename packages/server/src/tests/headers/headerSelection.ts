@@ -137,8 +137,11 @@ const registerCTA = {
     text: 'Complete registration',
 };
 
-const signInPromptNewSubscriberTest: HeaderTest = {
-    name: 'header-sign-in-prompt-new-subscriber',
+const baseBenefits = ['Fewer interruptions', 'Newsletters and comments'];
+const digiSubBenefits = ['Ad free', ...baseBenefits];
+
+const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
+    name: 'header-sign-in-prompt-new-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
         productType: ['DIGITAL_SUBSCRIPTION'],
@@ -150,13 +153,33 @@ const signInPromptNewSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: registerCTA,
+                benefits: digiSubBenefits,
             },
         },
     ],
 };
 
-const signInPromptNewSupporterTest: HeaderTest = {
-    name: 'header-sign-in-prompt-new-supporter',
+const signInPromptNewUserPrintSubscriberTest: HeaderTest = {
+    name: 'header-sign-in-prompt-new-user-print-subscriber',
+    ...baseSignInPromptTest,
+    purchaseInfo: {
+        productType: ['PRINT_SUBSCRIPTION'],
+        userType: ['new', 'guest'],
+    },
+    variants: [
+        {
+            ...baseSignInPromptVariant,
+            content: {
+                ...subscriberContent,
+                primaryCta: registerCTA,
+                benefits: baseBenefits,
+            },
+        },
+    ],
+};
+
+const signInPromptNewUserSupporterTest: HeaderTest = {
+    name: 'header-sign-in-prompt-new-user-supporter',
     ...baseSignInPromptTest,
     purchaseInfo: {
         productType: ['RECURRING_CONTRIBUTION'],
@@ -168,13 +191,14 @@ const signInPromptNewSupporterTest: HeaderTest = {
             content: {
                 ...supporterContent,
                 primaryCta: registerCTA,
+                benefits: baseBenefits,
             },
         },
     ],
 };
 
-const signInPromptExistingSubscriberTest: HeaderTest = {
-    name: 'header-sign-in-prompt-existing-subscriber',
+const signInPromptExistingUserDigitalSubscriberTest: HeaderTest = {
+    name: 'header-sign-in-prompt-existing-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
         productType: ['DIGITAL_SUBSCRIPTION'],
@@ -186,13 +210,33 @@ const signInPromptExistingSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: signInCTA,
+                benefits: digiSubBenefits,
             },
         },
     ],
 };
 
-const signInPromptExistingSupporterTest: HeaderTest = {
-    name: 'header-sign-in-prompt-existing-supporter',
+const signInPromptExistingUserPrintSubscriberTest: HeaderTest = {
+    name: 'header-sign-in-prompt-existing-user-print-subscriber',
+    ...baseSignInPromptTest,
+    purchaseInfo: {
+        productType: ['PRINT_SUBSCRIPTION'],
+        userType: ['current'],
+    },
+    variants: [
+        {
+            ...baseSignInPromptVariant,
+            content: {
+                ...subscriberContent,
+                primaryCta: signInCTA,
+                benefits: baseBenefits,
+            },
+        },
+    ],
+};
+
+const signInPromptExistingUserSupporterTest: HeaderTest = {
+    name: 'header-sign-in-prompt-existing-user-supporter',
     ...baseSignInPromptTest,
     purchaseInfo: {
         productType: ['RECURRING_CONTRIBUTION'],
@@ -204,6 +248,7 @@ const signInPromptExistingSupporterTest: HeaderTest = {
             content: {
                 ...supporterContent,
                 primaryCta: signInCTA,
+                benefits: baseBenefits,
             },
         },
     ],
@@ -213,10 +258,12 @@ const hardcodedTests = [
     supportersTest,
     nonSupportersTestUK,
     nonSupportersTestNonUK,
-    signInPromptNewSubscriberTest,
-    signInPromptNewSupporterTest,
-    signInPromptExistingSubscriberTest,
-    signInPromptExistingSupporterTest,
+    signInPromptNewUserDigitalSubscriberTest,
+    signInPromptNewUserPrintSubscriberTest,
+    signInPromptNewUserSupporterTest,
+    signInPromptExistingUserDigitalSubscriberTest,
+    signInPromptExistingUserPrintSubscriberTest,
+    signInPromptExistingUserSupporterTest,
 ];
 
 const purchaseMatches = (test: HeaderTest, purchaseInfo: HeaderTargeting['purchaseInfo']) => {
