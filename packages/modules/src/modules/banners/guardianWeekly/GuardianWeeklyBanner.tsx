@@ -15,6 +15,7 @@ import {
     logoContainer,
     paragraph,
     siteMessage,
+    temp,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
 import { BannerText } from '../common/BannerText';
@@ -75,7 +76,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => (
         priority="tertiary"
         hideLabel
     >
-        Close
+        Close this banner
     </Button>
 );
 
@@ -121,6 +122,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                                 href={primaryCta?.ctaUrl}
                                                 data-link-name={ctaComponentId}
                                                 onClick={onCtaClick}
+                                                tabIndex={0}
                                             >
                                                 {primaryCta?.ctaText || defaultCta}
                                             </LinkButton>
