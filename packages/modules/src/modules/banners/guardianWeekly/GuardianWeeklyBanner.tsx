@@ -15,7 +15,6 @@ import {
     logoContainer,
     paragraph,
     siteMessage,
-    temp,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
 import { BannerText } from '../common/BannerText';
