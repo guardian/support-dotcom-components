@@ -162,43 +162,65 @@ export const ContributionsEpicButtons = ({
         <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
             {!isReminderActive && (
                 <>
-                    <PrimaryCtaButton
-                        cta={getCta(cta)}
-                        tracking={tracking}
-                        numArticles={numArticles}
-                        countryCode={countryCode}
-                    />
-
-                    {secondaryCta?.type === SecondaryCtaType.Custom &&
-                    secondaryCta.cta.baseUrl &&
-                    secondaryCta.cta.text ? (
-                        <SecondaryCtaButton
-                            cta={secondaryCta.cta}
-                            tracking={tracking}
-                            countryCode={countryCode}
-                            numArticles={numArticles}
+                    <div
+                        css={css`
+                            width: 100%;
+                        `}
+                    >
+                        <iframe
+                            src="https://www.theguardian.com/email/form/plaintone/4151"
+                            // height="52px"
+                            data-form-title="Sign up for Guardian Today"
+                            data-form-description="The biggest stories examined and diverse, independent views - Guardian Today delivers the best of our journalism"
+                            data-form-campaign-code="UK_signup_page"
+                            scrolling="no"
+                            seamless
+                            frameBorder="0"
+                            className="iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article"
+                            data-form-success-desc="We will send you our picks of the most important headlines"
+                            css={css`
+                                width: 100%;
+                                min-height: 60px;
+                            `}
                         />
-                    ) : (
-                        secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
-                        showReminderFields &&
-                        !hasSetReminder() && (
-                            <div css={buttonMargins}>
-                                <Button onClickAction={openReminder} isTertiary>
-                                    {showReminderFields.reminderCta}
-                                </Button>
-                            </div>
-                        )
-                    )}
+                    </div>
+                    {/*<PrimaryCtaButton*/}
+                    {/*    cta={getCta(cta)}*/}
+                    {/*    tracking={tracking}*/}
+                    {/*    numArticles={numArticles}*/}
+                    {/*    countryCode={countryCode}*/}
+                    {/*/>*/}
 
-                    {hasSupportCta && (
-                        <img
-                            width={422}
-                            height={60}
-                            src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
-                            alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                            css={paymentImageStyles}
-                        />
-                    )}
+                    {/*{secondaryCta?.type === SecondaryCtaType.Custom &&*/}
+                    {/*secondaryCta.cta.baseUrl &&*/}
+                    {/*secondaryCta.cta.text ? (*/}
+                    {/*    <SecondaryCtaButton*/}
+                    {/*        cta={secondaryCta.cta}*/}
+                    {/*        tracking={tracking}*/}
+                    {/*        countryCode={countryCode}*/}
+                    {/*        numArticles={numArticles}*/}
+                    {/*    />*/}
+                    {/*) : (*/}
+                    {/*    secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&*/}
+                    {/*    showReminderFields &&*/}
+                    {/*    !hasSetReminder() && (*/}
+                    {/*        <div css={buttonMargins}>*/}
+                    {/*            <Button onClickAction={openReminder} isTertiary>*/}
+                    {/*                {showReminderFields.reminderCta}*/}
+                    {/*            </Button>*/}
+                    {/*        </div>*/}
+                    {/*    )*/}
+                    {/*)}*/}
+
+                    {/*{hasSupportCta && (*/}
+                    {/*    <img*/}
+                    {/*        width={422}*/}
+                    {/*        height={60}*/}
+                    {/*        src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"*/}
+                    {/*        alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"*/}
+                    {/*        css={paymentImageStyles}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                 </>
             )}
         </div>
