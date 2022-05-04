@@ -110,7 +110,7 @@ const header_supporter: HeaderTest = {
 
 const header_new_supporter: HeaderTest = {
     name: 'header-new-supporter',
-    userCohort: 'AllExistingSupporters',
+    userCohort: 'Everyone',
     isOn: true,
     locations: [
         'AUDCountries',
@@ -139,7 +139,7 @@ const header_new_supporter: HeaderTest = {
 
 const header_existing_subscriber: HeaderTest = {
     name: 'header-existing-subscriber',
-    userCohort: 'AllExistingSupporters',
+    userCohort: 'Everyone',
     isOn: true,
     locations: [
         'AUDCountries',
@@ -203,6 +203,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_1: HeaderTestSelection | null = selectBestTest(
@@ -233,6 +234,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck',
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_2: HeaderTestSelection | null = selectBestTest(
@@ -263,6 +265,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_3: HeaderTestSelection | null = selectBestTest(
@@ -293,6 +296,7 @@ describe('selectBestTest', () => {
             countryCode: 'im',
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_4: HeaderTestSelection | null = selectBestTest(
@@ -324,6 +328,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_5: HeaderTestSelection | null = selectBestTest(
@@ -359,6 +364,7 @@ describe('selectBestTest', () => {
                 productType: 'RECURRING_CONTRIBUTION',
                 userType: 'new',
             },
+            isSignedIn: false,
         };
 
         const result_6 = selectBestTest(mockTargetingObject_6, false, mockTests);
@@ -390,6 +396,7 @@ describe('selectBestTest', () => {
                 productType: 'DIGITAL_SUBSCRIPTION',
                 userType: 'current',
             },
+            isSignedIn: false,
         };
 
         const result_7 = selectBestTest(mockTargetingObject_7, false, mockTests);
@@ -407,5 +414,37 @@ describe('selectBestTest', () => {
         expect(result_7_test.name).toBe('header-existing-subscriber');
         expect(result_7_variant).toHaveProperty('name');
         expect(result_7_variant.name).toBe('control');
+    });
+
+    it('It should ignore purchase information if user is signed in', () => {
+        // Mock targeting data: recent supporter, new user, now signed in
+        const mockTargetingObject_8: HeaderTargeting = {
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
+            purchaseInfo: {
+                productType: 'RECURRING_CONTRIBUTION',
+                userType: 'new',
+            },
+            isSignedIn: true,
+        };
+
+        const result_8 = selectBestTest(mockTargetingObject_8, false, mockTests);
+        const result_8_test: HeaderTest | NullReturn = result_8
+            ? result_8.test
+            : testHasReturnedNull;
+        const result_8_variant: HeaderVariant | NullReturn = result_8
+            ? result_8.variant
+            : variantHasReturnedNull;
+        expect(result_8).toBeDefined();
+        expect(result_8).toHaveProperty('test');
+        expect(result_8).toHaveProperty('variant');
+        expect(result_8).toHaveProperty('modulePathBuilder');
+        expect(result_8_test).toHaveProperty('name');
+        expect(result_8_test.name).toBe('header-supporter');
+        expect(result_8_variant).toHaveProperty('name');
+        expect(result_8_variant.name).toBe('control');
     });
 });

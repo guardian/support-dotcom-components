@@ -16,6 +16,7 @@ export interface HeaderTargeting {
     lastOneOffContributionDate?: string;
     numArticles?: number;
     purchaseInfo?: purchaseInfo;
+    isSignedIn: boolean;
 }
 
 export type HeaderPayload = {

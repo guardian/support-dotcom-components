@@ -19,6 +19,7 @@ export interface HeaderTest extends Test<HeaderVariant> {
         userType: ('new' | 'guest' | 'current')[];
         productType: ('RECURRING_CONTRIBUTION' | 'DIGITAL_SUBSCRIPTION' | 'PRINT_SUBSCRIPTION')[];
     };
+    isSignedIn?: boolean;
     variants: HeaderVariant[];
 }
 

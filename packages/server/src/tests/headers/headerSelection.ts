@@ -98,7 +98,7 @@ const supportersTest: HeaderTest = {
 };
 
 const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
-    userCohort: 'AllExistingSupporters',
+    userCohort: 'Everyone',
     isOn: true,
     locations: [
         'AUDCountries',
@@ -109,6 +109,7 @@ const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
         'UnitedStates',
         'International',
     ],
+    isSignedIn: false,
 };
 
 const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
@@ -266,10 +267,14 @@ const hardcodedTests = [
     signInPromptExistingUserSupporterTest,
 ];
 
-const purchaseMatches = (test: HeaderTest, purchaseInfo: HeaderTargeting['purchaseInfo']) => {
+const purchaseMatches = (
+    test: HeaderTest,
+    purchaseInfo: HeaderTargeting['purchaseInfo'],
+    isSignedIn: boolean,
+) => {
     const { purchaseInfo: testPurchaseInfo } = test;
 
-    if (!purchaseInfo) {
+    if (isSignedIn || !purchaseInfo) {
         return true;
     }
 
@@ -286,7 +291,7 @@ export const selectBestTest = (
     isMobile: boolean,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
-    const { showSupportMessaging, countryCode, purchaseInfo } = targeting;
+    const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
 
     const selectedTest = allTests.find(test => {
         const { isOn, userCohort, locations } = test;
@@ -297,7 +302,7 @@ export const selectBestTest = (
             inCountryGroups(countryCode, locations) &&
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
-            purchaseMatches(test, purchaseInfo)
+            purchaseMatches(test, purchaseInfo, isSignedIn)
         );
     });
 
