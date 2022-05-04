@@ -145,6 +145,17 @@ const AusElectionBanner = bannerWrapper(
         highlightedTextSettings: {
             textColour: neutral[0],
         },
+        setReminderCtaSettings: {
+            default: {
+                backgroundColour: '#e4e4e3',
+                textColour: neutral[0],
+                border: `1px solid ${neutral[0]}`,
+            },
+            hover: {
+                backgroundColour: 'white',
+                textColour: neutral[0],
+            },
+        },
         imageSettings: {
             mainUrl:
                 'https://i.guim.co.uk/img/media/ad0166d7724eb2dfc6aa16fea50fe41c02324eb8/0_0_281_131/281.png?quality=85&s=7639d39b1492f5e2f4883496fcc5740c',
@@ -170,4 +181,18 @@ const AusElectionTemplate: Story<BannerProps> = (props: BannerProps) => (
 );
 
 export const AusElection = AusElectionTemplate.bind({});
-AusElection.args = GlobalNY.args;
+AusElection.args = {
+    ...GlobalNY.args,
+    content: {
+        ...GlobalNY.args.content,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    mobileContent: {
+        ...GlobalNY.args.mobileContent,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+};

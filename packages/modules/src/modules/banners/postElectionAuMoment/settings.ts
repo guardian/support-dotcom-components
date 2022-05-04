@@ -38,4 +38,14 @@ export const settings: Omit<BannerTemplateSettings, 'imageSettings'> = {
         textColour: neutral[0],
         highlightColour: neutral[100],
     },
+    setReminderCtaSettings: {
+        default: {
+            backgroundColour: '#ffe500',
+            textColour: neutral[7],
+        },
+        hover: {
+            backgroundColour: '#e4e4e3',
+            textColour: neutral[7],
+        },
+    },
 };
