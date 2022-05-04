@@ -34,8 +34,11 @@ WithoutArticleCount.args = {
         },
     },
     mobileContent: {
-        messageText:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+        // messageText:
+        //     'Lorem ipsum dolor sit amet, %%ARTICLE_COUNT%% consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+        paragraphs: [
+            'Lorem ipsum dolor sit amet, %%ARTICLE_COUNT%% consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+        ],
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {

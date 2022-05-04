@@ -22,5 +22,6 @@ export interface BannerTemplateSettings {
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
     highlightedTextSettings: HighlightedTextSettings;
+    setReminderCtaSettings?: CtaSettings;
     imageSettings: Image;
 }
