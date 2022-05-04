@@ -46,17 +46,9 @@ const GlobalNYBanner = bannerWrapper(
             },
         },
         imageSetings: {
-            mobileUrl:
+            mainUrl:
                 'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
-            tabletUrl:
-                'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
-            desktopUrl:
-                'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
-            leftColUrl:
-                'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
-            wideUrl:
-                'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
-            alt: 'Guardian logo being held up by supporters of the Guardian',
+            altText: 'Guardian logo being held up by supporters of the Guardian',
         },
     }),
     'global-new-year-banner',
@@ -148,6 +140,8 @@ const AusElectionBanner = bannerWrapper(
             },
         },
         imageSetings: {
+            mainUrl:
+                'https://i.guim.co.uk/img/media/ad0166d7724eb2dfc6aa16fea50fe41c02324eb8/0_0_281_131/281.png?quality=85&s=7639d39b1492f5e2f4883496fcc5740c',
             mobileUrl:
                 'https://i.guim.co.uk/img/media/ad0166d7724eb2dfc6aa16fea50fe41c02324eb8/0_0_281_131/281.png?quality=85&s=7639d39b1492f5e2f4883496fcc5740c',
             tabletUrl:
@@ -158,7 +152,7 @@ const AusElectionBanner = bannerWrapper(
                 'https://i.guim.co.uk/img/media/4fa98ca4b70ee9b21b74d16f2586b5d6c513297f/0_195_2836_1961/2000.png?quality=85&s=0ce3473523516664ed9a7f9cde095073',
             wideUrl:
                 'https://i.guim.co.uk/img/media/4fa98ca4b70ee9b21b74d16f2586b5d6c513297f/0_319_2836_1837/2000.png?quality=85&s=3ef36bd5ab569f310b0f975372f54d29',
-            alt:
+            altText:
                 'Head shots of Anthony Albanese, leader of the Australian Labor Party, and Scott Morrison, current Prime Minister and leader of the Liberal Party of Australia, who are running for the office of Prime Minister in the Australian federal election, to be held on 21 May 2022.',
         },
     }),

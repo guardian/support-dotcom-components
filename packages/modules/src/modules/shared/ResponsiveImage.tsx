@@ -1,17 +1,17 @@
 import React, { ReactElement } from 'react';
 
-type Image = {
+export type ImageAttrs = {
     url: string;
     media: string;
     alt?: string;
 };
 
 type ResponsiveImageProps = {
-    images: Array<Image>;
-    baseImage: Image;
+    images: Array<ImageAttrs>;
+    baseImage: ImageAttrs;
 };
 
-function createSource(image: Image): ReactElement {
+function createSource(image: ImageAttrs): ReactElement {
     return <source media={image.media} srcSet={image.url} key={image.url} />;
 }
 

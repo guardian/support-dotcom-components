@@ -1,3 +1,5 @@
+import { Image } from '@sdc/shared/src/types';
+
 export type CtaStateSettings = {
     textColour: string;
     backgroundColour: string;
@@ -9,19 +11,10 @@ export interface CtaSettings {
     hover: CtaStateSettings;
 }
 
-export interface ImageSettings {
-    mobileUrl: string;
-    tabletUrl?: string;
-    desktopUrl?: string;
-    leftColUrl?: string;
-    wideUrl?: string;
-    alt: string;
-}
-
 export interface BannerTemplateSettings {
     backgroundColour: string;
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
-    imageSetings: ImageSettings;
+    imageSetings: Image;
 }

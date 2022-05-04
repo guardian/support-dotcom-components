@@ -1,25 +1,28 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { ImageSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
-import { Image, ResponsiveImage } from '../../../shared/ResponsiveImage';
+import { ImageAttrs, ResponsiveImage } from '../../../shared/ResponsiveImage';
+import { Image } from '@sdc/shared/src/types';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerVisualProps {
-    settings: ImageSettings;
+    settings: Image;
 }
 
 export function MomentTemplateBannerVisual({
     settings,
 }: MomentTemplateBannerVisualProps): JSX.Element {
-    const baseImage: Image = {
-        url: settings.mobileUrl,
-        media: '(max-width: 739px)',
-        alt: settings.alt,
+    const baseImage: ImageAttrs = {
+        url: settings.mainUrl,
+        media: '',
+        alt: settings.altText,
     };
 
-    const images: Image[] = [baseImage];
+    const images: ImageAttrs[] = [];
+    if (settings.mobileUrl) {
+        images.push({ url: settings.mobileUrl, media: '(max-width: 739px)' });
+    }
     if (settings.tabletUrl) {
         images.push({ url: settings.tabletUrl, media: '(max-width: 979px)' });
     }

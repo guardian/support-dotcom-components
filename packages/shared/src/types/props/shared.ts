@@ -133,11 +133,21 @@ export const trackingSchema = z.object({
 
 export interface Image {
     mainUrl: string;
+    mobileUrl?: string;
+    tabletUrl?: string;
+    desktopUrl?: string;
+    leftColUrl?: string;
+    wideUrl?: string;
     altText: string;
 }
 
 export const imageSchema = z.object({
     mainUrl: z.string(),
+    mobileUrl: z.string().optional(),
+    tabletUrl: z.string().optional(),
+    desktopUrl: z.string().optional(),
+    leftColUrl: z.string().optional(),
+    wideUrl: z.string().optional(),
     altText: z.string(),
 });
 
