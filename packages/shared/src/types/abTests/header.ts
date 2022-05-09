@@ -17,7 +17,7 @@ export interface HeaderTest extends Test<HeaderVariant> {
     userCohort: UserCohort;
     purchaseInfo?: {
         userType: ('new' | 'guest' | 'current')[];
-        productType: ('RECURRING_CONTRIBUTION' | 'DIGITAL_SUBSCRIPTION' | 'PRINT_SUBSCRIPTION')[];
+        product: ('RECURRING_CONTRIBUTION' | 'DIGITAL_SUBSCRIPTION' | 'PRINT_SUBSCRIPTION')[];
     };
     isSignedIn?: boolean;
     variants: HeaderVariant[];

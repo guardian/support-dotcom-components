@@ -145,7 +145,7 @@ const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        productType: ['DIGITAL_SUBSCRIPTION'],
+        product: ['DIGITAL_SUBSCRIPTION'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -164,7 +164,7 @@ const signInPromptNewUserPrintSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-print-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        productType: ['PRINT_SUBSCRIPTION'],
+        product: ['PRINT_SUBSCRIPTION'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -183,7 +183,7 @@ const signInPromptNewUserSupporterTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-supporter',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        productType: ['RECURRING_CONTRIBUTION'],
+        product: ['RECURRING_CONTRIBUTION'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -202,7 +202,7 @@ const signInPromptExistingUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        productType: ['DIGITAL_SUBSCRIPTION'],
+        product: ['DIGITAL_SUBSCRIPTION'],
         userType: ['current'],
     },
     variants: [
@@ -221,7 +221,7 @@ const signInPromptExistingUserPrintSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-print-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        productType: ['PRINT_SUBSCRIPTION'],
+        product: ['PRINT_SUBSCRIPTION'],
         userType: ['current'],
     },
     variants: [
@@ -240,7 +240,7 @@ const signInPromptExistingUserSupporterTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-supporter',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        productType: ['RECURRING_CONTRIBUTION'],
+        product: ['RECURRING_CONTRIBUTION'],
         userType: ['current'],
     },
     variants: [
@@ -278,8 +278,8 @@ const purchaseMatches = (
         return true;
     }
 
-    const { productType, userType } = purchaseInfo;
-    const productValid = productType && testPurchaseInfo?.productType?.includes(productType);
+    const { product, userType } = purchaseInfo;
+    const productValid = product && testPurchaseInfo?.product?.includes(product);
     const userValid = userType && testPurchaseInfo?.userType?.includes(userType);
 
     return productValid && userValid;

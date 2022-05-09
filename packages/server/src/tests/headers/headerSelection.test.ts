@@ -122,7 +122,7 @@ const header_new_supporter: HeaderTest = {
         'International',
     ],
     purchaseInfo: {
-        productType: ['RECURRING_CONTRIBUTION'],
+        product: ['RECURRING_CONTRIBUTION'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -151,7 +151,7 @@ const header_existing_subscriber: HeaderTest = {
         'International',
     ],
     purchaseInfo: {
-        productType: ['DIGITAL_SUBSCRIPTION'],
+        product: ['DIGITAL_SUBSCRIPTION'],
         userType: ['current'],
     },
     variants: [
@@ -361,7 +361,7 @@ describe('selectBestTest', () => {
             modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
-                productType: 'RECURRING_CONTRIBUTION',
+                product: 'RECURRING_CONTRIBUTION',
                 userType: 'new',
             },
             isSignedIn: false,
@@ -393,7 +393,7 @@ describe('selectBestTest', () => {
             modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
-                productType: 'DIGITAL_SUBSCRIPTION',
+                product: 'DIGITAL_SUBSCRIPTION',
                 userType: 'current',
             },
             isSignedIn: false,
@@ -425,7 +425,7 @@ describe('selectBestTest', () => {
             modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
-                productType: 'RECURRING_CONTRIBUTION',
+                product: 'RECURRING_CONTRIBUTION',
                 userType: 'new',
             },
             isSignedIn: true,
