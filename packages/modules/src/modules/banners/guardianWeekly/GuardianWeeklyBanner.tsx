@@ -7,6 +7,7 @@ import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
+    closeButtonStyles,
     copyColumn,
     heading,
     iconAndClosePosition,
@@ -68,6 +69,7 @@ type ButtonPropTypes = {
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
     <Button
+        css={closeButtonStyles}
         data-link-name={closeComponentId}
         onClick={props.onClick}
         icon={<SvgCross />}
