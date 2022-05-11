@@ -14,6 +14,7 @@ import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
+import { NewsletterSignup } from '@sdc/shared/dist/types';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -97,6 +98,27 @@ const SecondaryCtaButton = ({
     );
 };
 
+const NewsletterSignup = ({ url }: NewsletterSignup): JSX.Element => {
+    return (
+        <div
+            css={css`
+                width: 100%;
+            `}
+        >
+            <iframe
+                src={url}
+                scrolling="no"
+                seamless
+                frameBorder="0"
+                css={css`
+                    width: 100%;
+                    min-height: 60px;
+                `}
+            />
+        </div>
+    );
+};
+
 interface ContributionsEpicButtonsProps {
     variant: EpicVariant;
     tracking: Tracking;
@@ -162,28 +184,6 @@ export const ContributionsEpicButtons = ({
         <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
             {!isReminderActive && (
                 <>
-                    <div
-                        css={css`
-                            width: 100%;
-                        `}
-                    >
-                        <iframe
-                            src="https://www.theguardian.com/email/form/plaintone/4151"
-                            // height="52px"
-                            data-form-title="Sign up for Guardian Today"
-                            data-form-description="The biggest stories examined and diverse, independent views - Guardian Today delivers the best of our journalism"
-                            data-form-campaign-code="UK_signup_page"
-                            scrolling="no"
-                            seamless
-                            frameBorder="0"
-                            className="iframed--overflow-hidden email-sub__iframe js-email-sub__iframe js-email-sub__iframe--article"
-                            data-form-success-desc="We will send you our picks of the most important headlines"
-                            css={css`
-                                width: 100%;
-                                min-height: 60px;
-                            `}
-                        />
-                    </div>
                     {/*<PrimaryCtaButton*/}
                     {/*    cta={getCta(cta)}*/}
                     {/*    tracking={tracking}*/}
