@@ -48,7 +48,6 @@ export const CA_NZ_DIGISUB_CONTENT = buildDigisubContent(
     DEFAULT_HIGHLIGHTED_TEXT,
 );
 
-// TODO content
 export const DIGISUB_CONTENT: { [key in CountryGroupId]: BannerContent } = {
     GBPCountries: UK_DIGISUB_CONTENT,
     UnitedStates: US_ROW_DIGISUB_CONTENT,

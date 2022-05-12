@@ -9,7 +9,7 @@ import {
 import { countryCodeToCountryGroupId, inCountryGroups } from '@sdc/shared/dist/lib';
 import { UK_DIGISUB_CONTENT, DIGISUB_CONTENT } from './propensityModelTestDigisubCopy';
 import { fetchHighPropensityIds, isInPropensityTest } from './propensityModelTestData';
-import { EU_GW_CONTENT, GW_CONTENT } from './propensityModelTestGWCopy';
+import { GW_CONTENT } from './propensityModelTestGWCopy';
 
 /**
  * This file defines a banner AB test based on ML propensity model data.
@@ -39,6 +39,8 @@ export const propensityModelBannerTest: BannerTestGenerator = () => {
         {
             name: PROPENSITY_MODEL_TEST_NAME,
             bannerChannel: 'subscriptions',
+            // Exclude AU/NZ, which has an offer
+            locations: ['GBPCountries', 'UnitedStates', 'EURCountries', 'International', 'Canada'],
             isHardcoded: true,
             userCohort: 'AllNonSupporters',
             canRun: () => true,
@@ -55,7 +57,7 @@ export const propensityModelBannerTest: BannerTestGenerator = () => {
                     name: VARIANT_NAME,
                     modulePathBuilder: guardianWeekly.endpointPathBuilder,
                     moduleName: BannerTemplate.GuardianWeeklyBanner,
-                    bannerContent: EU_GW_CONTENT,
+                    bannerContent: GW_CONTENT,
                     componentType: channelName,
                 },
             ],
@@ -63,11 +65,11 @@ export const propensityModelBannerTest: BannerTestGenerator = () => {
     ]);
 };
 
-const getGWBanner = (variantName: string, targeting: BannerTargeting): BannerVariant => ({
+const getGWBanner = (variantName: string): BannerVariant => ({
     name: variantName,
     modulePathBuilder: guardianWeekly.endpointPathBuilder,
     moduleName: BannerTemplate.GuardianWeeklyBanner,
-    bannerContent: GW_CONTENT[countryCodeToCountryGroupId(targeting.countryCode.toUpperCase())],
+    bannerContent: GW_CONTENT,
     componentType: channelName,
 });
 
@@ -83,13 +85,13 @@ const getDSBanner = (variantName: string, targeting: BannerTargeting): BannerVar
 const getControlBanner = (variantName: string, targeting: BannerTargeting): BannerVariant =>
     // are they in Europe?
     inCountryGroups(targeting.countryCode, ['EURCountries'])
-        ? getGWBanner(variantName, targeting)
+        ? getGWBanner(variantName)
         : getDSBanner(variantName, targeting);
 
 const getVariantBanner = (variantName: string, targeting: BannerTargeting): BannerVariant =>
     // are they high-propensity?
     targeting.browserId && isInPropensityTest(targeting.browserId)
-        ? getGWBanner(variantName, targeting)
+        ? getGWBanner(variantName)
         : getDSBanner(variantName, targeting);
 
 // This test is unusual because we decide what to show *after* assigning the browser to a variant
