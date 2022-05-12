@@ -36,7 +36,7 @@ export function getMomentTemplateBanner(
                         </div>
 
                         <div css={styles.visualContainer}>
-                            <MomentTemplateBannerVisual settings={templateSettings.imageSetings} />
+                            <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                         </div>
 
                         <div css={styles.contentContainer}>

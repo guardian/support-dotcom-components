@@ -16,5 +16,5 @@ export interface BannerTemplateSettings {
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
-    imageSetings: Image;
+    imageSettings: Image;
 }
