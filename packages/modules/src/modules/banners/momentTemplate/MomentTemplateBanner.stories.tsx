@@ -45,7 +45,7 @@ const GlobalNYBanner = bannerWrapper(
                 textColour: neutral[0],
             },
         },
-        imageSetings: {
+        imageSettings: {
             mainUrl:
                 'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
             altText: 'Guardian logo being held up by supporters of the Guardian',
@@ -139,7 +139,7 @@ const AusElectionBanner = bannerWrapper(
                 textColour: neutral[0],
             },
         },
-        imageSetings: {
+        imageSettings: {
             mainUrl:
                 'https://i.guim.co.uk/img/media/ad0166d7724eb2dfc6aa16fea50fe41c02324eb8/0_0_281_131/281.png?quality=85&s=7639d39b1492f5e2f4883496fcc5740c',
             mobileUrl:

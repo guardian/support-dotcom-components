@@ -45,7 +45,6 @@ export function MomentTemplateBannerCtas({
                             ctaUrl={mobileCtas.primary.ctaUrl}
                             ctaSettings={primaryCtaSettings}
                             onClick={onPrimaryCtaClick}
-                            size="small"
                         />
                     </Hide>
                 )}
@@ -57,7 +56,6 @@ export function MomentTemplateBannerCtas({
                             ctaUrl={desktopCtas.primary.ctaUrl}
                             ctaSettings={primaryCtaSettings}
                             onClick={onPrimaryCtaClick}
-                            size="default"
                         />
                     </Hide>
                 )}
@@ -71,7 +69,6 @@ export function MomentTemplateBannerCtas({
                             ctaUrl={mobileCtas.secondary.cta.ctaUrl}
                             ctaSettings={secondaryCtaSettings}
                             onClick={onSecondaryCtaClick}
-                            size="small"
                         />
                     </Hide>
                 )}
@@ -83,7 +80,6 @@ export function MomentTemplateBannerCtas({
                             ctaUrl={desktopCtas.secondary.cta.ctaUrl}
                             ctaSettings={secondaryCtaSettings}
                             onClick={onSecondaryCtaClick}
-                            size="small"
                         />
                     </Hide>
                 )}
@@ -99,16 +95,15 @@ interface ButtonProps {
     ctaUrl: string;
     ctaSettings: CtaSettings;
     onClick: () => void;
-    size: 'small' | 'default';
 }
 
-function PrimaryButton({ ctaText, ctaUrl, ctaSettings, onClick, size }: ButtonProps) {
+function PrimaryButton({ ctaText, ctaUrl, ctaSettings, onClick }: ButtonProps) {
     return (
         <div>
             <LinkButton
                 href={ctaUrl}
                 onClick={onClick}
-                size={size}
+                size="small"
                 priority="primary"
                 cssOverrides={buttonStyles(ctaSettings)}
             >
@@ -120,12 +115,12 @@ function PrimaryButton({ ctaText, ctaUrl, ctaSettings, onClick, size }: ButtonPr
     );
 }
 
-function SecondaryButton({ ctaText, ctaUrl, ctaSettings, onClick, size }: ButtonProps) {
+function SecondaryButton({ ctaText, ctaUrl, ctaSettings, onClick }: ButtonProps) {
     return (
         <LinkButton
             href={ctaUrl}
             onClick={onClick}
-            size={size}
+            size="small"
             priority="tertiary"
             cssOverrides={buttonStyles(ctaSettings)}
         >
