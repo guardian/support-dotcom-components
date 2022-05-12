@@ -61,8 +61,6 @@ const visible = css`
     opacity: 1;
 `;
 
-// TODO: fix conflict between IDE prettier and ESLint prettier
-// eslint-disable-next-line prettier/prettier
 const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
     const { heading, subheading, primaryCta, benefits } = props.content;
     const [benefitIndex, setBenefitIndex] = useState(-1);
