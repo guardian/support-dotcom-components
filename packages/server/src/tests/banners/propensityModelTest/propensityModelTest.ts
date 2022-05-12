@@ -27,7 +27,7 @@ import { GW_CONTENT } from './propensityModelTestGWCopy';
 
 const channelName: OphanComponentType = 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'; // aka channel 2
 
-export const PROPENSITY_MODEL_TEST_NAME = '2022-04-20_BannerTargeting_GW_DS_Propensity_v2';
+export const PROPENSITY_MODEL_TEST_NAME = '2022-05-13_BannerTargeting_GW_DS_Propensity_v2';
 const CONTROL_NAME = 'control';
 const VARIANT_NAME = 'variant';
 
