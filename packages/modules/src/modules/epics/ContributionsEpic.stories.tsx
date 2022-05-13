@@ -652,12 +652,15 @@ WithoutSupportUrl.args = {
     },
 };
 
-export const WithoutNewsletterSignup = Template.bind({});
-WithoutNewsletterSignup.args = {
+export const WithNewsletterSignup = Template.bind({});
+WithNewsletterSignup.args = {
     variant: {
         ...props.variant,
+        paragraphs: ['Every weekday morning at 7am BST'],
+        highlightedText: undefined,
+        heading: 'Sign up to First Edition, our free daily newsletter',
         newsletterSignup: {
-            url: 'https://www.theguardian.com/email/form/plaintone/4151',
+            url: 'https://www.theguardian.com/email/form/plaintone/morning-briefing',
         },
     },
 };
