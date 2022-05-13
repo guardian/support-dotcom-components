@@ -37,6 +37,7 @@ import { selectHeaderTest } from './tests/header/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { cachedProductPrices } from './productPrices';
+import { newsletterEpicTest } from './tests/epics/newsletterEpicTest';
 
 interface EpicDataResponse {
     data?: {
@@ -110,7 +111,7 @@ const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [];
+const hardcodedEpicTests: EpicTest[] = [newsletterEpicTest];
 
 const getArticleEpicTests = async (
     mvtId: number,
