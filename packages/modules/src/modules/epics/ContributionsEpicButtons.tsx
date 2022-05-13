@@ -14,7 +14,6 @@ import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-import { NewsletterSignup } from '@sdc/shared/dist/types';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -98,7 +97,7 @@ const SecondaryCtaButton = ({
     );
 };
 
-const NewsletterSignup = ({ url }: NewsletterSignup): JSX.Element => {
+const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
     return (
         <div
             css={css`
@@ -111,7 +110,7 @@ const NewsletterSignup = ({ url }: NewsletterSignup): JSX.Element => {
                 seamless
                 frameBorder="0"
                 css={css`
-                    width: 100%;
+                    width: 100% !important;
                     min-height: 60px;
                 `}
             />
@@ -180,47 +179,53 @@ export const ContributionsEpicButtons = ({
         isSupportUrl(cta.baseUrl) ||
         (secondaryCta?.type === SecondaryCtaType.Custom && isSupportUrl(secondaryCta.cta.baseUrl));
 
+    if (isReminderActive) {
+        return null;
+    }
+
     return (
         <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
-            {!isReminderActive && (
+            {variant.newsletterSignup ? (
+                <NewsletterSignup url={variant.newsletterSignup.url} />
+            ) : (
                 <>
-                    {/*<PrimaryCtaButton*/}
-                    {/*    cta={getCta(cta)}*/}
-                    {/*    tracking={tracking}*/}
-                    {/*    numArticles={numArticles}*/}
-                    {/*    countryCode={countryCode}*/}
-                    {/*/>*/}
+                    <PrimaryCtaButton
+                        cta={getCta(cta)}
+                        tracking={tracking}
+                        numArticles={numArticles}
+                        countryCode={countryCode}
+                    />
 
-                    {/*{secondaryCta?.type === SecondaryCtaType.Custom &&*/}
-                    {/*secondaryCta.cta.baseUrl &&*/}
-                    {/*secondaryCta.cta.text ? (*/}
-                    {/*    <SecondaryCtaButton*/}
-                    {/*        cta={secondaryCta.cta}*/}
-                    {/*        tracking={tracking}*/}
-                    {/*        countryCode={countryCode}*/}
-                    {/*        numArticles={numArticles}*/}
-                    {/*    />*/}
-                    {/*) : (*/}
-                    {/*    secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&*/}
-                    {/*    showReminderFields &&*/}
-                    {/*    !hasSetReminder() && (*/}
-                    {/*        <div css={buttonMargins}>*/}
-                    {/*            <Button onClickAction={openReminder} isTertiary>*/}
-                    {/*                {showReminderFields.reminderCta}*/}
-                    {/*            </Button>*/}
-                    {/*        </div>*/}
-                    {/*    )*/}
-                    {/*)}*/}
+                    {secondaryCta?.type === SecondaryCtaType.Custom &&
+                    secondaryCta.cta.baseUrl &&
+                    secondaryCta.cta.text ? (
+                        <SecondaryCtaButton
+                            cta={secondaryCta.cta}
+                            tracking={tracking}
+                            countryCode={countryCode}
+                            numArticles={numArticles}
+                        />
+                    ) : (
+                        secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
+                        showReminderFields &&
+                        !hasSetReminder() && (
+                            <div css={buttonMargins}>
+                                <Button onClickAction={openReminder} isTertiary>
+                                    {showReminderFields.reminderCta}
+                                </Button>
+                            </div>
+                        )
+                    )}
 
-                    {/*{hasSupportCta && (*/}
-                    {/*    <img*/}
-                    {/*        width={422}*/}
-                    {/*        height={60}*/}
-                    {/*        src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"*/}
-                    {/*        alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"*/}
-                    {/*        css={paymentImageStyles}*/}
-                    {/*    />*/}
-                    {/*)}*/}
+                    {hasSupportCta && (
+                        <img
+                            width={422}
+                            height={60}
+                            src="https://assets.guim.co.uk/images/acquisitions/2db3a266287f452355b68d4240df8087/payment-methods.png"
+                            alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+                            css={paymentImageStyles}
+                        />
+                    )}
                 </>
             )}
         </div>

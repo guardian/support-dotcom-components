@@ -651,3 +651,13 @@ WithoutSupportUrl.args = {
         },
     },
 };
+
+export const WithoutNewsletterSignup = Template.bind({});
+WithoutNewsletterSignup.args = {
+    variant: {
+        ...props.variant,
+        newsletterSignup: {
+            url: 'https://www.theguardian.com/email/form/plaintone/4151',
+        },
+    },
+};

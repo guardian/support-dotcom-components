@@ -24,7 +24,6 @@ export interface SeparateArticleCount {
 
 export interface NewsletterSignup {
     url: string;
-
 }
 
 export interface EpicVariant extends Variant {
