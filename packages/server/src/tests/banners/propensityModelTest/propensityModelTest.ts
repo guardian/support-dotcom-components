@@ -71,6 +71,7 @@ const getGWBanner = (variantName: string): BannerVariant => ({
     moduleName: BannerTemplate.GuardianWeeklyBanner,
     bannerContent: GW_CONTENT,
     componentType: channelName,
+    products: ['PRINT_SUBSCRIPTION'],
 });
 
 const getDSBanner = (variantName: string, targeting: BannerTargeting): BannerVariant => ({
@@ -80,6 +81,7 @@ const getDSBanner = (variantName: string, targeting: BannerTargeting): BannerVar
     bannerContent:
         DIGISUB_CONTENT[countryCodeToCountryGroupId(targeting.countryCode.toUpperCase())],
     componentType: channelName,
+    products: ['DIGITAL_SUBSCRIPTION'],
 });
 
 const getControlBanner = (variantName: string, targeting: BannerTargeting): BannerVariant =>
