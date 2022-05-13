@@ -26,7 +26,7 @@ export function getMomentTemplateBanner(
     }: BannerRenderProps): JSX.Element {
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
-                <Container>
+                <Container cssOverrides={styles.containerOverrides}>
                     <div css={styles.container}>
                         <div css={styles.closeButtonContainer}>
                             <MomentTemplateBannerCloseButton
@@ -49,7 +49,10 @@ export function getMomentTemplateBanner(
 
                             {numArticles !== undefined && numArticles > 5 && (
                                 <div css={styles.articleCountContainer}>
-                                    <MomentTemplateBannerArticleCount numArticles={numArticles} />
+                                    <MomentTemplateBannerArticleCount
+                                        numArticles={numArticles}
+                                        settings={templateSettings}
+                                    />
                                 </div>
                             )}
 
@@ -106,8 +109,13 @@ const styles = {
             box-sizing: border-box;
         }
     `,
-    container: css`
+    containerOverrides: css`
         position: relative;
+        width: 100%;
+        max-width: 1300px;
+        margin: 0 auto;
+    `,
+    container: css`
         overflow: hidden;
         display: flex;
         flex-direction: column;

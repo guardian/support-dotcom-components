@@ -3,24 +3,27 @@ import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
+import { MomentTemplateArticleCountOptOut } from './MomentTemplateBannerArticleCountOptOut';
+import { BannerTemplateSettings } from '../settings';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerArticleCountProps {
     numArticles: number;
+    settings: BannerTemplateSettings;
 }
 
 export function MomentTemplateBannerArticleCount({
     numArticles,
+    settings,
 }: MomentTemplateBannerArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}
-            <ArticleCountOptOutPopup
+            <MomentTemplateArticleCountOptOut
                 numArticles={numArticles}
                 nextWord=" articles"
-                type="global-new-year-banner"
+                settings={settings}
             />{' '}
             in the last year
         </p>
