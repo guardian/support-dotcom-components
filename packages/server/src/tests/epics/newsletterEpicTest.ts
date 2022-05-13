@@ -23,6 +23,10 @@ export const newsletterEpicTest: EpicTest = {
             name: 'control',
             heading: 'Sign up to First Edition, our free daily newsletter',
             paragraphs: ['Every weekday morning at 7am BST'],
+            cta: {
+                baseUrl: 'https://support.theguardian.com/contribute',
+                text: 'Support the Guardian',
+            },
             newsletterSignup: {
                 url: 'https://www.theguardian.com/email/form/plaintone/morning-briefing',
             },
