@@ -7,6 +7,9 @@ import {
     investigationsMomentBanner,
     globalNewYearBanner,
     electionAuMomentBanner,
+    postElectionAuMomentAlbaneseBanner,
+    postElectionAuMomentHungBanner,
+    postElectionAuMomentMorrisonBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -37,6 +40,12 @@ export const BannerPaths: {
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
     [BannerTemplate.ElectionAuMomentBanner]: electionAuMomentBanner.endpointPathBuilder,
+    [BannerTemplate.PostElectionAuMomentAlbaneseBanner]:
+        postElectionAuMomentAlbaneseBanner.endpointPathBuilder,
+    [BannerTemplate.PostElectionAuMomentHungBanner]:
+        postElectionAuMomentHungBanner.endpointPathBuilder,
+    [BannerTemplate.PostElectionAuMomentMorrisonBanner]:
+        postElectionAuMomentMorrisonBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
 };

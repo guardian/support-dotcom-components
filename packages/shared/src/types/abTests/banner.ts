@@ -21,6 +21,9 @@ export enum BannerTemplate {
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     ElectionAuMomentBanner = 'ElectionAuMomentBanner',
+    PostElectionAuMomentAlbaneseBanner = 'PostElectionAuMomentAlbaneseBanner',
+    PostElectionAuMomentHungBanner = 'PostElectionAuMomentHungBanner',
+    PostElectionAuMomentMorrisonBanner = 'PostElectionAuMomentMorrisonBanner',
 }
 
 export interface BannerVariant extends Variant {
