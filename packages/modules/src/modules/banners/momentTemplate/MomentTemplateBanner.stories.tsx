@@ -45,6 +45,9 @@ const GlobalNYBanner = bannerWrapper(
                 textColour: neutral[0],
             },
         },
+        highlightedTextSettings: {
+            textColour: neutral[0],
+        },
         imageSettings: {
             mainUrl:
                 'https://media.guim.co.uk/a1087c3f7e6da4f1e97947acccdd7f0d15f327d4/0_0_142_124/140.png',
@@ -138,6 +141,9 @@ const AusElectionBanner = bannerWrapper(
                 backgroundColour: 'white',
                 textColour: neutral[0],
             },
+        },
+        highlightedTextSettings: {
+            textColour: neutral[0],
         },
         imageSettings: {
             mainUrl:
