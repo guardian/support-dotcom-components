@@ -64,6 +64,9 @@ export function getMomentTemplateBanner(
                                     mobileHighlightedText={
                                         content.mobileContent?.highlightedText ?? null
                                     }
+                                    highlightedTextSettings={
+                                        templateSettings.highlightedTextSettings
+                                    }
                                 />
                             </div>
 

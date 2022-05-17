@@ -5,7 +5,8 @@ import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
 
-import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText';
+import { createBannerBodyCopy } from '../../common/BannerText';
+import { HighlightedTextSettings } from '../settings';
 
 // ---- Component ---- //
 
@@ -14,6 +15,7 @@ interface MomentTemplateBannerBodyProps {
     mobileParagraphs: (JSX.Element | JSX.Element[])[] | null;
     highlightedText: JSX.Element | JSX.Element[] | null;
     mobileHighlightedText: JSX.Element | JSX.Element[] | null;
+    highlightedTextSettings: HighlightedTextSettings;
 }
 
 export function MomentTemplateBannerBody({
@@ -21,7 +23,10 @@ export function MomentTemplateBannerBody({
     mobileParagraphs,
     highlightedText,
     mobileHighlightedText,
+    highlightedTextSettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
+    const styles = getStyles(highlightedTextSettings);
+
     return (
         <div css={styles.container}>
             <Hide above="tablet">
@@ -39,7 +44,7 @@ export function MomentTemplateBannerBody({
 
 // ---- Styles ---- //
 
-const styles: BannerTextStyles = {
+const getStyles = (settings: HighlightedTextSettings) => ({
     container: css`
         ${body.small()}
         color: ${neutral[0]};
@@ -63,6 +68,23 @@ const styles: BannerTextStyles = {
         }
     `,
     highlightedText: css`
-        font-weight: bold;
+        display: inline;
+        color: ${settings.textColour};
+
+        ${settings.highlightColour
+            ? `
+            background: ${settings.highlightColour};
+            box-shadow: 2px 0 0 ${settings.highlightColour}, -2px 0 0 ${settings.highlightColour};
+            box-decoration-break: clone;
+        `
+            : ''}
+
+        padding: 0.15rem 0.15rem;
+        ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
+        font-size: 15px;
+
+        ${from.desktop} {
+            font-size: 17px;
+        }
     `,
-};
+});
