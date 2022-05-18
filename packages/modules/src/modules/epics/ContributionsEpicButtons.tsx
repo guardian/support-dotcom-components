@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
@@ -14,6 +14,7 @@ import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
+import NewsletterSignup from './NewsletterSignup';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -93,41 +94,6 @@ const SecondaryCtaButton = ({
             <Button onClickAction={url} showArrow priority="secondary">
                 {cta.text}
             </Button>
-        </div>
-    );
-};
-
-const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
-    const [iframeHeight, setIframeHeight] = useState(60);
-
-    useEffect(() => {
-        window.addEventListener('message', event => {
-            const message = JSON.parse(event.data);
-            if (message.type === 'set-height') {
-                console.log('setting height', message.value);
-                setIframeHeight(message.value);
-            }
-        });
-    }, []);
-
-    return (
-        <div
-            css={css`
-                width: 100%;
-            `}
-        >
-            <iframe
-                src={url}
-                name="newsletter-signup-epic"
-                scrolling="no"
-                seamless
-                frameBorder="0"
-                css={css`
-                    width: 100% !important;
-                    // min-height: 60px;
-                    height: ${iframeHeight}px;
-                `}
-            />
         </div>
     );
 };
