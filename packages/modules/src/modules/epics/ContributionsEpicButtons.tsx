@@ -98,7 +98,7 @@ const SecondaryCtaButton = ({
 };
 
 const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
-    const [iframeHeight, setIframeHeight] = useState(0);
+    const [iframeHeight, setIframeHeight] = useState(60);
 
     useEffect(() => {
         window.addEventListener('message', event => {
@@ -125,7 +125,7 @@ const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
                 css={css`
                     width: 100% !important;
                     // min-height: 60px;
-                    height: ${iframeHeight};
+                    height: ${iframeHeight}px;
                 `}
             />
         </div>
