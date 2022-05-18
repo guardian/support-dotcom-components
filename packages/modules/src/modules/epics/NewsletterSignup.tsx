@@ -4,7 +4,6 @@ import { css } from '@emotion/react';
 const containerStyles = css`
     width: 100%;
 `;
-// const allowedOrigins = ['https://www.theguardian.com', 'https://m.code.dev-theguardian.com'];
 
 const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
     const [iframeHeight, setIframeHeight] = useState(60);
@@ -13,10 +12,6 @@ const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
     useEffect(() => {
         // Handle iframe resize events. Based on https://github.com/guardian/dotcom-rendering/blob/main/dotcom-rendering/src/web/browser/newsletterEmbedIframe/init.ts
         window.addEventListener('message', event => {
-            // if (!allowedOrigins.includes(event.origin)) {
-            //     return;
-            // }
-
             try {
                 // Check if this is the newsletter iframe
                 const contentWindow = iframeRef?.current?.contentWindow;
