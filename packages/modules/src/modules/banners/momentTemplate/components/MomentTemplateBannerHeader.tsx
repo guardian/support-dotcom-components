@@ -42,16 +42,12 @@ const styles = {
             font-size: 24px;
             line-height: 115%;
 
-            ${from.mobileLandscape} {
-                font-size: 30px;
-            }
-
-            ${from.tablet} {
+            ${from.desktop} {
                 font-size: 28px;
             }
 
-            ${from.desktop} {
-                font-size: 42px;
+            ${from.leftCol} {
+                font-size: 34px;
             }
         }
     `,
