@@ -45,6 +45,13 @@ export function getMomentTemplateBanner(
                                     heading={content.mainContent.heading}
                                     mobileHeading={content.mobileContent?.heading ?? null}
                                 />
+
+                                <div css={styles.mobileCloseButtonContainer}>
+                                    <MomentTemplateBannerCloseButton
+                                        onCloseClick={onCloseClick}
+                                        settings={templateSettings.closeButtonSettings}
+                                    />
+                                </div>
                             </div>
 
                             {numArticles !== undefined && numArticles > 5 && (
@@ -106,10 +113,14 @@ const styles = {
     outerContainer: (background: string) => css`
         background: ${background};
         border-top: 3px solid ${neutral[0]};
-        padding-bottom: ${space[2]}px;
+        padding-bottom: ${space[5]}px;
 
         * {
             box-sizing: border-box;
+        }
+
+        ${from.tablet} {
+            padding-bottom: ${space[6]}px;
         }
     `,
     containerOverrides: css`
@@ -125,44 +136,53 @@ const styles = {
 
         ${from.tablet} {
             flex-direction: row-reverse;
+            justify-content: flex-end;
         }
     `,
     visualContainer: css`
+        display: none;
+
+        ${from.mobileMedium} {
+            display: block;
+        }
         ${from.tablet} {
-            width: 294px;
+            width: 238px;
             margin-left: ${space[3]}px;
         }
         ${from.desktop} {
-            width: 454px;
+            width: 320px;
+            margin-left: ${space[5]}px;
         }
         ${from.leftCol} {
-            width: 542px;
+            width: 370px;
             margin-left: ${space[9]}px;
-        }
-        ${from.wide} {
-            width: 672px;
-            margin-left: ${space[12]}px;
         }
     `,
     contentContainer: css`
         ${from.tablet} {
-            width: 394px;
+            width: 450px;
         }
         ${from.desktop} {
-            width: 474px;
+            width: 600px;
         }
         ${from.leftCol} {
-            width: 522px;
+            width: 700px;
         }
         ${from.wide} {
-            width: 540px;
+            width: 780px;
         }
     `,
     headerContainer: css`
-        margin-top: ${space[1]}px;
+        margin-top: ${space[2]}px;
+        display: flex;
+        align-items: center;
     `,
     articleCountContainer: css`
-        margin-top: ${space[1]}px;
+        margin-top: ${space[4]}px;
+
+        ${from.tablet} {
+            margin-top: ${space[3]}px;
+        }
     `,
     bodyContainer: css`
         margin-top: ${space[1]}px;
@@ -170,11 +190,27 @@ const styles = {
     ctasContainer: css`
         display: flex;
         flex-direction: row;
-        margin-top: ${space[4]}px;
+        margin-top: ${space[5]}px;
+
+        ${from.tablet} {
+            margin-top: ${space[6]}px;
+        }
+    `,
+    mobileCloseButtonContainer: css`
+        margin-left: ${space[3]}px;
+
+        ${from.mobileMedium} {
+            display: none;
+        }
     `,
     closeButtonContainer: css`
+        display: none;
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+
+        ${from.mobileMedium} {
+            display: block;
+        }
     `,
 };
