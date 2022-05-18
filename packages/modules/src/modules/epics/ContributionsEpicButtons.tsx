@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
@@ -98,6 +98,18 @@ const SecondaryCtaButton = ({
 };
 
 const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
+    const [iframeHeight, setIframeHeight] = useState(0);
+
+    useEffect(() => {
+        window.addEventListener('message', event => {
+            const message = JSON.parse(event.data);
+            if (message.type === 'set-height') {
+                console.log('setting height', message.value);
+                setIframeHeight(message.value);
+            }
+        });
+    }, []);
+
     return (
         <div
             css={css`
@@ -106,12 +118,14 @@ const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
         >
             <iframe
                 src={url}
+                name="newsletter-signup-epic"
                 scrolling="no"
                 seamless
                 frameBorder="0"
                 css={css`
                     width: 100% !important;
-                    min-height: 60px;
+                    // min-height: 60px;
+                    height: ${iframeHeight};
                 `}
             />
         </div>
