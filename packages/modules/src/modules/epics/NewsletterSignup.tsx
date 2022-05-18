@@ -11,6 +11,7 @@ const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
+        // Handle iframe resize events. Based on https://github.com/guardian/dotcom-rendering/blob/main/dotcom-rendering/src/web/browser/newsletterEmbedIframe/init.ts
         window.addEventListener('message', event => {
             // if (!allowedOrigins.includes(event.origin)) {
             //     return;
