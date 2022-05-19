@@ -118,10 +118,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
 
         // Cloudwatch alarms
         const snsTopicName = 'reader-revenue-dev';
-        const namespace = `${appName}-${this.stage}`;
+        const namespace = `support-${appName}-${this.stage}`;
 
         new GuAlarm(this, 'SuperModeAlarm', {
-            alarmName: `${appName}: Epic Super Mode error - ${this.stage}`,
+            alarmName: `support-${appName}: Epic Super Mode error - ${this.stage}`,
             alarmDescription: 'Error fetching Epic Super Mode data from Dynamodb',
             snsTopicName,
             metric: new Metric({
