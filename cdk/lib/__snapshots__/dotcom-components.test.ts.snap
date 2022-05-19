@@ -1167,6 +1167,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "Period": 3600,
         "Statistic": "Sum",
         "Threshold": 1,
+        "TreatMissingData": "notBreaching",
       },
       "Type": "AWS::CloudWatch::Alarm",
     },

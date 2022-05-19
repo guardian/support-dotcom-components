@@ -1,4 +1,4 @@
-import { ComparisonOperator, Metric } from '@aws-cdk/aws-cloudwatch';
+import { ComparisonOperator, Metric, TreatMissingData } from '@aws-cdk/aws-cloudwatch';
 import type { Policy } from '@aws-cdk/aws-iam';
 import type { App } from '@aws-cdk/core';
 import { Duration } from '@aws-cdk/core';
@@ -46,6 +46,7 @@ export class DotcomComponents extends GuStack {
             evaluationPeriods: 1,
             comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
             statistic: 'sum',
+            treatMissingData: TreatMissingData.NOT_BREACHING,
         });
 
         const userData = `#!/bin/bash
