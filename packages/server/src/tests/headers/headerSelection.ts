@@ -145,7 +145,7 @@ const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['DIGITAL_SUBSCRIPTION'],
+        product: ['DigitalPack'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -164,7 +164,7 @@ const signInPromptNewUserPrintSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-print-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['PRINT_SUBSCRIPTION'],
+        product: ['GuardianWeekly', 'Paper'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -183,7 +183,7 @@ const signInPromptNewUserSupporterTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-supporter',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['RECURRING_CONTRIBUTION'],
+        product: ['Contribution'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -202,7 +202,7 @@ const signInPromptExistingUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['DIGITAL_SUBSCRIPTION'],
+        product: ['DigitalPack'],
         userType: ['current'],
     },
     variants: [
@@ -221,7 +221,7 @@ const signInPromptExistingUserPrintSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-print-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['PRINT_SUBSCRIPTION'],
+        product: ['GuardianWeekly', 'Paper'],
         userType: ['current'],
     },
     variants: [
@@ -240,7 +240,7 @@ const signInPromptExistingUserSupporterTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-supporter',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['RECURRING_CONTRIBUTION'],
+        product: ['Contribution'],
         userType: ['current'],
     },
     variants: [

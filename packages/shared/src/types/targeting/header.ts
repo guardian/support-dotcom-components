@@ -4,7 +4,7 @@ export type Edition = 'UK' | 'US' | 'AU' | 'INT';
 
 export interface purchaseInfo {
     userType?: 'new' | 'guest' | 'current';
-    product?: 'RECURRING_CONTRIBUTION' | 'DIGITAL_SUBSCRIPTION' | 'PRINT_SUBSCRIPTION';
+    product?: 'Contribution' | 'DigitalPack' | 'GuardianWeekly' | 'Paper';
 }
 
 export interface HeaderTargeting {
