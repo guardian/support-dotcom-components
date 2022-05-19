@@ -11,7 +11,11 @@ import {
     GuStack,
     GuStringParameter,
 } from '@guardian/cdk/lib/constructs/core';
-import { GuDynamoDBReadPolicy, GuGetS3ObjectsPolicy } from '@guardian/cdk/lib/constructs/iam';
+import {
+    GuDynamoDBReadPolicy,
+    GuGetS3ObjectsPolicy,
+    GuPutCloudwatchMetricsPolicy,
+} from '@guardian/cdk/lib/constructs/iam';
 
 export class DotcomComponents extends GuStack {
     constructor(scope: App, id: string, props: GuStackProps) {
@@ -76,6 +80,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             new GuDynamoDBReadPolicy(this, 'DynamoReadPolicySecondaryIndex', {
                 tableName: `super-mode-${this.stage}/index/*`,
             }),
+            new GuPutCloudwatchMetricsPolicy(this),
         ];
 
         const ec2App = new GuEc2App(this, {
