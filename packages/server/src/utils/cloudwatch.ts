@@ -9,7 +9,7 @@ const namespace = `support-dotcom-components-${stage}`;
 
 type Metric = 'super-mode-error' | 'channel-tests-error';
 
-// Sends a metric to cloudwatch.
+// Sends a single metric to cloudwatch.
 // Avoid doing this per-request, to avoid high costs. This should instead be called from within a cacheAsync
 export const putMetric = (
     metricName: Metric,
@@ -21,6 +21,8 @@ export const putMetric = (
             MetricData: [
                 {
                     MetricName: metricName,
+                    Value: 1,
+                    Unit: 'Count',
                     Dimensions: dimensions,
                 },
             ],
