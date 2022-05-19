@@ -1143,7 +1143,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "Fn::Join": Array [
             "",
             Array [
-              "support-dotcom-components: Epic Super Mode error - ",
+              "support-dotcom-components: Super Mode error - ",
               Object {
                 "Ref": "Stage",
               },

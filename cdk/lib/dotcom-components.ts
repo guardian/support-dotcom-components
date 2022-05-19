@@ -34,7 +34,7 @@ export class DotcomComponents extends GuStack {
         const namespace = `support-${appName}-${this.stage}`;
 
         new GuAlarm(this, 'SuperModeAlarm', {
-            alarmName: `support-${appName}: Epic Super Mode error - ${this.stage}`,
+            alarmName: `support-${appName}: Super Mode error - ${this.stage}`,
             alarmDescription: 'Error fetching Epic Super Mode data from Dynamodb',
             snsTopicName,
             metric: new Metric({
