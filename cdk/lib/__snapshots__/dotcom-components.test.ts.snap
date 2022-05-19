@@ -1088,6 +1088,67 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::IAM::Policy",
     },
+    "SuperModeAlarmDBFE793D": Object {
+      "Properties": Object {
+        "ActionsEnabled": Object {
+          "Fn::FindInMap": Array [
+            "stagemapping",
+            Object {
+              "Ref": "Stage",
+            },
+            "alarmActionsEnabled",
+          ],
+        },
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error fetching Epic Super Mode data from Dynamodb",
+        "AlarmName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "dotcom-components: Epic Super Mode error - ",
+              Object {
+                "Ref": "Stage",
+              },
+            ],
+          ],
+        },
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "super-mode-error",
+        "Namespace": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "dotcom-components-",
+              Object {
+                "Ref": "Stage",
+              },
+            ],
+          ],
+        },
+        "Period": 3600,
+        "Statistic": "Average",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
     "TargetGroupDotcomcomponents54FF73AB": Object {
       "Properties": Object {
         "HealthCheckIntervalSeconds": 10,

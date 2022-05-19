@@ -1,7 +1,10 @@
+import { ComparisonOperator, Metric } from '@aws-cdk/aws-cloudwatch';
 import type { Policy } from '@aws-cdk/aws-iam';
 import type { App } from '@aws-cdk/core';
+import { Duration } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
 import { Stage } from '@guardian/cdk/lib/constants/stage';
+import { GuAlarm } from '@guardian/cdk/lib/constructs/cloudwatch';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import {
     GuDistributionBucketParameter,
@@ -106,6 +109,24 @@ chown -R dotcom-components:support /var/log/dotcom-components
 
         ec2App.autoScalingGroup.scaleOnCpuUtilization('CpuScalingPolicy', {
             targetUtilizationPercent: 50,
+        });
+
+        // Cloudwatch alarms
+        const snsTopicName = 'reader-revenue-dev';
+        const namespace = `${appName}-${this.stage}`;
+
+        new GuAlarm(this, 'SuperModeAlarm', {
+            alarmName: `${appName}: Epic Super Mode error - ${this.stage}`,
+            alarmDescription: 'Error fetching Epic Super Mode data from Dynamodb',
+            snsTopicName,
+            metric: new Metric({
+                metricName: 'super-mode-error',
+                namespace,
+                period: Duration.minutes(60),
+            }),
+            threshold: 1,
+            evaluationPeriods: 1,
+            comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
         });
     }
 }
