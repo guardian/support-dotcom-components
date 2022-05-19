@@ -132,6 +132,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             threshold: 1,
             evaluationPeriods: 1,
             comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+            statistic: 'sum',
         });
     }
 }
