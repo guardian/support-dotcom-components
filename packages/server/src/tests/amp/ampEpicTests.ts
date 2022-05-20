@@ -1,6 +1,7 @@
 import { cacheAsync } from '../../lib/cache';
 import { isProd } from '../../lib/env';
 import { fetchS3Data } from '../../utils/S3';
+import { getTests } from '../testsStore';
 import { AmpEpicTest } from './ampEpicModels';
 
 /**
@@ -16,7 +17,7 @@ const fetchAmpEpicTests = (): Promise<AmpEpicTest[]> =>
             return data.tests;
         });
 
-export const getCachedAmpEpicTests = cacheAsync<AmpEpicTest[]>(fetchAmpEpicTests, {
+export const getCachedAmpEpicTests = cacheAsync<AmpEpicTest[]>(() => getTests<AmpEpicTest>('EpicAMP'), {
     ttlSec: 60,
     warm: true,
 });
