@@ -63,9 +63,11 @@ export const redeployedSinceLastClosed = (
             deployTimes => deployTimes[region],
         );
         const lastClosed = new Date(lastClosedRaw);
+        const scheduledDeploysEnabled = targeting.countryCode !== 'AU';
         return (
             lastManualDeploy > lastClosed ||
-            getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed
+            (scheduledDeploysEnabled &&
+                getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed)
         );
     };
 
