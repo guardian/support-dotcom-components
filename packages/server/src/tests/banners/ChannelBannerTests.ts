@@ -22,8 +22,7 @@ import {
     RawVariantParams,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
-import { isProd } from '../../lib/env';
-import { fetchS3Data } from '../../utils/S3';
+import { getTests } from '../testsStore';
 
 const BannerChannelFiles: { [key in BannerChannel]: string } = {
     contributions: 'banner-tests.json',
@@ -78,34 +77,27 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
 };
 
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
-    const channelFile = BannerChannelFiles[bannerChannel];
-    const key = `banner/${isProd ? 'PROD' : 'CODE'}/${channelFile}`;
+    const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    return () =>
-        fetchS3Data('gu-contributions-public', key)
-            .then(JSON.parse)
-            .then(json => json['tests'])
-            .then(tests => {
-                return tests.map(
-                    (testParams: RawTestParams): BannerTest => {
-                        return {
-                            name: testParams.name,
-                            bannerChannel,
-                            isHardcoded: false,
-                            userCohort: testParams.userCohort,
-                            locations: testParams.locations,
-                            canRun: (): boolean => testParams.isOn,
-                            minPageViews: testParams.minArticlesBeforeShowingBanner,
-                            articlesViewedSettings: testParams.articlesViewedSettings,
-                            variants: testParams.variants.map(
-                                BannerVariantFromParams(bannerChannel),
-                            ),
-                            controlProportionSettings: testParams.controlProportionSettings,
-                            deviceType: testParams.deviceType,
-                        };
-                    },
-                );
-            });
+    return () => getTests<RawTestParams>(channel).then(tests => {
+        return tests.map((testParams: RawTestParams): BannerTest => {
+            return {
+                name: testParams.name,
+                bannerChannel,
+                isHardcoded: false,
+                userCohort: testParams.userCohort,
+                locations: testParams.locations,
+                canRun: (): boolean => testParams.isOn,
+                minPageViews: testParams.minArticlesBeforeShowingBanner,
+                articlesViewedSettings: testParams.articlesViewedSettings,
+                variants: testParams.variants.map(
+                    BannerVariantFromParams(bannerChannel),
+                ),
+                controlProportionSettings: testParams.controlProportionSettings,
+                deviceType: testParams.deviceType,
+            };
+        });
+    });
 };
 
 export const channel1BannersAllTestsGenerator = createTestsGeneratorForChannel('contributions');
