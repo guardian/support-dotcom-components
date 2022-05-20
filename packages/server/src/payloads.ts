@@ -94,17 +94,17 @@ const isMobile = (req: express.Request): boolean => {
 };
 
 const fetchConfiguredArticleEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE'),
+    () => fetchConfiguredEpicTests('Epic'),
     { ttlSec: 60 },
 );
 
 const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
+    () => fetchConfiguredEpicTests('EpicHoldback'),
     { ttlSec: 60 },
 );
 
 const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('LIVEBLOG'),
+    () => fetchConfiguredEpicTests('EpicLiveblog'),
     { ttlSec: 60 },
 );
 
