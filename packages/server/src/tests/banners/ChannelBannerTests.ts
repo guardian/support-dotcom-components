@@ -79,25 +79,26 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    return () => getTests<RawTestParams>(channel).then(tests => {
-        return tests.map((testParams: RawTestParams): BannerTest => {
-            return {
-                name: testParams.name,
-                bannerChannel,
-                isHardcoded: false,
-                userCohort: testParams.userCohort,
-                locations: testParams.locations,
-                canRun: (): boolean => testParams.isOn,
-                minPageViews: testParams.minArticlesBeforeShowingBanner,
-                articlesViewedSettings: testParams.articlesViewedSettings,
-                variants: testParams.variants.map(
-                    BannerVariantFromParams(bannerChannel),
-                ),
-                controlProportionSettings: testParams.controlProportionSettings,
-                deviceType: testParams.deviceType,
-            };
+    return () =>
+        getTests<RawTestParams>(channel).then(tests => {
+            return tests.map(
+                (testParams: RawTestParams): BannerTest => {
+                    return {
+                        name: testParams.name,
+                        bannerChannel,
+                        isHardcoded: false,
+                        userCohort: testParams.userCohort,
+                        locations: testParams.locations,
+                        canRun: (): boolean => testParams.isOn,
+                        minPageViews: testParams.minArticlesBeforeShowingBanner,
+                        articlesViewedSettings: testParams.articlesViewedSettings,
+                        variants: testParams.variants.map(BannerVariantFromParams(bannerChannel)),
+                        controlProportionSettings: testParams.controlProportionSettings,
+                        deviceType: testParams.deviceType,
+                    };
+                },
+            );
         });
-    });
 };
 
 export const channel1BannersAllTestsGenerator = createTestsGeneratorForChannel('contributions');

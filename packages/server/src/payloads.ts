@@ -93,10 +93,9 @@ const isMobile = (req: express.Request): boolean => {
     return !!ua && (isIOS(ua) || isAndroid(ua));
 };
 
-const fetchConfiguredArticleEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('Epic'),
-    { ttlSec: 60 },
-);
+const fetchConfiguredArticleEpicTestsCached = cacheAsync(() => fetchConfiguredEpicTests('Epic'), {
+    ttlSec: 60,
+});
 
 const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
     () => fetchConfiguredEpicTests('EpicHoldback'),

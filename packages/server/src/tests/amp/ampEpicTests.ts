@@ -8,7 +8,10 @@ import { AmpEpicTest } from './ampEpicModels';
  * So each test will have a single variant.
  */
 
-export const getCachedAmpEpicTests = cacheAsync<AmpEpicTest[]>(() => getTests<AmpEpicTest>('EpicAMP'), {
-    ttlSec: 60,
-    warm: true,
-});
+export const getCachedAmpEpicTests = cacheAsync<AmpEpicTest[]>(
+    () => getTests<AmpEpicTest>('EpicAMP'),
+    {
+        ttlSec: 60,
+        warm: true,
+    },
+);
