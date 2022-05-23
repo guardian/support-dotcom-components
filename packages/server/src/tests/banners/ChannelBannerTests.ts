@@ -24,11 +24,6 @@ import {
 import { BannerTemplate } from '@sdc/shared/types';
 import { getTests } from '../testsStore';
 
-const BannerChannelFiles: { [key in BannerChannel]: string } = {
-    contributions: 'banner-tests.json',
-    subscriptions: 'banner-tests2.json',
-};
-
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
