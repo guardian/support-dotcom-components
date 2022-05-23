@@ -101,6 +101,9 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 tableName: `super-mode-${this.stage}/index/*`,
             }),
             new GuPutCloudwatchMetricsPolicy(this),
+            new GuDynamoDBReadPolicy(this, 'DynamoTestsReadPolicy', {
+                tableName: `support-admin-console-channel-tests-${this.stage}`,
+            }),
         ];
 
         const ec2App = new GuEc2App(this, {

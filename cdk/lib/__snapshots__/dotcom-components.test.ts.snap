@@ -430,6 +430,51 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::IAM::Policy",
     },
+    "DynamoTestsReadPolicy0CE3158B": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:GetRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:dynamodb:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":table/support-admin-console-channel-tests-",
+                    Object {
+                      "Ref": "Stage",
+                    },
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DynamoTestsReadPolicy0CE3158B",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "GetDistributablePolicyDotcomcomponentsDB5B987B": Object {
       "Properties": Object {
         "PolicyDocument": Object {
