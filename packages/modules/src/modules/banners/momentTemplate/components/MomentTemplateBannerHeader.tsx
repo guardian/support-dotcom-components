@@ -20,8 +20,8 @@ export function MomentTemplateBannerHeader({
         <div css={styles.container}>
             <header css={styles.header}>
                 <h2>
-                    <Hide below="tablet">{mobileHeading ?? heading}</Hide>
-                    <Hide above="tablet">{heading}</Hide>
+                    <Hide above="tablet">{mobileHeading}</Hide>
+                    <Hide below="tablet">{heading}</Hide>
                 </h2>
             </header>
         </div>

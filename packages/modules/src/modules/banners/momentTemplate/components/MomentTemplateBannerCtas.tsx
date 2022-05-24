@@ -4,21 +4,16 @@ import { neutral, space } from '@guardian/src-foundations';
 import { Hide } from '@guardian/src-layout';
 import { Button, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
+import { BannerRenderedContent } from '../../common/types';
 import { buttonStyles } from '../buttonStyles';
 import { CtaSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
 
 // ---- Component ---- //
 
-interface BreakpointCtas {
-    primary: BannerEnrichedCta | null;
-    secondary: BannerEnrichedSecondaryCta | null;
-}
-
 interface MomentTemplateBannerCtasProps {
-    mobileCtas: BreakpointCtas | null;
-    desktopCtas: BreakpointCtas;
+    mainContent: BannerRenderedContent;
+    mobileContent: BannerRenderedContent;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
     onReminderCtaClick: () => void;
@@ -27,46 +22,45 @@ interface MomentTemplateBannerCtasProps {
 }
 
 export function MomentTemplateBannerCtas({
-    desktopCtas,
-    mobileCtas: maybeMobileCtas,
+    mainContent,
+    mobileContent,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
     onReminderCtaClick,
     primaryCtaSettings,
     secondaryCtaSettings,
 }: MomentTemplateBannerCtasProps): JSX.Element {
-    const mobileCtas = maybeMobileCtas ?? desktopCtas;
-
     return (
         <div css={styles.container}>
             <div>
                 <Hide above="tablet">
                     <div css={styles.ctasContainer}>
-                        {mobileCtas.primary && (
+                        {mobileContent.primaryCta && (
                             <LinkButton
-                                href={mobileCtas.primary.ctaUrl}
+                                href={mobileContent.primaryCta.ctaUrl}
                                 onClick={onPrimaryCtaClick}
                                 size="small"
                                 priority="primary"
                                 cssOverrides={buttonStyles(primaryCtaSettings)}
                             >
-                                {mobileCtas.primary.ctaText}
+                                {mobileContent.primaryCta.ctaText}
                             </LinkButton>
                         )}
 
-                        {mobileCtas.secondary?.type === SecondaryCtaType.Custom && (
+                        {mobileContent.secondaryCta?.type === SecondaryCtaType.Custom && (
                             <LinkButton
-                                href={mobileCtas.secondary.cta.ctaUrl}
+                                href={mobileContent.secondaryCta.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
                                 size="small"
                                 priority="tertiary"
                                 cssOverrides={buttonStyles(secondaryCtaSettings)}
                             >
-                                {mobileCtas.secondary.cta.ctaText}
+                                {mobileContent.secondaryCta.cta.ctaText}
                             </LinkButton>
                         )}
 
-                        {mobileCtas.secondary?.type === SecondaryCtaType.ContributionsReminder && (
+                        {mobileContent.secondaryCta?.type ===
+                            SecondaryCtaType.ContributionsReminder && (
                             <Button
                                 priority="subdued"
                                 onClick={onReminderCtaClick}
@@ -80,31 +74,32 @@ export function MomentTemplateBannerCtas({
 
                 <Hide below="tablet">
                     <div css={styles.ctasContainer}>
-                        {desktopCtas.primary && (
+                        {mainContent.primaryCta && (
                             <LinkButton
-                                href={desktopCtas.primary.ctaUrl}
+                                href={mainContent.primaryCta.ctaUrl}
                                 onClick={onPrimaryCtaClick}
                                 size="small"
                                 priority="primary"
                                 cssOverrides={buttonStyles(primaryCtaSettings)}
                             >
-                                {desktopCtas.primary.ctaText}
+                                {mainContent.primaryCta.ctaText}
                             </LinkButton>
                         )}
 
-                        {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
+                        {mainContent.secondaryCta?.type === SecondaryCtaType.Custom && (
                             <LinkButton
-                                href={desktopCtas.secondary.cta.ctaUrl}
+                                href={mainContent.secondaryCta.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
                                 size="small"
                                 priority="tertiary"
                                 cssOverrides={buttonStyles(secondaryCtaSettings)}
                             >
-                                {desktopCtas.secondary.cta.ctaText}
+                                {mainContent.secondaryCta.cta.ctaText}
                             </LinkButton>
                         )}
 
-                        {desktopCtas.secondary?.type === SecondaryCtaType.ContributionsReminder && (
+                        {mainContent.secondaryCta?.type ===
+                            SecondaryCtaType.ContributionsReminder && (
                             <Button
                                 priority="subdued"
                                 onClick={onReminderCtaClick}
@@ -118,8 +113,8 @@ export function MomentTemplateBannerCtas({
             </div>
 
             <div>
-                <Hide above="tablet">{mobileCtas.primary && <PaymentCards />}</Hide>
-                <Hide below="tablet">{desktopCtas.primary && <PaymentCards />}</Hide>
+                <Hide above="tablet">{mobileContent.primaryCta && <PaymentCards />}</Hide>
+                <Hide below="tablet">{mainContent.primaryCta && <PaymentCards />}</Hide>
             </div>
         </div>
     );

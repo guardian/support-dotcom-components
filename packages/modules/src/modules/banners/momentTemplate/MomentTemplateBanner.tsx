@@ -42,14 +42,13 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
-        const mobileContent = content.mobileContent ?? content.mainContent;
-
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
                 <Container
                     cssOverrides={styles.mobileStickyHeaderContainer(
                         templateSettings.backgroundColour,
-                        mobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder,
+                        content.mobileContent.secondaryCta?.type ===
+                            SecondaryCtaType.ContributionsReminder,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -68,7 +67,7 @@ export function getMomentTemplateBanner(
                     <div css={styles.headerContainer}>
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
-                            mobileHeading={content.mobileContent?.heading ?? null}
+                            mobileHeading={content.mobileContent.heading}
                         />
 
                         <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
@@ -99,7 +98,7 @@ export function getMomentTemplateBanner(
                             <div css={styles.desktopHeaderContainer}>
                                 <MomentTemplateBannerHeader
                                     heading={content.mainContent.heading}
-                                    mobileHeading={content.mobileContent?.heading ?? null}
+                                    mobileHeading={content.mobileContent.heading}
                                 />
                             </div>
 
@@ -114,12 +113,8 @@ export function getMomentTemplateBanner(
 
                             <div css={styles.bodyContainer}>
                                 <MomentTemplateBannerBody
-                                    paragraphs={content.mainContent.paragraphs}
-                                    mobileParagraphs={content.mobileContent?.paragraphs ?? null}
-                                    highlightedText={content.mainContent.highlightedText ?? null}
-                                    mobileHighlightedText={
-                                        content.mobileContent?.highlightedText ?? null
-                                    }
+                                    mainContent={content.mainContent}
+                                    mobileContent={content.mobileContent}
                                     highlightedTextSettings={
                                         templateSettings.highlightedTextSettings
                                     }
@@ -128,18 +123,8 @@ export function getMomentTemplateBanner(
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
-                                    desktopCtas={{
-                                        primary: content.mainContent.primaryCta,
-                                        secondary: content.mainContent.secondaryCta,
-                                    }}
-                                    mobileCtas={
-                                        content.mobileContent
-                                            ? {
-                                                  primary: content.mobileContent.primaryCta,
-                                                  secondary: content.mobileContent.secondaryCta,
-                                              }
-                                            : null
-                                    }
+                                    mainContent={content.mainContent}
+                                    mobileContent={content.mobileContent}
                                     onPrimaryCtaClick={onCtaClick}
                                     onSecondaryCtaClick={onSecondaryCtaClick}
                                     onReminderCtaClick={onReminderCtaClick}
@@ -153,11 +138,11 @@ export function getMomentTemplateBanner(
 
                 <Hide above="tablet">
                     <div ref={mobileReminderRef}>
-                        {mobileContent.secondaryCta?.type ===
+                        {content.mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder &&
                             isReminderActive && (
                                 <MomentTemplateBannerReminder
-                                    reminderCta={mobileContent.secondaryCta}
+                                    reminderCta={content.mobileContent.secondaryCta}
                                     trackReminderSetClick={reminderTracking.onReminderSetClick}
                                     setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                                 />

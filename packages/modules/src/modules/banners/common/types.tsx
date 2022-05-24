@@ -45,7 +45,7 @@ export interface BannerRenderedContent {
 
 export interface BannerTextContent {
     mainContent: BannerRenderedContent;
-    mobileContent?: BannerRenderedContent;
+    mobileContent: BannerRenderedContent;
 }
 
 export interface BannerRenderProps {

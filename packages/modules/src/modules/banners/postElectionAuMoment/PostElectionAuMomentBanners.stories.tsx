@@ -37,6 +37,7 @@ Albanese.args = {
         },
     },
     mobileContent: {
+        heading: 'As Australia prepares to head to the polls...',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
         highlightedText:
