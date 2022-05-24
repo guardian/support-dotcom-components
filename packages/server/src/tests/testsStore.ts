@@ -16,7 +16,7 @@ export type ChannelTypes =
 
 export const getTests = <T>(channel: ChannelTypes): Promise<T[]> =>
     queryChannel(channel, stage)
-        .then(tests => (tests.Items ?? []) as T[])
+        .then(tests => (tests.Items ?? []).sort((a, b) => a.priority - b.priority) as T[])
         .catch(error => {
             logError(`Error reading tests from Dynamo: ${error.message}`);
             return [];
