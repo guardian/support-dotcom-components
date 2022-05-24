@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { Button } from '@guardian/src-button';
 import { textSans } from '@guardian/src-foundations/typography';
-import { error, neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { TextInput } from '@guardian/src-text-input';
 import React from 'react';
 import { Container } from '@guardian/src-layout';
@@ -12,6 +12,7 @@ import { SvgCheckmark } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
 import { CtaSettings } from '../settings';
 import { buttonStyles } from '../buttonStyles';
+import { ErrorCopy, InfoCopy, ThankYou } from '../../../shared/Reminders';
 
 // ---- Component ---- //
 
@@ -28,12 +29,16 @@ export function MomentTemplateBannerReminderSignedOut({
     onReminderSetClick,
     setReminderCtaSettings,
 }: MomentTemplateBannerReminderSignedOutProps): JSX.Element {
+    const reminderLabelWithPreposition = ensureHasPreposition(
+        reminderCta.reminderFields.reminderLabel,
+    );
+
     return (
         <div css={styles.container}>
             <Container>
                 {reminderStatus !== ReminderStatus.Completed && (
                     <Signup
-                        reminderLabel={reminderCta.reminderFields.reminderLabel}
+                        reminderLabelWithPreposition={reminderLabelWithPreposition}
                         reminderStatus={reminderStatus}
                         onSubmit={onReminderSetClick}
                         setReminderCtaSettings={setReminderCtaSettings}
@@ -41,7 +46,7 @@ export function MomentTemplateBannerReminderSignedOut({
                 )}
 
                 {reminderStatus === ReminderStatus.Completed && (
-                    <ThankYou reminderLabel={reminderCta.reminderFields.reminderLabel} />
+                    <ThankYou reminderLabelWithPreposition={reminderLabelWithPreposition} />
                 )}
             </Container>
         </div>
@@ -51,22 +56,25 @@ export function MomentTemplateBannerReminderSignedOut({
 // ---- Helper components ---- //
 
 interface SignupProps {
-    reminderLabel: string;
+    reminderLabelWithPreposition: string;
     reminderStatus: ReminderStatus;
     onSubmit: (email: string) => void;
     setReminderCtaSettings?: CtaSettings;
 }
 
-function Signup({ reminderLabel, reminderStatus, onSubmit, setReminderCtaSettings }: SignupProps) {
+function Signup({
+    reminderLabelWithPreposition,
+    reminderStatus,
+    onSubmit,
+    setReminderCtaSettings,
+}: SignupProps) {
     const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();
-
-    const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
     return (
         <div>
             <header>
                 <h3 css={styles.headerCopy}>
-                    Remind me to support {reminderDateWithPreposition} please
+                    Remind me to support {reminderLabelWithPreposition} please
                 </h3>
             </header>
 
@@ -95,46 +103,14 @@ function Signup({ reminderLabel, reminderStatus, onSubmit, setReminderCtaSetting
                 </div>
 
                 {reminderStatus === ReminderStatus.Error && (
-                    <div css={styles.errorCopy}>
-                        Sorry we couldn&apos;t set a reminder for you this time. Please try again
-                        later.
+                    <div css={styles.errorCopyContainer}>
+                        <ErrorCopy />
                     </div>
                 )}
             </form>
 
-            <div css={styles.infoCopy}>
-                We will send you a maximum of two emails {reminderDateWithPreposition}. To find out
-                what personal data we collect and how we use it, view our{' '}
-                <a
-                    css={styles.privacyLink}
-                    href="https://www.theguardian.com/help/privacy-policy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Privacy policy
-                </a>
-            </div>
-        </div>
-    );
-}
-
-interface ThankYouProps {
-    reminderLabel: string;
-}
-
-function ThankYou({ reminderLabel }: ThankYouProps) {
-    const reminderLabelWithPreposition = ensureHasPreposition(reminderLabel);
-
-    return (
-        <div>
-            <header>
-                <h3 css={styles.thankYouHeaderCopy}>Thank you! Your reminder is set</h3>
-            </header>
-
-            <div css={styles.thankYouBodyCopy}>
-                We will be in touch to invite you to contribute. Look out for a message in your
-                inbox {reminderLabelWithPreposition}. If you have any questions about contributing,
-                please <a href="mailto:contribution.support@theguardian.com">contact us</a>
+            <div css={styles.infoCopyContainer}>
+                <InfoCopy reminderLabelWithPreposition={reminderLabelWithPreposition} />
             </div>
         </div>
     );
@@ -172,29 +148,10 @@ const styles = {
             margin-left: ${space[3]}px;
         }
     `,
-    errorCopy: css`
-        ${textSans.small({ fontWeight: 'bold' })};
-        color: ${error[400]};
-        font-style: italic;
+    errorCopyContainer: css`
         margin-top: ${space[1]}px;
-        margin-bottom: 0;
     `,
-
-    infoCopy: css`
-        ${textSans.small({})}
-        font-size: 12px;
-
+    infoCopyContainer: css`
         margin-top: ${space[3]}px;
-    `,
-    privacyLink: css`
-        font-weight: bold;
-        color: ${neutral[0]};
-    `,
-    thankYouHeaderCopy: css`
-        ${textSans.small({ fontWeight: 'bold' })}
-        margin: 0;
-    `,
-    thankYouBodyCopy: css`
-        ${textSans.small()}
     `,
 };
