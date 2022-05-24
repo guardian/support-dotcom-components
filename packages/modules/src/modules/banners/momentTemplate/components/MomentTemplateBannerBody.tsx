@@ -7,22 +7,19 @@ import { body } from '@guardian/src-foundations/typography';
 
 import { createBannerBodyCopy } from '../../common/BannerText';
 import { HighlightedTextSettings } from '../settings';
+import { BannerRenderedContent } from '../../common/types';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerBodyProps {
-    paragraphs: (JSX.Element | JSX.Element[])[];
-    mobileParagraphs: (JSX.Element | JSX.Element[])[] | null;
-    highlightedText: JSX.Element | JSX.Element[] | null;
-    mobileHighlightedText: JSX.Element | JSX.Element[] | null;
+    mainContent: BannerRenderedContent;
+    mobileContent: BannerRenderedContent;
     highlightedTextSettings: HighlightedTextSettings;
 }
 
 export function MomentTemplateBannerBody({
-    paragraphs,
-    mobileParagraphs,
-    highlightedText,
-    mobileHighlightedText,
+    mainContent,
+    mobileContent,
     highlightedTextSettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
     const styles = getStyles(highlightedTextSettings);
@@ -31,13 +28,15 @@ export function MomentTemplateBannerBody({
         <div css={styles.container}>
             <Hide above="tablet">
                 {createBannerBodyCopy(
-                    mobileParagraphs ?? paragraphs,
-                    mobileHighlightedText ?? highlightedText,
+                    mobileContent.paragraphs,
+                    mobileContent.highlightedText,
                     styles,
                 )}
             </Hide>
 
-            <Hide below="tablet">{createBannerBodyCopy(paragraphs, highlightedText, styles)}</Hide>
+            <Hide below="tablet">
+                {createBannerBodyCopy(mainContent.paragraphs, mainContent.highlightedText, styles)}
+            </Hide>
         </div>
     );
 }
