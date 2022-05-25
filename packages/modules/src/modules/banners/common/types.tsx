@@ -9,7 +9,8 @@ export type BannerId =
     | 'subscription-banner'
     | 'weekly-banner'
     | 'global-new-year-banner'
-    | 'election-au-moment-banner';
+    | 'election-au-moment-banner'
+    | 'sign-in-prompt-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;
