@@ -8,7 +8,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { countryCodeToCountryGroupId, inCountryGroups } from '@sdc/shared/dist/lib';
 import { UK_DIGISUB_CONTENT, DIGISUB_CONTENT } from './propensityModelTestDigisubCopy';
-import { fetchHighPropensityIds, isInPropensityTest } from './propensityModelTestData';
+import { isInPropensityTest } from './propensityModelTestData';
 import { GW_CONTENT } from './propensityModelTestGWCopy';
 
 /**
@@ -32,9 +32,6 @@ const CONTROL_NAME = 'control';
 const VARIANT_NAME = 'variant';
 
 export const propensityModelBannerTest: BannerTestGenerator = () => {
-    // Kick off streaming of browserIds into memory, but resolve immediately to avoid blocking other tests
-    fetchHighPropensityIds();
-
     return Promise.resolve([
         {
             name: PROPENSITY_MODEL_TEST_NAME,

@@ -3,7 +3,7 @@ import { streamS3DataByLine } from '../../../utils/S3';
 import { isProd } from '../../../lib/env';
 
 const guardianWeeklyHighPropensityIds: Set<string> = new Set<string>();
-export const fetchHighPropensityIds = (): void => {
+const fetchHighPropensityIds = (): void => {
     logInfo('Loading guardianWeeklyHighPropensityIds...');
     streamS3DataByLine({
         bucket: 'support-admin-console',
@@ -19,3 +19,5 @@ export const fetchHighPropensityIds = (): void => {
 
 export const isInPropensityTest = (browserId: string): boolean =>
     guardianWeeklyHighPropensityIds.has(browserId);
+
+fetchHighPropensityIds();
