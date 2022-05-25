@@ -20,7 +20,7 @@ import {
     TestTracking,
 } from '@sdc/shared/types';
 import express from 'express';
-import { fetchConfiguredEpicTests } from './api/contributionsApi';
+import { fetchConfiguredEpicTests } from './tests/epics/epicTests';
 import { cachedChannelSwitches } from './channelSwitches';
 import { cacheAsync } from './lib/cache';
 import { baseUrl } from './lib/env';
