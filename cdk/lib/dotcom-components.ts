@@ -49,6 +49,22 @@ export class DotcomComponents extends GuStack {
             treatMissingData: TreatMissingData.NOT_BREACHING,
         });
 
+        new GuAlarm(this, 'ChannelTestsAlarm', {
+            alarmName: `support-${appName}: Channel Tests error - ${this.stage}`,
+            alarmDescription: 'Error fetching channel tests data from Dynamodb',
+            snsTopicName,
+            metric: new Metric({
+                metricName: 'channel-tests-error',
+                namespace,
+                period: Duration.minutes(60),
+            }),
+            threshold: 1,
+            evaluationPeriods: 1,
+            comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+            statistic: 'sum',
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+        });
+
         const userData = `#!/bin/bash
 
 groupadd support
@@ -101,6 +117,9 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 tableName: `super-mode-${this.stage}/index/*`,
             }),
             new GuPutCloudwatchMetricsPolicy(this),
+            new GuDynamoDBReadPolicy(this, 'DynamoTestsReadPolicy', {
+                tableName: `support-admin-console-channel-tests-${this.stage}`,
+            }),
         ];
 
         const ec2App = new GuEc2App(this, {

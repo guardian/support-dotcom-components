@@ -20,7 +20,7 @@ import {
     TestTracking,
 } from '@sdc/shared/types';
 import express from 'express';
-import { fetchConfiguredEpicTests } from './api/contributionsApi';
+import { fetchConfiguredEpicTests } from './tests/epics/epicTests';
 import { cachedChannelSwitches } from './channelSwitches';
 import { cacheAsync } from './lib/cache';
 import { baseUrl } from './lib/env';
@@ -93,18 +93,17 @@ const isMobile = (req: express.Request): boolean => {
     return !!ua && (isIOS(ua) || isAndroid(ua));
 };
 
-const fetchConfiguredArticleEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE'),
-    { ttlSec: 60 },
-);
+const fetchConfiguredArticleEpicTestsCached = cacheAsync(() => fetchConfiguredEpicTests('Epic'), {
+    ttlSec: 60,
+});
 
 const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
+    () => fetchConfiguredEpicTests('EpicHoldback'),
     { ttlSec: 60 },
 );
 
 const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('LIVEBLOG'),
+    () => fetchConfiguredEpicTests('EpicLiveblog'),
     { ttlSec: 60 },
 );
 
