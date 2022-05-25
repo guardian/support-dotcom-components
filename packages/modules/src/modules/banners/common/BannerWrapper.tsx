@@ -251,11 +251,7 @@ const withBannerData = (
                 numArticles,
             };
             return (
-                <div 
-                    ref={setNode}
-                    aria-hidden="true"
-                    data-a11y-dialog="banner-dialog"
-                >
+                <div ref={setNode} aria-hidden="true" data-a11y-dialog="banner-dialog">
                     <Banner {...props} />
                 </div>
             );
