@@ -54,6 +54,8 @@ export const ContributionsBannerCloseButton: React.FC<ContributionsCloseButtonPr
             <div css={styles.closeButtonContainer}>
                 <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                     <Button
+                        data-a11y-dialog-hide
+                        autoFocus
                         aria-label="Close"
                         data-link-name="contributions-banner : close"
                         priority="tertiary"

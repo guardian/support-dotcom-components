@@ -25,6 +25,7 @@
     "@guardian/src-text-input": "3.8.0",
     "@sdc/shared": "1.0.0",
     "@types/babel__standalone": "^7.1.2",
+    "a11y-dialog": "^7.4.0",
     "preact": "^10.5.12",
     "zod": "^3.2.0"
   },

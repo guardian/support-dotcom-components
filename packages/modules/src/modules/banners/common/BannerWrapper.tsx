@@ -31,6 +31,8 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { buildReminderFields } from '@sdc/shared/lib';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
+import 'a11y-dialog';
+
 // A separate article count is rendered as a subheading
 const buildSubheading = (
     numArticles: number,
@@ -249,7 +251,11 @@ const withBannerData = (
                 numArticles,
             };
             return (
-                <div ref={setNode}>
+                <div 
+                    ref={setNode}
+                    aria-hidden="true"
+                    data-a11y-dialog="banner-dialog"
+                >
                     <Banner {...props} />
                 </div>
             );
