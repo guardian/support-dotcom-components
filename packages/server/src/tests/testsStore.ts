@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { isProd } from '../lib/env';
+import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 
 const stage = isProd ? 'PROD' : 'CODE';
@@ -19,6 +20,7 @@ export const getTests = <T>(channel: ChannelTypes): Promise<T[]> =>
         .then(tests => (tests.Items ?? []).sort((a, b) => a.priority - b.priority) as T[])
         .catch(error => {
             logError(`Error reading tests from Dynamo: ${error.message}`);
+            putMetric('channel-tests-error');
             return [];
         });
 

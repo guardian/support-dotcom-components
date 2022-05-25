@@ -313,6 +313,68 @@ chown -R dotcom-components:support /var/log/dotcom-components
       "Type": "AWS::CertificateManager::Certificate",
       "UpdateReplacePolicy": "Retain",
     },
+    "ChannelTestsAlarmCFFD6DDE": Object {
+      "Properties": Object {
+        "ActionsEnabled": Object {
+          "Fn::FindInMap": Array [
+            "stagemapping",
+            Object {
+              "Ref": "Stage",
+            },
+            "alarmActionsEnabled",
+          ],
+        },
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error fetching channel tests data from Dynamodb",
+        "AlarmName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "support-dotcom-components: Channel Tests error - ",
+              Object {
+                "Ref": "Stage",
+              },
+            ],
+          ],
+        },
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "channel-tests-error",
+        "Namespace": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "support-dotcom-components-",
+              Object {
+                "Ref": "Stage",
+              },
+            ],
+          ],
+        },
+        "Period": 3600,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
     "DescribeEC2PolicyFF5F9295": Object {
       "Properties": Object {
         "PolicyDocument": Object {
