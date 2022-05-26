@@ -1,7 +1,7 @@
 import { UserCohort, Test, Variant } from './shared';
 import { HeaderContent } from '../props';
 import { CountryGroupId } from '../../lib';
-import { purchaseInfo } from '../targeting';
+import { PurchaseInfo } from '../targeting';
 
 export interface HeaderVariant extends Variant {
     name: string;
@@ -17,8 +17,8 @@ export interface HeaderTest extends Test<HeaderVariant> {
     locations: CountryGroupId[];
     userCohort: UserCohort;
     purchaseInfo?: {
-        userType: purchaseInfo['userType'][];
-        product: purchaseInfo['product'][];
+        userType: PurchaseInfo['userType'][];
+        product: PurchaseInfo['product'][];
     };
     isSignedIn?: boolean;
     variants: HeaderVariant[];
