@@ -30,7 +30,7 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
     'research-survey-banner',
-    'banners/researchSurveyBanner',
+    'banners/researchSurveyBanner/ResearchSurveyBanner',
 );
 
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
