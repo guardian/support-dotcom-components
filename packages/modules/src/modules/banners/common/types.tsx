@@ -3,6 +3,7 @@ import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
 
 export type BannerId =
     | 'contributions-banner'
+    | 'research-survey-banner'
     | 'aus-moment-banner'
     | 'investigations-moment-banner'
     | 'environment-moment-banner'

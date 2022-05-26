@@ -24,6 +24,7 @@ export enum BannerTemplate {
     PostElectionAuMomentAlbaneseBanner = 'PostElectionAuMomentAlbaneseBanner',
     PostElectionAuMomentHungBanner = 'PostElectionAuMomentHungBanner',
     PostElectionAuMomentMorrisonBanner = 'PostElectionAuMomentMorrisonBanner',
+    ResearchSurveyBanner = 'ResearchSurveyBanner',
 }
 
 export interface BannerVariant extends Variant {
