@@ -1,9 +1,8 @@
-import { BannerTemplate, BannerTestGenerator, SecondaryCtaType } from '@sdc/shared/dist/types';
-import { contributionsBanner, researchSurveyBanner } from '@sdc/shared/dist/config';
+import { BannerTemplate, BannerTestGenerator } from '@sdc/shared/dist/types';
+import { researchSurveyBanner } from '@sdc/shared/dist/config';
 
 /**
  * TODO:
- * - copy
  * - audience size
  * - targeting
  */
@@ -16,33 +15,11 @@ export const researchSurveyBannerTest: BannerTestGenerator = () =>
             userCohort: 'AllNonSupporters',
             canRun: () => true,
             minPageViews: 4,
+            audience: 0.01, // TODO
+            audienceOffset: 0,
             variants: [
                 {
                     name: 'control',
-                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    moduleName: BannerTemplate.ContributionsBanner,
-                    bannerContent: {
-                        heading: 'Power open, independent journalism',
-                        paragraphs: [],
-                        highlightedText: '',
-                        cta: {
-                            baseUrl:
-                                'https://support.theguardian.com/subscribe/digital/checkout?promoCode=DK0NT24WG&period=Monthly',
-                            text: 'Subscribe',
-                        },
-                        secondaryCta: {
-                            type: SecondaryCtaType.Custom,
-                            cta: {
-                                baseUrl: 'https://support.theguardian.com/subscribe/digital',
-                                text: 'Find out more',
-                            },
-                        },
-                    },
-                    componentType: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
-                    separateArticleCount: false,
-                },
-                {
-                    name: 'variant',
                     modulePathBuilder: researchSurveyBanner.endpointPathBuilder,
                     moduleName: BannerTemplate.ResearchSurveyBanner,
                     bannerContent: {
