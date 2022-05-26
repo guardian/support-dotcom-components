@@ -660,8 +660,7 @@ WithNewsletterSignup.args = {
         highlightedText: undefined,
         heading: 'Sign up to First Edition, our free daily newsletter',
         newsletterSignup: {
-            url:
-                'https://www.theguardian.com/email/form/plaintone/morning-briefing?utm_campaign=epic',
+            url: 'https://www.theguardian.com/email/form/plain/epic/morning-briefing',
         },
     },
 };

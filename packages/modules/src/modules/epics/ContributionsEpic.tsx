@@ -26,6 +26,7 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
 import { logEpicView } from '@sdc/shared/lib';
+import NewsletterSignup from './NewsletterSignup';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -411,37 +412,41 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 />
             )}
 
-            <ContributionsEpicButtons
-                variant={variant}
-                tracking={tracking}
-                countryCode={countryCode}
-                onOpenReminderClick={(): void => {
-                    const buttonCopyAsString = showReminderFields?.reminderCta
-                        .toLowerCase()
-                        .replace(/\s/g, '-');
+            {variant.newsletterSignup ? (
+                <NewsletterSignup url={variant.newsletterSignup.url} />
+            ) : (
+                <ContributionsEpicButtons
+                    variant={variant}
+                    tracking={tracking}
+                    countryCode={countryCode}
+                    onOpenReminderClick={(): void => {
+                        const buttonCopyAsString = showReminderFields?.reminderCta
+                            .toLowerCase()
+                            .replace(/\s/g, '-');
 
-                    // This callback lets the platform react to the user interaction with the
-                    // 'Remind me' button
-                    if (onReminderOpen) {
-                        onReminderOpen({
-                            buttonCopyAsString,
-                        } as OnReminderOpen);
-                    }
-
-                    fetchEmailDefined().then(resolvedEmail => {
-                        if (resolvedEmail) {
-                            setFetchedEmail(resolvedEmail);
+                        // This callback lets the platform react to the user interaction with the
+                        // 'Remind me' button
+                        if (onReminderOpen) {
+                            onReminderOpen({
+                                buttonCopyAsString,
+                            } as OnReminderOpen);
                         }
-                        setIsReminderActive(true);
-                    });
-                }}
-                submitComponentEvent={submitComponentEvent}
-                isReminderActive={isReminderActive}
-                isSignedIn={Boolean(fetchedEmail)}
-                showChoiceCards={showChoiceCards}
-                choiceCardSelection={choiceCardSelection}
-                numArticles={articleCounts.for52Weeks}
-            />
+
+                        fetchEmailDefined().then(resolvedEmail => {
+                            if (resolvedEmail) {
+                                setFetchedEmail(resolvedEmail);
+                            }
+                            setIsReminderActive(true);
+                        });
+                    }}
+                    submitComponentEvent={submitComponentEvent}
+                    isReminderActive={isReminderActive}
+                    isSignedIn={Boolean(fetchedEmail)}
+                    showChoiceCards={showChoiceCards}
+                    choiceCardSelection={choiceCardSelection}
+                    numArticles={articleCounts.for52Weeks}
+                />
+            )}
 
             {isReminderActive && showReminderFields && (
                 <ContributionsEpicReminder

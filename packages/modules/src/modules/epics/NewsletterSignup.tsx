@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
+import { space } from '@guardian/src-foundations';
 
 const containerStyles = css`
+    margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
     width: 100%;
 `;
 

@@ -14,7 +14,6 @@ import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-import NewsletterSignup from './NewsletterSignup';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -159,15 +158,9 @@ export const ContributionsEpicButtons = ({
         isSupportUrl(cta.baseUrl) ||
         (secondaryCta?.type === SecondaryCtaType.Custom && isSupportUrl(secondaryCta.cta.baseUrl));
 
-    if (isReminderActive) {
-        return null;
-    }
-
     return (
         <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
-            {variant.newsletterSignup ? (
-                <NewsletterSignup url={variant.newsletterSignup.url} />
-            ) : (
+            {!isReminderActive && (
                 <>
                     <PrimaryCtaButton
                         cta={getCta(cta)}
