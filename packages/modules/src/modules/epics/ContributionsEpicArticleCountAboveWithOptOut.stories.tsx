@@ -38,3 +38,8 @@ ArticleCountOnBelow5.args = {
         for52Weeks: 3,
     },
 };
+
+export const ArticleCountCopyOverride = Template.bind({})
+ArticleCountCopyOverride.args = {
+    copy: "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year."
+}
