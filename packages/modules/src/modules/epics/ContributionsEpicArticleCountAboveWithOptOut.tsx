@@ -16,7 +16,6 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
-import { template } from "@babel/core";
 
 // --- Component --- //
 
@@ -230,11 +229,6 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
 
 const articleCountTemplate = '%%ARTICLE_COUNT%%'
 const containsArticleCountTemplate = (copy: string): boolean => copy.includes(articleCountTemplate)
-// const articleCountSpan = (copy: string, articleCount: number) => {
-//     const span = `<span css={optOutContainer}>${articleCount}&nbsp;articles</span>`
-//
-//     return copy.replace(articleCountTemplate, span)
-// }
 
 interface CustomArticleCountCopyProps {
     articleCount: number;
@@ -242,7 +236,7 @@ interface CustomArticleCountCopyProps {
 }
 
 const CustomArticleCountCopy: React.FC<CustomArticleCountCopyProps> = ({ articleCount, copy }) => {
-    const [copyHead, copyTail] = copy.split('%%ARTICLE_COUNT%%')
+    const [copyHead, copyTail] = copy.split(articleCountTemplate)
 
     return (
         <div css={articleCountAboveContainerStyles}>
