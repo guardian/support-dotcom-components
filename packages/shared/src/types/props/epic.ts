@@ -71,6 +71,7 @@ const variantSchema = z.object({
     maxViews: maxViewsSchema.optional(),
     showSignInLink: z.boolean().optional(),
     bylineWithImage: bylineWithImageSchema.optional(),
+    articleCountCopy: z.string().optional(),
 });
 
 export const epicPropsSchema = z.object({
