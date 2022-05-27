@@ -7,19 +7,21 @@ const sharedVariantData = {
         text: '',
         baseUrl: '',
     },
-}
+};
 
 const control: EpicVariant = {
     ...sharedVariantData,
     name: 'control',
-    articleCountCopy: "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year.",
-}
+    articleCountCopy:
+        "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year.",
+};
 
 const variant: EpicVariant = {
     ...sharedVariantData,
     name: 'variant',
-    articleCountCopy: "You've read %%ARTICLE_COUNT%% articles in the last year, making you one of our top readers globally.",
-}
+    articleCountCopy:
+        "You've read %%ARTICLE_COUNT%% articles in the last year, making you one of our top readers globally.",
+};
 
 export const usTopReaderCopyTest: EpicTest = {
     audience: 1,
@@ -42,4 +44,4 @@ export const usTopReaderCopyTest: EpicTest = {
         minViews: 50,
         periodInWeeks: 52,
     },
-}
+};

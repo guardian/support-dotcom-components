@@ -193,7 +193,9 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
                     />
                 )}
 
-                {articleCount >= 50 && <TopReaderArticleCount articleCount={articleCount} copy={copy} />}
+                {articleCount >= 50 && (
+                    <TopReaderArticleCount articleCount={articleCount} copy={copy} />
+                )}
 
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
@@ -227,8 +229,8 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     return null;
 };
 
-const articleCountTemplate = '%%ARTICLE_COUNT%%'
-const containsArticleCountTemplate = (copy: string): boolean => copy.includes(articleCountTemplate)
+const articleCountTemplate = '%%ARTICLE_COUNT%%';
+const containsArticleCountTemplate = (copy: string): boolean => copy.includes(articleCountTemplate);
 
 interface CustomArticleCountCopyProps {
     articleCount: number;
@@ -236,20 +238,16 @@ interface CustomArticleCountCopyProps {
 }
 
 const CustomArticleCountCopy: React.FC<CustomArticleCountCopyProps> = ({ articleCount, copy }) => {
-    const [copyHead, copyTail] = copy.split(articleCountTemplate)
+    const [copyHead, copyTail] = copy.split(articleCountTemplate);
 
     return (
         <div css={articleCountAboveContainerStyles}>
             {copyHead}
             <span css={optOutContainer}>{articleCount}&nbsp;articles</span>
-            {
-                copyTail.substring(1, 9) === 'articles'
-                    ? copyTail.substring(9)
-                    : copyTail
-            }
+            {copyTail.substring(1, 9) === 'articles' ? copyTail.substring(9) : copyTail}
         </div>
-    )
-}
+    );
+};
 
 interface ArticleCountProps {
     articleCount: number;
@@ -257,21 +255,20 @@ interface ArticleCountProps {
     copy?: string;
 }
 
-const ArticleCount: React.FC<ArticleCountProps> = ({ articleCount, aboveArticleCountByTag, copy }) => {
+const ArticleCount: React.FC<ArticleCountProps> = ({
+    articleCount,
+    aboveArticleCountByTag,
+    copy,
+}) => {
     if (copy && containsArticleCountTemplate(copy)) {
-        return (
-            <CustomArticleCountCopy
-                articleCount={articleCount}
-                copy={copy}
-            />
-        )
+        return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;
     } else {
         const timeWindowCopy = aboveArticleCountByTag ? (
             <span>
-            about the
-            <br />
-            climate crisis in the last six weeks
-        </span>
+                about the
+                <br />
+                climate crisis in the last six weeks
+            </span>
         ) : (
             'in the last year'
         );
@@ -292,12 +289,7 @@ interface TopReaderArticleCountProps {
 
 const TopReaderArticleCount: React.FC<TopReaderArticleCountProps> = ({ articleCount, copy }) => {
     if (copy && containsArticleCountTemplate(copy)) {
-        return (
-            <CustomArticleCountCopy
-                articleCount={articleCount}
-                copy={copy}
-            />
-        )
+        return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;
     } else {
         return (
             <div css={articleCountAboveContainerStyles}>
