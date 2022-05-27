@@ -1,4 +1,4 @@
-import { Cta, EpicTest, EpicVariant, SeparateArticleCount } from '@sdc/shared/dist/types';
+import { Cta, EpicTest, EpicVariant } from '@sdc/shared/dist/types';
 
 const paragraphs: string[] = [
     'Since we started publishing 200 years ago, tens of millions have placed their trust in the Guardian’s fearless journalism, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially – keeping us open to all, and fiercely independent.',
@@ -13,17 +13,18 @@ const cta: Cta = {
     baseUrl: 'https://support.theguardian.com/contribute',
 };
 const showChoiceCards = true;
-const separateArticleCount: SeparateArticleCount = { type: 'above' };
 
 const control: EpicVariant = {
     paragraphs,
     highlightedText,
     cta,
     showChoiceCards,
-    separateArticleCount,
+    separateArticleCount: {
+        type: 'above',
+        copy:
+            "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year.",
+    },
     name: 'control',
-    articleCountCopy:
-        "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year.",
 };
 
 const variant: EpicVariant = {
@@ -31,10 +32,12 @@ const variant: EpicVariant = {
     highlightedText,
     cta,
     showChoiceCards,
-    separateArticleCount,
+    separateArticleCount: {
+        type: 'above',
+        copy:
+            "You've read %%ARTICLE_COUNT%% articles in the last year, making you one of our top readers globally.",
+    },
     name: 'variant',
-    articleCountCopy:
-        "You've read %%ARTICLE_COUNT%% articles in the last year, making you one of our top readers globally.",
 };
 
 export const usTopReaderCopyTest: EpicTest = {

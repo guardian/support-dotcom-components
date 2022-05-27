@@ -20,6 +20,7 @@ export interface MaxViews {
 
 export interface SeparateArticleCount {
     type: 'above';
+    copy?: string;
 }
 
 export interface EpicVariant extends Variant {
@@ -39,7 +40,6 @@ export interface EpicVariant extends Variant {
     choiceCardAmounts?: ChoiceCardAmounts;
     defaultChoiceCardFrequency?: ContributionFrequency;
     bylineWithImage?: BylineWithImage;
-    articleCountCopy?: string;
 
     // Variant level maxViews are for special targeting tests. These
     // are handled differently to our usual copy/design tests. To
