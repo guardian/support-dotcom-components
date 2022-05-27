@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArticleCountOptOutPopup, OphanTracking } from '../modules/shared/ArticleCountOptOutPopup';
 import { ArticleCountOptOutType } from '../modules/shared/ArticleCountOptOutPopup';
+import { ARTICLE_COUNT_TEMPLATE } from '@sdc/shared/dist/lib';
 
 export const replaceArticleCountWithLink = (
     text: string,
@@ -9,10 +10,13 @@ export const replaceArticleCountWithLink = (
     tracking?: OphanTracking,
 ): Array<JSX.Element> => {
     const nextWords: Array<string | null> = [];
-    const subbedText = text.replace(/%%ARTICLE_COUNT%%( \w+)?/g, (_, nextWord) => {
-        nextWords.push(nextWord);
-        return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
-    });
+    const subbedText = text.replace(
+        RegExp(`${ARTICLE_COUNT_TEMPLATE}( \w+)?`, 'g'),
+        (_, nextWord) => {
+            nextWords.push(nextWord);
+            return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
+        },
+    );
 
     const parts = subbedText.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
     const elements = [];
@@ -51,7 +55,7 @@ export const replaceArticleCount = (
     return (
         <span
             dangerouslySetInnerHTML={{
-                __html: text.replace(/%%ARTICLE_COUNT%%/, `${numArticles}`),
+                __html: text.replace(RegExp(ARTICLE_COUNT_TEMPLATE), `${numArticles}`),
             }}
         />
     );

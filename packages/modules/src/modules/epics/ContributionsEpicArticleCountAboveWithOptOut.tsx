@@ -16,6 +16,7 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
+import { ARTICLE_COUNT_TEMPLATE } from '@sdc/shared/dist/lib';
 
 // --- Component --- //
 
@@ -229,8 +230,8 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     return null;
 };
 
-const articleCountTemplate = '%%ARTICLE_COUNT%%';
-const containsArticleCountTemplate = (copy: string): boolean => copy.includes(articleCountTemplate);
+const containsArticleCountTemplate = (copy: string): boolean =>
+    copy.includes(ARTICLE_COUNT_TEMPLATE);
 
 interface CustomArticleCountCopyProps {
     articleCount: number;
@@ -238,7 +239,7 @@ interface CustomArticleCountCopyProps {
 }
 
 const CustomArticleCountCopy: React.FC<CustomArticleCountCopyProps> = ({ articleCount, copy }) => {
-    const [copyHead, copyTail] = copy.split(articleCountTemplate);
+    const [copyHead, copyTail] = copy.split(ARTICLE_COUNT_TEMPLATE);
 
     return (
         <div css={articleCountAboveContainerStyles}>
