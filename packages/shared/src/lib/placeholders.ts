@@ -64,18 +64,14 @@ export const replaceNonArticleCountPlaceholders = (
     });
 };
 
-export const ARTICLE_COUNT_TEMPLATE = '%%ARTICLE_COUNT%%';
-export const CURRENCY_SYMBOL_TEMPLATE = '%%CURRENCY_SYMBOL%%';
-export const COUNTRY_NAME_TEMPLATE = '%%COUNTRY_NAME%%';
-
 // Nb. don't attempt to use lookbehind (?<!) here, as IE 11 will break alas
 const PLACEHOLDER_RE = /%%.*?%%/g;
 export const containsNonArticleCountPlaceholder = (text: string): boolean => {
-    const matches = text.match(PLACEHOLDER_RE)?.filter(str => str !== ARTICLE_COUNT_TEMPLATE);
+    const matches = text.match(PLACEHOLDER_RE)?.filter(str => str !== '%%ARTICLE_COUNT%%');
     return !!matches && matches.length > 0;
 };
 
 export const containsArticleCountPlaceholder = (text: string): boolean => {
-    const matches = text.match(RegExp(ARTICLE_COUNT_TEMPLATE, 'g'));
+    const matches = text.match(/%%ARTICLE_COUNT%%/g);
     return !!matches && matches.length > 0;
 };
