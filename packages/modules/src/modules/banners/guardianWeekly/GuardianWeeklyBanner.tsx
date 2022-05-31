@@ -45,7 +45,7 @@ const mobileImg =
 const baseImg = {
     url: desktopImg,
     media: '(min-width: 980px)',
-    alt: 'The Guardian Weekly magazine',
+    alt: 'The Guardian Weekly magazine - 50% off for 3 months',
 };
 
 const images = [
