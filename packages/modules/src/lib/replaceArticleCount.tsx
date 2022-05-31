@@ -11,7 +11,7 @@ export const replaceArticleCountWithLink = (
 ): Array<JSX.Element> => {
     const nextWords: Array<string | null> = [];
     const subbedText = text.replace(
-        RegExp(`${ARTICLE_COUNT_TEMPLATE}( \w+)?`, 'g'),
+        RegExp(`${ARTICLE_COUNT_TEMPLATE}( \\w+)?`, 'g'),
         (_, nextWord) => {
             nextWords.push(nextWord);
             return '%%ARTICLE_COUNT_AND_NEXT_WORD%%';
