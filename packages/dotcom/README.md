@@ -1,4 +1,4 @@
-## @sdc/dotcom
+## @guardian/support-dotcom-components
 
 A library for use by dotcom (frontend/DCR). This is for sharing logic and types with dotcom (frontend + dcr).
 
