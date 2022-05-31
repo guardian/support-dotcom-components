@@ -16,14 +16,18 @@ export const replaceArticleCountWithLink = (
 
     const parts = subbedText.split(/%%ARTICLE_COUNT_AND_NEXT_WORD%%/);
     const elements = [];
+    let key = 0;
     for (let i = 0; i < parts.length - 1; i += 1) {
-        elements.push(<span dangerouslySetInnerHTML={{ __html: parts[i] as string }} />);
+        elements.push(
+            <span dangerouslySetInnerHTML={{ __html: parts[i] as string }} key={key++} />,
+        );
         elements.push(
             <ArticleCountOptOutPopup
                 numArticles={numArticles}
                 nextWord={nextWords[i] as string}
                 type={articleCountOptOutType}
                 tracking={tracking}
+                key={key++}
             />,
         );
     }
@@ -32,6 +36,7 @@ export const replaceArticleCountWithLink = (
             dangerouslySetInnerHTML={{
                 __html: parts[parts.length - 1] as string,
             }}
+            key={key++}
         />,
     );
 
