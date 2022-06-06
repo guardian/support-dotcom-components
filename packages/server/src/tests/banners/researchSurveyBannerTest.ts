@@ -15,7 +15,7 @@ export const researchSurveyBannerTest: BannerTestGenerator = () => {
                 name: '2022-05-26_research-survey-banner-test',
                 bannerChannel: 'subscriptions',
                 isHardcoded: true,
-                userCohort: 'AllNonSupporters',
+                userCohort: 'Everyone',
                 canRun: targeting => targeting.contentType !== 'Network Front',
                 minPageViews: 4,
                 audience: 0.05, // 5%
