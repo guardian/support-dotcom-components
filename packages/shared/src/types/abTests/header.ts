@@ -1,4 +1,4 @@
-import { UserCohort, Test, Variant } from './shared';
+import { UserCohort, Test, Variant, TestStatus } from './shared';
 import { HeaderContent } from '../props';
 import { CountryGroupId } from '../../lib';
 import { PurchaseInfo } from '../targeting';
@@ -13,7 +13,7 @@ export interface HeaderVariant extends Variant {
 
 export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
-    isOn: boolean;
+    status: TestStatus;
     locations: CountryGroupId[];
     userCohort: UserCohort;
     purchaseInfo?: {

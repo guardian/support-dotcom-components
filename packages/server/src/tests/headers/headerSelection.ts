@@ -15,7 +15,7 @@ const moduleName = 'Header';
 const nonSupportersTestNonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -48,7 +48,7 @@ const nonSupportersTestNonUK: HeaderTest = {
 const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: ['GBPCountries'],
     variants: [
         {
@@ -74,7 +74,7 @@ const nonSupportersTestUK: HeaderTest = {
 const supportersTest: HeaderTest = {
     name: 'header-supporter',
     userCohort: 'AllExistingSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -99,7 +99,7 @@ const supportersTest: HeaderTest = {
 
 const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
     userCohort: 'Everyone',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -294,10 +294,10 @@ export const selectBestTest = (
     const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
 
     const selectedTest = allTests.find(test => {
-        const { isOn, userCohort, locations } = test;
+        const { status, userCohort, locations } = test;
 
         return (
-            isOn &&
+            status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             inCountryGroups(countryCode, locations) &&
             userIsInTest(test, targeting.mvtId) &&

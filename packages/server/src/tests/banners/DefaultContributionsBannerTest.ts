@@ -1,14 +1,13 @@
 import { contributionsBanner } from '@sdc/shared/config';
-import { BannerTargeting, BannerTest, PageTracking } from '@sdc/shared/types';
+import { BannerTest } from '@sdc/shared/types';
 import { DefaultBannerContent } from './DefaultContributionsBannerContent';
 
 export const DefaultContributionsBanner: BannerTest = {
     name: 'DefaultContributionsBanner',
+    status: 'Live',
     bannerChannel: 'contributions',
     isHardcoded: false,
     userCohort: 'AllNonSupporters',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    canRun: (_targeting: BannerTargeting, _pageTracking: PageTracking) => true,
     minPageViews: 2,
     variants: [
         {

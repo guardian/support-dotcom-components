@@ -4,6 +4,7 @@ import {
     ArticlesViewedSettings,
     ControlProportionSettings,
     Test,
+    TestStatus,
     UserCohort,
     Variant,
 } from './shared';
@@ -85,7 +86,7 @@ export type ChoiceCardAmounts = {
 
 export interface EpicTest extends Test<EpicVariant> {
     name: string;
-    isOn: boolean;
+    status: TestStatus;
     locations: CountryGroupId[];
     tagIds: string[];
     sections: string[]; // section IDs

@@ -137,13 +137,13 @@ export const selectBannerTest = async (
         const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
 
         if (
+            test.status === 'Live' &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
-            test.canRun(targeting, pageTracking) &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,

@@ -18,7 +18,7 @@ jest.mock('../../lib/fetchTickerData', () => {
 const epicTest: AmpEpicTest = {
     name: 'TEST1',
     nickname: 'TEST1',
-    isOn: true,
+    status: 'Live',
     locations: [],
     variants: [
         {
@@ -101,7 +101,7 @@ describe('ampEpicTests', () => {
     });
 
     it('should not select test if disabled', async () => {
-        const tests = [{ ...epicTest, isOn: false }];
+        const tests: AmpEpicTest[] = [{ ...epicTest, status: 'Draft' }];
         const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
         expect(result).toEqual(null);
     });
