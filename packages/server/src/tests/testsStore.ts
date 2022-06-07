@@ -32,7 +32,12 @@ function queryChannel(channel: ChannelTypes, stage: string) {
             KeyConditionExpression: 'channel = :channel',
             ExpressionAttributeValues: {
                 ':channel': channel,
+                ':archived': 'Archived',
             },
+            ExpressionAttributeNames: {
+                '#status': 'status', // Necessary because status is a reserved word in dynamodb
+            },
+            FilterExpression: '#status <> :archived',
         })
         .promise();
 }
