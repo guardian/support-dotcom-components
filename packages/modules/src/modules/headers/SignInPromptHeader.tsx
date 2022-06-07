@@ -4,6 +4,7 @@ import { brandAlt, brandText, space } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
+import { from } from '@guardian/src-foundations/mq';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 
 const FADE_TIME_MS = 300;
@@ -13,19 +14,20 @@ const DOTS_COUNT = 3;
 
 const headingStyles = () => css`
     color: ${brandText.primary};
-    ${headline.xxsmall({ fontWeight: 'bold' })};
+    ${headline.xxxsmall({ fontWeight: 'bold' })};
     margin: 0;
 `;
 
 const subHeadingStyles = css`
     color: ${brandAlt[400]};
     ${headline.xxxsmall({ fontWeight: 'bold' })};
+    font-size: 14px;
     margin: 0;
 `;
 
 const benefitsWrapper = css`
-    margin: ${space[1]}px 0 10px;
-    height: 20px;
+    margin: 2px 0 ${space[2]}px;
+    height: 16px;
     position: relative;
 `;
 
@@ -43,13 +45,14 @@ const dotStyles = css`
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    margin-top: 3px;
-    margin-right: ${space[2]}px;
+    margin-top: 2px;
+    margin-right: ${space[1]}px;
 `;
 
 const benefitTextStyles = css`
     color: ${brandText.primary};
     ${headline.xxxsmall()};
+    font-size: 14px;
 `;
 
 const fadeable = css`
