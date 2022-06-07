@@ -27,6 +27,7 @@ module.exports = {
             'error',
             {
                 args: 'after-used',
+                ignoreRestSiblings: true,
             },
         ],
         'react/display-name': 'off',

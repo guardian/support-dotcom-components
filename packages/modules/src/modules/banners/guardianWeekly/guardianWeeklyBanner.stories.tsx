@@ -36,7 +36,8 @@ export const defaultStory = (): ReactElement => {
         paragraphs: array(
             'paragraphs',
             [
-                'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
+                'Find clarity with the Guardian Weekly – an essential roundup of news, analysis and insight, handpicked from the Guardian and Observer editorial team from across the globe and delivered to your door.',
+                'For a limited time, save 30% on an annual subscription.',
             ],
             '|',
         ),

@@ -7,6 +7,7 @@ export interface HeaderContent {
     subheading: string;
     primaryCta?: Cta;
     secondaryCta?: Cta;
+    benefits?: string[];
 }
 
 const headerContentSchema = z.object({

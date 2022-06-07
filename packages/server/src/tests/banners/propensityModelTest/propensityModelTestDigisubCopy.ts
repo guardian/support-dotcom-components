@@ -1,4 +1,5 @@
 import { BannerContent, SecondaryCtaType } from '@sdc/shared/types';
+import { CountryGroupId } from '@sdc/shared/dist/lib';
 
 const buildDigisubContent = (paragraphs: string[], highlightedText: string): BannerContent => ({
     heading: 'Power open, independent journalism',
@@ -46,3 +47,13 @@ export const CA_NZ_DIGISUB_CONTENT = buildDigisubContent(
     [buildDigisubBody('from just $3 a week')],
     DEFAULT_HIGHLIGHTED_TEXT,
 );
+
+export const DIGISUB_CONTENT: { [key in CountryGroupId]: BannerContent } = {
+    GBPCountries: UK_DIGISUB_CONTENT,
+    UnitedStates: US_ROW_DIGISUB_CONTENT,
+    International: US_ROW_DIGISUB_CONTENT,
+    EURCountries: EU_DIGISUB_CONTENT,
+    AUDCountries: AU_DIGISUB_CONTENT,
+    Canada: CA_NZ_DIGISUB_CONTENT,
+    NZDCountries: CA_NZ_DIGISUB_CONTENT,
+};

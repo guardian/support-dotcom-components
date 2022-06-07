@@ -2,84 +2,105 @@ import { contributionsBanner, guardianWeekly } from '@sdc/shared/dist/config';
 import {
     BannerTestGenerator,
     BannerTargeting,
-    BannerTest,
     OphanComponentType,
     BannerTemplate,
+    BannerVariant,
 } from '@sdc/shared/dist/types';
-import { CountryGroupId } from '@sdc/shared/dist/lib';
-import { BannerContent } from '@sdc/shared/types';
-import {
-    US_ROW_DIGISUB_CONTENT,
-    UK_DIGISUB_CONTENT,
-    AU_DIGISUB_CONTENT,
-    EU_DIGISUB_CONTENT,
-    CA_NZ_DIGISUB_CONTENT,
-} from './propensityModelTestDigisubCopy';
-import { isInPropensityTest } from './propensityModelTestData';
-import {
-    AU_GW_CONTENT,
-    EU_GW_CONTENT,
-    NZ_GW_CONTENT,
-    UK_US_ROW_GW_CONTENT,
-} from './propensityModelTestGWCopy';
+import { countryCodeToCountryGroupId, inCountryGroups } from '@sdc/shared/dist/lib';
+import { UK_DIGISUB_CONTENT, DIGISUB_CONTENT } from './propensityModelTestDigisubCopy';
+import { fetchHighPropensityIds, isInPropensityTest } from './propensityModelTestData';
+import { GW_CONTENT } from './propensityModelTestGWCopy';
 
 /**
  * This file defines a banner AB test based on ML propensity model data.
- * It targets browserIds identified as both:
- * - high-propensity Guardian Weekly
- * - low-propensity Digisub
  *
- * Only browserIds in this list are put into the test.
- * In the control, all browsers see Digisub banner.
- * In the variant, all browsers see GW banner.
+ * All browsers are put into the test.
+ *
+ * In the control:
+ *  - all European browsers see GW
+ *  - all other browsers see DS
+ *
+ * In the variant:
+ *  - all high-GW/low-DS browsers see GW
+ *  - all other browsers see DS
  */
 
 const channelName: OphanComponentType = 'ACQUISITIONS_SUBSCRIPTIONS_BANNER'; // aka channel 2
 
-const buildTest = (
-    locations: CountryGroupId[],
-    name: string,
-    digisubContent: BannerContent,
-    gwContent: BannerContent,
-): BannerTest => ({
-    name: `2022-04-05_BannerTargeting_GW_DS_Propensity__${name}`,
-    bannerChannel: 'subscriptions',
-    isHardcoded: true,
-    userCohort: 'AllNonSupporters',
-    locations,
-    canRun: (targeting: BannerTargeting) =>
-        !!targeting.browserId && isInPropensityTest(targeting.browserId),
-    minPageViews: 4,
-    variants: [
+export const PROPENSITY_MODEL_TEST_NAME = '2022-05-13_BannerTargeting_GW_DS_Propensity_v2';
+const CONTROL_NAME = 'control';
+const VARIANT_NAME = 'variant';
+
+export const propensityModelBannerTest: BannerTestGenerator = () => {
+    // Kick off streaming of browserIds into memory, but resolve immediately to avoid blocking other tests
+    fetchHighPropensityIds();
+
+    return Promise.resolve([
         {
-            name: 'control',
-            modulePathBuilder: contributionsBanner.endpointPathBuilder,
-            moduleName: BannerTemplate.ContributionsBanner,
-            bannerContent: digisubContent,
-            componentType: channelName,
+            name: PROPENSITY_MODEL_TEST_NAME,
+            bannerChannel: 'subscriptions',
+            // Exclude AU/NZ, which has an offer
+            locations: ['GBPCountries', 'UnitedStates', 'EURCountries', 'International', 'Canada'],
+            isHardcoded: true,
+            userCohort: 'AllNonSupporters',
+            status: 'Live',
+            minPageViews: 4,
+            variants: [
+                {
+                    name: CONTROL_NAME,
+                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
+                    moduleName: BannerTemplate.ContributionsBanner,
+                    bannerContent: UK_DIGISUB_CONTENT,
+                    componentType: channelName,
+                },
+                {
+                    name: VARIANT_NAME,
+                    modulePathBuilder: guardianWeekly.endpointPathBuilder,
+                    moduleName: BannerTemplate.GuardianWeeklyBanner,
+                    bannerContent: GW_CONTENT,
+                    componentType: channelName,
+                },
+            ],
         },
-        {
-            name: 'variant',
-            modulePathBuilder: guardianWeekly.endpointPathBuilder,
-            moduleName: BannerTemplate.GuardianWeeklyBanner,
-            bannerContent: gwContent,
-            componentType: channelName,
-        },
-    ],
+    ]);
+};
+
+const getGWBanner = (variantName: string): BannerVariant => ({
+    name: variantName,
+    modulePathBuilder: guardianWeekly.endpointPathBuilder,
+    moduleName: BannerTemplate.GuardianWeeklyBanner,
+    bannerContent: GW_CONTENT,
+    componentType: channelName,
+    products: ['PRINT_SUBSCRIPTION'],
 });
 
-export const propensityModelBannerTest: BannerTestGenerator = () =>
-    // On startup resolve immediately rather than wait to stream the browserIds, to avoid blocking all banner tests from running
-    Promise.resolve([
-        buildTest(['GBPCountries'], 'UK', UK_DIGISUB_CONTENT, UK_US_ROW_GW_CONTENT),
-        buildTest(
-            ['UnitedStates', 'International'],
-            'US_ROW',
-            US_ROW_DIGISUB_CONTENT,
-            UK_US_ROW_GW_CONTENT,
-        ),
-        buildTest(['AUDCountries'], 'AU', AU_DIGISUB_CONTENT, AU_GW_CONTENT),
-        buildTest(['NZDCountries'], 'NZ', CA_NZ_DIGISUB_CONTENT, NZ_GW_CONTENT),
-        buildTest(['EURCountries'], 'EU', EU_DIGISUB_CONTENT, EU_GW_CONTENT),
-        buildTest(['Canada'], 'CA', CA_NZ_DIGISUB_CONTENT, UK_US_ROW_GW_CONTENT),
-    ]);
+const getDSBanner = (variantName: string, targeting: BannerTargeting): BannerVariant => ({
+    name: variantName,
+    modulePathBuilder: contributionsBanner.endpointPathBuilder,
+    moduleName: BannerTemplate.ContributionsBanner,
+    bannerContent:
+        DIGISUB_CONTENT[countryCodeToCountryGroupId(targeting.countryCode.toUpperCase())],
+    componentType: channelName,
+    products: ['DIGITAL_SUBSCRIPTION'],
+});
+
+const getControlBanner = (variantName: string, targeting: BannerTargeting): BannerVariant =>
+    // are they in Europe?
+    inCountryGroups(targeting.countryCode, ['EURCountries'])
+        ? getGWBanner(variantName)
+        : getDSBanner(variantName, targeting);
+
+const getVariantBanner = (variantName: string, targeting: BannerTargeting): BannerVariant =>
+    // are they high-propensity?
+    targeting.browserId && isInPropensityTest(targeting.browserId)
+        ? getGWBanner(variantName)
+        : getDSBanner(variantName, targeting);
+
+// This test is unusual because we decide what to show *after* assigning the browser to a variant
+export const getPropensityModelTestVariantData = (
+    variantName: string,
+    targeting: BannerTargeting,
+): BannerVariant =>
+    variantName === CONTROL_NAME
+        ? getControlBanner(variantName, targeting)
+        : getVariantBanner(variantName, targeting);

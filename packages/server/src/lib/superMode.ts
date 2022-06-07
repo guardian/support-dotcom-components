@@ -3,7 +3,8 @@ import { isProd } from './env';
 import { addDays, format } from 'date-fns';
 import { EpicTest } from '@sdc/shared/types';
 import { CountryGroupId } from '@sdc/shared/lib';
-import { logInfo } from '../utils/logging';
+import { logError, logInfo } from '../utils/logging';
+import { putMetric } from '../utils/cloudwatch';
 
 const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
 const stage = isProd ? 'PROD' : 'CODE';
@@ -14,7 +15,11 @@ export interface SuperModeArticle {
 }
 
 export const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
-    const records = await queryActiveArticles(stage, docClient);
+    const records = await queryActiveArticles(stage, docClient).catch(error => {
+        logError(`Error fetching super mode articles from dynamo: ${error}`);
+        putMetric('super-mode-error');
+        return [];
+    });
 
     logInfo(`Got super mode articles from dynamo, number of records: ${records.length}`);
 

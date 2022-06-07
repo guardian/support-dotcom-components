@@ -3,7 +3,6 @@ import { css, ThemeProvider } from '@emotion/react';
 import { Button, buttonBrandAlt } from '@guardian/src-button';
 import { textSans } from '@guardian/src-foundations/typography';
 import { space } from '@guardian/src-foundations';
-import { neutral, error } from '@guardian/src-foundations/palette';
 import { Columns, Column, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { TextInput } from '@guardian/src-text-input';
@@ -11,6 +10,7 @@ import { SvgCheckmark } from '@guardian/src-icons';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';
+import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
 
 const bodyContainerStyles = css`
     padding: 10px 0;
@@ -74,35 +74,11 @@ const emailInputStyles = css`
 `;
 
 const errorCopyContainerStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })};
-    color: ${error[400]};
-    font-style: italic;
     margin-top: ${space[1]}px;
-    margin-bottom: 0;
 `;
 
 const infoCopyContainerStyles = css`
-    ${textSans.small({})}
-    font-size: 12px;
-
     margin-top: ${space[3]}px;
-`;
-
-const thankyouHeaderStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })}
-`;
-
-const thankyouBodyStyles = css`
-    ${textSans.small({})}
-`;
-
-const privacyLinkSyles = css`
-    font-weight: bold;
-    color: ${neutral[0]};
-`;
-
-const contactLinkStyles = css`
-    color: ${neutral[0]};
 `;
 
 export interface ContributionsBannerReminderSignedOutProps {
@@ -117,6 +93,10 @@ export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerR
     onReminderSetClick,
 }) => {
     const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();
+
+    const reminderLabelWithPreposition = ensureHasPreposition(
+        reminderCta.reminderFields.reminderLabel,
+    );
 
     return (
         <>
@@ -135,7 +115,11 @@ export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerR
                         )}
 
                         {reminderStatus === ReminderStatus.Completed && (
-                            <ThankYou reminderLabel={reminderCta.reminderFields.reminderLabel} />
+                            <div css={bodyContainerStyles}>
+                                <ThankYou
+                                    reminderLabelWithPreposition={reminderLabelWithPreposition}
+                                />
+                            </div>
                         )}
                     </Column>
                 </Columns>
@@ -160,9 +144,13 @@ export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerR
                         {reminderStatus === ReminderStatus.Completed && (
                             <>
                                 <Column width={9 / 16}>
-                                    <ThankYou
-                                        reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                    />
+                                    <div css={bodyContainerStyles}>
+                                        <ThankYou
+                                            reminderLabelWithPreposition={
+                                                reminderLabelWithPreposition
+                                            }
+                                        />
+                                    </div>
                                 </Column>
 
                                 <Column width={4 / 16}> </Column>
@@ -197,9 +185,13 @@ export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerR
                         {reminderStatus === ReminderStatus.Completed && (
                             <>
                                 <Column width={9 / 14}>
-                                    <ThankYou
-                                        reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                    />
+                                    <div css={bodyContainerStyles}>
+                                        <ThankYou
+                                            reminderLabelWithPreposition={
+                                                reminderLabelWithPreposition
+                                            }
+                                        />
+                                    </div>
                                 </Column>
 
                                 <Column width={3 / 14}> </Column>
@@ -229,9 +221,11 @@ export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerR
                     {reminderStatus === ReminderStatus.Completed && (
                         <>
                             <Column width={9 / 16}>
-                                <ThankYou
-                                    reminderLabel={reminderCta.reminderFields.reminderLabel}
-                                />
+                                <div css={bodyContainerStyles}>
+                                    <ThankYou
+                                        reminderLabelWithPreposition={reminderLabelWithPreposition}
+                                    />
+                                </div>
                             </Column>
 
                             <Column width={4 / 16}> </Column>
@@ -292,44 +286,12 @@ function Body({
 
             {reminderStatus === ReminderStatus.Error && (
                 <div css={errorCopyContainerStyles}>
-                    Sorry we couldn&apos;t set a reminder for you this time. Please try again later.
+                    <ErrorCopy />
                 </div>
             )}
 
             <div css={infoCopyContainerStyles}>
-                We will send you a maximum of two emails in {reminderLabel}. To find out what
-                personal data we collect and how we use it, view our{' '}
-                <a
-                    css={privacyLinkSyles}
-                    href="https://www.theguardian.com/help/privacy-policy"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Privacy policy
-                </a>
-            </div>
-        </div>
-    );
-}
-
-interface ThankYouProps {
-    reminderLabel: string;
-}
-
-function ThankYou({ reminderLabel }: ThankYouProps) {
-    const reminderLabelWithPreposition = ensureHasPreposition(reminderLabel);
-
-    return (
-        <div css={bodyContainerStyles}>
-            <div css={thankyouHeaderStyles}>Thank you! Your reminder is set</div>
-
-            <div css={thankyouBodyStyles}>
-                We will be in touch to invite you to contribute. Look out for a message in your
-                inbox {reminderLabelWithPreposition}. If you have any questions about contributing,
-                please{' '}
-                <a href="mailto:contribution.support@theguardian.com" css={contactLinkStyles}>
-                    contact us
-                </a>
+                <InfoCopy reminderLabelWithPreposition={reminderDateWithPreposition} />
             </div>
         </div>
     );

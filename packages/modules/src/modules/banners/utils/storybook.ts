@@ -18,7 +18,7 @@ export const tracking: Tracking = {
 };
 
 export const content = {
-    heading: 'Show your support for high&#8209;impact reporting',
+    heading: 'Show your support for high&#8209;impact reporting.',
     messageText:
         'In the extraordinary year that was 2021, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
     paragraphs: [

@@ -3,7 +3,7 @@ import { cacheAsync } from '../../lib/cache';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
-} from './ChannelBannerTests';
+} from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import { propensityModelBannerTest } from './propensityModelTest/propensityModelTest';
 
@@ -14,7 +14,7 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
-    propensityModelBannerTest, // hardcoded test
+    propensityModelBannerTest,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
 ];

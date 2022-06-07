@@ -136,10 +136,19 @@ WithAboveArticleCount.args = {
         },
     },
     articleCounts: {
+        for52Weeks: 25,
+        forTargetedWeeks: 25,
+    },
+    hasConsentForArticleCount: true,
+};
+
+export const WithAboveTopReaderArticleCount = Template.bind({});
+WithAboveTopReaderArticleCount.args = {
+    ...WithAboveArticleCount.args,
+    articleCounts: {
         for52Weeks: 99,
         forTargetedWeeks: 99,
     },
-    hasConsentForArticleCount: true,
 };
 
 export const WithAboveArticleCountNoConsent = Template.bind({});

@@ -17,14 +17,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
 });
 
 export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
-export const epicTopReaderAcBadgeV1: ModuleInfo = getDefaultModuleInfo(
-    'epic',
-    'epics/ContributionsEpicTopReaderArticleCountBadgeV1',
-);
-export const epicTopReaderAcBadgeV2: ModuleInfo = getDefaultModuleInfo(
-    'epic',
-    'epics/ContributionsEpicTopReaderArticleCountBadgeV2',
-);
 
 export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'liveblog-epic',
@@ -56,6 +48,26 @@ export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/globalNewYear/GlobalNewYearBanner',
 );
 
+export const electionAuMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'election-au-moment-banner',
+    'banners/electionAuMoment/ElectionAuMomentBanner',
+);
+
+export const postElectionAuMomentAlbaneseBanner: ModuleInfo = getDefaultModuleInfo(
+    'post-election-au-moment-albanese-banner',
+    'banners/postElectionAuMoment/PostElectionAuMomentAlbaneseBanner',
+);
+
+export const postElectionAuMomentHungBanner: ModuleInfo = getDefaultModuleInfo(
+    'post-election-au-moment-hung-banner',
+    'banners/postElectionAuMoment/PostElectionAuMomentHungBanner',
+);
+
+export const postElectionAuMomentMorrisonBanner: ModuleInfo = getDefaultModuleInfo(
+    'post-election-au-moment-morrison-banner',
+    'banners/postElectionAuMoment/PostElectionAuMomentMorrisonBanner',
+);
+
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -71,20 +83,28 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
     'puzzles/puzzlesBanner/PuzzlesBanner',
 );
 
-export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
+export const header: ModuleInfo = getDefaultModuleInfo('header', 'headers/Header');
+
+export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
+    'signInPromptHeader',
+    'headers/SignInPromptHeader',
+);
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
-    epicTopReaderAcBadgeV1,
-    epicTopReaderAcBadgeV2,
     liveblogEpic,
     contributionsBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
     globalNewYearBanner,
+    electionAuMomentBanner,
+    postElectionAuMomentAlbaneseBanner,
+    postElectionAuMomentHungBanner,
+    postElectionAuMomentMorrisonBanner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
     header,
+    signInPromptHeader,
 ];

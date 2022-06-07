@@ -1,5 +1,5 @@
 import { CountryGroupId } from '@sdc/shared/lib';
-import { Cta, TickerSettings, ContributionFrequency } from '@sdc/shared/types';
+import { Cta, TickerSettings, ContributionFrequency, TestStatus } from '@sdc/shared/types';
 import { AMPTicker } from './ampTicker';
 
 /**
@@ -41,7 +41,7 @@ export interface AmpEpicTestVariant {
 export interface AmpEpicTest {
     name: string;
     nickname?: string;
-    isOn: boolean;
+    status: TestStatus;
     locations: CountryGroupId[];
     variants: AmpEpicTestVariant[];
 }

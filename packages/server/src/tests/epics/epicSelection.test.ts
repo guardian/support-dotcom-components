@@ -21,7 +21,7 @@ import {
 
 const testDefault: EpicTest = {
     name: 'example-1',
-    isOn: true,
+    status: 'Live',
     locations: [],
     audience: 1,
     tagIds: [],

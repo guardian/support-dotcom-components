@@ -7,15 +7,15 @@ import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
-    columns,
-    topLeftComponent,
+    closeButtonStyles,
+    copyColumn,
     heading,
     iconAndClosePosition,
+    imageColumn,
+    imageContainer,
     logoContainer,
     paragraph,
     siteMessage,
-    bottomRightComponent,
-    packShotContainer,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
 import { BannerText } from '../common/BannerText';
@@ -32,22 +32,25 @@ const notNowComponentId = `${bannerId} : not now`;
 const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
-const mobileAndDesktopImg =
-    'https://i.guim.co.uk/img/media/a5a4a122de965a757d062c4e251f0e64688132e2/0_0_500_240/500.png?quality=85&s=0b091b93297e3d820ace76eef810e904';
+const desktopImg =
+    'https://i.guim.co.uk/img/media/a0fd9756e4a75685584f03ded6585320a7642b48/0_0_2652_1360/2652.png?quality=85&s=3dc0d52e5b5b8612699c365fbe80c1e8';
 
 const tabletImg =
-    'https://i.guim.co.uk/img/media/c943c58125ecdf9c41c5d48b72ccf94514702821/0_0_500_336/500.png?quality=85&s=00139fa37b5087ec021a88469110ced4';
+    'https://i.guim.co.uk/img/media/07785ce96b6dfef227dc60f2c436c0ca7a6b8ba3/0_0_1340_1320/1340.png?quality=85&s=3368803236b24548ad8dd85f3fbe0b71';
+
+const mobileImg =
+    'https://i.guim.co.uk/img/media/3293b58ca4abdeda20544ffc5e5a5613a8e7d911/0_0_1220_660/1220.png?quality=85&s=fe83934318cb1660df8764370df49f14';
 
 // Responsive image props
 const baseImg = {
-    url: mobileAndDesktopImg,
+    url: desktopImg,
     media: '(min-width: 980px)',
     alt: 'The Guardian Weekly magazine',
 };
 
 const images = [
     {
-        url: mobileAndDesktopImg,
+        url: mobileImg,
         media: '(max-width: 739px)',
     },
     {
@@ -66,6 +69,7 @@ type ButtonPropTypes = {
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
     <Button
+        css={closeButtonStyles}
         data-link-name={closeComponentId}
         onClick={props.onClick}
         icon={<SvgCross />}
@@ -73,7 +77,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => (
         priority="tertiary"
         hideLabel
     >
-        Close
+        Close this banner
     </Button>
 );
 
@@ -87,8 +91,18 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
     return (
         <section css={banner} data-target={bannerId}>
             <Container>
-                <Columns cssOverrides={columns} collapseBelow="tablet">
-                    <Column width={5 / 12} css={topLeftComponent}>
+                <Columns>
+                    <Column width={1} cssOverrides={iconAndClosePosition}>
+                        <Inline space={1}>
+                            <div css={logoContainer}>
+                                <SvgRoundelDefault />
+                            </div>
+                            <CloseButton onClick={onCloseClick} />
+                        </Inline>
+                    </Column>
+                </Columns>
+                <Columns collapseBelow="tablet">
+                    <Column width={1 / 2} cssOverrides={copyColumn}>
                         <BannerText
                             styles={{
                                 desktop: {
@@ -109,6 +123,7 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                                 href={primaryCta?.ctaUrl}
                                                 data-link-name={ctaComponentId}
                                                 onClick={onCtaClick}
+                                                tabIndex={0}
                                             >
                                                 {primaryCta?.ctaText || defaultCta}
                                             </LinkButton>
@@ -139,26 +154,17 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                             to not see this again
                         </div>
                     </Column>
-                    <Column cssOverrides={bottomRightComponent}>
-                        <div css={packShotContainer}>
+                    <Column width={1 / 2} cssOverrides={imageColumn}>
+                        <div css={imageContainer}>
                             <ResponsiveImage images={images} baseImage={baseImg} />
                         </div>
                     </Column>
-                    <div css={iconAndClosePosition}>
-                        <Inline space={1}>
-                            <div css={logoContainer}>
-                                <SvgRoundelDefault />
-                            </div>
-                            <CloseButton onClick={onCloseClick} />
-                        </Inline>
-                    </div>
                 </Columns>
             </Container>
         </section>
     );
 };
 
-// const wrapped = bannerWrapper(GuardianWeeklyBanner, bannerId, 'subscriptions');
 const validated = validatedBannerWrapper(GuardianWeeklyBanner, bannerId);
 
 export { validated as GuardianWeeklyBanner };

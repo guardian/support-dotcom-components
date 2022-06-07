@@ -8,7 +8,9 @@ export type BannerId =
     | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner'
-    | 'global-new-year-banner';
+    | 'global-new-year-banner'
+    | 'election-au-moment-banner'
+    | 'sign-in-prompt-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;
@@ -44,7 +46,7 @@ export interface BannerRenderedContent {
 
 export interface BannerTextContent {
     mainContent: BannerRenderedContent;
-    mobileContent?: BannerRenderedContent;
+    mobileContent: BannerRenderedContent;
 }
 
 export interface BannerRenderProps {

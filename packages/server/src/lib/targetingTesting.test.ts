@@ -4,6 +4,7 @@ import { BannerTargeting } from '@sdc/shared/types';
 const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
     {
         name: 'BannerTargetingTest',
+        status: 'Live',
         canInclude: (targeting: BannerTargeting) => targeting.countryCode === 'GB',
         variants: [
             {

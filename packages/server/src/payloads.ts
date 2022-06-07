@@ -20,7 +20,7 @@ import {
     TestTracking,
 } from '@sdc/shared/types';
 import express from 'express';
-import { fetchConfiguredEpicTests } from './api/contributionsApi';
+import { fetchConfiguredEpicTests } from './tests/epics/epicTests';
 import { cachedChannelSwitches } from './channelSwitches';
 import { cacheAsync } from './lib/cache';
 import { baseUrl } from './lib/env';
@@ -33,11 +33,11 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
-import { selectHeaderTest } from './tests/header/headerSelection';
+import { selectHeaderTest } from './tests/headers/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
-import { tests as topReaderAcBadgeTests } from './tests/epics/topReaderArticleCountBadge';
 import { epicProfileWithImageTest } from './tests/epics/epicProfileWithImageTest';
+import { cachedProductPrices } from './productPrices';
 
 interface EpicDataResponse {
     data?: {
@@ -94,25 +94,24 @@ const isMobile = (req: express.Request): boolean => {
     return !!ua && (isIOS(ua) || isAndroid(ua));
 };
 
-const fetchConfiguredArticleEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE'),
-    { ttlSec: 60 },
-);
+const fetchConfiguredArticleEpicTestsCached = cacheAsync(() => fetchConfiguredEpicTests('Epic'), {
+    ttlSec: 60,
+});
 
 const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('ARTICLE_HOLDBACK'),
+    () => fetchConfiguredEpicTests('EpicHoldback'),
     { ttlSec: 60 },
 );
 
 const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('LIVEBLOG'),
+    () => fetchConfiguredEpicTests('EpicLiveblog'),
     { ttlSec: 60 },
 );
 
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [...topReaderAcBadgeTests, epicProfileWithImageTest];
+const hardcodedEpicTests: EpicTest[] = [epicProfileWithImageTest];
 
 const getArticleEpicTests = async (
     mvtId: number,
@@ -256,6 +255,8 @@ export const buildBannerData = async (
         return {};
     }
 
+    const productPrices = await cachedProductPrices();
+
     const selectedTest = await selectBannerTest(
         targeting,
         pageTracking,
@@ -297,6 +298,7 @@ export const buildBannerData = async (
             hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
             tickerSettings,
             separateArticleCount: variant.separateArticleCount,
+            prices: productPrices,
         };
 
         return {
@@ -363,18 +365,19 @@ export const buildHeaderData = async (
     }
     const testSelection = await selectHeaderTest(targeting, isMobile(req), params.force);
     if (testSelection) {
-        const { test, variant, modulePathBuilder } = testSelection;
+        const { test, variant, modulePathBuilder, moduleName } = testSelection;
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: `header_support_${test.name}_${variant.name}`,
             componentType: 'ACQUISITIONS_HEADER',
         };
+
         return {
             data: {
                 module: {
                     url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
-                    name: 'Header',
+                    name: moduleName,
                     props: {
                         content: variant.content,
                         mobileContent: variant.mobileContent,

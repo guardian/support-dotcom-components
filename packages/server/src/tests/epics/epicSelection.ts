@@ -104,9 +104,9 @@ export const excludeTags: Filter = {
     },
 };
 
-export const isOn: Filter = {
-    id: 'isOn',
-    test: (test): boolean => test.isOn,
+export const isLive: Filter = {
+    id: 'isLive',
+    test: (test): boolean => test.status === 'Live',
 };
 
 export const canShow = (targeting: EpicTargeting): Filter => ({
@@ -240,7 +240,7 @@ export const findTestAndVariant = (
     const getFilters = (isSuperModePass: boolean): Filter[] => {
         return [
             shouldNotRender(epicType),
-            isOn,
+            isLive,
             canShow(targeting),
             isNotExpired(),
             hasSectionOrTags,
