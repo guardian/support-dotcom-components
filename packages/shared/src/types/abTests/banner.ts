@@ -5,11 +5,11 @@ import {
     DeviceType,
     TargetingAbTest,
     Test,
+    TestStatus,
     UserCohort,
     Variant,
 } from './shared';
 import { OphanComponentType, OphanProduct } from '../ophan';
-import { BannerTargeting, PageTracking } from '../targeting';
 import { CountryGroupId } from '../../lib';
 
 export enum BannerTemplate {
@@ -38,16 +38,14 @@ export interface BannerVariant extends Variant {
     separateArticleCount?: boolean;
 }
 
-export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
-
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
 export interface BannerTest extends Test<BannerVariant> {
     name: string;
+    status: TestStatus;
     bannerChannel: BannerChannel;
     isHardcoded: boolean;
     userCohort: UserCohort;
-    canRun: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
     locations?: CountryGroupId[];
@@ -77,7 +75,7 @@ export interface RawVariantParams {
 export interface RawTestParams {
     name: string;
     nickname: string;
-    isOn: boolean;
+    status: TestStatus;
     minArticlesBeforeShowingBanner: number;
     userCohort: UserCohort;
     locations: CountryGroupId[];

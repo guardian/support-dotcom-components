@@ -3,7 +3,7 @@ import { cacheAsync } from '../../lib/cache';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
-} from './ChannelBannerTests';
+} from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import { propensityModelBannerTest } from './propensityModelTest/propensityModelTest';
 

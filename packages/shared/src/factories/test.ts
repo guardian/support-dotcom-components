@@ -3,7 +3,7 @@ import { Factory } from 'fishery';
 
 export default Factory.define<EpicTest>(({ factories }) => ({
     name: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
-    isOn: true,
+    status: 'Live',
     locations: [],
     tagIds: ['environment/series/the-polluters', 'environment/environment'],
     sections: ['environment'],

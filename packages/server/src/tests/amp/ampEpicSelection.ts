@@ -59,7 +59,9 @@ const selectAmpEpicTestAndVariant = async (
     ampVariantAssignments: AmpVariantAssignments,
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
-    const test = tests.find(test => test.isOn && inCountryGroups(countryCode, test.locations));
+    const test = tests.find(
+        test => test.status === 'Live' && inCountryGroups(countryCode, test.locations),
+    );
 
     if (test && test.variants) {
         const assignedVariantName = ampVariantAssignments[test.name];

@@ -7,7 +7,7 @@ const modulePathBuilder = header.endpointPathBuilder;
 const remote_nonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -38,7 +38,7 @@ const remote_nonUK: HeaderTest = {
 const remote_UK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: ['GBPCountries'],
     variants: [
         {
@@ -62,7 +62,7 @@ const remote_UK: HeaderTest = {
 const locationsNotSet: HeaderTest = {
     name: 'LocationsArrayEmpty',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [],
     variants: [
         {
@@ -86,7 +86,7 @@ const locationsNotSet: HeaderTest = {
 const header_supporter: HeaderTest = {
     name: 'header-supporter',
     userCohort: 'AllExistingSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -111,7 +111,7 @@ const header_supporter: HeaderTest = {
 const header_new_supporter: HeaderTest = {
     name: 'header-new-supporter',
     userCohort: 'Everyone',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -140,7 +140,7 @@ const header_new_supporter: HeaderTest = {
 const header_existing_subscriber: HeaderTest = {
     name: 'header-existing-subscriber',
     userCohort: 'Everyone',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',

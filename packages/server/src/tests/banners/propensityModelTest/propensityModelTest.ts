@@ -43,7 +43,7 @@ export const propensityModelBannerTest: BannerTestGenerator = () => {
             locations: ['GBPCountries', 'UnitedStates', 'EURCountries', 'International', 'Canada'],
             isHardcoded: true,
             userCohort: 'AllNonSupporters',
-            canRun: () => true,
+            status: 'Live',
             minPageViews: 4,
             variants: [
                 {

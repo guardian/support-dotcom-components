@@ -1,10 +1,13 @@
 import { OphanComponentType, OphanProduct } from '../ophan';
 
+export type TestStatus = 'Live' | 'Draft' | 'Archived';
+
 export interface Variant {
     name: string;
 }
 export interface Test<V extends Variant> {
     name: string;
+    status: TestStatus;
     variants: V[];
     controlProportionSettings?: ControlProportionSettings;
     audienceOffset?: number;
