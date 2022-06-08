@@ -129,7 +129,7 @@ const supporterContent = {
 };
 
 const signInCTA = {
-    baseUrl: 'https://profile.theguardian.com/register',
+    baseUrl: 'https://profile.theguardian.com/signin',
     text: 'Sign in',
 };
 
