@@ -17,7 +17,7 @@ const Template: ComponentStory<typeof SignInPromptBanner> = props => (
 const content = {
     heading: 'Thank you for subscribing',
     paragraphs: [
-        'Your final step to enjoy the Guardian',
+        'One more step to enjoy the Guardian',
         'Ad free',
         'Fewer interruptions',
         'Newsletters and comments',
