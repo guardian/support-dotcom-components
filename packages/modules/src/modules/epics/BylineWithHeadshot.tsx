@@ -44,6 +44,7 @@ const bylineHeadshotImage = css`
     height: 100%;
     width: 100%;
     object-fit: cover;
+    transform: scaleX(-1);
 `;
 
 const bylineBottomDecoration = css`
