@@ -120,16 +120,16 @@ const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
 
 const subscriberContent = {
     heading: 'Thank you for subscribing',
-    subheading: 'Enjoy the Guardian',
+    subheading: 'One more step to enjoy the Guardian',
 };
 
 const supporterContent = {
     heading: 'Thank you for your support',
-    subheading: 'Enjoy the Guardian',
+    subheading: 'One more step to enjoy the Guardian',
 };
 
 const signInCTA = {
-    baseUrl: 'https://profile.theguardian.com/register',
+    baseUrl: 'https://profile.theguardian.com/signin',
     text: 'Sign in',
 };
 

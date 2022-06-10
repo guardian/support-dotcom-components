@@ -17,7 +17,7 @@ const Template: ComponentStory<typeof SignInPromptHeader> = props => (
 const baseArgs = {
     content: {
         heading: 'Thank you for subscribing',
-        subheading: 'Enjoy the Guardian',
+        subheading: 'One more step to enjoy the Guardian',
         primaryCta: {
             baseUrl: 'https://profile.theguardian.com/register',
             text: 'Complete registration',

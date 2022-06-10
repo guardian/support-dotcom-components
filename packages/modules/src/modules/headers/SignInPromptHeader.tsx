@@ -4,6 +4,7 @@ import { brandAlt, brandText, space } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
+import { from, until } from '@guardian/src-foundations/mq';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 
 const FADE_TIME_MS = 300;
@@ -13,20 +14,33 @@ const DOTS_COUNT = 3;
 
 const headingStyles = () => css`
     color: ${brandText.primary};
-    ${headline.xxsmall({ fontWeight: 'bold' })};
+    ${headline.xxxsmall({ fontWeight: 'bold' })};
     margin: 0;
+
+    ${from.leftCol} {
+        ${headline.xsmall({ fontWeight: 'bold' })};
+    }
 `;
 
 const subHeadingStyles = css`
     color: ${brandAlt[400]};
     ${headline.xxxsmall({ fontWeight: 'bold' })};
     margin: 0;
+
+    ${until.leftCol} {
+        font-size: 14px;
+    }
 `;
 
 const benefitsWrapper = css`
-    margin: ${space[1]}px 0 10px;
-    height: 20px;
+    margin: 2px 0 ${space[2]}px;
+    height: 16px;
     position: relative;
+
+    ${from.leftCol} {
+        margin: ${space[1]}px 0 ${space[2]}px;
+        height: 20px;
+    }
 `;
 
 const benefitStyles = css`
@@ -40,16 +54,27 @@ const dotsWrapper = css`
 
 const dotStyles = css`
     background: ${brandAlt[400]};
-    width: 13px;
-    height: 13px;
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
     margin-top: 3px;
-    margin-right: ${space[2]}px;
+    margin-right: ${space[1]}px;
+
+    ${from.leftCol} {
+        width: 13px;
+        height: 13px;
+        margin-top: ${space[1]}px;
+        margin-right: ${space[2]}px;
+    }
 `;
 
 const benefitTextStyles = css`
     color: ${brandText.primary};
     ${headline.xxxsmall()};
+
+    ${until.leftCol} {
+        font-size: 14px;
+    }
 `;
 
 const fadeable = css`
