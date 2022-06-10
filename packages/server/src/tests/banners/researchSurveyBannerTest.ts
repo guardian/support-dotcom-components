@@ -16,6 +16,7 @@ export const researchSurveyBannerTest: BannerTestGenerator = () => {
                 bannerChannel: 'subscriptions',
                 isHardcoded: true,
                 userCohort: 'Everyone',
+                status: 'Live',
                 canRun: targeting => targeting.contentType !== 'Network Front',
                 minPageViews: 4,
                 audience: 0.05, // 5%
