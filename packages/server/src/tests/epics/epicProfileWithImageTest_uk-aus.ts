@@ -27,7 +27,7 @@ export const epicProfileWithImageTest_UKAUS: EpicTest = {
     },
     userCohort: 'AllNonSupporters',
     isLiveBlog: false,
-    hasCountryName: false,
+    hasCountryName: true,
     highPriority: true,
     useLocalViewLog: false,
     variants: [
@@ -60,7 +60,6 @@ export const epicProfileWithImageTest_UKAUS: EpicTest = {
                 'Thank you.',
                 '<strong>Luke Harding</strong>, Foreign correspondent',
             ],
-            highlightedText: '',
             cta: CTA,
             secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },

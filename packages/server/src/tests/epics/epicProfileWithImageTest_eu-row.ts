@@ -61,7 +61,6 @@ export const epicProfileWithImageTest_EUROW: EpicTest = {
                 'Thank you.',
                 '<strong>Luke Harding</strong>, Foreign correspondent',
             ],
-            highlightedText: '',
             cta: CTA,
             secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
