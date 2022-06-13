@@ -6,7 +6,7 @@ const CTA = {
     baseUrl: 'https://support.theguardian.com/contribute',
 };
 
-const testName = '2022-06-13_Harding_Hardcoded_US';
+const testName = '2022-06-13_Harding_Hardcoded__US';
 
 export const epicProfileWithImageTest_US: EpicTest = {
     name: testName,
