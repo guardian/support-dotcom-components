@@ -1,8 +1,8 @@
 import { BannerTemplate, BannerTestGenerator } from '@sdc/shared/dist/types';
 import { researchSurveyBanner } from '@sdc/shared/dist/config';
 
-const startDate = new Date('2022-06-07');
-const endDate = new Date('2022-06-10');
+const startDate = new Date('2022-06-14');
+const endDate = new Date('2022-06-17');
 const isLive = () => {
     const now = new Date();
     return now > startDate && now < endDate;
