@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
+    'research-survey-banner',
+    'banners/researchSurveyBanner/ResearchSurveyBanner',
+);
+
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner-with-sign-in',
     'banners/contributions/ContributionsBannerWithSignIn',
@@ -94,6 +99,7 @@ export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    researchSurveyBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,

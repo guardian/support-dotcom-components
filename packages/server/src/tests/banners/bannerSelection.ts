@@ -123,6 +123,7 @@ export const selectBannerTest = async (
 
         if (
             test.status === 'Live' &&
+            (!test.canRun || test.canRun(targeting, pageTracking)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
