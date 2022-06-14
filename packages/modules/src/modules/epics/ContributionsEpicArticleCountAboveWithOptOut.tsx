@@ -21,6 +21,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 
 export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     articleCounts: ArticleCounts;
+    copy?: string;
     isArticleCountOn: boolean;
     onArticleCountOptOut: () => void;
     onArticleCountOptIn: () => void;
@@ -31,6 +32,7 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
 
 export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
     articleCounts,
+    copy,
     isArticleCountOn,
     onArticleCountOptOut,
     onArticleCountOptIn,
@@ -79,6 +81,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
                 articleCounts={articleCounts}
                 onToggleClick={onToggleClick}
                 aboveArticleCountByTag={aboveArticleCountByTag}
+                copy={copy}
             />
 
             {isOpen && (
@@ -164,6 +167,7 @@ interface ArticleCountWithToggleProps {
     isArticleCountOn: boolean;
     onToggleClick: () => void;
     aboveArticleCountByTag: boolean;
+    copy?: string;
 }
 
 const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
@@ -171,6 +175,7 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     articleCounts,
     onToggleClick,
     aboveArticleCountByTag,
+    copy,
 }: ArticleCountWithToggleProps) => {
     // By default we display the 52-week count
     const articleCount = aboveArticleCountByTag
@@ -184,10 +189,13 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
                     <ArticleCount
                         articleCount={articleCount}
                         aboveArticleCountByTag={aboveArticleCountByTag}
+                        copy={copy}
                     />
                 )}
 
-                {articleCount >= 50 && <TopReaderArticleCount articleCount={articleCount} />}
+                {articleCount >= 50 && (
+                    <TopReaderArticleCount articleCount={articleCount} copy={copy} />
+                )}
 
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
@@ -221,41 +229,76 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     return null;
 };
 
-interface ArticleCountProps {
+const ARTICLE_COUNT_TEMPLATE = '%%ARTICLE_COUNT%%';
+const containsArticleCountTemplate = (copy: string): boolean =>
+    copy.includes(ARTICLE_COUNT_TEMPLATE);
+
+interface CustomArticleCountCopyProps {
     articleCount: number;
-    aboveArticleCountByTag: boolean;
+    copy: string;
 }
 
-const ArticleCount: React.FC<ArticleCountProps> = ({ articleCount, aboveArticleCountByTag }) => {
-    const timeWindowCopy = aboveArticleCountByTag ? (
-        <span>
-            about the
-            <br />
-            climate crisis in the last six weeks
-        </span>
-    ) : (
-        'in the last year'
-    );
+const CustomArticleCountCopy: React.FC<CustomArticleCountCopyProps> = ({ articleCount, copy }) => {
+    const [copyHead, copyTail] = copy.split(ARTICLE_COUNT_TEMPLATE);
 
     return (
         <div css={articleCountAboveContainerStyles}>
-            You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span>{' '}
-            {timeWindowCopy}
+            {copyHead}
+            <span css={optOutContainer}>{articleCount}&nbsp;articles</span>
+            {copyTail.substring(1, 9) === 'articles' ? copyTail.substring(9) : copyTail}
         </div>
     );
 };
 
-interface TopReaderArticleCountProps {
+interface ArticleCountProps {
     articleCount: number;
+    aboveArticleCountByTag: boolean;
+    copy?: string;
 }
 
-const TopReaderArticleCount: React.FC<TopReaderArticleCountProps> = ({ articleCount }) => {
-    return (
-        <div css={articleCountAboveContainerStyles}>
-            Congratulations on being one of our top readers globally – you&apos;ve read{' '}
-            <span css={optOutContainer}>{articleCount} articles</span> in the last year
-        </div>
-    );
+const ArticleCount: React.FC<ArticleCountProps> = ({
+    articleCount,
+    aboveArticleCountByTag,
+    copy,
+}) => {
+    if (copy && containsArticleCountTemplate(copy)) {
+        return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;
+    } else {
+        const timeWindowCopy = aboveArticleCountByTag ? (
+            <span>
+                about the
+                <br />
+                climate crisis in the last six weeks
+            </span>
+        ) : (
+            'in the last year'
+        );
+
+        return (
+            <div css={articleCountAboveContainerStyles}>
+                You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span>{' '}
+                {timeWindowCopy}
+            </div>
+        );
+    }
+};
+
+interface TopReaderArticleCountProps {
+    articleCount: number;
+    copy?: string;
+}
+
+const TopReaderArticleCount: React.FC<TopReaderArticleCountProps> = ({ articleCount, copy }) => {
+    if (copy && containsArticleCountTemplate(copy)) {
+        return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;
+    } else {
+        return (
+            <div css={articleCountAboveContainerStyles}>
+                Congratulations on being one of our top readers globally – you&apos;ve read{' '}
+                <span css={optOutContainer}>{articleCount} articles</span> in the last year
+            </div>
+        );
+    }
 };
 
 // --- Styles --- //
