@@ -59,12 +59,15 @@ export const epicProfileWithImageTest_EUROW: EpicTest = {
                 "This is the biggest war in Europe since 1945. It is, for Ukrainians, an existential struggle against a new but familiar Russian imperialism. Our team of reporters and editors intend to cover this war for as long as it lasts, however expensive that may prove to be. We are committed to telling the human stories of those caught up in war, as well as the international dimension. But we can't do this without the support of Guardian readers. It is your passion, engagement and financial contributions which underpin our independent journalism and make it possible for us to report from places like Ukraine.",
                 'If you are able to help with a monthly or single contribution it will boost our resources and enhance our ability to report the truth about what is happening in this terrible conflict.',
                 'Thank you.',
-                '<strong>Luke Harding</strong>, Foreign correspondent',
             ],
             cta: CTA,
             secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
             separateArticleCount: { type: 'above' },
             showChoiceCards: true,
+            bylineWithImage: {
+                name: 'Luke Harding',
+                description: 'Foreign correspondent',
+            },
         },
         {
             name: 'V2_authored_photo',

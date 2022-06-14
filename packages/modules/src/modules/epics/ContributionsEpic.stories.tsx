@@ -72,7 +72,24 @@ WithBylineAndHeadshot.args = {
             'If you are able to help with a monthly or single contribution it will boost our resources and enhance our ability to report the truth about what is happening in this terrible conflict.',
             'Thank you.',
         ],
-        highlightedText: '',
+    },
+};
+
+export const WithBylineOnly = Template.bind({});
+WithBylineOnly.args = {
+    variant: {
+        ...props.variant,
+        bylineWithImage: {
+            name: 'Luke Harding',
+            description: 'Foreign correspondent',
+        },
+        heading: '',
+        paragraphs: [
+            "I write from Ukraine, where I've spent much of the past six months, reporting on the build-up to the conflict and the grim reality of war. It has been the most intense time of my 30-year career. In December I visited the trenches outside Donetsk with the Ukrainian army; in January I went to Mariupol and drove along the coast to Crimea; on 24 February I was with other colleagues in the Ukrainian capital as the first Russian bombs fell.",
+            'This is the biggest war in Europe since 1945. It is, for Ukrainians, an existential struggle against a new but familiar Russian imperialism. Our team of reporters and editors intend to cover this war for as long as it lasts, however expensive that may prove to be. We are committed to telling the human stories of those caught up in war, as well as the international dimension. But we can’t do this without the support of Guardian readers. It is your passion, engagement and financial contributions which underpin our independent journalism and make it possible for us to report from places like Ukraine.',
+            'If you are able to help with a monthly or single contribution it will boost our resources and enhance our ability to report the truth about what is happening in this terrible conflict.',
+            'Thank you.',
+        ],
     },
 };
 
