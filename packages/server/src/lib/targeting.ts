@@ -47,7 +47,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): bo
         meta.shouldHideReaderRevenue ||
         isLowValueSection ||
         isLowValueTag ||
-        meta.contentType.toUpperCase() !== epicType ||
         meta.isPaidContent
     );
 };
