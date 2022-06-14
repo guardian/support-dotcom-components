@@ -160,5 +160,5 @@ export interface BylineWithImage {
 export const bylineWithImageSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
-    headshot: imageSchema,
+    headshot: imageSchema.optional(),
 });
