@@ -69,8 +69,6 @@ export const BylineWithHeadshot: React.FC<BylineWithHeadshotProps> = ({
     bylineWithImage,
 }: BylineWithHeadshotProps) => {
     const { name, description, headshot } = bylineWithImage;
-    const mainUrl = headshot && headshot.mainUrl ? headshot.mainUrl : '';
-    const altText = headshot && headshot.altText ? headshot.altText : '';
 
     return (
         <div css={bylineWithImageContainer}>
@@ -78,11 +76,15 @@ export const BylineWithHeadshot: React.FC<BylineWithHeadshotProps> = ({
                 <p css={bylineName}>{name}</p>
                 <p css={bylineDescription}>{description}</p>
             </div>
-            {mainUrl && altText && (
+            {headshot && (
                 <>
                     <div css={bylineBottomDecoration}></div>
                     <div css={bylineImageContainer}>
-                        <img src={mainUrl} alt={altText} css={bylineHeadshotImage} />
+                        <img
+                            src={headshot.mainUrl}
+                            alt={headshot.altText}
+                            css={bylineHeadshotImage}
+                        />
                     </div>
                 </>
             )}
