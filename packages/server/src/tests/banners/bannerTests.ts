@@ -5,7 +5,6 @@ import {
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
-import { researchSurveyBannerTest } from './researchSurveyBannerTest';
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
@@ -14,7 +13,6 @@ const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
-    researchSurveyBannerTest,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
 ];
