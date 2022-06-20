@@ -36,6 +36,9 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/headers/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import { epicProfileWithImageTest_US } from './tests/epics/epicProfileWithImageTest_us';
+import { epicProfileWithImageTest_EUROW } from './tests/epics/epicProfileWithImageTest_eu-row';
+import { epicProfileWithImageTest_UKAUS } from './tests/epics/epicProfileWithImageTest_uk-aus';
 import { cachedProductPrices } from './productPrices';
 import { usTopReaderCopyTest } from './tests/epics/usTopReaderCopy';
 
@@ -111,7 +114,12 @@ const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [usTopReaderCopyTest];
+const hardcodedEpicTests: EpicTest[] = [
+    usTopReaderCopyTest,
+    epicProfileWithImageTest_UKAUS,
+    epicProfileWithImageTest_US,
+    epicProfileWithImageTest_EUROW,
+];
 
 const getArticleEpicTests = async (
     mvtId: number,

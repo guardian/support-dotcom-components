@@ -44,6 +44,7 @@ const bylineHeadshotImage = css`
     height: 100%;
     width: 100%;
     object-fit: cover;
+    transform: scaleX(-1);
 `;
 
 const bylineBottomDecoration = css`
@@ -68,17 +69,25 @@ export const BylineWithHeadshot: React.FC<BylineWithHeadshotProps> = ({
     bylineWithImage,
 }: BylineWithHeadshotProps) => {
     const { name, description, headshot } = bylineWithImage;
-    const { mainUrl, altText } = headshot;
+
     return (
         <div css={bylineWithImageContainer}>
             <div css={bylineCopyContainer}>
                 <p css={bylineName}>{name}</p>
                 <p css={bylineDescription}>{description}</p>
             </div>
-            <div css={bylineBottomDecoration}></div>
-            <div css={bylineImageContainer}>
-                <img src={mainUrl} alt={altText} css={bylineHeadshotImage} />
-            </div>
+            {headshot && (
+                <>
+                    <div css={bylineBottomDecoration}></div>
+                    <div css={bylineImageContainer}>
+                        <img
+                            src={headshot.mainUrl}
+                            alt={headshot.altText}
+                            css={bylineHeadshotImage}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };
