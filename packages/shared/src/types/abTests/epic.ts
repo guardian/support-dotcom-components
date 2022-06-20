@@ -21,6 +21,7 @@ export interface MaxViews {
 
 export interface SeparateArticleCount {
     type: 'above';
+    copy?: string;
 }
 
 export interface EpicVariant extends Variant {

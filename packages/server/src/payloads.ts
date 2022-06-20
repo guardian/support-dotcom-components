@@ -40,6 +40,7 @@ import { epicProfileWithImageTest_US } from './tests/epics/epicProfileWithImageT
 import { epicProfileWithImageTest_EUROW } from './tests/epics/epicProfileWithImageTest_eu-row';
 import { epicProfileWithImageTest_UKAUS } from './tests/epics/epicProfileWithImageTest_uk-aus';
 import { cachedProductPrices } from './productPrices';
+import { usTopReaderCopyTest } from './tests/epics/usTopReaderCopy';
 
 interface EpicDataResponse {
     data?: {
@@ -114,6 +115,7 @@ const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [
+    usTopReaderCopyTest,
     epicProfileWithImageTest_UKAUS,
     epicProfileWithImageTest_US,
     epicProfileWithImageTest_EUROW,

@@ -11,6 +11,7 @@ import {
 } from './shared';
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { CountryGroupId } from '../../lib';
+import { BannerTargeting, PageTracking } from '../targeting';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
@@ -24,6 +25,7 @@ export enum BannerTemplate {
     PostElectionAuMomentAlbaneseBanner = 'PostElectionAuMomentAlbaneseBanner',
     PostElectionAuMomentHungBanner = 'PostElectionAuMomentHungBanner',
     PostElectionAuMomentMorrisonBanner = 'PostElectionAuMomentMorrisonBanner',
+    ResearchSurveyBanner = 'ResearchSurveyBanner',
 }
 
 export interface BannerVariant extends Variant {
@@ -38,6 +40,8 @@ export interface BannerVariant extends Variant {
     separateArticleCount?: boolean;
 }
 
+export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
+
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
 export interface BannerTest extends Test<BannerVariant> {
@@ -46,6 +50,7 @@ export interface BannerTest extends Test<BannerVariant> {
     bannerChannel: BannerChannel;
     isHardcoded: boolean;
     userCohort: UserCohort;
+    canRun?: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
     locations?: CountryGroupId[];

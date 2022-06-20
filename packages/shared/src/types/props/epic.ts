@@ -48,6 +48,7 @@ const maxViewsSchema = z.object({
 
 const separateArticleCountSchema = z.object({
     type: z.string(),
+    copy: z.string().optional(),
 });
 
 const reminderFieldsSchema = z.object({
