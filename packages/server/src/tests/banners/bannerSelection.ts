@@ -19,10 +19,6 @@ import {
     ScheduledBannerDeploys,
     defaultDeploySchedule,
 } from './bannerDeploySchedule';
-import {
-    getPropensityModelTestVariantData,
-    PROPENSITY_MODEL_TEST_NAME,
-} from './propensityModelTest/propensityModelTest';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -63,11 +59,9 @@ export const redeployedSinceLastClosed = (
             deployTimes => deployTimes[region],
         );
         const lastClosed = new Date(lastClosedRaw);
-        const scheduledDeploysEnabled = targeting.countryCode !== 'AU';
         return (
             lastManualDeploy > lastClosed ||
-            (scheduledDeploysEnabled &&
-                getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed)
+            getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed
         );
     };
 
@@ -102,17 +96,6 @@ const getForcedVariant = (
     return null;
 };
 
-const getVariant = (test: BannerTest, targeting: BannerTargeting): BannerVariant => {
-    const variant: BannerVariant = selectVariant(test, targeting.mvtId);
-
-    // This test is unusual because we decide what to show *after* assigning the browser to a variant
-    if (test.name === PROPENSITY_MODEL_TEST_NAME) {
-        return getPropensityModelTestVariantData(variant.name, targeting);
-    } else {
-        return variant;
-    }
-};
-
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
@@ -139,13 +122,14 @@ export const selectBannerTest = async (
         const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
 
         if (
+            test.status === 'Live' &&
+            (!test.canRun || test.canRun(targeting, pageTracking)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
-            test.canRun(targeting, pageTracking) &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,
@@ -162,7 +146,7 @@ export const selectBannerTest = async (
                 now,
             ))
         ) {
-            const variant: BannerVariant = getVariant(test, targeting);
+            const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 
             const bannerTestSelection = {
                 test,

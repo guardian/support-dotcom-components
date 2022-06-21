@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
+    'research-survey-banner',
+    'banners/researchSurveyBanner/ResearchSurveyBanner',
+);
+
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner-with-sign-in',
     'banners/contributions/ContributionsBannerWithSignIn',
@@ -83,12 +88,18 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
     'puzzles/puzzlesBanner/PuzzlesBanner',
 );
 
-export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
+export const header: ModuleInfo = getDefaultModuleInfo('header', 'headers/Header');
+
+export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
+    'signInPromptHeader',
+    'headers/SignInPromptHeader',
+);
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    researchSurveyBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
@@ -101,4 +112,5 @@ export const moduleInfos: ModuleInfo[] = [
     guardianWeekly,
     puzzlesBanner,
     header,
+    signInPromptHeader,
 ];

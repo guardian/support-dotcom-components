@@ -15,6 +15,7 @@ export interface HeaderRenderedContent {
     subheading: string;
     primaryCta: HeaderEnrichedCta | null;
     secondaryCta: HeaderEnrichedCta | null;
+    benefits: string[] | null;
 }
 
 export interface HeaderRenderProps {
@@ -43,12 +44,14 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
 
         const primaryCta = content.primaryCta ? buildEnrichedCta(content.primaryCta) : null;
         const secondaryCta = content.secondaryCta ? buildEnrichedCta(content.secondaryCta) : null;
+        const benefits = content.benefits || null;
 
         const renderedContent: HeaderRenderedContent = {
             heading: content.heading,
             subheading: content.subheading,
             primaryCta,
             secondaryCta,
+            benefits,
         };
 
         const mobilePrimaryCta = mobileContent?.primaryCta

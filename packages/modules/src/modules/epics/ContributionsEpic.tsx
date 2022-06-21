@@ -360,6 +360,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
                         aboveArticleCountByTag={false}
+                        copy={variant.separateArticleCount?.copy}
                     />
                 </div>
             )}

@@ -33,19 +33,19 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const desktopImg =
-    'https://i.guim.co.uk/img/media/a0fd9756e4a75685584f03ded6585320a7642b48/0_0_2652_1360/2652.png?quality=85&s=3dc0d52e5b5b8612699c365fbe80c1e8';
+    'https://i.guim.co.uk/img/media/cf4c09c3de6128d14bbf2ff316098d7b4eecebcb/0_0_2652_1360/2652.png?quality=85&s=2ecc7615da7424ebdb40dc68b2848adc';
 
 const tabletImg =
-    'https://i.guim.co.uk/img/media/07785ce96b6dfef227dc60f2c436c0ca7a6b8ba3/0_0_1340_1320/1340.png?quality=85&s=3368803236b24548ad8dd85f3fbe0b71';
+    'https://i.guim.co.uk/img/media/be2f827393917be2e88f7e1e3711b3c08e1861f6/0_0_1340_1320/1340.png?quality=85&s=00c655a579e2d5ff946ef64c254b8762';
 
 const mobileImg =
-    'https://i.guim.co.uk/img/media/3293b58ca4abdeda20544ffc5e5a5613a8e7d911/0_0_1220_660/1220.png?quality=85&s=fe83934318cb1660df8764370df49f14';
+    'https://i.guim.co.uk/img/media/0dd8b1ecca213450fd6bc5f07fc97d31e5c2f979/0_0_1220_660/1220.png?quality=85&s=8b1465a1257889805569edb77c247be7';
 
 // Responsive image props
 const baseImg = {
     url: desktopImg,
     media: '(min-width: 980px)',
-    alt: 'The Guardian Weekly magazine',
+    alt: 'The Guardian Weekly magazine - 40% off cover price',
 };
 
 const images = [

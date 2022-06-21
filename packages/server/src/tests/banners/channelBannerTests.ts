@@ -10,6 +10,7 @@ import {
     postElectionAuMomentAlbaneseBanner,
     postElectionAuMomentHungBanner,
     postElectionAuMomentMorrisonBanner,
+    researchSurveyBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -42,6 +43,7 @@ export const BannerPaths: {
         postElectionAuMomentMorrisonBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
+    [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {
@@ -80,11 +82,11 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                 (testParams: RawTestParams): BannerTest => {
                     return {
                         name: testParams.name,
+                        status: testParams.status,
                         bannerChannel,
                         isHardcoded: false,
                         userCohort: testParams.userCohort,
                         locations: testParams.locations,
-                        canRun: (): boolean => testParams.isOn,
                         minPageViews: testParams.minArticlesBeforeShowingBanner,
                         articlesViewedSettings: testParams.articlesViewedSettings,
                         variants: testParams.variants.map(BannerVariantFromParams(bannerChannel)),

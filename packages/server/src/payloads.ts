@@ -33,11 +33,15 @@ import { selectBannerTest } from './tests/banners/bannerSelection';
 import { getCachedTests } from './tests/banners/bannerTests';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from './tests/epics/epicSelection';
 import { fallbackEpicTest } from './tests/epics/fallback';
-import { selectHeaderTest } from './tests/header/headerSelection';
+import { selectHeaderTest } from './tests/headers/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
+import { epicProfileWithImageTest_US } from './tests/epics/epicProfileWithImageTest_us';
+import { epicProfileWithImageTest_EUROW } from './tests/epics/epicProfileWithImageTest_eu-row';
+import { epicProfileWithImageTest_UKAUS } from './tests/epics/epicProfileWithImageTest_uk-aus';
 import { cachedProductPrices } from './productPrices';
 import { newsletterEpicTest } from './tests/epics/newsletterEpicTest';
+import { usTopReaderCopyTest } from './tests/epics/usTopReaderCopy';
 
 interface EpicDataResponse {
     data?: {
@@ -111,7 +115,13 @@ const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [newsletterEpicTest];
+const hardcodedEpicTests: EpicTest[] = [
+    newsletterEpicTest,
+    usTopReaderCopyTest,
+    epicProfileWithImageTest_UKAUS,
+    epicProfileWithImageTest_US,
+    epicProfileWithImageTest_EUROW,
+];
 
 const getArticleEpicTests = async (
     mvtId: number,
@@ -365,18 +375,19 @@ export const buildHeaderData = async (
     }
     const testSelection = await selectHeaderTest(targeting, isMobile(req), params.force);
     if (testSelection) {
-        const { test, variant, modulePathBuilder } = testSelection;
+        const { test, variant, modulePathBuilder, moduleName } = testSelection;
         const testTracking: TestTracking = {
             abTestName: test.name,
             abTestVariant: variant.name,
             campaignCode: `header_support_${test.name}_${variant.name}`,
             componentType: 'ACQUISITIONS_HEADER',
         };
+
         return {
             data: {
                 module: {
                     url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
-                    name: 'Header',
+                    name: moduleName,
                     props: {
                         content: variant.content,
                         mobileContent: variant.mobileContent,
