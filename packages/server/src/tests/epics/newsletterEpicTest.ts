@@ -2,7 +2,7 @@ import { EpicTest } from '@sdc/shared/types';
 
 export const newsletterEpicTest: EpicTest = {
     name: 'NewsletterEpicTest',
-    isOn: true,
+    status: 'Live',
     locations: [],
     audience: 1,
     tagIds: [],
