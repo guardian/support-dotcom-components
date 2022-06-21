@@ -4,13 +4,13 @@ import { shouldNotRenderEpic, shouldThrottle } from './targeting';
 describe('shouldNotRenderEpic', () => {
     it('returns true for blacklisted section', () => {
         const data = factories.targeting.build({ sectionId: 'careers' });
-        const got = shouldNotRenderEpic(data, 'ARTICLE');
+        const got = shouldNotRenderEpic(data);
         expect(got).toBe(true);
     });
 
     it('returns false for valid data', () => {
         const data = factories.targeting.build();
-        const got = shouldNotRenderEpic(data, 'ARTICLE');
+        const got = shouldNotRenderEpic(data);
         expect(got).toBe(false);
     });
 });

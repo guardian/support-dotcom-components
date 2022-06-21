@@ -178,10 +178,10 @@ export const inCorrectCohort = (userCohorts: UserCohort[], isSuperModePass: bool
     },
 });
 
-export const shouldNotRender = (epicType: EpicType): Filter => ({
+export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
-    test: (_, targeting): boolean => !shouldNotRenderEpic(targeting, epicType),
-});
+    test: (_, targeting): boolean => !shouldNotRenderEpic(targeting),
+};
 
 export const isNotExpired = (now: Date = new Date()): Filter => ({
     id: 'isNotExpired',
@@ -239,7 +239,7 @@ export const findTestAndVariant = (
 
     const getFilters = (isSuperModePass: boolean): Filter[] => {
         return [
-            shouldNotRender(epicType),
+            shouldNotRender,
             isLive,
             canShow(targeting),
             isNotExpired(),
