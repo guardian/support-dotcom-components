@@ -96,6 +96,25 @@ const getForcedVariant = (
     return null;
 };
 
+const purchaseMatches = (
+    test: BannerTest,
+    purchaseInfo: BannerTargeting['purchaseInfo'],
+    isSignedIn: boolean,
+) => {
+    const { purchaseInfo: testPurchaseInfo } = test;
+
+    // Ignore tests specifying purchase info if user is signed in / if no purchase info in targeting
+    if (isSignedIn || !purchaseInfo) {
+        return !testPurchaseInfo;
+    }
+
+    const { product, userType } = purchaseInfo;
+    const productValid = product && testPurchaseInfo?.product.includes(product);
+    const userValid = userType && testPurchaseInfo?.userType.includes(userType);
+
+    return productValid && userValid;
+};
+
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
@@ -138,6 +157,7 @@ export const selectBannerTest = async (
             ) &&
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
+            purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
             (await redeployedSinceLastClosed(
                 targeting,
                 test.bannerChannel,

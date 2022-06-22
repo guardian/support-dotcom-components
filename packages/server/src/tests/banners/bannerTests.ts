@@ -5,6 +5,7 @@ import {
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
+import { signInPromptTests } from './signInPromptTests';
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
@@ -15,6 +16,7 @@ const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
+    signInPromptTests,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>

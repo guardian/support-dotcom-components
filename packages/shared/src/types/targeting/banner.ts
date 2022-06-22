@@ -1,4 +1,4 @@
-import { PageTracking, WeeklyArticleHistory } from './shared';
+import { PageTracking, WeeklyArticleHistory, PurchaseInfo } from './shared';
 
 export type BannerTargeting = {
     alreadyVisitedCount: number;
@@ -17,6 +17,8 @@ export type BannerTargeting = {
     tagIds?: string[];
     contentType?: string;
     browserId?: string; // Only present if the user has consented to browserId-based targeting
+    purchaseInfo?: PurchaseInfo;
+    isSignedIn: boolean;
 };
 
 export type BannerPayload = {

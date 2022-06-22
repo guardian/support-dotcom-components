@@ -10,8 +10,20 @@ import { Container, Column, Columns } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 
-const background = css`
+const bannerStyles = css`
     background-color: ${brand[400]};
+
+    ::before {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgb(0, 0, 0, 0.3);
+        z-index: -1;
+    }
 `;
 
 const mainColumn = css`
@@ -73,7 +85,7 @@ const SignInPromptBanner: React.FC<BannerRenderProps> = props => {
     const [subheading, ...bullets] = paragraphs;
 
     return (
-        <Container cssOverrides={background}>
+        <Container cssOverrides={bannerStyles}>
             <Columns>
                 <Column width={[0, 0, 0, 2, 3]}> </Column>
                 <Column width={[4, 12, 12, 12, 13]} cssOverrides={mainColumn}>

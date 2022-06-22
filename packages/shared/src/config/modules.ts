@@ -88,10 +88,15 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
     'puzzles/puzzlesBanner/PuzzlesBanner',
 );
 
+export const signInPromptBanner: ModuleInfo = getDefaultModuleInfo(
+    'sign-in-prompt-banner',
+    'banners/signInPrompt/SignInPromptBanner',
+);
+
 export const header: ModuleInfo = getDefaultModuleInfo('header', 'headers/Header');
 
 export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
-    'signInPromptHeader',
+    'sign-in-prompt-header',
     'headers/SignInPromptHeader',
 );
 
@@ -111,6 +116,7 @@ export const moduleInfos: ModuleInfo[] = [
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
+    signInPromptBanner,
     header,
     signInPromptHeader,
 ];

@@ -1,3 +1,5 @@
+import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
+
 export type PageTracking = {
     ophanPageId: string;
     platformId: string;
@@ -25,4 +27,9 @@ export interface LocalStorage {
     set(key: string, value: unknown): void;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     get(key: string): any;
+}
+
+export interface PurchaseInfo {
+    userType: purchaseInfoUser;
+    product: purchaseInfoProduct;
 }
