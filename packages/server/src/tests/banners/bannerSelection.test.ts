@@ -321,7 +321,7 @@ describe('selectBannerTest', () => {
         };
 
         const baseTest: Omit<BannerTest, 'name'> = {
-            bannerChannel: 'contributions',
+            bannerChannel: 'signIn',
             isHardcoded: true,
             userCohort: 'Everyone',
             status: 'Live',
@@ -388,6 +388,16 @@ describe('selectBannerTest', () => {
                 ...baseTargeting,
                 purchaseInfo: { product: 'Contribution', userType: 'new' },
                 isSignedIn: true,
+            });
+
+            expect(result).toBeNull();
+        });
+
+        it('It should ignore purchase information if sign in banner has previously been closed', async () => {
+            const result = await runSelection({
+                ...baseTargeting,
+                purchaseInfo: { product: 'Contribution', userType: 'new' },
+                signInBannerLastClosedAt: new Date().toISOString(),
             });
 
             expect(result).toBeNull();

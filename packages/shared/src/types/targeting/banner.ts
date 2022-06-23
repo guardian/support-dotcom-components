@@ -7,6 +7,7 @@ export type BannerTargeting = {
     showSupportMessaging: boolean;
     engagementBannerLastClosedAt?: string;
     subscriptionBannerLastClosedAt?: string;
+    signInBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;

@@ -53,6 +53,7 @@ export const BannerTemplateComponentTypes: {
 } = {
     contributions: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     subscriptions: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    signIn: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 export const BannerTemplateProducts: {

@@ -3,7 +3,7 @@ import { signInPromptBanner } from '@sdc/shared/dist/config';
 import { SecondaryCtaType } from '@sdc/shared/types';
 
 const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
-    bannerChannel: 'contributions', // TODO: check with Tom if this is right
+    bannerChannel: 'signIn',
     isHardcoded: true,
     userCohort: 'Everyone',
     status: 'Live',
@@ -14,7 +14,7 @@ const baseSignInPromptVariant: Omit<BannerVariant, 'bannerContent'> = {
     name: 'control',
     modulePathBuilder: signInPromptBanner.endpointPathBuilder,
     moduleName: BannerTemplate.SignInPromptBanner,
-    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER', // TODO: check with Tom if this is right
+    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 const subscriberHeading = 'Thank you for subscribing';

@@ -46,9 +46,18 @@ export const redeployedSinceLastClosed = (
     scheduledBannerDeploys: ScheduledBannerDeploys,
     now: Date,
 ): Promise<boolean> => {
-    const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
+    const {
+        subscriptionBannerLastClosedAt,
+        engagementBannerLastClosedAt,
+        signInBannerLastClosedAt,
+    } = targeting;
 
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
+
+    // Never show a sign in prompt banner if it has been closed previously
+    if (bannerChannel === 'signIn') {
+        return Promise.resolve(!signInBannerLastClosedAt);
+    }
 
     const canShow = async (lastClosedRaw: string | undefined): Promise<boolean> => {
         if (!lastClosedRaw) {
