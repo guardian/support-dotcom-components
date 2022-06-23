@@ -36,10 +36,11 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 };
 
 /**
- * Has the banner been redeployed since the user last closed it?
+ * If the banner has been closed previously, can we show it again?
+ * e.g. if changes have been deployed
  * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
  */
-export const redeployedSinceLastClosed = (
+export const canShowBannerAgain = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
     bannerDeployCaches: BannerDeployCaches,
@@ -167,7 +168,7 @@ export const selectBannerTest = async (
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
-            (await redeployedSinceLastClosed(
+            (await canShowBannerAgain(
                 targeting,
                 test.bannerChannel,
                 bannerDeployCaches,
