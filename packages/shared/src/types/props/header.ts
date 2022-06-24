@@ -13,8 +13,8 @@ export interface HeaderContent {
 const headerContentSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
-    primaryCta: ctaSchema.optional(),
-    secondaryCta: ctaSchema.optional(),
+    primaryCta: ctaSchema.nullable().optional(),
+    secondaryCta: ctaSchema.nullable().optional(),
 });
 
 export interface HeaderProps {
@@ -29,7 +29,7 @@ export interface HeaderProps {
 export const headerSchema = z.object({
     content: headerContentSchema,
     tracking: trackingSchema,
-    mobileContent: headerContentSchema.optional(),
+    mobileContent: headerContentSchema.nullable().optional(),
     countryCode: z.string().optional(),
     submitComponentEvent: z.any(),
     numArticles: z.number().optional(),
