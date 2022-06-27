@@ -49,7 +49,7 @@ export const usTopReaderCopyTest: EpicTest = {
     hasCountryName: false,
     highPriority: true,
     isLiveBlog: false,
-    status: 'Draft',
+    status: 'Live',
     locations: ['UnitedStates'],
     name: 'usTopReaderCopyTest',
     sections: [],
