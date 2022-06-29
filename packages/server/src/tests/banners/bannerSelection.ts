@@ -122,13 +122,14 @@ export const selectBannerTest = async (
         const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
 
         if (
+            test.status === 'Live' &&
+            (!test.canRun || test.canRun(targeting, pageTracking)) &&
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
-            test.canRun(targeting, pageTracking) &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,
@@ -146,6 +147,7 @@ export const selectBannerTest = async (
             ))
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
+
             const bannerTestSelection = {
                 test,
                 variant,

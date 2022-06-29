@@ -7,7 +7,7 @@ const modulePathBuilder = header.endpointPathBuilder;
 const remote_nonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -38,7 +38,7 @@ const remote_nonUK: HeaderTest = {
 const remote_UK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: ['GBPCountries'],
     variants: [
         {
@@ -62,7 +62,7 @@ const remote_UK: HeaderTest = {
 const locationsNotSet: HeaderTest = {
     name: 'LocationsArrayEmpty',
     userCohort: 'AllNonSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [],
     variants: [
         {
@@ -86,7 +86,7 @@ const locationsNotSet: HeaderTest = {
 const header_supporter: HeaderTest = {
     name: 'header-supporter',
     userCohort: 'AllExistingSupporters',
-    isOn: true,
+    status: 'Live',
     locations: [
         'AUDCountries',
         'Canada',
@@ -108,6 +108,64 @@ const header_supporter: HeaderTest = {
     ],
 };
 
+const header_new_supporter: HeaderTest = {
+    name: 'header-new-supporter',
+    userCohort: 'Everyone',
+    status: 'Live',
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    purchaseInfo: {
+        product: ['Contribution'],
+        userType: ['new', 'guest'],
+    },
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder,
+            content: {
+                heading: 'Thank you for your support',
+                subheading: 'Enjoy the Guardian',
+            },
+        },
+    ],
+};
+
+const header_existing_subscriber: HeaderTest = {
+    name: 'header-existing-subscriber',
+    userCohort: 'Everyone',
+    status: 'Live',
+    locations: [
+        'AUDCountries',
+        'Canada',
+        'EURCountries',
+        'GBPCountries',
+        'NZDCountries',
+        'UnitedStates',
+        'International',
+    ],
+    purchaseInfo: {
+        product: ['DigitalPack'],
+        userType: ['current'],
+    },
+    variants: [
+        {
+            name: 'control',
+            modulePathBuilder,
+            content: {
+                heading: 'Thank you for your support',
+                subheading: 'Enjoy the Guardian',
+            },
+        },
+    ],
+};
+
 // Handle null returns - tests will still fail if presented with this but should give better indication of why test failed
 interface NullReturn {
     name: string;
@@ -121,7 +179,14 @@ const variantHasReturnedNull: NullReturn = {
     name: 'variant returned is null',
 };
 
-const mockTests: HeaderTest[] = [remote_nonUK, header_supporter, remote_UK, locationsNotSet];
+const mockTests: HeaderTest[] = [
+    remote_nonUK,
+    header_supporter,
+    remote_UK,
+    locationsNotSet,
+    header_new_supporter,
+    header_existing_subscriber,
+];
 const mockTestEmptyLocations: HeaderTest[] = [
     remote_nonUK,
     locationsNotSet,
@@ -138,6 +203,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_1: HeaderTestSelection | null = selectBestTest(
@@ -168,6 +234,7 @@ describe('selectBestTest', () => {
             countryCode: 'ck',
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_2: HeaderTestSelection | null = selectBestTest(
@@ -198,6 +265,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_3: HeaderTestSelection | null = selectBestTest(
@@ -228,6 +296,7 @@ describe('selectBestTest', () => {
             countryCode: 'im',
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_4: HeaderTestSelection | null = selectBestTest(
@@ -259,6 +328,7 @@ describe('selectBestTest', () => {
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
             mvtId: 900263,
+            isSignedIn: true,
         };
 
         const result_5: HeaderTestSelection | null = selectBestTest(
@@ -280,5 +350,101 @@ describe('selectBestTest', () => {
         expect(result_5_test.name).toBe('LocationsArrayEmpty');
         expect(result_5_variant).toHaveProperty('name');
         expect(result_5_variant.name).toBe('remote');
+    });
+
+    it('It should return a test matching a contribution from a new user', () => {
+        // Mock targeting data: recent supporter, new user
+        const mockTargetingObject_6: HeaderTargeting = {
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
+            purchaseInfo: {
+                product: 'Contribution',
+                userType: 'new',
+            },
+            isSignedIn: false,
+        };
+
+        const result_6 = selectBestTest(mockTargetingObject_6, false, mockTests);
+        const result_6_test: HeaderTest | NullReturn = result_6
+            ? result_6.test
+            : testHasReturnedNull;
+        const result_6_variant: HeaderVariant | NullReturn = result_6
+            ? result_6.variant
+            : variantHasReturnedNull;
+        expect(result_6).toBeDefined();
+        expect(result_6).toHaveProperty('test');
+        expect(result_6).toHaveProperty('variant');
+        expect(result_6).toHaveProperty('modulePathBuilder');
+        expect(result_6_test).toHaveProperty('name');
+        expect(result_6_test.name).toBe('header-new-supporter');
+        expect(result_6_variant).toHaveProperty('name');
+        expect(result_6_variant.name).toBe('control');
+    });
+
+    it('It should return a test matching a subscription from an existing user', () => {
+        // Mock targeting data: recent supporter, existing user
+        const mockTargetingObject_7: HeaderTargeting = {
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
+            purchaseInfo: {
+                product: 'DigitalPack',
+                userType: 'current',
+            },
+            isSignedIn: false,
+        };
+
+        const result_7 = selectBestTest(mockTargetingObject_7, false, mockTests);
+        const result_7_test: HeaderTest | NullReturn = result_7
+            ? result_7.test
+            : testHasReturnedNull;
+        const result_7_variant: HeaderVariant | NullReturn = result_7
+            ? result_7.variant
+            : variantHasReturnedNull;
+        expect(result_7).toBeDefined();
+        expect(result_7).toHaveProperty('test');
+        expect(result_7).toHaveProperty('variant');
+        expect(result_7).toHaveProperty('modulePathBuilder');
+        expect(result_7_test).toHaveProperty('name');
+        expect(result_7_test.name).toBe('header-existing-subscriber');
+        expect(result_7_variant).toHaveProperty('name');
+        expect(result_7_variant.name).toBe('control');
+    });
+
+    it('It should ignore purchase information if user is signed in', () => {
+        // Mock targeting data: recent supporter, new user, now signed in
+        const mockTargetingObject_8: HeaderTargeting = {
+            showSupportMessaging: false,
+            edition: 'UK',
+            countryCode: 'im',
+            modulesVersion: 'v3',
+            mvtId: 900263,
+            purchaseInfo: {
+                product: 'Contribution',
+                userType: 'new',
+            },
+            isSignedIn: true,
+        };
+
+        const result_8 = selectBestTest(mockTargetingObject_8, false, mockTests);
+        const result_8_test: HeaderTest | NullReturn = result_8
+            ? result_8.test
+            : testHasReturnedNull;
+        const result_8_variant: HeaderVariant | NullReturn = result_8
+            ? result_8.variant
+            : variantHasReturnedNull;
+        expect(result_8).toBeDefined();
+        expect(result_8).toHaveProperty('test');
+        expect(result_8).toHaveProperty('variant');
+        expect(result_8).toHaveProperty('modulePathBuilder');
+        expect(result_8_test).toHaveProperty('name');
+        expect(result_8_test.name).toBe('header-supporter');
+        expect(result_8_variant).toHaveProperty('name');
+        expect(result_8_variant.name).toBe('control');
     });
 });

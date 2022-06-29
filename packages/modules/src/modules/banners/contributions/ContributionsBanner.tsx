@@ -17,10 +17,10 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
-    bannerContainer: css`
+    bannerContainer: (backgroundColor: string) => css`
         overflow: hidden;
         width: 100%;
-        background-color: ${brandAlt[400]};
+        background-color: ${backgroundColor};
         color: ${neutral[7]};
         ${from.tablet} {
             border-top: 1px solid ${neutral[7]};
@@ -186,7 +186,7 @@ const columnCounts = {
     wide: 16,
 };
 
-const ContributionsBanner: React.FC<BannerRenderProps> = ({
+export const getContributionsBanner = (backgroundColor: string): React.FC<BannerRenderProps> => ({
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
@@ -257,12 +257,12 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
     );
 
     return (
-        <div css={styles.bannerContainer}>
+        <div css={styles.bannerContainer(backgroundColor)}>
             <ContributionsBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onCtaClick}
                 onSecondaryCtaClick={onSecondaryCtaClick}
-                content={content.mobileContent || content.mainContent}
+                content={content.mobileContent}
                 onReminderCtaClick={onReminderCtaClick}
                 isReminderOpen={isReminderOpen}
                 onReminderCloseClick={onReminderCloseClick}
@@ -327,6 +327,8 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
         </div>
     );
 };
+
+const ContributionsBanner = getContributionsBanner(brandAlt[400]);
 
 const unvalidated = bannerWrapper(ContributionsBanner, 'contributions-banner');
 const validated = validatedBannerWrapper(ContributionsBanner, 'contributions-banner');

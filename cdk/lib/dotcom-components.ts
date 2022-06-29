@@ -1,14 +1,21 @@
+import { ComparisonOperator, Metric, TreatMissingData } from '@aws-cdk/aws-cloudwatch';
 import type { Policy } from '@aws-cdk/aws-iam';
 import type { App } from '@aws-cdk/core';
+import { Duration } from '@aws-cdk/core';
 import { AccessScope, GuEc2App } from '@guardian/cdk';
 import { Stage } from '@guardian/cdk/lib/constants/stage';
+import { GuAlarm } from '@guardian/cdk/lib/constructs/cloudwatch';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import {
     GuDistributionBucketParameter,
     GuStack,
     GuStringParameter,
 } from '@guardian/cdk/lib/constructs/core';
-import { GuDynamoDBReadPolicy, GuGetS3ObjectsPolicy } from '@guardian/cdk/lib/constructs/iam';
+import {
+    GuDynamoDBReadPolicy,
+    GuGetS3ObjectsPolicy,
+    GuPutCloudwatchMetricsPolicy,
+} from '@guardian/cdk/lib/constructs/iam';
 
 export class DotcomComponents extends GuStack {
     constructor(scope: App, id: string, props: GuStackProps) {
@@ -20,6 +27,42 @@ export class DotcomComponents extends GuStack {
         });
         const elkStream = new GuStringParameter(this, 'ELKStream', {
             description: 'Name of the Kinesis stream used to send logs to the central ELK stack.',
+        });
+
+        // Cloudwatch alarms
+        const snsTopicName = 'reader-revenue-dev';
+        const namespace = `support-${appName}-${this.stage}`;
+
+        new GuAlarm(this, 'SuperModeAlarm', {
+            alarmName: `support-${appName}: Super Mode error - ${this.stage}`,
+            alarmDescription: 'Error fetching Epic Super Mode data from Dynamodb',
+            snsTopicName,
+            metric: new Metric({
+                metricName: 'super-mode-error',
+                namespace,
+                period: Duration.minutes(60),
+            }),
+            threshold: 1,
+            evaluationPeriods: 1,
+            comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+            statistic: 'sum',
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+        });
+
+        new GuAlarm(this, 'ChannelTestsAlarm', {
+            alarmName: `support-${appName}: Channel Tests error - ${this.stage}`,
+            alarmDescription: 'Error fetching channel tests data from Dynamodb',
+            snsTopicName,
+            metric: new Metric({
+                metricName: 'channel-tests-error',
+                namespace,
+                period: Duration.minutes(60),
+            }),
+            threshold: 1,
+            evaluationPeriods: 1,
+            comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+            statistic: 'sum',
+            treatMissingData: TreatMissingData.NOT_BREACHING,
         });
 
         const userData = `#!/bin/bash
@@ -73,6 +116,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
             new GuDynamoDBReadPolicy(this, 'DynamoReadPolicySecondaryIndex', {
                 tableName: `super-mode-${this.stage}/index/*`,
             }),
+            new GuPutCloudwatchMetricsPolicy(this),
+            new GuDynamoDBReadPolicy(this, 'DynamoTestsReadPolicy', {
+                tableName: `support-admin-console-channel-tests-${this.stage}`,
+            }),
         ];
 
         const ec2App = new GuEc2App(this, {
@@ -95,7 +142,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
                 },
                 unhealthyInstancesAlarm: true,
-                snsTopicName: 'reader-revenue-dev',
+                snsTopicName,
             },
             userData,
             roleConfiguration: {

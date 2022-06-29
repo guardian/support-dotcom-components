@@ -48,6 +48,7 @@ const maxViewsSchema = z.object({
 
 const separateArticleCountSchema = z.object({
     type: z.string(),
+    copy: z.string().optional(),
 });
 
 const reminderFieldsSchema = z.object({
@@ -58,19 +59,31 @@ const reminderFieldsSchema = z.object({
 
 const variantSchema = z.object({
     name: z.string(),
-    heading: z.string().optional(),
+    heading: z
+        .string()
+        .nullable()
+        .optional(),
     paragraphs: z.array(z.string()),
-    highlightedText: z.string().optional(),
-    tickerSettings: tickerSettingsSchema.optional(),
-    cta: ctaSchema.optional(),
-    secondaryCta: secondaryCtaSchema.optional(),
-    footer: z.string().optional(),
-    image: imageSchema.optional(),
-    showReminderFields: reminderFieldsSchema.optional(),
-    separateArticleCount: separateArticleCountSchema.optional(),
-    maxViews: maxViewsSchema.optional(),
-    showSignInLink: z.boolean().optional(),
-    bylineWithImage: bylineWithImageSchema.optional(),
+    highlightedText: z
+        .string()
+        .nullable()
+        .optional(),
+    tickerSettings: tickerSettingsSchema.nullable().optional(),
+    cta: ctaSchema.nullable().optional(),
+    secondaryCta: secondaryCtaSchema.nullable().optional(),
+    footer: z
+        .string()
+        .nullable()
+        .optional(),
+    image: imageSchema.nullable().optional(),
+    showReminderFields: reminderFieldsSchema.nullable().optional(),
+    separateArticleCount: separateArticleCountSchema.nullable().optional(),
+    maxViews: maxViewsSchema.nullable().optional(),
+    showSignInLink: z
+        .boolean()
+        .nullable()
+        .optional(),
+    bylineWithImage: bylineWithImageSchema.nullable().optional(),
 });
 
 export const epicPropsSchema = z.object({

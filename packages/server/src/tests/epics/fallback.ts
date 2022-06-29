@@ -3,7 +3,7 @@ import { EpicTest } from '@sdc/shared/types';
 
 export const fallbackEpicTest: EpicTest = {
     name: 'FallbackEpicTest',
-    isOn: true,
+    status: 'Live',
     locations: [],
     audience: 1,
     tagIds: [],

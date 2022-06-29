@@ -4,6 +4,7 @@ import {
     ArticlesViewedSettings,
     ControlProportionSettings,
     Test,
+    TestStatus,
     UserCohort,
     Variant,
 } from './shared';
@@ -20,6 +21,7 @@ export interface MaxViews {
 
 export interface SeparateArticleCount {
     type: 'above';
+    copy?: string;
 }
 
 export interface EpicVariant extends Variant {
@@ -85,7 +87,7 @@ export type ChoiceCardAmounts = {
 
 export interface EpicTest extends Test<EpicVariant> {
     name: string;
-    isOn: boolean;
+    status: TestStatus;
     locations: CountryGroupId[];
     tagIds: string[];
     sections: string[]; // section IDs

@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
+    'research-survey-banner',
+    'banners/researchSurveyBanner/ResearchSurveyBanner',
+);
+
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner-with-sign-in',
     'banners/contributions/ContributionsBannerWithSignIn',
@@ -53,6 +58,21 @@ export const electionAuMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/electionAuMoment/ElectionAuMomentBanner',
 );
 
+export const postElectionAuMomentAlbaneseBanner: ModuleInfo = getDefaultModuleInfo(
+    'post-election-au-moment-albanese-banner',
+    'banners/postElectionAuMoment/PostElectionAuMomentAlbaneseBanner',
+);
+
+export const postElectionAuMomentHungBanner: ModuleInfo = getDefaultModuleInfo(
+    'post-election-au-moment-hung-banner',
+    'banners/postElectionAuMoment/PostElectionAuMomentHungBanner',
+);
+
+export const postElectionAuMomentMorrisonBanner: ModuleInfo = getDefaultModuleInfo(
+    'post-election-au-moment-morrison-banner',
+    'banners/postElectionAuMoment/PostElectionAuMomentMorrisonBanner',
+);
+
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -68,19 +88,29 @@ export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
     'puzzles/puzzlesBanner/PuzzlesBanner',
 );
 
-export const header: ModuleInfo = getDefaultModuleInfo('header', 'header/Header');
+export const header: ModuleInfo = getDefaultModuleInfo('header', 'headers/Header');
+
+export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
+    'signInPromptHeader',
+    'headers/SignInPromptHeader',
+);
 
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    researchSurveyBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
     globalNewYearBanner,
     electionAuMomentBanner,
+    postElectionAuMomentAlbaneseBanner,
+    postElectionAuMomentHungBanner,
+    postElectionAuMomentMorrisonBanner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
     header,
+    signInPromptHeader,
 ];

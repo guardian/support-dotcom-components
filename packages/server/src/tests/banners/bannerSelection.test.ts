@@ -57,10 +57,10 @@ describe('selectBannerTest', () => {
 
         const test: BannerTest = {
             name: 'test',
+            status: 'Live',
             bannerChannel: 'contributions',
             isHardcoded: false,
             userCohort: 'Everyone',
-            canRun: () => true,
             minPageViews: 2,
             variants: [
                 {
@@ -207,10 +207,10 @@ describe('selectBannerTest', () => {
 
         const test: BannerTest = {
             name: 'test',
+            status: 'Live',
             bannerChannel: 'subscriptions',
             isHardcoded: false,
             userCohort: 'Everyone',
-            canRun: (): boolean => true,
             minPageViews: 2,
             variants: [
                 {

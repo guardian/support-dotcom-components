@@ -27,13 +27,28 @@ export interface BannerContent {
 }
 
 const bannerContentSchema = z.object({
-    heading: z.string().optional(),
-    messageText: z.string().optional(),
-    paragraphs: z.array(z.string()).optional(),
-    mobileMessageText: z.string().optional(),
-    highlightedText: z.string().optional(),
-    cta: ctaSchema.optional(),
-    secondaryCta: secondaryCtaSchema.optional(),
+    heading: z
+        .string()
+        .nullable()
+        .optional(),
+    messageText: z
+        .string()
+        .nullable()
+        .optional(),
+    paragraphs: z
+        .array(z.string())
+        .nullable()
+        .optional(),
+    mobileMessageText: z
+        .string()
+        .nullable()
+        .optional(),
+    highlightedText: z
+        .string()
+        .nullable()
+        .optional(),
+    cta: ctaSchema.nullable().optional(),
+    secondaryCta: secondaryCtaSchema.nullable().optional(),
 });
 
 export interface BannerProps {
@@ -56,8 +71,8 @@ export interface BannerProps {
 export const bannerSchema = z.object({
     tracking: trackingSchema,
     bannerChannel: bannerChannelSchema,
-    content: bannerContentSchema.optional(),
-    mobileContent: bannerContentSchema.optional(),
+    content: bannerContentSchema.nullable().optional(),
+    mobileContent: bannerContentSchema.nullable().optional(),
     countryCode: z.string().optional(),
     isSupporter: z.boolean().optional(),
     tickerSettings: tickerSettingsSchema.optional(),
@@ -66,7 +81,10 @@ export const bannerSchema = z.object({
     hasOptedOutOfArticleCount: z.boolean().optional(),
     email: z.string().optional(),
     fetchEmail: z.any().optional(),
-    separateArticleCount: z.boolean().optional(),
+    separateArticleCount: z
+        .boolean()
+        .nullable()
+        .optional(),
 });
 
 export interface PuzzlesBannerProps extends Partial<BannerProps> {

@@ -1,5 +1,5 @@
 import { EpicVariant } from '@sdc/shared/types';
-import { variantHasArticleCountCopy } from './contributionsApi';
+import { variantHasArticleCountCopy } from './epicTests';
 
 const baseVariant: EpicVariant = {
     name: 'v1',

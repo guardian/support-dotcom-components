@@ -11,10 +11,17 @@ export interface CtaSettings {
     hover: CtaStateSettings;
 }
 
+export interface HighlightedTextSettings {
+    textColour: string;
+    highlightColour?: string;
+}
+
 export interface BannerTemplateSettings {
     backgroundColour: string;
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
-    imageSetings: Image;
+    highlightedTextSettings: HighlightedTextSettings;
+    setReminderCtaSettings?: CtaSettings;
+    imageSettings: Image;
 }

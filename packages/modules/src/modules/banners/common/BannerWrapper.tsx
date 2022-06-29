@@ -239,7 +239,7 @@ const withBannerData = (
                 onNotNowClick,
                 content: {
                     mainContent: renderedContent,
-                    mobileContent: renderedMobileContent,
+                    mobileContent: renderedMobileContent ?? renderedContent,
                 },
                 countryCode,
                 email,

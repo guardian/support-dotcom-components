@@ -20,8 +20,8 @@ export function MomentTemplateBannerHeader({
         <div css={styles.container}>
             <header css={styles.header}>
                 <h2>
-                    <Hide below="tablet">{mobileHeading ?? heading}</Hide>
-                    <Hide above="tablet">{heading}</Hide>
+                    <Hide above="tablet">{mobileHeading}</Hide>
+                    <Hide below="tablet">{heading}</Hide>
                 </h2>
             </header>
         </div>
@@ -42,16 +42,12 @@ const styles = {
             font-size: 24px;
             line-height: 115%;
 
-            ${from.mobileLandscape} {
-                font-size: 30px;
-            }
-
-            ${from.tablet} {
+            ${from.desktop} {
                 font-size: 28px;
             }
 
-            ${from.desktop} {
-                font-size: 42px;
+            ${from.leftCol} {
+                font-size: 34px;
             }
         }
     `,

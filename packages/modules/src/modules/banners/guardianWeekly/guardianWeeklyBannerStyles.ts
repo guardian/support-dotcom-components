@@ -106,6 +106,10 @@ export const iconAndClosePosition = css`
     min-width: ${height.ctaMedium * 2}px;
 `;
 
+export const closeButtonStyles = css`
+    z-index: 999;
+`;
+
 export const logoContainer = css`
     display: none;
     ${from.mobileMedium} {

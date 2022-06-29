@@ -5,12 +5,13 @@ import {
     DeviceType,
     TargetingAbTest,
     Test,
+    TestStatus,
     UserCohort,
     Variant,
 } from './shared';
 import { OphanComponentType, OphanProduct } from '../ophan';
-import { BannerTargeting, PageTracking } from '../targeting';
 import { CountryGroupId } from '../../lib';
+import { BannerTargeting, PageTracking } from '../targeting';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
@@ -21,6 +22,10 @@ export enum BannerTemplate {
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     ElectionAuMomentBanner = 'ElectionAuMomentBanner',
+    PostElectionAuMomentAlbaneseBanner = 'PostElectionAuMomentAlbaneseBanner',
+    PostElectionAuMomentHungBanner = 'PostElectionAuMomentHungBanner',
+    PostElectionAuMomentMorrisonBanner = 'PostElectionAuMomentMorrisonBanner',
+    ResearchSurveyBanner = 'ResearchSurveyBanner',
 }
 
 export interface BannerVariant extends Variant {
@@ -41,10 +46,11 @@ export type BannerTestGenerator = () => Promise<BannerTest[]>;
 
 export interface BannerTest extends Test<BannerVariant> {
     name: string;
+    status: TestStatus;
     bannerChannel: BannerChannel;
     isHardcoded: boolean;
     userCohort: UserCohort;
-    canRun: CanRun;
+    canRun?: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
     locations?: CountryGroupId[];
@@ -74,7 +80,7 @@ export interface RawVariantParams {
 export interface RawTestParams {
     name: string;
     nickname: string;
-    isOn: boolean;
+    status: TestStatus;
     minArticlesBeforeShowingBanner: number;
     userCohort: UserCohort;
     locations: CountryGroupId[];

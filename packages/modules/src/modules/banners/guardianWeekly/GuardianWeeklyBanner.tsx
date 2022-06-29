@@ -7,6 +7,7 @@ import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import {
     banner,
+    closeButtonStyles,
     copyColumn,
     heading,
     iconAndClosePosition,
@@ -32,19 +33,19 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const desktopImg =
-    'https://i.guim.co.uk/img/media/922b49dcb95afceb51669037d95708a7505347e6/0_0_2652_1360/2652.png?quality=85&s=dc9c5c16081ce37c1cbb0598c4c8575d';
+    'https://i.guim.co.uk/img/media/cf4c09c3de6128d14bbf2ff316098d7b4eecebcb/0_0_2652_1360/2652.png?quality=85&s=2ecc7615da7424ebdb40dc68b2848adc';
 
 const tabletImg =
-    'https://i.guim.co.uk/img/media/a26c5a877d04e445c17caad4ef5a40d342caed89/0_0_1340_1320/1340.png?quality=85&s=f76974e0748a6193d4acc32ddee96530';
+    'https://i.guim.co.uk/img/media/be2f827393917be2e88f7e1e3711b3c08e1861f6/0_0_1340_1320/1340.png?quality=85&s=00c655a579e2d5ff946ef64c254b8762';
 
 const mobileImg =
-    'https://i.guim.co.uk/img/media/ca032f3fffd456898bee942442dda497137972c3/0_0_1220_660/1220.png?quality=85&s=c97e829bf2cd7523b1b112a3d0d7d339';
+    'https://i.guim.co.uk/img/media/0dd8b1ecca213450fd6bc5f07fc97d31e5c2f979/0_0_1220_660/1220.png?quality=85&s=8b1465a1257889805569edb77c247be7';
 
 // Responsive image props
 const baseImg = {
     url: desktopImg,
     media: '(min-width: 980px)',
-    alt: 'The Guardian Weekly magazine',
+    alt: 'The Guardian Weekly magazine - 40% off cover price',
 };
 
 const images = [
@@ -68,6 +69,7 @@ type ButtonPropTypes = {
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
     <Button
+        css={closeButtonStyles}
         data-link-name={closeComponentId}
         onClick={props.onClick}
         icon={<SvgCross />}
