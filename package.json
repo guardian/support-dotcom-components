@@ -4,7 +4,6 @@
   "description": "Service to serve Reader Revenue components to dotcom",
   "repository": "git@github.com:guardian/support-dotcom-components.git",
   "author": "The Guardian",
-  "repository": "github:guardian/support-dotcom-components",
   "license": "MIT",
   "private": true,
   "scripts": {

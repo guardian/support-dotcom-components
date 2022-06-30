@@ -58,6 +58,11 @@ export const electionAuMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/electionAuMoment/ElectionAuMomentBanner',
 );
 
+export const ausBrandMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'aus-brand-moment-banner',
+    'banners/ausBrandMoment/AusBrandMomentBanner',
+);
+
 export const postElectionAuMomentAlbaneseBanner: ModuleInfo = getDefaultModuleInfo(
     'post-election-au-moment-albanese-banner',
     'banners/postElectionAuMoment/PostElectionAuMomentAlbaneseBanner',
@@ -105,6 +110,7 @@ export const moduleInfos: ModuleInfo[] = [
     environmentMomentBanner,
     globalNewYearBanner,
     electionAuMomentBanner,
+    ausBrandMomentBanner,
     postElectionAuMomentAlbaneseBanner,
     postElectionAuMomentHungBanner,
     postElectionAuMomentMorrisonBanner,

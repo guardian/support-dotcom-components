@@ -2,6 +2,7 @@ import { ReminderFields } from '@sdc/shared/lib';
 import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
 
 export type BannerId =
+    | 'aus-brand-moment-banner'
     | 'contributions-banner'
     | 'research-survey-banner'
     | 'aus-moment-banner'

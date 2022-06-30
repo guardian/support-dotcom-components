@@ -26,6 +26,7 @@ const COLOURS = {
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-banner']: neutral[0],
     ['election-au-moment-banner']: neutral[0],
+    ['aus-brand-moment-banner']: neutral[0],
 };
 
 const BACKGROUND_COLOURS = {
@@ -35,6 +36,7 @@ const BACKGROUND_COLOURS = {
     ['us-eoy-moment-banner']: '#FFEEDB',
     ['global-new-year-banner']: '#F79E1B',
     ['election-au-moment-banner']: '#e4e4e3',
+    ['aus-brand-moment-banner']: '#e4e4e3',
 };
 
 const BORDER_COLOURS = {
@@ -44,6 +46,7 @@ const BORDER_COLOURS = {
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-banner']: neutral[0],
     ['election-au-moment-banner']: neutral[0],
+    ['aus-brand-moment-banner']: neutral[0],
 };
 
 const BUTTON_THEMES = {
@@ -53,6 +56,7 @@ const BUTTON_THEMES = {
     ['us-eoy-moment-banner']: buttonDefaultTheme,
     ['global-new-year-banner']: buttonDefaultTheme,
     ['election-au-moment-banner']: buttonDefaultTheme,
+    ['aus-brand-moment-banner']: buttonDefaultTheme,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
@@ -103,6 +107,7 @@ const NOTE_LINK_COLOURS = {
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-banner']: neutral[0],
     ['election-au-moment-banner']: neutral[0],
+    ['aus-brand-moment-banner']: neutral[0],
 };
 
 const BUTTON_OVERRIDES = {
@@ -138,6 +143,16 @@ const BUTTON_OVERRIDES = {
         }
     `,
     ['election-au-moment-banner']: css`
+        color: ${neutral[7]};
+        border: 1px solid ${neutral[7]};
+
+        &:hover {
+            background-color: ${brand[500]};
+            color: ${neutral[100]};
+            border: 1px solid ${brand[500]};
+        }
+    `,
+    ['aus-brand-moment-banner']: css`
         color: ${neutral[7]};
         border: 1px solid ${neutral[7]};
 
@@ -185,6 +200,17 @@ const PRIMARY_BUTTON_OVERRIDES = {
         }
     `,
     ['election-au-moment-banner']: css`
+        background-color: ${neutral[0]};
+        color: ${neutral[100]};
+        border: 1px solid ${neutral[0]};
+
+        &:hover {
+            background-color: ${background.ctaPrimaryHover};
+            color: ${neutral[100]};
+            border: 1px solid ${background.ctaPrimaryHover};
+        }
+    `,
+    ['aus-brand-moment-banner']: css`
         background-color: ${neutral[0]};
         color: ${neutral[100]};
         border: 1px solid ${neutral[0]};

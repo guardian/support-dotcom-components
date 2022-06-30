@@ -23,13 +23,15 @@ export type ArticleCountOptOutType =
     | 'investigations-moment-banner'
     | 'us-eoy-moment-banner'
     | 'global-new-year-banner'
-    | 'election-au-moment-banner';
+    | 'election-au-moment-banner'
+    | 'aus-brand-moment-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
     type === 'banner' ||
     type === 'investigations-moment-banner' ||
     type === 'us-eoy-moment-banner' ||
     type === 'global-new-year-banner' ||
-    type === 'election-au-moment-banner';
+    type === 'election-au-moment-banner' ||
+    type === 'aus-brand-moment-banner';
 
 const optOutContainer = (type: ArticleCountOptOutType): SerializedStyles => css`
     display: inline-block;
