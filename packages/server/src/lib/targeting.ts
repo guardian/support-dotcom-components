@@ -3,7 +3,11 @@ import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
-const lowValueTags = ['tone/matchreports', 'guardian-masterclasses/guardian-masterclasses'];
+const lowValueTags = [
+    'tone/matchreports',
+    'guardian-masterclasses/guardian-masterclasses',
+    'tone/cartoon',
+];
 
 export interface ThrottleConfig {
     maxViewsDays: number;
