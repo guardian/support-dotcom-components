@@ -2,7 +2,6 @@ import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '@s
 import {
     EpicTargeting,
     EpicTest,
-    EpicType,
     EpicVariant,
     UserCohort,
     EpicViewLog,
@@ -230,7 +229,6 @@ export const findTestAndVariant = (
     targeting: EpicTargeting,
     isMobile: boolean,
     superModeArticles: SuperModeArticle[],
-    epicType: EpicType,
     includeDebug = false,
 ): Result => {
     const debug: Debug = {};

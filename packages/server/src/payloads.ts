@@ -180,14 +180,7 @@ export const buildEpicData = async (
 
     const result = params.force
         ? findForcedTestAndVariant(tests, params.force)
-        : findTestAndVariant(
-              tests,
-              targeting,
-              isMobile(req),
-              superModeArticles,
-              type,
-              params.debug,
-          );
+        : findTestAndVariant(tests, targeting, isMobile(req), superModeArticles, params.debug);
 
     if (process.env.log_targeting === 'true') {
         console.log(
