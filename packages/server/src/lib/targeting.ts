@@ -6,7 +6,7 @@ const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'car
 const lowValueTags = [
     'tone/matchreports',
     'guardian-masterclasses/guardian-masterclasses',
-    'tone/cartoon',
+    'tone/cartoons',
 ];
 
 export interface ThrottleConfig {
