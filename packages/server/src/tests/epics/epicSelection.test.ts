@@ -99,9 +99,8 @@ describe('findTestAndVariant', () => {
             ...targetingDefault,
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
-        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
@@ -114,9 +113,8 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
             hasOptedOutOfArticleCount: true,
         };
-        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
 
         expect(got.result).toBe(undefined);
     });
@@ -125,9 +123,8 @@ describe('findTestAndVariant', () => {
         const test = { ...testDefault, excludedSections: ['news'] };
         const tests = [test];
         const targeting = { ...targetingDefault, sectionId: 'news' };
-        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
 
         expect(got.result).toBe(undefined);
     });
@@ -143,9 +140,8 @@ describe('findTestAndVariant', () => {
             ...targetingDefault,
             showSupportMessaging: false,
         };
-        const epicType = 'ARTICLE';
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles, epicType);
+        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);
     });
