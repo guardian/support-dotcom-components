@@ -11,6 +11,7 @@ import {
     postElectionAuMomentHungBanner,
     postElectionAuMomentMorrisonBanner,
     researchSurveyBanner,
+    auBrandMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -44,6 +45,7 @@ export const BannerPaths: {
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
+    [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {

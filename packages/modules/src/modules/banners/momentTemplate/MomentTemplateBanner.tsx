@@ -68,6 +68,7 @@ export function getMomentTemplateBanner(
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
+                            settings={templateSettings.headerBackground}
                         />
 
                         <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
@@ -99,6 +100,7 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerHeader
                                     heading={content.mainContent.heading}
                                     mobileHeading={content.mobileContent.heading}
+                                    settings={templateSettings.headerBackground}
                                 />
                             </div>
 

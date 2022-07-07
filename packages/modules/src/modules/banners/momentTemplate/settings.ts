@@ -18,6 +18,7 @@ export interface HighlightedTextSettings {
 
 export interface BannerTemplateSettings {
     backgroundColour: string;
+    headerBackground?: string;
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;

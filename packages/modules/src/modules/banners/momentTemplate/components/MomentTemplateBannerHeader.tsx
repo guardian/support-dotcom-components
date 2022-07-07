@@ -10,15 +10,17 @@ import { Hide } from '@guardian/src-layout';
 interface MomentTemplateBannerHeaderProps {
     heading: JSX.Element | JSX.Element[] | null;
     mobileHeading: JSX.Element | JSX.Element[] | null;
+    settings?: string;
 }
 
 export function MomentTemplateBannerHeader({
     heading,
     mobileHeading,
+    settings,
 }: MomentTemplateBannerHeaderProps): JSX.Element {
     return (
         <div css={styles.container}>
-            <header css={styles.header}>
+            <header css={styles.header(settings)}>
                 <h2>
                     <Hide above="tablet">{mobileHeading}</Hide>
                     <Hide below="tablet">{heading}</Hide>
@@ -34,7 +36,7 @@ const styles = {
     container: css`
         position: relative;
     `,
-    header: css`
+    header: (background?: string) => css`
         h2 {
             ${headline.xsmall({ fontWeight: 'bold' })}
             margin: 0;
@@ -49,6 +51,12 @@ const styles = {
             ${from.leftCol} {
                 font-size: 34px;
             }
+
+            ${background
+                ? `span {
+                    background: ${background};
+                }`
+                : ''}
         }
     `,
 };
