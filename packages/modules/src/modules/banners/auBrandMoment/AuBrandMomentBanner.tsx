@@ -1,9 +1,55 @@
+import { neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
-import { settings } from './settings';
 
 const AuBrandMomentBanner = getMomentTemplateBanner({
-    ...settings,
+    backgroundColour: '#fffDf5',
+    headerBackground: '#ffe500',
+    primaryCtaSettings: {
+        default: {
+            backgroundColour: '#121212',
+            textColour: 'white',
+        },
+        hover: {
+            backgroundColour: '#454545',
+            textColour: 'white',
+        },
+    },
+    secondaryCtaSettings: {
+        default: {
+            backgroundColour: '#fffDf5',
+            textColour: neutral[7],
+        },
+        hover: {
+            backgroundColour: '#e4e4e3',
+            textColour: neutral[7],
+        },
+    },
+    closeButtonSettings: {
+        default: {
+            backgroundColour: '#fffDf5',
+            textColour: neutral[0],
+            border: `1px solid ${neutral[0]}`,
+        },
+        hover: {
+            backgroundColour: 'white',
+            textColour: neutral[0],
+        },
+    },
+    highlightedTextSettings: {
+        textColour: neutral[0],
+        highlightColour: '',
+    },
+    setReminderCtaSettings: {
+        default: {
+            backgroundColour: '#fffDf5',
+            textColour: neutral[7],
+        },
+        hover: {
+            backgroundColour: '#e4e4e3',
+            textColour: neutral[7],
+        },
+    },
     imageSettings: {
         mainUrl:
             'https://i.guim.co.uk/img/media/5ffd1915bffebf7edea9055d957dfc56cd9344d7/0_0_1480_1232/500.png?quality=85&s=b1ccbcaeb9ae9ce340d43075e13224d3',
