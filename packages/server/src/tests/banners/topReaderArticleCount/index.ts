@@ -8,7 +8,7 @@ import { content } from './content';
 
 export const topReaderArticleCount: BannerTest = {
     name: 'TopReaderArticleCount',
-    status: 'Draft',
+    status: 'Live',
     bannerChannel: 'contributions',
     isHardcoded: true,
     userCohort: 'AllNonSupporters',
