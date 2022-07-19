@@ -12,7 +12,7 @@ export const epicLenoreWithImageTest_AUS: EpicTest = {
     name: testName,
     campaignId: testName,
     hasArticleCountInCopy: false,
-    status: 'Draft',
+    status: 'Live',
     locations: ['AUDCountries'],
     audience: 1,
     tagIds: ['australia-news'],
