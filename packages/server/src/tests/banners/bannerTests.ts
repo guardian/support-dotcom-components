@@ -5,7 +5,11 @@ import {
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
+import { topReaderArticleCount } from '../../tests/banners/topReaderArticleCount';
 import { signInPromptTests } from './signInPromptTests';
+
+const topReaderArticleCountTestGenerator: BannerTestGenerator = () =>
+    Promise.resolve([topReaderArticleCount]);
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
@@ -13,6 +17,7 @@ const defaultBannerTestGenerator: BannerTestGenerator = () =>
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
+    topReaderArticleCountTestGenerator,
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,

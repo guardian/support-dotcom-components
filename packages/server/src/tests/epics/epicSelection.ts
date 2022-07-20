@@ -2,7 +2,6 @@ import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '@s
 import {
     EpicTargeting,
     EpicTest,
-    EpicType,
     EpicVariant,
     UserCohort,
     EpicViewLog,
@@ -178,10 +177,10 @@ export const inCorrectCohort = (userCohorts: UserCohort[], isSuperModePass: bool
     },
 });
 
-export const shouldNotRender = (epicType: EpicType): Filter => ({
+export const shouldNotRender: Filter = {
     id: 'shouldNotRender',
-    test: (_, targeting): boolean => !shouldNotRenderEpic(targeting, epicType),
-});
+    test: (_, targeting): boolean => !shouldNotRenderEpic(targeting),
+};
 
 export const isNotExpired = (now: Date = new Date()): Filter => ({
     id: 'isNotExpired',
@@ -230,7 +229,6 @@ export const findTestAndVariant = (
     targeting: EpicTargeting,
     isMobile: boolean,
     superModeArticles: SuperModeArticle[],
-    epicType: EpicType,
     includeDebug = false,
 ): Result => {
     const debug: Debug = {};
@@ -239,7 +237,7 @@ export const findTestAndVariant = (
 
     const getFilters = (isSuperModePass: boolean): Filter[] => {
         return [
-            shouldNotRender(epicType),
+            shouldNotRender,
             isLive,
             canShow(targeting),
             isNotExpired(),
