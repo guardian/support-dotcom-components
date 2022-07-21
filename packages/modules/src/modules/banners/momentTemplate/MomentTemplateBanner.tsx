@@ -60,7 +60,11 @@ export function getMomentTemplateBanner(
                         </Hide>
                     </div>
 
-                    <div css={styles.visualContainer}>
+                    <div
+                        css={
+                            templateSettings.mobileVisualContainerOverride ?? styles.visualContainer
+                        }
+                    >
                         <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                     </div>
 
@@ -80,7 +84,11 @@ export function getMomentTemplateBanner(
                     </div>
                 </Container>
 
-                <Container cssOverrides={styles.containerOverrides}>
+                <Container
+                    cssOverrides={styles.containerOverrides(
+                        templateSettings.removeContainerPaddingRight,
+                    )}
+                >
                     <div css={styles.container}>
                         <div css={styles.closeButtonContainer}>
                             <Hide below="tablet">
@@ -91,7 +99,12 @@ export function getMomentTemplateBanner(
                             </Hide>
                         </div>
 
-                        <div css={styles.desktopVisualContainer}>
+                        <div
+                            css={
+                                templateSettings.desktopVisualContainerOverride ??
+                                styles.desktopVisualContainer
+                            }
+                        >
                             <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                         </div>
 
@@ -186,11 +199,19 @@ const styles = {
             border-top: 1px solid ${neutral[0]};
         }
     `,
-    containerOverrides: css`
+    containerOverrides: (removeContainerPaddingRight?: boolean) => css`
         position: relative;
         width: 100%;
         max-width: 1300px;
         margin: 0 auto;
+        ${removeContainerPaddingRight
+            ? `
+            div {
+                ${from.tablet} {
+                    padding-right: 0;
+                }
+            }`
+            : ''};
     `,
     container: css`
         overflow: hidden;

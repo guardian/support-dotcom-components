@@ -11,6 +11,10 @@ export interface CtaSettings {
     hover: CtaStateSettings;
 }
 
+export interface VisualContainerSettings {
+    display: string;
+}
+
 export interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;
@@ -25,4 +29,7 @@ export interface BannerTemplateSettings {
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
     imageSettings: Image;
+    desktopVisualContainerOverride?: VisualContainerSettings;
+    mobileVisualContainerOverride?: VisualContainerSettings;
+    removeContainerPaddingRight?: boolean;
 }
