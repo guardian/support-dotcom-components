@@ -12,7 +12,7 @@ import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
 
-export const bannerChannelSchema = z.enum(['contributions', 'subscriptions']);
+export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
 
 export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 

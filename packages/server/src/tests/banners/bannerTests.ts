@@ -6,6 +6,7 @@ import {
 } from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import { topReaderArticleCount } from '../../tests/banners/topReaderArticleCount';
+import { signInPromptTests } from './signInPromptTests';
 
 const topReaderArticleCountTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([topReaderArticleCount]);
@@ -20,6 +21,7 @@ const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     defaultBannerTestGenerator,
+    signInPromptTests,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>

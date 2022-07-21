@@ -29,6 +29,7 @@ const targeting: BannerTargeting = {
     weeklyArticleHistory: [],
     hasOptedOutOfArticleCount: false,
     contentType: 'Article',
+    isSignedIn: false,
 };
 
 describe('selectTargetingTest', () => {

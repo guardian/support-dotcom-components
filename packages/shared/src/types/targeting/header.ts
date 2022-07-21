@@ -1,11 +1,6 @@
-import { PageTracking } from './shared';
+import { PageTracking, PurchaseInfo } from './shared';
 
 export type Edition = 'UK' | 'US' | 'AU' | 'INT';
-
-export interface PurchaseInfo {
-    userType: 'new' | 'guest' | 'current';
-    product: 'Contribution' | 'DigitalPack' | 'GuardianWeekly' | 'Paper';
-}
 
 export interface HeaderTargeting {
     showSupportMessaging: boolean;
