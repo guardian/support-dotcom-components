@@ -1,5 +1,4 @@
 import { neutral } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
@@ -51,23 +50,8 @@ const AuBrandMomentBanner = getMomentTemplateBanner({
             textColour: neutral[7],
         },
     },
-    desktopVisualContainerOverride: {
-        display: 'none',
-
-        [from.tablet]: {
-            display: 'block',
-            margin: '0 0 0 16px;',
-        },
-        [from.desktop]: {
-            width: '70%',
-        },
-        [from.wide]: {
-            width: '45%',
-        },
-    },
-    mobileVisualContainerOverride: {
-        display: 'none',
-    },
+    desktopVisualOverride: true,
+    mobileContainerOverride: true,
     removeContainerPaddingRight: true,
     imageSettings: {
         tabletUrl:
@@ -78,7 +62,10 @@ const AuBrandMomentBanner = getMomentTemplateBanner({
             'https://i.guim.co.uk/img/media/8a95151cc54b7a3cf29cdf6369a70632e0246913/0_0_1418_980/1418.png?quality=85&s=03119be6e816c831436c200bbc15a984',
         wideUrl:
             'https://i.guim.co.uk/img/media/8a95151cc54b7a3cf29cdf6369a70632e0246913/0_0_1418_980/1418.png?quality=85&s=03119be6e816c831436c200bbc15a984',
-        altText: 'Head shot of Anthony Albanese, leader of the Australian Labor Party.',
+        mainUrl:
+            'https://i.guim.co.uk/img/media/6a120c5261a7321214d8ba620fe576f008c5bf93/0_0_762_826/762.png?quality=85&s=09ed12d3db489de0729d08ba2c4049a8',
+        altText:
+            'Womens rights protestor outside Parliament House, Canberra, holding sign; young Australian climate protester holding sign; black lives matter protestor in Melbourne',
     },
 });
 

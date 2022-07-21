@@ -60,11 +60,7 @@ export function getMomentTemplateBanner(
                         </Hide>
                     </div>
 
-                    <div
-                        css={
-                            templateSettings.mobileVisualContainerOverride ?? styles.visualContainer
-                        }
-                    >
+                    <div css={styles.visualContainer(templateSettings.mobileContainerOverride)}>
                         <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                     </div>
 
@@ -100,10 +96,9 @@ export function getMomentTemplateBanner(
                         </div>
 
                         <div
-                            css={
-                                templateSettings.desktopVisualContainerOverride ??
-                                styles.desktopVisualContainer
-                            }
+                            css={styles.desktopVisualContainer(
+                                templateSettings.desktopVisualOverride,
+                            )}
                         >
                             <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                         </div>
@@ -242,32 +237,45 @@ const styles = {
             display: none;
         }
     `,
-    visualContainer: css`
+    visualContainer: (hideMobileImage?: boolean) => css`
         display: none;
 
-        ${from.mobileMedium} {
-            display: block;
-        }
-        ${from.tablet} {
-            display: none;
-        }
+        ${hideMobileImage
+            ? ''
+            : `${from.mobileMedium} {
+                display: block;
+            }
+            ${from.tablet} {
+                display: none;
+            }`}
     `,
-    desktopVisualContainer: css`
+    desktopVisualContainer: (hasOverride?: boolean) => css`
         display: none;
 
-        ${from.tablet} {
-            display: block;
-            width: 238px;
-            margin-left: ${space[3]}px;
-        }
-        ${from.desktop} {
-            width: 320px;
-            margin-left: ${space[5]}px;
-        }
-        ${from.leftCol} {
-            width: 370px;
-            margin-left: ${space[9]}px;
-        }
+        ${hasOverride
+            ? `${from.tablet} {
+                display: block;
+                margin-left: ${space[4]}px;
+            }
+            ${from.desktop} {
+                width: 70%;
+            }
+            ${from.wide} {
+                width: 45%;
+            }`
+            : `${from.tablet} {
+                display: block;
+                width: 238px;
+                margin-left: ${space[3]}px;
+            }
+            ${from.desktop} {
+                width: 320px;
+                margin-left: ${space[5]}px;
+            }
+            ${from.leftCol} {
+                width: 370px;
+                margin-left: ${space[9]}px;
+            }`}
     `,
     contentContainer: css`
         ${from.tablet} {
