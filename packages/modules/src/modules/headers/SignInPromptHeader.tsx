@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, css } from '@emotion/react';
 import { brandAlt, brandText, space } from '@guardian/src-foundations';
-import { headline } from '@guardian/src-foundations/typography';
+import { headline, lineHeights, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { from, until } from '@guardian/src-foundations/mq';
@@ -17,28 +17,29 @@ const headingStyles = () => css`
     ${headline.xxxsmall({ fontWeight: 'bold' })};
     margin: 0;
 
-    ${from.leftCol} {
+    ${from.desktop} {
         ${headline.xsmall({ fontWeight: 'bold' })};
     }
 `;
 
 const subHeadingStyles = css`
     color: ${brandAlt[400]};
-    ${headline.xxxsmall({ fontWeight: 'bold' })};
+    ${textSans.small({ fontWeight: 'regular' })};
+    line-height: ${lineHeights.tight} !important;
     margin: 0;
 
-    ${until.leftCol} {
-        font-size: 14px;
+    ${until.desktop} {
+        font-size: 12px;
     }
 `;
 
 const benefitsWrapper = css`
-    margin: 2px 0 ${space[2]}px;
+    margin: 0 0 ${space[1]}px;
     height: 16px;
     position: relative;
 
-    ${from.leftCol} {
-        margin: ${space[1]}px 0 ${space[2]}px;
+    ${from.desktop} {
+        margin: 0 0 ${space[2]}px;
         height: 20px;
     }
 `;
@@ -54,26 +55,28 @@ const dotsWrapper = css`
 
 const dotStyles = css`
     background: ${brandAlt[400]};
-    width: 11px;
-    height: 11px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
-    margin-top: 3px;
+    margin-top: 4px;
     margin-right: ${space[1]}px;
 
-    ${from.leftCol} {
-        width: 13px;
-        height: 13px;
-        margin-top: ${space[1]}px;
-        margin-right: ${space[2]}px;
+    ${from.desktop} {
+        width: 11px;
+        height: 11px;
+        margin-top: 5px;
+        margin-right: 6px;
     }
 `;
 
 const benefitTextStyles = css`
     color: ${brandText.primary};
-    ${headline.xxxsmall()};
+    ${textSans.small()};
+    line-height: ${lineHeights.regular} !important;
 
-    ${until.leftCol} {
-        font-size: 14px;
+    ${until.desktop} {
+        line-height: 1rem !important;
+        font-size: 12px;
     }
 `;
 

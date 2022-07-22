@@ -119,12 +119,12 @@ const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
 
 const subscriberContent = {
     heading: 'Thank you for subscribing',
-    subheading: 'One more step to enjoy the Guardian',
+    subheading: 'Remember to sign in for a better experience',
 };
 
 const supporterContent = {
     heading: 'Thank you for your support',
-    subheading: 'One more step to enjoy the Guardian',
+    subheading: 'Remember to sign in for a better experience',
 };
 
 const signInCTA = {
@@ -138,8 +138,9 @@ const registerCTA = {
 };
 
 const baseBenefits = ['Fewer interruptions', 'Newsletters and comments'];
-const normalBenefits = [...baseBenefits, 'Manage your account'];
-const digiSubBenefits = ['Ad free', ...baseBenefits];
+// Why are benefits repeated below? The header animation ends statically on last benefit so it should be the "strongest"
+const normalBenefits = [...baseBenefits, 'Manage your account', 'Fewer interruptions'];
+const digiSubBenefits = ['Ad free', ...baseBenefits, 'Ad free'];
 
 const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-digital-subscriber',

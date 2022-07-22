@@ -19,7 +19,7 @@ const baseSignInPromptVariant: Omit<BannerVariant, 'bannerContent'> = {
 
 const subscriberHeading = 'Thank you for subscribing';
 const supporterHeading = 'Thank you for your support';
-const subheading = 'One more step to enjoy the Guardian';
+const subheading = 'Remember to sign in for a better experience';
 
 const signInCTA = {
     baseUrl: 'https://profile.theguardian.com/signin',
