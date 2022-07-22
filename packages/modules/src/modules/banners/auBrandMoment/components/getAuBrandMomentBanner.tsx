@@ -3,16 +3,15 @@ import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
-import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
-import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
-import { MomentTemplateBannerBody } from './components/MomentTemplateBannerBody';
-import { MomentTemplateBannerCtas } from './components/MomentTemplateBannerCtas';
-import { MomentTemplateBannerCloseButton } from './components/MomentTemplateBannerCloseButton';
-import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVisual';
+import { MomentTemplateBannerHeader } from './MomentTemplateBannerHeader';
+import { MomentTemplateBannerArticleCount } from './MomentTemplateBannerArticleCount';
+import { MomentTemplateBannerBody } from './MomentTemplateBannerBody';
+import { MomentTemplateBannerCtas } from './MomentTemplateBannerCtas';
+import { MomentTemplateBannerCloseButton } from './MomentTemplateBannerCloseButton';
+import { MomentTemplateBannerVisual } from './MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 
 // ---- Banner ---- //
 
@@ -135,32 +134,6 @@ export function getAuBrandMomentBanner(
                         </div>
                     </div>
                 </Container>
-
-                <Hide above="tablet">
-                    <div ref={mobileReminderRef}>
-                        {content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder &&
-                            isReminderActive && (
-                                <MomentTemplateBannerReminder
-                                    reminderCta={content.mobileContent.secondaryCta}
-                                    trackReminderSetClick={reminderTracking.onReminderSetClick}
-                                    setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                                />
-                            )}
-                    </div>
-                </Hide>
-
-                <Hide below="tablet">
-                    {content.mainContent.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder &&
-                        isReminderActive && (
-                            <MomentTemplateBannerReminder
-                                reminderCta={content.mainContent.secondaryCta}
-                                trackReminderSetClick={reminderTracking.onReminderSetClick}
-                                setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                            />
-                        )}
-                </Hide>
             </div>
         );
     }

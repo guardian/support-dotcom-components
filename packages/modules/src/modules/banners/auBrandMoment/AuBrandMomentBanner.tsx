@@ -1,6 +1,6 @@
 import { neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { getAuBrandMomentBanner } from './getAuBrandMomentBanner';
+import { getAuBrandMomentBanner } from './components/getAuBrandMomentBanner';
 
 const AuBrandMomentBanner = getAuBrandMomentBanner({
     backgroundColour: '#fffDf5',
