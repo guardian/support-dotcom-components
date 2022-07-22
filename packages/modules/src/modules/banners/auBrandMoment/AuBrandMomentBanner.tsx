@@ -1,10 +1,9 @@
 import { neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
+import { getAuBrandMomentBanner } from './getAuBrandMomentBanner';
 
-const AuBrandMomentBanner = getMomentTemplateBanner({
+const AuBrandMomentBanner = getAuBrandMomentBanner({
     backgroundColour: '#fffDf5',
-    headerBackground: '#ffe500',
     primaryCtaSettings: {
         default: {
             backgroundColour: '#121212',
@@ -40,19 +39,6 @@ const AuBrandMomentBanner = getMomentTemplateBanner({
         textColour: neutral[0],
         highlightColour: '',
     },
-    setReminderCtaSettings: {
-        default: {
-            backgroundColour: '#fffDf5',
-            textColour: neutral[7],
-        },
-        hover: {
-            backgroundColour: '#e4e4e3',
-            textColour: neutral[7],
-        },
-    },
-    desktopVisualOverride: true,
-    mobileContainerOverride: true,
-    removeContainerPaddingRight: true,
     imageSettings: {
         tabletUrl:
             'https://i.guim.co.uk/img/media/6a120c5261a7321214d8ba620fe576f008c5bf93/0_0_762_826/762.png?quality=85&s=09ed12d3db489de0729d08ba2c4049a8',
@@ -65,7 +51,7 @@ const AuBrandMomentBanner = getMomentTemplateBanner({
         mainUrl:
             'https://i.guim.co.uk/img/media/6a120c5261a7321214d8ba620fe576f008c5bf93/0_0_762_826/762.png?quality=85&s=09ed12d3db489de0729d08ba2c4049a8',
         altText:
-            'Womens rights protestor outside Parliament House, Canberra, holding sign; young Australian climate protester holding sign; black lives matter protestor in Melbourne',
+            "Women's rights protestor outside Parliament House, Canberra, holding sign; young Australian climate protester holding sign; black lives matter protestor in Melbourne",
     },
 });
 

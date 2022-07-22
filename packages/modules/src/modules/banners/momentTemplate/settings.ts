@@ -18,14 +18,10 @@ export interface HighlightedTextSettings {
 
 export interface BannerTemplateSettings {
     backgroundColour: string;
-    headerBackground?: string;
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
     imageSettings: Image;
-    desktopVisualOverride?: boolean;
-    mobileContainerOverride?: boolean;
-    removeContainerPaddingRight?: boolean;
 }
