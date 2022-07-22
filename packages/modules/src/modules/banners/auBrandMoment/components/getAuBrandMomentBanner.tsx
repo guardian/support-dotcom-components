@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
-import { BannerRenderProps } from '../common/types';
+import { BannerRenderProps } from '../../common/types';
 import { MomentTemplateBannerHeader } from './MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './MomentTemplateBannerArticleCount';
 import { MomentTemplateBannerBody } from './MomentTemplateBannerBody';
 import { MomentTemplateBannerCtas } from './MomentTemplateBannerCtas';
 import { MomentTemplateBannerCloseButton } from './MomentTemplateBannerCloseButton';
 import { MomentTemplateBannerVisual } from './MomentTemplateBannerVisual';
-import { BannerTemplateSettings } from './settings';
+import { BannerTemplateSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 

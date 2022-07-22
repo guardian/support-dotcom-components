@@ -60,7 +60,7 @@ export function getMomentTemplateBanner(
                         </Hide>
                     </div>
 
-                    <div css={styles.visualContainer(templateSettings.mobileContainerOverride)}>
+                    <div css={styles.visualContainer}>
                         <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                     </div>
 
@@ -68,7 +68,6 @@ export function getMomentTemplateBanner(
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
-                            settings={templateSettings.headerBackground}
                         />
 
                         <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
@@ -80,11 +79,7 @@ export function getMomentTemplateBanner(
                     </div>
                 </Container>
 
-                <Container
-                    cssOverrides={styles.containerOverrides(
-                        templateSettings.removeContainerPaddingRight,
-                    )}
-                >
+                <Container cssOverrides={styles.containerOverrides}>
                     <div css={styles.container}>
                         <div css={styles.closeButtonContainer}>
                             <Hide below="tablet">
@@ -95,11 +90,7 @@ export function getMomentTemplateBanner(
                             </Hide>
                         </div>
 
-                        <div
-                            css={styles.desktopVisualContainer(
-                                templateSettings.desktopVisualOverride,
-                            )}
-                        >
+                        <div css={styles.desktopVisualContainer}>
                             <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                         </div>
 
@@ -108,7 +99,6 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerHeader
                                     heading={content.mainContent.heading}
                                     mobileHeading={content.mobileContent.heading}
-                                    settings={templateSettings.headerBackground}
                                 />
                             </div>
 
@@ -194,19 +184,11 @@ const styles = {
             border-top: 1px solid ${neutral[0]};
         }
     `,
-    containerOverrides: (removeContainerPaddingRight?: boolean) => css`
+    containerOverrides: css`
         position: relative;
         width: 100%;
         max-width: 1300px;
         margin: 0 auto;
-        ${removeContainerPaddingRight
-            ? `
-            div {
-                ${from.tablet} {
-                    padding-right: 0;
-                }
-            }`
-            : ''};
     `,
     container: css`
         overflow: hidden;
@@ -237,45 +219,32 @@ const styles = {
             display: none;
         }
     `,
-    visualContainer: (hideMobileImage?: boolean) => css`
+    visualContainer: css`
         display: none;
 
-        ${hideMobileImage
-            ? ''
-            : `${from.mobileMedium} {
-                display: block;
-            }
-            ${from.tablet} {
-                display: none;
-            }`}
+        ${from.mobileMedium} {
+            display: block;
+        }
+        ${from.tablet} {
+            display: none;
+        }
     `,
-    desktopVisualContainer: (hasOverride?: boolean) => css`
+    desktopVisualContainer: css`
         display: none;
 
-        ${hasOverride
-            ? `${from.tablet} {
-                display: block;
-                margin-left: ${space[4]}px;
-            }
-            ${from.desktop} {
-                width: 70%;
-            }
-            ${from.wide} {
-                width: 45%;
-            }`
-            : `${from.tablet} {
-                display: block;
-                width: 238px;
-                margin-left: ${space[3]}px;
-            }
-            ${from.desktop} {
-                width: 320px;
-                margin-left: ${space[5]}px;
-            }
-            ${from.leftCol} {
-                width: 370px;
-                margin-left: ${space[9]}px;
-            }`}
+        ${from.tablet} {
+            display: block;
+            width: 238px;
+            margin-left: ${space[3]}px;
+        }
+        ${from.desktop} {
+            width: 320px;
+            margin-left: ${space[5]}px;
+        }
+        ${from.leftCol} {
+            width: 370px;
+            margin-left: ${space[9]}px;
+        }
     `,
     contentContainer: css`
         ${from.tablet} {
