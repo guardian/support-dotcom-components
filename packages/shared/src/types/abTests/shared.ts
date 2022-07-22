@@ -1,4 +1,5 @@
 import { OphanComponentType, OphanProduct } from '../ophan';
+import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
 export type TestStatus = 'Live' | 'Draft' | 'Archived';
 
@@ -60,3 +61,8 @@ export type TestTracking = {
 };
 
 export type DeviceType = 'Mobile' | 'Desktop' | 'All';
+
+export interface PurchaseInfoTest {
+    userType: purchaseInfoUser[];
+    product: purchaseInfoProduct[];
+}

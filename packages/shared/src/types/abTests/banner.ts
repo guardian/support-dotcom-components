@@ -12,6 +12,7 @@ import {
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { CountryGroupId } from '../../lib';
 import { BannerTargeting, PageTracking } from '../targeting';
+import { PurchaseInfoTest } from './shared';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
@@ -27,6 +28,7 @@ export enum BannerTemplate {
     PostElectionAuMomentMorrisonBanner = 'PostElectionAuMomentMorrisonBanner',
     ResearchSurveyBanner = 'ResearchSurveyBanner',
     AuBrandMomentBanner = 'AuBrandMomentBanner',
+    SignInPromptBanner = 'SignInPromptBanner',
 }
 
 export interface BannerVariant extends Variant {
@@ -59,6 +61,7 @@ export interface BannerTest extends Test<BannerVariant> {
     audienceOffset?: number;
     audience?: number;
     controlProportionSettings?: ControlProportionSettings;
+    purchaseInfo?: PurchaseInfoTest;
 }
 
 // The result of selecting a test+variant for a user

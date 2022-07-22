@@ -17,7 +17,7 @@ export const epicProfileWithImageTest_EUROW: EpicTest = {
     audience: 1,
     tagIds: ['world/russia', 'world/ukraine'],
     sections: [],
-    excludedTagIds: [],
+    excludedTagIds: ['news/series/uber-files'],
     excludedSections: [],
     alwaysAsk: false,
     maxViews: {

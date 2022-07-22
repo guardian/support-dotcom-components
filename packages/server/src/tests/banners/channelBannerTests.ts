@@ -12,6 +12,7 @@ import {
     postElectionAuMomentMorrisonBanner,
     researchSurveyBanner,
     auBrandMomentBanner,
+    signInPromptBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -45,7 +46,11 @@ export const BannerPaths: {
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
+<<<<<<< HEAD
     [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
+=======
+    [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
+>>>>>>> 55ccd1e02a599b1bd11587b886c4d4314125264a
 };
 
 export const BannerTemplateComponentTypes: {
@@ -53,6 +58,7 @@ export const BannerTemplateComponentTypes: {
 } = {
     contributions: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     subscriptions: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
+    signIn: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 export const BannerTemplateProducts: {

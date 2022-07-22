@@ -1,9 +1,13 @@
-import { EpicTargeting, EpicType, UserCohort, EpicViewLog, Test, Variant } from '@sdc/shared/types';
+import { EpicTargeting, UserCohort, EpicViewLog, Test, Variant } from '@sdc/shared/types';
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
-const lowValueTags = ['tone/matchreports', 'guardian-masterclasses/guardian-masterclasses'];
+const lowValueTags = [
+    'tone/matchreports',
+    'guardian-masterclasses/guardian-masterclasses',
+    'tone/cartoons',
+];
 
 export interface ThrottleConfig {
     maxViewsDays: number;
@@ -38,18 +42,12 @@ export const shouldThrottle = (
     return hasReachedViewsLimitInWindow || withinMinDaysSinceLastView;
 };
 
-export const shouldNotRenderEpic = (meta: EpicTargeting, epicType: EpicType): boolean => {
+export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
     const section = meta.sectionId || meta.sectionName;
     const isLowValueSection = !!section && lowValueSections.includes(section);
     const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
 
-    return (
-        meta.shouldHideReaderRevenue ||
-        isLowValueSection ||
-        isLowValueTag ||
-        meta.contentType.toUpperCase() !== epicType ||
-        meta.isPaidContent
-    );
+    return meta.shouldHideReaderRevenue || isLowValueSection || isLowValueTag || meta.isPaidContent;
 };
 
 // https://github.com/guardian/ab-testing/blob/main/packages/ab-core/src/core.ts#L56

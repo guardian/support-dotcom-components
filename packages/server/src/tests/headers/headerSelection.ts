@@ -109,7 +109,6 @@ const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
         'UnitedStates',
         'International',
     ],
-    isSignedIn: false,
 };
 
 const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
@@ -139,6 +138,7 @@ const registerCTA = {
 };
 
 const baseBenefits = ['Fewer interruptions', 'Newsletters and comments'];
+const normalBenefits = [...baseBenefits, 'Manage your account'];
 const digiSubBenefits = ['Ad free', ...baseBenefits];
 
 const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
@@ -173,7 +173,7 @@ const signInPromptNewUserPrintSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: registerCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -192,7 +192,7 @@ const signInPromptNewUserSupporterTest: HeaderTest = {
             content: {
                 ...supporterContent,
                 primaryCta: registerCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -230,7 +230,7 @@ const signInPromptExistingUserPrintSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: signInCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -249,7 +249,7 @@ const signInPromptExistingUserSupporterTest: HeaderTest = {
             content: {
                 ...supporterContent,
                 primaryCta: signInCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -274,8 +274,9 @@ const purchaseMatches = (
 ) => {
     const { purchaseInfo: testPurchaseInfo } = test;
 
+    // Ignore tests specifying purchase info if user is signed in / if no purchase info in targeting
     if (isSignedIn || !purchaseInfo) {
-        return true;
+        return !testPurchaseInfo;
     }
 
     const { product, userType } = purchaseInfo;
