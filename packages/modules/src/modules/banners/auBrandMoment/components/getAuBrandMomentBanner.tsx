@@ -199,13 +199,7 @@ const styles = {
     `,
     visualContainer: css`
         display: none;
-
-        ${from.mobileMedium} {
-            display: block;
-        }
-        ${from.tablet} {
-            display: none;
-        }
+        /* leaving this in here for the moment as we may update the images */
     `,
     desktopVisualContainer: css`
         display: none;
