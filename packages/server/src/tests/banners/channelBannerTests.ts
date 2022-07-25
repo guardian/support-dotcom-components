@@ -46,11 +46,8 @@ export const BannerPaths: {
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
-<<<<<<< HEAD
     [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
-=======
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
->>>>>>> 55ccd1e02a599b1bd11587b886c4d4314125264a
 };
 
 export const BannerTemplateComponentTypes: {
