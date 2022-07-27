@@ -2,7 +2,31 @@ import { OphanAction, OphanComponentEvent } from '../types/ophan';
 import { addRegionIdToSupportUrl } from './geolocation';
 import { EpicTest, EpicVariant, Tracking } from '../types';
 import { BannerTest, BannerVariant } from '../types/abTests/banner';
+// import { getCookie } from '@sdc/modules/src/lib/cookies'; //todo move to shared
 
+//TODO move to shared
+const getCookieValues = (name: string): string[] => {
+    const nameEq = `${name}=`;
+    const cookies = document.cookie.split(';');
+
+    return cookies.reduce<string[]>((acc, cookie) => {
+        const cookieTrimmed = cookie.trim();
+
+        if (cookieTrimmed.startsWith(nameEq)) {
+            acc.push(cookieTrimmed.substring(nameEq.length, cookieTrimmed.length));
+        }
+
+        return acc;
+    }, []);
+};
+
+export const getCookie = (name: string): string | undefined => {
+    const cookieVal = getCookieValues(name);
+
+    return cookieVal[0];
+};
+
+// TRACKING VIA support.theguardian.com
 type LinkParams = {
     REFPVID: string;
     INTCMP: string;
@@ -70,6 +94,56 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
         : baseUrl;
 };
 
+// TRACKING VIA profile.theguardian.com
+type ProfileLinkParams = {
+    componentEventParams: string;
+    returnUrl: string;
+};
+
+export const addProfileTrackingParams = (baseUrl: string, params: Tracking): string => {
+    console.log('adding profilee tracking params');
+
+    const constructQuery = (query: { [key: string]: any }): string =>
+        Object.keys(query)
+            .map((param: string) => {
+                const value = query[param];
+                const queryValue = Array.isArray(value)
+                    ? value.map(v => encodeURIComponent(v)).join(',')
+                    : encodeURIComponent(value);
+                return `${param}=${queryValue}`;
+            })
+            .join('&');
+
+    const componentEventParamsData = {
+        componentType: params.componentType,
+        componentId: params.campaignCode,
+        abTestName: params.abTestName,
+        abTestVariant: params.abTestVariant,
+        browserId: getCookie('bwid') || undefined, // FIXME
+        visitId: getCookie('vsid') || undefined, // FIXME
+        viewId: params.ophanPageId,
+    };
+
+    const trackingLinkParams: ProfileLinkParams = {
+        // Note: profile subdomain take uri encoded quray params NOT json
+        componentEventParams: encodeURIComponent(constructQuery(componentEventParamsData)),
+        returnUrl: params.referrerUrl,
+    };
+
+    const queryString = Object.entries(trackingLinkParams)
+        .filter(([, value]) => value !== undefined)
+        .map(([key, value]) => `${key}=${value}`);
+    const alreadyHasQueryString = baseUrl.includes('?');
+
+    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+};
+
+export const isProfileUrl = (baseUrl: string): boolean => /\bprofile\./.test(baseUrl);
+export const addTrackingParamsToProfileUrl = (baseUrl: string, tracking: Tracking): string => {
+    return isProfileUrl(baseUrl) ? addProfileTrackingParams(baseUrl, tracking) : baseUrl;
+};
+
+// SHARED TRACKING
 const campaignPrefix = 'gdnwb_copts_memco';
 
 export const buildCampaignCode = (test: EpicTest, variant: EpicVariant): string =>
