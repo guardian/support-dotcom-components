@@ -76,20 +76,15 @@ export function getAuBrandMomentBanner(
                 </Container>
 
                 <Container cssOverrides={styles.containerOverrides}>
+                    <div css={styles.closeButtonContainer}>
+                        <Hide below="tablet">
+                            <MomentTemplateBannerCloseButton
+                                onCloseClick={onCloseClick}
+                                settings={templateSettings.closeButtonSettings}
+                            />
+                        </Hide>
+                    </div>
                     <div css={styles.container}>
-                        <div css={styles.closeButtonContainer}>
-                            <Hide below="tablet">
-                                <MomentTemplateBannerCloseButton
-                                    onCloseClick={onCloseClick}
-                                    settings={templateSettings.closeButtonSettings}
-                                />
-                            </Hide>
-                        </div>
-
-                        <div css={styles.desktopVisualContainer}>
-                            <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
-                        </div>
-
                         <div css={styles.contentContainer}>
                             <div css={styles.desktopHeaderContainer}>
                                 <MomentTemplateBannerHeader
@@ -129,6 +124,10 @@ export function getAuBrandMomentBanner(
                                 />
                             </section>
                         </div>
+
+                        <div css={styles.desktopVisualContainer}>
+                            <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
+                        </div>
                     </div>
                 </Container>
             </div>
@@ -152,6 +151,7 @@ const styles = {
 
         ${from.tablet} {
             border-top: 1px solid ${neutral[0]};
+            display: flex;
         }
     `,
     containerOverrides: css`
@@ -171,8 +171,8 @@ const styles = {
         flex-direction: column;
 
         ${from.tablet} {
-            flex-direction: row-reverse;
-            justify-content: flex-end;
+            display: inline-flex;
+            flex-direction: row;
         }
     `,
     mobileStickyHeaderContainer: (background: string) => css`
@@ -209,27 +209,33 @@ const styles = {
         display: none;
 
         ${from.tablet} {
-            display: block;
+            display: inline-block;
+            position: absolute;
+            right: 0;
+            width: 33%;
+        }
+        ${from.desktop} {
+            width: 41%;
         }
         ${from.leftCol} {
-            width: 43%;
+            width: 52%;
         }
         ${from.wide} {
-            width: 50%;
+            width: 44%;
         }
     `,
     contentContainer: css`
         ${from.tablet} {
-            width: 450px;
+            width: 410px;
         }
         ${from.desktop} {
-            width: 540px;
+            width: 590px;
         }
         ${from.leftCol} {
-            width: 800px;
+            width: 570px;
         }
         ${from.wide} {
-            width: 750px;
+            width: 670px;
         }
     `,
     headerContainer: css`
@@ -274,5 +280,6 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+        z-index: 5;
     `,
 };

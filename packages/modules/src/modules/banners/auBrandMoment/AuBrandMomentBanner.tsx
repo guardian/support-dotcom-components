@@ -47,7 +47,7 @@ const AuBrandMomentBanner = getAuBrandMomentBanner({
         desktopUrl:
             'https://i.guim.co.uk/img/media/6a65e1e8ef1e0538218ae1cfed50ed5c2b03424b/0_0_420_355/420.png?quality=85&s=08cf6a1a51c17b1c5c41e8c95758bf8b',
         leftColUrl:
-            'https://i.guim.co.uk/img/media/6a65e1e8ef1e0538218ae1cfed50ed5c2b03424b/0_0_420_355/420.png?quality=85&s=08cf6a1a51c17b1c5c41e8c95758bf8b',
+            'https://i.guim.co.uk/img/media/cdd2fab4bc241a6733d349b925f323d6ea0a7073/0_0_600_355/600.png?quality=85&s=96f738cefcb45a56083bbc3293e13e85',
         wideUrl:
             'https://i.guim.co.uk/img/media/cdd2fab4bc241a6733d349b925f323d6ea0a7073/0_0_600_355/600.png?quality=85&s=96f738cefcb45a56083bbc3293e13e85',
         mainUrl:
