@@ -203,7 +203,7 @@ const styles = {
         padding-bottom: ${space[5]}px;
 
         ${from.tablet} {
-            padding-bottom: ${space[6]}px;
+            padding-bottom: ${space[3]}px;
         }
     `,
     ctasContainer: css`

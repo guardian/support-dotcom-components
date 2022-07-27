@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
@@ -41,6 +42,10 @@ const styles = {
             color: ${neutral[0]};
             font-size: 24px;
             line-height: 115%;
+
+            ${from.tablet} {
+                margin-top: ${space[2]}px;
+            }
 
             ${from.desktop} {
                 font-size: 28px;

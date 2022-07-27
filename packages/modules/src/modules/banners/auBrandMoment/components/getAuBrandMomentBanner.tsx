@@ -11,7 +11,6 @@ import { MomentTemplateBannerCloseButton } from './MomentTemplateBannerCloseButt
 import { MomentTemplateBannerVisual } from './MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
-import { SecondaryCtaType } from '@sdc/shared/types';
 
 // ---- Banner ---- //
 
@@ -46,8 +45,6 @@ export function getAuBrandMomentBanner(
                 <Container
                     cssOverrides={styles.mobileStickyHeaderContainer(
                         templateSettings.backgroundColour,
-                        content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -178,7 +175,7 @@ const styles = {
             justify-content: flex-end;
         }
     `,
-    mobileStickyHeaderContainer: (background: string, hasReminderCta: boolean) => css`
+    mobileStickyHeaderContainer: (background: string) => css`
         background: ${background};
         position: sticky;
         top: 0px;
@@ -186,12 +183,13 @@ const styles = {
         border-top: 1px solid ${neutral[0]};
         padding-top: ${space[2]}px;
 
-        ${hasReminderCta
-            ? `
-                border-bottom: 1px solid ${neutral[0]};
-                padding-bottom: ${space[2]}px;
-            `
-            : ''}
+        ${from.mobileMedium} {
+            padding-top: 0;
+            div {
+                padding-right: 0;
+                padding-left: 0;
+            }
+        }
 
         ${from.tablet} {
             display: none;
@@ -199,20 +197,25 @@ const styles = {
     `,
     visualContainer: css`
         display: none;
-        /* leaving this in here for the moment as we may update the images */
+
+        ${from.mobileMedium} {
+            display: block;
+        }
+        ${from.mobileLandscape} {
+            display: none;
+        }
     `,
     desktopVisualContainer: css`
         display: none;
 
         ${from.tablet} {
             display: block;
-            margin-left: ${space[4]}px;
         }
-        ${from.desktop} {
-            width: 70%;
+        ${from.leftCol} {
+            width: 43%;
         }
         ${from.wide} {
-            width: 45%;
+            width: 50%;
         }
     `,
     contentContainer: css`
@@ -220,13 +223,13 @@ const styles = {
             width: 450px;
         }
         ${from.desktop} {
-            width: 600px;
+            width: 540px;
         }
         ${from.leftCol} {
-            width: 700px;
+            width: 800px;
         }
         ${from.wide} {
-            width: 780px;
+            width: 750px;
         }
     `,
     headerContainer: css`
@@ -234,12 +237,12 @@ const styles = {
         align-items: center;
 
         ${from.mobileMedium} {
-            margin-top: ${space[2]}px;
+            margin-top: ${space[5]}px;
+            margin-left: ${space[3]}px;
         }
     `,
     desktopHeaderContainer: css`
         display: none;
-        margin-top: ${space[2]}px;
 
         ${from.tablet} {
             display: block;

@@ -40,18 +40,20 @@ const AuBrandMomentBanner = getAuBrandMomentBanner({
         highlightColour: '',
     },
     imageSettings: {
+        mobileUrl:
+            'https://i.guim.co.uk/img/media/e3ff643b6549e9f306041f91bb49600fcba9aab6/0_0_375_140/375.png?quality=85&s=50b88f05106981fcbeac98c20533ca4b',
         tabletUrl:
-            'https://i.guim.co.uk/img/media/6a120c5261a7321214d8ba620fe576f008c5bf93/0_0_762_826/762.png?quality=85&s=09ed12d3db489de0729d08ba2c4049a8',
+            'https://i.guim.co.uk/img/media/90c9ba0e7293af6361c9257a61be00b106f834be/0_0_270_393/270.png?quality=85&s=17ba9e3027a7a827c281b39ce06cc995',
         desktopUrl:
-            'https://i.guim.co.uk/img/media/5a229b407d430109aff73681d570047f0e3339ad/0_0_1014_824/1014.png?quality=85&s=fdd5d9b6de7b813319ccea7ebb159653',
+            'https://i.guim.co.uk/img/media/6a65e1e8ef1e0538218ae1cfed50ed5c2b03424b/0_0_420_355/420.png?quality=85&s=08cf6a1a51c17b1c5c41e8c95758bf8b',
         leftColUrl:
-            'https://i.guim.co.uk/img/media/8a95151cc54b7a3cf29cdf6369a70632e0246913/0_0_1418_980/1418.png?quality=85&s=03119be6e816c831436c200bbc15a984',
+            'https://i.guim.co.uk/img/media/6a65e1e8ef1e0538218ae1cfed50ed5c2b03424b/0_0_420_355/420.png?quality=85&s=08cf6a1a51c17b1c5c41e8c95758bf8b',
         wideUrl:
-            'https://i.guim.co.uk/img/media/8a95151cc54b7a3cf29cdf6369a70632e0246913/0_0_1418_980/1418.png?quality=85&s=03119be6e816c831436c200bbc15a984',
+            'https://i.guim.co.uk/img/media/cdd2fab4bc241a6733d349b925f323d6ea0a7073/0_0_600_355/600.png?quality=85&s=96f738cefcb45a56083bbc3293e13e85',
         mainUrl:
-            'https://i.guim.co.uk/img/media/6a120c5261a7321214d8ba620fe576f008c5bf93/0_0_762_826/762.png?quality=85&s=09ed12d3db489de0729d08ba2c4049a8',
+            'https://i.guim.co.uk/img/media/6a65e1e8ef1e0538218ae1cfed50ed5c2b03424b/0_0_420_355/420.png?quality=85&s=08cf6a1a51c17b1c5c41e8c95758bf8b',
         altText:
-            "Women's rights protestor outside Parliament House, Canberra, holding sign; young Australian climate protester holding sign; black lives matter protestor in Melbourne",
+            "Women's rights protestor outside Parliament House, Canberra. Woman holding sign that reads 'Justice for Women'.",
     },
 });
 
