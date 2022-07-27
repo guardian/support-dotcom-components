@@ -1,8 +1,10 @@
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
+    addTrackingParamsToProfileUrl,
     createClickEventFromTracking,
     createInsertEventFromTracking,
     createViewEventFromTracking,
+    isProfileUrl,
 } from '@sdc/shared/lib';
 import React, { useEffect } from 'react';
 import {
@@ -145,15 +147,24 @@ const withBannerData = (
 
     // For safety, this function throws if not all placeholders are replaced
     const buildRenderedContent = (bannerContent: BannerContent): BannerRenderedContent => {
-        const buildEnrichedCta = (cta: Cta): BannerEnrichedCta => ({
-            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
-                cta.baseUrl,
-                tracking,
-                numArticles,
-                countryCode,
-            ),
-            ctaText: cta.text,
-        });
+        const buildEnrichedCta = (cta: Cta): BannerEnrichedCta => {
+            if (isProfileUrl(cta.baseUrl)) {
+                return {
+                    ctaUrl: addTrackingParamsToProfileUrl(cta.baseUrl, tracking),
+                    ctaText: cta.text,
+                };
+            }
+
+            return {
+                ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
+                    cta.baseUrl,
+                    tracking,
+                    numArticles,
+                    countryCode,
+                ),
+                ctaText: cta.text,
+            };
+        };
 
         const buildEnrichedSecondaryCta = (
             secondaryCta: SecondaryCta,
