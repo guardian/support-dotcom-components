@@ -41,7 +41,6 @@ import { epicProfileWithImageTest_EUROW } from './tests/epics/epicProfileWithIma
 import { epicProfileWithImageTest_UKAUS } from './tests/epics/epicProfileWithImageTest_uk-aus';
 import { epicLenoreWithImageTest_AUS } from './tests/epics/epicLenoreWithImageTest_aus';
 import { cachedProductPrices } from './productPrices';
-import { usTopReaderCopyTest } from './tests/epics/usTopReaderCopy';
 
 interface EpicDataResponse {
     data?: {
