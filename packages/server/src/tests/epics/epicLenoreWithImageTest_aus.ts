@@ -105,7 +105,7 @@ export const epicLenoreWithImageTest_AUS: EpicTest = {
                 description: 'Editor, Guardian Australia',
                 headshot: {
                     mainUrl:
-                        'https://i.guim.co.uk/img/uploads/2018/10/30/Lenore_Taylor,_R.png?width=300&quality=85&auto=format&fit=max&s=3912263e9fe2895681b281d3a6c7d1f1',
+                        'https://i.guim.co.uk/img/media/8eda1b06a686fe5ab4f7246bd6b5f8e63851088e/0_0_300_250/300.png?quality=85&s=f42e9642f335d705cab8b712bbbcb64e',
                     altText: 'Lenore Taylor staff byline photograph',
                 },
             },
