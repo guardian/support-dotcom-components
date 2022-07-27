@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { HeaderProps, Cta, headerSchema } from '@sdc/shared/types';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
+import {
+    addRegionIdAndTrackingParamsToSupportUrl,
+    addTrackingParamsToProfileUrl,
+    createClickEventFromTracking,
+    isProfileUrl,
+} from '@sdc/shared/lib';
 import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { withParsedProps } from '../shared/ModuleWrapper';
@@ -33,15 +38,23 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
         submitComponentEvent,
         numArticles,
     }) => {
-        const buildEnrichedCta = (cta: Cta): HeaderEnrichedCta => ({
-            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
-                cta.baseUrl,
-                tracking,
-                numArticles,
-                countryCode,
-            ),
-            ctaText: cta.text,
-        });
+        const buildEnrichedCta = (cta: Cta): HeaderEnrichedCta => {
+            if (isProfileUrl(cta.baseUrl)) {
+                return {
+                    ctaUrl: addTrackingParamsToProfileUrl(cta.baseUrl, tracking),
+                    ctaText: cta.text,
+                };
+            }
+            return {
+                ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
+                    cta.baseUrl,
+                    tracking,
+                    numArticles,
+                    countryCode,
+                ),
+                ctaText: cta.text,
+            };
+        };
 
         const primaryCta = content.primaryCta ? buildEnrichedCta(content.primaryCta) : null;
         const secondaryCta = content.secondaryCta ? buildEnrichedCta(content.secondaryCta) : null;
