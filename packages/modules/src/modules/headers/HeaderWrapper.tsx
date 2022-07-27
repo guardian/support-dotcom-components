@@ -21,6 +21,7 @@ export interface HeaderRenderedContent {
 export interface HeaderRenderProps {
     content: HeaderRenderedContent;
     mobileContent?: HeaderRenderedContent;
+    onCtaClick?: () => void; // only used by sign in prompt header
 }
 
 export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<HeaderProps> => {
@@ -73,6 +74,18 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
 
         const { abTestName, abTestVariant, componentType, campaignCode } = tracking;
 
+        const onCtaClick = (componentId: string) => {
+            return (): void => {
+                const componentClickEvent = createClickEventFromTracking(
+                    tracking,
+                    `${componentId} : cta`,
+                );
+                if (submitComponentEvent) {
+                    submitComponentEvent(componentClickEvent);
+                }
+            };
+        };
+
         const sendOphanEvent = (action: OphanAction): void =>
             submitComponentEvent &&
             submitComponentEvent({
@@ -107,7 +120,11 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
 
         return (
             <div ref={setNode}>
-                <Header content={renderedContent} mobileContent={renderedMobileContent} />
+                <Header
+                    content={renderedContent}
+                    mobileContent={renderedMobileContent}
+                    onCtaClick={onCtaClick(campaignCode)}
+                />
             </div>
         );
     };
