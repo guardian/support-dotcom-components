@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { breakpoints, neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
 import { BannerRenderProps } from '../../common/types';
 import { MomentTemplateBannerHeader } from './MomentTemplateBannerHeader';
@@ -124,7 +124,6 @@ export function getAuBrandMomentBanner(
                                 />
                             </section>
                         </div>
-
                         <div css={styles.desktopVisualContainer}>
                             <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
                         </div>
@@ -159,20 +158,24 @@ const styles = {
         width: 100%;
         max-width: 1300px;
         margin: 0 auto;
-        div {
-            ${from.tablet} {
+
+        ${from.tablet} {
+            display: inline-flex;
+            justify-content: space-between;
+            div {
                 padding-right: 0;
             }
         }
     `,
     container: css`
         overflow: hidden;
-        display: flex;
         flex-direction: column;
 
         ${from.tablet} {
             display: inline-flex;
             flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
         }
     `,
     mobileStickyHeaderContainer: (background: string) => css`
@@ -209,27 +212,15 @@ const styles = {
         display: none;
 
         ${from.tablet} {
-            display: inline-block;
-            position: absolute;
-            right: 0;
-            width: 33%;
-        }
-        ${from.desktop} {
-            width: 41%;
-        }
-        ${from.leftCol} {
-            width: 52%;
-        }
-        ${from.wide} {
-            width: 44%;
+            display: inline-flex;
         }
     `,
     contentContainer: css`
         ${from.tablet} {
-            width: 410px;
+            width: 390px;
         }
         ${from.desktop} {
-            width: 590px;
+            width: 540px;
         }
         ${from.leftCol} {
             width: 570px;
@@ -279,7 +270,19 @@ const styles = {
     closeButtonContainer: css`
         position: absolute;
         top: ${space[2]}px;
-        right: ${space[4]}px;
         z-index: 5;
+
+        ${from.tablet} {
+            right: calc((100vw - ${breakpoints.tablet}px) / 2 + ${space[4]}px);
+        }
+        ${from.desktop} {
+            right: calc((100vw - ${breakpoints.desktop}px) / 2 + ${space[4]}px);
+        }
+        ${from.leftCol} {
+            right: calc((100vw - ${breakpoints.leftCol}px) / 2 + ${space[4]}px);
+        }
+        ${from.wide} {
+            right: calc((100vw - ${breakpoints.wide}px) / 100 + ${space[6]}px);
+        }
     `,
 };
