@@ -93,9 +93,7 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
                     tracking,
                     `${componentId} : cta`,
                 );
-                if (submitComponentEvent) {
-                    submitComponentEvent(componentClickEvent);
-                }
+                submitComponentEvent && submitComponentEvent(componentClickEvent);
             };
         };
 
