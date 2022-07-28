@@ -110,6 +110,11 @@ export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
     'headers/SignInPromptHeader',
 );
 
+export const auBrandMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'au-brand-moment-banner',
+    'banners/auBrandMoment/AuBrandMomentBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -131,4 +136,5 @@ export const moduleInfos: ModuleInfo[] = [
     signInPromptBanner,
     header,
     signInPromptHeader,
+    auBrandMomentBanner,
 ];
