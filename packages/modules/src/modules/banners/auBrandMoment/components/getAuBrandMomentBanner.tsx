@@ -270,6 +270,7 @@ const styles = {
     closeButtonContainer: css`
         position: absolute;
         top: ${space[2]}px;
+        right: ${space[2]}px;
         z-index: 5;
 
         ${from.tablet} {
