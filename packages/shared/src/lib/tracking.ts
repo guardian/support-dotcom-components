@@ -3,6 +3,7 @@ import { addRegionIdToSupportUrl } from './geolocation';
 import { EpicTest, EpicVariant, Tracking } from '../types';
 import { BannerTest, BannerVariant } from '../types/abTests/banner';
 
+// TRACKING VIA support.theguardian.com
 type LinkParams = {
     REFPVID: string;
     INTCMP: string;
@@ -70,6 +71,52 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
         : baseUrl;
 };
 
+// TRACKING VIA profile.theguardian.com
+type ProfileLinkParams = {
+    componentEventParams: string;
+    returnUrl: string;
+};
+
+export const addProfileTrackingParams = (baseUrl: string, params: Tracking): string => {
+    const constructQuery = (query: { [key: string]: any }): string =>
+        Object.keys(query)
+            .map((param: string) => {
+                const value = query[param];
+                const queryValue = Array.isArray(value)
+                    ? value.map(v => encodeURIComponent(v)).join(',')
+                    : encodeURIComponent(value);
+                return `${param}=${queryValue}`;
+            })
+            .join('&');
+
+    const componentEventParamsData = {
+        componentType: params.componentType,
+        componentId: params.campaignCode,
+        abTestName: params.abTestName,
+        abTestVariant: params.abTestVariant,
+        viewId: params.ophanPageId,
+    };
+
+    const trackingLinkParams: ProfileLinkParams = {
+        // Note: profile subdomain take uri encoded query params NOT json
+        componentEventParams: encodeURIComponent(constructQuery(componentEventParamsData)),
+        returnUrl: params.referrerUrl,
+    };
+
+    const queryString = Object.entries(trackingLinkParams)
+        .filter(([, value]) => value !== undefined)
+        .map(([key, value]) => `${key}=${value}`);
+    const alreadyHasQueryString = baseUrl.includes('?');
+
+    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+};
+
+export const isProfileUrl = (baseUrl: string): boolean => /\bprofile\./.test(baseUrl);
+export const addTrackingParamsToProfileUrl = (baseUrl: string, tracking: Tracking): string => {
+    return isProfileUrl(baseUrl) ? addProfileTrackingParams(baseUrl, tracking) : baseUrl;
+};
+
+// SHARED TRACKING
 const campaignPrefix = 'gdnwb_copts_memco';
 
 export const buildCampaignCode = (test: EpicTest, variant: EpicVariant): string =>

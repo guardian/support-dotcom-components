@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { HeaderProps, Cta, headerSchema } from '@sdc/shared/types';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
+import {
+    addRegionIdAndTrackingParamsToSupportUrl,
+    addTrackingParamsToProfileUrl,
+    createClickEventFromTracking,
+    isProfileUrl,
+} from '@sdc/shared/lib';
 import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { withParsedProps } from '../shared/ModuleWrapper';
@@ -21,6 +26,7 @@ export interface HeaderRenderedContent {
 export interface HeaderRenderProps {
     content: HeaderRenderedContent;
     mobileContent?: HeaderRenderedContent;
+    onCtaClick?: () => void; // only used by sign in prompt header
 }
 
 export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<HeaderProps> => {
@@ -32,15 +38,23 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
         submitComponentEvent,
         numArticles,
     }) => {
-        const buildEnrichedCta = (cta: Cta): HeaderEnrichedCta => ({
-            ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
-                cta.baseUrl,
-                tracking,
-                numArticles,
-                countryCode,
-            ),
-            ctaText: cta.text,
-        });
+        const buildEnrichedCta = (cta: Cta): HeaderEnrichedCta => {
+            if (isProfileUrl(cta.baseUrl)) {
+                return {
+                    ctaUrl: addTrackingParamsToProfileUrl(cta.baseUrl, tracking),
+                    ctaText: cta.text,
+                };
+            }
+            return {
+                ctaUrl: addRegionIdAndTrackingParamsToSupportUrl(
+                    cta.baseUrl,
+                    tracking,
+                    numArticles,
+                    countryCode,
+                ),
+                ctaText: cta.text,
+            };
+        };
 
         const primaryCta = content.primaryCta ? buildEnrichedCta(content.primaryCta) : null;
         const secondaryCta = content.secondaryCta ? buildEnrichedCta(content.secondaryCta) : null;
@@ -72,6 +86,16 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
             : undefined;
 
         const { abTestName, abTestVariant, componentType, campaignCode } = tracking;
+
+        const onCtaClick = (componentId: string) => {
+            return (): void => {
+                const componentClickEvent = createClickEventFromTracking(
+                    tracking,
+                    `${componentId} : cta`,
+                );
+                submitComponentEvent && submitComponentEvent(componentClickEvent);
+            };
+        };
 
         const sendOphanEvent = (action: OphanAction): void =>
             submitComponentEvent &&
@@ -107,7 +131,11 @@ export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<Hea
 
         return (
             <div ref={setNode}>
-                <Header content={renderedContent} mobileContent={renderedMobileContent} />
+                <Header
+                    content={renderedContent}
+                    mobileContent={renderedMobileContent}
+                    onCtaClick={onCtaClick(campaignCode)}
+                />
             </div>
         );
     };

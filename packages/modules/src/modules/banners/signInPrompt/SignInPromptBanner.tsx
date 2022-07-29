@@ -109,6 +109,7 @@ const SignInPromptBanner: React.FC<BannerRenderProps> = props => {
                                 <LinkButton
                                     priority="primary"
                                     href={primaryCta.ctaUrl}
+                                    onClick={props.onCtaClick}
                                     size="small"
                                 >
                                     {primaryCta.ctaText}

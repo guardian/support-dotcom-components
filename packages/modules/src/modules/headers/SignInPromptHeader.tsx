@@ -206,7 +206,12 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
 
             {primaryCta && (
                 <ThemeProvider theme={buttonBrand}>
-                    <LinkButton priority="primary" href={primaryCta.ctaUrl} size="xsmall">
+                    <LinkButton
+                        priority="primary"
+                        href={primaryCta.ctaUrl}
+                        size="xsmall"
+                        onClick={props.onCtaClick}
+                    >
                         {primaryCta.ctaText}
                     </LinkButton>
                 </ThemeProvider>

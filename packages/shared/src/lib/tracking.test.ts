@@ -2,6 +2,7 @@ import {
     buildCampaignCode,
     addTrackingParams,
     addRegionIdAndTrackingParamsToSupportUrl,
+    addTrackingParamsToProfileUrl,
 } from './tracking';
 import { factories } from '../factories/';
 
@@ -99,6 +100,31 @@ describe('addRegionIdAndTrackingParamsToSupportUrl', () => {
 
         const want =
             'https://support.theguardian.com/uk/contribute/climate-pledge-2019?REFPVID=k5nxn0mxg7ytwpkxuwms&INTCMP=gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet&acquisitionData=%7B%22source%22%3A%22GUARDIAN_WEB%22%2C%22componentId%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22componentType%22%3A%22ACQUISITIONS_EPIC%22%2C%22campaignCode%22%3A%22gdnwb_copts_memco_2019-10-14_moment_climate_pledge__multi_UKUS_nonenviron_v2_stay_quiet%22%2C%22abTests%22%3A%5B%7B%22name%22%3A%222019-10-14_moment_climate_pledge__multi_UKUS_nonenviron%22%2C%22variant%22%3A%22v2_stay_quiet%22%7D%5D%2C%22referrerPageviewId%22%3A%22k5nxn0mxg7ytwpkxuwms%22%2C%22referrerUrl%22%3A%22http%3A%2F%2Flocalhost%3A3000%2Fpolitics%2F2020%2Fjan%2F17%2Fuk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit%22%2C%22isRemote%22%3Atrue%7D&numArticles=88';
+        expect(got).toEqual(want);
+    });
+});
+
+describe('addTrackingParamsToProfileUrl', () => {
+    const trackingData = factories.tracking.build();
+
+    it('should return the base URL for non profile URLs', () => {
+        const buttonBaseUrl = 'https://support.theguardian.com/contribute';
+        const got = addTrackingParamsToProfileUrl(buttonBaseUrl, trackingData);
+        const want = 'https://support.theguardian.com/contribute';
+        expect(got).toEqual(want);
+    });
+    it('should return a correctly formatted URL for a profile URL', () => {
+        const buttonBaseUrl = 'https://profile.theguardian.com/register';
+        const got = addTrackingParamsToProfileUrl(buttonBaseUrl, trackingData);
+        const want =
+            'https://profile.theguardian.com/register?componentEventParams=componentType%3DACQUISITIONS_EPIC%26componentId%3Dgdnwb_copts_memco_remote_epic_test_api%26abTestName%3Dremote_epic_test%26abTestVariant%3Dapi%26viewId%3Dk5nxn0mxg7ytwpkxuwms&returnUrl=http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit';
+        expect(got).toEqual(want);
+    });
+    it('should return a correctly formatted URL when the base URL already has a query string', () => {
+        const buttonBaseUrl = 'https://profile.theguardian.com/register?foo=bar';
+        const got = addTrackingParamsToProfileUrl(buttonBaseUrl, trackingData);
+        const want =
+            'https://profile.theguardian.com/register?foo=bar&componentEventParams=componentType%3DACQUISITIONS_EPIC%26componentId%3Dgdnwb_copts_memco_remote_epic_test_api%26abTestName%3Dremote_epic_test%26abTestVariant%3Dapi%26viewId%3Dk5nxn0mxg7ytwpkxuwms&returnUrl=http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit';
         expect(got).toEqual(want);
     });
 });
