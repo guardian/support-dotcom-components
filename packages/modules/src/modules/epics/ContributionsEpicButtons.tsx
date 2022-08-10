@@ -42,11 +42,13 @@ const PrimaryCtaButton = ({
     tracking,
     countryCode,
     numArticles,
+    amountsTest,
 }: {
     cta?: Cta;
     tracking: Tracking;
     countryCode?: string;
     numArticles: number;
+    amountsTest?: string;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
@@ -59,6 +61,7 @@ const PrimaryCtaButton = ({
         tracking,
         numArticles,
         countryCode,
+        amountsTest,
     );
 
     return (
@@ -107,6 +110,7 @@ interface ContributionsEpicButtonsProps {
     isSignedIn: boolean;
     showChoiceCards?: boolean;
     choiceCardSelection?: ChoiceCardSelection;
+    choiceCardTestName?: string;
     numArticles: number;
 }
 
@@ -120,6 +124,7 @@ export const ContributionsEpicButtons = ({
     isSignedIn,
     showChoiceCards,
     choiceCardSelection,
+    choiceCardTestName,
     numArticles,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
@@ -167,6 +172,7 @@ export const ContributionsEpicButtons = ({
                         tracking={tracking}
                         numArticles={numArticles}
                         countryCode={countryCode}
+                        amountsTest={choiceCardTestName}
                     />
 
                     {secondaryCta?.type === SecondaryCtaType.Custom &&

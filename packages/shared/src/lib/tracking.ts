@@ -15,6 +15,7 @@ export const addTrackingParams = (
     baseUrl: string,
     params: Tracking,
     numArticles?: number,
+    amountsTest?: string,
 ): string => {
     const abTests = [
         {
@@ -26,6 +27,14 @@ export const addTrackingParams = (
         abTests.push({
             name: params.targetingAbTest.testName,
             variant: params.targetingAbTest.variantName,
+        });
+    }
+
+    if (amountsTest) {
+        const [name, variant] = amountsTest.split('|');
+        abTests.push({
+            name,
+            variant,
         });
     }
 
@@ -65,9 +74,10 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     tracking: Tracking,
     numArticles?: number,
     countryCode?: string,
+    amountsTest?: string,
 ): string => {
     return isSupportUrl(baseUrl)
-        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles)
+        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles, amountsTest)
         : baseUrl;
 };
 

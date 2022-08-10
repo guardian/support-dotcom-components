@@ -245,7 +245,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-09-02_AMOUNTS_R5__UK',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V2_LOWER',
@@ -261,6 +261,23 @@ WithChoiceCards.args = {
                                 ANNUAL: {
                                     amounts: [60, 120, 240, 480],
                                     defaultAmount: 120,
+                                },
+                            },
+                        },
+                        {
+                            name: 'V1_SINGLE_AMOUNTS',
+                            amounts: {
+                                ONE_OFF: {
+                                    amounts: [30],
+                                    defaultAmount: 30,
+                                },
+                                MONTHLY: {
+                                    amounts: [5],
+                                    defaultAmount: 5,
+                                },
+                                ANNUAL: {
+                                    amounts: [50],
+                                    defaultAmount: 50,
                                 },
                             },
                         },
@@ -285,7 +302,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-03-11_AMOUNTS_R2__US',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V1_HIGHER_STRETCH',
@@ -325,7 +342,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-03-11_AMOUNTS_R2__EU',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V1_HIGHER_STRETCH',
@@ -382,7 +399,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-03-11_AMOUNTS_R2__AU',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V1_HIGHER_STRETCH',
@@ -456,7 +473,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-03-11_AMOUNTS_R2__INT',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V1_HIGHER_STRETCH',
@@ -530,7 +547,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-03-11_AMOUNTS_R2__NZ',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V1_HIGHER_STRETCH',
@@ -604,7 +621,7 @@ WithChoiceCards.args = {
                 },
                 test: {
                     name: '2021-03-11_AMOUNTS_R2__CA',
-                    isLive: false,
+                    isLive: true,
                     variants: [
                         {
                             name: 'V1_HIGHER_STRETCH',
