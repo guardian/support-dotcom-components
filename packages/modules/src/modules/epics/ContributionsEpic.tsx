@@ -9,7 +9,14 @@ import {
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
 } from '@sdc/shared/lib';
-import { ContributionFrequency, EpicProps, epicPropsSchema, Stage, AmountsTestVariant, ConfiguredRegionAmounts } from '@sdc/shared/types';
+import {
+    ContributionFrequency,
+    EpicProps,
+    epicPropsSchema,
+    Stage,
+    AmountsTestVariant,
+    ConfiguredRegionAmounts,
+} from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
@@ -270,7 +277,10 @@ function randomNumber(mvtId: number, seed: number): number {
     const rng = seedrandom(`${mvtId + seed}`);
     return Math.abs(rng.int32());
 }
-const selectAmountsVariant = (data: ConfiguredRegionAmounts, defaultName: string): AmountsTestVariant => {
+const selectAmountsVariant = (
+    data: ConfiguredRegionAmounts,
+    defaultName: string,
+): AmountsTestVariant => {
     const test = data.test;
     const defaultReturn = {
         name: defaultName,
@@ -281,11 +291,14 @@ const selectAmountsVariant = (data: ConfiguredRegionAmounts, defaultName: string
         return defaultReturn;
     }
     const mvtId = Math.floor(Math.random() * MVT_MAX);
-    const variants = ['CONTROL', ...test.variants.map((variant) => variant.name)];
-    let assignmentIndex = randomNumber(mvtId, test.seed) % variants.length;
+    const variants = ['CONTROL', ...test.variants.map(variant => variant.name)];
+    const assignmentIndex = randomNumber(mvtId, test.seed) % variants.length;
 
     if ('CONTROL' === variants[assignmentIndex]) {
-        return defaultReturn;
+        return {
+            name: `${test.name}|CONTROL`,
+            amounts: data.control,
+        };
     }
 
     const assigned = test.variants[assignmentIndex - 1];
@@ -311,7 +324,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    const countryGroupId = (countryCode != null) ? countryCodeToCountryGroupId(countryCode) : 'GBPCountries';
+    const countryGroupId =
+        countryCode != null ? countryCodeToCountryGroupId(countryCode) : 'GBPCountries';
     const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
@@ -323,13 +337,11 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const determineAmountsTestVariant = (country: CountryGroupId = 'GBPCountries'): void => {
         if (variant == null || variant.choiceCardAmounts == null) {
             setAmountsTest(undefined);
-            console.log('No amounts testing happening');
-        }
-        else {
+        } else {
             const countryAmounts = variant.choiceCardAmounts[country];
 
             const defaultName = `AMOUNTS_${country}|CONTROL`;
-            const selectedAmounts = selectAmountsVariant(countryAmounts, defaultName)
+            const selectedAmounts = selectAmountsVariant(countryAmounts, defaultName);
 
             setAmountsTest(selectedAmounts);
 
@@ -340,16 +352,13 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         }
     };
 
-    const {
-        image,
-        showReminderFields,
-        tickerSettings,
-        showChoiceCards,
-    } = variant;
+    const { image, showReminderFields, tickerSettings, showChoiceCards } = variant;
 
     const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
 
-    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>();
+    const [choiceCardSelection, setChoiceCardSelection] = useState<
+        ChoiceCardSelection | undefined
+    >();
 
     useEffect(() => determineAmountsTestVariant(countryGroupId), [variant]);
 
@@ -466,7 +475,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {showChoiceCards && choiceCardSelection && (
                 <ContributionsEpicChoiceCards
                     amounts={amountsTest}
-                    setSelectionsCallback={setChoiceCardSelection}
+                    setChoiceCardSelection={setChoiceCardSelection}
                     selection={choiceCardSelection}
                     countryCode={countryCode}
                     submitComponentEvent={submitComponentEvent}

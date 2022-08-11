@@ -38,7 +38,7 @@ export interface ChoiceCardSelection {
 interface EpicChoiceCardProps {
     amounts: AmountsTestVariant | undefined;
     selection: ChoiceCardSelection;
-    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    setChoiceCardSelection: (choiceCardSelection: ChoiceCardSelection) => void;
     countryCode?: string;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
 }
@@ -46,7 +46,7 @@ interface EpicChoiceCardProps {
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     amounts,
     selection,
-    setSelectionsCallback,
+    setChoiceCardSelection,
     countryCode,
     submitComponentEvent,
 }: EpicChoiceCardProps) => {
@@ -67,7 +67,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
 
     const updateAmount = (amount: number | 'other') => {
         trackClick('amount');
-        setSelectionsCallback({
+        setChoiceCardSelection({
             frequency: selection.frequency,
             amount: amount,
         });
@@ -75,9 +75,14 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
 
     const updateFrequency = (frequency: ContributionFrequency) => {
         trackClick('frequency');
-        setSelectionsCallback({
-            frequency: frequency,
-            amount: countryAmounts && countryAmounts[frequency]['amounts'][1] || 0,
+        const amountsCheck = countryAmounts != null ? countryAmounts[frequency]['amounts'] : null;
+        let amount: number | 'other' = 'other';
+        if (amountsCheck != null && amountsCheck.length > 0) {
+            amount = amountsCheck.length > 1 ? amountsCheck[1] : amountsCheck[0];
+        }
+        setChoiceCardSelection({
+            frequency,
+            amount,
         });
     };
 
@@ -94,7 +99,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             return true;
         }
         return false;
-    }
+    };
 
     return (
         <div css={container}>
@@ -135,32 +140,45 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             >
                 <ChoiceCard
                     value="first"
-                    label={`${currencySymbol}${
-                        countryAmounts && countryAmounts[selection.frequency]['amounts'][0]
-                    }${frequencySuffix()}`}
+                    label={`${currencySymbol}${countryAmounts &&
+                        countryAmounts[selection.frequency]['amounts'][0]}${frequencySuffix()}`}
                     id="first"
                     checked={
-                        countryAmounts && selection.amount == countryAmounts[selection.frequency]['amounts'][0] || false
+                        (countryAmounts &&
+                            selection.amount ==
+                                countryAmounts[selection.frequency]['amounts'][0]) ||
+                        false
                     }
                     onChange={() =>
-                        updateAmount(countryAmounts && countryAmounts[selection.frequency]['amounts'][0] || 'other')
+                        updateAmount(
+                            (countryAmounts && countryAmounts[selection.frequency]['amounts'][0]) ||
+                                'other',
+                        )
                     }
                 />
                 {checkForSecondAmount() ? (
                     <ChoiceCard
                         value="second"
-                        label={`${currencySymbol}${
-                            countryAmounts && countryAmounts[selection.frequency]['amounts'][1]
-                        }${frequencySuffix()}`}
+                        label={`${currencySymbol}${countryAmounts &&
+                            countryAmounts[selection.frequency]['amounts'][1]}${frequencySuffix()}`}
                         id="second"
                         checked={
-                            countryAmounts && selection.amount == countryAmounts[selection.frequency]['amounts'][1] || false
+                            (countryAmounts &&
+                                selection.amount ==
+                                    countryAmounts[selection.frequency]['amounts'][1]) ||
+                            false
                         }
                         onChange={() =>
-                            updateAmount(countryAmounts && countryAmounts[selection.frequency]['amounts'][1] || 'other')
+                            updateAmount(
+                                (countryAmounts &&
+                                    countryAmounts[selection.frequency]['amounts'][1]) ||
+                                    'other',
+                            )
                         }
                     />
-                ) : (<></>)}
+                ) : (
+                    <></>
+                )}
                 <ChoiceCard
                     value="third"
                     label="Other"

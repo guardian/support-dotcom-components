@@ -77,7 +77,12 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     amountsTest?: string,
 ): string => {
     return isSupportUrl(baseUrl)
-        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles, amountsTest)
+        ? addTrackingParams(
+              addRegionIdToSupportUrl(baseUrl, countryCode),
+              tracking,
+              numArticles,
+              amountsTest,
+          )
         : baseUrl;
 };
 
