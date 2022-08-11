@@ -143,6 +143,16 @@ export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant
 export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
     `AMP__${testName}__${variantName}`;
 
+/*
+I assume we need to include details of any amounts test here ... but how?
+
+    - What changes need to be made to the data that gets sent to Ophan?
+
+    - Do changes need to be made in Ophan to accommodate amounts testing via the Epic?
+
+    - Still confused about the fact that, with these changes, users can be part of 
+    a messaging AB test and also part of a (completely separate) amounts AB test
+*/
 const createEventFromTracking = (action: OphanAction) => {
     return (tracking: Tracking, componentId: string): OphanComponentEvent => {
         const {
