@@ -216,6 +216,8 @@ WithAboveArticleCountNoConsent.args = {
 
 export const WithChoiceCards = Template.bind({});
 WithChoiceCards.args = {
+    mvtId: 500001,
+    countryCode: 'US',
     variant: {
         ...props.variant,
         secondaryCta: {
@@ -308,16 +310,16 @@ WithChoiceCards.args = {
                             name: 'V1_HIGHER_STRETCH',
                             amounts: {
                                 ONE_OFF: {
-                                    amounts: [25, 50, 100, 250],
-                                    defaultAmount: 50,
+                                    amounts: [250, 500, 1000, 2500],
+                                    defaultAmount: 500,
                                 },
                                 MONTHLY: {
-                                    amounts: [7, 15, 30, 50],
-                                    defaultAmount: 15,
+                                    amounts: [70, 150, 300, 500],
+                                    defaultAmount: 150,
                                 },
                                 ANNUAL: {
-                                    amounts: [50, 100, 250, 500],
-                                    defaultAmount: 100,
+                                    amounts: [500, 1000, 2500, 5000],
+                                    defaultAmount: 1000,
                                 },
                             },
                         },

@@ -30,6 +30,7 @@ export type EpicProps = {
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;
+    mvtId?: number;
 };
 
 /**

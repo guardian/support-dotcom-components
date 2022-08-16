@@ -261,41 +261,10 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-/*
-Issues I'm having:
-
-    - This code properly belongs as a function in server/src/lib/ab.ts 
-    but I've struggled too long with types to get it working there
-
-    - Messaging test variants can suppress the Choice Cards. Need to check that 
-    the new code accounts for this and doesn't record users as being part of
-    an amounts test if they see a contribs epic with no choice card displayed?
-
-    - This code reflects (as far as possible) what happens in support frontend - 
-    as amounts testing can also start on the contributions page there if 
-    a user navigates to the page by means other than the Epic CTA button
-
-    - Can I generate the mvtId number locally here? Currently it's generated 
-    by the support frontend site and stored in a cookie there. I can't find 
-    where SDC generates the equivalent, though it seems to live in the 
-    tracking object after it has been generated
-
-    - How to make sure that if a user gets assigned to amounts testing, 
-    that testing persists for subsequent views of contributions epics? 
-    (I assume that this is a testing requirement)
-
-    - How do we track when a user sees an amounts test? Do we need to track
-    that a user has been assigned to an amounts test variant before they see
-    the Epic messaging? Or only after they reach that point?
-*/
-const MVT_MAX = 1000000;
-function randomNumber(mvtId: number, seed: number): number {
-    const rng = seedrandom(`${mvtId + seed}`);
-    return Math.abs(rng.int32());
-}
 const selectAmountsVariant = (
     data: ConfiguredRegionAmounts,
     defaultName: string,
+    mvtId?: number,
 ): AmountsTestVariant => {
     const test = data.test;
     const defaultReturn = {
@@ -303,12 +272,12 @@ const selectAmountsVariant = (
         amounts: data.control,
     };
 
-    if (test == null || !test.isLive) {
+    if (test == null || !test.isLive || mvtId == null) {
+        console.log('returning default - mvtId=', mvtId);
         return defaultReturn;
     }
-    const mvtId = Math.floor(Math.random() * MVT_MAX);
     const variants = ['CONTROL', ...test.variants.map(variant => variant.name)];
-    const assignmentIndex = randomNumber(mvtId, test.seed) % variants.length;
+    const assignmentIndex = Math.abs(seedrandom(`${mvtId + test.seed}`).int32()) % variants.length;
 
     if ('CONTROL' === variants[assignmentIndex]) {
         return {
@@ -331,6 +300,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
     countryCode,
+    mvtId,
     articleCounts,
     onReminderOpen,
     email,
@@ -340,6 +310,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
+    console.log(countryCode, mvtId);
     const countryGroupId =
         countryCode != null ? countryCodeToCountryGroupId(countryCode) : 'GBPCountries';
     const [isReminderActive, setIsReminderActive] = useState(false);
@@ -357,7 +328,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             const countryAmounts = variant.choiceCardAmounts[country];
 
             const defaultName = `AMOUNTS_${country}|CONTROL`;
-            const selectedAmounts = selectAmountsVariant(countryAmounts, defaultName);
+            const selectedAmounts = selectAmountsVariant(countryAmounts, defaultName, mvtId);
 
             setAmountsTest(selectedAmounts);
 
