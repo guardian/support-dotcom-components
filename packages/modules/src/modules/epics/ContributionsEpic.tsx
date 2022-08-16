@@ -310,7 +310,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    console.log(countryCode, mvtId);
     const countryGroupId =
         countryCode != null ? countryCodeToCountryGroupId(countryCode) : 'GBPCountries';
     const [isReminderActive, setIsReminderActive] = useState(false);
