@@ -39,6 +39,7 @@ import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { epicProfileWithImageTest_US } from './tests/epics/epicProfileWithImageTest_us';
 import { epicProfileWithImageTest_EUROW } from './tests/epics/epicProfileWithImageTest_eu-row';
 import { epicProfileWithImageTest_UKAUS } from './tests/epics/epicProfileWithImageTest_uk-aus';
+import { epicLenoreWithImageTest_AUS } from './tests/epics/epicLenoreWithImageTest_aus';
 import { cachedProductPrices } from './productPrices';
 import { newsletterEpicTest } from './tests/epics/newsletterEpicTest';
 import { usTopReaderCopyTest } from './tests/epics/usTopReaderCopy';
@@ -118,6 +119,7 @@ const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec
 const hardcodedEpicTests: EpicTest[] = [
     newsletterEpicTest,
     usTopReaderCopyTest,
+    epicLenoreWithImageTest_AUS,
     epicProfileWithImageTest_UKAUS,
     epicProfileWithImageTest_US,
     epicProfileWithImageTest_EUROW,
@@ -182,14 +184,7 @@ export const buildEpicData = async (
 
     const result = params.force
         ? findForcedTestAndVariant(tests, params.force)
-        : findTestAndVariant(
-              tests,
-              targeting,
-              isMobile(req),
-              superModeArticles,
-              type,
-              params.debug,
-          );
+        : findTestAndVariant(tests, targeting, isMobile(req), superModeArticles, params.debug);
 
     if (process.env.log_targeting === 'true') {
         console.log(

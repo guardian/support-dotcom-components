@@ -57,40 +57,63 @@ export const WithBylineAndHeadshot = Template.bind({});
 WithBylineAndHeadshot.args = {
     variant: {
         ...props.variant,
+        separateArticleCount: {
+            type: 'above',
+        },
         bylineWithImage: {
-            name: 'Luke Harding',
-            description: 'Foreign correspondent',
+            name: 'Lenore Taylor',
+            description: 'Editor, Guardian Australia',
             headshot: {
-                mainUrl: 'https://uploads.guim.co.uk/2017/12/26/Luke_Harding,_L.png',
-                altText: 'Luke Harding headshot',
+                mainUrl:
+                    'https://i.guim.co.uk/img/media/8eda1b06a686fe5ab4f7246bd6b5f8e63851088e/0_0_300_250/300.png?quality=85&s=f42e9642f335d705cab8b712bbbcb64e',
+                altText: 'Lenore Taylor staff byline photograph',
             },
         },
         heading: '',
         paragraphs: [
-            "I write from Ukraine, where I've spent much of the past six months, reporting on the build-up to the conflict and the grim reality of war. It has been the most intense time of my 30-year career. In December I visited the trenches outside Donetsk with the Ukrainian army; in January I went to Mariupol and drove along the coast to Crimea; on 24 February I was with other colleagues in the Ukrainian capital as the first Russian bombs fell.",
-            'This is the biggest war in Europe since 1945. It is, for Ukrainians, an existential struggle against a new but familiar Russian imperialism. Our team of reporters and editors intend to cover this war for as long as it lasts, however expensive that may prove to be. We are committed to telling the human stories of those caught up in war, as well as the international dimension. But we can’t do this without the support of Guardian readers. It is your passion, engagement and financial contributions which underpin our independent journalism and make it possible for us to report from places like Ukraine.',
-            'If you are able to help with a monthly or single contribution it will boost our resources and enhance our ability to report the truth about what is happening in this terrible conflict.',
-            'Thank you.',
+            '… when I joined Guardian Australia as founding political editor, I wanted to be part of a project that brought a new, independent, fierce and progressive voice to one of the most heavily concentrated media markets in the world.',
+            'From the start, we identified issues we felt were underreported and where we thought we could make a difference: the climate emergency, Indigenous affairs, gender equality, welfare policy, the treatment of asylum seekers. Nearly a decade later, and six years after I stepped up to be editor, I believe our reporting is making a difference.',
+            'On climate, we have consistently called out inaction and written about how things might be. We have held policy-makers to account and documented how global heating is changing the lives of Australians. We have helped to shift the debate on Indigenous deaths in custody via our years-long Deaths Inside investigation, and produced award-winning coverage of the fight for gender equality.',
+            "But the fight for progress continues, and we can't do any of this without the support of our readers. It is your passion, engagement and financial contributions which underpin our journalism. We have no billionaire owner or shareholders. We are independent, and every dollar we receive is invested back into creating quality journalism that remains free and open for all to read.",
+            'If you are able to help with a monthly or single contribution, it will boost our resources and enhance our ability to continue this vital work.',
+            'Thank you',
         ],
+        highlightedText: '',
     },
+    articleCounts: {
+        for52Weeks: 25,
+        forTargetedWeeks: 25,
+    },
+    hasConsentForArticleCount: true,
 };
 
 export const WithBylineOnly = Template.bind({});
 WithBylineOnly.args = {
     variant: {
         ...props.variant,
+        separateArticleCount: {
+            type: 'above',
+        },
         bylineWithImage: {
-            name: 'Luke Harding',
-            description: 'Foreign correspondent',
+            name: 'Lenore Taylor',
+            description: 'Editor, Guardian Australia',
         },
         heading: '',
         paragraphs: [
-            "I write from Ukraine, where I've spent much of the past six months, reporting on the build-up to the conflict and the grim reality of war. It has been the most intense time of my 30-year career. In December I visited the trenches outside Donetsk with the Ukrainian army; in January I went to Mariupol and drove along the coast to Crimea; on 24 February I was with other colleagues in the Ukrainian capital as the first Russian bombs fell.",
-            'This is the biggest war in Europe since 1945. It is, for Ukrainians, an existential struggle against a new but familiar Russian imperialism. Our team of reporters and editors intend to cover this war for as long as it lasts, however expensive that may prove to be. We are committed to telling the human stories of those caught up in war, as well as the international dimension. But we can’t do this without the support of Guardian readers. It is your passion, engagement and financial contributions which underpin our independent journalism and make it possible for us to report from places like Ukraine.',
-            'If you are able to help with a monthly or single contribution it will boost our resources and enhance our ability to report the truth about what is happening in this terrible conflict.',
-            'Thank you.',
+            '… when I joined Guardian Australia as founding political editor, I wanted to be part of a project that brought a new, independent, fierce and progressive voice to one of the most heavily concentrated media markets in the world.',
+            'From the start, we identified issues we felt were underreported and where we thought we could make a difference: the climate emergency, Indigenous affairs, gender equality, welfare policy, the treatment of asylum seekers. Nearly a decade later, and six years after I stepped up to be editor, I believe our reporting is making a difference.',
+            'On climate, we have consistently called out inaction and written about how things might be. We have held policy-makers to account and documented how global heating is changing the lives of Australians. We have helped to shift the debate on Indigenous deaths in custody via our years-long Deaths Inside investigation, and produced award-winning coverage of the fight for gender equality.',
+            "But the fight for progress continues, and we can't do any of this without the support of our readers. It is your passion, engagement and financial contributions which underpin our journalism. We have no billionaire owner or shareholders. We are independent, and every dollar we receive is invested back into creating quality journalism that remains free and open for all to read.",
+            'If you are able to help with a monthly or single contribution, it will boost our resources and enhance our ability to continue this vital work.',
+            'Thank you',
         ],
+        highlightedText: '',
     },
+    articleCounts: {
+        for52Weeks: 25,
+        forTargetedWeeks: 25,
+    },
+    hasConsentForArticleCount: true,
 };
 
 export const WithReminder = Template.bind({});

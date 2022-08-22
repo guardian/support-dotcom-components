@@ -17,12 +17,12 @@ const Template: ComponentStory<typeof SignInPromptHeader> = props => (
 const baseArgs = {
     content: {
         heading: 'Thank you for subscribing',
-        subheading: 'One more step to enjoy the Guardian',
+        subheading: 'Remember to sign in for a better experience',
         primaryCta: {
             baseUrl: 'https://profile.theguardian.com/register',
             text: 'Complete registration',
         },
-        benefits: ['Ad free', 'Fewer interruptions', 'Newsletters and comments'],
+        benefits: ['Ad free', 'Fewer interruptions', 'Newsletters and comments', 'Ad free'],
     },
     mobileContent: {
         heading: '',

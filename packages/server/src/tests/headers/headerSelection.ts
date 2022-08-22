@@ -109,7 +109,6 @@ const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
         'UnitedStates',
         'International',
     ],
-    isSignedIn: false,
 };
 
 const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
@@ -120,12 +119,12 @@ const baseSignInPromptVariant: Omit<HeaderVariant, 'content'> = {
 
 const subscriberContent = {
     heading: 'Thank you for subscribing',
-    subheading: 'One more step to enjoy the Guardian',
+    subheading: 'Remember to sign in for a better experience',
 };
 
 const supporterContent = {
     heading: 'Thank you for your support',
-    subheading: 'One more step to enjoy the Guardian',
+    subheading: 'Remember to sign in for a better experience',
 };
 
 const signInCTA = {
@@ -139,7 +138,9 @@ const registerCTA = {
 };
 
 const baseBenefits = ['Fewer interruptions', 'Newsletters and comments'];
-const digiSubBenefits = ['Ad free', ...baseBenefits];
+// Why are benefits repeated below? The header animation ends statically on last benefit so it should be the "strongest"
+const normalBenefits = [...baseBenefits, 'Manage your account', 'Fewer interruptions'];
+const digiSubBenefits = ['Ad free', ...baseBenefits, 'Ad free'];
 
 const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-digital-subscriber',
@@ -173,7 +174,7 @@ const signInPromptNewUserPrintSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: registerCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -192,7 +193,7 @@ const signInPromptNewUserSupporterTest: HeaderTest = {
             content: {
                 ...supporterContent,
                 primaryCta: registerCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -230,7 +231,7 @@ const signInPromptExistingUserPrintSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: signInCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -249,7 +250,7 @@ const signInPromptExistingUserSupporterTest: HeaderTest = {
             content: {
                 ...supporterContent,
                 primaryCta: signInCTA,
-                benefits: baseBenefits,
+                benefits: normalBenefits,
             },
         },
     ],
@@ -274,8 +275,9 @@ const purchaseMatches = (
 ) => {
     const { purchaseInfo: testPurchaseInfo } = test;
 
+    // Ignore tests specifying purchase info if user is signed in / if no purchase info in targeting
     if (isSignedIn || !purchaseInfo) {
-        return true;
+        return !testPurchaseInfo;
     }
 
     const { product, userType } = purchaseInfo;

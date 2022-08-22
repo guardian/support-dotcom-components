@@ -8,16 +8,21 @@ const setBannerClosedTimestamp = (name: string): void =>
         }),
     );
 
-export const setContributionsBannerClosedTimestamp = (): void =>
+const setContributionsBannerClosedTimestamp = (): void =>
     setBannerClosedTimestamp('engagementBannerLastClosedAt');
 
-export const setSubscriptionsBannerClosedTimestamp = (): void =>
+const setSubscriptionsBannerClosedTimestamp = (): void =>
     setBannerClosedTimestamp('subscriptionBannerLastClosedAt');
+
+const setSignInBannerClosedTimestamp = (): void =>
+    setBannerClosedTimestamp('signInBannerLastClosedAt');
 
 export const setChannelClosedTimestamp = (channel: BannerChannel): void => {
     if (channel === 'contributions') {
         setContributionsBannerClosedTimestamp();
     } else if (channel === 'subscriptions') {
         setSubscriptionsBannerClosedTimestamp();
+    } else if (channel === 'signIn') {
+        setSignInBannerClosedTimestamp();
     }
 };

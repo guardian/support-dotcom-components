@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider, css } from '@emotion/react';
 import { brand, brandAlt, space, neutral } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
+import { until } from '@guardian/src-foundations/mq';
 import { Button, LinkButton, buttonBrand } from '@guardian/src-button';
 import { SvgRoundelBrandInverse } from '@guardian/src-brand';
 import { SecondaryCtaType } from '@sdc/shared/types';
@@ -10,12 +11,28 @@ import { Container, Column, Columns } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 
-const background = css`
+const bannerStyles = css`
     background-color: ${brand[400]};
+
+    ::before {
+        content: '';
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgb(0, 0, 0, 0.3);
+        z-index: -1;
+    }
 `;
 
 const mainColumn = css`
     position: relative;
+`;
+
+const asideColumn = css`
+    margin-right: 10px;
 `;
 
 const headingStyles = css`
@@ -23,6 +40,9 @@ const headingStyles = css`
     font-size: 32px;
     color: ${neutral[100]};
     margin: ${space[1]}px 0 0;
+    ${until.phablet} {
+        margin: ${space[1]}px 45px 0 0;
+    }
 `;
 
 const subHeadingStyles = css`
@@ -73,9 +93,11 @@ const SignInPromptBanner: React.FC<BannerRenderProps> = props => {
     const [subheading, ...bullets] = paragraphs;
 
     return (
-        <Container cssOverrides={background}>
+        <Container cssOverrides={bannerStyles}>
             <Columns>
-                <Column width={[0, 0, 0, 2, 3]}> </Column>
+                <Column width={[0, 0, 0, 2, 3]} cssOverrides={asideColumn}>
+                    {' '}
+                </Column>
                 <Column width={[4, 12, 12, 12, 13]} cssOverrides={mainColumn}>
                     <h1 css={headingStyles}>{heading}</h1>
                     <h2 css={subHeadingStyles}>{subheading}</h2>
@@ -87,6 +109,7 @@ const SignInPromptBanner: React.FC<BannerRenderProps> = props => {
                                 <LinkButton
                                     priority="primary"
                                     href={primaryCta.ctaUrl}
+                                    onClick={props.onCtaClick}
                                     size="small"
                                 >
                                     {primaryCta.ctaText}

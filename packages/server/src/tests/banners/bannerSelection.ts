@@ -36,19 +36,29 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 };
 
 /**
- * Has the banner been redeployed since the user last closed it?
+ * If the banner has been closed previously, can we show it again?
+ * e.g. if changes have been deployed
  * Takes into account both the manual deploys (from RRCP) and the scheduled deploys.
  */
-export const redeployedSinceLastClosed = (
+export const canShowBannerAgain = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
     bannerDeployCaches: BannerDeployCaches,
     scheduledBannerDeploys: ScheduledBannerDeploys,
     now: Date,
 ): Promise<boolean> => {
-    const { subscriptionBannerLastClosedAt, engagementBannerLastClosedAt } = targeting;
+    const {
+        subscriptionBannerLastClosedAt,
+        engagementBannerLastClosedAt,
+        signInBannerLastClosedAt,
+    } = targeting;
 
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
+
+    // Never show a sign in prompt banner if it has been closed previously
+    if (bannerChannel === 'signIn') {
+        return Promise.resolve(!signInBannerLastClosedAt);
+    }
 
     const canShow = async (lastClosedRaw: string | undefined): Promise<boolean> => {
         if (!lastClosedRaw) {
@@ -96,6 +106,25 @@ const getForcedVariant = (
     return null;
 };
 
+const purchaseMatches = (
+    test: BannerTest,
+    purchaseInfo: BannerTargeting['purchaseInfo'],
+    isSignedIn: boolean,
+) => {
+    const { purchaseInfo: testPurchaseInfo } = test;
+
+    // Ignore tests specifying purchase info if user is signed in / if no purchase info in targeting
+    if (isSignedIn || !purchaseInfo) {
+        return !testPurchaseInfo;
+    }
+
+    const { product, userType } = purchaseInfo;
+    const productValid = product && testPurchaseInfo?.product.includes(product);
+    const userValid = userType && testPurchaseInfo?.userType.includes(userType);
+
+    return productValid && userValid;
+};
+
 export const selectBannerTest = async (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
@@ -138,7 +167,8 @@ export const selectBannerTest = async (
             ) &&
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
-            (await redeployedSinceLastClosed(
+            purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
+            (await canShowBannerAgain(
                 targeting,
                 test.bannerChannel,
                 bannerDeployCaches,
