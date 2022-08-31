@@ -1,5 +1,4 @@
 import { EpicTest } from '@sdc/shared/types';
-import { SSL_OP_NO_TLSv1_2 } from 'constants';
 
 export const newsletterEpicTest: EpicTest = {
     name: 'NewsletterEpicTest',
