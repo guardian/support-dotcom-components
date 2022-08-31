@@ -13,7 +13,7 @@ export const newsletterEpicTest: EpicTest = {
         'Canada',
     ],
     audience: 1,
-    tagIds: [],
+    tagIds: ['football/football'],
     sections: [],
     excludedTagIds: [],
     excludedSections: [],
