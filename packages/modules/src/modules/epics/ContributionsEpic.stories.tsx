@@ -704,11 +704,15 @@ export const WithNewsletterSignup = Template.bind({});
 WithNewsletterSignup.args = {
     variant: {
         ...props.variant,
-        paragraphs: ['Every weekday morning at 7am BST'],
+        heading: 'Sign up to the Fiver',
+        paragraphs: ['Kick off your evenings with the Guardian\'s take on the world of football'],
         highlightedText: undefined,
-        heading: 'Sign up to First Edition, our free daily newsletter',
         newsletterSignup: {
-            url: 'https://www.theguardian.com/email/form/plain/epic/morning-briefing',
+            url: 'https://www.theguardian.com/email/form/plaintone/rrcp-epic/4163',
+            // formTitle: 'Sign up for The Fiver', 
+            // formDescription: 'Get our daily email on the world of football', 
+            // formCampaignCode: 'Fiver_signup_page', 
+            // formSuccessDesc: 'Thanks for signing up',
         },
     },
 };

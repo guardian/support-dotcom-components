@@ -7,7 +7,7 @@ const containerStyles = css`
     width: 100%;
 `;
 
-const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
+const NewsletterSignup = ({ url, formTitle, formDescription, formCampaignCode, formSuccessDesc }: { url: string, formTitle: string, formDescription: string, formCampaignCode: string, formSuccessDesc: string }): JSX.Element => {
     const [iframeHeight, setIframeHeight] = useState(60);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -46,6 +46,10 @@ const NewsletterSignup = ({ url }: { url: string }): JSX.Element => {
                 scrolling="no"
                 seamless
                 frameBorder="0"
+                // data-form-title={formTitle}
+                // data-form-description={formDescription}
+                // data-form-campaign-code={formCampaignCode}
+                // data-form-success-desc={formSuccessDesc}
                 css={css`
                     width: 100% !important;
                     height: ${iframeHeight}px;

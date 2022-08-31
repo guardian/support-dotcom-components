@@ -26,6 +26,10 @@ export interface SeparateArticleCount {
 
 export interface NewsletterSignup {
     url: string;
+    // formTitle: string;
+    // formDescription: string;
+    // formCampaignCode: string;
+    // formSuccessDesc: string;
 }
 
 export interface EpicVariant extends Variant {
