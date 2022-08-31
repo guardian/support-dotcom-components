@@ -1,4 +1,5 @@
 import { EpicTest } from '@sdc/shared/types';
+import { SSL_OP_NO_TLSv1_2 } from 'constants';
 
 export const newsletterEpicTest: EpicTest = {
     name: 'NewsletterEpicTest',
@@ -22,6 +23,11 @@ export const newsletterEpicTest: EpicTest = {
         maxViewsCount: 4,
         maxViewsDays: 30,
         minDaysBetweenViews: 0,
+    },
+    articlesViewedSettings: {
+        maxViews: 2,
+        minViews: 0,
+        periodInWeeks: 52,
     },
     userCohort: 'AllNonSupporters',
     isLiveBlog: false,
