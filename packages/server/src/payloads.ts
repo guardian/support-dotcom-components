@@ -36,13 +36,13 @@ import { fallbackEpicTest } from './tests/epics/fallback';
 import { selectHeaderTest } from './tests/headers/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
-import { epicProfileWithImageTest_US } from './tests/epics/epicProfileWithImageTest_us';
-import { epicProfileWithImageTest_EUROW } from './tests/epics/epicProfileWithImageTest_eu-row';
-import { epicProfileWithImageTest_UKAUS } from './tests/epics/epicProfileWithImageTest_uk-aus';
-import { epicLenoreWithImageTest_AUS } from './tests/epics/epicLenoreWithImageTest_aus';
 import { cachedProductPrices } from './productPrices';
-import { newsletterEpicTest } from './tests/epics/newsletterEpicTest';
-import { usTopReaderCopyTest } from './tests/epics/usTopReaderCopy';
+import {
+    epicNewsletterFirstEdition_uk,
+    epicNewsletterMorningMail_au,
+    epicNewsletterFirstThing_us,
+    epicNewsletterFiver_all,
+} from './tests/epics/newsletterEpicTest';
 
 interface EpicDataResponse {
     data?: {
@@ -117,12 +117,10 @@ const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [
-    newsletterEpicTest,
-    usTopReaderCopyTest,
-    epicLenoreWithImageTest_AUS,
-    epicProfileWithImageTest_UKAUS,
-    epicProfileWithImageTest_US,
-    epicProfileWithImageTest_EUROW,
+    epicNewsletterFirstEdition_uk,
+    epicNewsletterMorningMail_au,
+    epicNewsletterFirstThing_us,
+    epicNewsletterFiver_all,
 ];
 
 const getArticleEpicTests = async (
