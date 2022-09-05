@@ -28,7 +28,7 @@ const buildEnvironmentArticleCountTest = (
     name: ARTICLE_COUNT_BY_TAG_TEST_NAME,
     campaignId: ARTICLE_COUNT_BY_TAG_TEST_NAME,
     hasArticleCountInCopy: false,
-    status: 'Live',
+    status: 'Draft',
     locations: countries,
     audience: 1,
     tagIds: ['environment/environment'],
