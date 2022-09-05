@@ -6,7 +6,7 @@ import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { ButtonLink } from '@guardian/src-link';
 import { css } from '@emotion/react';
-import { ArticleCounts, OphanComponentEvent } from '@sdc/shared/types';
+import { ArticleCounts, ArticleCountType, OphanComponentEvent } from '@sdc/shared/types';
 import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE,
@@ -22,6 +22,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     articleCounts: ArticleCounts;
     copy?: string;
+    countType?: ArticleCountType;
     isArticleCountOn: boolean;
     onArticleCountOptOut: () => void;
     onArticleCountOptIn: () => void;
@@ -32,6 +33,7 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
 export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
     articleCounts,
     copy,
+    countType,
     isArticleCountOn,
     onArticleCountOptOut,
     onArticleCountOptIn,
@@ -72,11 +74,13 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
         submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
     };
 
+    const articleCount = articleCounts[countType ?? 'for52Weeks'];
+
     return (
         <div css={topContainer}>
             <ArticleCountWithToggle
                 isArticleCountOn={isArticleCountOn}
-                articleCounts={articleCounts}
+                articleCount={articleCount}
                 onToggleClick={onToggleClick}
                 copy={copy}
             />
@@ -160,7 +164,7 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
 // --- Helper components --- //
 
 interface ArticleCountWithToggleProps {
-    articleCounts: ArticleCounts;
+    articleCount: number;
     isArticleCountOn: boolean;
     onToggleClick: () => void;
     copy?: string;
@@ -168,16 +172,10 @@ interface ArticleCountWithToggleProps {
 
 const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     isArticleCountOn,
-    articleCounts,
+    articleCount,
     onToggleClick,
     copy,
 }: ArticleCountWithToggleProps) => {
-    /**
-     * If copy is defined, use the `forTargetedWeeks` count.
-     * Otherwise display generic "in the last year" copy with the `for52Weeks` count.
-     */
-    const articleCount = copy ? articleCounts.forTargetedWeeks : articleCounts.for52Weeks;
-
     if (isArticleCountOn && articleCount >= 5) {
         return (
             <div css={articleCountOnHeaderContainerStyles}>

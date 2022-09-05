@@ -51,7 +51,7 @@ const buildEnvironmentArticleCountTest = (
             paragraphs,
             highlightedText: HIGHLIGHTED_TEXT,
             cta: CTA,
-            separateArticleCount: { type: 'above' },
+            separateArticleCount: { type: 'above', countType: 'for52Weeks' },
             showChoiceCards: true,
         },
         {
@@ -62,6 +62,7 @@ const buildEnvironmentArticleCountTest = (
             cta: CTA,
             separateArticleCount: {
                 type: 'above',
+                countType: 'forTargetedWeeks',
                 copy:
                     "Congratulations on being one of our top readers globally - Did you know you've read %%ARTICLE_COUNT%% articles about the climate crisis in the last year?",
             },

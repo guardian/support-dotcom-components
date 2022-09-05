@@ -9,7 +9,14 @@ import {
     Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
-import { BylineWithImage, Cta, Image, SecondaryCta, TickerSettings } from '../props';
+import {
+    ArticleCountType,
+    BylineWithImage,
+    Cta,
+    Image,
+    SecondaryCta,
+    TickerSettings,
+} from '../props';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -22,6 +29,7 @@ export interface MaxViews {
 export interface SeparateArticleCount {
     type: 'above';
     copy?: string;
+    countType?: ArticleCountType;
 }
 
 export interface EpicVariant extends Variant {
