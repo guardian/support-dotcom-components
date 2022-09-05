@@ -31,12 +31,7 @@ export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;
     periodInWeeks: number;
-}
-
-export interface ArticlesViewedByTagSettings {
-    tagId: string;
-    minViews: number;
-    periodInWeeks: number;
+    tagId?: string;
 }
 
 /**

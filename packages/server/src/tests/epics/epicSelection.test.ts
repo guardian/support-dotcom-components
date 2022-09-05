@@ -1,4 +1,4 @@
-import { ArticlesViewedByTagSettings, SecondaryCtaType } from '@sdc/shared/types';
+import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
 import { EpicTargeting, EpicTest } from '@sdc/shared/types';
 import { SuperModeArticle } from '../../lib/superMode';
 import { withNowAs } from '../../utils/withNowAs';
@@ -14,7 +14,6 @@ import {
     matchesCountryGroups,
     userInTest,
     withinArticleViewedSettings,
-    withinArticleViewedByTagSettings,
     withinMaxViews,
     deviceTypeMatchesFilter,
 } from './epicSelection';
@@ -627,9 +626,9 @@ describe('withinArticleViewedSettings filter', () => {
     });
 });
 
-describe('withinArticleViewedByTagSettings filter', () => {
+describe('withinArticleViewedSettings filter by tag', () => {
     const now = new Date('2020-03-31T12:30:00');
-    const articlesViewedByTagSettings: ArticlesViewedByTagSettings = {
+    const articlesViewedSettings: ArticlesViewedSettings = {
         minViews: 5,
         periodInWeeks: 52,
         tagId: 'environment/climate-change',
@@ -641,7 +640,7 @@ describe('withinArticleViewedByTagSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-        const filter = withinArticleViewedByTagSettings(history, now);
+        const filter = withinArticleViewedSettings(history, now);
 
         const got = filter.test({ ...testDefault }, targeting);
 
@@ -663,9 +662,9 @@ describe('withinArticleViewedByTagSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-        const filter = withinArticleViewedByTagSettings(history, now);
+        const filter = withinArticleViewedSettings(history, now);
 
-        const got = filter.test({ ...testDefault, articlesViewedByTagSettings }, targeting);
+        const got = filter.test({ ...testDefault, articlesViewedSettings }, targeting);
 
         expect(got).toBe(false);
     });
@@ -685,9 +684,9 @@ describe('withinArticleViewedByTagSettings filter', () => {
             ...targetingDefault,
             weeklyArticleHistory: history,
         };
-        const filter = withinArticleViewedByTagSettings(history, now);
+        const filter = withinArticleViewedSettings(history, now);
 
-        const got = filter.test({ ...testDefault, articlesViewedByTagSettings }, targeting);
+        const got = filter.test({ ...testDefault, articlesViewedSettings }, targeting);
 
         expect(got).toBe(true);
     });

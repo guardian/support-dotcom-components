@@ -14,7 +14,7 @@ import { EpicVariant } from '../abTests';
 
 export type ArticleCountType =
     | 'for52Weeks' // The user's total article view count, which currently goes back as far as 52 weeks
-    | 'forTargetedWeeks'; // The user's article view count for the configured periodInWeeks, and by tag if articlesViewedByTagSettings is set
+    | 'forTargetedWeeks'; // The user's article view count for the configured periodInWeeks/tag
 
 export type ArticleCounts = {
     [type in ArticleCountType]: number;

@@ -1,6 +1,5 @@
 import { CountryGroupId, ReminderFields } from '../../lib';
 import {
-    ArticlesViewedByTagSettings,
     ArticlesViewedSettings,
     ControlProportionSettings,
     Test,
@@ -110,7 +109,6 @@ export interface EpicTest extends Test<EpicVariant> {
     highPriority: boolean;
     useLocalViewLog: boolean;
     articlesViewedSettings?: ArticlesViewedSettings;
-    articlesViewedByTagSettings?: ArticlesViewedByTagSettings;
     hasArticleCountInCopy: boolean;
 
     audience?: number;

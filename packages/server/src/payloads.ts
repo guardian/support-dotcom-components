@@ -212,8 +212,8 @@ export const buildEpicData = async (
         tracking: { ...pageTracking, ...testTracking },
         articleCounts: getArticleViewCounts(
             targeting.weeklyArticleHistory,
-            test.articlesViewedByTagSettings,
             test.articlesViewedSettings?.periodInWeeks,
+            test.articlesViewedSettings?.tagId,
         ),
         countryCode: targeting.countryCode,
     };

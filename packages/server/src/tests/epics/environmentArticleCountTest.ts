@@ -74,10 +74,6 @@ const buildEnvironmentArticleCountTest = (
     articlesViewedSettings: {
         minViews: 50,
         periodInWeeks: 52,
-    },
-    articlesViewedByTagSettings: {
-        minViews: 50,
-        periodInWeeks: 52,
         tagId: 'environment/environment',
     },
 });
