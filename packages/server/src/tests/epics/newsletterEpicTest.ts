@@ -52,7 +52,10 @@ export const epicNewsletterFirstEdition_uk: EpicTest = {
             name: 'newsletter_signup',
             heading: 'Sign up to First Edition',
             paragraphs: [
-                'Our daily email breaks down the key stories of the day and why they matter',
+                "Scroll less and understand more with the Guardian's First Edition newsletter. It's free, easy to digest and sheds light on the day's top stories.  From breaking global news to politics, opinion, culture and sport - editor Archie Bland and assistant editor Nimo Omer bring you some clarity before the morning rush by 7am each weekday.",
+                "Tens of millions have placed their trust in the Guardian's fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. By asking you to sign up to our newsletter, we're inviting you to be one of the millions of readers championing our independent journalism. With no shareholders or billionaire owner, our reporting is never manipulated or silenced by corporate or political ties.",
+                'This newsletter is free for everyone to read, in the same way we keep our journalism open to all - an antidote to paywalls and exclusivity. Every act of involvement and participation with the Guardian, however big or small, helps to enable our mission for fairness and information equality.',
+                'Sign up for the First Edition newsletter now - it takes less than a minute. If you have some time, browse through our other newsletters to receive more exciting insights and in-depth reads on the topics that matter to you.',
             ],
             newsletterSignup: {
                 url: 'https://www.theguardian.com/email/form/plaintone/rrcp-epic/4156',
