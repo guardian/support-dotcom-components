@@ -64,7 +64,7 @@ const buildEnvironmentArticleCountTest = (
                 type: 'above',
                 countType: 'forTargetedWeeks',
                 copy:
-                    "Congratulations on being one of our top readers globally - Did you know you've read %%ARTICLE_COUNT%% articles about the climate crisis in the last year?",
+                    "Congratulations on being one of our top readers globally - did you know you've read %%ARTICLE_COUNT%% articles about the climate crisis in the last year?",
             },
             showChoiceCards: true,
         },
