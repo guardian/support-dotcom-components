@@ -349,17 +349,17 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     return (
         <section ref={setNode} css={wrapperStyles}>
-            {showAboveArticleCount && variant.separateArticleCount && (
+            {showAboveArticleCount && (
                 <div css={articleCountAboveContainerStyles}>
                     <ContributionsEpicArticleCountAboveWithOptOut
                         articleCounts={articleCounts}
-                        copy={variant.separateArticleCount?.copy}
-                        countType={variant.separateArticleCount?.countType}
                         isArticleCountOn={!hasOptedOut}
                         onArticleCountOptOut={onArticleCountOptOut}
                         onArticleCountOptIn={onArticleCountOptIn}
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
+                        copy={variant.separateArticleCount?.copy}
+                        countType={variant.separateArticleCount?.countType}
                     />
                 </div>
             )}

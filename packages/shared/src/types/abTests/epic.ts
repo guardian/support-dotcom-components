@@ -29,7 +29,7 @@ export interface MaxViews {
 export interface SeparateArticleCount {
     type: 'above';
     copy?: string;
-    countType?: ArticleCountType;
+    countType?: ArticleCountType; // defaults to `for52Weeks`
 }
 
 export interface EpicVariant extends Variant {
