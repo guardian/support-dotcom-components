@@ -240,7 +240,6 @@ export const findTestAndVariant = (
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
             respectArticleCountOptOut,
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-            // withinArticleViewedByTagSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(isMobile),
         ];
     };
