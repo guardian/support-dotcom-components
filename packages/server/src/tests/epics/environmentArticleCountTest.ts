@@ -64,7 +64,7 @@ const buildEnvironmentArticleCountTest = (
                 type: 'above',
                 countType: 'forTargetedWeeks',
                 copy:
-                    "Congratulations on being one of our top readers globally - did you know you've read %%ARTICLE_COUNT%% articles about the climate crisis in the last year?",
+                    "Congratulations on being one of our top readers of climate content globally - did you know you've read %%ARTICLE_COUNT%% articles about the climate crisis in the last year?",
             },
             showChoiceCards: true,
         },
@@ -72,7 +72,7 @@ const buildEnvironmentArticleCountTest = (
     highPriority: true,
     useLocalViewLog: true,
     articlesViewedSettings: {
-        minViews: 50,
+        minViews: 20,
         periodInWeeks: 52,
         tagId: 'environment/environment',
     },
