@@ -6,7 +6,16 @@ export const epicNewsletterFirstEdition_uk: EpicTest = {
     audience: 1,
     tagIds: [],
     sections: [],
-    excludedTagIds: ['football/football'],
+    excludedTagIds: [
+        'world/russia',
+        'world/ukraine',
+        'environment/environment',
+        'environment/climate-crisis',
+        'sport/series/sexual-abuse-in-sport',
+        'football/hillsborough-disaster',
+        'politics/liz-truss',
+        'politics/politics',
+    ],
     excludedSections: [],
     alwaysAsk: false,
     maxViews: {
@@ -33,7 +42,7 @@ export const epicNewsletterFirstEdition_uk: EpicTest = {
             },
             showChoiceCards: true,
             paragraphs: [
-                '… we have a small favour to ask. Tens of millions have placed their trust in the Guardian’s fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially – keeping us open to all, and fiercely independent.',
+                "… we have a small favour to ask. Tens of millions have placed their trust in the Guardian's fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially - keeping us open to all, and fiercely independent.",
                 'Unlike many others, the Guardian has no shareholders and no billionaire owner. Just the determination and passion to deliver high-impact global reporting, always free from commercial or political influence. Reporting like this is vital for democracy, for fairness and to demand better from the powerful.',
                 'And we provide all this for free, for everyone to read. We do this because we believe in information equality. Greater numbers of people can keep track of the events shaping our world, understand their impact on people and communities, and become inspired to take meaningful action. Millions can benefit from open access to quality, truthful news, regardless of their ability to pay for it.',
                 'Every contribution, however big or small, powers our journalism and sustains our future.',
@@ -98,7 +107,7 @@ export const epicNewsletterMorningMail_au: EpicTest = {
             },
             showChoiceCards: true,
             paragraphs: [
-                '… we have a small favour to ask. Tens of millions have placed their trust in the Guardian’s fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially – keeping us open to all, and fiercely independent.',
+                "… we have a small favour to ask. Tens of millions have placed their trust in the Guardian's fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially - keeping us open to all, and fiercely independent.",
                 'Unlike many others, the Guardian has no shareholders and no billionaire owner. Just the determination and passion to deliver high-impact global reporting, always free from commercial or political influence. Reporting like this is vital for democracy, for fairness and to demand better from the powerful.',
                 'And we provide all this for free, for everyone to read. We do this because we believe in information equality. Greater numbers of people can keep track of the events shaping our world, understand their impact on people and communities, and become inspired to take meaningful action. Millions can benefit from open access to quality, truthful news, regardless of their ability to pay for it.',
                 'Every contribution, however big or small, powers our journalism and sustains our future.',
@@ -160,7 +169,7 @@ export const epicNewsletterFirstThing_us: EpicTest = {
             },
             showChoiceCards: true,
             paragraphs: [
-                '… we have a small favour to ask. Tens of millions have placed their trust in the Guardian’s fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially – keeping us open to all, and fiercely independent.',
+                "… we have a small favour to ask. Tens of millions have placed their trust in the Guardian's fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially - keeping us open to all, and fiercely independent.",
                 'Unlike many others, the Guardian has no shareholders and no billionaire owner. Just the determination and passion to deliver high-impact global reporting, always free from commercial or political influence. Reporting like this is vital for democracy, for fairness and to demand better from the powerful.',
                 'And we provide all this for free, for everyone to read. We do this because we believe in information equality. Greater numbers of people can keep track of the events shaping our world, understand their impact on people and communities, and become inspired to take meaningful action. Millions can benefit from open access to quality, truthful news, regardless of their ability to pay for it.',
                 'Every contribution, however big or small, powers our journalism and sustains our future.',
@@ -230,13 +239,14 @@ export const epicNewsletterFiver_all: EpicTest = {
                 type: 'above',
             },
             showChoiceCards: true,
-            paragraphs: [],
-            image: {
-                mainUrl:
-                    'https://i.guim.co.uk/img/media/fba3e8b9923987c859c4f2b3f198b2902d49fe94/69_19_1026_2831/725.jpg?quality=85&s=1d3ff5fcb4a8432fe15b23438b8f387e',
-                altText:
-                    'Image of a cartoon strip by David Squires, asking if you would be willing to help support the Guardian',
-            },
+            paragraphs: [
+                "… we have a small favour to ask. Tens of millions have placed their trust in the Guardian's fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. More than 1.5 million supporters, from 180 countries, now power us financially - keeping us open to all, and fiercely independent.",
+                'Unlike many others, the Guardian has no shareholders and no billionaire owner. Just the determination and passion to deliver high-impact global reporting, always free from commercial or political influence. Reporting like this is vital for democracy, for fairness and to demand better from the powerful.',
+                'And we provide all this for free, for everyone to read. We do this because we believe in information equality. Greater numbers of people can keep track of the events shaping our world, understand their impact on people and communities, and become inspired to take meaningful action. Millions can benefit from open access to quality, truthful news, regardless of their ability to pay for it.',
+                'Every contribution, however big or small, powers our journalism and sustains our future.',
+            ],
+            highlightedText:
+                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.',
             cta: {
                 text: 'Continue',
                 baseUrl: 'https://support.theguardian.com/contribute',
