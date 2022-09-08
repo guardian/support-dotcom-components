@@ -31,6 +31,10 @@ export interface SeparateArticleCount {
     countType?: ArticleCountType; // defaults to `for52Weeks`
 }
 
+export interface NewsletterSignup {
+    url: string;
+}
+
 export interface EpicVariant extends Variant {
     name: string;
     heading?: string;
@@ -39,6 +43,7 @@ export interface EpicVariant extends Variant {
     tickerSettings?: TickerSettings;
     cta?: Cta;
     secondaryCta?: SecondaryCta;
+    newsletterSignup?: NewsletterSignup;
     footer?: string;
     image?: Image;
     showReminderFields?: ReminderFields;
