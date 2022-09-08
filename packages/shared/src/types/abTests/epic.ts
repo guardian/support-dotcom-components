@@ -1,6 +1,5 @@
 import { CountryGroupId, ReminderFields } from '../../lib';
 import {
-    ArticlesViewedByTagSettings,
     ArticlesViewedSettings,
     ControlProportionSettings,
     Test,
@@ -9,7 +8,14 @@ import {
     Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
-import { BylineWithImage, Cta, Image, SecondaryCta, TickerSettings } from '../props';
+import {
+    ArticleCountType,
+    BylineWithImage,
+    Cta,
+    Image,
+    SecondaryCta,
+    TickerSettings,
+} from '../props';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -22,6 +28,7 @@ export interface MaxViews {
 export interface SeparateArticleCount {
     type: 'above';
     copy?: string;
+    countType?: ArticleCountType; // defaults to `for52Weeks`
 }
 
 export interface NewsletterSignup {
@@ -107,7 +114,6 @@ export interface EpicTest extends Test<EpicVariant> {
     highPriority: boolean;
     useLocalViewLog: boolean;
     articlesViewedSettings?: ArticlesViewedSettings;
-    articlesViewedByTagSettings?: ArticlesViewedByTagSettings;
     hasArticleCountInCopy: boolean;
 
     audience?: number;

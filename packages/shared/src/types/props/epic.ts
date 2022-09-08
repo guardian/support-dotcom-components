@@ -12,10 +12,13 @@ import {
 import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';
 
-export interface ArticleCounts {
-    for52Weeks: number; // The user's total article view count, which currently goes back as far as 52 weeks
-    forTargetedWeeks: number; // The user's article view count for the configured periodInWeeks
-}
+export type ArticleCountType =
+    | 'for52Weeks' // The user's total article view count, which currently goes back as far as 52 weeks
+    | 'forTargetedWeeks'; // The user's article view count for the configured periodInWeeks/tag
+
+export type ArticleCounts = {
+    [type in ArticleCountType]: number;
+};
 
 export type EpicProps = {
     variant: EpicVariant;

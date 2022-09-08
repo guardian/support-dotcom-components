@@ -359,8 +359,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                         onArticleCountOptIn={onArticleCountOptIn}
                         openCmp={openCmp}
                         submitComponentEvent={submitComponentEvent}
-                        aboveArticleCountByTag={false}
                         copy={variant.separateArticleCount?.copy}
+                        countType={variant.separateArticleCount?.countType}
                     />
                 </div>
             )}

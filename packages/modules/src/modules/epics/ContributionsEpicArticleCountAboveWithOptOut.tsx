@@ -6,7 +6,7 @@ import { palette, space } from '@guardian/src-foundations';
 import { Button } from '@guardian/src-button';
 import { ButtonLink } from '@guardian/src-link';
 import { css } from '@emotion/react';
-import { ArticleCounts, OphanComponentEvent } from '@sdc/shared/types';
+import { ArticleCounts, ArticleCountType, OphanComponentEvent } from '@sdc/shared/types';
 import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_OPEN,
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_OUT_CLOSE,
@@ -22,23 +22,23 @@ import { from, until } from '@guardian/src-foundations/mq';
 export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     articleCounts: ArticleCounts;
     copy?: string;
+    countType?: ArticleCountType;
     isArticleCountOn: boolean;
     onArticleCountOptOut: () => void;
     onArticleCountOptIn: () => void;
     openCmp?: () => void;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    aboveArticleCountByTag: boolean;
 }
 
 export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
     articleCounts,
     copy,
+    countType,
     isArticleCountOn,
     onArticleCountOptOut,
     onArticleCountOptIn,
     openCmp,
     submitComponentEvent,
-    aboveArticleCountByTag,
 }: ContributionsEpicArticleCountAboveWithOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -74,13 +74,14 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
         submitComponentEvent && submitComponentEvent(OPHAN_COMPONENT_ARTICLE_COUNT_STAY_OUT);
     };
 
+    const articleCount = articleCounts[countType ?? 'for52Weeks'];
+
     return (
         <div css={topContainer}>
             <ArticleCountWithToggle
                 isArticleCountOn={isArticleCountOn}
-                articleCounts={articleCounts}
+                articleCount={articleCount}
                 onToggleClick={onToggleClick}
-                aboveArticleCountByTag={aboveArticleCountByTag}
                 copy={copy}
             />
 
@@ -163,39 +164,22 @@ export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<Contribution
 // --- Helper components --- //
 
 interface ArticleCountWithToggleProps {
-    articleCounts: ArticleCounts;
+    articleCount: number;
     isArticleCountOn: boolean;
     onToggleClick: () => void;
-    aboveArticleCountByTag: boolean;
     copy?: string;
 }
 
 const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
     isArticleCountOn,
-    articleCounts,
+    articleCount,
     onToggleClick,
-    aboveArticleCountByTag,
     copy,
 }: ArticleCountWithToggleProps) => {
-    // By default we display the 52-week count
-    const articleCount = aboveArticleCountByTag
-        ? articleCounts.forTargetedWeeks
-        : articleCounts.for52Weeks;
-
     if (isArticleCountOn && articleCount >= 5) {
         return (
             <div css={articleCountOnHeaderContainerStyles}>
-                {articleCount < 50 && (
-                    <ArticleCount
-                        articleCount={articleCount}
-                        aboveArticleCountByTag={aboveArticleCountByTag}
-                        copy={copy}
-                    />
-                )}
-
-                {articleCount >= 50 && (
-                    <TopReaderArticleCount articleCount={articleCount} copy={copy} />
-                )}
+                <ArticleCount articleCount={articleCount} copy={copy} />
 
                 <div css={articleCountWrapperStyles}>
                     <div css={articleCountTextStyles}>Article count</div>
@@ -252,50 +236,25 @@ const CustomArticleCountCopy: React.FC<CustomArticleCountCopyProps> = ({ article
 
 interface ArticleCountProps {
     articleCount: number;
-    aboveArticleCountByTag: boolean;
     copy?: string;
 }
 
-const ArticleCount: React.FC<ArticleCountProps> = ({
-    articleCount,
-    aboveArticleCountByTag,
-    copy,
-}) => {
+const ArticleCount: React.FC<ArticleCountProps> = ({ articleCount, copy }) => {
     if (copy && containsArticleCountTemplate(copy)) {
+        // Custom article count message
         return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;
-    } else {
-        const timeWindowCopy = aboveArticleCountByTag ? (
-            <span>
-                about the
-                <br />
-                climate crisis in the last six weeks
-            </span>
-        ) : (
-            'in the last year'
-        );
-
-        return (
-            <div css={articleCountAboveContainerStyles}>
-                You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span>{' '}
-                {timeWindowCopy}
-            </div>
-        );
-    }
-};
-
-interface TopReaderArticleCountProps {
-    articleCount: number;
-    copy?: string;
-}
-
-const TopReaderArticleCount: React.FC<TopReaderArticleCountProps> = ({ articleCount, copy }) => {
-    if (copy && containsArticleCountTemplate(copy)) {
-        return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;
-    } else {
+    } else if (articleCount >= 50) {
         return (
             <div css={articleCountAboveContainerStyles}>
                 Congratulations on being one of our top readers globally – you&apos;ve read{' '}
                 <span css={optOutContainer}>{articleCount} articles</span> in the last year
+            </div>
+        );
+    } else {
+        return (
+            <div css={articleCountAboveContainerStyles}>
+                You&apos;ve read <span css={optOutContainer}>{articleCount} articles</span> in the
+                last year
             </div>
         );
     }

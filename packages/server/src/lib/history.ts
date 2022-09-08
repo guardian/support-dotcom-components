@@ -1,7 +1,6 @@
 import {
     ArticleCounts,
     ArticlesViewedSettings,
-    ArticlesViewedByTagSettings,
     WeeklyArticleHistory,
     WeeklyArticleLog,
 } from '@sdc/shared/types';
@@ -48,20 +47,21 @@ export const getArticleViewCountByTagForWeeks = (
     }, 0);
 };
 
-// If articlesViewedByTagSettings is set then use this for the `forTargetedWeeks` count
+// If tagId is set then use this for the `forTargetedWeeks` count
 export const getArticleViewCounts = (
     history: WeeklyArticleHistory = [],
-    articlesViewedByTagSettings?: ArticlesViewedByTagSettings,
-    weeks = 52,
+    periodInWeeks = 52,
+    tagId?: string,
 ): ArticleCounts => {
     const for52Weeks = getArticleViewCountForWeeks(history, 52);
 
     const getCountForTargetingWeeks = (): number => {
-        if (articlesViewedByTagSettings) {
-            const { tagId, periodInWeeks } = articlesViewedByTagSettings;
+        if (tagId) {
             return getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks);
         }
-        return weeks === 52 ? for52Weeks : getArticleViewCountForWeeks(history, weeks);
+        return periodInWeeks === 52
+            ? for52Weeks
+            : getArticleViewCountForWeeks(history, periodInWeeks);
     };
 
     return {
@@ -80,25 +80,14 @@ export const historyWithinArticlesViewedSettings = (
         return true;
     }
 
-    const { minViews, maxViews, periodInWeeks } = articlesViewedSettings;
+    const { minViews, maxViews, periodInWeeks, tagId } = articlesViewedSettings;
 
-    const viewCountForWeeks = getArticleViewCountForWeeks(history, periodInWeeks, now);
+    const viewCountForWeeks = tagId
+        ? getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks, now)
+        : getArticleViewCountForWeeks(history, periodInWeeks, now);
+
     const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
     const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
 
     return minViewsOk && maxViewsOk;
-};
-
-export const historyWithinArticlesViewedSettingsByTag = (
-    articlesViewedSettings?: ArticlesViewedByTagSettings,
-    history: WeeklyArticleHistory = [],
-    now: Date = new Date(),
-): boolean => {
-    if (!articlesViewedSettings) {
-        return true;
-    }
-
-    const { tagId, minViews, periodInWeeks } = articlesViewedSettings;
-    const count = getArticleViewCountByTagForWeeks(tagId, history, periodInWeeks, now);
-    return count >= minViews;
 };

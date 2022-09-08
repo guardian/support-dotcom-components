@@ -37,6 +37,7 @@ import { selectHeaderTest } from './tests/headers/headerSelection';
 import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { cachedProductPrices } from './productPrices';
+import environmentArticleCountTest from './tests/epics/environmentArticleCountTest';
 import { epicNewsletterFirstEdition_uk } from './tests/epics/newsletterEpicTest';
 
 interface EpicDataResponse {
@@ -111,7 +112,10 @@ const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [epicNewsletterFirstEdition_uk];
+const hardcodedEpicTests: EpicTest[] = [
+    ...environmentArticleCountTest,
+    epicNewsletterFirstEdition_uk,
+];
 
 const getArticleEpicTests = async (
     mvtId: number,
@@ -212,8 +216,8 @@ export const buildEpicData = async (
         tracking: { ...pageTracking, ...testTracking },
         articleCounts: getArticleViewCounts(
             targeting.weeklyArticleHistory,
-            test.articlesViewedByTagSettings,
             test.articlesViewedSettings?.periodInWeeks,
+            test.articlesViewedSettings?.tagId,
         ),
         countryCode: targeting.countryCode,
     };
