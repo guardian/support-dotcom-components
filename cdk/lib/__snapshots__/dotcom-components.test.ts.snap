@@ -267,7 +267,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "PredefinedMetricSpecification": Object {
             "PredefinedMetricType": "ASGAverageCPUUtilization",
           },
-          "TargetValue": 50,
+          "TargetValue": 40,
         },
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",

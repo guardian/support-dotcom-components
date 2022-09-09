@@ -152,7 +152,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
         });
 
         ec2App.autoScalingGroup.scaleOnCpuUtilization('CpuScalingPolicy', {
-            targetUtilizationPercent: 50,
+            targetUtilizationPercent: 40,
         });
     }
 }
