@@ -19,6 +19,8 @@ import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerR
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
 ): React.FC<BannerRenderProps> {
+    const hasVisual = templateSettings.imageSettings || templateSettings.alternativeVisual;
+
     function MomentTemplateBanner({
         content,
         onCloseClick,
@@ -60,9 +62,16 @@ export function getMomentTemplateBanner(
                         </Hide>
                     </div>
 
-                    <div css={styles.visualContainer}>
-                        <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
-                    </div>
+                    {hasVisual && (
+                        <div css={styles.visualContainer}>
+                            {templateSettings.imageSettings && (
+                                <MomentTemplateBannerVisual
+                                    settings={templateSettings.imageSettings}
+                                />
+                            )}
+                            {templateSettings.alternativeVisual}
+                        </div>
+                    )}
 
                     <div css={styles.headerContainer}>
                         <MomentTemplateBannerHeader
@@ -90,9 +99,16 @@ export function getMomentTemplateBanner(
                             </Hide>
                         </div>
 
-                        <div css={styles.desktopVisualContainer}>
-                            <MomentTemplateBannerVisual settings={templateSettings.imageSettings} />
-                        </div>
+                        {hasVisual && (
+                            <div css={styles.desktopVisualContainer}>
+                                {templateSettings.imageSettings && (
+                                    <MomentTemplateBannerVisual
+                                        settings={templateSettings.imageSettings}
+                                    />
+                                )}
+                                {templateSettings.alternativeVisual}
+                            </div>
+                        )}
 
                         <div css={styles.contentContainer}>
                             <div css={styles.desktopHeaderContainer}>

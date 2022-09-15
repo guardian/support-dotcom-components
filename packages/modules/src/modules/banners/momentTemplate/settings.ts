@@ -1,4 +1,5 @@
 import { Image } from '@sdc/shared/src/types';
+import { ReactNode } from 'react';
 
 export type CtaStateSettings = {
     textColour: string;
@@ -24,5 +25,6 @@ export interface BannerTemplateSettings {
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
     articleCountTextColour?: string;
-    imageSettings: Image;
+    imageSettings?: Image;
+    alternativeVisual?: ReactNode;
 }
