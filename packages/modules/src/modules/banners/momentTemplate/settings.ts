@@ -23,5 +23,6 @@ export interface BannerTemplateSettings {
     closeButtonSettings: CtaSettings;
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
+    articleCountTextColour?: string;
     imageSettings: Image;
 }

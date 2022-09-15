@@ -107,6 +107,7 @@ export function getMomentTemplateBanner(
                                     <MomentTemplateBannerArticleCount
                                         numArticles={numArticles}
                                         settings={templateSettings}
+                                        textColour={templateSettings.articleCountTextColour}
                                     />
                                 </div>
                             )}

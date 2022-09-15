@@ -11,14 +11,16 @@ import { BannerTemplateSettings } from '../settings';
 interface MomentTemplateBannerArticleCountProps {
     numArticles: number;
     settings: BannerTemplateSettings;
+    textColour?: string;
 }
 
 export function MomentTemplateBannerArticleCount({
     numArticles,
     settings,
+    textColour = neutral[0],
 }: MomentTemplateBannerArticleCountProps): JSX.Element {
     return (
-        <p css={styles.container}>
+        <div css={styles.container(textColour)}>
             You&apos;ve read{' '}
             <MomentTemplateArticleCountOptOut
                 numArticles={numArticles}
@@ -26,17 +28,17 @@ export function MomentTemplateBannerArticleCount({
                 settings={settings}
             />{' '}
             in the last year
-        </p>
+        </div>
     );
 }
 
 // ---- Styles ---- //
 
 const styles = {
-    container: css`
+    container: (textColor: string) => css`
         ${headline.xxxsmall({ fontWeight: 'bold' })}
         font-size: 15px;
-        color: ${neutral[0]};
+        color: ${textColor};
         margin: 0;
 
         ${from.tablet} {
