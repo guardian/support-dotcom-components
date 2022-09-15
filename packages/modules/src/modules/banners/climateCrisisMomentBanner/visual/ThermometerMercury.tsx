@@ -1,8 +1,9 @@
 import { css, keyframes } from '@emotion/react';
+import { news } from '@guardian/src-foundations';
 import React from 'react';
 
 export function ThermometerMercury(): JSX.Element {
-    return <path css={mercuryStyles} fill="#AB0613" />;
+    return <path css={mercuryStyles} fill={news[300]} />;
 }
 
 const rise = keyframes`
@@ -15,6 +16,11 @@ const rise = keyframes`
 `;
 
 const mercuryStyles = css`
-    animation: ${rise} 8s ease-in;
+    animation: ${rise} 5s ease-in;
     animation-fill-mode: forwards;
+
+    @media (prefers-reduced-motion) {
+        animation: none;
+        d: path('M83,64 h22 v110 H83 v-110 Z');
+    }
 `;
