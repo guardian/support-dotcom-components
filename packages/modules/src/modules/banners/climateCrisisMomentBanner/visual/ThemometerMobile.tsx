@@ -6,7 +6,6 @@ export function ThermometerMobile({ children }: { children?: ReactNode }): JSX.E
             <g clipPath="url(#a)">
                 <path
                     d="M 28.304 60.67 V -95.733 c 0 -4.467 1.774 -8.75 4.933 -11.909 M 28.304 60.67 M 28.304 60.67 a 32.282 32.282 0 0 0 16.839 59.821 h 0.005 a 32.278 32.278 0 0 0 31.758 -26.52 A 32.282 32.282 0 0 0 61.988 60.67 V -95.733 a 16.842 16.842 0 0 0 -28.751 -11.909 Z"
-                    fill="#AB0613"
                     stroke="#EFE8DD"
                     strokeWidth={25}
                 />

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
-import { until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import React, { ReactNode } from 'react';
 import { ThermometerMobile } from './ThemometerMobile';
@@ -32,5 +32,13 @@ const svgContainerStyles = css`
     ${until.tablet} {
         justify-content: center;
         margin-top: -${space[2]}px;
+    }
+
+    ${between.tablet.and.desktop} {
+        margin-left: ${space[5]}px;
+    }
+
+    ${from.desktop} {
+        margin-left: ${space[12]}px;
     }
 `;
