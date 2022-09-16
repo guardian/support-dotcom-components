@@ -1,25 +1,30 @@
-import React, { useEffect } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import React, { useEffect, useState } from 'react';
+// import { css, SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
-import { LinkButton } from '@guardian/src-button';
+// import { LinkButton } from '@guardian/src-button';
 import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
     createViewEventFromTracking,
     createInsertEventFromTracking,
-    isSupportUrl,
+    // isSupportUrl,
 } from '@sdc/shared/lib';
 import { EpicVariant, Tracking } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
+// import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { ArticleCounts } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { OphanComponentEvent } from '@sdc/shared/dist/types';
 import { logEpicView } from '@sdc/shared/lib';
+
+import { ContributionsEpicReminder } from './ContributionsEpicReminder';
+import { ContributionsEpicButtons } from './ContributionsEpicButtons';
+import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
 
 const container = (clientName: string) => css`
     padding: 6px 10px 28px 10px;
@@ -68,32 +73,32 @@ const textContainer = css`
     }
 `;
 
-const paymentMethods = css`
-    height: 28px;
-`;
+// const paymentMethods = css`
+//     height: 28px;
+// `;
 
-const cta: SerializedStyles = css`
-    color: ${neutral[7]};
-    background-color: ${brandAlt[400]};
+// const cta: SerializedStyles = css`
+//     color: ${neutral[7]};
+//     background-color: ${brandAlt[400]};
 
-    &:hover {
-        background-color: ${brandAlt[300]};
-    }
-`;
+//     &:hover {
+//         background-color: ${brandAlt[300]};
+//     }
+// `;
 
-const ctaContainer: SerializedStyles = css`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    *:first-child {
-        margin-right: 25px;
-    }
+// const ctaContainer: SerializedStyles = css`
+//     display: flex;
+//     flex-wrap: wrap;
+//     align-items: center;
+//     *:first-child {
+//         margin-right: 25px;
+//     }
 
-    > * {
-        margin-top: 6px;
-        margin-bottom: 6px;
-    }
-`;
+//     > * {
+//         margin-top: 6px;
+//         margin-bottom: 6px;
+//     }
+// `;
 
 const yellowHeading = (clientName: string) => css`
     ${headline.medium({ fontWeight: 'bold' })};
@@ -146,47 +151,51 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
     );
 };
 
-const DEFAULT_CTA_TEXT = 'Make a contribution';
-const DEFAULT_CTA_BASE_URL = 'https://support.theguardian.com/uk/contribute';
+// const DEFAULT_CTA_TEXT = 'Make a contribution';
+// const DEFAULT_CTA_BASE_URL = 'https://support.theguardian.com/uk/contribute';
 
-interface LiveblogEpicCtaProps {
-    text?: string;
-    baseUrl?: string;
-    countryCode?: string;
-    numArticles?: number;
-    tracking: Tracking;
+// interface LiveblogEpicCtaProps {
+//     text?: string;
+//     baseUrl?: string;
+//     countryCode?: string;
+//     numArticles?: number;
+//     tracking: Tracking;
+// }
+
+// const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
+//     text,
+//     baseUrl,
+//     tracking,
+//     numArticles,
+//     countryCode,
+// }: LiveblogEpicCtaProps) => {
+//     const url = addRegionIdAndTrackingParamsToSupportUrl(
+//         baseUrl || DEFAULT_CTA_BASE_URL,
+//         tracking,
+//         numArticles,
+//         countryCode,
+//     );
+//     const hasSupportCta = !!baseUrl && isSupportUrl(baseUrl);
+
+//     return (
+//         <div css={ctaContainer}>
+//             <LinkButton css={cta} priority="primary" href={url} data-ignore="global-link-styling">
+//                 {text || DEFAULT_CTA_TEXT}
+//             </LinkButton>
+//             {hasSupportCta && (
+//                 <img
+//                     src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
+//                     alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
+//                     css={paymentMethods}
+//                 />
+//             )}
+//         </div>
+//     );
+// };
+
+interface OnReminderOpen {
+    buttonCopyAsString: string;
 }
-
-const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
-    text,
-    baseUrl,
-    tracking,
-    numArticles,
-    countryCode,
-}: LiveblogEpicCtaProps) => {
-    const url = addRegionIdAndTrackingParamsToSupportUrl(
-        baseUrl || DEFAULT_CTA_BASE_URL,
-        tracking,
-        numArticles,
-        countryCode,
-    );
-    const hasSupportCta = !!baseUrl && isSupportUrl(baseUrl);
-
-    return (
-        <div css={ctaContainer}>
-            <LinkButton css={cta} priority="primary" href={url} data-ignore="global-link-styling">
-                {text || DEFAULT_CTA_TEXT}
-            </LinkButton>
-            {hasSupportCta && (
-                <img
-                    src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
-                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                    css={paymentMethods}
-                />
-            )}
-        </div>
-    );
-};
 
 interface LiveblogEpicProps {
     variant: EpicVariant;
@@ -194,6 +203,11 @@ interface LiveblogEpicProps {
     countryCode?: string;
     articleCounts: ArticleCounts;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    onReminderOpen?: Function;
+    email?: string;
+    fetchEmail?: () => Promise<string | null>;
 }
 
 export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
@@ -202,6 +216,10 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
     articleCounts,
     tracking,
     submitComponentEvent,
+    
+    onReminderOpen,
+    email,
+    fetchEmail,
 }: LiveblogEpicProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -236,6 +254,31 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
         return null;
     }
 
+    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
+    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
+    const [isReminderActive, setIsReminderActive] = useState(false);
+    const showReminderFields = variant.showReminderFields;
+    const onCloseReminderClick = () => {
+        setIsReminderActive(false);
+    };
+
+    // return (
+    //     <div data-cy="contributions-liveblog-epic" ref={setNode}>
+    //         {cleanHeading && <div css={yellowHeading(tracking.clientName)}>{cleanHeading}</div>}
+    //         <section css={container(tracking.clientName)}>
+    //             <LiveblogEpicBody
+    //                 paragraphs={cleanParagraphs}
+    //                 numArticles={articleCounts.forTargetedWeeks}
+    //             />
+    //             <LiveblogEpicCta
+    //                 text={variant.cta?.text}
+    //                 baseUrl={variant.cta?.baseUrl}
+    //                 tracking={tracking}
+    //             />
+    //         </section>
+    //     </div>
+    // );
+
     return (
         <div data-cy="contributions-liveblog-epic" ref={setNode}>
             {cleanHeading && <div css={yellowHeading(tracking.clientName)}>{cleanHeading}</div>}
@@ -244,11 +287,46 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
                     paragraphs={cleanParagraphs}
                     numArticles={articleCounts.forTargetedWeeks}
                 />
-                <LiveblogEpicCta
-                    text={variant.cta?.text}
-                    baseUrl={variant.cta?.baseUrl}
+                <ContributionsEpicButtons
+                    variant={variant}
                     tracking={tracking}
+                    countryCode={countryCode}
+                    onOpenReminderClick={(): void => {
+                        const buttonCopyAsString = showReminderFields?.reminderCta
+                            .toLowerCase()
+                            .replace(/\s/g, '-');
+
+                        // This callback lets the platform react to the user interaction with the
+                        // 'Remind me' button
+                        if (onReminderOpen) {
+                            onReminderOpen({
+                                buttonCopyAsString,
+                            } as OnReminderOpen);
+                        }
+
+                        fetchEmailDefined().then(resolvedEmail => {
+                            if (resolvedEmail) {
+                                setFetchedEmail(resolvedEmail);
+                            }
+                            setIsReminderActive(true);
+                        });
+                    }}
+                    submitComponentEvent={submitComponentEvent}
+                    isReminderActive={isReminderActive}
+                    isSignedIn={Boolean(fetchedEmail)}
+                    showChoiceCards={false}
+                    choiceCardSelection={undefined}
+                    numArticles={articleCounts.for52Weeks}
                 />
+
+                {isReminderActive && showReminderFields && (
+                    <ContributionsEpicReminder
+                        initialEmailAddress={fetchedEmail}
+                        reminderFields={showReminderFields}
+                        onCloseReminderClick={onCloseReminderClick}
+                        submitComponentEvent={submitComponentEvent}
+                    />
+                )}
             </section>
         </div>
     );
