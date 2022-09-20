@@ -12,7 +12,7 @@ const riseDesktop = keyframes`
         d: path('M83,145 h22 v110 H83 v-110 Z');
     }
     100% {
-        d: path('M83, 0 h22 v200 H83 v-110 Z');
+        d: path('M83, 10 h22 v200 H83 v-110 Z');
     }
 `;
 
@@ -21,7 +21,7 @@ const riseTablet = keyframes`
         d: path('M68 145 h15 v65 H68 V59 Z');
     }
     100% {
-        d: path('M68 0 h15 v165 H68 V59 Z');
+        d: path('M68 10 h15 v165 H68 V59 Z');
     }
 `;
 
@@ -30,7 +30,7 @@ const riseMobile = keyframes`
         d: path('M41 0 V50 h8 v65 h-8 z');
     }
     100% {
-        d: path('M41 0 V0 h8 v65 h-8 z');
+        d: path('M41 0 V5 h8 v65 h-8 z');
     }
 `;
 
