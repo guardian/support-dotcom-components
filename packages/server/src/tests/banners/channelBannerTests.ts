@@ -13,6 +13,7 @@ import {
     researchSurveyBanner,
     auBrandMomentBanner,
     signInPromptBanner,
+    climateCrisisMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -48,6 +49,7 @@ export const BannerPaths: {
     [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
     [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
+    [BannerTemplate.ClimateCrisisMomentBanner]: climateCrisisMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {
