@@ -1,3 +1,4 @@
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import {
     Cta,
     ctaSchema,
@@ -51,7 +52,7 @@ const bannerContentSchema = z.object({
     secondaryCta: secondaryCtaSchema.nullable().optional(),
 });
 
-export interface BannerProps {
+export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     tracking: Tracking;
     bannerChannel: BannerChannel;
     content?: BannerContent;

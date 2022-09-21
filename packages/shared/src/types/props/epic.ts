@@ -1,3 +1,4 @@
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import { z } from 'zod';
 import {
     bylineWithImageSchema,
@@ -20,7 +21,7 @@ export type ArticleCounts = {
     [type in ArticleCountType]: number;
 };
 
-export type EpicProps = {
+export interface EpicProps extends EmotionJSX.IntrinsicAttributes {
     variant: EpicVariant;
     tracking: Tracking;
     countryCode?: string;
@@ -33,7 +34,7 @@ export type EpicProps = {
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
     stage?: Stage;
-};
+}
 
 /**
  * Props validation

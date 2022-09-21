@@ -18,7 +18,7 @@ function useRisingMercury({ from, to }: MercuryHookProps) {
         config: {
             duration: 5000,
         },
-        immediate: reduceMotion,
+        immediate: reduceMotion ?? false,
     });
 }
 
