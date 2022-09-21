@@ -16,7 +16,6 @@ export function ThermometerMobile({ children }: { children?: ReactNode }): JSX.E
                     strokeWidth={0.4}
                 />
                 <path fill="#FFF4F2" d="M49 63V0h-8v63z" />
-                {/* <path fill="#AB0613" d="M49.497 62.88V22.41h-8.993v40.47z" /> */}
                 {children}
                 <path
                     d="M70.82 89.57c0-14.183-11.591-25.623-25.82-25.623-14.228 0-25.82 11.44-25.82 25.623 0 14.183 11.592 25.624 25.82 25.624 14.229 0 25.82-11.441 25.82-25.624Z"

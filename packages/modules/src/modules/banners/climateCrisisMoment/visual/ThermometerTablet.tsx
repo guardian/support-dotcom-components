@@ -23,7 +23,6 @@ export function ThermometerTablet({ children }: { children?: ReactNode }): JSX.E
                     fill="#FFF4F2"
                 />
                 {children}
-                {/* <path d="M68 59h15v107H68V59Z" fill="#AB0613" /> */}
                 <path
                     d="M75.12 256.535c25.828 0 46.738-21.121 46.738-47.142 0-26.022-20.91-47.143-46.737-47.143s-46.738 21.121-46.738 47.143c0 26.021 20.91 47.142 46.738 47.142Z"
                     fill="#EFE8DD"
