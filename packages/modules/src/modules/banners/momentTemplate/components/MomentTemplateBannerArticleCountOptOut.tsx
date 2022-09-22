@@ -183,6 +183,7 @@ const overlayStyles = {
         background-color: ${backgroundColour};
         border: 1px solid ${neutral[0]};
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        color: ${neutral[0]};
         `,
     overlayHeader: css`
         display: flex;

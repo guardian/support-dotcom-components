@@ -115,6 +115,11 @@ export const auBrandMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/auBrandMoment/AuBrandMomentBanner',
 );
 
+export const climateCrisisMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'climate-crisis-moment-banner',
+    'banners/climateCrisisMoment/ClimateCrisisMomentBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -137,4 +142,5 @@ export const moduleInfos: ModuleInfo[] = [
     header,
     signInPromptHeader,
     auBrandMomentBanner,
+    climateCrisisMomentBanner,
 ];
