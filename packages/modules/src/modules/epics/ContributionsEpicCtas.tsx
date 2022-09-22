@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { createViewEventFromTracking, createInsertEventFromTracking } from '@sdc/shared/lib';
+import React, { useState } from 'react';
 import { EpicProps } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
@@ -19,13 +18,6 @@ export const ContributionsEpicCtas: React.FC<EpicProps> = ({
     email,
     fetchEmail,
 }: EpicProps): JSX.Element | null => {
-    useEffect(() => {
-        if (submitComponentEvent) {
-            submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
-            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
-        }
-    }, [submitComponentEvent]);
-
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
     const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
     const [isReminderActive, setIsReminderActive] = useState(false);
