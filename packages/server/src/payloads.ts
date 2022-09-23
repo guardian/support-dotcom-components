@@ -118,10 +118,10 @@ const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [
-    ...environmentArticleCountTest,
     climate_2022_AUS,
     climate_2022_EUROW,
     climate_2022_UKUS,
+    ...environmentArticleCountTest,
     epicNewsletterFirstEdition_uk,
 ];
 
