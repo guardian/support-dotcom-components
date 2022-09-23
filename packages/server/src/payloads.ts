@@ -39,6 +39,11 @@ import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { cachedProductPrices } from './productPrices';
 import environmentArticleCountTest from './tests/epics/environmentArticleCountTest';
 import { epicNewsletterFirstEdition_uk } from './tests/epics/newsletterEpicTest';
+import {
+    climate_2022_AUS,
+    climate_2022_EUROW,
+    climate_2022_UKUS,
+} from './tests/epics/epicEnvironmentMoment2022';
 
 interface EpicDataResponse {
     data?: {
@@ -114,6 +119,9 @@ const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [
     ...environmentArticleCountTest,
+    climate_2022_AUS,
+    climate_2022_EUROW,
+    climate_2022_UKUS,
     epicNewsletterFirstEdition_uk,
 ];
 
