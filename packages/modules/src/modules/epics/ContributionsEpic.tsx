@@ -11,8 +11,6 @@ import {
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
-import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
@@ -24,9 +22,9 @@ import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
-import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
 import { logEpicView } from '@sdc/shared/lib';
 import NewsletterSignup from './NewsletterSignup';
+import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -136,10 +134,6 @@ type BodyProps = {
     tracking?: OphanTracking;
     showAboveArticleCount: boolean;
 };
-
-interface OnReminderOpen {
-    buttonCopyAsString: string;
-}
 
 interface EpicHeaderProps {
     text: string;
@@ -279,19 +273,9 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         },
     );
 
-    const [isReminderActive, setIsReminderActive] = useState(false);
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
-    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
-
-    const {
-        image,
-        showReminderFields,
-        tickerSettings,
-        showChoiceCards,
-        choiceCardAmounts,
-    } = variant;
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -343,10 +327,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const showAboveArticleCount = !!(
         variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount
     );
-
-    const onCloseReminderClick = () => {
-        setIsReminderActive(false);
-    };
 
     return (
         <section ref={setNode} css={wrapperStyles}>
@@ -416,44 +396,14 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {variant.newsletterSignup ? (
                 <NewsletterSignup url={variant.newsletterSignup.url} />
             ) : (
-                <ContributionsEpicButtons
+                <ContributionsEpicCtas
                     variant={variant}
                     tracking={tracking}
                     countryCode={countryCode}
-                    onOpenReminderClick={(): void => {
-                        const buttonCopyAsString = showReminderFields?.reminderCta
-                            .toLowerCase()
-                            .replace(/\s/g, '-');
-
-                        // This callback lets the platform react to the user interaction with the
-                        // 'Remind me' button
-                        if (onReminderOpen) {
-                            onReminderOpen({
-                                buttonCopyAsString,
-                            } as OnReminderOpen);
-                        }
-
-                        fetchEmailDefined().then(resolvedEmail => {
-                            if (resolvedEmail) {
-                                setFetchedEmail(resolvedEmail);
-                            }
-                            setIsReminderActive(true);
-                        });
-                    }}
-                    submitComponentEvent={submitComponentEvent}
-                    isReminderActive={isReminderActive}
-                    isSignedIn={Boolean(fetchedEmail)}
-                    showChoiceCards={showChoiceCards}
-                    choiceCardSelection={choiceCardSelection}
-                    numArticles={articleCounts.for52Weeks}
-                />
-            )}
-
-            {isReminderActive && showReminderFields && (
-                <ContributionsEpicReminder
-                    initialEmailAddress={fetchedEmail}
-                    reminderFields={showReminderFields}
-                    onCloseReminderClick={onCloseReminderClick}
+                    articleCounts={articleCounts}
+                    onReminderOpen={onReminderOpen}
+                    email={email}
+                    fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                 />
             )}

@@ -63,7 +63,11 @@ const PrimaryCtaButton = ({
 
     return (
         <div css={buttonMargins}>
-            <Button onClickAction={urlWithRegionAndTracking} showArrow>
+            <Button
+                onClickAction={urlWithRegionAndTracking}
+                showArrow
+                data-ignore="global-link-styling"
+            >
                 {buttonText}
             </Button>
         </div>

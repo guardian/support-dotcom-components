@@ -1,25 +1,21 @@
 import React, { useEffect } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { palette } from '@guardian/src-foundations';
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
-import { LinkButton } from '@guardian/src-button';
 import {
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
     createViewEventFromTracking,
     createInsertEventFromTracking,
-    isSupportUrl,
 } from '@sdc/shared/lib';
-import { EpicVariant, Tracking } from '@sdc/shared/types';
+import { EpicProps } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
-import { ArticleCounts } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
-import { OphanComponentEvent } from '@sdc/shared/dist/types';
 import { logEpicView } from '@sdc/shared/lib';
+import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 
 const container = (clientName: string) => css`
     padding: 6px 10px 28px 10px;
@@ -65,33 +61,6 @@ const textContainer = css`
         & > p + p {
             margin-top: ${space[4]}px;
         }
-    }
-`;
-
-const paymentMethods = css`
-    height: 28px;
-`;
-
-const cta: SerializedStyles = css`
-    color: ${neutral[7]};
-    background-color: ${brandAlt[400]};
-
-    &:hover {
-        background-color: ${brandAlt[300]};
-    }
-`;
-
-const ctaContainer: SerializedStyles = css`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    *:first-child {
-        margin-right: 25px;
-    }
-
-    > * {
-        margin-top: 6px;
-        margin-bottom: 6px;
     }
 `;
 
@@ -146,63 +115,16 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
     );
 };
 
-const DEFAULT_CTA_TEXT = 'Make a contribution';
-const DEFAULT_CTA_BASE_URL = 'https://support.theguardian.com/uk/contribute';
-
-interface LiveblogEpicCtaProps {
-    text?: string;
-    baseUrl?: string;
-    countryCode?: string;
-    numArticles?: number;
-    tracking: Tracking;
-}
-
-const LiveblogEpicCta: React.FC<LiveblogEpicCtaProps> = ({
-    text,
-    baseUrl,
-    tracking,
-    numArticles,
-    countryCode,
-}: LiveblogEpicCtaProps) => {
-    const url = addRegionIdAndTrackingParamsToSupportUrl(
-        baseUrl || DEFAULT_CTA_BASE_URL,
-        tracking,
-        numArticles,
-        countryCode,
-    );
-    const hasSupportCta = !!baseUrl && isSupportUrl(baseUrl);
-
-    return (
-        <div css={ctaContainer}>
-            <LinkButton css={cta} priority="primary" href={url} data-ignore="global-link-styling">
-                {text || DEFAULT_CTA_TEXT}
-            </LinkButton>
-            {hasSupportCta && (
-                <img
-                    src="https://uploads.guim.co.uk/2021/02/04/liveblog-epic-cards.png"
-                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                    css={paymentMethods}
-                />
-            )}
-        </div>
-    );
-};
-
-interface LiveblogEpicProps {
-    variant: EpicVariant;
-    tracking: Tracking;
-    countryCode?: string;
-    articleCounts: ArticleCounts;
-    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-}
-
-export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
+export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
     variant,
     countryCode,
     articleCounts,
     tracking,
     submitComponentEvent,
-}: LiveblogEpicProps): JSX.Element | null => {
+    onReminderOpen,
+    email,
+    fetchEmail,
+}: EpicProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
     useEffect(() => {
@@ -244,10 +166,16 @@ export const ContributionsLiveblogEpic: React.FC<LiveblogEpicProps> = ({
                     paragraphs={cleanParagraphs}
                     numArticles={articleCounts.forTargetedWeeks}
                 />
-                <LiveblogEpicCta
-                    text={variant.cta?.text}
-                    baseUrl={variant.cta?.baseUrl}
+
+                <ContributionsEpicCtas
+                    variant={variant}
                     tracking={tracking}
+                    countryCode={countryCode}
+                    articleCounts={articleCounts}
+                    onReminderOpen={onReminderOpen}
+                    email={email}
+                    fetchEmail={fetchEmail}
+                    submitComponentEvent={submitComponentEvent}
                 />
             </section>
         </div>
