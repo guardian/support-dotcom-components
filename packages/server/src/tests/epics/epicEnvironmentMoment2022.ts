@@ -61,10 +61,10 @@ export const climate_2022_AUS: EpicTest = {
             name: 'V1',
             modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: [
-                "When I joined Guardian Australia as environment editor I made a commitment to our readers to lead a team that relentlessly and fearlessly covers the climate and environmental crises. It's our goal to give fresh insight into these vast and urgent challenges in a way that makes a difference.",
+                'When I joined Guardian Australia as environment editor I made a commitment to our readers to lead a team that relentlessly and fearlessly covers the climate and environmental crises. It’s our goal to give fresh insight into these vast and urgent challenges in a way that makes a difference.',
                 'We have prioritised holding governments and industry to account. We have dedicated months-long investigations and weekly columns to exposing lies and calling out greenwashing. We have told stories that explain what these complex global problems mean for Australians and our southern hemisphere neighbours. And we have shone a light on potential solutions that could guide us to the fossil fuel-free future the world needs.',
                 'Tackling the climate crisis is the most important challenge we face. Thanks, in part, to the support from our readers, we have quadrupled the size of our environment and science team which has dramatically lifted our coverage. That has played a part in prompting other news media to follow our lead in paying more attention to climate change. None of this would have happened without your passion, dedication and financial support.',
-                'Australia has a new government that is promising to do more on climate, but its pledges are limited - the hard work is still to come. Meanwhile, polluting industries focused on their own short-term remain influential. Holding the powerful to account is as important as ever.',
+                'Australia has a new government that is promising to do more on climate, but its pledges are limited – the hard work is still to come. Meanwhile, polluting industries focused on their own short-term remain influential. Holding the powerful to account is as important as ever.',
                 'We have put the climate crisis at the heart of our work, knowing that accurate information is essential for the future of humanity, and the health of planet Earth.',
                 'Every contribution, however big or small, powers our journalism and sustains our future.',
             ],
@@ -76,7 +76,7 @@ export const climate_2022_AUS: EpicTest = {
             showChoiceCards: true,
             bylineWithImage: {
                 name: 'Adam Morton',
-                description: 'Guardian Australia, Environment Editor',
+                description: 'Environment and climate editor, Guardian Australia',
                 headshot: {
                     mainUrl:
                         'https://i.guim.co.uk/img/media/3de3083e3c29a88b1b2724ae533d6246f9ba1c4a/0_0_720_600/720.png?quality=85&s=fe8b0ecfacea95020a6939c4260b8f82',
@@ -143,10 +143,10 @@ export const climate_2022_EUROW: EpicTest = {
             modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: [
                 'Thank you for joining us from %%COUNTRY_NAME%%.',
-                '"It\'s now or never" for tackling the climate crisis. That was the blunt warning that stood out from the UN\'s most recent comprehensive review of climate science, drawing on the work of thousands of scientists over many years.',
-                "As environment correspondent, I've spent 18 years grappling with this data and reporting on the science - and this is without a doubt the starkest language yet, the strongest words I've ever heard from a body that is sometimes criticised for pulling its punches, and whose conclusions are often vetted and watered down by world leaders keen to diminish their impact.",
+                '“It’s now or never” for tackling the climate crisis. That was the blunt warning that stood out from the UN’s most recent comprehensive review of climate science, drawing on the work of thousands of scientists over many years.',
+                "As environment correspondent, I’ve spent 18 years grappling with this data and reporting on the science – and this is without a doubt the starkest language yet, the strongest words I've ever heard from a body that is sometimes criticised for pulling its punches, and whose conclusions are often vetted and watered down by world leaders keen to diminish their impact.",
                 'The truth is that this latest report is the last one to be published while we still have a realistic chance of limiting global heating to 1.5C above pre-industrial levels.',
-                "At the Guardian, we feel that up-to-date, fact-checked, independent journalism is key to taking meaningful action. That's why we have been reporting on global heating for decades, and giving scientific findings more publicity and prominence than any other news organisation. We have put the climate crisis at the heart of our work, knowing that accurate information is essential for the future of humanity, and the health of planet Earth.",
+                'At the Guardian, we feel that up-to-date, fact-checked, independent journalism is key to taking meaningful action. That’s why we have been reporting on global heating for decades, and giving scientific findings more publicity and prominence than any other news organisation. We have put the climate crisis at the heart of our work, knowing that accurate information is essential for the future of humanity, and the health of planet Earth.',
                 'As a reader-funded news organisation, we rely on your generosity. Every contribution, however big or small, powers our reporting in tight economic times, and helps sustain our future.',
             ],
             highlightedText:
@@ -157,10 +157,10 @@ export const climate_2022_EUROW: EpicTest = {
             showChoiceCards: true,
             bylineWithImage: {
                 name: 'Fiona Harvey',
-                description: 'Guardian environment correspondent',
+                description: 'Environment correspondent',
                 headshot: {
                     mainUrl:
-                        'https://i.guim.co.uk/img/media/a8d0c3725ba0577e1d1fdb8fd810e24c7ddf8f37/0_243_2458_1475/500.jpg?quality=85&s=ff281d27b44470ec55579656ba5a0f27',
+                        'https://i.guim.co.uk/img/media/b6f2b7cff8c81de6331e0bde969ac13b6318d8c4/0_276_1701_1418/1000.png?quality=85&s=790bb0f6838c88176bff538f970a1689',
                     altText: 'Fiona Harvey staff byline photograph',
                 },
             },
@@ -223,10 +223,10 @@ export const climate_2022_UKUS: EpicTest = {
             name: 'V1',
             modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: [
-                '"It\'s now or never" for tackling the climate crisis. That was the blunt warning that stood out from the UN\'s most recent comprehensive review of climate science, drawing on the work of thousands of scientists over many years.',
-                "As environment correspondent, I've spent 18 years grappling with this data and reporting on the science - and this is without a doubt the starkest language yet, the strongest words I've ever heard from a body that is sometimes criticised for pulling its punches, and whose conclusions are often vetted and watered down by world leaders keen to diminish their impact.",
+                '“It’s now or never” for tackling the climate crisis. That was the blunt warning that stood out from the UN’s most recent comprehensive review of climate science, drawing on the work of thousands of scientists over many years.',
+                "As environment correspondent, I’ve spent 18 years grappling with this data and reporting on the science – and this is without a doubt the starkest language yet, the strongest words I've ever heard from a body that is sometimes criticised for pulling its punches, and whose conclusions are often vetted and watered down by world leaders keen to diminish their impact.",
                 'The truth is that this latest report is the last one to be published while we still have a realistic chance of limiting global heating to 1.5C above pre-industrial levels.',
-                "At the Guardian, we feel that up-to-date, fact-checked, independent journalism is key to taking meaningful action. That's why we have been reporting on global heating for decades, and giving scientific findings more publicity and prominence than any other news organisation. We have put the climate crisis at the heart of our work, knowing that accurate information is essential for the future of humanity, and the health of planet Earth.",
+                'At the Guardian, we feel that up-to-date, fact-checked, independent journalism is key to taking meaningful action. That’s why we have been reporting on global heating for decades, and giving scientific findings more publicity and prominence than any other news organisation. We have put the climate crisis at the heart of our work, knowing that accurate information is essential for the future of humanity, and the health of planet Earth.',
                 'As a reader-funded news organisation, we rely on your generosity. Every contribution, however big or small, powers our reporting in tight economic times, and helps sustain our future.',
             ],
             highlightedText:
@@ -237,10 +237,10 @@ export const climate_2022_UKUS: EpicTest = {
             showChoiceCards: true,
             bylineWithImage: {
                 name: 'Fiona Harvey',
-                description: 'Guardian environment correspondent',
+                description: 'Environment correspondent',
                 headshot: {
                     mainUrl:
-                        'https://i.guim.co.uk/img/media/a8d0c3725ba0577e1d1fdb8fd810e24c7ddf8f37/0_243_2458_1475/500.jpg?quality=85&s=ff281d27b44470ec55579656ba5a0f27',
+                        'https://i.guim.co.uk/img/media/b6f2b7cff8c81de6331e0bde969ac13b6318d8c4/0_276_1701_1418/1000.png?quality=85&s=790bb0f6838c88176bff538f970a1689',
                     altText: 'Fiona Harvey staff byline photograph',
                 },
             },
