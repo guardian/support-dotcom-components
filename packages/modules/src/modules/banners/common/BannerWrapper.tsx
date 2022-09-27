@@ -33,42 +33,19 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { buildReminderFields } from '@sdc/shared/lib';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
-export enum TopReaderArticleCountTestVariant {
-    CONTROL,
-    V1_AC_LEAD,
-    V2_CONGRATS_LEAD,
-}
-
 // A separate article count is rendered as a subheading
 const buildSubheading = (
     numArticles: number,
     separateArticleCount: boolean,
-    topReaderAcTestVariant: TopReaderArticleCountTestVariant,
 ): JSX.Element | JSX.Element[] | null => {
     if (separateArticleCount && numArticles >= 5) {
         return replaceArticleCount(
-            getArticleCountSubheading(numArticles, topReaderAcTestVariant),
+            `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
             numArticles,
             'banner',
         );
     }
     return null;
-};
-
-const getArticleCountSubheading = (
-    numArticles: number,
-    variant: TopReaderArticleCountTestVariant,
-): string => {
-    if (numArticles < 50 || variant === TopReaderArticleCountTestVariant.CONTROL) {
-        return "You've read %%ARTICLE_COUNT%% articles in the last year";
-    }
-
-    if (variant === TopReaderArticleCountTestVariant.V1_AC_LEAD) {
-        return "You've read %%ARTICLE_COUNT%% articles in the last year - congratulations on being one of our top readers";
-    }
-
-    // else variant is V2_CONGRATS_LEAD
-    return "Congratulations on being one of our top readers - you've read %%ARTICLE_COUNT%% articles in the last year ";
 };
 
 export const getParagraphsOrMessageText = (
@@ -88,7 +65,6 @@ export const getParagraphsOrMessageText = (
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-    topReaderAcTestVariant: TopReaderArticleCountTestVariant,
 ): React.FC<CloseableBannerProps> => bannerProps => {
     const {
         tracking,
@@ -219,11 +195,7 @@ const withBannerData = (
             ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
             : null;
 
-        const subheading = buildSubheading(
-            numArticles,
-            !!separateArticleCount,
-            topReaderAcTestVariant,
-        );
+        const subheading = buildSubheading(numArticles, !!separateArticleCount);
 
         if (copyHasPlaceholder) {
             throw Error('Banner copy contains placeholders, abandoning.');
@@ -303,8 +275,7 @@ const withBannerData = (
 export const bannerWrapper = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-    topReaderAcTestVariant: TopReaderArticleCountTestVariant = TopReaderArticleCountTestVariant.CONTROL,
-): React.FC<BannerProps> => withCloseable(withBannerData(Banner, bannerId, topReaderAcTestVariant));
+): React.FC<BannerProps> => withCloseable(withBannerData(Banner, bannerId));
 
 const validate = (props: unknown): props is BannerProps => {
     const result = bannerSchema.safeParse(props);
@@ -314,8 +285,7 @@ const validate = (props: unknown): props is BannerProps => {
 export const validatedBannerWrapper = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-    topReaderAcTestVariant: TopReaderArticleCountTestVariant = TopReaderArticleCountTestVariant.CONTROL,
 ): React.FC<BannerProps> => {
-    const withoutValidation = bannerWrapper(Banner, bannerId, topReaderAcTestVariant);
+    const withoutValidation = bannerWrapper(Banner, bannerId);
     return withParsedProps(withoutValidation, validate);
 };

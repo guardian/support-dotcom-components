@@ -1,8 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsBannerUnvalidated as ContributionsBanner } from './ContributionsBanner';
-import { ContributionsBannerUnvalidated as ContributionsBannerTopReaderAcV1 } from './ContributionsBannerTopReaderArticleCountV1';
-import { ContributionsBannerUnvalidated as ContributionsBannerTopReaderAcV2 } from './ContributionsBannerTopReaderArticleCountV2';
 import { props, content } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
@@ -50,19 +48,3 @@ WithoutSupportUrl.args = {
         },
     },
 };
-
-const TemplateV1: Story<BannerProps> = (props: BannerProps) => (
-    <ContributionsBannerTopReaderAcV1 {...props} />
-);
-
-export const WithTopReaderArticleCountV1 = TemplateV1.bind({});
-WithTopReaderArticleCountV1.args = {
-    numArticles: 99,
-};
-
-const TemplateV2: Story<BannerProps> = (props: BannerProps) => (
-    <ContributionsBannerTopReaderAcV2 {...props} />
-);
-
-export const WithTopReaderArticleCountV2 = TemplateV2.bind({});
-WithTopReaderArticleCountV2.args = WithTopReaderArticleCountV1.args;
