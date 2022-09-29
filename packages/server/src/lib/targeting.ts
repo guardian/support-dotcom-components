@@ -1,5 +1,5 @@
 import { EpicTargeting, UserCohort, EpicViewLog, Test, Variant } from '@sdc/shared/types';
-import { daysSince } from './dates';
+import { daysSince, isRecentOneOffContributor } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -62,7 +62,12 @@ export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): b
 export const audienceMatches = (
     showSupportMessaging: boolean,
     testAudience: UserCohort,
+    lastOneOffContributionDate?: string,
 ): boolean => {
+    if (lastOneOffContributionDate) {
+        // Recent contributors are excluded from all message tests
+        return !isRecentOneOffContributor(new Date(lastOneOffContributionDate));
+    }
     switch (testAudience) {
         case 'AllNonSupporters':
             return showSupportMessaging;
