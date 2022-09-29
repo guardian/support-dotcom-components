@@ -63,10 +63,14 @@ export const audienceMatches = (
     showSupportMessaging: boolean,
     testAudience: UserCohort,
     lastOneOffContributionDate?: string,
+    now: Date = new Date(Date.now()),
 ): boolean => {
-    if (lastOneOffContributionDate) {
+    const recentContributor =
+        !!lastOneOffContributionDate &&
+        isRecentOneOffContributor(new Date(lastOneOffContributionDate), now);
+    if (recentContributor) {
         // Recent contributors are excluded from all message tests
-        return !isRecentOneOffContributor(new Date(lastOneOffContributionDate));
+        return false;
     }
     switch (testAudience) {
         case 'AllNonSupporters':
