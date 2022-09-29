@@ -323,6 +323,8 @@ const articleCountTextStyles = css`
 `;
 
 const articleCountCtaStyles = css`
+    margin-top: 0;
+
     ${textSans.xxsmall({ fontWeight: 'bold' })};
 
     ${from.tablet} {
