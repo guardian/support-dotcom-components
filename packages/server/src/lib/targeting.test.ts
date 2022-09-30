@@ -1,5 +1,5 @@
 import { factories } from '../factories';
-import { shouldNotRenderEpic, shouldThrottle } from './targeting';
+import { audienceMatches, shouldNotRenderEpic, shouldThrottle } from './targeting';
 
 describe('shouldNotRenderEpic', () => {
     it('returns true for blacklisted section', () => {
@@ -11,6 +11,59 @@ describe('shouldNotRenderEpic', () => {
     it('returns false for valid data', () => {
         const data = factories.targeting.build();
         const got = shouldNotRenderEpic(data);
+        expect(got).toBe(false);
+    });
+});
+
+describe('audienceMatches', () => {
+    it('returns true for non-supporter if test is for AllNonSupporters', () => {
+        const got = audienceMatches(true, 'AllNonSupporters');
+        expect(got).toBe(true);
+    });
+    it('returns false for non-supporter if test is for AllExistingSupporters', () => {
+        const got = audienceMatches(true, 'AllExistingSupporters');
+        expect(got).toBe(false);
+    });
+
+    it('returns false for supporter if test is for AllNonSupporters', () => {
+        const got = audienceMatches(false, 'AllNonSupporters');
+        expect(got).toBe(false);
+    });
+    it('returns true for supporter if test is for AllExistingSupporters', () => {
+        const got = audienceMatches(false, 'AllExistingSupporters');
+        expect(got).toBe(true);
+    });
+
+    it('returns false for recent contributor if test is for AllExistingSupporters', () => {
+        const got = audienceMatches(
+            false,
+            'AllExistingSupporters',
+            '2022-01-01',
+            new Date('2022-01-02'),
+        );
+        expect(got).toBe(false);
+    });
+    it('returns false for recent contributor if test is for AllNonSupporters', () => {
+        const got = audienceMatches(
+            false,
+            'AllNonSupporters',
+            '2022-01-01',
+            new Date('2022-01-02'),
+        );
+        expect(got).toBe(false);
+    });
+
+    it('returns true for old contributor if test is for AllNonSupporters', () => {
+        const got = audienceMatches(true, 'AllNonSupporters', '2021-01-01', new Date('2022-01-02'));
+        expect(got).toBe(true);
+    });
+    it('returns false for old contributor if test is for AllExistingSupporters', () => {
+        const got = audienceMatches(
+            true,
+            'AllExistingSupporters',
+            '2021-01-01',
+            new Date('2022-01-02'),
+        );
         expect(got).toBe(false);
     });
 });
