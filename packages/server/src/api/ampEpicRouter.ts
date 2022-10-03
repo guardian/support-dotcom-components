@@ -25,7 +25,7 @@ export const buildAmpEpicRouter = (): Router => {
     const router = Router();
 
     router.get(
-        '/amp/experiments_data',
+        '/experiments_data',
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const tests = await getCachedAmpEpicTests();
@@ -41,7 +41,7 @@ export const buildAmpEpicRouter = (): Router => {
     );
 
     router.post(
-        '/amp/set_reminder',
+        '/set_reminder',
         cors({
             origin: [
                 'https://amp-theguardian-com.cdn.ampproject.org',
@@ -85,7 +85,7 @@ export const buildAmpEpicRouter = (): Router => {
     );
 
     router.get(
-        '/amp/epic',
+        '/epic',
         cors({
             origin: [
                 'https://amp-theguardian-com.cdn.ampproject.org',
@@ -176,7 +176,7 @@ export const buildAmpEpicRouter = (): Router => {
     );
 
     router.get(
-        '/amp/epic_view', // IMPORTANT: do not change this route!
+        '/epic_view', // IMPORTANT: do not change this route!
         cors({
             origin: [
                 'https://amp-theguardian-com.cdn.ampproject.org',

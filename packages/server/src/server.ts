@@ -43,7 +43,7 @@ const buildApp = (): Promise<Express> => {
     app.use(buildEpicRouter());
     app.use(buildBannerRouter());
     app.use(buildHeaderRouter());
-    app.use(buildAmpEpicRouter());
+    app.use('/amp', buildAmpEpicRouter());
     // Only serve the modules from this server when running locally (DEV).
     // In PROD/CODE we serve them from S3 via fastly.
     if (isDev) {
