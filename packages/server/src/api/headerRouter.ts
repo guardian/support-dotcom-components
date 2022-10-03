@@ -3,9 +3,10 @@ import { bodyContainsAllFields } from '../middleware';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
 import { HeaderProps, HeaderTargeting, PageTracking, TestTracking } from '@sdc/shared/dist/types';
-import { cachedChannelSwitches } from '../channelSwitches';
+import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { isMobile } from '../lib/deviceType';
+import { ValueReloader } from '../utils/valueReloader';
 
 interface HeaderDataResponse {
     data?: {
@@ -19,7 +20,7 @@ interface HeaderDataResponse {
 }
 
 // TODO - pass in dependencies instead of using cacheAsync
-export const buildHeaderRouter = (): Router => {
+export const buildHeaderRouter = (channelSwitches: ValueReloader<ChannelSwitches>): Router => {
     const router = Router();
 
     const buildHeaderData = async (
@@ -29,7 +30,7 @@ export const buildHeaderRouter = (): Router => {
         params: Params,
         req: express.Request,
     ): Promise<HeaderDataResponse> => {
-        const { enableHeaders } = await cachedChannelSwitches();
+        const { enableHeaders } = channelSwitches.get();
         if (!enableHeaders) {
             return {};
         }

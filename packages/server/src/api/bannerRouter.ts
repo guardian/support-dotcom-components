@@ -7,7 +7,7 @@ import {
     PuzzlesBannerProps,
     TestTracking,
 } from '@sdc/shared/dist/types';
-import { cachedChannelSwitches } from '../channelSwitches';
+import { ChannelSwitches } from '../channelSwitches';
 import { cachedProductPrices } from '../productPrices';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
@@ -19,6 +19,7 @@ import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { isMobile } from '../lib/deviceType';
 import { puzzlesBanner } from '@sdc/shared/dist/config';
+import { ValueReloader } from '../utils/valueReloader';
 
 interface BannerDataResponse {
     data?: {
@@ -45,7 +46,7 @@ interface PuzzlesDataResponse {
 }
 
 // TODO - pass in dependencies instead of using cacheAsync
-export const buildBannerRouter = (): Router => {
+export const buildBannerRouter = (channelSwitches: ValueReloader<ChannelSwitches>): Router => {
     const router = Router();
 
     const buildBannerData = async (
@@ -54,7 +55,7 @@ export const buildBannerRouter = (): Router => {
         params: Params,
         req: express.Request,
     ): Promise<BannerDataResponse> => {
-        const { enableBanners, enableHardcodedBannerTests } = await cachedChannelSwitches();
+        const { enableBanners, enableHardcodedBannerTests } = channelSwitches.get();
         if (!enableBanners) {
             return {};
         }
@@ -157,7 +158,7 @@ export const buildBannerRouter = (): Router => {
         params: Params,
         req: express.Request,
     ): Promise<PuzzlesDataResponse> => {
-        const { enableBanners } = await cachedChannelSwitches();
+        const { enableBanners } = channelSwitches.get();
         if (!enableBanners) {
             return {};
         }

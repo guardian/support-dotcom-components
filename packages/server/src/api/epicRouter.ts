@@ -11,7 +11,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
-import { cachedChannelSwitches } from '../channelSwitches';
+import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { cachedChoiceCardAmounts } from '../choiceCardAmounts';
 import { getTickerSettings } from '../lib/fetchTickerData';
@@ -34,6 +34,7 @@ import {
     climate_2022_UKUS,
 } from '../tests/epics/epicEnvironmentMoment2022';
 import environmentArticleCountTest from '../tests/epics/environmentArticleCountTest';
+import { ValueReloader } from '../utils/valueReloader';
 
 interface EpicDataResponse {
     data?: {
@@ -73,7 +74,7 @@ const hardcodedEpicTests: EpicTest[] = [
 ];
 
 // TODO - pass in dependencies instead of using cacheAsync
-export const buildEpicRouter = (): Router => {
+export const buildEpicRouter = (channelSwitches: ValueReloader<ChannelSwitches>): Router => {
     const router = Router();
 
     const getArticleEpicTests = async (
@@ -118,11 +119,7 @@ export const buildEpicRouter = (): Router => {
         baseUrl: string,
         req: express.Request,
     ): Promise<EpicDataResponse> => {
-        const {
-            enableEpics,
-            enableSuperMode,
-            enableHardcodedEpicTests,
-        } = await cachedChannelSwitches();
+        const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
         }

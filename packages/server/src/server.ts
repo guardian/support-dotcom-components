@@ -13,8 +13,9 @@ import { buildBannerRouter } from './api/bannerRouter';
 import { buildHeaderRouter } from './api/headerRouter';
 import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildModulesRouter } from './api/modulesRouter';
+import { buildChannelSwitchesReloader } from './channelSwitches';
 
-const buildApp = (): Promise<Express> => {
+const buildApp = async (): Promise<Express> => {
     const app = express();
 
     app.use(express.json({ limit: '50mb' }));
@@ -39,10 +40,13 @@ const buildApp = (): Promise<Express> => {
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
 
+    // Initialise dependencies
+    const [channelSwitches] = await Promise.all([buildChannelSwitchesReloader()]);
+
     // Build the routers
-    app.use(buildEpicRouter());
-    app.use(buildBannerRouter());
-    app.use(buildHeaderRouter());
+    app.use(buildEpicRouter(channelSwitches));
+    app.use(buildBannerRouter(channelSwitches));
+    app.use(buildHeaderRouter(channelSwitches));
     app.use('/amp', buildAmpEpicRouter());
     // Only serve the modules from this server when running locally (DEV).
     // In PROD/CODE we serve them from S3 via fastly.
