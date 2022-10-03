@@ -34,7 +34,6 @@ import {
     climate_2022_UKUS,
 } from '../tests/epics/epicEnvironmentMoment2022';
 import environmentArticleCountTest from '../tests/epics/environmentArticleCountTest';
-import { epicNewsletterFirstEdition_uk } from '../tests/epics/newsletterEpicTest';
 
 interface EpicDataResponse {
     data?: {
@@ -71,7 +70,6 @@ const hardcodedEpicTests: EpicTest[] = [
     climate_2022_EUROW,
     climate_2022_UKUS,
     ...environmentArticleCountTest,
-    epicNewsletterFirstEdition_uk,
 ];
 
 // TODO - pass in dependencies instead of using cacheAsync
