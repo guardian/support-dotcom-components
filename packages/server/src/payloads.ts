@@ -38,7 +38,6 @@ import { logWarn } from './utils/logging';
 import { cachedChoiceCardAmounts } from './choiceCardAmounts';
 import { cachedProductPrices } from './productPrices';
 import environmentArticleCountTest from './tests/epics/environmentArticleCountTest';
-import { epicNewsletterFirstEdition_uk } from './tests/epics/newsletterEpicTest';
 import {
     climate_2022_AUS,
     climate_2022_EUROW,
@@ -122,7 +121,6 @@ const hardcodedEpicTests: EpicTest[] = [
     climate_2022_EUROW,
     climate_2022_UKUS,
     ...environmentArticleCountTest,
-    epicNewsletterFirstEdition_uk,
 ];
 
 const getArticleEpicTests = async (
