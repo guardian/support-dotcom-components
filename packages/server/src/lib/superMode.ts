@@ -7,7 +7,6 @@ import { logError, logInfo } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
 import { buildReloader, ValueReloader } from '../utils/valueReloader';
 
-const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
 const stage = isProd ? 'PROD' : 'CODE';
 
 export interface SuperModeArticle {
@@ -16,6 +15,7 @@ export interface SuperModeArticle {
 }
 
 const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
+    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     const records = await queryActiveArticles(stage, docClient).catch(error => {
         logError(`Error fetching super mode articles from dynamo: ${error}`);
         putMetric('super-mode-error');
