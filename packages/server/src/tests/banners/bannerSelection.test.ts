@@ -1,6 +1,6 @@
 import { contributionsBanner, digiSubs, signInPromptBanner } from '@sdc/shared/config';
 import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
-import { BannerDeployTimesReloader} from './bannerDeployTimes';
+import { BannerDeployTimesReloader } from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
 
 const getBannerDeployTimesReloader = (date: string) =>

@@ -2,7 +2,7 @@ import { BannerChannel } from '@sdc/shared/types';
 import { isProd } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
-import {buildReloader, ValueProvider, ValueReloader} from '../../utils/valueReloader';
+import { buildReloader, ValueProvider } from '../../utils/valueReloader';
 
 /**
  * Banner deploy cache -
@@ -47,10 +47,6 @@ interface BannerDeployTimes {
     RestOfWorld: Date;
     EuropeanUnion: Date;
 }
-export interface BannerDeployCaches {
-    contributions: () => Promise<BannerDeployTimes>;
-    subscriptions: () => Promise<BannerDeployTimes>;
-}
 
 interface BannerDeployTimesReloaders {
     contributions: ValueProvider<BannerDeployTimes>;
@@ -58,14 +54,14 @@ interface BannerDeployTimesReloaders {
 }
 
 export class BannerDeployTimesReloader {
-    reloaders: BannerDeployTimesReloaders;
+    providers: BannerDeployTimesReloaders;
 
     constructor(reloaders: BannerDeployTimesReloaders) {
-        this.reloaders = reloaders;
+        this.providers = reloaders;
     }
 
     getDeployTimes(channel: 'contributions' | 'subscriptions'): BannerDeployTimes {
-        return this.reloaders[channel].get();
+        return this.providers[channel].get();
     }
 }
 
