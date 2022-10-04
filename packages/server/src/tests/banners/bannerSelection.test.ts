@@ -1,27 +1,29 @@
 import { contributionsBanner, digiSubs, signInPromptBanner } from '@sdc/shared/config';
 import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
-import { BannerDeployCaches } from './bannerDeployCache';
+import { BannerDeployTimesReloader} from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
 
-const getBannerDeployCache = (date: string): BannerDeployCaches =>
-    ({
-        subscriptions: () =>
-            Promise.resolve({
+const getBannerDeployTimesReloader = (date: string) =>
+    new BannerDeployTimesReloader({
+        contributions: {
+            get: () => ({
                 UnitedKingdom: new Date(date),
                 UnitedStates: new Date(date),
                 Australia: new Date(date),
                 RestOfWorld: new Date(date),
                 EuropeanUnion: new Date(date),
             }),
-        contributions: () =>
-            Promise.resolve({
+        },
+        subscriptions: {
+            get: () => ({
                 UnitedKingdom: new Date(date),
                 UnitedStates: new Date(date),
                 Australia: new Date(date),
                 RestOfWorld: new Date(date),
                 EuropeanUnion: new Date(date),
             }),
-    } as BannerDeployCaches);
+        },
+    });
 
 const isMobile = false;
 
@@ -34,7 +36,7 @@ describe('selectBannerTest', () => {
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
-        const cache = getBannerDeployCache(secondDate);
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
 
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
@@ -86,7 +88,7 @@ describe('selectBannerTest', () => {
         };
 
         it('returns test if enough article views', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
@@ -94,17 +96,16 @@ describe('selectBannerTest', () => {
                 isMobile,
                 '',
                 [test],
-                cache,
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result && result.test.name).toBe('test');
-            });
+            );
+            expect(result && result.test.name).toBe('test');
         });
 
         it('returns null if hardcoded tests disabled', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
@@ -112,17 +113,16 @@ describe('selectBannerTest', () => {
                 isMobile,
                 '',
                 [{ ...test, isHardcoded: true }],
-                cache,
+                bannerDeployTimes,
                 false,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result && result.test.name).toBe(null);
-            });
+            );
+            expect(result && result.test.name).toBe(null);
         });
 
         it('returns null if not enough article views', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
@@ -130,41 +130,38 @@ describe('selectBannerTest', () => {
                 isMobile,
                 '',
                 [test],
-                cache,
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result).toBe(null);
-            });
+            );
+            expect(result).toBe(null);
         });
 
         it('returns test if no articlesViewedSettings', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
                 isMobile,
                 '',
-                () =>
-                    [
-                        {
-                            ...test,
-                            articlesViewedSettings: undefined,
-                        },
-                    ],
-                cache,
+                [
+                    {
+                        ...test,
+                        articlesViewedSettings: undefined,
+                    },
+                ],
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result && result.test.name).toBe('test');
-            });
+            );
+            expect(result && result.test.name).toBe('test');
         });
 
         it('returns null if opted out', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     hasOptedOutOfArticleCount: true,
                 }),
@@ -172,20 +169,19 @@ describe('selectBannerTest', () => {
                 isMobile,
                 '',
                 [test],
-                cache,
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result).toBe(null);
-            });
+            );
+            expect(result).toBe(null);
         });
     });
 
     describe('Channel 2 banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
-        const cache = getBannerDeployCache(secondDate);
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
 
         const targeting: BannerTargeting = {
             alreadyVisitedCount: 3,
@@ -236,7 +232,7 @@ describe('selectBannerTest', () => {
         };
 
         it('returns test if enough article views', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
@@ -244,17 +240,16 @@ describe('selectBannerTest', () => {
                 isMobile,
                 '',
                 [test],
-                cache,
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result && result.test.name).toBe('test');
-            });
+            );
+            expect(result && result.test.name).toBe('test');
         });
 
         it('returns null if not enough article views', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
@@ -262,44 +257,41 @@ describe('selectBannerTest', () => {
                 isMobile,
                 '',
                 [test],
-                cache,
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result).toBe(null);
-            });
+            );
+            expect(result).toBe(null);
         });
 
         it('returns test if no articlesViewedSettings', () => {
-            return selectBannerTest(
+            const result = selectBannerTest(
                 Object.assign(targeting, {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
                 isMobile,
                 '',
-                () =>
-                    Promise.resolve([
-                        {
-                            ...test,
-                            articlesViewedSettings: undefined,
-                        },
-                    ]),
-                cache,
+                [
+                    {
+                        ...test,
+                        articlesViewedSettings: undefined,
+                    },
+                ],
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,
-            ).then(result => {
-                expect(result && result.test.name).toBe('test');
-            });
+            );
+            expect(result && result.test.name).toBe('test');
         });
     });
 
     describe('Sign in prompt banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
 
-        const cache = getBannerDeployCache(secondDate);
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
 
         const baseTargeting: BannerTargeting = {
             alreadyVisitedCount: 0,
@@ -357,8 +349,8 @@ describe('selectBannerTest', () => {
                 tracking,
                 isMobile,
                 '',
-                () => Promise.resolve(tests),
-                cache,
+                tests,
+                bannerDeployTimes,
                 enableHardcodedBannerTests,
                 undefined,
                 now,

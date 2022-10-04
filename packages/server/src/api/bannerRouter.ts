@@ -12,7 +12,7 @@ import {
 import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
-import { bannerDeployCaches } from '../tests/banners/bannerDeployCache';
+import { BannerDeployTimesReloader } from '../tests/banners/bannerDeployTimes';
 import { buildBannerCampaignCode } from '@sdc/shared/dist/lib';
 import { TickerDataReloader } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
@@ -50,27 +50,28 @@ export const buildBannerRouter = (
     tickerData: TickerDataReloader,
     productPrices: ValueReloader<Prices | undefined>,
     bannerTests: ValueReloader<BannerTest[]>,
+    bannerDeployTimes: BannerDeployTimesReloader,
 ): Router => {
     const router = Router();
 
-    const buildBannerData = async (
+    const buildBannerData = (
         pageTracking: PageTracking,
         targeting: BannerTargeting,
         params: Params,
         req: express.Request,
-    ): Promise<BannerDataResponse> => {
+    ): BannerDataResponse => {
         const { enableBanners, enableHardcodedBannerTests } = channelSwitches.get();
         if (!enableBanners) {
             return {};
         }
 
-        const selectedTest = await selectBannerTest(
+        const selectedTest = selectBannerTest(
             targeting,
             pageTracking,
             isMobile(req),
             baseUrl(req),
             bannerTests.get(),
-            bannerDeployCaches,
+            bannerDeployTimes,
             enableHardcodedBannerTests,
             params.force,
         );
@@ -126,12 +127,12 @@ export const buildBannerRouter = (
 
     router.post(
         '/banner',
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const { tracking, targeting } = req.body;
                 const params = getQueryParams(req.query);
 
-                const response = await buildBannerData(tracking, targeting, params, req);
+                const response = buildBannerData(tracking, targeting, params, req);
 
                 // for response logging
                 res.locals.didRenderBanner = !!response.data;
@@ -154,12 +155,12 @@ export const buildBannerRouter = (
         },
     );
 
-    const buildPuzzlesData = async (
+    const buildPuzzlesData = (
         pageTracking: PageTracking,
         targeting: BannerTargeting,
         params: Params,
         req: express.Request,
-    ): Promise<PuzzlesDataResponse> => {
+    ): PuzzlesDataResponse => {
         const { enableBanners } = channelSwitches.get();
         if (!enableBanners) {
             return {};
@@ -189,9 +190,9 @@ export const buildBannerRouter = (
         return {};
     };
 
-    router.post('/puzzles', async (req: express.Request, res: express.Response) => {
+    router.post('/puzzles', (req: express.Request, res: express.Response) => {
         const { tracking, targeting } = req.body;
-        const response = await buildPuzzlesData(tracking, targeting, req.params, req);
+        const response = buildPuzzlesData(tracking, targeting, req.params, req);
 
         // for response logging
         res.locals.didRenderBanner = !!response.data;

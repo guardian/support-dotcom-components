@@ -11,7 +11,7 @@ import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
-import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
+import { BannerDeployTimesReloader, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
 import {
@@ -43,10 +43,10 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
-    bannerDeployCaches: BannerDeployCaches,
+    bannerDeployTimes: BannerDeployTimesReloader,
     scheduledBannerDeploys: ScheduledBannerDeploys,
     now: Date,
-): Promise<boolean> => {
+): boolean => {
     const {
         subscriptionBannerLastClosedAt,
         engagementBannerLastClosedAt,
@@ -57,17 +57,16 @@ export const canShowBannerAgain = (
 
     // Never show a sign in prompt banner if it has been closed previously
     if (bannerChannel === 'signIn') {
-        return Promise.resolve(!signInBannerLastClosedAt);
+        return !signInBannerLastClosedAt;
     }
 
-    const canShow = async (lastClosedRaw: string | undefined): Promise<boolean> => {
+    const canShow = (lastClosedRaw: string | undefined): boolean => {
         if (!lastClosedRaw) {
             return true; // banner not yet closed
         }
 
-        const lastManualDeploy = await bannerDeployCaches[bannerChannel]().then(
-            deployTimes => deployTimes[region],
-        );
+        const deployTimes = bannerDeployTimes.getDeployTimes(bannerChannel);
+        const lastManualDeploy = deployTimes[region];
         const lastClosed = new Date(lastClosedRaw);
         return (
             lastManualDeploy > lastClosed ||
@@ -125,13 +124,13 @@ const purchaseMatches = (
     return productValid && userValid;
 };
 
-export const selectBannerTest = async (
+export const selectBannerTest = (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
     isMobile: boolean,
     baseUrl: string,
     tests: BannerTest[],
-    bannerDeployCaches: BannerDeployCaches,
+    bannerDeployTimes: BannerDeployTimesReloader,
     enableHardcodedBannerTests: boolean,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
@@ -170,13 +169,13 @@ export const selectBannerTest = async (
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
-            (await canShowBannerAgain(
+            canShowBannerAgain(
                 targeting,
                 test.bannerChannel,
-                bannerDeployCaches,
+                bannerDeployTimes,
                 deploySchedule,
                 now,
-            ))
+            )
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 

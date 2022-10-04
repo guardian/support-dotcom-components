@@ -2,7 +2,7 @@ import { TickerData, TickerSettings } from '@sdc/shared/types';
 import { TickerCountType } from '@sdc/shared/types';
 import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
-import { buildReloader, ValueReloader } from '../utils/valueReloader';
+import {buildReloader, ValueProvider, ValueReloader} from '../utils/valueReloader';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people
@@ -44,9 +44,9 @@ const getTickerDataForTickerTypeFetcher = (type: TickerCountType) => () => {
 
 // Contains a ValueReloader for each TickerCountType
 export class TickerDataReloader {
-    reloaders: Record<TickerCountType, ValueReloader<TickerData>>;
+    reloaders: Record<TickerCountType, ValueProvider<TickerData>>;
 
-    constructor(reloaders: Record<TickerCountType, ValueReloader<TickerData>>) {
+    constructor(reloaders: Record<TickerCountType, ValueProvider<TickerData>>) {
         this.reloaders = reloaders;
     }
 

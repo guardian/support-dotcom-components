@@ -1,5 +1,4 @@
 import express, { Router } from 'express';
-import { getCachedAmpEpicTests } from '../tests/amp/ampEpicTests';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
 import {
@@ -19,6 +18,7 @@ import { ampEpic } from '../tests/amp/ampEpic';
 import { isProd } from '../lib/env';
 import { ValueReloader } from '../utils/valueReloader';
 import { TickerDataReloader } from '../lib/fetchTickerData';
+import { AmpEpicTest } from '../tests/amp/ampEpicModels';
 
 export const setOneOffReminderEndpoint = (): string =>
     isProd
@@ -29,6 +29,7 @@ export const setOneOffReminderEndpoint = (): string =>
 export const buildAmpEpicRouter = (
     choiceCardAmounts: ValueReloader<ChoiceCardAmounts>,
     tickerData: TickerDataReloader,
+    tests: ValueReloader<AmpEpicTest[]>,
 ): Router => {
     const router = Router();
 
@@ -36,8 +37,7 @@ export const buildAmpEpicRouter = (
         '/experiments_data',
         async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
-                const tests = await getCachedAmpEpicTests();
-                const response = await getAmpExperimentData(tests);
+                const response = await getAmpExperimentData(tests.get());
 
                 res.setHeader('Cache-Control', 'private, no-store');
                 res.setHeader('Surrogate-Control', 'max-age=0');
@@ -111,8 +111,12 @@ export const buildAmpEpicRouter = (
                 const countryGroupId = countryCodeToCountryGroupId(countryCode);
                 const choiceCardAmountsSettings = choiceCardAmounts.get();
                 const ampVariantAssignments = getAmpVariantAssignments(req);
-                const tests = await getCachedAmpEpicTests();
-                const epic = await ampEpic(tests, ampVariantAssignments, tickerData, countryCode);
+                const epic = await ampEpic(
+                    tests.get(),
+                    ampVariantAssignments,
+                    tickerData,
+                    countryCode,
+                );
                 const defaultChoiceCardFrequency = epic.defaultChoiceCardFrequency || 'MONTHLY';
                 const acquisitionData = {
                     source: 'GOOGLE_AMP',
@@ -202,8 +206,12 @@ export const buildAmpEpicRouter = (
 
                 const countryCode = req.header('X-GU-GeoIP-Country-Code');
                 const ampVariantAssignments = getAmpVariantAssignments(req);
-                const tests = await getCachedAmpEpicTests();
-                const epic = await ampEpic(tests, ampVariantAssignments, tickerData, countryCode);
+                const epic = await ampEpic(
+                    tests.get(),
+                    ampVariantAssignments,
+                    tickerData,
+                    countryCode,
+                );
                 const campaignCode = buildAmpEpicCampaignCode(epic.testName, epic.variantName);
                 const { viewId, ampViewId, browserIdCookie, browserId } = req.query;
 

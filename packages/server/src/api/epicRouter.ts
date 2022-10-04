@@ -66,11 +66,11 @@ export const buildEpicRouter = (
 ): Router => {
     const router = Router();
 
-    const getArticleEpicTests = async (
+    const getArticleEpicTests = (
         mvtId: number,
         isForcingTest: boolean,
         enableHardcodedEpicTests: boolean,
-    ): Promise<EpicTest[]> => {
+    ): EpicTest[] => {
         try {
             const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
@@ -96,22 +96,27 @@ export const buildEpicRouter = (
         }
     };
 
-    const buildEpicData = async (
+    const buildEpicData = (
         pageTracking: PageTracking,
         targeting: EpicTargeting,
         type: EpicType,
         params: Params,
         baseUrl: string,
         req: express.Request,
-    ): Promise<EpicDataResponse> => {
+    ): EpicDataResponse => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
         }
 
-        const tests = await (type === 'ARTICLE'
-            ? getArticleEpicTests(targeting.mvtId || 1, !!params.force, enableHardcodedEpicTests)
-            : liveblogEpicTests.get());
+        const tests =
+            type === 'ARTICLE'
+                ? getArticleEpicTests(
+                      targeting.mvtId || 1,
+                      !!params.force,
+                      enableHardcodedEpicTests,
+                  )
+                : liveblogEpicTests.get();
 
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
@@ -190,17 +195,13 @@ export const buildEpicRouter = (
 
     router.post(
         '/epic',
-        async (
-            req: express.Request,
-            res: express.Response,
-            next: express.NextFunction,
-        ): Promise<void> => {
+        (req: express.Request, res: express.Response, next: express.NextFunction): void => {
             try {
                 const epicType: EpicType = 'ARTICLE';
 
                 const { tracking, targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = await buildEpicData(
+                const response = buildEpicData(
                     tracking,
                     targeting,
                     epicType,
@@ -227,13 +228,13 @@ export const buildEpicRouter = (
 
     router.post(
         '/liveblog-epic',
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const epicType: EpicType = 'LIVEBLOG';
 
                 const { tracking, targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = await buildEpicData(
+                const response = buildEpicData(
                     tracking,
                     targeting,
                     epicType,
