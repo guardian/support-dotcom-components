@@ -47,7 +47,7 @@ const buildApp = (): Promise<Express> => {
     // Only serve the modules from this server when running locally (DEV).
     // In PROD/CODE we serve them from S3 via fastly.
     if (isDev) {
-        buildModulesRouter();
+        app.use(buildModulesRouter());
     }
 
     app.use(errorHandlingMiddleware);
