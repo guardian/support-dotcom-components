@@ -1,11 +1,11 @@
 import { BannerTest, BannerTestGenerator } from '@sdc/shared/types';
-import { cacheAsync } from '../../lib/cache';
 import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
 import { DefaultContributionsBanner } from './DefaultContributionsBannerTest';
 import { signInPromptTests } from './signInPromptTests';
+import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 const defaultBannerTestGenerator: BannerTestGenerator = () =>
     Promise.resolve([DefaultContributionsBanner]);
@@ -24,6 +24,7 @@ const getTests = (): Promise<BannerTest[]> =>
         testGenerators.map(testGenerator => testGenerator()),
     ).then((bannerTests: BannerTest[][]) => flattenArray(bannerTests));
 
-const getCachedTests = cacheAsync<BannerTest[]>(getTests, { ttlSec: 60, warm: true });
+const buildBannerTestsReloader = (): Promise<ValueReloader<BannerTest[]>> =>
+    buildReloader(getTests, 60);
 
-export { getTests, getCachedTests };
+export { buildBannerTestsReloader };

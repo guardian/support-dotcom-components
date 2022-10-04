@@ -3,6 +3,7 @@ import { getQueryParams, Params } from '../lib/params';
 import {
     BannerProps,
     BannerTargeting,
+    BannerTest,
     PageTracking,
     Prices,
     PuzzlesBannerProps,
@@ -11,7 +12,6 @@ import {
 import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
-import { getCachedTests } from '../tests/banners/bannerTests';
 import { bannerDeployCaches } from '../tests/banners/bannerDeployCache';
 import { buildBannerCampaignCode } from '@sdc/shared/dist/lib';
 import { TickerDataReloader } from '../lib/fetchTickerData';
@@ -45,11 +45,11 @@ interface PuzzlesDataResponse {
     debug?: Debug;
 }
 
-// TODO - pass in dependencies instead of using cacheAsync
 export const buildBannerRouter = (
     channelSwitches: ValueReloader<ChannelSwitches>,
     tickerData: TickerDataReloader,
     productPrices: ValueReloader<Prices | undefined>,
+    bannerTests: ValueReloader<BannerTest[]>,
 ): Router => {
     const router = Router();
 
@@ -69,7 +69,7 @@ export const buildBannerRouter = (
             pageTracking,
             isMobile(req),
             baseUrl(req),
-            getCachedTests,
+            bannerTests.get(),
             bannerDeployCaches,
             enableHardcodedBannerTests,
             params.force,

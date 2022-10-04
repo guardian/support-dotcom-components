@@ -130,21 +130,19 @@ export const selectBannerTest = async (
     pageTracking: PageTracking,
     isMobile: boolean,
     baseUrl: string,
-    getTests: () => Promise<BannerTest[]>,
+    tests: BannerTest[],
     bannerDeployCaches: BannerDeployCaches,
     enableHardcodedBannerTests: boolean,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
-): Promise<BannerTestSelection | null> => {
-    const tests = await getTests();
-
+): BannerTestSelection | null => {
     if (forcedTestVariant) {
-        return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl, targeting));
+        getForcedVariant(forcedTestVariant, tests, baseUrl, targeting);
     }
 
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
     if (targetingTest && !targetingTest.canShow) {
-        return Promise.resolve(null);
+        return null;
     }
 
     for (const test of tests) {
@@ -182,17 +180,15 @@ export const selectBannerTest = async (
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 
-            const bannerTestSelection = {
+            return {
                 test,
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: variant.moduleName,
                 targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
-
-            return Promise.resolve(bannerTestSelection);
         }
     }
 
-    return Promise.resolve(null);
+    return null;
 };

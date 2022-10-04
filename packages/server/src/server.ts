@@ -23,6 +23,7 @@ import {
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { buildProductPricesReloader } from './productPrices';
+import { buildBannerTestsReloader } from './tests/banners/bannerTests';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -59,6 +60,7 @@ const buildApp = async (): Promise<Express> => {
         choiceCardAmounts,
         tickerData,
         productPrices,
+        bannerTests,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -68,6 +70,7 @@ const buildApp = async (): Promise<Express> => {
         buildChoiceCardAmountsReloader(),
         buildTickerDataReloader(),
         buildProductPricesReloader(),
+        buildBannerTestsReloader(),
     ]);
 
     // Build the routers
@@ -82,7 +85,7 @@ const buildApp = async (): Promise<Express> => {
             tickerData,
         ),
     );
-    app.use(buildBannerRouter(channelSwitches, tickerData, productPrices));
+    app.use(buildBannerRouter(channelSwitches, tickerData, productPrices, bannerTests));
     app.use(buildHeaderRouter(channelSwitches));
     app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData));
     // Only serve the modules from this server when running locally (DEV).
