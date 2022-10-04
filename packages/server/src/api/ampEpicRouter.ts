@@ -2,7 +2,11 @@ import express, { Router } from 'express';
 import { getCachedAmpEpicTests } from '../tests/amp/ampEpicTests';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
-import { OneOffSignupRequest, OphanComponentEvent } from '@sdc/shared/dist/types';
+import {
+    ChoiceCardAmounts,
+    OneOffSignupRequest,
+    OphanComponentEvent,
+} from '@sdc/shared/dist/types';
 import fetch from 'node-fetch';
 import {
     buildAmpEpicCampaignCode,
@@ -10,10 +14,11 @@ import {
     countryCodeToCountryGroupId,
     getLocalCurrencySymbol,
 } from '@sdc/shared/dist/lib';
-import { cachedChoiceCardAmounts } from '../choiceCardAmounts';
 import { getAmpVariantAssignments } from '../lib/ampVariantAssignments';
 import { ampEpic } from '../tests/amp/ampEpic';
 import { isProd } from '../lib/env';
+import { ValueReloader } from '../utils/valueReloader';
+import { TickerDataReloader } from '../lib/fetchTickerData';
 
 export const setOneOffReminderEndpoint = (): string =>
     isProd
@@ -21,7 +26,10 @@ export const setOneOffReminderEndpoint = (): string =>
         : 'https://support.code.dev-theguardian.com/reminders/create/one-off';
 
 // TODO - pass in dependencies instead of using cacheAsync
-export const buildAmpEpicRouter = (): Router => {
+export const buildAmpEpicRouter = (
+    choiceCardAmounts: ValueReloader<ChoiceCardAmounts>,
+    tickerData: TickerDataReloader,
+): Router => {
     const router = Router();
 
     router.get(
@@ -101,10 +109,10 @@ export const buildAmpEpicRouter = (): Router => {
                 // We use the fastly geo header for determining the correct currency symbol
                 const countryCode = req.header('X-GU-GeoIP-Country-Code') || 'GB';
                 const countryGroupId = countryCodeToCountryGroupId(countryCode);
-                const choiceCardAmounts = await cachedChoiceCardAmounts();
+                const choiceCardAmountsSettings = choiceCardAmounts.get();
                 const ampVariantAssignments = getAmpVariantAssignments(req);
                 const tests = await getCachedAmpEpicTests();
-                const epic = await ampEpic(tests, ampVariantAssignments, countryCode);
+                const epic = await ampEpic(tests, ampVariantAssignments, tickerData, countryCode);
                 const defaultChoiceCardFrequency = epic.defaultChoiceCardFrequency || 'MONTHLY';
                 const acquisitionData = {
                     source: 'GOOGLE_AMP',
@@ -135,18 +143,18 @@ export const buildAmpEpicRouter = (): Router => {
                               choiceCardSelection: {
                                   frequency: defaultChoiceCardFrequency,
                                   amount:
-                                      choiceCardAmounts[countryGroupId]['control'][
+                                      choiceCardAmountsSettings[countryGroupId]['control'][
                                           defaultChoiceCardFrequency
                                       ].amounts[1],
                               },
                               amounts: {
-                                  ONE_OFF: choiceCardAmounts[countryGroupId]['control'][
+                                  ONE_OFF: choiceCardAmountsSettings[countryGroupId]['control'][
                                       'ONE_OFF'
                                   ].amounts.slice(0, 2),
-                                  MONTHLY: choiceCardAmounts[countryGroupId]['control'][
+                                  MONTHLY: choiceCardAmountsSettings[countryGroupId]['control'][
                                       'MONTHLY'
                                   ].amounts.slice(0, 2),
-                                  ANNUAL: choiceCardAmounts[countryGroupId]['control'][
+                                  ANNUAL: choiceCardAmountsSettings[countryGroupId]['control'][
                                       'ANNUAL'
                                   ].amounts.slice(0, 2),
                               },
@@ -195,7 +203,7 @@ export const buildAmpEpicRouter = (): Router => {
                 const countryCode = req.header('X-GU-GeoIP-Country-Code');
                 const ampVariantAssignments = getAmpVariantAssignments(req);
                 const tests = await getCachedAmpEpicTests();
-                const epic = await ampEpic(tests, ampVariantAssignments, countryCode);
+                const epic = await ampEpic(tests, ampVariantAssignments, tickerData, countryCode);
                 const campaignCode = buildAmpEpicCampaignCode(epic.testName, epic.variantName);
                 const { viewId, ampViewId, browserIdCookie, browserId } = req.query;
 

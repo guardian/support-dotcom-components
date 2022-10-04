@@ -1,7 +1,7 @@
-import { cacheAsync } from './lib/cache';
 import { fetchSupportFrontendData } from './utils/supportFrontend';
 import { Prices } from '@sdc/shared/types';
 import { logError } from './utils/logging';
+import { buildReloader, ValueReloader } from './utils/valueReloader';
 
 const getProductPrices = (): Promise<Prices | undefined> =>
     fetchSupportFrontendData('prices')
@@ -11,9 +11,7 @@ const getProductPrices = (): Promise<Prices | undefined> =>
             return undefined;
         });
 
-const cachedProductPrices = cacheAsync<Prices | undefined>(getProductPrices, {
-    ttlSec: 60,
-    warm: true,
-});
+const buildProductPricesReloader = (): Promise<ValueReloader<Prices | undefined>> =>
+    buildReloader(getProductPrices, 60);
 
-export { cachedProductPrices };
+export { buildProductPricesReloader };

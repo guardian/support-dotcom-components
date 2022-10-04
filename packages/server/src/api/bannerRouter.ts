@@ -4,17 +4,17 @@ import {
     BannerProps,
     BannerTargeting,
     PageTracking,
+    Prices,
     PuzzlesBannerProps,
     TestTracking,
 } from '@sdc/shared/dist/types';
 import { ChannelSwitches } from '../channelSwitches';
-import { cachedProductPrices } from '../productPrices';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
 import { getCachedTests } from '../tests/banners/bannerTests';
 import { bannerDeployCaches } from '../tests/banners/bannerDeployCache';
 import { buildBannerCampaignCode } from '@sdc/shared/dist/lib';
-import { addTickerDataToSettings } from '../lib/fetchTickerData';
+import { TickerDataReloader } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { isMobile } from '../lib/deviceType';
@@ -46,7 +46,11 @@ interface PuzzlesDataResponse {
 }
 
 // TODO - pass in dependencies instead of using cacheAsync
-export const buildBannerRouter = (channelSwitches: ValueReloader<ChannelSwitches>): Router => {
+export const buildBannerRouter = (
+    channelSwitches: ValueReloader<ChannelSwitches>,
+    tickerData: TickerDataReloader,
+    productPrices: ValueReloader<Prices | undefined>,
+): Router => {
     const router = Router();
 
     const buildBannerData = async (
@@ -59,8 +63,6 @@ export const buildBannerRouter = (channelSwitches: ValueReloader<ChannelSwitches
         if (!enableBanners) {
             return {};
         }
-
-        const productPrices = await cachedProductPrices();
 
         const selectedTest = await selectBannerTest(
             targeting,
@@ -85,9 +87,9 @@ export const buildBannerRouter = (channelSwitches: ValueReloader<ChannelSwitches
                 ...(variant.products && { products: variant.products }),
             };
 
-            const tickerSettings = variant.tickerSettings
-                ? await addTickerDataToSettings(variant.tickerSettings)
-                : undefined;
+            const tickerSettings =
+                variant.tickerSettings &&
+                tickerData.addTickerDataToSettings(variant.tickerSettings);
 
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
@@ -103,7 +105,7 @@ export const buildBannerRouter = (channelSwitches: ValueReloader<ChannelSwitches
                 hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,
-                prices: productPrices,
+                prices: productPrices.get(),
             };
 
             return {
