@@ -28,11 +28,7 @@ import { cacheAsync } from '../lib/cache';
 import { fetchConfiguredEpicTests } from '../tests/epics/epicTests';
 import { fetchSuperModeArticles } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
-import {
-    climate_2022_AUS,
-    climate_2022_EUROW,
-    climate_2022_UKUS,
-} from '../tests/epics/epicEnvironmentMoment2022';
+import { climate_2022_AUS } from '../tests/epics/epicEnvironmentMoment2022';
 import environmentArticleCountTest from '../tests/epics/environmentArticleCountTest';
 
 interface EpicDataResponse {
@@ -65,12 +61,7 @@ const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
 const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [
-    climate_2022_AUS,
-    climate_2022_EUROW,
-    climate_2022_UKUS,
-    ...environmentArticleCountTest,
-];
+const hardcodedEpicTests: EpicTest[] = [climate_2022_AUS, ...environmentArticleCountTest];
 
 // TODO - pass in dependencies instead of using cacheAsync
 export const buildEpicRouter = (): Router => {
