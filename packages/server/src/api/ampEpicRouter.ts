@@ -25,7 +25,6 @@ export const setOneOffReminderEndpoint = (): string =>
         ? 'https://support.theguardian.com/reminders/create/one-off'
         : 'https://support.code.dev-theguardian.com/reminders/create/one-off';
 
-// TODO - pass in dependencies instead of using cacheAsync
 export const buildAmpEpicRouter = (
     choiceCardAmounts: ValueReloader<ChoiceCardAmounts>,
     tickerData: TickerDataReloader,
