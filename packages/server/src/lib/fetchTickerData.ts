@@ -57,7 +57,7 @@ export class TickerDataReloader {
     addTickerDataToSettings(tickerSettings: TickerSettings): TickerSettings {
         return {
             ...tickerSettings,
-            ...this.getTickerData(tickerSettings.countType),
+            tickerData: this.getTickerData(tickerSettings.countType),
         };
     }
 }
