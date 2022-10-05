@@ -12,7 +12,7 @@ import {
 import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { isMobile } from '../lib/deviceType';
-import { ValueReloader } from '../utils/valueReloader';
+import { ValueProvider } from '../utils/ValueReloader';
 
 interface HeaderDataResponse {
     data?: {
@@ -26,8 +26,8 @@ interface HeaderDataResponse {
 }
 
 export const buildHeaderRouter = (
-    channelSwitches: ValueReloader<ChannelSwitches>,
-    tests: ValueReloader<HeaderTest[]>,
+    channelSwitches: ValueProvider<ChannelSwitches>,
+    tests: ValueProvider<HeaderTest[]>,
 ): Router => {
     const router = Router();
 

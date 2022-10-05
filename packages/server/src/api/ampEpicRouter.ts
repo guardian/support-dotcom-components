@@ -16,8 +16,8 @@ import {
 import { getAmpVariantAssignments } from '../lib/ampVariantAssignments';
 import { ampEpic } from '../tests/amp/ampEpic';
 import { isProd } from '../lib/env';
-import { ValueReloader } from '../utils/valueReloader';
-import { TickerDataReloader } from '../lib/fetchTickerData';
+import { ValueProvider } from '../utils/ValueReloader';
+import { TickerDataProvider } from '../lib/fetchTickerData';
 import { AmpEpicTest } from '../tests/amp/ampEpicModels';
 
 export const setOneOffReminderEndpoint = (): string =>
@@ -26,9 +26,9 @@ export const setOneOffReminderEndpoint = (): string =>
         : 'https://support.code.dev-theguardian.com/reminders/create/one-off';
 
 export const buildAmpEpicRouter = (
-    choiceCardAmounts: ValueReloader<ChoiceCardAmounts>,
-    tickerData: TickerDataReloader,
-    tests: ValueReloader<AmpEpicTest[]>,
+    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    tickerData: TickerDataProvider,
+    tests: ValueProvider<AmpEpicTest[]>,
 ): Router => {
     const router = Router();
 

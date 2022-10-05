@@ -43,11 +43,11 @@ const getTickerDataForTickerTypeFetcher = (type: TickerCountType) => () => {
 };
 
 // Contains a ValueProvider for each TickerCountType
-export class TickerDataReloader {
+export class TickerDataProvider {
     provider: Record<TickerCountType, ValueProvider<TickerData>>;
 
-    constructor(reloaders: Record<TickerCountType, ValueProvider<TickerData>>) {
-        this.provider = reloaders;
+    constructor(providers: Record<TickerCountType, ValueProvider<TickerData>>) {
+        this.provider = providers;
     }
 
     getTickerData(type: TickerCountType): TickerData {
@@ -62,7 +62,7 @@ export class TickerDataReloader {
     }
 }
 
-export const buildTickerDataReloader = async (): Promise<TickerDataReloader> => {
+export const buildTickerDataReloader = async (): Promise<TickerDataProvider> => {
     const [people, money] = await Promise.all([
         buildReloader(getTickerDataForTickerTypeFetcher(TickerCountType.people), 60),
         buildReloader(getTickerDataForTickerTypeFetcher(TickerCountType.money), 60),
@@ -71,5 +71,5 @@ export const buildTickerDataReloader = async (): Promise<TickerDataReloader> => 
         [TickerCountType.people]: people,
         [TickerCountType.money]: money,
     };
-    return new TickerDataReloader(reloaders);
+    return new TickerDataProvider(reloaders);
 };

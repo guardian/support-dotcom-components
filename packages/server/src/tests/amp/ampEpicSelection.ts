@@ -6,7 +6,7 @@ import {
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { ampTicker } from './ampTicker';
-import { TickerDataReloader } from '../../lib/fetchTickerData';
+import { TickerDataProvider } from '../../lib/fetchTickerData';
 
 // ---- Types --- //
 
@@ -49,7 +49,7 @@ export const getAmpExperimentData = async (tests: AmpEpicTest[]): Promise<AmpExp
 export const selectAmpEpic = async (
     tests: AmpEpicTest[],
     ampVariantAssignments: AmpVariantAssignments,
-    tickerData: TickerDataReloader,
+    tickerData: TickerDataProvider,
     countryCode?: string,
 ): Promise<AMPEpic | null> =>
     selectAmpEpicTestAndVariant(tests, ampVariantAssignments, tickerData, countryCode).then(test =>
@@ -59,7 +59,7 @@ export const selectAmpEpic = async (
 const selectAmpEpicTestAndVariant = async (
     tests: AmpEpicTest[],
     ampVariantAssignments: AmpVariantAssignments,
-    tickerData: TickerDataReloader,
+    tickerData: TickerDataProvider,
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
     const test = tests.find(

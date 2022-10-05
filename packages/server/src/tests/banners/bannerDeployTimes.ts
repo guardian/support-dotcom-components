@@ -48,16 +48,16 @@ interface BannerDeployTimes {
     EuropeanUnion: Date;
 }
 
-interface BannerDeployTimesReloaders {
+interface BannerDeployTimesProviders {
     contributions: ValueProvider<BannerDeployTimes>;
     subscriptions: ValueProvider<BannerDeployTimes>;
 }
 
-export class BannerDeployTimesReloader {
-    providers: BannerDeployTimesReloaders;
+export class BannerDeployTimesProvider {
+    providers: BannerDeployTimesProviders;
 
-    constructor(reloaders: BannerDeployTimesReloaders) {
-        this.providers = reloaders;
+    constructor(providers: BannerDeployTimesProviders) {
+        this.providers = providers;
     }
 
     getDeployTimes(channel: 'contributions' | 'subscriptions'): BannerDeployTimes {
@@ -65,12 +65,12 @@ export class BannerDeployTimesReloader {
     }
 }
 
-export const buildBannerDeployTimesReloader = async (): Promise<BannerDeployTimesReloader> => {
+export const buildBannerDeployTimesReloader = async (): Promise<BannerDeployTimesProvider> => {
     const [contributions, subscriptions] = await Promise.all([
         buildReloader(fetchBannerDeployTimes('contributions'), fiveMinutes),
         buildReloader(fetchBannerDeployTimes('subscriptions'), fiveMinutes),
     ]);
-    return new BannerDeployTimesReloader({
+    return new BannerDeployTimesProvider({
         contributions,
         subscriptions,
     });

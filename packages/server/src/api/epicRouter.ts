@@ -14,7 +14,7 @@ import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
 import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { TickerDataReloader } from '../lib/fetchTickerData';
+import { TickerDataProvider } from '../lib/fetchTickerData';
 import { buildCampaignCode, getReminderFields } from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import {
@@ -32,7 +32,7 @@ import {
     climate_2022_UKUS,
 } from '../tests/epics/epicEnvironmentMoment2022';
 import environmentArticleCountTest from '../tests/epics/environmentArticleCountTest';
-import { ValueReloader } from '../utils/valueReloader';
+import { ValueProvider } from '../utils/ValueReloader';
 
 interface EpicDataResponse {
     data?: {
@@ -56,13 +56,13 @@ const hardcodedEpicTests: EpicTest[] = [
 ];
 
 export const buildEpicRouter = (
-    channelSwitches: ValueReloader<ChannelSwitches>,
-    superModeArticles: ValueReloader<SuperModeArticle[]>,
-    articleEpicTests: ValueReloader<EpicTest[]>,
-    liveblogEpicTests: ValueReloader<EpicTest[]>,
-    holdbackEpicTests: ValueReloader<EpicTest[]>,
-    choiceCardAmounts: ValueReloader<ChoiceCardAmounts>,
-    tickerData: TickerDataReloader,
+    channelSwitches: ValueProvider<ChannelSwitches>,
+    superModeArticles: ValueProvider<SuperModeArticle[]>,
+    articleEpicTests: ValueProvider<EpicTest[]>,
+    liveblogEpicTests: ValueProvider<EpicTest[]>,
+    holdbackEpicTests: ValueProvider<EpicTest[]>,
+    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    tickerData: TickerDataProvider,
 ): Router => {
     const router = Router();
 

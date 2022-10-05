@@ -12,14 +12,14 @@ import {
 import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
-import { BannerDeployTimesReloader } from '../tests/banners/bannerDeployTimes';
+import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import { buildBannerCampaignCode } from '@sdc/shared/dist/lib';
-import { TickerDataReloader } from '../lib/fetchTickerData';
+import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { isMobile } from '../lib/deviceType';
 import { puzzlesBanner } from '@sdc/shared/dist/config';
-import { ValueReloader } from '../utils/valueReloader';
+import { ValueProvider } from '../utils/ValueReloader';
 
 interface BannerDataResponse {
     data?: {
@@ -46,11 +46,11 @@ interface PuzzlesDataResponse {
 }
 
 export const buildBannerRouter = (
-    channelSwitches: ValueReloader<ChannelSwitches>,
-    tickerData: TickerDataReloader,
-    productPrices: ValueReloader<Prices | undefined>,
-    bannerTests: ValueReloader<BannerTest[]>,
-    bannerDeployTimes: BannerDeployTimesReloader,
+    channelSwitches: ValueProvider<ChannelSwitches>,
+    tickerData: TickerDataProvider,
+    productPrices: ValueProvider<Prices | undefined>,
+    bannerTests: ValueProvider<BannerTest[]>,
+    bannerDeployTimes: BannerDeployTimesProvider,
 ): Router => {
     const router = Router();
 

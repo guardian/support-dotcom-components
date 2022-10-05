@@ -11,7 +11,7 @@ import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
-import { BannerDeployTimesReloader, ReaderRevenueRegion } from './bannerDeployTimes';
+import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
 import {
@@ -43,7 +43,7 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
-    bannerDeployTimes: BannerDeployTimesReloader,
+    bannerDeployTimes: BannerDeployTimesProvider,
     scheduledBannerDeploys: ScheduledBannerDeploys,
     now: Date,
 ): boolean => {
@@ -130,7 +130,7 @@ export const selectBannerTest = (
     isMobile: boolean,
     baseUrl: string,
     tests: BannerTest[],
-    bannerDeployTimes: BannerDeployTimesReloader,
+    bannerDeployTimes: BannerDeployTimesProvider,
     enableHardcodedBannerTests: boolean,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),

@@ -3,7 +3,7 @@ import { TickerCountType, TickerEndType } from '@sdc/shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicSelection';
-import { TickerDataReloader } from '../../lib/fetchTickerData';
+import { TickerDataProvider } from '../../lib/fetchTickerData';
 
 const epicTest: AmpEpicTest = {
     name: 'TEST1',
@@ -83,7 +83,7 @@ const expectedAmpEpic: AMPEpic = {
     },
 };
 
-const tickerDataReloader = new TickerDataReloader({
+const tickerDataReloader = new TickerDataProvider({
     people: { get: () => ({ total: 999, goal: 1000 }) },
     money: { get: () => ({ total: 999, goal: 1000 }) },
 });

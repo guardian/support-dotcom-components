@@ -1,10 +1,10 @@
 import { contributionsBanner, digiSubs, signInPromptBanner } from '@sdc/shared/config';
 import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
-import { BannerDeployTimesReloader } from './bannerDeployTimes';
+import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
 
 const getBannerDeployTimesReloader = (date: string) =>
-    new BannerDeployTimesReloader({
+    new BannerDeployTimesProvider({
         contributions: {
             get: () => ({
                 UnitedKingdom: new Date(date),
