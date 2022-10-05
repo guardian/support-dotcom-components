@@ -5,7 +5,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { height } from '@guardian/src-foundations/size';
 
-const mainBannerBackground = '#66c2e9';
+const mainBannerBackground = '#cadbe8';
 
 export const banner = css`
     html {
