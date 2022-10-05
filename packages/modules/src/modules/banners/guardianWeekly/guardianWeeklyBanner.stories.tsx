@@ -6,7 +6,7 @@ import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 
 export default {
     component: GuardianWeeklyBanner,
-    title: 'Components/GuardianWeeklyBanner',
+    title: 'Banners/GuardianWeeklyBanner',
     decorators: [
         withKnobs({
             escapeHTML: false,
