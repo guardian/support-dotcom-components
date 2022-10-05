@@ -32,7 +32,7 @@ import {
     climate_2022_UKUS,
 } from '../tests/epics/epicEnvironmentMoment2022';
 import environmentArticleCountTest from '../tests/epics/environmentArticleCountTest';
-import { ValueProvider } from '../utils/ValueReloader';
+import { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
     data?: {

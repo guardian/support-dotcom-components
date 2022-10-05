@@ -16,7 +16,7 @@ import {
 import { getAmpVariantAssignments } from '../lib/ampVariantAssignments';
 import { ampEpic } from '../tests/amp/ampEpic';
 import { isProd } from '../lib/env';
-import { ValueProvider } from '../utils/ValueReloader';
+import { ValueProvider } from '../utils/valueReloader';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { AmpEpicTest } from '../tests/amp/ampEpicModels';
 

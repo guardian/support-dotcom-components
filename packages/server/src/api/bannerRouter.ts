@@ -19,7 +19,7 @@ import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { isMobile } from '../lib/deviceType';
 import { puzzlesBanner } from '@sdc/shared/dist/config';
-import { ValueProvider } from '../utils/ValueReloader';
+import { ValueProvider } from '../utils/valueReloader';
 
 interface BannerDataResponse {
     data?: {

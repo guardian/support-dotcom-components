@@ -12,7 +12,7 @@ import {
 import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
 import { isMobile } from '../lib/deviceType';
-import { ValueProvider } from '../utils/ValueReloader';
+import { ValueProvider } from '../utils/valueReloader';
 
 interface HeaderDataResponse {
     data?: {
