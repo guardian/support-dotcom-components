@@ -54,7 +54,12 @@ export const buildBannerRouter = (): Router => {
         params: Params,
         req: express.Request,
     ): Promise<BannerDataResponse> => {
-        const { enableBanners, enableHardcodedBannerTests } = await cachedChannelSwitches();
+        const {
+            enableBanners,
+            enableHardcodedBannerTests,
+            enableScheduledBannerDeploys,
+        } = await cachedChannelSwitches();
+
         if (!enableBanners) {
             return {};
         }
@@ -69,6 +74,7 @@ export const buildBannerRouter = (): Router => {
             getCachedTests,
             bannerDeployCaches,
             enableHardcodedBannerTests,
+            enableScheduledBannerDeploys,
             params.force,
         );
 
