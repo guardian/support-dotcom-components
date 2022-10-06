@@ -26,13 +26,8 @@ import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
-import {
-    climate_2022_AUS,
-    climate_2022_EUROW,
-    climate_2022_UKUS,
-} from '../tests/epics/epicEnvironmentMoment2022';
-import environmentArticleCountTest from '../tests/epics/environmentArticleCountTest';
 import { ValueProvider } from '../utils/valueReloader';
+import { climate_2022_AUS } from '../tests/epics/epicEnvironmentMoment2022';
 
 interface EpicDataResponse {
     data?: {
@@ -48,12 +43,7 @@ interface EpicDataResponse {
 }
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [
-    climate_2022_AUS,
-    climate_2022_EUROW,
-    climate_2022_UKUS,
-    ...environmentArticleCountTest,
-];
+const hardcodedEpicTests: EpicTest[] = [climate_2022_AUS];
 
 export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
