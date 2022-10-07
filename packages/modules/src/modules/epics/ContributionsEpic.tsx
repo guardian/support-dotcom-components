@@ -4,6 +4,7 @@ import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import {
+    addTrackingParamsToBodyLinks,
     containsNonArticleCountPlaceholder,
     createInsertEventFromTracking,
     createViewEventFromTracking,
@@ -307,9 +308,16 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
-    const cleanParagraphs = variant.paragraphs.map(paragraph =>
-        replaceNonArticleCountPlaceholders(paragraph, countryCode),
-    );
+    const cleanParagraphs = variant.paragraphs
+        .map(paragraph => replaceNonArticleCountPlaceholders(paragraph, countryCode))
+        .map(paragraph =>
+            addTrackingParamsToBodyLinks(
+                paragraph,
+                tracking,
+                articleCounts.for52Weeks,
+                countryCode,
+            ),
+        );
 
     if (
         [cleanHighlighted, cleanHeading, ...cleanParagraphs].some(

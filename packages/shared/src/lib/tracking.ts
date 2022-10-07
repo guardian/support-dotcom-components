@@ -71,6 +71,26 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
         : baseUrl;
 };
 
+const hrefRegex = /href=\"(.*?)\"/g;
+export const addTrackingParamsToBodyLinks = (
+    text: string,
+    tracking: Tracking,
+    numArticles?: number,
+    countryCode?: string,
+): string => {
+    const trackingWithLabel = addLabelToTracking(tracking, 'body-link');
+
+    const replaceHref = (wholeMatch: string, url: string) =>
+        `href="${addRegionIdAndTrackingParamsToSupportUrl(
+            url,
+            trackingWithLabel,
+            numArticles,
+            countryCode,
+        )}"`;
+
+    return text.replace(hrefRegex, replaceHref);
+};
+
 // TRACKING VIA profile.theguardian.com
 type ProfileLinkParams = {
     componentEventParams: string;
@@ -166,6 +186,20 @@ const createEventFromTracking = (action: OphanAction) => {
             action,
         };
     };
+};
+
+export const addLabelToTracking = (tracking: Tracking, label: string): Tracking => {
+    if (tracking.labels) {
+        return {
+            ...tracking,
+            labels: [...tracking.labels, label],
+        };
+    } else {
+        return {
+            ...tracking,
+            labels: [label],
+        };
+    }
 };
 
 export const createClickEventFromTracking = createEventFromTracking('CLICK');
