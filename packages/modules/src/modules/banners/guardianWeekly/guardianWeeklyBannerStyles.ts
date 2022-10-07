@@ -28,7 +28,7 @@ export const banner = css`
 `;
 
 export const copyColumn = css`
-    transform: translateY(-${space[9]}px);
+    transform: translateY(-${space[6]}px);
 `;
 
 export const imageColumn = css`
