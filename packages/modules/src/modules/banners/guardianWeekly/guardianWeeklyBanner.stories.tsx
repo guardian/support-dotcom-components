@@ -44,14 +44,16 @@ export const defaultStory = (): ReactElement => {
     };
 
     const mobileContent: BannerContent = {
-        heading: text('Mobile heading', 'In print every week'),
+        heading: text('Mobile heading', 'Open up your world view'),
         messageText: text(
             'Mobile messageText',
-            "Make sense of a chaotic world with The Guardian's weekly news magazine.",
+            'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine.',
         ),
         paragraphs: array(
             'Mobile paragraphs',
-            ["Make sense of a chaotic world with The Guardian's weekly news magazine."],
+            [
+                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+            ],
             '|',
         ),
     };
