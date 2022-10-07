@@ -30,6 +30,7 @@ describe('selectBannerTest', () => {
     const secondDate = 'Mon Jul 06 2020 19:20:10 GMT+0100';
 
     const enableHardcodedBannerTests = true;
+    const enableScheduledBannerDeploys = true;
 
     describe('Contributions banner rules', () => {
         const now = new Date('2020-03-31T12:30:00');
@@ -96,6 +97,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve([test]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -114,6 +116,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve([{ ...test, isHardcoded: true }]),
                 cache,
                 false,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -132,6 +135,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve([test]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -156,6 +160,7 @@ describe('selectBannerTest', () => {
                     ]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -174,6 +179,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve([test]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -246,6 +252,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve([test]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -264,6 +271,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve([test]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -288,6 +296,7 @@ describe('selectBannerTest', () => {
                     ]),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             ).then(result => {
@@ -360,6 +369,7 @@ describe('selectBannerTest', () => {
                 () => Promise.resolve(tests),
                 cache,
                 enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
                 undefined,
                 now,
             );

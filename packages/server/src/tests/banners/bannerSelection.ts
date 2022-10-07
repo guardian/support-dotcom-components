@@ -44,8 +44,8 @@ export const canShowBannerAgain = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
     bannerDeployCaches: BannerDeployCaches,
-    scheduledBannerDeploys: ScheduledBannerDeploys,
     now: Date,
+    scheduledBannerDeploys?: ScheduledBannerDeploys,
 ): Promise<boolean> => {
     const {
         subscriptionBannerLastClosedAt,
@@ -71,7 +71,8 @@ export const canShowBannerAgain = (
         const lastClosed = new Date(lastClosedRaw);
         return (
             lastManualDeploy > lastClosed ||
-            getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed
+            (!!scheduledBannerDeploys &&
+                getLastScheduledDeploy(now, scheduledBannerDeploys[bannerChannel]) > lastClosed)
         );
     };
 
@@ -133,6 +134,7 @@ export const selectBannerTest = async (
     getTests: () => Promise<BannerTest[]>,
     bannerDeployCaches: BannerDeployCaches,
     enableHardcodedBannerTests: boolean,
+    enableScheduledDeploys: boolean,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
 ): Promise<BannerTestSelection | null> => {
@@ -148,7 +150,9 @@ export const selectBannerTest = async (
     }
 
     for (const test of tests) {
-        const deploySchedule = targetingTest?.deploySchedule ?? defaultDeploySchedule;
+        const deploySchedule = enableScheduledDeploys
+            ? targetingTest?.deploySchedule ?? defaultDeploySchedule
+            : undefined;
 
         if (
             test.status === 'Live' &&
@@ -176,8 +180,8 @@ export const selectBannerTest = async (
                 targeting,
                 test.bannerChannel,
                 bannerDeployCaches,
-                deploySchedule,
                 now,
+                deploySchedule,
             ))
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);

@@ -9,12 +9,16 @@ interface ChannelSwitches {
     enableSuperMode: boolean;
     enableHardcodedEpicTests: boolean;
     enableHardcodedBannerTests: boolean;
+    enableScheduledBannerDeploys: boolean;
 }
 
 const getSwitches = (): Promise<ChannelSwitches> =>
-    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`).then(
-        JSON.parse,
-    );
+    fetchS3Data('support-admin-console', `${isProd ? 'PROD' : 'CODE'}/channel-switches.json`)
+        .then(JSON.parse)
+        .then(switches => ({
+            enableScheduledBannerDeploys: false,
+            ...switches,
+        }));
 
 const cachedChannelSwitches = cacheAsync<ChannelSwitches>(getSwitches, { ttlSec: 60, warm: true });
 
