@@ -37,7 +37,7 @@ export const defaultStory = (): ReactElement => {
             'paragraphs',
             [
                 'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
-                'For a limited time, save 35% on an annual subscription.',
+                '<strong>For a limited time, save 35% on an annual subscription.',
             ],
             '|',
         ),
@@ -53,6 +53,7 @@ export const defaultStory = (): ReactElement => {
             'Mobile paragraphs',
             [
                 'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+                '<strong>For a limited time, save 35% on an annual subscription.',
             ],
             '|',
         ),
