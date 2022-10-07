@@ -60,7 +60,12 @@ export const buildBannerRouter = (
         params: Params,
         req: express.Request,
     ): BannerDataResponse => {
-        const { enableBanners, enableHardcodedBannerTests } = channelSwitches.get();
+        const {
+            enableBanners,
+            enableHardcodedBannerTests,
+            enableScheduledBannerDeploys,
+        } = channelSwitches.get();
+
         if (!enableBanners) {
             return {};
         }
@@ -73,6 +78,7 @@ export const buildBannerRouter = (
             bannerTests.get(),
             bannerDeployTimes,
             enableHardcodedBannerTests,
+            enableScheduledBannerDeploys,
             params.force,
         );
 
