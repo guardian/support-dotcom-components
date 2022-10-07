@@ -33,13 +33,13 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const desktopImg =
-    'https://i.guim.co.uk/img/media/060da9911ab00cab8ba1cbea1ef1f3e0aa3a5b3d/0_0_2652_1360/master/2652.png?width=2652&height=1360&quality=85&s=2d196b52268a96862f08cf069d02f3fd';
+    'https://i.guim.co.uk/img/media/4b36918edf028c506083be0495b31559074c018f/0_0_2562_1360/2562.png?width=2562&height=1360&quality=85&s=7a219628fd6da85f50cd8765f844df45';
 
 const tabletImg =
-    'https://i.guim.co.uk/img/media/dcec52aa7c6bc86a40707ef13d2f0f0cd3ecae5d/0_0_1340_1320/1340.png?width=1340&height=1320&quality=85&s=c6e2bad18f00b1c5919551d1708e334b ';
+    'https://i.guim.co.uk/img/media/304298d179d8ce1532bc5b24995cf4cdbe2dc0f2/0_0_1340_1320/1340.png?width=1340&height=1320&quality=85&s=be7c94e0957645ec744a40c1ecdc191b';
 
 const mobileImg =
-    'https://i.guim.co.uk/img/media/f28953842cda0a17b77eda99fd7afb7c95f669b1/0_0_1220_658/1220.png?width=1220&height=658&quality=85&s=14c48d29ff01b16ba3cc0259f4368115';
+    'https://i.guim.co.uk/img/media/bcab68214a87819d11297f639ddb3d188ca7a8a6/0_0_1220_658/1220.png?width=1220&height=658&quality=85&s=a6be539e33a4a8afe450eb7c8dda24f1';
 
 // Responsive image props
 const baseImg = {
