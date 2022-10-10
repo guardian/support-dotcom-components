@@ -5,8 +5,8 @@ import { EpicTest } from '@sdc/shared/types';
 import { CountryGroupId } from '@sdc/shared/lib';
 import { logError, logInfo } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
+import { buildReloader, ValueReloader } from '../utils/valueReloader';
 
-const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
 const stage = isProd ? 'PROD' : 'CODE';
 
 export interface SuperModeArticle {
@@ -14,7 +14,8 @@ export interface SuperModeArticle {
     countryGroupId: CountryGroupId;
 }
 
-export const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
+const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
+    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     const records = await queryActiveArticles(stage, docClient).catch(error => {
         logError(`Error fetching super mode articles from dynamo: ${error}`);
         putMetric('super-mode-error');
@@ -28,6 +29,9 @@ export const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
         countryGroupId: regionToCountryGroupId(record.region),
     }));
 };
+
+export const buildSuperModeArticlesReloader = (): Promise<ValueReloader<SuperModeArticle[]>> =>
+    buildReloader(fetchSuperModeArticles, 60);
 
 export const isInSuperMode = (
     url: string,

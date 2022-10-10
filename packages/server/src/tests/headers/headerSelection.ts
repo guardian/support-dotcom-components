@@ -5,7 +5,6 @@ import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from 
 import { selectVariant } from '../../lib/ab';
 import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
 
-import { fetchConfiguredHeaderTestsCached } from './headerTests';
 import { TestVariant } from '../../lib/params';
 
 const modulePathBuilder = header.endpointPathBuilder;
@@ -349,12 +348,12 @@ const getForcedVariant = (
     return null;
 };
 
-export const selectHeaderTest = async (
+export const selectHeaderTest = (
     targeting: HeaderTargeting,
+    configuredTests: HeaderTest[],
     isMobile: boolean,
     forcedTestVariant?: TestVariant,
-): Promise<HeaderTestSelection | null> => {
-    const configuredTests = await fetchConfiguredHeaderTestsCached().catch(() => []);
+): HeaderTestSelection | null => {
     const allTests = [...configuredTests, ...hardcodedTests];
 
     if (forcedTestVariant) {

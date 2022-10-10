@@ -1,8 +1,8 @@
 import { BannerChannel } from '@sdc/shared/types';
-import { cacheAsync } from '../../lib/cache';
 import { isProd } from '../../lib/env';
 import { logInfo } from '../../utils/logging';
 import { fetchS3Data } from '../../utils/S3';
+import { buildReloader, ValueProvider } from '../../utils/valueReloader';
 
 /**
  * Banner deploy cache -
@@ -47,15 +47,31 @@ interface BannerDeployTimes {
     RestOfWorld: Date;
     EuropeanUnion: Date;
 }
-export interface BannerDeployCaches {
-    contributions: () => Promise<BannerDeployTimes>;
-    subscriptions: () => Promise<BannerDeployTimes>;
+
+interface BannerDeployTimesProviders {
+    contributions: ValueProvider<BannerDeployTimes>;
+    subscriptions: ValueProvider<BannerDeployTimes>;
 }
 
-const cachedDeployTime = (bannerChannel: BannerChannel): (() => Promise<BannerDeployTimes>) =>
-    cacheAsync(fetchBannerDeployTimes(bannerChannel), { ttlSec: fiveMinutes, warm: true });
+export class BannerDeployTimesProvider {
+    providers: BannerDeployTimesProviders;
 
-export const bannerDeployCaches: BannerDeployCaches = {
-    contributions: cachedDeployTime('contributions'),
-    subscriptions: cachedDeployTime('subscriptions'),
+    constructor(providers: BannerDeployTimesProviders) {
+        this.providers = providers;
+    }
+
+    getDeployTimes(channel: 'contributions' | 'subscriptions'): BannerDeployTimes {
+        return this.providers[channel].get();
+    }
+}
+
+export const buildBannerDeployTimesReloader = async (): Promise<BannerDeployTimesProvider> => {
+    const [contributions, subscriptions] = await Promise.all([
+        buildReloader(fetchBannerDeployTimes('contributions'), fiveMinutes),
+        buildReloader(fetchBannerDeployTimes('subscriptions'), fiveMinutes),
+    ]);
+    return new BannerDeployTimesProvider({
+        contributions,
+        subscriptions,
+    });
 };

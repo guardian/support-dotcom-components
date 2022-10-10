@@ -1,7 +1,7 @@
-import { cacheAsync } from './lib/cache';
 import { isProd } from './lib/env';
 import { fetchS3Data } from './utils/S3';
 import { ChoiceCardAmounts } from '@sdc/shared/types';
+import { buildReloader, ValueReloader } from './utils/valueReloader';
 
 const getChoiceCardAmounts = (): Promise<ChoiceCardAmounts> =>
     fetchS3Data(
@@ -9,9 +9,7 @@ const getChoiceCardAmounts = (): Promise<ChoiceCardAmounts> =>
         `${isProd ? 'PROD' : 'CODE'}/configured-amounts.json`,
     ).then(JSON.parse);
 
-const cachedChoiceCardAmounts = cacheAsync<ChoiceCardAmounts>(getChoiceCardAmounts, {
-    ttlSec: 60,
-    warm: true,
-});
+const buildChoiceCardAmountsReloader = (): Promise<ValueReloader<ChoiceCardAmounts>> =>
+    buildReloader(getChoiceCardAmounts, 60);
 
-export { cachedChoiceCardAmounts };
+export { buildChoiceCardAmountsReloader };

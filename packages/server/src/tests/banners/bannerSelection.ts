@@ -11,7 +11,7 @@ import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
-import { BannerDeployCaches, ReaderRevenueRegion } from './bannerDeployCache';
+import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
 import {
@@ -43,10 +43,10 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 export const canShowBannerAgain = (
     targeting: BannerTargeting,
     bannerChannel: BannerChannel,
-    bannerDeployCaches: BannerDeployCaches,
+    bannerDeployTimes: BannerDeployTimesProvider,
     now: Date,
     scheduledBannerDeploys?: ScheduledBannerDeploys,
-): Promise<boolean> => {
+): boolean => {
     const {
         subscriptionBannerLastClosedAt,
         engagementBannerLastClosedAt,
@@ -57,17 +57,16 @@ export const canShowBannerAgain = (
 
     // Never show a sign in prompt banner if it has been closed previously
     if (bannerChannel === 'signIn') {
-        return Promise.resolve(!signInBannerLastClosedAt);
+        return !signInBannerLastClosedAt;
     }
 
-    const canShow = async (lastClosedRaw: string | undefined): Promise<boolean> => {
+    const canShow = (lastClosedRaw: string | undefined): boolean => {
         if (!lastClosedRaw) {
             return true; // banner not yet closed
         }
 
-        const lastManualDeploy = await bannerDeployCaches[bannerChannel]().then(
-            deployTimes => deployTimes[region],
-        );
+        const deployTimes = bannerDeployTimes.getDeployTimes(bannerChannel);
+        const lastManualDeploy = deployTimes[region];
         const lastClosed = new Date(lastClosedRaw);
         return (
             lastManualDeploy > lastClosed ||
@@ -126,27 +125,25 @@ const purchaseMatches = (
     return productValid && userValid;
 };
 
-export const selectBannerTest = async (
+export const selectBannerTest = (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
     isMobile: boolean,
     baseUrl: string,
-    getTests: () => Promise<BannerTest[]>,
-    bannerDeployCaches: BannerDeployCaches,
+    tests: BannerTest[],
+    bannerDeployTimes: BannerDeployTimesProvider,
     enableHardcodedBannerTests: boolean,
     enableScheduledDeploys: boolean,
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
-): Promise<BannerTestSelection | null> => {
-    const tests = await getTests();
-
+): BannerTestSelection | null => {
     if (forcedTestVariant) {
-        return Promise.resolve(getForcedVariant(forcedTestVariant, tests, baseUrl, targeting));
+        getForcedVariant(forcedTestVariant, tests, baseUrl, targeting);
     }
 
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
     if (targetingTest && !targetingTest.canShow) {
-        return Promise.resolve(null);
+        return null;
     }
 
     for (const test of tests) {
@@ -176,27 +173,25 @@ export const selectBannerTest = async (
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
-            (await canShowBannerAgain(
+            canShowBannerAgain(
                 targeting,
                 test.bannerChannel,
-                bannerDeployCaches,
+                bannerDeployTimes,
                 now,
                 deploySchedule,
-            ))
+            )
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 
-            const bannerTestSelection = {
+            return {
                 test,
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
                 moduleName: variant.moduleName,
                 targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
-
-            return Promise.resolve(bannerTestSelection);
         }
     }
 
-    return Promise.resolve(null);
+    return null;
 };

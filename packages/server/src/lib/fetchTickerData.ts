@@ -1,8 +1,8 @@
-import { EpicVariant, TickerData, TickerSettings } from '@sdc/shared/types';
+import { TickerData, TickerSettings } from '@sdc/shared/types';
 import { TickerCountType } from '@sdc/shared/types';
 import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
-import { cacheAsync } from './cache';
+import { buildReloader, ValueProvider } from '../utils/valueReloader';
 
 const tickerUrl = (countType: TickerCountType): string =>
     countType === TickerCountType.people
@@ -42,39 +42,34 @@ const getTickerDataForTickerTypeFetcher = (type: TickerCountType) => () => {
         .then(parse);
 };
 
-const cachedTickerFetchers = {
-    [TickerCountType.people]: cacheAsync(
-        getTickerDataForTickerTypeFetcher(TickerCountType.people),
-        {
-            ttlSec: 60,
-        },
-    ),
-    [TickerCountType.money]: cacheAsync(getTickerDataForTickerTypeFetcher(TickerCountType.money), {
-        ttlSec: 60,
-    }),
-};
+// Contains a ValueProvider for each TickerCountType
+export class TickerDataProvider {
+    provider: Record<TickerCountType, ValueProvider<TickerData>>;
 
-export const fetchTickerDataCached = async (
-    tickerSettings: TickerSettings,
-): Promise<TickerData> => {
-    return cachedTickerFetchers[tickerSettings.countType]();
-};
-
-export const addTickerDataToSettings = (tickerSettings: TickerSettings): Promise<TickerSettings> =>
-    fetchTickerDataCached(tickerSettings).then(tickerData => ({
-        ...tickerSettings,
-        tickerData: tickerData,
-    }));
-
-export const getTickerSettings = (variant: EpicVariant): Promise<TickerSettings | undefined> => {
-    if (variant.tickerSettings) {
-        const tickerSettings = variant.tickerSettings;
-
-        return fetchTickerDataCached(tickerSettings).then((tickerData: TickerData) => ({
-            ...tickerSettings,
-            tickerData,
-        }));
-    } else {
-        return Promise.resolve(undefined);
+    constructor(providers: Record<TickerCountType, ValueProvider<TickerData>>) {
+        this.provider = providers;
     }
+
+    getTickerData(type: TickerCountType): TickerData {
+        return this.provider[type].get();
+    }
+
+    addTickerDataToSettings(tickerSettings: TickerSettings): TickerSettings {
+        return {
+            ...tickerSettings,
+            tickerData: this.getTickerData(tickerSettings.countType),
+        };
+    }
+}
+
+export const buildTickerDataReloader = async (): Promise<TickerDataProvider> => {
+    const [people, money] = await Promise.all([
+        buildReloader(getTickerDataForTickerTypeFetcher(TickerCountType.people), 60),
+        buildReloader(getTickerDataForTickerTypeFetcher(TickerCountType.money), 60),
+    ]);
+    const reloaders = {
+        [TickerCountType.people]: people,
+        [TickerCountType.money]: money,
+    };
+    return new TickerDataProvider(reloaders);
 };

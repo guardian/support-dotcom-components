@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import {
+    ChoiceCardAmounts,
     EpicProps,
     EpicTargeting,
     EpicTest,
@@ -11,10 +12,9 @@ import {
 } from '@sdc/shared/dist/types';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
-import { cachedChannelSwitches } from '../channelSwitches';
+import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
-import { cachedChoiceCardAmounts } from '../choiceCardAmounts';
-import { getTickerSettings } from '../lib/fetchTickerData';
+import { TickerDataProvider } from '../lib/fetchTickerData';
 import { buildCampaignCode, getReminderFields } from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import {
@@ -24,10 +24,9 @@ import {
 } from '@sdc/shared/dist/config';
 import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
-import { cacheAsync } from '../lib/cache';
-import { fetchConfiguredEpicTests } from '../tests/epics/epicTests';
-import { fetchSuperModeArticles } from '../lib/superMode';
+import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
+import { ValueProvider } from '../utils/valueReloader';
 import { climate_2022_AUS } from '../tests/epics/epicEnvironmentMoment2022';
 
 interface EpicDataResponse {
@@ -43,52 +42,43 @@ interface EpicDataResponse {
     debug?: Debug;
 }
 
-const fetchConfiguredArticleEpicTestsCached = cacheAsync(() => fetchConfiguredEpicTests('Epic'), {
-    ttlSec: 60,
-});
-
-const fetchConfiguredArticleEpicHoldbackTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('EpicHoldback'),
-    { ttlSec: 60 },
-);
-
-const fetchConfiguredLiveblogEpicTestsCached = cacheAsync(
-    () => fetchConfiguredEpicTests('EpicLiveblog'),
-    { ttlSec: 60 },
-);
-
-const fetchSuperModeArticlesCached = cacheAsync(fetchSuperModeArticles, { ttlSec: 60 });
-
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
 const hardcodedEpicTests: EpicTest[] = [climate_2022_AUS];
 
-// TODO - pass in dependencies instead of using cacheAsync
-export const buildEpicRouter = (): Router => {
+export const buildEpicRouter = (
+    channelSwitches: ValueProvider<ChannelSwitches>,
+    superModeArticles: ValueProvider<SuperModeArticle[]>,
+    articleEpicTests: ValueProvider<EpicTest[]>,
+    liveblogEpicTests: ValueProvider<EpicTest[]>,
+    holdbackEpicTests: ValueProvider<EpicTest[]>,
+    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    tickerData: TickerDataProvider,
+): Router => {
     const router = Router();
 
-    const getArticleEpicTests = async (
+    const getArticleEpicTests = (
         mvtId: number,
         isForcingTest: boolean,
         enableHardcodedEpicTests: boolean,
-    ): Promise<EpicTest[]> => {
+    ): EpicTest[] => {
         try {
-            const [regular, holdback] = await Promise.all([
-                fetchConfiguredArticleEpicTestsCached(),
-                fetchConfiguredArticleEpicHoldbackTestsCached(),
-            ]);
-
             const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
             if (isForcingTest) {
-                return [...hardcodedTests, ...regular, ...holdback, fallbackEpicTest];
+                return [
+                    ...hardcodedTests,
+                    ...articleEpicTests.get(),
+                    ...holdbackEpicTests.get(),
+                    fallbackEpicTest,
+                ];
             }
 
             const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
             if (shouldHoldBack) {
-                return [...holdback];
+                return holdbackEpicTests.get();
             }
 
-            return [...hardcodedTests, ...regular, fallbackEpicTest];
+            return [...hardcodedTests, ...articleEpicTests.get(), fallbackEpicTest];
         } catch (err) {
             logWarn(`Error getting article epic tests: ${err}`);
 
@@ -96,36 +86,37 @@ export const buildEpicRouter = (): Router => {
         }
     };
 
-    const getLiveblogEpicTests = async (): Promise<EpicTest[]> => {
-        return await fetchConfiguredLiveblogEpicTestsCached();
-    };
-
-    const buildEpicData = async (
+    const buildEpicData = (
         pageTracking: PageTracking,
         targeting: EpicTargeting,
         type: EpicType,
         params: Params,
         baseUrl: string,
         req: express.Request,
-    ): Promise<EpicDataResponse> => {
-        const {
-            enableEpics,
-            enableSuperMode,
-            enableHardcodedEpicTests,
-        } = await cachedChannelSwitches();
+    ): EpicDataResponse => {
+        const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
         }
 
-        const tests = await (type === 'ARTICLE'
-            ? getArticleEpicTests(targeting.mvtId || 1, !!params.force, enableHardcodedEpicTests)
-            : getLiveblogEpicTests());
-
-        const superModeArticles = enableSuperMode ? await fetchSuperModeArticlesCached() : [];
+        const tests =
+            type === 'ARTICLE'
+                ? getArticleEpicTests(
+                      targeting.mvtId || 1,
+                      !!params.force,
+                      enableHardcodedEpicTests,
+                  )
+                : liveblogEpicTests.get();
 
         const result = params.force
             ? findForcedTestAndVariant(tests, params.force)
-            : findTestAndVariant(tests, targeting, isMobile(req), superModeArticles, params.debug);
+            : findTestAndVariant(
+                  tests,
+                  targeting,
+                  isMobile(req),
+                  enableSuperMode ? superModeArticles.get() : [],
+                  params.debug,
+              );
 
         if (process.env.log_targeting === 'true') {
             console.log(
@@ -141,15 +132,15 @@ export const buildEpicRouter = (): Router => {
 
         const { test, variant } = result.result;
 
-        const choiceCardAmounts = await cachedChoiceCardAmounts();
-        const tickerSettings = await getTickerSettings(variant);
+        const tickerSettings =
+            variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = getReminderFields(variant);
 
         const propsVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts,
+            choiceCardAmounts: choiceCardAmounts.get(),
         };
 
         const testTracking: TestTracking = {
@@ -194,17 +185,13 @@ export const buildEpicRouter = (): Router => {
 
     router.post(
         '/epic',
-        async (
-            req: express.Request,
-            res: express.Response,
-            next: express.NextFunction,
-        ): Promise<void> => {
+        (req: express.Request, res: express.Response, next: express.NextFunction): void => {
             try {
                 const epicType: EpicType = 'ARTICLE';
 
                 const { tracking, targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = await buildEpicData(
+                const response = buildEpicData(
                     tracking,
                     targeting,
                     epicType,
@@ -231,13 +218,13 @@ export const buildEpicRouter = (): Router => {
 
     router.post(
         '/liveblog-epic',
-        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        (req: express.Request, res: express.Response, next: express.NextFunction) => {
             try {
                 const epicType: EpicType = 'LIVEBLOG';
 
                 const { tracking, targeting } = req.body;
                 const params = getQueryParams(req.query);
-                const response = await buildEpicData(
+                const response = buildEpicData(
                     tracking,
                     targeting,
                     epicType,

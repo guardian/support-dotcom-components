@@ -13,8 +13,22 @@ import { buildBannerRouter } from './api/bannerRouter';
 import { buildHeaderRouter } from './api/headerRouter';
 import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildModulesRouter } from './api/modulesRouter';
+import { buildChannelSwitchesReloader } from './channelSwitches';
+import { buildSuperModeArticlesReloader } from './lib/superMode';
+import {
+    buildEpicHoldbackTestsReloader,
+    buildEpicLiveblogTestsReloader,
+    buildEpicTestsReloader,
+} from './tests/epics/epicTests';
+import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
+import { buildTickerDataReloader } from './lib/fetchTickerData';
+import { buildProductPricesReloader } from './productPrices';
+import { buildBannerTestsReloader } from './tests/banners/bannerTests';
+import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
+import { buildHeaderTestsReloader } from './tests/headers/headerTests';
+import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 
-const buildApp = (): Promise<Express> => {
+const buildApp = async (): Promise<Express> => {
     const app = express();
 
     app.use(express.json({ limit: '50mb' }));
@@ -39,11 +53,58 @@ const buildApp = (): Promise<Express> => {
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
 
+    // Initialise dependencies
+    const [
+        channelSwitches,
+        superModeArticles,
+        articleEpicTests,
+        liveblogEpicTests,
+        holdbackEpicTests,
+        ampEpicTests,
+        choiceCardAmounts,
+        tickerData,
+        productPrices,
+        bannerTests,
+        bannerDeployTimes,
+        headerTests,
+    ] = await Promise.all([
+        buildChannelSwitchesReloader(),
+        buildSuperModeArticlesReloader(),
+        buildEpicTestsReloader(),
+        buildEpicLiveblogTestsReloader(),
+        buildEpicHoldbackTestsReloader(),
+        buildAmpEpicTestsReloader(),
+        buildChoiceCardAmountsReloader(),
+        buildTickerDataReloader(),
+        buildProductPricesReloader(),
+        buildBannerTestsReloader(),
+        buildBannerDeployTimesReloader(),
+        buildHeaderTestsReloader(),
+    ]);
+
     // Build the routers
-    app.use(buildEpicRouter());
-    app.use(buildBannerRouter());
-    app.use(buildHeaderRouter());
-    app.use('/amp', buildAmpEpicRouter());
+    app.use(
+        buildEpicRouter(
+            channelSwitches,
+            superModeArticles,
+            articleEpicTests,
+            liveblogEpicTests,
+            holdbackEpicTests,
+            choiceCardAmounts,
+            tickerData,
+        ),
+    );
+    app.use(
+        buildBannerRouter(
+            channelSwitches,
+            tickerData,
+            productPrices,
+            bannerTests,
+            bannerDeployTimes,
+        ),
+    );
+    app.use(buildHeaderRouter(channelSwitches, headerTests));
+    app.use('/amp', buildAmpEpicRouter(choiceCardAmounts, tickerData, ampEpicTests));
     // Only serve the modules from this server when running locally (DEV).
     // In PROD/CODE we serve them from S3 via fastly.
     if (isDev) {

@@ -1,8 +1,8 @@
-import { cacheAsync } from './lib/cache';
 import { isProd } from './lib/env';
 import { fetchS3Data } from './utils/S3';
+import { buildReloader, ValueReloader } from './utils/valueReloader';
 
-interface ChannelSwitches {
+export interface ChannelSwitches {
     enableEpics: boolean;
     enableBanners: boolean;
     enableHeaders: boolean;
@@ -20,6 +20,7 @@ const getSwitches = (): Promise<ChannelSwitches> =>
             ...switches,
         }));
 
-const cachedChannelSwitches = cacheAsync<ChannelSwitches>(getSwitches, { ttlSec: 60, warm: true });
+const buildChannelSwitchesReloader = (): Promise<ValueReloader<ChannelSwitches>> =>
+    buildReloader(getSwitches, 60);
 
-export { cachedChannelSwitches };
+export { buildChannelSwitchesReloader };

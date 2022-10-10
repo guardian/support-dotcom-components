@@ -1,9 +1,8 @@
 import { HeaderTest } from '@sdc/shared/types';
-import { cacheAsync } from '../../lib/cache';
 import { getTests } from '../testsStore';
+import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
-const fetchConfiguredHeaderTestsCached = cacheAsync(() => getTests<HeaderTest>('Header'), {
-    ttlSec: 60,
-});
+const buildHeaderTestsReloader = (): Promise<ValueReloader<HeaderTest[]>> =>
+    buildReloader(() => getTests<HeaderTest>('Header'), 60);
 
-export { fetchConfiguredHeaderTestsCached };
+export { buildHeaderTestsReloader };

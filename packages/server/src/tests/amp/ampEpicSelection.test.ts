@@ -3,17 +3,7 @@ import { TickerCountType, TickerEndType } from '@sdc/shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicSelection';
-
-jest.mock('../../lib/fetchTickerData', () => {
-    return {
-        fetchTickerDataCached: jest.fn().mockImplementation(() =>
-            Promise.resolve({
-                total: 999,
-                goal: 1000,
-            }),
-        ),
-    };
-});
+import { TickerDataProvider } from '../../lib/fetchTickerData';
 
 const epicTest: AmpEpicTest = {
     name: 'TEST1',
@@ -93,16 +83,21 @@ const expectedAmpEpic: AMPEpic = {
     },
 };
 
+const tickerDataReloader = new TickerDataProvider({
+    people: { get: () => ({ total: 999, goal: 1000 }) },
+    money: { get: () => ({ total: 999, goal: 1000 }) },
+});
+
 describe('ampEpicTests', () => {
     it('should select test with no targeting', async () => {
         const tests = [epicTest];
-        const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
+        const result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
         expect(result).toEqual(expectedAmpEpic);
     });
 
     it('should not select test if disabled', async () => {
         const tests: AmpEpicTest[] = [{ ...epicTest, status: 'Draft' }];
-        const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
+        const result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
         expect(result).toEqual(null);
     });
 
@@ -111,7 +106,7 @@ describe('ampEpicTests', () => {
             { ...epicTest, locations: ['UnitedStates' as CountryGroupId] },
             { ...epicTest, name: 'TEST2', nickname: 'TEST2' },
         ];
-        const result = await selectAmpEpic(tests, ampVariantAssignments, 'GB');
+        const result = await selectAmpEpic(tests, ampVariantAssignments, tickerDataReloader, 'GB');
         expect(result).toEqual({
             ...expectedAmpEpic,
             testName: 'TEST2',
