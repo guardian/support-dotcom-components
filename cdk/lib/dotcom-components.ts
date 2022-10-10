@@ -137,7 +137,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
             },
             monitoringConfiguration: {
                 http5xxAlarm: {
-                    tolerated5xxPercentage: 0.1,
+                    tolerated5xxPercentage: 0.5,
                     numberOfMinutesAboveThresholdBeforeAlarm: 1,
                     alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
                 },
