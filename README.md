@@ -86,7 +86,11 @@ To run the tests run
 
 ```bash
 yarn test
-yarn test path/to/specific/test.ts
+```
+
+To run specific tests you must specify the workspace, e.g.
+```bash
+yarn server test src/tests/banners/bannerDeploySchedule.test.ts
 ```
 
 ### Project structure
