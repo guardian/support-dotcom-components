@@ -258,6 +258,7 @@ const withBannerData = (
                 tickerSettings,
                 isSupporter,
                 numArticles,
+                separateArticleCount,
             };
             return (
                 <div ref={setNode}>

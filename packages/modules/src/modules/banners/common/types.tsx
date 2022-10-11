@@ -66,4 +66,5 @@ export interface BannerRenderProps {
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
     numArticles?: number;
+    separateArticleCount?: boolean;
 }
