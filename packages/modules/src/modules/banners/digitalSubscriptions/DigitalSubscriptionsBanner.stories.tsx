@@ -6,7 +6,7 @@ import { BannerContent, BannerProps, SecondaryCtaType, Tracking } from '@sdc/sha
 
 export default {
     component: DigitalSubscriptionsBanner,
-    title: 'Components/DigitalSubscriptionsBanner',
+    title: 'Banners/DigitalSubscriptionsBanner',
     decorators: [
         withKnobs({
             escapeHTML: false,

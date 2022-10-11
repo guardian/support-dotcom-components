@@ -81,7 +81,7 @@ export const headLineBreak = css`
 export const messageText = css`
     ${body.small()};
     line-height: 135%;
-    margin: ${space[2]}px 0 ${space[6]}px;
+    margin: ${space[2]}px 0 ${space[1]}px;
     max-width: 100%;
 
     ${from.tablet} {

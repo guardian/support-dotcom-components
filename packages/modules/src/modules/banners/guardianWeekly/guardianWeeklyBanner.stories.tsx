@@ -6,7 +6,7 @@ import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 
 export default {
     component: GuardianWeeklyBanner,
-    title: 'Components/GuardianWeeklyBanner',
+    title: 'Banners/GuardianWeeklyBanner',
     decorators: [
         withKnobs({
             escapeHTML: false,
@@ -28,7 +28,7 @@ const tracking: Tracking = {
 
 export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
-        heading: text('heading', 'Read The Guardian in print'),
+        heading: text('heading', 'Open up your world view'),
         messageText: text(
             'messageText',
             'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
@@ -36,22 +36,25 @@ export const defaultStory = (): ReactElement => {
         paragraphs: array(
             'paragraphs',
             [
-                'Find clarity with the Guardian Weekly – an essential roundup of news, analysis and insight, handpicked from the Guardian and Observer editorial team from across the globe and delivered to your door.',
-                'For a limited time, save 30% on an annual subscription.',
+                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+                '<strong>For a limited time, save 35% on an annual subscription.</strong>',
             ],
             '|',
         ),
     };
 
     const mobileContent: BannerContent = {
-        heading: text('Mobile heading', 'In print every week'),
+        heading: text('Mobile heading', 'Open up your world view'),
         messageText: text(
             'Mobile messageText',
-            "Make sense of a chaotic world with The Guardian's weekly news magazine.",
+            'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine.',
         ),
         paragraphs: array(
             'Mobile paragraphs',
-            ["Make sense of a chaotic world with The Guardian's weekly news magazine."],
+            [
+                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+                '<strong>For a limited time, save 35% on an annual subscription.</strong>',
+            ],
             '|',
         ),
     };

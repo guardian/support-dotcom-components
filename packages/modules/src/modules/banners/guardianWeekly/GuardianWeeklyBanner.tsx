@@ -4,7 +4,7 @@ import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
 import { Link } from '@guardian/src-link';
 import { SvgRoundelDefault } from '@guardian/src-brand';
-import { SvgCross } from '@guardian/src-icons';
+import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import {
     banner,
     closeButtonStyles,
@@ -33,13 +33,13 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const desktopImg =
-    'https://i.guim.co.uk/img/media/967ec1805daa9ec4db1bc67b03483b35eedbfdc8/0_0_2652_1360/2652.png?quality=85&s=9532422abba16964f23eca875c795ffa';
+    'https://i.guim.co.uk/img/media/daaaa96ca3631c38a8747cb2146c1bc558197fc2/0_0_1268_798/1268.png?width=1268&height=798&quality=85&s=906cd95f35443e0bf0b8c60456597a7e';
 
 const tabletImg =
-    'https://i.guim.co.uk/img/media/7d4e9663ded1545f85abcb8ce0b74e03727870cc/0_0_1340_1320/1340.png?quality=85&s=4baeef8070cc8142461c9426c4a6dc2c';
+    'https://i.guim.co.uk/img/media/304298d179d8ce1532bc5b24995cf4cdbe2dc0f2/0_0_1340_1320/1340.png?width=1340&height=1320&quality=85&s=be7c94e0957645ec744a40c1ecdc191b';
 
 const mobileImg =
-    'https://i.guim.co.uk/img/media/a042a19924ddccbc944a82342084889d164ab82c/0_0_1220_660/1220.png?quality=85&s=7ae997bbf3fe64290f8adee2c8e08fec';
+    'https://i.guim.co.uk/img/media/63b65f509267bc0e4308f978b8277d4618723eab/0_0_1220_555/1220.png?width=1220&0height=555&quality=85&s=f930da88ccda9c97febd83a00db3251b';
 
 // Responsive image props
 const baseImg = {
@@ -60,7 +60,7 @@ const images = [
     baseImg,
 ];
 
-const defaultCta = 'Subscribe';
+const defaultCta = 'Subscribe now';
 const defaultSecondaryCta = 'Not now';
 
 type ButtonPropTypes = {
@@ -122,6 +122,8 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                             <LinkButton
                                                 href={primaryCta?.ctaUrl}
                                                 data-link-name={ctaComponentId}
+                                                icon={<SvgArrowRightStraight />}
+                                                iconSide="right"
                                                 onClick={onCtaClick}
                                                 tabIndex={0}
                                             >
