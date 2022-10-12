@@ -138,7 +138,7 @@ export const selectBannerTest = (
     now: Date = new Date(),
 ): BannerTestSelection | null => {
     if (forcedTestVariant) {
-        getForcedVariant(forcedTestVariant, tests, baseUrl, targeting);
+        return getForcedVariant(forcedTestVariant, tests, baseUrl, targeting);
     }
 
     const targetingTest = selectTargetingTest(targeting.mvtId, targeting, bannerTargetingTests);
