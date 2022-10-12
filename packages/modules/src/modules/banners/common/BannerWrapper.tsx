@@ -6,7 +6,7 @@ import {
     createViewEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -82,7 +82,7 @@ const withBannerData = (
         separateArticleCount,
     } = bannerProps;
 
-    const [hasBeenSeen, setNode] = useHasBeenSeen(
+    const [hasBeenSeen, setNode, node] = useHasBeenSeen(
         {
             threshold: 0,
         },
@@ -100,6 +100,44 @@ const withBannerData = (
             submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
         }
     }, [submitComponentEvent]);
+
+    useEffect(() => {
+        console.log('useEffect[node]', node);
+        if (node != null) {
+
+            const focusableElements = [...node.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"]')].filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'));
+            const firstFocussableElement = focusableElements[0];
+            const lastFocussableElement = focusableElements[focusableElements.length - 1];
+
+            firstFocussableElement.focus();
+
+            node.addEventListener('keydown', (e) => {
+                console.log('navigation', e.key, e.keyCode, e.shiftKey);
+                const isTabPressed = (e.key === 'Tab' || e.keyCode === 9);
+
+                if (!isTabPressed) {
+                    return;
+                }
+
+                console.log(document.activeElement)
+                console.log(firstFocussableElement)
+                console.log(lastFocussableElement)
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocussableElement) {
+                        console.log('focus on last');
+                        lastFocussableElement.focus();
+                        e.preventDefault();
+                    }
+                } else {
+                    if (document.activeElement === lastFocussableElement) {
+                        console.log('focus on first');
+                        firstFocussableElement.focus();
+                        e.preventDefault();
+                    }
+                }
+            });
+        }
+    }, [node]);
 
     const cleanParagraphsOrMessageText = (
         paras: string[] | undefined,
