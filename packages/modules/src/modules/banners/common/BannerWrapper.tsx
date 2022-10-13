@@ -63,11 +63,7 @@ export const getParagraphsOrMessageText = (
 };
 
 const checkIfElementIsHidden = (el: HTMLElement): boolean => {
-    if (el && el.style && (el.style.display === 'none' || el.style.visibility === 'hidden')) {
-        return true;
-    }
     while (el && el.parentNode != null) {
-        el = el.parentNode;
         if (el && el.style) {
             if (el.style.display === 'none' || el.style.visibility === 'hidden') {
                 return true;
@@ -77,6 +73,7 @@ const checkIfElementIsHidden = (el: HTMLElement): boolean => {
                 return true;
             }
         }
+        el = el.parentNode;
     }
     return false;
 };
