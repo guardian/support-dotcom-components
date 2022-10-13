@@ -6,7 +6,7 @@ import {
     createViewEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -62,6 +62,25 @@ export const getParagraphsOrMessageText = (
     return bodyCopy;
 };
 
+const checkIfElementIsHidden = (el: HTMLElement): boolean => {
+    if (el && el.style && (el.style.display === 'none' || el.style.visibility === 'hidden')) {
+        return true;
+    }
+    while (el && el.parentNode != null) {
+        el = el.parentNode;
+        if (el && el.style) {
+            if (el.style.display === 'none' || el.style.visibility === 'hidden') {
+                return true;
+            }
+            const computed = window.getComputedStyle(el);
+            if (computed.display === 'none' || computed.visibility === 'hidden') {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
@@ -102,35 +121,34 @@ const withBannerData = (
     }, [submitComponentEvent]);
 
     useEffect(() => {
-        console.log('useEffect[node]', node);
         if (node != null) {
-
-            const focusableElements = [...node.querySelectorAll('button, a[href], input, [tabindex]:not([tabindex="-1"]')].filter(el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden'));
+            const focusableElements: HTMLElement[] = [
+                ...node.querySelectorAll<HTMLElement>(
+                    'button, a[href], input, [tabindex]:not([tabindex="-1"]',
+                ),
+            ].filter(
+                el =>
+                    !el.hasAttribute('disabled') &&
+                    !el.getAttribute('aria-hidden') &&
+                    !checkIfElementIsHidden(el),
+            );
             const firstFocussableElement = focusableElements[0];
             const lastFocussableElement = focusableElements[focusableElements.length - 1];
 
             firstFocussableElement.focus();
 
-            node.addEventListener('keydown', (e) => {
-                console.log('navigation', e.key, e.keyCode, e.shiftKey);
-                const isTabPressed = (e.key === 'Tab' || e.keyCode === 9);
-
+            node.addEventListener('keydown', e => {
+                const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
                 if (!isTabPressed) {
                     return;
                 }
-
-                console.log(document.activeElement)
-                console.log(firstFocussableElement)
-                console.log(lastFocussableElement)
                 if (e.shiftKey) {
                     if (document.activeElement === firstFocussableElement) {
-                        console.log('focus on last');
                         lastFocussableElement.focus();
                         e.preventDefault();
                     }
                 } else {
                     if (document.activeElement === lastFocussableElement) {
-                        console.log('focus on first');
                         firstFocussableElement.focus();
                         e.preventDefault();
                     }
