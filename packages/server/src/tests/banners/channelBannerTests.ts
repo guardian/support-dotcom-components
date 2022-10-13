@@ -6,10 +6,6 @@ import {
     guardianWeekly,
     investigationsMomentBanner,
     globalNewYearBanner,
-    electionAuMomentBanner,
-    postElectionAuMomentAlbaneseBanner,
-    postElectionAuMomentHungBanner,
-    postElectionAuMomentMorrisonBanner,
     researchSurveyBanner,
     auBrandMomentBanner,
     signInPromptBanner,
@@ -37,13 +33,6 @@ export const BannerPaths: {
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
-    [BannerTemplate.ElectionAuMomentBanner]: electionAuMomentBanner.endpointPathBuilder,
-    [BannerTemplate.PostElectionAuMomentAlbaneseBanner]:
-        postElectionAuMomentAlbaneseBanner.endpointPathBuilder,
-    [BannerTemplate.PostElectionAuMomentHungBanner]:
-        postElectionAuMomentHungBanner.endpointPathBuilder,
-    [BannerTemplate.PostElectionAuMomentMorrisonBanner]:
-        postElectionAuMomentMorrisonBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
