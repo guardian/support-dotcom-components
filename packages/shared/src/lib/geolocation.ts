@@ -332,7 +332,6 @@ const countryNames: CountryNameMap = {
     BR: 'Brazil',
     ZA: 'South Africa',
     TW: 'Taiwan',
-    IL: 'Israel',
     JP: 'Japan',
     CZ: 'the Czech Republic',
     GR: 'Greece',
