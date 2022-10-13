@@ -53,26 +53,6 @@ export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/globalNewYear/GlobalNewYearBanner',
 );
 
-export const electionAuMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'election-au-moment-banner',
-    'banners/electionAuMoment/ElectionAuMomentBanner',
-);
-
-export const postElectionAuMomentAlbaneseBanner: ModuleInfo = getDefaultModuleInfo(
-    'post-election-au-moment-albanese-banner',
-    'banners/postElectionAuMoment/PostElectionAuMomentAlbaneseBanner',
-);
-
-export const postElectionAuMomentHungBanner: ModuleInfo = getDefaultModuleInfo(
-    'post-election-au-moment-hung-banner',
-    'banners/postElectionAuMoment/PostElectionAuMomentHungBanner',
-);
-
-export const postElectionAuMomentMorrisonBanner: ModuleInfo = getDefaultModuleInfo(
-    'post-election-au-moment-morrison-banner',
-    'banners/postElectionAuMoment/PostElectionAuMomentMorrisonBanner',
-);
-
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
     'digital-subscriptions-banner',
     'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
@@ -119,10 +99,6 @@ export const moduleInfos: ModuleInfo[] = [
     investigationsMomentBanner,
     environmentMomentBanner,
     globalNewYearBanner,
-    electionAuMomentBanner,
-    postElectionAuMomentAlbaneseBanner,
-    postElectionAuMomentHungBanner,
-    postElectionAuMomentMorrisonBanner,
     digiSubs,
     guardianWeekly,
     puzzlesBanner,
