@@ -117,6 +117,7 @@ function getGlobalNewYearBanner(): React.FC<BannerRenderProps> {
         numArticles,
         onCtaClick,
         onSecondaryCtaClick,
+        separateArticleCount,
     }: BannerRenderProps) {
         return (
             <div css={styles.outerContainer}>
@@ -132,7 +133,7 @@ function getGlobalNewYearBanner(): React.FC<BannerRenderProps> {
                     <hr css={styles.horizontalRule} />
 
                     <div css={styles.bottomContainer}>
-                        {numArticles !== undefined && numArticles > 5 && (
+                        {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
                             <section>
                                 <GlobalNewYearBannerArticleCount numArticles={numArticles} />
                             </section>

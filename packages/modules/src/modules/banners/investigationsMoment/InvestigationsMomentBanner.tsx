@@ -139,6 +139,7 @@ function InvestigationsMomentBanner({
     numArticles,
     onCtaClick,
     onSecondaryCtaClick,
+    separateArticleCount,
 }: BannerRenderProps) {
     return (
         <Container cssOverrides={styles.container}>
@@ -150,7 +151,7 @@ function InvestigationsMomentBanner({
             </div>
 
             <div css={styles.bottomContainer}>
-                {numArticles !== undefined && numArticles > 5 && (
+                {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
                     <section>
                         <InvestigationsMomentBannerArticleCount numArticles={numArticles} />
                     </section>
