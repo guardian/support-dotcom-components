@@ -24,6 +24,7 @@ export function getAuBrandMomentBanner(
         onCtaClick,
         onSecondaryCtaClick,
         reminderTracking,
+        separateArticleCount,
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
@@ -93,7 +94,7 @@ export function getAuBrandMomentBanner(
                                 />
                             </div>
 
-                            {numArticles !== undefined && numArticles > 5 && (
+                            {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
                                 <div css={styles.articleCountContainer}>
                                     <MomentTemplateBannerArticleCount
                                         numArticles={numArticles}

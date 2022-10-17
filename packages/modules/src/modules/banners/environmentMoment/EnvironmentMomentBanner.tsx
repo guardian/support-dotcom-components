@@ -188,7 +188,11 @@ const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
     onSecondaryCtaClick,
     numArticles,
     isSupporter,
+    separateArticleCount,
 }: BannerRenderProps) => {
+    const showArticleCount =
+        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+
     return (
         <div css={container}>
             <div css={lineContainer}>
@@ -209,7 +213,7 @@ const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
                         <EnvironmentMomentBannerHeader isSupporter={isSupporter ?? false} />
 
                         <div css={bodyAndCtasContainer}>
-                            {!isSupporter && numArticles !== undefined && numArticles > 5 && (
+                            {showArticleCount && (
                                 <div>
                                     <EnvironmentMomentBannerArticleCount
                                         numArticles={numArticles}
