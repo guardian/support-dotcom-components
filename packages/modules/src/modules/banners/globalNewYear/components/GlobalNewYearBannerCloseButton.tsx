@@ -31,6 +31,7 @@ export function GlobalNewYearBannerCloseButton({
         <div css={styles.container}>
             <Hide above="tablet">
                 <Button
+                    aria-label="Close"
                     onClick={onCloseClick}
                     cssOverrides={styles.closeButton}
                     icon={<SvgCross />}
@@ -44,6 +45,7 @@ export function GlobalNewYearBannerCloseButton({
             <Hide below="tablet">
                 <div>
                     <Button
+                        aria-label="Close"
                         onClick={onCloseClick}
                         cssOverrides={styles.closeButton}
                         icon={<SvgCross />}

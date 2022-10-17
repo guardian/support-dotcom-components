@@ -69,6 +69,7 @@ type ButtonPropTypes = {
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
     <Button
+        aria-label="Close"
         css={closeButtonStyles}
         data-link-name={closeComponentId}
         onClick={props.onClick}

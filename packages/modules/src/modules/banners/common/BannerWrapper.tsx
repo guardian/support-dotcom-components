@@ -63,25 +63,25 @@ export const getParagraphsOrMessageText = (
 };
 
 const checkIfElementIsHidden = (el: HTMLElement): boolean => {
-    console.log('el', el);
+    // console.log('el', el);
     while (el && el.parentNode != null) {
         if (el && el.style) {
             // console.log('el', el);
             // console.log('style', el.style);
             if (el.style.display === 'none' || el.style.visibility === 'hidden') {
-                console.log('fail 1');
+                // console.log('fail 1');
                 return true;
             }
             const computed = window.getComputedStyle(el);
             // console.log('computed', computed);
             if (computed.display === 'none' || computed.visibility === 'hidden') {
-                console.log('fail 2');
+                // console.log('fail 2');
                 return true;
             }
         }
         el = el.parentNode;
     }
-    console.log('PASS');
+    // console.log('PASS');
     return false;
 };
 

@@ -52,6 +52,7 @@ export function InvestigationsMomentBannerCloseButton({
         <div css={styles.container}>
             <Hide above="tablet">
                 <Button
+                    aria-label="Close"
                     onClick={onCloseClick}
                     cssOverrides={styles.closeButton}
                     icon={<SvgCross />}
@@ -71,6 +72,7 @@ export function InvestigationsMomentBannerCloseButton({
             <Hide below="tablet">
                 <div>
                     <Button
+                        aria-label="Close"
                         onClick={onCloseClick}
                         cssOverrides={styles.closeButton}
                         icon={<SvgCross />}
