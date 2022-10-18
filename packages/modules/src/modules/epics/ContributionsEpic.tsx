@@ -413,6 +413,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     email={email}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
+                    choiceCardSelection={choiceCardSelection}
                 />
             )}
         </section>
