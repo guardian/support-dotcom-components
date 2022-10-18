@@ -273,6 +273,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 ][1],
         },
     );
+    console.log(choiceCardSelection);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
@@ -413,6 +414,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     email={email}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
+                    showChoiceCards={showChoiceCards}
                     choiceCardSelection={choiceCardSelection}
                 />
             )}
