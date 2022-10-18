@@ -63,25 +63,18 @@ export const getParagraphsOrMessageText = (
 };
 
 const checkIfElementIsHidden = (el: HTMLElement): boolean => {
-    // console.log('el', el);
     while (el && el.parentNode != null) {
         if (el && el.style) {
-            // console.log('el', el);
-            // console.log('style', el.style);
             if (el.style.display === 'none' || el.style.visibility === 'hidden') {
-                // console.log('fail 1');
                 return true;
             }
             const computed = window.getComputedStyle(el);
-            // console.log('computed', computed);
             if (computed.display === 'none' || computed.visibility === 'hidden') {
-                // console.log('fail 2');
                 return true;
             }
         }
         el = el.parentNode;
     }
-    // console.log('PASS');
     return false;
 };
 
@@ -146,12 +139,8 @@ const withBannerData = (
                         !el.getAttribute('aria-hidden') &&
                         !checkIfElementIsHidden(el),
                 );
-                console.log('closeButtonElements', closeButtonElements);
-                console.log('focusableElements', focusableElements);
                 const firstFocussableElement = focusableElements[0];
                 const lastFocussableElement = focusableElements[focusableElements.length - 1];
-                console.log('firstFocussableElement', firstFocussableElement);
-                console.log('lastFocussableElement', lastFocussableElement);
 
                 if (closeButtonElements[0] != null) {
                     closeButtonElements[0].focus();
@@ -164,16 +153,13 @@ const withBannerData = (
                     if (!isTabPressed) {
                         return;
                     }
-                    console.log('tabbing', document.activeElement, firstFocussableElement, document.activeElement === firstFocussableElement, lastFocussableElement, document.activeElement === lastFocussableElement);
                     if (e.shiftKey) {
                         if (document.activeElement === firstFocussableElement) {
-                            console.log('focus on last focussable element');
                             lastFocussableElement.focus();
                             e.preventDefault();
                         }
                     } else {
                         if (document.activeElement === lastFocussableElement) {
-                            console.log('focus on first focussable element');
                             firstFocussableElement.focus();
                             e.preventDefault();
                         }
