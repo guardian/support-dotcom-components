@@ -3,12 +3,18 @@ import { EpicProps } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
+import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 
 interface OnReminderOpen {
     buttonCopyAsString: string;
 }
 
-export const ContributionsEpicCtas: React.FC<EpicProps> = ({
+type ContributionsEpicCtasProps = EpicProps & {
+    showChoiceCards?: boolean;
+    choiceCardSelection?: ChoiceCardSelection;
+};
+
+export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
     variant,
     countryCode,
     articleCounts,
@@ -17,7 +23,9 @@ export const ContributionsEpicCtas: React.FC<EpicProps> = ({
     onReminderOpen,
     email,
     fetchEmail,
-}: EpicProps): JSX.Element | null => {
+    showChoiceCards,
+    choiceCardSelection,
+}: ContributionsEpicCtasProps): JSX.Element | null => {
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
     const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
     const [isReminderActive, setIsReminderActive] = useState(false);
@@ -55,8 +63,8 @@ export const ContributionsEpicCtas: React.FC<EpicProps> = ({
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
                 isSignedIn={Boolean(fetchedEmail)}
-                showChoiceCards={false}
-                choiceCardSelection={undefined}
+                showChoiceCards={showChoiceCards}
+                choiceCardSelection={choiceCardSelection}
                 numArticles={articleCounts.for52Weeks}
             />
 
