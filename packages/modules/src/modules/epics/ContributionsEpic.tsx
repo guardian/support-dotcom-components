@@ -273,7 +273,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 ][1],
         },
     );
-    console.log(choiceCardSelection);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
