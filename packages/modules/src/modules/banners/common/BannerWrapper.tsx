@@ -126,57 +126,60 @@ const withBannerData = (
 
     useEffect(() => {
         if (node != null) {
-            const closeButtonElements: HTMLElement[] = [
-                ...node.querySelectorAll<HTMLElement>('[aria-label="Close"]'),
-            ].filter(
-                el =>
-                    !el.hasAttribute('disabled') &&
-                    !el.getAttribute('aria-hidden') &&
-                    !checkIfElementIsHidden(el),
-            );
-            const focusableElements: HTMLElement[] = [
-                ...node.querySelectorAll<HTMLElement>(
-                    'button, a[href], input, [tabindex]:not([tabindex="-1"]',
-                ),
-            ].filter(
-                el =>
-                    !el.hasAttribute('disabled') &&
-                    !el.getAttribute('aria-hidden') &&
-                    !checkIfElementIsHidden(el),
-            );
-            console.log('closeButtonElements', closeButtonElements);
-            console.log('focusableElements', focusableElements);
-            const firstFocussableElement = focusableElements[0];
-            const lastFocussableElement = focusableElements[focusableElements.length - 1];
-            console.log('firstFocussableElement', firstFocussableElement);
-            console.log('lastFocussableElement', lastFocussableElement);
+            // Timeout required to allow component to settle before identifying focussable elements within it
+            setTimeout(() => {
+                const closeButtonElements: HTMLElement[] = [
+                    ...node.querySelectorAll<HTMLElement>('[aria-label="Close"]'),
+                ].filter(
+                    el =>
+                        !el.hasAttribute('disabled') &&
+                        !el.getAttribute('aria-hidden') &&
+                        !checkIfElementIsHidden(el),
+                );
+                const focusableElements: HTMLElement[] = [
+                    ...node.querySelectorAll<HTMLElement>(
+                        'button, a[href], input, [tabindex]:not([tabindex="-1"]',
+                    ),
+                ].filter(
+                    el =>
+                        !el.hasAttribute('disabled') &&
+                        !el.getAttribute('aria-hidden') &&
+                        !checkIfElementIsHidden(el),
+                );
+                console.log('closeButtonElements', closeButtonElements);
+                console.log('focusableElements', focusableElements);
+                const firstFocussableElement = focusableElements[0];
+                const lastFocussableElement = focusableElements[focusableElements.length - 1];
+                console.log('firstFocussableElement', firstFocussableElement);
+                console.log('lastFocussableElement', lastFocussableElement);
 
-            if (closeButtonElements[0] != null) {
-                closeButtonElements[0].focus();
-            } else {
-                focusableElements[0].focus();
-            }
-
-            node.addEventListener('keydown', e => {
-                const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-                if (!isTabPressed) {
-                    return;
-                }
-                console.log('tabbing', document.activeElement);
-                if (e.shiftKey) {
-                    if (document.activeElement === firstFocussableElement) {
-                        console.log('focus on last focussable element');
-                        lastFocussableElement.focus();
-                        e.preventDefault();
-                    }
+                if (closeButtonElements[0] != null) {
+                    closeButtonElements[0].focus();
                 } else {
-                    if (document.activeElement === lastFocussableElement) {
-                        console.log('focus on first focussable element');
-                        firstFocussableElement.focus();
-                        e.preventDefault();
-                    }
+                    focusableElements[0].focus();
                 }
-            });
+
+                node.addEventListener('keydown', e => {
+                    const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+                    if (!isTabPressed) {
+                        return;
+                    }
+                    console.log('tabbing', document.activeElement, firstFocussableElement, document.activeElement === firstFocussableElement, lastFocussableElement, document.activeElement === lastFocussableElement);
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocussableElement) {
+                            console.log('focus on last focussable element');
+                            lastFocussableElement.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastFocussableElement) {
+                            console.log('focus on first focussable element');
+                            firstFocussableElement.focus();
+                            e.preventDefault();
+                        }
+                    }
+                });
+            }, 1000);
         }
     }, [node]);
 
