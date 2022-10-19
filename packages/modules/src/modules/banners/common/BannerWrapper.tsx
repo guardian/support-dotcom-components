@@ -62,7 +62,7 @@ export const getParagraphsOrMessageText = (
     return bodyCopy;
 };
 
-const checkIfElementIsHidden = (el: HTMLElement): boolean => {
+const checkIfElementIsHidden = (el: HTMLElement | null): boolean => {
     while (el && el.parentNode != null) {
         if (el && el.style) {
             if (el.style.display === 'none' || el.style.visibility === 'hidden') {
@@ -73,7 +73,7 @@ const checkIfElementIsHidden = (el: HTMLElement): boolean => {
                 return true;
             }
         }
-        el = el.parentNode;
+        el = el.parentNode instanceof HTMLElement ? el.parentNode : null;
     }
     return false;
 };
