@@ -14,6 +14,7 @@ const withCloseable = (CloseableBanner: React.FC<CloseableBannerProps>): React.F
         const onClose = (): void => {
             setChannelClosedTimestamp(bannerProps.bannerChannel);
             setIsOpen(false);
+            document.body.focus();
         };
 
         useEscapeShortcut(onClose, []);
