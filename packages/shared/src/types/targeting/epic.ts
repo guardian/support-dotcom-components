@@ -21,9 +21,10 @@ export type EpicTargeting = {
     countryCode?: string;
     weeklyArticleHistory?: WeeklyArticleHistory;
     hasOptedOutOfArticleCount: boolean;
-    showSupportMessaging: boolean;
-    isRecurringContributor: boolean;
+    showSupportMessaging: boolean; // Deprecated - use isRecurringSupporter + lastOneOffContributionDate
+    isRecurringContributor: boolean; // Deprecated - use isRecurringSupporter
     lastOneOffContributionDate?: number; // Platform to send undefined or a timestamp date
+    isRecurringSupporter?: boolean;
     modulesVersion?: string;
     url?: string;
     browserId?: string; // Only present if the user has consented to browserId-based targeting

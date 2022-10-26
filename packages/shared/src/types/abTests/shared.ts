@@ -21,11 +21,20 @@ export interface ControlProportionSettings {
     offset: number;
 }
 
+// Deprecated - use SupporterStatusRules instead
 export type UserCohort =
     | 'AllExistingSupporters'
     | 'AllNonSupporters'
     | 'Everyone'
     | 'PostAskPauseSingleContributors';
+
+export type SupporterStatus = 'RecurringSupporter' | 'RecentSingleContributor';
+
+export interface SupporterStatusRules {
+    include: SupporterStatus[];
+    exclude: SupporterStatus[];
+    recentSingleContributorCutOffInDays: number;
+}
 
 export interface ArticlesViewedSettings {
     minViews: number;

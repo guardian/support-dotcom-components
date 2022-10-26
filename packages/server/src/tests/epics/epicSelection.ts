@@ -3,17 +3,16 @@ import {
     EpicTargeting,
     EpicTest,
     EpicVariant,
-    UserCohort,
     EpicViewLog,
     WeeklyArticleHistory,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
-import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
+    audienceOrSupporterStatusMatches,
     deviceTypeMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -24,42 +23,6 @@ interface Filter {
     id: string;
     test: (test: EpicTest, targeting: EpicTargeting) => boolean;
 }
-
-export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
-    const { showSupportMessaging, isRecurringContributor } = targeting;
-
-    const lastOneOffContributionDate = targeting.lastOneOffContributionDate
-        ? new Date(targeting.lastOneOffContributionDate)
-        : undefined;
-
-    if (isRecentOneOffContributor(lastOneOffContributionDate)) {
-        // Recent contributors are excluded from all message tests
-        return [];
-    }
-
-    // User is a current supporter if she has a subscription or a recurring
-    // donation or has made a one-off contribution in the past 3 months.
-    const isSupporter =
-        !showSupportMessaging ||
-        isRecurringContributor ||
-        isRecentOneOffContributor(lastOneOffContributionDate);
-
-    // User is a past-contributor if she doesn't have an active subscription
-    // or recurring donation, but has made a one-off donation longer than 3
-    // months ago.
-    const isPastContributor =
-        !isSupporter &&
-        lastOneOffContributionDate &&
-        !isRecentOneOffContributor(lastOneOffContributionDate);
-
-    if (isPastContributor) {
-        return ['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone'];
-    } else if (isSupporter) {
-        return ['AllExistingSupporters', 'Everyone'];
-    }
-
-    return ['AllNonSupporters', 'Everyone'];
-};
 
 export const hasSectionOrTags: Filter = {
     id: 'hasSectionOrTags',
@@ -159,14 +122,29 @@ export const withinArticleViewedSettings = (
         historyWithinArticlesViewedSettings(test.articlesViewedSettings, history, now),
 });
 
-export const inCorrectCohort = (userCohorts: UserCohort[], isSuperModePass: boolean): Filter => ({
+const isSupporterEpic = (test: EpicTest): boolean => {
+    if (test.userCohort && test.userCohort === 'AllExistingSupporters') {
+        return true;
+    }
+    if (
+        test.supporterStatus &&
+        test.supporterStatus.include.some(
+            status => status === 'RecurringSupporter' || status === 'RecentSingleContributor',
+        )
+    ) {
+        return true;
+    }
+    return false;
+};
+
+export const inCorrectCohort = (targeting: EpicTargeting, isSuperModePass: boolean): Filter => ({
     id: 'inCorrectCohort',
     test: (test): boolean => {
-        if (isSuperModePass && test.userCohort === 'AllExistingSupporters') {
-            // Do not apply Super Mode to supporter epics
+        // Do not apply Super Mode to supporter epics
+        if (isSuperModePass && isSupporterEpic(test)) {
             return false;
         }
-        return userCohorts.includes(test.userCohort);
+        return audienceOrSupporterStatusMatches(test, targeting);
     },
 });
 
@@ -226,8 +204,6 @@ export const findTestAndVariant = (
 ): Result => {
     const debug: Debug = {};
 
-    const userCohorts = getUserCohorts(targeting);
-
     const getFilters = (isSuperModePass: boolean): Filter[] => {
         return [
             shouldNotRender,
@@ -236,7 +212,7 @@ export const findTestAndVariant = (
             isNotExpired(),
             hasSectionOrTags,
             userInTest(targeting.mvtId || 1),
-            inCorrectCohort(userCohorts, isSuperModePass),
+            inCorrectCohort(targeting, isSuperModePass),
             excludeSection,
             excludeTags,
             hasCountryCode,

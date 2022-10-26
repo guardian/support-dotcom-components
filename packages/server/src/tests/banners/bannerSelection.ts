@@ -10,7 +10,11 @@ import {
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
-import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
+import {
+    audienceOrSupporterStatusMatches,
+    deviceTypeMatches,
+    userIsInTest,
+} from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
@@ -157,11 +161,7 @@ export const selectBannerTest = (
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
-            audienceMatches(
-                targeting.showSupportMessaging,
-                test.userCohort,
-                targeting.lastOneOffContributionDate,
-            ) &&
+            audienceOrSupporterStatusMatches(test, targeting, now) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&

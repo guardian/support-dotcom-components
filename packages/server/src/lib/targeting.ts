@@ -1,5 +1,17 @@
-import { EpicTargeting, UserCohort, EpicViewLog, Test, Variant } from '@sdc/shared/types';
+import {
+    EpicTargeting,
+    UserCohort,
+    EpicViewLog,
+    Test,
+    Variant,
+    BannerTargeting,
+    HeaderTargeting,
+    BannerTest,
+    HeaderTest,
+    EpicTest,
+} from '@sdc/shared/types';
 import { daysSince, isRecentOneOffContributor } from './dates';
+import { SupporterStatus, SupporterStatusRules } from '@sdc/shared/dist/types';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -59,15 +71,45 @@ export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): b
     return mvtId >= lowest && mvtId <= highest;
 };
 
+export const supporterStatusMatches = (
+    rules: SupporterStatusRules,
+    isRecurringSupporter: boolean,
+    lastOneOffContributionDate?: Date,
+    now: Date = new Date(Date.now()),
+): boolean => {
+    const userStatus: SupporterStatus[] = [];
+    if (isRecurringSupporter) {
+        userStatus.push('RecurringSupporter');
+    }
+    if (
+        lastOneOffContributionDate &&
+        isRecentOneOffContributor(
+            lastOneOffContributionDate,
+            now,
+            rules.recentSingleContributorCutOffInDays,
+        )
+    ) {
+        userStatus.push('RecentSingleContributor');
+    }
+
+    const includeRuleMatches =
+        rules.include.length === 0 || rules.include.some(status => userStatus.includes(status));
+
+    const excludeRuleMatches =
+        rules.exclude.length === 0 || !rules.exclude.some(status => userStatus.includes(status));
+
+    return includeRuleMatches && excludeRuleMatches;
+};
+
+// Legacy targeting
 export const audienceMatches = (
     showSupportMessaging: boolean,
     testAudience: UserCohort,
-    lastOneOffContributionDate?: string,
+    lastOneOffContributionDate?: Date,
     now: Date = new Date(Date.now()),
 ): boolean => {
     const recentContributor =
-        !!lastOneOffContributionDate &&
-        isRecentOneOffContributor(new Date(lastOneOffContributionDate), now);
+        !!lastOneOffContributionDate && isRecentOneOffContributor(lastOneOffContributionDate, now);
     if (recentContributor) {
         // Recent contributors are excluded from all message tests
         return false;
@@ -79,6 +121,36 @@ export const audienceMatches = (
             return !showSupportMessaging;
         default:
             return true;
+    }
+};
+
+// Backwards compatible while we migrate from `userCohort` to `supporterStatus` targeting
+export const audienceOrSupporterStatusMatches = (
+    test: BannerTest | HeaderTest | EpicTest,
+    targeting: BannerTargeting | HeaderTargeting | EpicTargeting,
+    now: Date = new Date(Date.now()),
+): boolean => {
+    const lastOneOffContributionDate = targeting.lastOneOffContributionDate
+        ? new Date(targeting.lastOneOffContributionDate)
+        : undefined;
+
+    if (test.supporterStatus) {
+        return supporterStatusMatches(
+            test.supporterStatus,
+            targeting.isRecurringSupporter || false,
+            lastOneOffContributionDate,
+            now,
+        );
+    } else if (test.userCohort) {
+        return audienceMatches(
+            targeting.showSupportMessaging,
+            test.userCohort,
+            lastOneOffContributionDate,
+            now,
+        );
+    } else {
+        // either userCohort or supporterStatus should exist, so exclude this test
+        return false;
     }
 };
 

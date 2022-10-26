@@ -3,7 +3,11 @@ import { inCountryGroups } from '@sdc/shared/lib';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
-import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
+import {
+    audienceOrSupporterStatusMatches,
+    deviceTypeMatches,
+    userIsInTest,
+} from '../../lib/targeting';
 
 import { TestVariant } from '../../lib/params';
 
@@ -292,18 +296,14 @@ export const selectBestTest = (
     isMobile: boolean,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
-    const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
+    const { countryCode, purchaseInfo, isSignedIn } = targeting;
 
     const selectedTest = allTests.find(test => {
-        const { status, userCohort, locations } = test;
+        const { status, locations } = test;
 
         return (
             status === 'Live' &&
-            audienceMatches(
-                showSupportMessaging,
-                userCohort,
-                targeting.lastOneOffContributionDate,
-            ) &&
+            audienceOrSupporterStatusMatches(test, targeting) &&
             inCountryGroups(countryCode, locations) &&
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&

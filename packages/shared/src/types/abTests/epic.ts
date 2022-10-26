@@ -2,6 +2,7 @@ import { CountryGroupId, ReminderFields } from '../../lib';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
+    SupporterStatusRules,
     Test,
     TestStatus,
     UserCohort,
@@ -107,7 +108,8 @@ export interface EpicTest extends Test<EpicVariant> {
     excludedSections: string[];
     alwaysAsk: boolean;
     maxViews?: MaxViews;
-    userCohort: UserCohort;
+    userCohort?: UserCohort; // Deprecated - use supporterStatus
+    supporterStatus?: SupporterStatusRules;
     isLiveBlog: boolean;
     hasCountryName: boolean;
     variants: EpicVariant[];
