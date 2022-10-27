@@ -1,6 +1,6 @@
 import { PageTracking, PurchaseInfo } from './shared';
 
-export type Edition = 'UK' | 'US' | 'AU' | 'INT';
+export type Edition = 'UK' | 'US' | 'AU' | 'INT' | 'EUR';
 
 export interface HeaderTargeting {
     showSupportMessaging: boolean;
