@@ -106,6 +106,7 @@ GlobalNY.args = {
         },
     },
     numArticles: 50,
+    isMobile: true,
 };
 
 const AusElectionBanner = bannerWrapper(

@@ -80,6 +80,7 @@ const withBannerData = (
         tickerSettings,
         isSupporter,
         separateArticleCount,
+        isMobile,
     } = bannerProps;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen(
@@ -259,6 +260,7 @@ const withBannerData = (
                 isSupporter,
                 numArticles,
                 separateArticleCount,
+                isMobile,
             };
             return (
                 <div ref={setNode}>
