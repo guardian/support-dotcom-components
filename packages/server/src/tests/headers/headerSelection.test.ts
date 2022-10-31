@@ -199,7 +199,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, not in UK
         const mockTargetingObject_1: HeaderTargeting = {
             showSupportMessaging: true,
-
             countryCode: 'ck', // Cook Islands (New Zealand dollar region)
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -230,7 +229,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, not in UK
         const mockTargetingObject_2: HeaderTargeting = {
             showSupportMessaging: false,
-
             countryCode: 'ck',
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -261,7 +259,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_3: HeaderTargeting = {
             showSupportMessaging: true,
-
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -292,7 +289,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: is a supporter, is in UK
         const mockTargetingObject_4: HeaderTargeting = {
             showSupportMessaging: false,
-
             countryCode: 'im',
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -324,7 +320,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: not a supporter, is in UK
         const mockTargetingObject_5: HeaderTargeting = {
             showSupportMessaging: true,
-
             countryCode: 'im', // Isle of Man (UK sterling region)
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -356,7 +351,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: recent supporter, new user
         const mockTargetingObject_6: HeaderTargeting = {
             showSupportMessaging: false,
-
             countryCode: 'im',
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -388,7 +382,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: recent supporter, existing user
         const mockTargetingObject_7: HeaderTargeting = {
             showSupportMessaging: false,
-
             countryCode: 'im',
             modulesVersion: 'v3',
             mvtId: 900263,
@@ -420,7 +413,6 @@ describe('selectBestTest', () => {
         // Mock targeting data: recent supporter, new user, now signed in
         const mockTargetingObject_8: HeaderTargeting = {
             showSupportMessaging: false,
-
             countryCode: 'im',
             modulesVersion: 'v3',
             mvtId: 900263,
