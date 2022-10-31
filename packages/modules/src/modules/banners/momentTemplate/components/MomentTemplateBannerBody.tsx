@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
 
 import { createBannerBodyCopy } from '../../common/BannerText';
@@ -12,31 +11,23 @@ import { BannerRenderedContent } from '../../common/types';
 // ---- Component ---- //
 
 interface MomentTemplateBannerBodyProps {
-    mainContent: BannerRenderedContent;
-    mobileContent: BannerRenderedContent;
+    content: BannerRenderedContent;
     highlightedTextSettings: HighlightedTextSettings;
 }
 
 export function MomentTemplateBannerBody({
-    mainContent,
-    mobileContent,
+    content,
     highlightedTextSettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
     const styles = getStyles(highlightedTextSettings);
 
     return (
         <div css={styles.container}>
-            <Hide above="tablet">
-                {createBannerBodyCopy(
-                    mobileContent.paragraphs,
-                    mobileContent.highlightedText,
-                    styles,
-                )}
-            </Hide>
-
-            <Hide below="tablet">
-                {createBannerBodyCopy(mainContent.paragraphs, mainContent.highlightedText, styles)}
-            </Hide>
+            {createBannerBodyCopy(
+                content.paragraphs,
+                content.highlightedText,
+                styles,
+            )}
         </div>
     );
 }
