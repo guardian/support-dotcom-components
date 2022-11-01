@@ -5,7 +5,6 @@ const styles = css`
     border: 1px solid blue;
 `;
 export type ImageAttrs = {
-
     url: string;
     media: string;
     alt?: string;

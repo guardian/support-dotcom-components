@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
-import { Container, Hide } from '@guardian/src-layout';
+import { Container } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
@@ -28,6 +28,7 @@ export function getMomentTemplateBanner(
         numArticles,
         onCtaClick,
         onSecondaryCtaClick,
+        onSignInClick,
         reminderTracking,
         separateArticleCount,
         isMobile,
@@ -81,7 +82,6 @@ export function getMomentTemplateBanner(
 
                     <Container cssOverrides={styles.containerOverrides}>
                         <div css={styles.container}>
-
                             <div css={styles.contentContainer}>
                                 <div css={styles.desktopHeaderContainer}>
                                     <MomentTemplateBannerHeader
@@ -185,8 +185,8 @@ export function getMomentTemplateBanner(
                                 </div>
 
                                 {signInComponent === 'BODY' && (
-                                    <MomentTemplateSignInCta 
-                                        onSignInClick={() => {}}
+                                    <MomentTemplateSignInCta
+                                        onSignInClick={onSignInClick}
                                         signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
                                     />
                                 )}
@@ -203,12 +203,11 @@ export function getMomentTemplateBanner(
                                 </section>
 
                                 {signInComponent === 'CTA' && (
-                                    <MomentTemplateSignInCta 
-                                        onSignInClick={() => {}}
+                                    <MomentTemplateSignInCta
+                                        onSignInClick={onSignInClick}
                                         signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
                                     />
                                 )}
-
                             </div>
                         </div>
                     </Container>
@@ -221,8 +220,7 @@ export function getMomentTemplateBanner(
                                 trackReminderSetClick={reminderTracking.onReminderSetClick}
                                 setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                             />
-                        )
-                    }
+                        )}
                 </div>
             );
         }

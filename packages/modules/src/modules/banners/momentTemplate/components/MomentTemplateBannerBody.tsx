@@ -23,11 +23,7 @@ export function MomentTemplateBannerBody({
 
     return (
         <div css={styles.container}>
-            {createBannerBodyCopy(
-                content.paragraphs,
-                content.highlightedText,
-                styles,
-            )}
+            {createBannerBodyCopy(content.paragraphs, content.highlightedText, styles)}
         </div>
     );
 }

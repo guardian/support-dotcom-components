@@ -55,8 +55,7 @@ export function MomentTemplateBannerCtas({
                         </LinkButton>
                     )}
 
-                    {content.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder && (
+                    {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
                         <Button
                             priority="subdued"
                             onClick={onReminderCtaClick}

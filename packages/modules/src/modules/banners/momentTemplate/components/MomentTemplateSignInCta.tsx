@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { space } from '@guardian/src-foundations';
 import { Link } from '@guardian/src-link';
 
 /*
