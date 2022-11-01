@@ -17,6 +17,8 @@ export interface HighlightedTextSettings {
     highlightColour?: string;
 }
 
+type SignInComponentAfter = 'BODY' | 'CTA';
+
 export interface BannerTemplateSettings {
     backgroundColour: string;
     primaryCtaSettings: CtaSettings;
@@ -27,4 +29,5 @@ export interface BannerTemplateSettings {
     articleCountTextColour?: string;
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
+    signInComponentAfter?: SignInComponentAfter;
 }

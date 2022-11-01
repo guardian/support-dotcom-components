@@ -13,6 +13,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
+import { MomentTemplateSignInCta } from './components/MomentTemplateSignInCta';
 
 // ---- Banner ---- //
 
@@ -37,6 +38,8 @@ export function getMomentTemplateBanner(
             reminderTracking.onReminderCtaClick();
             setIsReminderActive(!isReminderActive);
         };
+
+        const signInComponent = templateSettings.signInComponentAfter;
 
         console.log('isMobile?', isMobile);
         if (isMobile) {
@@ -137,13 +140,6 @@ export function getMomentTemplateBanner(
                 <div css={styles.outerContainer(templateSettings.backgroundColour)}>
                     <Container cssOverrides={styles.containerOverrides}>
                         <div css={styles.container}>
-                            <div css={styles.closeButtonContainer}>
-                                <MomentTemplateBannerCloseButton
-                                    onCloseClick={onCloseClick}
-                                    settings={templateSettings.closeButtonSettings}
-                                />
-                            </div>
-
                             {hasVisual && (
                                 <div css={styles.desktopVisualContainer}>
                                     {templateSettings.imageSettings && (
@@ -154,6 +150,13 @@ export function getMomentTemplateBanner(
                                     {templateSettings.alternativeVisual}
                                 </div>
                             )}
+
+                            <div css={styles.closeButtonContainer}>
+                                <MomentTemplateBannerCloseButton
+                                    onCloseClick={onCloseClick}
+                                    settings={templateSettings.closeButtonSettings}
+                                />
+                            </div>
 
                             <div css={styles.contentContainer}>
                                 <div css={styles.desktopHeaderContainer}>
@@ -181,6 +184,13 @@ export function getMomentTemplateBanner(
                                     />
                                 </div>
 
+                                {signInComponent === 'BODY' && (
+                                    <MomentTemplateSignInCta 
+                                        onSignInClick={() => {}}
+                                        signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
+                                    />
+                                )}
+
                                 <section css={styles.ctasContainer}>
                                     <MomentTemplateBannerCtas
                                         content={content.mainContent}
@@ -191,6 +201,14 @@ export function getMomentTemplateBanner(
                                         secondaryCtaSettings={templateSettings.secondaryCtaSettings}
                                     />
                                 </section>
+
+                                {signInComponent === 'CTA' && (
+                                    <MomentTemplateSignInCta 
+                                        onSignInClick={() => {}}
+                                        signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
+                                    />
+                                )}
+
                             </div>
                         </div>
                     </Container>
