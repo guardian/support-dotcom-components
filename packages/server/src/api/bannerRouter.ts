@@ -75,7 +75,6 @@ export const buildBannerRouter = (
         const selectedTest = selectBannerTest(
             targeting,
             pageTracking,
-            // isMobile(req),
             fromMobileDevice,
             baseUrl(req),
             bannerTests.get(),

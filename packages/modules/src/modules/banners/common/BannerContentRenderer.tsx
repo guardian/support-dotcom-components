@@ -16,7 +16,6 @@ export const BannerContentRenderer: React.FC<BannerContentRendererProps> = ({
     content,
     render,
 }) => {
-    console.log('BannerContentRenderer invoked');
     const { mainContent } = content;
     const mobileContent = content.mobileContent || mainContent;
 
