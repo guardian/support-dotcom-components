@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container } from '@guardian/src-layout';
+import { Button } from '@guardian/src-button';
 import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
@@ -42,7 +43,42 @@ export function getMomentTemplateBanner(
 
         const signInComponent = templateSettings.signInComponentAfter;
 
-        console.log('isMobile?', isMobile);
+        const bannerRef = useRef<HTMLDivElement>(null);
+
+        useEffect(() => {
+            if (bannerRef.current != null) {
+                const closeButtonElements: HTMLElement[] = [
+                    ...bannerRef.current.querySelectorAll<HTMLElement>('[data-close-button]'),
+                ];
+
+                if (closeButtonElements.length > 1) {
+                    const firstFocussableElement = closeButtonElements[0];
+                    const lastFocussableElement =
+                        closeButtonElements[closeButtonElements.length - 1];
+
+                    firstFocussableElement.focus();
+
+                    bannerRef.current.addEventListener('keydown', e => {
+                        const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+                        if (!isTabPressed) {
+                            return;
+                        }
+                        if (e.shiftKey) {
+                            if (document.activeElement === firstFocussableElement) {
+                                lastFocussableElement.focus();
+                                e.preventDefault();
+                            }
+                        } else {
+                            if (document.activeElement === lastFocussableElement) {
+                                firstFocussableElement.focus();
+                                e.preventDefault();
+                            }
+                        }
+                    });
+                }
+            }
+        }, [bannerRef.current]);
+
         if (isMobile) {
             const mobileReminderRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +89,7 @@ export function getMomentTemplateBanner(
             }, [mobileReminderRef.current, isReminderActive]);
 
             return (
-                <div css={styles.outerContainer(templateSettings.backgroundColour)}>
+                <div css={styles.outerContainer(templateSettings.backgroundColour)} ref={bannerRef}>
                     <Container
                         cssOverrides={styles.mobileStickyHeaderContainer(
                             templateSettings.backgroundColour,
@@ -133,11 +169,19 @@ export function getMomentTemplateBanner(
                                 />
                             )}
                     </div>
+
+                    <Button
+                        onClick={onCloseClick}
+                        css={styles.hiddenCloseButton}
+                        data-close-button={'close-button-last'}
+                    >
+                        Close marketing banner
+                    </Button>
                 </div>
             );
         } else {
             return (
-                <div css={styles.outerContainer(templateSettings.backgroundColour)}>
+                <div css={styles.outerContainer(templateSettings.backgroundColour)} ref={bannerRef}>
                     <Container cssOverrides={styles.containerOverrides}>
                         <div css={styles.container}>
                             {hasVisual && (
@@ -221,6 +265,14 @@ export function getMomentTemplateBanner(
                                 setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                             />
                         )}
+
+                    <Button
+                        onClick={onCloseClick}
+                        css={styles.hiddenCloseButton}
+                        data-close-button={'close-button-last'}
+                    >
+                        Close marketing banner
+                    </Button>
                 </div>
             );
         }
@@ -280,7 +332,6 @@ const styles = {
     `,
     desktopVisualContainer: css`
         display: block;
-        border: 1px solid gold;
 
         ${from.tablet} {
             width: 238px;
@@ -318,7 +369,6 @@ const styles = {
         }
     `,
     desktopHeaderContainer: css`
-        width: 80%;
         margin-top: ${space[2]}px;
     `,
     articleCountContainer: css`
@@ -347,5 +397,10 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+    `,
+    hiddenCloseButton: css`
+        position: absolute;
+        left: -1000px;
+        font-size: 0.001rem;
     `,
 };

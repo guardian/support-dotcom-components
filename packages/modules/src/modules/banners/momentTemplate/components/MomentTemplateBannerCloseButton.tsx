@@ -27,12 +27,14 @@ export function MomentTemplateBannerCloseButton({
 
             <Button
                 onClick={onCloseClick}
+                css={styles.button}
                 cssOverrides={buttonStyles(settings)}
                 icon={<SvgCross />}
                 size="small"
                 hideLabel
+                data-close-button={'close-button'}
             >
-                Close
+                Close marketing banner
             </Button>
         </div>
     );
@@ -56,5 +58,8 @@ const styles = {
             display: block;
             margin-right: ${space[2]}px;
         }
+    `,
+    button: css`
+        font-size: 0.001rem;
     `,
 };

@@ -1,9 +1,5 @@
 import React, { ReactElement } from 'react';
-import { css } from '@emotion/react';
 
-const styles = css`
-    border: 1px solid blue;
-`;
 export type ImageAttrs = {
     url: string;
     media: string;
@@ -24,7 +20,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     baseImage,
 }: ResponsiveImageProps) => {
     return (
-        <picture css={styles}>
+        <picture>
             {images.map(createSource)}
             <img src={baseImage.url} alt={baseImage.alt} />
         </picture>
