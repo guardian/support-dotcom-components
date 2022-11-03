@@ -53,5 +53,4 @@ ClimateCrisis.args = {
         },
     },
     numArticles: 50,
-    isMobile: false,
 };

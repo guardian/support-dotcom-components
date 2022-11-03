@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
-import { Container } from '@guardian/src-layout';
+import { Container, Hide } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
@@ -32,7 +32,6 @@ export function getMomentTemplateBanner(
         onSignInClick,
         reminderTracking,
         separateArticleCount,
-        isMobile,
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
@@ -79,26 +78,20 @@ export function getMomentTemplateBanner(
             }
         }, [bannerRef.current]);
 
-        if (isMobile) {
-            const mobileReminderRef = useRef<HTMLDivElement>(null);
+        const mobileReminderRef = useRef<HTMLDivElement>(null);
 
-            useEffect(() => {
-                if (mobileReminderRef.current && isReminderActive) {
-                    mobileReminderRef.current.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, [mobileReminderRef.current, isReminderActive]);
+        useEffect(() => {
+            if (mobileReminderRef.current && isReminderActive) {
+                mobileReminderRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, [mobileReminderRef.current, isReminderActive]);
 
-            return (
-                <div css={styles.outerContainer(templateSettings.backgroundColour)} ref={bannerRef}>
-                    <Container
-                        cssOverrides={styles.mobileStickyHeaderContainer(
-                            templateSettings.backgroundColour,
-                            content.mobileContent.secondaryCta?.type ===
-                                SecondaryCtaType.ContributionsReminder,
-                        )}
-                    >
+        return (
+            <div css={styles.outerContainer(templateSettings.backgroundColour)} ref={bannerRef}>
+                <Container cssOverrides={styles.containerOverrides}>
+                    <div css={styles.container}>
                         {hasVisual && (
-                            <div css={styles.visualContainer}>
+                            <div css={styles.desktopVisualContainer}>
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
@@ -114,168 +107,99 @@ export function getMomentTemplateBanner(
                                 settings={templateSettings.closeButtonSettings}
                             />
                         </div>
-                    </Container>
 
-                    <Container cssOverrides={styles.containerOverrides}>
-                        <div css={styles.container}>
-                            <div css={styles.contentContainer}>
-                                <div css={styles.desktopHeaderContainer}>
-                                    <MomentTemplateBannerHeader
-                                        heading={content.mobileContent.heading}
-                                    />
-                                </div>
-
-                                {separateArticleCount && numArticles != null && numArticles > 5 && (
-                                    <div css={styles.articleCountContainer}>
-                                        <MomentTemplateBannerArticleCount
-                                            numArticles={numArticles}
-                                            settings={templateSettings}
-                                            textColour={templateSettings.articleCountTextColour}
-                                        />
-                                    </div>
-                                )}
-
-                                <div css={styles.bodyContainer}>
-                                    <MomentTemplateBannerBody
-                                        content={content.mobileContent}
-                                        highlightedTextSettings={
-                                            templateSettings.highlightedTextSettings
-                                        }
-                                    />
-                                </div>
-
-                                <section css={styles.ctasContainer}>
-                                    <MomentTemplateBannerCtas
-                                        content={content.mobileContent}
-                                        onPrimaryCtaClick={onCtaClick}
-                                        onSecondaryCtaClick={onSecondaryCtaClick}
-                                        onReminderCtaClick={onReminderCtaClick}
-                                        primaryCtaSettings={templateSettings.primaryCtaSettings}
-                                        secondaryCtaSettings={templateSettings.secondaryCtaSettings}
-                                    />
-                                </section>
+                        <div css={styles.contentContainer}>
+                            <div css={styles.desktopHeaderContainer}>
+                                <MomentTemplateBannerHeader
+                                    heading={content.mainContent.heading}
+                                    mobileHeading={content.mobileContent.heading}
+                                />
                             </div>
-                        </div>
-                    </Container>
 
-                    <div ref={mobileReminderRef}>
-                        {content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder &&
-                            isReminderActive && (
-                                <MomentTemplateBannerReminder
-                                    reminderCta={content.mobileContent.secondaryCta}
-                                    trackReminderSetClick={reminderTracking.onReminderSetClick}
-                                    setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                            {separateArticleCount && numArticles != null && numArticles > 5 && (
+                                <div css={styles.articleCountContainer}>
+                                    <MomentTemplateBannerArticleCount
+                                        numArticles={numArticles}
+                                        settings={templateSettings}
+                                        textColour={templateSettings.articleCountTextColour}
+                                    />
+                                </div>
+                            )}
+
+                            <div css={styles.bodyContainer}>
+                                <MomentTemplateBannerBody
+                                    content={content.mainContent}
+                                    mobileContent={content.mobileContent}
+                                    highlightedTextSettings={
+                                        templateSettings.highlightedTextSettings
+                                    }
+                                />
+                            </div>
+
+                            {signInComponent === 'BODY' && (
+                                <MomentTemplateSignInCta
+                                    onSignInClick={onSignInClick}
+                                    signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
                                 />
                             )}
+
+                            <section css={styles.ctasContainer}>
+                                <MomentTemplateBannerCtas
+                                    content={content.mainContent}
+                                    mobileContent={content.mobileContent}
+                                    onPrimaryCtaClick={onCtaClick}
+                                    onSecondaryCtaClick={onSecondaryCtaClick}
+                                    onReminderCtaClick={onReminderCtaClick}
+                                    primaryCtaSettings={templateSettings.primaryCtaSettings}
+                                    secondaryCtaSettings={templateSettings.secondaryCtaSettings}
+                                />
+                            </section>
+
+                            {signInComponent === 'CTA' && (
+                                <MomentTemplateSignInCta
+                                    onSignInClick={onSignInClick}
+                                    signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
+                                />
+                            )}
+                        </div>
                     </div>
+                </Container>
 
-                    <Button
-                        onClick={onCloseClick}
-                        css={styles.hiddenCloseButton}
-                        data-close-button={'close-button-last'}
-                    >
-                        Close marketing banner
-                    </Button>
-                </div>
-            );
-        } else {
-            return (
-                <div css={styles.outerContainer(templateSettings.backgroundColour)} ref={bannerRef}>
-                    <Container cssOverrides={styles.containerOverrides}>
-                        <div css={styles.container}>
-                            {hasVisual && (
-                                <div css={styles.desktopVisualContainer}>
-                                    {templateSettings.imageSettings && (
-                                        <MomentTemplateBannerVisual
-                                            settings={templateSettings.imageSettings}
-                                        />
-                                    )}
-                                    {templateSettings.alternativeVisual}
-                                </div>
-                            )}
-
-                            <div css={styles.closeButtonContainer}>
-                                <MomentTemplateBannerCloseButton
-                                    onCloseClick={onCloseClick}
-                                    settings={templateSettings.closeButtonSettings}
-                                />
-                            </div>
-
-                            <div css={styles.contentContainer}>
-                                <div css={styles.desktopHeaderContainer}>
-                                    <MomentTemplateBannerHeader
-                                        heading={content.mainContent.heading}
-                                    />
-                                </div>
-
-                                {separateArticleCount && numArticles != null && numArticles > 5 && (
-                                    <div css={styles.articleCountContainer}>
-                                        <MomentTemplateBannerArticleCount
-                                            numArticles={numArticles}
-                                            settings={templateSettings}
-                                            textColour={templateSettings.articleCountTextColour}
-                                        />
-                                    </div>
-                                )}
-
-                                <div css={styles.bodyContainer}>
-                                    <MomentTemplateBannerBody
-                                        content={content.mainContent}
-                                        highlightedTextSettings={
-                                            templateSettings.highlightedTextSettings
-                                        }
-                                    />
-                                </div>
-
-                                {signInComponent === 'BODY' && (
-                                    <MomentTemplateSignInCta
-                                        onSignInClick={onSignInClick}
-                                        signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
-                                    />
-                                )}
-
-                                <section css={styles.ctasContainer}>
-                                    <MomentTemplateBannerCtas
-                                        content={content.mainContent}
-                                        onPrimaryCtaClick={onCtaClick}
-                                        onSecondaryCtaClick={onSecondaryCtaClick}
-                                        onReminderCtaClick={onReminderCtaClick}
-                                        primaryCtaSettings={templateSettings.primaryCtaSettings}
-                                        secondaryCtaSettings={templateSettings.secondaryCtaSettings}
-                                    />
-                                </section>
-
-                                {signInComponent === 'CTA' && (
-                                    <MomentTemplateSignInCta
-                                        onSignInClick={onSignInClick}
-                                        signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </Container>
-
-                    {content.mainContent.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder &&
-                        isReminderActive && (
+                {content.mainContent.secondaryCta?.type ===
+                    SecondaryCtaType.ContributionsReminder &&
+                    isReminderActive && (
+                        <Hide below="tablet">
                             <MomentTemplateBannerReminder
                                 reminderCta={content.mainContent.secondaryCta}
                                 trackReminderSetClick={reminderTracking.onReminderSetClick}
                                 setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                             />
-                        )}
+                        </Hide>
+                    )}
 
-                    <Button
-                        onClick={onCloseClick}
-                        css={styles.hiddenCloseButton}
-                        data-close-button={'close-button-last'}
-                    >
-                        Close marketing banner
-                    </Button>
-                </div>
-            );
-        }
+                {content.mobileContent.secondaryCta?.type ===
+                    SecondaryCtaType.ContributionsReminder &&
+                    isReminderActive && (
+                        <Hide above="tablet">
+                            <div ref={mobileReminderRef}>
+                                <MomentTemplateBannerReminder
+                                    reminderCta={content.mobileContent.secondaryCta}
+                                    trackReminderSetClick={reminderTracking.onReminderSetClick}
+                                    setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                                />
+                            </div>
+                        </Hide>
+                    )}
+
+                <Button
+                    onClick={onCloseClick}
+                    css={styles.hiddenCloseButton}
+                    data-close-button={'close-button-last'}
+                >
+                    Close marketing banner
+                </Button>
+            </div>
+        );
     }
     return MomentTemplateBanner;
 }
@@ -327,9 +251,6 @@ const styles = {
             `
             : ''}
     `,
-    visualContainer: css`
-        border: 1px solid red;
-    `,
     desktopVisualContainer: css`
         display: block;
 
@@ -360,14 +281,6 @@ const styles = {
             width: 780px;
         }
     `,
-    headerContainer: css`
-        display: flex;
-        align-items: center;
-
-        ${from.mobileMedium} {
-            margin-top: ${space[2]}px;
-        }
-    `,
     desktopHeaderContainer: css`
         margin-top: ${space[2]}px;
     `,
@@ -389,9 +302,6 @@ const styles = {
         ${from.tablet} {
             margin-top: ${space[6]}px;
         }
-    `,
-    mobileCloseButtonContainer: css`
-        margin-left: ${space[3]}px;
     `,
     closeButtonContainer: css`
         position: absolute;

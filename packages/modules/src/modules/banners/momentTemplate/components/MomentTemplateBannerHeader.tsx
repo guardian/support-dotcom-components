@@ -3,20 +3,26 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
+import { Hide } from '@guardian/src-layout';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerHeaderProps {
     heading: JSX.Element | JSX.Element[] | null;
+    mobileHeading: JSX.Element | JSX.Element[] | null;
 }
 
 export function MomentTemplateBannerHeader({
     heading,
+    mobileHeading,
 }: MomentTemplateBannerHeaderProps): JSX.Element {
     return (
         <div css={styles.container}>
             <header css={styles.header}>
-                <h2>{heading}</h2>
+                <h2>
+                    <Hide above="tablet">{mobileHeading}</Hide>
+                    <Hide below="tablet">{heading}</Hide>
+                </h2>
             </header>
         </div>
     );

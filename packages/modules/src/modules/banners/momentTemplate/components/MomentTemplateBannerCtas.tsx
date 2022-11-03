@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
+import { Hide } from '@guardian/src-layout';
 import { Button, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerRenderedContent } from '../../common/types';
@@ -12,6 +13,7 @@ import { from } from '@guardian/src-foundations/mq';
 
 interface MomentTemplateBannerCtasProps {
     content: BannerRenderedContent;
+    mobileContent: BannerRenderedContent;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
     onReminderCtaClick: () => void;
@@ -21,6 +23,7 @@ interface MomentTemplateBannerCtasProps {
 
 export function MomentTemplateBannerCtas({
     content,
+    mobileContent,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
     onReminderCtaClick,
@@ -30,44 +33,88 @@ export function MomentTemplateBannerCtas({
     return (
         <div css={styles.container}>
             <div>
-                <div css={styles.ctasContainer}>
-                    {content.primaryCta && (
-                        <LinkButton
-                            href={content.primaryCta.ctaUrl}
-                            onClick={onPrimaryCtaClick}
-                            size="small"
-                            priority="primary"
-                            cssOverrides={buttonStyles(primaryCtaSettings)}
-                        >
-                            {content.primaryCta.ctaText}
-                        </LinkButton>
-                    )}
+                <Hide above="tablet">
+                    <div css={styles.ctasContainer}>
+                        {mobileContent.primaryCta && (
+                            <LinkButton
+                                href={mobileContent.primaryCta.ctaUrl}
+                                onClick={onPrimaryCtaClick}
+                                size="small"
+                                priority="primary"
+                                cssOverrides={buttonStyles(primaryCtaSettings)}
+                            >
+                                {mobileContent.primaryCta.ctaText}
+                            </LinkButton>
+                        )}
 
-                    {content.secondaryCta?.type === SecondaryCtaType.Custom && (
-                        <LinkButton
-                            href={content.secondaryCta.cta.ctaUrl}
-                            onClick={onSecondaryCtaClick}
-                            size="small"
-                            priority="tertiary"
-                            cssOverrides={buttonStyles(secondaryCtaSettings)}
-                        >
-                            {content.secondaryCta.cta.ctaText}
-                        </LinkButton>
-                    )}
+                        {mobileContent.secondaryCta?.type === SecondaryCtaType.Custom && (
+                            <LinkButton
+                                href={mobileContent.secondaryCta.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
+                                size="small"
+                                priority="tertiary"
+                                cssOverrides={buttonStyles(secondaryCtaSettings)}
+                            >
+                                {mobileContent.secondaryCta.cta.ctaText}
+                            </LinkButton>
+                        )}
 
-                    {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
-                        <Button
-                            priority="subdued"
-                            onClick={onReminderCtaClick}
-                            cssOverrides={styles.reminderCta}
-                        >
-                            Remind me later
-                        </Button>
-                    )}
-                </div>
+                        {mobileContent.secondaryCta?.type ===
+                            SecondaryCtaType.ContributionsReminder && (
+                            <Button
+                                priority="subdued"
+                                onClick={onReminderCtaClick}
+                                cssOverrides={styles.reminderCta}
+                            >
+                                Remind me later
+                            </Button>
+                        )}
+                    </div>
+                </Hide>
+
+                <Hide below="tablet">
+                    <div css={styles.ctasContainer}>
+                        {content.primaryCta && (
+                            <LinkButton
+                                href={content.primaryCta.ctaUrl}
+                                onClick={onPrimaryCtaClick}
+                                size="small"
+                                priority="primary"
+                                cssOverrides={buttonStyles(primaryCtaSettings)}
+                            >
+                                {content.primaryCta.ctaText}
+                            </LinkButton>
+                        )}
+
+                        {content.secondaryCta?.type === SecondaryCtaType.Custom && (
+                            <LinkButton
+                                href={content.secondaryCta.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
+                                size="small"
+                                priority="tertiary"
+                                cssOverrides={buttonStyles(secondaryCtaSettings)}
+                            >
+                                {content.secondaryCta.cta.ctaText}
+                            </LinkButton>
+                        )}
+
+                        {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
+                            <Button
+                                priority="subdued"
+                                onClick={onReminderCtaClick}
+                                cssOverrides={styles.reminderCta}
+                            >
+                                Remind me later
+                            </Button>
+                        )}
+                    </div>
+                </Hide>
             </div>
 
-            <div>{content.primaryCta && <PaymentCards />}</div>
+            <div>
+                <Hide above="tablet">{mobileContent.primaryCta && <PaymentCards />}</Hide>
+                <Hide below="tablet">{content.primaryCta && <PaymentCards />}</Hide>
+            </div>
         </div>
     );
 }

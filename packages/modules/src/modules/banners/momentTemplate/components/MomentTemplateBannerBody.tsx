@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
+import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
 
 import { createBannerBodyCopy } from '../../common/BannerText';
@@ -12,18 +13,29 @@ import { BannerRenderedContent } from '../../common/types';
 
 interface MomentTemplateBannerBodyProps {
     content: BannerRenderedContent;
+    mobileContent: BannerRenderedContent;
     highlightedTextSettings: HighlightedTextSettings;
 }
 
 export function MomentTemplateBannerBody({
     content,
+    mobileContent,
     highlightedTextSettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
     const styles = getStyles(highlightedTextSettings);
 
     return (
         <div css={styles.container}>
-            {createBannerBodyCopy(content.paragraphs, content.highlightedText, styles)}
+            <Hide below="tablet">
+                {createBannerBodyCopy(content.paragraphs, content.highlightedText, styles)}
+            </Hide>
+            <Hide above="tablet">
+                {createBannerBodyCopy(
+                    mobileContent.paragraphs,
+                    mobileContent.highlightedText,
+                    styles,
+                )}
+            </Hide>
         </div>
     );
 }

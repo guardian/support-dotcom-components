@@ -70,12 +70,10 @@ export const buildBannerRouter = (
             return {};
         }
 
-        const fromMobileDevice = isMobile(req);
-
         const selectedTest = selectBannerTest(
             targeting,
             pageTracking,
-            fromMobileDevice,
+            isMobile(req),
             baseUrl(req),
             bannerTests.get(),
             bannerDeployTimes,
@@ -115,7 +113,6 @@ export const buildBannerRouter = (
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,
                 prices: productPrices.get(),
-                isMobile: fromMobileDevice,
             };
 
             return {

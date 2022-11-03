@@ -88,7 +88,7 @@ GlobalNY.args = {
         },
     },
     mobileContent: {
-        heading: 'As 2022 begins, will you support us?',
+        heading: 'Please support us in 2022',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
         paragraphs: [
@@ -109,7 +109,6 @@ GlobalNY.args = {
         },
     },
     numArticles: 50,
-    isMobile: false,
 };
 
 const AusElectionBanner = bannerWrapper(

@@ -64,7 +64,6 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
     email?: string;
-    isMobile?: boolean;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
     prices?: Prices;
