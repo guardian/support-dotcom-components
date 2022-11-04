@@ -26,5 +26,3 @@ deployments:
     dotcom-components:
         type: autoscaling
         dependencies: [ dotcom-components-cloudformation ]
-        parameters:
-            bucket: membership-dist
