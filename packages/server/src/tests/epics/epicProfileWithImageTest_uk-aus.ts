@@ -32,25 +32,6 @@ export const epicProfileWithImageTest_UKAUS: EpicTest = {
     useLocalViewLog: false,
     variants: [
         {
-            name: 'Control',
-            modulePathBuilder: epic.endpointPathBuilder,
-            paragraphs: [
-                'Where will it all end? The conflict in Ukraine appears further than ever from resolution. Nuclear threats, mass graves, the sense that both sides are "all in".',
-                "It's our job at the Guardian to decipher a rapidly changing landscape, and report the facts in sober fashion, without getting carried away. Our correspondents are on the ground in Ukraine and Russia and throughout the globe delivering round-the-clock reporting and analysis during this fluid situation.",
-                "We know there is no substitute for being there - and we'll stay on the ground, as we did during the 1917 Russian Revolution, the Ukrainian famine of the 1930s, the collapse of the Soviet Union in 1991 and the first Russo-Ukrainian conflict in 2014. We have an illustrious, 200-year history of reporting throughout Europe in times of upheaval, peace and everything in between. We won't let up now.",
-                "Tens of millions have placed their trust in the Guardian's fearless journalism since we started publishing 200 years ago, turning to us in moments of crisis, uncertainty, solidarity and hope. We'd like to invite you to join more than 1.5 million supporters from 180 countries who now power us financially - keeping us open to all, and fiercely independent.",
-                'Unlike many others, the Guardian has no shareholders and no billionaire owner. Just the determination and passion to deliver high-impact global reporting, always free from commercial or political influence. Reporting like this is vital to establish the facts: who is lying and who is telling the truth.',
-                'And we provide all this for free, for everyone to read. We do this because we believe in information equality. Greater numbers of people can keep track of the events shaping our world, understand their impact on people and communities, and become inspired to take meaningful action. Millions can benefit from open access to quality, truthful news, regardless of their ability to pay for it.',
-                'Every contribution, however big or small, powers our journalism and sustains our future.',
-            ],
-            highlightedText:
-                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. If you can, please consider supporting us with a regular amount each month. Thank you.',
-            cta: CTA,
-            secondaryCta: { type: SecondaryCtaType.ContributionsReminder },
-            separateArticleCount: { type: 'above' },
-            showChoiceCards: true,
-        },
-        {
             name: 'V2_authored_photo',
             modulePathBuilder: epic.endpointPathBuilder,
             paragraphs: [
