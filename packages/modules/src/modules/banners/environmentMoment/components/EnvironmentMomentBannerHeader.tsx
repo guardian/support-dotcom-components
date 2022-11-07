@@ -117,13 +117,7 @@ const line = css`
     border-top: 1px solid ${GREEN_HEX};
 `;
 
-interface EnvironmentMomentBannerHeaderProps {
-    isSupporter: boolean;
-}
-
-export const EnvironmentMomentBannerHeader: React.FC<EnvironmentMomentBannerHeaderProps> = ({
-    isSupporter,
-}: EnvironmentMomentBannerHeaderProps) => (
+export const EnvironmentMomentBannerHeader: React.FC = () => (
     <header css={container}>
         <div css={iconAndTextContainer}>
             <Hide below="desktop">
@@ -140,10 +134,10 @@ export const EnvironmentMomentBannerHeader: React.FC<EnvironmentMomentBannerHead
                         </div>
                     </Hide>
 
-                    <span>{isSupporter ? 'You power urgent' : 'Support urgent'}</span>
+                    <span>Cop27:</span>
                 </div>
 
-                <span>climate journalism</span>
+                <span>no more hot air</span>
             </div>
         </div>
 
