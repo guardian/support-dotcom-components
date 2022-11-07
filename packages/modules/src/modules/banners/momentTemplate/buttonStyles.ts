@@ -8,6 +8,10 @@ export function buttonStyles(settings: CtaSettings): SerializedStyles {
         &:hover {
             ${toCssString(settings.hover)}
         }
+
+        &:focus {
+            outline: 5px solid #0077B6;
+        }
     `;
 }
 

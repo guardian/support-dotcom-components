@@ -200,6 +200,7 @@ function PaymentCards() {
 const styles = {
     container: css`
         padding-bottom: ${space[5]}px;
+        padding-left: ${space[2]}px;
 
         ${from.tablet} {
             padding-bottom: ${space[6]}px;
@@ -228,5 +229,8 @@ const styles = {
     `,
     reminderCta: css`
         color: ${neutral[0]};
+        &:focus {
+            outline: 5px solid #0077B6;
+        }
     `,
 };

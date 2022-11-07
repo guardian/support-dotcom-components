@@ -157,6 +157,9 @@ const styles = {
         font-weight: inherit;
         font-style: inherit;
         color: inherit;
+        &:focus {
+            outline: 5px solid #0077B6;
+        }
     `,
     overlayContainer: css`
         position: absolute;
