@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';    
+import { space } from '@guardian/src-foundations';
 import { Link } from '@guardian/src-link';
 
 /*
@@ -26,7 +26,7 @@ const boldText = css`
     font-size: inherit;
     font-weight: 700;
     &:focus {
-        outline: 5px solid #0077B6;
+        outline: 5px solid #0077b6;
     }
 `;
 

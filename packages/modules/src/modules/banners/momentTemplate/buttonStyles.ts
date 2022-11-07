@@ -10,7 +10,7 @@ export function buttonStyles(settings: CtaSettings): SerializedStyles {
         }
 
         &:focus {
-            outline: 5px solid #0077B6;
+            outline: 5px solid #0077b6;
         }
     `;
 }

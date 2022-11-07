@@ -158,7 +158,7 @@ const styles = {
         font-style: inherit;
         color: inherit;
         &:focus {
-            outline: 5px solid #0077B6;
+            outline: 5px solid #0077b6;
         }
     `,
     overlayContainer: css`
