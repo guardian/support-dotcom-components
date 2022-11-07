@@ -210,7 +210,7 @@ const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
                         </div>
                     </div>
                     <div css={textContainer}>
-                        <EnvironmentMomentBannerHeader isSupporter={isSupporter ?? false} />
+                        <EnvironmentMomentBannerHeader />
 
                         <div css={bodyAndCtasContainer}>
                             {showArticleCount && (

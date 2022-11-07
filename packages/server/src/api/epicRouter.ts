@@ -27,7 +27,8 @@ import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
-import { climate_2022_AUS } from '../tests/epics/epicEnvironmentMoment2022';
+import { epicProfileWithImageTest_UKAUS } from '../tests/epics/epicProfileWithImageTest_uk-aus';
+import { epicProfileWithImageTest_EUROW } from '../tests/epics/epicProfileWithImageTest_eu-row';
 
 interface EpicDataResponse {
     data?: {
@@ -43,7 +44,10 @@ interface EpicDataResponse {
 }
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [climate_2022_AUS];
+const hardcodedEpicTests: EpicTest[] = [
+    epicProfileWithImageTest_UKAUS,
+    epicProfileWithImageTest_EUROW,
+];
 
 export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
@@ -134,7 +138,7 @@ export const buildEpicRouter = (
 
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
-        const showReminderFields = getReminderFields(variant);
+        const showReminderFields = getReminderFields(variant, targeting.countryCode);
 
         const propsVariant = {
             ...variant,

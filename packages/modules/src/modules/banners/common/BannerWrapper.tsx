@@ -4,6 +4,7 @@ import {
     createClickEventFromTracking,
     createInsertEventFromTracking,
     createViewEventFromTracking,
+    GIVING_TUESDAY_REMINDER_FIELDS,
     isProfileUrl,
 } from '@sdc/shared/lib';
 import React, { useEffect } from 'react';
@@ -154,7 +155,8 @@ const withBannerData = (
 
             return {
                 type: SecondaryCtaType.ContributionsReminder,
-                reminderFields: buildReminderFields(),
+                reminderFields:
+                    countryCode === 'US' ? GIVING_TUESDAY_REMINDER_FIELDS : buildReminderFields(),
             };
         };
 
