@@ -27,6 +27,7 @@ const boldText = css`
     font-weight: 700;
     &:focus {
         outline: 5px solid #0077b6;
+        border-radius: 4px;
     }
 `;
 

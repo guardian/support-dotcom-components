@@ -231,6 +231,7 @@ const styles = {
         color: ${neutral[0]};
         &:focus {
             outline: 5px solid #0077b6;
+            border-radius: 10px;
         }
     `,
 };

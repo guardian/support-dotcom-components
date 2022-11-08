@@ -176,7 +176,7 @@ const AusElectionBanner = bannerWrapper(
                 'Head shots of Anthony Albanese, leader of the Australian Labor Party, and Scott Morrison, current Prime Minister and leader of the Liberal Party of Australia, who are running for the office of Prime Minister in the Australian federal election, to be held on 21 May 2022.',
             mobilePosition: 'end',
             tabletPosition: 'center',
-            desktopPosition: 'end',
+            desktopPosition: 'center',
         },
         signInComponentAfter: 'BODY',
     }),

@@ -236,25 +236,11 @@ const styles = {
             justify-content: flex-end;
         }
     `,
-    mobileStickyHeaderContainer: (background: string, hasReminderCta: boolean) => css`
-        background: ${background};
-        position: sticky;
-        top: 0px;
-        z-index: 100;
-        border-top: 1px solid ${neutral[0]};
-        padding-top: ${space[2]}px;
-
-        ${hasReminderCta
-            ? `
-                border-bottom: 1px solid ${neutral[0]};
-                padding-bottom: ${space[2]}px;
-            `
-            : ''}
-    `,
     desktopVisualContainer: css`
-        display: block;
+        display: none;
 
         ${from.tablet} {
+            display: block;
             width: 238px;
             margin-left: ${space[3]}px;
         }

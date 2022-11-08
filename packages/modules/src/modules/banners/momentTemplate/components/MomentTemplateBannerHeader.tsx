@@ -35,6 +35,10 @@ const styles = {
         position: relative;
     `,
     header: css`
+        width: calc(100% - 50px);
+        ${from.tablet} {
+            width: 100%;
+        }
         h2 {
             ${headline.xsmall({ fontWeight: 'bold' })}
             margin: 0;
