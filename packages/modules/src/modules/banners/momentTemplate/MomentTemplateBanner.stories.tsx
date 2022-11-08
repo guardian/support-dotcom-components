@@ -59,10 +59,10 @@ const GlobalNYBanner = bannerWrapper(
     'global-new-year-banner',
 );
 
-const GlobalNYTemplate: Story<BannerProps> = (props: BannerProps) => <GlobalNYBanner {...props} />;
+const GlobalNewYearTemplate: Story<BannerProps> = (props: BannerProps) => <GlobalNYBanner {...props} />;
 
-export const GlobalNY = GlobalNYTemplate.bind({});
-GlobalNY.args = {
+export const GlobalNewYear = GlobalNewYearTemplate.bind({});
+GlobalNewYear.args = {
     ...props,
     content: {
         heading: 'As 2022 begins, will you support us?',
@@ -176,7 +176,6 @@ const AusElectionBanner = bannerWrapper(
             tabletPosition: 'center',
             desktopPosition: 'center',
         },
-        signInComponentAfter: 'BODY',
     }),
     'aus-moment-banner',
 );
@@ -187,15 +186,15 @@ const AusElectionTemplate: Story<BannerProps> = (props: BannerProps) => (
 
 export const AusElection = AusElectionTemplate.bind({});
 AusElection.args = {
-    ...GlobalNY.args,
+    ...GlobalNewYear.args,
     content: {
-        ...GlobalNY.args.content,
+        ...GlobalNewYear.args.content,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
     mobileContent: {
-        ...GlobalNY.args.mobileContent,
+        ...GlobalNewYear.args.mobileContent,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
