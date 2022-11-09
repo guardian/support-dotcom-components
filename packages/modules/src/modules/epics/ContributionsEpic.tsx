@@ -78,10 +78,6 @@ const linkStyles = css`
     a {
         color: ${palette.news[400]};
         text-decoration: none;
-        border-bottom: 1px solid ${palette.neutral[0]};
-    }
-
-    a:hover {
         border-bottom: 1px solid ${palette.news[400]};
     }
 `;
