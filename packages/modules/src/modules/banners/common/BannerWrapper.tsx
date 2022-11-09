@@ -81,6 +81,7 @@ const withBannerData = (
         tickerSettings,
         isSupporter,
         separateArticleCount,
+        includeSignIn,
     } = bannerProps;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen(
@@ -261,6 +262,7 @@ const withBannerData = (
                 isSupporter,
                 numArticles,
                 separateArticleCount,
+                includeSignIn,
             };
             return (
                 <div ref={setNode}>

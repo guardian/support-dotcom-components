@@ -4,10 +4,11 @@ import { neutral, space } from '@guardian/src-foundations';
 import { Hide } from '@guardian/src-layout';
 import { Button, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { BannerRenderedContent } from '../../common/types';
+import { BannerRenderedContent, BannerEnrichedCta } from '../../common/types';
 import { buttonStyles } from '../buttonStyles';
 import { CtaSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
+import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 // ---- Component ---- //
 
@@ -30,6 +31,12 @@ export function MomentTemplateBannerCtas({
     primaryCtaSettings,
     secondaryCtaSettings,
 }: MomentTemplateBannerCtasProps): JSX.Element {
+    const checkForSupportCtaLink = (cta: BannerEnrichedCta | null): boolean => {
+        if (!cta || !cta.ctaUrl) {
+            return false;
+        }
+        return isSupportUrl(cta.ctaUrl);
+    };
     return (
         <div css={styles.container}>
             <div>
@@ -112,8 +119,12 @@ export function MomentTemplateBannerCtas({
             </div>
 
             <div>
-                <Hide above="tablet">{mobileContent.primaryCta && <PaymentCards />}</Hide>
-                <Hide below="tablet">{content.primaryCta && <PaymentCards />}</Hide>
+                <Hide above="tablet">
+                    {checkForSupportCtaLink(mobileContent.primaryCta) && <PaymentCards />}
+                </Hide>
+                <Hide below="tablet">
+                    {checkForSupportCtaLink(content.primaryCta) && <PaymentCards />}
+                </Hide>
             </div>
         </div>
     );

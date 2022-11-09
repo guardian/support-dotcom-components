@@ -52,8 +52,6 @@ export interface BannerTextContent {
     mobileContent: BannerRenderedContent;
 }
 
-type SignInComponentValue = 'BODY' | 'CTA';
-
 export interface BannerRenderProps {
     onCtaClick: () => void;
     onSecondaryCtaClick: () => void;
@@ -69,5 +67,5 @@ export interface BannerRenderProps {
     isSupporter?: boolean;
     numArticles?: number;
     separateArticleCount?: boolean;
-    includeSignIn?: SignInComponentValue;
+    includeSignIn?: string;
 }

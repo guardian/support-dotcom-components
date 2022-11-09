@@ -59,7 +59,9 @@ const GlobalNYBanner = bannerWrapper(
     'global-new-year-banner',
 );
 
-const GlobalNewYearTemplate: Story<BannerProps> = (props: BannerProps) => <GlobalNYBanner {...props} />;
+const GlobalNewYearTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <GlobalNYBanner {...props} />
+);
 
 export const GlobalNewYear = GlobalNewYearTemplate.bind({});
 GlobalNewYear.args = {
@@ -110,7 +112,7 @@ GlobalNewYear.args = {
     numArticles: 50,
 };
 
-const AusElectionBanner = bannerWrapper(
+const WithImageBanner = bannerWrapper(
     getMomentTemplateBanner({
         backgroundColour: '#e4e4e3',
         primaryCtaSettings: {
@@ -180,23 +182,84 @@ const AusElectionBanner = bannerWrapper(
     'aus-moment-banner',
 );
 
-const AusElectionTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <AusElectionBanner {...props} />
+const WithImageTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <WithImageBanner {...props} />
 );
 
-export const AusElection = AusElectionTemplate.bind({});
-AusElection.args = {
-    ...GlobalNewYear.args,
+export const WithImage = WithImageTemplate.bind({});
+WithImage.args = {
+    ...props,
     content: {
-        ...GlobalNewYear.args.content,
+        heading: 'As 2022 begins, will you support us?',
+        messageText:
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+        paragraphs: [
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+            'We do not shy away. And we provide all this for free, for everyone.',
+        ],
+        highlightedText:
+            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support the Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
     mobileContent: {
-        ...GlobalNewYear.args.mobileContent,
+        heading: 'Please support us in 2022',
+        messageText:
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
+        paragraphs: [
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
+        ],
+        highlightedText:
+            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support us',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    numArticles: 50,
+};
+
+export const WithImageNoArticleCount = WithImageTemplate.bind({});
+WithImageNoArticleCount.args = {
+    ...WithImage.args,
+    numArticles: 0,
+};
+
+export const WithImageSignInAfterBody = WithImageTemplate.bind({});
+WithImageSignInAfterBody.args = {
+    ...WithImage.args,
+    includeSignIn: 'BODY',
+};
+
+export const WithImageSignInAfterCta = WithImageTemplate.bind({});
+WithImageSignInAfterCta.args = {
+    ...WithImage.args,
+    includeSignIn: 'CTA',
+};
+
+export const WithImageNoSupportCtaIcons = WithImageTemplate.bind({});
+WithImageNoSupportCtaIcons.args = {
+    ...WithImage.args,
+    content: {
+        ...WithImage.args.content,
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'The Guardian',
+        },
+    },
+    mobileContent: {
+        ...WithImage.args.mobileContent,
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'The Guardian',
         },
     },
 };
