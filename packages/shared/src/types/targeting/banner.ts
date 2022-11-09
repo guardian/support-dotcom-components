@@ -4,7 +4,7 @@ export type BannerTargeting = {
     alreadyVisitedCount: number;
     shouldHideReaderRevenue?: boolean;
     isPaidContent?: boolean;
-    showSupportMessaging: boolean;
+    showSupportMessaging: boolean; // Deprecated - use isRecurringSupporter + lastOneOffContributionDate
     engagementBannerLastClosedAt?: string;
     subscriptionBannerLastClosedAt?: string;
     signInBannerLastClosedAt?: string;
@@ -21,6 +21,7 @@ export type BannerTargeting = {
     purchaseInfo?: PurchaseInfo;
     isSignedIn: boolean;
     lastOneOffContributionDate?: string;
+    isRecurringSupporter?: boolean;
 };
 
 export type BannerPayload = {

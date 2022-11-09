@@ -1,4 +1,4 @@
-const pauseDays = 90;
+const DefaultCutOffDays = 90;
 
 export const daysSince = (then: Date, now: Date): number => {
     const oneDayMs = 1000 * 60 * 60 * 24;
@@ -9,10 +9,11 @@ export const daysSince = (then: Date, now: Date): number => {
 export const isRecentOneOffContributor = (
     lastOneOffContributionDate?: Date,
     now: Date = new Date(Date.now()), // to mock out Date.now in tests
+    cutOffDays: number = DefaultCutOffDays,
 ): boolean => {
     if (!lastOneOffContributionDate) {
         return false;
     }
 
-    return daysSince(lastOneOffContributionDate, now) <= pauseDays;
+    return daysSince(lastOneOffContributionDate, now) <= cutOffDays;
 };

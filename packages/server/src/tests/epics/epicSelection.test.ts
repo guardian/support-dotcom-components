@@ -1,15 +1,12 @@
 import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
 import { EpicTargeting, EpicTest } from '@sdc/shared/types';
 import { SuperModeArticle } from '../../lib/superMode';
-import { withNowAs } from '../../utils/withNowAs';
 import {
     excludeSection,
     excludeTags,
     findTestAndVariant,
-    getUserCohorts,
     hasCountryCode,
     hasSectionOrTags,
-    inCorrectCohort,
     isNotExpired,
     matchesCountryGroups,
     userInTest,
@@ -146,73 +143,6 @@ describe('findTestAndVariant', () => {
     });
 });
 
-describe('getUserCohort', () => {
-    const now = new Date('2020-03-31T12:30:00');
-    const twoMonthsAgo = new Date(now).setMonth(now.getMonth() - 2);
-
-    it('should return "AllNonSupporters" when users is not contributor', () => {
-        const targeting = {
-            ...targetingDefault,
-            showSupportMessaging: true,
-            isRecurringContributor: false,
-            lastOneOffContributionDate: undefined,
-        };
-
-        const got = getUserCohorts(targeting);
-
-        expect(got).toEqual(['AllNonSupporters', 'Everyone']);
-    });
-
-    it('should return "AllExistingSupporters" when user is recurring contributor', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            isRecurringContributor: true,
-        };
-
-        const got = getUserCohorts(targeting);
-
-        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
-    });
-
-    it('should return "AllExistingSupporters" when user has some form of paid product', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            showSupportMessaging: false,
-        };
-
-        const got = getUserCohorts(targeting);
-
-        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
-    });
-
-    it('should return [] when user has recent one-off contribution', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            lastOneOffContributionDate: twoMonthsAgo,
-        };
-
-        const got = withNowAs(now, () => getUserCohorts(targeting));
-
-        expect(got).toEqual([]);
-    });
-
-    it('should return "PostAskPauseSingleContributors" when user has older one-off contribution', () => {
-        const now = new Date('2020-03-31T12:30:00');
-        const fourMonthsAgo = new Date(now).setMonth(now.getMonth() - 4);
-
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            showSupportMessaging: true,
-            isRecurringContributor: false,
-            lastOneOffContributionDate: fourMonthsAgo,
-        };
-
-        const got = withNowAs(now, () => getUserCohorts(targeting));
-
-        expect(got).toEqual(['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone']);
-    });
-});
-
 describe('hasCountryCode filter', () => {
     it('should fail when country name is invalid/unknown', () => {
         const test: EpicTest = { ...testDefault, hasCountryName: true };
@@ -267,47 +197,6 @@ describe('userInTest filter', () => {
         const got = userInTest(mvtId).test(test, targetingDefault);
 
         expect(got).toBe(true);
-    });
-});
-
-describe('inCorrectCohort filter', () => {
-    it('should pass when overlapping cohorts', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            userCohort: 'AllNonSupporters',
-        };
-        const filter = inCorrectCohort(
-            ['PostAskPauseSingleContributors', 'AllNonSupporters', 'Everyone'],
-            false,
-        );
-
-        const got = filter.test(test, targetingDefault);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail when no overlapping cohorts', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            userCohort: 'AllExistingSupporters',
-        };
-        const filter = inCorrectCohort(['AllNonSupporters', 'Everyone'], false);
-
-        const got = filter.test(test, targetingDefault);
-
-        expect(got).toBe(false);
-    });
-
-    it('should fail for super mode when test targets supporters', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            userCohort: 'AllExistingSupporters',
-        };
-        const filter = inCorrectCohort(['AllExistingSupporters', 'Everyone'], true);
-
-        const got = filter.test(test, targetingDefault);
-
-        expect(got).toBe(false);
     });
 });
 

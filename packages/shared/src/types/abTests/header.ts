@@ -1,4 +1,4 @@
-import { UserCohort, Test, Variant, TestStatus } from './shared';
+import { UserCohort, Test, Variant, TestStatus, SupporterStatusRules } from './shared';
 import { HeaderContent } from '../props';
 import { CountryGroupId } from '../../lib';
 import { PurchaseInfoTest } from '../abTests';
@@ -15,7 +15,8 @@ export interface HeaderTest extends Test<HeaderVariant> {
     name: string;
     status: TestStatus;
     locations: CountryGroupId[];
-    userCohort: UserCohort;
+    userCohort?: UserCohort; // Deprecated - use supporterStatus
+    supporterStatus?: SupporterStatusRules;
     purchaseInfo?: PurchaseInfoTest;
     variants: HeaderVariant[];
 }

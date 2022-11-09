@@ -3,6 +3,7 @@ import {
     ArticlesViewedSettings,
     ControlProportionSettings,
     DeviceType,
+    SupporterStatusRules,
     TargetingAbTest,
     Test,
     TestStatus,
@@ -49,7 +50,8 @@ export interface BannerTest extends Test<BannerVariant> {
     status: TestStatus;
     bannerChannel: BannerChannel;
     isHardcoded: boolean;
-    userCohort: UserCohort;
+    userCohort?: UserCohort; // Deprecated - use supporterStatus
+    supporterStatus?: SupporterStatusRules;
     canRun?: CanRun;
     minPageViews: number;
     variants: BannerVariant[];
@@ -83,7 +85,8 @@ export interface RawTestParams {
     nickname: string;
     status: TestStatus;
     minArticlesBeforeShowingBanner: number;
-    userCohort: UserCohort;
+    userCohort?: UserCohort;
+    supporterStatus?: SupporterStatusRules;
     locations: CountryGroupId[];
     variants: RawVariantParams[];
     articlesViewedSettings?: ArticlesViewedSettings;

@@ -82,6 +82,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                         bannerChannel,
                         isHardcoded: false,
                         userCohort: testParams.userCohort,
+                        supporterStatus: testParams.supporterStatus,
                         locations: testParams.locations,
                         minPageViews: testParams.minArticlesBeforeShowingBanner,
                         articlesViewedSettings: testParams.articlesViewedSettings,
