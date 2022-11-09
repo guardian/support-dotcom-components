@@ -77,11 +77,6 @@ const headingStyles = css`
 const linkStyles = css`
     a {
         color: ${palette.news[400]};
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
     }
 `;
 
