@@ -36,9 +36,6 @@ export function getMomentTemplateBanner(
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
-        console.log('includeSignIn', includeSignIn);
-        console.log('content', content);
-
         const onReminderCtaClick = () => {
             reminderTracking.onReminderCtaClick();
             setIsReminderActive(!isReminderActive);
