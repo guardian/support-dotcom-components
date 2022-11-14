@@ -34,15 +34,6 @@ describe('audienceMatches', () => {
         expect(got).toBe(true);
     });
 
-    // it('returns true for recent contributor if test is for AllExistingSupporters', () => {
-    //     const got = audienceMatches(true, 'AllExistingSupporters');
-    //     expect(got).toBe(true);
-    // });
-    // it('returns false for recent contributor if test is for AllNonSupporters', () => {
-    //     const got = audienceMatches(false, 'AllNonSupporters');
-    //     expect(got).toBe(false);
-    // });
-
     it('returns true for old contributor if test is for AllNonSupporters', () => {
         const got = audienceMatches(true, 'AllNonSupporters');
         expect(got).toBe(true);
