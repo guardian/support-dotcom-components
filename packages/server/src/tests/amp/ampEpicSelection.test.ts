@@ -84,8 +84,7 @@ const expectedAmpEpic: AMPEpic = {
 };
 
 const tickerDataReloader = new TickerDataProvider({
-    people: { get: () => ({ total: 999, goal: 1000 }) },
-    money: { get: () => ({ total: 999, goal: 1000 }) },
+    get: () => ({ total: 999, goal: 1000 }),
 });
 
 describe('ampEpicTests', () => {

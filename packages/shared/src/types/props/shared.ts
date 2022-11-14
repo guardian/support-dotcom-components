@@ -58,10 +58,9 @@ export const tickerEndTypeSchema = z.enum(['unlimited', 'hardstop']);
 
 export enum TickerCountType {
     money = 'money',
-    people = 'people',
 }
 
-export const tickerCountTypeSchema = z.enum(['money', 'people']);
+export const tickerCountTypeSchema = z.enum(['money']);
 
 interface TickerCopy {
     countLabel: string;
