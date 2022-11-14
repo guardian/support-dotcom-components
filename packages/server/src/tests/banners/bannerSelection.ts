@@ -157,11 +157,7 @@ export const selectBannerTest = (
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
-            audienceMatches(
-                targeting.showSupportMessaging,
-                test.userCohort,
-                targeting.lastOneOffContributionDate,
-            ) &&
+            audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
             targeting.alreadyVisitedCount >= test.minPageViews &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
