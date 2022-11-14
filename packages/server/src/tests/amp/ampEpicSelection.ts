@@ -103,10 +103,7 @@ const selectAmpEpicTestAndVariant = async (
             };
 
             if (variant.tickerSettings) {
-                const ticker = ampTicker(
-                    variant.tickerSettings,
-                    tickerData.getTickerData(variant.tickerSettings.countType),
-                );
+                const ticker = ampTicker(variant.tickerSettings, tickerData.getTickerData());
                 return { ...epicData, ticker };
             } else {
                 return epicData;
