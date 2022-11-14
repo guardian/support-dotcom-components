@@ -32,11 +32,6 @@ export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
         ? new Date(targeting.lastOneOffContributionDate)
         : undefined;
 
-    if (isRecentOneOffContributor(lastOneOffContributionDate)) {
-        // Recent contributors are excluded from all message tests
-        return [];
-    }
-
     // User is a current supporter if she has a subscription or a recurring
     // donation or has made a one-off contribution in the past 3 months.
     const isSupporter =

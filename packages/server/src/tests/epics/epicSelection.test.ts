@@ -185,7 +185,7 @@ describe('getUserCohort', () => {
         expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
-    it('should return [] when user has recent one-off contribution', () => {
+    it('should return "AllExistingSupporters" when user has recent one-off contribution', () => {
         const targeting: EpicTargeting = {
             ...targetingDefault,
             lastOneOffContributionDate: twoMonthsAgo,
@@ -193,7 +193,7 @@ describe('getUserCohort', () => {
 
         const got = withNowAs(now, () => getUserCohorts(targeting));
 
-        expect(got).toEqual([]);
+        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
     it('should return "PostAskPauseSingleContributors" when user has older one-off contribution', () => {
