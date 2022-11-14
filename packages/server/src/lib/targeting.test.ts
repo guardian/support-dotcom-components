@@ -33,15 +33,6 @@ describe('audienceMatches', () => {
         const got = audienceMatches(false, 'AllExistingSupporters');
         expect(got).toBe(true);
     });
-
-    it('returns true for old contributor if test is for AllNonSupporters', () => {
-        const got = audienceMatches(true, 'AllNonSupporters');
-        expect(got).toBe(true);
-    });
-    it('returns false for old contributor if test is for AllExistingSupporters', () => {
-        const got = audienceMatches(true, 'AllExistingSupporters');
-        expect(got).toBe(false);
-    });
 });
 
 describe('shouldThrottle', () => {
