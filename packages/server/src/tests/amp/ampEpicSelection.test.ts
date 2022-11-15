@@ -1,9 +1,21 @@
 import { CountryGroupId } from '@sdc/shared/lib';
-import { TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { TickerCountType, TickerEndType, TickerSettings } from '@sdc/shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicSelection';
 import { TickerDataProvider } from '../../lib/fetchTickerData';
+
+const tickerSettings: TickerSettings = {
+    endType: TickerEndType.unlimited,
+    countType: TickerCountType.money,
+    currencySymbol: '$',
+    copy: {
+        countLabel: 'contributions',
+        goalReachedPrimary: "We've hit our goal!",
+        goalReachedSecondary: 'but you can still support us',
+    },
+    name: 'US_2022',
+};
 
 const epicTest: AmpEpicTest = {
     name: 'TEST1',
@@ -21,16 +33,7 @@ const epicTest: AmpEpicTest = {
                 text: 'Show your support',
                 baseUrl: 'https://support.theguardian.com/contribute',
             },
-            tickerSettings: {
-                endType: TickerEndType.unlimited,
-                countType: TickerCountType.money,
-                currencySymbol: '$',
-                copy: {
-                    countLabel: 'contributions',
-                    goalReachedPrimary: "We've hit our goal!",
-                    goalReachedSecondary: 'but you can still support us',
-                },
-            },
+            tickerSettings,
         },
         {
             name: 'VARIANT',
@@ -42,16 +45,7 @@ const epicTest: AmpEpicTest = {
                 text: 'Show your support',
                 baseUrl: 'https://support.theguardian.com/contribute',
             },
-            tickerSettings: {
-                endType: TickerEndType.unlimited,
-                countType: TickerCountType.money,
-                currencySymbol: '$',
-                copy: {
-                    countLabel: 'contributions',
-                    goalReachedPrimary: "We've hit our goal!",
-                    goalReachedSecondary: 'but you can still support us',
-                },
-            },
+            tickerSettings,
         },
     ],
 };
@@ -84,7 +78,8 @@ const expectedAmpEpic: AMPEpic = {
 };
 
 const tickerDataReloader = new TickerDataProvider({
-    get: () => ({ total: 999, goal: 1000 }),
+    US_2022: { get: () => ({ total: 999, goal: 1000 }) },
+    AU_2022: { get: () => ({ total: 999, goal: 1000 }) },
 });
 
 describe('ampEpicTests', () => {
