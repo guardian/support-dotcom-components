@@ -85,7 +85,7 @@ export const tickerDataSchema = z.object({
 });
 
 // Corresponds to .json file names in S3
-export type TickerName = 'us22' | 'au22';
+export type TickerName = 'US_2022' | 'AU_2022';
 
 export interface TickerSettings {
     endType: TickerEndType;
