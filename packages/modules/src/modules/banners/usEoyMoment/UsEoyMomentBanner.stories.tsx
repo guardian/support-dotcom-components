@@ -7,7 +7,7 @@ import { neutral } from '@guardian/src-foundations';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 export default {
-    title: 'Banners/UsEoyMoment',
+    title: 'Banners/MomentTemplate',
     args: props,
 } as Meta;
 
@@ -72,11 +72,9 @@ UsEoy2022Capitol.args = {
         messageText:
             'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         paragraphs: [
-            'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
+            'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. ',
         ],
-        // highlightedText: {
-        //
-        // },
+        highlightedText: 'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         cta: {
             text: 'Support independent journalism',
             baseUrl: 'https://support.theguardian.com/contribute',
