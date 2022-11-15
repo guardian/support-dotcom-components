@@ -84,11 +84,15 @@ export const tickerDataSchema = z.object({
     goal: z.number(),
 });
 
+// Corresponds to .json file names in S3
+export type TickerName = 'us22' | 'au22';
+
 export interface TickerSettings {
     endType: TickerEndType;
     countType: TickerCountType;
     currencySymbol: string;
     copy: TickerCopy;
+    name: TickerName;
     tickerData?: TickerData;
 }
 
