@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { neutral, news, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
@@ -13,6 +13,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
+import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 
 // ---- Banner ---- //
 
@@ -29,6 +30,7 @@ export function getMomentTemplateBanner(
         onSecondaryCtaClick,
         reminderTracking,
         separateArticleCount,
+        tickerSettings,
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
@@ -138,6 +140,13 @@ export function getMomentTemplateBanner(
                                     }
                                 />
                             </div>
+
+                            {tickerSettings?.tickerData && (
+                                <MomentTemplateBannerTicker
+                                    tickerSettings={tickerSettings}
+                                    accentColour={news[400]}
+                                />
+                            )}
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
