@@ -59,7 +59,7 @@ export const selectAmpEpic = async (
 const selectAmpEpicTestAndVariant = async (
     tests: AmpEpicTest[],
     ampVariantAssignments: AmpVariantAssignments,
-    tickerData: TickerDataProvider,
+    tickerDataProvider: TickerDataProvider,
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
     const test = tests.find(
@@ -103,7 +103,8 @@ const selectAmpEpicTestAndVariant = async (
             };
 
             if (variant.tickerSettings) {
-                const ticker = ampTicker(variant.tickerSettings, tickerData.getTickerData());
+                const tickerData = tickerDataProvider.getTickerData(variant.tickerSettings.name);
+                const ticker = tickerData && ampTicker(variant.tickerSettings, tickerData);
                 return { ...epicData, ticker };
             } else {
                 return epicData;
