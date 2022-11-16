@@ -255,6 +255,7 @@ export const findTestAndVariant = (
             respectArticleCountOptOut,
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(isMobile),
+            correctSignedInStatus,
         ];
     };
 
