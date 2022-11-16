@@ -5,13 +5,18 @@ import { textSans } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import useTicker from '../../../../hooks/useTicker';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 
 const containerStyles = css`
     position: relative;
-    // fixed height must be set
+    // fixed container height must be set
     height: 50px;
     line-height: 18px;
+
+    // fixed height is larger here to accomodate ticker copy on a maximum of 2 lines
+    ${until.mobileMedium} {
+        height: 65px;
+    }
 `;
 
 const countLabelStyles = css`
@@ -48,6 +53,11 @@ const soFarContainerStyles = css`
     position: absolute;
     left: 0;
     bottom: ${progressBarHeight + 5}px;
+
+    // this max-width will acommodate ticker copy on a maximum of 2 lines
+    ${until.mobileMedium} {
+        max-width: 130px;
+    }
 `;
 
 const progressBarTransform = (end: number, runningTotal: number, total: number): string => {
