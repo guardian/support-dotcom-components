@@ -3,11 +3,12 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { ImageAttrs, ResponsiveImage } from '../../../shared/ResponsiveImage';
 import { Image } from '@sdc/shared/types';
+import { BannerId } from '../../common/types';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerVisualProps {
-    settings: Image;
+    settings: Image & { bannerId?: BannerId };
 }
 
 export function MomentTemplateBannerVisual({
@@ -36,8 +37,14 @@ export function MomentTemplateBannerVisual({
         images.push({ url: settings.wideUrl, media: '' });
     }
 
+    const alignItems = css`
+        ${from.tablet} {
+            align-items: ${settings.bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
+        }
+    `;
+
     return (
-        <div css={container}>
+        <div css={[container, alignItems]}>
             <ResponsiveImage baseImage={baseImage} images={images} />
         </div>
     );
@@ -60,6 +67,5 @@ const container = css`
     ${from.tablet} {
         height: 100%;
         width: 100%;
-        align-items: center;
     }
 `;

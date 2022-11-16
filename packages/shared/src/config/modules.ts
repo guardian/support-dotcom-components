@@ -92,7 +92,7 @@ export const climateCrisisMomentBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const usEoyMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'us-eoy-banner',
-    'banners/momentTemplate/MomentTemplateBanner',
+    'banners/usEoyMoment/UsEoyMomentBanner',
 );
 
 export const moduleInfos: ModuleInfo[] = [
