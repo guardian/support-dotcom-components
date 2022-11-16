@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { news, palette } from '@guardian/src-foundations';
+import { palette } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
@@ -10,14 +10,14 @@ import { from } from '@guardian/src-foundations/mq';
 const containerStyles = css`
     position: relative;
     // fixed height must be set
-    height: 65px;
+    height: 50px;
     line-height: 18px;
 `;
 
 const countLabelStyles = css`
     ${textSans.xsmall({ fontWeight: 'bold' })};
     font-size: 13px;
-    color: ${news[400]};
+    color: #d42d1a;
     line-height: 1.3;
 
     ${from.desktop} {
@@ -87,7 +87,7 @@ const goalContainerStyles = css`
 `;
 
 const goalMarkerStyles = (transform: string): SerializedStyles => css`
-    border-right: 2px solid ${palette.news[400]};
+    border-right: 2px solid #d42d1a;
     content: ' ';
     display: block;
     height: calc(100% + 6px);

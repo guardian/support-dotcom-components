@@ -13,14 +13,14 @@ export default {
 
 const UsEoyMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: neutral[86],
+        backgroundColour: '#deded9',
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],
                 textColour: 'white',
             },
             hover: {
-                backgroundColour: neutral[46],
+                backgroundColour: neutral[20],
                 textColour: 'white',
             },
         },
@@ -30,7 +30,7 @@ const UsEoyMomentBanner = bannerWrapper(
                 textColour: neutral[7],
             },
             hover: {
-                backgroundColour: neutral[93],
+                backgroundColour: neutral[100],
                 textColour: neutral[7],
             },
         },
@@ -55,8 +55,8 @@ const UsEoyMomentBanner = bannerWrapper(
             mobileUrl:
                 'https://media.guim.co.uk/2494b0dd21a753c373fcb85c26d4c461e13c6b5b/149_0_1195_588/500.png',
             altText: 'The United States Capitol Building',
-            bannerId: 'us-eoy-banner',
         },
+        bannerId: 'us-eoy-banner',
     }),
     'us-eoy-banner',
 );
@@ -90,11 +90,10 @@ UsEoy2022Capitol.args = {
     },
     mobileContent: {
         heading: 'Resist powerlessness. Protect democracy. Support the Guardian.',
-        //
         messageText:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
+            'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         paragraphs: [
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
+            'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. ',
         ],
         cta: {
             text: 'Support us',
@@ -119,7 +118,6 @@ UsEoy2022Capitol.args = {
             goalReachedPrimary: "We've met our goal - thank you!",
             goalReachedSecondary: '',
         },
-        //
         tickerData: {
             total: 1_299_999,
             goal: 1_250_000,

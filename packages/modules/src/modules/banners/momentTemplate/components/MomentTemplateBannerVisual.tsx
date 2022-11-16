@@ -8,11 +8,13 @@ import { BannerId } from '../../common/types';
 // ---- Component ---- //
 
 interface MomentTemplateBannerVisualProps {
-    settings: Image & { bannerId?: BannerId };
+    settings: Image;
+    bannerId?: BannerId;
 }
 
 export function MomentTemplateBannerVisual({
     settings,
+    bannerId,
 }: MomentTemplateBannerVisualProps): JSX.Element {
     const baseImage: ImageAttrs = {
         url: settings.mainUrl,
@@ -39,7 +41,7 @@ export function MomentTemplateBannerVisual({
 
     const alignItems = css`
         ${from.tablet} {
-            align-items: ${settings.bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
+            align-items: ${bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
         }
     `;
 

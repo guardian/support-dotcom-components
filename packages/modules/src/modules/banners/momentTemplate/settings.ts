@@ -26,6 +26,7 @@ export interface BannerTemplateSettings {
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
     articleCountTextColour?: string;
-    imageSettings?: Image & { bannerId?: BannerId };
+    imageSettings?: Image;
     alternativeVisual?: ReactNode;
+    bannerId?: BannerId;
 }

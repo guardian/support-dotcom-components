@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
-import { neutral, news, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
@@ -47,6 +47,8 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
+        const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
+
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
                 <Container
@@ -70,6 +72,7 @@ export function getMomentTemplateBanner(
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
+                                    bannerId={templateSettings.bannerId}
                                 />
                             )}
                             {templateSettings.alternativeVisual}
@@ -107,6 +110,7 @@ export function getMomentTemplateBanner(
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
+                                        bannerId={templateSettings.bannerId}
                                     />
                                 )}
                                 {templateSettings.alternativeVisual}
@@ -131,7 +135,11 @@ export function getMomentTemplateBanner(
                                 </div>
                             )}
 
-                            <div css={styles.bodyContainer}>
+                            <div
+                                css={
+                                    isUsEoyBanner ? styles.usEoyBodyContainer : styles.bodyContainer
+                                }
+                            >
                                 <MomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
@@ -144,7 +152,7 @@ export function getMomentTemplateBanner(
                             {tickerSettings?.tickerData && (
                                 <MomentTemplateBannerTicker
                                     tickerSettings={tickerSettings}
-                                    accentColour={news[400]}
+                                    accentColour={'#d42d1a'}
                                 />
                             )}
 
@@ -312,6 +320,9 @@ const styles = {
     `,
     bodyContainer: css`
         margin-top: ${space[1]}px;
+    `,
+    usEoyBodyContainer: css`
+        margin-top: ${space[3]}px;
     `,
     ctasContainer: css`
         display: flex;
