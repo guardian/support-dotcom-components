@@ -40,7 +40,7 @@ const getTickerDataForTickerTypeFetcher = (name: TickerName) => (): Promise<Tick
         .then(response => response.json())
         .then(parse)
         .catch(error => {
-            logError(`Error fetching ticker data: ${error}`);
+            logError(`Error fetching ${name} ticker data: ${error}`);
             return Promise.reject(error);
         });
 };
