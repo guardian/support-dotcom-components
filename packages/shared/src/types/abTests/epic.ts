@@ -2,6 +2,7 @@ import { CountryGroupId, ReminderFields } from '../../lib';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
+    SignedInStatus,
     Test,
     TestStatus,
     UserCohort,
@@ -127,4 +128,6 @@ export interface EpicTest extends Test<EpicVariant> {
 
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
+
+    signedInStatus?: SignedInStatus;
 }

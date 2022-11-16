@@ -27,6 +27,8 @@ export type UserCohort =
     | 'Everyone'
     | 'PostAskPauseSingleContributors';
 
+export type SignedInStatus = 'SignedIn' | 'SignedOut' | 'All';
+
 export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;

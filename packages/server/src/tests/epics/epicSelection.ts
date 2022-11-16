@@ -56,6 +56,20 @@ export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     return ['AllNonSupporters', 'Everyone'];
 };
 
+export const correctSignedInStatus: Filter = {
+    id: 'correctSignedInStatus',
+    test: (test, targeting) => {
+        switch (test.signedInStatus) {
+            case 'SignedIn':
+                return targeting.isSignedIn === true;
+            case 'SignedOut':
+                return targeting.isSignedIn === false;
+            default:
+                return true;
+        }
+    },
+};
+
 export const hasSectionOrTags: Filter = {
     id: 'hasSectionOrTags',
     test: (test, targeting) => {
