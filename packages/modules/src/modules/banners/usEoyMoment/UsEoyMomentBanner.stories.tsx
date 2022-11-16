@@ -122,6 +122,7 @@ WithUnderfundedTicker.args = {
             total: 1_000_000,
             goal: 1_250_000,
         },
+        name: 'US_2022',
     },
 };
 
