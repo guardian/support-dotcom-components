@@ -299,11 +299,7 @@ export const selectBestTest = (
 
         return (
             status === 'Live' &&
-            audienceMatches(
-                showSupportMessaging,
-                userCohort,
-                targeting.lastOneOffContributionDate,
-            ) &&
+            audienceMatches(showSupportMessaging, userCohort) &&
             inCountryGroups(countryCode, locations) &&
             userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&

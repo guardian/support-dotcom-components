@@ -58,10 +58,9 @@ export const tickerEndTypeSchema = z.enum(['unlimited', 'hardstop']);
 
 export enum TickerCountType {
     money = 'money',
-    people = 'people',
 }
 
-export const tickerCountTypeSchema = z.enum(['money', 'people']);
+export const tickerCountTypeSchema = z.enum(['money']);
 
 interface TickerCopy {
     countLabel: string;
@@ -85,11 +84,15 @@ export const tickerDataSchema = z.object({
     goal: z.number(),
 });
 
+// Corresponds to .json file names in S3
+export type TickerName = 'US_2022' | 'AU_2022';
+
 export interface TickerSettings {
     endType: TickerEndType;
     countType: TickerCountType;
     currencySymbol: string;
     copy: TickerCopy;
+    name: TickerName;
     tickerData?: TickerData;
 }
 
