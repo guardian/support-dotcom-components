@@ -7,7 +7,7 @@ import { neutral } from '@guardian/src-foundations';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/MomentTemplate/US_EOY_2022',
     args: props,
 } as Meta;
 
@@ -65,8 +65,8 @@ const UsEoy2022Template: Story<BannerProps> = (props: BannerProps) => (
     <UsEoyMomentBanner {...props} />
 );
 
-export const UsEoy2022Capitol = UsEoy2022Template.bind({});
-UsEoy2022Capitol.args = {
+export const WithUnderfundedTicker = UsEoy2022Template.bind({});
+WithUnderfundedTicker.args = {
     ...props,
     content: {
         heading: 'Resist powerlessness. Protect democracy. Support the Guardian.',
@@ -119,7 +119,20 @@ UsEoy2022Capitol.args = {
             goalReachedSecondary: '',
         },
         tickerData: {
-            total: 1_299_999,
+            total: 1_000_000,
+            goal: 1_250_000,
+        },
+    },
+};
+
+export const WithOverfundedTicker = UsEoy2022Template.bind({});
+WithOverfundedTicker.args = {
+    ...WithUnderfundedTicker.args,
+    tickerSettings: {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- underfunded tickerSettings will not be undefined
+        ...WithUnderfundedTicker.args.tickerSettings!,
+        tickerData: {
+            total: 1_500_000,
             goal: 1_250_000,
         },
     },
