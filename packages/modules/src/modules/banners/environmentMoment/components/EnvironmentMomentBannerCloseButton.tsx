@@ -15,7 +15,14 @@ export const EnvironmentMomentBannerCloseButton: React.FC<EnvironmentMomentBanne
     onClick,
 }: EnvironmentMomentBannerCloseButtonProps) => (
     <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
-        <Button onClick={onClick} css={button} size="small" icon={<SvgCross />} hideLabel>
+        <Button
+            aria-label="Close"
+            onClick={onClick}
+            css={button}
+            size="small"
+            icon={<SvgCross />}
+            hideLabel
+        >
             Dismiss the banner
         </Button>
     </ThemeProvider>

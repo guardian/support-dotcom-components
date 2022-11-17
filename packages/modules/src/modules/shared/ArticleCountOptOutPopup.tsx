@@ -52,6 +52,7 @@ const articleCountButton = css`
     color: inherit;
     &:focus {
         outline: none !important;
+        border-bottom-width: 3px;
     }
 `;
 

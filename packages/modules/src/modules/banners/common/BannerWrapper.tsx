@@ -63,6 +63,22 @@ export const getParagraphsOrMessageText = (
     return bodyCopy;
 };
 
+const checkIfElementIsHidden = (el: HTMLElement | null): boolean => {
+    while (el && el.parentNode != null) {
+        if (el && el.style) {
+            if (el.style.display === 'none' || el.style.visibility === 'hidden') {
+                return true;
+            }
+            const computed = window.getComputedStyle(el);
+            if (computed.display === 'none' || computed.visibility === 'hidden') {
+                return true;
+            }
+        }
+        el = el.parentNode instanceof HTMLElement ? el.parentNode : null;
+    }
+    return false;
+};
+
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
@@ -83,7 +99,7 @@ const withBannerData = (
         separateArticleCount,
     } = bannerProps;
 
-    const [hasBeenSeen, setNode] = useHasBeenSeen(
+    const [hasBeenSeen, setNode, node] = useHasBeenSeen(
         {
             threshold: 0,
         },
@@ -101,6 +117,58 @@ const withBannerData = (
             submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
         }
     }, [submitComponentEvent]);
+
+    useEffect(() => {
+        if (node != null) {
+            // Timeout required to allow component to settle before identifying focussable elements within it
+            setTimeout(() => {
+                const closeButtonElements: HTMLElement[] = [
+                    ...node.querySelectorAll<HTMLElement>('[aria-label="Close"]'),
+                ].filter(
+                    el =>
+                        !el.hasAttribute('disabled') &&
+                        !el.getAttribute('aria-hidden') &&
+                        !checkIfElementIsHidden(el),
+                );
+                const focusableElements: HTMLElement[] = [
+                    ...node.querySelectorAll<HTMLElement>(
+                        'button, a[href], input, [tabindex]:not([tabindex="-1"]',
+                    ),
+                ].filter(
+                    el =>
+                        !el.hasAttribute('disabled') &&
+                        !el.getAttribute('aria-hidden') &&
+                        !checkIfElementIsHidden(el),
+                );
+                const firstFocussableElement = focusableElements[0];
+                const lastFocussableElement = focusableElements[focusableElements.length - 1];
+
+                if (closeButtonElements[0] != null) {
+                    closeButtonElements[0].focus();
+                } else {
+                    focusableElements[0].focus();
+                }
+
+                node.addEventListener('keydown', e => {
+                    const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+                    if (!isTabPressed) {
+                        return;
+                    }
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocussableElement) {
+                            lastFocussableElement.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastFocussableElement) {
+                            firstFocussableElement.focus();
+                            e.preventDefault();
+                        }
+                    }
+                });
+            }, 1000);
+        }
+    }, [node]);
 
     const cleanParagraphsOrMessageText = (
         paras: string[] | undefined,

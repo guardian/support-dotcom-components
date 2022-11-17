@@ -44,6 +44,10 @@ export const defaultStory = (): ReactElement => {
             ],
             '|',
         ),
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'Subscribe',
+        },
     };
 
     const mobileContent: BannerContent = {
@@ -59,6 +63,10 @@ export const defaultStory = (): ReactElement => {
             ],
             '|',
         ),
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'Subscribe',
+        },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {

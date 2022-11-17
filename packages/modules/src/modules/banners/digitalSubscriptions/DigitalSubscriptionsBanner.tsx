@@ -147,6 +147,7 @@ const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
                         <div css={iconPanel}>
                             <ThemeProvider theme={buttonBrand}>
                                 <Button
+                                    aria-label="Close"
                                     size="small"
                                     cssOverrides={closeButton}
                                     priority="tertiary"

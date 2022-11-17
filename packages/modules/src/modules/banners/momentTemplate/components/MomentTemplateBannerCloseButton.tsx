@@ -26,6 +26,7 @@ export function MomentTemplateBannerCloseButton({
             </div>
 
             <Button
+                aria-label="Close"
                 onClick={onCloseClick}
                 cssOverrides={buttonStyles(settings)}
                 icon={<SvgCross />}
