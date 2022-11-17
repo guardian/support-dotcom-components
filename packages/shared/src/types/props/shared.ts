@@ -142,6 +142,8 @@ export interface Image {
     leftColUrl?: string;
     wideUrl?: string;
     altText: string;
+    tabletPosition?: string;
+    desktopPosition?: string;
 }
 
 export const imageSchema = z.object({
@@ -152,6 +154,8 @@ export const imageSchema = z.object({
     leftColUrl: z.string().optional(),
     wideUrl: z.string().optional(),
     altText: z.string(),
+    tabletPosition: z.string().optional(),
+    desktopPosition: z.string().optional(),
 });
 
 export interface BylineWithImage {

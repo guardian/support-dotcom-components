@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
+import { Button } from '@guardian/src-button';
 import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
@@ -13,6 +14,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
+// import { MomentTemplateSignInCta } from './components/MomentTemplateSignInCta';
 
 // ---- Banner ---- //
 
@@ -37,6 +39,42 @@ export function getMomentTemplateBanner(
             setIsReminderActive(!isReminderActive);
         };
 
+        const bannerRef = useRef<HTMLDivElement>(null);
+
+        useEffect(() => {
+            if (bannerRef.current != null) {
+                const closeButtonElements: HTMLElement[] = [
+                    ...bannerRef.current.querySelectorAll<HTMLElement>('[data-close-button]'),
+                ];
+
+                if (closeButtonElements.length > 1) {
+                    const firstFocussableElement = closeButtonElements[0];
+                    const lastFocussableElement =
+                        closeButtonElements[closeButtonElements.length - 1];
+
+                    firstFocussableElement.focus();
+
+                    bannerRef.current.addEventListener('keydown', e => {
+                        const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+                        if (!isTabPressed) {
+                            return;
+                        }
+                        if (e.shiftKey) {
+                            if (document.activeElement === firstFocussableElement) {
+                                lastFocussableElement.focus();
+                                e.preventDefault();
+                            }
+                        } else {
+                            if (document.activeElement === lastFocussableElement) {
+                                firstFocussableElement.focus();
+                                e.preventDefault();
+                            }
+                        }
+                    });
+                }
+            }
+        }, [bannerRef.current]);
+
         const mobileReminderRef = useRef<HTMLDivElement>(null);
 
         useEffect(() => {
@@ -46,60 +84,9 @@ export function getMomentTemplateBanner(
         }, [mobileReminderRef.current, isReminderActive]);
 
         return (
-            <div css={styles.outerContainer(templateSettings.backgroundColour)}>
-                <Container
-                    cssOverrides={styles.mobileStickyHeaderContainer(
-                        templateSettings.backgroundColour,
-                        content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder,
-                    )}
-                >
-                    <div css={styles.closeButtonContainer}>
-                        <Hide below="mobileMedium">
-                            <MomentTemplateBannerCloseButton
-                                onCloseClick={onCloseClick}
-                                settings={templateSettings.closeButtonSettings}
-                            />
-                        </Hide>
-                    </div>
-
-                    {hasVisual && (
-                        <div css={styles.visualContainer}>
-                            {templateSettings.imageSettings && (
-                                <MomentTemplateBannerVisual
-                                    settings={templateSettings.imageSettings}
-                                />
-                            )}
-                            {templateSettings.alternativeVisual}
-                        </div>
-                    )}
-
-                    <div css={styles.headerContainer}>
-                        <MomentTemplateBannerHeader
-                            heading={content.mainContent.heading}
-                            mobileHeading={content.mobileContent.heading}
-                        />
-
-                        <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
-                            <MomentTemplateBannerCloseButton
-                                onCloseClick={onCloseClick}
-                                settings={templateSettings.closeButtonSettings}
-                            />
-                        </Hide>
-                    </div>
-                </Container>
-
+            <div css={styles.outerContainer(templateSettings.backgroundColour)} ref={bannerRef}>
                 <Container cssOverrides={styles.containerOverrides}>
                     <div css={styles.container}>
-                        <div css={styles.closeButtonContainer}>
-                            <Hide below="tablet">
-                                <MomentTemplateBannerCloseButton
-                                    onCloseClick={onCloseClick}
-                                    settings={templateSettings.closeButtonSettings}
-                                />
-                            </Hide>
-                        </div>
-
                         {hasVisual && (
                             <div css={styles.desktopVisualContainer}>
                                 {templateSettings.imageSettings && (
@@ -111,6 +98,13 @@ export function getMomentTemplateBanner(
                             </div>
                         )}
 
+                        <div css={styles.closeButtonContainer}>
+                            <MomentTemplateBannerCloseButton
+                                onCloseClick={onCloseClick}
+                                settings={templateSettings.closeButtonSettings}
+                            />
+                        </div>
+
                         <div css={styles.contentContainer}>
                             <div css={styles.desktopHeaderContainer}>
                                 <MomentTemplateBannerHeader
@@ -119,7 +113,7 @@ export function getMomentTemplateBanner(
                                 />
                             </div>
 
-                            {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
+                            {separateArticleCount && numArticles != null && numArticles > 5 && (
                                 <div css={styles.articleCountContainer}>
                                     <MomentTemplateBannerArticleCount
                                         numArticles={numArticles}
@@ -131,7 +125,7 @@ export function getMomentTemplateBanner(
 
                             <div css={styles.bodyContainer}>
                                 <MomentTemplateBannerBody
-                                    mainContent={content.mainContent}
+                                    content={content.mainContent}
                                     mobileContent={content.mobileContent}
                                     highlightedTextSettings={
                                         templateSettings.highlightedTextSettings
@@ -141,7 +135,7 @@ export function getMomentTemplateBanner(
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
-                                    mainContent={content.mainContent}
+                                    content={content.mainContent}
                                     mobileContent={content.mobileContent}
                                     onPrimaryCtaClick={onCtaClick}
                                     onSecondaryCtaClick={onSecondaryCtaClick}
@@ -154,35 +148,42 @@ export function getMomentTemplateBanner(
                     </div>
                 </Container>
 
-                <Hide above="tablet">
-                    <div ref={mobileReminderRef}>
-                        {content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder &&
-                            isReminderActive && (
-                                <MomentTemplateBannerReminder
-                                    reminderCta={content.mobileContent.secondaryCta}
-                                    trackReminderSetClick={reminderTracking.onReminderSetClick}
-                                    setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                                />
-                            )}
-                    </div>
-                </Hide>
-
-                <Hide below="tablet">
-                    {content.mainContent.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder &&
-                        isReminderActive && (
+                {content.mainContent.secondaryCta?.type ===
+                    SecondaryCtaType.ContributionsReminder &&
+                    isReminderActive && (
+                        <Hide below="tablet">
                             <MomentTemplateBannerReminder
                                 reminderCta={content.mainContent.secondaryCta}
                                 trackReminderSetClick={reminderTracking.onReminderSetClick}
                                 setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                             />
-                        )}
-                </Hide>
+                        </Hide>
+                    )}
+
+                {content.mobileContent.secondaryCta?.type ===
+                    SecondaryCtaType.ContributionsReminder &&
+                    isReminderActive && (
+                        <Hide above="tablet">
+                            <div ref={mobileReminderRef}>
+                                <MomentTemplateBannerReminder
+                                    reminderCta={content.mobileContent.secondaryCta}
+                                    trackReminderSetClick={reminderTracking.onReminderSetClick}
+                                    setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                                />
+                            </div>
+                        </Hide>
+                    )}
+
+                <Button
+                    onClick={onCloseClick}
+                    css={styles.hiddenCloseButton}
+                    data-close-button={'close-button-last'}
+                >
+                    Close marketing banner
+                </Button>
             </div>
         );
     }
-
     return MomentTemplateBanner;
 }
 
@@ -218,35 +219,6 @@ const styles = {
             justify-content: flex-end;
         }
     `,
-    mobileStickyHeaderContainer: (background: string, hasReminderCta: boolean) => css`
-        background: ${background};
-        position: sticky;
-        top: 0px;
-        z-index: 100;
-        border-top: 1px solid ${neutral[0]};
-        padding-top: ${space[2]}px;
-
-        ${hasReminderCta
-            ? `
-                border-bottom: 1px solid ${neutral[0]};
-                padding-bottom: ${space[2]}px;
-            `
-            : ''}
-
-        ${from.tablet} {
-            display: none;
-        }
-    `,
-    visualContainer: css`
-        display: none;
-
-        ${from.mobileMedium} {
-            display: block;
-        }
-        ${from.tablet} {
-            display: none;
-        }
-    `,
     desktopVisualContainer: css`
         display: none;
 
@@ -278,21 +250,8 @@ const styles = {
             width: 780px;
         }
     `,
-    headerContainer: css`
-        display: flex;
-        align-items: center;
-
-        ${from.mobileMedium} {
-            margin-top: ${space[2]}px;
-        }
-    `,
     desktopHeaderContainer: css`
-        display: none;
         margin-top: ${space[2]}px;
-
-        ${from.tablet} {
-            display: block;
-        }
     `,
     articleCountContainer: css`
         margin-top: ${space[4]}px;
@@ -313,12 +272,14 @@ const styles = {
             margin-top: ${space[6]}px;
         }
     `,
-    mobileCloseButtonContainer: css`
-        margin-left: ${space[3]}px;
-    `,
     closeButtonContainer: css`
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+    `,
+    hiddenCloseButton: css`
+        position: absolute;
+        left: -1000px;
+        font-size: 0.001rem;
     `,
 };

@@ -37,7 +37,12 @@ export function MomentTemplateBannerVisual({
     }
 
     return (
-        <div css={container}>
+        <div
+            css={container(
+                settings.tabletPosition || 'center',
+                settings.desktopPosition || 'center',
+            )}
+        >
             <ResponsiveImage baseImage={baseImage} images={images} />
         </div>
     );
@@ -45,7 +50,7 @@ export function MomentTemplateBannerVisual({
 
 // ---- Styles ---- //
 
-const container = css`
+const container = (tabletPosition: string, desktopPosition: string) => css`
     height: 140px;
     display: flex;
     justify-content: center;
@@ -59,6 +64,10 @@ const container = css`
     ${from.tablet} {
         height: 100%;
         width: 100%;
-        align-items: center;
+        align-items: ${tabletPosition};
+    }
+
+    ${from.desktop} {
+        align-items: ${desktopPosition};
     }
 `;

@@ -12,13 +12,13 @@ import { BannerRenderedContent } from '../../common/types';
 // ---- Component ---- //
 
 interface MomentTemplateBannerBodyProps {
-    mainContent: BannerRenderedContent;
+    content: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
     highlightedTextSettings: HighlightedTextSettings;
 }
 
 export function MomentTemplateBannerBody({
-    mainContent,
+    content,
     mobileContent,
     highlightedTextSettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
@@ -26,16 +26,15 @@ export function MomentTemplateBannerBody({
 
     return (
         <div css={styles.container}>
+            <Hide below="tablet">
+                {createBannerBodyCopy(content.paragraphs, content.highlightedText, styles)}
+            </Hide>
             <Hide above="tablet">
                 {createBannerBodyCopy(
                     mobileContent.paragraphs,
                     mobileContent.highlightedText,
                     styles,
                 )}
-            </Hide>
-
-            <Hide below="tablet">
-                {createBannerBodyCopy(mainContent.paragraphs, mainContent.highlightedText, styles)}
             </Hide>
         </div>
     );

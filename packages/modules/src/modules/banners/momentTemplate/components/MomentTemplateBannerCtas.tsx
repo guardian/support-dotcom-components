@@ -4,15 +4,16 @@ import { neutral, space } from '@guardian/src-foundations';
 import { Hide } from '@guardian/src-layout';
 import { Button, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { BannerRenderedContent } from '../../common/types';
+import { BannerRenderedContent, BannerEnrichedCta } from '../../common/types';
 import { buttonStyles } from '../buttonStyles';
 import { CtaSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
+import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerCtasProps {
-    mainContent: BannerRenderedContent;
+    content: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
@@ -22,7 +23,7 @@ interface MomentTemplateBannerCtasProps {
 }
 
 export function MomentTemplateBannerCtas({
-    mainContent,
+    content,
     mobileContent,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
@@ -30,6 +31,12 @@ export function MomentTemplateBannerCtas({
     primaryCtaSettings,
     secondaryCtaSettings,
 }: MomentTemplateBannerCtasProps): JSX.Element {
+    const checkForSupportCtaLink = (cta: BannerEnrichedCta | null): boolean => {
+        if (!cta || !cta.ctaUrl) {
+            return false;
+        }
+        return isSupportUrl(cta.ctaUrl);
+    };
     return (
         <div css={styles.container}>
             <div>
@@ -74,32 +81,31 @@ export function MomentTemplateBannerCtas({
 
                 <Hide below="tablet">
                     <div css={styles.ctasContainer}>
-                        {mainContent.primaryCta && (
+                        {content.primaryCta && (
                             <LinkButton
-                                href={mainContent.primaryCta.ctaUrl}
+                                href={content.primaryCta.ctaUrl}
                                 onClick={onPrimaryCtaClick}
                                 size="small"
                                 priority="primary"
                                 cssOverrides={buttonStyles(primaryCtaSettings)}
                             >
-                                {mainContent.primaryCta.ctaText}
+                                {content.primaryCta.ctaText}
                             </LinkButton>
                         )}
 
-                        {mainContent.secondaryCta?.type === SecondaryCtaType.Custom && (
+                        {content.secondaryCta?.type === SecondaryCtaType.Custom && (
                             <LinkButton
-                                href={mainContent.secondaryCta.cta.ctaUrl}
+                                href={content.secondaryCta.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
                                 size="small"
                                 priority="tertiary"
                                 cssOverrides={buttonStyles(secondaryCtaSettings)}
                             >
-                                {mainContent.secondaryCta.cta.ctaText}
+                                {content.secondaryCta.cta.ctaText}
                             </LinkButton>
                         )}
 
-                        {mainContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder && (
+                        {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
                             <Button
                                 priority="subdued"
                                 onClick={onReminderCtaClick}
@@ -113,8 +119,12 @@ export function MomentTemplateBannerCtas({
             </div>
 
             <div>
-                <Hide above="tablet">{mobileContent.primaryCta && <PaymentCards />}</Hide>
-                <Hide below="tablet">{mainContent.primaryCta && <PaymentCards />}</Hide>
+                <Hide above="tablet">
+                    {checkForSupportCtaLink(mobileContent.primaryCta) && <PaymentCards />}
+                </Hide>
+                <Hide below="tablet">
+                    {checkForSupportCtaLink(content.primaryCta) && <PaymentCards />}
+                </Hide>
             </div>
         </div>
     );
@@ -201,6 +211,7 @@ function PaymentCards() {
 const styles = {
     container: css`
         padding-bottom: ${space[5]}px;
+        padding-left: ${space[2]}px;
 
         ${from.tablet} {
             padding-bottom: ${space[6]}px;
@@ -229,5 +240,9 @@ const styles = {
     `,
     reminderCta: css`
         color: ${neutral[0]};
+        &:focus {
+            outline: 5px solid #0077b6;
+            border-radius: 10px;
+        }
     `,
 };
