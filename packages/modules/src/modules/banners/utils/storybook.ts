@@ -4,6 +4,7 @@ import {
     TickerEndType,
     SecondaryCtaType,
     Tracking,
+    TickerSettings,
 } from '@sdc/shared/types';
 
 export const tracking: Tracking = {
@@ -41,7 +42,7 @@ export const content = {
     },
 };
 
-export const tickerSettings = {
+export const tickerSettings: TickerSettings = {
     countType: TickerCountType.money,
     endType: TickerEndType.hardstop,
     currencySymbol: '$',
@@ -54,6 +55,7 @@ export const tickerSettings = {
         total: 120_000,
         goal: 150_000,
     },
+    name: 'US_2022',
 };
 
 export const props: BannerProps = {

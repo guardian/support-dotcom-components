@@ -1,13 +1,12 @@
 import { TickerData, TickerSettings } from '@sdc/shared/types';
-import { TickerCountType } from '@sdc/shared/types';
 import { Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
+import { logError } from '../utils/logging';
+import { TickerName } from '@sdc/shared/dist/types';
 
-const tickerUrl = (countType: TickerCountType): string =>
-    countType === TickerCountType.people
-        ? 'https://support.theguardian.com/supporters-ticker.json'
-        : 'https://support.theguardian.com/ticker.json';
+const tickerUrl = (name: TickerName): string =>
+    `https://support.theguardian.com/ticker/${name}.json`;
 
 const checkForErrors = (response: Response): Promise<Response> => {
     if (!response.ok) {
@@ -33,43 +32,56 @@ const parse = (json: any): Promise<TickerData> => {
     }
 };
 
-const getTickerDataForTickerTypeFetcher = (type: TickerCountType) => () => {
-    return fetch(tickerUrl(type), {
+const getTickerDataForTickerTypeFetcher = (name: TickerName) => (): Promise<TickerData> => {
+    return fetch(tickerUrl(name), {
         timeout: 1000 * 20,
     })
         .then(response => checkForErrors(response))
         .then(response => response.json())
-        .then(parse);
+        .then(parse)
+        .catch(error => {
+            logError(`Error fetching ${name} ticker data: ${error}`);
+            return Promise.reject(error);
+        });
 };
 
-// Contains a ValueProvider for each TickerCountType
+// Maps each ticker campaign name to a ValueProvider
+type TickerDataProviders = {
+    [name in TickerName]: ValueProvider<TickerData>;
+};
+
 export class TickerDataProvider {
-    provider: Record<TickerCountType, ValueProvider<TickerData>>;
+    providers: TickerDataProviders;
 
-    constructor(providers: Record<TickerCountType, ValueProvider<TickerData>>) {
-        this.provider = providers;
+    constructor(providers: TickerDataProviders) {
+        this.providers = providers;
     }
 
-    getTickerData(type: TickerCountType): TickerData {
-        return this.provider[type].get();
+    getTickerData(name: TickerName): TickerData | undefined {
+        const provider = this.providers[name];
+        if (provider) {
+            return provider.get();
+        }
     }
 
-    addTickerDataToSettings(tickerSettings: TickerSettings): TickerSettings {
-        return {
-            ...tickerSettings,
-            tickerData: this.getTickerData(tickerSettings.countType),
-        };
+    addTickerDataToSettings(tickerSettings: TickerSettings): TickerSettings | undefined {
+        const tickerData = this.getTickerData(tickerSettings.name);
+        if (tickerData) {
+            return {
+                ...tickerSettings,
+                tickerData,
+            };
+        }
     }
 }
 
 export const buildTickerDataReloader = async (): Promise<TickerDataProvider> => {
-    const [people, money] = await Promise.all([
-        buildReloader(getTickerDataForTickerTypeFetcher(TickerCountType.people), 60),
-        buildReloader(getTickerDataForTickerTypeFetcher(TickerCountType.money), 60),
-    ]);
-    const reloaders = {
-        [TickerCountType.people]: people,
-        [TickerCountType.money]: money,
-    };
+    const reloaders: TickerDataProviders = await Promise.all([
+        buildReloader(getTickerDataForTickerTypeFetcher('US_2022'), 60),
+        buildReloader(getTickerDataForTickerTypeFetcher('AU_2022'), 60),
+    ]).then(([US_2022, AU_2022]) => ({
+        US_2022,
+        AU_2022,
+    }));
     return new TickerDataProvider(reloaders);
 };

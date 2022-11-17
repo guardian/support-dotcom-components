@@ -6,6 +6,7 @@ import {
     Variant,
     SignedInStatus,
 } from '@sdc/shared/types';
+
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
