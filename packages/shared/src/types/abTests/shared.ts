@@ -14,6 +14,7 @@ export interface Test<V extends Variant> {
     audienceOffset?: number;
     audience?: number;
     deviceType?: DeviceType;
+    signedInStatus?: SignedInStatus;
 }
 
 export interface ControlProportionSettings {
@@ -26,6 +27,8 @@ export type UserCohort =
     | 'AllNonSupporters'
     | 'Everyone'
     | 'PostAskPauseSingleContributors';
+
+export type SignedInStatus = 'SignedIn' | 'SignedOut' | 'All';
 
 export interface ArticlesViewedSettings {
     minViews: number;
