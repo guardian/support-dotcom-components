@@ -14,7 +14,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
-import { MomentTemplateSignInCta } from './components/MomentTemplateSignInCta';
+// import { MomentTemplateSignInCta } from './components/MomentTemplateSignInCta';
 
 // ---- Banner ---- //
 
