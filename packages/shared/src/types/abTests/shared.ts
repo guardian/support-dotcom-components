@@ -14,6 +14,7 @@ export interface Test<V extends Variant> {
     audienceOffset?: number;
     audience?: number;
     deviceType?: DeviceType;
+    signedInStatus?: SignedInStatus;
 }
 
 export interface ControlProportionSettings {

@@ -1,4 +1,11 @@
-import { EpicTargeting, UserCohort, EpicViewLog, Test, Variant } from '@sdc/shared/types';
+import {
+    EpicTargeting,
+    UserCohort,
+    EpicViewLog,
+    Test,
+    Variant,
+    SignedInStatus,
+} from '@sdc/shared/types';
 import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
@@ -79,6 +86,20 @@ export const deviceTypeMatches = <V extends Variant>(test: Test<V>, isMobile: bo
             return isMobile;
         case 'Desktop':
             return !isMobile;
+        default:
+            return true;
+    }
+};
+
+export const correctSignedInStatus = (
+    isSignedIn: boolean,
+    signedInStatus?: SignedInStatus,
+): boolean => {
+    switch (signedInStatus) {
+        case 'SignedIn':
+            return isSignedIn === true;
+        case 'SignedOut':
+            return isSignedIn === false;
         default:
             return true;
     }

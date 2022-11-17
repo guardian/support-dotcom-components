@@ -16,7 +16,7 @@ import {
     withinArticleViewedSettings,
     withinMaxViews,
     deviceTypeMatchesFilter,
-    correctSignedInStatus,
+    correctSignedInStatusFilter,
 } from './epicSelection';
 
 const testDefault: EpicTest = {
@@ -858,7 +858,7 @@ describe('deviceTypeMatchesFilter', () => {
     });
 });
 
-describe('correctSignedInStatus filter', () => {
+describe('correctSignedInStatusFilter filter', () => {
     it('should pass if the test is requiring a user to be signed in and they are signed in', () => {
         const test: EpicTest = {
             ...testDefault,
@@ -866,7 +866,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: true };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -878,7 +878,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: false };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(false);
     });
@@ -890,7 +890,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: false };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -902,7 +902,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: true };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(false);
     });
@@ -914,7 +914,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: true };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -926,7 +926,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: false };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -938,21 +938,21 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: undefined };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(false);
     });
 
-    it('should fail if the test is requiring a user to be signed out and isSignedIn returns undefined', () => {
+    it('should pass if the test is requiring a user to be signed out and isSignedIn returns undefined', () => {
         const test: EpicTest = {
             ...testDefault,
             signedInStatus: 'SignedOut',
         };
 
         const targeting = { ...targetingDefault, isSignedIn: undefined };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
-        expect(got).toBe(false);
+        expect(got).toBe(true);
     });
 
     it('should pass if the test is requiring a user to be either signed in or signed out and isSignedIn returns undefined', () => {
@@ -962,7 +962,7 @@ describe('correctSignedInStatus filter', () => {
         };
 
         const targeting = { ...targetingDefault, isSignedIn: undefined };
-        const got = correctSignedInStatus.test(test, targeting);
+        const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
     });

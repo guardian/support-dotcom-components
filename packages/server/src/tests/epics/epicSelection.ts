@@ -14,6 +14,7 @@ import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
+    correctSignedInStatus,
     deviceTypeMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -56,18 +57,9 @@ export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     return ['AllNonSupporters', 'Everyone'];
 };
 
-export const correctSignedInStatus: Filter = {
+export const correctSignedInStatusFilter: Filter = {
     id: 'correctSignedInStatus',
-    test: (test, targeting) => {
-        switch (test.signedInStatus) {
-            case 'SignedIn':
-                return targeting.isSignedIn === true;
-            case 'SignedOut':
-                return targeting.isSignedIn === false;
-            default:
-                return true;
-        }
-    },
+    test: (test, targeting) => correctSignedInStatus(!!targeting.isSignedIn, test.signedInStatus),
 };
 
 export const hasSectionOrTags: Filter = {
@@ -255,7 +247,7 @@ export const findTestAndVariant = (
             respectArticleCountOptOut,
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(isMobile),
-            correctSignedInStatus,
+            correctSignedInStatusFilter,
         ];
     };
 
