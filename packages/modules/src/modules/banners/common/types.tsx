@@ -67,5 +67,4 @@ export interface BannerRenderProps {
     isSupporter?: boolean;
     numArticles?: number;
     separateArticleCount?: boolean;
-    includeSignIn?: string;
 }

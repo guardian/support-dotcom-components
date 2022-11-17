@@ -66,7 +66,6 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     email?: string;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
-    includeSignIn?: string;
     prices?: Prices;
 }
 
@@ -83,7 +82,6 @@ export const bannerSchema = z.object({
     hasOptedOutOfArticleCount: z.boolean().optional(),
     email: z.string().optional(),
     fetchEmail: z.any().optional(),
-    includeSignIn: z.string().optional(),
     separateArticleCount: z
         .boolean()
         .nullable()

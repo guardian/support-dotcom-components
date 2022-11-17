@@ -233,18 +233,6 @@ WithImageNoArticleCount.args = {
     numArticles: 0,
 };
 
-export const WithImageSignInAfterBody = WithImageTemplate.bind({});
-WithImageSignInAfterBody.args = {
-    ...WithImage.args,
-    includeSignIn: 'BODY',
-};
-
-export const WithImageSignInAfterCta = WithImageTemplate.bind({});
-WithImageSignInAfterCta.args = {
-    ...WithImage.args,
-    includeSignIn: 'CTA',
-};
-
 export const WithImageNoSupportCtaIcons = WithImageTemplate.bind({});
 WithImageNoSupportCtaIcons.args = {
     ...WithImage.args,

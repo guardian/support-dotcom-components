@@ -29,10 +29,8 @@ export function getMomentTemplateBanner(
         numArticles,
         onCtaClick,
         onSecondaryCtaClick,
-        onSignInClick,
         reminderTracking,
         separateArticleCount,
-        includeSignIn,
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
@@ -135,13 +133,6 @@ export function getMomentTemplateBanner(
                                 />
                             </div>
 
-                            {includeSignIn === 'BODY' && (
-                                <MomentTemplateSignInCta
-                                    onSignInClick={onSignInClick}
-                                    signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
-                                />
-                            )}
-
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
                                     content={content.mainContent}
@@ -153,13 +144,6 @@ export function getMomentTemplateBanner(
                                     secondaryCtaSettings={templateSettings.secondaryCtaSettings}
                                 />
                             </section>
-
-                            {includeSignIn === 'CTA' && (
-                                <MomentTemplateSignInCta
-                                    onSignInClick={onSignInClick}
-                                    signInUrlTrackingValue={'SIGN_IN_FROM_TEMPLATE_BANNER'}
-                                />
-                            )}
                         </div>
                     </div>
                 </Container>
