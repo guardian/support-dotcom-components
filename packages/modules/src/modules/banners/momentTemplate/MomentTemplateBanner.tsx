@@ -14,7 +14,6 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
-// import { MomentTemplateSignInCta } from './components/MomentTemplateSignInCta';
 
 // ---- Banner ---- //
 
@@ -222,8 +221,10 @@ const styles = {
     desktopVisualContainer: css`
         display: none;
 
-        ${from.tablet} {
+        ${from.mobileLandscape} {
             display: block;
+        }
+        ${from.tablet} {
             width: 238px;
             margin-left: ${space[3]}px;
         }
