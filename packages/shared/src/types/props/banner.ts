@@ -76,7 +76,7 @@ export const bannerSchema = z.object({
     mobileContent: bannerContentSchema.nullable().optional(),
     countryCode: z.string().optional(),
     isSupporter: z.boolean().optional(),
-    tickerSettings: tickerSettingsSchema.optional(),
+    tickerSettings: tickerSettingsSchema.nullable().optional(),
     submitComponentEvent: z.any(),
     numArticles: z.number().optional(),
     hasOptedOutOfArticleCount: z.boolean().optional(),
