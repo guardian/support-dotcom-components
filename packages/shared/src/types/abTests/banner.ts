@@ -2,7 +2,7 @@ import { BannerChannel, BannerContent, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
-    DeviceType,
+    DeviceType, SignedInStatus,
     TargetingAbTest,
     Test,
     TestStatus,
@@ -77,6 +77,7 @@ export interface RawVariantParams {
     bannerContent: BannerContent;
     mobileBannerContent?: BannerContent;
     separateArticleCount?: boolean;
+    tickerSettings?: TickerSettings;
 }
 
 export interface RawTestParams {
@@ -90,4 +91,5 @@ export interface RawTestParams {
     articlesViewedSettings?: ArticlesViewedSettings;
     controlProportionSettings?: ControlProportionSettings;
     deviceType?: DeviceType;
+    signedInStatus?: SignedInStatus;
 }
