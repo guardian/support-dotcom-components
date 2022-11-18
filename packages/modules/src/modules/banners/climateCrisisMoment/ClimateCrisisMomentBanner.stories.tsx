@@ -10,7 +10,7 @@ export default {
 } as Meta;
 
 const ClimateCrisisTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <ClimateCrisisMomentBanner {...props} />
+    <ClimateCrisisMomentBanner {...props} tickerSettings={undefined} />
 );
 
 export const ClimateCrisis = ClimateCrisisTemplate.bind({});

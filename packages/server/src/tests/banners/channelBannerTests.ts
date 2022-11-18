@@ -10,6 +10,7 @@ import {
     auBrandMomentBanner,
     signInPromptBanner,
     climateCrisisMomentBanner,
+    usEoyMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -39,6 +40,7 @@ export const BannerPaths: {
     [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.ClimateCrisisMomentBanner]: climateCrisisMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {

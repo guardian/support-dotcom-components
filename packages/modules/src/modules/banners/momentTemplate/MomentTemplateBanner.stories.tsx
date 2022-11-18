@@ -106,6 +106,7 @@ GlobalNY.args = {
         },
     },
     numArticles: 50,
+    tickerSettings: undefined,
 };
 
 const AusElectionBanner = bannerWrapper(

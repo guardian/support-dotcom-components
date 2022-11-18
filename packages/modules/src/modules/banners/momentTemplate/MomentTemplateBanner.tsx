@@ -13,6 +13,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
+import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 
 // ---- Banner ---- //
 
@@ -29,6 +30,7 @@ export function getMomentTemplateBanner(
         onSecondaryCtaClick,
         reminderTracking,
         separateArticleCount,
+        tickerSettings,
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
@@ -44,6 +46,8 @@ export function getMomentTemplateBanner(
                 mobileReminderRef.current.scrollIntoView({ behavior: 'smooth' });
             }
         }, [mobileReminderRef.current, isReminderActive]);
+
+        const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
 
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
@@ -68,6 +72,7 @@ export function getMomentTemplateBanner(
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
+                                    bannerId={templateSettings.bannerId}
                                 />
                             )}
                             {templateSettings.alternativeVisual}
@@ -105,6 +110,7 @@ export function getMomentTemplateBanner(
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
+                                        bannerId={templateSettings.bannerId}
                                     />
                                 )}
                                 {templateSettings.alternativeVisual}
@@ -129,7 +135,11 @@ export function getMomentTemplateBanner(
                                 </div>
                             )}
 
-                            <div css={styles.bodyContainer}>
+                            <div
+                                css={
+                                    isUsEoyBanner ? styles.usEoyBodyContainer : styles.bodyContainer
+                                }
+                            >
                                 <MomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
@@ -138,6 +148,13 @@ export function getMomentTemplateBanner(
                                     }
                                 />
                             </div>
+
+                            {tickerSettings?.tickerData && (
+                                <MomentTemplateBannerTicker
+                                    tickerSettings={tickerSettings}
+                                    accentColour={'#d42d1a'}
+                                />
+                            )}
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
@@ -303,6 +320,9 @@ const styles = {
     `,
     bodyContainer: css`
         margin-top: ${space[1]}px;
+    `,
+    usEoyBodyContainer: css`
+        margin-top: ${space[3]}px;
     `,
     ctasContainer: css`
         display: flex;
