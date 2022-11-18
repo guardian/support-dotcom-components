@@ -20,6 +20,7 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     baseImage,
 }: ResponsiveImageProps) => {
     return (
+        // css-giving-tes-banner-2022 width: 100%
         <picture>
             {images.map(createSource)}
             <img src={baseImage.url} alt={baseImage.alt} />

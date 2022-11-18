@@ -242,6 +242,7 @@ const styles = {
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
         padding-top: ${space[2]}px;
+        // css-giving-tues-banner-2022 padding-top: 0px;
 
         ${hasReminderCta
             ? `
