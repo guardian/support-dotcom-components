@@ -2,7 +2,8 @@ import { BannerChannel, BannerContent, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
-    DeviceType, SignedInStatus,
+    DeviceType,
+    SignedInStatus,
     TargetingAbTest,
     Test,
     TestStatus,
