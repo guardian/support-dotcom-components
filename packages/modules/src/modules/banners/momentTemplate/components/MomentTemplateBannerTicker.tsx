@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { palette } from '@guardian/src-foundations';
 import { textSans } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import useTicker from '../../../../hooks/useTicker';
 import { from, until } from '@guardian/src-foundations/mq';
+import { TickerStylingSettings } from '../settings';
 
 const containerStyles = css`
     position: relative;
@@ -19,10 +19,10 @@ const containerStyles = css`
     }
 `;
 
-const countLabelStyles = css`
+const countLabelStyles = (colour: string) => css`
     ${textSans.xsmall({ fontWeight: 'bold' })};
     font-size: 13px;
-    color: #d42d1a;
+    color: ${colour};
     line-height: 1.3;
 
     ${from.desktop} {
@@ -35,16 +35,15 @@ const progressBarHeight = 12;
 const progressBarContainerStyles = css`
     width: 100%;
     height: ${progressBarHeight}px;
-    background-color: ${palette.neutral[86]};
     position: absolute;
     bottom: 0;
     margin-top: 40px;
 `;
 
-const progressBarStyles = css`
+const progressBarStyles = (backgroundColour: string) => css`
     overflow: hidden;
     width: 100%;
-    background: #fff;
+    background: ${backgroundColour};
     height: ${progressBarHeight}px;
     position: absolute;
 `;
@@ -96,8 +95,8 @@ const goalContainerStyles = css`
     text-align: right;
 `;
 
-const goalMarkerStyles = (transform: string): SerializedStyles => css`
-    border-right: 2px solid #d42d1a;
+const goalMarkerStyles = (transform: string, colour: string): SerializedStyles => css`
+    border-right: 2px solid ${colour};
     content: ' ';
     display: block;
     height: calc(100% + 6px);
@@ -108,27 +107,28 @@ const goalMarkerStyles = (transform: string): SerializedStyles => css`
 type MarkerProps = {
     goal: number;
     end: number;
+    colour: string;
 };
 
-const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
+const Marker: React.FC<MarkerProps> = ({ goal, end, colour }: MarkerProps) => {
     if (end > goal) {
         const markerTranslate = (goal / end) * 100 - 100;
         const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
 
-        return <div css={goalMarkerStyles(markerTransform)} />;
+        return <div css={goalMarkerStyles(markerTransform, colour)} />;
     } else {
-        return <div css={goalMarkerStyles('translate3d(-10%, 0, 0)')} />;
+        return <div css={goalMarkerStyles('translate3d(-10%, 0, 0)', colour)} />;
     }
 };
 
 type MomentTemplateBannerTickerProps = {
     tickerSettings: TickerSettings;
-    accentColour: string;
+    stylingSettings: TickerStylingSettings;
 };
 
 const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
     tickerSettings,
-    accentColour,
+    stylingSettings,
 }: MomentTemplateBannerTickerProps) => {
     const [readyToAnimate, setReadyToAnimate] = useState(false);
 
@@ -161,7 +161,7 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
         <div ref={setNode} css={containerStyles}>
             <div>
                 <div css={soFarContainerStyles}>
-                    <div css={countLabelStyles}>
+                    <div css={countLabelStyles(stylingSettings.textColour)}>
                         {!isGoalReached && currencySymbol}
                         {isGoalReached
                             ? tickerSettings.copy.goalReachedPrimary
@@ -175,7 +175,7 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
                 </div>
 
                 <div css={goalContainerStyles}>
-                    <div css={countLabelStyles}>
+                    <div css={countLabelStyles(stylingSettings.textColour)}>
                         {currencySymbol}
                         {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}{' '}
                         <span>{isGoalReached ? tickerSettings.copy.countLabel : 'goal'}</span>
@@ -184,10 +184,17 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
             </div>
 
             <div css={progressBarContainerStyles}>
-                <div css={progressBarStyles}>
-                    <div css={filledProgressStyles(end, runningTotal, total, accentColour)}></div>
+                <div css={progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
+                    <div
+                        css={filledProgressStyles(
+                            end,
+                            runningTotal,
+                            total,
+                            stylingSettings.filledProgressColour,
+                        )}
+                    ></div>
                 </div>
-                <Marker goal={goal} end={end} />
+                <Marker goal={goal} end={end} colour={stylingSettings.goalMarkerColour} />
             </div>
         </div>
     );
