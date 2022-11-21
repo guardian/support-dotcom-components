@@ -15,7 +15,7 @@ export default {
 const UsEoyGivingTuesBanner = bannerWrapper(
     getMomentTemplateBanner({
         backgroundColour: '#e2e1e0',
-        //
+        // Checked
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],
@@ -26,7 +26,7 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: 'white',
             },
         },
-        //
+        // Checked
         secondaryCtaSettings: {
             default: {
                 backgroundColour: neutral[86],
@@ -54,16 +54,8 @@ const UsEoyGivingTuesBanner = bannerWrapper(
             textColour: neutral[0],
             highlightColour: neutral[100],
         },
-        //
-        // imageSettings: {
-        //     mainUrl:
-        //         'https://i.guim.co.uk/img/media/c76e159dafa522a90773193c4fcbaf6e21bfb9f1/0_0_781_701/781.jpg?quality=85&s=c60ae29280839476a87c1dacab96613f',
-        //     mobileUrl:
-        //         'https://i.guim.co.uk/img/media/56e7d6bae1e012c12105c639862829489ef366dd/0_0_751_271/751.jpg?quality=85&s=91549fd65e116f9240c6c14a9eb94bd0',
-        //     altText: 'The United States Capitol Building',
-        // },
         alternativeVisual: <EnvironmentMomentBannerEarth />,
-        //bannerId: 'us-eoy-giving-tues-banner',
+        bannerId: 'us-eoy-giving-tues-banner',
     }),
     'us-eoy-giving-tues-banner',
 );

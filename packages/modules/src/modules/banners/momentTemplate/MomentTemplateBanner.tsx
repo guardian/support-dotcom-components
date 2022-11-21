@@ -49,6 +49,7 @@ export function getMomentTemplateBanner(
 
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
 
+        console.log('templateSettings.bannerId', templateSettings.bannerId);
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
                 <Container
@@ -56,6 +57,7 @@ export function getMomentTemplateBanner(
                         templateSettings.backgroundColour,
                         content.mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder,
+                        templateSettings.bannerId,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -235,14 +237,17 @@ const styles = {
             justify-content: flex-end;
         }
     `,
-    mobileStickyHeaderContainer: (background: string, hasReminderCta: boolean) => css`
+    mobileStickyHeaderContainer: (
+        background: string,
+        hasReminderCta: boolean,
+        bannerId?: string,
+    ) => css`
         background: ${background};
         position: sticky;
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${space[2]}px;
-        // css-giving-tues-banner-2022 padding-top: 0px;
+        padding-top: ${bannerId === 'us-eoy-giving-tues-banner' ? 0 : space[2]}px;
 
         ${hasReminderCta
             ? `
