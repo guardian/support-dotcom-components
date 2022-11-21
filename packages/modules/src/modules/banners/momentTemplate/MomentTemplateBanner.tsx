@@ -149,12 +149,13 @@ export function getMomentTemplateBanner(
                                 />
                             </div>
 
-                            {tickerSettings?.tickerData && (
-                                <MomentTemplateBannerTicker
-                                    tickerSettings={tickerSettings}
-                                    stylingSettings={templateSettings.tickerStylingSettings}
-                                />
-                            )}
+                            {tickerSettings?.tickerData &&
+                                templateSettings.tickerStylingSettings && (
+                                    <MomentTemplateBannerTicker
+                                        tickerSettings={tickerSettings}
+                                        stylingSettings={templateSettings.tickerStylingSettings}
+                                    />
+                                )}
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas

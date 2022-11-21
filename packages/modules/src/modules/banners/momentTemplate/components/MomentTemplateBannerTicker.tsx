@@ -123,7 +123,7 @@ const Marker: React.FC<MarkerProps> = ({ goal, end, colour }: MarkerProps) => {
 
 type MomentTemplateBannerTickerProps = {
     tickerSettings: TickerSettings;
-    stylingSettings?: TickerStylingSettings;
+    stylingSettings: TickerStylingSettings;
 };
 
 const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
@@ -161,7 +161,7 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
         <div ref={setNode} css={containerStyles}>
             <div>
                 <div css={soFarContainerStyles}>
-                    <div css={countLabelStyles(stylingSettings?.textColour)}>
+                    <div css={countLabelStyles(stylingSettings.textColour)}>
                         {!isGoalReached && currencySymbol}
                         {isGoalReached
                             ? tickerSettings.copy.goalReachedPrimary
@@ -175,7 +175,7 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
                 </div>
 
                 <div css={goalContainerStyles}>
-                    <div css={countLabelStyles(stylingSettings?.textColour)}>
+                    <div css={countLabelStyles(stylingSettings.textColour)}>
                         {currencySymbol}
                         {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}{' '}
                         <span>{isGoalReached ? tickerSettings.copy.countLabel : 'goal'}</span>
@@ -184,17 +184,17 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
             </div>
 
             <div css={progressBarContainerStyles}>
-                <div css={progressBarStyles(stylingSettings?.progressBarBackgroundColour)}>
+                <div css={progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
                     <div
                         css={filledProgressStyles(
                             end,
                             runningTotal,
                             total,
-                            stylingSettings?.filledProgressColour,
+                            stylingSettings.filledProgressColour,
                         )}
                     ></div>
                 </div>
-                <Marker goal={goal} end={end} colour={stylingSettings?.goalMarkerColour} />
+                <Marker goal={goal} end={end} colour={stylingSettings.goalMarkerColour} />
             </div>
         </div>
     );
