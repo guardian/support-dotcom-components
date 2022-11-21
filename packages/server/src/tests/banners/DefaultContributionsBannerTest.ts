@@ -8,12 +8,12 @@ export const DefaultContributionsBanner: BannerTest = {
     bannerChannel: 'contributions',
     isHardcoded: false,
     userCohort: 'AllNonSupporters',
-    minPageViews: 2,
+    minArticlesBeforeShowingBanner: 2,
     variants: [
         {
             name: 'control',
             modulePathBuilder: contributionsBanner.endpointPathBuilder,
-            moduleName: 'ContributionsBanner',
+            template: 'ContributionsBanner',
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             bannerContent: DefaultBannerContent,
         },

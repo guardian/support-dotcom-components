@@ -2,8 +2,6 @@ import { BannerChannel, BannerContent, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
-    DeviceType,
-    SignedInStatus,
     TargetingAbTest,
     Test,
     TestStatus,
@@ -34,7 +32,7 @@ export interface BannerVariant extends Variant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePathBuilder: (version?: string) => string;
-    moduleName: string;
+    template: BannerTemplate;
     bannerContent?: BannerContent;
     mobileBannerContent?: BannerContent;
     componentType: OphanComponentType;
@@ -53,7 +51,7 @@ export interface BannerTest extends Test<BannerVariant> {
     isHardcoded: boolean;
     userCohort: UserCohort;
     canRun?: CanRun;
-    minPageViews: number;
+    minArticlesBeforeShowingBanner: number;
     variants: BannerVariant[];
     locations?: CountryGroupId[];
     articlesViewedSettings?: ArticlesViewedSettings;
@@ -72,25 +70,11 @@ export interface BannerTestSelection {
     targetingAbTest?: TargetingAbTest;
 }
 
-export interface RawVariantParams {
-    name: string;
-    template: BannerTemplate;
-    bannerContent: BannerContent;
-    mobileBannerContent?: BannerContent;
-    separateArticleCount?: boolean;
-    tickerSettings?: TickerSettings;
-}
-
-export interface RawTestParams {
-    name: string;
-    nickname: string;
-    status: TestStatus;
-    minArticlesBeforeShowingBanner: number;
-    userCohort: UserCohort;
-    locations: CountryGroupId[];
-    variants: RawVariantParams[];
-    articlesViewedSettings?: ArticlesViewedSettings;
-    controlProportionSettings?: ControlProportionSettings;
-    deviceType?: DeviceType;
-    signedInStatus?: SignedInStatus;
-}
+// Models for the config from the RRCP
+export type BannerVariantFromTool = Omit<
+    BannerVariant,
+    'modulePathBuilder' | 'componentType' | 'products'
+>;
+export type BannerTestFromTool = Omit<BannerTest, 'bannerChannel' | 'isHardcoded'> & {
+    variants: BannerVariantFromTool[];
+};
