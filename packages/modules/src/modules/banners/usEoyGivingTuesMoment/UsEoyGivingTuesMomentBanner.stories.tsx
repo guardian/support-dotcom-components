@@ -15,7 +15,6 @@ export default {
 const UsEoyGivingTuesBanner = bannerWrapper(
     getMomentTemplateBanner({
         backgroundColour: '#e2e1e0',
-        // Checked
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],
@@ -26,7 +25,6 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: 'white',
             },
         },
-        // Checked
         secondaryCtaSettings: {
             default: {
                 backgroundColour: neutral[86],
@@ -37,7 +35,6 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: neutral[7],
             },
         },
-        //
         closeButtonSettings: {
             default: {
                 backgroundColour: 'transparent',
@@ -49,7 +46,6 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: neutral[0],
             },
         },
-        //
         highlightedTextSettings: {
             textColour: neutral[0],
             highlightColour: neutral[100],
