@@ -1,5 +1,5 @@
 import { contributionsBanner } from '@sdc/shared/config';
-import { BannerTest } from '@sdc/shared/types';
+import { BannerTemplate, BannerTest } from '@sdc/shared/types';
 import { DefaultBannerContent } from './DefaultContributionsBannerContent';
 
 export const DefaultContributionsBanner: BannerTest = {
@@ -13,7 +13,7 @@ export const DefaultContributionsBanner: BannerTest = {
         {
             name: 'control',
             modulePathBuilder: contributionsBanner.endpointPathBuilder,
-            template: 'ContributionsBanner',
+            template: BannerTemplate.ContributionsBanner,
             componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
             bannerContent: DefaultBannerContent,
         },
