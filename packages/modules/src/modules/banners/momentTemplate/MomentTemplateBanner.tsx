@@ -68,7 +68,7 @@ export function getMomentTemplateBanner(
                     </div>
 
                     {hasVisual && (
-                        <div css={styles.visualContainer}>
+                        <div css={styles.mobileVisualContainer}>
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
@@ -152,7 +152,7 @@ export function getMomentTemplateBanner(
                             {tickerSettings?.tickerData && (
                                 <MomentTemplateBannerTicker
                                     tickerSettings={tickerSettings}
-                                    accentColour={'#d42d1a'}
+                                    stylingSettings={templateSettings.tickerStylingSettings}
                                 />
                             )}
 
@@ -254,7 +254,7 @@ const styles = {
             display: none;
         }
     `,
-    visualContainer: css`
+    mobileVisualContainer: css`
         display: none;
 
         ${from.mobileMedium} {
