@@ -19,7 +19,7 @@ const containerStyles = css`
     }
 `;
 
-const countLabelStyles = (colour?: string) => css`
+const countLabelStyles = (colour: string) => css`
     ${textSans.xsmall({ fontWeight: 'bold' })};
     font-size: 13px;
     color: ${colour};
@@ -40,7 +40,7 @@ const progressBarContainerStyles = css`
     margin-top: 40px;
 `;
 
-const progressBarStyles = (backgroundColour?: string) => css`
+const progressBarStyles = (backgroundColour: string) => css`
     overflow: hidden;
     width: 100%;
     background: ${backgroundColour};
@@ -75,7 +75,7 @@ const filledProgressStyles = (
     end: number,
     runningTotal: number,
     total: number,
-    colour?: string,
+    colour: string,
 ): SerializedStyles =>
     css`
         position: absolute;
@@ -95,7 +95,7 @@ const goalContainerStyles = css`
     text-align: right;
 `;
 
-const goalMarkerStyles = (transform: string, colour?: string): SerializedStyles => css`
+const goalMarkerStyles = (transform: string, colour: string): SerializedStyles => css`
     border-right: 2px solid ${colour};
     content: ' ';
     display: block;
@@ -107,7 +107,7 @@ const goalMarkerStyles = (transform: string, colour?: string): SerializedStyles 
 type MarkerProps = {
     goal: number;
     end: number;
-    colour?: string;
+    colour: string;
 };
 
 const Marker: React.FC<MarkerProps> = ({ goal, end, colour }: MarkerProps) => {
