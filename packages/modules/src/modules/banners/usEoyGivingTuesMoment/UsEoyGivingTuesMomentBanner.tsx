@@ -3,7 +3,8 @@ import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 const UsEoyGivingTuesBanner = getMomentTemplateBanner({
-    backgroundColour: '#deded9',
+    backgroundColour: '#e2e1e0',
+    // Checked
     primaryCtaSettings: {
         default: {
             backgroundColour: neutral[7],
@@ -14,6 +15,7 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
             textColour: 'white',
         },
     },
+    // Checked
     secondaryCtaSettings: {
         default: {
             backgroundColour: neutral[86],
@@ -24,9 +26,10 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
             textColour: neutral[7],
         },
     },
+    //
     closeButtonSettings: {
         default: {
-            backgroundColour: neutral[86],
+            backgroundColour: 'transparent',
             textColour: neutral[7],
             border: `1px solid ${neutral[7]}`,
         },
@@ -35,18 +38,19 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
             textColour: neutral[0],
         },
     },
+    //
     highlightedTextSettings: {
         textColour: neutral[0],
         highlightColour: neutral[100],
     },
     imageSettings: {
         mainUrl:
-            'https://i.guim.co.uk/img/media/56d31914ea2f5bb335c4a2b69c6711903e999c86/0_0_820_932/820.png?quality=85&s=e47ec639fdaf420ac3c0be91cda686ed',
+            'https://i.guim.co.uk/img/media/06e22c77193c7d5bc3229c4819b103ade4306579/0_0_1400_1400/500.png?quality=85&s=23b7ac6db68c9f8a373cf43f23d77a22',
         mobileUrl:
-            'https://i.guim.co.uk/img/media/2494b0dd21a753c373fcb85c26d4c461e13c6b5b/149_0_1195_588/500.png?quality=85&s=3a55e291549838bfacbcbb495ca5be6b',
-        altText: 'The United States Capitol Building',
+            'https://i.guim.co.uk/img/media/56e7d6bae1e012c12105c639862829489ef366dd/0_0_751_271/751.jpg?quality=85&s=91549fd65e116f9240c6c14a9eb94bd0',
+        altText: 'The World On Fire',
     },
-    bannerId: 'us-eoy-banner',
+    bannerId: 'us-eoy-giving-tues-banner',
 });
 
 const unvalidated = bannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-banner');

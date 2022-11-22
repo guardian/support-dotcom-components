@@ -53,7 +53,6 @@ const container = css`
     img {
         height: 100%;
         width: 100%;
-        // css-giving-tues-banner-2022 object-fit: cover;
         object-fit: contain;
     }
 

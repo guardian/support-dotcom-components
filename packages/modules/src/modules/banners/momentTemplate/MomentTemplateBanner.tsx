@@ -49,7 +49,6 @@ export function getMomentTemplateBanner(
 
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
 
-        console.log('templateSettings.bannerId', templateSettings.bannerId);
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
                 <Container

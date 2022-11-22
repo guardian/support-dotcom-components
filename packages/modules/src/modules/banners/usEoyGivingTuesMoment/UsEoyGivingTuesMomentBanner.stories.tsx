@@ -5,7 +5,6 @@ import { BannerProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@
 import { bannerWrapper } from '../common/BannerWrapper';
 import { neutral } from '@guardian/src-foundations';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
-import { EnvironmentMomentBannerEarth } from '../environmentMoment/components/EnvironmentMomentBannerEarth';
 
 export default {
     title: 'Banners/MomentTemplate/US_GivingTues_2022',
@@ -54,7 +53,13 @@ const UsEoyGivingTuesBanner = bannerWrapper(
             textColour: neutral[0],
             highlightColour: neutral[100],
         },
-        alternativeVisual: <EnvironmentMomentBannerEarth />,
+        imageSettings: {
+            mainUrl:
+                'https://i.guim.co.uk/img/media/06e22c77193c7d5bc3229c4819b103ade4306579/0_0_1400_1400/500.png?quality=85&s=23b7ac6db68c9f8a373cf43f23d77a22',
+            mobileUrl:
+                'https://i.guim.co.uk/img/media/56e7d6bae1e012c12105c639862829489ef366dd/0_0_751_271/751.jpg?quality=85&s=91549fd65e116f9240c6c14a9eb94bd0',
+            altText: 'The World On Fire',
+        },
         bannerId: 'us-eoy-giving-tues-banner',
     }),
     'us-eoy-giving-tues-banner',
