@@ -66,7 +66,7 @@ const progressBarTransform = (end: number, runningTotal: number, total: number):
         return 'translateX(-100%)';
     }
 
-    const percentage = (total / end) * 100 - 110;
+    const percentage = (total / end) * 100 - 100;
 
     return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
 };
