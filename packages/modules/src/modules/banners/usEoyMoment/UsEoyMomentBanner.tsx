@@ -46,6 +46,12 @@ const UsEoyMomentBanner = getMomentTemplateBanner({
             'https://i.guim.co.uk/img/media/2494b0dd21a753c373fcb85c26d4c461e13c6b5b/149_0_1195_588/500.png?quality=85&s=3a55e291549838bfacbcbb495ca5be6b',
         altText: 'The United States Capitol Building',
     },
+    tickerStylingSettings: {
+        textColour: '#d42d1a',
+        filledProgressColour: '#d42d1a',
+        progressBarBackgroundColour: '#fff',
+        goalMarkerColour: '#d42d1a',
+    },
     bannerId: 'us-eoy-banner',
 });
 
