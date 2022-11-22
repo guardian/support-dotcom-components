@@ -62,7 +62,8 @@ const wrapperStyles = css`
         }
     }
 
-    b {
+    b,
+    strong {
         font-weight: bold;
     }
 `;
