@@ -73,8 +73,11 @@ export function getMomentTemplateBanner(
                         <div
                             css={
                                 isUsEoyGivingTuesBanner
-                                    ? [styles.visualContainer, styles.visualContainerGivingTues]
-                                    : styles.visualContainer
+                                    ? [
+                                          styles.mobileVisualContainer,
+                                          styles.visualContainerGivingTues,
+                                      ]
+                                    : styles.mobileVisualContainer
                             }
                         >
                             {templateSettings.imageSettings && (
@@ -166,12 +169,13 @@ export function getMomentTemplateBanner(
                                 />
                             </div>
 
-                            {tickerSettings?.tickerData && (
-                                <MomentTemplateBannerTicker
-                                    tickerSettings={tickerSettings}
-                                    accentColour={'#d42d1a'}
-                                />
-                            )}
+                            {tickerSettings?.tickerData &&
+                                templateSettings.tickerStylingSettings && (
+                                    <MomentTemplateBannerTicker
+                                        tickerSettings={tickerSettings}
+                                        stylingSettings={templateSettings.tickerStylingSettings}
+                                    />
+                                )}
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
@@ -275,7 +279,7 @@ const styles = {
             display: none;
         }
     `,
-    visualContainer: css`
+    mobileVisualContainer: css`
         display: none;
 
         ${from.mobileMedium} {

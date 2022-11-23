@@ -5,7 +5,7 @@ import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
-    title: 'Banners/ClimateCrisis',
+    title: 'Banners/MomentTemplate',
     args: props,
 } as Meta;
 

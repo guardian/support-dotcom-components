@@ -20,6 +20,13 @@ export interface HighlightedTextSettings {
     highlightColour?: string;
 }
 
+export interface TickerStylingSettings {
+    textColour: string;
+    filledProgressColour: string;
+    progressBarBackgroundColour: string;
+    goalMarkerColour: string;
+}
+
 export interface BannerTemplateSettings {
     backgroundColour: string;
     primaryCtaSettings: CtaSettings;
@@ -31,4 +38,5 @@ export interface BannerTemplateSettings {
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
     bannerId?: BannerId;
+    tickerStylingSettings?: TickerStylingSettings;
 }

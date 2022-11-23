@@ -70,6 +70,7 @@ const BannerVariantFromParams = (forChannel: BannerChannel) => {
         componentType: BannerTemplateComponentTypes[forChannel],
         products: BannerTemplateProducts[variant.template],
         separateArticleCount: variant.separateArticleCount,
+        tickerSettings: variant.tickerSettings,
     });
 };
 
@@ -92,6 +93,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
                         variants: testParams.variants.map(BannerVariantFromParams(bannerChannel)),
                         controlProportionSettings: testParams.controlProportionSettings,
                         deviceType: testParams.deviceType,
+                        signedInStatus: testParams.signedInStatus,
                     };
                 },
             );
