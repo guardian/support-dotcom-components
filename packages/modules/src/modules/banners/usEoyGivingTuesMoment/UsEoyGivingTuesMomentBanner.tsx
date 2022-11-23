@@ -53,7 +53,7 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
     bannerId: 'us-eoy-giving-tues-banner',
 });
 
-const unvalidated = bannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-banner');
-const validated = validatedBannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-banner');
+const unvalidated = bannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-giving-tues-banner');
+const validated = validatedBannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-giving-tues-banner');
 
 export { validated as UsEoyMomentBanner, unvalidated as UsEoyMomentBannerUnvalidated };

@@ -48,6 +48,7 @@ export function getMomentTemplateBanner(
         }, [mobileReminderRef.current, isReminderActive]);
 
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
+        const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
 
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
@@ -69,7 +70,13 @@ export function getMomentTemplateBanner(
                     </div>
 
                     {hasVisual && (
-                        <div css={styles.visualContainer}>
+                        <div
+                            css={
+                                isUsEoyGivingTuesBanner
+                                    ? [styles.visualContainer, styles.visualContainerGivingTues]
+                                    : styles.visualContainer
+                            }
+                        >
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
@@ -107,7 +114,16 @@ export function getMomentTemplateBanner(
                         </div>
 
                         {hasVisual && (
-                            <div css={styles.desktopVisualContainer}>
+                            <div
+                                css={
+                                    isUsEoyGivingTuesBanner
+                                        ? [
+                                              styles.desktopVisualContainer,
+                                              styles.desktopGivingTuesVisualContainer,
+                                          ]
+                                        : styles.desktopVisualContainer
+                                }
+                            >
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
@@ -269,6 +285,10 @@ const styles = {
             display: none;
         }
     `,
+    visualContainerGivingTues: css`
+        max-height: 180px;
+        overflow: hidden;
+    `,
     desktopVisualContainer: css`
         display: none;
 
@@ -284,6 +304,13 @@ const styles = {
         ${from.leftCol} {
             width: 370px;
             margin-left: ${space[9]}px;
+        }
+    `,
+    desktopGivingTuesVisualContainer: css`
+        ${from.tablet} {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     `,
     contentContainer: css`

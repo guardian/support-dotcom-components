@@ -36,7 +36,6 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: neutral[7],
             },
         },
-        //
         closeButtonSettings: {
             default: {
                 backgroundColour: 'transparent',
@@ -48,7 +47,6 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: neutral[0],
             },
         },
-        //
         highlightedTextSettings: {
             textColour: neutral[0],
             highlightColour: neutral[100],
