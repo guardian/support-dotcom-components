@@ -2,7 +2,7 @@ import { neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const UsEoyGivingTuesBanner = getMomentTemplateBanner({
+const UsEoyGivingTuesMomentBanner = getMomentTemplateBanner({
     backgroundColour: '#e2e1e0',
     primaryCtaSettings: {
         default: {
@@ -59,7 +59,7 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
     bannerId: 'us-eoy-giving-tues-banner',
 });
 
-const unvalidated = bannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-giving-tues-banner');
-const validated = validatedBannerWrapper(UsEoyGivingTuesBanner, 'us-eoy-giving-tues-banner');
+const unvalidated = bannerWrapper(UsEoyGivingTuesMomentBanner, 'us-eoy-giving-tues-banner');
+const validated = validatedBannerWrapper(UsEoyGivingTuesMomentBanner, 'us-eoy-giving-tues-banner');
 
 export { validated as UsEoyMomentBanner, unvalidated as UsEoyMomentBannerUnvalidated };
