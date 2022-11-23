@@ -56,6 +56,12 @@ const UsEoyGivingTuesMomentBanner = getMomentTemplateBanner({
             'https://i.guim.co.uk/img/media/56e7d6bae1e012c12105c639862829489ef366dd/0_0_751_271/751.jpg?quality=85&s=91549fd65e116f9240c6c14a9eb94bd0',
         altText: 'The World On Fire',
     },
+    tickerStylingSettings: {
+        textColour: '##AB0613',
+        filledProgressColour: '##AB0613',
+        progressBarBackgroundColour: '#fff',
+        goalMarkerColour: '##AB0613',
+    },
     bannerId: 'us-eoy-giving-tues-banner',
 });
 

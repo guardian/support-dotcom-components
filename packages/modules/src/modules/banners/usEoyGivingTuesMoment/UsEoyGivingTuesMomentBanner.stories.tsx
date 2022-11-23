@@ -14,7 +14,6 @@ export default {
 const UsEoyGivingTuesBanner = bannerWrapper(
     getMomentTemplateBanner({
         backgroundColour: '#e2e1e0',
-        // Checked
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],
@@ -25,7 +24,6 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 textColour: 'white',
             },
         },
-        // Checked
         secondaryCtaSettings: {
             default: {
                 backgroundColour: neutral[86],
@@ -68,27 +66,33 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 'https://i.guim.co.uk/img/media/56e7d6bae1e012c12105c639862829489ef366dd/0_0_751_271/751.jpg?quality=85&s=91549fd65e116f9240c6c14a9eb94bd0',
             altText: 'The World On Fire',
         },
+        tickerStylingSettings: {
+            textColour: '#AB0613',
+            filledProgressColour: '#AB0613',
+            progressBarBackgroundColour: '#fff',
+            goalMarkerColour: '#AB0613',
+        },
         bannerId: 'us-eoy-giving-tues-banner',
     }),
     'us-eoy-giving-tues-banner',
 );
 
-const UsEoy2022Template: Story<BannerProps> = (props: BannerProps) => (
+const UsEoyGivingTues2022Template: Story<BannerProps> = (props: BannerProps) => (
     <UsEoyGivingTuesBanner {...props} />
 );
 
-export const WithUnderfundedTicker = UsEoy2022Template.bind({});
+export const WithUnderfundedTicker = UsEoyGivingTues2022Template.bind({});
 WithUnderfundedTicker.args = {
     ...props,
     content: {
-        heading: 'The story is global. Support the Guardian.',
+        heading: 'The story is global.<br>Support the Guardian this Giving Tuesday',
         messageText:
-            'From climate collapse to rising authoritarianism, a cost of living crisis to the pandemic: the world’s crises are intertwined. Guardian journalists report from all over the globe – uncovering the truth, exposing injustice and countering misinformation. We keep our reporting free so that everyone, everywhere can access high-quality journalism. We need your help to keep going. Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – because we’re all in this together. Thank you.',
+            'Congratulations and thank you for being one of our top readers. The Guardian is a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. Support from readers keeps us fiercely independent, with no shareholders to please or a billionaire owner. It allows us to keep our reporting open for all, because not everyone is in a position to pay for news. But if you can afford it, we need you. We are raising $1m to fund our journalism in 2023. Make an investment in quality journalism, so millions more can benefit.',
         paragraphs: [
-            'From climate collapse to rising authoritarianism, a cost of living crisis to the pandemic: the world’s crises are intertwined. Guardian journalists report from all over the globe – uncovering the truth, exposing injustice and countering misinformation. We keep our reporting free so that everyone, everywhere can access high-quality journalism. We need your help to keep going. ',
+            'Congratulations and thank you for being one of our top readers. The Guardian is a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. Support from readers keeps us fiercely independent, with no shareholders to please or a billionaire owner. It allows us to keep our reporting open for all, because not everyone is in a position to pay for news. But if you can afford it, we need you. We are raising $1m to fund our journalism in 2023. Make an investment in quality journalism, so millions more can benefit.',
         ],
         highlightedText:
-            'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – because we’re all in this together. Thank you.',
+            'Support the Guardian this Giving Tuesday from as little as %%CURRENCY_SYMBOL%%1 and help us reach our goal. Thank you.',
         cta: {
             text: 'Support independent journalism',
             baseUrl: 'https://support.theguardian.com/contribute',
@@ -102,11 +106,11 @@ WithUnderfundedTicker.args = {
         },
     },
     mobileContent: {
-        heading: 'Resist powerlessness. Protect democracy. Support the Guardian.',
+        heading: 'The story is global.<br>Support the Guardian this Giving Tuesday',
         messageText:
-            'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
+            'Congratulations and thank you for being one of our top readers. The Guardian is a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. Support from readers keeps us fiercely independent, with no shareholders to please or a billionaire owner. It allows us to keep our reporting open for all, because not everyone is in a position to pay for news. But if you can afford it, we need you. We are raising $1m to fund our journalism in 2023. Make an investment in quality journalism, so millions more can benefit.',
         paragraphs: [
-            'From rising authoritarianism to climate collapse to an erosion of democratic norms, the issues facing us are daunting. Fearless, independent journalism that relentlessly reports the truth, uncovers injustice and exposes misinformation is essential to fighting back. We need your help to keep going – and help keep Guardian journalism free for everyone. ',
+            'Congratulations and thank you for being one of our top readers. The Guardian is a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. Support from readers keeps us fiercely independent, with no shareholders to please or a billionaire owner. It allows us to keep our reporting open for all, because not everyone is in a position to pay for news. But if you can afford it, we need you. We are raising $1m to fund our journalism in 2023. Make an investment in quality journalism, so millions more can benefit.',
         ],
         cta: {
             text: 'Support us',
@@ -139,7 +143,7 @@ WithUnderfundedTicker.args = {
     },
 };
 
-export const WithOverfundedTicker = UsEoy2022Template.bind({});
+export const WithOverfundedTicker = UsEoyGivingTues2022Template.bind({});
 WithOverfundedTicker.args = {
     ...WithUnderfundedTicker.args,
     tickerSettings: {

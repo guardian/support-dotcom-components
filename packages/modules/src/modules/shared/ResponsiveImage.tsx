@@ -34,5 +34,5 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
 // ---- Styles ---- //
 
 const container = (bannerId?: BannerId) => css`
-    width: ${bannerId === 'us-eoy-banner' ? '100%' : ''};
+    width: ${bannerId === 'us-eoy-giving-tues-banner' ? '100%' : ''};
 `;

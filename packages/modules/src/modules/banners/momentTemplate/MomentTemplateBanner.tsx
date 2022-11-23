@@ -292,6 +292,8 @@ const styles = {
     visualContainerGivingTues: css`
         max-height: 180px;
         overflow: hidden;
+        margin-left: -${space[5]}px;
+        margin-right: -${space[5]}px;
     `,
     desktopVisualContainer: css`
         display: none;
