@@ -4,7 +4,6 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 
 const UsEoyGivingTuesBanner = getMomentTemplateBanner({
     backgroundColour: '#e2e1e0',
-    // Checked
     primaryCtaSettings: {
         default: {
             backgroundColour: neutral[7],
@@ -15,7 +14,6 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
             textColour: 'white',
         },
     },
-    // Checked
     secondaryCtaSettings: {
         default: {
             backgroundColour: neutral[86],
@@ -26,9 +24,18 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
             textColour: neutral[7],
         },
     },
-    //
     closeButtonSettings: {
         default: {
+            backgroundColour: 'transparent',
+            textColour: neutral[7],
+            border: `1px solid ${neutral[7]}`,
+        },
+        mobile: {
+            backgroundColour: 'transparent',
+            textColour: neutral[100],
+            border: `1px solid ${neutral[100]}`,
+        },
+        desktop: {
             backgroundColour: 'transparent',
             textColour: neutral[7],
             border: `1px solid ${neutral[7]}`,
@@ -38,7 +45,6 @@ const UsEoyGivingTuesBanner = getMomentTemplateBanner({
             textColour: neutral[0],
         },
     },
-    //
     highlightedTextSettings: {
         textColour: neutral[0],
         highlightColour: neutral[100],

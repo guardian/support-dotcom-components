@@ -46,6 +46,16 @@ const UsEoyGivingTuesBanner = bannerWrapper(
                 backgroundColour: 'white',
                 textColour: neutral[0],
             },
+            mobile: {
+                backgroundColour: 'transparent',
+                textColour: neutral[100],
+                border: `1px solid ${neutral[100]}`,
+            },
+            desktop: {
+                backgroundColour: 'transparent',
+                textColour: neutral[7],
+                border: `1px solid ${neutral[7]}`,
+            },
         },
         highlightedTextSettings: {
             textColour: neutral[0],
