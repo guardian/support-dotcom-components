@@ -57,10 +57,10 @@ const UsEoyGivingTuesMomentBanner = getMomentTemplateBanner({
         altText: 'The World On Fire',
     },
     tickerStylingSettings: {
-        textColour: '##AB0613',
-        filledProgressColour: '##AB0613',
+        textColour: '#AB0613',
+        filledProgressColour: '#AB0613',
         progressBarBackgroundColour: '#fff',
-        goalMarkerColour: '##AB0613',
+        goalMarkerColour: '#AB0613',
     },
     bannerId: 'us-eoy-giving-tues-banner',
 });
