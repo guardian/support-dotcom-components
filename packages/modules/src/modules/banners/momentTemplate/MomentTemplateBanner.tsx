@@ -157,7 +157,9 @@ export function getMomentTemplateBanner(
 
                             <div
                                 css={
-                                    isUsEoyBanner ? styles.usEoyBodyContainer : styles.bodyContainer
+                                    isUsEoyBanner || isUsEoyGivingTuesBanner
+                                        ? styles.usEoyBodyContainer
+                                        : styles.bodyContainer
                                 }
                             >
                                 <MomentTemplateBannerBody
@@ -360,7 +362,7 @@ const styles = {
         margin-top: ${space[1]}px;
     `,
     usEoyBodyContainer: css`
-        margin-top: ${space[3]}px;
+        margin-top: ${space[4]}px;
     `,
     ctasContainer: css`
         display: flex;
