@@ -40,7 +40,6 @@ const givingTuesdayIsActive = (date: Date = new Date()): boolean => date < Givin
 
 export const getReminderFields = (countryCode?: string): ReminderFields => {
     if (countryCode === 'US' && givingTuesdayIsActive()) {
-        console.log('isactive');
         return GIVING_TUESDAY_REMINDER_FIELDS;
     }
     return buildReminderFields();
