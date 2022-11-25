@@ -11,6 +11,7 @@ import {
     signInPromptBanner,
     climateCrisisMomentBanner,
     usEoyMomentBanner,
+    usEoyGivingTuesMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -41,6 +42,7 @@ export const BannerPaths: {
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.ClimateCrisisMomentBanner]: climateCrisisMomentBanner.endpointPathBuilder,
     [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyGivingTuesMomentBanner]: usEoyGivingTuesMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {

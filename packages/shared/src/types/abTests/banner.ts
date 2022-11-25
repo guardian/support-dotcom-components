@@ -28,6 +28,7 @@ export enum BannerTemplate {
     SignInPromptBanner = 'SignInPromptBanner',
     ClimateCrisisMomentBanner = 'ClimateCrisisMomentBanner',
     UsEoyMomentBanner = 'UsEoyMomentBanner',
+    UsEoyGivingTuesMomentBanner = 'UsEoyGivingTuesMomentBanner',
 }
 
 export interface BannerVariant extends Variant {

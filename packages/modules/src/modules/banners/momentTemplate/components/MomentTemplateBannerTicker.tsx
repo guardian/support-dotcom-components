@@ -10,7 +10,7 @@ import { TickerStylingSettings } from '../settings';
 const containerStyles = css`
     position: relative;
     // fixed container height must be set
-    height: 50px;
+    height: 56px;
     line-height: 18px;
 
     // fixed height is larger here to accomodate ticker copy on a maximum of 2 lines

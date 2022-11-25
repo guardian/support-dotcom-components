@@ -46,15 +46,15 @@ export function MomentTemplateBannerVisual({
     `;
 
     return (
-        <div css={[container, alignItems]}>
-            <ResponsiveImage baseImage={baseImage} images={images} />
+        <div css={[container(bannerId), alignItems]}>
+            <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
         </div>
     );
 }
 
 // ---- Styles ---- //
 
-const container = css`
+const container = (bannerId?: BannerId) => css`
     height: 140px;
     display: flex;
     justify-content: center;
@@ -62,7 +62,7 @@ const container = css`
     img {
         height: 100%;
         width: 100%;
-        object-fit: contain;
+        object-fit: ${bannerId === 'us-eoy-giving-tues-banner' ? 'cover' : 'contain'};
         display: block;
     }
 
