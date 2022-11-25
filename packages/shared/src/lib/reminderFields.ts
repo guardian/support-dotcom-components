@@ -1,5 +1,3 @@
-import { EpicVariant } from '../types';
-
 export interface ReminderFields {
     reminderCta: string;
     reminderLabel: string;
@@ -38,13 +36,12 @@ export const GIVING_TUESDAY_REMINDER_FIELDS: ReminderFields = {
 
 const GivingTuesdayCutOff = new Date('2022-11-28');
 
-const givingTuesdayIsActive = (date: Date): boolean => date < GivingTuesdayCutOff;
+const givingTuesdayIsActive = (date: Date = new Date()): boolean => date < GivingTuesdayCutOff;
 
-export const getReminderFields = (
-    variant: EpicVariant,
-    countryCode?: string,
-): ReminderFields | undefined => {
-    return variant.showReminderFields ?? (countryCode === 'US' && givingTuesdayIsActive(new Date()))
-        ? GIVING_TUESDAY_REMINDER_FIELDS
-        : buildReminderFields();
+export const getReminderFields = (countryCode?: string): ReminderFields => {
+    if (countryCode === 'US' && givingTuesdayIsActive()) {
+        console.log('isactive');
+        return GIVING_TUESDAY_REMINDER_FIELDS;
+    }
+    return buildReminderFields();
 };
