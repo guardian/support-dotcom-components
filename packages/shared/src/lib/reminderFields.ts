@@ -36,11 +36,15 @@ export const GIVING_TUESDAY_REMINDER_FIELDS: ReminderFields = {
     reminderOption: 'giving-tuesday-2022',
 };
 
+const GivingTuesdayCutOff = new Date('2022-11-28');
+
+const givingTuesdayIsActive = (date: Date): boolean => date < GivingTuesdayCutOff;
+
 export const getReminderFields = (
     variant: EpicVariant,
     countryCode?: string,
 ): ReminderFields | undefined => {
-    return variant.showReminderFields ?? countryCode === 'US'
+    return variant.showReminderFields ?? (countryCode === 'US' && givingTuesdayIsActive(new Date()))
         ? GIVING_TUESDAY_REMINDER_FIELDS
         : buildReminderFields();
 };
