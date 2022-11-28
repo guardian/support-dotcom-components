@@ -27,20 +27,7 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const GIVING_TUESDAY_REMINDER_FIELDS: ReminderFields = {
-    reminderCta: 'Remind me on Giving Tuesday',
-    reminderPeriod: '2022-11-01',
-    reminderLabel: 'on Giving Tuesday',
-    reminderOption: 'giving-tuesday-2022',
-};
-
-const GivingTuesdayCutOff = new Date('2022-11-28');
-
-const givingTuesdayIsActive = (date: Date = new Date()): boolean => date < GivingTuesdayCutOff;
-
-export const getReminderFields = (countryCode?: string): ReminderFields => {
-    if (countryCode === 'US' && givingTuesdayIsActive()) {
-        return GIVING_TUESDAY_REMINDER_FIELDS;
-    }
+export const getReminderFields = (): ReminderFields => {
+    // Add campaign-specific reminders here, e.g. Giving Tuesday
     return buildReminderFields();
 };
