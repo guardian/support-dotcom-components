@@ -28,28 +28,13 @@ export interface BannerContent {
 }
 
 const bannerContentSchema = z.object({
-    heading: z
-        .string()
-        .nullable()
-        .optional(),
-    messageText: z
-        .string()
-        .nullable()
-        .optional(),
-    paragraphs: z
-        .array(z.string())
-        .nullable()
-        .optional(),
-    mobileMessageText: z
-        .string()
-        .nullable()
-        .optional(),
-    highlightedText: z
-        .string()
-        .nullable()
-        .optional(),
-    cta: ctaSchema.nullable().optional(),
-    secondaryCta: secondaryCtaSchema.nullable().optional(),
+    heading: z.string().nullish(),
+    messageText: z.string().nullish(),
+    paragraphs: z.array(z.string()).nullish(),
+    mobileMessageText: z.string().nullish(),
+    highlightedText: z.string().nullish(),
+    cta: ctaSchema.nullish(),
+    secondaryCta: secondaryCtaSchema.nullish(),
 });
 
 export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
@@ -72,20 +57,17 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
 export const bannerSchema = z.object({
     tracking: trackingSchema,
     bannerChannel: bannerChannelSchema,
-    content: bannerContentSchema.nullable().optional(),
-    mobileContent: bannerContentSchema.nullable().optional(),
-    countryCode: z.string().optional(),
-    isSupporter: z.boolean().optional(),
-    tickerSettings: tickerSettingsSchema.nullable().optional(),
+    content: bannerContentSchema.nullish(),
+    mobileContent: bannerContentSchema.nullish(),
+    countryCode: z.string().nullish(),
+    isSupporter: z.boolean().nullish(),
+    tickerSettings: tickerSettingsSchema.nullish(),
     submitComponentEvent: z.any(),
-    numArticles: z.number().optional(),
-    hasOptedOutOfArticleCount: z.boolean().optional(),
-    email: z.string().optional(),
-    fetchEmail: z.any().optional(),
-    separateArticleCount: z
-        .boolean()
-        .nullable()
-        .optional(),
+    numArticles: z.number().nullish(),
+    hasOptedOutOfArticleCount: z.boolean().nullish(),
+    email: z.string().nullish(),
+    fetchEmail: z.any().nullish(),
+    separateArticleCount: z.boolean().nullish(),
 });
 
 export interface PuzzlesBannerProps extends Partial<BannerProps> {

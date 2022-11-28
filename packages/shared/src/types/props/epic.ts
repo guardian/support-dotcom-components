@@ -52,7 +52,7 @@ const maxViewsSchema = z.object({
 
 const separateArticleCountSchema = z.object({
     type: z.string(),
-    copy: z.string().optional(),
+    copy: z.string().nullish(),
 });
 
 const reminderFieldsSchema = z.object({
@@ -63,43 +63,31 @@ const reminderFieldsSchema = z.object({
 
 const variantSchema = z.object({
     name: z.string(),
-    heading: z
-        .string()
-        .nullable()
-        .optional(),
+    heading: z.string().nullish(),
     paragraphs: z.array(z.string()),
-    highlightedText: z
-        .string()
-        .nullable()
-        .optional(),
-    tickerSettings: tickerSettingsSchema.nullable().optional(),
-    cta: ctaSchema.nullable().optional(),
-    secondaryCta: secondaryCtaSchema.nullable().optional(),
-    footer: z
-        .string()
-        .nullable()
-        .optional(),
-    image: imageSchema.nullable().optional(),
-    showReminderFields: reminderFieldsSchema.nullable().optional(),
-    separateArticleCount: separateArticleCountSchema.nullable().optional(),
-    maxViews: maxViewsSchema.nullable().optional(),
-    showSignInLink: z
-        .boolean()
-        .nullable()
-        .optional(),
-    bylineWithImage: bylineWithImageSchema.nullable().optional(),
+    highlightedText: z.string().nullish(),
+    tickerSettings: tickerSettingsSchema.nullish(),
+    cta: ctaSchema.nullish(),
+    secondaryCta: secondaryCtaSchema.nullish(),
+    footer: z.string().nullish(),
+    image: imageSchema.nullish(),
+    showReminderFields: reminderFieldsSchema.nullish(),
+    separateArticleCount: separateArticleCountSchema.nullish(),
+    maxViews: maxViewsSchema.nullish(),
+    showSignInLink: z.boolean().nullish(),
+    bylineWithImage: bylineWithImageSchema.nullish(),
 });
 
 export const epicPropsSchema = z.object({
     variant: variantSchema,
     tracking: trackingSchema,
-    countryCode: z.string().optional(),
+    countryCode: z.string().nullish(),
     articleCounts: articleCountsSchema,
-    onReminderOpen: z.any().optional(),
-    email: z.string().optional(),
-    fetchEmail: z.any().optional(),
-    submitComponentEvent: z.any().optional(),
-    openCmp: z.any().optional(),
-    hasConsentForArticleCount: z.boolean().optional(),
-    stage: z.string().optional(),
+    onReminderOpen: z.any().nullish(),
+    email: z.string().nullish(),
+    fetchEmail: z.any().nullish(),
+    submitComponentEvent: z.any().nullish(),
+    openCmp: z.any().nullish(),
+    hasConsentForArticleCount: z.boolean().nullish(),
+    stage: z.string().nullish(),
 });

@@ -101,7 +101,7 @@ export const tickerSettingsSchema = z.object({
     countType: tickerCountTypeSchema,
     currencySymbol: z.string(),
     copy: tickerCopySchema,
-    tickerData: tickerDataSchema.optional(),
+    tickerData: tickerDataSchema.nullish(),
 });
 
 export const ophanProductSchema = z.enum([
@@ -126,8 +126,8 @@ export const trackingSchema = z.object({
     abTestVariant: z.string(),
     campaignCode: z.string(),
     componentType: ophanComponentTypeSchema,
-    products: z.array(ophanProductSchema).optional(),
-    labels: z.array(z.string()).optional(),
+    products: z.array(ophanProductSchema).nullish(),
+    labels: z.array(z.string()).nullish(),
     ophanPageId: z.string(),
     platformId: z.string(),
     referrerUrl: z.string(),
@@ -146,11 +146,11 @@ export interface Image {
 
 export const imageSchema = z.object({
     mainUrl: z.string(),
-    mobileUrl: z.string().optional(),
-    tabletUrl: z.string().optional(),
-    desktopUrl: z.string().optional(),
-    leftColUrl: z.string().optional(),
-    wideUrl: z.string().optional(),
+    mobileUrl: z.string().nullish(),
+    tabletUrl: z.string().nullish(),
+    desktopUrl: z.string().nullish(),
+    leftColUrl: z.string().nullish(),
+    wideUrl: z.string().nullish(),
     altText: z.string(),
 });
 
@@ -162,6 +162,6 @@ export interface BylineWithImage {
 
 export const bylineWithImageSchema = z.object({
     name: z.string(),
-    description: z.string().optional(),
-    headshot: imageSchema.optional(),
+    description: z.string().nullish(),
+    headshot: imageSchema.nullish(),
 });
