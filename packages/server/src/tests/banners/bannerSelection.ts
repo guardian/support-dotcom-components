@@ -105,7 +105,7 @@ const getForcedVariant = (
             test,
             variant,
             moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-            moduleName: variant.moduleName,
+            moduleName: variant.template,
         };
     }
     return null;
@@ -164,7 +164,7 @@ export const selectBannerTest = (
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
-            targeting.alreadyVisitedCount >= test.minPageViews &&
+            targeting.alreadyVisitedCount >= test.minArticlesBeforeShowingBanner &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,
@@ -189,7 +189,7 @@ export const selectBannerTest = (
                 test,
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-                moduleName: variant.moduleName,
+                moduleName: variant.template,
                 targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
         }

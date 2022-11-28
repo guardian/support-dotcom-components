@@ -65,12 +65,12 @@ describe('selectBannerTest', () => {
             bannerChannel: 'contributions',
             isHardcoded: false,
             userCohort: 'Everyone',
-            minPageViews: 2,
+            minArticlesBeforeShowingBanner: 2,
             variants: [
                 {
                     name: 'variant',
                     modulePathBuilder: contributionsBanner.endpointPathBuilder,
-                    moduleName: 'ContributionsBanner',
+                    template: BannerTemplate.ContributionsBanner,
                     bannerContent: {
                         messageText: 'body',
                         highlightedText: 'highlighted text',
@@ -215,12 +215,12 @@ describe('selectBannerTest', () => {
             bannerChannel: 'subscriptions',
             isHardcoded: false,
             userCohort: 'Everyone',
-            minPageViews: 2,
+            minArticlesBeforeShowingBanner: 2,
             variants: [
                 {
                     name: 'variant',
                     modulePathBuilder: digiSubs.endpointPathBuilder,
-                    moduleName: 'DigitalSubscriptionsBanner',
+                    template: BannerTemplate.DigitalSubscriptionsBanner,
                     bannerContent: {
                         messageText: 'body',
                         cta: {
@@ -326,12 +326,12 @@ describe('selectBannerTest', () => {
             isHardcoded: true,
             userCohort: 'Everyone',
             status: 'Live',
-            minPageViews: 0,
+            minArticlesBeforeShowingBanner: 0,
             variants: [
                 {
                     name: 'control',
                     modulePathBuilder: signInPromptBanner.endpointPathBuilder,
-                    moduleName: BannerTemplate.SignInPromptBanner,
+                    template: BannerTemplate.SignInPromptBanner,
                     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
                 },
             ],

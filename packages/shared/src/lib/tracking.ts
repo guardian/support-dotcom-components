@@ -98,7 +98,7 @@ type ProfileLinkParams = {
 };
 
 export const addProfileTrackingParams = (baseUrl: string, params: Tracking): string => {
-    const constructQuery = (query: { [key: string]: any }): string =>
+    const constructQuery = (query: Partial<Tracking>): string =>
         Object.keys(query)
             .map((param: string) => {
                 const value = query[param];
