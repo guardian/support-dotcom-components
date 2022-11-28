@@ -14,8 +14,8 @@ export interface HeaderContent {
 const headerContentSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
-    primaryCta: ctaSchema.nullable().optional(),
-    secondaryCta: ctaSchema.nullable().optional(),
+    primaryCta: ctaSchema.nullish(),
+    secondaryCta: ctaSchema.nullish(),
 });
 
 export interface HeaderProps extends EmotionJSX.IntrinsicAttributes {
@@ -30,8 +30,8 @@ export interface HeaderProps extends EmotionJSX.IntrinsicAttributes {
 export const headerSchema = z.object({
     content: headerContentSchema,
     tracking: trackingSchema,
-    mobileContent: headerContentSchema.nullable().optional(),
-    countryCode: z.string().optional(),
+    mobileContent: headerContentSchema.nullish(),
+    countryCode: z.string().nullish(),
     submitComponentEvent: z.any(),
-    numArticles: z.number().optional(),
+    numArticles: z.number().nullish(),
 });
