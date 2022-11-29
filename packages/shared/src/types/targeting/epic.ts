@@ -27,6 +27,7 @@ export type EpicTargeting = {
     modulesVersion?: string;
     url?: string;
     browserId?: string; // Only present if the user has consented to browserId-based targeting
+    isSignedIn?: boolean;
 };
 
 export type EpicPayload = {

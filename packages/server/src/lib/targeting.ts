@@ -1,5 +1,13 @@
-import { EpicTargeting, UserCohort, EpicViewLog, Test, Variant } from '@sdc/shared/types';
-import { daysSince, isRecentOneOffContributor } from './dates';
+import {
+    EpicTargeting,
+    UserCohort,
+    EpicViewLog,
+    Test,
+    Variant,
+    SignedInStatus,
+} from '@sdc/shared/types';
+
+import { daysSince } from './dates';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -62,16 +70,7 @@ export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): b
 export const audienceMatches = (
     showSupportMessaging: boolean,
     testAudience: UserCohort,
-    lastOneOffContributionDate?: string,
-    now: Date = new Date(Date.now()),
 ): boolean => {
-    const recentContributor =
-        !!lastOneOffContributionDate &&
-        isRecentOneOffContributor(new Date(lastOneOffContributionDate), now);
-    if (recentContributor) {
-        // Recent contributors are excluded from all message tests
-        return false;
-    }
     switch (testAudience) {
         case 'AllNonSupporters':
             return showSupportMessaging;
@@ -88,6 +87,20 @@ export const deviceTypeMatches = <V extends Variant>(test: Test<V>, isMobile: bo
             return isMobile;
         case 'Desktop':
             return !isMobile;
+        default:
+            return true;
+    }
+};
+
+export const correctSignedInStatus = (
+    isSignedIn: boolean,
+    signedInStatus?: SignedInStatus,
+): boolean => {
+    switch (signedInStatus) {
+        case 'SignedIn':
+            return isSignedIn === true;
+        case 'SignedOut':
+            return isSignedIn === false;
         default:
             return true;
     }

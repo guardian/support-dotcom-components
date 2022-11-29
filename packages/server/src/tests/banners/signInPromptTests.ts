@@ -7,13 +7,13 @@ const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
     isHardcoded: true,
     userCohort: 'Everyone',
     status: 'Live',
-    minPageViews: 0,
+    minArticlesBeforeShowingBanner: 0,
 };
 
 const baseSignInPromptVariant: Omit<BannerVariant, 'bannerContent'> = {
     name: 'control',
     modulePathBuilder: signInPromptBanner.endpointPathBuilder,
-    moduleName: BannerTemplate.SignInPromptBanner,
+    template: BannerTemplate.SignInPromptBanner,
     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 

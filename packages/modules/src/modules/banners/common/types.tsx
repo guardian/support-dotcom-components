@@ -13,7 +13,9 @@ export type BannerId =
     | 'global-new-year-banner'
     | 'election-au-moment-banner'
     | 'sign-in-prompt-banner'
-    | 'au-brand-moment-banner';
+    | 'au-brand-moment-banner'
+    | 'us-eoy-banner'
+    | 'us-eoy-giving-tues-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

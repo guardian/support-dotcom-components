@@ -5,12 +5,12 @@ import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
-    title: 'Banners/ClimateCrisis',
+    title: 'Banners/MomentTemplate',
     args: props,
 } as Meta;
 
 const ClimateCrisisTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <ClimateCrisisMomentBanner {...props} />
+    <ClimateCrisisMomentBanner {...props} tickerSettings={undefined} />
 );
 
 export const ClimateCrisis = ClimateCrisisTemplate.bind({});

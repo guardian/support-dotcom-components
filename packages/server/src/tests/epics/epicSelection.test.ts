@@ -16,6 +16,7 @@ import {
     withinArticleViewedSettings,
     withinMaxViews,
     deviceTypeMatchesFilter,
+    correctSignedInStatusFilter,
 } from './epicSelection';
 
 const testDefault: EpicTest = {
@@ -185,7 +186,7 @@ describe('getUserCohort', () => {
         expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
-    it('should return [] when user has recent one-off contribution', () => {
+    it('should return "AllExistingSupporters" when user has recent one-off contribution', () => {
         const targeting: EpicTargeting = {
             ...targetingDefault,
             lastOneOffContributionDate: twoMonthsAgo,
@@ -193,7 +194,7 @@ describe('getUserCohort', () => {
 
         const got = withNowAs(now, () => getUserCohorts(targeting));
 
-        expect(got).toEqual([]);
+        expect(got).toEqual(['AllExistingSupporters', 'Everyone']);
     });
 
     it('should return "PostAskPauseSingleContributors" when user has older one-off contribution', () => {
@@ -854,5 +855,115 @@ describe('deviceTypeMatchesFilter', () => {
         };
         const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
         expect(result).toBe(false);
+    });
+});
+
+describe('correctSignedInStatusFilter filter', () => {
+    it('should pass if the test is requiring a user to be signed in and they are signed in', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'SignedIn',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: true };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if the test is requiring a user to be signed in and they are signed out', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'SignedIn',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: false };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if the test is requiring a user to be signed out and they are signed out', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'SignedOut',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: false };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if the test is requiring a user to be signed out and they are signed in', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'SignedOut',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: true };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if the test is requiring a user to be either signed in or signed out and they are signed in', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'All',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: true };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if the test is requiring a user to be either signed in or signed out and they are signed out', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'All',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: false };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if the test is requiring a user to be signed in and isSignedIn returns undefined', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'SignedIn',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: undefined };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if the test is requiring a user to be signed out and isSignedIn returns undefined', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'SignedOut',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: undefined };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should pass if the test is requiring a user to be either signed in or signed out and isSignedIn returns undefined', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            signedInStatus: 'All',
+        };
+
+        const targeting = { ...targetingDefault, isSignedIn: undefined };
+        const got = correctSignedInStatusFilter.test(test, targeting);
+
+        expect(got).toBe(true);
     });
 });

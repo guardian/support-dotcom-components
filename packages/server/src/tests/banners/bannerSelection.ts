@@ -10,7 +10,12 @@ import {
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
-import { audienceMatches, deviceTypeMatches, userIsInTest } from '../../lib/targeting';
+import {
+    audienceMatches,
+    correctSignedInStatus,
+    deviceTypeMatches,
+    userIsInTest,
+} from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
 import { bannerTargetingTests } from './bannerTargetingTests';
@@ -100,7 +105,7 @@ const getForcedVariant = (
             test,
             variant,
             moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-            moduleName: variant.moduleName,
+            moduleName: variant.template,
         };
     }
     return null;
@@ -157,13 +162,9 @@ export const selectBannerTest = (
             (enableHardcodedBannerTests || !test.isHardcoded) &&
             !targeting.shouldHideReaderRevenue &&
             !targeting.isPaidContent &&
-            audienceMatches(
-                targeting.showSupportMessaging,
-                test.userCohort,
-                targeting.lastOneOffContributionDate,
-            ) &&
+            audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
-            targeting.alreadyVisitedCount >= test.minPageViews &&
+            targeting.alreadyVisitedCount >= test.minArticlesBeforeShowingBanner &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,
@@ -179,7 +180,8 @@ export const selectBannerTest = (
                 bannerDeployTimes,
                 now,
                 deploySchedule,
-            )
+            ) &&
+            correctSignedInStatus(targeting.isSignedIn, test.signedInStatus)
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 
@@ -187,7 +189,7 @@ export const selectBannerTest = (
                 test,
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-                moduleName: variant.moduleName,
+                moduleName: variant.template,
                 targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
         }

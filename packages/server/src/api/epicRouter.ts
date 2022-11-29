@@ -138,7 +138,7 @@ export const buildEpicRouter = (
 
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
-        const showReminderFields = getReminderFields(variant, targeting.countryCode);
+        const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
         const propsVariant = {
             ...variant,

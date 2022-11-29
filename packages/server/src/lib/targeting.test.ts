@@ -33,39 +33,6 @@ describe('audienceMatches', () => {
         const got = audienceMatches(false, 'AllExistingSupporters');
         expect(got).toBe(true);
     });
-
-    it('returns false for recent contributor if test is for AllExistingSupporters', () => {
-        const got = audienceMatches(
-            false,
-            'AllExistingSupporters',
-            '2022-01-01',
-            new Date('2022-01-02'),
-        );
-        expect(got).toBe(false);
-    });
-    it('returns false for recent contributor if test is for AllNonSupporters', () => {
-        const got = audienceMatches(
-            false,
-            'AllNonSupporters',
-            '2022-01-01',
-            new Date('2022-01-02'),
-        );
-        expect(got).toBe(false);
-    });
-
-    it('returns true for old contributor if test is for AllNonSupporters', () => {
-        const got = audienceMatches(true, 'AllNonSupporters', '2021-01-01', new Date('2022-01-02'));
-        expect(got).toBe(true);
-    });
-    it('returns false for old contributor if test is for AllExistingSupporters', () => {
-        const got = audienceMatches(
-            true,
-            'AllExistingSupporters',
-            '2021-01-01',
-            new Date('2022-01-02'),
-        );
-        expect(got).toBe(false);
-    });
 });
 
 describe('shouldThrottle', () => {

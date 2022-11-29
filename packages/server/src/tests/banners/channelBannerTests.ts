@@ -10,6 +10,8 @@ import {
     auBrandMomentBanner,
     signInPromptBanner,
     climateCrisisMomentBanner,
+    usEoyMomentBanner,
+    usEoyGivingTuesMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -18,8 +20,8 @@ import {
     BannerVariant,
     OphanComponentType,
     OphanProduct,
-    RawTestParams,
-    RawVariantParams,
+    BannerTestFromTool,
+    BannerVariantFromTool,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
 import { getTests } from '../testsStore';
@@ -39,6 +41,8 @@ export const BannerPaths: {
     [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.ClimateCrisisMomentBanner]: climateCrisisMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyGivingTuesMomentBanner]: usEoyGivingTuesMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {
@@ -56,38 +60,26 @@ export const BannerTemplateProducts: {
     [BannerTemplate.GuardianWeeklyBanner]: ['PRINT_SUBSCRIPTION'],
 };
 
-const BannerVariantFromParams = (forChannel: BannerChannel) => {
-    return (variant: RawVariantParams): BannerVariant => ({
-        name: variant.name,
-        modulePathBuilder: BannerPaths[variant.template],
-        moduleName: variant.template,
-        bannerContent: variant.bannerContent,
-        mobileBannerContent: variant.mobileBannerContent,
-        componentType: BannerTemplateComponentTypes[forChannel],
-        products: BannerTemplateProducts[variant.template],
-        separateArticleCount: variant.separateArticleCount,
-    });
-};
+const buildBannerVariant = (forChannel: BannerChannel) => (
+    variant: BannerVariantFromTool,
+): BannerVariant => ({
+    ...variant,
+    modulePathBuilder: BannerPaths[variant.template],
+    componentType: BannerTemplateComponentTypes[forChannel],
+    products: BannerTemplateProducts[variant.template],
+});
 
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    return () =>
-        getTests<RawTestParams>(channel).then(tests => {
+    return (): Promise<BannerTest[]> =>
+        getTests<BannerTestFromTool>(channel).then(tests => {
             return tests.map(
-                (testParams: RawTestParams): BannerTest => {
+                (testParams: BannerTestFromTool): BannerTest => {
                     return {
-                        name: testParams.name,
-                        status: testParams.status,
+                        ...testParams,
                         bannerChannel,
                         isHardcoded: false,
-                        userCohort: testParams.userCohort,
-                        locations: testParams.locations,
-                        minPageViews: testParams.minArticlesBeforeShowingBanner,
-                        articlesViewedSettings: testParams.articlesViewedSettings,
-                        variants: testParams.variants.map(BannerVariantFromParams(bannerChannel)),
-                        controlProportionSettings: testParams.controlProportionSettings,
-                        deviceType: testParams.deviceType,
+                        variants: testParams.variants.map(buildBannerVariant(bannerChannel)),
                     };
                 },
             );

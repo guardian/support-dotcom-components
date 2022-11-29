@@ -1,5 +1,6 @@
 import { Image } from '@sdc/shared/src/types';
 import { ReactNode } from 'react';
+import { BannerId } from '../common/types';
 
 export type CtaStateSettings = {
     textColour: string;
@@ -10,11 +11,20 @@ export type CtaStateSettings = {
 export interface CtaSettings {
     default: CtaStateSettings;
     hover: CtaStateSettings;
+    mobile?: CtaStateSettings;
+    desktop?: CtaStateSettings;
 }
 
 export interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;
+}
+
+export interface TickerStylingSettings {
+    textColour: string;
+    filledProgressColour: string;
+    progressBarBackgroundColour: string;
+    goalMarkerColour: string;
 }
 
 export interface BannerTemplateSettings {
@@ -27,4 +37,6 @@ export interface BannerTemplateSettings {
     articleCountTextColour?: string;
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
+    bannerId?: BannerId;
+    tickerStylingSettings?: TickerStylingSettings;
 }

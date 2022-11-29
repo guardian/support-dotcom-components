@@ -4,7 +4,6 @@ import {
     createClickEventFromTracking,
     createInsertEventFromTracking,
     createViewEventFromTracking,
-    GIVING_TUESDAY_REMINDER_FIELDS,
     isProfileUrl,
 } from '@sdc/shared/lib';
 import React, { useEffect } from 'react';
@@ -31,8 +30,8 @@ import {
 } from './types';
 import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
-import { buildReminderFields } from '@sdc/shared/lib';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { getReminderFields } from '@sdc/shared/dist/lib';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -155,8 +154,7 @@ const withBannerData = (
 
             return {
                 type: SecondaryCtaType.ContributionsReminder,
-                reminderFields:
-                    countryCode === 'US' ? GIVING_TUESDAY_REMINDER_FIELDS : buildReminderFields(),
+                reminderFields: getReminderFields(),
             };
         };
 

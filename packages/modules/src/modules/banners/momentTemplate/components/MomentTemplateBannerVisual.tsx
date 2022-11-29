@@ -3,15 +3,18 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { ImageAttrs, ResponsiveImage } from '../../../shared/ResponsiveImage';
 import { Image } from '@sdc/shared/types';
+import { BannerId } from '../../common/types';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerVisualProps {
     settings: Image;
+    bannerId?: BannerId;
 }
 
 export function MomentTemplateBannerVisual({
     settings,
+    bannerId,
 }: MomentTemplateBannerVisualProps): JSX.Element {
     const baseImage: ImageAttrs = {
         url: settings.mainUrl,
@@ -36,16 +39,22 @@ export function MomentTemplateBannerVisual({
         images.push({ url: settings.wideUrl, media: '' });
     }
 
+    const alignItems = css`
+        ${from.tablet} {
+            align-items: ${bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
+        }
+    `;
+
     return (
-        <div css={container}>
-            <ResponsiveImage baseImage={baseImage} images={images} />
+        <div css={[container(bannerId), alignItems]}>
+            <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
         </div>
     );
 }
 
 // ---- Styles ---- //
 
-const container = css`
+const container = (bannerId?: BannerId) => css`
     height: 140px;
     display: flex;
     justify-content: center;
@@ -53,12 +62,12 @@ const container = css`
     img {
         height: 100%;
         width: 100%;
-        object-fit: contain;
+        object-fit: ${bannerId === 'us-eoy-giving-tues-banner' ? 'cover' : 'contain'};
+        display: block;
     }
 
     ${from.tablet} {
         height: 100%;
         width: 100%;
-        align-items: center;
     }
 `;

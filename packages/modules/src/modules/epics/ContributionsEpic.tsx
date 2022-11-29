@@ -62,7 +62,8 @@ const wrapperStyles = css`
         }
     }
 
-    b {
+    b,
+    strong {
         font-weight: bold;
     }
 `;
@@ -78,10 +79,7 @@ const linkStyles = css`
     a {
         color: ${palette.news[400]};
         text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
+        border-bottom: 1px solid ${palette.news[400]};
     }
 `;
 

@@ -14,6 +14,7 @@ import { TestVariant } from '../../lib/params';
 import { SuperModeArticle } from '../../lib/superMode';
 import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
+    correctSignedInStatus,
     deviceTypeMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -31,11 +32,6 @@ export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     const lastOneOffContributionDate = targeting.lastOneOffContributionDate
         ? new Date(targeting.lastOneOffContributionDate)
         : undefined;
-
-    if (isRecentOneOffContributor(lastOneOffContributionDate)) {
-        // Recent contributors are excluded from all message tests
-        return [];
-    }
 
     // User is a current supporter if she has a subscription or a recurring
     // donation or has made a one-off contribution in the past 3 months.
@@ -59,6 +55,11 @@ export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
     }
 
     return ['AllNonSupporters', 'Everyone'];
+};
+
+export const correctSignedInStatusFilter: Filter = {
+    id: 'correctSignedInStatus',
+    test: (test, targeting) => correctSignedInStatus(!!targeting.isSignedIn, test.signedInStatus),
 };
 
 export const hasSectionOrTags: Filter = {
@@ -246,6 +247,7 @@ export const findTestAndVariant = (
             respectArticleCountOptOut,
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(isMobile),
+            correctSignedInStatusFilter,
         ];
     };
 

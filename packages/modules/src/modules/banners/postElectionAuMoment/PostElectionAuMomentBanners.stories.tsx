@@ -7,12 +7,12 @@ import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
-    title: 'Banners/PostElectionAuMoment',
+    title: 'Banners/MomentTemplate/PostElectionAuMoment',
     args: props,
 } as Meta;
 
 const AlbaneseTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <PostElectionAuMomentAlbaneseBanner {...props} />
+    <PostElectionAuMomentAlbaneseBanner {...props} tickerSettings={undefined} />
 );
 
 export const Albanese = AlbaneseTemplate.bind({});
@@ -58,14 +58,14 @@ Albanese.args = {
 };
 
 const HungTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <PostElectionAuMomentHungBanner {...props} />
+    <PostElectionAuMomentHungBanner {...props} tickerSettings={undefined} />
 );
 
 export const Hung = HungTemplate.bind({});
 Hung.args = { ...Albanese.args };
 
 const MorrisonTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <PostElectionAuMomentMorrisonBanner {...props} />
+    <PostElectionAuMomentMorrisonBanner {...props} tickerSettings={undefined} />
 );
 
 export const Morrison = MorrisonTemplate.bind({});

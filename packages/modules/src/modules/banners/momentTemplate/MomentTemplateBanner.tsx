@@ -13,6 +13,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
+import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 
 // ---- Banner ---- //
 
@@ -29,6 +30,7 @@ export function getMomentTemplateBanner(
         onSecondaryCtaClick,
         reminderTracking,
         separateArticleCount,
+        tickerSettings,
     }: BannerRenderProps): JSX.Element {
         const [isReminderActive, setIsReminderActive] = useState(false);
 
@@ -45,6 +47,9 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
+        const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
+        const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
+
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
                 <Container
@@ -52,6 +57,7 @@ export function getMomentTemplateBanner(
                         templateSettings.backgroundColour,
                         content.mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder,
+                        templateSettings.bannerId,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -64,10 +70,20 @@ export function getMomentTemplateBanner(
                     </div>
 
                     {hasVisual && (
-                        <div css={styles.visualContainer}>
+                        <div
+                            css={
+                                isUsEoyGivingTuesBanner
+                                    ? [
+                                          styles.mobileVisualContainer,
+                                          styles.visualContainerGivingTues,
+                                      ]
+                                    : styles.mobileVisualContainer
+                            }
+                        >
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
+                                    bannerId={templateSettings.bannerId}
                                 />
                             )}
                             {templateSettings.alternativeVisual}
@@ -101,10 +117,20 @@ export function getMomentTemplateBanner(
                         </div>
 
                         {hasVisual && (
-                            <div css={styles.desktopVisualContainer}>
+                            <div
+                                css={
+                                    isUsEoyGivingTuesBanner
+                                        ? [
+                                              styles.desktopVisualContainer,
+                                              styles.desktopGivingTuesVisualContainer,
+                                          ]
+                                        : styles.desktopVisualContainer
+                                }
+                            >
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
+                                        bannerId={templateSettings.bannerId}
                                     />
                                 )}
                                 {templateSettings.alternativeVisual}
@@ -129,7 +155,13 @@ export function getMomentTemplateBanner(
                                 </div>
                             )}
 
-                            <div css={styles.bodyContainer}>
+                            <div
+                                css={
+                                    isUsEoyBanner || isUsEoyGivingTuesBanner
+                                        ? styles.usEoyBodyContainer
+                                        : styles.bodyContainer
+                                }
+                            >
                                 <MomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
@@ -138,6 +170,14 @@ export function getMomentTemplateBanner(
                                     }
                                 />
                             </div>
+
+                            {tickerSettings?.tickerData &&
+                                templateSettings.tickerStylingSettings && (
+                                    <MomentTemplateBannerTicker
+                                        tickerSettings={tickerSettings}
+                                        stylingSettings={templateSettings.tickerStylingSettings}
+                                    />
+                                )}
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
@@ -218,13 +258,17 @@ const styles = {
             justify-content: flex-end;
         }
     `,
-    mobileStickyHeaderContainer: (background: string, hasReminderCta: boolean) => css`
+    mobileStickyHeaderContainer: (
+        background: string,
+        hasReminderCta: boolean,
+        bannerId?: string,
+    ) => css`
         background: ${background};
         position: sticky;
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${space[2]}px;
+        padding-top: ${bannerId === 'us-eoy-giving-tues-banner' ? 0 : space[2]}px;
 
         ${hasReminderCta
             ? `
@@ -237,7 +281,7 @@ const styles = {
             display: none;
         }
     `,
-    visualContainer: css`
+    mobileVisualContainer: css`
         display: none;
 
         ${from.mobileMedium} {
@@ -246,6 +290,12 @@ const styles = {
         ${from.tablet} {
             display: none;
         }
+    `,
+    visualContainerGivingTues: css`
+        max-height: 180px;
+        overflow: hidden;
+        margin-left: -${space[5]}px;
+        margin-right: -${space[5]}px;
     `,
     desktopVisualContainer: css`
         display: none;
@@ -262,6 +312,13 @@ const styles = {
         ${from.leftCol} {
             width: 370px;
             margin-left: ${space[9]}px;
+        }
+    `,
+    desktopGivingTuesVisualContainer: css`
+        ${from.tablet} {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     `,
     contentContainer: css`
@@ -303,6 +360,9 @@ const styles = {
     `,
     bodyContainer: css`
         margin-top: ${space[1]}px;
+    `,
+    usEoyBodyContainer: css`
+        margin-top: ${space[4]}px;
     `,
     ctasContainer: css`
         display: flex;
