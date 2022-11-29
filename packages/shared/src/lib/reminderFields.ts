@@ -6,7 +6,7 @@ export interface ReminderFields {
 }
 
 const getReminderDate = (date: Date): Date => {
-    const monthsAhead = 1;
+    const monthsAhead = date.getDate() < 20 ? 1 : 2;
     date.setMonth(date.getMonth() + monthsAhead);
 
     return date;
