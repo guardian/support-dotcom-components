@@ -15,7 +15,8 @@ export type BannerId =
     | 'sign-in-prompt-banner'
     | 'au-brand-moment-banner'
     | 'us-eoy-banner'
-    | 'us-eoy-giving-tues-banner';
+    | 'us-eoy-giving-tues-banner'
+    | 'aus-eoy-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

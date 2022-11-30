@@ -49,6 +49,7 @@ export function getMomentTemplateBanner(
 
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
         const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
+        const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner;
 
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
@@ -57,7 +58,7 @@ export function getMomentTemplateBanner(
                         templateSettings.backgroundColour,
                         content.mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder,
-                        templateSettings.bannerId,
+                        isUsEoyGivingTuesBanner,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -155,13 +156,7 @@ export function getMomentTemplateBanner(
                                 </div>
                             )}
 
-                            <div
-                                css={
-                                    isUsEoyBanner || isUsEoyGivingTuesBanner
-                                        ? styles.usEoyBodyContainer
-                                        : styles.bodyContainer
-                                }
-                            >
+                            <div css={isEoyBanner ? styles.eoyBodyContainer : styles.bodyContainer}>
                                 <MomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
@@ -261,14 +256,14 @@ const styles = {
     mobileStickyHeaderContainer: (
         background: string,
         hasReminderCta: boolean,
-        bannerId?: string,
+        isUsEoyGivingTuesBanner?: boolean,
     ) => css`
         background: ${background};
         position: sticky;
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${bannerId === 'us-eoy-giving-tues-banner' ? 0 : space[2]}px;
+        padding-top: ${isUsEoyGivingTuesBanner ? 0 : space[2]}px;
 
         ${hasReminderCta
             ? `
@@ -361,7 +356,7 @@ const styles = {
     bodyContainer: css`
         margin-top: ${space[1]}px;
     `,
-    usEoyBodyContainer: css`
+    eoyBodyContainer: css`
         margin-top: ${space[4]}px;
     `,
     ctasContainer: css`

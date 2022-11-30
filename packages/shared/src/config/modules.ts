@@ -99,6 +99,11 @@ export const usEoyGivingTuesMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/usEoyGivingTuesMoment/UsEoyGivingTuesMomentBanner',
 );
 
+export const ausEoyMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'aus-eoy-banner',
+    'banners/ausEoyMoment/AusEoyMomentBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -118,4 +123,5 @@ export const moduleInfos: ModuleInfo[] = [
     climateCrisisMomentBanner,
     usEoyMomentBanner,
     usEoyGivingTuesMomentBanner,
+    ausEoyMomentBanner,
 ];

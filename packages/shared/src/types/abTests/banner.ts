@@ -27,6 +27,7 @@ export enum BannerTemplate {
     ClimateCrisisMomentBanner = 'ClimateCrisisMomentBanner',
     UsEoyMomentBanner = 'UsEoyMomentBanner',
     UsEoyGivingTuesMomentBanner = 'UsEoyGivingTuesMomentBanner',
+    AusEoyMomentBanner = 'AusEoyMomentBanner',
 }
 
 export interface BannerVariant extends Variant {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { between, from } from '@guardian/src-foundations/mq';
 import { ImageAttrs, ResponsiveImage } from '../../../shared/ResponsiveImage';
 import { Image } from '@sdc/shared/types';
 import { BannerId } from '../../common/types';
+import { space } from '@guardian/src-foundations';
 
 // ---- Component ---- //
 
@@ -39,14 +40,24 @@ export function MomentTemplateBannerVisual({
         images.push({ url: settings.wideUrl, media: '' });
     }
 
-    const alignItems = css`
-        ${from.tablet} {
-            align-items: ${bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
+    const alignAusEoyBanner = css`
+        ${between.tablet.and.desktop} {
+            align-items: baseline;
+            margin-top: 70px;
+            margin-left: ${space[5]}px;
         }
     `;
 
+    const alignment = css`
+        ${from.tablet} {
+            align-items: ${bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
+        }
+
+        ${bannerId === 'aus-eoy-banner' && alignAusEoyBanner}
+    `;
+
     return (
-        <div css={[container(bannerId), alignItems]}>
+        <div css={[container(bannerId), alignment]}>
             <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
         </div>
     );
