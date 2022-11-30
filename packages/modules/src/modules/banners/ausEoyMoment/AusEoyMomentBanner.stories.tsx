@@ -61,7 +61,7 @@ const AusEoyMomentBanner = bannerWrapper(
             leftColUrl:
                 'https://i.guim.co.uk/img/media/4fd5eec5077978103a1ab382c2d908c038dcf7c1/0_0_1620_1144/1000.png?quality=85&s=9033535bc32e07e1ac888927879e9a22',
             wideUrl:
-                'https://i.guim.co.uk/img/media/4fd5eec5077978103a1ab382c2d908c038dcf7c1/0_0_1620_1144/1000.png?quality=85&s=9033535bc32e07e1ac888927879e9a22',
+                'https://i.guim.co.uk/img/media/476f3b2296ab370f393896b9b9dcdb469b396f94/0_0_1620_1144/1000.png?quality=85&s=b2e7602b42f1f595fa6c21bad9806efa',
             altText: 'Guardian Australia End Of Year 2022 Moment Banner',
         },
         tickerStylingSettings: {
