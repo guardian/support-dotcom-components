@@ -27,8 +27,6 @@ import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
-import { epicProfileWithImageTest_UKAUS } from '../tests/epics/epicProfileWithImageTest_uk-aus';
-import { epicProfileWithImageTest_EUROW } from '../tests/epics/epicProfileWithImageTest_eu-row';
 
 interface EpicDataResponse {
     data?: {
@@ -44,10 +42,7 @@ interface EpicDataResponse {
 }
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [
-    epicProfileWithImageTest_UKAUS,
-    epicProfileWithImageTest_EUROW,
-];
+const hardcodedEpicTests: EpicTest[] = [];
 
 export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
