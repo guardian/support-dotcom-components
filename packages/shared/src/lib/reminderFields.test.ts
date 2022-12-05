@@ -1,7 +1,6 @@
 import { buildReminderFields } from './reminderFields';
 
-// This functionality is currently disabled, so tests are skipped. Will be re-enabled in December 2022.
-describe.skip('buildReminderFields', () => {
+describe('buildReminderFields', () => {
     it('should set date to the next calendar month if the current date is BEFORE the 20th', () => {
         const novemberNineteenth = new Date('2020-11-19');
 
