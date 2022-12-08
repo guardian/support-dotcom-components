@@ -6,7 +6,7 @@ import { commonStyles } from './CharityAppealBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { CharityAppealBannerMobile } from './CharityAppealBannerMobile';
 import { CharityAppealBannerCta } from './CharityAppealBannerCta';
 import { CharityAppealBannerSecondaryCta } from './CharityAppealBannerSecondaryCta';
@@ -21,7 +21,7 @@ const styles = {
     bannerContainer: css`
         overflow: hidden;
         width: 100%;
-        background-color: ${brandAlt[400]};
+        background-color: ${'#313433'};
         ${from.tablet} {
             border-top: 1px solid ${neutral[7]};
             padding-bottom: 0;
@@ -131,7 +131,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 9px solid transparent;
-            border-bottom-color: ${brandAlt[400]};
+            border-bottom-color: ${'#313433'};
 
             ${from.tablet} {
                 left: calc(50% + 211px);

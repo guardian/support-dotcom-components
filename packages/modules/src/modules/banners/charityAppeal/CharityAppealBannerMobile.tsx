@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { commonStyles } from './CharityAppealBannerCommonStyles';
 import { css } from '@emotion/react';
-import { brandAlt, neutral } from '@guardian/src-foundations';
+import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { headline } from '@guardian/src-foundations/typography';
@@ -54,7 +54,7 @@ const styles = {
     headingContainer: css`
         position: sticky;
         top: 0;
-        background-color: ${brandAlt[400]};
+        background-color: ${'#313433'};
         display: flex;
         flex-direction: row;
         border-bottom: 1px solid ${neutral[7]};
@@ -95,7 +95,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 9px solid transparent;
-            border-bottom-color: ${brandAlt[400]};
+            border-bottom-color: ${'#313433'};
         }
     `,
     hide: css`

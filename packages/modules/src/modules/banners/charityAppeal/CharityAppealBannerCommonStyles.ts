@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { brandAlt, neutral } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/src-foundations/palette';
 import { body } from '@guardian/src-foundations/typography';
 import { until, from } from '@guardian/src-foundations/mq';
 
@@ -21,7 +21,7 @@ export const commonStyles = {
             }
         }
         &::selection {
-            background-color: ${brandAlt[400]};
+            background-color: ${'#313433'};
             color: ${neutral[7]};
         }
         ${until.tablet} {
@@ -34,6 +34,7 @@ export const commonStyles = {
 
     highlightedText: css`
         background-color: ${neutral[100]};
+        color: ${'#313433'};
         padding: 0.15rem 0.15rem;
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
         ${until.tablet} {
@@ -43,7 +44,7 @@ export const commonStyles = {
             ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         }
         &::selection {
-            background-color: ${brandAlt[400]};
+            background-color: ${'#313433'};
             color: ${neutral[7]};
         }
     `,
