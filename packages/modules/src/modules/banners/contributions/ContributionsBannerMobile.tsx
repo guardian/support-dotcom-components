@@ -38,18 +38,34 @@ const styles = {
         margin-top: 2px;
         padding: 0 ${space[3]}px;
     `,
+    // ctasContainer: css`
+    //     padding: 0 ${space[3]}px;
+
+    //     & > * + * {
+    //         margin-top: ${space[3]}px;
+    //     }
+    // `,
     ctasContainer: css`
-        padding: 0 ${space[3]}px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: ${space[3]}px;
 
         & > * + * {
             margin-top: ${space[3]}px;
         }
     `,
+    // ctaContainer: css`
+    //     > :first-child {
+    //         margin-right: 5px;
+    //     }
+    //     margin-top: 20px;
+    // `,
     ctaContainer: css`
         > :first-child {
             margin-right: 5px;
         }
-        margin-top: 20px;
+        margin-top: 12px;
     `,
     headingContainer: css`
         position: sticky;

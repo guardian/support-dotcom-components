@@ -76,6 +76,10 @@ const styles = {
         padding-bottom: 16px;
     `,
     ctasContainer: css`
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: start;
         & > * + * {
             margin-top: ${space[3]}px;
         }
