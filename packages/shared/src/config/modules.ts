@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const charityAppealBanner: ModuleInfo = getDefaultModuleInfo(
+    'charity-appeal-banner',
+    'banners/charityappeal/CharityAppealBanner',
+);
+
 export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
     'research-survey-banner',
     'banners/researchSurveyBanner/ResearchSurveyBanner',
@@ -36,6 +41,11 @@ export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner-with-sign-in',
     'banners/contributions/ContributionsBannerWithSignIn',
+);
+
+export const charityAppealBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
+    'charity-appeal-banner-with-sign-in',
+    'banners/charityappeal/CharityAppealBannerWithSignIn',
 );
 
 export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
@@ -108,8 +118,10 @@ export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    charityAppealBanner,
     researchSurveyBanner,
     contributionsBannerWithSignIn,
+    charityAppealBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
     globalNewYearBanner,

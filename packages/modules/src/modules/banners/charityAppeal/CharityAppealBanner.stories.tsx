@@ -1,23 +1,23 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ContributionsBannerUnvalidated as ContributionsBanner } from './ContributionsBanner';
-import { props, contentContributions } from '../utils/storybook';
+import { CharityAppealBannerUnvalidated as CharityAppealBanner } from './CharityAppealBanner';
+import { props, contentCharityAppeal } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
-    component: ContributionsBanner,
-    title: 'Banners/Contributions',
+    component: CharityAppealBanner,
+    title: 'Banners/CharityAppeal',
     args: props,
 } as Meta;
 
-const Template: Story<BannerProps> = (props: BannerProps) => <ContributionsBanner {...props} />;
+const Template: Story<BannerProps> = (props: BannerProps) => <CharityAppealBanner {...props} />;
 
 export const Default = Template.bind({});
 
 export const WithReminder = Template.bind({});
 WithReminder.args = {
     content: {
-        ...contentContributions,
+        ...contentCharityAppeal,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
@@ -37,14 +37,14 @@ WithPrefilledReminder.args = {
     },
 };
 
-export const WithoutSupportUrl = Template.bind({});
-WithoutSupportUrl.args = {
-    ...WithReminder.args,
-    content: {
-        ...contentContributions,
-        cta: {
-            baseUrl: 'https://theguardian.com',
-            text: 'The Guardian',
-        },
-    },
-};
+// export const WithoutSupportUrl = Template.bind({});
+// WithoutSupportUrl.args = {
+//     ...WithReminder.args,
+//     content: {
+//         ...content,
+//         cta: {
+//             baseUrl: 'https://theguardian.com',
+//             text: 'The Guardian',
+//         },
+//     },
+// };

@@ -1,23 +1,25 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ContributionsBannerUnvalidated as ContributionsBanner } from './ContributionsBanner';
-import { props, contentContributions } from '../utils/storybook';
+import { CharityAppealBannerWithSignInUnvalidated as CharityAppealBannerWithSignIn } from './CharityAppealBannerWithSignIn';
+import { props, contentCharityAppeal } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
-    component: ContributionsBanner,
-    title: 'Banners/Contributions',
+    component: CharityAppealBannerWithSignIn,
+    title: 'Banners/CharityAppealWithSignIn',
     args: props,
 } as Meta;
 
-const Template: Story<BannerProps> = (props: BannerProps) => <ContributionsBanner {...props} />;
+const Template: Story<BannerProps> = (props: BannerProps) => (
+    <CharityAppealBannerWithSignIn {...props} />
+);
 
 export const Default = Template.bind({});
 
 export const WithReminder = Template.bind({});
 WithReminder.args = {
     content: {
-        ...contentContributions,
+        ...contentCharityAppeal,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
@@ -34,17 +36,5 @@ WithPrefilledReminder.args = {
                 resolve('test@guardian.co.uk');
             }, 500);
         });
-    },
-};
-
-export const WithoutSupportUrl = Template.bind({});
-WithoutSupportUrl.args = {
-    ...WithReminder.args,
-    content: {
-        ...contentContributions,
-        cta: {
-            baseUrl: 'https://theguardian.com',
-            text: 'The Guardian',
-        },
     },
 };

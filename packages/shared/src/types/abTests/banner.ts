@@ -15,6 +15,7 @@ import { PurchaseInfoTest } from './shared';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
+    CharityAppealBanner = 'CharityAppealBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
     InvestigationsMomentBanner = 'InvestigationsMomentBanner',
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',

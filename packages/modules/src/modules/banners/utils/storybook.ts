@@ -18,7 +18,7 @@ export const tracking: Tracking = {
     campaignCode: 'UsEoyAppealBanner_control',
 };
 
-export const content = {
+export const contentContributions = {
     heading: 'Show your support for high&#8209;impact reporting.',
     messageText:
         'In the extraordinary year that was 2021, our independent journalism was powered by more than a million supporters. Thanks to you, we provided vital news and analysis for everyone, led by science and truth. You’ve read %%ARTICLE_COUNT%% articles in the last year. As 2021 unfolds, offering new hope, we commit to another year of high-impact reporting.',
@@ -38,6 +38,26 @@ export const content = {
         cta: {
             baseUrl: 'https://support.theguardian.com/contribute',
             text: 'Learn more',
+        },
+    },
+};
+
+export const contentCharityAppeal = {
+    heading: 'Lend us a hand in 2022',
+    messageText:
+        'Congratulations on being one of our top readers. We are proud to say we’re a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. This vital support keeps us fiercely independent, free from shareholders or a billionaire owner. Your support allows us to keep our reporting open for all, as we know not everyone is in a position to pay for news. But if you are, we need you. Make an investment in quality journalism today, so millions more can benefit. ',
+    mobileMessageText:
+        'Congratulations on being one of our top readers. We are proud to say we’re a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. This vital support keeps us fiercely independent, free from shareholders or a billionaire owner. Your support allows us to keep our reporting open for all, as we know not everyone is in a position to pay for news. But if you are, we need you. Make an investment in quality journalism today, so millions more can benefit. ',
+    highlightedText: 'Support us from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
+    cta: {
+        baseUrl: 'https://support.theguardian.com/contribute',
+        text: 'Support us monthly',
+    },
+    secondaryCta: {
+        type: SecondaryCtaType.Custom,
+        cta: {
+            baseUrl: 'https://support.theguardian.com/contribute',
+            text: 'Support just once',
         },
     },
 };
@@ -63,7 +83,7 @@ export const props: BannerProps = {
     isSupporter: false,
     countryCode: 'GB',
     tracking,
-    content,
+    content: contentContributions,
     tickerSettings,
     separateArticleCount: true,
     numArticles: 6,
