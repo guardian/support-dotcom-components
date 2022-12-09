@@ -2,7 +2,10 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
 import { CtaSettings } from './settings';
 
-export function buttonStyles(settings: CtaSettings): SerializedStyles {
+export function buttonStyles(settings?: CtaSettings): SerializedStyles {
+    if (!settings) {
+        return css``;
+    }
     const { default: defaultSettings, mobile, desktop, hover } = settings;
 
     return css`
