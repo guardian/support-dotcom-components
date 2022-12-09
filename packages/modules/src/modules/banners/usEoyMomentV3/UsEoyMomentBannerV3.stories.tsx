@@ -46,9 +46,9 @@ const UsEoyMomentBannerV3 = bannerWrapper(
             progressBarBackgroundColour: '#fff',
             goalMarkerColour: '#000',
         },
-        bannerId: 'us-eoy-v3-banner',
+        bannerId: 'us-eoy-banner-v3',
     }),
-    'us-eoy-v3-banner',
+    'us-eoy-banner-v3',
 );
 
 const UsEoyTemplateV3: Story<BannerProps> = (props: BannerProps) => (

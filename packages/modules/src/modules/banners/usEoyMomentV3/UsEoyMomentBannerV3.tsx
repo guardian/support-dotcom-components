@@ -37,10 +37,10 @@ const UsEoyMomentBannerV3 = getMomentTemplateBanner({
         progressBarBackgroundColour: '#fff',
         goalMarkerColour: '#000',
     },
-    bannerId: 'us-eoy-v3-banner',
+    bannerId: 'us-eoy-banner-v3',
 });
 
-const unvalidated = bannerWrapper(UsEoyMomentBannerV3, 'us-eoy-v3-banner');
-const validated = validatedBannerWrapper(UsEoyMomentBannerV3, 'us-eoy-v3-banner');
+const unvalidated = bannerWrapper(UsEoyMomentBannerV3, 'us-eoy-banner-v3');
+const validated = validatedBannerWrapper(UsEoyMomentBannerV3, 'us-eoy-banner-v3');
 
 export { validated as UsEoyMomentBannerV3, unvalidated as UsEoyMomentBannerUnvalidatedV3 };

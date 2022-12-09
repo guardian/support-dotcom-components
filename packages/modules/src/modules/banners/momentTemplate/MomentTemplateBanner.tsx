@@ -49,7 +49,7 @@ export function getMomentTemplateBanner(
 
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
         const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
-        const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-v3-banner';
+        const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-banner-v3';
         const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner || isUsEoyV3Banner;
 
         return (
