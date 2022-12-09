@@ -21,6 +21,21 @@ const styles = {
             margin-left: ${space[4]}px;
         }
     `,
+    ctaOverides: css`
+        background-color: purple;
+    `,
+    //backgroundColour: 'transparent',
+    // textColour: neutral[100],
+    // textPrimary: string;
+    // backgroundPrimary: string;
+    // backgroundPrimaryHover: string;
+    // textSecondary?: string;
+    // backgroundSecondary?: string;
+    // backgroundSecondaryHover?: string;
+    // textTertiary?: string;
+    // backgroundTertiaryHover?: string;
+    // borderTertiary?: string;
+    // textSubdued?: string;
 };
 
 interface CharityAppealBannerCtaProps {
@@ -42,7 +57,7 @@ export const CharityAppealBannerCta: React.FC<CharityAppealBannerCtaProps> = ({
             <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                 <LinkButton
                     data-link-name="charity-appeal-banner : cta"
-                    css={styles.ctaButton(stacked)}
+                    css={[styles.ctaButton(stacked), styles.ctaOverides]}
                     priority="primary"
                     size="small"
                     icon={<SvgArrowRightStraight />}
