@@ -129,4 +129,5 @@ export const moduleInfos: ModuleInfo[] = [
     usEoyMomentBanner,
     usEoyGivingTuesMomentBanner,
     ausEoyMomentBanner,
+    usEoyMomentBannerV3,
 ];
