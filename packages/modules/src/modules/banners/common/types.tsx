@@ -16,6 +16,7 @@ export type BannerId =
     | 'au-brand-moment-banner'
     | 'us-eoy-banner'
     | 'us-eoy-giving-tues-banner'
+    | 'us-eoy-v3-banner'
     | 'aus-eoy-banner';
 
 export interface BannerEnrichedCta {

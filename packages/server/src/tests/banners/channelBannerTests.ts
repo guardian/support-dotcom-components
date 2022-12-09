@@ -13,6 +13,7 @@ import {
     usEoyMomentBanner,
     usEoyGivingTuesMomentBanner,
     ausEoyMomentBanner,
+    usEoyMomentBannerV3,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -45,6 +46,7 @@ export const BannerPaths: {
     [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
     [BannerTemplate.UsEoyGivingTuesMomentBanner]: usEoyGivingTuesMomentBanner.endpointPathBuilder,
     [BannerTemplate.AusEoyMomentBanner]: ausEoyMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBannerV3]: usEoyMomentBannerV3.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {

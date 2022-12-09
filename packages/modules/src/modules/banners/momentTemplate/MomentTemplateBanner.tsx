@@ -49,7 +49,8 @@ export function getMomentTemplateBanner(
 
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
         const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
-        const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner;
+        const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-v3-banner';
+        const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner || isUsEoyV3Banner;
 
         return (
             <div css={styles.outerContainer(templateSettings.backgroundColour)}>
@@ -91,10 +92,17 @@ export function getMomentTemplateBanner(
                         </div>
                     )}
 
-                    <div css={styles.headerContainer}>
+                    <div
+                        css={
+                            isUsEoyV3Banner
+                                ? [styles.headerContainer, styles.headerContainerUsEoyV3]
+                                : styles.headerContainer
+                        }
+                    >
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
+                            headerSettings={templateSettings.headerSettings}
                         />
 
                         <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
@@ -125,6 +133,8 @@ export function getMomentTemplateBanner(
                                               styles.desktopVisualContainer,
                                               styles.desktopGivingTuesVisualContainer,
                                           ]
+                                        : isUsEoyV3Banner
+                                        ? styles.desktopUsEoyV3Container
                                         : styles.desktopVisualContainer
                                 }
                             >
@@ -143,6 +153,7 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerHeader
                                     heading={content.mainContent.heading}
                                     mobileHeading={content.mobileContent.heading}
+                                    headerSettings={templateSettings.headerSettings}
                                 />
                             </div>
 
@@ -294,6 +305,7 @@ const styles = {
     `,
     desktopVisualContainer: css`
         display: none;
+        position: relative;
 
         ${from.tablet} {
             display: block;
@@ -314,6 +326,27 @@ const styles = {
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+    `,
+    desktopUsEoyV3Container: css`
+        display: none;
+        position: relative;
+
+        ${from.tablet} {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 238px;
+            margin-left: ${space[3]}px;
+        }
+        ${from.desktop} {
+            align-items: flex-end;
+            width: 320px;
+            margin-left: ${space[5]}px;
+        }
+        ${from.leftCol} {
+            width: 370px;
+            margin-left: ${space[9]}px;
         }
     `,
     contentContainer: css`
@@ -337,6 +370,9 @@ const styles = {
         ${from.mobileMedium} {
             margin-top: ${space[2]}px;
         }
+    `,
+    headerContainerUsEoyV3: css`
+        justify-content: space-between;
     `,
     desktopHeaderContainer: css`
         display: none;
