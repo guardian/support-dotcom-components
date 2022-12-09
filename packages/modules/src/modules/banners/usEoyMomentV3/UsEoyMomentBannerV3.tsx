@@ -19,6 +19,16 @@ const UsEoyMomentBannerV3 = getMomentTemplateBanner({
             textColour: 'white',
         },
     },
+    secondaryCtaSettings: {
+        default: {
+            backgroundColour: neutral[86],
+            textColour: neutral[7],
+        },
+        hover: {
+            backgroundColour: neutral[100],
+            textColour: neutral[7],
+        },
+    },
     closeButtonSettings: {
         default: {
             backgroundColour: neutral[86],
