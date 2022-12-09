@@ -1,7 +1,14 @@
 import React from 'react';
 import { SvgRoundelDefault } from '@guardian/src-brand';
 import { ThemeProvider } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import {
+    buttonBrand,
+    buttonBrandAlt,
+    buttonDefault,
+    buttonReaderRevenue,
+    buttonReaderRevenueBrand,
+    buttonReaderRevenueBrandAlt,
+} from '@guardian/src-button';
 import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { css } from '@emotion/react';
@@ -52,7 +59,7 @@ export const CharityAppealBannerCloseButton: React.FC<CharityAppealCloseButtonPr
                 </div>
             </div>
             <div css={styles.closeButtonContainer}>
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                <ThemeProvider theme={buttonBrand}>
                     <Button
                         aria-label="Close"
                         data-link-name="charity-appeal-banner : close"
