@@ -51,14 +51,7 @@ export const contentCharityAppeal = {
     highlightedText: 'Support us today from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
     cta: {
         baseUrl: 'https://support.theguardian.com/contribute',
-        text: 'Support us monthly',
-    },
-    secondaryCta: {
-        type: SecondaryCtaType.Custom,
-        cta: {
-            baseUrl: 'https://support.theguardian.com/contribute',
-            text: 'Support just once',
-        },
+        text: 'Support The Guardian',
     },
 };
 

@@ -1,14 +1,7 @@
 import React from 'react';
-import { SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelInverse } from '@guardian/src-brand';
 import { ThemeProvider } from '@emotion/react';
-import {
-    buttonBrand,
-    buttonBrandAlt,
-    buttonDefault,
-    buttonReaderRevenue,
-    buttonReaderRevenueBrand,
-    buttonReaderRevenueBrandAlt,
-} from '@guardian/src-button';
+import { buttonBrand } from '@guardian/src-button';
 import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { css } from '@emotion/react';
@@ -42,6 +35,11 @@ const styles = {
         height: 2.25rem;
         display: block;
     `,
+    closeButtonHover: css`
+        &:hover {
+            background-color: ${neutral[46]};
+        }
+    `,
 };
 
 interface CharityAppealCloseButtonProps {
@@ -55,7 +53,7 @@ export const CharityAppealBannerCloseButton: React.FC<CharityAppealCloseButtonPr
         <div css={styles.roundelAndCloseButtonContainer}>
             <div css={styles.roundelContainer}>
                 <div css={styles.roundel}>
-                    <SvgRoundelDefault />
+                    <SvgRoundelInverse />
                 </div>
             </div>
             <div css={styles.closeButtonContainer}>
@@ -70,6 +68,7 @@ export const CharityAppealBannerCloseButton: React.FC<CharityAppealCloseButtonPr
                         onClick={onCloseClick}
                         hideLabel={true}
                         iconSide="left"
+                        css={styles.closeButtonHover}
                     >
                         Close
                     </Button>

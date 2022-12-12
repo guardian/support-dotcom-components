@@ -17,13 +17,13 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
-    bannerContainer: (backgroundColor: string) => css`
+    bannerContainer: (backgroundColor: string, foreColor: string) => css`
         overflow: hidden;
         width: 100%;
         background-color: ${backgroundColor};
-        color: ${neutral[100]};
+        color: ${foreColor};
         ${from.tablet} {
-            border-top: 1px solid ${neutral[100]};
+            border-top: 1px solid ${foreColor};
             padding-bottom: 0;
         }
     `,
@@ -47,7 +47,7 @@ const styles = {
     body: css`
         padding-bottom: 16px;
     `,
-    bodyAndHeading: css`
+    bodyAndHeading: (foreColor: string) => css`
         position: relative; // for positioning the opt-out popup
 
         ${from.tablet} {
@@ -55,7 +55,7 @@ const styles = {
         }
         ${from.leftCol} {
             margin-left: -9px;
-            border-left: 1px solid ${neutral[100]};
+            border-left: 1px solid ${foreColor};
         }
         ${from.wide} {
             margin-left: -10px;
@@ -88,8 +88,8 @@ const styles = {
             margin-top: 0;
         }
     `,
-    reminderLine: css`
-        border-top: 1px solid black;
+    reminderLine: (backgroundColor: string, foreColor: string) => css`
+        border-top: 1px solid ${foreColor};
         position: absolute;
         top: 0;
         right: 0;
@@ -112,7 +112,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 10px solid transparent;
-            border-bottom-color: black;
+            border-bottom-color: ${foreColor};
 
             ${from.tablet} {
                 left: calc(50% + 210px);
@@ -140,7 +140,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 9px solid transparent;
-            border-bottom-color: ${'#313433'};
+            border-bottom-color: ${backgroundColor};
 
             ${from.tablet} {
                 left: calc(50% + 211px);
@@ -186,7 +186,10 @@ const columnCounts = {
     wide: 16,
 };
 
-export const getCharityAppealBanner = (backgroundColor: string): React.FC<BannerRenderProps> => ({
+export const getCharityAppealBanner = (
+    backgroundColor: string,
+    foreColor: string,
+): React.FC<BannerRenderProps> => ({
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
@@ -219,7 +222,7 @@ export const getCharityAppealBanner = (backgroundColor: string): React.FC<Banner
         <BannerText
             styles={{
                 desktop: {
-                    container: styles.bodyAndHeading,
+                    container: styles.bodyAndHeading(foreColor),
                     heading: styles.heading,
                     subheading: styles.subheading,
                     body: styles.body,
@@ -257,7 +260,7 @@ export const getCharityAppealBanner = (backgroundColor: string): React.FC<Banner
     );
 
     return (
-        <div css={styles.bannerContainer(backgroundColor)}>
+        <div css={styles.bannerContainer(backgroundColor, foreColor)}>
             <CharityAppealBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onCtaClick}
@@ -305,7 +308,7 @@ export const getCharityAppealBanner = (backgroundColor: string): React.FC<Banner
                     content.mainContent.secondaryCta?.type ===
                         SecondaryCtaType.ContributionsReminder && (
                         <div css={styles.reminderContainer}>
-                            <div css={styles.reminderLine} />
+                            <div css={styles.reminderLine(backgroundColor, foreColor)} />
 
                             <Container>
                                 <Columns>
@@ -328,7 +331,7 @@ export const getCharityAppealBanner = (backgroundColor: string): React.FC<Banner
     );
 };
 
-const CharityAppealBanner = getCharityAppealBanner('#313433');
+const CharityAppealBanner = getCharityAppealBanner('#313433', neutral[100]);
 
 const unvalidated = bannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
 const validated = validatedBannerWrapper(CharityAppealBanner, 'charity-appeal-banner');

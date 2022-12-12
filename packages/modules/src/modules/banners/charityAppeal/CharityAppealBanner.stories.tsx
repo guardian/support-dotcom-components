@@ -13,6 +13,11 @@ export default {
 const Template: Story<BannerProps> = (props: BannerProps) => <CharityAppealBanner {...props} />;
 
 export const Default = Template.bind({});
+Default.args = {
+    content: {
+        ...contentCharityAppeal,
+    },
+};
 
 export const WithReminder = Template.bind({});
 WithReminder.args = {
@@ -23,28 +28,3 @@ WithReminder.args = {
         },
     },
 };
-
-export const WithPrefilledReminder = Template.bind({});
-WithPrefilledReminder.args = {
-    ...WithReminder.args,
-
-    fetchEmail: () => {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve('test@guardian.co.uk');
-            }, 500);
-        });
-    },
-};
-
-// export const WithoutSupportUrl = Template.bind({});
-// WithoutSupportUrl.args = {
-//     ...WithReminder.args,
-//     content: {
-//         ...content,
-//         cta: {
-//             baseUrl: 'https://theguardian.com',
-//             text: 'The Guardian',
-//         },
-//     },
-// };

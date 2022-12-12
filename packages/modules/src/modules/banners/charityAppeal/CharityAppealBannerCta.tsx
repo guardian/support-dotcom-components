@@ -5,7 +5,7 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 const styles = {
@@ -22,20 +22,13 @@ const styles = {
         }
     `,
     ctaOverides: css`
-        background-color: purple;
+        background-color: ${neutral[100]};
+        color: ${'#313433'};
+        &:hover {
+            background-color: ${neutral[46]};
+            color: ${neutral[97]};
+        }
     `,
-    //backgroundColour: 'transparent',
-    // textColour: neutral[100],
-    // textPrimary: string;
-    // backgroundPrimary: string;
-    // backgroundPrimaryHover: string;
-    // textSecondary?: string;
-    // backgroundSecondary?: string;
-    // backgroundSecondaryHover?: string;
-    // textTertiary?: string;
-    // backgroundTertiaryHover?: string;
-    // borderTertiary?: string;
-    // textSubdued?: string;
 };
 
 interface CharityAppealBannerCtaProps {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { css } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import { buttonReaderRevenueBrand, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { space } from '@guardian/src-foundations';
@@ -11,14 +11,11 @@ import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';
 
-const reminderButtonStyles = css`
-    color: ${neutral[0]};
-    margin-left: ${space[4]}px;
+const dfltForeColor = neutral[100];
 
-    /* TODO: Remove this after Giving Tuesday */
-    @media (min-width: 740px) and (max-width: 769px) {
-        display: none;
-    }
+const reminderButtonStyles = css`
+    color: ${dfltForeColor};
+    margin-left: ${space[4]}px;
 `;
 
 export interface CharityAppealBannerSecondaryCtaProps {
@@ -51,13 +48,15 @@ export const CharityAppealBannerSecondaryCta: React.FC<CharityAppealBannerSecond
             )}
 
             {secondaryCta?.type === SecondaryCtaType.ContributionsReminder && !hasSetReminder() && (
-                <Button
-                    cssOverrides={reminderButtonStyles}
-                    priority="subdued"
-                    onClick={onReminderCtaClick}
-                >
-                    {secondaryCta.reminderFields.reminderCta}
-                </Button>
+                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <Button
+                        cssOverrides={reminderButtonStyles}
+                        priority="subdued"
+                        onClick={onReminderCtaClick}
+                    >
+                        {secondaryCta.reminderFields.reminderCta}
+                    </Button>
+                </ThemeProvider>
             )}
         </>
     );

@@ -1,8 +1,8 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonBrandAlt } from '@guardian/src-button';
+import { Button, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { Columns, Column, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { TextInput } from '@guardian/src-text-input';
@@ -12,74 +12,86 @@ import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
 
-const bodyContainerStyles = css`
-    padding: 10px 0;
-    box-sizing: border-box;
+const dfltForeColor = neutral[100];
 
-    ${from.tablet} {
-        height: 100%;
-    }
+const styles = {
+    bodyContainer: (foreColor: string) => css`
+        padding: 10px 0;
+        box-sizing: border-box;
 
-    ${from.leftCol} {
-        padding: 10px ${space[3]}px;
-        margin-left: -9px;
-        border-left: 1px solid black;
-    }
-
-    ${from.wide} {
-        margin-left: -10px;
-    }
-`;
-
-const bodyCopyContainerStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })}
-`;
-
-const formContainerStyles = css`
-    display: flex;
-    flex-direction: column;
-
-    // hack to tweak source text input
-    > label {
-        div {
-            font-size: 15px !important;
+        ${from.tablet} {
+            height: 100%;
         }
 
-        input {
-            height: 36px;
+        ${from.leftCol} {
+            padding: 10px ${space[3]}px;
+            margin-left: -9px;
+            border-left: 1px solid ${foreColor};
         }
-    }
 
-    & > * + * {
+        ${from.wide} {
+            margin-left: -10px;
+        }
+    `,
+    bodyCopyContainer: (foreColor: string) => css`
+        ${textSans.small({ fontWeight: 'bold' })};
+        color: ${foreColor};
+    `,
+    emailInput: (foreColor: string) => css`
+        max-width: 300px;
+        ${from.tablet} {
+            width: 300px;
+        }
+        .control-label {
+            color: ${foreColor};
+            background-color: ${foreColor};
+        }
+    `,
+    reminderBtn: (foreColor: string, backColor: string) => css`
+        background-color: ${backColor};
+        color: ${foreColor};
+        &:hover {
+            background-color: ${foreColor};
+            color: ${backColor};
+        }
+    `,
+    infoCopyContainer: (foreColor: string) => css`
+        color: ${foreColor};
         margin-top: ${space[3]}px;
-    }
+    `,
+    formContainer: (foreColor: string) => css`
+        display: flex;
+        flex-direction: column;
+        // hack to tweak source text input
+        > label {
+            div {
+                font-size: 13px !important;
+                color: ${foreColor};
+            }
 
-    ${from.tablet} {
-        flex-direction: row;
-        align-items: flex-end;
+            input {
+                height: 36px;
+            }
+        }
 
         & > * + * {
-            margin-top: 0;
-            margin-left: ${space[5]}px;
+            margin-top: ${space[3]}px;
         }
-    }
-`;
 
-const emailInputStyles = css`
-    max-width: 300px;
+        ${from.tablet} {
+            flex-direction: row;
+            align-items: flex-end;
 
-    ${from.tablet} {
-        width: 300px;
-    }
-`;
-
-const errorCopyContainerStyles = css`
-    margin-top: ${space[1]}px;
-`;
-
-const infoCopyContainerStyles = css`
-    margin-top: ${space[3]}px;
-`;
+            & > * + * {
+                margin-top: 0;
+                margin-left: ${space[5]}px;
+            }
+        }
+    `,
+    errorCopyContainer: css`
+        margin-top: ${space[1]}px;
+    `,
+};
 
 export interface CharityAppealBannerReminderSignedOutProps {
     reminderCta: BannerEnrichedReminderCta;
@@ -115,9 +127,11 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                         )}
 
                         {reminderStatus === ReminderStatus.Completed && (
-                            <div css={bodyContainerStyles}>
+                            <div css={styles.bodyContainer(dfltForeColor)}>
                                 <ThankYou
                                     reminderLabelWithPreposition={reminderLabelWithPreposition}
+                                    thankyouColor={dfltForeColor}
+                                    contactUsColor={neutral[46]}
                                 />
                             </div>
                         )}
@@ -144,11 +158,13 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                         {reminderStatus === ReminderStatus.Completed && (
                             <>
                                 <Column width={9 / 16}>
-                                    <div css={bodyContainerStyles}>
+                                    <div css={styles.bodyContainer(dfltForeColor)}>
                                         <ThankYou
                                             reminderLabelWithPreposition={
                                                 reminderLabelWithPreposition
                                             }
+                                            thankyouColor={dfltForeColor}
+                                            contactUsColor={neutral[46]}
                                         />
                                     </div>
                                 </Column>
@@ -185,11 +201,13 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                         {reminderStatus === ReminderStatus.Completed && (
                             <>
                                 <Column width={9 / 14}>
-                                    <div css={bodyContainerStyles}>
+                                    <div css={styles.bodyContainer(dfltForeColor)}>
                                         <ThankYou
                                             reminderLabelWithPreposition={
                                                 reminderLabelWithPreposition
                                             }
+                                            thankyouColor={dfltForeColor}
+                                            contactUsColor={neutral[46]}
                                         />
                                     </div>
                                 </Column>
@@ -221,9 +239,11 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                     {reminderStatus === ReminderStatus.Completed && (
                         <>
                             <Column width={9 / 16}>
-                                <div css={bodyContainerStyles}>
+                                <div css={styles.bodyContainer(dfltForeColor)}>
                                     <ThankYou
                                         reminderLabelWithPreposition={reminderLabelWithPreposition}
+                                        thankyouColor={dfltForeColor}
+                                        contactUsColor={neutral[46]}
                                     />
                                 </div>
                             </Column>
@@ -257,19 +277,20 @@ function Body({
     const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
     return (
-        <div css={bodyContainerStyles}>
-            <div css={bodyCopyContainerStyles}>Remind me {reminderDateWithPreposition}</div>
-            <form onSubmit={onSubmit} css={formContainerStyles}>
+        <div css={styles.bodyContainer(dfltForeColor)}>
+            <div css={styles.bodyCopyContainer(dfltForeColor)}>
+                Remind me {reminderDateWithPreposition}
+            </div>
+            <form onSubmit={onSubmit} css={styles.formContainer(dfltForeColor)}>
                 <TextInput
                     label="Email address"
                     value={email}
                     error={inputError}
                     onChange={updateEmail}
-                    cssOverrides={emailInputStyles}
+                    cssOverrides={styles.emailInput(dfltForeColor)}
                 />
-
                 <div>
-                    <ThemeProvider theme={buttonBrandAlt}>
+                    <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                         <Button
                             type="submit"
                             size="small"
@@ -277,6 +298,7 @@ function Body({
                             iconSide="right"
                             priority="tertiary"
                             disabled={reminderStatus === ReminderStatus.Submitting}
+                            cssOverrides={styles.reminderBtn(dfltForeColor, '#313433')}
                         >
                             Set a reminder
                         </Button>
@@ -285,13 +307,16 @@ function Body({
             </form>
 
             {reminderStatus === ReminderStatus.Error && (
-                <div css={errorCopyContainerStyles}>
+                <div css={styles.errorCopyContainer}>
                     <ErrorCopy />
                 </div>
             )}
 
-            <div css={infoCopyContainerStyles}>
-                <InfoCopy reminderLabelWithPreposition={reminderDateWithPreposition} />
+            <div css={styles.infoCopyContainer(dfltForeColor)}>
+                <InfoCopy
+                    reminderLabelWithPreposition={reminderDateWithPreposition}
+                    privacyLinkColor={neutral[46]}
+                />
             </div>
         </div>
     );

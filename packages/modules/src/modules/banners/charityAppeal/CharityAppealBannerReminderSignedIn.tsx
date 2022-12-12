@@ -1,8 +1,8 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonBrandAlt } from '@guardian/src-button';
+import { Button, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { Columns, Column, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { SvgCheckmark } from '@guardian/src-icons';
@@ -10,48 +10,58 @@ import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
 
-const bodyContainerStyles = css`
-    padding: 10px 0;
-    box-sizing: border-box;
+const dfltForeColor = neutral[100];
 
-    ${from.tablet} {
-        height: 100%;
-    }
-
-    ${from.leftCol} {
-        margin-left: -9px;
-        padding: 10px ${space[3]}px;
-        border-left: 1px solid black;
-    }
-
-    ${from.wide} {
-        margin-left: -10px;
-    }
-`;
-
-const ctaContainerStyles = css`
-    padding: 10px 0 0;
-
-    ${from.tablet} {
+const styles = {
+    bodyContainer: (foreColor: string) => css`
         padding: 10px 0;
-    }
-`;
+        box-sizing: border-box;
 
-const secondaryCtaContainerStyles = css`
-    margin-left: ${space[4]}px;
-`;
+        ${from.tablet} {
+            height: 100%;
+        }
 
-const bodyCopyContainerStyles = css`
-    ${textSans.small({ fontWeight: 'bold' })}
-`;
+        ${from.leftCol} {
+            padding: 10px ${space[3]}px;
+            margin-left: -9px;
+            border-left: 1px solid ${foreColor};
+        }
 
-const errorCopyContainerStyles = css`
-    margin-top: ${space[1]}px;
-`;
+        ${from.wide} {
+            margin-left: -10px;
+        }
+    `,
+    bodyCopyContainer: (foreColor: string) => css`
+        ${textSans.small({ fontWeight: 'bold' })}
+        color: ${foreColor};
+    `,
+    reminderBtn: (foreColor: string, backColor: string) => css`
+        background-color: ${backColor};
+        color: ${foreColor};
+        &:hover {
+            background-color: ${foreColor};
+            color: ${backColor};
+        }
+    `,
+    infoCopyContainer: (foreColor: string) => css`
+        color: ${foreColor};
+        margin-top: ${space[3]}px;
+    `,
+    ctaContainer: css`
+        padding: 10px 0 0;
 
-const infoCopyContainerStyles = css`
-    margin-top: ${space[3]}px;
-`;
+        ${from.tablet} {
+            padding: 10px 0;
+        }
+    `,
+    secondaryCtaContainer: (foreColor: string) => css`
+        color: ${foreColor};
+        margin-left: ${space[4]}px;
+    `,
+    errorCopyContainer: css`
+        margin-top: ${space[1]}px;
+    `,
+};
 
 export interface CharityAppealBannerReminderSignedInProps {
     reminderCta: BannerEnrichedReminderCta;
@@ -71,36 +81,43 @@ export const CharityAppealBannerReminderSignedIn: React.FC<CharityAppealBannerRe
     );
 
     const Body = () => (
-        <div css={bodyContainerStyles}>
+        <div css={styles.bodyContainer(dfltForeColor)}>
             {reminderStatus !== ReminderStatus.Completed && (
                 <>
-                    <div css={bodyCopyContainerStyles}>
+                    <div css={styles.bodyCopyContainer(dfltForeColor)}>
                         Show your support for the Guardian at a later date. To make this easier, set
                         a reminder and we&apos;ll email you in May.
                     </div>
 
                     {reminderStatus === ReminderStatus.Error && (
-                        <div css={errorCopyContainerStyles}>
+                        <div css={styles.errorCopyContainer}>
                             <ErrorCopy />
                         </div>
                     )}
 
-                    <div css={infoCopyContainerStyles}>
-                        <InfoCopy reminderLabelWithPreposition={reminderDateWithPreposition} />
+                    <div css={styles.infoCopyContainer(dfltForeColor)}>
+                        <InfoCopy
+                            reminderLabelWithPreposition={reminderDateWithPreposition}
+                            privacyLinkColor={neutral[46]}
+                        />
                     </div>
                 </>
             )}
 
             {reminderStatus === ReminderStatus.Completed && (
-                <ThankYou reminderLabelWithPreposition={reminderDateWithPreposition} />
+                <ThankYou
+                    reminderLabelWithPreposition={reminderDateWithPreposition}
+                    thankyouColor={dfltForeColor}
+                    contactUsColor={neutral[46]}
+                />
             )}
         </div>
     );
 
     const Ctas = () => (
-        <div css={ctaContainerStyles}>
+        <div css={styles.ctaContainer}>
             <div>
-                <ThemeProvider theme={buttonBrandAlt}>
+                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                     <div>
                         <Button
                             onClick={onReminderSetClick}
@@ -109,17 +126,21 @@ export const CharityAppealBannerReminderSignedIn: React.FC<CharityAppealBannerRe
                             icon={<SvgCheckmark />}
                             iconSide="right"
                             disabled={reminderStatus === ReminderStatus.Submitting}
+                            cssOverrides={styles.reminderBtn(dfltForeColor, '#313433')}
                         >
                             Set a reminder
                         </Button>
                     </div>
-
-                    <div css={secondaryCtaContainerStyles}>
-                        <Button onClick={onReminderCloseClick} priority="subdued">
-                            Not now
-                        </Button>
-                    </div>
                 </ThemeProvider>
+                <div>
+                    <Button
+                        onClick={onReminderCloseClick}
+                        priority="subdued"
+                        cssOverrides={styles.secondaryCtaContainer(dfltForeColor)}
+                    >
+                        Not now
+                    </Button>
+                </div>
             </div>
         </div>
     );

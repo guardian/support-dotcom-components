@@ -15,6 +15,11 @@ const Template: Story<BannerProps> = (props: BannerProps) => (
 );
 
 export const Default = Template.bind({});
+Default.args = {
+    content: {
+        ...contentCharityAppeal,
+    },
+};
 
 export const WithReminder = Template.bind({});
 WithReminder.args = {
@@ -23,18 +28,5 @@ WithReminder.args = {
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
-    },
-};
-
-export const WithPrefilledReminder = Template.bind({});
-WithPrefilledReminder.args = {
-    ...WithReminder.args,
-
-    fetchEmail: () => {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve('test@guardian.co.uk');
-            }, 500);
-        });
     },
 };
