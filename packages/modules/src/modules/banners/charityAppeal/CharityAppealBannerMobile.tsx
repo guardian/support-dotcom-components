@@ -14,11 +14,11 @@ import { BannerRenderedContent } from '../common/types';
 import { createBannerBodyCopy } from '../common/BannerText';
 
 const styles = {
-    container: (isReminderOpen: boolean) => css`
+    container: (isReminderOpen: boolean, foreColor: string) => css`
         ${from.tablet} {
             display: none;
         }
-        border-top: 1px solid ${neutral[7]};
+        border-top: 1px solid ${foreColor};
         max-height: ${isReminderOpen ? '100vh' : '80vh'};
         box-sizing: border-box;
         padding-bottom: ${space[5]}px;
@@ -51,13 +51,13 @@ const styles = {
         }
         margin-top: 20px;
     `,
-    headingContainer: css`
+    headingContainer: (backgroundColor: string, foreColor: string) => css`
         position: sticky;
         top: 0;
-        background-color: ${'#313433'};
+        background-color: ${foreColor};
         display: flex;
         flex-direction: row;
-        border-bottom: 1px solid ${neutral[7]};
+        border-bottom: 1px solid ${backgroundColor};
         padding: 6px 12px 10px 12px;
     `,
     reminderAndLineContainer: css`
@@ -67,8 +67,8 @@ const styles = {
     reminderContainer: css`
         padding: 0 ${space[3]}px;
     `,
-    reminderLine: css`
-        border-top: 1px solid black;
+    reminderLine: (backgroundColor: string, foreColor: string) => css`
+        border-top: 1px solid ${foreColor};
         position: absolute;
         top: 0;
         right: 0;
@@ -83,7 +83,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 10px solid transparent;
-            border-bottom-color: black;
+            border-bottom-color: ${foreColor};
         }
 
         &:after {
@@ -95,7 +95,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 9px solid transparent;
-            border-bottom-color: ${'#313433'};
+            border-bottom-color: ${backgroundColor};
         }
     `,
     hide: css`
@@ -119,7 +119,10 @@ interface CharityAppealBannerMobileProps {
     children?: React.ReactNode;
 }
 
-export const CharityAppealBannerMobile: React.FC<CharityAppealBannerMobileProps> = ({
+export const getCharityAppealBannerMobile = (
+    backgroundColor: string,
+    foreColor: string,
+): React.FC<CharityAppealBannerMobileProps> => ({
     onContributeClick,
     onSecondaryCtaClick,
     onCloseClick,
@@ -140,8 +143,8 @@ export const CharityAppealBannerMobile: React.FC<CharityAppealBannerMobileProps>
     }, [reminderRef.current, isReminderOpen]);
 
     return (
-        <div css={styles.container(isReminderOpen)}>
-            <div css={styles.headingContainer}>
+        <div css={styles.container(isReminderOpen, foreColor)}>
+            <div css={styles.headingContainer(foreColor, backgroundColor)}>
                 <div css={styles.heading}>{content.heading}</div>
                 <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
             </div>
@@ -177,7 +180,7 @@ export const CharityAppealBannerMobile: React.FC<CharityAppealBannerMobileProps>
             <div ref={reminderRef} css={isReminderOpen ? styles.show : styles.hide}>
                 {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
                     <div css={styles.reminderAndLineContainer}>
-                        <div css={styles.reminderLine}></div>
+                        <div css={styles.reminderLine(backgroundColor, foreColor)}></div>
 
                         <div css={styles.reminderContainer}>
                             <CharityAppealBannerReminder
@@ -193,3 +196,5 @@ export const CharityAppealBannerMobile: React.FC<CharityAppealBannerMobileProps>
         </div>
     );
 };
+
+export const CharityAppealBannerMobile = getCharityAppealBannerMobile('#313433', neutral[100]);
