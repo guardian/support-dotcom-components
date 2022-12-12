@@ -34,7 +34,7 @@ export interface HeaderSettings {
 export interface BannerTemplateSettings {
     backgroundColour: string;
     primaryCtaSettings: CtaSettings;
-    secondaryCtaSettings?: CtaSettings;
+    secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
