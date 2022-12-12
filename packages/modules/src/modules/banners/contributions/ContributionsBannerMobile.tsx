@@ -42,6 +42,7 @@ const styles = {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
+        flex-wrap: wrap;
         padding: ${space[3]}px;
 
         & > * + * {
