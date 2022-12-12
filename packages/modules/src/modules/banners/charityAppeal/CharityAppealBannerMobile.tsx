@@ -26,7 +26,7 @@ const styles = {
         overflow-x: hidden;
     `,
     heading: css`
-        ${headline.xxsmall({ fontWeight: 'bold' })};
+        ${headline.small({ fontWeight: 'bold' })};
         max-width: 90%; /* to avoid pushing the close button off screen on mobile devices with extra large font */
     `,
     subheading: css`
@@ -57,7 +57,6 @@ const styles = {
         background-color: ${foreColor};
         display: flex;
         flex-direction: row;
-        border-bottom: 1px solid ${backgroundColor};
         padding: 6px 12px 10px 12px;
     `,
     reminderAndLineContainer: css`
