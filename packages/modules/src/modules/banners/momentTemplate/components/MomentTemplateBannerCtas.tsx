@@ -208,11 +208,11 @@ const styles = {
     `,
     ctasContainer: css`
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-wrap: wrap;
 
-        & > * + * {
-            margin-left: ${space[3]}px;
+        & a:not(:last-child) {
+            margin-right: ${space[3]}px;
+            margin-bottom: ${space[2]}px;
         }
     `,
     paymentMethods: css`

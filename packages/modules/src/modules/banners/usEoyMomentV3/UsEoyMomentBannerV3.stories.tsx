@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { props } from '../utils/storybook';
-import { BannerProps, TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { BannerProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { neutral } from '@guardian/src-foundations';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
@@ -81,8 +81,15 @@ WithUnderfundedTicker.args = {
         ],
         highlightedText: 'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         cta: {
-            text: 'Support independent journalism',
+            text: 'Support us monthly',
             baseUrl: 'https://support.theguardian.com/contribute',
+        },
+        secondaryCta: {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Support just once',
+                baseUrl: 'https://theguardian.com',
+            },
         },
     },
     mobileContent: undefined,
