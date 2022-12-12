@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import { Button, buttonReaderRevenueBrand } from '@guardian/src-button';
 import { textSans } from '@guardian/src-foundations/typography';
 import { neutral, space } from '@guardian/src-foundations';
 import { Columns, Column, Hide } from '@guardian/src-layout';
@@ -50,6 +50,8 @@ const styles = {
     reminderBtn: (foreColor: string, backColor: string) => css`
         background-color: ${backColor};
         color: ${foreColor};
+        border-style: solid;
+        border-color: ${foreColor};
         &:hover {
             background-color: ${foreColor};
             color: ${backColor};
@@ -290,7 +292,7 @@ function Body({
                     cssOverrides={styles.emailInput(dfltForeColor)}
                 />
                 <div>
-                    <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                    <ThemeProvider theme={buttonReaderRevenueBrand}>
                         <Button
                             type="submit"
                             size="small"
