@@ -30,7 +30,7 @@ export const defaultDeploySchedule: ScheduledBannerDeploys = {
     // Banner 2: Tuesday (9:00 AM)
     subscriptions: [
         {
-            dayOfWeek: 1,
+            dayOfWeek: 2,
             hour: 9,
         },
     ],

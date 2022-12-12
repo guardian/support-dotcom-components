@@ -37,27 +37,19 @@ describe('previousScheduledDate', () => {
 });
 
 describe('lastScheduledDeploy, subscriptions', () => {
-    it('returns previous monday if currently tuesday', () => {
+    it('returns previous Tuesday if currently Monday', () => {
         const result = getLastScheduledDeploy(
-            new Date('2021-11-09 09:00:00'),
+            new Date('2022-12-12 09:00:00'),
             defaultDeploySchedule.subscriptions,
         );
-        expect(result).toEqual(new Date('2021-11-08 08:00:00'));
+        expect(result).toEqual(new Date('2022-12-06 09:00:00'));
     });
 
-    it('returns previous friday if currently sunday', () => {
+    it('returns today (Tuesday) if currently Tuesday and within an hour of the last deploy', () => {
         const result = getLastScheduledDeploy(
-            new Date('2021-11-07 09:00:00'),
+            new Date('2022-12-06 09:30:00'),
             defaultDeploySchedule.subscriptions,
         );
-        expect(result).toEqual(new Date('2021-11-05 08:00:00'));
-    });
-
-    it('returns today (friday) if currently friday and within an hour of the last deploy', () => {
-        const result = getLastScheduledDeploy(
-            new Date('2021-11-26 08:30:00'),
-            defaultDeploySchedule.subscriptions,
-        );
-        expect(result).toEqual(new Date('2021-11-26 08:00:00'));
+        expect(result).toEqual(new Date('2022-12-06 09:00:00'));
     });
 });
