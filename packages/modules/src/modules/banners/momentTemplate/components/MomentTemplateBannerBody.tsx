@@ -14,7 +14,7 @@ import { BannerRenderedContent } from '../../common/types';
 interface MomentTemplateBannerBodyProps {
     mainContent: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
-    highlightedTextSettings: HighlightedTextSettings | undefined;
+    highlightedTextSettings: HighlightedTextSettings;
 }
 
 export function MomentTemplateBannerBody({
@@ -43,7 +43,7 @@ export function MomentTemplateBannerBody({
 
 // ---- Styles ---- //
 
-const getStyles = (settings?: HighlightedTextSettings) => ({
+const getStyles = (settings: HighlightedTextSettings) => ({
     container: css`
         ${body.small()}
         color: ${neutral[0]};
@@ -68,9 +68,9 @@ const getStyles = (settings?: HighlightedTextSettings) => ({
     `,
     highlightedText: css`
         display: inline;
-        color: ${settings?.textColour ?? neutral[7]};
+        color: ${settings.textColour};
 
-        ${settings?.highlightColour
+        ${settings.highlightColour
             ? `
             background: ${settings.highlightColour};
             box-shadow: 2px 0 0 ${settings.highlightColour}, -2px 0 0 ${settings.highlightColour};

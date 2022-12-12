@@ -40,6 +40,10 @@ const UsEoyMomentBannerV3 = getMomentTemplateBanner({
             textColour: neutral[0],
         },
     },
+    highlightedTextSettings: {
+        textColour: neutral[0],
+        highlightColour: neutral[100],
+    },
     alternativeVisual: <UsEoyMomentBannerVisualV3 />,
     tickerStylingSettings: {
         textColour: '#7D0068',
