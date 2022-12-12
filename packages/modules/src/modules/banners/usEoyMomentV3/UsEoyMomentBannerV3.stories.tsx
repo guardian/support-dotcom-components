@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { props } from '../utils/storybook';
-import { BannerProps, TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { BannerProps, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { neutral } from '@guardian/src-foundations';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
@@ -49,6 +49,10 @@ const UsEoyMomentBannerV3 = bannerWrapper(
                 textColour: neutral[0],
             },
         },
+        highlightedTextSettings: {
+            textColour: neutral[0],
+            highlightColour: neutral[100],
+        },
         alternativeVisual: <UsEoyMomentBannerVisualV3 />,
         tickerStylingSettings: {
             textColour: '#7D0068',
@@ -75,9 +79,17 @@ WithUnderfundedTicker.args = {
         paragraphs: [
             "We're proud to say that the Guardian is a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. Support from readers keeps us fiercely independent, with no shareholders to please or a billionaire owner. It allows us to keep our reporting open for all, because not everyone is in a position to pay for news. But if you can afford it, we need you. <strong>We are raising $1m to fund our journalism in 2023.</strong> Make an investment in quality journalism, so millions more can benefit.",
         ],
+        highlightedText: 'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         cta: {
-            text: 'Support independent journalism',
+            text: 'Support us monthly',
             baseUrl: 'https://support.theguardian.com/contribute',
+        },
+        secondaryCta: {
+            type: SecondaryCtaType.Custom,
+            cta: {
+                text: 'Support just once',
+                baseUrl: 'https://theguardian.com',
+            },
         },
     },
     mobileContent: undefined,

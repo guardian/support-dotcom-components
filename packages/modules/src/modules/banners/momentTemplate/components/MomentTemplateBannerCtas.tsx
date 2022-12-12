@@ -18,7 +18,7 @@ interface MomentTemplateBannerCtasProps {
     onSecondaryCtaClick: () => void;
     onReminderCtaClick: () => void;
     primaryCtaSettings: CtaSettings;
-    secondaryCtaSettings?: CtaSettings;
+    secondaryCtaSettings: CtaSettings;
 }
 
 export function MomentTemplateBannerCtas({
@@ -47,18 +47,17 @@ export function MomentTemplateBannerCtas({
                             </LinkButton>
                         )}
 
-                        {mobileContent.secondaryCta?.type === SecondaryCtaType.Custom &&
-                            secondaryCtaSettings && (
-                                <LinkButton
-                                    href={mobileContent.secondaryCta.cta.ctaUrl}
-                                    onClick={onSecondaryCtaClick}
-                                    size="small"
-                                    priority="tertiary"
-                                    cssOverrides={buttonStyles(secondaryCtaSettings)}
-                                >
-                                    {mobileContent.secondaryCta.cta.ctaText}
-                                </LinkButton>
-                            )}
+                        {mobileContent.secondaryCta?.type === SecondaryCtaType.Custom && (
+                            <LinkButton
+                                href={mobileContent.secondaryCta.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
+                                size="small"
+                                priority="tertiary"
+                                cssOverrides={buttonStyles(secondaryCtaSettings)}
+                            >
+                                {mobileContent.secondaryCta.cta.ctaText}
+                            </LinkButton>
+                        )}
 
                         {mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder && (
@@ -87,18 +86,17 @@ export function MomentTemplateBannerCtas({
                             </LinkButton>
                         )}
 
-                        {mainContent.secondaryCta?.type === SecondaryCtaType.Custom &&
-                            secondaryCtaSettings && (
-                                <LinkButton
-                                    href={mainContent.secondaryCta.cta.ctaUrl}
-                                    onClick={onSecondaryCtaClick}
-                                    size="small"
-                                    priority="tertiary"
-                                    cssOverrides={buttonStyles(secondaryCtaSettings)}
-                                >
-                                    {mainContent.secondaryCta.cta.ctaText}
-                                </LinkButton>
-                            )}
+                        {mainContent.secondaryCta?.type === SecondaryCtaType.Custom && (
+                            <LinkButton
+                                href={mainContent.secondaryCta.cta.ctaUrl}
+                                onClick={onSecondaryCtaClick}
+                                size="small"
+                                priority="tertiary"
+                                cssOverrides={buttonStyles(secondaryCtaSettings)}
+                            >
+                                {mainContent.secondaryCta.cta.ctaText}
+                            </LinkButton>
+                        )}
 
                         {mainContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder && (
@@ -210,11 +208,11 @@ const styles = {
     `,
     ctasContainer: css`
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-wrap: wrap;
 
-        & > * + * {
-            margin-left: ${space[3]}px;
+        & a:not(:last-child) {
+            margin-right: ${space[3]}px;
+            margin-bottom: ${space[2]}px;
         }
     `,
     paymentMethods: css`
