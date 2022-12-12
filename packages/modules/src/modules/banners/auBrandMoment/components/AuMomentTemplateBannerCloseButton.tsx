@@ -10,15 +10,15 @@ import { space } from '@guardian/src-foundations';
 
 // ---- Component ---- //
 
-interface MomentTemplateBannerCloseButtonProps {
+interface AuMomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
     settings: CtaSettings;
 }
 
-export function MomentTemplateBannerCloseButton({
+export function AuMomentTemplateBannerCloseButton({
     onCloseClick,
     settings,
-}: MomentTemplateBannerCloseButtonProps): JSX.Element {
+}: AuMomentTemplateBannerCloseButtonProps): JSX.Element {
     return (
         <div css={styles.container}>
             <div css={styles.roundelContainer}>

@@ -11,17 +11,17 @@ import { BannerRenderedContent } from '../../common/types';
 
 // ---- Component ---- //
 
-interface MomentTemplateBannerBodyProps {
+interface AuMomentTemplateBannerBodyProps {
     mainContent: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
     highlightedTextSettings: HighlightedTextSettings;
 }
 
-export function MomentTemplateBannerBody({
+export function AuMomentTemplateBannerBody({
     mainContent,
     mobileContent,
     highlightedTextSettings,
-}: MomentTemplateBannerBodyProps): JSX.Element {
+}: AuMomentTemplateBannerBodyProps): JSX.Element {
     const styles = getStyles(highlightedTextSettings);
 
     return (

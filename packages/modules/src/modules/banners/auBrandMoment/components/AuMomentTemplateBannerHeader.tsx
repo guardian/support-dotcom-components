@@ -8,15 +8,15 @@ import { Hide } from '@guardian/src-layout';
 
 // ---- Component ---- //
 
-interface MomentTemplateBannerHeaderProps {
+interface AuMomentTemplateBannerHeaderProps {
     heading: JSX.Element | JSX.Element[] | null;
     mobileHeading: JSX.Element | JSX.Element[] | null;
 }
 
-export function MomentTemplateBannerHeader({
+export function AuMomentTemplateBannerHeader({
     heading,
     mobileHeading,
-}: MomentTemplateBannerHeaderProps): JSX.Element {
+}: AuMomentTemplateBannerHeaderProps): JSX.Element {
     return (
         <div css={styles.container}>
             <header css={styles.header}>
