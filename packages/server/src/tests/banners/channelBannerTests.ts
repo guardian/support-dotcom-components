@@ -1,6 +1,8 @@
 import {
     contributionsBanner,
     contributionsBannerWithSignIn,
+    charityAppealBanner,
+    charityAppealBannerWithSignIn,
     digiSubs,
     environmentMomentBanner,
     guardianWeekly,
@@ -33,6 +35,9 @@ export const BannerPaths: {
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
+    [BannerTemplate.CharityAppealBanner]: charityAppealBanner.endpointPathBuilder,
+    [BannerTemplate.CharityAppealBannerWithSignIn]:
+        charityAppealBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
