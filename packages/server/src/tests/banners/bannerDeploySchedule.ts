@@ -16,20 +16,22 @@ export interface ScheduledBannerDeploys {
 }
 
 export const defaultDeploySchedule: ScheduledBannerDeploys = {
+    // Banner 1: Sunday + Thursday (9:00AM)
     contributions: [
         {
             dayOfWeek: 0,
             hour: 9,
         },
+        {
+            dayOfWeek: 4,
+            hour: 9,
+        },
     ],
+    // Banner 2: Tuesday (9:00 AM)
     subscriptions: [
         {
-            dayOfWeek: 1,
-            hour: 8,
-        },
-        {
-            dayOfWeek: 5,
-            hour: 8,
+            dayOfWeek: 2,
+            hour: 9,
         },
     ],
 };
