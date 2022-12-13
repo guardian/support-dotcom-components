@@ -30,7 +30,7 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const charityAppealBanner: ModuleInfo = getDefaultModuleInfo(
     'charity-appeal-banner',
-    'banners/charityappeal/CharityAppealBanner',
+    'banners/charityAppeal/CharityAppealBanner',
 );
 
 export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
@@ -45,7 +45,7 @@ export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
 
 export const charityAppealBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'charity-appeal-banner-with-sign-in',
-    'banners/charityappeal/CharityAppealBannerWithSignIn',
+    'banners/charityAppeal/CharityAppealBannerWithSignIn',
 );
 
 export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
