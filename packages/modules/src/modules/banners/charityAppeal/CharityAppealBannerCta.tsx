@@ -21,12 +21,16 @@ const styles = {
             margin-left: ${space[4]}px;
         }
     `,
-    ctaOverides: css`
-        background-color: ${neutral[100]};
-        color: ${'#313433'};
+    ctaOverides: (
+        foreColor: string,
+        backColor: string,
+        hoverColor: string,
+    ): SerializedStyles => css`
+        background-color: ${backColor};
+        color: ${foreColor};
         &:hover {
-            background-color: ${neutral[46]};
-            color: ${neutral[97]};
+            background-color: ${hoverColor};
+            color: ${backColor};
         }
     `,
 };
@@ -50,7 +54,10 @@ export const CharityAppealBannerCta: React.FC<CharityAppealBannerCtaProps> = ({
             <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
                 <LinkButton
                     data-link-name="charity-appeal-banner : cta"
-                    css={[styles.ctaButton(stacked), styles.ctaOverides]}
+                    css={[
+                        styles.ctaButton(stacked),
+                        styles.ctaOverides('#313433', neutral[100], neutral[46]),
+                    ]}
                     priority="primary"
                     size="small"
                     icon={<SvgArrowRightStraight />}
