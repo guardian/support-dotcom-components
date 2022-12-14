@@ -6,6 +6,7 @@ export type CtaStateSettings = {
     textColour: string;
     backgroundColour: string;
     border?: string;
+    displaySvg?: string;
 };
 
 export interface CtaSettings {
