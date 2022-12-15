@@ -4,7 +4,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 import { bannerWrapper } from '../common/BannerWrapper';
-import { brand } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 
 export default {
     title: 'Banners/MomentTemplate',
@@ -52,8 +52,8 @@ const GlobalNYBanner = bannerWrapper(
             },
         },
         highlightedTextSettings: {
-            textColour: '#F1F8FC',
-            highlightColour: '#0077B6',
+            textColour: neutral[0],
+            highlightColour: brandAlt[400],
         },
         imageSettings: {
             mainUrl:

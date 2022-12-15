@@ -1,4 +1,4 @@
-import { brand } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
@@ -42,8 +42,8 @@ const GlobalNYBanner = getMomentTemplateBanner({
         },
     },
     highlightedTextSettings: {
-        textColour: '#F1F8FC',
-        highlightColour: '#0077B6',
+        textColour: neutral[0],
+        highlightColour: brandAlt[400],
     },
     imageSettings: {
         mainUrl:

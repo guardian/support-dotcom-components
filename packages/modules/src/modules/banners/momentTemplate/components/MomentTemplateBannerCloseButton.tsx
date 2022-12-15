@@ -45,7 +45,7 @@ const styles = {
         display: flex;
     `,
     roundelContainer: (settings: CtaSettings) => css`
-        display: ${settings.default.displaySvg ?? 'none'};
+        display: ${(settings.default.displaySvg || settings.mobile?.displaySvg) ?? 'none'};
         height: 36px;
 
         svg {
