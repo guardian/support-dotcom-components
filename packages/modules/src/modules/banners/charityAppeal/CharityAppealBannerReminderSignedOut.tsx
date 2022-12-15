@@ -12,8 +12,6 @@ import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
 
-const dfltForeColor = neutral[100];
-
 const styles = {
     bodyContainer: (foreColor: string) => css`
         padding: 10px 0;
@@ -129,10 +127,10 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                         )}
 
                         {reminderStatus === ReminderStatus.Completed && (
-                            <div css={styles.bodyContainer(dfltForeColor)}>
+                            <div css={styles.bodyContainer(neutral[100])}>
                                 <ThankYou
                                     reminderLabelWithPreposition={reminderLabelWithPreposition}
-                                    thankyouColor={dfltForeColor}
+                                    thankyouColor={neutral[100]}
                                     contactUsColor={neutral[46]}
                                 />
                             </div>
@@ -160,12 +158,12 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                         {reminderStatus === ReminderStatus.Completed && (
                             <>
                                 <Column width={9 / 16}>
-                                    <div css={styles.bodyContainer(dfltForeColor)}>
+                                    <div css={styles.bodyContainer(neutral[100])}>
                                         <ThankYou
                                             reminderLabelWithPreposition={
                                                 reminderLabelWithPreposition
                                             }
-                                            thankyouColor={dfltForeColor}
+                                            thankyouColor={neutral[100]}
                                             contactUsColor={neutral[46]}
                                         />
                                     </div>
@@ -203,12 +201,12 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                         {reminderStatus === ReminderStatus.Completed && (
                             <>
                                 <Column width={9 / 14}>
-                                    <div css={styles.bodyContainer(dfltForeColor)}>
+                                    <div css={styles.bodyContainer(neutral[100])}>
                                         <ThankYou
                                             reminderLabelWithPreposition={
                                                 reminderLabelWithPreposition
                                             }
-                                            thankyouColor={dfltForeColor}
+                                            thankyouColor={neutral[100]}
                                             contactUsColor={neutral[46]}
                                         />
                                     </div>
@@ -241,10 +239,10 @@ export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerR
                     {reminderStatus === ReminderStatus.Completed && (
                         <>
                             <Column width={9 / 16}>
-                                <div css={styles.bodyContainer(dfltForeColor)}>
+                                <div css={styles.bodyContainer(neutral[100])}>
                                     <ThankYou
                                         reminderLabelWithPreposition={reminderLabelWithPreposition}
-                                        thankyouColor={dfltForeColor}
+                                        thankyouColor={neutral[100]}
                                         contactUsColor={neutral[46]}
                                     />
                                 </div>
@@ -279,17 +277,17 @@ function Body({
     const reminderDateWithPreposition = ensureHasPreposition(reminderLabel);
 
     return (
-        <div css={styles.bodyContainer(dfltForeColor)}>
-            <div css={styles.bodyCopyContainer(dfltForeColor)}>
+        <div css={styles.bodyContainer(neutral[100])}>
+            <div css={styles.bodyCopyContainer(neutral[100])}>
                 Remind me {reminderDateWithPreposition}
             </div>
-            <form onSubmit={onSubmit} css={styles.formContainer(dfltForeColor)}>
+            <form onSubmit={onSubmit} css={styles.formContainer(neutral[100])}>
                 <TextInput
                     label="Email address"
                     value={email}
                     error={inputError}
                     onChange={updateEmail}
-                    cssOverrides={styles.emailInput(dfltForeColor)}
+                    cssOverrides={styles.emailInput(neutral[100])}
                 />
                 <div>
                     <ThemeProvider theme={buttonReaderRevenueBrand}>
@@ -300,7 +298,7 @@ function Body({
                             iconSide="right"
                             priority="tertiary"
                             disabled={reminderStatus === ReminderStatus.Submitting}
-                            cssOverrides={styles.reminderBtn(dfltForeColor, '#313433')}
+                            cssOverrides={styles.reminderBtn(neutral[100], '#313433')}
                         >
                             Set a reminder
                         </Button>
@@ -314,7 +312,7 @@ function Body({
                 </div>
             )}
 
-            <div css={styles.infoCopyContainer(dfltForeColor)}>
+            <div css={styles.infoCopyContainer(neutral[100])}>
                 <InfoCopy
                     reminderLabelWithPreposition={reminderDateWithPreposition}
                     privacyLinkColor={neutral[46]}

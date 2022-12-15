@@ -17,6 +17,7 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
+    // foreBorderColor links the foreground colour with the borders around it
     bannerContainer: (backColor: string, foreBorderColor: string) => css`
         overflow: hidden;
         width: 100%;

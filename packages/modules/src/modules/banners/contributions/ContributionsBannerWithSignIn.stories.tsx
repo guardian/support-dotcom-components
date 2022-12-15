@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { ContributionsBannerWithSignInUnvalidated as ContributionsBannerWithSignIn } from './ContributionsBannerWithSignIn';
-import { props, contentContributions } from '../utils/storybook';
+import { props, content } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
@@ -19,7 +19,7 @@ export const Default = Template.bind({});
 export const WithReminder = Template.bind({});
 WithReminder.args = {
     content: {
-        ...contentContributions,
+        ...content,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },

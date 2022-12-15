@@ -3,7 +3,7 @@ import { neutral } from '@guardian/src-foundations/palette';
 import { body } from '@guardian/src-foundations/typography';
 import { until, from } from '@guardian/src-foundations/mq';
 
-const dfltBackColor = '#313433';
+const defaultBackColor = '#313433';
 
 export const commonStyles = {
     copy: css`
@@ -23,7 +23,7 @@ export const commonStyles = {
             }
         }
         &::selection {
-            background-color: ${dfltBackColor};
+            background-color: ${defaultBackColor};
             color: ${neutral[7]};
         }
         ${until.tablet} {
@@ -36,7 +36,7 @@ export const commonStyles = {
 
     highlightedText: css`
         background-color: ${neutral[100]};
-        color: ${dfltBackColor};
+        color: ${defaultBackColor};
         padding: 0.15rem 0.15rem;
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
         ${until.tablet} {
@@ -46,7 +46,7 @@ export const commonStyles = {
             ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         }
         &::selection {
-            background-color: ${dfltBackColor};
+            background-color: ${defaultBackColor};
             color: ${neutral[7]};
         }
     `,

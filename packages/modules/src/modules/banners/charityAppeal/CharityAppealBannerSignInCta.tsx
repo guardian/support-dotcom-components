@@ -3,8 +3,6 @@ import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Link } from '@guardian/src-link';
 
-const dfltTextColor = neutral[100];
-
 // TODO: replace with correct UTM parameters
 const signInUrl =
     'https://profile.theguardian.com/signin??utm_source=gdnwb&utm_medium=banner&utm_campaign=SigninContributionsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
@@ -16,7 +14,7 @@ const boldText = css`
 `;
 
 const signInCta = css`
-    border-top: 1px solid ${dfltTextColor};
+    border-top: 1px solid ${neutral[100]};
     margin: ${space[4]}px 0 0;
 `;
 
