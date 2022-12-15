@@ -43,11 +43,6 @@ export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBannerWithSignIn',
 );
 
-export const charityAppealBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
-    'charity-appeal-banner-with-sign-in',
-    'banners/charityAppeal/CharityAppealBannerWithSignIn',
-);
-
 export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'investigations-moment-banner',
     'banners/investigationsMoment/InvestigationsMomentBanner',
@@ -121,7 +116,6 @@ export const moduleInfos: ModuleInfo[] = [
     charityAppealBanner,
     researchSurveyBanner,
     contributionsBannerWithSignIn,
-    charityAppealBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
     globalNewYearBanner,

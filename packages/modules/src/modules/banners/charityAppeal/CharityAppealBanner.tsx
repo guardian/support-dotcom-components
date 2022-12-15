@@ -17,13 +17,13 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
-    bannerContainer: (backgroundColor: string, foreColor: string) => css`
+    bannerContainer: (backColor: string, foreBorderColor: string) => css`
         overflow: hidden;
         width: 100%;
-        background-color: ${backgroundColor};
-        color: ${foreColor};
+        background-color: ${backColor};
+        color: ${foreBorderColor};
         ${from.tablet} {
-            border-top: 1px solid ${foreColor};
+            border-top: 1px solid ${foreBorderColor};
             padding-bottom: 0;
         }
     `,
@@ -47,7 +47,7 @@ const styles = {
     body: css`
         padding-bottom: 16px;
     `,
-    bodyAndHeading: (foreColor: string) => css`
+    bodyAndHeading: (borderColor: string) => css`
         position: relative; // for positioning the opt-out popup
 
         ${from.tablet} {
@@ -55,7 +55,7 @@ const styles = {
         }
         ${from.leftCol} {
             margin-left: -9px;
-            border-left: 1px solid ${foreColor};
+            border-left: 1px solid ${borderColor};
         }
         ${from.wide} {
             margin-left: -10px;
@@ -88,8 +88,8 @@ const styles = {
             margin-top: 0;
         }
     `,
-    reminderLine: (backgroundColor: string, foreColor: string) => css`
-        border-top: 1px solid ${foreColor};
+    reminderLine: (backColor: string, borderColor: string) => css`
+        border-top: 1px solid ${borderColor};
         position: absolute;
         top: 0;
         right: 0;
@@ -112,7 +112,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 10px solid transparent;
-            border-bottom-color: ${foreColor};
+            border-bottom-color: ${borderColor};
 
             ${from.tablet} {
                 left: calc(50% + 210px);
@@ -140,7 +140,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 9px solid transparent;
-            border-bottom-color: ${backgroundColor};
+            border-bottom-color: ${backColor};
 
             ${from.tablet} {
                 left: calc(50% + 211px);
@@ -187,7 +187,7 @@ const columnCounts = {
 };
 
 export const getCharityAppealBanner = (
-    backgroundColor: string,
+    backColor: string,
     foreColor: string,
 ): React.FC<BannerRenderProps> => ({
     onCtaClick,
@@ -260,7 +260,7 @@ export const getCharityAppealBanner = (
     );
 
     return (
-        <div css={styles.bannerContainer(backgroundColor, foreColor)}>
+        <div css={styles.bannerContainer(backColor, foreColor)}>
             <CharityAppealBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onCtaClick}
@@ -308,7 +308,7 @@ export const getCharityAppealBanner = (
                     content.mainContent.secondaryCta?.type ===
                         SecondaryCtaType.ContributionsReminder && (
                         <div css={styles.reminderContainer}>
-                            <div css={styles.reminderLine(backgroundColor, foreColor)} />
+                            <div css={styles.reminderLine(backColor, foreColor)} />
 
                             <Container>
                                 <Columns>

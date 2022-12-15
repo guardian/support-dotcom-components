@@ -20,7 +20,7 @@ const BannerDecorator = (Story: Story): JSX.Element => (
 
 export default {
     component: CharityAppealBannerReminderSignedIn,
-    title: 'Banners/CharityAppealBannerReminderSignedIn',
+    title: 'Banners/CharityAppeal/BannerReminderSignedIn',
     args: {
         reminderCta: {
             type: SecondaryCtaType.ContributionsReminder,

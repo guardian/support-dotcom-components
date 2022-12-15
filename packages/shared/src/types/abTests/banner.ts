@@ -17,7 +17,6 @@ export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
     CharityAppealBanner = 'CharityAppealBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
-    CharityAppealBannerWithSignIn = 'CharityAppealBannerWithSignIn',
     InvestigationsMomentBanner = 'InvestigationsMomentBanner',
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
