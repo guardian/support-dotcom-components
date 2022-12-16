@@ -34,7 +34,6 @@ const GlobalNYBanner = getMomentTemplateBanner({
             backgroundColour: '#F1F8FC',
             textColour: brand[400],
             border: `1px solid ${brand[400]}`,
-            displaySvg: 'none',
         },
         hover: {
             backgroundColour: '#0077B6',

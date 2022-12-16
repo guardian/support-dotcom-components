@@ -21,7 +21,7 @@ export function MomentTemplateBannerCloseButton({
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
     return (
         <div css={styles.container}>
-            <div css={styles.roundelContainer(settings)}>
+            <div css={styles.roundelContainer}>
                 <SvgRoundelDefault />
             </div>
 
@@ -44,8 +44,8 @@ const styles = {
     container: css`
         display: flex;
     `,
-    roundelContainer: (settings: CtaSettings) => css`
-        display: ${(settings.default.displaySvg || settings.mobile?.displaySvg) ?? 'none'};
+    roundelContainer: css`
+        display: none;
         height: 36px;
 
         svg {
@@ -53,7 +53,7 @@ const styles = {
         }
 
         ${from.tablet} {
-            display: ${(settings.default.displaySvg || settings.desktop?.displaySvg) ?? 'block'};
+            display: block;
             margin-right: ${space[2]}px;
         }
     `,
