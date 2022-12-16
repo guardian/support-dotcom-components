@@ -11,7 +11,7 @@ export default {
     args: props,
 } as Meta;
 
-const GlobalNYBanner = bannerWrapper(
+const GlobalNewYearBanner = bannerWrapper(
     getMomentTemplateBanner({
         backgroundColour: '#F1F8FC',
         headerSettings: {
@@ -69,9 +69,11 @@ const GlobalNYBanner = bannerWrapper(
     'global-new-year-banner',
 );
 
-const GlobalNYTemplate: Story<BannerProps> = (props: BannerProps) => <GlobalNYBanner {...props} />;
+const GlobalNewYearTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <GlobalNewYearBanner {...props} />
+);
 
-export const GlobalNY = GlobalNYTemplate.bind({});
+export const GlobalNY = GlobalNewYearTemplate.bind({});
 GlobalNY.args = {
     ...props,
     content: {

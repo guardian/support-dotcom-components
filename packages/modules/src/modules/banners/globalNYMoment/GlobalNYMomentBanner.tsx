@@ -2,7 +2,7 @@ import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const GlobalNYBanner = getMomentTemplateBanner({
+const GlobalNewYearBanner = getMomentTemplateBanner({
     backgroundColour: '#F1F8FC',
     headerSettings: {
         textColour: '#0077B6',
@@ -57,7 +57,7 @@ const GlobalNYBanner = getMomentTemplateBanner({
     },
 });
 
-const unvalidated = bannerWrapper(GlobalNYBanner, 'global-new-year-banner');
-const validated = validatedBannerWrapper(GlobalNYBanner, 'global-new-year-banner');
+const unvalidated = bannerWrapper(GlobalNewYearBanner, 'global-new-year-banner');
+const validated = validatedBannerWrapper(GlobalNewYearBanner, 'global-new-year-banner');
 
-export { validated as GlobalNYBanner, unvalidated as GlobalNYBannerUnvalidated };
+export { validated as GlobalNewYearBanner, unvalidated as GlobalNewYearBannerUnvalidated };

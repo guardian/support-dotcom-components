@@ -50,7 +50,7 @@ export const environmentMomentBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
     'global-new-year-banner',
-    'banners/globalNewYear/GlobalNewYearBanner',
+    'banners/globalNYMoment/GlobalNYMomentBanner',
 );
 
 export const digiSubs: ModuleInfo = getDefaultModuleInfo(
