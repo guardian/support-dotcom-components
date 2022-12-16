@@ -4,7 +4,7 @@ import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
 import { buttonStyles } from '../buttonStyles';
 import { CtaSettings } from '../settings';
-import { SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelBrand } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
@@ -20,9 +20,9 @@ export function MomentTemplateBannerCloseButton({
     settings,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
     return (
-        <div css={styles.container}>
+        <div css={styles.container(settings)}>
             <div css={styles.roundelContainer}>
-                <SvgRoundelDefault />
+                <SvgRoundelBrand />
             </div>
 
             <Button
@@ -41,8 +41,10 @@ export function MomentTemplateBannerCloseButton({
 // ---- Styles ---- //
 
 const styles = {
-    container: css`
+    container: (settings: CtaSettings) => css`
         display: flex;
+        position: relative;
+        z-index: ${settings.default.zIndex ?? 'auto'};
     `,
     roundelContainer: css`
         display: none;
