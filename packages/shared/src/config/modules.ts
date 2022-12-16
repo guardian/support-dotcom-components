@@ -28,6 +28,11 @@ export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBanner',
 );
 
+export const charityAppealBanner: ModuleInfo = getDefaultModuleInfo(
+    'charity-appeal-banner',
+    'banners/charityAppeal/CharityAppealBanner',
+);
+
 export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
     'research-survey-banner',
     'banners/researchSurveyBanner/ResearchSurveyBanner',
@@ -113,6 +118,7 @@ export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
     contributionsBanner,
+    charityAppealBanner,
     researchSurveyBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,

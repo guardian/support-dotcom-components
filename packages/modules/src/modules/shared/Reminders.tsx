@@ -5,22 +5,35 @@ import { textSans } from '@guardian/src-foundations/typography';
 
 // ---- Thank you component ---- //
 
+const dfltTextColor = neutral[0];
+
 interface ThankYouProps {
     reminderLabelWithPreposition: string;
+    thankyouColor?: string;
+    contactUsColor?: string;
 }
 
-export function ThankYou({ reminderLabelWithPreposition }: ThankYouProps): JSX.Element {
+export function ThankYou({
+    reminderLabelWithPreposition,
+    thankyouColor,
+    contactUsColor,
+}: ThankYouProps): JSX.Element {
     return (
         <div>
             <header>
-                <h3 css={styles.thankYouHeaderCopy}>Thank you! Your reminder is set</h3>
+                <h3 css={styles.thankYouHeaderCopy(thankyouColor ?? dfltTextColor)}>
+                    Thank you! Your reminder is set
+                </h3>
             </header>
 
-            <div css={styles.thankYouBodyCopy}>
+            <div css={styles.thankYouBodyCopy(thankyouColor ?? dfltTextColor)}>
                 We will be in touch to invite you to contribute. Look out for a message in your
                 inbox {reminderLabelWithPreposition}. If you have any questions about contributing,
                 please{' '}
-                <a href="mailto:contribution.support@theguardian.com" css={styles.contactLink}>
+                <a
+                    href="mailto:contribution.support@theguardian.com"
+                    css={styles.contactLink(contactUsColor ?? dfltTextColor)}
+                >
                     contact us
                 </a>
             </div>
@@ -32,15 +45,19 @@ export function ThankYou({ reminderLabelWithPreposition }: ThankYouProps): JSX.E
 
 interface InfoCopyProps {
     reminderLabelWithPreposition: string;
+    privacyLinkColor?: string;
 }
 
-export function InfoCopy({ reminderLabelWithPreposition }: InfoCopyProps): JSX.Element {
+export function InfoCopy({
+    reminderLabelWithPreposition,
+    privacyLinkColor,
+}: InfoCopyProps): JSX.Element {
     return (
         <div css={styles.infoCopy}>
             We will send you a maximum of two emails {reminderLabelWithPreposition}. To find out
             what personal data we collect and how we use it, view our{' '}
             <a
-                css={styles.privacyLink}
+                css={styles.privacyLink(privacyLinkColor ?? dfltTextColor)}
                 href="https://www.theguardian.com/help/privacy-policy"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -73,18 +90,21 @@ const styles = {
         ${textSans.small({})}
         font-size: 12px;
     `,
-    privacyLink: css`
+    privacyLink: (foreColor: string) => css`
         font-weight: bold;
-        color: ${neutral[0]};
+        color: ${foreColor};
     `,
-    thankYouHeaderCopy: css`
+    thankYouHeaderCopy: (foreColor: string) => css`
         ${textSans.small({ fontWeight: 'bold' })}
         margin: 0;
+        color: ${foreColor};
     `,
-    thankYouBodyCopy: css`
+    thankYouBodyCopy: (foreColor: string) => css`
         ${textSans.small()}
+        color: ${foreColor};
     `,
-    contactLink: css`
-        color: ${neutral[0]};
+    contactLink: (foreColor: string) => css`
+        font-weight: bold;
+        color: ${foreColor};
     `,
 };
