@@ -23,9 +23,9 @@ const GlobalNewYearBanner = bannerWrapper(
                 textColour: 'white',
             },
             hover: {
-                backgroundColour: 'white',
-                textColour: '#0077B6',
-                border: `1px solid ${'#0077B6'}`,
+                backgroundColour: '#004E7C',
+                textColour: 'white',
+                border: `1px solid ${'#004E7C'}`,
             },
         },
         secondaryCtaSettings: {
@@ -35,8 +35,8 @@ const GlobalNewYearBanner = bannerWrapper(
                 border: `1px solid ${'#0077B6'}`,
             },
             hover: {
-                backgroundColour: '#0077B6',
-                textColour: '#F1F8FC',
+                backgroundColour: '#E5E5E5',
+                textColour: '#0077B6',
             },
         },
         closeButtonSettings: {
