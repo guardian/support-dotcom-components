@@ -48,7 +48,7 @@ const GlobalNewYearBanner = bannerWrapper(
                 zIndex: `100`,
             },
             hover: {
-                backgroundColour: '#0077B6',
+                backgroundColour: '#E5E5E5',
                 textColour: brand[400],
             },
         },
