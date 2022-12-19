@@ -72,7 +72,7 @@ const container = (bannerId?: BannerId) => css`
 
     img {
         height: 100%;
-        width: ${bannerId === 'global-new-year-banner' ? '140%' : '100%'};
+        width: 100%;
         object-fit: ${bannerId === 'us-eoy-giving-tues-banner' ? 'cover' : 'contain'};
         display: block;
     }
@@ -80,5 +80,9 @@ const container = (bannerId?: BannerId) => css`
     ${from.tablet} {
         height: 100%;
         width: 100%;
+    }
+    ${from.wide} {
+        height: 100%;
+        width: ${bannerId === 'global-new-year-banner' ? '135%' : '100%'};
     }
 `;
