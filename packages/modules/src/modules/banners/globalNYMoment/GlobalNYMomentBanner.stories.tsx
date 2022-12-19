@@ -89,14 +89,14 @@ GlobalNY.args = {
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {
-            text: 'Support independent journalism',
-            baseUrl: 'https://support.theguardian.com/contribute',
+            text: 'Support once',
+            baseUrl: 'https://support.theguardian.com/contribute/one-off',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Hear from our editor',
-                baseUrl: 'https://theguardian.com',
+                text: 'Support monthly',
+                baseUrl: 'https://support.theguardian.com/contribute/recurring',
             },
         },
     },
@@ -110,14 +110,14 @@ GlobalNY.args = {
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {
-            text: 'Support us',
-            baseUrl: 'https://support.theguardian.com/contribute',
+            text: 'Support once',
+            baseUrl: 'https://support.theguardian.com/contribute/one-off',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Learn more',
-                baseUrl: 'https://theguardian.com',
+                text: 'Support monthly',
+                baseUrl: 'https://support.theguardian.com/contribute/recurring',
             },
         },
     },
