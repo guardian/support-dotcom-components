@@ -35,7 +35,6 @@ const GlobalNewYearBanner = getMomentTemplateBanner({
             backgroundColour: '#F1F8FC',
             textColour: brand[400],
             border: `1px solid ${brand[400]}`,
-            zIndex: `100`,
         },
         hover: {
             backgroundColour: '#E5E5E5',

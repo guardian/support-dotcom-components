@@ -20,7 +20,7 @@ export function MomentTemplateBannerCloseButton({
     settings,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
     return (
-        <div css={styles.container(settings)}>
+        <div css={styles.container}>
             <div css={styles.roundelContainer}>
                 <SvgRoundelBrand />
             </div>
@@ -41,10 +41,9 @@ export function MomentTemplateBannerCloseButton({
 // ---- Styles ---- //
 
 const styles = {
-    container: (settings: CtaSettings) => css`
+    container: css`
         display: flex;
         position: relative;
-        z-index: ${settings.default.zIndex ?? 'auto'};
     `,
     roundelContainer: css`
         display: none;

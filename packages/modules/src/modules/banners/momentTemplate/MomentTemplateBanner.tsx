@@ -272,7 +272,6 @@ const styles = {
         background: ${background};
         position: sticky;
         top: 0px;
-        z-index: 100;
         border-top: 1px solid ${neutral[0]};
         padding-top: ${isUsEoyGivingTuesBanner ? 0 : space[2]}px;
 
