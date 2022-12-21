@@ -25,6 +25,10 @@ export const banner = css`
     button {
         color: inherit;
     }
+    b,
+    strong {
+        font-weight: bold;
+    }
 `;
 
 export const copyColumn = css`
