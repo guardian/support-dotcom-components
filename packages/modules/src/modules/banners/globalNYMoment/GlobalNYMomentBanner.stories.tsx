@@ -25,19 +25,19 @@ const GlobalNewYearBanner = bannerWrapper(
             hover: {
                 backgroundColour: '#004E7C',
                 textColour: 'white',
-                border: `1px solid ${'#004E7C'}`,
+                border: '1px solid #004E7C',
             },
         },
         secondaryCtaSettings: {
             default: {
                 backgroundColour: '#F1F8FC',
                 textColour: '#004E7C',
-                border: `1px solid ${'#004E7C'}`,
+                border: '1px solid #004E7C',
             },
             hover: {
                 backgroundColour: '#E5E5E5',
                 textColour: '#004E7C',
-                border: `1px solid ${'#004E7C'}`,
+                border: '1px solid #004E7C',
             },
         },
         closeButtonSettings: {
