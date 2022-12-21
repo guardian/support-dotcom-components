@@ -79,10 +79,6 @@ const container = (bannerId?: BannerId) => css`
 
     ${from.tablet} {
         height: 100%;
-        width: ${bannerId === 'global-new-year-banner' ? '110%' : '100%'};
-    }
-    ${from.wide} {
-        height: 100%;
-        width: ${bannerId === 'global-new-year-banner' ? '135%' : '100%'};
+        width: 100%;
     }
 `;
