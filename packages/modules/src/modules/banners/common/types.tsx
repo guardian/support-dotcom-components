@@ -5,6 +5,7 @@ export type BannerId =
     | 'climate-crisis-moment-banner'
     | 'contributions-banner'
     | 'research-survey-banner'
+    | 'aus-moment-banner'
     | 'investigations-moment-banner'
     | 'environment-moment-banner'
     | 'subscription-banner'
