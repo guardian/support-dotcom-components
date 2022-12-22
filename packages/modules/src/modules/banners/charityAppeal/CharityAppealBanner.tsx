@@ -72,6 +72,7 @@ const styles = {
     buttonsContainer: css`
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         height: 100%;
         box-sizing: border-box;
         padding-top: 8px;
@@ -179,6 +180,15 @@ const styles = {
             display: block;
         }
     `,
+    imageReCentre: css`
+        ${from.tablet} {
+            padding-left: 24px;
+            width: 120%;
+        }
+        ${from.desktop} {
+            padding-left: 0px;
+        }
+    `,
 };
 
 const columnCounts = {
@@ -241,6 +251,11 @@ export const getCharityAppealBanner = (
         <div css={styles.buttonsContainer}>
             <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
 
+            <img
+                src="https://i.guim.co.uk/img/media/84b058fa1cb168d9cd5ac4efa04812d082cc3ba6/0_0_512_409/500.png?quality=85&s=8045440d41d4e23f1baaf0b3341804c6"
+                alt="charity appeal banner roundel"
+                css={styles.imageReCentre}
+            />
             <div css={styles.ctasContainer}>
                 {content.mainContent.primaryCta && (
                     <CharityAppealBannerCta
