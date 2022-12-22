@@ -4,25 +4,32 @@ import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
 import { buttonStyles } from '../buttonStyles';
 import { CtaSettings } from '../settings';
-import { SvgRoundelBrand } from '@guardian/src-brand';
+import { SvgRoundelBrand, SvgRoundelDefault } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
+import { BannerId } from '../../common/types';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
     settings: CtaSettings;
+    bannerId?: BannerId;
 }
 
 export function MomentTemplateBannerCloseButton({
     onCloseClick,
     settings,
+    bannerId,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
     return (
         <div css={styles.container}>
             <div css={styles.roundelContainer}>
-                <SvgRoundelBrand />
+                {bannerId === 'global-new-year-banner' ? (
+                    <SvgRoundelBrand />
+                ) : (
+                    <SvgRoundelDefault />
+                )}
             </div>
 
             <Button
