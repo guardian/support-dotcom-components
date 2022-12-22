@@ -37,8 +37,9 @@ const styles = {
             padding-left: 12px;
         }
     `,
-    subheading: css`
+    subHeading: (subHeadingColor: string) => css`
         margin: 0;
+        color: ${subHeadingColor};
         ${headline.xxsmall({ fontWeight: 'bold' })}
         padding-top: 10px;
         padding-bottom: 8px;
@@ -202,6 +203,7 @@ export const getCharityAppealBanner = (
     backColor: string,
     foreColor: string,
     headingColor?: string,
+    subHeadingColor?: string,
 ): React.FC<BannerRenderProps> => ({
     onCtaClick,
     onSecondaryCtaClick,
@@ -237,7 +239,7 @@ export const getCharityAppealBanner = (
                 desktop: {
                     container: styles.bodyAndHeading(foreColor),
                     heading: styles.heading(headingColor ?? foreColor),
-                    subheading: styles.subheading,
+                    subheading: styles.subHeading(subHeadingColor ?? foreColor),
                     body: styles.body,
                     copy: [commonStyles.copy, styles.copy],
                     highlightedText: commonStyles.highlightedText,
@@ -349,7 +351,12 @@ export const getCharityAppealBanner = (
     );
 };
 
-const CharityAppealBanner = getCharityAppealBanner('#313433', neutral[100], brandAlt[400]);
+const CharityAppealBanner = getCharityAppealBanner(
+    '#313433',
+    neutral[100],
+    neutral[100],
+    brandAlt[400],
+);
 
 const unvalidated = bannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
 const validated = validatedBannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
