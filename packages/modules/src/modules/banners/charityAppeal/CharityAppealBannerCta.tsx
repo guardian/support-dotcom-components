@@ -5,7 +5,7 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { neutral, space } from '@guardian/src-foundations';
+import { brandAlt, space } from '@guardian/src-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 const styles = {
@@ -30,7 +30,6 @@ const styles = {
         color: ${foreColor};
         &:hover {
             background-color: ${hoverColor};
-            color: ${backColor};
         }
     `,
 };
@@ -56,7 +55,7 @@ export const CharityAppealBannerCta: React.FC<CharityAppealBannerCtaProps> = ({
                     data-link-name="charity-appeal-banner : cta"
                     css={[
                         styles.ctaButton(stacked),
-                        styles.ctaOverides('#313433', neutral[100], neutral[46]),
+                        styles.ctaOverides('#313433', brandAlt[400], brandAlt[200]),
                     ]}
                     priority="primary"
                     size="small"

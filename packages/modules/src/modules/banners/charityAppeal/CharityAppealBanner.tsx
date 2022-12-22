@@ -6,7 +6,7 @@ import { commonStyles } from './CharityAppealBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { neutral, space } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { CharityAppealBannerMobile } from './CharityAppealBannerMobile';
 import { CharityAppealBannerCta } from './CharityAppealBannerCta';
 import { CharityAppealBannerSecondaryCta } from './CharityAppealBannerSecondaryCta';
@@ -28,16 +28,18 @@ const styles = {
             padding-bottom: 0;
         }
     `,
-    heading: css`
+    heading: (headingColor: string) => css`
         margin: 0;
+        color: ${headingColor};
         ${headline.large({ fontWeight: 'bold' })}
         padding-bottom: 10px;
         ${from.leftCol} {
             padding-left: 12px;
         }
     `,
-    subheading: css`
+    subHeading: (subHeadingColor: string) => css`
         margin: 0;
+        color: ${subHeadingColor};
         ${headline.xxsmall({ fontWeight: 'bold' })}
         padding-top: 10px;
         padding-bottom: 8px;
@@ -71,6 +73,7 @@ const styles = {
     buttonsContainer: css`
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         height: 100%;
         box-sizing: border-box;
         padding-top: 8px;
@@ -178,6 +181,15 @@ const styles = {
             display: block;
         }
     `,
+    imageReCentre: css`
+        ${from.tablet} {
+            padding-left: 24px;
+            width: 120%;
+        }
+        ${from.desktop} {
+            padding-left: 0px;
+        }
+    `,
 };
 
 const columnCounts = {
@@ -190,6 +202,8 @@ const columnCounts = {
 export const getCharityAppealBanner = (
     backColor: string,
     foreColor: string,
+    headingColor?: string,
+    subHeadingColor?: string,
 ): React.FC<BannerRenderProps> => ({
     onCtaClick,
     onSecondaryCtaClick,
@@ -224,8 +238,8 @@ export const getCharityAppealBanner = (
             styles={{
                 desktop: {
                     container: styles.bodyAndHeading(foreColor),
-                    heading: styles.heading,
-                    subheading: styles.subheading,
+                    heading: styles.heading(headingColor ?? foreColor),
+                    subheading: styles.subHeading(subHeadingColor ?? foreColor),
                     body: styles.body,
                     copy: [commonStyles.copy, styles.copy],
                     highlightedText: commonStyles.highlightedText,
@@ -239,6 +253,11 @@ export const getCharityAppealBanner = (
         <div css={styles.buttonsContainer}>
             <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
 
+            <img
+                src="https://i.guim.co.uk/img/media/84b058fa1cb168d9cd5ac4efa04812d082cc3ba6/0_0_512_409/500.png?quality=85&s=8045440d41d4e23f1baaf0b3341804c6"
+                alt="charity appeal banner roundel"
+                css={styles.imageReCentre}
+            />
             <div css={styles.ctasContainer}>
                 {content.mainContent.primaryCta && (
                     <CharityAppealBannerCta
@@ -332,7 +351,12 @@ export const getCharityAppealBanner = (
     );
 };
 
-const CharityAppealBanner = getCharityAppealBanner('#313433', neutral[100]);
+const CharityAppealBanner = getCharityAppealBanner(
+    '#313433',
+    neutral[100],
+    neutral[100],
+    brandAlt[400],
+);
 
 const unvalidated = bannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
 const validated = validatedBannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
