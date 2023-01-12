@@ -53,7 +53,37 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
 }: EpicChoiceCardProps) => {
     const currencySymbol = getLocalCurrencySymbol(countryCode);
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
-    const amountsForCountryGroup = amounts[countryGroupId]['control'];
+    const countryAmountsData = amounts[countryGroupId];
+    console.log(
+        'hello',
+        countryCode,
+        currencySymbol,
+        countryGroupId,
+        countryAmountsData,
+        selection,
+    );
+
+    // This needs to change
+    // Currently it only gets a region's control amounts
+    // We need to check if a test is running on this country's amounts
+    // If it is, then we need to determine to which AB test group the reader is assigned
+    // We can tell if a test is availabvle if countryAmountsData.test != null
+    // We can tell if that test is active if countryAmountsData.test.isLive === true
+    // The test name is in countryAmountsData.test.name
+    // The test seed is in countryAmountsData.test.seed
+    // There should be 0+ test variants in the countryAmountsData.test.variants array
+    // - for live tests, add control values to the variants array as an object
+    //   {
+    //     name: 'control',
+    //     hideChooseYourAmount: countryAmountsData.hideChooseYourAmount ?? false,
+    //     amounts: countryAmountsData.control,
+    //   }
+    // - then we can set the following vars appropriately
+
+    // const amountsTestName = 'default';
+    // const amountsTestVariantName = 'control';
+    const amountsTestVariant = countryAmountsData.control;
+    const hideChooseYourAmount = countryAmountsData.hideChooseYourAmount ?? false;
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
@@ -79,7 +109,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
-            amount: amountsForCountryGroup[frequency]['amounts'][1],
+            amount: amountsTestVariant[frequency].defaultAmount,
         });
     };
 
@@ -89,6 +119,80 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             MONTHLY: ' per month',
             ANNUAL: ' per year',
         }[selection.frequency];
+    };
+
+    const generateChoiceCardAmountsButtons = () => {
+        const requiredAmounts = amountsTestVariant[selection.frequency].amounts;
+        const defaultAmount = amountsTestVariant[selection.frequency].defaultAmount;
+        console.log(defaultAmount, requiredAmounts);
+
+        // Something is wrong with the data
+        if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
+            return <ChoiceCard value="third" label="Other" id="third" checked={true} />;
+        }
+
+        // hideChooseYourAmount === true
+        if (hideChooseYourAmount) {
+            return (
+                <>
+                    <ChoiceCard
+                        value="first"
+                        label={`${currencySymbol}${requiredAmounts[0]}${frequencySuffix()}`}
+                        id="first"
+                        checked={selection.amount === requiredAmounts[0]}
+                        onChange={() => updateAmount(requiredAmounts[0])}
+                    />
+                    {requiredAmounts[1] != null && (
+                        <ChoiceCard
+                            value="second"
+                            label={`${currencySymbol}${requiredAmounts[1]}${frequencySuffix()}`}
+                            id="first"
+                            checked={selection.amount === requiredAmounts[1]}
+                            onChange={() => updateAmount(requiredAmounts[1])}
+                        />
+                    )}
+                    {requiredAmounts[2] != null && (
+                        <ChoiceCard
+                            value="second"
+                            label={`${currencySymbol}${requiredAmounts[2]}${frequencySuffix()}`}
+                            id="first"
+                            checked={selection.amount === requiredAmounts[2]}
+                            onChange={() => updateAmount(requiredAmounts[2])}
+                        />
+                    )}
+                </>
+            );
+        }
+        // hideChooseYourAmount === false
+        else {
+            return (
+                <>
+                    <ChoiceCard
+                        value="first"
+                        label={`${currencySymbol}${requiredAmounts[0]}${frequencySuffix()}`}
+                        id="first"
+                        checked={selection.amount === requiredAmounts[0]}
+                        onChange={() => updateAmount(requiredAmounts[0])}
+                    />
+                    {requiredAmounts[1] != null && (
+                        <ChoiceCard
+                            value="second"
+                            label={`${currencySymbol}${requiredAmounts[1]}${frequencySuffix()}`}
+                            id="first"
+                            checked={selection.amount === requiredAmounts[1]}
+                            onChange={() => updateAmount(requiredAmounts[1])}
+                        />
+                    )}
+                    <ChoiceCard
+                        value="third"
+                        label="Other"
+                        id="third"
+                        checked={selection.amount == 'other'}
+                        onChange={() => updateAmount('other')}
+                    />
+                </>
+            );
+        }
     };
 
     return (
@@ -128,41 +232,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 label="Contribution amount"
                 css={hideChoiceCardGroupLegend}
             >
-                <ChoiceCard
-                    value="first"
-                    label={`${currencySymbol}${
-                        amountsForCountryGroup[selection.frequency]['amounts'][0]
-                    }${frequencySuffix()}`}
-                    id="first"
-                    checked={
-                        selection.amount ==
-                        amountsForCountryGroup[selection.frequency]['amounts'][0]
-                    }
-                    onChange={() =>
-                        updateAmount(amountsForCountryGroup[selection.frequency]['amounts'][0])
-                    }
-                />
-                <ChoiceCard
-                    value="second"
-                    label={`${currencySymbol}${
-                        amountsForCountryGroup[selection.frequency]['amounts'][1]
-                    }${frequencySuffix()}`}
-                    id="second"
-                    checked={
-                        selection.amount ==
-                        amountsForCountryGroup[selection.frequency]['amounts'][1]
-                    }
-                    onChange={() =>
-                        updateAmount(amountsForCountryGroup[selection.frequency]['amounts'][1])
-                    }
-                />
-                <ChoiceCard
-                    value="third"
-                    label="Other"
-                    id="third"
-                    checked={selection.amount == 'other'}
-                    onChange={() => updateAmount('other')}
-                />
+                {generateChoiceCardAmountsButtons()}
             </ChoiceCardGroup>
         </div>
     );
