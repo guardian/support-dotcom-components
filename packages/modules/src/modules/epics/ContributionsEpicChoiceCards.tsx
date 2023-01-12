@@ -146,16 +146,16 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                         <ChoiceCard
                             value="second"
                             label={`${currencySymbol}${requiredAmounts[1]}${frequencySuffix()}`}
-                            id="first"
+                            id="second"
                             checked={selection.amount === requiredAmounts[1]}
                             onChange={() => updateAmount(requiredAmounts[1])}
                         />
                     )}
                     {requiredAmounts[2] != null && (
                         <ChoiceCard
-                            value="second"
+                            value="third"
                             label={`${currencySymbol}${requiredAmounts[2]}${frequencySuffix()}`}
-                            id="first"
+                            id="third"
                             checked={selection.amount === requiredAmounts[2]}
                             onChange={() => updateAmount(requiredAmounts[2])}
                         />
@@ -178,7 +178,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                         <ChoiceCard
                             value="second"
                             label={`${currencySymbol}${requiredAmounts[1]}${frequencySuffix()}`}
-                            id="first"
+                            id="second"
                             checked={selection.amount === requiredAmounts[1]}
                             onChange={() => updateAmount(requiredAmounts[1])}
                         />
