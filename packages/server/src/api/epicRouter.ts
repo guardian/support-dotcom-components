@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import {
-    ChoiceCardAmounts,
+    ModifiedChoiceCardAmounts,
     EpicProps,
     EpicTargeting,
     EpicTest,
@@ -50,7 +50,7 @@ export const buildEpicRouter = (
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
     holdbackEpicTests: ValueProvider<EpicTest[]>,
-    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
     tickerData: TickerDataProvider,
 ): Router => {
     const router = Router();
@@ -135,11 +135,13 @@ export const buildEpicRouter = (
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
+        const contributionAmounts = choiceCardAmounts.get();
+
         const propsVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: choiceCardAmounts.get(),
+            choiceCardAmounts: contributionAmounts,
         };
 
         const testTracking: TestTracking = {

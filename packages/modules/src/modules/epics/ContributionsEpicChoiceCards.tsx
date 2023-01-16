@@ -1,6 +1,10 @@
 import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import { ChoiceCardAmounts, ContributionFrequency, OphanComponentEvent } from '@sdc/shared/types';
+import {
+    ModifiedChoiceCardAmounts,
+    ContributionFrequency,
+    OphanComponentEvent,
+} from '@sdc/shared/types';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
@@ -37,7 +41,7 @@ export interface ChoiceCardSelection {
 }
 
 interface EpicChoiceCardProps {
-    amounts: ChoiceCardAmounts;
+    amounts: ModifiedChoiceCardAmounts;
     selection: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     countryCode?: string;
@@ -63,27 +67,10 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         selection,
     );
 
-    // This needs to change
-    // Currently it only gets a region's control amounts
-    // We need to check if a test is running on this country's amounts
-    // If it is, then we need to determine to which AB test group the reader is assigned
-    // We can tell if a test is availabvle if countryAmountsData.test != null
-    // We can tell if that test is active if countryAmountsData.test.isLive === true
-    // The test name is in countryAmountsData.test.name
-    // The test seed is in countryAmountsData.test.seed
-    // There should be 0+ test variants in the countryAmountsData.test.variants array
-    // - for live tests, add control values to the variants array as an object
-    //   {
-    //     name: 'control',
-    //     hideChooseYourAmount: countryAmountsData.hideChooseYourAmount ?? false,
-    //     amounts: countryAmountsData.control,
-    //   }
-    // - then we can set the following vars appropriately
-
-    // const amountsTestName = 'default';
-    // const amountsTestVariantName = 'control';
-    const amountsTestVariant = countryAmountsData.control;
-    const hideChooseYourAmount = countryAmountsData.hideChooseYourAmount ?? false;
+    // `countryAmountsData.variants[0]` will always be the control variant
+    const amountsTestVariant = countryAmountsData.variants[0];
+    const variantAmounts = amountsTestVariant.amounts;
+    const hideChooseYourAmount = amountsTestVariant.hideChooseYourAmount;
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
@@ -109,7 +96,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
-            amount: amountsTestVariant[frequency].defaultAmount,
+            amount: variantAmounts[frequency].defaultAmount,
         });
     };
 
@@ -122,8 +109,8 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardAmountsButtons = () => {
-        const requiredAmounts = amountsTestVariant[selection.frequency].amounts;
-        const defaultAmount = amountsTestVariant[selection.frequency].defaultAmount;
+        const requiredAmounts = variantAmounts[selection.frequency].amounts;
+        const defaultAmount = variantAmounts[selection.frequency].defaultAmount;
         console.log(defaultAmount, requiredAmounts);
 
         // Something is wrong with the data

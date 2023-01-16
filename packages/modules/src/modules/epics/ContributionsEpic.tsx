@@ -266,7 +266,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         variant.choiceCardAmounts && {
             frequency: defaultFrequency,
             amount:
-                variant.choiceCardAmounts[countryGroupId]['control'][defaultFrequency][
+                variant.choiceCardAmounts[countryGroupId].variants[0].amounts[defaultFrequency][
                     'amounts'
                 ][1],
         },

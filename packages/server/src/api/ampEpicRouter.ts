@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
 import {
-    ChoiceCardAmounts,
+    ModifiedChoiceCardAmounts,
     OneOffSignupRequest,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
@@ -26,7 +26,7 @@ export const setOneOffReminderEndpoint = (): string =>
         : 'https://support.code.dev-theguardian.com/reminders/create/one-off';
 
 export const buildAmpEpicRouter = (
-    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
     tickerData: TickerDataProvider,
     tests: ValueProvider<AmpEpicTest[]>,
 ): Router => {
@@ -117,6 +117,8 @@ export const buildAmpEpicRouter = (
                     countryCode,
                 );
                 const defaultChoiceCardFrequency = epic.defaultChoiceCardFrequency || 'MONTHLY';
+                const choiceCardAmountsData =
+                    choiceCardAmountsSettings[countryGroupId].variants[0].amounts;
                 const acquisitionData = {
                     source: 'GOOGLE_AMP',
                     componentType: 'ACQUISITIONS_EPIC',
@@ -146,20 +148,12 @@ export const buildAmpEpicRouter = (
                               choiceCardSelection: {
                                   frequency: defaultChoiceCardFrequency,
                                   amount:
-                                      choiceCardAmountsSettings[countryGroupId]['control'][
-                                          defaultChoiceCardFrequency
-                                      ].amounts[1],
+                                      choiceCardAmountsData[defaultChoiceCardFrequency].amounts[1],
                               },
                               amounts: {
-                                  ONE_OFF: choiceCardAmountsSettings[countryGroupId]['control'][
-                                      'ONE_OFF'
-                                  ].amounts.slice(0, 2),
-                                  MONTHLY: choiceCardAmountsSettings[countryGroupId]['control'][
-                                      'MONTHLY'
-                                  ].amounts.slice(0, 2),
-                                  ANNUAL: choiceCardAmountsSettings[countryGroupId]['control'][
-                                      'ANNUAL'
-                                  ].amounts.slice(0, 2),
+                                  ONE_OFF: choiceCardAmountsData['ONE_OFF'].amounts.slice(0, 2),
+                                  MONTHLY: choiceCardAmountsData['MONTHLY'].amounts.slice(0, 2),
+                                  ANNUAL: choiceCardAmountsData['ANNUAL'].amounts.slice(0, 2),
                               },
                               choiceCardLabelSuffix: {
                                   ONE_OFF: '',
