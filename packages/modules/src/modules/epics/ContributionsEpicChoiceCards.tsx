@@ -121,6 +121,21 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         }[selection.frequency];
     };
 
+    const ChoiceCardAmount = ({ amount }: { amount?: number }) => {
+        if (amount) {
+            return (
+                <ChoiceCard
+                    value={`${amount}`}
+                    label={`${currencySymbol}${amount}${frequencySuffix()}`}
+                    id={`${amount}`}
+                    checked={selection.amount === amount}
+                    onChange={() => updateAmount(amount)}
+                />
+            );
+        }
+        return null;
+    };
+
     const generateChoiceCardAmountsButtons = () => {
         const requiredAmounts = amountsTestVariant[selection.frequency].amounts;
         const defaultAmount = amountsTestVariant[selection.frequency].defaultAmount;
@@ -131,68 +146,23 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             return <ChoiceCard value="third" label="Other" id="third" checked={true} />;
         }
 
-        // hideChooseYourAmount === true
-        if (hideChooseYourAmount) {
-            return (
-                <>
+        return (
+            <>
+                <ChoiceCardAmount amount={requiredAmounts[0]} />
+                <ChoiceCardAmount amount={requiredAmounts[1]} />
+                {hideChooseYourAmount ? (
+                    <ChoiceCardAmount amount={requiredAmounts[2]} />
+                ) : (
                     <ChoiceCard
-                        value="first"
-                        label={`${currencySymbol}${requiredAmounts[0]}${frequencySuffix()}`}
-                        id="first"
-                        checked={selection.amount === requiredAmounts[0]}
-                        onChange={() => updateAmount(requiredAmounts[0])}
-                    />
-                    {requiredAmounts[1] != null && (
-                        <ChoiceCard
-                            value="second"
-                            label={`${currencySymbol}${requiredAmounts[1]}${frequencySuffix()}`}
-                            id="second"
-                            checked={selection.amount === requiredAmounts[1]}
-                            onChange={() => updateAmount(requiredAmounts[1])}
-                        />
-                    )}
-                    {requiredAmounts[2] != null && (
-                        <ChoiceCard
-                            value="third"
-                            label={`${currencySymbol}${requiredAmounts[2]}${frequencySuffix()}`}
-                            id="third"
-                            checked={selection.amount === requiredAmounts[2]}
-                            onChange={() => updateAmount(requiredAmounts[2])}
-                        />
-                    )}
-                </>
-            );
-        }
-        // hideChooseYourAmount === false
-        else {
-            return (
-                <>
-                    <ChoiceCard
-                        value="first"
-                        label={`${currencySymbol}${requiredAmounts[0]}${frequencySuffix()}`}
-                        id="first"
-                        checked={selection.amount === requiredAmounts[0]}
-                        onChange={() => updateAmount(requiredAmounts[0])}
-                    />
-                    {requiredAmounts[1] != null && (
-                        <ChoiceCard
-                            value="second"
-                            label={`${currencySymbol}${requiredAmounts[1]}${frequencySuffix()}`}
-                            id="second"
-                            checked={selection.amount === requiredAmounts[1]}
-                            onChange={() => updateAmount(requiredAmounts[1])}
-                        />
-                    )}
-                    <ChoiceCard
-                        value="third"
+                        value="other"
                         label="Other"
-                        id="third"
+                        id="other"
                         checked={selection.amount == 'other'}
                         onChange={() => updateAmount('other')}
                     />
-                </>
-            );
-        }
+                )}
+            </>
+        );
     };
 
     return (
