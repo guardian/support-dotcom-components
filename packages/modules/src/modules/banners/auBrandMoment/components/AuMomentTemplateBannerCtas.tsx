@@ -11,7 +11,7 @@ import { from } from '@guardian/src-foundations/mq';
 
 // ---- Component ---- //
 
-interface MomentTemplateBannerCtasProps {
+interface AuMomentTemplateBannerCtasProps {
     mainContent: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
     onPrimaryCtaClick: () => void;
@@ -21,7 +21,7 @@ interface MomentTemplateBannerCtasProps {
     secondaryCtaSettings: CtaSettings;
 }
 
-export function MomentTemplateBannerCtas({
+export function AuMomentTemplateBannerCtas({
     mainContent,
     mobileContent,
     onPrimaryCtaClick,
@@ -29,7 +29,7 @@ export function MomentTemplateBannerCtas({
     onReminderCtaClick,
     primaryCtaSettings,
     secondaryCtaSettings,
-}: MomentTemplateBannerCtasProps): JSX.Element {
+}: AuMomentTemplateBannerCtasProps): JSX.Element {
     return (
         <div css={styles.container}>
             <div>

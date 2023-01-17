@@ -63,7 +63,7 @@ export const props: BannerProps = {
     isSupporter: false,
     countryCode: 'GB',
     tracking,
-    content,
+    content: content,
     tickerSettings,
     separateArticleCount: true,
     numArticles: 6,

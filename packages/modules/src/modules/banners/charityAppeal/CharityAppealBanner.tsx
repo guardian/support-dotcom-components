@@ -2,41 +2,44 @@ import React, { useState } from 'react';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { Column, Columns, Container, Hide } from '@guardian/src-layout';
-import { commonStyles } from './ContributionsBannerCommonStyles';
+import { commonStyles } from './CharityAppealBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral, space } from '@guardian/src-foundations';
-import { ContributionsBannerMobile } from './ContributionsBannerMobile';
-import { ContributionsBannerCta } from './ContributionsBannerCta';
-import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
-import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';
+import { CharityAppealBannerMobile } from './CharityAppealBannerMobile';
+import { CharityAppealBannerCta } from './CharityAppealBannerCta';
+import { CharityAppealBannerSecondaryCta } from './CharityAppealBannerSecondaryCta';
+import { CharityAppealBannerCloseButton } from './CharityAppealBannerCloseButton';
 import { BannerText } from '../common/BannerText';
-import { ContributionsBannerReminder } from './ContributionsBannerReminder';
+import { CharityAppealBannerReminder } from './CharityAppealBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
-    bannerContainer: (backgroundColor: string) => css`
+    // foreBorderColor links the foreground colour with the borders around it
+    bannerContainer: (backColor: string, foreBorderColor: string) => css`
         overflow: hidden;
         width: 100%;
-        background-color: ${backgroundColor};
-        color: ${neutral[7]};
+        background-color: ${backColor};
+        color: ${foreBorderColor};
         ${from.tablet} {
-            border-top: 1px solid ${neutral[7]};
+            border-top: 1px solid ${foreBorderColor};
             padding-bottom: 0;
         }
     `,
-    heading: css`
+    heading: (headingColor: string) => css`
         margin: 0;
+        color: ${headingColor};
         ${headline.large({ fontWeight: 'bold' })}
         padding-bottom: 10px;
         ${from.leftCol} {
             padding-left: 12px;
         }
     `,
-    subheading: css`
+    subHeading: (subHeadingColor: string) => css`
         margin: 0;
+        color: ${subHeadingColor};
         ${headline.xxsmall({ fontWeight: 'bold' })}
         padding-top: 10px;
         padding-bottom: 8px;
@@ -47,7 +50,7 @@ const styles = {
     body: css`
         padding-bottom: 16px;
     `,
-    bodyAndHeading: css`
+    bodyAndHeading: (borderColor: string) => css`
         position: relative; // for positioning the opt-out popup
 
         ${from.tablet} {
@@ -55,7 +58,7 @@ const styles = {
         }
         ${from.leftCol} {
             margin-left: -9px;
-            border-left: 1px solid ${neutral[7]};
+            border-left: 1px solid ${borderColor};
         }
         ${from.wide} {
             margin-left: -10px;
@@ -70,16 +73,13 @@ const styles = {
     buttonsContainer: css`
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         height: 100%;
         box-sizing: border-box;
         padding-top: 8px;
         padding-bottom: 16px;
     `,
     ctasContainer: css`
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: start;
         & > * + * {
             margin-top: ${space[3]}px;
         }
@@ -92,8 +92,8 @@ const styles = {
             margin-top: 0;
         }
     `,
-    reminderLine: css`
-        border-top: 1px solid black;
+    reminderLine: (backColor: string, borderColor: string) => css`
+        border-top: 1px solid ${borderColor};
         position: absolute;
         top: 0;
         right: 0;
@@ -116,7 +116,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 10px solid transparent;
-            border-bottom-color: black;
+            border-bottom-color: ${borderColor};
 
             ${from.tablet} {
                 left: calc(50% + 210px);
@@ -144,7 +144,7 @@ const styles = {
             width: 0;
             height: 0;
             border: 9px solid transparent;
-            border-bottom-color: ${brandAlt[400]};
+            border-bottom-color: ${backColor};
 
             ${from.tablet} {
                 left: calc(50% + 211px);
@@ -181,6 +181,15 @@ const styles = {
             display: block;
         }
     `,
+    imageReCentre: css`
+        ${from.tablet} {
+            padding-left: 24px;
+            width: 120%;
+        }
+        ${from.desktop} {
+            padding-left: 0px;
+        }
+    `,
 };
 
 const columnCounts = {
@@ -190,7 +199,12 @@ const columnCounts = {
     wide: 16,
 };
 
-export const getContributionsBanner = (backgroundColor: string): React.FC<BannerRenderProps> => ({
+export const getCharityAppealBanner = (
+    backColor: string,
+    foreColor: string,
+    headingColor?: string,
+    subHeadingColor?: string,
+): React.FC<BannerRenderProps> => ({
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
@@ -223,9 +237,9 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
         <BannerText
             styles={{
                 desktop: {
-                    container: styles.bodyAndHeading,
-                    heading: styles.heading,
-                    subheading: styles.subheading,
+                    container: styles.bodyAndHeading(foreColor),
+                    heading: styles.heading(headingColor ?? foreColor),
+                    subheading: styles.subHeading(subHeadingColor ?? foreColor),
                     body: styles.body,
                     copy: [commonStyles.copy, styles.copy],
                     highlightedText: commonStyles.highlightedText,
@@ -237,11 +251,16 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
 
     const buttons = (
         <div css={styles.buttonsContainer}>
-            <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
+            <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
 
+            <img
+                src="https://i.guim.co.uk/img/media/84b058fa1cb168d9cd5ac4efa04812d082cc3ba6/0_0_512_409/500.png?quality=85&s=8045440d41d4e23f1baaf0b3341804c6"
+                alt="charity appeal banner roundel"
+                css={styles.imageReCentre}
+            />
             <div css={styles.ctasContainer}>
                 {content.mainContent.primaryCta && (
-                    <ContributionsBannerCta
+                    <CharityAppealBannerCta
                         onContributeClick={onCtaClick}
                         ctaText={content.mainContent.primaryCta.ctaText}
                         ctaUrl={content.mainContent.primaryCta.ctaUrl}
@@ -250,7 +269,7 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
                 )}
 
                 {content.mainContent.secondaryCta && (
-                    <ContributionsBannerSecondaryCta
+                    <CharityAppealBannerSecondaryCta
                         secondaryCta={content.mainContent.secondaryCta}
                         onReminderCtaClick={onReminderCtaClick}
                         onCustomCtaClick={onSecondaryCtaClick}
@@ -261,8 +280,8 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
     );
 
     return (
-        <div css={styles.bannerContainer(backgroundColor)}>
-            <ContributionsBannerMobile
+        <div css={styles.bannerContainer(backColor, foreColor)}>
+            <CharityAppealBannerMobile
                 onCloseClick={onCloseClick}
                 onContributeClick={onCtaClick}
                 onSecondaryCtaClick={onSecondaryCtaClick}
@@ -309,12 +328,12 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
                     content.mainContent.secondaryCta?.type ===
                         SecondaryCtaType.ContributionsReminder && (
                         <div css={styles.reminderContainer}>
-                            <div css={styles.reminderLine} />
+                            <div css={styles.reminderLine(backColor, foreColor)} />
 
                             <Container>
                                 <Columns>
                                     <Column width={1}>
-                                        <ContributionsBannerReminder
+                                        <CharityAppealBannerReminder
                                             reminderCta={content.mainContent.secondaryCta}
                                             trackReminderSetClick={
                                                 reminderTracking.onReminderSetClick
@@ -332,9 +351,14 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
     );
 };
 
-const ContributionsBanner = getContributionsBanner(brandAlt[400]);
+const CharityAppealBanner = getCharityAppealBanner(
+    '#313433',
+    neutral[100],
+    neutral[100],
+    brandAlt[400],
+);
 
-const unvalidated = bannerWrapper(ContributionsBanner, 'contributions-banner');
-const validated = validatedBannerWrapper(ContributionsBanner, 'contributions-banner');
+const unvalidated = bannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
+const validated = validatedBannerWrapper(CharityAppealBanner, 'charity-appeal-banner');
 
-export { validated as ContributionsBanner, unvalidated as ContributionsBannerUnvalidated };
+export { validated as CharityAppealBanner, unvalidated as CharityAppealBannerUnvalidated };

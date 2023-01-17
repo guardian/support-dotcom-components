@@ -28,6 +28,11 @@ export const banner = css`
         color: black;
         background: white;
     }
+    ,
+    b,
+    strong {
+        font-weight: bold;
+    }
 `;
 
 export const copyColumn = css`

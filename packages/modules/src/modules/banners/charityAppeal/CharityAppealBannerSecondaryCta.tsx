@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { css } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
+import { buttonReaderRevenueBrand, buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { space } from '@guardian/src-foundations';
@@ -11,18 +11,20 @@ import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';
 
+const dfltForeColor = neutral[100];
+
 const reminderButtonStyles = css`
-    color: ${neutral[0]};
+    color: ${dfltForeColor};
     margin-left: ${space[4]}px;
 `;
 
-export interface ContributionsBannerSecondaryCtaProps {
+export interface CharityAppealBannerSecondaryCtaProps {
     secondaryCta: BannerEnrichedSecondaryCta;
     onCustomCtaClick: () => void;
     onReminderCtaClick: () => void;
 }
 
-export const ContributionsBannerSecondaryCta: React.FC<ContributionsBannerSecondaryCtaProps> = ({
+export const CharityAppealBannerSecondaryCta: React.FC<CharityAppealBannerSecondaryCtaProps> = ({
     secondaryCta,
     onCustomCtaClick,
     onReminderCtaClick,
@@ -46,13 +48,15 @@ export const ContributionsBannerSecondaryCta: React.FC<ContributionsBannerSecond
             )}
 
             {secondaryCta?.type === SecondaryCtaType.ContributionsReminder && !hasSetReminder() && (
-                <Button
-                    cssOverrides={reminderButtonStyles}
-                    priority="subdued"
-                    onClick={onReminderCtaClick}
-                >
-                    {secondaryCta.reminderFields.reminderCta}
-                </Button>
+                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <Button
+                        cssOverrides={reminderButtonStyles}
+                        priority="subdued"
+                        onClick={onReminderCtaClick}
+                    >
+                        {secondaryCta.reminderFields.reminderCta}
+                    </Button>
+                </ThemeProvider>
             )}
         </>
     );

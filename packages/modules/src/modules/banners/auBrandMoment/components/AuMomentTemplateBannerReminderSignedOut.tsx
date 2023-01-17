@@ -16,19 +16,19 @@ import { ErrorCopy, InfoCopy, ThankYou } from '../../../shared/Reminders';
 
 // ---- Component ---- //
 
-export interface MomentTemplateBannerReminderSignedOutProps {
+export interface AuMomentTemplateBannerReminderSignedOutProps {
     reminderCta: BannerEnrichedReminderCta;
     reminderStatus: ReminderStatus;
     onReminderSetClick: (email: string) => void;
     setReminderCtaSettings?: CtaSettings;
 }
 
-export function MomentTemplateBannerReminderSignedOut({
+export function AuMomentTemplateBannerReminderSignedOut({
     reminderCta,
     reminderStatus,
     onReminderSetClick,
     setReminderCtaSettings,
-}: MomentTemplateBannerReminderSignedOutProps): JSX.Element {
+}: AuMomentTemplateBannerReminderSignedOutProps): JSX.Element {
     const reminderLabelWithPreposition = ensureHasPreposition(
         reminderCta.reminderFields.reminderLabel,
     );

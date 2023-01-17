@@ -6,13 +6,13 @@ import { Image } from '@sdc/shared/types';
 
 // ---- Component ---- //
 
-interface MomentTemplateBannerVisualProps {
+interface AuMomentTemplateBannerVisualProps {
     settings: Image;
 }
 
 export function MomentTemplateBannerVisual({
     settings,
-}: MomentTemplateBannerVisualProps): JSX.Element {
+}: AuMomentTemplateBannerVisualProps): JSX.Element {
     const baseImage: ImageAttrs = {
         url: settings.mainUrl,
         media: '',

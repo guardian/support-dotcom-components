@@ -3,24 +3,24 @@ import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { MomentTemplateArticleCountOptOut } from './MomentTemplateBannerArticleCountOptOut';
+import { AuMomentTemplateArticleCountOptOut } from './AuMomentTemplateBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
 
 // ---- Component ---- //
 
-interface MomentTemplateBannerArticleCountProps {
+interface AuMomentTemplateBannerArticleCountProps {
     numArticles: number;
     settings: BannerTemplateSettings;
 }
 
-export function MomentTemplateBannerArticleCount({
+export function AuMomentTemplateBannerArticleCount({
     numArticles,
     settings,
-}: MomentTemplateBannerArticleCountProps): JSX.Element {
+}: AuMomentTemplateBannerArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}
-            <MomentTemplateArticleCountOptOut
+            <AuMomentTemplateArticleCountOptOut
                 numArticles={numArticles}
                 nextWord=" articles"
                 settings={settings}

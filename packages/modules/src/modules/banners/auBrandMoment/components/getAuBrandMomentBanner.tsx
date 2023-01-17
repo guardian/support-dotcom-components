@@ -3,12 +3,12 @@ import { css } from '@emotion/react';
 import { breakpoints, neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
 import { BannerRenderProps } from '../../common/types';
-import { MomentTemplateBannerHeader } from './MomentTemplateBannerHeader';
-import { MomentTemplateBannerArticleCount } from './MomentTemplateBannerArticleCount';
-import { MomentTemplateBannerBody } from './MomentTemplateBannerBody';
-import { MomentTemplateBannerCtas } from './MomentTemplateBannerCtas';
-import { MomentTemplateBannerCloseButton } from './MomentTemplateBannerCloseButton';
-import { MomentTemplateBannerVisual } from './MomentTemplateBannerVisual';
+import { AuMomentTemplateBannerHeader } from './AuMomentTemplateBannerHeader';
+import { AuMomentTemplateBannerArticleCount } from './AuMomentTemplateBannerArticleCount';
+import { AuMomentTemplateBannerBody } from './AuMomentTemplateBannerBody';
+import { AuMomentTemplateBannerCtas } from './AuMomentTemplateBannerCtas';
+import { AuMomentTemplateBannerCloseButton } from './AuMomentTemplateBannerCloseButton';
+import { MomentTemplateBannerVisual } from './AuMomentTemplateBannerVisual';
 import { BannerTemplateSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
 
@@ -50,7 +50,7 @@ export function getAuBrandMomentBanner(
                 >
                     <div css={styles.closeButtonContainer}>
                         <Hide below="mobileMedium">
-                            <MomentTemplateBannerCloseButton
+                            <AuMomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
                             />
@@ -62,13 +62,13 @@ export function getAuBrandMomentBanner(
                     </div>
 
                     <div css={styles.headerContainer}>
-                        <MomentTemplateBannerHeader
+                        <AuMomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
                         />
 
                         <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
-                            <MomentTemplateBannerCloseButton
+                            <AuMomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
                             />
@@ -79,7 +79,7 @@ export function getAuBrandMomentBanner(
                 <Container cssOverrides={styles.containerOverrides}>
                     <div css={styles.closeButtonContainer}>
                         <Hide below="tablet">
-                            <MomentTemplateBannerCloseButton
+                            <AuMomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
                             />
@@ -88,7 +88,7 @@ export function getAuBrandMomentBanner(
                     <div css={styles.container}>
                         <div css={styles.contentContainer}>
                             <div css={styles.desktopHeaderContainer}>
-                                <MomentTemplateBannerHeader
+                                <AuMomentTemplateBannerHeader
                                     heading={content.mainContent.heading}
                                     mobileHeading={content.mobileContent.heading}
                                 />
@@ -96,7 +96,7 @@ export function getAuBrandMomentBanner(
 
                             {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
                                 <div css={styles.articleCountContainer}>
-                                    <MomentTemplateBannerArticleCount
+                                    <AuMomentTemplateBannerArticleCount
                                         numArticles={numArticles}
                                         settings={templateSettings}
                                     />
@@ -104,7 +104,7 @@ export function getAuBrandMomentBanner(
                             )}
 
                             <div css={styles.bodyContainer}>
-                                <MomentTemplateBannerBody
+                                <AuMomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
                                     highlightedTextSettings={
@@ -114,7 +114,7 @@ export function getAuBrandMomentBanner(
                             </div>
 
                             <section css={styles.ctasContainer}>
-                                <MomentTemplateBannerCtas
+                                <AuMomentTemplateBannerCtas
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
                                     onPrimaryCtaClick={onCtaClick}
