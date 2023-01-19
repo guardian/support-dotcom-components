@@ -11,6 +11,7 @@ export type BannerId =
     | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner'
+    | 'print-subscriptions-banner'
     | 'global-new-year-banner'
     | 'election-au-moment-banner'
     | 'sign-in-prompt-banner'
