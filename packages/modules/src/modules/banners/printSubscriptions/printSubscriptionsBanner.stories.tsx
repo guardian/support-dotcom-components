@@ -6,7 +6,7 @@ import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 
 export default {
     component: PrintSubscriptionsBanner,
-    title: 'Banners/PrintSubscriptionsBanner',
+    title: 'Banners/Subscriptions/PrintSubscriptionsBanner',
     decorators: [
         withKnobs({
             escapeHTML: false,
