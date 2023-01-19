@@ -1,10 +1,11 @@
 import { css } from '@emotion/react';
 import { body, headline, textSans } from '@guardian/src-foundations/typography';
+import { neutral, text } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { height } from '@guardian/src-foundations/size';
 
-const mainBannerBackground = '#0074a7';
+const mainBannerBackground = '#cadbe8';
 
 export const banner = css`
     html {
@@ -18,17 +19,12 @@ export const banner = css`
     box-sizing: border-box;
     width: 100%;
     background-color: ${mainBannerBackground};
-    color: white;
+    color: ${neutral[7]};
     position: relative;
     a,
     button {
         color: inherit;
     }
-    a.link-button {
-        color: black;
-        background: white;
-    }
-    ,
     b,
     strong {
         font-weight: bold;
@@ -66,8 +62,6 @@ export const heading = css`
     /* Headline should never overflow the close button (plus logo) */
     max-width: calc(100% - ${height.ctaSmall + space[1]}px);
 
-    color: white;
-
     ${from.mobileMedium} {
         ${headline.small({ fontWeight: 'bold' })};
         max-width: calc(100% - ${height.ctaSmall * 2 + space[2]}px);
@@ -101,10 +95,10 @@ export const paragraph = css`
 export const siteMessage = css`
     margin: ${space[2]}px 0 ${space[4]}px;
     ${textSans.small()};
-    color: white;
+    color: ${text.primary};
     a,
     :visited {
-        color: white;
+        color: ${text.primary};
         font-weight: bold;
     }
 `;
@@ -118,7 +112,6 @@ export const iconAndClosePosition = css`
 
 export const closeButtonStyles = css`
     z-index: 999;
-    border: 1px solid white;
 `;
 
 export const logoContainer = css`

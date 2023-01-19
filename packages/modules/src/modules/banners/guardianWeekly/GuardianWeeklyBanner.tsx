@@ -33,13 +33,13 @@ const closeComponentId = `${bannerId} : close`;
 const signInComponentId = `${bannerId} : sign in`;
 
 const desktopImg =
-    'https://media.guim.co.uk/980a964504a5f1e5988a39762f7f9861c9cf6b35/0_0_8041_5440/2000.png';
+    'https://i.guim.co.uk/img/media/daaaa96ca3631c38a8747cb2146c1bc558197fc2/0_0_1268_798/1268.png?width=1268&height=798&quality=85&s=906cd95f35443e0bf0b8c60456597a7e';
 
 const tabletImg =
-    'https://media.guim.co.uk/6776db3b6596d6c07d7aa9338d1b7104a74c7919/0_0_5360_5280/1000.png';
+    'https://i.guim.co.uk/img/media/304298d179d8ce1532bc5b24995cf4cdbe2dc0f2/0_0_1340_1320/1340.png?width=1340&height=1320&quality=85&s=be7c94e0957645ec744a40c1ecdc191b';
 
 const mobileImg =
-    'https://media.guim.co.uk/1d7c215052b2582d6627ed4be3675eae1e3c950e/0_0_4880_2640/500.png';
+    'https://i.guim.co.uk/img/media/63b65f509267bc0e4308f978b8277d4618723eab/0_0_1220_555/1220.png?width=1220&0height=555&quality=85&s=f930da88ccda9c97febd83a00db3251b';
 
 // Responsive image props
 const baseImg = {
@@ -126,7 +126,6 @@ const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
                                                 iconSide="right"
                                                 onClick={onCtaClick}
                                                 tabIndex={0}
-                                                className="link-button"
                                             >
                                                 {primaryCta?.ctaText || defaultCta}
                                             </LinkButton>

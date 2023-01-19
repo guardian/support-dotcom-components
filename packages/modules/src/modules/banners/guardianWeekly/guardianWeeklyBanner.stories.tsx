@@ -28,30 +28,32 @@ const tracking: Tracking = {
 
 export const defaultStory = (): ReactElement => {
     const content: BannerContent = {
-        heading: text('heading', 'A new year calls for new thinking'),
+        heading: text('heading', 'Open up your world view'),
         messageText: text(
             'messageText',
-            "Support The Guardian's independent journalism by subscribing to The Guardian getWeeklyArticleHistory, our essential world news magazine. Home delivery available wherever you are.",
+            'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
         ),
         paragraphs: array(
             'paragraphs',
             [
-                "Support The Guardian's independent journalism by subscribing to The Guardian getWeeklyArticleHistory, our essential world news magazine. Home delivery available wherever you are.",
+                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+                '<strong>For a limited time, save 35% on an annual subscription.</strong>',
             ],
             '|',
         ),
     };
 
     const mobileContent: BannerContent = {
-        heading: text('Mobile heading', 'A new year calls for new thinking'),
+        heading: text('Mobile heading', 'Open up your world view'),
         messageText: text(
             'Mobile messageText',
-            "Support The Guardian's independent journalism by subscribing to The Guardian getWeeklyArticleHistory, our essential world news magazine. Home delivery available wherever you are.",
+            'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine.',
         ),
         paragraphs: array(
             'Mobile paragraphs',
             [
-                "Support The Guardian's independent journalism by subscribing to The Guardian getWeeklyArticleHistory, our essential world news magazine. Home delivery available wherever you are.",
+                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+                '<strong>For a limited time, save 35% on an annual subscription.</strong>',
             ],
             '|',
         ),
