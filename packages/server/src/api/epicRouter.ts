@@ -5,7 +5,6 @@ import {
     EpicTargeting,
     EpicTest,
     EpicType,
-    EpicVariant,
     PageTracking,
     TestTracking,
     WeeklyArticleLog,
