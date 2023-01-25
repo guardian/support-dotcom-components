@@ -352,6 +352,24 @@ WithChoiceCards.args = {
                             },
                         },
                     },
+                    {
+                        name: 'V1',
+                        hideChooseYourAmount: true,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
+                    },
                 ],
             },
             NZDCountries: {

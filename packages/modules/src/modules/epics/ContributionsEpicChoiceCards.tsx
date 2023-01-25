@@ -58,19 +58,17 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     const currencySymbol = getLocalCurrencySymbol(countryCode);
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
     const countryAmountsData = amounts[countryGroupId];
-    console.log(
-        'hello',
-        countryCode,
-        currencySymbol,
-        countryGroupId,
-        countryAmountsData,
-        selection,
-    );
+    console.log('ContributionsEpicChoiceCards - amounts', amounts);
+    console.log('ContributionsEpicChoiceCards - countryAmountsData', countryAmountsData);
+    console.log('ContributionsEpicChoiceCards - selection', selection);
 
     // `countryAmountsData.variants[0]` will always be the control variant
     const amountsTestVariant = countryAmountsData.variants[0];
     const variantAmounts = amountsTestVariant.amounts;
     const hideChooseYourAmount = amountsTestVariant.hideChooseYourAmount;
+    console.log('ContributionsEpicChoiceCards - amountsTestVariant', amountsTestVariant);
+    console.log('ContributionsEpicChoiceCards - variantAmounts', variantAmounts);
+    console.log('ContributionsEpicChoiceCards - hideChooseYourAmount', hideChooseYourAmount);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
