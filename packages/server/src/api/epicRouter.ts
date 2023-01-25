@@ -35,7 +35,6 @@ interface EpicDataResponse {
             name: string;
             props: EpicProps;
         };
-        variant: EpicVariant;
         meta: TestTracking;
     };
     debug?: Debug;
@@ -170,7 +169,6 @@ export const buildEpicRouter = (
 
         return {
             data: {
-                variant: propsVariant,
                 meta: testTracking,
                 module: {
                     url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
