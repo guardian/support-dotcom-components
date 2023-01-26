@@ -70,6 +70,7 @@ export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
 export interface AmountSelection {
     amounts: number[];
     defaultAmount: number;
+    hideChooseYourAmount?: boolean;
 }
 
 export type ContributionAmounts = {
@@ -79,7 +80,6 @@ export type ContributionAmounts = {
 export interface AmountsTestVariant {
     name: string;
     amounts: ContributionAmounts;
-    hideChooseYourAmount?: boolean;
 }
 
 export interface AmountsTest {
@@ -92,7 +92,6 @@ export interface AmountsTest {
 export type ConfiguredRegionAmounts = {
     control: ContributionAmounts;
     test?: AmountsTest;
-    hideChooseYourAmount?: boolean;
 };
 
 export type ChoiceCardAmounts = {

@@ -44,6 +44,37 @@ interface EpicChoiceCardProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
 }
 
+interface ContributionTypeItem {
+    label: string;
+    value: string;
+    frequency: ContributionFrequency;
+    suffix: string;
+}
+type ContributionType = {
+    [key in ContributionFrequency]: ContributionTypeItem;
+};
+
+const contributionType: ContributionType = {
+    ONE_OFF: {
+        label: 'Single',
+        value: 'one_off',
+        frequency: 'ONE_OFF',
+        suffix: '',
+    },
+    MONTHLY: {
+        label: 'Monthly',
+        value: 'monthly',
+        frequency: 'MONTHLY',
+        suffix: 'per month',
+    },
+    ANNUAL: {
+        label: 'Annual',
+        value: 'annual',
+        frequency: 'ANNUAL',
+        suffix: 'per year',
+    },
+};
+
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     amounts,
     selection,
@@ -54,36 +85,10 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     const currencySymbol = getLocalCurrencySymbol(countryCode);
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
     const countryAmountsData = amounts[countryGroupId];
-    console.log(
-        'hello',
-        countryCode,
-        currencySymbol,
-        countryGroupId,
-        countryAmountsData,
-        selection,
-    );
 
-    // This needs to change
-    // Currently it only gets a region's control amounts
-    // We need to check if a test is running on this country's amounts
-    // If it is, then we need to determine to which AB test group the reader is assigned
-    // We can tell if a test is availabvle if countryAmountsData.test != null
-    // We can tell if that test is active if countryAmountsData.test.isLive === true
-    // The test name is in countryAmountsData.test.name
-    // The test seed is in countryAmountsData.test.seed
-    // There should be 0+ test variants in the countryAmountsData.test.variants array
-    // - for live tests, add control values to the variants array as an object
-    //   {
-    //     name: 'control',
-    //     hideChooseYourAmount: countryAmountsData.hideChooseYourAmount ?? false,
-    //     amounts: countryAmountsData.control,
-    //   }
-    // - then we can set the following vars appropriately
-
-    // const amountsTestName = 'default';
-    // const amountsTestVariantName = 'control';
+    // This is the bit we need to change for amounts testing
+    // Ideally we'll fix so the component is pre-supplied with the correct variant
     const amountsTestVariant = countryAmountsData.control;
-    const hideChooseYourAmount = countryAmountsData.hideChooseYourAmount ?? false;
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
@@ -113,20 +118,14 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         });
     };
 
-    const frequencySuffix = () => {
-        return {
-            ONE_OFF: '',
-            MONTHLY: ' per month',
-            ANNUAL: ' per year',
-        }[selection.frequency];
-    };
-
     const ChoiceCardAmount = ({ amount }: { amount?: number }) => {
         if (amount) {
             return (
                 <ChoiceCard
                     value={`${amount}`}
-                    label={`${currencySymbol}${amount}${frequencySuffix()}`}
+                    label={`${currencySymbol}${amount} ${
+                        contributionType[selection.frequency].suffix
+                    }`}
                     id={`${amount}`}
                     checked={selection.amount === amount}
                     onChange={() => updateAmount(amount)}
@@ -137,7 +136,9 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardAmountsButtons = () => {
-        const requiredAmounts = amountsTestVariant[selection.frequency].amounts;
+        const productData = amountsTestVariant[selection.frequency];
+        const requiredAmounts = productData.amounts;
+        const hideChooseYourAmount = productData.hideChooseYourAmount ?? false;
         const defaultAmount = amountsTestVariant[selection.frequency].defaultAmount;
         console.log(defaultAmount, requiredAmounts);
 
@@ -165,6 +166,18 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         );
     };
 
+    const generateChoiceCardFrequencyTab = (frequency: ContributionFrequency) => {
+        return (
+            <ChoiceCard
+                label={contributionType[frequency].label}
+                value={contributionType[frequency].value}
+                id={contributionType[frequency].value}
+                checked={selection.frequency === contributionType[frequency].frequency}
+                onChange={() => updateFrequency(contributionType[frequency].frequency)}
+            />
+        );
+    };
+
     return (
         <div css={container}>
             <br />
@@ -174,27 +187,32 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 css={[frequencyChoiceCardGroupOverrides, hideChoiceCardGroupLegend]}
                 label="Contribution frequency"
             >
+                {generateChoiceCardFrequencyTab('ONE_OFF')}
+                {generateChoiceCardFrequencyTab('MONTHLY')}
+                {generateChoiceCardFrequencyTab('ANNUAL')}
+                {/*
                 <ChoiceCard
-                    label="Single"
-                    value="one_off"
-                    id="one_off"
-                    checked={selection.frequency == 'ONE_OFF'}
-                    onChange={() => updateFrequency('ONE_OFF')}
+                    label={contributionType.ONE_OFF.label}
+                    value={contributionType.ONE_OFF.value}
+                    id={contributionType.ONE_OFF.value}
+                    checked={selection.frequency === contributionType.ONE_OFF.frequency}
+                    onChange={() => updateFrequency(contributionType.ONE_OFF.frequency)}
                 />
                 <ChoiceCard
-                    label="Monthly"
-                    value="monthly"
-                    id="monthly"
-                    checked={selection.frequency == 'MONTHLY'}
-                    onChange={() => updateFrequency('MONTHLY')}
+                    label={contributionType.MONTHLY.label}
+                    value={contributionType.MONTHLY.value}
+                    id={contributionType.MONTHLY.value}
+                    checked={selection.frequency === contributionType.MONTHLY.frequency}
+                    onChange={() => updateFrequency(contributionType.MONTHLY.frequency)}
                 />
                 <ChoiceCard
-                    label="Annual"
-                    value="annual"
-                    id="annual"
-                    checked={selection.frequency == 'ANNUAL'}
-                    onChange={() => updateFrequency('ANNUAL')}
+                    label={contributionType.ANNUAL.label}
+                    value={contributionType.ANNUAL.value}
+                    id={contributionType.ANNUAL.value}
+                    checked={selection.frequency === contributionType.ANNUAL.frequency}
+                    onChange={() => updateFrequency(contributionType.ANNUAL.frequency)}
                 />
+*/}
             </ChoiceCardGroup>
             <br />
             <ChoiceCardGroup
