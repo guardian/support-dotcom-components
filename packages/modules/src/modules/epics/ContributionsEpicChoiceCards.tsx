@@ -190,29 +190,6 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 {generateChoiceCardFrequencyTab('ONE_OFF')}
                 {generateChoiceCardFrequencyTab('MONTHLY')}
                 {generateChoiceCardFrequencyTab('ANNUAL')}
-                {/*
-                <ChoiceCard
-                    label={contributionType.ONE_OFF.label}
-                    value={contributionType.ONE_OFF.value}
-                    id={contributionType.ONE_OFF.value}
-                    checked={selection.frequency === contributionType.ONE_OFF.frequency}
-                    onChange={() => updateFrequency(contributionType.ONE_OFF.frequency)}
-                />
-                <ChoiceCard
-                    label={contributionType.MONTHLY.label}
-                    value={contributionType.MONTHLY.value}
-                    id={contributionType.MONTHLY.value}
-                    checked={selection.frequency === contributionType.MONTHLY.frequency}
-                    onChange={() => updateFrequency(contributionType.MONTHLY.frequency)}
-                />
-                <ChoiceCard
-                    label={contributionType.ANNUAL.label}
-                    value={contributionType.ANNUAL.value}
-                    id={contributionType.ANNUAL.value}
-                    checked={selection.frequency === contributionType.ANNUAL.frequency}
-                    onChange={() => updateFrequency(contributionType.ANNUAL.frequency)}
-                />
-*/}
             </ChoiceCardGroup>
             <br />
             <ChoiceCardGroup
