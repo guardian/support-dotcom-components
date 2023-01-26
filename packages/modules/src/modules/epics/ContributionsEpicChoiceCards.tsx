@@ -46,7 +46,6 @@ interface EpicChoiceCardProps {
 
 interface ContributionTypeItem {
     label: string;
-    value: string;
     frequency: ContributionFrequency;
     suffix: string;
 }
@@ -57,19 +56,16 @@ type ContributionType = {
 const contributionType: ContributionType = {
     ONE_OFF: {
         label: 'Single',
-        value: 'one_off',
         frequency: 'ONE_OFF',
         suffix: '',
     },
     MONTHLY: {
         label: 'Monthly',
-        value: 'monthly',
         frequency: 'MONTHLY',
         suffix: 'per month',
     },
     ANNUAL: {
         label: 'Annual',
-        value: 'annual',
         frequency: 'ANNUAL',
         suffix: 'per year',
     },
@@ -165,13 +161,14 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardFrequencyTab = (frequency: ContributionFrequency) => {
+        const frequencyVal = contributionType[frequency].frequency;
         return (
             <ChoiceCard
                 label={contributionType[frequency].label}
-                value={contributionType[frequency].value}
-                id={contributionType[frequency].value}
-                checked={selection.frequency === contributionType[frequency].frequency}
-                onChange={() => updateFrequency(contributionType[frequency].frequency)}
+                value={frequencyVal}
+                id={frequencyVal}
+                checked={selection.frequency === frequencyVal}
+                onChange={() => updateFrequency(frequencyVal)}
             />
         );
     };
