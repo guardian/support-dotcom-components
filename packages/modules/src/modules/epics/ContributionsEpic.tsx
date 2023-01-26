@@ -261,10 +261,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     stage,
 }: EpicProps) => {
     const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
-
     const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
-
-    // This code needs to change in a world where we show amounts AB variants in the epic choice card? Also, this code feels fragile?
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
         variant.choiceCardAmounts && {
             frequency: defaultFrequency,
