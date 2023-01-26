@@ -140,7 +140,6 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         const requiredAmounts = productData.amounts;
         const hideChooseYourAmount = productData.hideChooseYourAmount ?? false;
         const defaultAmount = amountsTestVariant[selection.frequency].defaultAmount;
-        console.log(defaultAmount, requiredAmounts);
 
         // Something is wrong with the data
         if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
