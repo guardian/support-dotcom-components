@@ -70,6 +70,7 @@ export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
 export interface AmountSelection {
     amounts: number[];
     defaultAmount: number;
+    hideChooseYourAmount?: boolean;
 }
 
 export type ContributionAmounts = {
