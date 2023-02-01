@@ -260,10 +260,13 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-   console.log('ContributionsEpic - variant', variant);
+    console.log('ContributionsEpic - variant', variant);
 
     const countryGroupId = countryCodeToCountryGroupId(countryCode ?? 'GB');
-    console.log('ContributionsEpic - countryCode|countryGroupId', `${countryCode}|${countryGroupId}`);
+    console.log(
+        'ContributionsEpic - countryCode|countryGroupId',
+        `${countryCode}|${countryGroupId}`,
+    );
 
     const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
     console.log('ContributionsEpic - defaultFrequency', defaultFrequency);
