@@ -13,6 +13,7 @@ module.exports = {
             jsx: true, // Allows for the parsing of JSX
         },
     },
+    plugins: ['@guardian/eslint-plugin-no-unused-return-value'],
     rules: {
         // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
         // e.g. "@typescript-eslint/explicit-function-return-type": "off",
@@ -35,6 +36,7 @@ module.exports = {
         // Not compatible with TS + arrow functions - https://github.com/yannickcr/eslint-plugin-react/issues/2353#issuecomment-674792754
         // TS does the type checking anyway
         'react/prop-types': 'off',
+        '@guardian/no-unused-return-value/no-unused-return-value': 2,
     },
     settings: {
         react: {
