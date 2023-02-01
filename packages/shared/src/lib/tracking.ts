@@ -16,6 +16,7 @@ export const addTrackingParams = (
     params: Tracking,
     numArticles?: number,
 ): string => {
+    console.log('addTrackingParams - params', params);
     const abTests = [
         {
             name: params.abTestName,
@@ -55,7 +56,10 @@ export const addTrackingParams = (
         .map(([key, value]) => `${key}=${value}`);
     const alreadyHasQueryString = baseUrl.includes('?');
 
-    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+    const finalString = `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+    console.log('addTrackingParams - finalString', finalString);
+    return finalString;
+    // return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
 };
 
 export const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);
@@ -66,6 +70,7 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     numArticles?: number,
     countryCode?: string,
 ): string => {
+    console.log('addRegionIdAndTrackingParamsToSupportUrl - tracking', tracking);
     return isSupportUrl(baseUrl)
         ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles)
         : baseUrl;
@@ -78,6 +83,7 @@ export const addTrackingParamsToBodyLinks = (
     numArticles?: number,
     countryCode?: string,
 ): string => {
+    console.log('hrefRegex - tracking', tracking);
     const trackingWithLabel = addLabelToTracking(tracking, 'body-link');
 
     const replaceHref = (wholeMatch: string, url: string) =>
@@ -98,6 +104,7 @@ type ProfileLinkParams = {
 };
 
 export const addProfileTrackingParams = (baseUrl: string, params: Tracking): string => {
+    console.log('addProfileTrackingParams - params', params);
     const constructQuery = (query: Partial<Tracking>): string =>
         Object.keys(query)
             .map((param: string) => {

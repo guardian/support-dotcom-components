@@ -230,183 +230,197 @@ WithChoiceCards.args = {
         showChoiceCards: true,
         choiceCardAmounts: {
             GBPCountries: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 30,
-                    },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
-                    },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                    },
-                },
-                test: {
-                    name: 'GBP_COUNTRIES_AMOUNTS_TEST',
-                    isLive: true,
-                    variants: [
-                        {
-                            name: 'V1',
-                            amounts: {
-                                ONE_OFF: {
-                                    amounts: [10, 20, 30, 40],
-                                    defaultAmount: 20,
-                                },
-                                MONTHLY: {
-                                    amounts: [5, 10, 15, 20],
-                                    defaultAmount: 10,
-                                    hideChooseYourAmount: true,
-                                },
-                                ANNUAL: {
-                                    amounts: [50, 100, 150, 200],
-                                    defaultAmount: 150,
-                                    hideChooseYourAmount: true,
-                                },
+                name: 'GBPCountries_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
+                        hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
                             },
                         },
-                        {
-                            name: 'V2',
-                            amounts: {
-                                ONE_OFF: {
-                                    amounts: [],
-                                    defaultAmount: 10,
-                                },
-                                MONTHLY: {
-                                    amounts: [],
-                                    defaultAmount: 10,
-                                    hideChooseYourAmount: true,
-                                },
-                                ANNUAL: {
-                                    amounts: [50],
-                                    defaultAmount: 50,
-                                    hideChooseYourAmount: true,
-                                },
-                            },
-                        },
-                        {
-                            name: 'V3',
-                            amounts: {
-                                ONE_OFF: {
-                                    amounts: [10],
-                                    defaultAmount: 10,
-                                },
-                                MONTHLY: {
-                                    amounts: [10, 20],
-                                    defaultAmount: 10,
-                                    hideChooseYourAmount: true,
-                                },
-                                ANNUAL: {
-                                    amounts: [50, 100, 150],
-                                    defaultAmount: 50,
-                                    hideChooseYourAmount: true,
-                                },
-                            },
-                        },
-                    ],
-                    seed: 398375,
-                },
+                    },
+                ],
             },
             UnitedStates: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 20,
+                name: 'UnitedStates_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
+                        hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
-                    },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                    },
-                },
-            },
-            EURCountries: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 20,
-                    },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
-                    },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                    },
-                },
+                ],
             },
             AUDCountries: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 20,
+                name: 'AUDCountries_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
+                        hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
+                ],
+            },
+            EURCountries: {
+                name: 'EURCountries_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
+                        hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                    },
-                },
+                ],
             },
             International: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 20,
+                name: 'International_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
                         hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
+                    {
+                        name: 'V1',
                         hideChooseYourAmount: true,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                        hideChooseYourAmount: true,
-                    },
-                },
+                ],
             },
             NZDCountries: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 30,
+                name: 'NZDCountries_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
+                        hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
-                    },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                    },
-                },
+                ],
             },
             Canada: {
-                control: {
-                    ONE_OFF: {
-                        amounts: [10, 20, 30, 40],
-                        defaultAmount: 30,
+                name: 'Canada_default',
+                testIsLive: false,
+                seed: '0',
+                variants: [
+                    {
+                        name: 'control',
+                        hideChooseYourAmount: false,
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            MONTHLY: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                            ANNUAL: {
+                                amounts: [5, 10, 15, 20],
+                                defaultAmount: 5,
+                            },
+                        },
                     },
-                    MONTHLY: {
-                        amounts: [5, 10, 15, 20],
-                        defaultAmount: 10,
-                    },
-                    ANNUAL: {
-                        amounts: [50, 100, 150, 200],
-                        defaultAmount: 50,
-                    },
-                },
+                ],
             },
         },
     },

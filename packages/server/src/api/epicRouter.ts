@@ -1,10 +1,11 @@
 import express, { Router } from 'express';
 import {
-    ChoiceCardAmounts,
+    ModifiedChoiceCardAmounts,
     EpicProps,
     EpicTargeting,
     EpicTest,
     EpicType,
+    EpicVariant,
     PageTracking,
     TestTracking,
     WeeklyArticleLog,
@@ -34,6 +35,7 @@ interface EpicDataResponse {
             name: string;
             props: EpicProps;
         };
+        variant: EpicVariant;
         meta: TestTracking;
     };
     debug?: Debug;
@@ -48,7 +50,7 @@ export const buildEpicRouter = (
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
     holdbackEpicTests: ValueProvider<EpicTest[]>,
-    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
     tickerData: TickerDataProvider,
 ): Router => {
     const router = Router();
@@ -133,11 +135,13 @@ export const buildEpicRouter = (
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
+        const contributionAmounts = choiceCardAmounts.get();
+
         const propsVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: choiceCardAmounts.get(),
+            choiceCardAmounts: contributionAmounts,
         };
 
         const testTracking: TestTracking = {
@@ -168,6 +172,7 @@ export const buildEpicRouter = (
 
         return {
             data: {
+                variant: propsVariant,
                 meta: testTracking,
                 module: {
                     url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
