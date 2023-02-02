@@ -238,16 +238,39 @@ WithChoiceCards.args = {
                         name: 'control',
                         amounts: {
                             ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
+                                amounts: [2, 5, 10, 15, 20],
                                 defaultAmount: 5,
+                                hideChooseYourAmount: false,
                             },
                             MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
+                                amounts: [6, 10, 15, 20],
+                                defaultAmount: 10,
+                                hideChooseYourAmount: true,
                             },
                             ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
+                                amounts: [50, 100, 150, 200],
+                                defaultAmount: 100,
+                                hideChooseYourAmount: true,
+                            },
+                        },
+                    },
+                    {
+                        name: 'V1',
+                        amounts: {
+                            ONE_OFF: {
+                                amounts: [10, 20, 30, 40, 50],
+                                defaultAmount: 20,
+                                hideChooseYourAmount: false,
+                            },
+                            MONTHLY: {
+                                amounts: [10, 20, 30, 40],
+                                defaultAmount: 10,
+                                hideChooseYourAmount: true,
+                            },
+                            ANNUAL: {
+                                amounts: [100, 200, 300, 400],
+                                defaultAmount: 100,
+                                hideChooseYourAmount: true,
                             },
                         },
                     },
@@ -334,7 +357,7 @@ WithChoiceCards.args = {
                         name: 'control',
                         amounts: {
                             ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
+                                amounts: [1, 5, 10, 15, 20],
                                 defaultAmount: 5,
                             },
                             MONTHLY: {
@@ -344,26 +367,6 @@ WithChoiceCards.args = {
                             ANNUAL: {
                                 amounts: [5, 10, 15, 20],
                                 defaultAmount: 5,
-                            },
-                        },
-                    },
-                    {
-                        name: 'V1',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                                hideChooseYourAmount: false,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                                hideChooseYourAmount: true,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                                hideChooseYourAmount: true,
                             },
                         },
                     },

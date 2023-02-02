@@ -22,32 +22,13 @@ import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
-import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
+import { countryCodeToCountryGroupId, getLocalCurrencySymbol } from '@sdc/shared/lib';
 import { logEpicView } from '@sdc/shared/lib';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 
-const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
-    const path = 'events/epic-view';
-    const host = isProd(stage)
-        ? 'https://contributions.guardianapis.com'
-        : 'https://contributions.code.dev-guardianapis.com';
-    const body = JSON.stringify({
-        url,
-        countryCode,
-    });
-
-    fetch(`${host}/${path}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body,
-    }).then(response => {
-        if (!response.ok) {
-            console.log('Epic view event request failed', response);
-        }
-    });
-};
-
+// CSS Styling
+// -------------------------------------------
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
     border-top: 1px solid ${palette.brandAlt[400]};
@@ -117,23 +98,31 @@ const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
 
-type HighlightedProps = {
-    highlightedText: string;
-    countryCode?: string;
-    numArticles: number;
-    tracking?: OphanTracking;
-    showAboveArticleCount: boolean;
+// RJR question: why has this been separated out from the component?
+// -------------------------------------------
+const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
+    const path = 'events/epic-view';
+    const host = isProd(stage)
+        ? 'https://contributions.guardianapis.com'
+        : 'https://contributions.code.dev-guardianapis.com';
+    const body = JSON.stringify({
+        url,
+        countryCode,
+    });
+
+    fetch(`${host}/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+    }).then(response => {
+        if (!response.ok) {
+            console.log('Epic view event request failed', response);
+        }
+    });
 };
 
-type BodyProps = {
-    paragraphs: string[];
-    highlightedText?: string;
-    countryCode?: string;
-    numArticles: number;
-    tracking?: OphanTracking;
-    showAboveArticleCount: boolean;
-};
-
+// EpicHeader - local component
+// -------------------------------------------
 interface EpicHeaderProps {
     text: string;
     numArticles: number;
@@ -155,6 +144,16 @@ const EpicHeader: React.FC<EpicHeaderProps> = ({
         !showAboveArticleCount,
     );
     return <h2 css={headingStyles}>{elements}</h2>;
+};
+
+// Highlighted - local component
+// -------------------------------------------
+type HighlightedProps = {
+    highlightedText: string;
+    countryCode?: string;
+    numArticles: number;
+    tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 };
 
 const Highlighted: React.FC<HighlightedProps> = ({
@@ -179,6 +178,8 @@ const Highlighted: React.FC<HighlightedProps> = ({
     );
 };
 
+// EpicBodyParagraph - local component
+// -------------------------------------------
 interface EpicBodyParagraphProps {
     paragraph: string;
     numArticles: number;
@@ -208,6 +209,17 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
             {highlighted ? highlighted : null}
         </p>
     );
+};
+
+// EpicBody - local component
+// -------------------------------------------
+type BodyProps = {
+    paragraphs: string[];
+    highlightedText?: string;
+    countryCode?: string;
+    numArticles: number;
+    tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 };
 
 const EpicBody: React.FC<BodyProps> = ({
@@ -247,6 +259,8 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
+// ContributionsEpic - exported component
+// -------------------------------------------
 const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
@@ -260,33 +274,30 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    console.log('ContributionsEpic - variant', variant);
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
     const countryGroupId = countryCodeToCountryGroupId(countryCode ?? 'GB');
-    console.log(
-        'ContributionsEpic - countryCode|countryGroupId',
-        `${countryCode}|${countryGroupId}`,
-    );
+    const currencySymbol = getLocalCurrencySymbol(countryCode);
+
+    // `countryAmountsData.variants[0]` will always be the control variant
+    const amountsTestVariant = choiceCardAmounts
+        ? choiceCardAmounts[countryGroupId].variants[0]
+        : undefined;
 
     const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
-    console.log('ContributionsEpic - defaultFrequency', defaultFrequency);
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
-        variant.choiceCardAmounts && {
+        amountsTestVariant && {
             frequency: defaultFrequency,
-            amount:
-                variant.choiceCardAmounts[countryGroupId].variants[0].amounts[defaultFrequency][
-                    'amounts'
-                ][1],
+            amount: amountsTestVariant.amounts[defaultFrequency].amounts[1],
         },
     );
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
-
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
+    // RJR Question: are these useEvent hooks sending the most appropriate data
     useEffect(() => {
         if (hasBeenSeen) {
             // For the event stream
@@ -400,11 +411,11 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
             {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
-                    amounts={choiceCardAmounts}
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
-                    countryCode={countryCode}
                     submitComponentEvent={submitComponentEvent}
+                    currencySymbol={currencySymbol}
+                    amountsTestVariant={amountsTestVariant}
                 />
             )}
 

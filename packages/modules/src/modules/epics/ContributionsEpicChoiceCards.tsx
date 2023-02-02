@@ -1,16 +1,12 @@
 import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import {
-    ModifiedChoiceCardAmounts,
-    ContributionFrequency,
-    OphanComponentEvent,
-} from '@sdc/shared/types';
-import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
+import { ContributionFrequency, AmountsTestVariant, OphanComponentEvent } from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
-import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
 
+// CSS Styling
+// -------------------------------------------
 const frequencyChoiceCardGroupOverrides = css`
     ${until.mobileLandscape} {
         > div {
@@ -35,19 +31,8 @@ const container = css`
     position: relative;
 `;
 
-export interface ChoiceCardSelection {
-    frequency: ContributionFrequency;
-    amount: number | 'other';
-}
-
-interface EpicChoiceCardProps {
-    amounts: ModifiedChoiceCardAmounts;
-    selection: ChoiceCardSelection;
-    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
-    countryCode?: string;
-    submitComponentEvent?: (event: OphanComponentEvent) => void;
-}
-
+// Static data + type defs
+// -------------------------------------------
 interface ContributionTypeItem {
     label: string;
     frequency: ContributionFrequency;
@@ -75,19 +60,28 @@ const contributionType: ContributionType = {
     },
 };
 
+// ContributionsEpicChoiceCards - exported component
+// -------------------------------------------
+export interface ChoiceCardSelection {
+    frequency: ContributionFrequency;
+    amount: number | 'other';
+}
+
+interface EpicChoiceCardProps {
+    selection: ChoiceCardSelection;
+    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    currencySymbol: string;
+    amountsTestVariant: AmountsTestVariant;
+}
+
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
-    amounts,
     selection,
     setSelectionsCallback,
-    countryCode,
     submitComponentEvent,
+    currencySymbol,
+    amountsTestVariant,
 }: EpicChoiceCardProps) => {
-    const currencySymbol = getLocalCurrencySymbol(countryCode);
-    const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
-    const countryAmountsData = amounts[countryGroupId];
-
-    // `countryAmountsData.variants[0]` will always be the control variant
-    const amountsTestVariant = countryAmountsData.variants[0];
     const variantAmounts = amountsTestVariant.amounts;
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
