@@ -25,7 +25,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: GBPCountries?.hideChooseYourAmount ?? false,
                             amounts: GBPCountries.control,
                         },
                         ...GBPCountries?.test?.variants,
@@ -38,7 +37,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: UnitedStates?.hideChooseYourAmount ?? false,
                             amounts: UnitedStates.control,
                         },
                         ...UnitedStates?.test?.variants,
@@ -51,7 +49,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: AUDCountries?.hideChooseYourAmount ?? false,
                             amounts: AUDCountries.control,
                         },
                         ...AUDCountries?.test?.variants,
@@ -64,7 +61,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: EURCountries?.hideChooseYourAmount ?? false,
                             amounts: EURCountries.control,
                         },
                         ...EURCountries?.test?.variants,
@@ -77,7 +73,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: International?.hideChooseYourAmount ?? false,
                             amounts: International.control,
                         },
                         ...International?.test?.variants,
@@ -90,7 +85,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: NZDCountries?.hideChooseYourAmount ?? false,
                             amounts: NZDCountries.control,
                         },
                         ...NZDCountries?.test?.variants,
@@ -103,7 +97,6 @@ const getChoiceCardAmounts = (): Promise<ModifiedChoiceCardAmounts> =>
                     variants: [
                         {
                             name: 'control',
-                            hideChooseYourAmount: Canada?.hideChooseYourAmount ?? false,
                             amounts: Canada.control,
                         },
                         ...Canada?.test?.variants,

@@ -236,7 +236,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
@@ -261,7 +260,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
@@ -286,7 +284,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
@@ -311,7 +308,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
@@ -336,7 +332,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
@@ -354,19 +349,21 @@ WithChoiceCards.args = {
                     },
                     {
                         name: 'V1',
-                        hideChooseYourAmount: true,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
                                 defaultAmount: 5,
+                                hideChooseYourAmount: false,
                             },
                             MONTHLY: {
                                 amounts: [5, 10, 15, 20],
                                 defaultAmount: 5,
+                                hideChooseYourAmount: true,
                             },
                             ANNUAL: {
                                 amounts: [5, 10, 15, 20],
                                 defaultAmount: 5,
+                                hideChooseYourAmount: true,
                             },
                         },
                     },
@@ -379,7 +376,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
@@ -404,7 +400,6 @@ WithChoiceCards.args = {
                 variants: [
                     {
                         name: 'control',
-                        hideChooseYourAmount: false,
                         amounts: {
                             ONE_OFF: {
                                 amounts: [5, 10, 15, 20],
