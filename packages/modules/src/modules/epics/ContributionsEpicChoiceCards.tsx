@@ -72,7 +72,7 @@ interface EpicChoiceCardProps {
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
-    amountsTestVariant: AmountsTestVariant;
+    amountsTestVariant: AmountsTestVariant | undefined;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -82,6 +82,10 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     currencySymbol,
     amountsTestVariant,
 }: EpicChoiceCardProps) => {
+    if (amountsTestVariant == null) {
+        return <></>;
+    }
+
     const variantAmounts = amountsTestVariant.amounts;
 
     const trackClick = (type: 'amount' | 'frequency'): void => {

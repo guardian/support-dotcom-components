@@ -48,7 +48,6 @@ const PrimaryCtaButton = ({
     countryCode?: string;
     numArticles: number;
 }): JSX.Element | null => {
-    console.log('PrimaryCtaButton - tracking', tracking);
     if (!cta) {
         return null;
     }
@@ -61,7 +60,6 @@ const PrimaryCtaButton = ({
         numArticles,
         countryCode,
     );
-    console.log('PrimaryCtaButton - urlWithRegionAndTracking', urlWithRegionAndTracking);
 
     return (
         <div css={buttonMargins}>
@@ -87,14 +85,12 @@ const SecondaryCtaButton = ({
     countryCode?: string;
     numArticles: number;
 }): JSX.Element | null => {
-    console.log('SecondaryCtaButton - tracking', tracking);
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
         numArticles,
         countryCode,
     );
-    console.log('SecondaryCtaButton - url', url);
 
     return (
         <div css={buttonMargins}>
@@ -130,9 +126,6 @@ export const ContributionsEpicButtons = ({
     choiceCardSelection,
     numArticles,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
-    console.log('ContributionsEpicButtons - variant', variant);
-    console.log('ContributionsEpicButtons - tracking', tracking);
-    console.log('ContributionsEpicButtons - choiceCardSelection', choiceCardSelection);
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
     const { cta, secondaryCta, showReminderFields } = variant;
 
