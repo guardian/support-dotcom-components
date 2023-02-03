@@ -259,6 +259,47 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
+// -------------------------------------------
+// -------------------------------------------
+// Amounts test variant selection
+// -------------------------------------------
+// This is the code that selects an amounts test participation in support-frontend
+// - sadly it is not the same as our SDC AB test selector
+// - at /packages/server/src/lib/ab.ts
+// -------------------------------------------
+// function randomNumber(mvtId: number, seed: number): number {
+//     const rng = seedrandom(`${mvtId + seed}`);
+//     return Math.abs(rng.int32());
+// }
+// -------------------------------------------
+// function getAmountsTestParticipations(
+//     countryGroupId: CountryGroupId,
+//     settings: Settings,
+// ): Participations | null | undefined {
+//     if (
+//         !targetPageMatches(
+//             window.location.pathname,
+//             '/??/contribute|contribute-in-epic|thankyou(/.*)?$',
+//         )
+//     ) {
+//         return null;
+//     }
+
+//     const { test } = settings.amounts?.[countryGroupId] ?? {};
+
+//     if (!test || !test.isLive) {
+//         return null;
+//     }
+
+//     const variants = ['CONTROL', ...test.variants.map((variant) => variant.name)];
+//     const assignmentIndex = randomNumber(getMvtId(), test.seed) % variants.length;
+//     return {
+//         [test.name]: variants[assignmentIndex],
+//     };
+// }
+// -------------------------------------------
+// -------------------------------------------
+
 // ContributionsEpic - exported component
 // -------------------------------------------
 const ContributionsEpic: React.FC<EpicProps> = ({
