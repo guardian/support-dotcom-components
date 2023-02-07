@@ -292,6 +292,7 @@ const styles = {
     `,
     mobileVisualContainer: css`
         display: none;
+        pointer-events: none;
 
         ${from.mobileMedium} {
             display: block;
@@ -308,6 +309,7 @@ const styles = {
     `,
     desktopVisualContainer: css`
         display: none;
+        pointer-events: none;
         position: relative;
 
         ${from.tablet} {
@@ -333,6 +335,7 @@ const styles = {
     `,
     desktopUsEoyV3Container: css`
         display: none;
+        pointer-events: none;
         position: relative;
 
         ${from.tablet} {
