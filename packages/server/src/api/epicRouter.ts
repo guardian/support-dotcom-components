@@ -14,8 +14,13 @@ import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
 import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
+import { selectAmountsTestVariant } from '../lib/ab';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import { buildCampaignCode, getReminderFields } from '@sdc/shared/dist/lib';
+import {
+    buildCampaignCode,
+    getReminderFields,
+    countryCodeToCountryGroupId,
+} from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import {
     epic as epicModule,
@@ -135,13 +140,20 @@ export const buildEpicRouter = (
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
+
+        // HERE - limit to a given regional choiceCardAmounts
         const contributionAmounts = choiceCardAmounts.get();
+        const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
+        const mvtId = targeting?.mvtId ?? 0;
+        const variantAmounts = selectAmountsTestVariant(contributionAmounts, requiredRegion, mvtId);
+
+        console.log('buildEpicRouter - buildEpicData - variantAmounts', variantAmounts);
 
         const propsVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: contributionAmounts,
+            choiceCardAmounts: variantAmounts,
         };
 
         const testTracking: TestTracking = {

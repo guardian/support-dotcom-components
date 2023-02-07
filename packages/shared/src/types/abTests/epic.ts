@@ -50,7 +50,7 @@ export interface EpicVariant extends Variant {
     modulePathBuilder?: (version?: string) => string;
     separateArticleCount?: SeparateArticleCount;
     showChoiceCards?: boolean;
-    choiceCardAmounts?: ModifiedChoiceCardAmounts;
+    choiceCardAmounts?: SelectedAmountsVariant;
     defaultChoiceCardFrequency?: ContributionFrequency;
     bylineWithImage?: BylineWithImage;
 
@@ -106,6 +106,12 @@ export type ModifiedConfiguredRegionAmounts = {
     variants: AmountsTestVariant[];
     testIsLive: boolean;
     seed: string;
+};
+
+export type SelectedAmountsVariant = {
+    testName: string;
+    variantName: string,
+    amounts: ContributionAmounts;
 };
 
 export type ModifiedChoiceCardAmounts = {

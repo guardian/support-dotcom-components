@@ -9,6 +9,9 @@ import {
     createInsertEventFromTracking,
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
+    countryCodeToCountryGroupId,
+    getLocalCurrencySymbol,
+    logEpicView,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
@@ -22,8 +25,6 @@ import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
-import { countryCodeToCountryGroupId, getLocalCurrencySymbol } from '@sdc/shared/lib';
-import { logEpicView } from '@sdc/shared/lib';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 
@@ -259,47 +260,6 @@ const EpicBody: React.FC<BodyProps> = ({
     );
 };
 
-// -------------------------------------------
-// -------------------------------------------
-// Amounts test variant selection
-// -------------------------------------------
-// This is the code that selects an amounts test participation in support-frontend
-// - sadly it is not the same as our SDC AB test selector
-// - at /packages/server/src/lib/ab.ts
-// -------------------------------------------
-// function randomNumber(mvtId: number, seed: number): number {
-//     const rng = seedrandom(`${mvtId + seed}`);
-//     return Math.abs(rng.int32());
-// }
-// -------------------------------------------
-// function getAmountsTestParticipations(
-//     countryGroupId: CountryGroupId,
-//     settings: Settings,
-// ): Participations | null | undefined {
-//     if (
-//         !targetPageMatches(
-//             window.location.pathname,
-//             '/??/contribute|contribute-in-epic|thankyou(/.*)?$',
-//         )
-//     ) {
-//         return null;
-//     }
-
-//     const { test } = settings.amounts?.[countryGroupId] ?? {};
-
-//     if (!test || !test.isLive) {
-//         return null;
-//     }
-
-//     const variants = ['CONTROL', ...test.variants.map((variant) => variant.name)];
-//     const assignmentIndex = randomNumber(getMvtId(), test.seed) % variants.length;
-//     return {
-//         [test.name]: variants[assignmentIndex],
-//     };
-// }
-// -------------------------------------------
-// -------------------------------------------
-
 // ContributionsEpic - exported component
 // -------------------------------------------
 const ContributionsEpic: React.FC<EpicProps> = ({
@@ -320,19 +280,21 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     const countryGroupId = countryCodeToCountryGroupId(countryCode ?? 'GB');
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    // `countryAmountsData.variants[0]` will always be the control variant
-    const amountsTestVariant = choiceCardAmounts
-        ? choiceCardAmounts[countryGroupId].variants[0]
-        : undefined;
+    const amountsVariant = (showChoiceCards && choiceCardAmounts) ? choiceCardAmounts : undefined;
 
-    const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
+    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>();
 
-    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
-        amountsTestVariant && {
+    if (amountsVariant) {
+
+        const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
+        const localAmounts = amountsVariant.amounts[defaultFrequency]
+        const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
+
+        setChoiceCardSelection({
             frequency: defaultFrequency,
-            amount: amountsTestVariant.amounts[defaultFrequency].amounts[1],
-        },
-    );
+            amount: defaultAmount,
+        });
+    }
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
@@ -450,7 +412,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
-            {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
+            {amountsVariant && (
                 <ContributionsEpicChoiceCards
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}

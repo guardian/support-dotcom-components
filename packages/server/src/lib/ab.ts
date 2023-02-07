@@ -1,4 +1,12 @@
-import { Test, Variant } from '@sdc/shared/types';
+import {
+    Test,
+    Variant,
+    ModifiedChoiceCardAmounts,
+    SelectedAmountsVariant,
+} from '@sdc/shared/types';
+import {
+    CountryGroupId,
+} from '@sdc/shared/lib';
 import seedrandom from 'seedrandom';
 
 const maxMvt = 1000000;
@@ -56,3 +64,68 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
 
     return selectWithSeed(mvtId, seed, test.variants);
 };
+
+const amountsRandomNumber = (mvtId: number, seed: number): number => {
+    console.log(mvtId, seed);
+    return 0;
+};
+
+export const selectAmountsTestVariant = (
+    test: ModifiedChoiceCardAmounts,
+    countryGroupId: CountryGroupId,
+    mvtId: number,
+): SelectedAmountsVariant => {
+    console.log('test', test);
+    console.log('countryGroupId', countryGroupId);
+    console.log('amountsRandomNumber', amountsRandomNumber(mvtId, 0));
+    return {
+        testName: 'test',
+        variantName: 'variant',
+        amounts: {
+            'ONE_OFF': {
+                amounts: [1, 5, 10, 20],
+                defaultAmount: 5,
+            },
+            'MONTHLY': {
+                amounts: [1, 5, 10, 20],
+                defaultAmount: 5,
+            },
+            'ANNUAL': {
+                amounts: [1, 5, 10, 20],
+                hideChooseYourAmount: true,
+                defaultAmount: 5,
+            },
+        }
+    };
+};
+
+// function randomNumber(mvtId: number, seed: number): number {
+//     const rng = seedrandom(`${mvtId + seed}`);
+//     return Math.abs(rng.int32());
+// }
+// -------------------------------------------
+// function getAmountsTestParticipations(
+//     countryGroupId: CountryGroupId,
+//     settings: Settings,
+// ): Participations | null | undefined {
+//     if (
+//         !targetPageMatches(
+//             window.location.pathname,
+//             '/??/contribute|contribute-in-epic|thankyou(/.*)?$',
+//         )
+//     ) {
+//         return null;
+//     }
+
+//     const { test } = settings.amounts?.[countryGroupId] ?? {};
+
+//     if (!test || !test.isLive) {
+//         return null;
+//     }
+
+//     const variants = ['CONTROL', ...test.variants.map((variant) => variant.name)];
+//     const assignmentIndex = randomNumber(getMvtId(), test.seed) % variants.length;
+//     return {
+//         [test.name]: variants[assignmentIndex],
+//     };
+// }
