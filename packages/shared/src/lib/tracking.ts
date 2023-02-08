@@ -157,7 +157,7 @@ export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant
 export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
     `AMP__${testName}__${variantName}`;
 
-// RJR message for reviewers: I'm nervous about adding amounts test to events - may be worth mobbing on to decide if its necessary and, if yes, the best way to do it?
+// RJR message for reviewers: I'm nervous about adding amounts test to events - may be worth mobbing on - to decide if it's necessary and, if yes, the best way to do it?
 const createEventFromTracking = (action: OphanAction) => {
     return (tracking: Tracking, componentId: string): OphanComponentEvent => {
         const {

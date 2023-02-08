@@ -122,14 +122,6 @@ export const buildEpicRouter = (
                   params.debug,
               );
 
-        if (process.env.log_targeting === 'true') {
-            console.log(
-                `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(
-                    targeting,
-                )}`,
-            );
-        }
-
         if (!result.result) {
             return { data: undefined, debug: result.debug };
         }
@@ -145,8 +137,6 @@ export const buildEpicRouter = (
         const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
         const mvtId = targeting?.mvtId ?? 0;
         const variantAmounts = selectAmountsTestVariant(contributionAmounts, requiredRegion, mvtId);
-
-        console.log('buildEpicRouter - buildEpicData - variantAmounts', variantAmounts);
 
         const propsVariant = {
             ...variant,

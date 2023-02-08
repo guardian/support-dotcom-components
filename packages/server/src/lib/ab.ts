@@ -63,45 +63,77 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
     return selectWithSeed(mvtId, seed, test.variants);
 };
 
+// Amounts test code should match the equivalent code in support-frontend as closely as possible
 const amountsRandomNumber = (mvtId: number, seed: number): number => {
-    console.log(mvtId, seed);
-    return 0;
+    const rng = seedrandom(`${mvtId + seed}`);
+    return Math.abs(rng.int32());
 };
+// function randomNumber(mvtId: number, seed: number): number {
+//     const rng = seedrandom(`${mvtId + seed}`);
+//     return Math.abs(rng.int32());
+// }
 
 export const selectAmountsTestVariant = (
     test: ModifiedChoiceCardAmounts,
     countryGroupId: CountryGroupId,
     mvtId: number,
 ): SelectedAmountsVariant => {
-    console.log('test', test);
-    console.log('countryGroupId', countryGroupId);
-    console.log('amountsRandomNumber', amountsRandomNumber(mvtId, 0));
-    return {
-        testName: 'test',
-        variantName: 'variant',
-        amounts: {
-            ONE_OFF: {
-                amounts: [1, 5, 10, 20],
-                defaultAmount: 5,
-            },
-            MONTHLY: {
-                amounts: [1, 5, 10, 20],
-                defaultAmount: 5,
-            },
-            ANNUAL: {
-                amounts: [1, 5, 10, 20],
-                hideChooseYourAmount: true,
-                defaultAmount: 5,
-            },
+    const regionTest = test[countryGroupId];
+
+    const { name, variants, testIsLive, seed } = regionTest;
+
+    const seedNumber = parseInt(seed, 10);
+
+    // Safety, in case something goes wrong
+    const defaultAmounts = {
+        ONE_OFF: {
+            amounts: [1, 5, 10, 20],
+            defaultAmount: 5,
+        },
+        MONTHLY: {
+            amounts: [1, 5, 10, 20],
+            defaultAmount: 5,
+        },
+        ANNUAL: {
+            amounts: [10, 50, 100, 150],
+            defaultAmount: 50,
         },
     };
-};
 
-// function randomNumber(mvtId: number, seed: number): number {
-//     const rng = seedrandom(`${mvtId + seed}`);
-//     return Math.abs(rng.int32());
-// }
-// -------------------------------------------
+    // The default hardcoded packet
+    const packet: SelectedAmountsVariant = {
+        testName: name,
+        variantName: 'hardcoded_default',
+        amounts: defaultAmounts,
+    };
+
+    // No control or variants in data - return default hardcoded packet
+    if (!variants.length) {
+        return packet;
+    }
+
+    // Return the control variant if there's no test or just a single variant
+    if (!testIsLive || variants.length === 1) {
+        const variant = variants[0];
+        packet.variantName = variant.name;
+        packet.amounts = variant.amounts;
+        return packet;
+    }
+
+    // Assign user to a variant
+    const assignmentIndex = amountsRandomNumber(mvtId, seedNumber) % variants.length;
+    const variant = variants[assignmentIndex];
+
+    // If for any reason the user gets assigned to an empty slot in the variant array, then return the default hardcoded packet (rather than control, that way we can keep the numbers in control and variants roughly equal)
+    if (variant == null) {
+        return packet;
+    }
+
+    // Test is running and user has been successfully assigned to a control/variant
+    packet.variantName = variant.name;
+    packet.amounts = variant.amounts;
+    return packet;
+};
 // function getAmountsTestParticipations(
 //     countryGroupId: CountryGroupId,
 //     settings: Settings,
