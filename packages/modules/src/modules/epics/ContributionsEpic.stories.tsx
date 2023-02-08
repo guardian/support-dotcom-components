@@ -229,196 +229,24 @@ WithChoiceCards.args = {
         },
         showChoiceCards: true,
         choiceCardAmounts: {
-            GBPCountries: {
-                name: 'GBPCountries_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [2, 5, 10, 15, 20],
-                                defaultAmount: 5,
-                                hideChooseYourAmount: false,
-                            },
-                            MONTHLY: {
-                                amounts: [6, 10, 15, 20],
-                                defaultAmount: 10,
-                                hideChooseYourAmount: true,
-                            },
-                            ANNUAL: {
-                                amounts: [50, 100, 150, 200],
-                                defaultAmount: 100,
-                                hideChooseYourAmount: true,
-                            },
-                        },
-                    },
-                    {
-                        name: 'V1',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [10, 20, 30, 40, 50],
-                                defaultAmount: 20,
-                                hideChooseYourAmount: false,
-                            },
-                            MONTHLY: {
-                                amounts: [10, 20, 30, 40],
-                                defaultAmount: 10,
-                                hideChooseYourAmount: true,
-                            },
-                            ANNUAL: {
-                                amounts: [100, 200, 300, 400],
-                                defaultAmount: 100,
-                                hideChooseYourAmount: true,
-                            },
-                        },
-                    },
-                ],
-            },
-            UnitedStates: {
-                name: 'UnitedStates_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                        },
-                    },
-                ],
-            },
-            AUDCountries: {
-                name: 'AUDCountries_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                        },
-                    },
-                ],
-            },
-            EURCountries: {
-                name: 'EURCountries_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                        },
-                    },
-                ],
-            },
-            International: {
-                name: 'International_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [1, 5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                        },
-                    },
-                ],
-            },
-            NZDCountries: {
-                name: 'NZDCountries_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                        },
-                    },
-                ],
-            },
-            Canada: {
-                name: 'Canada_default',
-                testIsLive: false,
-                seed: '0',
-                variants: [
-                    {
-                        name: 'control',
-                        amounts: {
-                            ONE_OFF: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            MONTHLY: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                            ANNUAL: {
-                                amounts: [5, 10, 15, 20],
-                                defaultAmount: 5,
-                            },
-                        },
-                    },
-                ],
+            testName: 'Storybook_test',
+            variantName: 'Control',
+            amounts: {
+                ONE_OFF: {
+                    amounts: [2, 5, 10, 15, 20],
+                    defaultAmount: 5,
+                    hideChooseYourAmount: false,
+                },
+                MONTHLY: {
+                    amounts: [6, 10, 15, 20],
+                    defaultAmount: 10,
+                    hideChooseYourAmount: true,
+                },
+                ANNUAL: {
+                    amounts: [50, 100, 150, 200],
+                    defaultAmount: 100,
+                    hideChooseYourAmount: true,
+                },
             },
         },
     },

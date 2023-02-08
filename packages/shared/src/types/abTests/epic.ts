@@ -110,7 +110,7 @@ export type ModifiedConfiguredRegionAmounts = {
 
 export type SelectedAmountsVariant = {
     testName: string;
-    variantName: string,
+    variantName: string;
     amounts: ContributionAmounts;
 };
 

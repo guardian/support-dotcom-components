@@ -9,11 +9,17 @@ import {
     createInsertEventFromTracking,
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
-    countryCodeToCountryGroupId,
+    // countryCodeToCountryGroupId,
     getLocalCurrencySymbol,
     logEpicView,
 } from '@sdc/shared/lib';
-import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
+import {
+    ContributionFrequency,
+    EpicProps,
+    epicPropsSchema,
+    Stage,
+    SelectedAmountsVariant,
+} from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
@@ -277,24 +283,31 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
-    const countryGroupId = countryCodeToCountryGroupId(countryCode ?? 'GB');
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const amountsVariant = (showChoiceCards && choiceCardAmounts) ? choiceCardAmounts : undefined;
+    const [choiceCardSelection, setChoiceCardSelection] = useState<
+        ChoiceCardSelection | undefined
+    >();
 
-    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>();
+    const [amountsVariant, setAmountsVariant] = useState<SelectedAmountsVariant | undefined>();
 
-    if (amountsVariant) {
+    useEffect(() => {
+        if (!showChoiceCards || choiceCardAmounts == null) {
+            setAmountsVariant(undefined);
+        } else {
+            setAmountsVariant(choiceCardAmounts);
 
-        const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
-        const localAmounts = amountsVariant.amounts[defaultFrequency]
-        const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
+            const defaultFrequency: ContributionFrequency =
+                variant.defaultChoiceCardFrequency || 'MONTHLY';
+            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+            const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
 
-        setChoiceCardSelection({
-            frequency: defaultFrequency,
-            amount: defaultAmount,
-        });
-    }
+            setChoiceCardSelection({
+                frequency: defaultFrequency,
+                amount: defaultAmount,
+            });
+        }
+    }, [showChoiceCards, choiceCardAmounts]);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
@@ -418,7 +431,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     selection={choiceCardSelection}
                     submitComponentEvent={submitComponentEvent}
                     currencySymbol={currencySymbol}
-                    amountsTestVariant={amountsTestVariant}
+                    amounts={amountsVariant.amounts}
                 />
             )}
 

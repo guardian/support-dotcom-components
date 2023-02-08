@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import { ContributionFrequency, AmountsTestVariant, OphanComponentEvent } from '@sdc/shared/types';
+import { ContributionFrequency, ContributionAmounts, OphanComponentEvent } from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
@@ -68,11 +68,11 @@ export interface ChoiceCardSelection {
 }
 
 interface EpicChoiceCardProps {
-    selection: ChoiceCardSelection;
+    selection: ChoiceCardSelection | undefined;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
-    amountsTestVariant: AmountsTestVariant | undefined;
+    amounts: ContributionAmounts;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -80,13 +80,11 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     setSelectionsCallback,
     submitComponentEvent,
     currencySymbol,
-    amountsTestVariant,
+    amounts,
 }: EpicChoiceCardProps) => {
-    if (amountsTestVariant == null) {
+    if (selection == null) {
         return <></>;
     }
-
-    const variantAmounts = amountsTestVariant.amounts;
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
@@ -112,7 +110,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
-            amount: variantAmounts[frequency].defaultAmount,
+            amount: amounts[frequency].defaultAmount,
         });
     };
 
@@ -134,7 +132,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardAmountsButtons = () => {
-        const productData = variantAmounts[selection.frequency];
+        const productData = amounts[selection.frequency];
         const requiredAmounts = productData.amounts;
         const hideChooseYourAmount = productData.hideChooseYourAmount ?? false;
 

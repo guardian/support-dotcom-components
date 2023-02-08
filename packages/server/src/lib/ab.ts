@@ -4,9 +4,7 @@ import {
     ModifiedChoiceCardAmounts,
     SelectedAmountsVariant,
 } from '@sdc/shared/types';
-import {
-    CountryGroupId,
-} from '@sdc/shared/lib';
+import { CountryGroupId } from '@sdc/shared/lib';
 import seedrandom from 'seedrandom';
 
 const maxMvt = 1000000;
@@ -82,20 +80,20 @@ export const selectAmountsTestVariant = (
         testName: 'test',
         variantName: 'variant',
         amounts: {
-            'ONE_OFF': {
+            ONE_OFF: {
                 amounts: [1, 5, 10, 20],
                 defaultAmount: 5,
             },
-            'MONTHLY': {
+            MONTHLY: {
                 amounts: [1, 5, 10, 20],
                 defaultAmount: 5,
             },
-            'ANNUAL': {
+            ANNUAL: {
                 amounts: [1, 5, 10, 20],
                 hideChooseYourAmount: true,
                 defaultAmount: 5,
             },
-        }
+        },
     };
 };
 
