@@ -29,6 +29,7 @@ export interface TickerStylingSettings {
 
 export interface HeaderSettings {
     textColour: string;
+    textHeight?: number;
 }
 
 export interface BannerTemplateSettings {

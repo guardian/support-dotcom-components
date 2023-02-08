@@ -42,7 +42,7 @@ const styles = {
             ${headline.xsmall({ fontWeight: 'bold' })}
             margin: 0;
             color: ${headerSettings?.textColour ?? neutral[0]};
-            font-size: 24px;
+            font-size: ${headerSettings?.textHeight ?? 24}px;
             line-height: 115%;
 
             ${from.desktop} {
