@@ -12,6 +12,8 @@ interface OnReminderOpen {
 type ContributionsEpicCtasProps = EpicProps & {
     showChoiceCards?: boolean;
     choiceCardSelection?: ChoiceCardSelection;
+    amountsTestName?: string;
+    amountsVariantName?: string;
 };
 
 export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
@@ -25,6 +27,8 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
     fetchEmail,
     showChoiceCards,
     choiceCardSelection,
+    amountsTestName,
+    amountsVariantName,
 }: ContributionsEpicCtasProps): JSX.Element | null => {
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
     const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
@@ -65,6 +69,8 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
                 isSignedIn={Boolean(fetchedEmail)}
                 showChoiceCards={showChoiceCards}
                 choiceCardSelection={choiceCardSelection}
+                amountsTestName={amountsTestName}
+                amountsVariantName={amountsVariantName}
                 numArticles={articleCounts.for52Weeks}
             />
 

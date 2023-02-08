@@ -9,7 +9,6 @@ import {
     createInsertEventFromTracking,
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
-    // countryCodeToCountryGroupId,
     getLocalCurrencySymbol,
     logEpicView,
 } from '@sdc/shared/lib';
@@ -105,7 +104,7 @@ const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
 
-// RJR question: why has this been separated out from the component?
+// sendEpicViewEvent()
 // -------------------------------------------
 const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
     const path = 'events/epic-view';
@@ -313,7 +312,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
-    // RJR Question: are these useEvent hooks sending the most appropriate data
     useEffect(() => {
         if (hasBeenSeen) {
             // For the event stream
@@ -448,6 +446,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                     showChoiceCards={showChoiceCards}
+                    amountsTestName={choiceCardAmounts?.testName}
+                    amountsVariantName={choiceCardAmounts?.variantName}
                     choiceCardSelection={choiceCardSelection}
                 />
             )}
