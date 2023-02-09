@@ -51,6 +51,7 @@ const styles = {
     container: css`
         display: flex;
         position: relative;
+        z-index: 100;
     `,
     roundelContainer: css`
         display: none;
