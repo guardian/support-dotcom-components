@@ -1,9 +1,9 @@
-import { brand, brandAlt, neutral } from '@guardian/src-foundations';
+import { brand, culture, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 const UkraineMomentBanner = getMomentTemplateBanner({
-    backgroundColour: '#FFFDF6',
+    backgroundColour: culture[800],
     headerSettings: {
         textColour: brand[400],
     },
@@ -20,7 +20,7 @@ const UkraineMomentBanner = getMomentTemplateBanner({
     },
     secondaryCtaSettings: {
         default: {
-            backgroundColour: '#FFFDF6',
+            backgroundColour: culture[800],
             textColour: brand[400],
             border: '1px solid #052962',
         },
@@ -32,7 +32,7 @@ const UkraineMomentBanner = getMomentTemplateBanner({
     },
     closeButtonSettings: {
         default: {
-            backgroundColour: '#FFFDF6',
+            backgroundColour: culture[800],
             textColour: brand[400],
             border: `1px solid ${brand[400]}`,
         },
@@ -43,7 +43,6 @@ const UkraineMomentBanner = getMomentTemplateBanner({
     },
     highlightedTextSettings: {
         textColour: neutral[0],
-        highlightColour: brandAlt[400],
     },
     imageSettings: {
         mainUrl:

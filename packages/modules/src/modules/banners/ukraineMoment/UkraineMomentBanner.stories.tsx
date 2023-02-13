@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, brandAlt, neutral } from '@guardian/src-foundations';
+import { brand, culture, neutral } from '@guardian/src-foundations';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/src/types';
 import { Meta, Story } from '@storybook/react';
 import { bannerWrapper } from '../common/BannerWrapper';
@@ -13,7 +13,7 @@ export default {
 
 const UkraineMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#FFFDF6',
+        backgroundColour: culture[800],
         headerSettings: {
             textColour: brand[400],
         },
@@ -30,7 +30,7 @@ const UkraineMomentBanner = bannerWrapper(
         },
         secondaryCtaSettings: {
             default: {
-                backgroundColour: '#FFFDF6',
+                backgroundColour: culture[800],
                 textColour: brand[400],
                 border: '1px solid #052962',
             },
@@ -42,7 +42,7 @@ const UkraineMomentBanner = bannerWrapper(
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: '#FFFDF6',
+                backgroundColour: culture[800],
                 textColour: brand[400],
                 border: `1px solid ${brand[400]}`,
             },
@@ -53,7 +53,6 @@ const UkraineMomentBanner = bannerWrapper(
         },
         highlightedTextSettings: {
             textColour: neutral[0],
-            highlightColour: brandAlt[400],
         },
         imageSettings: {
             mainUrl:
