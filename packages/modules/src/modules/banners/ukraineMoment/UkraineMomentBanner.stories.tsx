@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, brandAlt, neutral, opinion } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/src/types';
 import { Meta, Story } from '@storybook/react';
 import { bannerWrapper } from '../common/BannerWrapper';
@@ -13,7 +13,7 @@ export default {
 
 const UkraineMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: opinion[800],
+        backgroundColour: '#FFFDF6',
         headerSettings: {
             textColour: brand[400],
         },
@@ -30,7 +30,7 @@ const UkraineMomentBanner = bannerWrapper(
         },
         secondaryCtaSettings: {
             default: {
-                backgroundColour: '#FEF9F5',
+                backgroundColour: '#FFFDF6',
                 textColour: brand[400],
                 border: '1px solid #052962',
             },
@@ -42,7 +42,7 @@ const UkraineMomentBanner = bannerWrapper(
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: opinion[800],
+                backgroundColour: '#FFFDF6',
                 textColour: brand[400],
                 border: `1px solid ${brand[400]}`,
             },
@@ -66,6 +66,8 @@ const UkraineMomentBanner = bannerWrapper(
                 'https://i.guim.co.uk/img/media/5325001b389aaf3bc3ad1aec25ec7b90761f02c2/0_0_320_292/320.png?width=320&height=292&quality=75&s=5b193b151d7c6b444141df7a817763be',
             leftColUrl:
                 'https://i.guim.co.uk/img/media/e3ede24eaa18d18766a06d65564fba352064bb5f/0_0_441_292/441.png?width=441&height=292&quality=75&s=6cd61bd9d1eede1f8f9684a58b9cf6c9',
+            wideUrl:
+                'https://i.guim.co.uk/img/media/e3ede24eaa18d18766a06d65564fba352064bb5f/0_0_441_292/441.png?width=441&height=292&quality=75&s=6cd61bd9d1eede1f8f9684a58b9cf6c9',
             altText: 'Ukraine one year on',
         },
         bannerId: 'ukraine-moment-banner',
@@ -81,40 +83,40 @@ export const UkraineMoment = UkraineMomentTemplate.bind({});
 UkraineMoment.args = {
     ...props,
     content: {
-        heading: 'Ukraine: one year on',
+        heading: 'A year on, we’ll keep on covering every minute',
         messageText: `You've read %%ARTICLE_COUNT%% articles in the last year`,
         paragraphs: [
-            'The war in Ukraine has changed the world, and the Guardian has covered every minute. Our people on the ground, have endured personal risk and hardship to produce more than 5,000 articles, films and podcasts since the invasion. Our liveblog has reported continuously and comprehensively since the outbreak of Europe’s biggest war since 1945. We know it’s crucial that we stay til the end. Will you join us?',
+            'The war in Ukraine has changed the world, and the Guardian has covered every minute. Our staff, ever present in the country, have endured personal risk and hardship to produce more than 5,000 articles, films and podcasts since the invasion. Our liveblog has reported continuously and comprehensively since the outbreak of Europe’s biggest war since 1945. We know it’s crucial that we stay til the end.',
         ],
         highlightedText: 'Will you join us?',
         cta: {
-            text: 'Support independent journalism',
-            baseUrl: 'https://support.theguardian.com/contribute/one-off',
+            text: 'Support monthly',
+            baseUrl: 'https://support.theguardian.com/contribute/recurring',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Hear from our editor',
-                baseUrl: 'https://support.theguardian.com/contribute/recurring',
+                text: 'Support once',
+                baseUrl: 'https://support.theguardian.com/contribute/one-off',
             },
         },
     },
     mobileContent: {
-        heading: 'Ukraine: one year on',
+        heading: 'A year on, we’ll keep on covering every minute',
         messageText: `You've read %%ARTICLE_COUNT%% articles in the last year`,
         paragraphs: [
-            'The war in Ukraine has changed the world, and the Guardian has covered every minute. Our people on the ground have endured personal risk and hardship to produce more than 5,000 articles, films and podcasts since the invasion. We know it’s crucial that we stay til the end. Will you join us?',
+            'The war in Ukraine has changed the world, and the Guardian has covered every minute. Our staff, ever present in the country, have endured personal risk and hardship to produce more than 5,000 articles, films and podcasts since the invasion. Our liveblog has reported continuously and comprehensively since the outbreak of Europe’s biggest war since 1945. We know it’s crucial that we stay til the end.',
         ],
         highlightedText: 'Will you join us?',
         cta: {
-            text: 'Support us',
-            baseUrl: 'https://support.theguardian.com/contribute/one-off',
+            text: 'Support monthly',
+            baseUrl: 'https://support.theguardian.com/contribute/recurring',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Hear from our editor',
-                baseUrl: 'https://support.theguardian.com/contribute/recurring',
+                text: 'Support once',
+                baseUrl: 'https://support.theguardian.com/contribute/one-off',
             },
         },
     },

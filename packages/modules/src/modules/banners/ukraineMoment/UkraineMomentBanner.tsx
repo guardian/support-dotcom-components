@@ -1,9 +1,9 @@
-import { brand, brandAlt, neutral, opinion } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 const UkraineMomentBanner = getMomentTemplateBanner({
-    backgroundColour: opinion[800],
+    backgroundColour: '#FFFDF6',
     headerSettings: {
         textColour: brand[400],
     },
@@ -20,7 +20,7 @@ const UkraineMomentBanner = getMomentTemplateBanner({
     },
     secondaryCtaSettings: {
         default: {
-            backgroundColour: '#FEF9F5',
+            backgroundColour: '#FFFDF6',
             textColour: brand[400],
             border: '1px solid #052962',
         },
@@ -32,7 +32,7 @@ const UkraineMomentBanner = getMomentTemplateBanner({
     },
     closeButtonSettings: {
         default: {
-            backgroundColour: opinion[800],
+            backgroundColour: '#FFFDF6',
             textColour: brand[400],
             border: `1px solid ${brand[400]}`,
         },
@@ -55,6 +55,8 @@ const UkraineMomentBanner = getMomentTemplateBanner({
         desktopUrl:
             'https://i.guim.co.uk/img/media/5325001b389aaf3bc3ad1aec25ec7b90761f02c2/0_0_320_292/320.png?width=320&height=292&quality=75&s=5b193b151d7c6b444141df7a817763be',
         leftColUrl:
+            'https://i.guim.co.uk/img/media/e3ede24eaa18d18766a06d65564fba352064bb5f/0_0_441_292/441.png?width=441&height=292&quality=75&s=6cd61bd9d1eede1f8f9684a58b9cf6c9',
+        wideUrl:
             'https://i.guim.co.uk/img/media/e3ede24eaa18d18766a06d65564fba352064bb5f/0_0_441_292/441.png?width=441&height=292&quality=75&s=6cd61bd9d1eede1f8f9684a58b9cf6c9',
         altText: 'Ukraine one year on',
     },
