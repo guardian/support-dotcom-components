@@ -17,7 +17,6 @@ import {
     EpicProps,
     epicPropsSchema,
     Stage,
-    SelectedAmountsVariant,
 } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
@@ -103,29 +102,6 @@ const imageStyles = css`
 const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
-
-// sendEpicViewEvent()
-// -------------------------------------------
-const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
-    const path = 'events/epic-view';
-    const host = isProd(stage)
-        ? 'https://contributions.guardianapis.com'
-        : 'https://contributions.code.dev-guardianapis.com';
-    const body = JSON.stringify({
-        url,
-        countryCode,
-    });
-
-    fetch(`${host}/${path}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body,
-    }).then(response => {
-        if (!response.ok) {
-            console.log('Epic view event request failed', response);
-        }
-    });
-};
 
 // EpicHeader - local component
 // -------------------------------------------
@@ -258,7 +234,6 @@ const EpicBody: React.FC<BodyProps> = ({
                         showAboveArticleCount={showAboveArticleCount}
                     />
                 );
-
                 return paragraphElement;
             })}
         </>
@@ -288,14 +263,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         ChoiceCardSelection | undefined
     >();
 
-    const [amountsVariant, setAmountsVariant] = useState<SelectedAmountsVariant | undefined>();
-
     useEffect(() => {
-        if (!showChoiceCards || choiceCardAmounts == null) {
-            setAmountsVariant(undefined);
-        } else {
-            setAmountsVariant(choiceCardAmounts);
-
+        if (showChoiceCards && choiceCardAmounts != null) {
             const defaultFrequency: ContributionFrequency =
                 variant.defaultChoiceCardFrequency || 'MONTHLY';
             const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
@@ -337,6 +306,27 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         variant.highlightedText,
         countryCode,
     );
+
+    const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
+        const path = 'events/epic-view';
+        const host = isProd(stage)
+            ? 'https://contributions.guardianapis.com'
+            : 'https://contributions.code.dev-guardianapis.com';
+        const body = JSON.stringify({
+            url,
+            countryCode,
+        });
+
+        fetch(`${host}/${path}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body,
+        }).then(response => {
+            if (!response.ok) {
+                console.log('Epic view event request failed', response);
+            }
+        });
+    };
 
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
@@ -423,13 +413,13 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
-            {amountsVariant && (
+            {choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
                     submitComponentEvent={submitComponentEvent}
                     currencySymbol={currencySymbol}
-                    amounts={amountsVariant.amounts}
+                    amounts={choiceCardAmounts.amounts}
                 />
             )}
 
