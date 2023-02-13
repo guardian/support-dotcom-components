@@ -12,12 +12,7 @@ import {
     getLocalCurrencySymbol,
     logEpicView,
 } from '@sdc/shared/lib';
-import {
-    ContributionFrequency,
-    EpicProps,
-    epicPropsSchema,
-    Stage,
-} from '@sdc/shared/types';
+import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
