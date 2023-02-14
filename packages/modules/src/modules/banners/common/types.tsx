@@ -19,7 +19,8 @@ export type BannerId =
     | 'us-eoy-banner'
     | 'us-eoy-giving-tues-banner'
     | 'us-eoy-banner-v3'
-    | 'aus-eoy-banner';
+    | 'aus-eoy-banner'
+    | 'ukraine-moment-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

@@ -25,7 +25,7 @@ export function MomentTemplateBannerCloseButton({
     return (
         <div css={styles.container}>
             <div css={styles.roundelContainer}>
-                {bannerId === 'global-new-year-banner' ? (
+                {bannerId === 'global-new-year-banner' || bannerId === 'ukraine-moment-banner' ? (
                     <SvgRoundelBrand />
                 ) : (
                     <SvgRoundelDefault />
@@ -51,6 +51,7 @@ const styles = {
     container: css`
         display: flex;
         position: relative;
+        z-index: 100;
     `,
     roundelContainer: css`
         display: none;

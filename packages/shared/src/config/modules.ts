@@ -119,6 +119,11 @@ export const usEoyMomentBannerV3: ModuleInfo = getDefaultModuleInfo(
     'banners/usEoyMomentV3/UsEoyMomentBannerV3',
 );
 
+export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'ukraine-moment-banner',
+    'banners/ukraineMoment/UkraineMomentBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -142,4 +147,5 @@ export const moduleInfos: ModuleInfo[] = [
     usEoyGivingTuesMomentBanner,
     ausEoyMomentBanner,
     usEoyMomentBannerV3,
+    ukraineMomentBanner,
 ];
