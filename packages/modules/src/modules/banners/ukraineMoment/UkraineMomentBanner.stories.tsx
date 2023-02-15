@@ -64,9 +64,9 @@ const UkraineMomentBanner = bannerWrapper(
             desktopUrl:
                 'https://i.guim.co.uk/img/media/5325001b389aaf3bc3ad1aec25ec7b90761f02c2/0_0_320_292/320.png?width=320&height=292&quality=75&s=5b193b151d7c6b444141df7a817763be',
             leftColUrl:
-                'https://i.guim.co.uk/img/media/e3ede24eaa18d18766a06d65564fba352064bb5f/0_0_441_292/441.png?width=441&height=292&quality=75&s=6cd61bd9d1eede1f8f9684a58b9cf6c9',
+                'https://i.guim.co.uk/img/media/359d8cde335895144b85a52ce0fe6b93fa8e1514/0_0_882_584/882.png?width=882&height=584&quality=75&s=da90ac1806631a1cb7f3903af88b5819',
             wideUrl:
-                'https://i.guim.co.uk/img/media/e3ede24eaa18d18766a06d65564fba352064bb5f/0_0_441_292/441.png?width=441&height=292&quality=75&s=6cd61bd9d1eede1f8f9684a58b9cf6c9',
+                'https://i.guim.co.uk/img/media/359d8cde335895144b85a52ce0fe6b93fa8e1514/0_0_882_584/882.png?width=882&height=584&quality=75&s=da90ac1806631a1cb7f3903af88b5819',
             altText: 'Ukraine one year on',
         },
         bannerId: 'ukraine-moment-banner',
