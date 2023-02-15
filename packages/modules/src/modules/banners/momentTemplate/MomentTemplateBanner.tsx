@@ -47,6 +47,7 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
+        const isNewYearBanner = templateSettings.bannerId === 'global-new-year-banner';
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
         const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
         const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-banner-v3';
@@ -133,12 +134,12 @@ export function getMomentTemplateBanner(
                                 css={
                                     isUsEoyGivingTuesBanner
                                         ? [
-                                              styles.desktopVisualContainer,
+                                              styles.desktopVisualContainer(isNewYearBanner),
                                               styles.desktopGivingTuesVisualContainer,
                                           ]
                                         : isUsEoyV3Banner
                                         ? styles.desktopUsEoyV3Container
-                                        : styles.desktopVisualContainer
+                                        : styles.desktopVisualContainer(isNewYearBanner)
                                 }
                             >
                                 {templateSettings.imageSettings && (
@@ -307,22 +308,22 @@ const styles = {
         margin-left: -${space[5]}px;
         margin-right: -${space[5]}px;
     `,
-    desktopVisualContainer: css`
+    desktopVisualContainer: (isNewYearBanner?: boolean) => css`
         display: none;
         pointer-events: none;
         position: relative;
 
         ${from.tablet} {
             display: block;
-            width: 238px;
+            width: ${isNewYearBanner ? 500 : 238}px;
             margin-left: ${space[3]}px;
         }
         ${from.desktop} {
-            width: 320px;
+            width: ${isNewYearBanner ? 520 : 320}px;
             margin-left: ${space[5]}px;
         }
         ${from.leftCol} {
-            width: 370px;
+            width: ${isNewYearBanner ? 540 : 370}px;
             margin-left: ${space[9]}px;
         }
     `,

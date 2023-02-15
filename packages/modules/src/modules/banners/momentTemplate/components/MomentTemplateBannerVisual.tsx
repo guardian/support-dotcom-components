@@ -48,12 +48,24 @@ export function MomentTemplateBannerVisual({
         }
     `;
 
+    const alignNewYearBanner = css`
+        ${from.tablet} {
+            align-items: center;
+            justify-content: initial;
+        }
+        ${from.desktop} {
+            align-items: flex-end;
+            justify-content: initial;
+        }
+    `;
+
     const alignment = css`
         ${from.tablet} {
             align-items: ${bannerId === 'us-eoy-banner' ? 'flex-start' : 'center'};
         }
 
         ${bannerId === 'aus-eoy-banner' && alignAusEoyBanner}
+        ${bannerId === 'global-new-year-banner' && alignNewYearBanner}
     `;
 
     return (
