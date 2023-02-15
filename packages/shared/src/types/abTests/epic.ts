@@ -110,8 +110,8 @@ export type ModifiedConfiguredRegionAmounts = {
 
 export type SelectedAmountsVariant = {
     testName: string;
-    variantName: string;
-    amounts: ContributionAmounts;
+    variantName?: string;
+    amounts?: ContributionAmounts;
 };
 
 export type ModifiedChoiceCardAmounts = {

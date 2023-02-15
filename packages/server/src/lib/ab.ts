@@ -68,94 +68,45 @@ const amountsRandomNumber = (mvtId: number, seed: number): number => {
     const rng = seedrandom(`${mvtId + seed}`);
     return Math.abs(rng.int32());
 };
-// function randomNumber(mvtId: number, seed: number): number {
-//     const rng = seedrandom(`${mvtId + seed}`);
-//     return Math.abs(rng.int32());
-// }
 
 export const selectAmountsTestVariant = (
     test: ModifiedChoiceCardAmounts,
     countryGroupId: CountryGroupId,
     mvtId: number,
-): SelectedAmountsVariant => {
+): SelectedAmountsVariant | undefined => {
     const regionTest = test[countryGroupId];
 
     const { name, variants, testIsLive, seed } = regionTest;
 
     const seedNumber = parseInt(seed, 10);
 
-    // Safety, in case something goes wrong
-    const defaultAmounts = {
-        ONE_OFF: {
-            amounts: [1, 5, 10, 20],
-            defaultAmount: 5,
-        },
-        MONTHLY: {
-            amounts: [1, 5, 10, 20],
-            defaultAmount: 5,
-        },
-        ANNUAL: {
-            amounts: [10, 50, 100, 150],
-            defaultAmount: 50,
-        },
-    };
-
-    // The default hardcoded packet
-    const packet: SelectedAmountsVariant = {
+    const returnData: SelectedAmountsVariant = {
         testName: name,
-        variantName: 'hardcoded_default',
-        amounts: defaultAmounts,
     };
 
-    // No control or variants in data - return default hardcoded packet
+    // No control or variants in data
     if (!variants.length) {
-        return packet;
+        return undefined;
     }
 
     // Return the control variant if there's no test or just a single variant
     if (!testIsLive || variants.length === 1) {
         const variant = variants[0];
-        packet.variantName = variant.name;
-        packet.amounts = variant.amounts;
-        return packet;
+        returnData.variantName = variant.name;
+        returnData.amounts = variant.amounts;
+        return returnData;
     }
 
     // Assign user to a variant
     const assignmentIndex = amountsRandomNumber(mvtId, seedNumber) % variants.length;
     const variant = variants[assignmentIndex];
 
-    // If for any reason the user gets assigned to an empty slot in the variant array, then return the default hardcoded packet (rather than control, that way we can keep the numbers in control and variants roughly equal)
     if (variant == null) {
-        return packet;
+        return undefined;
     }
 
     // Test is running and user has been successfully assigned to a control/variant
-    packet.variantName = variant.name;
-    packet.amounts = variant.amounts;
-    return packet;
+    returnData.variantName = variant.name;
+    returnData.amounts = variant.amounts;
+    return returnData;
 };
-// function getAmountsTestParticipations(
-//     countryGroupId: CountryGroupId,
-//     settings: Settings,
-// ): Participations | null | undefined {
-//     if (
-//         !targetPageMatches(
-//             window.location.pathname,
-//             '/??/contribute|contribute-in-epic|thankyou(/.*)?$',
-//         )
-//     ) {
-//         return null;
-//     }
-
-//     const { test } = settings.amounts?.[countryGroupId] ?? {};
-
-//     if (!test || !test.isLive) {
-//         return null;
-//     }
-
-//     const variants = ['CONTROL', ...test.variants.map((variant) => variant.name)];
-//     const assignmentIndex = randomNumber(getMvtId(), test.seed) % variants.length;
-//     return {
-//         [test.name]: variants[assignmentIndex],
-//     };
-// }

@@ -233,13 +233,13 @@ WithChoiceCards.args = {
             variantName: 'Control',
             amounts: {
                 ONE_OFF: {
-                    amounts: [2, 5, 10, 15, 20],
+                    amounts: [5, 10, 15, 20],
                     defaultAmount: 5,
                     hideChooseYourAmount: false,
                 },
                 MONTHLY: {
-                    amounts: [6, 10, 15, 20],
-                    defaultAmount: 10,
+                    amounts: [6, 12, 18, 24],
+                    defaultAmount: 12,
                     hideChooseYourAmount: true,
                 },
                 ANNUAL: {

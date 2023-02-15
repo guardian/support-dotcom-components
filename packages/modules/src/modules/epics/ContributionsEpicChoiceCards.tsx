@@ -68,11 +68,11 @@ export interface ChoiceCardSelection {
 }
 
 interface EpicChoiceCardProps {
-    selection: ChoiceCardSelection | undefined;
+    selection?: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
-    amounts: ContributionAmounts;
+    amounts?: ContributionAmounts;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -82,7 +82,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     currencySymbol,
     amounts,
 }: EpicChoiceCardProps) => {
-    if (selection == null) {
+    if (selection == null || amounts == null) {
         return <></>;
     }
 
