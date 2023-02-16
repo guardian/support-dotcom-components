@@ -20,14 +20,12 @@ export const addTrackingParams = (
         {
             name: params.abTestName,
             variant: params.abTestVariant,
-            testType: 'MESSAGE_TEST',
         },
     ];
     if (params.targetingAbTest) {
         abTests.push({
             name: params.targetingAbTest.testName,
             variant: params.targetingAbTest.variantName,
-            testType: 'TARGETING_TEST',
         });
     }
 
