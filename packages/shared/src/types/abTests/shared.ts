@@ -48,8 +48,6 @@ export interface TargetingAbTest {
 }
 
 export type TestTracking = {
-    amountsAbTestName?: string;
-    amountsAbTestVariant?: string;
     abTestName: string;
     abTestVariant: string;
     campaignCode: string;

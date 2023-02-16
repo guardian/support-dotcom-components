@@ -124,8 +124,6 @@ export type Tracking = TestTracking & PageTracking;
 export const trackingSchema = z.object({
     abTestName: z.string(),
     abTestVariant: z.string(),
-    amountsAbTestName: z.string().nullish(),
-    amountsAbTestVariant: z.string().nullish(),
     campaignCode: z.string(),
     componentType: ophanComponentTypeSchema,
     products: z.array(ophanProductSchema).nullish(),
