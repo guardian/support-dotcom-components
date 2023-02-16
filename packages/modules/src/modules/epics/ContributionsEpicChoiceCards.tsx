@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
 import { ContributionFrequency, ContributionAmounts, OphanComponentEvent } from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
+import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 
 // CSS Styling
 // -------------------------------------------
@@ -73,6 +74,8 @@ interface EpicChoiceCardProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
     amounts?: ContributionAmounts;
+    amountsTestName?: string;
+    amountsVariantName?: string;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -81,17 +84,39 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     submitComponentEvent,
     currencySymbol,
     amounts,
+    amountsTestName = 'test_undefined',
+    amountsVariantName = 'variant_undefined',
 }: EpicChoiceCardProps) => {
-    if (selection == null || amounts == null) {
+    if (!selection || !amounts) {
         return <></>;
     }
+
+    const abTestName = `${amountsTestName}__${amountsVariantName}`;
+
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent({
+                    component: {
+                        componentType: 'ACQUISITIONS_OTHER',
+                        id: abTestName,
+                    },
+                    action: 'VIEW',
+                });
+            }
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
             submitComponentEvent({
                 component: {
                     componentType: 'ACQUISITIONS_OTHER',
-                    id: `contributions-epic-choice-cards-change-${type}`,
+                    // id: `contributions-epic-choice-cards-change-${type}`,
+                    id: `${abTestName}-change-${type}`,
                 },
                 action: 'CLICK',
             });
@@ -174,7 +199,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     return (
-        <div css={container}>
+        <div ref={setNode} css={container}>
             <br />
             <ChoiceCardGroup
                 name="contribution-frequency"

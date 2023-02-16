@@ -259,7 +259,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     >();
 
     useEffect(() => {
-        if (showChoiceCards && choiceCardAmounts != null && choiceCardAmounts.amounts != null) {
+        if (showChoiceCards && choiceCardAmounts?.amounts) {
             const defaultFrequency: ContributionFrequency =
                 variant.defaultChoiceCardFrequency || 'MONTHLY';
             const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
@@ -415,6 +415,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     submitComponentEvent={submitComponentEvent}
                     currencySymbol={currencySymbol}
                     amounts={choiceCardAmounts.amounts}
+                    amountsTestName={choiceCardAmounts?.testName}
+                    amountsVariantName={choiceCardAmounts?.variantName}
                 />
             )}
 

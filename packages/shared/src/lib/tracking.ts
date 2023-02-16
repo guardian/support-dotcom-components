@@ -23,13 +23,6 @@ export const addTrackingParams = (
             testType: 'MESSAGE_TEST',
         },
     ];
-    if (params.amountsAbTestName) {
-        abTests.push({
-            name: params.amountsAbTestName,
-            variant: params.amountsAbTestVariant,
-            testType: 'AMOUNTS_TEST',
-        });
-    }
     if (params.targetingAbTest) {
         abTests.push({
             name: params.targetingAbTest.testName,
@@ -157,14 +150,11 @@ export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant
 export const buildAmpEpicCampaignCode = (testName: string, variantName: string): string =>
     `AMP__${testName}__${variantName}`;
 
-// RJR message for reviewers: I'm nervous about adding amounts test to events - may be worth mobbing on - to decide if it's necessary and, if yes, the best way to do it?
 const createEventFromTracking = (action: OphanAction) => {
     return (tracking: Tracking, componentId: string): OphanComponentEvent => {
         const {
             abTestName,
             abTestVariant,
-            amountsAbTestName,
-            amountsAbTestVariant,
             componentType,
             products = [],
             labels = [],
@@ -175,14 +165,6 @@ const createEventFromTracking = (action: OphanAction) => {
                 ? {
                       name: abTestName,
                       variant: abTestVariant,
-                  }
-                : null;
-
-        const amountsAbTest =
-            amountsAbTestName && amountsAbTestVariant
-                ? {
-                      name: amountsAbTestName,
-                      variant: amountsAbTestVariant,
                   }
                 : null;
 
@@ -202,7 +184,6 @@ const createEventFromTracking = (action: OphanAction) => {
                 labels,
             },
             ...(abTest ? { abTest } : {}),
-            ...(amountsAbTest ? { amountsAbTest } : {}),
             ...(targetingAbTest ? { targetingAbTest } : {}),
             action,
         };

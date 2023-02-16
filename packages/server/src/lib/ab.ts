@@ -20,6 +20,11 @@ export const withinRange = (lower: number, proportion: number, mvtId: number): b
     }
 };
 
+const getRandomNumber = (seed: string, mvtId: number | string = ''): number => {
+    const rng = seedrandom(mvtId + seed);
+    return Math.abs(rng.int32());
+};
+
 export const selectWithSeed = <V extends Variant>(
     mvtId: number,
     seed: string,
@@ -29,9 +34,7 @@ export const selectWithSeed = <V extends Variant>(
         // optimisation as it's common for a 'test' to have a single variant
         return variants[0];
     }
-
-    const n: number = Math.abs(seedrandom(mvtId + seed).int32());
-    return variants[n % variants.length];
+    return variants[getRandomNumber(seed, mvtId) % variants.length];
 };
 
 /**
@@ -59,14 +62,7 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
             return control;
         }
     }
-
     return selectWithSeed(mvtId, seed, test.variants);
-};
-
-// Amounts test code should match the equivalent code in support-frontend as closely as possible
-const amountsRandomNumber = (mvtId: number, seed: number): number => {
-    const rng = seedrandom(`${mvtId + seed}`);
-    return Math.abs(rng.int32());
 };
 
 export const selectAmountsTestVariant = (
@@ -78,12 +74,6 @@ export const selectAmountsTestVariant = (
 
     const { name, variants, testIsLive, seed } = regionTest;
 
-    const seedNumber = parseInt(seed, 10);
-
-    const returnData: SelectedAmountsVariant = {
-        testName: name,
-    };
-
     // No control or variants in data
     if (!variants.length) {
         return undefined;
@@ -92,21 +82,25 @@ export const selectAmountsTestVariant = (
     // Return the control variant if there's no test or just a single variant
     if (!testIsLive || variants.length === 1) {
         const variant = variants[0];
-        returnData.variantName = variant.name;
-        returnData.amounts = variant.amounts;
-        return returnData;
+        return {
+            testName: name,
+            variantName: variant.name,
+            amounts: variant.amounts,
+        };
     }
 
-    // Assign user to a variant
-    const assignmentIndex = amountsRandomNumber(mvtId, seedNumber) % variants.length;
+    // Assign user to a variant - support-frontend repo adds mvtId and test seed (both are numbers) and stringifies the result to create a seed for the pseudorandom number generator. This is different from the way message test variants are selected, which concatenates mvtId with the test name to create the pseudorandom seed
+    const assignmentIndex = getRandomNumber(`${parseInt(seed, 10) + mvtId}`) % variants.length;
     const variant = variants[assignmentIndex];
 
-    if (variant == null) {
+    if (!variant) {
         return undefined;
     }
 
     // Test is running and user has been successfully assigned to a control/variant
-    returnData.variantName = variant.name;
-    returnData.amounts = variant.amounts;
-    return returnData;
+    return {
+        testName: name,
+        variantName: variant.name,
+        amounts: variant.amounts,
+    };
 };
