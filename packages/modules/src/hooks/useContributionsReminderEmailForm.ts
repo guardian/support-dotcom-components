@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { isValidEmail } from '../modules/utils/reminders';
+import { emailIsShortEnoughForIdentity, isValidEmail } from '../modules/utils/reminders';
 
 type SubmitHandler = (e: React.FormEvent<HTMLFormElement>) => void;
 
@@ -22,7 +22,7 @@ export function useContributionsReminderEmailForm(): ContributionsReminderEmailF
     };
 
     const isEmpty = email.trim().length === 0;
-    const isValid = isValidEmail(email);
+    const isValid = isValidEmail(email) && emailIsShortEnoughForIdentity(email);
 
     let inputError;
     if (isDirty && isEmpty) {

@@ -44,3 +44,8 @@ export const isValidEmail = (email: string): boolean => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 };
+
+export const emailIsShortEnoughForIdentity = (email: string): boolean => {
+    // Identity errors on email addresses longer than 100 characters
+    return email.length <= 100;
+};
