@@ -134,12 +134,16 @@ export function getMomentTemplateBanner(
                                 css={
                                     isUsEoyGivingTuesBanner
                                         ? [
-                                              styles.desktopVisualContainer(isNewYearBanner),
+                                              styles.desktopVisualContainer,
+                                              isNewYearBanner && styles.desktopVisualContainerNY,
                                               styles.desktopGivingTuesVisualContainer,
                                           ]
                                         : isUsEoyV3Banner
                                         ? styles.desktopUsEoyV3Container
-                                        : styles.desktopVisualContainer(isNewYearBanner)
+                                        : [
+                                              styles.desktopVisualContainer,
+                                              isNewYearBanner && styles.desktopVisualContainerNY,
+                                          ]
                                 }
                             >
                                 {templateSettings.imageSettings && (
@@ -308,23 +312,34 @@ const styles = {
         margin-left: -${space[5]}px;
         margin-right: -${space[5]}px;
     `,
-    desktopVisualContainer: (isNewYearBanner?: boolean) => css`
+    desktopVisualContainer: css`
         display: none;
         pointer-events: none;
         position: relative;
 
         ${from.tablet} {
             display: block;
-            width: ${isNewYearBanner ? 500 : 238}px;
+            width: 238px;
             margin-left: ${space[3]}px;
         }
         ${from.desktop} {
-            width: ${isNewYearBanner ? 520 : 320}px;
+            width: 320px;
             margin-left: ${space[5]}px;
         }
         ${from.leftCol} {
-            width: ${isNewYearBanner ? 540 : 370}px;
+            width: 370px;
             margin-left: ${space[9]}px;
+        }
+    `,
+    desktopVisualContainerNY: css`
+        ${from.tablet} {
+            width: 500px;
+        }
+        ${from.desktop} {
+            width: 520px;
+        }
+        ${from.leftCol} {
+            width: 540px;
         }
     `,
     desktopGivingTuesVisualContainer: css`
