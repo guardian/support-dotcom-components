@@ -91,8 +91,6 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         return <></>;
     }
 
-    const abTestName = `${amountsTestName}__${amountsVariantName}`;
-
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
     useEffect(() => {
@@ -102,9 +100,13 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 submitComponentEvent({
                     component: {
                         componentType: 'ACQUISITIONS_OTHER',
-                        id: abTestName,
+                        id: 'contributions-epic-choice-cards',
                     },
                     action: 'VIEW',
+                    abTest: {
+                        name: amountsTestName,
+                        variant: amountsVariantName,
+                    },
                 });
             }
         }
@@ -115,8 +117,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             submitComponentEvent({
                 component: {
                     componentType: 'ACQUISITIONS_OTHER',
-                    // id: `contributions-epic-choice-cards-change-${type}`,
-                    id: `${abTestName}-change-${type}`,
+                    id: `contributions-epic-choice-cards-change-${type}`,
                 },
                 action: 'CLICK',
             });

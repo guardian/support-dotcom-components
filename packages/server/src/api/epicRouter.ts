@@ -103,13 +103,11 @@ export const buildEpicRouter = (
             return {};
         }
 
+        const targetingMvtId = targeting.mvtId || 1;
+
         const tests =
             type === 'ARTICLE'
-                ? getArticleEpicTests(
-                      targeting.mvtId || 1,
-                      !!params.force,
-                      enableHardcodedEpicTests,
-                  )
+                ? getArticleEpicTests(targetingMvtId, !!params.force, enableHardcodedEpicTests)
                 : liveblogEpicTests.get();
 
         const result = params.force
@@ -135,8 +133,11 @@ export const buildEpicRouter = (
         // HERE - limit to a given regional choiceCardAmounts
         const contributionAmounts = choiceCardAmounts.get();
         const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
-        const mvtId = targeting?.mvtId ?? 0;
-        const variantAmounts = selectAmountsTestVariant(contributionAmounts, requiredRegion, mvtId);
+        const variantAmounts = selectAmountsTestVariant(
+            contributionAmounts,
+            requiredRegion,
+            targetingMvtId,
+        );
 
         const propsVariant = {
             ...variant,
