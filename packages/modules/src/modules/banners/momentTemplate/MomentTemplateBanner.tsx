@@ -47,6 +47,7 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
+        const isNewYearBanner = templateSettings.bannerId === 'global-new-year-banner';
         const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
         const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
         const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-banner-v3';
@@ -134,11 +135,15 @@ export function getMomentTemplateBanner(
                                     isUsEoyGivingTuesBanner
                                         ? [
                                               styles.desktopVisualContainer,
+                                              isNewYearBanner && styles.desktopVisualContainerNY,
                                               styles.desktopGivingTuesVisualContainer,
                                           ]
                                         : isUsEoyV3Banner
                                         ? styles.desktopUsEoyV3Container
-                                        : styles.desktopVisualContainer
+                                        : [
+                                              styles.desktopVisualContainer,
+                                              isNewYearBanner && styles.desktopVisualContainerNY,
+                                          ]
                                 }
                             >
                                 {templateSettings.imageSettings && (
@@ -324,6 +329,17 @@ const styles = {
         ${from.leftCol} {
             width: 370px;
             margin-left: ${space[9]}px;
+        }
+    `,
+    desktopVisualContainerNY: css`
+        ${from.tablet} {
+            width: 500px;
+        }
+        ${from.desktop} {
+            width: 520px;
+        }
+        ${from.leftCol} {
+            width: 540px;
         }
     `,
     desktopGivingTuesVisualContainer: css`
