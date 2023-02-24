@@ -123,7 +123,6 @@ export function InvestigationsMomentBannerCtas({
                                     cssOverrides={styles.desktopPrimaryCta}
                                     size="small"
                                     priority="primary"
-                                    icon={<SvgArrowRightStraight />}
                                     iconSide="right"
                                 >
                                     {desktopCtas.primary.ctaText}
