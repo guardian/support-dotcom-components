@@ -33,19 +33,17 @@ const styles = {
             background-color: ${neutral[100]};
         }
     `,
-    desktopPrimaryCta: css`
-        border: 1px solid ${news[400]};
-        background-color: ${news[400]};
-        color: ${neutral[100]};
+    mobileSecondaryCta: css`
+        border: 1px solid ${neutral[100]};
+        background-color: ${neutral[100]};
+        color: ${neutral[0]};
 
-        ${from.tablet} {
-            &:hover {
-                background-color: ${neutral[100]};
-                color: ${news[400]};
-            }
+        &:hover {
+            background-color: ${neutral[0]};
+            color: ${neutral[100]};
         }
     `,
-    secondaryCta: css`
+    desktopPrimaryCta: css`
         background-color: ${neutral[0]};
         border: 1px solid ${neutral[100]};
 
@@ -56,6 +54,18 @@ const styles = {
 
         ${from.tablet} {
             border: 1px solid ${neutral[0]};
+        }
+    `,
+    secondaryCta: css`
+        border: 1px solid ${news[400]};
+        background-color: ${news[400]};
+        color: ${neutral[100]};
+
+        ${from.tablet} {
+            &:hover {
+                background-color: ${neutral[100]};
+                color: ${news[400]};
+            }
         }
     `,
 };
@@ -131,7 +141,7 @@ export function InvestigationsMomentBannerCtas({
                             <LinkButton
                                 href={mobileCtas.secondary.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
-                                cssOverrides={styles.secondaryCta}
+                                cssOverrides={styles.mobileSecondaryCta}
                                 size="small"
                                 priority="primary"
                             >
