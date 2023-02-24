@@ -70,8 +70,6 @@ const PrimaryCtaButton = ({
         amountsVariantName,
     );
 
-    console.log(urlWithRegionAndTracking);
-
     return (
         <div css={buttonMargins}>
             <Button

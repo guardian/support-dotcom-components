@@ -53,17 +53,19 @@ const generateAbTestArray = (
 };
 
 const encodeAcquisitionsData = (params: Tracking, abTests: AbTestObject[]): string => {
-    return JSON.stringify({
-        source: params.platformId,
-        componentId: params.campaignCode,
-        componentType: params.componentType,
-        campaignCode: params.campaignCode,
-        abTests,
-        referrerPageviewId: params.ophanPageId,
-        referrerUrl: params.referrerUrl,
-        isRemote: true, // Temp param to indicate served by remote service
-        labels: params.labels,
-    });
+    return encodeURIComponent(
+        JSON.stringify({
+            source: params.platformId,
+            componentId: params.campaignCode,
+            componentType: params.componentType,
+            campaignCode: params.campaignCode,
+            abTests,
+            referrerPageviewId: params.ophanPageId,
+            referrerUrl: params.referrerUrl,
+            isRemote: true, // Temp param to indicate served by remote service
+            labels: params.labels,
+        }),
+    );
 };
 
 const generateQueryString = (
@@ -125,9 +127,7 @@ export const addRegionIdAndTrackingWithAmountsParamsToSupportUrl = (
     if (!isSupportUrl(baseUrl)) {
         return baseUrl;
     }
-
     const urlWithRegion = addRegionIdToSupportUrl(baseUrl, countryCode);
-
     const abTests = generateAbTestArray(
         tracking.abTestName,
         tracking.abTestVariant,
@@ -138,7 +138,6 @@ export const addRegionIdAndTrackingWithAmountsParamsToSupportUrl = (
     const acquisitionData = encodeAcquisitionsData(tracking, abTests);
     const queryString = generateQueryString(tracking, acquisitionData, numArticles);
     const alreadyHasQueryString = urlWithRegion.includes('?');
-
     return `${urlWithRegion}${alreadyHasQueryString ? '&' : '?'}${queryString}`;
 };
 
