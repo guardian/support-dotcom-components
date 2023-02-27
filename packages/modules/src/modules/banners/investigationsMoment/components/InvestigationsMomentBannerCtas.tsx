@@ -15,15 +15,6 @@ const styles = {
         & > * + * {
             margin-left: ${space[4]}px;
         }
-
-        ${from.tablet} {
-            flex-direction: row-reverse;
-
-            & > * + * {
-                margin-left: 0;
-                margin-right: ${space[4]}px;
-            }
-        }
     `,
     mobilePrimaryCta: css`
         color: ${neutral[0]};
@@ -42,7 +33,7 @@ const styles = {
             color: ${neutral[100]};
         }
     `,
-    desktopPrimaryCta: css`
+    secondaryCta: css`
         background-color: ${neutral[0]};
         border: 1px solid ${neutral[100]};
 
@@ -55,7 +46,7 @@ const styles = {
             border: 1px solid ${neutral[0]};
         }
     `,
-    secondaryCta: css`
+    desktopPrimaryCta: css`
         border: 1px solid ${news[400]};
         background-color: ${news[400]};
         color: ${neutral[100]};
@@ -134,7 +125,6 @@ export function InvestigationsMomentBannerCtas({
                                     cssOverrides={styles.desktopPrimaryCta}
                                     size="small"
                                     priority="primary"
-                                    iconSide="right"
                                 >
                                     {desktopCtas.primary.ctaText}
                                 </LinkButton>

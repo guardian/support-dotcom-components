@@ -119,7 +119,7 @@ const styles = {
         ${from.tablet} {
             margin-top: ${space[6]}px;
             justify-content: flex-end;
-            margin-right: -65px;
+            margin-right: -85px;
         }
     `,
     closeButtonContainer: css`
