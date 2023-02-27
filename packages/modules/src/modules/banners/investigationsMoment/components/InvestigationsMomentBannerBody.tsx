@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral } from '@guardian/src-foundations';
+import { brandAlt, neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
@@ -26,6 +26,8 @@ const styles: BannerTextStyles = {
     `,
     highlightedText: css`
         font-weight: bold;
+        color: ${neutral[0]};
+        background-color: ${brandAlt[400]};
     `,
 };
 
