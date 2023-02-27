@@ -14,6 +14,7 @@ const styles = {
     roundelContainer: css`
         height: 36px;
         width: 36px;
+        margin-right: 8px;
 
         svg {
             display: block;
