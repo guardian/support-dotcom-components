@@ -91,11 +91,15 @@ export const addTrackingParams = (
     baseUrl: string,
     params: Tracking,
     numArticles?: number,
+    amountsAbTestName?: string,
+    amountsAbTestVariant?: string,
 ): string => {
     const abTests = generateAbTestArray(
         params.abTestName,
         params.abTestVariant,
         params.targetingAbTest,
+        amountsAbTestName,
+        amountsAbTestVariant,
     );
     const acquisitionData = encodeAcquisitionsData(params, abTests);
     const queryString = generateQueryString(params, acquisitionData, numArticles);
@@ -110,17 +114,6 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     tracking: Tracking,
     numArticles?: number,
     countryCode?: string,
-): string => {
-    return isSupportUrl(baseUrl)
-        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles)
-        : baseUrl;
-};
-
-export const addRegionIdAndTrackingWithAmountsParamsToSupportUrl = (
-    baseUrl: string,
-    tracking: Tracking,
-    numArticles?: number,
-    countryCode?: string,
     amountsAbTestName?: string,
     amountsAbTestVariant?: string,
 ): string => {
@@ -128,17 +121,14 @@ export const addRegionIdAndTrackingWithAmountsParamsToSupportUrl = (
         return baseUrl;
     }
     const urlWithRegion = addRegionIdToSupportUrl(baseUrl, countryCode);
-    const abTests = generateAbTestArray(
-        tracking.abTestName,
-        tracking.abTestVariant,
-        tracking.targetingAbTest,
+
+    return addTrackingParams(
+        urlWithRegion,
+        tracking,
+        numArticles,
         amountsAbTestName,
         amountsAbTestVariant,
     );
-    const acquisitionData = encodeAcquisitionsData(tracking, abTests);
-    const queryString = generateQueryString(tracking, acquisitionData, numArticles);
-    const alreadyHasQueryString = urlWithRegion.includes('?');
-    return `${urlWithRegion}${alreadyHasQueryString ? '&' : '?'}${queryString}`;
 };
 
 const hrefRegex = /href=\"(.*?)\"/g;

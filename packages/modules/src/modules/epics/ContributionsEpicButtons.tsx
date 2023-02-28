@@ -3,10 +3,7 @@ import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
-import {
-    addRegionIdAndTrackingParamsToSupportUrl,
-    addRegionIdAndTrackingWithAmountsParamsToSupportUrl,
-} from '@sdc/shared/lib';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     getReminderViewEvent,
@@ -61,7 +58,7 @@ const PrimaryCtaButton = ({
 
     const buttonText = cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
-    const urlWithRegionAndTracking = addRegionIdAndTrackingWithAmountsParamsToSupportUrl(
+    const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
         tracking,
         numArticles,
