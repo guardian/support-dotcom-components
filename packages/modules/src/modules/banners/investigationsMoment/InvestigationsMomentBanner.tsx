@@ -10,6 +10,7 @@ import { InvestigationsMomentBannerArticleCount } from './components/Investigati
 import { InvestigationsMomentBannerBody } from './components/InvestigationsMomentBannerBody';
 import { InvestigationsMomentBannerCtas } from './components/InvestigationsMomentBannerCtas';
 import { InvestigationsMomentBannerCloseButton } from './components/InvestigationsMomentBannerCloseButton';
+import InvestigationsMomentBannerPolygon from './InvestigationsMomentBannerPolygon';
 
 const styles = {
     container: css`
@@ -185,91 +186,80 @@ function InvestigationsMomentBanner({
                 </section>
             </div>
             <Hide above="mobileMedium">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 150 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 150 0, 150 80" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 150 80"
+                    polygonPoints="0 0, 150 0, 150 80"
+                />
             </Hide>
-
             <Hide below="mobileMedium" above="mobileLandscape">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 200 0, 200 80" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 200 80"
+                    polygonPoints="0 0, 200 0, 200 80"
+                />
             </Hide>
-
             <Hide below="mobileLandscape" above="phablet">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 300 0, 300 80" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 300 80"
+                    polygonPoints="0 0, 300 0, 300 80"
+                />
             </Hide>
-
             <Hide below="phablet" above="tablet">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 475 80" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 475 0, 475 80" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 475 80"
+                    polygonPoints="0 0, 475 0, 475 80"
+                />
             </Hide>
-
             <Hide below="tablet" above="desktop">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 100 0, 100 200" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 100 200"
+                    polygonPoints="0 0, 100 0, 100 200"
+                />
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowBottom}
+                    viewBox="0 0 1000 100"
+                    polygonPoints="0 100, 1000 100, 0 0"
+                />
             </Hide>
-
             <Hide below="desktop" above="leftCol">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 300 0, 300 400" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 300 400"
+                    polygonPoints="0 0, 300 0, 300 400"
+                />
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowBottom}
+                    viewBox="0 0 1000 100"
+                    polygonPoints="0 100, 1000 100, 0 0"
+                />
             </Hide>
-
             <Hide below="leftCol" above="wide">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 350 400" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 350 0, 350 400" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 350 400"
+                    polygonPoints="0 0, 350 0, 350 400"
+                />
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowBottom}
+                    viewBox="0 0 1000 100"
+                    polygonPoints="0 100, 1000 100, 0 0"
+                />
             </Hide>
-
             <Hide below="wide">
-                <div css={styles.desktopShadowRight}>
-                    <svg viewBox="0 0 530 400" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 0, 530 0, 530 400" />
-                    </svg>
-                </div>
-
-                <div css={styles.desktopShadowBottom}>
-                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
-                    </svg>
-                </div>
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowRight}
+                    viewBox="0 0 530 400"
+                    polygonPoints="0 0, 530 0, 530 400"
+                />
+                <InvestigationsMomentBannerPolygon
+                    cssOverrides={styles.desktopShadowBottom}
+                    viewBox="0 0 1000 100"
+                    polygonPoints="0 100, 1000 100, 0 0"
+                />
             </Hide>
             <div css={styles.closeButtonContainer}>
                 <InvestigationsMomentBannerCloseButton onCloseClick={onCloseClick} />
