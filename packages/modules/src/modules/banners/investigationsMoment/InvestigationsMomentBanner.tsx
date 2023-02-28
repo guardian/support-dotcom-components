@@ -149,6 +149,7 @@ function InvestigationsMomentBanner({
                     mobileHeading={content.mobileContent?.heading ?? null}
                 />
             </div>
+
             <div css={styles.bottomContainer}>
                 {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
                     <section>
@@ -184,6 +185,7 @@ function InvestigationsMomentBanner({
                     />
                 </section>
             </div>
+
             <Hide above="mobileMedium">
                 <div css={styles.desktopShadowRight}>
                     <svg viewBox="0 0 150 80" xmlns="http://www.w3.org/2000/svg">
@@ -271,6 +273,7 @@ function InvestigationsMomentBanner({
                     </svg>
                 </div>
             </Hide>
+
             <div css={styles.closeButtonContainer}>
                 <InvestigationsMomentBannerCloseButton onCloseClick={onCloseClick} />
             </div>
