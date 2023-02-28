@@ -10,41 +10,10 @@ import { MomentTemplateBannerCtas } from './components/MomentTemplateBannerCtas'
 import { MomentTemplateBannerCloseButton } from './components/MomentTemplateBannerCloseButton';
 import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from './settings';
-import { from } from '@guardian/src-foundations/mq';
+import { between, from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
-
-// ---- CSS Styling Helpers ---- //
-const getDesktopVisualContainerStyle = (
-    bannerId?: BannerId,
-): SerializedStyles | SerializedStyles[] => {
-    switch (bannerId) {
-        case 'us-eoy-giving-tues-banner':
-            return [styles.desktopVisualContainer, styles.desktopGivingTuesVisualContainer];
-
-        case 'global-new-year-banner':
-            return [styles.desktopVisualContainer, styles.desktopVisualContainerNY];
-
-        case 'us-eoy-banner-v3':
-            return styles.desktopUsEoyV3Container;
-
-        default:
-            return styles.desktopVisualContainer;
-    }
-};
-
-const getMobileVisualContainerStyle = (
-    bannerId?: BannerId,
-): SerializedStyles | SerializedStyles[] =>
-    bannerId === 'us-eoy-giving-tues-banner'
-        ? [styles.mobileVisualContainer, styles.mobileVisualContainerGivingTues]
-        : styles.mobileVisualContainer;
-
-const getHeaderContainerStyle = (bannerId?: BannerId): SerializedStyles | SerializedStyles[] =>
-    bannerId === 'us-eoy-banner-v3'
-        ? [styles.headerContainer, styles.headerContainerUsEoyV3]
-        : styles.headerContainer;
 
 // ---- Banner ---- //
 export function getMomentTemplateBanner(
@@ -107,6 +76,9 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
                                     bannerId={templateSettings.bannerId}
+                                    cssOverrides={getBannerVisualCssOverrides(
+                                        templateSettings.bannerId,
+                                    )}
                                 />
                             )}
                             {templateSettings.alternativeVisual}
@@ -146,6 +118,9 @@ export function getMomentTemplateBanner(
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
                                         bannerId={templateSettings.bannerId}
+                                        cssOverrides={getBannerVisualCssOverrides(
+                                            templateSettings.bannerId,
+                                        )}
                                     />
                                 )}
                                 {templateSettings.alternativeVisual}
@@ -236,8 +211,56 @@ export function getMomentTemplateBanner(
     return MomentTemplateBanner;
 }
 
-// ---- Styles ---- //
+// ---- Styling Helpers ---- //
+const getDesktopVisualContainerStyle = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] => {
+    switch (bannerId) {
+        case 'us-eoy-giving-tues-banner':
+            return [styles.desktopVisualContainer, styles.desktopGivingTuesVisualContainer];
 
+        case 'global-new-year-banner':
+            return [styles.desktopVisualContainer, styles.desktopVisualContainerNY];
+
+        case 'us-eoy-banner-v3':
+            return styles.desktopUsEoyV3Container;
+
+        default:
+            return styles.desktopVisualContainer;
+    }
+};
+
+const getMobileVisualContainerStyle = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] =>
+    bannerId === 'us-eoy-giving-tues-banner'
+        ? [styles.mobileVisualContainer, styles.mobileVisualContainerGivingTues]
+        : styles.mobileVisualContainer;
+
+const getHeaderContainerStyle = (bannerId?: BannerId): SerializedStyles | SerializedStyles[] =>
+    bannerId === 'us-eoy-banner-v3'
+        ? [styles.headerContainer, styles.headerContainerUsEoyV3]
+        : styles.headerContainer;
+
+const getBannerVisualCssOverrides = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] => {
+    switch (bannerId) {
+        case 'us-eoy-banner':
+            return styles.bannerVisualOverridesUSEoy;
+        case 'us-eoy-giving-tues-banner':
+            return styles.bannerVisualOverridesUSGivingTues;
+        case 'aus-eoy-banner':
+            return styles.bannerVisualOverridesAus;
+        case 'global-new-year-banner':
+            return styles.bannerVisualOverridesGlobalNY;
+
+        default:
+            return css``;
+    }
+};
+
+// ---- Styles ---- //
 const styles = {
     outerContainer: (background: string) => css`
         background: ${background};
@@ -429,5 +452,32 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+    `,
+    bannerVisualOverridesUSEoy: css`
+        ${from.tablet} {
+            align-items: flex-start;
+        }
+    `,
+    bannerVisualOverridesUSGivingTues: css`
+        img {
+            object-fit: cover;
+        }
+    `,
+    bannerVisualOverridesAus: css`
+        ${between.tablet.and.desktop} {
+            align-items: baseline;
+            margin-top: 70px;
+            margin-left: ${space[5]}px;
+        }
+    `,
+    bannerVisualOverridesGlobalNY: css`
+        ${from.tablet} {
+            align-items: center;
+            justify-content: initial;
+        }
+        ${from.desktop} {
+            align-items: flex-end;
+            justify-content: initial;
+        }
     `,
 };
