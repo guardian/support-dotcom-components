@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
-import { BannerRenderProps } from '../common/types';
+import { BannerId, BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
 import { MomentTemplateBannerBody } from './components/MomentTemplateBannerBody';
@@ -15,8 +15,38 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 
-// ---- Banner ---- //
+// ---- CSS Styling Helpers ---- //
+const getDesktopVisualContainerStyle = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] => {
+    switch (bannerId) {
+        case 'us-eoy-giving-tues-banner':
+            return [styles.desktopVisualContainer, styles.desktopGivingTuesVisualContainer];
 
+        case 'global-new-year-banner':
+            return [styles.desktopVisualContainer, styles.desktopVisualContainerNY];
+
+        case 'us-eoy-banner-v3':
+            return styles.desktopUsEoyV3Container;
+
+        default:
+            return styles.desktopVisualContainer;
+    }
+};
+
+const getMobileVisualContainerStyle = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] =>
+    bannerId === 'us-eoy-giving-tues-banner'
+        ? [styles.mobileVisualContainer, styles.mobileVisualContainerGivingTues]
+        : styles.mobileVisualContainer;
+
+const getHeaderContainerStyle = (bannerId?: BannerId): SerializedStyles | SerializedStyles[] =>
+    bannerId === 'us-eoy-banner-v3'
+        ? [styles.headerContainer, styles.headerContainerUsEoyV3]
+        : styles.headerContainer;
+
+// ---- Banner ---- //
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
 ): React.FC<BannerRenderProps> {
@@ -47,11 +77,10 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
-        const isNewYearBanner = templateSettings.bannerId === 'global-new-year-banner';
-        const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
-        const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
-        const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-banner-v3';
-        const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner || isUsEoyV3Banner;
+        const isEoyBanner =
+            templateSettings.bannerId === 'us-eoy-banner' ||
+            templateSettings.bannerId === 'us-eoy-giving-tues-banner' ||
+            templateSettings.bannerId === 'us-eoy-banner-v3';
 
         return (
             <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
@@ -74,16 +103,7 @@ export function getMomentTemplateBanner(
                     </div>
 
                     {hasVisual && (
-                        <div
-                            css={
-                                isUsEoyGivingTuesBanner
-                                    ? [
-                                          styles.mobileVisualContainer,
-                                          styles.visualContainerGivingTues,
-                                      ]
-                                    : styles.mobileVisualContainer
-                            }
-                        >
+                        <div css={getMobileVisualContainerStyle(templateSettings.bannerId)}>
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
@@ -94,13 +114,7 @@ export function getMomentTemplateBanner(
                         </div>
                     )}
 
-                    <div
-                        css={
-                            isUsEoyV3Banner
-                                ? [styles.headerContainer, styles.headerContainerUsEoyV3]
-                                : styles.headerContainer
-                        }
-                    >
+                    <div css={getHeaderContainerStyle(templateSettings.bannerId)}>
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
@@ -130,22 +144,7 @@ export function getMomentTemplateBanner(
                         </div>
 
                         {hasVisual && (
-                            <div
-                                css={
-                                    isUsEoyGivingTuesBanner
-                                        ? [
-                                              styles.desktopVisualContainer,
-                                              isNewYearBanner && styles.desktopVisualContainerNY,
-                                              styles.desktopGivingTuesVisualContainer,
-                                          ]
-                                        : isUsEoyV3Banner
-                                        ? styles.desktopUsEoyV3Container
-                                        : [
-                                              styles.desktopVisualContainer,
-                                              isNewYearBanner && styles.desktopVisualContainerNY,
-                                          ]
-                                }
-                            >
+                            <div css={getDesktopVisualContainerStyle(templateSettings.bannerId)}>
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
@@ -306,7 +305,7 @@ const styles = {
             display: none;
         }
     `,
-    visualContainerGivingTues: css`
+    mobileVisualContainerGivingTues: css`
         max-height: 180px;
         overflow: hidden;
         margin-left: -${space[5]}px;
