@@ -80,7 +80,7 @@ const Overlay: React.FC<OverlayProps> = ({
     settings,
 }: OverlayProps) => {
     return (
-        <div css={overlayStyles.overlayContainer(settings.backgroundColour)}>
+        <div css={overlayStyles.overlayContainer(settings.containerSettings.backgroundColour)}>
             <div css={overlayStyles.overlayHeader}>
                 <div css={overlayStyles.overlayHeaderText}>
                     {hasOptedOut ? "You've opted out" : "What's this?"}
