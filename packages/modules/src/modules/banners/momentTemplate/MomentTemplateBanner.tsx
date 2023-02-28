@@ -97,7 +97,6 @@ export function getMomentTemplateBanner(
                             <MomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
-                                bannerId={templateSettings.bannerId}
                             />
                         </Hide>
                     </div>
@@ -125,7 +124,6 @@ export function getMomentTemplateBanner(
                             <MomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
-                                bannerId={templateSettings.bannerId}
                             />
                         </Hide>
                     </div>
@@ -138,7 +136,6 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerCloseButton
                                     onCloseClick={onCloseClick}
                                     settings={templateSettings.closeButtonSettings}
-                                    bannerId={templateSettings.bannerId}
                                 />
                             </Hide>
                         </div>

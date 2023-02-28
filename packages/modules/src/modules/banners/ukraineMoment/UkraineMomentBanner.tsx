@@ -30,6 +30,7 @@ const UkraineMomentBanner = getMomentTemplateBanner({
             textColour: brand[400],
             border: '1px solid #052962',
         },
+        theme: 'brand',
     },
     closeButtonSettings: {
         default: {

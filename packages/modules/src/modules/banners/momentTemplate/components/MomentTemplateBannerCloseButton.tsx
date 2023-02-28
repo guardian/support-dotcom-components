@@ -7,28 +7,25 @@ import { CtaSettings } from '../settings';
 import { SvgRoundelBrand, SvgRoundelDefault } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-import { BannerId } from '../../common/types';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
     settings: CtaSettings;
-    bannerId?: BannerId;
 }
 
 export function MomentTemplateBannerCloseButton({
     onCloseClick,
     settings,
-    bannerId,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
     return (
         <div css={styles.container}>
             <div css={styles.roundelContainer}>
-                {bannerId === 'global-new-year-banner' || bannerId === 'ukraine-moment-banner' ? (
-                    <SvgRoundelBrand />
-                ) : (
+                {settings.theme === 'default' || !settings.theme ? (
                     <SvgRoundelDefault />
+                ) : (
+                    <SvgRoundelBrand />
                 )}
             </div>
 

@@ -51,6 +51,7 @@ const UkraineMomentBanner = bannerWrapper(
                 backgroundColour: '#E5E5E5',
                 textColour: brand[400],
             },
+            theme: 'brand',
         },
         highlightedTextSettings: {
             textColour: neutral[0],

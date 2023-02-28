@@ -18,6 +18,7 @@ export interface CtaSettings {
     hover: CtaStateSettings;
     mobile?: CtaStateSettings;
     desktop?: CtaStateSettings;
+    theme?: 'default' | 'brand';
 }
 
 export interface HighlightedTextSettings {
