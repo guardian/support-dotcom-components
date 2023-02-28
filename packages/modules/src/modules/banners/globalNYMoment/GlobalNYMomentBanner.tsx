@@ -3,7 +3,9 @@ import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 const GlobalNewYearBanner = getMomentTemplateBanner({
-    backgroundColour: '#F1F8FC',
+    containerSettings: {
+        backgroundColour: '#F1F8FC',
+    },
     headerSettings: {
         textColour: '#0077B6',
     },

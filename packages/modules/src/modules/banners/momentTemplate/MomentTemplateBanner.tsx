@@ -54,13 +54,13 @@ export function getMomentTemplateBanner(
         const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner || isUsEoyV3Banner;
 
         return (
-            <div css={styles.outerContainer(templateSettings.backgroundColour)}>
+            <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
                 <Container
                     cssOverrides={styles.mobileStickyHeaderContainer(
-                        templateSettings.backgroundColour,
+                        templateSettings.containerSettings.backgroundColour,
                         content.mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder,
-                        isUsEoyGivingTuesBanner,
+                        templateSettings.containerSettings.paddingTop,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -275,14 +275,14 @@ const styles = {
     mobileStickyHeaderContainer: (
         background: string,
         hasReminderCta: boolean,
-        isUsEoyGivingTuesBanner?: boolean,
+        paddingTop?: string,
     ) => css`
         background: ${background};
         position: sticky;
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${isUsEoyGivingTuesBanner ? 0 : space[2]}px;
+        padding-top: ${paddingTop ?? space[2]}px;
 
         ${hasReminderCta
             ? `

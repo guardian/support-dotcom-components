@@ -13,7 +13,9 @@ export default {
 
 const GlobalNewYearBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#F1F8FC',
+        containerSettings: {
+            backgroundColour: '#F1F8FC',
+        },
         headerSettings: {
             textColour: '#0077B6',
         },
