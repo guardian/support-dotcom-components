@@ -16,44 +16,45 @@ export const WithoutArticleCount = Template.bind({});
 WithoutArticleCount.args = {
     ...props,
     mobileContent: {
-        heading: 'Invest in investigative journalism',
+        heading: 'Show your support for reader-funded journalism',
         messageText:
             'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity. With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy',
         paragraphs: [
-            'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity.',
-            ' With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy',
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+            'We do not shy away. And we provide all this for free, for everyone.',
         ],
         cta: {
-            text: 'Support us',
+            text: 'Support Once',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Learn more',
-                baseUrl: 'https://theguardian.com',
+                text: 'Support Monthly',
+                baseUrl: 'https://support.theguardian.com/contribute/monthly',
             },
         },
     },
     content: {
-        heading: 'Invest in investigative journalism',
+        heading: 'Show your support for reader-funded journalism',
         messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+            'Dummy copy In these extraordinary times, millions rely on the Guardian for high-impact, independent journalism that stands for truth and integrity. With no shareholders or billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy billionaire owner, we report on world events with accuracy',
+
         paragraphs: [
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us.',
-            'We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+            'We do not shy away. And we provide all this for free, for everyone.',
         ],
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {
-            text: 'Support the Guardian',
+            text: 'Support Once',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Learn more about us',
-                baseUrl: 'https://theguardian.com',
+                text: 'Support Monthly',
+                baseUrl: 'https://support.theguardian.com/contribute/monthly',
             },
         },
     },
