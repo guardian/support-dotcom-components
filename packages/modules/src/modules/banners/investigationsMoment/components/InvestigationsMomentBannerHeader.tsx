@@ -16,20 +16,22 @@ const styles = {
 
         h2 {
             ${headline.xsmall({ fontWeight: 'bold' })}
-            max-width: 160px;
+            max-width: 210px;
             margin: 0;
 
             ${from.tablet} {
-                max-width: none;
-                font-size: 32px;
+                ${headline.medium({ fontWeight: 'bold' })}
+                max-width: 540px;
             }
 
             ${from.desktop} {
                 ${headline.large({ fontWeight: 'bold' })}
+                max-width: 680px;
             }
 
             ${from.leftCol} {
                 ${headline.xlarge({ fontWeight: 'bold' })}
+                max-width: 840px;
             }
         }
 
