@@ -15,10 +15,16 @@ const styles = {
         margin: 0;
 
         h2 {
-            ${headline.xsmall({ fontWeight: 'bold' })}
+            ${headline.xxsmall({ fontWeight: 'bold' })}
             max-width: 210px;
             margin: 0;
 
+            ${from.mobileMedium} {
+                ${headline.xsmall({ fontWeight: 'bold' })}
+            }
+            ${from.mobileLandscape} {
+                max-width: 240px;
+            }
             ${from.tablet} {
                 ${headline.medium({ fontWeight: 'bold' })}
                 max-width: 540px;
@@ -40,7 +46,7 @@ const styles = {
         }
 
         ${from.tablet} {
-            padding: ${space[2]}px 0;
+            padding: ${space[2]}px 0 0;
         }
     `,
 };

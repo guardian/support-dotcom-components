@@ -13,7 +13,7 @@ const styles: BannerTextStyles = {
         color: ${neutral[100]};
 
         p {
-            margin: 0 0 0.5em 0;
+            margin: 0 0 0 0;
         }
 
         ${from.tablet} {

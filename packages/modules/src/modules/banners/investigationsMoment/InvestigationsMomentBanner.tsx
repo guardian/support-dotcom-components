@@ -100,11 +100,21 @@ const styles = {
         }
     `,
     bottomContainer: css`
-        padding: ${space[2]}px 0 ${space[3]}px;
+        padding: 0 0 ${space[3]}px;
 
         ${from.tablet} {
-            max-width: 70%;
-            padding-bottom: 80px;
+            max-width: 88%;
+            padding-bottom: 54px;
+        }
+        ${from.desktop} {
+            max-width: 80%;
+            padding-bottom: 62px;
+        }
+        ${from.leftCol} {
+            max-width: 82%;
+        }
+        ${from.wide} {
+            max-width: 78%;
         }
     `,
     bodyContainer: css`
@@ -116,9 +126,9 @@ const styles = {
         margin-top: ${space[4]}px;
 
         ${from.tablet} {
-            margin-top: ${space[6]}px;
+            margin-top: ${space[2]}px;
             justify-content: flex-end;
-            margin-right: -85px;
+            margin-right: 0px;
         }
     `,
     closeButtonContainer: css`
