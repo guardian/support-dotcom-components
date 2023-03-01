@@ -9,11 +9,12 @@ on:
 
 jobs:
   security:
-    uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@main
+    uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@mz-snyk-ignore-out-of-sync
     with:
       DEBUG: true
       ORG: the-guardian-cuu
       SKIP_SBT: true
       PROJECT_TAGS: Team=MarketingTools
+      IGNORE_OUT_OF_SYNC: true
     secrets:
        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
