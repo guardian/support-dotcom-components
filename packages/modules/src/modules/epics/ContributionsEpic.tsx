@@ -9,6 +9,8 @@ import {
     createInsertEventFromTracking,
     createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
+    getLocalCurrencySymbol,
+    logEpicView,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
@@ -22,32 +24,11 @@ import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
-import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
-import { logEpicView } from '@sdc/shared/lib';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 
-const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
-    const path = 'events/epic-view';
-    const host = isProd(stage)
-        ? 'https://contributions.guardianapis.com'
-        : 'https://contributions.code.dev-guardianapis.com';
-    const body = JSON.stringify({
-        url,
-        countryCode,
-    });
-
-    fetch(`${host}/${path}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body,
-    }).then(response => {
-        if (!response.ok) {
-            console.log('Epic view event request failed', response);
-        }
-    });
-};
-
+// CSS Styling
+// -------------------------------------------
 const wrapperStyles = css`
     padding: ${space[1]}px ${space[2]}px ${space[3]}px;
     border-top: 1px solid ${palette.brandAlt[400]};
@@ -117,23 +98,8 @@ const articleCountAboveContainerStyles = css`
     margin-bottom: ${space[4]}px;
 `;
 
-type HighlightedProps = {
-    highlightedText: string;
-    countryCode?: string;
-    numArticles: number;
-    tracking?: OphanTracking;
-    showAboveArticleCount: boolean;
-};
-
-type BodyProps = {
-    paragraphs: string[];
-    highlightedText?: string;
-    countryCode?: string;
-    numArticles: number;
-    tracking?: OphanTracking;
-    showAboveArticleCount: boolean;
-};
-
+// EpicHeader - local component
+// -------------------------------------------
 interface EpicHeaderProps {
     text: string;
     numArticles: number;
@@ -155,6 +121,16 @@ const EpicHeader: React.FC<EpicHeaderProps> = ({
         !showAboveArticleCount,
     );
     return <h2 css={headingStyles}>{elements}</h2>;
+};
+
+// Highlighted - local component
+// -------------------------------------------
+type HighlightedProps = {
+    highlightedText: string;
+    countryCode?: string;
+    numArticles: number;
+    tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 };
 
 const Highlighted: React.FC<HighlightedProps> = ({
@@ -179,6 +155,8 @@ const Highlighted: React.FC<HighlightedProps> = ({
     );
 };
 
+// EpicBodyParagraph - local component
+// -------------------------------------------
 interface EpicBodyParagraphProps {
     paragraph: string;
     numArticles: number;
@@ -208,6 +186,17 @@ const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
             {highlighted ? highlighted : null}
         </p>
     );
+};
+
+// EpicBody - local component
+// -------------------------------------------
+type BodyProps = {
+    paragraphs: string[];
+    highlightedText?: string;
+    countryCode?: string;
+    numArticles: number;
+    tracking?: OphanTracking;
+    showAboveArticleCount: boolean;
 };
 
 const EpicBody: React.FC<BodyProps> = ({
@@ -240,13 +229,14 @@ const EpicBody: React.FC<BodyProps> = ({
                         showAboveArticleCount={showAboveArticleCount}
                     />
                 );
-
                 return paragraphElement;
             })}
         </>
     );
 };
 
+// ContributionsEpic - exported component
+// -------------------------------------------
 const ContributionsEpic: React.FC<EpicProps> = ({
     variant,
     tracking,
@@ -260,21 +250,29 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
-    const defaultFrequency: ContributionFrequency = variant.defaultChoiceCardFrequency || 'MONTHLY';
-    const [choiceCardSelection, setChoiceCardSelection] = useState<ChoiceCardSelection | undefined>(
-        variant.choiceCardAmounts && {
-            frequency: defaultFrequency,
-            amount:
-                variant.choiceCardAmounts[countryGroupId]['control'][defaultFrequency][
-                    'amounts'
-                ][1],
-        },
-    );
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
+
+    const currencySymbol = getLocalCurrencySymbol(countryCode);
+
+    const [choiceCardSelection, setChoiceCardSelection] = useState<
+        ChoiceCardSelection | undefined
+    >();
+
+    useEffect(() => {
+        if (showChoiceCards && choiceCardAmounts?.amounts) {
+            const defaultFrequency: ContributionFrequency =
+                variant.defaultChoiceCardFrequency || 'MONTHLY';
+            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+            const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
+
+            setChoiceCardSelection({
+                frequency: defaultFrequency,
+                amount: defaultAmount,
+            });
+        }
+    }, [showChoiceCards, choiceCardAmounts]);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
-
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -303,6 +301,27 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         variant.highlightedText,
         countryCode,
     );
+
+    const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
+        const path = 'events/epic-view';
+        const host = isProd(stage)
+            ? 'https://contributions.guardianapis.com'
+            : 'https://contributions.code.dev-guardianapis.com';
+        const body = JSON.stringify({
+            url,
+            countryCode,
+        });
+
+        fetch(`${host}/${path}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body,
+        }).then(response => {
+            if (!response.ok) {
+                console.log('Epic view event request failed', response);
+            }
+        });
+    };
 
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
@@ -389,13 +408,15 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
-            {showChoiceCards && choiceCardSelection && choiceCardAmounts && (
+            {choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
-                    amounts={choiceCardAmounts}
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
-                    countryCode={countryCode}
                     submitComponentEvent={submitComponentEvent}
+                    currencySymbol={currencySymbol}
+                    amounts={choiceCardAmounts.amounts}
+                    amountsTestName={choiceCardAmounts?.testName}
+                    amountsVariantName={choiceCardAmounts?.variantName}
                 />
             )}
 
@@ -412,6 +433,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                     showChoiceCards={showChoiceCards}
+                    amountsTestName={choiceCardAmounts?.testName}
+                    amountsVariantName={choiceCardAmounts?.variantName}
                     choiceCardSelection={choiceCardSelection}
                 />
             )}

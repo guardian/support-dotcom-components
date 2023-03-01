@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import { ChoiceCardAmounts, ContributionFrequency, OphanComponentEvent } from '@sdc/shared/types';
-import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib/geolocation';
+import { ContributionFrequency, ContributionAmounts, OphanComponentEvent } from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
-import { countryCodeToCountryGroupId } from '@sdc/shared/lib';
+import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 
+// CSS Styling
+// -------------------------------------------
 const frequencyChoiceCardGroupOverrides = css`
     ${until.mobileLandscape} {
         > div {
@@ -31,19 +32,8 @@ const container = css`
     position: relative;
 `;
 
-export interface ChoiceCardSelection {
-    frequency: ContributionFrequency;
-    amount: number | 'other';
-}
-
-interface EpicChoiceCardProps {
-    amounts: ChoiceCardAmounts;
-    selection: ChoiceCardSelection;
-    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
-    countryCode?: string;
-    submitComponentEvent?: (event: OphanComponentEvent) => void;
-}
-
+// Static data + type defs
+// -------------------------------------------
 interface ContributionTypeItem {
     label: string;
     frequency: ContributionFrequency;
@@ -71,20 +61,56 @@ const contributionType: ContributionType = {
     },
 };
 
+// ContributionsEpicChoiceCards - exported component
+// -------------------------------------------
+export interface ChoiceCardSelection {
+    frequency: ContributionFrequency;
+    amount: number | 'other';
+}
+
+interface EpicChoiceCardProps {
+    selection?: ChoiceCardSelection;
+    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    currencySymbol: string;
+    amounts?: ContributionAmounts;
+    amountsTestName?: string;
+    amountsVariantName?: string;
+}
+
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
-    amounts,
     selection,
     setSelectionsCallback,
-    countryCode,
     submitComponentEvent,
+    currencySymbol,
+    amounts,
+    amountsTestName = 'test_undefined',
+    amountsVariantName = 'variant_undefined',
 }: EpicChoiceCardProps) => {
-    const currencySymbol = getLocalCurrencySymbol(countryCode);
-    const countryGroupId = countryCodeToCountryGroupId(countryCode || 'GBPCountries');
-    const countryAmountsData = amounts[countryGroupId];
+    if (!selection || !amounts) {
+        return <></>;
+    }
 
-    // This is the bit we need to change for amounts testing
-    // Ideally we'll fix so the component is pre-supplied with the correct variant
-    const amountsTestVariant = countryAmountsData.control;
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent({
+                    component: {
+                        componentType: 'ACQUISITIONS_OTHER',
+                        id: 'contributions-epic-choice-cards',
+                    },
+                    action: 'VIEW',
+                    abTest: {
+                        name: amountsTestName,
+                        variant: amountsVariantName,
+                    },
+                });
+            }
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
@@ -110,7 +136,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
-            amount: amountsTestVariant[frequency].defaultAmount,
+            amount: amounts[frequency].defaultAmount,
         });
     };
 
@@ -132,7 +158,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardAmountsButtons = () => {
-        const productData = amountsTestVariant[selection.frequency];
+        const productData = amounts[selection.frequency];
         const requiredAmounts = productData.amounts;
         const hideChooseYourAmount = productData.hideChooseYourAmount ?? false;
 
@@ -174,7 +200,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     return (
-        <div css={container}>
+        <div ref={setNode} css={container}>
             <br />
             <ChoiceCardGroup
                 name="contribution-frequency"

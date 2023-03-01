@@ -1,10 +1,11 @@
 import express, { Router } from 'express';
 import {
-    ChoiceCardAmounts,
+    ModifiedChoiceCardAmounts,
     EpicProps,
     EpicTargeting,
     EpicTest,
     EpicType,
+    EpicVariant,
     PageTracking,
     TestTracking,
     WeeklyArticleLog,
@@ -13,8 +14,13 @@ import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
 import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
+import { selectAmountsTestVariant } from '../lib/ab';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import { buildCampaignCode, getReminderFields } from '@sdc/shared/dist/lib';
+import {
+    buildCampaignCode,
+    getReminderFields,
+    countryCodeToCountryGroupId,
+} from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import {
     epic as epicModule,
@@ -34,6 +40,7 @@ interface EpicDataResponse {
             name: string;
             props: EpicProps;
         };
+        variant: EpicVariant;
         meta: TestTracking;
     };
     debug?: Debug;
@@ -48,7 +55,7 @@ export const buildEpicRouter = (
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
     holdbackEpicTests: ValueProvider<EpicTest[]>,
-    choiceCardAmounts: ValueProvider<ChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
     tickerData: TickerDataProvider,
 ): Router => {
     const router = Router();
@@ -96,13 +103,11 @@ export const buildEpicRouter = (
             return {};
         }
 
+        const targetingMvtId = targeting.mvtId || 1;
+
         const tests =
             type === 'ARTICLE'
-                ? getArticleEpicTests(
-                      targeting.mvtId || 1,
-                      !!params.force,
-                      enableHardcodedEpicTests,
-                  )
+                ? getArticleEpicTests(targetingMvtId, !!params.force, enableHardcodedEpicTests)
                 : liveblogEpicTests.get();
 
         const result = params.force
@@ -115,14 +120,6 @@ export const buildEpicRouter = (
                   params.debug,
               );
 
-        if (process.env.log_targeting === 'true') {
-            console.log(
-                `Renders Epic ${result ? 'true' : 'false'} for targeting: ${JSON.stringify(
-                    targeting,
-                )}`,
-            );
-        }
-
         if (!result.result) {
             return { data: undefined, debug: result.debug };
         }
@@ -133,11 +130,19 @@ export const buildEpicRouter = (
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
+        const contributionAmounts = choiceCardAmounts.get();
+        const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
+        const variantAmounts = selectAmountsTestVariant(
+            contributionAmounts,
+            requiredRegion,
+            targetingMvtId,
+        );
+
         const propsVariant = {
             ...variant,
             tickerSettings,
             showReminderFields,
-            choiceCardAmounts: choiceCardAmounts.get(),
+            choiceCardAmounts: variantAmounts,
         };
 
         const testTracking: TestTracking = {
@@ -168,6 +173,7 @@ export const buildEpicRouter = (
 
         return {
             data: {
+                variant: propsVariant,
                 meta: testTracking,
                 module: {
                     url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,

@@ -1,7 +1,13 @@
 import { OphanAction, OphanComponentEvent } from '../types/ophan';
 import { addRegionIdToSupportUrl } from './geolocation';
-import { EpicTest, EpicVariant, Tracking } from '../types';
-import { BannerTest, BannerVariant } from '../types/abTests/banner';
+import {
+    EpicTest,
+    EpicVariant,
+    Tracking,
+    BannerTest,
+    BannerVariant,
+    TargetingAbTest,
+} from '../types';
 
 // TRACKING VIA support.theguardian.com
 type LinkParams = {
@@ -11,25 +17,43 @@ type LinkParams = {
     numArticles: number;
 };
 
-export const addTrackingParams = (
-    baseUrl: string,
-    params: Tracking,
-    numArticles?: number,
-): string => {
-    const abTests = [
+type AbTestObject = {
+    name: string;
+    variant: string;
+    testType?: string;
+};
+
+const generateAbTestArray = (
+    abTestName: string,
+    abTestVariant: string,
+    targetingAbTest?: TargetingAbTest,
+    amountsAbTestName?: string,
+    amountsAbTestVariant?: string,
+): AbTestObject[] => {
+    const abTests: AbTestObject[] = [
         {
-            name: params.abTestName,
-            variant: params.abTestVariant,
+            name: abTestName,
+            variant: abTestVariant,
         },
     ];
-    if (params.targetingAbTest) {
+    if (targetingAbTest) {
         abTests.push({
-            name: params.targetingAbTest.testName,
-            variant: params.targetingAbTest.variantName,
+            name: targetingAbTest.testName,
+            variant: targetingAbTest.variantName,
         });
     }
+    if (amountsAbTestName && amountsAbTestVariant) {
+        abTests.push({
+            name: amountsAbTestName,
+            variant: amountsAbTestVariant,
+            testType: 'AMOUNTS_TEST',
+        });
+    }
+    return abTests;
+};
 
-    const acquisitionData = encodeURIComponent(
+const encodeAcquisitionsData = (params: Tracking, abTests: AbTestObject[]): string => {
+    return encodeURIComponent(
         JSON.stringify({
             source: params.platformId,
             componentId: params.campaignCode,
@@ -42,7 +66,13 @@ export const addTrackingParams = (
             labels: params.labels,
         }),
     );
+};
 
+const generateQueryString = (
+    params: Tracking,
+    acquisitionData: string,
+    numArticles: number,
+): string => {
     const trackingLinkParams: LinkParams = {
         REFPVID: params.ophanPageId || 'not_found',
         INTCMP: params.campaignCode || '',
@@ -53,9 +83,28 @@ export const addTrackingParams = (
     const queryString = Object.entries(trackingLinkParams)
         .filter(([, value]) => value !== undefined)
         .map(([key, value]) => `${key}=${value}`);
-    const alreadyHasQueryString = baseUrl.includes('?');
 
-    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+    return queryString.join('&');
+};
+
+export const addTrackingParams = (
+    baseUrl: string,
+    params: Tracking,
+    numArticles?: number,
+    amountsAbTestName?: string,
+    amountsAbTestVariant?: string,
+): string => {
+    const abTests = generateAbTestArray(
+        params.abTestName,
+        params.abTestVariant,
+        params.targetingAbTest,
+        amountsAbTestName,
+        amountsAbTestVariant,
+    );
+    const acquisitionData = encodeAcquisitionsData(params, abTests);
+    const queryString = generateQueryString(params, acquisitionData, numArticles);
+    const alreadyHasQueryString = baseUrl.includes('?');
+    return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString}`;
 };
 
 export const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);
@@ -65,10 +114,21 @@ export const addRegionIdAndTrackingParamsToSupportUrl = (
     tracking: Tracking,
     numArticles?: number,
     countryCode?: string,
+    amountsAbTestName?: string,
+    amountsAbTestVariant?: string,
 ): string => {
-    return isSupportUrl(baseUrl)
-        ? addTrackingParams(addRegionIdToSupportUrl(baseUrl, countryCode), tracking, numArticles)
-        : baseUrl;
+    if (!isSupportUrl(baseUrl)) {
+        return baseUrl;
+    }
+    const urlWithRegion = addRegionIdToSupportUrl(baseUrl, countryCode);
+
+    return addTrackingParams(
+        urlWithRegion,
+        tracking,
+        numArticles,
+        amountsAbTestName,
+        amountsAbTestVariant,
+    );
 };
 
 const hrefRegex = /href=\"(.*?)\"/g;
