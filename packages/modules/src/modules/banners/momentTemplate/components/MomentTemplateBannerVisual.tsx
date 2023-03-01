@@ -41,8 +41,6 @@ export function MomentTemplateBannerVisual({
         images.push({ url: settings.wideUrl, media: '' });
     }
 
-    console.log(cssOverrides);
-
     return (
         <div css={[styles.container(cssOverrides)]}>
             <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
