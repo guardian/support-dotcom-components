@@ -20,7 +20,7 @@ type PaymentCardProps = {
     cssOverrides?: SerializedStyles;
 };
 
-export const PaymentCards: React.FC<PaymentCardProps> = ({ cssOverrides = [] }) => {
+export const PaymentCards = ({ cssOverrides }: PaymentCardProps): JSX.Element => {
     return (
         <svg viewBox="0 0 132 18" css={[paymentMethods, cssOverrides]}>
             <g clipPath="url(#clip0_454_41729)">
