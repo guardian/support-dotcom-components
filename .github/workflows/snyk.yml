@@ -9,23 +9,11 @@ on:
 
 jobs:
   security:
-    runs-on: ubuntu-latest
-    env:
-      SNYK_COMMAND: test
-    steps:
-      - name: Checkout branch
-        if: github.ref == 'refs/heads/main'
-        uses: actions/checkout@v2
-
-      - name: Set command to monitor
-        if: github.ref == 'refs/heads/main'
-        run: echo "SNYK_COMMAND=monitor" >> $GITHUB_ENV
-
-      - name: Run Snyk to check for vulnerabilities
-        if: github.ref == 'refs/heads/main'
-        uses: snyk/actions/node@0.3.0
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --org=the-guardian-cuu --project-name=${{ github.repository }} --file=./yarn.lock
-          command: ${{ env.SNYK_COMMAND }}
+    uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@main
+    with:
+      DEBUG: true
+      ORG: the-guardian-cuu
+      SKIP_SBT: true
+      PROJECT_TAGS: Team=MarketingTools
+    secrets:
+       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
