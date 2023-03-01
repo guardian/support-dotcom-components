@@ -26,17 +26,17 @@ const styles = {
                 max-width: 240px;
             }
             ${from.tablet} {
-                ${headline.medium({ fontWeight: 'bold' })}
+                ${headline.medium({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 540px;
             }
 
             ${from.desktop} {
-                ${headline.large({ fontWeight: 'bold' })}
+                ${headline.large({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 680px;
             }
 
             ${from.leftCol} {
-                ${headline.xlarge({ fontWeight: 'bold' })}
+                ${headline.xlarge({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 840px;
             }
         }
