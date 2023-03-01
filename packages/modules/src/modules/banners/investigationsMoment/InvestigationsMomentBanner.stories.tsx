@@ -47,14 +47,14 @@ WithoutArticleCount.args = {
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {
-            text: 'Support Once',
-            baseUrl: 'https://support.theguardian.com/contribute',
+            text: 'Support monthly',
+            baseUrl: 'https://support.theguardian.com/contribute/monthly',
         },
         secondaryCta: {
             type: SecondaryCtaType.Custom,
             cta: {
-                text: 'Support Monthly',
-                baseUrl: 'https://support.theguardian.com/contribute/monthly',
+                text: 'Support once',
+                baseUrl: 'https://support.theguardian.com/contribute',
             },
         },
     },
