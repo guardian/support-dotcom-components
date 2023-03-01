@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { Container, Hide } from '@guardian/src-layout';
+import { Container } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { InvestigationsMomentBannerHeader } from './components/InvestigationsMomentBannerHeader';
@@ -10,7 +10,7 @@ import { InvestigationsMomentBannerArticleCount } from './components/Investigati
 import { InvestigationsMomentBannerBody } from './components/InvestigationsMomentBannerBody';
 import { InvestigationsMomentBannerCtas } from './components/InvestigationsMomentBannerCtas';
 import { InvestigationsMomentBannerCloseButton } from './components/InvestigationsMomentBannerCloseButton';
-import InvestigationsMomentBannerPolygon from './InvestigationsMomentBannerPolygon';
+import InvestigationsMomentBannerPolygons from './InvestigationsMomentBannerPolygon';
 
 const styles = {
     container: css`
@@ -27,66 +27,12 @@ const styles = {
             background: ${neutral[100]};
         }
     `,
-    desktopShadowRight: css`
-        position: absolute;
-        pointer-events: none;
-        display: flex;
-        justify-content: flex-end;
-        top: 0;
-        right: 0;
-        width: 150px;
-        height: 80px;
-
-        ${from.mobileMedium} {
-            width: 200px;
-        }
-
-        ${from.mobileLandscape} {
-            width: 300px;
-        }
-
-        ${from.phablet} {
-            width: 475px;
-        }
+    desktopShadowRight: css``,
+    desktopShadowBottom: css`
+        display: none;
 
         ${from.tablet} {
-            bottom: 0;
-            width: auto;
-            height: auto;
-        }
-
-        svg {
             display: block;
-            height: 100%;
-
-            ${from.tablet} {
-                height: 90%;
-            }
-
-            ${from.desktop} {
-                height: 95%;
-            }
-
-            ${from.leftCol} {
-                height: 90%;
-            }
-        }
-    `,
-    desktopShadowBottom: css`
-        position: absolute;
-        pointer-events: none;
-        bottom: 0;
-        left: 0;
-        right: 20px;
-
-        svg {
-            display: block;
-        }
-
-        ${from.wide} {
-            height: 125px;
-            width: 1250px;
-            right: auto;
         }
     `,
     headerContainer: css`
@@ -132,6 +78,11 @@ const styles = {
             right: ${space[5]}px;
         }
     `,
+    topright: css`
+        ${from.mobileMedium} {
+            display: none;
+        }
+    `,
 };
 
 function InvestigationsMomentBanner({
@@ -142,6 +93,39 @@ function InvestigationsMomentBanner({
     onSecondaryCtaClick,
     separateArticleCount,
 }: BannerRenderProps) {
+    const viewBoxsTopRight: string[] = [
+        '0 0 150 80',
+        '0 0 200 80',
+        '0 0 300 80',
+        '0 0 475 80',
+        '0 0 100 200',
+        '0 0 300 400',
+        '0 0 350 400',
+        '0 0 530 400',
+    ];
+    const polygonPointsTopRight: string[] = [
+        '0 0, 150 0, 150 80',
+        '0 0, 200 0, 200 80',
+        '0 0, 300 0, 300 80',
+        '0 0, 475 0, 475 80',
+        '0 0, 100 0, 100 200',
+        '0 0, 300 0, 300 400',
+        '0 0, 350 0, 350 400',
+        '0 0, 530 0, 530 400',
+    ];
+    const viewBoxsBottomLeft: string[] = [
+        '0 0 1000 100',
+        '0 0 1000 100',
+        '0 0 1000 100',
+        '0 0 1000 100',
+    ];
+    const polygonPointsBottomLeft: string[] = [
+        '0 100, 1000 100, 0 0',
+        '0 100, 1000 100, 0 0',
+        '0 100, 1000 100, 0 0',
+        '0 100, 1000 100, 0 0',
+    ];
+
     return (
         <Container cssOverrides={styles.container}>
             <div css={styles.headerContainer}>
@@ -185,82 +169,15 @@ function InvestigationsMomentBanner({
                     />
                 </section>
             </div>
-            <Hide above="mobileMedium">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 150 80"
-                    polygonPoints="0 0, 150 0, 150 80"
-                />
-            </Hide>
-            <Hide below="mobileMedium" above="mobileLandscape">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 200 80"
-                    polygonPoints="0 0, 200 0, 200 80"
-                />
-            </Hide>
-            <Hide below="mobileLandscape" above="phablet">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 300 80"
-                    polygonPoints="0 0, 300 0, 300 80"
-                />
-            </Hide>
-            <Hide below="phablet" above="tablet">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 475 80"
-                    polygonPoints="0 0, 475 0, 475 80"
-                />
-            </Hide>
-            <Hide below="tablet" above="desktop">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 100 200"
-                    polygonPoints="0 0, 100 0, 100 200"
-                />
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowBottom}
-                    viewBox="0 0 1000 100"
-                    polygonPoints="0 100, 1000 100, 0 0"
-                />
-            </Hide>
-            <Hide below="desktop" above="leftCol">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 300 400"
-                    polygonPoints="0 0, 300 0, 300 400"
-                />
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowBottom}
-                    viewBox="0 0 1000 100"
-                    polygonPoints="0 100, 1000 100, 0 0"
-                />
-            </Hide>
-            <Hide below="leftCol" above="wide">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 350 400"
-                    polygonPoints="0 0, 350 0, 350 400"
-                />
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowBottom}
-                    viewBox="0 0 1000 100"
-                    polygonPoints="0 100, 1000 100, 0 0"
-                />
-            </Hide>
-            <Hide below="wide">
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowRight}
-                    viewBox="0 0 530 400"
-                    polygonPoints="0 0, 530 0, 530 400"
-                />
-                <InvestigationsMomentBannerPolygon
-                    cssOverrides={styles.desktopShadowBottom}
-                    viewBox="0 0 1000 100"
-                    polygonPoints="0 100, 1000 100, 0 0"
-                />
-            </Hide>
+            <InvestigationsMomentBannerPolygons
+                viewBoxsTopRight={viewBoxsTopRight}
+                polygonPointsTopRight={polygonPointsTopRight}
+                viewBoxsBottomLeft={viewBoxsBottomLeft}
+                polygonPointsBottomLeft={polygonPointsBottomLeft}
+                cssOverridesTopRight={styles.desktopShadowRight}
+                cssOverridesBottomLeft={styles.desktopShadowRight}
+            />
+
             <div css={styles.closeButtonContainer}>
                 <InvestigationsMomentBannerCloseButton onCloseClick={onCloseClick} />
             </div>
