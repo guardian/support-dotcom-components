@@ -1,14 +1,7 @@
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import React from 'react';
-
-type DesktopShadow = 'desktopShadowRight' | 'desktopShadowBottom';
-
-interface InvestigationsMomentBannerPolygonProps {
-    viewBox: string;
-    points: string;
-    desktopShadow: DesktopShadow;
-}
+import { SvgPolygonProps } from './InvestigationsMomentBannerPolygonsTopRight';
 
 const styles = {
     desktopShadowRight: css`
@@ -79,7 +72,7 @@ function InvestigationsMomentBannerPolygon({
     viewBox,
     points,
     desktopShadow,
-}: InvestigationsMomentBannerPolygonProps): JSX.Element {
+}: SvgPolygonProps): JSX.Element {
     return (
         <div css={styles[desktopShadow]}>
             <svg viewBox={viewBox} xmlns="http://www.w3.org/2000/svg">
