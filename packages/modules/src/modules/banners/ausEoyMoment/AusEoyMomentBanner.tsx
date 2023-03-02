@@ -3,7 +3,9 @@ import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 const AusEoyMomentBanner = getMomentTemplateBanner({
-    backgroundColour: '#DCDCDC',
+    containerSettings: {
+        backgroundColour: '#DCDCDC',
+    },
     primaryCtaSettings: {
         default: {
             backgroundColour: neutral[7],

@@ -14,7 +14,9 @@ export default {
 
 const UsEoyMomentBannerV3 = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#EDEDED',
+        containerSettings: {
+            backgroundColour: '#EDEDED',
+        },
         headerSettings: {
             textColour: '#7D0068',
         },

@@ -13,7 +13,9 @@ export default {
 
 const UsEoyMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#deded9',
+        containerSettings: {
+            backgroundColour: '#deded9',
+        },
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],
