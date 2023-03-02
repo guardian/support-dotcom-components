@@ -1,10 +1,19 @@
-import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { css, SerializedStyles } from '@emotion/react';
+import { Breakpoint, from, until } from '@guardian/src-foundations/mq';
 import React from 'react';
-import { SvgPolygonProps } from './InvestigationsMomentBannerPolygonsTopRight';
+
+export type DesktopShadow = 'desktopShadowRight' | 'desktopShadowBottom';
+
+export type SvgPolygonProps = {
+    viewBox: string;
+    points: string;
+    desktopShadow: DesktopShadow;
+    hideBelowBreakpoint?: Breakpoint;
+    hideAboveBreakpoint?: Breakpoint;
+};
 
 const styles = {
-    desktopShadowRight: css`
+    desktopShadowRight: (hideBelowBreakpoint?: Breakpoint, hideAboveBreakpoint?: Breakpoint) => css`
         position: absolute;
         pointer-events: none;
         display: flex;
@@ -48,8 +57,15 @@ const styles = {
                 height: 90%;
             }
         }
+
+        // The following styles will conditionally hide the svg polygon
+        ${hideBelowBreakpoint && until[hideBelowBreakpoint]}
+        ${hideAboveBreakpoint && from[hideAboveBreakpoint]}
     `,
-    desktopShadowBottom: css`
+    desktopShadowBottom: (
+        hideBelowBreakpoint?: Breakpoint,
+        hideAboveBreakpoint?: Breakpoint,
+    ) => css`
         position: absolute;
         pointer-events: none;
         bottom: 0;
@@ -63,7 +79,15 @@ const styles = {
         ${from.wide} {
             height: 125px;
             width: 1250px;
-            right: auto;
+            right: auto;D
+        }
+
+        // The following styles will conditionally hide the svg polygon
+        ${hideBelowBreakpoint && until[hideBelowBreakpoint]} {
+            display: none;
+        }
+        ${hideAboveBreakpoint && from[hideAboveBreakpoint]} {
+            display: none;
         }
     `,
 };
@@ -72,9 +96,23 @@ function InvestigationsMomentBannerPolygon({
     viewBox,
     points,
     desktopShadow,
+    hideBelowBreakpoint,
+    hideAboveBreakpoint,
 }: SvgPolygonProps): JSX.Element {
+    const getStyles = (desktopShadow: DesktopShadow): SerializedStyles => {
+        if (desktopShadow === 'desktopShadowRight') {
+            return styles.desktopShadowRight(hideBelowBreakpoint, hideAboveBreakpoint);
+        }
+
+        if (desktopShadow === 'desktopShadowBottom') {
+            return styles.desktopShadowBottom(hideBelowBreakpoint, hideAboveBreakpoint);
+        }
+
+        return css``;
+    };
+
     return (
-        <div css={styles[desktopShadow]}>
+        <div css={getStyles(desktopShadow)}>
             <svg viewBox={viewBox} xmlns="http://www.w3.org/2000/svg">
                 <polygon points={points} />
             </svg>

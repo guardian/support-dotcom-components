@@ -1,16 +1,8 @@
-// import { css } from '@emotion/react';
-// import { from } from '@guardian/src-foundations/dist/types/mq';
+import { Breakpoint } from '@guardian/src-foundations';
 import React from 'react';
-
-type Breakpoint =
-    | 'mobile'
-    | 'mobileMedium'
-    | 'mobileLandscape'
-    | 'phablet'
-    | 'tablet'
-    | 'desktop'
-    | 'leftCol'
-    | 'wide';
+import InvestigationsMomentBannerPolygon, {
+    SvgPolygonProps,
+} from './InvestigationsMomentBannerPolygon';
 
 const breakpoints: Breakpoint[] = [
     'mobile',
@@ -23,23 +15,7 @@ const breakpoints: Breakpoint[] = [
     'wide',
 ];
 
-type DesktopShadow = 'desktopShadowRight' | 'desktopShadowBottom';
-
-export type SvgPolygonProps = {
-    viewBox: string;
-    points: string;
-    desktopShadow: DesktopShadow;
-    hideBelowBreakpoint?: Breakpoint;
-    hideAboveBreakpoint?: Breakpoint;
-};
-
-// const svgPolygonContainer = (breakpoint: Breakpoint) => css`
-//     ${from[breakpoint]} {
-//         display: none;
-//     }
-// `;
-
-const polygonTopRight = {
+const polygonTopRight: Record<Breakpoint, SvgPolygonProps> = {
     mobile: {
         viewBox: '0 0 150 80',
         points: '0 0, 150 0, 150 80',
@@ -96,16 +72,18 @@ const polygonTopRight = {
     },
 };
 
-console.log(polygonTopRight);
-
 const InvestigationsMomentBannerPolygonsTopRight = (): JSX.Element => {
     return (
         <div>
             {breakpoints.map((breakpoint: Breakpoint) => (
-                <div
-                    key={breakpoint}
-                    // css={svgPolygonContainer(breakpoint)}
-                >
+                <div key={breakpoint}>
+                    <InvestigationsMomentBannerPolygon
+                        viewBox={polygonTopRight[breakpoint].viewBox}
+                        points={polygonTopRight[breakpoint].points}
+                        desktopShadow={polygonTopRight[breakpoint].desktopShadow}
+                        hideBelowBreakpoint={polygonTopRight[breakpoint].hideBelowBreakpoint}
+                        hideAboveBreakpoint={polygonTopRight[breakpoint].hideAboveBreakpoint}
+                    />
                     {polygonTopRight[breakpoint]}
                 </div>
             ))}
