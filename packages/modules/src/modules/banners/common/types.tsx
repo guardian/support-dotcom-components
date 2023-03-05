@@ -20,7 +20,8 @@ export type BannerId =
     | 'us-eoy-giving-tues-banner'
     | 'us-eoy-banner-v3'
     | 'aus-eoy-banner'
-    | 'ukraine-moment-banner';
+    | 'ukraine-moment-banner'
+    | 'guardian-logo-with-hands-3d';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

@@ -225,6 +225,9 @@ const getDesktopVisualContainerStyle = (
         case 'us-eoy-banner-v3':
             return styles.desktopUsEoyV3Container;
 
+        case 'guardian-logo-with-hands-3d':
+            return [styles.desktopVisualContainer, styles.desktopVisualContainerLogoWithHands3D];
+
         default:
             return styles.desktopVisualContainer;
     }
@@ -389,6 +392,11 @@ const styles = {
             width: 370px;
             margin-left: ${space[9]}px;
         }
+    `,
+    desktopVisualContainerLogoWithHands3D: css`
+        width: 100%;
+        min-height: 100%;
+        align-self: stretch;
     `,
     contentContainer: css`
         ${from.tablet} {
