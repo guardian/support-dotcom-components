@@ -68,6 +68,11 @@ export const printSubs: ModuleInfo = getDefaultModuleInfo(
     'banners/printSubscriptions/PrintSubscriptionsBanner',
 );
 
+export const priceCardsBanner: ModuleInfo = getDefaultModuleInfo(
+    'price-cards-banner',
+    'banners/priceCardsBanner/PriceCardsBanner',
+);
+
 export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'guardian-weekly-banner',
     'banners/guardianWeekly/GuardianWeeklyBanner',
@@ -136,6 +141,7 @@ export const moduleInfos: ModuleInfo[] = [
     globalNewYearBanner,
     digiSubs,
     printSubs,
+    priceCardsBanner,
     guardianWeekly,
     puzzlesBanner,
     signInPromptBanner,
