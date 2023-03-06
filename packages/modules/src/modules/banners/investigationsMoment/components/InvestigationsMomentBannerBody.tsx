@@ -17,10 +17,11 @@ const styles: BannerTextStyles = {
         }
 
         ${from.tablet} {
+            font-size: 15px;
             color: ${neutral[0]};
         }
 
-        ${from.desktop} {
+        ${from.wide} {
             font-size: 17px;
         }
     `,
