@@ -1,5 +1,5 @@
 import { ReminderFields } from '@sdc/shared/lib';
-import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
+import { SecondaryCtaType, SelectedAmountsVariant, TickerSettings } from '@sdc/shared/types';
 
 export type BannerId =
     | 'climate-crisis-moment-banner'
@@ -75,4 +75,5 @@ export interface BannerRenderProps {
     isSupporter?: boolean;
     numArticles?: number;
     separateArticleCount?: boolean;
+    choiceCardAmounts?: SelectedAmountsVariant;
 }

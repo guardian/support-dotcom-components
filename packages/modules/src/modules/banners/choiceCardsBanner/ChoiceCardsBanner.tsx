@@ -5,7 +5,7 @@ import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import { BannerText } from '../common/BannerText';
 import { BannerRenderProps } from '../common/types';
-import { validatedBannerWrapper } from '../common/BannerWrapper';
+import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import {
     banner,
     closeButtonStyles,
@@ -17,7 +17,7 @@ import {
     imageContainer,
     logoContainer,
     paragraph,
-} from './priceCardsBannerStyles';
+} from './choiceCardsBannerStyles';
 
 const bannerId = 'price-cards-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -40,7 +40,13 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => (
     </Button>
 );
 
-const PriceCardsBanner: React.FC<BannerRenderProps> = ({ onCloseClick, content }) => {
+const ChoiceCardsBanner = ({
+    onCloseClick,
+    content,
+    choiceCardAmounts,
+}: BannerRenderProps): JSX.Element => {
+    console.log({ choiceCardAmounts });
+
     return (
         <section css={banner} data-target={bannerId}>
             <Container>
@@ -76,6 +82,7 @@ const PriceCardsBanner: React.FC<BannerRenderProps> = ({ onCloseClick, content }
     );
 };
 
-const validated = validatedBannerWrapper(PriceCardsBanner, bannerId);
+const validated = validatedBannerWrapper(ChoiceCardsBanner, bannerId);
+const unvalidated = bannerWrapper(ChoiceCardsBanner, bannerId);
 
-export { validated as PriceCardsBanner };
+export { validated as ChoiceCardsBanner, unvalidated as ChoiceCardsBannerUnValidated };
