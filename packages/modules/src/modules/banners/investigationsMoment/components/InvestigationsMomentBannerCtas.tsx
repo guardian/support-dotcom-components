@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
 import { brandAlt, neutral, space } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { buttonBrandAlt, buttonReaderRevenue, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
@@ -16,6 +16,10 @@ const styles = {
         & > * + * {
             margin-left: ${space[4]}px;
         }
+
+        ${from.tablet} {
+            flex-direction: column;
+        }
     `,
     mobileSecondaryCta: css`
         background-color: ${neutral[0]};
@@ -25,6 +29,9 @@ const styles = {
         &:hover {
             background-color: ${neutral[100]};
             color: ${neutral[0]};
+        }
+        ${until.mobileMedium} {
+            padding: 0 ${space[3]}px;
         }
     `,
     secondaryCta: css`
@@ -44,6 +51,12 @@ const styles = {
         &:hover {
             background-color: ${brandAlt[200]};
         }
+        ${until.mobileMedium} {
+            padding: 0 ${space[3]}px;
+        }
+    `,
+    buttonPaymentIcons: css`
+        margin-left: 32px;
     `,
 };
 
@@ -92,19 +105,15 @@ export function InvestigationsMomentBannerCtas({
 
                 {desktopCtas.primary && (
                     <Hide below="tablet">
-                        <ButtonWithPaymentIcons
-                            button={
-                                <LinkButton
-                                    href={desktopCtas.primary.ctaUrl}
-                                    onClick={onPrimaryCtaClick}
-                                    cssOverrides={styles.primaryCta}
-                                    size="small"
-                                    priority="primary"
-                                >
-                                    {desktopCtas.primary.ctaText}
-                                </LinkButton>
-                            }
-                        />
+                        <LinkButton
+                            href={desktopCtas.primary.ctaUrl}
+                            onClick={onPrimaryCtaClick}
+                            cssOverrides={styles.primaryCta}
+                            size="small"
+                            priority="primary"
+                        >
+                            {desktopCtas.primary.ctaText}
+                        </LinkButton>
                     </Hide>
                 )}
             </div>
@@ -129,15 +138,19 @@ export function InvestigationsMomentBannerCtas({
                 {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
                     <Hide below="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>
-                            <LinkButton
-                                href={desktopCtas.secondary.cta.ctaUrl}
-                                onClick={onSecondaryCtaClick}
-                                cssOverrides={styles.secondaryCta}
-                                size="small"
-                                priority="primary"
-                            >
-                                {desktopCtas.secondary.cta.ctaText}
-                            </LinkButton>
+                            <ButtonWithPaymentIcons
+                                button={
+                                    <LinkButton
+                                        href={desktopCtas.secondary.cta.ctaUrl}
+                                        onClick={onSecondaryCtaClick}
+                                        cssOverrides={styles.secondaryCta}
+                                        size="small"
+                                        priority="primary"
+                                    >
+                                        {desktopCtas.secondary.cta.ctaText}
+                                    </LinkButton>
+                                }
+                            />
                         </ThemeProvider>
                     </Hide>
                 )}
@@ -152,6 +165,11 @@ const buttonWithPaymentIconStyles = {
     container: css`
         display: flex;
         flex-direction: column;
+
+        ${from.tablet} {
+            margin-top: ${space[2]}px;
+            margin-left: -${space[4]}px;
+        }
     `,
     paymentIconsContainer: css`
         margin-top: ${space[1]}px;

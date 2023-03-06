@@ -118,11 +118,17 @@ const styles = {
         }
     `,
     bodyContainer: css`
+        display: flex;
+        flex-direction: column;
         margin-top: ${space[1]}px;
+
+        ${from.tablet} {
+            flex-direction: row;
+        }
     `,
     ctasContainer: css`
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         margin-top: ${space[4]}px;
 
         ${from.tablet} {
@@ -174,25 +180,24 @@ function InvestigationsMomentBanner({
                         highlightedText={content.mainContent.highlightedText ?? null}
                         mobileHighlightedText={content.mobileContent?.highlightedText ?? null}
                     />
-                </section>
-
-                <section css={styles.ctasContainer}>
-                    <InvestigationsMomentBannerCtas
-                        desktopCtas={{
-                            primary: content.mainContent.primaryCta,
-                            secondary: content.mainContent.secondaryCta,
-                        }}
-                        mobileCtas={
-                            content.mobileContent
-                                ? {
-                                      primary: content.mobileContent.primaryCta,
-                                      secondary: content.mobileContent.secondaryCta,
-                                  }
-                                : null
-                        }
-                        onPrimaryCtaClick={onCtaClick}
-                        onSecondaryCtaClick={onSecondaryCtaClick}
-                    />
+                    <section css={styles.ctasContainer}>
+                        <InvestigationsMomentBannerCtas
+                            desktopCtas={{
+                                primary: content.mainContent.primaryCta,
+                                secondary: content.mainContent.secondaryCta,
+                            }}
+                            mobileCtas={
+                                content.mobileContent
+                                    ? {
+                                          primary: content.mobileContent.primaryCta,
+                                          secondary: content.mobileContent.secondaryCta,
+                                      }
+                                    : null
+                            }
+                            onPrimaryCtaClick={onCtaClick}
+                            onSecondaryCtaClick={onSecondaryCtaClick}
+                        />
+                    </section>
                 </section>
             </div>
 
