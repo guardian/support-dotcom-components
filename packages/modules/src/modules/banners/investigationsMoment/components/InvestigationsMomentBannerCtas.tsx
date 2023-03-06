@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { neutral, news, space } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { buttonBrandAlt, buttonReaderRevenue, LinkButton } from '@guardian/src-button';
@@ -17,46 +17,32 @@ const styles = {
             margin-left: ${space[4]}px;
         }
     `,
-    mobilePrimaryCta: css`
-        color: ${neutral[0]};
-
-        &:hover {
-            background-color: ${neutral[100]};
-        }
-    `,
     mobileSecondaryCta: css`
-        border: 1px solid ${neutral[100]};
-        background-color: ${neutral[100]};
-        color: ${neutral[0]};
-
-        &:hover {
-            background-color: ${neutral[0]};
-            color: ${neutral[100]};
-        }
-    `,
-    secondaryCta: css`
         background-color: ${neutral[0]};
         border: 1px solid ${neutral[100]};
+        color: ${neutral[100]};
 
         &:hover {
             background-color: ${neutral[100]};
             color: ${neutral[0]};
         }
+    `,
+    secondaryCta: css`
+        background-color: ${neutral[100]};
+        border: 1px solid ${neutral[0]};
+        color: ${neutral[0]};
 
-        ${from.tablet} {
-            border: 1px solid ${neutral[0]};
+        &:hover {
+            background-color: ${neutral[93]};
         }
     `,
-    desktopPrimaryCta: css`
-        border: 1px solid ${news[400]};
-        background-color: ${news[400]};
-        color: ${neutral[100]};
+    primaryCta: css`
+        background-color: ${brandAlt[400]};
+        border: 1px solid ${brandAlt[400]};
+        color: ${neutral[0]};
 
-        ${from.tablet} {
-            &:hover {
-                background-color: ${neutral[100]};
-                color: ${news[400]};
-            }
+        &:hover {
+            background-color: ${brandAlt[200]};
         }
     `,
 };
@@ -92,7 +78,7 @@ export function InvestigationsMomentBannerCtas({
                                     <LinkButton
                                         href={mobileCtas.primary.ctaUrl}
                                         onClick={onPrimaryCtaClick}
-                                        cssOverrides={styles.mobilePrimaryCta}
+                                        cssOverrides={styles.primaryCta}
                                         size="small"
                                         priority="primary"
                                     >
@@ -111,7 +97,7 @@ export function InvestigationsMomentBannerCtas({
                                 <LinkButton
                                     href={desktopCtas.primary.ctaUrl}
                                     onClick={onPrimaryCtaClick}
-                                    cssOverrides={styles.desktopPrimaryCta}
+                                    cssOverrides={styles.primaryCta}
                                     size="small"
                                     priority="primary"
                                 >
