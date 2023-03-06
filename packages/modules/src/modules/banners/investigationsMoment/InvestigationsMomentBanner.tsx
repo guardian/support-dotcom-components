@@ -242,7 +242,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 35" />
                     </svg>
                 </div>
             </Hide>
@@ -256,7 +256,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 40" />
                     </svg>
                 </div>
             </Hide>
@@ -270,7 +270,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 45" />
                     </svg>
                 </div>
             </Hide>
@@ -284,7 +284,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 55" />
                     </svg>
                 </div>
             </Hide>

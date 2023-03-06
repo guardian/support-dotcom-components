@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brandAlt, news } from '@guardian/src-foundations';
+import { brandAlt, neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
@@ -14,12 +14,12 @@ const styles = {
         margin: 0;
 
         ${from.tablet} {
-            font-size: 17px;
-            color: ${news[400]};
+            font-size: 16px;
+            color: ${neutral[0]};
         }
 
-        ${from.desktop} {
-            font-size: 20px;
+        ${from.leftCol} {
+            font-size: 19px;
         }
     `,
 };
