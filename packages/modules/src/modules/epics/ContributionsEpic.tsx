@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
@@ -6,26 +6,26 @@ import { from } from '@guardian/src-foundations/mq';
 import {
     addTrackingParamsToBodyLinks,
     containsNonArticleCountPlaceholder,
-    createInsertEventFromTracking,
-    createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
     getLocalCurrencySymbol,
-    logEpicView,
 } from '@sdc/shared/lib';
-import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
+import { EpicProps, epicPropsSchema } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
 import { ContributionsEpicArticleCountAboveWithOptOut } from './ContributionsEpicArticleCountAboveWithOptOut';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
-import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
-import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
-import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
+import { ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
+import {
+    useChoiceCardSelection,
+    useChoiceCardsTrackingInsertEvent,
+    useChoiceCardsTrackingViewEvent,
+} from '../shared/helpers/choiceCards';
 
 // CSS Styling
 // -------------------------------------------
@@ -252,76 +252,29 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
+    const { choiceCardSelection, setChoiceCardSelection } = useChoiceCardSelection(
+        choiceCardAmounts,
+        showChoiceCards,
+        variant.defaultChoiceCardFrequency,
+    );
+
     const currencySymbol = getLocalCurrencySymbol(countryCode);
-
-    const [choiceCardSelection, setChoiceCardSelection] = useState<
-        ChoiceCardSelection | undefined
-    >();
-
-    useEffect(() => {
-        if (showChoiceCards && choiceCardAmounts?.amounts) {
-            const defaultFrequency: ContributionFrequency =
-                variant.defaultChoiceCardFrequency || 'MONTHLY';
-            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
-            const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
-
-            setChoiceCardSelection({
-                frequency: defaultFrequency,
-                amount: defaultAmount,
-            });
-        }
-    }, [showChoiceCards, choiceCardAmounts]);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
+    const setNode = useChoiceCardsTrackingViewEvent(
+        tracking,
+        submitComponentEvent,
+        countryCode,
+        stage,
+    );
 
-    useEffect(() => {
-        if (hasBeenSeen) {
-            // For the event stream
-            sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
-
-            // For epic view count
-            logEpicView(tracking.abTestName);
-
-            // For ophan
-            if (submitComponentEvent) {
-                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
-            }
-        }
-    }, [hasBeenSeen, submitComponentEvent]);
-
-    useEffect(() => {
-        if (submitComponentEvent) {
-            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
-        }
-    }, [submitComponentEvent]);
+    useChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
         countryCode,
     );
-
-    const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
-        const path = 'events/epic-view';
-        const host = isProd(stage)
-            ? 'https://contributions.guardianapis.com'
-            : 'https://contributions.code.dev-guardianapis.com';
-        const body = JSON.stringify({
-            url,
-            countryCode,
-        });
-
-        fetch(`${host}/${path}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body,
-        }).then(response => {
-            if (!response.ok) {
-                console.log('Epic view event request failed', response);
-            }
-        });
-    };
 
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 

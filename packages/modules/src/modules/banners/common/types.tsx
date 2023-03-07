@@ -18,7 +18,7 @@ export type BannerId =
     | 'subscription-banner'
     | 'weekly-banner'
     | 'print-subscriptions-banner'
-    | 'price-cards-banner'
+    | 'choice-cards-banner'
     | 'global-new-year-banner'
     | 'election-au-moment-banner'
     | 'sign-in-prompt-banner'

@@ -26,7 +26,7 @@ import {
     useChoiceCardsTrackingViewEvent,
 } from '../../shared/helpers/choiceCards';
 
-const bannerId = 'price-cards-banner';
+const bannerId = 'choice-cards-banner';
 const closeComponentId = `${bannerId} : close`;
 
 type ButtonPropTypes = {
@@ -60,7 +60,7 @@ const ChoiceCardsBanner = ({
     );
 
     const setNode = useChoiceCardsTrackingViewEvent(tracking, submitComponentEvent);
-    useChoiceCardsTrackingInsertEvent();
+    useChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 

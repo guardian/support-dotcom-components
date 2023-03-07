@@ -69,7 +69,7 @@ export const printSubs: ModuleInfo = getDefaultModuleInfo(
 );
 
 export const choiceCardsBanner: ModuleInfo = getDefaultModuleInfo(
-    'price-cards-banner',
+    'choice-cards-banner',
     'banners/choiceCardsBanner/ChoiceCardsBanner',
 );
 
