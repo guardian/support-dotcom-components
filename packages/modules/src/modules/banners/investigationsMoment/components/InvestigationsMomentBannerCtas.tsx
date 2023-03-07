@@ -42,6 +42,7 @@ const styles = {
         &:hover {
             background-color: ${neutral[93]};
         }
+        width: fit-content;
     `,
     primaryCta: css`
         background-color: ${brandAlt[400]};
@@ -172,9 +173,6 @@ const buttonWithPaymentIconStyles = {
         }
     `,
     paymentIconsContainer: css`
-        margin-top: ${space[1]}px;
-        margin-left: ${space[4]}px;
-
         img {
             height: 14px;
             width: auto;
@@ -194,7 +192,7 @@ function ButtonWithPaymentIcons({ button }: ButtonWithPaymentIconProps) {
     return (
         <div css={buttonWithPaymentIconStyles.container}>
             {button}
-            <div>
+            <div css={buttonWithPaymentIconStyles.paymentIconsContainer}>
                 <PaymentCards />
             </div>
         </div>
