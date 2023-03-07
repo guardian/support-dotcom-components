@@ -436,7 +436,7 @@ const countryNames: CountryNameMap = {
     MD: 'Moldova',
     ME: 'Montenegro',
     MG: 'Madagascar',
-    MK: 'the Repulbic of North Macedonia',
+    MK: 'the Republic of North Macedonia',
     ML: 'Mali',
     MM: 'Myanmar',
     MN: 'Mongolia',
