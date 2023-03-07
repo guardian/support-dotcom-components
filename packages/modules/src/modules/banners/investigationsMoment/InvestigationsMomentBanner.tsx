@@ -100,25 +100,41 @@ const styles = {
         }
     `,
     bottomContainer: css`
-        padding: ${space[2]}px 0 ${space[3]}px;
+        padding: 0 0 ${space[3]}px;
 
         ${from.tablet} {
-            max-width: 70%;
-            padding-bottom: 80px;
+            max-width: 88%;
+            padding-bottom: 54px;
+        }
+        ${from.desktop} {
+            max-width: 80%;
+            padding-bottom: 62px;
+        }
+        ${from.leftCol} {
+            max-width: 82%;
+        }
+        ${from.wide} {
+            max-width: 78%;
         }
     `,
     bodyContainer: css`
+        display: flex;
+        flex-direction: column;
         margin-top: ${space[1]}px;
+
+        ${from.tablet} {
+            flex-direction: row;
+        }
     `,
     ctasContainer: css`
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         margin-top: ${space[4]}px;
 
         ${from.tablet} {
-            margin-top: ${space[6]}px;
+            margin-top: ${space[2]}px;
             justify-content: flex-end;
-            margin-right: -65px;
+            margin-left: ${space[6]}px;
         }
     `,
     closeButtonContainer: css`
@@ -164,25 +180,24 @@ function InvestigationsMomentBanner({
                         highlightedText={content.mainContent.highlightedText ?? null}
                         mobileHighlightedText={content.mobileContent?.highlightedText ?? null}
                     />
-                </section>
-
-                <section css={styles.ctasContainer}>
-                    <InvestigationsMomentBannerCtas
-                        desktopCtas={{
-                            primary: content.mainContent.primaryCta,
-                            secondary: content.mainContent.secondaryCta,
-                        }}
-                        mobileCtas={
-                            content.mobileContent
-                                ? {
-                                      primary: content.mobileContent.primaryCta,
-                                      secondary: content.mobileContent.secondaryCta,
-                                  }
-                                : null
-                        }
-                        onPrimaryCtaClick={onCtaClick}
-                        onSecondaryCtaClick={onSecondaryCtaClick}
-                    />
+                    <section css={styles.ctasContainer}>
+                        <InvestigationsMomentBannerCtas
+                            desktopCtas={{
+                                primary: content.mainContent.primaryCta,
+                                secondary: content.mainContent.secondaryCta,
+                            }}
+                            mobileCtas={
+                                content.mobileContent
+                                    ? {
+                                          primary: content.mobileContent.primaryCta,
+                                          secondary: content.mobileContent.secondaryCta,
+                                      }
+                                    : null
+                            }
+                            onPrimaryCtaClick={onCtaClick}
+                            onSecondaryCtaClick={onSecondaryCtaClick}
+                        />
+                    </section>
                 </section>
             </div>
 
@@ -227,7 +242,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 35" />
                     </svg>
                 </div>
             </Hide>
@@ -241,7 +256,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 40" />
                     </svg>
                 </div>
             </Hide>
@@ -255,7 +270,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 45" />
                     </svg>
                 </div>
             </Hide>
@@ -269,7 +284,7 @@ function InvestigationsMomentBanner({
 
                 <div css={styles.desktopShadowBottom}>
                     <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="0 100, 1000 100, 0 0" />
+                        <polygon points="0 100, 1000 100, 0 55" />
                     </svg>
                 </div>
             </Hide>
