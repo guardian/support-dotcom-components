@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { Container, Hide } from '@guardian/src-layout';
+import { Container } from '@guardian/src-layout';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { InvestigationsMomentBannerHeader } from './components/InvestigationsMomentBannerHeader';
@@ -10,7 +10,8 @@ import { InvestigationsMomentBannerArticleCount } from './components/Investigati
 import { InvestigationsMomentBannerBody } from './components/InvestigationsMomentBannerBody';
 import { InvestigationsMomentBannerCtas } from './components/InvestigationsMomentBannerCtas';
 import { InvestigationsMomentBannerCloseButton } from './components/InvestigationsMomentBannerCloseButton';
-import InvestigationsMomentBannerPolygon from './components/InvestigationsMomentBannerPolygon';
+import { InvestigationsMomentBannerPolygonBottomLeft } from './components/InvestigationsMomentBannerPolygonsBottomLeft';
+import { InvestigationsMomentBannerPolygonsTopRight } from './components/InvestigationsMomentBannerPolygonsTopRight';
 
 const styles = {
     container: css`
@@ -187,89 +188,8 @@ function InvestigationsMomentBanner({
                 </section>
             </div>
 
-            <Hide above="mobileMedium">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 150 80"
-                    points="0 0, 150 0, 150 80"
-                    desktopShadow="desktopShadowRight"
-                />
-            </Hide>
-
-            <Hide below="mobileMedium" above="mobileLandscape">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 200 80"
-                    points="0 0, 200 0, 200 80"
-                    desktopShadow="desktopShadowRight"
-                />
-            </Hide>
-
-            <Hide below="mobileLandscape" above="phablet">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 300 80"
-                    points="0 0, 300 0, 300 80"
-                    desktopShadow="desktopShadowRight"
-                />
-            </Hide>
-
-            <Hide below="phablet" above="tablet">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 475 80"
-                    points="0 0, 475 0, 475 80"
-                    desktopShadow="desktopShadowRight"
-                />
-            </Hide>
-
-            <Hide below="tablet" above="desktop">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 100 200"
-                    points="0 0, 100 0, 100 200"
-                    desktopShadow="desktopShadowRight"
-                />
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 1000 100"
-                    points="0 100, 1000 100, 0 0"
-                    desktopShadow="desktopShadowBottom"
-                />
-            </Hide>
-
-            <Hide below="desktop" above="leftCol">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 300 400"
-                    points="0 0, 300 0, 300 400"
-                    desktopShadow="desktopShadowRight"
-                />
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 1000 100"
-                    points="0 100, 1000 100, 0 0"
-                    desktopShadow="desktopShadowBottom"
-                />
-            </Hide>
-
-            <Hide below="leftCol" above="wide">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 350 400"
-                    points="0 0, 350 0, 350 400"
-                    desktopShadow="desktopShadowRight"
-                />
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 1000 100"
-                    points="0 100, 1000 100, 0 0"
-                    desktopShadow="desktopShadowBottom"
-                />
-            </Hide>
-
-            <Hide below="wide">
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 530 400"
-                    points="0 0, 530 0, 530 400"
-                    desktopShadow="desktopShadowRight"
-                />
-                <InvestigationsMomentBannerPolygon
-                    viewBox="0 0 1000 100"
-                    points="0 100, 1000 100, 0 0"
-                    desktopShadow="desktopShadowBottom"
-                />
-            </Hide>
+            <InvestigationsMomentBannerPolygonsTopRight />
+            <InvestigationsMomentBannerPolygonBottomLeft />
 
             <div css={styles.closeButtonContainer}>
                 <InvestigationsMomentBannerCloseButton onCloseClick={onCloseClick} />

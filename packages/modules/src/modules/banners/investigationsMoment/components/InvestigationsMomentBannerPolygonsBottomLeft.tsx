@@ -10,33 +10,33 @@ const polygonBottomLeft: Record<Breakpoint, SvgPolygonProps> = {
     tablet: {
         viewBox: '0 0 1000 100',
         points: '0 100, 1000 100, 0 0',
-        desktopShadow: 'desktopShadowBottom',
+        shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'tablet',
         hideAboveBreakpoint: 'desktop',
     },
     desktop: {
         viewBox: '0 0 1000 100',
         points: '0 100, 1000 100, 0 0',
-        desktopShadow: 'desktopShadowBottom',
+        shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'desktop',
         hideAboveBreakpoint: 'leftCol',
     },
     leftCol: {
         viewBox: '0 0 1000 100',
         points: '0 100, 1000 100, 0 0',
-        desktopShadow: 'desktopShadowBottom',
+        shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'leftCol',
         hideAboveBreakpoint: 'wide',
     },
     wide: {
         viewBox: '0 0 1000 100',
         points: '0 100, 1000 100, 0 0',
-        desktopShadow: 'desktopShadowBottom',
+        shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'wide',
     },
 };
 
-const InvestigationsMomentBannerPolygonBottomLeft = (): JSX.Element => {
+export function InvestigationsMomentBannerPolygonBottomLeft(): JSX.Element {
     return (
         <div>
             {breakpoints.map((breakpoint: Breakpoint) => (
@@ -44,7 +44,7 @@ const InvestigationsMomentBannerPolygonBottomLeft = (): JSX.Element => {
                     <InvestigationsMomentBannerPolygon
                         viewBox={polygonBottomLeft[breakpoint].viewBox}
                         points={polygonBottomLeft[breakpoint].points}
-                        desktopShadow={polygonBottomLeft[breakpoint].desktopShadow}
+                        shadow={polygonBottomLeft[breakpoint].shadow}
                         hideBelowBreakpoint={polygonBottomLeft[breakpoint].hideBelowBreakpoint}
                         hideAboveBreakpoint={polygonBottomLeft[breakpoint].hideAboveBreakpoint}
                     />
@@ -52,6 +52,4 @@ const InvestigationsMomentBannerPolygonBottomLeft = (): JSX.Element => {
             ))}
         </div>
     );
-};
-
-export default InvestigationsMomentBannerPolygonBottomLeft;
+}

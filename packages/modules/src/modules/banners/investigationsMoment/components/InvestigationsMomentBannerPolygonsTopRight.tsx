@@ -19,60 +19,60 @@ const polygonTopRight: Record<Breakpoint, SvgPolygonProps> = {
     mobile: {
         viewBox: '0 0 150 80',
         points: '0 0, 150 0, 150 80',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideAboveBreakpoint: 'mobileMedium',
     },
     mobileMedium: {
         viewBox: '0 0 200 80',
         points: '0 0, 200 0, 200 80',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'mobileMedium',
         hideAboveBreakpoint: 'mobileLandscape',
     },
     mobileLandscape: {
         viewBox: '0 0 300 80',
         points: '0 0, 300 0, 300 80',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'mobileLandscape',
         hideAboveBreakpoint: 'phablet',
     },
     phablet: {
         viewBox: '0 0 475 80',
         points: '0 0, 475 0, 475 80',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'phablet',
         hideAboveBreakpoint: 'tablet',
     },
     tablet: {
         viewBox: '0 0 100 200',
         points: '0 0, 100 0, 100 200',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'tablet',
         hideAboveBreakpoint: 'desktop',
     },
     desktop: {
         viewBox: '0 0 300 400',
         points: '0 0, 300 0, 300 400',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'desktop',
         hideAboveBreakpoint: 'leftCol',
     },
     leftCol: {
         viewBox: '0 0 350 400',
         points: '0 0, 350 0, 350 400',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'leftCol',
         hideAboveBreakpoint: 'wide',
     },
     wide: {
         viewBox: '0 0 530 400',
         points: '0 0, 530 0, 530 400',
-        desktopShadow: 'desktopShadowRight',
+        shadow: 'shadowTopRight',
         hideBelowBreakpoint: 'wide',
     },
 };
 
-const InvestigationsMomentBannerPolygonsTopRight = (): JSX.Element => {
+export function InvestigationsMomentBannerPolygonsTopRight(): JSX.Element {
     return (
         <div>
             {breakpoints.map((breakpoint: Breakpoint) => (
@@ -80,15 +80,12 @@ const InvestigationsMomentBannerPolygonsTopRight = (): JSX.Element => {
                     <InvestigationsMomentBannerPolygon
                         viewBox={polygonTopRight[breakpoint].viewBox}
                         points={polygonTopRight[breakpoint].points}
-                        desktopShadow={polygonTopRight[breakpoint].desktopShadow}
+                        shadow={polygonTopRight[breakpoint].shadow}
                         hideBelowBreakpoint={polygonTopRight[breakpoint].hideBelowBreakpoint}
                         hideAboveBreakpoint={polygonTopRight[breakpoint].hideAboveBreakpoint}
                     />
-                    {polygonTopRight[breakpoint]}
                 </div>
             ))}
         </div>
     );
-};
-
-export default InvestigationsMomentBannerPolygonsTopRight;
+}
