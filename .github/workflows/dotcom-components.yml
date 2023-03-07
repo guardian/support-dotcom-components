@@ -1,0 +1,49 @@
+name: Build dotcom-components
+
+on:
+  pull_request:
+    branches:
+      - "**"
+  push:
+    branches:
+      - main
+
+jobs:
+  dotcom-components:
+    name: dotcom-components
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: guardian/actions-setup-node@main
+
+      - name: Test + build
+        run: |
+          npm install -g yarn
+          yarn install
+          yarn setup
+          yarn lint
+          yarn test
+
+          NODE_ENV=production yarn server build
+          NODE_ENV=production yarn modules build
+
+      - name: cdk
+        working-directory: ./cdk
+        run: |
+          npm install -g yarn
+          yarn install
+          yarn lint
+          yarn test
+          yarn synth
+
+      - name: riffraff
+        run: |
+          export LAST_TEAMCITY_BUILD=6000
+          export GITHUB_RUN_NUMBER=$(( $GITHUB_RUN_NUMBER + $LAST_TEAMCITY_BUILD ))
+
+          npm install -g yarn
+          yarn install
+          yarn run riffraff
