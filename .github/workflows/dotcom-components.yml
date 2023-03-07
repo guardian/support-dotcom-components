@@ -10,7 +10,6 @@ on:
 
 jobs:
   dotcom-components:
-    needs: apps-metering-tests
     if: >-
       (github.actor != 'dependabot[bot]') &&
         (github.event.pull_request.head.repo.owner.login == 'guardian' ||
