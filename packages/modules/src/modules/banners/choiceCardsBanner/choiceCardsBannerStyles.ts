@@ -32,8 +32,12 @@ export const banner = css`
     }
 `;
 
+export const containerOverrides = css`
+    position: relative;
+`;
+
 export const copyColumn = css`
-    transform: translateY(-${space[6]}px);
+    /* transform: translateY[6]}px); */
 `;
 
 export const imageColumn = css`
@@ -102,10 +106,13 @@ export const highlightedText = css`
 `;
 
 export const iconAndClosePosition = css`
-    display: flex;
+    /* display: flex;
     justify-content: flex-end;
-    padding-top: ${space[2]}px;
-    min-width: ${height.ctaMedium * 2}px;
+    padding-top: ${space[2]}px; */
+    /* min-width: ${height.ctaMedium * 2}px; */
+    position: absolute;
+    right: 0;
+    width: max-content;
 `;
 
 export const closeButtonStyles = css`
