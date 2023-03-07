@@ -10,6 +10,16 @@ on:
 
 jobs:
   dotcom-components:
+    needs: apps-metering-tests
+    if: >-
+      (github.actor != 'dependabot[bot]') &&
+        (github.event.pull_request.head.repo.owner.login == 'guardian' ||
+          github.event_name == 'push')
+    # Required by actions-assume-aws-role
+    permissions:
+      id-token: write
+      contents: read
+
     name: dotcom-components
     runs-on: ubuntu-latest
     steps:
