@@ -41,7 +41,7 @@ jobs:
 
       - name: riffraff
         run: |
-          export LAST_TEAMCITY_BUILD=6000
+          export LAST_TEAMCITY_BUILD=4000
           export GITHUB_RUN_NUMBER=$(( $GITHUB_RUN_NUMBER + $LAST_TEAMCITY_BUILD ))
 
           npm install -g yarn
