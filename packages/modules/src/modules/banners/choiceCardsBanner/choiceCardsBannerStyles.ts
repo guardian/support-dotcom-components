@@ -34,13 +34,15 @@ export const banner = css`
 
 export const containerOverrides = css`
     position: relative;
+    max-width: 100%;
+    overflow: hidden;
 `;
 
 export const copyColumn = css`
-    /* transform: translateY[6]}px); */
+    padding-top: ${space[4]}px;
 `;
 
-export const imageColumn = css`
+export const choiceCardsColumn = css`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -54,49 +56,36 @@ export const imageColumn = css`
     }
 `;
 
-export const imageContainer = css`
-    img {
-        max-width: 100%;
-        margin: 0 auto;
-        display: block;
-    }
-    /* margin-bottom: -${space[1]}px; */
-`;
-
 export const heading = css`
-    ${headline.xsmall({ fontWeight: 'bold' })};
+    ${headline.xxsmall({ fontWeight: 'bold' })};
+    font-size: 22px;
     margin: 0;
     color: ${neutral[0]};
-    /* Headline should never overflow the close button (plus logo) */
-    max-width: calc(100% - ${height.ctaSmall + space[1]}px);
 
     ${from.mobileMedium} {
-        ${headline.small({ fontWeight: 'bold' })};
+        font-size: 24px;
         max-width: calc(100% - ${height.ctaSmall * 2 + space[2]}px);
     }
 
     ${from.tablet} {
+        font-size: 42px;
         max-width: 100%;
     }
 
     ${from.desktop} {
-        ${headline.large({ fontWeight: 'bold' })};
         line-height: 100%;
-    }
-
-    ${from.leftCol} {
-        max-width: 80%;
     }
 `;
 
 export const paragraph = css`
-    ${body.medium()};
+    ${body.small()};
     line-height: 135%;
-    margin: ${space[2]}px 0 ${space[6]}px;
+    margin: ${space[4]}px 0 ${space[1]}px;
     max-width: 100%;
 
-    ${from.desktop} {
-        font-size: 20px;
+    ${from.tablet} {
+        margin-bottom: ${space[5]}px;
+        font-size: 17px;
     }
 `;
 
@@ -106,10 +95,7 @@ export const highlightedText = css`
 `;
 
 export const iconAndClosePosition = css`
-    /* display: flex;
-    justify-content: flex-end;
-    padding-top: ${space[2]}px; */
-    /* min-width: ${height.ctaMedium * 2}px; */
+    padding-top: ${space[3]}px;
     position: absolute;
     right: 0;
     width: max-content;
