@@ -34,6 +34,11 @@ const styles = {
             ${visuallyHidden};
         }
     `,
+    bannerAmountsContainer: css`
+        > div:first-of-type {
+            display: block !important;
+        }
+    `,
     // This `position: relative` is necessary to stop it jumping to the top of the page when a button is clicked
     container: css`
         position: relative;
@@ -101,7 +106,12 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-amount"
                 label="Contribution amount"
-                css={styles.hideChoiceCardGroupLegend}
+                cssOverrides={[
+                    styles.hideChoiceCardGroupLegend,
+                    ophanEventIdPrefix === 'supporter-plus-banner'
+                        ? styles.bannerAmountsContainer
+                        : css``,
+                ]}
                 aria-labelledby={selection.frequency}
             >
                 <ChoiceCardAmountButtons

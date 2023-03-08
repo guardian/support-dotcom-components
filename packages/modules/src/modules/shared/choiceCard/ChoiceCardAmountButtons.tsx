@@ -7,6 +7,28 @@ import {
 } from '@sdc/shared/src/types';
 import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../helpers/choiceCards';
 import { trackClick } from './ChoiceCardFrequencyTabs';
+import { css } from '@emotion/react';
+import { space } from '@guardian/src-foundations';
+
+const container = css`
+    display: flex;
+    flex-direction: column;
+`;
+
+const choiceCardsContainer = css`
+    display: flex;
+    flex-direction: row;
+    margin-top: ${space[3]}px;
+    margin-bottom: ${space[2]}px;
+
+    > label:first-of-type {
+        margin: 0 ${space[2]}px 0 0 !important;
+    }
+`;
+
+const choiceCardOrOtherAmountContainer = css`
+    margin: ${space[2]}px 0;
+`;
 
 const ChoiceCardAmount = ({
     amount,
@@ -92,6 +114,30 @@ export const ChoiceCardAmountButtons = ({
             handleUpdateAmount={() => handleUpdateAmount(amount)}
         />
     ));
+
+    if (ophanEventIdPrefix === 'supporter-plus-banner') {
+        return (
+            <div css={container}>
+                <div css={choiceCardsContainer}>
+                    {choiceCardAmounts[0]}
+                    {choiceCardAmounts[1]}
+                </div>
+                <div css={choiceCardOrOtherAmountContainer}>
+                    {hideChooseYourAmount ? (
+                        choiceCardAmounts[2]
+                    ) : (
+                        <ChoiceCard
+                            value="other"
+                            label="Other"
+                            id="other"
+                            checked={selection.amount == 'other'}
+                            onChange={() => updateAmount}
+                        />
+                    )}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>

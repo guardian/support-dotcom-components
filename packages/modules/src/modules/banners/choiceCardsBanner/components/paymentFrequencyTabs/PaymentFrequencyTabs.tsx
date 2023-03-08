@@ -39,7 +39,7 @@ function getTabControllerAttributes(tab: TabProps): PaymentFrequencyTabButtonAtt
     };
 }
 
-export function PaymentFrequencyTabs({
+export function BannerChoiceCardsPaymentFrequencyTabs({
     ariaLabel,
     tabs,
     selectedTab,

@@ -5,7 +5,7 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/src/types';
-import { PaymentFrequencyTabs } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
+import { BannerChoiceCardsPaymentFrequencyTabs } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../helpers/choiceCards';
 
@@ -63,7 +63,7 @@ export const ChoiceCardFrequencyTabs = ({
     if (ophanEventIdPrefix === 'supporter-plus-banner') {
         return (
             <Box>
-                <PaymentFrequencyTabs
+                <BannerChoiceCardsPaymentFrequencyTabs
                     ariaLabel="payment frequency tabs"
                     tabs={tabList}
                     selectedTab={selection.frequency}
@@ -73,6 +73,7 @@ export const ChoiceCardFrequencyTabs = ({
         );
     }
 
+    // Epic ChoiceCard Payment Frequency Tabs
     return (
         <>
             {tabFrequencies.map(tabFrequency => {
