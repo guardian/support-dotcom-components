@@ -206,7 +206,6 @@ function InvestigationsMomentBanner({
             <InvestigationsMomentBannerPolygonsTopRight />
             <InvestigationsMomentBannerPolygonBottomLeft />
 
-
             <div css={styles.closeButtonContainer}>
                 <InvestigationsMomentBannerCloseButton onCloseClick={onCloseClick} />
             </div>

@@ -9,28 +9,28 @@ type Breakpoint = 'tablet' | 'desktop' | 'leftCol' | 'wide';
 const polygonBottomLeft: Record<Breakpoint, SvgPolygonProps> = {
     tablet: {
         viewBox: '0 0 1000 100',
-        points: '0 100, 1000 100, 0 0',
+        points: '0 100, 1000 100, 0 35',
         shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'tablet',
         hideAboveBreakpoint: 'desktop',
     },
     desktop: {
         viewBox: '0 0 1000 100',
-        points: '0 100, 1000 100, 0 0',
+        points: '0 100, 1000 100, 0 40',
         shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'desktop',
         hideAboveBreakpoint: 'leftCol',
     },
     leftCol: {
         viewBox: '0 0 1000 100',
-        points: '0 100, 1000 100, 0 0',
+        points: '0 100, 1000 100, 0 45',
         shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'leftCol',
         hideAboveBreakpoint: 'wide',
     },
     wide: {
         viewBox: '0 0 1000 100',
-        points: '0 100, 1000 100, 0 0',
+        points: '0 100, 1000 100, 0 55',
         shadow: 'shadowBottomLeft',
         hideBelowBreakpoint: 'wide',
     },
