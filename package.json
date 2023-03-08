@@ -26,6 +26,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@guardian/node-riffraff-artifact": "^0.3.2",
     "@guardian/eslint-config-typescript": "^0.6.0",
     "@guardian/prettier": "^0.6.0",
     "eslint": "^7.31.0",
