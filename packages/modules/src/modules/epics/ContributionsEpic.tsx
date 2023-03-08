@@ -17,7 +17,6 @@ import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
 import { ContributionsEpicArticleCountAboveWithOptOut } from './ContributionsEpicArticleCountAboveWithOptOut';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { withParsedProps } from '../shared/ModuleWrapper';
-import { ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
@@ -26,6 +25,7 @@ import {
     useChoiceCardsTrackingInsertEvent,
     useChoiceCardsTrackingViewEvent,
 } from '../shared/helpers/choiceCards';
+import { ChoiceCards } from '../banners/choiceCardsBanner/components/ChoiceCards';
 
 // CSS Styling
 // -------------------------------------------
@@ -362,7 +362,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
             {choiceCardAmounts && (
-                <ContributionsEpicChoiceCards
+                <ChoiceCards
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
                     submitComponentEvent={submitComponentEvent}
@@ -370,6 +370,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     amounts={choiceCardAmounts.amounts}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
+                    ophanEventIdPrefix="contributions-epic"
                 />
             )}
 

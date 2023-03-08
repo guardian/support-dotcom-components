@@ -18,13 +18,13 @@ import {
     logoContainer,
     paragraph,
 } from './choiceCardsBannerStyles';
-import { ContributionsEpicChoiceCards } from '../../epics/ContributionsEpicChoiceCards';
 import { getLocalCurrencySymbol } from '@sdc/shared/src/lib';
 import {
     useChoiceCardSelection,
     useChoiceCardsTrackingInsertEvent,
     useChoiceCardsTrackingViewEvent,
 } from '../../shared/helpers/choiceCards';
+import { ChoiceCards } from './components/ChoiceCards';
 
 const bannerId = 'choice-cards-banner';
 const closeComponentId = `${bannerId} : close`;
@@ -92,11 +92,12 @@ const ChoiceCardsBanner = ({
                     </Column>
                     <Column width={1 / 2} cssOverrides={choiceCardsColumn}>
                         {choiceCardAmounts && (
-                            <ContributionsEpicChoiceCards
+                            <ChoiceCards
                                 setSelectionsCallback={setChoiceCardSelection}
                                 selection={choiceCardSelection}
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
+                                ophanEventIdPrefix="supporter-plus-banner"
                                 amounts={choiceCardAmounts.amounts}
                                 amountsTestName={choiceCardAmounts?.testName}
                                 amountsVariantName={choiceCardAmounts?.variantName}

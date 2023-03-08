@@ -4,6 +4,7 @@ import {
     logEpicView,
 } from '@sdc/shared/src/lib';
 import {
+    ContributionAmounts,
     ContributionFrequency,
     OphanComponentEvent,
     SelectedAmountsVariant,
@@ -12,8 +13,74 @@ import {
 } from '@sdc/shared/src/types';
 import { useState, useEffect } from 'react';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import { ChoiceCardSelection } from '../../epics/ContributionsEpicChoiceCards';
 import { isProd } from './stage';
+
+export interface ContributionTypeItem {
+    label: string;
+    frequency: ContributionFrequency;
+    suffix: string;
+}
+
+export type ContributionType = {
+    [key in ContributionFrequency]: ContributionTypeItem;
+};
+
+export interface ChoiceCardSelection {
+    frequency: ContributionFrequency;
+    amount: number | 'other';
+}
+
+export type OphanEventIdPrefix = 'contributions-epic' | 'supporter-plus-banner';
+
+export interface ChoiceCardProps {
+    selection?: ChoiceCardSelection;
+    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    currencySymbol: string;
+    ophanEventIdPrefix: OphanEventIdPrefix;
+    amounts?: ContributionAmounts;
+    amountsTestName?: string;
+    amountsVariantName?: string;
+}
+
+export const contributionType: ContributionType = {
+    ONE_OFF: {
+        label: 'Single',
+        frequency: 'ONE_OFF',
+        suffix: '',
+    },
+    MONTHLY: {
+        label: 'Monthly',
+        frequency: 'MONTHLY',
+        suffix: 'per month',
+    },
+    ANNUAL: {
+        label: 'Annual',
+        frequency: 'ANNUAL',
+        suffix: 'per year',
+    },
+};
+
+const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
+    const path = 'events/epic-view';
+    const host = isProd(stage)
+        ? 'https://contributions.guardianapis.com'
+        : 'https://contributions.code.dev-guardianapis.com';
+    const body = JSON.stringify({
+        url,
+        countryCode,
+    });
+
+    fetch(`${host}/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+    }).then(response => {
+        if (!response.ok) {
+            console.log('Epic view event request failed', response);
+        }
+    });
+};
 
 export const useChoiceCardSelection = (
     choiceCardAmounts?: SelectedAmountsVariant,
@@ -81,25 +148,4 @@ export const useChoiceCardsTrackingInsertEvent = (
             submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
         }
     }, [submitComponentEvent]);
-};
-
-const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
-    const path = 'events/epic-view';
-    const host = isProd(stage)
-        ? 'https://contributions.guardianapis.com'
-        : 'https://contributions.code.dev-guardianapis.com';
-    const body = JSON.stringify({
-        url,
-        countryCode,
-    });
-
-    fetch(`${host}/${path}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body,
-    }).then(response => {
-        if (!response.ok) {
-            console.log('Epic view event request failed', response);
-        }
-    });
 };
