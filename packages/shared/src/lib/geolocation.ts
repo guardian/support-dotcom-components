@@ -341,7 +341,7 @@ const countryNames: CountryNameMap = {
     BY: 'Belarus',
     BZ: 'Belize',
     CA: 'Canada',
-    CD: 'the Democratic Repucblic of the Congo',
+    CD: 'the Democratic Republic of the Congo',
     CF: 'the Central Africa Republic',
     CG: 'the Congo',
     CH: 'Switzerland',
