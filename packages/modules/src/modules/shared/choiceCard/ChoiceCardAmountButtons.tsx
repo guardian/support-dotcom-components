@@ -5,93 +5,8 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/src/types';
-import { ChoiceCardSelection, ContributionType, OphanEventIdPrefix } from './helpers/choiceCards';
-import { PaymentFrequencyTabs } from '../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
-import { Box } from '../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
-
-const trackClick = (
-    type: 'amount' | 'frequency',
-    ophanEventIdPrefix: OphanEventIdPrefix,
-    submitComponentEvent?: (event: OphanComponentEvent) => void,
-): void => {
-    if (submitComponentEvent) {
-        submitComponentEvent({
-            component: {
-                componentType: 'ACQUISITIONS_OTHER',
-                id: `${ophanEventIdPrefix}-choice-cards-change-${type}`,
-            },
-            action: 'CLICK',
-        });
-    }
-};
-
-const ChoiceCardFrequencyTabs = ({
-    ophanEventIdPrefix,
-    contributionType,
-    submitComponentEvent,
-    amounts,
-    setSelectionsCallback,
-    selection,
-}: {
-    ophanEventIdPrefix: OphanEventIdPrefix;
-    contributionType: ContributionType;
-    submitComponentEvent?: (event: OphanComponentEvent) => void;
-    amounts: ContributionAmounts;
-    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
-    selection: ChoiceCardSelection;
-}): JSX.Element => {
-    const updateFrequency = (frequency: ContributionFrequency) => {
-        trackClick('frequency', ophanEventIdPrefix, submitComponentEvent);
-        amounts &&
-            setSelectionsCallback({
-                frequency: frequency,
-                amount: amounts[frequency].defaultAmount,
-            });
-    };
-
-    const tabFrequencies: ContributionFrequency[] = ['ONE_OFF', 'MONTHLY', 'ANNUAL'];
-
-    const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
-        tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
-
-    const tabList = tabFrequencies.map(tabFrequency => ({
-        id: tabFrequency,
-        labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
-        selected: selection.frequency === tabFrequency,
-    }));
-
-    if (ophanEventIdPrefix === 'supporter-plus-banner') {
-        return (
-            <Box>
-                <PaymentFrequencyTabs
-                    ariaLabel="payment frequency tabs"
-                    tabs={tabList}
-                    selectedTab={selection.frequency}
-                    onTabChange={updateFrequency}
-                />
-            </Box>
-        );
-    }
-
-    return (
-        <>
-            {tabFrequencies.map(tabFrequency => {
-                const frequencyVal = contributionType[tabFrequency].frequency;
-
-                return (
-                    <ChoiceCard
-                        key={tabFrequency}
-                        label={contributionType[tabFrequency].label}
-                        value={frequencyVal}
-                        id={frequencyVal}
-                        checked={selection?.frequency === frequencyVal}
-                        onChange={() => updateFrequency(frequencyVal)}
-                    />
-                );
-            })}
-        </>
-    );
-};
+import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../helpers/choiceCards';
+import { trackClick } from './ChoiceCardFrequencyTabs';
 
 const ChoiceCardAmount = ({
     amount,
@@ -119,7 +34,7 @@ const ChoiceCardAmount = ({
     return null;
 };
 
-const ChoiceCardAmountButtons = ({
+export const ChoiceCardAmountButtons = ({
     ophanEventIdPrefix,
     contributionType,
     submitComponentEvent,
@@ -196,5 +111,3 @@ const ChoiceCardAmountButtons = ({
         </>
     );
 };
-
-export { ChoiceCardFrequencyTabs, ChoiceCardAmountButtons };
