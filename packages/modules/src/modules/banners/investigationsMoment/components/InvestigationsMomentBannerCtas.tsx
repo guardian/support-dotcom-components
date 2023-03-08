@@ -1,12 +1,12 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { neutral, news, space } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { from, until } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { buttonBrandAlt, buttonReaderRevenue, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { PaymentCards } from '../../common/PaymentCards';
 
 const styles = {
     container: css`
@@ -18,45 +18,46 @@ const styles = {
         }
 
         ${from.tablet} {
-            flex-direction: row-reverse;
-
-            & > * + * {
-                margin-left: 0;
-                margin-right: ${space[4]}px;
-            }
+            flex-direction: column;
         }
     `,
-    mobilePrimaryCta: css`
-        color: ${neutral[0]};
-
-        &:hover {
-            background-color: ${neutral[100]};
-        }
-    `,
-    desktopPrimaryCta: css`
-        border: 1px solid ${news[400]};
-        background-color: ${news[400]};
-        color: ${neutral[100]};
-
-        ${from.tablet} {
-            &:hover {
-                background-color: ${neutral[100]};
-                color: ${news[400]};
-            }
-        }
-    `,
-    secondaryCta: css`
+    mobileSecondaryCta: css`
         background-color: ${neutral[0]};
         border: 1px solid ${neutral[100]};
+        color: ${neutral[100]};
 
         &:hover {
             background-color: ${neutral[100]};
             color: ${neutral[0]};
         }
-
-        ${from.tablet} {
-            border: 1px solid ${neutral[0]};
+        ${until.mobileMedium} {
+            padding: 0 ${space[3]}px;
         }
+    `,
+    secondaryCta: css`
+        background-color: ${neutral[100]};
+        border: 1px solid ${neutral[0]};
+        color: ${neutral[0]};
+
+        &:hover {
+            background-color: ${neutral[93]};
+        }
+        width: fit-content;
+    `,
+    primaryCta: css`
+        background-color: ${brandAlt[400]};
+        border: 1px solid ${brandAlt[400]};
+        color: ${neutral[0]};
+
+        &:hover {
+            background-color: ${brandAlt[200]};
+        }
+        ${until.mobileMedium} {
+            padding: 0 ${space[3]}px;
+        }
+    `,
+    buttonPaymentIcons: css`
+        margin-left: 32px;
     `,
 };
 
@@ -91,7 +92,7 @@ export function InvestigationsMomentBannerCtas({
                                     <LinkButton
                                         href={mobileCtas.primary.ctaUrl}
                                         onClick={onPrimaryCtaClick}
-                                        cssOverrides={styles.mobilePrimaryCta}
+                                        cssOverrides={styles.primaryCta}
                                         size="small"
                                         priority="primary"
                                     >
@@ -105,21 +106,15 @@ export function InvestigationsMomentBannerCtas({
 
                 {desktopCtas.primary && (
                     <Hide below="tablet">
-                        <ButtonWithPaymentIcons
-                            button={
-                                <LinkButton
-                                    href={desktopCtas.primary.ctaUrl}
-                                    onClick={onPrimaryCtaClick}
-                                    cssOverrides={styles.desktopPrimaryCta}
-                                    size="small"
-                                    priority="primary"
-                                    icon={<SvgArrowRightStraight />}
-                                    iconSide="right"
-                                >
-                                    {desktopCtas.primary.ctaText}
-                                </LinkButton>
-                            }
-                        />
+                        <LinkButton
+                            href={desktopCtas.primary.ctaUrl}
+                            onClick={onPrimaryCtaClick}
+                            cssOverrides={styles.primaryCta}
+                            size="small"
+                            priority="primary"
+                        >
+                            {desktopCtas.primary.ctaText}
+                        </LinkButton>
                     </Hide>
                 )}
             </div>
@@ -131,7 +126,7 @@ export function InvestigationsMomentBannerCtas({
                             <LinkButton
                                 href={mobileCtas.secondary.cta.ctaUrl}
                                 onClick={onSecondaryCtaClick}
-                                cssOverrides={styles.secondaryCta}
+                                cssOverrides={styles.mobileSecondaryCta}
                                 size="small"
                                 priority="primary"
                             >
@@ -144,15 +139,19 @@ export function InvestigationsMomentBannerCtas({
                 {desktopCtas.secondary?.type === SecondaryCtaType.Custom && (
                     <Hide below="tablet">
                         <ThemeProvider theme={buttonBrandAlt}>
-                            <LinkButton
-                                href={desktopCtas.secondary.cta.ctaUrl}
-                                onClick={onSecondaryCtaClick}
-                                cssOverrides={styles.secondaryCta}
-                                size="small"
-                                priority="primary"
-                            >
-                                {desktopCtas.secondary.cta.ctaText}
-                            </LinkButton>
+                            <ButtonWithPaymentIcons
+                                button={
+                                    <LinkButton
+                                        href={desktopCtas.secondary.cta.ctaUrl}
+                                        onClick={onSecondaryCtaClick}
+                                        cssOverrides={styles.secondaryCta}
+                                        size="small"
+                                        priority="primary"
+                                    >
+                                        {desktopCtas.secondary.cta.ctaText}
+                                    </LinkButton>
+                                }
+                            />
                         </ThemeProvider>
                     </Hide>
                 )}
@@ -167,11 +166,13 @@ const buttonWithPaymentIconStyles = {
     container: css`
         display: flex;
         flex-direction: column;
+
+        ${from.tablet} {
+            margin-top: ${space[2]}px;
+            margin-left: -${space[4]}px;
+        }
     `,
     paymentIconsContainer: css`
-        margin-top: ${space[1]}px;
-        margin-left: ${space[4]}px;
-
         img {
             height: 14px;
             width: auto;
@@ -191,14 +192,8 @@ function ButtonWithPaymentIcons({ button }: ButtonWithPaymentIconProps) {
     return (
         <div css={buttonWithPaymentIconStyles.container}>
             {button}
-
             <div css={buttonWithPaymentIconStyles.paymentIconsContainer}>
-                <img
-                    width={497}
-                    height={88}
-                    src="https://media.guim.co.uk/40745a456b9da26eccca15a615dd0e406839ceb6/0_0_1549_274/500.png"
-                    alt="Accepted payment methods: Visa, Mastercard, American Express and PayPal"
-                />
+                <PaymentCards />
             </div>
         </div>
     );

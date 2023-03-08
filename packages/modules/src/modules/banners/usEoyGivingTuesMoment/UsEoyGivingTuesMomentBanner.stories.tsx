@@ -13,7 +13,10 @@ export default {
 
 const UsEoyGivingTuesBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#e2e1e0',
+        containerSettings: {
+            backgroundColour: '#e2e1e0',
+            paddingTop: '0',
+        },
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],

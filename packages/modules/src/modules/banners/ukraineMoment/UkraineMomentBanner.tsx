@@ -3,7 +3,9 @@ import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
 const UkraineMomentBanner = getMomentTemplateBanner({
-    backgroundColour: culture[800],
+    containerSettings: {
+        backgroundColour: culture[800],
+    },
     headerSettings: {
         textColour: brand[400],
     },
@@ -28,6 +30,7 @@ const UkraineMomentBanner = getMomentTemplateBanner({
             textColour: brand[400],
             border: '1px solid #052962',
         },
+        theme: 'brand',
     },
     closeButtonSettings: {
         default: {

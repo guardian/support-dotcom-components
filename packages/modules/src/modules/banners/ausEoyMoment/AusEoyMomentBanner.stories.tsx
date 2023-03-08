@@ -13,7 +13,9 @@ export default {
 
 const AusEoyMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#DCDCDC',
+        containerSettings: {
+            backgroundColour: '#DCDCDC',
+        },
         primaryCtaSettings: {
             default: {
                 backgroundColour: neutral[7],
