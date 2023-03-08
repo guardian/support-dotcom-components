@@ -37,7 +37,7 @@ jobs:
           yarn test
 
           NODE_ENV=production yarn server build
-          NODE_ENV=production yarn modules build
+          NODE_ENV=production NODE_OPTIONS="--max-old-space-size=16384" yarn modules build
 
       - name: cdk
         working-directory: ./cdk
