@@ -6,9 +6,12 @@ import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { contributionType, ChoiceCardProps } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardAmountButtons, ChoiceCardFrequencyTabs } from '../../../shared/ChoiceCard';
+import { space } from '@guardian/src-foundations';
 
 const styles = {
     epicFrequenciesGroupOverrides: css`
+        margin: ${space[5]}px 0 ${space[5]}px;
+
         ${until.mobileLandscape} {
             > div {
                 display: flex !important;
@@ -73,11 +76,10 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
 
     return (
         <div ref={setNode} css={styles.container}>
-            <br />
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                css={[
+                cssOverrides={[
                     styles.hideChoiceCardGroupLegend,
                     ophanEventIdPrefix === 'supporter-plus-banner'
                         ? styles.bannerFrequenciesGroupOverrides
@@ -94,7 +96,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                     selection={selection}
                 />
             </ChoiceCardGroup>
-            <br />
+
             <ChoiceCardGroup
                 name="contribution-amount"
                 label="Contribution amount"
