@@ -8,7 +8,7 @@ import { contributionType, ChoiceCardProps } from '../../../shared/helpers/choic
 import { ChoiceCardAmountButtons, ChoiceCardFrequencyTabs } from '../../../shared/ChoiceCard';
 
 const styles = {
-    frequencyChoiceCardGroupOverrides: css`
+    epicFrequenciesGroupOverrides: css`
         ${until.mobileLandscape} {
             > div {
                 display: flex !important;
@@ -18,6 +18,11 @@ const styles = {
                 margin-left: 4px !important;
                 margin-right: 4px !important;
             }
+        }
+    `,
+    bannerFrequenciesGroupOverrides: css`
+        > div:first-of-type {
+            display: block !important;
         }
     `,
     hideChoiceCardGroupLegend: css`
@@ -72,7 +77,12 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                css={[styles.frequencyChoiceCardGroupOverrides, styles.hideChoiceCardGroupLegend]}
+                css={[
+                    styles.hideChoiceCardGroupLegend,
+                    ophanEventIdPrefix === 'supporter-plus-banner'
+                        ? styles.bannerFrequenciesGroupOverrides
+                        : styles.epicFrequenciesGroupOverrides,
+                ]}
                 label="Contribution frequency"
             >
                 <ChoiceCardFrequencyTabs
@@ -89,6 +99,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 name="contribution-amount"
                 label="Contribution amount"
                 css={styles.hideChoiceCardGroupLegend}
+                aria-labelledby={selection.frequency}
             >
                 <ChoiceCardAmountButtons
                     ophanEventIdPrefix={ophanEventIdPrefix}

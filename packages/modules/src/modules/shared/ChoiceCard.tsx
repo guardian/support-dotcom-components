@@ -6,7 +6,8 @@ import {
     OphanComponentEvent,
 } from '@sdc/shared/src/types';
 import { ChoiceCardSelection, ContributionType, OphanEventIdPrefix } from './helpers/choiceCards';
-import { ChoiceCardTab } from '../banners/choiceCardsBanner/components/ChoiceCardTab';
+import { PaymentFrequencyTabs } from '../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
+import { Box } from '../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
 
 const trackClick = (
     type: 'amount' | 'frequency',
@@ -50,24 +51,25 @@ const ChoiceCardFrequencyTabs = ({
 
     const tabFrequencies: ContributionFrequency[] = ['ONE_OFF', 'MONTHLY', 'ANNUAL'];
 
+    const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
+        tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
+
+    const tabList = tabFrequencies.map(tabFrequency => ({
+        id: tabFrequency,
+        labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
+        selected: selection.frequency === tabFrequency,
+    }));
+
     if (ophanEventIdPrefix === 'supporter-plus-banner') {
         return (
-            <>
-                {tabFrequencies.map(tabFrequency => {
-                    const frequencyVal = contributionType[tabFrequency].frequency;
-
-                    return (
-                        <ChoiceCardTab
-                            key={tabFrequency}
-                            label={contributionType[tabFrequency].label}
-                            value={frequencyVal}
-                            id={frequencyVal}
-                            checked={selection?.frequency === frequencyVal}
-                            onChange={() => updateFrequency(frequencyVal)}
-                        />
-                    );
-                })}
-            </>
+            <Box>
+                <PaymentFrequencyTabs
+                    ariaLabel="payment frequency tabs"
+                    tabs={tabList}
+                    selectedTab={selection.frequency}
+                    onTabChange={updateFrequency}
+                />
+            </Box>
         );
     }
 
