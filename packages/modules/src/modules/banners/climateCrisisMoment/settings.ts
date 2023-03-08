@@ -2,7 +2,9 @@ import { neutral, news } from '@guardian/src-foundations';
 import { BannerTemplateSettings } from '../momentTemplate/settings';
 
 export const settings: Omit<BannerTemplateSettings, 'imageSettings'> = {
-    backgroundColour: '#FBF6EF',
+    containerSettings: {
+        backgroundColour: '#FBF6EF',
+    },
     articleCountTextColour: news[400],
     primaryCtaSettings: {
         default: {

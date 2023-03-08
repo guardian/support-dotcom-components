@@ -15,21 +15,29 @@ const styles = {
         margin: 0;
 
         h2 {
-            ${headline.xsmall({ fontWeight: 'bold' })}
-            max-width: 160px;
+            ${headline.xxsmall({ fontWeight: 'bold' })}
+            max-width: 210px;
             margin: 0;
 
+            ${from.mobileMedium} {
+                ${headline.xsmall({ fontWeight: 'bold' })}
+            }
+            ${from.mobileLandscape} {
+                max-width: 240px;
+            }
             ${from.tablet} {
-                max-width: none;
-                font-size: 32px;
+                ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
+                max-width: 540px;
             }
 
             ${from.desktop} {
-                ${headline.large({ fontWeight: 'bold' })}
+                ${headline.small({ fontWeight: 'bold', lineHeight: 'tight' })}
+                max-width: 680px;
             }
 
-            ${from.leftCol} {
-                ${headline.xlarge({ fontWeight: 'bold' })}
+            ${from.wide} {
+                ${headline.large({ fontWeight: 'bold', lineHeight: 'tight' })}
+                max-width: 840px;
             }
         }
 
@@ -38,7 +46,7 @@ const styles = {
         }
 
         ${from.tablet} {
-            padding: ${space[2]}px 0;
+            padding: ${space[2]}px 0 0;
         }
     `,
 };

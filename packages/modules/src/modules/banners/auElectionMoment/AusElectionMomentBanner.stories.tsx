@@ -13,7 +13,9 @@ export default {
 
 const AusElectionBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: '#e4e4e3',
+        containerSettings: {
+            backgroundColour: '#e4e4e3',
+        },
         primaryCtaSettings: {
             default: {
                 backgroundColour: '#121212',

@@ -5,7 +5,9 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { UsEoyMomentBannerVisualV3 } from './UsEoyMomentBannerVisualV3';
 
 const UsEoyMomentBannerV3 = getMomentTemplateBanner({
-    backgroundColour: '#EDEDED',
+    containerSettings: {
+        backgroundColour: '#EDEDED',
+    },
     headerSettings: {
         textColour: '#7D0068',
     },

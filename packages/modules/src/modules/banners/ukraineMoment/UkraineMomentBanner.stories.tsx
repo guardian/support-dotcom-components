@@ -13,7 +13,9 @@ export default {
 
 const UkraineMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
-        backgroundColour: culture[800],
+        containerSettings: {
+            backgroundColour: culture[800],
+        },
         headerSettings: {
             textColour: brand[400],
         },
@@ -49,6 +51,7 @@ const UkraineMomentBanner = bannerWrapper(
                 backgroundColour: '#E5E5E5',
                 textColour: brand[400],
             },
+            theme: 'brand',
         },
         highlightedTextSettings: {
             textColour: neutral[0],

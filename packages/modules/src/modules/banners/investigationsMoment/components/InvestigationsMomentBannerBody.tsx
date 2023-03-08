@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral } from '@guardian/src-foundations';
+import { brandAlt, neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
@@ -13,19 +13,22 @@ const styles: BannerTextStyles = {
         color: ${neutral[100]};
 
         p {
-            margin: 0 0 0.5em 0;
+            margin: 0 0 0 0;
         }
 
         ${from.tablet} {
+            font-size: 15px;
             color: ${neutral[0]};
         }
 
-        ${from.desktop} {
+        ${from.wide} {
             font-size: 17px;
         }
     `,
     highlightedText: css`
         font-weight: bold;
+        color: ${neutral[0]};
+        background-color: ${brandAlt[400]};
     `,
 };
 

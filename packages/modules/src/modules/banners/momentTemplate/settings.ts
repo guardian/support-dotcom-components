@@ -2,6 +2,11 @@ import { Image } from '@sdc/shared/src/types';
 import { ReactNode } from 'react';
 import { BannerId } from '../common/types';
 
+export type ContainerSettings = {
+    backgroundColour: string;
+    paddingTop?: string;
+};
+
 export type CtaStateSettings = {
     textColour: string;
     backgroundColour: string;
@@ -13,6 +18,7 @@ export interface CtaSettings {
     hover: CtaStateSettings;
     mobile?: CtaStateSettings;
     desktop?: CtaStateSettings;
+    theme?: 'default' | 'brand';
 }
 
 export interface HighlightedTextSettings {
@@ -32,7 +38,7 @@ export interface HeaderSettings {
 }
 
 export interface BannerTemplateSettings {
-    backgroundColour: string;
+    containerSettings: ContainerSettings;
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;

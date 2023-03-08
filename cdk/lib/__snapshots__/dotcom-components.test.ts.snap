@@ -1,22 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The Cfn stack matches the snapshot 1`] = `
+exports[`The DotcomComponents stack matches the snapshot 1`] = `
 Object {
-  "Mappings": Object {
-    "stagemapping": Object {
-      "CODE": Object {
-        "alarmActionsEnabled": false,
-        "domainName": "dotcom-components-code.support.guardianapis.com",
-        "maxInstances": 2,
-        "minInstances": 1,
-      },
-      "PROD": Object {
-        "alarmActionsEnabled": true,
-        "domainName": "dotcom-components.support.guardianapis.com",
-        "maxInstances": 18,
-        "minInstances": 3,
-      },
-    },
+  "Metadata": Object {
+    "gu:cdk:constructs": Array [
+      "GuStringParameter",
+      "GuStringParameter",
+      "GuAlarm",
+      "GuAlarm",
+      "GuDistributionBucketParameter",
+      "GuGetS3ObjectsPolicy",
+      "GuGetS3ObjectsPolicy",
+      "GuDynamoDBReadPolicy",
+      "GuDynamoDBReadPolicy",
+      "GuPutCloudwatchMetricsPolicy",
+      "GuDynamoDBReadPolicy",
+      "GuVpcParameter",
+      "GuSubnetListParameter",
+      "GuCertificate",
+      "GuInstanceRole",
+      "GuSSMRunCommandPolicy",
+      "GuDescribeEC2Policy",
+      "GuLoggingStreamNameParameter",
+      "GuLogShippingPolicy",
+      "GuGetDistributablePolicy",
+      "GuParameterStoreReadPolicy",
+      "GuAmiParameter",
+      "GuHttpsEgressSecurityGroup",
+      "GuAutoScalingGroup",
+      "GuWazuhAccess",
+      "GuSubnetListParameter",
+      "GuApplicationLoadBalancer",
+      "GuApplicationTargetGroup",
+      "GuHttpsApplicationListener",
+      "GuAlb5xxPercentageAlarm",
+      "GuUnhealthyInstancesAlarm",
+    ],
+    "gu:cdk:version": "TEST",
   },
   "Outputs": Object {
     "LoadBalancerDotcomcomponentsDnsName": Object {
@@ -47,28 +67,14 @@ Object {
       "Description": "Name of the Kinesis stream used to send logs to the central ELK stack.",
       "Type": "String",
     },
-    "InstanceTypeDotcomcomponents": Object {
-      "Default": "t3.small",
-      "Description": "EC2 Instance Type for the app dotcom-components",
-      "Type": "String",
-    },
     "LoggingStreamName": Object {
       "Default": "/account/services/logging.stream.name",
       "Description": "SSM parameter containing the Name (not ARN) on the kinesis stream",
       "Type": "AWS::SSM::Parameter::Value<String>",
     },
-    "Stage": Object {
-      "AllowedValues": Array [
-        "CODE",
-        "PROD",
-      ],
-      "Default": "CODE",
-      "Description": "Stage name",
-      "Type": "String",
-    },
     "VpcId": Object {
       "Default": "/account/vpc/primary/id",
-      "Description": "Virtual Private Cloud to run EC2 instances within",
+      "Description": "Virtual Private Cloud to run EC2 instances within. Should NOT be the account default VPC.",
       "Type": "AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>",
     },
     "dotcomcomponentsPrivateSubnets": Object {
@@ -90,24 +96,8 @@ Object {
         "LaunchConfigurationName": Object {
           "Ref": "AutoScalingGroupDotcomcomponentsLaunchConfig85091051",
         },
-        "MaxSize": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "maxInstances",
-          ],
-        },
-        "MinSize": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "minInstances",
-          ],
-        },
+        "MaxSize": "18",
+        "MinSize": "3",
         "Tags": Array [
           Object {
             "Key": "App",
@@ -122,7 +112,7 @@ Object {
           Object {
             "Key": "gu:cdk:version",
             "PropagateAtLaunch": true,
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -130,9 +120,16 @@ Object {
             "Value": "guardian/support-dotcom-components",
           },
           Object {
+            "Key": "LogKinesisStreamName",
+            "PropagateAtLaunch": true,
+            "Value": Object {
+              "Ref": "LoggingStreamName",
+            },
+          },
+          Object {
             "Key": "Name",
             "PropagateAtLaunch": true,
-            "Value": "cfn/AutoScalingGroupDotcomcomponents",
+            "Value": "DotcomComponents/AutoScalingGroupDotcomcomponents",
           },
           Object {
             "Key": "Stack",
@@ -142,9 +139,7 @@ Object {
           Object {
             "Key": "Stage",
             "PropagateAtLaunch": true,
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "TargetGroupARNs": Array [
@@ -179,8 +174,9 @@ Object {
         "ImageId": Object {
           "Ref": "AMIDotcomcomponents",
         },
-        "InstanceType": Object {
-          "Ref": "InstanceTypeDotcomcomponents",
+        "InstanceType": "t4g.small",
+        "MetadataOptions": Object {
+          "HttpTokens": "required",
         },
         "SecurityGroups": Array [
           Object {
@@ -211,11 +207,7 @@ aws --region eu-west-1 s3 cp s3://",
                 Object {
                   "Ref": "DistributionBucketName",
                 },
-                "/support/",
-                Object {
-                  "Ref": "Stage",
-                },
-                "/dotcom-components/dotcom-components.tar ./
+                "/support/TEST/dotcom-components/dotcom-components.tar ./
 mkdir dotcom-components
 tar -xvf dotcom-components.tar --directory dotcom-components
 
@@ -225,11 +217,7 @@ cd dotcom-components
 
 export TERM=xterm-256color
 export NODE_ENV=production
-export stage=",
-                Object {
-                  "Ref": "Stage",
-                },
-                "
+export stage=TEST
 export base_url=",
                 Object {
                   "Ref": "BaseUrl",
@@ -275,15 +263,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
     "CertificateDotcomcomponents88C2E1C7": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
-        "DomainName": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "domainName",
-          ],
-        },
+        "DomainName": "dotcom-components-test.support.guardianapis.com",
         "Tags": Array [
           Object {
             "Key": "App",
@@ -291,7 +271,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -303,9 +283,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "ValidationMethod": "DNS",
@@ -315,15 +293,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
     },
     "ChannelTestsAlarmCFFD6DDE": Object {
       "Properties": Object {
-        "ActionsEnabled": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "alarmActionsEnabled",
-          ],
-        },
+        "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
             "Fn::Join": Array [
@@ -343,31 +313,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
         ],
         "AlarmDescription": "Error fetching channel tests data from Dynamodb",
-        "AlarmName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "support-dotcom-components: Channel Tests error - ",
-              Object {
-                "Ref": "Stage",
-              },
-            ],
-          ],
-        },
+        "AlarmName": "support-dotcom-components: Channel Tests error - TEST",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "EvaluationPeriods": 1,
         "MetricName": "channel-tests-error",
-        "Namespace": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "support-dotcom-components-",
-              Object {
-                "Ref": "Stage",
-              },
-            ],
-          ],
-        },
+        "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
         "Threshold": 1,
@@ -426,10 +376,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    ":table/super-mode-",
-                    Object {
-                      "Ref": "Stage",
-                    },
+                    ":table/super-mode-TEST",
                   ],
                 ],
               },
@@ -471,11 +418,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    ":table/super-mode-",
-                    Object {
-                      "Ref": "Stage",
-                    },
-                    "/index/*",
+                    ":table/super-mode-TEST/index/*",
                   ],
                 ],
               },
@@ -517,10 +460,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    ":table/support-admin-console-channel-tests-",
-                    Object {
-                      "Ref": "Stage",
-                    },
+                    ":table/support-admin-console-channel-tests-TEST",
                   ],
                 ],
               },
@@ -552,11 +492,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     Object {
                       "Ref": "DistributionBucketName",
                     },
-                    "/support/",
-                    Object {
-                      "Ref": "Stage",
-                    },
-                    "/dotcom-components/*",
+                    "/support/TEST/dotcom-components/*",
                   ],
                 ],
               },
@@ -592,7 +528,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -604,9 +540,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "VpcId": Object {
@@ -615,7 +549,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "GuHttpsEgressSecurityGroupDotcomcomponentsfromcfnLoadBalancerDotcomcomponentsSecurityGroupE953877E3030690B8132": Object {
+    "GuHttpsEgressSecurityGroupDotcomcomponentsfromDotcomComponentsLoadBalancerDotcomcomponentsSecurityGroup54E3D2CA3030F5C9C874": Object {
       "Properties": Object {
         "Description": "Load balancer to target",
         "FromPort": 3030,
@@ -701,15 +635,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
     },
     "High5xxPercentageAlarmDotcomcomponents70DE8F71": Object {
       "Properties": Object {
-        "ActionsEnabled": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "alarmActionsEnabled",
-          ],
-        },
+        "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
             "Fn::Join": Array [
@@ -729,18 +655,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
         ],
         "AlarmDescription": "dotcom-components exceeded 0.5% error rate",
-        "AlarmName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "URGENT 9-5 - high 5XX error rate on ",
-              Object {
-                "Ref": "Stage",
-              },
-              " support-dotcom-components",
-            ],
-          ],
-        },
+        "AlarmName": "URGENT 9-5 - high 5XX error rate on TEST support-dotcom-components",
         "ComparisonOperator": "GreaterThanThreshold",
         "EvaluationPeriods": 1,
         "Metrics": Array [
@@ -856,7 +771,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -868,9 +783,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
       },
@@ -928,7 +841,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -940,9 +853,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "Type": "application",
@@ -951,7 +862,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
     },
     "LoadBalancerDotcomcomponentsSecurityGroupD06C9706": Object {
       "Properties": Object {
-        "GroupDescription": "Automatically created Security Group for ELB cfnLoadBalancerDotcomcomponentsFFDD63DE",
+        "GroupDescription": "Automatically created Security Group for ELB DotcomComponentsLoadBalancerDotcomcomponentsAF9F12FF",
         "SecurityGroupIngress": Array [
           Object {
             "CidrIp": "0.0.0.0/0",
@@ -968,7 +879,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -980,9 +891,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "VpcId": Object {
@@ -991,7 +900,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::EC2::SecurityGroup",
     },
-    "LoadBalancerDotcomcomponentsSecurityGrouptocfnGuHttpsEgressSecurityGroupDotcomcomponents5B0C5960303092CC03B2": Object {
+    "LoadBalancerDotcomcomponentsSecurityGrouptoDotcomComponentsGuHttpsEgressSecurityGroupDotcomcomponentsFA67604E3030942D3CE4": Object {
       "Properties": Object {
         "Description": "Load balancer to target",
         "DestinationSecurityGroupId": Object {
@@ -1031,11 +940,30 @@ chown -R dotcom-components:support /var/log/dotcom-components
                     Object {
                       "Ref": "AWS::AccountId",
                     },
-                    ":parameter/",
+                    ":parameter/TEST/support/dotcom-components",
+                  ],
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:ssm:",
                     Object {
-                      "Ref": "Stage",
+                      "Ref": "AWS::Region",
                     },
-                    "/support/dotcom-components",
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/TEST/support/dotcom-components/*",
                   ],
                 ],
               },
@@ -1060,42 +988,9 @@ chown -R dotcom-components:support /var/log/dotcom-components
               "Action": "s3:GetObject",
               "Effect": "Allow",
               "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::gu-contributions-public/epic/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::gu-contributions-public/header/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::gu-contributions-public/banner/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
+                "arn:aws:s3:::gu-contributions-public/epic/TEST/*",
+                "arn:aws:s3:::gu-contributions-public/header/TEST/*",
+                "arn:aws:s3:::gu-contributions-public/banner/TEST/*",
               ],
             },
           ],
@@ -1118,54 +1013,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
               "Action": "s3:GetObject",
               "Effect": "Allow",
               "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::support-admin-console/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/banner-deploy/*",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::support-admin-console/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/channel-switches.json",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::support-admin-console/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/configured-amounts.json",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:s3:::support-admin-console/",
-                      Object {
-                        "Ref": "Stage",
-                      },
-                      "/guardian-weekly-propensity-test/*",
-                    ],
-                  ],
-                },
+                "arn:aws:s3:::support-admin-console/TEST/banner-deploy/*",
+                "arn:aws:s3:::support-admin-console/TEST/channel-switches.json",
+                "arn:aws:s3:::support-admin-console/TEST/configured-amounts.json",
+                "arn:aws:s3:::support-admin-console/TEST/guardian-weekly-propensity-test/*",
               ],
             },
           ],
@@ -1218,15 +1069,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
     },
     "SuperModeAlarmDBFE793D": Object {
       "Properties": Object {
-        "ActionsEnabled": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "alarmActionsEnabled",
-          ],
-        },
+        "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
             "Fn::Join": Array [
@@ -1246,31 +1089,11 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
         ],
         "AlarmDescription": "Error fetching Epic Super Mode data from Dynamodb",
-        "AlarmName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "support-dotcom-components: Super Mode error - ",
-              Object {
-                "Ref": "Stage",
-              },
-            ],
-          ],
-        },
+        "AlarmName": "support-dotcom-components: Super Mode error - TEST",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
         "EvaluationPeriods": 1,
         "MetricName": "super-mode-error",
-        "Namespace": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "support-dotcom-components-",
-              Object {
-                "Ref": "Stage",
-              },
-            ],
-          ],
-        },
+        "Namespace": "support-dotcom-components-TEST",
         "Period": 3600,
         "Statistic": "Sum",
         "Threshold": 1,
@@ -1294,7 +1117,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -1306,15 +1129,17 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "TargetGroupAttributes": Array [
           Object {
             "Key": "deregistration_delay.timeout_seconds",
             "Value": "30",
+          },
+          Object {
+            "Key": "stickiness.enabled",
+            "Value": "false",
           },
         ],
         "TargetType": "instance",
@@ -1327,15 +1152,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
     },
     "UnhealthyInstancesAlarmDotcomcomponentsB1904A86": Object {
       "Properties": Object {
-        "ActionsEnabled": Object {
-          "Fn::FindInMap": Array [
-            "stagemapping",
-            Object {
-              "Ref": "Stage",
-            },
-            "alarmActionsEnabled",
-          ],
-        },
+        "ActionsEnabled": true,
         "AlarmActions": Array [
           Object {
             "Fn::Join": Array [
@@ -1354,24 +1171,14 @@ chown -R dotcom-components:support /var/log/dotcom-components
             ],
           },
         ],
-        "AlarmDescription": "dotcom-components's instances have failed healthchecks several times over the last hour.
+        "AlarmDescription": "dotcom-components's instances have failed healthchecks several times over the last 1 hour.
       This typically results in the AutoScaling Group cycling instances and can lead to problems with deployment,
       scaling or handling traffic spikes.
 
       Check dotcom-components's application logs or ssh onto an unhealthy instance in order to debug these problems.",
-        "AlarmName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "Unhealthy instances for dotcom-components in ",
-              Object {
-                "Ref": "Stage",
-              },
-            ],
-          ],
-        },
+        "AlarmName": "Unhealthy instances for dotcom-components in TEST",
         "ComparisonOperator": "GreaterThanOrEqualToThreshold",
-        "DatapointsToAlarm": 6,
+        "DatapointsToAlarm": 30,
         "Dimensions": Array [
           Object {
             "Name": "LoadBalancer",
@@ -1434,10 +1241,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
             },
           },
         ],
-        "EvaluationPeriods": 12,
+        "EvaluationPeriods": 60,
         "MetricName": "UnHealthyHostCount",
         "Namespace": "AWS/ApplicationELB",
-        "Period": 300,
+        "Period": 60,
         "Statistic": "Maximum",
         "Threshold": 1,
         "TreatMissingData": "notBreaching",
@@ -1465,12 +1272,8 @@ chown -R dotcom-components:support /var/log/dotcom-components
         ],
         "Tags": Array [
           Object {
-            "Key": "App",
-            "Value": "dotcom-components",
-          },
-          Object {
             "Key": "gu:cdk:version",
-            "Value": "23.5.1",
+            "Value": "TEST",
           },
           Object {
             "Key": "gu:repo",
@@ -1482,9 +1285,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           },
           Object {
             "Key": "Stage",
-            "Value": Object {
-              "Ref": "Stage",
-            },
+            "Value": "TEST",
           },
         ],
         "VpcId": Object {

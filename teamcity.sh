@@ -20,7 +20,10 @@ NODE_ENV=production yarn server build
 NODE_ENV=production yarn modules build
 
 pushd cdk
-./script/ci
+yarn install
+yarn lint
+yarn test
+yarn synth
 popd
 
 yarn run riffraff

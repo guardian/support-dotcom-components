@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
-import { BannerRenderProps } from '../common/types';
+import { BannerId, BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
 import { MomentTemplateBannerBody } from './components/MomentTemplateBannerBody';
@@ -10,13 +10,12 @@ import { MomentTemplateBannerCtas } from './components/MomentTemplateBannerCtas'
 import { MomentTemplateBannerCloseButton } from './components/MomentTemplateBannerCloseButton';
 import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from './settings';
-import { from } from '@guardian/src-foundations/mq';
+import { between, from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 
 // ---- Banner ---- //
-
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
 ): React.FC<BannerRenderProps> {
@@ -47,20 +46,19 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
-        const isNewYearBanner = templateSettings.bannerId === 'global-new-year-banner';
-        const isUsEoyBanner = templateSettings.bannerId === 'us-eoy-banner';
-        const isUsEoyGivingTuesBanner = templateSettings.bannerId === 'us-eoy-giving-tues-banner';
-        const isUsEoyV3Banner = templateSettings.bannerId === 'us-eoy-banner-v3';
-        const isEoyBanner = isUsEoyBanner || isUsEoyGivingTuesBanner || isUsEoyV3Banner;
+        const isEoyBanner =
+            templateSettings.bannerId === 'us-eoy-banner' ||
+            templateSettings.bannerId === 'us-eoy-giving-tues-banner' ||
+            templateSettings.bannerId === 'us-eoy-banner-v3';
 
         return (
-            <div css={styles.outerContainer(templateSettings.backgroundColour)}>
+            <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
                 <Container
                     cssOverrides={styles.mobileStickyHeaderContainer(
-                        templateSettings.backgroundColour,
+                        templateSettings.containerSettings.backgroundColour,
                         content.mobileContent.secondaryCta?.type ===
                             SecondaryCtaType.ContributionsReminder,
-                        isUsEoyGivingTuesBanner,
+                        templateSettings.containerSettings.paddingTop,
                     )}
                 >
                     <div css={styles.closeButtonContainer}>
@@ -68,39 +66,26 @@ export function getMomentTemplateBanner(
                             <MomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
-                                bannerId={templateSettings.bannerId}
                             />
                         </Hide>
                     </div>
 
                     {hasVisual && (
-                        <div
-                            css={
-                                isUsEoyGivingTuesBanner
-                                    ? [
-                                          styles.mobileVisualContainer,
-                                          styles.visualContainerGivingTues,
-                                      ]
-                                    : styles.mobileVisualContainer
-                            }
-                        >
+                        <div css={getMobileVisualContainerStyle(templateSettings.bannerId)}>
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
                                     bannerId={templateSettings.bannerId}
+                                    cssOverrides={getBannerVisualCssOverrides(
+                                        templateSettings.bannerId,
+                                    )}
                                 />
                             )}
                             {templateSettings.alternativeVisual}
                         </div>
                     )}
 
-                    <div
-                        css={
-                            isUsEoyV3Banner
-                                ? [styles.headerContainer, styles.headerContainerUsEoyV3]
-                                : styles.headerContainer
-                        }
-                    >
+                    <div css={getHeaderContainerStyle(templateSettings.bannerId)}>
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
@@ -111,7 +96,6 @@ export function getMomentTemplateBanner(
                             <MomentTemplateBannerCloseButton
                                 onCloseClick={onCloseClick}
                                 settings={templateSettings.closeButtonSettings}
-                                bannerId={templateSettings.bannerId}
                             />
                         </Hide>
                     </div>
@@ -124,32 +108,19 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerCloseButton
                                     onCloseClick={onCloseClick}
                                     settings={templateSettings.closeButtonSettings}
-                                    bannerId={templateSettings.bannerId}
                                 />
                             </Hide>
                         </div>
 
                         {hasVisual && (
-                            <div
-                                css={
-                                    isUsEoyGivingTuesBanner
-                                        ? [
-                                              styles.desktopVisualContainer,
-                                              isNewYearBanner && styles.desktopVisualContainerNY,
-                                              styles.desktopGivingTuesVisualContainer,
-                                          ]
-                                        : isUsEoyV3Banner
-                                        ? styles.desktopUsEoyV3Container
-                                        : [
-                                              styles.desktopVisualContainer,
-                                              isNewYearBanner && styles.desktopVisualContainerNY,
-                                          ]
-                                }
-                            >
+                            <div css={getDesktopVisualContainerStyle(templateSettings.bannerId)}>
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
                                         bannerId={templateSettings.bannerId}
+                                        cssOverrides={getBannerVisualCssOverrides(
+                                            templateSettings.bannerId,
+                                        )}
                                     />
                                 )}
                                 {templateSettings.alternativeVisual}
@@ -240,8 +211,56 @@ export function getMomentTemplateBanner(
     return MomentTemplateBanner;
 }
 
-// ---- Styles ---- //
+// ---- Styling Helpers ---- //
+const getDesktopVisualContainerStyle = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] => {
+    switch (bannerId) {
+        case 'us-eoy-giving-tues-banner':
+            return [styles.desktopVisualContainer, styles.desktopGivingTuesVisualContainer];
 
+        case 'global-new-year-banner':
+            return [styles.desktopVisualContainer, styles.desktopVisualContainerNY];
+
+        case 'us-eoy-banner-v3':
+            return styles.desktopUsEoyV3Container;
+
+        default:
+            return styles.desktopVisualContainer;
+    }
+};
+
+const getMobileVisualContainerStyle = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] =>
+    bannerId === 'us-eoy-giving-tues-banner'
+        ? [styles.mobileVisualContainer, styles.mobileVisualContainerGivingTues]
+        : styles.mobileVisualContainer;
+
+const getHeaderContainerStyle = (bannerId?: BannerId): SerializedStyles | SerializedStyles[] =>
+    bannerId === 'us-eoy-banner-v3'
+        ? [styles.headerContainer, styles.headerContainerUsEoyV3]
+        : styles.headerContainer;
+
+const getBannerVisualCssOverrides = (
+    bannerId?: BannerId,
+): SerializedStyles | SerializedStyles[] => {
+    switch (bannerId) {
+        case 'us-eoy-banner':
+            return styles.bannerVisualOverridesUSEoy;
+        case 'us-eoy-giving-tues-banner':
+            return styles.bannerVisualOverridesUSGivingTues;
+        case 'aus-eoy-banner':
+            return styles.bannerVisualOverridesAus;
+        case 'global-new-year-banner':
+            return styles.bannerVisualOverridesGlobalNY;
+
+        default:
+            return css``;
+    }
+};
+
+// ---- Styles ---- //
 const styles = {
     outerContainer: (background: string) => css`
         background: ${background};
@@ -275,14 +294,14 @@ const styles = {
     mobileStickyHeaderContainer: (
         background: string,
         hasReminderCta: boolean,
-        isUsEoyGivingTuesBanner?: boolean,
+        paddingTop?: string,
     ) => css`
         background: ${background};
         position: sticky;
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${isUsEoyGivingTuesBanner ? 0 : space[2]}px;
+        padding-top: ${paddingTop ?? space[2]}px;
 
         ${hasReminderCta
             ? `
@@ -306,7 +325,7 @@ const styles = {
             display: none;
         }
     `,
-    visualContainerGivingTues: css`
+    mobileVisualContainerGivingTues: css`
         max-height: 180px;
         overflow: hidden;
         margin-left: -${space[5]}px;
@@ -433,5 +452,32 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+    `,
+    bannerVisualOverridesUSEoy: css`
+        ${from.tablet} {
+            align-items: flex-start;
+        }
+    `,
+    bannerVisualOverridesUSGivingTues: css`
+        img {
+            object-fit: cover;
+        }
+    `,
+    bannerVisualOverridesAus: css`
+        ${between.tablet.and.desktop} {
+            align-items: baseline;
+            margin-top: 70px;
+            margin-left: ${space[5]}px;
+        }
+    `,
+    bannerVisualOverridesGlobalNY: css`
+        ${from.tablet} {
+            align-items: center;
+            justify-content: initial;
+        }
+        ${from.desktop} {
+            align-items: flex-end;
+            justify-content: initial;
+        }
     `,
 };
