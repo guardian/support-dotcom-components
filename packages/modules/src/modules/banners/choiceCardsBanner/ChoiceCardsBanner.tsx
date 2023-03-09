@@ -4,15 +4,15 @@ import { Button } from '@guardian/src-button';
 import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import { BannerText } from '../common/BannerText';
-import { BannerRenderProps } from '../common/types';
-import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
+import { BannerId, BannerRenderProps } from '../common/types';
 import {
     banner,
     closeButtonStyles,
     containerOverrides,
     copyColumn,
     heading,
-    highlightedText,
+    highlightedTextBlueBanner,
+    highlightedTextYellowBanner,
     iconAndClosePosition,
     choiceCardsColumn,
     logoContainer,
@@ -27,28 +27,38 @@ import {
 } from '../../shared/helpers/choiceCards';
 import { ChoiceCards } from './components/ChoiceCards';
 
-const bannerId = 'choice-cards-banner';
-const closeComponentId = `${bannerId} : close`;
-
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    bannerId: string;
 };
 
-const CloseButton = (props: ButtonPropTypes): ReactElement => (
-    <Button
-        css={closeButtonStyles}
-        data-link-name={closeComponentId}
-        onClick={props.onClick}
-        icon={<SvgCross />}
-        size="small"
-        priority="tertiary"
-        hideLabel
-    >
-        Close this banner
-    </Button>
-);
+const CloseButton = (props: ButtonPropTypes): ReactElement => {
+    const closeComponentId = `${props.bannerId} : close`;
+    return (
+        <Button
+            css={closeButtonStyles}
+            data-link-name={closeComponentId}
+            onClick={props.onClick}
+            icon={<SvgCross />}
+            size="small"
+            priority="tertiary"
+            hideLabel
+        >
+            Close this banner
+        </Button>
+    );
+};
 
-const ChoiceCardsBanner = ({
+export type ChoiceCardsBannerRenderProps = {
+    bannerId: BannerId;
+    backgroundColor: string;
+    headingColor: string;
+};
+
+export const ChoiceCardsBanner = ({
+    bannerId,
+    backgroundColor,
+    headingColor,
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -56,7 +66,11 @@ const ChoiceCardsBanner = ({
     submitComponentEvent,
     tracking,
     numArticles,
-}: BannerRenderProps): JSX.Element => {
+}: Omit<
+    BannerRenderProps,
+    'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
+> &
+    ChoiceCardsBannerRenderProps): JSX.Element => {
     const { choiceCardSelection, setChoiceCardSelection } = useChoiceCardSelection(
         choiceCardAmounts,
     );
@@ -67,7 +81,7 @@ const ChoiceCardsBanner = ({
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     return (
-        <section ref={setNode} css={banner} data-target={bannerId}>
+        <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
             <Container cssOverrides={containerOverrides}>
                 <Columns>
                     <Column width={1} cssOverrides={iconAndClosePosition}>
@@ -75,7 +89,7 @@ const ChoiceCardsBanner = ({
                             <div css={logoContainer}>
                                 <SvgRoundelDefault />
                             </div>
-                            <CloseButton onClick={onCloseClick} />
+                            <CloseButton onClick={onCloseClick} bannerId={bannerId} />
                         </Inline>
                     </Column>
                 </Columns>
@@ -84,9 +98,12 @@ const ChoiceCardsBanner = ({
                         <BannerText
                             styles={{
                                 desktop: {
-                                    heading,
+                                    heading: heading(headingColor),
                                     copy: paragraph,
-                                    highlightedText,
+                                    highlightedText:
+                                        bannerId === 'choice-cards-banner-blue'
+                                            ? highlightedTextBlueBanner
+                                            : highlightedTextYellowBanner,
                                 },
                             }}
                             content={content}
@@ -106,6 +123,7 @@ const ChoiceCardsBanner = ({
                                 countryCode={countryCode ?? ''}
                                 tracking={tracking}
                                 numArticles={numArticles}
+                                content={content}
                             />
                         )}
                     </Column>
@@ -114,8 +132,3 @@ const ChoiceCardsBanner = ({
         </section>
     );
 };
-
-const validated = validatedBannerWrapper(ChoiceCardsBanner, bannerId);
-const unvalidated = bannerWrapper(ChoiceCardsBanner, bannerId);
-
-export { validated as ChoiceCardsBanner, unvalidated as ChoiceCardsBannerUnValidated };

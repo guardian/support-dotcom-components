@@ -14,6 +14,7 @@ import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAm
 import { ChoiceCardFrequencyTabs } from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
+import { BannerEnrichedCta, BannerTextContent } from '../../common/types';
 
 const styles = {
     container: (ophanEventIdPrefix: OphanEventIdPrefix) => css`
@@ -64,6 +65,8 @@ const styles = {
     `,
     bannerAmountsContainer: css`
         background: ${neutral[100]};
+        border-left: 1px solid ${neutral[86]};
+        border-right: 1px solid ${neutral[86]};
 
         > div:first-of-type {
             display: block !important;
@@ -94,6 +97,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     countryCode,
     tracking,
     numArticles,
+    content,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -119,6 +123,21 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             }
         }
     }, [hasBeenSeen, submitComponentEvent]);
+
+    const getPrimaryCta = (
+        contentType: 'mainContent' | 'mobileContent',
+        content?: BannerTextContent,
+    ): BannerEnrichedCta => {
+        const primaryCtaText = content?.[contentType].primaryCta?.ctaText;
+        const primaryCtaBaseUrl = content?.[contentType].primaryCta?.ctaUrl;
+
+        return {
+            ctaText: primaryCtaText ? primaryCtaText : 'undefined',
+            ctaUrl: primaryCtaBaseUrl
+                ? `${primaryCtaBaseUrl}?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`
+                : '',
+        };
+    };
 
     return (
         <div ref={setNode} css={styles.container(ophanEventIdPrefix)}>
@@ -172,6 +191,8 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                         amountsTestName={amountsTestName}
                         amountsVariantName={amountsVariantName}
                         numArticles={numArticles ?? 0}
+                        content={content}
+                        getPrimaryCta={getPrimaryCta}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>

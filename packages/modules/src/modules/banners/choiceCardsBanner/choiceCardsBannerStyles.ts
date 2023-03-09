@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { height } from '@guardian/src-foundations/size';
 
-export const banner = css`
+export const banner = (backgroundColor: string): SerializedStyles => css`
     html {
         box-sizing: border-box;
     }
@@ -15,7 +15,7 @@ export const banner = css`
     }
     box-sizing: border-box;
     width: 100%;
-    background-color: ${brandAlt[400]};
+    background-color: ${backgroundColor};
     color: ${neutral[0]};
     position: relative;
     a,
@@ -59,11 +59,11 @@ export const columnMarginOverrides = css`
     margin-right: 0 !important;
 `;
 
-export const heading = css`
+export const heading = (headingColor: string): SerializedStyles => css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     font-size: 22px;
     margin: 0;
-    color: ${neutral[0]};
+    color: ${headingColor};
 
     ${from.mobileMedium} {
         font-size: 24px;
@@ -92,8 +92,13 @@ export const paragraph = css`
     }
 `;
 
-export const highlightedText = css`
-    background: ${neutral[100]};
+export const highlightedTextBlueBanner = css`
+    background-color: ${brandAlt[400]};
+    font-weight: bold;
+`;
+
+export const highlightedTextYellowBanner = css`
+    background-color: ${neutral[100]};
     font-weight: bold;
 `;
 

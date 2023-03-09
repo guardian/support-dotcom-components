@@ -1,54 +1,90 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ChoiceCardsBannerUnValidated as ChoiceCardsBanner } from './ChoiceCardsBanner';
-import { props } from '../utils/storybook';
-import { text, array } from '@storybook/addon-knobs';
-import { BannerProps } from '@sdc/shared/types';
 import { tracking } from '../../epics/utils/storybook';
+import { ChoiceCardsBanner, ChoiceCardsBannerRenderProps } from './ChoiceCardsBanner';
+import { BannerRenderProps } from '../common/types';
+import {
+    backgroundColor as blueBannerBackgroundColor,
+    headingColor as blueBannerHeadingColor,
+} from './ChoiceCardsBannerBlue';
+import {
+    backgroundColor as yellowBannerBackgroundColor,
+    headingColor as yellowBannerHeadingColor,
+} from './ChoiceCardsBannerYellow';
 
 export default {
     component: ChoiceCardsBanner,
     title: 'Banners/Subscriptions/ChoiceCardsBanner',
-    args: props,
 } as Meta;
 
-const Template: Story<BannerProps> = (props: BannerProps) => <ChoiceCardsBanner {...props} />;
+type ChoiceCardStoryProps = Omit<
+    BannerRenderProps,
+    'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
+> &
+    ChoiceCardsBannerRenderProps;
 
-export const Default = Template.bind({});
-Default.args = {
-    ...props,
-    bannerChannel: 'subscriptions',
+const Template: Story<ChoiceCardStoryProps> = (props: ChoiceCardStoryProps) =>
+    props.content && (
+        <ChoiceCardsBanner
+            {...props}
+            backgroundColor={props.backgroundColor}
+            headingColor={props.headingColor}
+            bannerId={props.bannerId}
+            onCloseClick={() => null}
+            onSignInClick={() => null}
+        />
+    );
+
+export const ChoiceCardsBannerBlue = Template.bind({});
+ChoiceCardsBannerBlue.args = {
+    bannerId: 'choice-cards-banner-blue',
     content: {
-        heading: text('heading', 'Lend us a hand in 2023'),
-        messageText: text(
-            'messageText',
-            'Shareholders or billionaire owner, we report on world events with accuracy, free from political and commercial influence. And unlike many others, we’re committed to keeping our reporting open for all readers. Every contribution, however big or small, makes a difference.',
-        ),
-        paragraphs: array(
-            'paragraphs',
-            [
-                'Shareholders or billionaire owner, we report on world events with accuracy, free from political and commercial influence. And unlike many others, we’re committed to keeping our reporting open for all readers. Every contribution, however big or small, makes a difference.',
+        mainContent: {
+            heading: <>Lend us a hand in 2023</>,
+            subheading: null,
+            paragraphs: [
+                <>
+                    Shareholders or billionaire owner, we report on world events with accuracy, free
+                    from political and commercial influence. And unlike many others, we’re committed
+                    to keeping our reporting open for all readers. Every contribution, however big
+                    or small, makes a difference.
+                </>,
             ],
-            '|',
-        ),
-        highlightedText:
-            'Support us from as little as £1. If you can, please consider supporting us with a regular amount each month. Thank you.',
-    },
-    mobileContent: {
-        heading: text('heading', 'Lend us a hand in 2023'),
-        messageText: text(
-            'messageText',
-            'Shareholders or billionaire owner, we report on world events with accuracy, free from political and commercial influence. And unlike many others, we’re committed to keeping our reporting open for all readers. Every contribution, however big or small, makes a difference.',
-        ),
-        paragraphs: array(
-            'paragraphs',
-            [
-                'Shareholders or billionaire owner, we report on world events with accuracy, free from political and commercial influence. And unlike many others, we’re committed to keeping our reporting open for all readers. Every contribution, however big or small, makes a difference.',
+            highlightedText: (
+                <>
+                    Support us from as little as £1. If you can, please consider supporting us with
+                    a regular amount each month. Thank you.
+                </>
+            ),
+            primaryCta: {
+                ctaText: 'Support us',
+                ctaUrl: 'https://support.theguardian.com/contribute',
+            },
+            secondaryCta: null,
+        },
+        mobileContent: {
+            heading: <>Lend us a hand in 2023</>,
+            subheading: null,
+            paragraphs: [
+                <>
+                    Shareholders or billionaire owner, we report on world events with accuracy, free
+                    from political and commercial influence. And unlike many others, we’re committed
+                    to keeping our reporting open for all readers. Every contribution, however big
+                    or small, makes a difference.
+                </>,
             ],
-            '|',
-        ),
-        highlightedText:
-            'Support us from as little as £1. If you can, please consider supporting us with a regular amount each month. Thank you.',
+            highlightedText: (
+                <>
+                    Support us from as little as £1. If you can, please consider supporting us with
+                    a regular amount each month. Thank you.
+                </>
+            ),
+            primaryCta: {
+                ctaText: 'Support us',
+                ctaUrl: 'https://support.theguardian.com/contribute',
+            },
+            secondaryCta: null,
+        },
     },
     isSupporter: false,
     // correctly formatted epic storybook tracking data used here for banner example
@@ -74,4 +110,17 @@ Default.args = {
             },
         },
     },
+    backgroundColor: blueBannerBackgroundColor,
+    headingColor: blueBannerHeadingColor,
+    onCloseClick: () => null,
+};
+
+const { bannerId, backgroundColor, headingColor, ...rest } = ChoiceCardsBannerBlue.args;
+
+export const ChoiceCardsBannerYellow = Template.bind({});
+ChoiceCardsBannerYellow.args = {
+    ...rest,
+    bannerId: 'choice-cards-banner-yellow',
+    backgroundColor: yellowBannerBackgroundColor,
+    headingColor: yellowBannerHeadingColor,
 };

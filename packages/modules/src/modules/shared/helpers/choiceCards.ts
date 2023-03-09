@@ -13,6 +13,7 @@ import {
 } from '@sdc/shared/src/types';
 import { useState, useEffect } from 'react';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { BannerTextContent } from '../../banners/common/types';
 import { isProd } from './stage';
 
 export interface ContributionTypeItem {
@@ -44,6 +45,7 @@ export interface ChoiceCardProps {
     countryCode: string;
     tracking: Tracking;
     numArticles?: number;
+    content?: BannerTextContent;
 }
 
 export const contributionType: ContributionType = {
