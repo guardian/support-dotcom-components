@@ -26,16 +26,19 @@ const styles = {
                 max-width: 240px;
             }
             ${from.tablet} {
+                padding: ${space[2]}px 0 0;
                 ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 540px;
             }
 
             ${from.desktop} {
+                padding: ${space[3]}px 0 0;
                 ${headline.small({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 680px;
             }
 
             ${from.wide} {
+                padding: ${space[2]}px 0 0;
                 ${headline.large({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 840px;
             }

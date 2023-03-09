@@ -102,7 +102,7 @@ const styles = {
         }
     `,
     bottomContainer: css`
-        padding: 0 0 ${space[3]}px;
+        padding: ${space[2]}px 0 ${space[5]}px;
 
         ${from.tablet} {
             max-width: 88%;
