@@ -17,6 +17,7 @@ import {
     choiceCardsColumn,
     logoContainer,
     paragraph,
+    columnMarginOverrides,
 } from './choiceCardsBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/src/lib';
 import {
@@ -54,6 +55,7 @@ const ChoiceCardsBanner = ({
     countryCode,
     submitComponentEvent,
     tracking,
+    numArticles,
 }: BannerRenderProps): JSX.Element => {
     const { choiceCardSelection, setChoiceCardSelection } = useChoiceCardSelection(
         choiceCardAmounts,
@@ -77,7 +79,7 @@ const ChoiceCardsBanner = ({
                         </Inline>
                     </Column>
                 </Columns>
-                <Columns collapseBelow="tablet">
+                <Columns collapseBelow="tablet" css={columnMarginOverrides}>
                     <Column width={1 / 2} cssOverrides={copyColumn}>
                         <BannerText
                             styles={{
@@ -90,7 +92,7 @@ const ChoiceCardsBanner = ({
                             content={content}
                         />
                     </Column>
-                    <Column width={1 / 2} cssOverrides={choiceCardsColumn}>
+                    <Column width={1 / 2} cssOverrides={[choiceCardsColumn, columnMarginOverrides]}>
                         {choiceCardAmounts && (
                             <ChoiceCards
                                 setSelectionsCallback={setChoiceCardSelection}
@@ -101,6 +103,9 @@ const ChoiceCardsBanner = ({
                                 amounts={choiceCardAmounts.amounts}
                                 amountsTestName={choiceCardAmounts?.testName}
                                 amountsVariantName={choiceCardAmounts?.variantName}
+                                countryCode={countryCode ?? ''}
+                                tracking={tracking}
+                                numArticles={numArticles}
                             />
                         )}
                     </Column>

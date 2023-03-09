@@ -33,9 +33,15 @@ export const banner = css`
 `;
 
 export const containerOverrides = css`
-    position: relative;
+    width: initial;
+
     max-width: 100%;
     overflow: hidden;
+
+    > div:first-of-type {
+        // for the close button
+        position: relative;
+    }
 `;
 
 export const copyColumn = css`
@@ -46,14 +52,11 @@ export const choiceCardsColumn = css`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
+`;
 
-    ${from.tablet} {
-        justify-content: center;
-    }
-
-    ${from.desktop} {
-        justify-content: flex-end;
-    }
+export const columnMarginOverrides = css`
+    margin-right: 0 !important;
 `;
 
 export const heading = css`

@@ -4,6 +4,7 @@ import { ChoiceCardsBannerUnValidated as ChoiceCardsBanner } from './ChoiceCards
 import { props } from '../utils/storybook';
 import { text, array } from '@storybook/addon-knobs';
 import { BannerProps } from '@sdc/shared/types';
+import { tracking } from '../../epics/utils/storybook';
 
 export default {
     component: ChoiceCardsBanner,
@@ -50,17 +51,8 @@ Default.args = {
             'Support us from as little as £1. If you can, please consider supporting us with a regular amount each month. Thank you.',
     },
     isSupporter: false,
-    tracking: {
-        ophanPageId: '',
-        platformId: 'GUARDIAN_WEB',
-        clientName: 'dcr',
-        referrerUrl: 'http://localhost:3030/Article',
-        abTestName: 'ChoiceCardsBanner',
-        abTestVariant: 'control',
-        campaignCode: '',
-        componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
-        products: ['CONTRIBUTION'],
-    },
+    // correctly formatted epic storybook tracking data used here for banner example
+    tracking,
     choiceCardAmounts: {
         testName: 'Storybook_test',
         variantName: 'Control',

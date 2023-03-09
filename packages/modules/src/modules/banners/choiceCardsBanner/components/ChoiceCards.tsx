@@ -1,15 +1,43 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
-import { until } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import { contributionType, ChoiceCardProps } from '../../../shared/helpers/choiceCards';
-import { space } from '@guardian/src-foundations';
+import {
+    contributionType,
+    ChoiceCardProps,
+    OphanEventIdPrefix,
+} from '../../../shared/helpers/choiceCards';
+import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs } from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';
+import { SupportCta } from './SupportCta';
+import { PaymentCards } from './PaymentCards';
 
 const styles = {
+    container: (ophanEventIdPrefix: OphanEventIdPrefix) => css`
+        // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
+        position: relative;
+
+        ${ophanEventIdPrefix === 'supporter-plus-banner' &&
+            `
+                margin: ${space[3]}px 0 ${space[5]}px;
+                max-width: 300px;
+                
+                ${from.mobileMedium} {
+                    max-width: 350px;
+                }
+                
+                ${from.mobileLandscape} {
+                    max-width: 380px;
+                }
+
+                ${from.tablet} {
+                    margin: 60px 0 ${space[5]}px;
+                }
+            `}
+    `,
     epicFrequenciesGroupOverrides: css`
         margin: ${space[5]}px 0 ${space[5]}px;
 
@@ -35,13 +63,22 @@ const styles = {
         }
     `,
     bannerAmountsContainer: css`
+        background: ${neutral[100]};
+
         > div:first-of-type {
             display: block !important;
         }
     `,
-    // This `position: relative` is necessary to stop it jumping to the top of the page when a button is clicked
-    container: css`
-        position: relative;
+
+    ctaAndPaymentCardsontainer: css`
+        display: flex;
+        align-items: center;
+        padding: 0 ${space[3]}px;
+        background: ${neutral[100]};
+        border-radius: 0 0 ${space[3]}px ${space[3]}px;
+    `,
+    paymentCardsSvgOverrides: css`
+        margin-top: -10px;
     `,
 };
 
@@ -54,6 +91,9 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     amounts,
     amountsTestName = 'test_undefined',
     amountsVariantName = 'variant_undefined',
+    countryCode,
+    tracking,
+    numArticles,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -81,7 +121,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     }, [hasBeenSeen, submitComponentEvent]);
 
     return (
-        <div ref={setNode} css={styles.container}>
+        <div ref={setNode} css={styles.container(ophanEventIdPrefix)}>
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
@@ -123,6 +163,19 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                     currencySymbol={currencySymbol}
                 />
             </ChoiceCardGroup>
+
+            {ophanEventIdPrefix === 'supporter-plus-banner' && (
+                <div css={styles.ctaAndPaymentCardsontainer}>
+                    <SupportCta
+                        countryCode={countryCode}
+                        tracking={tracking}
+                        amountsTestName={amountsTestName}
+                        amountsVariantName={amountsVariantName}
+                        numArticles={numArticles ?? 0}
+                    />
+                    <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
+                </div>
+            )}
         </div>
     );
 };

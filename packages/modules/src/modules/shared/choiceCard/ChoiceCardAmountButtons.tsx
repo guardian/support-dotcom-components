@@ -9,10 +9,12 @@ import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../he
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
+import { until } from '@guardian/src-foundations/mq';
 
 const container = css`
     display: flex;
     flex-direction: column;
+    margin: 0 ${space[3]}px;
 `;
 
 const choiceCardsContainer = css`
@@ -21,13 +23,27 @@ const choiceCardsContainer = css`
     margin-top: ${space[3]}px;
     margin-bottom: ${space[2]}px;
 
+    > label {
+        margin: 0 !important;
+    }
+
     > label:first-of-type {
-        margin: 0 ${space[2]}px 0 0 !important;
+        margin-right: ${space[2]}px !important;
+    }
+
+    > label > div:first-of-type {
+        padding: 0 !important;
     }
 `;
 
 const choiceCardOrOtherAmountContainer = css`
     margin: ${space[2]}px 0;
+`;
+
+const supporterPlusChoiceCardAmountOverrides = css`
+    ${until.mobileMedium} {
+        font-size: 10px;
+    }
 `;
 
 const ChoiceCardAmount = ({
@@ -112,6 +128,7 @@ export const ChoiceCardAmountButtons = ({
             label={`${currencySymbol}${amount} ${contributionType[selection.frequency].suffix}`}
             checked={selection.amount === amount}
             handleUpdateAmount={() => handleUpdateAmount(amount)}
+            css={supporterPlusChoiceCardAmountOverrides}
         />
     ));
 
@@ -132,6 +149,7 @@ export const ChoiceCardAmountButtons = ({
                             id="other"
                             checked={selection.amount == 'other'}
                             onChange={() => updateAmount}
+                            cssOverrides={supporterPlusChoiceCardAmountOverrides}
                         />
                     )}
                 </div>

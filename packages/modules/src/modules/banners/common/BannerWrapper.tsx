@@ -261,6 +261,7 @@ const withBannerData = (
                 numArticles,
                 separateArticleCount,
                 choiceCardAmounts,
+                tracking,
             };
 
             return (

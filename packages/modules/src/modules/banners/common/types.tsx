@@ -82,6 +82,6 @@ export interface BannerRenderProps {
     numArticles?: number;
     separateArticleCount?: boolean;
     choiceCardAmounts?: SelectedAmountsVariant;
-    tracking?: Tracking;
+    tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }

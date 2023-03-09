@@ -2,7 +2,6 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { brand, neutral, space } from '@guardian/src-foundations';
 import { ReactNode } from 'react';
-import { from } from '@guardian/src-foundations/mq';
 import { textSans } from '@guardian/src-foundations/typography';
 
 const tabButtonStyles = css`
@@ -13,13 +12,8 @@ const tabButtonStyles = css`
 	border: none;
 	border-bottom: 1px solid ${neutral[86]};
 	flex-grow: 1;
-	padding: 13px 0;
+	padding: ${space[3]}px 0;
 	cursor: pointer;
-
-	${from.tablet} {
-		padding-top: 18px;
-		padding-bottom: ${space[4]}px;
-	}
 
 	/* .src-focus-disabled is added by the Source FocusStyleManager */
 	html:not(.src-focus-disabled) &:focus {
@@ -39,6 +33,10 @@ const tabButtonStyles = css`
 		html:not(.src-focus-disabled) &:focus {
 			outline-color: #0077B6;
 		}
+	}
+
+	&[aria-selected='false'] {
+		color: ${neutral[100]};
 	}
 `;
 

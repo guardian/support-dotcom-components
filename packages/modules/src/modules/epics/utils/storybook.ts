@@ -56,7 +56,7 @@ const testTracking: TestTracking = {
     products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
 };
 
-const tracking: Tracking = {
+export const tracking: Tracking = {
     ...pageTracking,
     ...testTracking,
 };

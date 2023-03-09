@@ -371,6 +371,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
                     ophanEventIdPrefix="contributions-epic"
+                    countryCode={countryCode ?? 'GB'}
+                    tracking={tracking}
                 />
             )}
 

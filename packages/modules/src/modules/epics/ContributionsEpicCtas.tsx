@@ -3,7 +3,7 @@ import { EpicProps } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
-import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
+import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 
 interface OnReminderOpen {
     buttonCopyAsString: string;
