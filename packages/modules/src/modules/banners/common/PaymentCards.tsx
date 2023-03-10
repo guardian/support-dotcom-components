@@ -1,130 +1,28 @@
 import React from 'react';
-import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
-import { Hide } from '@guardian/src-layout';
-import { Button, LinkButton } from '@guardian/src-button';
-import { SecondaryCtaType } from '@sdc/shared/types';
-import { BannerRenderedContent } from '../../common/types';
-import { buttonStyles } from '../buttonStyles';
-import { CtaSettings } from '../settings';
+import { css, SerializedStyles } from '@emotion/react';
+import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 
-// ---- Component ---- //
+const paymentMethods = css`
+    display: block;
+    height: 1.1rem;
+    width: auto;
+    margin-top: ${space[2]}px;
+    margin-left: ${space[1]}px;
 
-interface AuMomentTemplateBannerCtasProps {
-    mainContent: BannerRenderedContent;
-    mobileContent: BannerRenderedContent;
-    onPrimaryCtaClick: () => void;
-    onSecondaryCtaClick: () => void;
-    onReminderCtaClick: () => void;
-    primaryCtaSettings: CtaSettings;
-    secondaryCtaSettings: CtaSettings;
-}
+    ${from.tablet} {
+        margin-left: ${space[2]}px;
+        height: 1.25rem;
+    }
+`;
 
-export function AuMomentTemplateBannerCtas({
-    mainContent,
-    mobileContent,
-    onPrimaryCtaClick,
-    onSecondaryCtaClick,
-    onReminderCtaClick,
-    primaryCtaSettings,
-    secondaryCtaSettings,
-}: AuMomentTemplateBannerCtasProps): JSX.Element {
+type PaymentCardProps = {
+    cssOverrides?: SerializedStyles;
+};
+
+export const PaymentCards = ({ cssOverrides }: PaymentCardProps): JSX.Element => {
     return (
-        <div css={styles.container}>
-            <div>
-                <Hide above="tablet">
-                    <div css={styles.ctasContainer}>
-                        {mobileContent.primaryCta && (
-                            <LinkButton
-                                href={mobileContent.primaryCta.ctaUrl}
-                                onClick={onPrimaryCtaClick}
-                                size="small"
-                                priority="primary"
-                                cssOverrides={buttonStyles(primaryCtaSettings)}
-                            >
-                                {mobileContent.primaryCta.ctaText}
-                            </LinkButton>
-                        )}
-
-                        {mobileContent.secondaryCta?.type === SecondaryCtaType.Custom && (
-                            <LinkButton
-                                href={mobileContent.secondaryCta.cta.ctaUrl}
-                                onClick={onSecondaryCtaClick}
-                                size="small"
-                                priority="tertiary"
-                                cssOverrides={buttonStyles(secondaryCtaSettings)}
-                            >
-                                {mobileContent.secondaryCta.cta.ctaText}
-                            </LinkButton>
-                        )}
-
-                        {mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder && (
-                            <Button
-                                priority="subdued"
-                                onClick={onReminderCtaClick}
-                                cssOverrides={styles.reminderCta}
-                            >
-                                Remind me later
-                            </Button>
-                        )}
-                    </div>
-                </Hide>
-
-                <Hide below="tablet">
-                    <div css={styles.ctasContainer}>
-                        {mainContent.primaryCta && (
-                            <LinkButton
-                                href={mainContent.primaryCta.ctaUrl}
-                                onClick={onPrimaryCtaClick}
-                                size="small"
-                                priority="primary"
-                                cssOverrides={buttonStyles(primaryCtaSettings)}
-                            >
-                                {mainContent.primaryCta.ctaText}
-                            </LinkButton>
-                        )}
-
-                        {mainContent.secondaryCta?.type === SecondaryCtaType.Custom && (
-                            <LinkButton
-                                href={mainContent.secondaryCta.cta.ctaUrl}
-                                onClick={onSecondaryCtaClick}
-                                size="small"
-                                priority="tertiary"
-                                cssOverrides={buttonStyles(secondaryCtaSettings)}
-                            >
-                                {mainContent.secondaryCta.cta.ctaText}
-                            </LinkButton>
-                        )}
-
-                        {mainContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder && (
-                            <Button
-                                priority="subdued"
-                                onClick={onReminderCtaClick}
-                                cssOverrides={styles.reminderCta}
-                            >
-                                Remind me later
-                            </Button>
-                        )}
-                    </div>
-                </Hide>
-            </div>
-
-            <div>
-                <Hide above="tablet">{mobileContent.primaryCta && <PaymentCards />}</Hide>
-                <Hide below="tablet">{mainContent.primaryCta && <PaymentCards />}</Hide>
-            </div>
-        </div>
-    );
-}
-
-// ---- Helper Components ---- //
-
-function PaymentCards() {
-    return (
-        <svg viewBox="0 0 132 18" css={styles.paymentMethods}>
+        <svg viewBox="0 0 132 18" css={[paymentMethods, cssOverrides]}>
             <g clipPath="url(#clip0_454_41729)">
                 <rect y="-0.359375" width="30.75" height="18.9811" rx="3.18182" fill="#1A1F70" />
                 <rect
@@ -194,40 +92,4 @@ function PaymentCards() {
             </defs>
         </svg>
     );
-}
-
-// ---- Styles ---- //
-
-const styles = {
-    container: css`
-        padding-bottom: ${space[5]}px;
-
-        ${from.tablet} {
-            padding-bottom: ${space[3]}px;
-        }
-    `,
-    ctasContainer: css`
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        & > * + * {
-            margin-left: ${space[3]}px;
-        }
-    `,
-    paymentMethods: css`
-        display: block;
-        height: 1.1rem;
-        width: auto;
-        margin-top: ${space[2]}px;
-        margin-left: ${space[1]}px;
-
-        ${from.tablet} {
-            margin-left: ${space[2]}px;
-            height: 1.25rem;
-        }
-    `,
-    reminderCta: css`
-        color: ${neutral[0]};
-    `,
 };

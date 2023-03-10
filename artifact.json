@@ -9,7 +9,12 @@
         },
         {
             "action": "dotcom-components-cloudformation",
-            "path": "cdk/cdk.out/Cfn.template.json",
+            "path": "cdk/cdk.out/sdc-CODE.template.json",
+            "compress": false
+        },
+        {
+            "action": "dotcom-components-cloudformation",
+            "path": "cdk/cdk.out/sdc-PROD.template.json",
             "compress": false
         },
         {
