@@ -1,6 +1,6 @@
 import React from 'react';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/src/lib';
-import { Tracking } from '@sdc/shared/src/types';
+import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
+import { Tracking } from '@sdc/shared/dist/types';
 import { Button } from '../../../epics/Button';
 import { neutral, space } from '@guardian/src-foundations';
 import { css } from '@emotion/react';

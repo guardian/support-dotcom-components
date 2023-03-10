@@ -3,7 +3,7 @@ import {
     ReminderComponent,
     ReminderPlatform,
     ReminderStage,
-} from '@sdc/shared/src/types';
+} from '@sdc/shared/dist/types';
 import { useState } from 'react';
 import { addContributionReminderCookie, ReminderStatus } from '../modules/utils/reminders';
 

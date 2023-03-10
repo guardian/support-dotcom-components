@@ -2,7 +2,7 @@ import {
     createInsertEventFromTracking,
     createViewEventFromTracking,
     logEpicView,
-} from '@sdc/shared/src/lib';
+} from '@sdc/shared/dist/lib';
 import {
     ContributionAmounts,
     ContributionFrequency,
@@ -10,7 +10,7 @@ import {
     SelectedAmountsVariant,
     Stage,
     Tracking,
-} from '@sdc/shared/src/types';
+} from '@sdc/shared/dist/types';
 import { useState, useEffect } from 'react';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { BannerTextContent } from '../../banners/common/types';

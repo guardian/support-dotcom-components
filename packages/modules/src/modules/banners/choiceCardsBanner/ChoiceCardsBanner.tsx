@@ -19,7 +19,7 @@ import {
     paragraph,
     columnMarginOverrides,
 } from './choiceCardsBannerStyles';
-import { getLocalCurrencySymbol } from '@sdc/shared/src/lib';
+import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import {
     useChoiceCardSelection,
     useChoiceCardsTrackingInsertEvent,

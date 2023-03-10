@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useEffect, useRef } from 'react';
 import { PaymentFrequencyTabButtonAttributes } from './PaymentFrequencyTabButton';
 import { PaymentFrequencyTabButton } from './PaymentFrequencyTabButton';
-import { ContributionFrequency } from '@sdc/shared/src/types';
+import { ContributionFrequency } from '@sdc/shared/dist/types';
 
 const tabListStyles = css`
     display: flex;

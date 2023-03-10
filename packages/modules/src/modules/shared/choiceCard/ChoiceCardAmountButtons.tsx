@@ -4,7 +4,7 @@ import {
     ContributionAmounts,
     ContributionFrequency,
     OphanComponentEvent,
-} from '@sdc/shared/src/types';
+} from '@sdc/shared/dist/types';
 import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../helpers/choiceCards';
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';

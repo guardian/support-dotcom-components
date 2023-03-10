@@ -4,7 +4,7 @@ import {
     ContributionAmounts,
     ContributionFrequency,
     OphanComponentEvent,
-} from '@sdc/shared/src/types';
+} from '@sdc/shared/dist/types';
 import { BannerChoiceCardsPaymentFrequencyTabs } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../helpers/choiceCards';
