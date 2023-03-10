@@ -26,6 +26,7 @@ const styles = {
                 max-width: 240px;
             }
             ${from.tablet} {
+                padding: ${space[2]}px 0 0;
                 ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 540px;
             }
