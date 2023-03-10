@@ -32,13 +32,11 @@ const styles = {
             }
 
             ${from.desktop} {
-                padding: ${space[3]}px 0 0;
                 ${headline.small({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 680px;
             }
 
             ${from.wide} {
-                padding: ${space[2]}px 0 0;
                 ${headline.large({ fontWeight: 'bold', lineHeight: 'tight' })}
                 max-width: 840px;
             }
