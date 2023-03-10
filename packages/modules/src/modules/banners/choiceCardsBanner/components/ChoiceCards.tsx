@@ -79,6 +79,8 @@ const styles = {
         padding: 0 ${space[3]}px;
         background: ${neutral[100]};
         border-radius: 0 0 ${space[3]}px ${space[3]}px;
+        border: 1px solid ${neutral[86]};
+        border-top: none;
     `,
     paymentCardsSvgOverrides: css`
         margin-top: -10px;
