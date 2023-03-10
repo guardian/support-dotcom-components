@@ -23,14 +23,7 @@ export enum BannerTemplate {
     PrintSubscriptionsBanner = 'PrintSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
-    ResearchSurveyBanner = 'ResearchSurveyBanner',
-    AuBrandMomentBanner = 'AuBrandMomentBanner',
     SignInPromptBanner = 'SignInPromptBanner',
-    ClimateCrisisMomentBanner = 'ClimateCrisisMomentBanner',
-    UsEoyMomentBanner = 'UsEoyMomentBanner',
-    UsEoyMomentBannerV3 = 'UsEoyMomentBannerV3',
-    UsEoyGivingTuesMomentBanner = 'UsEoyGivingTuesMomentBanner',
-    AusEoyMomentBanner = 'AusEoyMomentBanner',
     UkraineMomentBanner = 'UkraineMomentBanner',
 }
 

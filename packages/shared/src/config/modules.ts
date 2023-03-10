@@ -33,11 +33,6 @@ export const charityAppealBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/charityAppeal/CharityAppealBanner',
 );
 
-export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
-    'research-survey-banner',
-    'banners/researchSurveyBanner/ResearchSurveyBanner',
-);
-
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner-with-sign-in',
     'banners/contributions/ContributionsBannerWithSignIn',
@@ -90,35 +85,6 @@ export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
     'headers/SignInPromptHeader',
 );
 
-export const auBrandMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'au-brand-moment-banner',
-    'banners/auBrandMoment/AuBrandMomentBanner',
-);
-
-export const climateCrisisMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'climate-crisis-moment-banner',
-    'banners/climateCrisisMoment/ClimateCrisisMomentBanner',
-);
-
-export const usEoyMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-banner',
-    'banners/usEoyMoment/UsEoyMomentBanner',
-);
-export const usEoyGivingTuesMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-giving-tues-banner',
-    'banners/usEoyGivingTuesMoment/UsEoyGivingTuesMomentBanner',
-);
-
-export const ausEoyMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'aus-eoy-banner',
-    'banners/ausEoyMoment/AusEoyMomentBanner',
-);
-
-export const usEoyMomentBannerV3: ModuleInfo = getDefaultModuleInfo(
-    'us-eoy-banner-v3',
-    'banners/usEoyMomentV3/UsEoyMomentBannerV3',
-);
-
 export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'ukraine-moment-banner',
     'banners/ukraineMoment/UkraineMomentBanner',
@@ -129,7 +95,6 @@ export const moduleInfos: ModuleInfo[] = [
     liveblogEpic,
     contributionsBanner,
     charityAppealBanner,
-    researchSurveyBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
@@ -141,11 +106,5 @@ export const moduleInfos: ModuleInfo[] = [
     signInPromptBanner,
     header,
     signInPromptHeader,
-    auBrandMomentBanner,
-    climateCrisisMomentBanner,
-    usEoyMomentBanner,
-    usEoyGivingTuesMomentBanner,
-    ausEoyMomentBanner,
-    usEoyMomentBannerV3,
     ukraineMomentBanner,
 ];
