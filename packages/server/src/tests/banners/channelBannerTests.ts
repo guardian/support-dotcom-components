@@ -8,7 +8,14 @@ import {
     guardianWeekly,
     investigationsMomentBanner,
     globalNewYearBanner,
+    researchSurveyBanner,
+    auBrandMomentBanner,
     signInPromptBanner,
+    climateCrisisMomentBanner,
+    usEoyMomentBanner,
+    usEoyGivingTuesMomentBanner,
+    ausEoyMomentBanner,
+    usEoyMomentBannerV3,
     ukraineMomentBanner,
 } from '@sdc/shared/config';
 import {
@@ -37,7 +44,14 @@ export const BannerPaths: {
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
+    [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
+    [BannerTemplate.AuBrandMomentBanner]: auBrandMomentBanner.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
+    [BannerTemplate.ClimateCrisisMomentBanner]: climateCrisisMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBanner]: usEoyMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyGivingTuesMomentBanner]: usEoyGivingTuesMomentBanner.endpointPathBuilder,
+    [BannerTemplate.AusEoyMomentBanner]: ausEoyMomentBanner.endpointPathBuilder,
+    [BannerTemplate.UsEoyMomentBannerV3]: usEoyMomentBannerV3.endpointPathBuilder,
     [BannerTemplate.UkraineMomentBanner]: ukraineMomentBanner.endpointPathBuilder,
 };
 
