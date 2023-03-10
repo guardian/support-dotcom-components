@@ -8,9 +8,7 @@ import {
     guardianWeekly,
     investigationsMomentBanner,
     globalNewYearBanner,
-    researchSurveyBanner,
     signInPromptBanner,
-    climateCrisisMomentBanner,
     ukraineMomentBanner,
 } from '@sdc/shared/config';
 import {
@@ -39,9 +37,7 @@ export const BannerPaths: {
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
-    [BannerTemplate.ResearchSurveyBanner]: researchSurveyBanner.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
-    [BannerTemplate.ClimateCrisisMomentBanner]: climateCrisisMomentBanner.endpointPathBuilder,
     [BannerTemplate.UkraineMomentBanner]: ukraineMomentBanner.endpointPathBuilder,
 };
 

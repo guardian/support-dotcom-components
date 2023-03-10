@@ -33,11 +33,6 @@ export const charityAppealBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/charityAppeal/CharityAppealBanner',
 );
 
-export const researchSurveyBanner: ModuleInfo = getDefaultModuleInfo(
-    'research-survey-banner',
-    'banners/researchSurveyBanner/ResearchSurveyBanner',
-);
-
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner-with-sign-in',
     'banners/contributions/ContributionsBannerWithSignIn',
@@ -90,11 +85,6 @@ export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
     'headers/SignInPromptHeader',
 );
 
-export const climateCrisisMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'climate-crisis-moment-banner',
-    'banners/climateCrisisMoment/ClimateCrisisMomentBanner',
-);
-
 export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'ukraine-moment-banner',
     'banners/ukraineMoment/UkraineMomentBanner',
@@ -105,7 +95,6 @@ export const moduleInfos: ModuleInfo[] = [
     liveblogEpic,
     contributionsBanner,
     charityAppealBanner,
-    researchSurveyBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
     environmentMomentBanner,
@@ -117,6 +106,5 @@ export const moduleInfos: ModuleInfo[] = [
     signInPromptBanner,
     header,
     signInPromptHeader,
-    climateCrisisMomentBanner,
     ukraineMomentBanner,
 ];
