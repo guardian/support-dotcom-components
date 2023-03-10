@@ -95,7 +95,7 @@ const styles = {
         ${from.wide} {
             height: 125px;
             width: 1250px;
-            right: auto;D
+            right: auto;
         }
 
         // The following styles will conditionally hide the svg polygon
