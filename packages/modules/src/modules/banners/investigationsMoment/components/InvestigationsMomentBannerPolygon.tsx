@@ -37,8 +37,23 @@ const styles = {
 
         ${from.tablet} {
             bottom: 0;
-            width: auto;
-            height: auto;
+            width: 234px;
+            height: 316px;
+        }
+
+        ${from.desktop} {
+            width: 297px;
+            height: 257px;
+        }
+
+        ${from.leftCol} {
+            width: 297px;
+            height: 238px;
+        }
+
+        ${from.wide} {
+            width: 390px;
+            height: 315px;
         }
 
         svg {
@@ -80,7 +95,6 @@ const styles = {
         ${from.wide} {
             height: 125px;
             width: 1250px;
-            right: auto;D
         }
 
         // The following styles will conditionally hide the svg polygon
