@@ -24,8 +24,8 @@ import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import {
     useBannerChoiceCardSelection,
-    useChoiceCardsTrackingInsertEvent,
-    useChoiceCardsTrackingViewEvent,
+    useBannerChoiceCardsTrackingInsertEvent,
+    useBannerChoiceCardsTrackingViewEvent,
 } from '../../../hooks/choiceCards';
 
 type ButtonPropTypes = {
@@ -76,8 +76,8 @@ export const ChoiceCardsBanner = ({
         choiceCardAmounts,
     );
 
-    const setNode = useChoiceCardsTrackingViewEvent(tracking, submitComponentEvent);
-    useChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
+    const setNode = useBannerChoiceCardsTrackingViewEvent(tracking, submitComponentEvent);
+    useBannerChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 

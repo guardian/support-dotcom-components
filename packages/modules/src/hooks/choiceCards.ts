@@ -141,7 +141,7 @@ export const useEpicChoiceCardSelection = (
     return { choiceCardSelection, setChoiceCardSelection };
 };
 
-export const useChoiceCardsTrackingViewEvent = (
+export const useBannerChoiceCardsTrackingViewEvent = (
     tracking?: Tracking,
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void,
     countryCode?: string,
@@ -170,7 +170,47 @@ export const useChoiceCardsTrackingViewEvent = (
     return setNode;
 };
 
-export const useChoiceCardsTrackingInsertEvent = (
+export const useEpicChoiceCardsTrackingViewEvent = (
+    tracking?: Tracking,
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void,
+    countryCode?: string,
+    stage?: Stage,
+): ((el: HTMLDivElement) => void) => {
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen && tracking) {
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
+
+            // Props passed to this hook when used in the epic
+            if (countryCode && stage) {
+                // For the epic view count
+                logEpicView(tracking.abTestName);
+
+                // For the epic event stream
+                sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
+            }
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
+
+    return setNode;
+};
+
+export const useBannerChoiceCardsTrackingInsertEvent = (
+    tracking?: Tracking,
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void,
+): void => {
+    useEffect(() => {
+        if (submitComponentEvent && tracking) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [submitComponentEvent]);
+};
+
+export const useEpicChoiceCardsTrackingInsertEvent = (
     tracking?: Tracking,
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void,
 ): void => {

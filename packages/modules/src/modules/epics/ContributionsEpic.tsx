@@ -22,8 +22,8 @@ import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import {
     useEpicChoiceCardSelection,
-    useChoiceCardsTrackingInsertEvent,
-    useChoiceCardsTrackingViewEvent,
+    useEpicChoiceCardsTrackingInsertEvent,
+    useEpicChoiceCardsTrackingViewEvent,
 } from '../../hooks/choiceCards';
 import { ChoiceCards } from '../banners/choiceCardsBanner/components/ChoiceCards';
 
@@ -262,14 +262,14 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const setNode = useChoiceCardsTrackingViewEvent(
+    const setNode = useEpicChoiceCardsTrackingViewEvent(
         tracking,
         submitComponentEvent,
         countryCode,
         stage,
     );
 
-    useChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
+    useEpicChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
