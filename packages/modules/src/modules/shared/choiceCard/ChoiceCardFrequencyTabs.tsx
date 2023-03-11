@@ -11,7 +11,7 @@ import {
     OphanEventIdPrefix,
     ContributionType,
     ChoiceCardSelection,
-} from '../../banners/choiceCardsBanner/choiceCards';
+} from '../../../hooks/choiceCards';
 
 export const trackClick = (
     type: 'amount' | 'frequency',
@@ -58,18 +58,23 @@ export const ChoiceCardFrequencyTabs = ({
     const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
         tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
 
-    const tabList = tabFrequencies.map(tabFrequency => ({
-        id: tabFrequency,
-        labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
-        selected: selection.frequency === tabFrequency,
-    }));
+    const getTabList = (ophanEventIdPrefix: OphanEventIdPrefix) => {
+        const idPrefix = ophanEventIdPrefix === 'supporter-plus-banner' ? 'banner' : 'epic';
+
+        return tabFrequencies.map(tabFrequency => ({
+            frequency: tabFrequency,
+            id: `${idPrefix}-${tabFrequency}`,
+            labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
+            selected: selection.frequency === tabFrequency,
+        }));
+    };
 
     if (ophanEventIdPrefix === 'supporter-plus-banner') {
         return (
             <Box>
                 <BannerChoiceCardsPaymentFrequencyTabs
                     ariaLabel="payment frequency tabs"
-                    tabs={tabList}
+                    tabs={getTabList('supporter-plus-banner')}
                     selectedTab={selection.frequency}
                     onTabChange={updateFrequency}
                 />
@@ -88,7 +93,7 @@ export const ChoiceCardFrequencyTabs = ({
                         key={tabFrequency}
                         label={contributionType[tabFrequency].label}
                         value={frequencyVal}
-                        id={frequencyVal}
+                        id={`epic-${tabFrequency}`}
                         checked={selection?.frequency === frequencyVal}
                         onChange={() => updateFrequency(frequencyVal)}
                     />

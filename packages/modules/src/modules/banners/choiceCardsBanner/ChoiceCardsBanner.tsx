@@ -20,12 +20,13 @@ import {
     columnMarginOverrides,
 } from './choiceCardsBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
+
+import { ChoiceCards } from './components/ChoiceCards';
 import {
     useBannerChoiceCardSelection,
     useChoiceCardsTrackingInsertEvent,
     useChoiceCardsTrackingViewEvent,
-} from './choiceCards';
-import { ChoiceCards } from './components/ChoiceCards';
+} from '../../../hooks/choiceCards';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

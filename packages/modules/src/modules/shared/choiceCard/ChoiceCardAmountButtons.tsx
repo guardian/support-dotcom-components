@@ -9,7 +9,7 @@ import {
     OphanEventIdPrefix,
     ContributionType,
     ChoiceCardSelection,
-} from '../../banners/choiceCardsBanner/choiceCards';
+} from '../../../hooks/choiceCards';
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
@@ -156,7 +156,7 @@ export const ChoiceCardAmountButtons = ({
                             label="Other"
                             id="other"
                             checked={selection.amount == 'other'}
-                            onChange={() => updateAmount}
+                            onChange={() => handleUpdateAmount('other')}
                             cssOverrides={supporterPlusChoiceCardAmountOverrides}
                         />
                     )}
@@ -177,7 +177,7 @@ export const ChoiceCardAmountButtons = ({
                     label="Other"
                     id="other"
                     checked={selection.amount == 'other'}
-                    onChange={() => updateAmount}
+                    onChange={() => handleUpdateAmount('other')}
                 />
             )}
         </>

@@ -12,9 +12,9 @@ import {
     Tracking,
 } from '@sdc/shared/dist/types';
 import { useState, useEffect } from 'react';
-import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import { BannerTextContent } from '../common/types';
-import { isProd } from '../../shared/helpers/stage';
+import { HasBeenSeen, useHasBeenSeen } from './useHasBeenSeen';
+import { BannerTextContent } from '../modules/banners/common/types';
+import { isProd } from '../modules/shared/helpers/stage';
 
 export interface ContributionTypeItem {
     label: string;
@@ -89,8 +89,6 @@ const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): vo
 
 export const useBannerChoiceCardSelection = (
     choiceCardAmounts?: SelectedAmountsVariant,
-    showChoiceCards?: boolean,
-    defaultChoiceCardFrequency?: ContributionFrequency,
 ): {
     choiceCardSelection?: ChoiceCardSelection;
     setChoiceCardSelection: (choiceCardSelection?: ChoiceCardSelection) => void;
@@ -100,8 +98,8 @@ export const useBannerChoiceCardSelection = (
     >();
 
     useEffect(() => {
-        if (choiceCardAmounts?.amounts && (showChoiceCards ?? true)) {
-            const defaultFrequency: ContributionFrequency = defaultChoiceCardFrequency ?? 'MONTHLY';
+        if (choiceCardAmounts?.amounts) {
+            const defaultFrequency: ContributionFrequency = 'MONTHLY';
             const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
             const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
 
@@ -110,7 +108,7 @@ export const useBannerChoiceCardSelection = (
                 amount: defaultAmount,
             });
         }
-    }, [choiceCardAmounts, showChoiceCards]);
+    }, [choiceCardAmounts]);
 
     return { choiceCardSelection, setChoiceCardSelection };
 };
@@ -158,7 +156,7 @@ export const useChoiceCardsTrackingViewEvent = (
                 submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
             }
 
-            // Props passed to hook in the epic
+            // Props passed to this hook when used in the epic
             if (countryCode && stage) {
                 // For the epic view count
                 logEpicView(tracking.abTestName);

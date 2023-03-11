@@ -24,7 +24,7 @@ import {
     useEpicChoiceCardSelection,
     useChoiceCardsTrackingInsertEvent,
     useChoiceCardsTrackingViewEvent,
-} from '../banners/choiceCardsBanner/choiceCards';
+} from '../../hooks/choiceCards';
 import { ChoiceCards } from '../banners/choiceCardsBanner/components/ChoiceCards';
 
 // CSS Styling

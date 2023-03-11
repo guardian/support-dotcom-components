@@ -4,7 +4,11 @@ import { css } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import { contributionType, ChoiceCardProps, OphanEventIdPrefix } from '../choiceCards';
+import {
+    contributionType,
+    ChoiceCardProps,
+    OphanEventIdPrefix,
+} from '../../../../hooks/choiceCards';
 import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs } from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';

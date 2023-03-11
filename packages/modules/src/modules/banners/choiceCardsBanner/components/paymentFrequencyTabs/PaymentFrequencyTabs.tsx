@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { useEffect, useRef } from 'react';
 import { PaymentFrequencyTabButtonAttributes } from './PaymentFrequencyTabButton';
 import { PaymentFrequencyTabButton } from './PaymentFrequencyTabButton';
 import { ContributionFrequency } from '@sdc/shared/dist/types';
@@ -12,7 +11,8 @@ const tabListStyles = css`
 `;
 
 export type TabProps = {
-    id: ContributionFrequency;
+    id: string;
+    frequency: ContributionFrequency;
     labelText: string;
     selected: boolean;
 };
@@ -21,7 +21,7 @@ export type PaymentFrequencyTabsRenderProps = {
     ariaLabel: string;
     tabs: TabProps[];
     selectedTab: ContributionFrequency;
-    onTabChange: (freq: ContributionFrequency) => void;
+    onTabChange: (frequency: ContributionFrequency) => void;
 };
 
 export type PaymentFrequencyTabsProps = PaymentFrequencyTabsRenderProps & {
@@ -44,23 +44,9 @@ function getTabControllerAttributes(tab: TabProps): PaymentFrequencyTabButtonAtt
 export function BannerChoiceCardsPaymentFrequencyTabs({
     ariaLabel,
     tabs,
-    selectedTab,
     onTabChange,
     TabController = PaymentFrequencyTabButton,
 }: PaymentFrequencyTabsProps): JSX.Element {
-    const isInitialMount = useRef(true);
-    const tabPanel = useRef<HTMLDivElement>(null);
-
-    // We want to auto-focus the tab panel when the tab selection changes, but not on initial mount
-    // Cf. https://reactjs.org/docs/hooks-faq.html#can-i-run-an-effect-only-on-updates
-    useEffect(() => {
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-        } else {
-            tabPanel.current?.focus();
-        }
-    }, [selectedTab]);
-
     return (
         <div>
             <div role="tablist" aria-label={ariaLabel} css={tabListStyles}>
@@ -68,7 +54,7 @@ export function BannerChoiceCardsPaymentFrequencyTabs({
                     return (
                         <TabController
                             key={tab.id}
-                            onClick={() => onTabChange(tab.id)}
+                            onClick={() => onTabChange(tab.frequency)}
                             {...getTabControllerAttributes(tab)}
                         >
                             {tab.labelText}
