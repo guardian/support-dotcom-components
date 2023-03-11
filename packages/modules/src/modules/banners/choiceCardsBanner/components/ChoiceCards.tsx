@@ -55,7 +55,8 @@ const styles = {
     `,
     bannerFrequenciesGroupOverrides: css`
         > div:first-of-type {
-            display: block !important;
+            /* display: block !important; */
+            /* grid-column: 1 / span 3; */
         }
     `,
     hideChoiceCardGroupLegend: css`
@@ -97,7 +98,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     amountsTestName = 'test_undefined',
     amountsVariantName = 'variant_undefined',
     countryCode,
-    tracking,
+    bannerTracking,
     numArticles,
     content,
 }: ChoiceCardProps) => {
@@ -183,11 +184,11 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
 
-            {componentId.includes('choice-cards') && (
+            {componentId.includes('choice-cards') && bannerTracking && countryCode && (
                 <div css={styles.ctaAndPaymentCardsontainer}>
                     <SupportCta
                         countryCode={countryCode}
-                        tracking={tracking}
+                        tracking={bannerTracking}
                         amountsTestName={amountsTestName}
                         amountsVariantName={amountsVariantName}
                         numArticles={numArticles ?? 0}

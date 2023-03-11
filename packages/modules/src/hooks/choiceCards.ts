@@ -35,8 +35,8 @@ export interface ChoiceCardProps {
     amounts?: ContributionAmounts;
     amountsTestName?: string;
     amountsVariantName?: string;
-    countryCode: string;
-    tracking: Tracking;
+    countryCode?: string;
+    bannerTracking?: Tracking;
     numArticles?: number;
     content?: BannerTextContent;
 }

@@ -145,8 +145,8 @@ export const ChoiceCardsBanner = ({
                                 amounts={choiceCardAmounts.amounts}
                                 amountsTestName={choiceCardAmounts?.testName}
                                 amountsVariantName={choiceCardAmounts?.variantName}
-                                countryCode={countryCode ?? ''}
-                                tracking={tracking}
+                                countryCode={countryCode}
+                                bannerTracking={tracking}
                                 numArticles={numArticles}
                                 content={content}
                             />

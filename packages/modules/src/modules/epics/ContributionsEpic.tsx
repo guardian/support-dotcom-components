@@ -10,6 +10,7 @@ import {
     getLocalCurrencySymbol,
     createViewEventFromTracking,
     logEpicView,
+    createInsertEventFromTracking,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
@@ -291,6 +292,12 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         }
     }, [hasBeenSeen, submitComponentEvent]);
 
+    useEffect(() => {
+        if (submitComponentEvent) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [submitComponentEvent]);
+
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
         countryCode,
@@ -412,8 +419,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
                     componentId="contributions-epic"
-                    countryCode={countryCode ?? 'GB'}
-                    tracking={tracking}
                 />
             )}
 

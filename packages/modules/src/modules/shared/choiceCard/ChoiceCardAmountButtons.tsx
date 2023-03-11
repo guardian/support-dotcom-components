@@ -39,9 +39,9 @@ const choiceCardsContainer = css`
         margin: 0 !important;
     }
 
-    > label > div:first-of-type {
+    /* > label > div:first-of-type {
         padding: 0 !important;
-    }
+    } */
 `;
 
 const choiceCardOrOtherAmountContainer = css`
@@ -141,6 +141,8 @@ export const ChoiceCardAmountButtons = ({
     ));
 
     if (componentId.includes('choice-cards')) {
+        /////
+        ///// amounts containers
         return (
             <div css={container}>
                 <div css={choiceCardsContainer}>
