@@ -6,9 +6,9 @@ import {
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
 import {
-    OphanEventIdPrefix,
     ContributionType,
     ChoiceCardSelection,
+    ChoiceCardBannerComponentId,
 } from '../../../hooks/choiceCards';
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
@@ -81,7 +81,7 @@ const ChoiceCardAmount = ({
 };
 
 export const ChoiceCardAmountButtons = ({
-    ophanEventIdPrefix,
+    componentId,
     contributionType,
     submitComponentEvent,
     amounts,
@@ -89,7 +89,7 @@ export const ChoiceCardAmountButtons = ({
     selection,
     currencySymbol,
 }: {
-    ophanEventIdPrefix: OphanEventIdPrefix;
+    componentId: ChoiceCardBannerComponentId;
     contributionType: ContributionType;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: ContributionAmounts;
@@ -108,12 +108,12 @@ export const ChoiceCardAmountButtons = ({
 
     const updateAmount = (
         amount: number | 'other',
-        ophanEventIdPrefix: OphanEventIdPrefix,
+        componentId: ChoiceCardBannerComponentId,
         setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void,
         frequency: ContributionFrequency,
         submitComponentEvent?: (event: OphanComponentEvent) => void,
     ) => {
-        trackClick('amount', ophanEventIdPrefix, submitComponentEvent);
+        trackClick('amount', componentId, submitComponentEvent);
         setSelectionsCallback({
             frequency,
             amount,
@@ -123,7 +123,7 @@ export const ChoiceCardAmountButtons = ({
     const handleUpdateAmount = (amount: number | 'other') =>
         updateAmount(
             amount,
-            ophanEventIdPrefix,
+            componentId,
             setSelectionsCallback,
             selection.frequency,
             submitComponentEvent,
@@ -140,7 +140,7 @@ export const ChoiceCardAmountButtons = ({
         />
     ));
 
-    if (ophanEventIdPrefix === 'supporter-plus-banner') {
+    if (componentId.includes('choice-cards')) {
         return (
             <div css={container}>
                 <div css={choiceCardsContainer}>

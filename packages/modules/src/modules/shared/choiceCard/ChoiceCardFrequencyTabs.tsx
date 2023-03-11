@@ -8,21 +8,21 @@ import {
 import { BannerChoiceCardsPaymentFrequencyTabs } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import {
-    OphanEventIdPrefix,
     ContributionType,
     ChoiceCardSelection,
+    ChoiceCardBannerComponentId,
 } from '../../../hooks/choiceCards';
 
 export const trackClick = (
     type: 'amount' | 'frequency',
-    ophanEventIdPrefix: OphanEventIdPrefix,
+    componentId: ChoiceCardBannerComponentId,
     submitComponentEvent?: (event: OphanComponentEvent) => void,
 ): void => {
     if (submitComponentEvent) {
         submitComponentEvent({
             component: {
                 componentType: 'ACQUISITIONS_OTHER',
-                id: `${ophanEventIdPrefix}-choice-cards-change-${type}`,
+                id: `${componentId}-change-${type}`,
             },
             action: 'CLICK',
         });
@@ -30,14 +30,14 @@ export const trackClick = (
 };
 
 export const ChoiceCardFrequencyTabs = ({
-    ophanEventIdPrefix,
+    componentId,
     contributionType,
     submitComponentEvent,
     amounts,
     setSelectionsCallback,
     selection,
 }: {
-    ophanEventIdPrefix: OphanEventIdPrefix;
+    componentId: ChoiceCardBannerComponentId;
     contributionType: ContributionType;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: ContributionAmounts;
@@ -45,7 +45,7 @@ export const ChoiceCardFrequencyTabs = ({
     selection: ChoiceCardSelection;
 }): JSX.Element => {
     const updateFrequency = (frequency: ContributionFrequency) => {
-        trackClick('frequency', ophanEventIdPrefix, submitComponentEvent);
+        trackClick('frequency', componentId, submitComponentEvent);
         amounts &&
             setSelectionsCallback({
                 frequency: frequency,
@@ -58,8 +58,8 @@ export const ChoiceCardFrequencyTabs = ({
     const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
         tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
 
-    const getTabList = (ophanEventIdPrefix: OphanEventIdPrefix) => {
-        const idPrefix = ophanEventIdPrefix === 'supporter-plus-banner' ? 'banner' : 'epic';
+    const getTabList = (bannerId: ChoiceCardBannerComponentId) => {
+        const idPrefix = bannerId.includes('choice-cards') ? 'banner' : 'epic';
 
         return tabFrequencies.map(tabFrequency => ({
             frequency: tabFrequency,
@@ -69,12 +69,12 @@ export const ChoiceCardFrequencyTabs = ({
         }));
     };
 
-    if (ophanEventIdPrefix === 'supporter-plus-banner') {
+    if (componentId.includes('choice-cards')) {
         return (
             <Box>
                 <BannerChoiceCardsPaymentFrequencyTabs
                     ariaLabel="payment frequency tabs"
-                    tabs={getTabList('supporter-plus-banner')}
+                    tabs={getTabList(componentId)}
                     selectedTab={selection.frequency}
                     onTabChange={updateFrequency}
                 />

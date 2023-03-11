@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
@@ -8,8 +8,10 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
     getLocalCurrencySymbol,
+    createViewEventFromTracking,
+    logEpicView,
 } from '@sdc/shared/lib';
-import { EpicProps, epicPropsSchema } from '@sdc/shared/types';
+import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
 import { ContributionsEpicTicker } from './ContributionsEpicTicker';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
@@ -20,12 +22,10 @@ import { withParsedProps } from '../shared/ModuleWrapper';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
-import {
-    useEpicChoiceCardSelection,
-    useEpicChoiceCardsTrackingInsertEvent,
-    useEpicChoiceCardsTrackingViewEvent,
-} from '../../hooks/choiceCards';
+import { ChoiceCardSelection } from '../../hooks/choiceCards';
 import { ChoiceCards } from '../banners/choiceCardsBanner/components/ChoiceCards';
+import { useHasBeenSeen, HasBeenSeen } from '../../hooks/useHasBeenSeen';
+import { isProd } from '../shared/helpers/stage';
 
 // CSS Styling
 // -------------------------------------------
@@ -252,29 +252,70 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
-    const { choiceCardSelection, setChoiceCardSelection } = useEpicChoiceCardSelection(
-        choiceCardAmounts,
-        showChoiceCards,
-        variant.defaultChoiceCardFrequency,
-    );
+    const [choiceCardSelection, setChoiceCardSelection] = useState<
+        ChoiceCardSelection | undefined
+    >();
+
+    useEffect(() => {
+        if (showChoiceCards && choiceCardAmounts?.amounts) {
+            const defaultFrequency: ContributionFrequency =
+                variant.defaultChoiceCardFrequency || 'MONTHLY';
+            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+            const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
+
+            setChoiceCardSelection({
+                frequency: defaultFrequency,
+                amount: defaultAmount,
+            });
+        }
+    }, [showChoiceCards, choiceCardAmounts]);
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 
-    const setNode = useEpicChoiceCardsTrackingViewEvent(
-        tracking,
-        submitComponentEvent,
-        countryCode,
-        stage,
-    );
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
-    useEpicChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
+    useEffect(() => {
+        if (hasBeenSeen) {
+            // For the event stream
+            sendEpicViewEvent(tracking.referrerUrl, countryCode, stage);
+
+            // For epic view count
+            logEpicView(tracking.abTestName);
+
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
 
     const cleanHighlighted = replaceNonArticleCountPlaceholders(
         variant.highlightedText,
         countryCode,
     );
+
+    const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): void => {
+        const path = 'events/epic-view';
+        const host = isProd(stage)
+            ? 'https://contributions.guardianapis.com'
+            : 'https://contributions.code.dev-guardianapis.com';
+        const body = JSON.stringify({
+            url,
+            countryCode,
+        });
+
+        fetch(`${host}/${path}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body,
+        }).then(response => {
+            if (!response.ok) {
+                console.log('Epic view event request failed', response);
+            }
+        });
+    };
 
     const cleanHeading = replaceNonArticleCountPlaceholders(variant.heading, countryCode);
 
@@ -370,7 +411,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     amounts={choiceCardAmounts.amounts}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
-                    ophanEventIdPrefix="contributions-epic"
+                    componentId="contributions-epic"
                     countryCode={countryCode ?? 'GB'}
                     tracking={tracking}
                 />

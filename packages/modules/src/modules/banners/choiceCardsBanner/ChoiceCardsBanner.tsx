@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
 import { SvgRoundelDefault } from '@guardian/src-brand';
@@ -19,14 +19,12 @@ import {
     paragraph,
     columnMarginOverrides,
 } from './choiceCardsBannerStyles';
-import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
-
+import { createInsertEventFromTracking, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
+import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
-import {
-    useBannerChoiceCardSelection,
-    useBannerChoiceCardsTrackingInsertEvent,
-    useBannerChoiceCardsTrackingViewEvent,
-} from '../../../hooks/choiceCards';
+import { ChoiceCardSelection } from '../../../hooks/choiceCards';
+import { ContributionFrequency } from '@sdc/shared/src/types';
+import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -72,14 +70,40 @@ export const ChoiceCardsBanner = ({
     'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
 > &
     ChoiceCardsBannerRenderProps): JSX.Element => {
-    const { choiceCardSelection, setChoiceCardSelection } = useBannerChoiceCardSelection(
-        choiceCardAmounts,
-    );
+    const [choiceCardSelection, setChoiceCardSelection] = useState<
+        ChoiceCardSelection | undefined
+    >();
+    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
-    const setNode = useBannerChoiceCardsTrackingViewEvent(tracking, submitComponentEvent);
-    useBannerChoiceCardsTrackingInsertEvent(tracking, submitComponentEvent);
+    useEffect(() => {
+        if (hasBeenSeen && tracking) {
+            // For ophan
+            if (submitComponentEvent) {
+                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
+        }
+
+        if (submitComponentEvent && tracking) {
+            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
+        }
+    }, [hasBeenSeen, submitComponentEvent]);
+
+    useEffect(() => {
+        if (choiceCardAmounts?.amounts) {
+            const defaultFrequency: ContributionFrequency = 'MONTHLY';
+            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+            const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
+
+            setChoiceCardSelection({
+                frequency: defaultFrequency,
+                amount: defaultAmount,
+            });
+        }
+    }, [choiceCardAmounts]);
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
+
+    const id = bannerId === 'choice-cards-banner-blue' || bannerId === 'choice-cards-banner-yellow';
 
     return (
         <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
@@ -117,7 +141,7 @@ export const ChoiceCardsBanner = ({
                                 selection={choiceCardSelection}
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
-                                ophanEventIdPrefix="supporter-plus-banner"
+                                componentId={id ? bannerId : 'choice-cards-banner-blue'}
                                 amounts={choiceCardAmounts.amounts}
                                 amountsTestName={choiceCardAmounts?.testName}
                                 amountsVariantName={choiceCardAmounts?.variantName}

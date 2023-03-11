@@ -7,7 +7,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import {
     contributionType,
     ChoiceCardProps,
-    OphanEventIdPrefix,
+    ChoiceCardBannerComponentId,
 } from '../../../../hooks/choiceCards';
 import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAmountButtons';
@@ -17,11 +17,11 @@ import { PaymentCards } from './PaymentCards';
 import { BannerEnrichedCta, BannerTextContent } from '../../common/types';
 
 const styles = {
-    container: (ophanEventIdPrefix: OphanEventIdPrefix) => css`
+    container: (bannerId: ChoiceCardBannerComponentId) => css`
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
 
-        ${ophanEventIdPrefix === 'supporter-plus-banner' &&
+        ${bannerId.includes('choice-cards') &&
             `
                 margin: ${space[3]}px 0 ${space[5]}px;
                 max-width: 300px;
@@ -92,7 +92,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     setSelectionsCallback,
     submitComponentEvent,
     currencySymbol,
-    ophanEventIdPrefix,
+    componentId,
     amounts,
     amountsTestName = 'test_undefined',
     amountsVariantName = 'variant_undefined',
@@ -114,7 +114,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 submitComponentEvent({
                     component: {
                         componentType: 'ACQUISITIONS_OTHER',
-                        id: `${ophanEventIdPrefix}-choice-cards`,
+                        id: componentId,
                     },
                     action: 'VIEW',
                     abTest: {
@@ -142,20 +142,20 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     };
 
     return (
-        <div ref={setNode} css={styles.container(ophanEventIdPrefix)}>
+        <div ref={setNode} css={styles.container(componentId)}>
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
                 cssOverrides={[
                     styles.hideChoiceCardGroupLegend,
-                    ophanEventIdPrefix === 'supporter-plus-banner'
+                    componentId.includes('choice-cards')
                         ? styles.bannerFrequenciesGroupOverrides
                         : styles.epicFrequenciesGroupOverrides,
                 ]}
                 label="Contribution frequency"
             >
                 <ChoiceCardFrequencyTabs
-                    ophanEventIdPrefix={ophanEventIdPrefix}
+                    componentId={componentId}
                     contributionType={contributionType}
                     submitComponentEvent={submitComponentEvent}
                     amounts={amounts}
@@ -169,14 +169,12 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 label="Contribution amount"
                 cssOverrides={[
                     styles.hideChoiceCardGroupLegend,
-                    ophanEventIdPrefix === 'supporter-plus-banner'
-                        ? styles.bannerAmountsContainer
-                        : css``,
+                    componentId.includes('choice-cards') ? styles.bannerAmountsContainer : css``,
                 ]}
                 aria-labelledby={selection.frequency}
             >
                 <ChoiceCardAmountButtons
-                    ophanEventIdPrefix={ophanEventIdPrefix}
+                    componentId={componentId}
                     contributionType={contributionType}
                     amounts={amounts}
                     setSelectionsCallback={setSelectionsCallback}
@@ -185,7 +183,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
 
-            {ophanEventIdPrefix === 'supporter-plus-banner' && (
+            {componentId.includes('choice-cards') && (
                 <div css={styles.ctaAndPaymentCardsontainer}>
                     <SupportCta
                         countryCode={countryCode}
