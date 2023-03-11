@@ -5,7 +5,11 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import { OphanEventIdPrefix, ContributionType, ChoiceCardSelection } from '../helpers/choiceCards';
+import {
+    OphanEventIdPrefix,
+    ContributionType,
+    ChoiceCardSelection,
+} from '../../banners/choiceCardsBanner/choiceCards';
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
@@ -29,6 +33,10 @@ const choiceCardsContainer = css`
 
     > label:first-of-type {
         margin-right: ${space[2]}px !important;
+    }
+
+    > label:last-of-type {
+        margin: 0 !important;
     }
 
     > label > div:first-of-type {

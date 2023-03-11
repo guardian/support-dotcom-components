@@ -21,10 +21,10 @@ import {
 } from './choiceCardsBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import {
-    useChoiceCardSelection,
+    useBannerChoiceCardSelection,
     useChoiceCardsTrackingInsertEvent,
     useChoiceCardsTrackingViewEvent,
-} from '../../shared/helpers/choiceCards';
+} from './choiceCards';
 import { ChoiceCards } from './components/ChoiceCards';
 
 type ButtonPropTypes = {
@@ -71,7 +71,7 @@ export const ChoiceCardsBanner = ({
     'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
 > &
     ChoiceCardsBannerRenderProps): JSX.Element => {
-    const { choiceCardSelection, setChoiceCardSelection } = useChoiceCardSelection(
+    const { choiceCardSelection, setChoiceCardSelection } = useBannerChoiceCardSelection(
         choiceCardAmounts,
     );
 

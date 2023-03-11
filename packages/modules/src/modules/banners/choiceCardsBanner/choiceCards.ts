@@ -13,8 +13,8 @@ import {
 } from '@sdc/shared/dist/types';
 import { useState, useEffect } from 'react';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import { BannerTextContent } from '../../banners/common/types';
-import { isProd } from './stage';
+import { BannerTextContent } from '../common/types';
+import { isProd } from '../../shared/helpers/stage';
 
 export interface ContributionTypeItem {
     label: string;
@@ -87,7 +87,35 @@ const sendEpicViewEvent = (url: string, countryCode?: string, stage?: Stage): vo
     });
 };
 
-export const useChoiceCardSelection = (
+export const useBannerChoiceCardSelection = (
+    choiceCardAmounts?: SelectedAmountsVariant,
+    showChoiceCards?: boolean,
+    defaultChoiceCardFrequency?: ContributionFrequency,
+): {
+    choiceCardSelection?: ChoiceCardSelection;
+    setChoiceCardSelection: (choiceCardSelection?: ChoiceCardSelection) => void;
+} => {
+    const [choiceCardSelection, setChoiceCardSelection] = useState<
+        ChoiceCardSelection | undefined
+    >();
+
+    useEffect(() => {
+        if (choiceCardAmounts?.amounts && (showChoiceCards ?? true)) {
+            const defaultFrequency: ContributionFrequency = defaultChoiceCardFrequency ?? 'MONTHLY';
+            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+            const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
+
+            setChoiceCardSelection({
+                frequency: defaultFrequency,
+                amount: defaultAmount,
+            });
+        }
+    }, [choiceCardAmounts, showChoiceCards]);
+
+    return { choiceCardSelection, setChoiceCardSelection };
+};
+
+export const useEpicChoiceCardSelection = (
     choiceCardAmounts?: SelectedAmountsVariant,
     showChoiceCards?: boolean,
     defaultChoiceCardFrequency?: ContributionFrequency,

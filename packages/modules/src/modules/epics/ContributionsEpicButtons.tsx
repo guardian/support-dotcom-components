@@ -13,7 +13,7 @@ import {
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
+import { ChoiceCardSelection } from '../banners/choiceCardsBanner/choiceCards';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;

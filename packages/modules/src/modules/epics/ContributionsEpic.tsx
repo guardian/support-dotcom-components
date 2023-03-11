@@ -21,10 +21,10 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import {
-    useChoiceCardSelection,
+    useEpicChoiceCardSelection,
     useChoiceCardsTrackingInsertEvent,
     useChoiceCardsTrackingViewEvent,
-} from '../shared/helpers/choiceCards';
+} from '../banners/choiceCardsBanner/choiceCards';
 import { ChoiceCards } from '../banners/choiceCardsBanner/components/ChoiceCards';
 
 // CSS Styling
@@ -252,7 +252,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
-    const { choiceCardSelection, setChoiceCardSelection } = useChoiceCardSelection(
+    const { choiceCardSelection, setChoiceCardSelection } = useEpicChoiceCardSelection(
         choiceCardAmounts,
         showChoiceCards,
         variant.defaultChoiceCardFrequency,
