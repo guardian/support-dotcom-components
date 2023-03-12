@@ -12,7 +12,7 @@ import {
 } from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
-import { BannerEnrichedCta, BannerTextContent } from '../../common/types';
+import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
 
@@ -120,7 +120,6 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     countryCode,
     bannerTracking,
     numArticles,
-    content,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -146,21 +145,6 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             }
         }
     }, [hasBeenSeen, submitComponentEvent]);
-
-    const getPrimaryCta = (
-        contentType: 'mainContent' | 'mobileContent',
-        content?: BannerTextContent,
-    ): BannerEnrichedCta => {
-        const primaryCtaText = content?.[contentType].primaryCta?.ctaText;
-        const primaryCtaBaseUrl = content?.[contentType].primaryCta?.ctaUrl;
-
-        return {
-            ctaText: primaryCtaText ? primaryCtaText : 'undefined',
-            ctaUrl: primaryCtaBaseUrl
-                ? `${primaryCtaBaseUrl}?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`
-                : '',
-        };
-    };
 
     return (
         <div ref={setNode} css={styles.container}>
@@ -206,8 +190,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                         amountsTestName={amountsTestName}
                         amountsVariantName={amountsVariantName}
                         numArticles={numArticles ?? 0}
-                        content={content}
-                        getPrimaryCta={getPrimaryCta}
+                        selection={selection}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>

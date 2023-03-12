@@ -3,9 +3,10 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
 import { neutral, space } from '@guardian/src-foundations';
 import { css } from '@emotion/react';
-import { BannerEnrichedCta, BannerTextContent } from '../../common/types';
+import { BannerEnrichedCta } from '../../common/types';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
+import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
@@ -24,37 +25,28 @@ export const SupportCta = ({
     countryCode,
     amountsTestName,
     amountsVariantName,
-    content,
-    getPrimaryCta,
+    selection,
 }: {
     tracking: Tracking;
     numArticles: number;
     countryCode?: string;
     amountsTestName?: string;
     amountsVariantName?: string;
-    content?: BannerTextContent;
-    getPrimaryCta: (
-        contentType: 'mainContent' | 'mobileContent',
-        content?: BannerTextContent,
-    ) => BannerEnrichedCta;
+    selection: ChoiceCardSelection;
 }): JSX.Element | null => {
-    const mobileCta = getPrimaryCta('mobileContent', content);
-    const mainCta = getPrimaryCta('mainContent', content);
+    const baseUrl = 'https://support.theguardian.com/contribute';
 
-    const fallbackButtonText = 'Support us';
-    const fallbackBaseUrl = 'https://support.theguardian.com/contribute';
+    const getPrimaryCta = (): BannerEnrichedCta => {
+        return {
+            ctaText: 'Support us',
+            ctaUrl: `${baseUrl}?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`,
+        };
+    };
 
-    const mainUrlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
-        mainCta.ctaUrl ?? fallbackBaseUrl,
-        tracking,
-        numArticles,
-        countryCode,
-        amountsTestName,
-        amountsVariantName,
-    );
+    const cta = getPrimaryCta();
 
-    const mobileUrlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
-        mobileCta.ctaUrl ?? fallbackBaseUrl,
+    const supportUrl = addRegionIdAndTrackingParamsToSupportUrl(
+        cta.ctaUrl,
         tracking,
         numArticles,
         countryCode,
@@ -66,23 +58,23 @@ export const SupportCta = ({
         <>
             <Hide above="tablet">
                 <Button
-                    onClickAction={mobileUrlWithRegionAndTracking}
+                    onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
                     css={buttonOverrides}
                 >
-                    {mobileCta.ctaText ?? fallbackButtonText}
+                    {cta.ctaText}
                 </Button>
             </Hide>
 
             <Hide below="tablet">
                 <Button
-                    onClickAction={mainUrlWithRegionAndTracking}
+                    onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
                     css={buttonOverrides}
                 >
-                    {mainCta.ctaText ?? fallbackButtonText}
+                    {cta.ctaText}
                 </Button>
             </Hide>
         </>
