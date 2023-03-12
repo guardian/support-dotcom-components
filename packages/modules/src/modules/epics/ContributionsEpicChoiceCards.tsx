@@ -148,7 +148,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                     label={`${currencySymbol}${amount} ${
                         contributionType[selection.frequency].suffix
                     }`}
-                    id={`${amount}`}
+                    id={`contributions-epic-${amount}`}
                     checked={selection.amount === amount}
                     onChange={() => updateAmount(amount)}
                 />
@@ -164,7 +164,14 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
 
         // Something is wrong with the data
         if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
-            return <ChoiceCard value="third" label="Other" id="third" checked={true} />;
+            return (
+                <ChoiceCard
+                    value="third"
+                    label="Other"
+                    id="contributions-epic-third"
+                    checked={true}
+                />
+            );
         }
 
         return (
@@ -177,7 +184,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                     <ChoiceCard
                         value="other"
                         label="Other"
-                        id="other"
+                        id="contributions-epic-other"
                         checked={selection.amount == 'other'}
                         onChange={() => updateAmount('other')}
                     />
@@ -192,7 +199,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             <ChoiceCard
                 label={contributionType[frequency].label}
                 value={frequencyVal}
-                id={frequencyVal}
+                id={`contributions-epic-${frequencyVal}`}
                 checked={selection.frequency === frequencyVal}
                 onChange={() => updateFrequency(frequencyVal)}
             />

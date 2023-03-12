@@ -5,7 +5,10 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import { ContributionType, trackClick } from './ChoiceCardFrequencyTabs';
+import {
+    ContributionType,
+    trackClick,
+} from '../../banners/choiceCardsBanner/components/ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { until } from '@guardian/src-foundations/mq';
@@ -53,10 +56,12 @@ const supporterPlusChoiceCardAmountOverrides = css`
 
 const ChoiceCardAmount = ({
     amount,
+    id,
     label,
     checked,
     handleUpdateAmount,
 }: {
+    id: string;
     amount?: number;
     label: string;
     checked: boolean;
@@ -67,9 +72,11 @@ const ChoiceCardAmount = ({
             <ChoiceCard
                 value={`${amount}`}
                 label={label}
-                id={`${amount}`}
+                id={id}
                 checked={checked}
-                onChange={() => handleUpdateAmount(amount)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    e.target.id === id ? handleUpdateAmount(amount) : null
+                }
             />
         );
     }
@@ -100,7 +107,9 @@ export const ChoiceCardAmountButtons = ({
 
     // Something is wrong with the data
     if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
-        return <ChoiceCard value="third" label="Other" id="third" checked={true} />;
+        return (
+            <ChoiceCard value="third" label="Other" id="choice-cards-banner-third" checked={true} />
+        );
     }
 
     const updateAmount = (
@@ -129,6 +138,7 @@ export const ChoiceCardAmountButtons = ({
     const choiceCardAmounts = requiredAmounts.map(amount => (
         <ChoiceCardAmount
             key={amount}
+            id={`${componentId}-${amount}`}
             amount={amount}
             label={`${currencySymbol}${amount} ${contributionType[selection.frequency].suffix}`}
             checked={selection.amount === amount}
@@ -150,9 +160,13 @@ export const ChoiceCardAmountButtons = ({
                     <ChoiceCard
                         value="other"
                         label="Other"
-                        id="other"
+                        id={`${componentId}-other`}
                         checked={selection.amount == 'other'}
-                        onChange={() => handleUpdateAmount('other')}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            e.target.id === `${componentId}-other`
+                                ? handleUpdateAmount('other')
+                                : null
+                        }
                         cssOverrides={supporterPlusChoiceCardAmountOverrides}
                     />
                 )}
