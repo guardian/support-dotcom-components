@@ -53,9 +53,12 @@ const styles = {
         }
     `,
     bannerFrequenciesGroupOverrides: css`
+        grid-template-columns: repeat(3, minmax(100px, 200px));
+        display: grid;
+
         > div:first-of-type {
-            /* display: block !important; */
-            /* grid-column: 1 / span 3; */
+            display: inline;
+            grid-column: 1 / span 3;
         }
     `,
     hideChoiceCardGroupLegend: css`
@@ -164,7 +167,10 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                cssOverrides={styles.bannerFrequenciesGroupOverrides}
+                cssOverrides={[
+                    styles.hideChoiceCardGroupLegend,
+                    styles.bannerFrequenciesGroupOverrides,
+                ]}
                 label="Contribution frequency"
             >
                 <ChoiceCardFrequencyTabs
@@ -192,7 +198,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
 
-            {bannerTracking && countryCode && (
+            {bannerTracking && (
                 <div css={styles.ctaAndPaymentCardsontainer}>
                     <SupportCta
                         countryCode={countryCode}

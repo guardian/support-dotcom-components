@@ -61,6 +61,7 @@ export const tracking: Tracking = {
 export const ChoiceCardsBannerBlue = Template.bind({});
 ChoiceCardsBannerBlue.args = {
     bannerId: 'choice-cards-banner-blue',
+    countryCode: 'GB',
     content: {
         mainContent: {
             heading: <>Lend us a hand in 2023</>,

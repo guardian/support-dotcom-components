@@ -11,8 +11,11 @@ const buttonOverrides = css`
     margin-right: ${space[3]}px;
     margin-bottom: ${space[3]}px;
     background: ${neutral[0]};
-    color: ${neutral[100]} !important
-    ;
+    color: ${neutral[100]} !important;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.75);
+    }
 `;
 
 export const SupportCta = ({

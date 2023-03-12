@@ -137,8 +137,6 @@ export const ChoiceCardAmountButtons = ({
         />
     ));
 
-    /////
-    ///// amounts containers
     return (
         <div css={container}>
             <div css={choiceCardsContainer}>
