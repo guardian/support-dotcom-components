@@ -137,48 +137,28 @@ export const ChoiceCardAmountButtons = ({
         />
     ));
 
-    if (componentId.includes('choice-cards')) {
-        /////
-        ///// amounts containers
-        return (
-            <div css={container}>
-                <div css={choiceCardsContainer}>
-                    {choiceCardAmounts[0]}
-                    {choiceCardAmounts[1]}
-                </div>
-                <div css={choiceCardOrOtherAmountContainer}>
-                    {hideChooseYourAmount ? (
-                        choiceCardAmounts[2]
-                    ) : (
-                        <ChoiceCard
-                            value="other"
-                            label="Other"
-                            id="other"
-                            checked={selection.amount == 'other'}
-                            onChange={() => handleUpdateAmount('other')}
-                            cssOverrides={supporterPlusChoiceCardAmountOverrides}
-                        />
-                    )}
-                </div>
-            </div>
-        );
-    }
-
+    /////
+    ///// amounts containers
     return (
-        <>
-            {choiceCardAmounts[0]}
-            {choiceCardAmounts[1]}
-            {hideChooseYourAmount ? (
-                choiceCardAmounts[2]
-            ) : (
-                <ChoiceCard
-                    value="other"
-                    label="Other"
-                    id="other"
-                    checked={selection.amount == 'other'}
-                    onChange={() => handleUpdateAmount('other')}
-                />
-            )}
-        </>
+        <div css={container}>
+            <div css={choiceCardsContainer}>
+                {choiceCardAmounts[0]}
+                {choiceCardAmounts[1]}
+            </div>
+            <div css={choiceCardOrOtherAmountContainer}>
+                {hideChooseYourAmount ? (
+                    choiceCardAmounts[2]
+                ) : (
+                    <ChoiceCard
+                        value="other"
+                        label="Other"
+                        id="other"
+                        checked={selection.amount == 'other'}
+                        onChange={() => handleUpdateAmount('other')}
+                        cssOverrides={supporterPlusChoiceCardAmountOverrides}
+                    />
+                )}
+            </div>
+        </div>
     );
 };

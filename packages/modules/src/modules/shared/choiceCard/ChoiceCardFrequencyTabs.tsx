@@ -1,5 +1,4 @@
 import React from 'react';
-import { ChoiceCard } from '@guardian/src-choice-card';
 import {
     ContributionAmounts,
     ContributionFrequency,
@@ -38,14 +37,12 @@ export const trackClick = (
 
 export const ChoiceCardFrequencyTabs = ({
     componentId,
-    contributionType,
     submitComponentEvent,
     amounts,
     setSelectionsCallback,
     selection,
 }: {
     componentId: ChoiceCardBannerComponentId;
-    contributionType: ContributionType;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: ContributionAmounts;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
@@ -65,47 +62,23 @@ export const ChoiceCardFrequencyTabs = ({
     const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
         tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
 
-    const getTabList = (bannerId: ChoiceCardBannerComponentId) => {
-        const idPrefix = bannerId.includes('choice-cards') ? 'banner' : 'epic';
-
+    const getTabList = () => {
         return tabFrequencies.map(tabFrequency => ({
             frequency: tabFrequency,
-            id: `${idPrefix}-${tabFrequency}`,
+            id: `banner-${tabFrequency}`,
             labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
             selected: selection.frequency === tabFrequency,
         }));
     };
 
-    if (componentId.includes('choice-cards')) {
-        return (
-            <Box>
-                <BannerChoiceCardsPaymentFrequencyTabs
-                    ariaLabel="payment frequency tabs"
-                    tabs={getTabList(componentId)}
-                    selectedTab={selection.frequency}
-                    onTabChange={updateFrequency}
-                />
-            </Box>
-        );
-    }
-
-    // Epic ChoiceCard Payment Frequency Tabs
     return (
-        <>
-            {tabFrequencies.map(tabFrequency => {
-                const frequencyVal = contributionType[tabFrequency].frequency;
-
-                return (
-                    <ChoiceCard
-                        key={tabFrequency}
-                        label={contributionType[tabFrequency].label}
-                        value={frequencyVal}
-                        id={`epic-${tabFrequency}`}
-                        checked={selection?.frequency === frequencyVal}
-                        onChange={() => updateFrequency(frequencyVal)}
-                    />
-                );
-            })}
-        </>
+        <Box>
+            <BannerChoiceCardsPaymentFrequencyTabs
+                ariaLabel="payment frequency tabs"
+                tabs={getTabList()}
+                selectedTab={selection.frequency}
+                onTabChange={updateFrequency}
+            />
+        </Box>
     );
 };

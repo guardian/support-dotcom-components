@@ -34,27 +34,23 @@ interface ChoiceCardProps {
 }
 
 const styles = {
-    container: (bannerId: ChoiceCardBannerComponentId) => css`
+    container: css`
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
+        margin: ${space[3]}px 0 ${space[5]}px;
+        max-width: 300px;
 
-        ${bannerId.includes('choice-cards') &&
-            `
-                margin: ${space[3]}px 0 ${space[5]}px;
-                max-width: 300px;
-                
-                ${from.mobileMedium} {
-                    max-width: 350px;
-                }
-                
-                ${from.mobileLandscape} {
-                    max-width: 380px;
-                }
+        ${from.mobileMedium} {
+            max-width: 350px;
+        }
 
-                ${from.tablet} {
-                    margin: 60px 0 ${space[5]}px;
-                }
-            `}
+        ${from.mobileLandscape} {
+            max-width: 380px;
+        }
+
+        ${from.tablet} {
+            margin: 60px 0 ${space[5]}px;
+        }
     `,
     bannerFrequenciesGroupOverrides: css`
         > div:first-of-type {
@@ -164,7 +160,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     };
 
     return (
-        <div ref={setNode} css={styles.container(componentId)}>
+        <div ref={setNode} css={styles.container}>
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
@@ -173,7 +169,6 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             >
                 <ChoiceCardFrequencyTabs
                     componentId={componentId}
-                    contributionType={contributionType}
                     submitComponentEvent={submitComponentEvent}
                     amounts={amounts}
                     setSelectionsCallback={setSelectionsCallback}
@@ -184,10 +179,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-amount"
                 label="Contribution amount"
-                cssOverrides={[
-                    styles.hideChoiceCardGroupLegend,
-                    componentId.includes('choice-cards') ? styles.bannerAmountsContainer : css``,
-                ]}
+                cssOverrides={[styles.hideChoiceCardGroupLegend, styles.bannerAmountsContainer]}
                 aria-labelledby={selection.frequency}
             >
                 <ChoiceCardAmountButtons
@@ -200,7 +192,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 />
             </ChoiceCardGroup>
 
-            {componentId.includes('choice-cards') && bannerTracking && countryCode && (
+            {bannerTracking && countryCode && (
                 <div css={styles.ctaAndPaymentCardsontainer}>
                     <SupportCta
                         countryCode={countryCode}

@@ -22,11 +22,9 @@ const mainStyles = css`
 
 export interface BoxProps {
     children: React.ReactNode;
-    tag?: keyof JSX.IntrinsicElements;
     cssOverrides?: SerializedStyles;
 }
 
 export function Box(props: BoxProps): JSX.Element {
-    const TagName = props.tag ?? 'section';
-    return <TagName css={[mainStyles, props.cssOverrides ?? '']}>{props.children}</TagName>;
+    return <section css={[mainStyles, props.cssOverrides ?? '']}>{props.children}</section>;
 }
