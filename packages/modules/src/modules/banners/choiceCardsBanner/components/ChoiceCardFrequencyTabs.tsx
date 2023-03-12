@@ -4,10 +4,10 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import { BannerChoiceCardsPaymentFrequencyTabs } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
-import { Box } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
-import { ChoiceCardBannerComponentId } from '../../banners/choiceCardsBanner/components/ChoiceCards';
-import { ChoiceCardSelection } from '../../banners/choiceCardsBanner/ChoiceCardsBanner';
+import { BannerChoiceCardsPaymentFrequencyTabs } from './paymentFrequencyTabs/PaymentFrequencyTabs';
+import { Box } from './paymentFrequencyTabs/PaymentFrequencyTabsBox';
+import { ChoiceCardBannerComponentId } from './ChoiceCards';
+import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 
 interface ContributionTypeItem {
     label: string;

@@ -6,10 +6,7 @@ import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAmountButtons';
-import {
-    ChoiceCardFrequencyTabs,
-    ContributionType,
-} from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';
+import { ChoiceCardFrequencyTabs, ContributionType } from './ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
