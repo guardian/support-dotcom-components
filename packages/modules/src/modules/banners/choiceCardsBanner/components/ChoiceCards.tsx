@@ -1,20 +1,37 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import {
-    contributionType,
-    ChoiceCardProps,
-    ChoiceCardBannerComponentId,
-} from '../../../../hooks/choiceCards';
 import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAmountButtons';
-import { ChoiceCardFrequencyTabs } from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';
+import {
+    ChoiceCardFrequencyTabs,
+    ContributionType,
+} from '../../../shared/choiceCard/ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerEnrichedCta, BannerTextContent } from '../../common/types';
+import { ChoiceCardSelection } from '../ChoiceCardsBanner';
+import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
+
+export type ChoiceCardBannerComponentId = 'choice-cards-banner-yellow' | 'choice-cards-banner-blue';
+
+interface ChoiceCardProps {
+    selection?: ChoiceCardSelection;
+    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    currencySymbol: string;
+    componentId: ChoiceCardBannerComponentId;
+    amounts?: ContributionAmounts;
+    amountsTestName?: string;
+    amountsVariantName?: string;
+    countryCode?: string;
+    bannerTracking?: Tracking;
+    numArticles?: number;
+    content?: BannerTextContent;
+}
 
 const styles = {
     container: (bannerId: ChoiceCardBannerComponentId) => css`
@@ -38,20 +55,6 @@ const styles = {
                     margin: 60px 0 ${space[5]}px;
                 }
             `}
-    `,
-    epicFrequenciesGroupOverrides: css`
-        margin: ${space[5]}px 0 ${space[5]}px;
-
-        ${until.mobileLandscape} {
-            > div {
-                display: flex !important;
-            }
-
-            > div label:nth-of-type(2) {
-                margin-left: 4px !important;
-                margin-right: 4px !important;
-            }
-        }
     `,
     bannerFrequenciesGroupOverrides: css`
         > div:first-of-type {
@@ -86,6 +89,24 @@ const styles = {
     paymentCardsSvgOverrides: css`
         margin-top: -10px;
     `,
+};
+
+const contributionType: ContributionType = {
+    ONE_OFF: {
+        label: 'Single',
+        frequency: 'ONE_OFF',
+        suffix: '',
+    },
+    MONTHLY: {
+        label: 'Monthly',
+        frequency: 'MONTHLY',
+        suffix: 'per month',
+    },
+    ANNUAL: {
+        label: 'Annual',
+        frequency: 'ANNUAL',
+        suffix: 'per year',
+    },
 };
 
 export const ChoiceCards: React.FC<ChoiceCardProps> = ({
@@ -147,12 +168,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
-                cssOverrides={[
-                    styles.hideChoiceCardGroupLegend,
-                    componentId.includes('choice-cards')
-                        ? styles.bannerFrequenciesGroupOverrides
-                        : styles.epicFrequenciesGroupOverrides,
-                ]}
+                cssOverrides={styles.bannerFrequenciesGroupOverrides}
                 label="Contribution frequency"
             >
                 <ChoiceCardFrequencyTabs

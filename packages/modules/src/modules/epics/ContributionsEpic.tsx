@@ -19,14 +19,13 @@ import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { OphanTracking } from '../shared/ArticleCountOptOutPopup';
 import { ContributionsEpicArticleCountAboveWithOptOut } from './ContributionsEpicArticleCountAboveWithOptOut';
 import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
+import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
+import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
+import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
-import { ChoiceCardSelection } from '../../hooks/choiceCards';
-import { ChoiceCards } from '../banners/choiceCardsBanner/components/ChoiceCards';
-import { useHasBeenSeen, HasBeenSeen } from '../../hooks/useHasBeenSeen';
-import { isProd } from '../shared/helpers/stage';
 
 // CSS Styling
 // -------------------------------------------
@@ -410,7 +409,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             {variant.showSignInLink && <ContributionsEpicSignInCta />}
 
             {choiceCardAmounts && (
-                <ChoiceCards
+                <ContributionsEpicChoiceCards
                     setSelectionsCallback={setChoiceCardSelection}
                     selection={choiceCardSelection}
                     submitComponentEvent={submitComponentEvent}
@@ -418,7 +417,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     amounts={choiceCardAmounts.amounts}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
-                    componentId="contributions-epic"
                 />
             )}
 

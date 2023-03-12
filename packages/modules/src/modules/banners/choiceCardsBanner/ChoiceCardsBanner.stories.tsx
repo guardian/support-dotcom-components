@@ -1,6 +1,5 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { tracking } from '../../epics/utils/storybook';
 import { ChoiceCardsBanner, ChoiceCardsBannerRenderProps } from './ChoiceCardsBanner';
 import { BannerRenderProps } from '../common/types';
 import {
@@ -11,6 +10,7 @@ import {
     backgroundColor as yellowBannerBackgroundColor,
     headingColor as yellowBannerHeadingColor,
 } from './ChoiceCardsBannerYellow';
+import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
     component: ChoiceCardsBanner,
@@ -34,6 +34,29 @@ const Template: Story<ChoiceCardStoryProps> = (props: ChoiceCardStoryProps) =>
             onSignInClick={() => null}
         />
     );
+
+// Test tracking data from choice cards in epic story
+const pageTracking: PageTracking = {
+    ophanPageId: 'k5nxn0mxg7ytwpkxuwms',
+    platformId: 'GUARDIAN_WEB',
+    clientName: 'dcr',
+    referrerUrl:
+        'http://localhost:3000/politics/2020/jan/17/uk-rules-out-automatic-deportation-of-eu-citizens-verhofstadt-brexit',
+};
+
+const testTracking: TestTracking = {
+    campaignCode: 'gdnwb_copts_memco_remote_epic_test_api',
+    campaignId: 'remote_epic_test',
+    abTestName: 'remote_epic_test',
+    abTestVariant: 'api',
+    componentType: 'ACQUISITIONS_EPIC',
+    products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+};
+
+export const tracking: Tracking = {
+    ...pageTracking,
+    ...testTracking,
+};
 
 export const ChoiceCardsBannerBlue = Template.bind({});
 ChoiceCardsBannerBlue.args = {
@@ -87,7 +110,6 @@ ChoiceCardsBannerBlue.args = {
         },
     },
     isSupporter: false,
-    // correctly formatted epic storybook tracking data used here for banner example
     tracking,
     choiceCardAmounts: {
         testName: 'Storybook_test',

@@ -1,11 +1,11 @@
 import React from 'react';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
-import { Button } from '../../../epics/Button';
 import { neutral, space } from '@guardian/src-foundations';
 import { css } from '@emotion/react';
 import { BannerEnrichedCta, BannerTextContent } from '../../common/types';
 import { Hide } from '@guardian/src-layout';
+import { Button } from './Button';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;

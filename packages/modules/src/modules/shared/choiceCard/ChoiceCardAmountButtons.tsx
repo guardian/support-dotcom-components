@@ -5,15 +5,12 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import {
-    ContributionType,
-    ChoiceCardSelection,
-    ChoiceCardBannerComponentId,
-} from '../../../hooks/choiceCards';
-import { trackClick } from './ChoiceCardFrequencyTabs';
+import { ContributionType, trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { until } from '@guardian/src-foundations/mq';
+import { ChoiceCardSelection } from '../../banners/choiceCardsBanner/ChoiceCardsBanner';
+import { ChoiceCardBannerComponentId } from '../../banners/choiceCardsBanner/components/ChoiceCards';
 
 const container = css`
     display: flex;

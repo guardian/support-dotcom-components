@@ -7,11 +7,18 @@ import {
 } from '@sdc/shared/dist/types';
 import { BannerChoiceCardsPaymentFrequencyTabs } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from '../../banners/choiceCardsBanner/components/paymentFrequencyTabs/PaymentFrequencyTabsBox';
-import {
-    ContributionType,
-    ChoiceCardSelection,
-    ChoiceCardBannerComponentId,
-} from '../../../hooks/choiceCards';
+import { ChoiceCardBannerComponentId } from '../../banners/choiceCardsBanner/components/ChoiceCards';
+import { ChoiceCardSelection } from '../../banners/choiceCardsBanner/ChoiceCardsBanner';
+
+interface ContributionTypeItem {
+    label: string;
+    frequency: ContributionFrequency;
+    suffix: string;
+}
+
+export type ContributionType = {
+    [key in ContributionFrequency]: ContributionTypeItem;
+};
 
 export const trackClick = (
     type: 'amount' | 'frequency',

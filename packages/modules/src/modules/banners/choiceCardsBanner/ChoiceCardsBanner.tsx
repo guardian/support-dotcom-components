@@ -22,7 +22,6 @@ import {
 import { createInsertEventFromTracking, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
-import { ChoiceCardSelection } from '../../../hooks/choiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 
@@ -47,6 +46,11 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => {
         </Button>
     );
 };
+
+export interface ChoiceCardSelection {
+    frequency: ContributionFrequency;
+    amount: number | 'other';
+}
 
 export type ChoiceCardsBannerRenderProps = {
     bannerId: BannerId;
