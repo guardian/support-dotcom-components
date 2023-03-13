@@ -3,7 +3,6 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
 import { neutral, space } from '@guardian/src-foundations';
 import { css } from '@emotion/react';
-import { BannerEnrichedCta } from '../../common/types';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
@@ -26,6 +25,7 @@ export const SupportCta = ({
     amountsTestName,
     amountsVariantName,
     selection,
+    getCtaText,
 }: {
     tracking: Tracking;
     numArticles: number;
@@ -33,20 +33,15 @@ export const SupportCta = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     selection: ChoiceCardSelection;
+    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
 }): JSX.Element | null => {
-    const baseUrl = 'https://support.theguardian.com/contribute';
+    const url = `https://support.theguardian.com/contribute?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`;
 
-    const getPrimaryCta = (): BannerEnrichedCta => {
-        return {
-            ctaText: 'Support us',
-            ctaUrl: `${baseUrl}?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`,
-        };
-    };
-
-    const cta = getPrimaryCta();
+    const mobileText = getCtaText('mobileContent');
+    const desktopText = getCtaText('mainContent');
 
     const supportUrl = addRegionIdAndTrackingParamsToSupportUrl(
-        cta.ctaUrl,
+        url,
         tracking,
         numArticles,
         countryCode,
@@ -63,7 +58,7 @@ export const SupportCta = ({
                     data-ignore="global-link-styling"
                     css={buttonOverrides}
                 >
-                    {cta.ctaText}
+                    {mobileText}
                 </Button>
             </Hide>
 
@@ -74,7 +69,7 @@ export const SupportCta = ({
                     data-ignore="global-link-styling"
                     css={buttonOverrides}
                 >
-                    {cta.ctaText}
+                    {desktopText}
                 </Button>
             </Hide>
         </>

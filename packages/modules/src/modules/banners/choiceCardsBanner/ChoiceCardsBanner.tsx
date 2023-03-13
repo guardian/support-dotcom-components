@@ -105,6 +105,13 @@ export const ChoiceCardsBanner = ({
         }
     }, [choiceCardAmounts]);
 
+    const getCtaText = (contentType: 'mainContent' | 'mobileContent'): string => {
+        console.log({ content }, contentType);
+        const primaryCtaText = content[contentType]?.primaryCta?.ctaText;
+
+        return primaryCtaText ? primaryCtaText : 'Contribute';
+    };
+
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     const id = bannerId === 'choice-cards-banner-blue' || bannerId === 'choice-cards-banner-yellow';
@@ -153,6 +160,7 @@ export const ChoiceCardsBanner = ({
                                 bannerTracking={tracking}
                                 numArticles={numArticles}
                                 content={content}
+                                getCtaText={getCtaText}
                             />
                         )}
                     </Column>
