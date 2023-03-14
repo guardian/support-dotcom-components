@@ -4,16 +4,18 @@ import {
     BannerProps,
     BannerTargeting,
     BannerTest,
+    ModifiedChoiceCardAmounts,
     PageTracking,
     Prices,
     PuzzlesBannerProps,
     TestTracking,
 } from '@sdc/shared/dist/types';
+import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import { buildBannerCampaignCode } from '@sdc/shared/dist/lib';
+import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
@@ -51,6 +53,7 @@ export const buildBannerRouter = (
     productPrices: ValueProvider<Prices | undefined>,
     bannerTests: ValueProvider<BannerTest[]>,
     bannerDeployTimes: BannerDeployTimesProvider,
+    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
 ): Router => {
     const router = Router();
 
@@ -98,6 +101,15 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
+            const contributionAmounts = choiceCardAmounts.get();
+            const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
+            const targetingMvtId = targeting.mvtId || 1;
+            const variantAmounts = selectAmountsTestVariant(
+                contributionAmounts,
+                requiredRegion,
+                targetingMvtId,
+            );
+
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
                 bannerChannel: test.bannerChannel,
@@ -113,6 +125,7 @@ export const buildBannerRouter = (
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,
                 prices: productPrices.get(),
+                choiceCardAmounts: variantAmounts,
             };
 
             return {

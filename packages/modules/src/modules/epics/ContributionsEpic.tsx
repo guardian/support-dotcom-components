@@ -6,11 +6,11 @@ import { from } from '@guardian/src-foundations/mq';
 import {
     addTrackingParamsToBodyLinks,
     containsNonArticleCountPlaceholder,
-    createInsertEventFromTracking,
-    createViewEventFromTracking,
     replaceNonArticleCountPlaceholders,
     getLocalCurrencySymbol,
+    createViewEventFromTracking,
     logEpicView,
+    createInsertEventFromTracking,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
@@ -252,8 +252,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
-    const currencySymbol = getLocalCurrencySymbol(countryCode);
-
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
     >();
@@ -271,6 +269,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             });
         }
     }, [showChoiceCards, choiceCardAmounts]);
+
+    const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     const { hasOptedOut, onArticleCountOptIn, onArticleCountOptOut } = useArticleCountOptOut();
 

@@ -16,7 +16,9 @@ deployments:
         app: dotcom-components
         parameters:
             cloudFormationStackName: dotcom-components
-            templatePath: Cfn.template.json
+            templateStagePaths:
+                CODE: sdc-CODE.template.json
+                PROD: sdc-PROD.template.json
             cloudFormationStackByTags: false
             amiParameter: AMIDotcomcomponents
             amiTags:

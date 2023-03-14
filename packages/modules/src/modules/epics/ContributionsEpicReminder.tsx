@@ -9,7 +9,7 @@ import {
     OPHAN_COMPONENT_EVENT_REMINDER_SET,
 } from './utils/ophan';
 import { useContributionsReminderSignup } from '../../hooks/useContributionsReminderSignup';
-import { ReminderFields } from '@sdc/shared/src/lib';
+import { ReminderFields } from '@sdc/shared/dist/lib';
 
 // --- Types --- //
 

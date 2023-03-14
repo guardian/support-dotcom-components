@@ -1,4 +1,4 @@
-import { Image } from '@sdc/shared/src/types';
+import { Image } from '@sdc/shared/dist/types';
 import { ReactNode } from 'react';
 import { BannerId } from '../common/types';
 

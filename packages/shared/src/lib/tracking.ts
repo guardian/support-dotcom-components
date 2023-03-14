@@ -102,7 +102,7 @@ export const addTrackingParams = (
         amountsAbTestVariant,
     );
     const acquisitionData = encodeAcquisitionsData(params, abTests);
-    const queryString = generateQueryString(params, acquisitionData, numArticles);
+    const queryString = generateQueryString(params, acquisitionData, numArticles ?? 0);
     const alreadyHasQueryString = baseUrl.includes('?');
     return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString}`;
 };
@@ -157,14 +157,16 @@ type ProfileLinkParams = {
     returnUrl: string;
 };
 
+type TrackingParam = keyof Tracking;
+
 export const addProfileTrackingParams = (baseUrl: string, params: Tracking): string => {
     const constructQuery = (query: Partial<Tracking>): string =>
         Object.keys(query)
-            .map((param: string) => {
-                const value = query[param];
+            .map(param => {
+                const value = query[param as TrackingParam];
                 const queryValue = Array.isArray(value)
                     ? value.map(v => encodeURIComponent(v)).join(',')
-                    : encodeURIComponent(value);
+                    : encodeURIComponent(value as string | number | boolean);
                 return `${param}=${queryValue}`;
             })
             .join('&');

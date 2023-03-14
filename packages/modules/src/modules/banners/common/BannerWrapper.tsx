@@ -80,6 +80,7 @@ const withBannerData = (
         tickerSettings,
         isSupporter,
         separateArticleCount,
+        choiceCardAmounts,
     } = bannerProps;
 
     const [hasBeenSeen, setNode] = useHasBeenSeen(
@@ -259,7 +260,10 @@ const withBannerData = (
                 isSupporter,
                 numArticles,
                 separateArticleCount,
+                choiceCardAmounts,
+                tracking,
             };
+
             return (
                 <div ref={setNode}>
                     <Banner {...props} />
