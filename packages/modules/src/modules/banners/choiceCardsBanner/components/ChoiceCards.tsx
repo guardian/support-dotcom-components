@@ -74,7 +74,7 @@ const styles = {
         }
     `,
 
-    ctaAndPaymentCardsontainer: css`
+    ctaAndPaymentCardsContainer: css`
         display: flex;
         align-items: center;
         padding: 0 ${space[3]}px;
@@ -182,7 +182,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
             </ChoiceCardGroup>
 
             {bannerTracking && (
-                <div css={styles.ctaAndPaymentCardsontainer}>
+                <div css={styles.ctaAndPaymentCardsContainer}>
                     <SupportCta
                         countryCode={countryCode}
                         tracking={bannerTracking}
