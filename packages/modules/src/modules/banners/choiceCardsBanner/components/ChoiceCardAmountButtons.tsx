@@ -5,15 +5,12 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import {
-    ContributionType,
-    trackClick,
-} from '../../banners/choiceCardsBanner/components/ChoiceCardFrequencyTabs';
+import { ContributionType, trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
-import { until } from '@guardian/src-foundations/mq';
-import { ChoiceCardSelection } from '../../banners/choiceCardsBanner/ChoiceCardsBanner';
-import { ChoiceCardBannerComponentId } from '../../banners/choiceCardsBanner/components/ChoiceCards';
+import { between, until } from '@guardian/src-foundations/mq';
+import { ChoiceCardSelection } from '../ChoiceCardsBanner';
+import { ChoiceCardBannerComponentId } from './ChoiceCards';
 
 const container = css`
     display: flex;
@@ -36,12 +33,15 @@ const choiceCardsContainer = css`
     }
 
     > label:last-of-type {
-        margin: 0 !important;
+        margin-right: 0 !important;
     }
 
-    /* > label > div:first-of-type {
-        padding: 0 !important;
-    } */
+    > label > div {
+        ${between.tablet.and.desktop} {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
 `;
 
 const choiceCardOrOtherAmountContainer = css`
