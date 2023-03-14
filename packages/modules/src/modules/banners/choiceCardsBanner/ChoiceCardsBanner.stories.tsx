@@ -81,7 +81,7 @@ ChoiceCardsBannerBlue.args = {
                 </>
             ),
             primaryCta: {
-                ctaText: 'Support us',
+                ctaText: 'Contribute',
                 ctaUrl: 'https://support.theguardian.com/contribute',
             },
             secondaryCta: null,
@@ -136,6 +136,8 @@ ChoiceCardsBannerBlue.args = {
     backgroundColor: blueBannerBackgroundColor,
     headingColor: blueBannerHeadingColor,
     onCloseClick: () => null,
+    separateArticleCount: true,
+    numArticles: 15,
 };
 
 const { bannerId, backgroundColor, headingColor, ...rest } = ChoiceCardsBannerBlue.args;

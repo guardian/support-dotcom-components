@@ -24,6 +24,7 @@ import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
+import { ChoiceCardsBannerArticleCount } from './components/ChoiceCardsBannerArticleCount';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -69,6 +70,8 @@ export const ChoiceCardsBanner = ({
     submitComponentEvent,
     tracking,
     numArticles,
+    isSupporter,
+    separateArticleCount,
 }: Omit<
     BannerRenderProps,
     'onCtaClick' | 'onSecondaryCtaClick' | 'onNotNowClick' | 'reminderTracking'
@@ -106,7 +109,6 @@ export const ChoiceCardsBanner = ({
     }, [choiceCardAmounts]);
 
     const getCtaText = (contentType: 'mainContent' | 'mobileContent'): string => {
-        console.log({ content }, contentType);
         const primaryCtaText = content[contentType]?.primaryCta?.ctaText;
 
         return primaryCtaText ? primaryCtaText : 'Contribute';
@@ -115,6 +117,11 @@ export const ChoiceCardsBanner = ({
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     const id = bannerId === 'choice-cards-banner-blue' || bannerId === 'choice-cards-banner-yellow';
+
+    const showArticleCount =
+        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+
+    const articleCount = <ChoiceCardsBannerArticleCount numArticles={numArticles ?? 0} />;
 
     return (
         <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
@@ -143,6 +150,7 @@ export const ChoiceCardsBanner = ({
                                 },
                             }}
                             content={content}
+                            articleCount={showArticleCount ? articleCount : undefined}
                         />
                     </Column>
                     <Column width={1 / 2} cssOverrides={[choiceCardsColumn, columnMarginOverrides]}>

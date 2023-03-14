@@ -16,6 +16,8 @@ const ChoiceCardsBannerYellow = ({
     submitComponentEvent,
     tracking,
     numArticles,
+    isSupporter,
+    separateArticleCount,
 }: BannerRenderProps) => {
     return (
         <ChoiceCardsBanner
@@ -29,6 +31,8 @@ const ChoiceCardsBannerYellow = ({
             backgroundColor={backgroundColor}
             headingColor={headingColor}
             bannerId={bannerId}
+            isSupporter={isSupporter}
+            separateArticleCount={separateArticleCount}
         />
     );
 };
