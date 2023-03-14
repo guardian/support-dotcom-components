@@ -7,7 +7,7 @@ import { ContributionFrequency } from '@sdc/shared/dist/types';
 const tabListStyles = css`
     display: flex;
     position: relative;
-    z-index: 100;
+    z-index: 10;
 `;
 
 export type TabProps = {

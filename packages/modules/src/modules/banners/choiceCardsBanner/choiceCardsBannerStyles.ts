@@ -18,14 +18,6 @@ export const banner = (backgroundColor: string): SerializedStyles => css`
     background-color: ${backgroundColor};
     color: ${neutral[0]};
     position: relative;
-    a,
-    button {
-        color: inherit;
-    }
-    a.link-button {
-        color: black;
-        background: white;
-    }
     b,
     strong {
         font-weight: bold;
