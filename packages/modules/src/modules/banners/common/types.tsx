@@ -1,5 +1,11 @@
 import { ReminderFields } from '@sdc/shared/lib';
-import { SecondaryCtaType, TickerSettings } from '@sdc/shared/types';
+import {
+    OphanComponentEvent,
+    SecondaryCtaType,
+    SelectedAmountsVariant,
+    TickerSettings,
+    Tracking,
+} from '@sdc/shared/types';
 
 export type BannerId =
     | 'climate-crisis-moment-banner'
@@ -12,6 +18,8 @@ export type BannerId =
     | 'subscription-banner'
     | 'weekly-banner'
     | 'print-subscriptions-banner'
+    | 'choice-cards-banner-blue'
+    | 'choice-cards-banner-yellow'
     | 'global-new-year-banner'
     | 'election-au-moment-banner'
     | 'sign-in-prompt-banner'
@@ -74,4 +82,7 @@ export interface BannerRenderProps {
     isSupporter?: boolean;
     numArticles?: number;
     separateArticleCount?: boolean;
+    choiceCardAmounts?: SelectedAmountsVariant;
+    tracking: Tracking;
+    submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }

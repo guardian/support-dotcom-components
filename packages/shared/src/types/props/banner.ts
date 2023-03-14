@@ -12,6 +12,7 @@ import {
 import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
+import { SelectedAmountsVariant } from '../abTests';
 
 export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
 
@@ -52,6 +53,7 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
     prices?: Prices;
+    choiceCardAmounts?: SelectedAmountsVariant;
 }
 
 export const bannerSchema = z.object({

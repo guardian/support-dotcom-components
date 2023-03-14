@@ -23,6 +23,7 @@ type BannerTextProps = {
         desktop: BannerTextStyles;
     };
     children?: React.ReactNode;
+    articleCount?: JSX.Element;
 };
 
 const styles = {
@@ -76,7 +77,12 @@ export const createBannerBodyCopy = (
     );
 };
 
-export const BannerText: React.FC<BannerTextProps> = ({ styles, content, children }) => {
+export const BannerText: React.FC<BannerTextProps> = ({
+    styles,
+    content,
+    children,
+    articleCount,
+}) => {
     const mobileStyles = styles.mobile || styles.desktop;
     const desktopStyles = styles.desktop;
 
@@ -93,6 +99,8 @@ export const BannerText: React.FC<BannerTextProps> = ({ styles, content, childre
                         {subheading && renderStyles.subheading && (
                             <h3 css={renderStyles.subheading}>{subheading}</h3>
                         )}
+
+                        {articleCount}
 
                         <div css={renderStyles.body}>
                             <div css={renderStyles.copy}>

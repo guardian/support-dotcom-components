@@ -63,6 +63,16 @@ export const printSubs: ModuleInfo = getDefaultModuleInfo(
     'banners/printSubscriptions/PrintSubscriptionsBanner',
 );
 
+export const choiceCardsBannerBlue: ModuleInfo = getDefaultModuleInfo(
+    'choice-cards-banner-blue',
+    'banners/choiceCardsBanner/ChoiceCardsBannerBlue',
+);
+
+export const choiceCardsBannerYellow: ModuleInfo = getDefaultModuleInfo(
+    'choice-cards-banner-yellow',
+    'banners/choiceCardsBanner/ChoiceCardsBannerYellow',
+);
+
 export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'guardian-weekly-banner',
     'banners/guardianWeekly/GuardianWeeklyBanner',
@@ -101,6 +111,8 @@ export const moduleInfos: ModuleInfo[] = [
     globalNewYearBanner,
     digiSubs,
     printSubs,
+    choiceCardsBannerBlue,
+    choiceCardsBannerYellow,
     guardianWeekly,
     puzzlesBanner,
     signInPromptBanner,

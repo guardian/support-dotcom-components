@@ -101,6 +101,7 @@ const buildApp = async (): Promise<Express> => {
             productPrices,
             bannerTests,
             bannerDeployTimes,
+            choiceCardAmounts,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));

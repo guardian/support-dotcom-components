@@ -21,6 +21,8 @@ export enum BannerTemplate {
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     PrintSubscriptionsBanner = 'PrintSubscriptionsBanner',
+    ChoiceCardsBannerBlue = 'ChoiceCardsBannerBlue',
+    ChoiceCardsBannerYellow = 'ChoiceCardsBannerYellow',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     SignInPromptBanner = 'SignInPromptBanner',
