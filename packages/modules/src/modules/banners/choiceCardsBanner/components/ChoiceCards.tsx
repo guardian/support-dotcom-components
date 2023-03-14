@@ -5,7 +5,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { neutral, space } from '@guardian/src-foundations';
-import { ChoiceCardAmountButtons } from '../../../shared/choiceCard/ChoiceCardAmountButtons';
+import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs, ContributionType } from './ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
