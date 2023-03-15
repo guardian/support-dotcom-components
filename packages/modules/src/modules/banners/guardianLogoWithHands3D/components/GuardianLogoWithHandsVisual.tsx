@@ -8,12 +8,31 @@ import { Hands } from './Hands';
 import { Logo } from './Logo';
 import { css, SerializedStyles } from '@emotion/react';
 import { SoftShadows } from '@react-three/drei';
+import { from } from '@guardian/src-foundations/mq';
 
 const canvasContainer = css`
     width: 100%;
     height: 100%;
 `;
 
+const canvasOverlay = css`
+    &:after {
+        content: '';
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        width: 100%;
+        top: 75%;
+        height: 25%;
+        background-color: #005689;
+    }
+
+    ${from.tablet} {
+        &:after {
+            top: 85%;
+        }
+    }
+`;
 export type GLTFResult = GLTF & {
     nodes: {
         Curve: THREE.Mesh;
@@ -67,7 +86,7 @@ export function GuardianLogoWithHandsVisual({
 }): JSX.Element {
     return (
         <div css={[canvasContainer, cssOverrides]}>
-            <Canvas>
+            <Canvas css={canvasOverlay}>
                 <SoftShadows />
                 <color attach="background" args={['#005689']} />
                 <ambientLight intensity={0.3} />

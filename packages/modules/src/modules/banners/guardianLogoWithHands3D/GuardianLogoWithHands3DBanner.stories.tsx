@@ -22,24 +22,26 @@ const GuardianLogoWithHands3DBanner = bannerWrapper(
         },
         primaryCtaSettings: {
             default: {
-                backgroundColour: culture[800],
-                textColour: brand[400],
+                backgroundColour: brand[400],
+                textColour: 'white',
                 border: `1px solid ${brand[400]}`,
             },
             hover: {
-                backgroundColour: '#bcbcbc',
-                textColour: brand[400],
-                border: `1px solid ${brand[400]}`,
+                backgroundColour: '#149bc7',
+                textColour: 'white',
+                border: `1px solid #149bc7`,
             },
         },
         secondaryCtaSettings: {
             default: {
-                backgroundColour: brand[400],
+                border: `1px solid white`,
+                backgroundColour: 'transparent',
                 textColour: 'white',
             },
             hover: {
                 backgroundColour: '#149bc7',
                 textColour: 'white',
+                border: `1px solid #149bc7`,
             },
         },
         closeButtonSettings: {
@@ -53,12 +55,16 @@ const GuardianLogoWithHands3DBanner = bannerWrapper(
                 textColour: '#149bc7',
             },
         },
+        bodyCopySettings: {
+            textColour: 'white',
+        },
         highlightedTextSettings: {
             textColour: 'white',
             highlightColour: '#149bc7',
         },
         alternativeVisual: <GuardianLogoWithHandsVisual />,
         bannerId: 'guardian-logo-with-hands-3d',
+        articleCountTextColour: 'white',
     }),
     // existing banner ID required for example
     'contributions-banner',
@@ -75,9 +81,9 @@ GuardianLogoWithHands.args = {
         heading: 'Show your support for reader-funded journalism',
         messageText: `You've read %%ARTICLE_COUNT%% articles in the last year`,
         paragraphs: [
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo.',
+            'Congratulations on being one of our top readers. We are proud to say we’re a reader-funded global news organisation, with more than 1.5 million supporters in 180 countries. This vital support keeps us fiercely independent, free from shareholders or a billionaire owner. Your support allows us to keep our reporting open for all, as we know not everyone is in a position to pay for news. But if you are, we need you. Make an investment in quality journalism today, so millions more can benefit. ',
         ],
-        highlightedText: 'Will you join us?',
+        highlightedText: 'Support us today from as little as %%CURRENCY_SYMBOL%%1. Thank you.',
         cta: {
             text: 'Support monthly',
             baseUrl: 'https://support.theguardian.com/contribute/recurring',

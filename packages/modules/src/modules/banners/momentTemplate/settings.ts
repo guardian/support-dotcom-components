@@ -21,9 +21,14 @@ export interface CtaSettings {
     theme?: 'default' | 'brand';
 }
 
+export interface BodyCopySettings {
+    textColour: string;
+}
+
 export interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;
+    newLine?: boolean;
 }
 
 export interface TickerStylingSettings {
@@ -42,6 +47,7 @@ export interface BannerTemplateSettings {
     primaryCtaSettings: CtaSettings;
     secondaryCtaSettings: CtaSettings;
     closeButtonSettings: CtaSettings;
+    bodyCopySettings?: BodyCopySettings;
     highlightedTextSettings: HighlightedTextSettings;
     setReminderCtaSettings?: CtaSettings;
     articleCountTextColour?: string;

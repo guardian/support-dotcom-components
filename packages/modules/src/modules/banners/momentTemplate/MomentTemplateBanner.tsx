@@ -153,6 +153,7 @@ export function getMomentTemplateBanner(
                                     highlightedTextSettings={
                                         templateSettings.highlightedTextSettings
                                     }
+                                    bodyCopySettings={templateSettings.bodyCopySettings}
                                 />
                             </div>
 

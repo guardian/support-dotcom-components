@@ -6,7 +6,7 @@ import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
 
 import { createBannerBodyCopy } from '../../common/BannerText';
-import { HighlightedTextSettings } from '../settings';
+import { BodyCopySettings, HighlightedTextSettings } from '../settings';
 import { BannerRenderedContent } from '../../common/types';
 
 // ---- Component ---- //
@@ -15,14 +15,16 @@ interface MomentTemplateBannerBodyProps {
     mainContent: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
     highlightedTextSettings: HighlightedTextSettings;
+    bodyCopySettings?: BodyCopySettings;
 }
 
 export function MomentTemplateBannerBody({
     mainContent,
     mobileContent,
     highlightedTextSettings,
+    bodyCopySettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
-    const styles = getStyles(highlightedTextSettings);
+    const styles = getStyles(highlightedTextSettings, bodyCopySettings);
 
     return (
         <div css={styles.container}>
@@ -43,10 +45,13 @@ export function MomentTemplateBannerBody({
 
 // ---- Styles ---- //
 
-const getStyles = (settings: HighlightedTextSettings) => ({
+const getStyles = (
+    highlightedTextSettings: HighlightedTextSettings,
+    bodyCopySettings?: BodyCopySettings,
+) => ({
     container: css`
         ${body.small()}
-        color: ${neutral[0]};
+        color: ${bodyCopySettings?.textColour ? bodyCopySettings.textColour : neutral[0]};
         font-size: 15px;
         line-height: 135%;
 
@@ -67,13 +72,13 @@ const getStyles = (settings: HighlightedTextSettings) => ({
         }
     `,
     highlightedText: css`
-        display: inline;
-        color: ${settings.textColour};
+        display: ${highlightedTextSettings.newLine ? 'block' : 'inline'};
+        color: ${highlightedTextSettings.textColour};
 
-        ${settings.highlightColour
+        ${highlightedTextSettings.highlightColour
             ? `
-            background: ${settings.highlightColour};
-            box-shadow: 2px 0 0 ${settings.highlightColour}, -2px 0 0 ${settings.highlightColour};
+            background: ${highlightedTextSettings.highlightColour};
+            box-shadow: 2px 0 0 ${highlightedTextSettings.highlightColour}, -2px 0 0 ${highlightedTextSettings.highlightColour};
             box-decoration-break: clone;
         `
             : ''}
@@ -81,6 +86,13 @@ const getStyles = (settings: HighlightedTextSettings) => ({
         padding: 0.15rem 0.15rem;
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
         font-size: 15px;
+
+        ${highlightedTextSettings.newLine
+            ? `
+            width: max-content;
+            padding: 0;
+        `
+            : ''}
 
         ${from.desktop} {
             font-size: 17px;
