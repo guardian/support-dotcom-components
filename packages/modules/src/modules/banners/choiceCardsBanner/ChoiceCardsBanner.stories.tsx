@@ -29,6 +29,7 @@ const Template: Story<ChoiceCardStoryProps> = (props: ChoiceCardStoryProps) =>
             {...props}
             backgroundColor={props.backgroundColor}
             headingColor={props.headingColor}
+            borderTop={props.borderTop}
             bannerId={props.bannerId}
             onCloseClick={() => null}
             onSignInClick={() => null}
@@ -135,6 +136,7 @@ ChoiceCardsBannerBlue.args = {
     },
     backgroundColor: blueBannerBackgroundColor,
     headingColor: blueBannerHeadingColor,
+    borderTop: true,
     onCloseClick: () => null,
     separateArticleCount: true,
     numArticles: 15,
@@ -148,4 +150,5 @@ ChoiceCardsBannerYellow.args = {
     bannerId: 'choice-cards-banner-yellow',
     backgroundColor: yellowBannerBackgroundColor,
     headingColor: yellowBannerHeadingColor,
+    borderTop: false,
 };

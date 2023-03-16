@@ -57,12 +57,14 @@ export type ChoiceCardsBannerRenderProps = {
     bannerId: BannerId;
     backgroundColor: string;
     headingColor: string;
+    borderTop: boolean;
 };
 
 export const ChoiceCardsBanner = ({
     bannerId,
     backgroundColor,
     headingColor,
+    borderTop,
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -125,7 +127,7 @@ export const ChoiceCardsBanner = ({
 
     return (
         <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
-            <Container cssOverrides={containerOverrides}>
+            <Container cssOverrides={containerOverrides(borderTop, headingColor)}>
                 <Columns>
                     <Column width={1} cssOverrides={iconAndClosePosition}>
                         <Inline space={1}>
