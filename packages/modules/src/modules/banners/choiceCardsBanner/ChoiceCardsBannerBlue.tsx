@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import { brand } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
@@ -7,7 +8,9 @@ import { ChoiceCardsBanner } from './ChoiceCardsBanner';
 const bannerId = 'choice-cards-banner-blue';
 export const backgroundColor = '#F1F8FC';
 export const headingColor = brand[400];
-export const borderTopColor = brand[400];
+export const borderTopColorStyle = css`
+    border-top: 1px solid ${brand[400]};
+`;
 
 const ChoiceCardsBannerBlue = ({
     onCloseClick,
@@ -31,7 +34,7 @@ const ChoiceCardsBannerBlue = ({
             numArticles={numArticles}
             backgroundColor={backgroundColor}
             headingColor={headingColor}
-            borderTopColor={borderTopColor}
+            borderTopColorStyle={borderTopColorStyle}
             bannerId={bannerId}
             isSupporter={isSupporter}
             separateArticleCount={separateArticleCount}

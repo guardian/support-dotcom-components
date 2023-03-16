@@ -25,6 +25,7 @@ import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { ChoiceCardsBannerArticleCount } from './components/ChoiceCardsBannerArticleCount';
+import { SerializedStyles } from '@emotion/react';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -57,14 +58,14 @@ export type ChoiceCardsBannerRenderProps = {
     bannerId: BannerId;
     backgroundColor: string;
     headingColor: string;
-    borderTopColor?: string;
+    borderTopColorStyle?: SerializedStyles;
 };
 
 export const ChoiceCardsBanner = ({
     bannerId,
     backgroundColor,
     headingColor,
-    borderTopColor,
+    borderTopColorStyle,
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -127,7 +128,13 @@ export const ChoiceCardsBanner = ({
 
     return (
         <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
-            <Container cssOverrides={containerOverrides(borderTopColor)}>
+            <Container
+                cssOverrides={
+                    borderTopColorStyle
+                        ? [containerOverrides, borderTopColorStyle]
+                        : [containerOverrides]
+                }
+            >
                 <Columns>
                     <Column width={1} cssOverrides={iconAndClosePosition}>
                         <Inline space={1}>

@@ -24,8 +24,7 @@ export const banner = (backgroundColor: string): SerializedStyles => css`
     }
 `;
 
-export const containerOverrides = (borderTopColor?: string): SerializedStyles => css`
-    border-top: ${borderTopColor ? 1 : 0}px solid ${borderTopColor};
+export const containerOverrides = css`
     width: initial;
 
     max-width: 100%;
