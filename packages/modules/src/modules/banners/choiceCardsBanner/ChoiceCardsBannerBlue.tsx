@@ -7,6 +7,7 @@ import { ChoiceCardsBanner } from './ChoiceCardsBanner';
 const bannerId = 'choice-cards-banner-blue';
 export const backgroundColor = '#F1F8FC';
 export const headingColor = brand[400];
+export const borderTopColor = brand[400];
 
 const ChoiceCardsBannerBlue = ({
     onCloseClick,
@@ -30,7 +31,7 @@ const ChoiceCardsBannerBlue = ({
             numArticles={numArticles}
             backgroundColor={backgroundColor}
             headingColor={headingColor}
-            borderTop={true}
+            borderTopColor={borderTopColor}
             bannerId={bannerId}
             isSupporter={isSupporter}
             separateArticleCount={separateArticleCount}
