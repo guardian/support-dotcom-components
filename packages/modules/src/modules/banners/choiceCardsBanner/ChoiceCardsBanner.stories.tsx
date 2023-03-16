@@ -5,7 +5,7 @@ import { BannerRenderProps } from '../common/types';
 import {
     backgroundColor as blueBannerBackgroundColor,
     headingColor as blueBannerHeadingColor,
-    borderTopColor as blueBorderTopColor,
+    borderTopColorStyle as blueBorderTopColorStyle,
 } from './ChoiceCardsBannerBlue';
 import {
     backgroundColor as yellowBannerBackgroundColor,
@@ -30,7 +30,7 @@ const Template: Story<ChoiceCardStoryProps> = (props: ChoiceCardStoryProps) =>
             {...props}
             backgroundColor={props.backgroundColor}
             headingColor={props.headingColor}
-            borderTopColor={props.borderTopColor}
+            borderTopColorStyle={props.borderTopColorStyle}
             bannerId={props.bannerId}
             onCloseClick={() => null}
             onSignInClick={() => null}
@@ -137,7 +137,7 @@ ChoiceCardsBannerBlue.args = {
     },
     backgroundColor: blueBannerBackgroundColor,
     headingColor: blueBannerHeadingColor,
-    borderTopColor: blueBorderTopColor,
+    borderTopColorStyle: blueBorderTopColorStyle,
     onCloseClick: () => null,
     separateArticleCount: true,
     numArticles: 15,
@@ -151,5 +151,5 @@ ChoiceCardsBannerYellow.args = {
     bannerId: 'choice-cards-banner-yellow',
     backgroundColor: yellowBannerBackgroundColor,
     headingColor: yellowBannerHeadingColor,
-    borderTopColor: undefined,
+    borderTopColorStyle: undefined,
 };
