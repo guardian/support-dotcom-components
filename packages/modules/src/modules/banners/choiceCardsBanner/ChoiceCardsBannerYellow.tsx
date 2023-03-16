@@ -30,6 +30,7 @@ const ChoiceCardsBannerYellow = ({
             numArticles={numArticles}
             backgroundColor={backgroundColor}
             headingColor={headingColor}
+            borderTop={false}
             bannerId={bannerId}
             isSupporter={isSupporter}
             separateArticleCount={separateArticleCount}
