@@ -182,6 +182,28 @@ describe('selectBannerTest', () => {
             );
             expect(result).toBe(null);
         });
+
+        it('returns null if page has Taylor Report tag', () => {
+            const targetingWithTaylorReportTag = {
+                tagIds: ['news/series/cotton-capital'],
+                ...targeting,
+            };
+
+            const result = selectBannerTest(
+                targetingWithTaylorReportTag,
+                tracking,
+                isMobile,
+                '',
+                [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                undefined,
+                now,
+            );
+
+            expect(result).toBe(null);
+        });
     });
 
     describe('Channel 2 banner rules', () => {
