@@ -130,6 +130,10 @@ const purchaseMatches = (
     return productValid && userValid;
 };
 
+const TAYLOR_REPORT_TAG_ID = 'news/series/cotton-capital';
+const isTaylorReportPage = (targeting: BannerTargeting): boolean => {
+    return Boolean(targeting.tagIds?.includes(TAYLOR_REPORT_TAG_ID));
+};
 export const selectBannerTest = (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
@@ -142,6 +146,10 @@ export const selectBannerTest = (
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
 ): BannerTestSelection | null => {
+    if (isTaylorReportPage(targeting)) {
+        return null;
+    }
+
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, tests, baseUrl, targeting);
     }
