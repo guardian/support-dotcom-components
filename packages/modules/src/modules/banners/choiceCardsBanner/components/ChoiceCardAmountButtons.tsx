@@ -22,7 +22,7 @@ const choiceCardsContainer = css`
     display: flex;
     flex-direction: row;
     margin-top: ${space[3]}px;
-    margin-bottom: ${space[2]}px;
+    margin-bottom: ${space[3]}px;
 
     > label {
         margin: 0 !important;
@@ -42,10 +42,6 @@ const choiceCardsContainer = css`
             padding-right: 0 !important;
         }
     }
-`;
-
-const choiceCardOrOtherAmountContainer = css`
-    margin: ${space[2]}px 0;
 `;
 
 const supporterPlusChoiceCardAmountOverrides = css`
@@ -153,7 +149,7 @@ export const ChoiceCardAmountButtons = ({
                 {choiceCardAmounts[0]}
                 {choiceCardAmounts[1]}
             </div>
-            <div css={choiceCardOrOtherAmountContainer}>
+            <div>
                 {hideChooseYourAmount ? (
                     choiceCardAmounts[2]
                 ) : (
