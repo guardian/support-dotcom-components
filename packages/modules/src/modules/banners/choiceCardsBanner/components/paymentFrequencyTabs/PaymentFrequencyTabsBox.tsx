@@ -8,7 +8,7 @@ const mainStyles = css`
     overflow: hidden;
     background-color: ${neutral[100]};
     color: ${neutral[7]};
-    border: 1px solid ${neutral[86]};
+    border-top: 1px solid ${neutral[86]};
     border-radius: ${space[3]}px ${space[3]}px 0 0;
 
     :not(:last-child) {

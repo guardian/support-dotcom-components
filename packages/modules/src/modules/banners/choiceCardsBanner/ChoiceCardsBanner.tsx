@@ -19,7 +19,6 @@ import {
     paragraph,
     columnMarginOverrides,
     ctaOverridesBlue,
-    ctaOverridesYellow,
 } from './choiceCardsBannerStyles';
 import { createInsertEventFromTracking, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
