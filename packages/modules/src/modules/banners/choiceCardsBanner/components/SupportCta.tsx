@@ -1,8 +1,8 @@
 import React from 'react';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
-import { neutral, space } from '@guardian/src-foundations';
-import { css } from '@emotion/react';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
@@ -10,12 +10,12 @@ import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
     margin-bottom: ${space[3]}px;
-    background: ${neutral[0]};
-    color: ${neutral[100]} !important;
+    // background: ${brandAlt[400]};
+    // color: ${neutral[0]} !important;
 
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.75);
-    }
+    // &:hover {
+    //     background-color: ${brandAlt[200]};
+    // }
 `;
 
 export const SupportCta = ({
@@ -26,6 +26,7 @@ export const SupportCta = ({
     amountsVariantName,
     selection,
     getCtaText,
+    cssOverrides,
 }: {
     tracking: Tracking;
     numArticles: number;
@@ -34,6 +35,7 @@ export const SupportCta = ({
     amountsVariantName?: string;
     selection: ChoiceCardSelection;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
+    cssOverrides?: SerializedStyles;
 }): JSX.Element | null => {
     const url = `https://support.theguardian.com/contribute?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`;
 
@@ -56,7 +58,7 @@ export const SupportCta = ({
                     onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
-                    css={buttonOverrides}
+                    css={[buttonOverrides, cssOverrides]}
                 >
                     {mobileText}
                 </Button>
@@ -67,7 +69,7 @@ export const SupportCta = ({
                     onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
-                    css={buttonOverrides}
+                    css={[buttonOverrides, cssOverrides]}
                 >
                     {desktopText}
                 </Button>

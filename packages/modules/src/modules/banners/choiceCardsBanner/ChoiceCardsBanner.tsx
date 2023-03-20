@@ -18,6 +18,8 @@ import {
     logoContainer,
     paragraph,
     columnMarginOverrides,
+    ctaOverridesBlue,
+    ctaOverridesYellow,
 } from './choiceCardsBannerStyles';
 import { createInsertEventFromTracking, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
@@ -178,6 +180,11 @@ export const ChoiceCardsBanner = ({
                                 numArticles={numArticles}
                                 content={content}
                                 getCtaText={getCtaText}
+                                cssCtaOverides={
+                                    bannerId === 'choice-cards-banner-blue'
+                                        ? ctaOverridesYellow
+                                        : ctaOverridesBlue
+                                }
                             />
                         )}
                     </Column>
