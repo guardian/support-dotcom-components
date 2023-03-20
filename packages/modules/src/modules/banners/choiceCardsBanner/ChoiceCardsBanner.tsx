@@ -181,9 +181,9 @@ export const ChoiceCardsBanner = ({
                                 content={content}
                                 getCtaText={getCtaText}
                                 cssCtaOverides={
-                                    bannerId === 'choice-cards-banner-blue'
-                                        ? ctaOverridesYellow
-                                        : ctaOverridesBlue
+                                    bannerId === 'choice-cards-banner-yellow'
+                                        ? ctaOverridesBlue
+                                        : undefined
                                 }
                             />
                         )}

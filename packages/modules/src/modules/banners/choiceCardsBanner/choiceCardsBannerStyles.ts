@@ -121,14 +121,6 @@ export const logoContainer = css`
     }
 `;
 
-export const ctaOverridesYellow = css`
-    background: ${brandAlt[400]};
-    color: ${neutral[0]} !important;
-    &:hover {
-        background-color: ${brandAlt[200]};
-    }
-`;
-
 export const ctaOverridesBlue = css`
     background: ${neutral[0]};
     color: ${neutral[100]} !important;

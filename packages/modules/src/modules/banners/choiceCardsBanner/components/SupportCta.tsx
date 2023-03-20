@@ -1,7 +1,7 @@
 import React from 'react';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
-import { space } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
@@ -9,7 +9,12 @@ import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
-    margin-bottom: ${space[3]}px;}
+    margin-bottom: ${space[3]}px;
+    background: ${brandAlt[400]};
+    color: ${neutral[0]} !important;
+    &:hover {
+        background-color: ${brandAlt[200]};
+    }
 `;
 
 export const SupportCta = ({
