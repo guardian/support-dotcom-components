@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
-import { SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelBrand } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import { BannerText } from '../common/BannerText';
 import { BannerId, BannerRenderProps } from '../common/types';
@@ -139,7 +139,7 @@ export const ChoiceCardsBanner = ({
                     <Column width={1} cssOverrides={iconAndClosePosition}>
                         <Inline space={1}>
                             <div css={logoContainer}>
-                                <SvgRoundelDefault />
+                                <SvgRoundelBrand />
                             </div>
                             <CloseButton onClick={onCloseClick} bannerId={bannerId} />
                         </Inline>
