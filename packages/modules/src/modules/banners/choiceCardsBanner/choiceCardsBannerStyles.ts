@@ -1,7 +1,7 @@
 import { css, SerializedStyles } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
-import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral, space } from '@guardian/src-foundations';
 import { height } from '@guardian/src-foundations/size';
 
 export const banner = (backgroundColor: string): SerializedStyles => css`
@@ -103,7 +103,7 @@ export const iconAndClosePosition = css`
 
 export const closeButtonStyles = css`
     z-index: 999;
-    border: 1px solid black;
+    border: 1px solid ${brand[400]};
 `;
 
 export const logoContainer = css`
