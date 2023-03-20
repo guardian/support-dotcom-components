@@ -45,6 +45,7 @@ const choiceCardsContainer = css`
 `;
 
 const supporterPlusChoiceCardAmountOverrides = css`
+    border-radius: ${space[3]}px;
     ${until.mobileMedium} {
         font-size: 10px;
     }
@@ -104,7 +105,15 @@ export const ChoiceCardAmountButtons = ({
     // Something is wrong with the data
     if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
         return (
-            <ChoiceCard value="third" label="Other" id="choice-cards-banner-third" checked={true} />
+            <ChoiceCard
+                value="third"
+                label="Other"
+                id="choice-cards-banner-third"
+                checked={true}
+                cssOverrides={css`
+                    border-radius: ${space[3]}px;
+                `}
+            />
         );
     }
 
