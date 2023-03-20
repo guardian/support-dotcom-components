@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup } from '@guardian/src-choice-card';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
@@ -29,6 +29,7 @@ interface ChoiceCardProps {
     bannerTracking?: Tracking;
     numArticles?: number;
     content?: BannerTextContent;
+    cssCtaOverides?: SerializedStyles;
 }
 
 const styles = {
@@ -119,6 +120,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     bannerTracking,
     numArticles,
     getCtaText,
+    cssCtaOverides,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -191,6 +193,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                         numArticles={numArticles ?? 0}
                         selection={selection}
                         getCtaText={getCtaText}
+                        cssOverrides={cssCtaOverides}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>
