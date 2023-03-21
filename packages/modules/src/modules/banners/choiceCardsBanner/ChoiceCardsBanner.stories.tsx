@@ -151,5 +151,4 @@ ChoiceCardsBannerYellow.args = {
     bannerId: 'choice-cards-banner-yellow',
     backgroundColor: yellowBannerBackgroundColor,
     headingColor: yellowBannerHeadingColor,
-    borderTopColorStyle: undefined,
 };
