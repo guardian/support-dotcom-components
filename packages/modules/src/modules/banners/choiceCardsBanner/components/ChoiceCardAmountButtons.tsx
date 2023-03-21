@@ -45,7 +45,6 @@ const choiceCardsContainer = css`
 `;
 
 const choiceCardOrOtherAmountContainer = css`
-    border-radius: ${space[3]}px;
     margin-bottom: ${space[3]}px;
 `;
 
@@ -157,7 +156,7 @@ export const ChoiceCardAmountButtons = ({
             </div>
 
             {hideChooseYourAmount ? (
-                choiceCardAmounts[2]
+                <div css={choiceCardOrOtherAmountContainer}>{choiceCardAmounts[2]}</div>
             ) : (
                 <div css={choiceCardOrOtherAmountContainer}>
                     <ChoiceCard

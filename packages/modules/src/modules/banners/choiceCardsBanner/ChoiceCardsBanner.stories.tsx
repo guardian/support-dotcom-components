@@ -124,8 +124,8 @@ ChoiceCardsBannerBlue.args = {
                 hideChooseYourAmount: false,
             },
             MONTHLY: {
-                amounts: [6, 12],
-                defaultAmount: 12,
+                amounts: [3, 6, 10],
+                defaultAmount: 10,
                 hideChooseYourAmount: true,
             },
             ANNUAL: {
