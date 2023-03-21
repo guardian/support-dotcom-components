@@ -37,7 +37,7 @@ export const containerOverrides = css`
 `;
 
 export const copyColumn = css`
-    padding-top: ${space[2]}px;
+    padding-top: ${space[4]}px;
 `;
 
 export const choiceCardsColumn = css`
@@ -77,7 +77,7 @@ export const heading = (headingColor: string): SerializedStyles => css`
 export const paragraph = css`
     ${body.small()};
     line-height: 135%;
-    margin: 0 0 ${space[3]}px;
+    margin: 0 0 ${space[4]}px;
     max-width: 100%;
 
     ${from.tablet} {
