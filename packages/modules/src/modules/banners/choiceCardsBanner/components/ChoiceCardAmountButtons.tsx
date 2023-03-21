@@ -156,7 +156,9 @@ export const ChoiceCardAmountButtons = ({
             </div>
 
             {hideChooseYourAmount ? (
-                <div css={choiceCardOrOtherAmountContainer}>{choiceCardAmounts[2]}</div>
+                <div css={!choiceCardAmounts[2] ? css`` : choiceCardOrOtherAmountContainer}>
+                    {choiceCardAmounts[2]}
+                </div>
             ) : (
                 <div css={choiceCardOrOtherAmountContainer}>
                     <ChoiceCard
