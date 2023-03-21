@@ -68,6 +68,9 @@ const styles = {
         }
     `,
     hideChoiceCardGroupLegend: css`
+        label {
+            border-radius: 10px;
+        }
         legend {
             ${visuallyHidden};
         }
