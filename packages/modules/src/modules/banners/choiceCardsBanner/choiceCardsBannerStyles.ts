@@ -41,10 +41,12 @@ export const copyColumn = css`
 `;
 
 export const choiceCardsColumn = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     align-items: center;
+    ${from.tablet} {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
 `;
 
 export const columnMarginOverrides = css`
