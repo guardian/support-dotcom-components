@@ -37,14 +37,18 @@ const styles = {
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
         margin: ${space[3]}px 0 ${space[5]}px;
-        max-width: 300px;
+        max-width: 296px;
+
+        ${from.mobile} {
+            max-width: 351px;
+        }
 
         ${from.mobileMedium} {
-            max-width: 350px;
+            max-width: 456px;
         }
 
         ${from.mobileLandscape} {
-            max-width: 380px;
+            max-width: 716px;
         }
 
         ${from.tablet} {
@@ -52,8 +56,11 @@ const styles = {
         }
     `,
     bannerFrequenciesGroupOverrides: css`
-        grid-template-columns: repeat(3, minmax(100px, 200px));
         display: grid;
+
+        ${from.tablet} {
+            grid-template-columns: repeat(3, minmax(100px, 200px));
+        }
 
         > div:first-of-type {
             display: inline;

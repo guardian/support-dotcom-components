@@ -44,6 +44,11 @@ const choiceCardsContainer = css`
     }
 `;
 
+const choiceCardOrOtherAmountContainer = css`
+    border-radius: ${space[3]}px;
+    margin-bottom: ${space[3]}px;
+`;
+
 const supporterPlusChoiceCardAmountOverrides = css`
     border-radius: ${space[3]}px;
     ${until.mobileMedium} {
@@ -105,15 +110,7 @@ export const ChoiceCardAmountButtons = ({
     // Something is wrong with the data
     if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
         return (
-            <ChoiceCard
-                value="third"
-                label="Other"
-                id="choice-cards-banner-third"
-                checked={true}
-                cssOverrides={css`
-                    border-radius: ${space[3]}px;
-                `}
-            />
+            <ChoiceCard value="third" label="Other" id="choice-cards-banner-third" checked={true} />
         );
     }
 
@@ -158,10 +155,11 @@ export const ChoiceCardAmountButtons = ({
                 {choiceCardAmounts[0]}
                 {choiceCardAmounts[1]}
             </div>
-            <div>
-                {hideChooseYourAmount ? (
-                    choiceCardAmounts[2]
-                ) : (
+
+            {hideChooseYourAmount ? (
+                choiceCardAmounts[2]
+            ) : (
+                <div css={choiceCardOrOtherAmountContainer}>
                     <ChoiceCard
                         value="other"
                         label="Other"
@@ -174,8 +172,8 @@ export const ChoiceCardAmountButtons = ({
                         }
                         cssOverrides={supporterPlusChoiceCardAmountOverrides}
                     />
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };
