@@ -91,7 +91,7 @@ export const highlightedTextBlueBanner = css`
 `;
 
 export const highlightedTextYellowBanner = css`
-    background-color: ${neutral[100]};
+    background-color: ${brandAlt[400]};
     font-weight: bold;
 `;
 
