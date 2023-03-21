@@ -54,6 +54,10 @@ const styles = {
         ${from.tablet} {
             margin: 60px 0 ${space[5]}px;
         }
+
+        ${from.desktop} {
+            max-width: 380px;
+        }
     `,
     bannerFrequenciesGroupOverrides: css`
         display: grid;
