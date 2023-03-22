@@ -8,7 +8,7 @@ import {
 import { ContributionType, trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
-import { between, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 import { ChoiceCardBannerComponentId } from './ChoiceCards';
 
@@ -45,6 +45,13 @@ const choiceCardsContainer = css`
 `;
 
 const choiceCardOrOtherAmountContainer = css`
+    margin-bottom: ${space[1]}px;
+    ${from.mobileLandscape} {
+        margin-bottom: ${space[3]}px;
+    }
+`;
+
+const choiceCardOrOtherAmountMissing = css`
     margin-bottom: ${space[1]}px;
 `;
 
@@ -156,7 +163,15 @@ export const ChoiceCardAmountButtons = ({
             </div>
 
             {hideChooseYourAmount ? (
-                <div css={choiceCardOrOtherAmountContainer}>{choiceCardAmounts[2]}</div>
+                <div
+                    css={
+                        !choiceCardAmounts[2]
+                            ? choiceCardOrOtherAmountMissing
+                            : choiceCardOrOtherAmountContainer
+                    }
+                >
+                    {choiceCardAmounts[2]}
+                </div>
             ) : (
                 <div css={choiceCardOrOtherAmountContainer}>
                     <ChoiceCard
