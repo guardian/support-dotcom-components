@@ -5,6 +5,7 @@ import { BannerRenderProps } from '../common/types';
 import {
     backgroundColor as blueBannerBackgroundColor,
     headingColor as blueBannerHeadingColor,
+    borderTopColorStyle as blueBorderTopColorStyle,
 } from './ChoiceCardsBannerBlue';
 import {
     backgroundColor as yellowBannerBackgroundColor,
@@ -29,6 +30,7 @@ const Template: Story<ChoiceCardStoryProps> = (props: ChoiceCardStoryProps) =>
             {...props}
             backgroundColor={props.backgroundColor}
             headingColor={props.headingColor}
+            borderTopColorStyle={props.borderTopColorStyle}
             bannerId={props.bannerId}
             onCloseClick={() => null}
             onSignInClick={() => null}
@@ -64,20 +66,20 @@ ChoiceCardsBannerBlue.args = {
     countryCode: 'GB',
     content: {
         mainContent: {
-            heading: <>Lend us a hand in 2023</>,
+            heading: <>As 2023 unfolds, will you support us?</>,
             subheading: null,
             paragraphs: [
                 <>
-                    Shareholders or billionaire owner, we report on world events with accuracy, free
-                    from political and commercial influence. And unlike many others, we’re committed
-                    to keeping our reporting open for all readers. Every contribution, however big
-                    or small, makes a difference.
+                    We’re a reader-funded news organisation, with more than 1.5 million supporters
+                    in 180 countries. With this vital support, our reporting remains fiercely
+                    independent, and is never manipulated by commercial or political ties. And it’s
+                    free, for everyone. But if you can support us, we need you.
                 </>,
             ],
             highlightedText: (
                 <>
-                    Support us from as little as £1. If you can, please consider supporting us with
-                    a regular amount each month. Thank you.
+                    Give just once from £1, or better yet, power us every month with a little more.
+                    Thank you.
                 </>
             ),
             primaryCta: {
@@ -87,24 +89,24 @@ ChoiceCardsBannerBlue.args = {
             secondaryCta: null,
         },
         mobileContent: {
-            heading: <>Lend us a hand in 2023</>,
+            heading: <>As 2023 unfolds, will you support us?</>,
             subheading: null,
             paragraphs: [
                 <>
-                    Shareholders or billionaire owner, we report on world events with accuracy, free
-                    from political and commercial influence. And unlike many others, we’re committed
-                    to keeping our reporting open for all readers. Every contribution, however big
-                    or small, makes a difference.
+                    We’re a reader-funded news organisation, with more than 1.5 million supporters
+                    in 180 countries. With this vital support, our reporting remains fiercely
+                    independent, and is never manipulated by commercial or political ties. And it’s
+                    free, for everyone. But if you can support us, we need you.
                 </>,
             ],
             highlightedText: (
                 <>
-                    Support us from as little as £1. If you can, please consider supporting us with
-                    a regular amount each month. Thank you.
+                    Give just once from £1, or better yet, power us every month with a little more.
+                    Thank you.
                 </>
             ),
             primaryCta: {
-                ctaText: 'Support us',
+                ctaText: 'Continue',
                 ctaUrl: 'https://support.theguardian.com/contribute',
             },
             secondaryCta: null,
@@ -122,12 +124,12 @@ ChoiceCardsBannerBlue.args = {
                 hideChooseYourAmount: false,
             },
             MONTHLY: {
-                amounts: [6, 12, 18, 24],
-                defaultAmount: 12,
+                amounts: [3, 6, 10],
+                defaultAmount: 10,
                 hideChooseYourAmount: true,
             },
             ANNUAL: {
-                amounts: [50, 100, 150, 200],
+                amounts: [100],
                 defaultAmount: 100,
                 hideChooseYourAmount: true,
             },
@@ -135,6 +137,7 @@ ChoiceCardsBannerBlue.args = {
     },
     backgroundColor: blueBannerBackgroundColor,
     headingColor: blueBannerHeadingColor,
+    borderTopColorStyle: blueBorderTopColorStyle,
     onCloseClick: () => null,
     separateArticleCount: true,
     numArticles: 15,

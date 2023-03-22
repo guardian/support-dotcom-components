@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup } from '@guardian/src-choice-card';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
@@ -29,6 +29,7 @@ interface ChoiceCardProps {
     bannerTracking?: Tracking;
     numArticles?: number;
     content?: BannerTextContent;
+    cssCtaOverides?: SerializedStyles;
 }
 
 const styles = {
@@ -36,23 +37,34 @@ const styles = {
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
         margin: ${space[3]}px 0 ${space[5]}px;
-        max-width: 300px;
+        max-width: 296px;
+
+        ${from.mobile} {
+            max-width: 351px;
+        }
 
         ${from.mobileMedium} {
-            max-width: 350px;
+            max-width: 456px;
         }
 
         ${from.mobileLandscape} {
-            max-width: 380px;
+            max-width: 716px;
         }
 
         ${from.tablet} {
             margin: 60px 0 ${space[5]}px;
         }
+
+        ${from.desktop} {
+            max-width: 380px;
+        }
     `,
     bannerFrequenciesGroupOverrides: css`
-        grid-template-columns: repeat(3, minmax(100px, 200px));
         display: grid;
+
+        ${from.tablet} {
+            grid-template-columns: repeat(3, minmax(100px, 200px));
+        }
 
         > div:first-of-type {
             display: inline;
@@ -60,6 +72,9 @@ const styles = {
         }
     `,
     hideChoiceCardGroupLegend: css`
+        label {
+            border-radius: 10px;
+        }
         legend {
             ${visuallyHidden};
         }
@@ -119,6 +134,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     bannerTracking,
     numArticles,
     getCtaText,
+    cssCtaOverides,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -191,6 +207,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                         numArticles={numArticles ?? 0}
                         selection={selection}
                         getCtaText={getCtaText}
+                        cssOverrides={cssCtaOverides}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>

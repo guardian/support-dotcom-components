@@ -7,6 +7,7 @@ import { ChoiceCardsBanner } from './ChoiceCardsBanner';
 const bannerId = 'choice-cards-banner-yellow';
 export const backgroundColor = brandAlt[400];
 export const headingColor = neutral[0];
+export const borderTopColor = neutral[0];
 
 const ChoiceCardsBannerYellow = ({
     onCloseClick,

@@ -1,7 +1,7 @@
 import { css, SerializedStyles } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
-import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral, space } from '@guardian/src-foundations';
 import { height } from '@guardian/src-foundations/size';
 
 export const banner = (backgroundColor: string): SerializedStyles => css`
@@ -41,10 +41,12 @@ export const copyColumn = css`
 `;
 
 export const choiceCardsColumn = css`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     align-items: center;
+    ${from.tablet} {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
 `;
 
 export const columnMarginOverrides = css`
@@ -54,7 +56,7 @@ export const columnMarginOverrides = css`
 export const heading = (headingColor: string): SerializedStyles => css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     font-size: 22px;
-    margin: 0;
+    margin: 0 0 ${space[3]}px;
     color: ${headingColor};
 
     ${from.mobileMedium} {
@@ -63,11 +65,12 @@ export const heading = (headingColor: string): SerializedStyles => css`
     }
 
     ${from.tablet} {
-        font-size: 42px;
+        font-size: 34px;
         max-width: 100%;
     }
 
     ${from.desktop} {
+        font-size: 42px;
         line-height: 100%;
     }
 `;
@@ -75,11 +78,10 @@ export const heading = (headingColor: string): SerializedStyles => css`
 export const paragraph = css`
     ${body.small()};
     line-height: 135%;
-    margin: ${space[4]}px 0 ${space[1]}px;
+    margin: 0 0 ${space[4]}px;
     max-width: 100%;
 
     ${from.tablet} {
-        margin-bottom: ${space[5]}px;
         font-size: 17px;
     }
 `;
@@ -90,7 +92,7 @@ export const highlightedTextBlueBanner = css`
 `;
 
 export const highlightedTextYellowBanner = css`
-    background-color: ${neutral[100]};
+    background-color: ${brandAlt[400]};
     font-weight: bold;
 `;
 
@@ -103,7 +105,7 @@ export const iconAndClosePosition = css`
 
 export const closeButtonStyles = css`
     z-index: 999;
-    border: 1px solid black;
+    border: 1px solid ${brand[400]};
 `;
 
 export const logoContainer = css`
@@ -118,5 +120,14 @@ export const logoContainer = css`
     }
     ${from.leftCol} {
         margin-left: ${space[3]}px;
+    }
+`;
+
+export const ctaOverridesBlue = css`
+    background: ${neutral[0]};
+    color: ${neutral[100]} !important;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.75);
     }
 `;

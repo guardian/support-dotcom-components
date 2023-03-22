@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Container, Columns, Column, Inline } from '@guardian/src-layout';
 import { Button } from '@guardian/src-button';
-import { SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelBrand } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import { BannerText } from '../common/BannerText';
 import { BannerId, BannerRenderProps } from '../common/types';
@@ -18,6 +18,7 @@ import {
     logoContainer,
     paragraph,
     columnMarginOverrides,
+    ctaOverridesBlue,
 } from './choiceCardsBannerStyles';
 import { createInsertEventFromTracking, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
@@ -25,6 +26,7 @@ import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { ChoiceCardsBannerArticleCount } from './components/ChoiceCardsBannerArticleCount';
+import { SerializedStyles } from '@emotion/react';
 
 type ButtonPropTypes = {
     onClick: (evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -57,12 +59,14 @@ export type ChoiceCardsBannerRenderProps = {
     bannerId: BannerId;
     backgroundColor: string;
     headingColor: string;
+    borderTopColorStyle?: SerializedStyles;
 };
 
 export const ChoiceCardsBanner = ({
     bannerId,
     backgroundColor,
     headingColor,
+    borderTopColorStyle,
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -125,12 +129,18 @@ export const ChoiceCardsBanner = ({
 
     return (
         <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
-            <Container cssOverrides={containerOverrides}>
+            <Container
+                cssOverrides={
+                    borderTopColorStyle
+                        ? [containerOverrides, borderTopColorStyle]
+                        : [containerOverrides]
+                }
+            >
                 <Columns>
                     <Column width={1} cssOverrides={iconAndClosePosition}>
                         <Inline space={1}>
                             <div css={logoContainer}>
-                                <SvgRoundelDefault />
+                                <SvgRoundelBrand />
                             </div>
                             <CloseButton onClick={onCloseClick} bannerId={bannerId} />
                         </Inline>
@@ -169,6 +179,11 @@ export const ChoiceCardsBanner = ({
                                 numArticles={numArticles}
                                 content={content}
                                 getCtaText={getCtaText}
+                                cssCtaOverides={
+                                    bannerId === 'choice-cards-banner-yellow'
+                                        ? ctaOverridesBlue
+                                        : undefined
+                                }
                             />
                         )}
                     </Column>

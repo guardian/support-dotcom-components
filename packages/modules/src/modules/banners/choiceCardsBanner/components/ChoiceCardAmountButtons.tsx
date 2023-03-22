@@ -8,7 +8,7 @@ import {
 import { ContributionType, trackClick } from './ChoiceCardFrequencyTabs';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
-import { between, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/src-foundations/mq';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 import { ChoiceCardBannerComponentId } from './ChoiceCards';
 
@@ -45,10 +45,18 @@ const choiceCardsContainer = css`
 `;
 
 const choiceCardOrOtherAmountContainer = css`
-    margin: ${space[2]}px 0;
+    margin-bottom: ${space[1]}px;
+    ${from.mobileLandscape} {
+        margin-bottom: ${space[3]}px;
+    }
+`;
+
+const choiceCardOrOtherAmountMissing = css`
+    margin-bottom: ${space[1]}px;
 `;
 
 const supporterPlusChoiceCardAmountOverrides = css`
+    border-radius: ${space[3]}px;
     ${until.mobileMedium} {
         font-size: 10px;
     }
@@ -153,10 +161,19 @@ export const ChoiceCardAmountButtons = ({
                 {choiceCardAmounts[0]}
                 {choiceCardAmounts[1]}
             </div>
-            <div css={choiceCardOrOtherAmountContainer}>
-                {hideChooseYourAmount ? (
-                    choiceCardAmounts[2]
-                ) : (
+
+            {hideChooseYourAmount ? (
+                <div
+                    css={
+                        !choiceCardAmounts[2]
+                            ? choiceCardOrOtherAmountMissing
+                            : choiceCardOrOtherAmountContainer
+                    }
+                >
+                    {choiceCardAmounts[2]}
+                </div>
+            ) : (
+                <div css={choiceCardOrOtherAmountContainer}>
                     <ChoiceCard
                         value="other"
                         label="Other"
@@ -169,8 +186,8 @@ export const ChoiceCardAmountButtons = ({
                         }
                         cssOverrides={supporterPlusChoiceCardAmountOverrides}
                     />
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };
