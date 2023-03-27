@@ -468,7 +468,7 @@ const countryNames: CountryNameMap = {
     PE: 'Peru',
     PF: 'French Polynesia',
     PG: 'Papua New Guinea',
-    PH: 'the Phillipines ',
+    PH: 'the Philippines',
     PK: 'Pakistan',
     PL: 'Poland',
     PM: 'Saint Pierre and Miquelon',
