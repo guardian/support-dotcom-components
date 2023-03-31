@@ -9,7 +9,7 @@ const styles = {
     container: css`
         ${headline.xxxsmall({ fontWeight: 'bold' })}
         font-size: 15px;
-        margin: 0 0 ${space[1]}px;
+        margin-bottom: ${space[1]}px;
 
         ${from.tablet} {
             font-size: 17px;
