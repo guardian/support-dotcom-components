@@ -37,7 +37,11 @@ export const containerOverrides = css`
 `;
 
 export const copyColumn = css`
-    padding-top: ${space[4]}px;
+    padding-top: 10px;
+
+    ${from.desktop} {
+        padding-top: ${space[3]}px;
+    }
 `;
 
 export const choiceCardsColumn = css`
@@ -51,12 +55,15 @@ export const choiceCardsColumn = css`
 
 export const columnMarginOverrides = css`
     margin-right: 0 !important;
+    ${from.tablet} {
+        margin-bottom: ${space[4]}px !important;
+    }
 `;
 
 export const heading = (headingColor: string): SerializedStyles => css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     font-size: 22px;
-    margin: 0 0 ${space[3]}px;
+    margin-bottom: ${space[4]}px;
     color: ${headingColor};
 
     ${from.mobileMedium} {
@@ -72,6 +79,7 @@ export const heading = (headingColor: string): SerializedStyles => css`
     ${from.desktop} {
         font-size: 42px;
         line-height: 100%;
+        margin-bottom: 22px;
     }
 `;
 
