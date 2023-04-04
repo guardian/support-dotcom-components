@@ -20,11 +20,9 @@ import {
     columnMarginOverrides,
     ctaOverridesBlue,
 } from './choiceCardsBannerStyles';
-import { createInsertEventFromTracking, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
-import { createViewEventFromTracking } from '@sdc/shared/dist/lib';
+import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
-import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { ChoiceCardsBannerArticleCount } from './components/ChoiceCardsBannerArticleCount';
 import { SerializedStyles } from '@emotion/react';
 
@@ -84,20 +82,6 @@ export const ChoiceCardsBanner = ({
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
     >();
-    const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
-
-    useEffect(() => {
-        if (hasBeenSeen && tracking) {
-            // For ophan
-            if (submitComponentEvent) {
-                submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
-            }
-        }
-
-        if (submitComponentEvent && tracking) {
-            submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
-        }
-    }, [hasBeenSeen, submitComponentEvent]);
 
     useEffect(() => {
         if (choiceCardAmounts?.amounts) {
@@ -128,7 +112,7 @@ export const ChoiceCardsBanner = ({
     const articleCount = <ChoiceCardsBannerArticleCount numArticles={numArticles ?? 0} />;
 
     return (
-        <section ref={setNode} css={banner(backgroundColor)} data-target={bannerId}>
+        <section css={banner(backgroundColor)} data-target={bannerId}>
             <Container
                 cssOverrides={
                     borderTopColorStyle
