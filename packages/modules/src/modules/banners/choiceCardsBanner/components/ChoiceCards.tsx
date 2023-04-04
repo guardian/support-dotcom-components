@@ -149,7 +149,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                 submitComponentEvent({
                     component: {
                         componentType: 'ACQUISITIONS_OTHER',
-                        id: componentId,
+                        id: 'contributions-banner-choice-cards',
                     },
                     action: 'VIEW',
                     abTest: {
