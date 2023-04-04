@@ -15,7 +15,7 @@ import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
     component: ChoiceCardsBanner,
-    title: 'Banners/Subscriptions/ChoiceCardsBanner',
+    title: 'Banners/ChoiceCardsBanner',
 } as Meta;
 
 type ChoiceCardStoryProps = Omit<
