@@ -110,7 +110,7 @@ export const closeButtonStyles = css`
 
 export const logoContainer = css`
     display: none;
-    ${from.mobileMedium} {
+    ${from.tablet} {
         display: block;
         width: ${height.ctaSmall}px;
         height: ${height.ctaSmall}px;
