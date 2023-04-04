@@ -3448,6 +3448,11 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@sdc/shared@file:packages/shared":
+  version "1.0.0"
+  dependencies:
+    zod "^3.2.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"

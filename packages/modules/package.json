@@ -23,7 +23,7 @@
     "@guardian/src-layout": "3.8.0",
     "@guardian/src-link": "3.8.0",
     "@guardian/src-text-input": "3.8.0",
-    "@sdc/shared": "1.0.0",
+    "@sdc/shared": "file:../shared",
     "@types/babel__standalone": "^7.1.2",
     "preact": "^10.5.12",
     "react-spring": "^9.5.4",

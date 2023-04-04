@@ -39,7 +39,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@sdc/shared": "1.0.0",
+    "@sdc/shared": "file:../shared",
     "amp-toolbox-cors": "^1.2.0-alpha.2",
     "aws-sdk": "^2.862.0",
     "compression": "1.7.4",
