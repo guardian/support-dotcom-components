@@ -1,5 +1,7 @@
 import {
     containsNonArticleCountPlaceholder,
+    getDate,
+    getDayOfWeek,
     replaceNonArticleCountPlaceholders,
 } from './placeholders';
 import { Prices } from '../types';
@@ -25,6 +27,19 @@ describe('containsNonArticleCountPlaceholder', () => {
     it('returns false if string does not contain placeholder', () => {
         const got = containsNonArticleCountPlaceholder('apple without placeholder');
         expect(got).toBe(false);
+    });
+});
+
+describe('getDayOfWeek', () => {
+    it('returns Monday', () => {
+        const monday = new Date(Date.parse('2023-04-03'));
+        expect(getDayOfWeek(monday)).toBe('Monday');
+    });
+});
+describe('getDate', () => {
+    it('returns date', () => {
+        const monday = new Date(Date.parse('2023-04-03'));
+        expect(getDate(monday)).toBe('3 April 2023');
     });
 });
 
