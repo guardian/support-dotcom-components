@@ -24,6 +24,11 @@ const priceSubstitution = (
     return undefined;
 };
 
+export const getDayOfWeek = (date: Date = new Date()): string =>
+    date.toLocaleString('en-GB', { weekday: 'long' });
+export const getDate = (date: Date = new Date()): string =>
+    date.toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
 const placeholderRules: PlaceholderRules = {
     CURRENCY_SYMBOL: ({ countryCode }) => getLocalCurrencySymbol(countryCode),
     COUNTRY_NAME: ({ countryCode }) => getCountryName(countryCode),
@@ -35,6 +40,8 @@ const placeholderRules: PlaceholderRules = {
         priceSubstitution('GuardianWeekly', 'Monthly', countryCode, prices),
     PRICE_GUARDIANWEEKLY_ANNUAL: ({ countryCode, prices }) =>
         priceSubstitution('GuardianWeekly', 'Annual', countryCode, prices),
+    DAY_OF_THE_WEEK: () => getDayOfWeek(),
+    DATE: () => getDate(),
 };
 
 /**
