@@ -4,24 +4,10 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
+import { BannerChoiceCardsPaymentFrequencyTabs } from './paymentFrequencyTabs/PaymentFrequencyTabs';
+import { Box } from './paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import { ChoiceCardBannerComponentId } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
-import { ChoiceCard } from '@guardian/src-choice-card';
-import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
-
-const container = css`
-    display: flex;
-
-    > label {
-        margin-right: ${space[2]}px !important;
-        margin-bottom: ${space[3]}px !important;
-    }
-
-    > label:last-of-type {
-        margin-right: 0 !important;
-    }
-`;
 
 interface ContributionTypeItem {
     label: string;
@@ -76,25 +62,23 @@ export const ChoiceCardFrequencyTabs = ({
     const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
         tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
 
-    const tabList = tabFrequencies.map(tabFrequency => ({
-        frequency: tabFrequency,
-        id: `banner-${tabFrequency}`,
-        labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
-        selected: selection.frequency === tabFrequency,
-    }));
+    const getTabList = () => {
+        return tabFrequencies.map(tabFrequency => ({
+            frequency: tabFrequency,
+            id: `banner-${tabFrequency}`,
+            labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
+            selected: selection.frequency === tabFrequency,
+        }));
+    };
 
     return (
-        <div css={container}>
-            {tabList.map(tab => (
-                <ChoiceCard
-                    key={tab.id}
-                    label={tab.labelText}
-                    value={tab.labelText}
-                    id={tab.id}
-                    checked={tab.selected}
-                    onChange={() => updateFrequency(tab.frequency)}
-                />
-            ))}
-        </div>
+        <Box>
+            <BannerChoiceCardsPaymentFrequencyTabs
+                ariaLabel="payment frequency tabs"
+                tabs={getTabList()}
+                selectedTab={selection.frequency}
+                onTabChange={updateFrequency}
+            />
+        </Box>
     );
 };

@@ -9,6 +9,7 @@ import { ChoiceCardSelection } from '../ChoiceCardsBanner';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
+    margin-bottom: ${space[3]}px;
     background: ${brandAlt[400]};
     color: ${neutral[0]} !important;
     &:hover {
