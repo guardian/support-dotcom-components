@@ -63,7 +63,7 @@ export const columnMarginOverrides = css`
 export const heading = (headingColor: string): SerializedStyles => css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     font-size: 22px;
-    margin-bottom: ${space[4]}px;
+    margin: 0 0 ${space[4]}px;
     color: ${headingColor};
 
     ${from.mobileMedium} {
