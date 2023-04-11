@@ -15,11 +15,13 @@ import { ChoiceCardBannerComponentId } from './ChoiceCards';
 const container = css`
     display: flex;
     flex-direction: column;
+    margin: 0 ${space[3]}px;
 `;
 
 const choiceCardsContainer = css`
     display: flex;
     flex-direction: row;
+    margin-top: ${space[3]}px;
     margin-bottom: ${space[2]}px;
 
     > label {

@@ -4,7 +4,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import { space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs, ContributionType } from './ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
@@ -52,12 +52,11 @@ const styles = {
         }
 
         ${from.tablet} {
-            margin: 108px 0 ${space[5]}px;
+            margin: 60px 0 ${space[5]}px;
         }
 
         ${from.desktop} {
             max-width: 380px;
-            margin-top: 120px;
         }
     `,
     bannerFrequenciesGroupOverrides: css`
@@ -81,6 +80,10 @@ const styles = {
         }
     `,
     bannerAmountsContainer: css`
+        background: ${neutral[100]};
+        border-left: 1px solid ${neutral[86]};
+        border-right: 1px solid ${neutral[86]};
+
         > div:first-of-type {
             display: block !important;
         }
@@ -89,6 +92,11 @@ const styles = {
     ctaAndPaymentCardsContainer: css`
         display: flex;
         align-items: center;
+        padding: 0 ${space[3]}px;
+        background: ${neutral[100]};
+        border-radius: 0 0 ${space[3]}px ${space[3]}px;
+        border: 1px solid ${neutral[86]};
+        border-top: none;
     `,
     paymentCardsSvgOverrides: css`
         margin-top: -10px;
