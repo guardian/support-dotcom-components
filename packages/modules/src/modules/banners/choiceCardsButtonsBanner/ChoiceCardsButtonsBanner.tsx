@@ -19,7 +19,7 @@ import {
     paragraph,
     columnMarginOverrides,
     ctaOverridesBlue,
-} from './choiceCardsBannerStyles';
+} from './choiceCardsButtonsBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
@@ -104,7 +104,9 @@ export const ChoiceCardsBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const id = bannerId === 'choice-cards-banner-blue' || bannerId === 'choice-cards-banner-yellow';
+    const id =
+        bannerId === 'choice-cards-banner-buttons-blue' ||
+        bannerId === 'choice-cards-banner-buttons-yellow';
 
     const showArticleCount =
         separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
@@ -138,7 +140,7 @@ export const ChoiceCardsBanner = ({
                                     heading: heading(headingColor),
                                     copy: paragraph,
                                     highlightedText:
-                                        bannerId === 'choice-cards-banner-blue'
+                                        bannerId === 'choice-cards-banner-buttons-blue'
                                             ? highlightedTextBlueBanner
                                             : highlightedTextYellowBanner,
                                 },
@@ -154,7 +156,7 @@ export const ChoiceCardsBanner = ({
                                 selection={choiceCardSelection}
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
-                                componentId={id ? bannerId : 'choice-cards-banner-blue'}
+                                componentId={id ? bannerId : 'choice-cards-banner-buttons-blue'}
                                 amounts={choiceCardAmounts.amounts}
                                 amountsTestName={choiceCardAmounts?.testName}
                                 amountsVariantName={choiceCardAmounts?.variantName}
@@ -164,7 +166,7 @@ export const ChoiceCardsBanner = ({
                                 content={content}
                                 getCtaText={getCtaText}
                                 cssCtaOverides={
-                                    bannerId === 'choice-cards-banner-yellow'
+                                    bannerId === 'choice-cards-banner-buttons-yellow'
                                         ? ctaOverridesBlue
                                         : undefined
                                 }

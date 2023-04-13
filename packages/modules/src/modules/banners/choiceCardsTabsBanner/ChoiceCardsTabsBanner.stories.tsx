@@ -1,21 +1,21 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ChoiceCardsBanner, ChoiceCardsBannerRenderProps } from './ChoiceCardsBanner';
+import { ChoiceCardsBanner, ChoiceCardsBannerRenderProps } from './ChoiceCardsTabsBanner';
 import { BannerRenderProps } from '../common/types';
 import {
     backgroundColor as blueBannerBackgroundColor,
     headingColor as blueBannerHeadingColor,
     borderTopColorStyle as blueBorderTopColorStyle,
-} from './ChoiceCardsBannerBlue';
+} from './ChoiceCardsTabsBannerBlue';
 import {
     backgroundColor as yellowBannerBackgroundColor,
     headingColor as yellowBannerHeadingColor,
-} from './ChoiceCardsBannerYellow';
+} from './ChoiceCardsTabsBannerYellow';
 import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
     component: ChoiceCardsBanner,
-    title: 'Banners/ChoiceCardsBanner',
+    title: 'Banners/ChoiceCardsTabsBanner',
 } as Meta;
 
 type ChoiceCardStoryProps = Omit<
@@ -60,9 +60,9 @@ const tracking: Tracking = {
     ...testTracking,
 };
 
-export const ChoiceCardsBannerBlue = Template.bind({});
-ChoiceCardsBannerBlue.args = {
-    bannerId: 'choice-cards-banner-blue',
+export const Blue = Template.bind({});
+Blue.args = {
+    bannerId: 'choice-cards-banner-tabs-blue',
     countryCode: 'GB',
     content: {
         mainContent: {
@@ -143,12 +143,12 @@ ChoiceCardsBannerBlue.args = {
     numArticles: 15,
 };
 
-const { bannerId, backgroundColor, headingColor, ...rest } = ChoiceCardsBannerBlue.args;
+const { bannerId, backgroundColor, headingColor, ...rest } = Blue.args;
 
-export const ChoiceCardsBannerYellow = Template.bind({});
-ChoiceCardsBannerYellow.args = {
+export const Yellow = Template.bind({});
+Yellow.args = {
     ...rest,
-    bannerId: 'choice-cards-banner-yellow',
+    bannerId: 'choice-cards-banner-tabs-yellow',
     backgroundColor: yellowBannerBackgroundColor,
     headingColor: yellowBannerHeadingColor,
 };
