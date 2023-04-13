@@ -3,9 +3,9 @@ import { brand } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
-import { ChoiceCardsBanner } from './ChoiceCardsBanner';
+import { ChoiceCardsBanner } from './ChoiceCardsTabsBanner';
 
-const bannerId = 'choice-cards-banner-blue';
+const bannerId = 'choice-cards-banner-tabs-blue';
 export const backgroundColor = '#F1F8FC';
 export const headingColor = brand[400];
 export const borderTopColorStyle = css`

@@ -5,7 +5,7 @@ import { brandAlt, neutral, space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
-import { ChoiceCardSelection } from '../ChoiceCardsBanner';
+import { ChoiceCardSelection } from '../ChoiceCardsTabsBanner';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;

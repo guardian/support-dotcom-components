@@ -10,10 +10,12 @@ import { ChoiceCardFrequencyTabs, ContributionType } from './ChoiceCardFrequency
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
-import { ChoiceCardSelection } from '../ChoiceCardsBanner';
+import { ChoiceCardSelection } from '../ChoiceCardsTabsBanner';
 import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
 
-export type ChoiceCardBannerComponentId = 'choice-cards-banner-yellow' | 'choice-cards-banner-blue';
+export type ChoiceCardBannerComponentId =
+    | 'choice-cards-banner-tabs-yellow'
+    | 'choice-cards-banner-tabs-blue';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;
