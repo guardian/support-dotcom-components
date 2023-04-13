@@ -10,8 +10,8 @@ import {
     globalNewYearBanner,
     signInPromptBanner,
     ukraineMomentBanner,
-    choiceCardsBannerButtonsBlue,
-    choiceCardsBannerButtonsYellow,
+    choiceCardsButtonsBannerBlue,
+    choiceCardsButtonsBannerYellow,
     choiceCardsTabsBannerBlue,
     choiceCardsTabsBannerYellow,
 } from '@sdc/shared/config';
@@ -40,9 +40,9 @@ export const BannerPaths: {
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsBannerButtonsBlue.endpointPathBuilder,
+    [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerYellow]:
-        choiceCardsBannerButtonsYellow.endpointPathBuilder,
+        choiceCardsButtonsBannerYellow.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsTabsBannerBlue]: choiceCardsTabsBannerBlue.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsTabsBannerYellow]: choiceCardsTabsBannerYellow.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
