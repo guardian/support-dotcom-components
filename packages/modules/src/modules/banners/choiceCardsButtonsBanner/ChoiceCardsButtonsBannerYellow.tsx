@@ -4,7 +4,7 @@ import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
 import { ChoiceCardsBanner } from './ChoiceCardsButtonsBanner';
 
-const bannerId = 'choice-cards-banner-yellow';
+const bannerId = 'choice-cards-buttons-banner-yellow';
 export const backgroundColor = brandAlt[400];
 export const headingColor = neutral[0];
 export const borderTopColor = neutral[0];

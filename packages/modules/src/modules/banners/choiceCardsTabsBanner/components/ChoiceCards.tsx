@@ -14,8 +14,8 @@ import { ChoiceCardSelection } from '../ChoiceCardsTabsBanner';
 import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
 
 export type ChoiceCardBannerComponentId =
-    | 'choice-cards-banner-tabs-yellow'
-    | 'choice-cards-banner-tabs-blue';
+    | 'choice-cards-tabs-banner-yellow'
+    | 'choice-cards-tabs-banner-blue';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;
