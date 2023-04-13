@@ -62,7 +62,7 @@ const tracking: Tracking = {
 
 export const Blue = Template.bind({});
 Blue.args = {
-    bannerId: 'choice-cards-banner-buttons-blue',
+    bannerId: 'choice-cards-buttons-banner-blue',
     countryCode: 'GB',
     content: {
         mainContent: {
@@ -148,7 +148,7 @@ const { bannerId, backgroundColor, headingColor, ...rest } = Blue.args;
 export const Yellow = Template.bind({});
 Yellow.args = {
     ...rest,
-    bannerId: 'choice-cards-banner-buttons-yellow',
+    bannerId: 'choice-cards-buttons-banner-yellow',
     backgroundColor: yellowBannerBackgroundColor,
     headingColor: yellowBannerHeadingColor,
 };

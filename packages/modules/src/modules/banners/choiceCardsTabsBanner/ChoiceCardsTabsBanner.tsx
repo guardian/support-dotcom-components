@@ -105,8 +105,8 @@ export const ChoiceCardsBanner = ({
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
     const id =
-        bannerId === 'choice-cards-banner-tabs-blue' ||
-        bannerId === 'choice-cards-banner-tabs-yellow';
+        bannerId === 'choice-cards-tabs-banner-blue' ||
+        bannerId === 'choice-cards-tabs-banner-yellow';
 
     const showArticleCount =
         separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
@@ -140,7 +140,7 @@ export const ChoiceCardsBanner = ({
                                     heading: heading(headingColor),
                                     copy: paragraph,
                                     highlightedText:
-                                        bannerId === 'choice-cards-banner-tabs-blue'
+                                        bannerId === 'choice-cards-tabs-banner-blue'
                                             ? highlightedTextBlueBanner
                                             : highlightedTextYellowBanner,
                                 },
@@ -156,7 +156,7 @@ export const ChoiceCardsBanner = ({
                                 selection={choiceCardSelection}
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
-                                componentId={id ? bannerId : 'choice-cards-banner-tabs-blue'}
+                                componentId={id ? bannerId : 'choice-cards-tabs-banner-blue'}
                                 amounts={choiceCardAmounts.amounts}
                                 amountsTestName={choiceCardAmounts?.testName}
                                 amountsVariantName={choiceCardAmounts?.variantName}
@@ -166,7 +166,7 @@ export const ChoiceCardsBanner = ({
                                 content={content}
                                 getCtaText={getCtaText}
                                 cssCtaOverides={
-                                    bannerId === 'choice-cards-banner-tabs-yellow'
+                                    bannerId === 'choice-cards-tabs-banner-yellow'
                                         ? ctaOverridesBlue
                                         : undefined
                                 }
