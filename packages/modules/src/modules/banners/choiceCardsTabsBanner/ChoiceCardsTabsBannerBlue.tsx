@@ -45,4 +45,7 @@ const ChoiceCardsBannerBlue = ({
 const validated = validatedBannerWrapper(ChoiceCardsBannerBlue, bannerId);
 const unvalidated = bannerWrapper(ChoiceCardsBannerBlue, bannerId);
 
-export { validated as ChoiceCardsBannerBlue, unvalidated as ChoiceCardsBannerBlueUnValidated };
+export {
+    validated as ChoiceCardsTabsBannerBlue,
+    unvalidated as ChoiceCardsTabsBannerBlueUnValidated,
+};
