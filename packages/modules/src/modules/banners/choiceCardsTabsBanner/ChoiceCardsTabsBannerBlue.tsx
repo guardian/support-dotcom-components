@@ -1,15 +1,18 @@
-import { brandAlt, neutral } from '@guardian/src-foundations';
+import { css } from '@emotion/react';
+import { brand } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
-import { ChoiceCardsBanner } from './ChoiceCardsBanner';
+import { ChoiceCardsBanner } from './ChoiceCardsTabsBanner';
 
-const bannerId = 'choice-cards-banner-yellow';
-export const backgroundColor = brandAlt[400];
-export const headingColor = neutral[0];
-export const borderTopColor = neutral[0];
+const bannerId = 'choice-cards-tabs-banner-blue';
+export const backgroundColor = '#F1F8FC';
+export const headingColor = brand[400];
+export const borderTopColorStyle = css`
+    border-top: 1px solid ${brand[400]};
+`;
 
-const ChoiceCardsBannerYellow = ({
+const ChoiceCardsBannerBlue = ({
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -31,6 +34,7 @@ const ChoiceCardsBannerYellow = ({
             numArticles={numArticles}
             backgroundColor={backgroundColor}
             headingColor={headingColor}
+            borderTopColorStyle={borderTopColorStyle}
             bannerId={bannerId}
             isSupporter={isSupporter}
             separateArticleCount={separateArticleCount}
@@ -38,7 +42,10 @@ const ChoiceCardsBannerYellow = ({
     );
 };
 
-const validated = validatedBannerWrapper(ChoiceCardsBannerYellow, bannerId);
-const unvalidated = bannerWrapper(ChoiceCardsBannerYellow, bannerId);
+const validated = validatedBannerWrapper(ChoiceCardsBannerBlue, bannerId);
+const unvalidated = bannerWrapper(ChoiceCardsBannerBlue, bannerId);
 
-export { validated as ChoiceCardsBannerYellow, unvalidated as ChoiceCardsBannerYellowUnValidated };
+export {
+    validated as ChoiceCardsTabsBannerBlue,
+    unvalidated as ChoiceCardsTabsBannerBlueUnValidated,
+};
