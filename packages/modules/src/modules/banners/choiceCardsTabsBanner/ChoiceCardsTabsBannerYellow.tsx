@@ -2,7 +2,7 @@ import { brandAlt, neutral } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
-import { ChoiceCardsBanner } from './ChoiceCardsTabsBanner';
+import { ChoiceCardsTabsBanner } from './ChoiceCardsTabsBanner';
 
 const bannerId = 'choice-cards-tabs-banner-yellow';
 export const backgroundColor = brandAlt[400];
@@ -21,7 +21,7 @@ const ChoiceCardsBannerYellow = ({
     separateArticleCount,
 }: BannerRenderProps) => {
     return (
-        <ChoiceCardsBanner
+        <ChoiceCardsTabsBanner
             onCloseClick={onCloseClick}
             content={content}
             choiceCardAmounts={choiceCardAmounts}

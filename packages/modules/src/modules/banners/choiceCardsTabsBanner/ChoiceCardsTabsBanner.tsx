@@ -60,7 +60,7 @@ export type ChoiceCardsBannerRenderProps = {
     borderTopColorStyle?: SerializedStyles;
 };
 
-export const ChoiceCardsBanner = ({
+export const ChoiceCardsTabsBanner = ({
     bannerId,
     backgroundColor,
     headingColor,
