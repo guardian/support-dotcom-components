@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { ChoiceCardsBanner, ChoiceCardsBannerRenderProps } from './ChoiceCardsButtonsBanner';
+import { ChoiceCardsButtonsBanner, ChoiceCardsBannerRenderProps } from './ChoiceCardsButtonsBanner';
 import { BannerRenderProps } from '../common/types';
 import {
     backgroundColor as blueBannerBackgroundColor,
@@ -14,7 +14,7 @@ import {
 import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
-    component: ChoiceCardsBanner,
+    component: ChoiceCardsButtonsBanner,
     title: 'Banners/ChoiceCardsButtonsBanner',
 } as Meta;
 
@@ -26,7 +26,7 @@ type ChoiceCardStoryProps = Omit<
 
 const Template: Story<ChoiceCardStoryProps> = (props: ChoiceCardStoryProps) =>
     props.content && (
-        <ChoiceCardsBanner
+        <ChoiceCardsButtonsBanner
             {...props}
             backgroundColor={props.backgroundColor}
             headingColor={props.headingColor}
