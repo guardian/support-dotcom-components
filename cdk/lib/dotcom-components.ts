@@ -1,5 +1,6 @@
 import { GuEc2App } from '@guardian/cdk';
 import { AccessScope } from '@guardian/cdk/lib/constants';
+import type { NoMonitoring } from '@guardian/cdk/lib/constructs/cloudwatch';
 import { GuAlarm } from '@guardian/cdk/lib/constructs/cloudwatch';
 import type { GuStackProps } from '@guardian/cdk/lib/constructs/core';
 import {
@@ -12,6 +13,7 @@ import {
 	GuGetS3ObjectsPolicy,
 	GuPutCloudwatchMetricsPolicy,
 } from '@guardian/cdk/lib/constructs/iam';
+import type { Alarms } from '@guardian/cdk/lib/patterns/ec2-app/base';
 import type { GuAsgCapacity } from '@guardian/cdk/lib/types';
 import type { App } from 'aws-cdk-lib';
 import { Duration } from 'aws-cdk-lib';
@@ -151,6 +153,19 @@ chown -R dotcom-components:support /var/log/dotcom-components
 			maximumInstances: this.stage === 'CODE' ? 2 : 18,
 		};
 
+		const monitoringConfiguration: Alarms | NoMonitoring =
+			this.stage === 'PROD'
+				? {
+						http5xxAlarm: {
+							tolerated5xxPercentage: 0.5,
+							numberOfMinutesAboveThresholdBeforeAlarm: 1,
+							alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
+						},
+						unhealthyInstancesAlarm: true,
+						snsTopicName,
+				  }
+				: { noMonitoring: true };
+
 		const ec2App = new GuEc2App(this, {
 			instanceType: InstanceType.of(
 				InstanceClass.T4G,
@@ -162,15 +177,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
 			certificateProps: {
 				domainName: props.domainName,
 			},
-			monitoringConfiguration: {
-				http5xxAlarm: {
-					tolerated5xxPercentage: 0.5,
-					numberOfMinutesAboveThresholdBeforeAlarm: 1,
-					alarmName: `URGENT 9-5 - high 5XX error rate on ${this.stage} support-dotcom-components`,
-				},
-				unhealthyInstancesAlarm: true,
-				snsTopicName,
-			},
+			monitoringConfiguration,
 			userData,
 			roleConfiguration: {
 				additionalPolicies: policies,
