@@ -61,6 +61,8 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
                             }
                             setIsReminderActive(true);
                         });
+                    } else {
+                        setIsReminderActive(true);
                     }
                 }}
                 submitComponentEvent={submitComponentEvent}

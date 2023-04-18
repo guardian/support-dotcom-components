@@ -210,6 +210,8 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
                 }
                 setIsReminderOpen(!isReminderOpen);
             });
+        } else {
+            setIsReminderOpen(!isReminderOpen);
         }
     };
 

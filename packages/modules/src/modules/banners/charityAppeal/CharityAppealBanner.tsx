@@ -224,6 +224,8 @@ export const getCharityAppealBanner = (
                 }
                 setIsReminderOpen(!isReminderOpen);
             });
+        } else {
+            setIsReminderOpen(!isReminderOpen);
         }
     };
 
