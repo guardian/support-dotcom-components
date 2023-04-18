@@ -49,7 +49,6 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
-    email?: string;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
     prices?: Prices;
@@ -67,7 +66,6 @@ export const bannerSchema = z.object({
     submitComponentEvent: z.any(),
     numArticles: z.number().nullish(),
     hasOptedOutOfArticleCount: z.boolean().nullish(),
-    email: z.string().nullish(),
     fetchEmail: z.any().nullish(),
     separateArticleCount: z.boolean().nullish(),
 });

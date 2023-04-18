@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { EpicProps } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
-import { defineFetchEmail } from '../shared/helpers/definedFetchEmail';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 
 interface OnReminderOpen {
@@ -23,7 +22,6 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
     tracking,
     submitComponentEvent,
     onReminderOpen,
-    email,
     fetchEmail,
     showChoiceCards,
     choiceCardSelection,
@@ -31,7 +29,6 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
     amountsVariantName,
 }: ContributionsEpicCtasProps): JSX.Element | null => {
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
-    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
     const [isReminderActive, setIsReminderActive] = useState(false);
     const showReminderFields = variant.showReminderFields;
     const onCloseReminderClick = () => {
@@ -57,12 +54,14 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
                         } as OnReminderOpen);
                     }
 
-                    fetchEmailDefined().then(resolvedEmail => {
-                        if (resolvedEmail) {
-                            setFetchedEmail(resolvedEmail);
-                        }
-                        setIsReminderActive(true);
-                    });
+                    if (fetchEmail) {
+                        fetchEmail().then(resolvedEmail => {
+                            if (resolvedEmail) {
+                                setFetchedEmail(resolvedEmail);
+                            }
+                            setIsReminderActive(true);
+                        });
+                    }
                 }}
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
