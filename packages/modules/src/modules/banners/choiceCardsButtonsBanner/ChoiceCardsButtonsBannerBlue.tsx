@@ -3,9 +3,9 @@ import { brand } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
-import { ChoiceCardsBanner } from './ChoiceCardsBanner';
+import { ChoiceCardsBanner } from './ChoiceCardsButtonsBanner';
 
-const bannerId = 'choice-cards-banner-blue';
+const bannerId = 'choice-cards-buttons-banner-blue';
 export const backgroundColor = '#F1F8FC';
 export const headingColor = brand[400];
 export const borderTopColorStyle = css`
@@ -45,4 +45,7 @@ const ChoiceCardsBannerBlue = ({
 const validated = validatedBannerWrapper(ChoiceCardsBannerBlue, bannerId);
 const unvalidated = bannerWrapper(ChoiceCardsBannerBlue, bannerId);
 
-export { validated as ChoiceCardsBannerBlue, unvalidated as ChoiceCardsBannerBlueUnValidated };
+export {
+    validated as ChoiceCardsButtonsBannerBlue,
+    unvalidated as ChoiceCardsButtonsBannerBlueUnValidated,
+};
