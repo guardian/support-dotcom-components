@@ -12,7 +12,7 @@ export const borderTopColorStyle = css`
     border-top: 1px solid ${brand[400]};
 `;
 
-const ChoiceCardsBannerBlue = ({
+const ChoiceCardsButtonsBannerBlue = ({
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -42,8 +42,8 @@ const ChoiceCardsBannerBlue = ({
     );
 };
 
-const validated = validatedBannerWrapper(ChoiceCardsBannerBlue, bannerId);
-const unvalidated = bannerWrapper(ChoiceCardsBannerBlue, bannerId);
+const validated = validatedBannerWrapper(ChoiceCardsButtonsBannerBlue, bannerId);
+const unvalidated = bannerWrapper(ChoiceCardsButtonsBannerBlue, bannerId);
 
 export {
     validated as ChoiceCardsButtonsBannerBlue,

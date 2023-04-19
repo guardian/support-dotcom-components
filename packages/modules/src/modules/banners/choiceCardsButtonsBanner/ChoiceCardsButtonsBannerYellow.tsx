@@ -9,7 +9,7 @@ export const backgroundColor = brandAlt[400];
 export const headingColor = neutral[0];
 export const borderTopColor = neutral[0];
 
-const ChoiceCardsBannerYellow = ({
+const ChoiceCardsButtonsBannerYellow = ({
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -38,8 +38,8 @@ const ChoiceCardsBannerYellow = ({
     );
 };
 
-const validated = validatedBannerWrapper(ChoiceCardsBannerYellow, bannerId);
-const unvalidated = bannerWrapper(ChoiceCardsBannerYellow, bannerId);
+const validated = validatedBannerWrapper(ChoiceCardsButtonsBannerYellow, bannerId);
+const unvalidated = bannerWrapper(ChoiceCardsButtonsBannerYellow, bannerId);
 
 export {
     validated as ChoiceCardsButtonsBannerYellow,
