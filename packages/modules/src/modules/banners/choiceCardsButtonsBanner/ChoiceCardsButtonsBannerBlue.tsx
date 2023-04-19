@@ -3,7 +3,7 @@ import { brand } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
-import { ChoiceCardsBanner } from './ChoiceCardsButtonsBanner';
+import { ChoiceCardsButtonsBanner } from './ChoiceCardsButtonsBanner';
 
 const bannerId = 'choice-cards-buttons-banner-blue';
 export const backgroundColor = '#F1F8FC';
@@ -24,7 +24,7 @@ const ChoiceCardsBannerBlue = ({
     separateArticleCount,
 }: BannerRenderProps) => {
     return (
-        <ChoiceCardsBanner
+        <ChoiceCardsButtonsBanner
             onCloseClick={onCloseClick}
             content={content}
             choiceCardAmounts={choiceCardAmounts}
