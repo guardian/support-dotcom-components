@@ -13,7 +13,8 @@ import { BannerTemplateSettings } from './settings';
 import { between, from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
-import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
+import MomentTemplateBannerTicker from './components/ticker/MomentTemplateBannerTicker';
+import { bannerSpacing } from './styles/templateStyles';
 
 // ---- Banner ---- //
 export function getMomentTemplateBanner(
@@ -126,13 +127,11 @@ export function getMomentTemplateBanner(
                             </div>
 
                             {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
-                                <div css={styles.articleCountContainer}>
                                     <MomentTemplateBannerArticleCount
                                         numArticles={numArticles}
                                         settings={templateSettings}
                                         textColour={templateSettings.articleCountTextColour}
                                     />
-                                </div>
                             )}
 
                             <div css={styles.bodyContainer}>
@@ -241,7 +240,6 @@ const styles = {
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${paddingTop ?? space[2]}px;
 
         ${hasReminderCta
             ? `
@@ -253,6 +251,8 @@ const styles = {
         ${from.tablet} {
             display: none;
         }
+
+        ${bannerSpacing.heading};
     `,
     mobileVisualContainer: css`
         display: none;
@@ -265,12 +265,6 @@ const styles = {
             display: none;
         }
     `,
-    mobileVisualContainerGivingTues: css`
-        max-height: 180px;
-        overflow: hidden;
-        margin-left: -${space[5]}px;
-        margin-right: -${space[5]}px;
-    `,
     desktopVisualContainer: css`
         display: none;
         pointer-events: none;
@@ -282,46 +276,6 @@ const styles = {
             margin-left: ${space[3]}px;
         }
         ${from.desktop} {
-            width: 320px;
-            margin-left: ${space[5]}px;
-        }
-        ${from.leftCol} {
-            width: 370px;
-            margin-left: ${space[9]}px;
-        }
-    `,
-    desktopVisualContainerNY: css`
-        ${from.tablet} {
-            width: 500px;
-        }
-        ${from.desktop} {
-            width: 520px;
-        }
-        ${from.leftCol} {
-            width: 540px;
-        }
-    `,
-    desktopGivingTuesVisualContainer: css`
-        ${from.tablet} {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    `,
-    desktopUsEoyV3Container: css`
-        display: none;
-        pointer-events: none;
-        position: relative;
-
-        ${from.tablet} {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 238px;
-            margin-left: ${space[3]}px;
-        }
-        ${from.desktop} {
-            align-items: flex-end;
             width: 320px;
             margin-left: ${space[5]}px;
         }
@@ -351,9 +305,8 @@ const styles = {
         ${from.mobileMedium} {
             margin-top: ${space[2]}px;
         }
-    `,
-    headerContainerUsEoyV3: css`
-        justify-content: space-between;
+
+        ${bannerSpacing.heading}
     `,
     desktopHeaderContainer: css`
         display: none;
@@ -362,16 +315,11 @@ const styles = {
         ${from.tablet} {
             display: block;
         }
-    `,
-    articleCountContainer: css`
-        margin-top: ${space[4]}px;
 
-        ${from.tablet} {
-            margin-top: ${space[3]}px;
-        }
+        ${bannerSpacing.heading}
     `,
     bodyContainer: css`
-        margin-top: ${space[1]}px;
+        ${bannerSpacing.bodyCopyAndArticleCount}
     `,
     ctasContainer: css`
         display: flex;
@@ -389,32 +337,5 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
-    `,
-    bannerVisualOverridesUSEoy: css`
-        ${from.tablet} {
-            align-items: flex-start;
-        }
-    `,
-    bannerVisualOverridesUSGivingTues: css`
-        img {
-            object-fit: cover;
-        }
-    `,
-    bannerVisualOverridesAus: css`
-        ${between.tablet.and.desktop} {
-            align-items: baseline;
-            margin-top: 70px;
-            margin-left: ${space[5]}px;
-        }
-    `,
-    bannerVisualOverridesGlobalNY: css`
-        ${from.tablet} {
-            align-items: center;
-            justify-content: initial;
-        }
-        ${from.desktop} {
-            align-items: flex-end;
-            justify-content: initial;
-        }
     `,
 };

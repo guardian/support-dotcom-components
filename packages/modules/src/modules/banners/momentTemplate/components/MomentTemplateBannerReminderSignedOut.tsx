@@ -11,7 +11,7 @@ import { useContributionsReminderEmailForm } from '../../../../hooks/useContribu
 import { SvgCheckmark } from '@guardian/src-icons';
 import { from } from '@guardian/src-foundations/mq';
 import { CtaSettings } from '../settings';
-import { buttonStyles } from '../buttonStyles';
+import { buttonStyles } from '../styles/buttonStyles';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../../shared/Reminders';
 
 // ---- Component ---- //
