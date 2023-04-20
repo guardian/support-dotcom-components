@@ -10,7 +10,7 @@ import {
     removeArticleCountFromLocalStorage,
 } from '../../../shared/helpers/articleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
-import { buttonStyles } from '../buttonStyles';
+import { buttonStyles } from '../styles/buttonStyles';
 
 // ---- Component ---- //
 
