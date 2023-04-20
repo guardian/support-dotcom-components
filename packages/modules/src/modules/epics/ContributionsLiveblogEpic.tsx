@@ -122,7 +122,6 @@ export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
     tracking,
     submitComponentEvent,
     onReminderOpen,
-    email,
     fetchEmail,
 }: EpicProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
@@ -173,7 +172,6 @@ export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
                     countryCode={countryCode}
                     articleCounts={articleCounts}
                     onReminderOpen={onReminderOpen}
-                    email={email}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                 />
