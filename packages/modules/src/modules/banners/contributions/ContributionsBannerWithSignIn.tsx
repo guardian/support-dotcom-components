@@ -15,7 +15,6 @@ import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { ContributionsBannerSignInCta } from './ContributionsBannerSignInCta';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
     bannerContainer: css`
@@ -184,22 +183,22 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
     reminderTracking,
     onCloseClick,
     content,
-    email,
     fetchEmail,
 }: BannerRenderProps) => {
     const [isReminderOpen, setIsReminderOpen] = useState(false);
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
-    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const onReminderCtaClick = () => {
         reminderTracking.onReminderCtaClick();
 
-        fetchEmailDefined().then(resolvedEmail => {
-            if (resolvedEmail) {
-                setFetchedEmail(resolvedEmail);
-            }
-            setIsReminderOpen(!isReminderOpen);
-        });
+        if (fetchEmail) {
+            fetchEmail().then(resolvedEmail => {
+                if (resolvedEmail) {
+                    setFetchedEmail(resolvedEmail);
+                }
+                setIsReminderOpen(!isReminderOpen);
+            });
+        }
     };
 
     const onReminderCloseClick = () => {

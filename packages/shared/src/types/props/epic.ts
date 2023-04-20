@@ -28,7 +28,6 @@ export interface EpicProps extends EmotionJSX.IntrinsicAttributes {
     articleCounts: ArticleCounts;
     // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
-    email?: string;
     fetchEmail?: () => Promise<string | null>;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     openCmp?: () => void;
@@ -84,7 +83,6 @@ export const epicPropsSchema = z.object({
     countryCode: z.string().nullish(),
     articleCounts: articleCountsSchema,
     onReminderOpen: z.any().nullish(),
-    email: z.string().nullish(),
     fetchEmail: z.any().nullish(),
     submitComponentEvent: z.any().nullish(),
     openCmp: z.any().nullish(),
