@@ -132,15 +132,15 @@ Aus10yrAnniversaryMomentBanner.args = {
     tickerSettings: {
         countType: TickerCountType.money,
         endType: TickerEndType.hardstop,
-        currencySymbol: '$',
+        currencySymbol: '',
         copy: {
-            countLabel: 'raised',
+            countLabel: 'contributions in May',
             goalReachedPrimary: "We've met our goal - thank you!",
             goalReachedSecondary: '',
         },
         tickerData: {
-            total: 1_200_000,
-            goal: 1_250_000,
+            total: 4_000,
+            goal: 50_000,
         },
         name: 'AU_2022',
     },

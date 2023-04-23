@@ -9,7 +9,7 @@ import { TickerStylingSettings } from '../../settings';
 import { space } from '@guardian/src-foundations';
 import { bannerSpacing } from '../../styles/templateStyles';
 
-const progressBarHeight = 12;
+const progressBarHeight = 12
 const tickerFillOffset = 15 
 const overFilledTickerOffset = 10 
 
@@ -73,15 +73,16 @@ const styles = {
         padding-right: ${space[5]}px;
     `,
     goalContainerStyles: css`
-        margin-right: ${tickerFillOffset / 3}%
-        text-align: end;
+    text-align: end;
+    margin-right: ${tickerFillOffset}%;
+    transform: translateX(50%);
     `,
     goalMarkerStyles: (colour: string): SerializedStyles => css`
         border-right: 2px solid ${colour};
         height: calc(100% + 6px);
         position: absolute;
         top: -3px;
-        right: ${tickerFillOffset}%
+        right: ${tickerFillOffset}%;
     `
 }
 
@@ -116,7 +117,6 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
     const isGoalReached = total >= goal;
     const runningTotal = useTicker(total, readyToAnimate);
 
-    // TO-DO - Contributors label
     const currencySymbol =
         tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
 
