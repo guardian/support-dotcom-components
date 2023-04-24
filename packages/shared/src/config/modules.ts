@@ -100,6 +100,11 @@ export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/ukraineMoment/UkraineMomentBanner',
 );
 
+export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
+    'ukraine-moment-banner',
+    'banners/worldPressFreedomDayBanner/WorldPressFreedomDayBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
