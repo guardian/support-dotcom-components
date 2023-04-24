@@ -29,7 +29,8 @@ export type BannerId =
     | 'us-eoy-banner-v3'
     | 'aus-eoy-banner'
     | 'ukraine-moment-banner'
-    | 'guardian-logo-with-hands-3d';
+    | 'guardian-logo-with-hands-3d'
+    | 'wpfd-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;
