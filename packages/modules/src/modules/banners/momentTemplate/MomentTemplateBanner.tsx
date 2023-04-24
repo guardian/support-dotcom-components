@@ -10,7 +10,7 @@ import { MomentTemplateBannerCtas } from './components/MomentTemplateBannerCtas'
 import { MomentTemplateBannerCloseButton } from './components/MomentTemplateBannerCloseButton';
 import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from './settings';
-import { between, from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/ticker/MomentTemplateBannerTicker';
@@ -126,13 +126,15 @@ export function getMomentTemplateBanner(
                                 />
                             </div>
 
-                            {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
+                            {separateArticleCount &&
+                                numArticles !== undefined &&
+                                numArticles > 5 && (
                                     <MomentTemplateBannerArticleCount
                                         numArticles={numArticles}
                                         settings={templateSettings}
                                         textColour={templateSettings.articleCountTextColour}
                                     />
-                            )}
+                                )}
 
                             <div css={styles.bodyContainer}>
                                 <MomentTemplateBannerBody
@@ -240,6 +242,7 @@ const styles = {
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
+        ${paddingTop && `padding-top: ${paddingTop}px`};
 
         ${hasReminderCta
             ? `
