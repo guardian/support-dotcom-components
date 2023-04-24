@@ -55,7 +55,7 @@ export const tickerSettings: TickerSettings = {
         total: 120_000,
         goal: 150_000,
     },
-    name: 'US_2022',
+    name: 'US',
 };
 
 export const props: BannerProps = {

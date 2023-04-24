@@ -187,7 +187,7 @@ WithTicker.args = {
                 total: 10000,
                 goal: 100000,
             },
-            name: 'US_2022',
+            name: 'US',
         },
     },
 };

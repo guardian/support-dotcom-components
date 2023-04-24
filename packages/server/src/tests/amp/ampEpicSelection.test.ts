@@ -14,7 +14,7 @@ const tickerSettings: TickerSettings = {
         goalReachedPrimary: "We've hit our goal!",
         goalReachedSecondary: 'but you can still support us',
     },
-    name: 'US_2022',
+    name: 'US',
 };
 
 const epicTest: AmpEpicTest = {
@@ -78,8 +78,8 @@ const expectedAmpEpic: AMPEpic = {
 };
 
 const tickerDataReloader = new TickerDataProvider({
-    US_2022: { get: () => ({ total: 999, goal: 1000 }) },
-    AU_2022: { get: () => ({ total: 999, goal: 1000 }) },
+    US: { get: () => ({ total: 999, goal: 1000 }) },
+    AU: { get: () => ({ total: 999, goal: 1000 }) },
 });
 
 describe('ampEpicTests', () => {
