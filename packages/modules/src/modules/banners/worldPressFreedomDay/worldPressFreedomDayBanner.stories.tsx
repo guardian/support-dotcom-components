@@ -1,7 +1,12 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { BannerRenderProps } from '../common/types';
-import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
+import {
+    BannerProps,
+    PageTracking,
+    SecondaryCtaType,
+    TestTracking,
+    Tracking,
+} from '@sdc/shared/src/types';
 import { WorldPressFreedomDayBannerUnValidated as WorldPressFreedomDayBanner } from './WorldPressFreedomDayBanner';
 
 export default {
@@ -9,14 +14,10 @@ export default {
     title: 'Banners/WorldPressFreedomDayBanner',
 } as Meta;
 
-const Template: Story<BannerRenderProps> = (props: BannerRenderProps) =>
-    props.content && (
-        // TO-DO - type mismatch for 'content' prop
-        <WorldPressFreedomDayBanner
-            {...props}
-            bannerChannel='contributions'
-        />
-    );
+const Template: Story<BannerProps> = (props: BannerProps) => (
+    // TO-DO - type mismatch for 'content' prop
+    <WorldPressFreedomDayBanner {...props} bannerChannel="contributions" />
+);
 
 // Test tracking data from choice cards in epic story
 const pageTracking: PageTracking = {
@@ -45,51 +46,37 @@ export const Default = Template.bind({});
 Default.args = {
     countryCode: 'GB',
     content: {
-        mainContent: {
-            heading: <>As 2023 unfolds, will you support us?</>,
-            subheading: null,
-            paragraphs: [
-                <>
-                    We’re a reader-funded news organisation, with more than 1.5 million supporters
-                    in 180 countries. With this vital support, our reporting remains fiercely
-                    independent, and is never manipulated by commercial or political ties. And it’s
-                    free, for everyone. But if you can support us, we need you.
-                </>,
-            ],
-            highlightedText: (
-                <>
-                    Give just once from £1, or better yet, power us every month with a little more.
-                    Thank you.
-                </>
-            ),
-            primaryCta: {
-                ctaText: 'Contribute',
-                ctaUrl: 'https://support.theguardian.com/contribute',
-            },
-            secondaryCta: null,
+        heading: 'Celebrate our past. Power our future.',
+        messageText:
+            'Bushfires, floods, an historic referendum, six prime ministers and a pandemic. Much has changed since Guardian Australia first launched 10 years ago, but our mission remains the same: to follow the facts, hold power to account, to call out injustice, and give a voice to the marginalised. And we’re just getting started. This May, as we celebrate our 10th birthday, we want to power our journalism with an additional 5,000 supporter contributions. Whether you give once, or support us on a regular basis, your funding will power independent, fearless reporting for the years to come.',
+        paragraphs: [
+            'Bushfires, floods, an historic referendum, six prime ministers and a pandemic. Much has changed since Guardian Australia first launched 10 years ago, but our mission remains the same: to follow the facts, hold power to account, to call out injustice, and give a voice to the marginalised. And we’re just getting started. This May, as we celebrate our 10th birthday, we want to power our journalism with an additional 5,000 supporter contributions. Whether you give once, or support us on a regular basis, your funding will power independent, fearless reporting for the years to come.',
+        ],
+        highlightedText:
+            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support the Guardian',
+            baseUrl: 'https://support.theguardian.com/contribute',
         },
-        mobileContent: {
-            heading: <>As 2023 unfolds, will you support us?</>,
-            subheading: null,
-            paragraphs: [
-                <>
-                    We’re a reader-funded news organisation, with more than 1.5 million supporters
-                    in 180 countries. With this vital support, our reporting remains fiercely
-                    independent, and is never manipulated by commercial or political ties. And it’s
-                    free, for everyone. But if you can support us, we need you.
-                </>,
-            ],
-            highlightedText: (
-                <>
-                    Give just once from £1, or better yet, power us every month with a little more.
-                    Thank you.
-                </>
-            ),
-            primaryCta: {
-                ctaText: 'Continue',
-                ctaUrl: 'https://support.theguardian.com/contribute',
-            },
-            secondaryCta: null,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    mobileContent: {
+        heading: 'Celebrate our past. Power our future.',
+        messageText:
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
+        paragraphs: [
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
+        ],
+        highlightedText:
+            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+        cta: {
+            text: 'Support us',
+            baseUrl: 'https://support.theguardian.com/contribute',
+        },
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
         },
     },
     isSupporter: false,
@@ -115,7 +102,6 @@ Default.args = {
             },
         },
     },
-    onCloseClick: () => null,
     separateArticleCount: true,
     numArticles: 15,
 };

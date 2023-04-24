@@ -1,4 +1,4 @@
-import { css, SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
 import { brand, brandAlt, neutral, space } from '@guardian/src-foundations';
@@ -15,7 +15,7 @@ export const banner = css`
     }
     box-sizing: border-box;
     width: 100%;
-    background-color: #F1F8FC;
+    background-color: #f1f8fc;
     color: ${neutral[0]};
     position: relative;
     b,
