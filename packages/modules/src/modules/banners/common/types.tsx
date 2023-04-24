@@ -77,7 +77,6 @@ export interface BannerRenderProps {
     reminderTracking: ContributionsReminderTracking;
     content: BannerTextContent;
     countryCode?: string;
-    email?: string;
     fetchEmail?: () => Promise<string | null>;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;

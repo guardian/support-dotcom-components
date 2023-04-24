@@ -14,7 +14,6 @@ import { CharityAppealBannerCloseButton } from './CharityAppealBannerCloseButton
 import { BannerText } from '../common/BannerText';
 import { CharityAppealBannerReminder } from './CharityAppealBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { defineFetchEmail } from '../../shared/helpers/definedFetchEmail';
 
 const styles = {
     // foreBorderColor links the foreground colour with the borders around it
@@ -210,22 +209,24 @@ export const getCharityAppealBanner = (
     reminderTracking,
     onCloseClick,
     content,
-    email,
     fetchEmail,
 }: BannerRenderProps) => {
     const [isReminderOpen, setIsReminderOpen] = useState(false);
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
-    const fetchEmailDefined = defineFetchEmail(email, fetchEmail);
 
     const onReminderCtaClick = () => {
         reminderTracking.onReminderCtaClick();
 
-        fetchEmailDefined().then(resolvedEmail => {
-            if (resolvedEmail) {
-                setFetchedEmail(resolvedEmail);
-            }
+        if (fetchEmail) {
+            fetchEmail().then(resolvedEmail => {
+                if (resolvedEmail) {
+                    setFetchedEmail(resolvedEmail);
+                }
+                setIsReminderOpen(!isReminderOpen);
+            });
+        } else {
             setIsReminderOpen(!isReminderOpen);
-        });
+        }
     };
 
     const onReminderCloseClick = () => {

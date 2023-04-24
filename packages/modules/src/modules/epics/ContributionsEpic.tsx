@@ -243,7 +243,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
     countryCode,
     articleCounts,
     onReminderOpen,
-    email,
     fetchEmail,
     submitComponentEvent,
     openCmp,
@@ -429,7 +428,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     countryCode={countryCode}
                     articleCounts={articleCounts}
                     onReminderOpen={onReminderOpen}
-                    email={email}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                     showChoiceCards={showChoiceCards}

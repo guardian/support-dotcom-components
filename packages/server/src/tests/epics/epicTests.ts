@@ -30,6 +30,3 @@ export const buildEpicTestsReloader = (): Promise<ValueReloader<EpicTest[]>> =>
 
 export const buildEpicLiveblogTestsReloader = (): Promise<ValueReloader<EpicTest[]>> =>
     buildReloader(fetchConfiguredEpicTests('EpicLiveblog'), 60);
-
-export const buildEpicHoldbackTestsReloader = (): Promise<ValueReloader<EpicTest[]>> =>
-    buildReloader(fetchConfiguredEpicTests('EpicHoldback'), 60);
