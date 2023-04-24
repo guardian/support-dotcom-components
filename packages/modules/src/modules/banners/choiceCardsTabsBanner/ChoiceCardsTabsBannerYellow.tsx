@@ -1,18 +1,15 @@
-import { css } from '@emotion/react';
-import { brand } from '@guardian/src-foundations';
+import { brandAlt, neutral } from '@guardian/src-foundations';
 import React from 'react';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 import { BannerRenderProps } from '../common/types';
-import { ChoiceCardsBanner } from './ChoiceCardsBanner';
+import { ChoiceCardsTabsBanner } from './ChoiceCardsTabsBanner';
 
-const bannerId = 'choice-cards-banner-blue';
-export const backgroundColor = '#F1F8FC';
-export const headingColor = brand[400];
-export const borderTopColorStyle = css`
-    border-top: 1px solid ${brand[400]};
-`;
+const bannerId = 'choice-cards-tabs-banner-yellow';
+export const backgroundColor = brandAlt[400];
+export const headingColor = neutral[0];
+export const borderTopColor = neutral[0];
 
-const ChoiceCardsBannerBlue = ({
+const ChoiceCardsTabsBannerYellow = ({
     onCloseClick,
     content,
     choiceCardAmounts,
@@ -24,7 +21,7 @@ const ChoiceCardsBannerBlue = ({
     separateArticleCount,
 }: BannerRenderProps) => {
     return (
-        <ChoiceCardsBanner
+        <ChoiceCardsTabsBanner
             onCloseClick={onCloseClick}
             content={content}
             choiceCardAmounts={choiceCardAmounts}
@@ -34,7 +31,6 @@ const ChoiceCardsBannerBlue = ({
             numArticles={numArticles}
             backgroundColor={backgroundColor}
             headingColor={headingColor}
-            borderTopColorStyle={borderTopColorStyle}
             bannerId={bannerId}
             isSupporter={isSupporter}
             separateArticleCount={separateArticleCount}
@@ -42,7 +38,10 @@ const ChoiceCardsBannerBlue = ({
     );
 };
 
-const validated = validatedBannerWrapper(ChoiceCardsBannerBlue, bannerId);
-const unvalidated = bannerWrapper(ChoiceCardsBannerBlue, bannerId);
+const validated = validatedBannerWrapper(ChoiceCardsTabsBannerYellow, bannerId);
+const unvalidated = bannerWrapper(ChoiceCardsTabsBannerYellow, bannerId);
 
-export { validated as ChoiceCardsBannerBlue, unvalidated as ChoiceCardsBannerBlueUnValidated };
+export {
+    validated as ChoiceCardsTabsBannerYellow,
+    unvalidated as ChoiceCardsTabsBannerYellowUnValidated,
+};

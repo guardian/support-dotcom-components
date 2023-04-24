@@ -4,16 +4,18 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import { neutral, space } from '@guardian/src-foundations';
+import { space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs, ContributionType } from './ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
-import { ChoiceCardSelection } from '../ChoiceCardsBanner';
+import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
 
-export type ChoiceCardBannerComponentId = 'choice-cards-banner-yellow' | 'choice-cards-banner-blue';
+export type ChoiceCardBannerComponentId =
+    | 'choice-cards-buttons-banner-yellow'
+    | 'choice-cards-buttons-banner-blue';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;
@@ -52,11 +54,13 @@ const styles = {
         }
 
         ${from.tablet} {
-            margin: 60px 0 ${space[5]}px;
+            margin: 108px 0 ${space[5]}px;
         }
 
         ${from.desktop} {
+            min-height: 208px;
             max-width: 380px;
+            margin-top: 120px;
         }
     `,
     bannerFrequenciesGroupOverrides: css`
@@ -80,10 +84,6 @@ const styles = {
         }
     `,
     bannerAmountsContainer: css`
-        background: ${neutral[100]};
-        border-left: 1px solid ${neutral[86]};
-        border-right: 1px solid ${neutral[86]};
-
         > div:first-of-type {
             display: block !important;
         }
@@ -92,11 +92,6 @@ const styles = {
     ctaAndPaymentCardsContainer: css`
         display: flex;
         align-items: center;
-        padding: 0 ${space[3]}px;
-        background: ${neutral[100]};
-        border-radius: 0 0 ${space[3]}px ${space[3]}px;
-        border: 1px solid ${neutral[86]};
-        border-top: none;
     `,
     paymentCardsSvgOverrides: css`
         margin-top: -10px;
