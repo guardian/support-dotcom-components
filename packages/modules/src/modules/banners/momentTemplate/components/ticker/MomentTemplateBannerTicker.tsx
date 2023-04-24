@@ -9,9 +9,9 @@ import { TickerStylingSettings } from '../../settings';
 import { space } from '@guardian/src-foundations';
 import { bannerSpacing } from '../../styles/templateStyles';
 
-const progressBarHeight = 12
-const tickerFillOffset = 15 
-const overFilledTickerOffset = 10 
+const progressBarHeight = 12;
+const tickerFillOffset = 15;
+const overFilledTickerOffset = 10;
 
 const styles = {
     containerStyles: css`
@@ -60,7 +60,7 @@ const styles = {
         runningTotal: number,
         total: number,
         colour: string,
-        isGoalReached: boolean
+        isGoalReached: boolean,
     ): SerializedStyles =>
         css`
             height: ${progressBarHeight}px;
@@ -68,14 +68,14 @@ const styles = {
             transform: ${styles.progressBarTransform(end, runningTotal, total)};
             transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
             background-color: ${colour};
-    `,
+        `,
     soFarContainerStyles: css`
         padding-right: ${space[5]}px;
     `,
     goalContainerStyles: css`
-    text-align: end;
-    margin-right: ${tickerFillOffset}%;
-    transform: translateX(50%);
+        text-align: end;
+        margin-right: ${tickerFillOffset}%;
+        transform: translateX(50%);
     `,
     goalMarkerStyles: (colour: string): SerializedStyles => css`
         border-right: 2px solid ${colour};
@@ -83,8 +83,8 @@ const styles = {
         position: absolute;
         top: -3px;
         right: ${tickerFillOffset}%;
-    `
-}
+    `,
+};
 
 type MomentTemplateBannerTickerProps = {
     tickerSettings: TickerSettings;
@@ -154,7 +154,7 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
                             runningTotal,
                             total,
                             stylingSettings.filledProgressColour,
-                            isGoalReached
+                            isGoalReached,
                         )}
                     />
                 </div>
