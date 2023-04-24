@@ -77,11 +77,11 @@ export class TickerDataProvider {
 
 export const buildTickerDataReloader = async (): Promise<TickerDataProvider> => {
     const reloaders: TickerDataProviders = await Promise.all([
-        buildReloader(getTickerDataForTickerTypeFetcher('US_2022'), 60),
-        buildReloader(getTickerDataForTickerTypeFetcher('AU_2022'), 60),
-    ]).then(([US_2022, AU_2022]) => ({
-        US_2022,
-        AU_2022,
+        buildReloader(getTickerDataForTickerTypeFetcher('US'), 60),
+        buildReloader(getTickerDataForTickerTypeFetcher('AU'), 60),
+    ]).then(([US, AU]) => ({
+        US,
+        AU,
     }));
     return new TickerDataProvider(reloaders);
 };
