@@ -54,7 +54,6 @@ export const buildEpicRouter = (
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
-    holdbackEpicTests: ValueProvider<EpicTest[]>,
     choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
     tickerData: TickerDataProvider,
 ): Router => {
@@ -69,17 +68,7 @@ export const buildEpicRouter = (
             const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
             if (isForcingTest) {
-                return [
-                    ...hardcodedTests,
-                    ...articleEpicTests.get(),
-                    ...holdbackEpicTests.get(),
-                    fallbackEpicTest,
-                ];
-            }
-
-            const shouldHoldBack = mvtId % 100 === 0; // holdback 1% of the audience
-            if (shouldHoldBack) {
-                return holdbackEpicTests.get();
+                return [...hardcodedTests, ...articleEpicTests.get(), fallbackEpicTest];
             }
 
             return [...hardcodedTests, ...articleEpicTests.get(), fallbackEpicTest];

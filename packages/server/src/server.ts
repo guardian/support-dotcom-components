@@ -15,11 +15,7 @@ import { buildAmpEpicRouter } from './api/ampEpicRouter';
 import { buildModulesRouter } from './api/modulesRouter';
 import { buildChannelSwitchesReloader } from './channelSwitches';
 import { buildSuperModeArticlesReloader } from './lib/superMode';
-import {
-    buildEpicHoldbackTestsReloader,
-    buildEpicLiveblogTestsReloader,
-    buildEpicTestsReloader,
-} from './tests/epics/epicTests';
+import { buildEpicLiveblogTestsReloader, buildEpicTestsReloader } from './tests/epics/epicTests';
 import { buildChoiceCardAmountsReloader } from './choiceCardAmounts';
 import { buildTickerDataReloader } from './lib/fetchTickerData';
 import { buildProductPricesReloader } from './productPrices';
@@ -59,7 +55,6 @@ const buildApp = async (): Promise<Express> => {
         superModeArticles,
         articleEpicTests,
         liveblogEpicTests,
-        holdbackEpicTests,
         ampEpicTests,
         choiceCardAmounts,
         tickerData,
@@ -72,7 +67,6 @@ const buildApp = async (): Promise<Express> => {
         buildSuperModeArticlesReloader(),
         buildEpicTestsReloader(),
         buildEpicLiveblogTestsReloader(),
-        buildEpicHoldbackTestsReloader(),
         buildAmpEpicTestsReloader(),
         buildChoiceCardAmountsReloader(),
         buildTickerDataReloader(),
@@ -89,7 +83,6 @@ const buildApp = async (): Promise<Express> => {
             superModeArticles,
             articleEpicTests,
             liveblogEpicTests,
-            holdbackEpicTests,
             choiceCardAmounts,
             tickerData,
         ),
