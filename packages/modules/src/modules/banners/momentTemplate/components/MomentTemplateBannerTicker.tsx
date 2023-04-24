@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { textSans } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '@sdc/shared/types';
-import { HasBeenSeen, useHasBeenSeen } from '../../../../../hooks/useHasBeenSeen';
-import useTicker from '../../../../../hooks/useTicker';
+import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
+import useTicker from '../../../../hooks/useTicker';
 import { from } from '@guardian/src-foundations/mq';
-import { TickerStylingSettings } from '../../settings';
+import { TickerStylingSettings } from '../settings';
 import { space } from '@guardian/src-foundations';
-import { bannerSpacing } from '../../styles/templateStyles';
+import { bannerSpacing } from '../styles/templateStyles';
 
 const progressBarHeight = 12;
 const tickerFillOffset = 15;
