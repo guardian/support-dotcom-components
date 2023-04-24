@@ -13,7 +13,7 @@ import { BannerTemplateSettings } from './settings';
 import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
-import MomentTemplateBannerTicker from './components/ticker/MomentTemplateBannerTicker';
+import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 import { bannerSpacing } from './styles/templateStyles';
 
 // ---- Banner ---- //
