@@ -4,7 +4,7 @@ import { Button } from '@guardian/src-button';
 import { SvgRoundelBrand } from '@guardian/src-brand';
 import { SvgCross } from '@guardian/src-icons';
 import { BannerText } from '../common/BannerText';
-import { BannerId, BannerRenderProps } from '../common/types';
+import { BannerRenderProps } from '../common/types';
 import {
     banner,
     closeButtonStyles,
@@ -93,17 +93,15 @@ const WorldPressFreedomDayBanner = ({
     const articleCount = <ArticleCount numArticles={numArticles ?? 0} />;
 
     return (
-        <section css={banner} data-target='wpfd-banner'>
-            <Container
-                cssOverrides={containerOverrides}
-            >
+        <section css={banner} data-target="wpfd-banner">
+            <Container cssOverrides={containerOverrides}>
                 <Columns>
                     <Column width={1} cssOverrides={iconAndClosePosition}>
                         <Inline space={1}>
                             <div css={logoContainer}>
                                 <SvgRoundelBrand />
                             </div>
-                            <CloseButton onClick={onCloseClick} bannerId='wpfd-banner' />
+                            <CloseButton onClick={onCloseClick} bannerId="wpfd-banner" />
                         </Inline>
                     </Column>
                 </Columns>
@@ -148,4 +146,7 @@ const WorldPressFreedomDayBanner = ({
 const validated = validatedBannerWrapper(WorldPressFreedomDayBanner, 'wpfd-banner');
 const unvalidated = bannerWrapper(WorldPressFreedomDayBanner, 'wpfd-banner');
 
-export { validated as WorldPressFreedomDayBanner, unvalidated as WorldPressFreedomDayBannerUnValidated };
+export {
+    validated as WorldPressFreedomDayBanner,
+    unvalidated as WorldPressFreedomDayBannerUnValidated,
+};

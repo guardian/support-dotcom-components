@@ -131,12 +131,7 @@ export const ChoiceCardAmountButtons = ({
     };
 
     const handleUpdateAmount = (amount: number | 'other') =>
-        updateAmount(
-            amount,
-            setSelectionsCallback,
-            selection.frequency,
-            submitComponentEvent,
-        );
+        updateAmount(amount, setSelectionsCallback, selection.frequency, submitComponentEvent);
 
     const choiceCardAmounts = requiredAmounts.map(amount => (
         <ChoiceCardAmount
@@ -175,9 +170,7 @@ export const ChoiceCardAmountButtons = ({
                         id={`wpfd-banner-other`}
                         checked={selection.amount == 'other'}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            e.target.id === `wpfd-banner-other`
-                                ? handleUpdateAmount('other')
-                                : null
+                            e.target.id === `wpfd-banner-other` ? handleUpdateAmount('other') : null
                         }
                         cssOverrides={supporterPlusChoiceCardAmountOverrides}
                     />

@@ -21,9 +21,7 @@ interface ArticleCountProps {
     numArticles: number;
 }
 
-export function ArticleCount({
-    numArticles,
-}: ArticleCountProps): JSX.Element {
+export function ArticleCount({ numArticles }: ArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}
