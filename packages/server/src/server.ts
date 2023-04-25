@@ -49,6 +49,9 @@ const buildApp = async (): Promise<Express> => {
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
 
+    const stage =
+        process.env.stage === 'CODE' ? 'CODE' : process.env.stage === 'DEV' ? 'DEV' : 'PROD';
+
     // Initialise dependencies
     const [
         channelSwitches,
@@ -69,7 +72,7 @@ const buildApp = async (): Promise<Express> => {
         buildEpicLiveblogTestsReloader(),
         buildAmpEpicTestsReloader(),
         buildChoiceCardAmountsReloader(),
-        buildTickerDataReloader(),
+        buildTickerDataReloader(stage),
         buildProductPricesReloader(),
         buildBannerTestsReloader(),
         buildBannerDeployTimesReloader(),
