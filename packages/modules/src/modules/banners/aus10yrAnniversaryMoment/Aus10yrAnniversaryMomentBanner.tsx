@@ -62,7 +62,4 @@ const AusAnniversaryBanner = getMomentTemplateBanner({
 const unvalidated = bannerWrapper(AusAnniversaryBanner, 'aus-anniversary-banner');
 const validated = validatedBannerWrapper(AusAnniversaryBanner, 'aus-anniversary-banner');
 
-export {
-    validated as AusAnniversaryBanner,
-    unvalidated as AusAnniversaryBannerUnvalidated,
-};
+export { validated as AusAnniversaryBanner, unvalidated as AusAnniversaryBannerUnvalidated };
