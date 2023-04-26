@@ -66,9 +66,9 @@ const AusBanner = bannerWrapper(
             progressBarBackgroundColour: '#fff',
             goalMarkerColour: 'black',
         },
-        bannerId: 'aus-moment-banner',
+        bannerId: 'aus-anniversary-banner',
     }),
-    'aus-moment-banner',
+    'aus-anniversary-banner',
 );
 
 const AusBannerTemplate: Story<BannerProps> = (props: BannerProps) => <AusBanner {...props} />;
