@@ -2,7 +2,7 @@ import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const AusBanner = getMomentTemplateBanner({
+const AusAnniversaryBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: neutral[93],
     },
@@ -56,13 +56,13 @@ const AusBanner = getMomentTemplateBanner({
         progressBarBackgroundColour: '#fff',
         goalMarkerColour: 'black',
     },
-    bannerId: 'aus-moment-banner',
+    bannerId: 'aus-anniversary-banner',
 });
 
-const unvalidated = bannerWrapper(AusBanner, 'aus-moment-banner');
-const validated = validatedBannerWrapper(AusBanner, 'aus-moment-banner');
+const unvalidated = bannerWrapper(AusAnniversaryBanner, 'aus-anniversary-banner');
+const validated = validatedBannerWrapper(AusAnniversaryBanner, 'aus-anniversary-banner');
 
 export {
-    validated as Aus10yrAnniversaryMomentBanner,
-    unvalidated as Aus10yrAnniversaryMomentBannerUnvalidated,
+    validated as AusAnniversaryBanner,
+    unvalidated as AusAnniversaryBannerUnvalidated,
 };
