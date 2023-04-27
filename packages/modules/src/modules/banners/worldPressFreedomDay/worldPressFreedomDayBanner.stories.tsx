@@ -46,7 +46,7 @@ export const Default = Template.bind({});
 Default.args = {
     countryCode: 'GB',
     content: {
-        heading: 'Celebrate our past. Power our future.',
+        heading: '',
         messageText:
             'Bushfires, floods, an historic referendum, six prime ministers and a pandemic. Much has changed since Guardian Australia first launched 10 years ago, but our mission remains the same: to follow the facts, hold power to account, to call out injustice, and give a voice to the marginalised. And we’re just getting started. This May, as we celebrate our 10th birthday, we want to power our journalism with an additional 5,000 supporter contributions. Whether you give once, or support us on a regular basis, your funding will power independent, fearless reporting for the years to come.',
         paragraphs: [
@@ -63,7 +63,7 @@ Default.args = {
         },
     },
     mobileContent: {
-        heading: 'Celebrate our past. Power our future.',
+        heading: '',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus',
         paragraphs: [

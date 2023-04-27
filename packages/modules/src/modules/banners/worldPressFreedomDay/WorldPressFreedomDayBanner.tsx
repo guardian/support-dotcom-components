@@ -23,6 +23,7 @@ import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { ArticleCount } from './components/ArticleCount';
 import { TopImage } from './components/TopImage';
+import { BottomImage } from './components/BottomImage';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 
 type ButtonPropTypes = {
@@ -120,6 +121,7 @@ const WorldPressFreedomDayBanner = ({
                             content={content}
                             articleCount={showArticleCount ? articleCount : undefined}
                         />
+                        <BottomImage />
                     </Column>
                     <Column width={1 / 2} cssOverrides={[choiceCardsColumn, columnMarginOverrides]}>
                         {choiceCardAmounts && (
