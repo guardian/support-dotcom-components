@@ -130,4 +130,5 @@ export const moduleInfos: ModuleInfo[] = [
     header,
     signInPromptHeader,
     ukraineMomentBanner,
+    wpfdBanner,
 ];

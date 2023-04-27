@@ -13,6 +13,7 @@ import {
     signInPromptBanner,
     ukraineMomentBanner,
     ausAnniversaryBanner,
+    wpfdBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -45,6 +46,7 @@ export const BannerPaths: {
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.UkraineMomentBanner]: ukraineMomentBanner.endpointPathBuilder,
+    [BannerTemplate.WorldPressFreedomDayBanner]: wpfdBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {
