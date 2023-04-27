@@ -22,6 +22,7 @@ import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
 import { ContributionFrequency } from '@sdc/shared/src/types';
 import { ArticleCount } from './components/ArticleCount';
+import { TopImage } from './components/TopImage';
 import { validatedBannerWrapper, bannerWrapper } from '../common/BannerWrapper';
 
 type ButtonPropTypes = {
@@ -107,6 +108,7 @@ const WorldPressFreedomDayBanner = ({
                 </Columns>
                 <Columns collapseBelow="tablet" css={columnMarginOverrides}>
                     <Column width={1 / 2} cssOverrides={copyColumn}>
+                        <TopImage />
                         <BannerText
                             styles={{
                                 desktop: {
