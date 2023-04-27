@@ -43,7 +43,7 @@ const AusBanner = getMomentTemplateBanner({
     },
     highlightedTextSettings: {
         textColour: neutral[0],
-        highlightColour: neutral[100],
+        highlightColour: brandAlt[400],
     },
     imageSettings: {
         mainUrl:
