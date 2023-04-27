@@ -7,8 +7,16 @@ const styles = css`
     padding-right: 50px; // prevent overlap with close button
     margin-bottom: -40px; // pull copy element beneath closer
 
+    ${from.mobileMedium} {
+        margin-bottom: -30px;
+    }
+
     ${from.mobileLandscape} {
-        margin-bottom: 0;
+        margin-bottom: -20px;
+    }
+
+    ${from.phablet} {
+        margin-bottom: -10px;
     }
 
     ${from.tablet} {

@@ -55,7 +55,7 @@ Default.args = {
         highlightedText:
             'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
         cta: {
-            text: 'Support the Guardian',
+            text: 'Contribute',
             baseUrl: 'https://support.theguardian.com/contribute',
         },
         secondaryCta: {
