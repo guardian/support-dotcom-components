@@ -107,7 +107,7 @@ export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
     'wpfd-banner',
-    'banners/worldPressFreedomDayBanner/WorldPressFreedomDayBanner',
+    'banners/worldPressFreedomDay/WorldPressFreedomDayBanner',
 );
 
 export const moduleInfos: ModuleInfo[] = [
