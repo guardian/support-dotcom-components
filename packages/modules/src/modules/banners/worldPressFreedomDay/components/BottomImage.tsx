@@ -1,18 +1,15 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { TopImageSvg } from './TopImageSvg';
+import { BottomImageSvg } from './BottomImageSvg';
 
 const styles = css`
-    padding-right: 50px; // prevent overlap with close button
-    margin-bottom: -40px; // pull copy element beneath closer
+    margin-top: -15px; // pull copy element above closer
+    margin-bottom: -15px; // pull price card container beneath closer
 
     ${from.mobileLandscape} {
+        margin-top: 0;
         margin-bottom: 0;
-    }
-
-    ${from.tablet} {
-        padding-right: 0;
     }
 
     svg {
@@ -20,10 +17,10 @@ const styles = css`
     }
 `;
 
-export function TopImage(): JSX.Element {
+export function BottomImage(): JSX.Element {
     return (
         <div css={styles}>
-            <TopImageSvg />
+            <BottomImageSvg />
         </div>
     );
 }
