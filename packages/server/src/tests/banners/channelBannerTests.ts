@@ -12,7 +12,7 @@ import {
     globalNewYearBanner,
     signInPromptBanner,
     ukraineMomentBanner,
-    ausMomentBanner,
+    ausAnniversaryBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -30,7 +30,7 @@ import { getTests } from '../testsStore';
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
-    [BannerTemplate.AusMomentBanner]: ausMomentBanner.endpointPathBuilder,
+    [BannerTemplate.AusAnniversaryBanner]: ausAnniversaryBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
