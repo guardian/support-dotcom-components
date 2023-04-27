@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
-import { BannerId, BannerRenderProps } from '../common/types';
+import { BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
 import { MomentTemplateBannerBody } from './components/MomentTemplateBannerBody';
@@ -10,10 +10,11 @@ import { MomentTemplateBannerCtas } from './components/MomentTemplateBannerCtas'
 import { MomentTemplateBannerCloseButton } from './components/MomentTemplateBannerCloseButton';
 import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from './settings';
-import { between, from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
+import { bannerSpacing } from './styles/templateStyles';
 
 // ---- Banner ---- //
 export function getMomentTemplateBanner(
@@ -46,11 +47,6 @@ export function getMomentTemplateBanner(
             }
         }, [mobileReminderRef.current, isReminderActive]);
 
-        const isEoyBanner =
-            templateSettings.bannerId === 'us-eoy-banner' ||
-            templateSettings.bannerId === 'us-eoy-giving-tues-banner' ||
-            templateSettings.bannerId === 'us-eoy-banner-v3';
-
         return (
             <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
                 <Container
@@ -71,21 +67,18 @@ export function getMomentTemplateBanner(
                     </div>
 
                     {hasVisual && (
-                        <div css={getMobileVisualContainerStyle(templateSettings.bannerId)}>
+                        <div css={styles.mobileVisualContainer}>
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
                                     bannerId={templateSettings.bannerId}
-                                    cssOverrides={getBannerVisualCssOverrides(
-                                        templateSettings.bannerId,
-                                    )}
                                 />
                             )}
                             {templateSettings.alternativeVisual}
                         </div>
                     )}
 
-                    <div css={getHeaderContainerStyle(templateSettings.bannerId)}>
+                    <div css={styles.headerContainer}>
                         <MomentTemplateBannerHeader
                             heading={content.mainContent.heading}
                             mobileHeading={content.mobileContent.heading}
@@ -113,14 +106,11 @@ export function getMomentTemplateBanner(
                         </div>
 
                         {hasVisual && (
-                            <div css={getDesktopVisualContainerStyle(templateSettings.bannerId)}>
+                            <div css={styles.desktopVisualContainer}>
                                 {templateSettings.imageSettings && (
                                     <MomentTemplateBannerVisual
                                         settings={templateSettings.imageSettings}
                                         bannerId={templateSettings.bannerId}
-                                        cssOverrides={getBannerVisualCssOverrides(
-                                            templateSettings.bannerId,
-                                        )}
                                     />
                                 )}
                                 {templateSettings.alternativeVisual}
@@ -136,17 +126,17 @@ export function getMomentTemplateBanner(
                                 />
                             </div>
 
-                            {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
-                                <div css={styles.articleCountContainer}>
+                            {separateArticleCount &&
+                                numArticles !== undefined &&
+                                numArticles > 5 && (
                                     <MomentTemplateBannerArticleCount
                                         numArticles={numArticles}
                                         settings={templateSettings}
                                         textColour={templateSettings.articleCountTextColour}
                                     />
-                                </div>
-                            )}
+                                )}
 
-                            <div css={isEoyBanner ? styles.eoyBodyContainer : styles.bodyContainer}>
+                            <div css={styles.bodyContainer}>
                                 <MomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
@@ -211,55 +201,6 @@ export function getMomentTemplateBanner(
     return MomentTemplateBanner;
 }
 
-// ---- Styling Helpers ---- //
-const getDesktopVisualContainerStyle = (
-    bannerId?: BannerId,
-): SerializedStyles | SerializedStyles[] => {
-    switch (bannerId) {
-        case 'us-eoy-giving-tues-banner':
-            return [styles.desktopVisualContainer, styles.desktopGivingTuesVisualContainer];
-
-        case 'global-new-year-banner':
-            return [styles.desktopVisualContainer, styles.desktopVisualContainerNY];
-
-        case 'us-eoy-banner-v3':
-            return styles.desktopUsEoyV3Container;
-
-        default:
-            return styles.desktopVisualContainer;
-    }
-};
-
-const getMobileVisualContainerStyle = (
-    bannerId?: BannerId,
-): SerializedStyles | SerializedStyles[] =>
-    bannerId === 'us-eoy-giving-tues-banner'
-        ? [styles.mobileVisualContainer, styles.mobileVisualContainerGivingTues]
-        : styles.mobileVisualContainer;
-
-const getHeaderContainerStyle = (bannerId?: BannerId): SerializedStyles | SerializedStyles[] =>
-    bannerId === 'us-eoy-banner-v3'
-        ? [styles.headerContainer, styles.headerContainerUsEoyV3]
-        : styles.headerContainer;
-
-const getBannerVisualCssOverrides = (
-    bannerId?: BannerId,
-): SerializedStyles | SerializedStyles[] => {
-    switch (bannerId) {
-        case 'us-eoy-banner':
-            return styles.bannerVisualOverridesUSEoy;
-        case 'us-eoy-giving-tues-banner':
-            return styles.bannerVisualOverridesUSGivingTues;
-        case 'aus-eoy-banner':
-            return styles.bannerVisualOverridesAus;
-        case 'global-new-year-banner':
-            return styles.bannerVisualOverridesGlobalNY;
-
-        default:
-            return css``;
-    }
-};
-
 // ---- Styles ---- //
 const styles = {
     outerContainer: (background: string) => css`
@@ -301,7 +242,7 @@ const styles = {
         top: 0px;
         z-index: 100;
         border-top: 1px solid ${neutral[0]};
-        padding-top: ${paddingTop ?? space[2]}px;
+        ${paddingTop && `padding-top: ${paddingTop}px`};
 
         ${hasReminderCta
             ? `
@@ -313,6 +254,8 @@ const styles = {
         ${from.tablet} {
             display: none;
         }
+
+        ${bannerSpacing.heading};
     `,
     mobileVisualContainer: css`
         display: none;
@@ -325,12 +268,6 @@ const styles = {
             display: none;
         }
     `,
-    mobileVisualContainerGivingTues: css`
-        max-height: 180px;
-        overflow: hidden;
-        margin-left: -${space[5]}px;
-        margin-right: -${space[5]}px;
-    `,
     desktopVisualContainer: css`
         display: none;
         pointer-events: none;
@@ -342,46 +279,6 @@ const styles = {
             margin-left: ${space[3]}px;
         }
         ${from.desktop} {
-            width: 320px;
-            margin-left: ${space[5]}px;
-        }
-        ${from.leftCol} {
-            width: 370px;
-            margin-left: ${space[9]}px;
-        }
-    `,
-    desktopVisualContainerNY: css`
-        ${from.tablet} {
-            width: 500px;
-        }
-        ${from.desktop} {
-            width: 520px;
-        }
-        ${from.leftCol} {
-            width: 540px;
-        }
-    `,
-    desktopGivingTuesVisualContainer: css`
-        ${from.tablet} {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    `,
-    desktopUsEoyV3Container: css`
-        display: none;
-        pointer-events: none;
-        position: relative;
-
-        ${from.tablet} {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 238px;
-            margin-left: ${space[3]}px;
-        }
-        ${from.desktop} {
-            align-items: flex-end;
             width: 320px;
             margin-left: ${space[5]}px;
         }
@@ -411,9 +308,8 @@ const styles = {
         ${from.mobileMedium} {
             margin-top: ${space[2]}px;
         }
-    `,
-    headerContainerUsEoyV3: css`
-        justify-content: space-between;
+
+        ${bannerSpacing.heading}
     `,
     desktopHeaderContainer: css`
         display: none;
@@ -422,19 +318,11 @@ const styles = {
         ${from.tablet} {
             display: block;
         }
-    `,
-    articleCountContainer: css`
-        margin-top: ${space[4]}px;
 
-        ${from.tablet} {
-            margin-top: ${space[3]}px;
-        }
+        ${bannerSpacing.heading}
     `,
     bodyContainer: css`
-        margin-top: ${space[1]}px;
-    `,
-    eoyBodyContainer: css`
-        margin-top: ${space[4]}px;
+        ${bannerSpacing.bodyCopyAndArticleCount}
     `,
     ctasContainer: css`
         display: flex;
@@ -452,32 +340,5 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
-    `,
-    bannerVisualOverridesUSEoy: css`
-        ${from.tablet} {
-            align-items: flex-start;
-        }
-    `,
-    bannerVisualOverridesUSGivingTues: css`
-        img {
-            object-fit: cover;
-        }
-    `,
-    bannerVisualOverridesAus: css`
-        ${between.tablet.and.desktop} {
-            align-items: baseline;
-            margin-top: 70px;
-            margin-left: ${space[5]}px;
-        }
-    `,
-    bannerVisualOverridesGlobalNY: css`
-        ${from.tablet} {
-            align-items: center;
-            justify-content: initial;
-        }
-        ${from.desktop} {
-            align-items: flex-end;
-            justify-content: initial;
-        }
     `,
 };

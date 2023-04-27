@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
-import { buttonStyles } from '../buttonStyles';
+import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
 import { SvgRoundelBrand, SvgRoundelDefault } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';

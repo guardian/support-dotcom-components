@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { ImageAttrs, ResponsiveImage } from '../../../shared/ResponsiveImage';
 import { Image } from '@sdc/shared/types';
@@ -10,13 +10,11 @@ import { BannerId } from '../../common/types';
 interface MomentTemplateBannerVisualProps {
     settings: Image;
     bannerId?: BannerId;
-    cssOverrides: SerializedStyles | SerializedStyles[];
 }
 
 export function MomentTemplateBannerVisual({
     settings,
     bannerId,
-    cssOverrides,
 }: MomentTemplateBannerVisualProps): JSX.Element {
     const baseImage: ImageAttrs = {
         url: settings.mainUrl,
@@ -42,7 +40,7 @@ export function MomentTemplateBannerVisual({
     }
 
     return (
-        <div css={[styles.container(cssOverrides)]}>
+        <div css={styles.container}>
             <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
         </div>
     );
@@ -51,7 +49,7 @@ export function MomentTemplateBannerVisual({
 // ---- Styles ---- //
 
 const styles = {
-    container: (cssOverrides?: SerializedStyles | SerializedStyles[]) => css`
+    container: css`
         height: 140px;
         display: flex;
         justify-content: center;
@@ -68,7 +66,5 @@ const styles = {
             width: 100%;
             align-items: center;
         }
-
-        ${cssOverrides};
     `,
 };

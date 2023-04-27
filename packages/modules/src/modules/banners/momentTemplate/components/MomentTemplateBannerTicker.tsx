@@ -4,121 +4,86 @@ import { textSans } from '@guardian/src-foundations/typography';
 import { TickerSettings } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import useTicker from '../../../../hooks/useTicker';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { TickerStylingSettings } from '../settings';
-
-const containerStyles = css`
-    position: relative;
-    // fixed container height must be set
-    height: 56px;
-    line-height: 18px;
-
-    // fixed height is larger here to accomodate ticker copy on a maximum of 2 lines
-    ${until.mobileMedium} {
-        height: 65px;
-    }
-`;
-
-const countLabelStyles = (colour: string) => css`
-    ${textSans.xsmall({ fontWeight: 'bold' })};
-    font-size: 13px;
-    color: ${colour};
-    line-height: 1.3;
-
-    ${from.desktop} {
-        font-size: 17px;
-    }
-`;
+import { space } from '@guardian/src-foundations';
+import { bannerSpacing } from '../styles/templateStyles';
 
 const progressBarHeight = 12;
+const tickerFillOffset = 15;
+const overFilledTickerOffset = 10;
 
-const progressBarContainerStyles = css`
-    width: 100%;
-    height: ${progressBarHeight}px;
-    position: absolute;
-    bottom: 0;
-    margin-top: 40px;
-`;
+const styles = {
+    containerStyles: css`
+        position: relative;
+        ${bannerSpacing.ticker}
+    `,
+    tickerLabelsContainer: css`
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: ${space[1]}px;
+    `,
+    countLabelStyles: (colour: string) => css`
+        ${textSans.xsmall({ fontWeight: 'bold' })};
+        font-size: 13px;
+        color: ${colour};
+        line-height: 1.3;
 
-const progressBarStyles = (backgroundColour: string) => css`
-    overflow: hidden;
-    width: 100%;
-    background: ${backgroundColour};
-    height: ${progressBarHeight}px;
-    position: absolute;
-`;
+        ${from.desktop} {
+            font-size: 17px;
+        }
+    `,
+    progressBarContainerStyles: css`
+        position: relative;
+    `,
+    progressBarStyles: (backgroundColour: string) => css`
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: ${progressBarHeight}px;
+        background: ${backgroundColour};
+    `,
+    progressBarTransform: (end: number, runningTotal: number, total: number): string => {
+        const haveStartedAnimating = runningTotal > 0;
 
-const soFarContainerStyles = css`
-    position: absolute;
-    left: 0;
-    bottom: ${progressBarHeight + 5}px;
+        if (!haveStartedAnimating) {
+            return 'translateX(-100%)';
+        }
 
-    // this max-width will acommodate ticker copy on a maximum of 2 lines
-    ${until.mobileMedium} {
-        max-width: 130px;
-    }
-`;
+        const percentage = (total / end) * 100 - 100;
 
-const progressBarTransform = (end: number, runningTotal: number, total: number): string => {
-    const haveStartedAnimating = runningTotal > 0;
-
-    if (!haveStartedAnimating) {
-        return 'translateX(-100%)';
-    }
-
-    const percentage = (total / end) * 100 - 100;
-
-    return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
-};
-
-const filledProgressStyles = (
-    end: number,
-    runningTotal: number,
-    total: number,
-    colour: string,
-): SerializedStyles =>
-    css`
+        return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
+    },
+    filledProgressStyles: (
+        end: number,
+        runningTotal: number,
+        total: number,
+        colour: string,
+        isGoalReached: boolean,
+    ): SerializedStyles =>
+        css`
+            height: ${progressBarHeight}px;
+            width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
+            transform: ${styles.progressBarTransform(end, runningTotal, total)};
+            transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+            background-color: ${colour};
+        `,
+    soFarContainerStyles: css`
+        padding-right: ${space[5]}px;
+    `,
+    goalContainerStyles: css`
+        text-align: end;
+        margin-right: ${tickerFillOffset}%;
+        transform: translateX(50%);
+    `,
+    goalMarkerStyles: (colour: string): SerializedStyles => css`
+        border-right: 2px solid ${colour};
+        height: calc(100% + 6px);
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transform: ${progressBarTransform(end, runningTotal, total)};
-        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${colour};
-    `;
-
-const goalContainerStyles = css`
-    position: absolute;
-    right: 0;
-    bottom: ${progressBarHeight + 5}px;
-    text-align: right;
-`;
-
-const goalMarkerStyles = (transform: string, colour: string): SerializedStyles => css`
-    border-right: 2px solid ${colour};
-    content: ' ';
-    display: block;
-    height: calc(100% + 6px);
-    margin-top: -3px;
-    transform: ${transform};
-`;
-
-type MarkerProps = {
-    goal: number;
-    end: number;
-    colour: string;
-};
-
-const Marker: React.FC<MarkerProps> = ({ goal, end, colour }: MarkerProps) => {
-    if (end > goal) {
-        const markerTranslate = (goal / end) * 100 - 100;
-        const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
-
-        return <div css={goalMarkerStyles(markerTransform, colour)} />;
-    } else {
-        return <div css={goalMarkerStyles('translate3d(-10%, 0, 0)', colour)} />;
-    }
+        top: -3px;
+        right: ${tickerFillOffset}%;
+    `,
 };
 
 type MomentTemplateBannerTickerProps = {
@@ -151,17 +116,15 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
     const goal = tickerSettings.tickerData?.goal || 1;
     const isGoalReached = total >= goal;
     const runningTotal = useTicker(total, readyToAnimate);
+
     const currencySymbol =
         tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
 
-    // If we've exceeded the goal then extend the bar 15% beyond the total
-    const end = isGoalReached ? total + total * 0.15 : goal;
-
     return (
-        <div ref={setNode} css={containerStyles}>
-            <div>
-                <div css={soFarContainerStyles}>
-                    <div css={countLabelStyles(stylingSettings.textColour)}>
+        <div ref={setNode} css={styles.containerStyles}>
+            <div css={styles.tickerLabelsContainer}>
+                <div css={styles.soFarContainerStyles}>
+                    <div css={styles.countLabelStyles(stylingSettings.textColour)}>
                         {!isGoalReached && currencySymbol}
                         {isGoalReached
                             ? tickerSettings.copy.goalReachedPrimary
@@ -174,8 +137,8 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
                     </div>
                 </div>
 
-                <div css={goalContainerStyles}>
-                    <div css={countLabelStyles(stylingSettings.textColour)}>
+                <div css={styles.goalContainerStyles}>
+                    <div css={styles.countLabelStyles(stylingSettings.textColour)}>
                         {currencySymbol}
                         {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}{' '}
                         <span>{isGoalReached ? tickerSettings.copy.countLabel : 'goal'}</span>
@@ -183,18 +146,19 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
                 </div>
             </div>
 
-            <div css={progressBarContainerStyles}>
-                <div css={progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
+            <div css={styles.progressBarContainerStyles}>
+                <div css={styles.progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
                     <div
-                        css={filledProgressStyles(
-                            end,
+                        css={styles.filledProgressStyles(
+                            goal,
                             runningTotal,
                             total,
                             stylingSettings.filledProgressColour,
+                            isGoalReached,
                         )}
-                    ></div>
+                    />
                 </div>
-                <Marker goal={goal} end={end} colour={stylingSettings.goalMarkerColour} />
+                <div css={styles.goalMarkerStyles(stylingSettings.goalMarkerColour)} />
             </div>
         </div>
     );
