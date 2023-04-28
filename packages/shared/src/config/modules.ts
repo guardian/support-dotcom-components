@@ -105,6 +105,11 @@ export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/ukraineMoment/UkraineMomentBanner',
 );
 
+export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
+    'wpfd-banner',
+    'banners/worldPressFreedomDay/WorldPressFreedomDayBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -125,4 +130,5 @@ export const moduleInfos: ModuleInfo[] = [
     header,
     signInPromptHeader,
     ukraineMomentBanner,
+    wpfdBanner,
 ];
