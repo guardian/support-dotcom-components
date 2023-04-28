@@ -48,7 +48,7 @@ export const choiceCardsColumn = css`
     ${from.tablet} {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        justify-content: center;
     }
 `;
 
@@ -81,7 +81,7 @@ export const heading = css`
 export const paragraph = css`
     ${body.small()};
     line-height: 135%;
-    margin: 0 0 ${space[4]}px;
+    margin: 0 0 ${space[1]}px;
     max-width: 100%;
 
     ${from.tablet} {
