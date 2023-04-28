@@ -9,7 +9,11 @@ export function TopImageSvg(): JSX.Element {
             height="140"
             fill="none"
             viewBox="0 0 468 140"
+            role="img"
+            aria-label="[World Press Freedom Day + Free Press Fairer World]"
         >
+            <title>World Press Freedom Day</title>
+            <desc>Free Press Fairer World</desc>
             <mask
                 id="mask0_255_7105"
                 style={{ maskType: 'alpha' }}
