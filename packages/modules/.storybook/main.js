@@ -5,4 +5,10 @@ module.exports = {
         '@storybook/addon-links',
         '@storybook/addon-knobs',
     ],
+    core: {
+        builder: '@storybook/builder-webpack5',
+    },
+    typescript: {
+        reactDocgen: 'none',
+    },
 };
