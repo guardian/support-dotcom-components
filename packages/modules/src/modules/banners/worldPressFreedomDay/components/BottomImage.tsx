@@ -1,26 +1,30 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
-import { BottomImageSvg } from './BottomImageSvg';
+import {
+    BottomImageSvgDesktop,
+    BottomImageSvgMobile,
+    BottomImageSvgTablet,
+} from './BottomImageSvg';
+import { Hide } from '@guardian/src-layout';
 
 const styles = css`
-    margin-top: -15px; // pull copy element above closer
-    margin-bottom: -15px; // pull price card container beneath closer
-
-    ${from.mobileLandscape} {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-
     svg {
-        max-width: 100%;
+        display: block;
     }
 `;
 
 export function BottomImage(): JSX.Element {
     return (
         <div css={styles}>
-            <BottomImageSvg />
+            <Hide above="tablet">
+                <BottomImageSvgMobile />
+            </Hide>
+            <Hide below="tablet" above="desktop">
+                <BottomImageSvgTablet />
+            </Hide>
+            <Hide below="desktop">
+                <BottomImageSvgDesktop />
+            </Hide>
         </div>
     );
 }
