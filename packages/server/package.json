@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "build": "webpack --config webpack.prod.js",
+    "build-dev": "webpack --config webpack.dev.js",
     "prestart": "webpack --config webpack.dev.js",
     "start-watch": "webpack --config webpack.dev.js --watch",
     "start-server": "stage=DEV PORT=8082 nodemon dist/server.js",
