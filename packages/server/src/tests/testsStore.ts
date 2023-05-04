@@ -25,10 +25,11 @@ export const getTests = <T>(channel: ChannelTypes): Promise<T[]> =>
         });
 
 function queryChannel(channel: ChannelTypes, stage: string) {
+    console.log(`stage is ${stage}`);
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     return docClient
         .query({
-            TableName: `support-admin-console-channel-tests-${stage.toUpperCase()}`,
+            TableName: `support-admin-console-channel-tests-PROD`,
             KeyConditionExpression: 'channel = :channel',
             ExpressionAttributeValues: {
                 ':channel': channel,

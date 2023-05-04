@@ -146,6 +146,7 @@ export const selectBannerTest = (
     forcedTestVariant?: TestVariant,
     now: Date = new Date(),
 ): BannerTestSelection | null => {
+    console.log('Selecting banner test');
     if (isTaylorReportPage(targeting)) {
         return null;
     }
@@ -192,6 +193,7 @@ export const selectBannerTest = (
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus)
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
+            console.log('variant:', variant);
 
             return {
                 test,

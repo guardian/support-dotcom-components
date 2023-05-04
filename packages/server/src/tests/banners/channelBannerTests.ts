@@ -80,6 +80,10 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
         getTests<BannerTestFromTool>(channel).then(tests => {
             return tests.map(
                 (testParams: BannerTestFromTool): BannerTest => {
+                    console.log(
+                        'Got banner test with variant templates: ',
+                        testParams.variants.map(v => v.template),
+                    );
                     return {
                         ...testParams,
                         bannerChannel,
