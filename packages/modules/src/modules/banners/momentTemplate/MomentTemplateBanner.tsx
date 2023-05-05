@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container, Hide } from '@guardian/src-layout';
@@ -15,6 +15,7 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 import { bannerSpacing } from './styles/templateStyles';
+import useReminder from '../../../hooks/useReminder';
 
 // ---- Banner ---- //
 export function getMomentTemplateBanner(
@@ -32,20 +33,9 @@ export function getMomentTemplateBanner(
         separateArticleCount,
         tickerSettings,
     }: BannerRenderProps): JSX.Element {
-        const [isReminderActive, setIsReminderActive] = useState(false);
-
-        const onReminderCtaClick = () => {
-            reminderTracking.onReminderCtaClick();
-            setIsReminderActive(!isReminderActive);
-        };
-
-        const mobileReminderRef = useRef<HTMLDivElement>(null);
-
-        useEffect(() => {
-            if (mobileReminderRef.current && isReminderActive) {
-                mobileReminderRef.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, [mobileReminderRef.current, isReminderActive]);
+        const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
+            reminderTracking,
+        );
 
         return (
             <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
