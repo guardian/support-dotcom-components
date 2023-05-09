@@ -6,6 +6,8 @@ import {
     printSubs,
     choiceCardsBannerBlue,
     choiceCardsBannerYellow,
+    choiceCardsButtonsBannerBlue,
+    choiceCardsButtonsBannerYellow,
     environmentMomentBanner,
     guardianWeekly,
     investigationsMomentBanner,
@@ -43,6 +45,9 @@ export const BannerPaths: {
     [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsBannerBlue]: choiceCardsBannerBlue.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsBannerYellow]: choiceCardsBannerYellow.endpointPathBuilder,
+    [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
+    [BannerTemplate.ChoiceCardsButtonsBannerYellow]:
+        choiceCardsButtonsBannerYellow.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.UkraineMomentBanner]: ukraineMomentBanner.endpointPathBuilder,
