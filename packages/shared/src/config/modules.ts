@@ -134,6 +134,8 @@ export const moduleInfos: ModuleInfo[] = [
     printSubs,
     choiceCardsBannerBlue,
     choiceCardsBannerYellow,
+    choiceCardsButtonsBannerBlue,
+    choiceCardsButtonsBannerYellow,
     guardianWeekly,
     puzzlesBanner,
     signInPromptBanner,
