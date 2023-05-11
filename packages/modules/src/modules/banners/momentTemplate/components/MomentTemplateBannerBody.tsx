@@ -2,14 +2,11 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { Hide } from '@guardian/src-layout';
 import { body } from '@guardian/src-foundations/typography';
-
 import { createBannerBodyCopy } from '../../common/BannerText';
 import { HighlightedTextSettings } from '../settings';
 import { BannerRenderedContent } from '../../common/types';
-
-// ---- Component ---- //
+import useMediaQuery from '../../../../hooks/useMediaQuery';
 
 interface MomentTemplateBannerBodyProps {
     mainContent: BannerRenderedContent;
@@ -24,24 +21,25 @@ export function MomentTemplateBannerBody({
 }: MomentTemplateBannerBodyProps): JSX.Element {
     const styles = getStyles(highlightedTextSettings);
 
+    const isTabletOrAbove = useMediaQuery(from.tablet);
+
+    const bannerBodyMobile = createBannerBodyCopy(
+        mobileContent.paragraphs,
+        mobileContent.highlightedText,
+        styles,
+    );
+    const bannerBodyTabletAndAbove = createBannerBodyCopy(
+        mainContent.paragraphs,
+        mainContent.highlightedText,
+        styles,
+    );
+
     return (
         <div css={styles.container}>
-            <Hide above="tablet">
-                {createBannerBodyCopy(
-                    mobileContent.paragraphs,
-                    mobileContent.highlightedText,
-                    styles,
-                )}
-            </Hide>
-
-            <Hide below="tablet">
-                {createBannerBodyCopy(mainContent.paragraphs, mainContent.highlightedText, styles)}
-            </Hide>
+            {isTabletOrAbove ? bannerBodyTabletAndAbove : bannerBodyMobile}
         </div>
     );
 }
-
-// ---- Styles ---- //
 
 const getStyles = (settings: HighlightedTextSettings) => ({
     container: css`
