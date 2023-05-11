@@ -23,20 +23,15 @@ export function MomentTemplateBannerBody({
 
     const isTabletOrAbove = useMediaQuery(from.tablet);
 
-    const bannerBodyMobile = createBannerBodyCopy(
-        mobileContent.paragraphs,
-        mobileContent.highlightedText,
-        styles,
-    );
-    const bannerBodyTabletAndAbove = createBannerBodyCopy(
-        mainContent.paragraphs,
-        mainContent.highlightedText,
-        styles,
-    );
-
     return (
         <div css={styles.container}>
-            {isTabletOrAbove ? bannerBodyTabletAndAbove : bannerBodyMobile}
+            {isTabletOrAbove
+                ? createBannerBodyCopy(mainContent.paragraphs, mainContent.highlightedText, styles)
+                : createBannerBodyCopy(
+                      mobileContent.paragraphs,
+                      mobileContent.highlightedText,
+                      styles,
+                  )}
         </div>
     );
 }
