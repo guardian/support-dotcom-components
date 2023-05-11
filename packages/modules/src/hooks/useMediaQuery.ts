@@ -16,8 +16,6 @@ const useMediaQuery = (breakpoint: string): boolean => {
             setMatches(media.matches);
         }
 
-        media.addEventListener('change', handleChange);
-
         try {
             // Chrome & Firefox
             media.addEventListener('change', handleChange);
