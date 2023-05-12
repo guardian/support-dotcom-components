@@ -2,7 +2,8 @@ import express, { Router } from 'express';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
 import {
-    ModifiedChoiceCardAmounts,
+    AmountsTests,
+    AmountsCardData,
     OneOffSignupRequest,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
@@ -26,7 +27,7 @@ export const setOneOffReminderEndpoint = (): string =>
         : 'https://support.code.dev-theguardian.com/reminders/create/one-off';
 
 export const buildAmpEpicRouter = (
-    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
     tests: ValueProvider<AmpEpicTest[]>,
 ): Router => {
@@ -108,7 +109,7 @@ export const buildAmpEpicRouter = (
                 // We use the fastly geo header for determining the correct currency symbol
                 const countryCode = req.header('X-GU-GeoIP-Country-Code') || 'GB';
                 const countryGroupId = countryCodeToCountryGroupId(countryCode);
-                const choiceCardAmountsSettings = choiceCardAmounts.get();
+                const choiceCardAmountsSettings: AmountsTests = choiceCardAmounts.get();
                 const ampVariantAssignments = getAmpVariantAssignments(req);
                 const epic = await ampEpic(
                     tests.get(),
@@ -116,9 +117,10 @@ export const buildAmpEpicRouter = (
                     tickerData,
                     countryCode,
                 );
-                const defaultChoiceCardFrequency = epic.defaultChoiceCardFrequency || 'MONTHLY';
-                const choiceCardAmountsData =
-                    choiceCardAmountsSettings[countryGroupId].variants[0].amounts;
+                const regionAmounts = choiceCardAmountsSettings.filter(t => countryGroupId === t.target);
+                const defaultChoiceCardFrequency = regionAmounts[0].variants[0].defaultContributionType;
+                const choiceCardAmountsData: AmountsCardData | undefined = regionAmounts[0]?.variants[0]?.amountsCardData;
+
                 const acquisitionData = {
                     source: 'GOOGLE_AMP',
                     componentType: 'ACQUISITIONS_EPIC',
@@ -143,12 +145,12 @@ export const buildAmpEpicRouter = (
                         hideReminderCta: false,
                         hideReminderForm: false,
                     },
-                    choiceCards: epic.showChoiceCards
+                    choiceCards: (epic.showChoiceCards && choiceCardAmountsData != null && defaultChoiceCardFrequency != null)
                         ? {
                               choiceCardSelection: {
                                   frequency: defaultChoiceCardFrequency,
                                   amount:
-                                      choiceCardAmountsData[defaultChoiceCardFrequency].amounts[1],
+                                      choiceCardAmountsData[defaultChoiceCardFrequency].amounts[1] as number,
                               },
                               amounts: {
                                   ONE_OFF: choiceCardAmountsData['ONE_OFF'].amounts.slice(0, 2),

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import { ContributionFrequency, ContributionAmounts, OphanComponentEvent } from '@sdc/shared/types';
+import { ContributionFrequency, ContributionType, AmountsCardData, OphanComponentEvent } from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
@@ -34,15 +34,6 @@ const container = css`
 
 // Static data + type defs
 // -------------------------------------------
-interface ContributionTypeItem {
-    label: string;
-    frequency: ContributionFrequency;
-    suffix: string;
-}
-type ContributionType = {
-    [key in ContributionFrequency]: ContributionTypeItem;
-};
-
 const contributionType: ContributionType = {
     ONE_OFF: {
         label: 'Single',
@@ -73,7 +64,7 @@ interface EpicChoiceCardProps {
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
-    amounts?: ContributionAmounts;
+    amounts?: AmountsCardData;
     amountsTestName?: string;
     amountsVariantName?: string;
 }

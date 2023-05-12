@@ -11,7 +11,7 @@ import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
-import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
+import { OphanComponentEvent, AmountsCardData, Tracking } from '@sdc/shared/src/types';
 
 export type ChoiceCardBannerComponentId =
     | 'choice-cards-buttons-banner-yellow'
@@ -24,7 +24,7 @@ interface ChoiceCardProps {
     currencySymbol: string;
     componentId: ChoiceCardBannerComponentId;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
-    amounts?: ContributionAmounts;
+    amounts?: AmountsCardData;
     amountsTestName?: string;
     amountsVariantName?: string;
     countryCode?: string;

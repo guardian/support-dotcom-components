@@ -20,7 +20,7 @@ import {
 } from './worldPressFreedomDayBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
-import { ContributionFrequency } from '@sdc/shared/src/types';
+import { ContributionType } from '@sdc/shared/src/types';
 import { ArticleCount } from './components/ArticleCount';
 import { TopImage } from './components/TopImage';
 import { BottomImage } from './components/BottomImage';
@@ -49,7 +49,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => {
 };
 
 export interface ChoiceCardSelection {
-    frequency: ContributionFrequency;
+    frequency: ContributionType;
     amount: number | 'other';
 }
 
@@ -70,7 +70,7 @@ const WorldPressFreedomDayBanner = ({
 
     useEffect(() => {
         if (choiceCardAmounts?.amounts) {
-            const defaultFrequency: ContributionFrequency = 'MONTHLY';
+            const defaultFrequency: ContributionType = 'MONTHLY';
             const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
             const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
 

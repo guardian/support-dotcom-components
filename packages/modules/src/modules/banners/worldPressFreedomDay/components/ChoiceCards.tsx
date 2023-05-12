@@ -11,7 +11,7 @@ import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
-import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
+import { OphanComponentEvent, AmountsCardData, Tracking } from '@sdc/shared/src/types';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;
@@ -19,7 +19,7 @@ interface ChoiceCardProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
-    amounts?: ContributionAmounts;
+    amounts?: AmountsCardData;
     amountsTestName?: string;
     amountsVariantName?: string;
     countryCode?: string;

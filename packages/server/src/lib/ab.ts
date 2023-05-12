@@ -1,10 +1,10 @@
 import {
     Test,
     Variant,
-    ModifiedChoiceCardAmounts,
+    AmountsTests,
     SelectedAmountsVariant,
 } from '@sdc/shared/types';
-import { CountryGroupId } from '@sdc/shared/lib';
+import { CountryGroupId, Region } from '@sdc/shared/lib';
 import seedrandom from 'seedrandom';
 
 const maxMvt = 1000000;
@@ -66,13 +66,23 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
 };
 
 export const selectAmountsTestVariant = (
-    test: ModifiedChoiceCardAmounts,
+    tests: AmountsTests,
+    countryCode: string,
     countryGroupId: CountryGroupId,
     mvtId: number,
 ): SelectedAmountsVariant | undefined => {
-    const regionTest = test[countryGroupId];
+    // Two-tier amounts - check for country test, then region test
+    let testArray = tests.filter(t => t.target === countryCode);
+    if (testArray.length) {
+        testArray = tests.filter(t => t.target === countryGroupId);
+    }
 
-    const { name, variants, testIsLive, seed } = regionTest;
+    if (!testArray.length) {
+        return undefined;
+    }
+
+    const targetTest = testArray[0];
+    const { testName, liveTestName, isLive, seed, variants } = targetTest;
 
     // No control or variants in data
     if (!variants.length) {
@@ -80,17 +90,15 @@ export const selectAmountsTestVariant = (
     }
 
     // Return the control variant if there's no test or just a single variant
-    if (!testIsLive || variants.length === 1) {
-        const variant = variants[0];
+    if (!isLive || variants.length === 1) {
         return {
-            testName: name,
-            variantName: variant.name,
-            amounts: variant.amounts,
+            testName,
+            ...variants[0]
         };
     }
 
     // Assign user to a variant - support-frontend repo adds mvtId and test seed (both are numbers) and stringifies the result to create a seed for the pseudorandom number generator. This is different from the way message test variants are selected, which concatenates mvtId with the test name to create the pseudorandom seed
-    const assignmentIndex = getRandomNumber(`${parseInt(seed, 10) + mvtId}`) % variants.length;
+    const assignmentIndex = getRandomNumber(`${seed + mvtId}`) % variants.length;
     const variant = variants[assignmentIndex];
 
     if (!variant) {
@@ -99,8 +107,7 @@ export const selectAmountsTestVariant = (
 
     // Test is running and user has been successfully assigned to a control/variant
     return {
-        testName: name,
-        variantName: variant.name,
-        amounts: variant.amounts,
+        testName: liveTestName || `${testName}_AB_TEST`,
+        ...variant,
     };
 };
