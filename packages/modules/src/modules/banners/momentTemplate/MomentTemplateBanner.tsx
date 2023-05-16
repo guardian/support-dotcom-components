@@ -151,7 +151,7 @@ export function getMomentTemplateBanner(
 
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
-                                    content={content}
+                                    mainOrMobileContent={content[mainOrMobileContent]}
                                     onPrimaryCtaClick={onCtaClick}
                                     onSecondaryCtaClick={onSecondaryCtaClick}
                                     onReminderCtaClick={onReminderCtaClick}
