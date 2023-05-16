@@ -3,10 +3,8 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
-import { Hide } from '@guardian/src-layout';
 import { HeaderSettings } from '../settings';
-
-// ---- Component ---- //
+import useMediaQuery from '../../../../hooks/useMediaQuery';
 
 interface MomentTemplateBannerHeaderProps {
     heading: JSX.Element | JSX.Element[] | null;
@@ -19,19 +17,16 @@ export function MomentTemplateBannerHeader({
     mobileHeading,
     headerSettings,
 }: MomentTemplateBannerHeaderProps): JSX.Element {
+    const isTabletOrAbove = useMediaQuery(from.tablet);
+
     return (
         <div css={styles.container}>
             <header css={styles.header(headerSettings)}>
-                <h2>
-                    <Hide above="tablet">{mobileHeading}</Hide>
-                    <Hide below="tablet">{heading}</Hide>
-                </h2>
+                <h2>{isTabletOrAbove ? heading : mobileHeading}</h2>
             </header>
         </div>
     );
 }
-
-// ---- Styles ---- //
 
 const styles = {
     container: css`
