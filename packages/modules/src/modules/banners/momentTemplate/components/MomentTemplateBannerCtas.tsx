@@ -3,14 +3,13 @@ import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Button, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { BannerTextContent } from '../../common/types';
+import { BannerRenderedContent } from '../../common/types';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
-import useMediaQuery from '../../../../hooks/useMediaQuery';
 
 interface MomentTemplateBannerCtasProps {
-    content: BannerTextContent;
+    mainOrMobileContent: BannerRenderedContent;
     onPrimaryCtaClick: () => void;
     onSecondaryCtaClick: () => void;
     onReminderCtaClick: () => void;
@@ -19,16 +18,14 @@ interface MomentTemplateBannerCtasProps {
 }
 
 export function MomentTemplateBannerCtas({
-    content,
+    mainOrMobileContent,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
     onReminderCtaClick,
     primaryCtaSettings,
     secondaryCtaSettings,
 }: MomentTemplateBannerCtasProps): JSX.Element {
-    const isTabletOrAbove = useMediaQuery(from.tablet);
-    const mainOrMobileContent = isTabletOrAbove ? 'mainContent' : 'mobileContent';
-    const { primaryCta, secondaryCta } = content[mainOrMobileContent];
+    const { primaryCta, secondaryCta } = mainOrMobileContent;
 
     return (
         <div css={styles.container}>
@@ -71,9 +68,7 @@ export function MomentTemplateBannerCtas({
             </div>
 
             <div>
-                {isTabletOrAbove
-                    ? content['mainContent'].primaryCta && <PaymentCards />
-                    : content['mobileContent'].primaryCta && <PaymentCards />}
+                {primaryCta && <PaymentCards />}
             </div>
         </div>
     );
