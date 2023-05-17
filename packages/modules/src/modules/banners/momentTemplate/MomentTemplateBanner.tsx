@@ -173,7 +173,7 @@ export function getMomentTemplateBanner(
                             }
                             trackReminderSetClick={reminderTracking.onReminderSetClick}
                             setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                            mobileReminderRef={mobileReminderRef}
+                            mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
                         />
                     )}
             </div>
