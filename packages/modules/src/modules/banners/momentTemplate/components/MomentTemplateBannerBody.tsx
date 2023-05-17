@@ -4,7 +4,7 @@ import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { body } from '@guardian/src-foundations/typography';
 import { createBannerBodyCopy } from '../../common/BannerText';
-import { BodyCopySettings, HighlightedTextSettings } from '../settings';
+import { BodyCopySettings } from '../settings';
 import { BannerRenderedContent } from '../../common/types';
 import useMediaQuery from '../../../../hooks/useMediaQuery';
 

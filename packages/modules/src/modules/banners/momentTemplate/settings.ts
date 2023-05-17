@@ -21,7 +21,7 @@ export interface CtaSettings {
     theme?: 'default' | 'brand';
 }
 
-export interface HighlightedTextSettings {
+interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;
     newLine?: boolean;

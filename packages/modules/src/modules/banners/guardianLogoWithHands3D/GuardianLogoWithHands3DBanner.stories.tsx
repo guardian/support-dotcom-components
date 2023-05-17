@@ -60,7 +60,6 @@ const GuardianLogoWithHands3DBanner = bannerWrapper(
             highlightedTextSettings: {
                 textColour: 'white',
                 highlightColour: '#149bc7',
-                
             },
         },
         alternativeVisual: <GuardianLogoWithHandsVisual />,
