@@ -67,9 +67,7 @@ export function MomentTemplateBannerCtas({
                 </div>
             </div>
 
-            <div>
-                {primaryCta && <PaymentCards />}
-            </div>
+            <div>{primaryCta && <PaymentCards />}</div>
         </div>
     );
 }
