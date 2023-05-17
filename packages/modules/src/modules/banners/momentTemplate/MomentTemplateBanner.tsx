@@ -137,7 +137,6 @@ export function getMomentTemplateBanner(
                                     bodyCopySettings={
                                         templateSettings.bodyCopySettings
                                     }
-                                    bodyCopySettings={templateSettings.bodyCopySettings}
                                 />
                             </div>
 
