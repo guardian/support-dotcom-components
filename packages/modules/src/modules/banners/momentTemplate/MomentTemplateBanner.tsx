@@ -265,11 +265,6 @@ const styles = {
             margin-left: ${space[9]}px;
         }
     `,
-    desktopVisualContainerLogoWithHands3D: css`
-        width: 100%;
-        min-height: 100%;
-        align-self: stretch;
-    `,
     contentContainer: css`
         ${from.tablet} {
             width: 450px;
