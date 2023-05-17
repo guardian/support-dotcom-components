@@ -36,9 +36,11 @@ export const settings: Omit<BannerTemplateSettings, 'imageSettings'> = {
             textColour: neutral[0],
         },
     },
-    highlightedTextSettings: {
-        textColour: neutral[0],
-        highlightColour: neutral[100],
+    bodyCopySettings: {
+        highlightedTextSettings: {
+            textColour: neutral[0],
+            highlightColour: neutral[100],
+        },
     },
     setReminderCtaSettings: {
         default: {

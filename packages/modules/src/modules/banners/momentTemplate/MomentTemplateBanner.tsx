@@ -134,8 +134,8 @@ export function getMomentTemplateBanner(
                                 <MomentTemplateBannerBody
                                     mainContent={content.mainContent}
                                     mobileContent={content.mobileContent}
-                                    highlightedTextSettings={
-                                        templateSettings.highlightedTextSettings
+                                    bodyCopySettings={
+                                        templateSettings.bodyCopySettings
                                     }
                                     bodyCopySettings={templateSettings.bodyCopySettings}
                                 />

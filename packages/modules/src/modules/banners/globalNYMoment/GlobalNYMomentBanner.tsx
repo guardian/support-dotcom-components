@@ -44,9 +44,11 @@ const GlobalNewYearBanner = getMomentTemplateBanner({
         },
         theme: 'brand',
     },
-    highlightedTextSettings: {
-        textColour: neutral[0],
-        highlightColour: brandAlt[400],
+    bodyCopySettings: {
+        highlightedTextSettings: {
+            textColour: neutral[0],
+            highlightColour: brandAlt[400],
+        },
     },
     imageSettings: {
         mainUrl:

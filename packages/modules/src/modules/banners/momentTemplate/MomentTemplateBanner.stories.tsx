@@ -47,8 +47,10 @@ const BannerWithReminder = bannerWrapper(
                 textColour: neutral[0],
             },
         },
-        highlightedTextSettings: {
-            textColour: neutral[0],
+        bodyCopySettings: {
+            highlightedTextSettings: {
+                textColour: neutral[0],
+            },
         },
         setReminderCtaSettings: {
             default: {

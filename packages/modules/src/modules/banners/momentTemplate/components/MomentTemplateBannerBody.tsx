@@ -11,17 +11,15 @@ import useMediaQuery from '../../../../hooks/useMediaQuery';
 interface MomentTemplateBannerBodyProps {
     mainContent: BannerRenderedContent;
     mobileContent: BannerRenderedContent;
-    highlightedTextSettings: HighlightedTextSettings;
-    bodyCopySettings?: BodyCopySettings;
+    bodyCopySettings: BodyCopySettings;
 }
 
 export function MomentTemplateBannerBody({
     mainContent,
     mobileContent,
-    highlightedTextSettings,
     bodyCopySettings,
 }: MomentTemplateBannerBodyProps): JSX.Element {
-    const styles = getStyles(highlightedTextSettings, bodyCopySettings);
+    const styles = getStyles(bodyCopySettings);
 
     const isTabletOrAbove = useMediaQuery(from.tablet);
 
@@ -38,15 +36,10 @@ export function MomentTemplateBannerBody({
     );
 }
 
-// ---- Styles ---- //
-
-const getStyles = (
-    highlightedTextSettings: HighlightedTextSettings,
-    bodyCopySettings?: BodyCopySettings,
-) => ({
+const getStyles = (settings: BodyCopySettings) => ({
     container: css`
         ${body.small()}
-        color: ${bodyCopySettings?.textColour ? bodyCopySettings.textColour : neutral[0]};
+        color: ${settings.textColour ?? neutral[0]};
         font-size: 15px;
         line-height: 135%;
 
@@ -67,13 +60,13 @@ const getStyles = (
         }
     `,
     highlightedText: css`
-        display: ${highlightedTextSettings.newLine ? 'block' : 'inline'};
-        color: ${highlightedTextSettings.textColour};
+        display: ${settings.highlightedTextSettings.newLine ? 'block' : 'inline'};
+        color: ${settings.highlightedTextSettings.textColour};
 
-        ${highlightedTextSettings.highlightColour
+        ${settings.highlightedTextSettings.highlightColour
             ? `
-            background: ${highlightedTextSettings.highlightColour};
-            box-shadow: 2px 0 0 ${highlightedTextSettings.highlightColour}, -2px 0 0 ${highlightedTextSettings.highlightColour};
+            background: ${settings.highlightedTextSettings.highlightColour};
+            box-shadow: 2px 0 0 ${settings.highlightedTextSettings.highlightColour}, -2px 0 0 ${settings.highlightedTextSettings.highlightColour};
             box-decoration-break: clone;
         `
             : ''}
@@ -82,7 +75,7 @@ const getStyles = (
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
         font-size: 15px;
 
-        ${highlightedTextSettings.newLine
+        ${settings.highlightedTextSettings.newLine
             ? `
             width: max-content;
             padding: 0;

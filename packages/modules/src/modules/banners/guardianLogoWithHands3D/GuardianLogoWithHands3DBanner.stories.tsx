@@ -57,10 +57,11 @@ const GuardianLogoWithHands3DBanner = bannerWrapper(
         },
         bodyCopySettings: {
             textColour: 'white',
-        },
-        highlightedTextSettings: {
-            textColour: 'white',
-            highlightColour: '#149bc7',
+            highlightedTextSettings: {
+                textColour: 'white',
+                highlightColour: '#149bc7',
+                
+            },
         },
         alternativeVisual: <GuardianLogoWithHandsVisual />,
         bannerId: 'guardian-logo-with-hands-3d',
