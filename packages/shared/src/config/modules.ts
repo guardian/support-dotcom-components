@@ -28,6 +28,11 @@ export const ausAnniversaryBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/aus10yrAnniversaryMoment/Aus10yrAnniversaryMomentBanner',
 );
 
+export const guardianLogoWithHands3DBanner: ModuleInfo = getDefaultModuleInfo(
+    'guardian-logo-with-hands-3d',
+    'banners/guardianLogoWithHands3D/GuardianLogoWithHands3DBanner',
+);
+
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
     'banners/contributions/ContributionsBanner',
