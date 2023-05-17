@@ -9,14 +9,18 @@ export interface ModuleData {
 
 export interface ModuleDataResponse {
     data?: {
-        module: ModuleData;
-        meta: TestTracking;
+        module: ModuleData,
+        meta: TestTracking,
     };
 }
 
-type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header';
+// type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header';
 
-const getForcedVariant = (type: ModuleType): string | null => {
+/**
+ * @param {'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header'} type
+ * @returns {string | null}
+ */
+const getForcedVariant = type => {
     if (URLSearchParams) {
         const params = new URLSearchParams(window.location.search);
         const value = params.get(`force-${type}`);

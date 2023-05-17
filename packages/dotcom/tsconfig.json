@@ -6,9 +6,13 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "strict": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "noEmit": true,
+		"declaration": false,
+		"declarationMap": false,
+		"checkJs": true
     },
     "include": [
-        "src/index.ts"
+        "src/index.js"
     ],
 }
