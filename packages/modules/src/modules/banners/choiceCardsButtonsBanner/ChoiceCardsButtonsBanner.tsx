@@ -84,9 +84,10 @@ export const ChoiceCardsButtonsBanner = ({
     >();
 
     useEffect(() => {
-        if (choiceCardAmounts?.amounts) {
-            const defaultFrequency: ContributionFrequency = 'MONTHLY';
-            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+        if (choiceCardAmounts?.amountsCardData) {
+            const defaultFrequency: ContributionFrequency =
+                choiceCardAmounts.defaultContributionType;
+            const localAmounts = choiceCardAmounts.amountsCardData[defaultFrequency];
             const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
 
             setChoiceCardSelection({
@@ -157,9 +158,9 @@ export const ChoiceCardsButtonsBanner = ({
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
                                 componentId={id ? bannerId : 'choice-cards-buttons-banner-blue'}
-                                amounts={choiceCardAmounts.amounts}
-                                amountsTestName={choiceCardAmounts?.testName}
-                                amountsVariantName={choiceCardAmounts?.variantName}
+                                amounts={choiceCardAmounts.amountsCardData}
+                                amountsTestName={choiceCardAmounts.testName}
+                                amountsVariantName={choiceCardAmounts.variantName}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
                                 numArticles={numArticles}

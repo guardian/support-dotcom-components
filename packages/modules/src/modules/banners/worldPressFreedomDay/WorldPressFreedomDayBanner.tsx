@@ -20,7 +20,7 @@ import {
 } from './worldPressFreedomDayBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
-import { ContributionType } from '@sdc/shared/src/types';
+import { ContributionFrequency } from '@sdc/shared/src/types';
 import { ArticleCount } from './components/ArticleCount';
 import { TopImage } from './components/TopImage';
 import { BottomImage } from './components/BottomImage';
@@ -69,9 +69,10 @@ const WorldPressFreedomDayBanner = ({
     >();
 
     useEffect(() => {
-        if (choiceCardAmounts?.amounts) {
-            const defaultFrequency: ContributionType = 'MONTHLY';
-            const localAmounts = choiceCardAmounts.amounts[defaultFrequency];
+        if (choiceCardAmounts?.amountsCardData) {
+            const defaultFrequency: ContributionFrequency =
+                choiceCardAmounts.defaultContributionType;
+            const localAmounts = choiceCardAmounts.amountsCardData[defaultFrequency];
             const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
 
             setChoiceCardSelection({
@@ -130,9 +131,9 @@ const WorldPressFreedomDayBanner = ({
                                 selection={choiceCardSelection}
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
-                                amounts={choiceCardAmounts.amounts}
-                                amountsTestName={choiceCardAmounts?.testName}
-                                amountsVariantName={choiceCardAmounts?.variantName}
+                                amounts={choiceCardAmounts.amountsCardData}
+                                amountsTestName={choiceCardAmounts.testName}
+                                amountsVariantName={choiceCardAmounts.variantName}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
                                 numArticles={numArticles}

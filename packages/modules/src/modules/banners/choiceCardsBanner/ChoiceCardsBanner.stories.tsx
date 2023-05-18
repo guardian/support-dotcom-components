@@ -116,8 +116,11 @@ ChoiceCardsBannerBlue.args = {
     tracking,
     choiceCardAmounts: {
         testName: 'Storybook_test',
-        variantName: 'Control',
-        amounts: {
+        variantName: 'CONTROL',
+        defaultContributionType: 'MONTHLY',
+        displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+        // displayContributionType: ['ONE_OFF', 'ANNUAL'],
+        amountsCardData: {
             ONE_OFF: {
                 amounts: [5, 10, 15, 20],
                 defaultAmount: 5,

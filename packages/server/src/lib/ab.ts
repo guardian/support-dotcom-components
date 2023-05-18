@@ -1,10 +1,5 @@
-import {
-    Test,
-    Variant,
-    AmountsTests,
-    SelectedAmountsVariant,
-} from '@sdc/shared/types';
-import { CountryGroupId, Region } from '@sdc/shared/lib';
+import { Test, Variant, AmountsTests, SelectedAmountsVariant } from '@sdc/shared/types';
+import { CountryGroupId } from '@sdc/shared/lib';
 import seedrandom from 'seedrandom';
 
 const maxMvt = 1000000;
@@ -93,7 +88,7 @@ export const selectAmountsTestVariant = (
     if (!isLive || variants.length === 1) {
         return {
             testName,
-            ...variants[0]
+            ...variants[0],
         };
     }
 

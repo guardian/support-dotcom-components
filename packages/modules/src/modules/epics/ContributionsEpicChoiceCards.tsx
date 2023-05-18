@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
-import { ContributionFrequency, ContributionType, AmountsCardData, OphanComponentEvent } from '@sdc/shared/types';
+import {
+    ContributionFrequency,
+    ContributionType,
+    SelectedAmountsVariant,
+    contributionTabFrequencies,
+    OphanComponentEvent,
+} from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
@@ -37,17 +43,14 @@ const container = css`
 const contributionType: ContributionType = {
     ONE_OFF: {
         label: 'Single',
-        frequency: 'ONE_OFF',
         suffix: '',
     },
     MONTHLY: {
         label: 'Monthly',
-        frequency: 'MONTHLY',
         suffix: 'per month',
     },
     ANNUAL: {
         label: 'Annual',
-        frequency: 'ANNUAL',
         suffix: 'per year',
     },
 };
@@ -64,9 +67,7 @@ interface EpicChoiceCardProps {
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
-    amounts?: AmountsCardData;
-    amountsTestName?: string;
-    amountsVariantName?: string;
+    amountsTest: SelectedAmountsVariant;
 }
 
 export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
@@ -74,11 +75,20 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     setSelectionsCallback,
     submitComponentEvent,
     currencySymbol,
-    amounts,
-    amountsTestName = 'test_undefined',
-    amountsVariantName = 'variant_undefined',
+    amountsTest,
 }: EpicChoiceCardProps) => {
-    if (!selection || !amounts) {
+    if (!selection || !amountsTest) {
+        return <></>;
+    }
+
+    const {
+        testName = 'test_undefined',
+        variantName = 'variant_undefined',
+        displayContributionType = contributionTabFrequencies,
+        amountsCardData,
+    } = amountsTest;
+
+    if (!amountsCardData) {
         return <></>;
     }
 
@@ -95,8 +105,8 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                     },
                     action: 'VIEW',
                     abTest: {
-                        name: amountsTestName,
-                        variant: amountsVariantName,
+                        name: testName,
+                        variant: variantName,
                     },
                 });
             }
@@ -127,7 +137,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
         trackClick('frequency');
         setSelectionsCallback({
             frequency: frequency,
-            amount: amounts[frequency].defaultAmount,
+            amount: amountsCardData[frequency].defaultAmount,
         });
     };
 
@@ -149,7 +159,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardAmountsButtons = () => {
-        const productData = amounts[selection.frequency];
+        const productData = amountsCardData[selection.frequency];
         const requiredAmounts = productData.amounts;
         const hideChooseYourAmount = productData.hideChooseYourAmount ?? false;
 
@@ -185,14 +195,13 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
     };
 
     const generateChoiceCardFrequencyTab = (frequency: ContributionFrequency) => {
-        const frequencyVal = contributionType[frequency].frequency;
         return (
             <ChoiceCard
                 label={contributionType[frequency].label}
-                value={frequencyVal}
-                id={`contributions-epic-${frequencyVal}`}
-                checked={selection.frequency === frequencyVal}
-                onChange={() => updateFrequency(frequencyVal)}
+                value={frequency}
+                id={`contributions-epic-${frequency}`}
+                checked={selection.frequency === frequency}
+                onChange={() => updateFrequency(frequency)}
             />
         );
     };
@@ -202,13 +211,10 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
             <br />
             <ChoiceCardGroup
                 name="contribution-frequency"
-                columns={3}
                 css={[frequencyChoiceCardGroupOverrides, hideChoiceCardGroupLegend]}
                 label="Contribution frequency"
             >
-                {generateChoiceCardFrequencyTab('ONE_OFF')}
-                {generateChoiceCardFrequencyTab('MONTHLY')}
-                {generateChoiceCardFrequencyTab('ANNUAL')}
+                {displayContributionType.map(f => generateChoiceCardFrequencyTab(f))}
             </ChoiceCardGroup>
             <br />
             <ChoiceCardGroup

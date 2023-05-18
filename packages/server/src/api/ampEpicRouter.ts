@@ -117,9 +117,13 @@ export const buildAmpEpicRouter = (
                     tickerData,
                     countryCode,
                 );
-                const regionAmounts = choiceCardAmountsSettings.filter(t => countryGroupId === t.target);
-                const defaultChoiceCardFrequency = regionAmounts[0].variants[0].defaultContributionType;
-                const choiceCardAmountsData: AmountsCardData | undefined = regionAmounts[0]?.variants[0]?.amountsCardData;
+                const regionAmounts = choiceCardAmountsSettings.filter(
+                    t => countryGroupId === t.target,
+                );
+                const defaultChoiceCardFrequency =
+                    regionAmounts[0].variants[0].defaultContributionType;
+                const choiceCardAmountsData: AmountsCardData | undefined =
+                    regionAmounts[0]?.variants[0]?.amountsCardData;
 
                 const acquisitionData = {
                     source: 'GOOGLE_AMP',
@@ -145,30 +149,33 @@ export const buildAmpEpicRouter = (
                         hideReminderCta: false,
                         hideReminderForm: false,
                     },
-                    choiceCards: (epic.showChoiceCards && choiceCardAmountsData != null && defaultChoiceCardFrequency != null)
-                        ? {
-                              choiceCardSelection: {
-                                  frequency: defaultChoiceCardFrequency,
-                                  amount:
-                                      choiceCardAmountsData[defaultChoiceCardFrequency].amounts[1] as number,
-                              },
-                              amounts: {
-                                  ONE_OFF: choiceCardAmountsData['ONE_OFF'].amounts.slice(0, 2),
-                                  MONTHLY: choiceCardAmountsData['MONTHLY'].amounts.slice(0, 2),
-                                  ANNUAL: choiceCardAmountsData['ANNUAL'].amounts.slice(0, 2),
-                              },
-                              choiceCardLabelSuffix: {
-                                  ONE_OFF: '',
-                                  MONTHLY: ' per month',
-                                  ANNUAL: ' per year',
-                              },
-                              classNames: {
-                                  choiceCard: 'epicChoiceCard',
-                                  choiceCardSelected: 'epicChoiceCard epicChoiceCardSelected',
-                              },
-                              currencySymbol: getLocalCurrencySymbol(countryCode),
-                          }
-                        : false,
+                    choiceCards:
+                        epic.showChoiceCards &&
+                        choiceCardAmountsData != null &&
+                        defaultChoiceCardFrequency != null
+                            ? {
+                                  choiceCardSelection: {
+                                      frequency: defaultChoiceCardFrequency,
+                                      amount: choiceCardAmountsData[defaultChoiceCardFrequency]
+                                          .amounts[1] as number,
+                                  },
+                                  amounts: {
+                                      ONE_OFF: choiceCardAmountsData['ONE_OFF'].amounts.slice(0, 2),
+                                      MONTHLY: choiceCardAmountsData['MONTHLY'].amounts.slice(0, 2),
+                                      ANNUAL: choiceCardAmountsData['ANNUAL'].amounts.slice(0, 2),
+                                  },
+                                  choiceCardLabelSuffix: {
+                                      ONE_OFF: '',
+                                      MONTHLY: ' per month',
+                                      ANNUAL: ' per year',
+                                  },
+                                  classNames: {
+                                      choiceCard: 'epicChoiceCard',
+                                      choiceCardSelected: 'epicChoiceCard epicChoiceCardSelected',
+                                  },
+                                  currencySymbol: getLocalCurrencySymbol(countryCode),
+                              }
+                            : false,
                 };
 
                 res.setHeader('Content-Type', 'application/json');

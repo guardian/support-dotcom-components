@@ -231,14 +231,17 @@ WithChoiceCards.args = {
         choiceCardAmounts: {
             testName: 'Storybook_test',
             variantName: 'Control',
-            amounts: {
+            defaultContributionType: 'ONE_OFF',
+            // displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+            displayContributionType: ['ONE_OFF', 'ANNUAL'],
+            amountsCardData: {
                 ONE_OFF: {
                     amounts: [5, 10, 15, 20],
                     defaultAmount: 5,
                     hideChooseYourAmount: false,
                 },
                 MONTHLY: {
-                    amounts: [6, 12, 18, 24],
+                    amounts: [6, 12],
                     defaultAmount: 12,
                     hideChooseYourAmount: true,
                 },
