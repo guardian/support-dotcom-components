@@ -6,12 +6,17 @@ import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { neutral, space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
-import { FrequencyTabs, ContributionType } from './FrequencyTabs';
+import { FrequencyTabs } from './FrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
-import { OphanComponentEvent, AmountsCardData, Tracking } from '@sdc/shared/src/types';
+import {
+    OphanComponentEvent,
+    AmountsCardData,
+    ContributionType,
+    Tracking,
+} from '@sdc/shared/src/types';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;
@@ -103,17 +108,14 @@ const styles = {
 const contributionType: ContributionType = {
     ONE_OFF: {
         label: 'Single',
-        frequency: 'ONE_OFF',
         suffix: '',
     },
     MONTHLY: {
         label: 'Monthly',
-        frequency: 'MONTHLY',
         suffix: 'per month',
     },
     ANNUAL: {
         label: 'Annual',
-        frequency: 'ANNUAL',
         suffix: 'per year',
     },
 };

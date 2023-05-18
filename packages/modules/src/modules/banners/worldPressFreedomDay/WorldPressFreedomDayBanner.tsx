@@ -49,7 +49,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => {
 };
 
 export interface ChoiceCardSelection {
-    frequency: ContributionType;
+    frequency: ContributionFrequency;
     amount: number | 'other';
 }
 
