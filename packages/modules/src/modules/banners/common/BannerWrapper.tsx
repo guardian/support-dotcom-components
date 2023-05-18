@@ -6,7 +6,7 @@ import {
     createViewEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -32,6 +32,7 @@ import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
+import { useScrollDepth } from '../../../hooks/useScrollDepth';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -82,6 +83,7 @@ const withBannerData = (
         choiceCardAmounts,
     } = bannerProps;
 
+    const [canShow, setCanShow] = useState<boolean>(false);
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
             threshold: 0,
@@ -100,6 +102,16 @@ const withBannerData = (
             submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
         }
     }, [submitComponentEvent]);
+
+    useScrollDepth(
+        depthPercent => {
+            if (depthPercent > 25) {
+                setCanShow(true);
+            }
+        },
+        [],
+        1000,
+    );
 
     const cleanParagraphsOrMessageText = (
         paras: string[] | undefined,
@@ -236,7 +248,7 @@ const withBannerData = (
         const renderedContent = content && buildRenderedContent(content);
         const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
 
-        if (renderedContent) {
+        if (renderedContent && canShow) {
             const props: BannerRenderProps = {
                 onCtaClick,
                 onSecondaryCtaClick,
