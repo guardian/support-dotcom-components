@@ -43,6 +43,11 @@ export function getMomentTemplateBanner(
 
         return (
             <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
+                {templateSettings.containerSettings.overlayVisual && (
+                    <div css={styles.overlayVisual}>
+                        {templateSettings.containerSettings.overlayVisual}
+                    </div>
+                )}
                 <Container
                     cssOverrides={styles.mobileStickyHeaderContainer(
                         templateSettings.containerSettings.backgroundColour,
@@ -185,6 +190,7 @@ const styles = {
         background: ${background};
         max-height: 100vh;
         overflow: auto;
+        position: relative;
 
         * {
             box-sizing: border-box;
@@ -204,6 +210,7 @@ const styles = {
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        position: relative;
 
         ${from.tablet} {
             flex-direction: row-reverse;
@@ -282,6 +289,7 @@ const styles = {
     headerContainer: css`
         display: flex;
         align-items: center;
+        position: relative;
 
         ${from.mobileMedium} {
             margin-top: ${space[2]}px;
@@ -292,6 +300,7 @@ const styles = {
     desktopHeaderContainer: css`
         display: none;
         margin-top: ${space[2]}px;
+        position: relative;
 
         ${from.tablet} {
             display: block;
@@ -318,5 +327,13 @@ const styles = {
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
+    `,
+    overlayVisual: css`
+        position: absolute;
+        width: 100%;
+
+        // wip - reduced height to allow for banner ctas
+        height: 70%;
+        z-index: 100;
     `,
 };

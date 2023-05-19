@@ -5,6 +5,7 @@ import { BannerId } from '../common/types';
 export type ContainerSettings = {
     backgroundColour: string;
     paddingTop?: string;
+    overlayVisual?: JSX.Element;
 };
 
 export type CtaStateSettings = {
