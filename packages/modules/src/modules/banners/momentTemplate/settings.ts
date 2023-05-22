@@ -48,6 +48,7 @@ export interface BannerTemplateSettings {
     articleCountTextColour?: string;
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
+    choiceCards?: boolean;
     bannerId?: BannerId;
     tickerStylingSettings?: TickerStylingSettings;
     headerSettings?: HeaderSettings;

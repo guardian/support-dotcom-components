@@ -6,6 +6,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
 import { ChoiceCardSelection } from '../ChoiceCardsBanner';
+import { BannerTextContent } from '../../common/types';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
@@ -26,6 +27,7 @@ export const SupportCta = ({
     selection,
     getCtaText,
     cssOverrides,
+    content,
 }: {
     tracking: Tracking;
     numArticles: number;
@@ -33,13 +35,17 @@ export const SupportCta = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     selection: ChoiceCardSelection;
-    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
+    getCtaText: (
+        contentType: 'mainContent' | 'mobileContent',
+        content?: BannerTextContent,
+    ) => string;
     cssOverrides?: SerializedStyles;
+    content?: BannerTextContent;
 }): JSX.Element | null => {
     const url = `https://support.theguardian.com/contribute?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`;
 
-    const mobileText = getCtaText('mobileContent');
-    const desktopText = getCtaText('mainContent');
+    const mobileText = getCtaText('mobileContent', content);
+    const desktopText = getCtaText('mainContent', content);
 
     const supportUrl = addRegionIdAndTrackingParamsToSupportUrl(
         url,
