@@ -259,7 +259,6 @@ const styles = {
         margin-left: ${space[3]}px;
         z-index: 101;
         position: absolute;
-        margin-left: intial;
         top: ${space[2]}px;
         right: ${space[4]}px;
     `,
