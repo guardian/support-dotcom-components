@@ -50,7 +50,11 @@ export function getMomentTemplateBanner(
                     </div>
 
                     {hasVisual && (
-                        <div css={styles.bannerVisualContainer(templateSettings.containerSettings.backgroundColour)}>
+                        <div
+                            css={styles.bannerVisualContainer(
+                                templateSettings.containerSettings.backgroundColour,
+                            )}
+                        >
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
@@ -62,11 +66,13 @@ export function getMomentTemplateBanner(
                     )}
 
                     <div css={styles.contentContainer}>
-                        <div css={styles.headerContainer(
-                        templateSettings.containerSettings.backgroundColour,
-                        content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder,
-                    )}>
+                        <div
+                            css={styles.headerContainer(
+                                templateSettings.containerSettings.backgroundColour,
+                                content.mobileContent.secondaryCta?.type ===
+                                    SecondaryCtaType.ContributionsReminder,
+                            )}
+                        >
                             <MomentTemplateBannerHeader
                                 heading={content.mainContent.heading}
                                 mobileHeading={content.mobileContent.heading}
@@ -115,8 +121,7 @@ export function getMomentTemplateBanner(
                     isReminderActive && (
                         <MomentTemplateBannerReminder
                             reminderCta={
-                                mainOrMobileContent
-                                    .secondaryCta as BannerEnrichedReminderCta
+                                mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
                             }
                             trackReminderSetClick={reminderTracking.onReminderSetClick}
                             setReminderCtaSettings={templateSettings.setReminderCtaSettings}
@@ -166,7 +171,7 @@ const styles = {
     bannerVisualContainer: (background: string) => css`
         display: none;
         pointer-events: none;
-        
+
         ${from.mobileMedium} {
             display: block;
 
@@ -188,7 +193,7 @@ const styles = {
             width: 320px;
             margin-left: ${space[5]}px;
         }
-        
+
         ${from.leftCol} {
             width: 370px;
             margin-left: ${space[9]}px;
@@ -208,10 +213,7 @@ const styles = {
             width: 780px;
         }
     `,
-    headerContainer: (
-        background: string,
-        hasReminderCta: boolean,
-    ) => css`
+    headerContainer: (background: string, hasReminderCta: boolean) => css`
         max-width: calc(100% - 46px); // 46px approx close button size
         ${bannerSpacing.heading};
 
@@ -219,7 +221,7 @@ const styles = {
             max-width: initial;
             margin-top: ${space[2]}px;
             padding-bottom: ${space[2]}px;
-            
+
             // Mobile Sticky Header Styles
             background: ${background};
             position: sticky;
