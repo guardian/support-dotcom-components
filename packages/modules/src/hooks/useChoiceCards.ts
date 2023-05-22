@@ -1,7 +1,7 @@
 import { ContributionFrequency, SelectedAmountsVariant } from '@sdc/shared/src/types/abTests/epic';
 import { useState, useEffect } from 'react';
 import { BannerTextContent } from '../modules/banners/common/types';
-import { getLocalCurrencySymbol } from '@sdc/shared/src/lib/geolocation';
+import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 
 export interface ChoiceCardSelection {
     frequency: ContributionFrequency;
