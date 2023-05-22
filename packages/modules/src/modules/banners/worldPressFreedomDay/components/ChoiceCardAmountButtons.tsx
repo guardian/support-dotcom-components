@@ -67,14 +67,14 @@ const ChoiceCardAmount = ({
     label,
     checked,
     handleUpdateAmount,
-    cssOverrides
+    cssOverrides,
 }: {
     id: string;
     amount?: number;
     label: string;
     checked: boolean;
     handleUpdateAmount: (amount: number | 'other') => void;
-    cssOverrides: SerializedStyles
+    cssOverrides: SerializedStyles;
 }) => {
     if (amount) {
         return (
@@ -86,6 +86,7 @@ const ChoiceCardAmount = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     e.target.id === id ? handleUpdateAmount(amount) : null
                 }
+                cssOverrides={cssOverrides}
             />
         );
     }

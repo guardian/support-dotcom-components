@@ -66,14 +66,14 @@ const ChoiceCardAmount = ({
     label,
     checked,
     handleUpdateAmount,
-    cssOverrides
+    cssOverrides,
 }: {
     id: string;
     amount?: number;
     label: string;
     checked: boolean;
     handleUpdateAmount: (amount: number | 'other') => void;
-    cssOverrides: SerializedStyles
+    cssOverrides: SerializedStyles;
 }) => {
     if (amount) {
         return (
