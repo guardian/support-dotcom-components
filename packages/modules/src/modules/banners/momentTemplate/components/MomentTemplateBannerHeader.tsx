@@ -22,7 +22,13 @@ export function MomentTemplateBannerHeader({
     return (
         <div css={styles.container}>
             <header css={styles.header(headerSettings)}>
-                <h2>{isTabletOrAbove ? heading : mobileHeading}</h2>
+                <h2>
+                    {headerSettings?.image
+                        ? headerSettings.image
+                        : isTabletOrAbove
+                        ? heading
+                        : mobileHeading}
+                </h2>
             </header>
         </div>
     );
