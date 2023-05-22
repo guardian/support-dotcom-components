@@ -212,7 +212,6 @@ const styles = {
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: none;
-        pointer-events: none;
 
         ${from.mobileMedium} {
             display: block;
@@ -243,13 +242,14 @@ const styles = {
 
         ${isChoiceCardsContainer
             ? `
-            ${from.tablet} {
-                display: flex;
-                align-items: center;
-                width: 350px;
-            }
-        `
-            : ''}
+        ${from.tablet} {
+            display: flex;
+            align-items: center;
+            width: 350px;
+        }
+    `
+            : `pointer-events: none;
+        `}
     `,
     contentContainer: css`
         ${from.tablet} {
