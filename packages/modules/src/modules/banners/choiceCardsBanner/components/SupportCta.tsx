@@ -63,7 +63,7 @@ export const SupportCta = ({
                     onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
-                    css={[buttonOverrides, cssOverrides]}
+                    cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
                 >
                     {mobileText}
                 </Button>
@@ -74,7 +74,7 @@ export const SupportCta = ({
                     onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
-                    css={[buttonOverrides, cssOverrides]}
+                    cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
                 >
                     {desktopText}
                 </Button>
