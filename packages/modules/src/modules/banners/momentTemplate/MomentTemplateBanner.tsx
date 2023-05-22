@@ -139,16 +139,18 @@ export function getMomentTemplateBanner(
                             />
                         )}
 
-                        <section css={styles.ctasContainer}>
-                            <MomentTemplateBannerCtas
-                                mainOrMobileContent={mainOrMobileContent}
-                                onPrimaryCtaClick={onCtaClick}
-                                onSecondaryCtaClick={onSecondaryCtaClick}
-                                onReminderCtaClick={onReminderCtaClick}
-                                primaryCtaSettings={templateSettings.primaryCtaSettings}
-                                secondaryCtaSettings={templateSettings.secondaryCtaSettings}
-                            />
-                        </section>
+                        {!templateSettings.choiceCards && (
+                            <section css={styles.ctasContainer}>
+                                <MomentTemplateBannerCtas
+                                    mainOrMobileContent={mainOrMobileContent}
+                                    onPrimaryCtaClick={onCtaClick}
+                                    onSecondaryCtaClick={onSecondaryCtaClick}
+                                    onReminderCtaClick={onReminderCtaClick}
+                                    primaryCtaSettings={templateSettings.primaryCtaSettings}
+                                    secondaryCtaSettings={templateSettings.secondaryCtaSettings}
+                                />
+                            </section>
+                        )}
                     </div>
                 </Container>
 
