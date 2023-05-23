@@ -47,6 +47,7 @@ export function MomentTemplateBannerCloseButton({
 const styles = {
     container: css`
         display: flex;
+        justify-content: end;
         position: relative;
         z-index: 100;
     `,

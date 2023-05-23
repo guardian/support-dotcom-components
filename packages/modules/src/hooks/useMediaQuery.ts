@@ -28,7 +28,10 @@ const useMediaQuery = (breakpoint: string): boolean => {
             }
         }
 
-        return () => media.removeEventListener('change', handleChange);
+        return () => {
+            media.removeEventListener('change', handleChange);
+            media.removeListener(handleChange);
+        };
     }, [matches, query]);
 
     return matches;
