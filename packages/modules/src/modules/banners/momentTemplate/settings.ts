@@ -35,6 +35,7 @@ export interface TickerStylingSettings {
 
 export interface HeaderSettings {
     textColour: string;
+    image?: ReactNode;
 }
 
 export interface BannerTemplateSettings {
@@ -47,6 +48,7 @@ export interface BannerTemplateSettings {
     articleCountTextColour?: string;
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
+    choiceCards?: boolean;
     bannerId?: BannerId;
     tickerStylingSettings?: TickerStylingSettings;
     headerSettings?: HeaderSettings;

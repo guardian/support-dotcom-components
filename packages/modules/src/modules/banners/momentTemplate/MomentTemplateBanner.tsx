@@ -17,11 +17,16 @@ import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker'
 import { bannerSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
+import useChoiceCards from '../../../hooks/useChoiceCards';
+import { ChoiceCards } from '../choiceCardsBanner/components/ChoiceCards';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
 ): React.FC<BannerRenderProps> {
-    const hasVisual = templateSettings.imageSettings || templateSettings.alternativeVisual;
+    const hasVisual =
+        templateSettings.imageSettings ||
+        templateSettings.alternativeVisual ||
+        templateSettings.choiceCards;
 
     function MomentTemplateBanner({
         content,
@@ -32,6 +37,10 @@ export function getMomentTemplateBanner(
         reminderTracking,
         separateArticleCount,
         tickerSettings,
+        choiceCardAmounts,
+        countryCode,
+        submitComponentEvent,
+        tracking,
     }: BannerRenderProps): JSX.Element {
         const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
             reminderTracking,
@@ -39,9 +48,17 @@ export function getMomentTemplateBanner(
         const isTabletOrAbove = useMediaQuery(from.tablet);
         const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
+        const {
+            choiceCardSelection,
+            setChoiceCardSelection,
+            getCtaText,
+            currencySymbol,
+        } = useChoiceCards(choiceCardAmounts, countryCode);
+        const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
+
         return (
             <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
-                <Container cssOverrides={styles.containerOverrides}>
+                <Container cssOverrides={styles.containerOverrides(templateSettings.choiceCards)}>
                     <div css={styles.closeButtonContainer}>
                         <MomentTemplateBannerCloseButton
                             onCloseClick={onCloseClick}
@@ -53,6 +70,7 @@ export function getMomentTemplateBanner(
                         <div
                             css={styles.bannerVisualContainer(
                                 templateSettings.containerSettings.backgroundColour,
+                                templateSettings.choiceCards,
                             )}
                         >
                             {templateSettings.imageSettings && (
@@ -62,6 +80,23 @@ export function getMomentTemplateBanner(
                                 />
                             )}
                             {templateSettings.alternativeVisual}
+                            {showChoiceCards && (
+                                <ChoiceCards
+                                    setSelectionsCallback={setChoiceCardSelection}
+                                    selection={choiceCardSelection}
+                                    submitComponentEvent={submitComponentEvent}
+                                    currencySymbol={currencySymbol}
+                                    componentId={'choice-cards-banner-blue'}
+                                    amounts={choiceCardAmounts.amounts}
+                                    amountsTestName={choiceCardAmounts?.testName}
+                                    amountsVariantName={choiceCardAmounts?.variantName}
+                                    countryCode={countryCode}
+                                    bannerTracking={tracking}
+                                    numArticles={numArticles}
+                                    content={content}
+                                    getCtaText={getCtaText}
+                                />
+                            )}
                         </div>
                     )}
 
@@ -71,6 +106,7 @@ export function getMomentTemplateBanner(
                                 templateSettings.containerSettings.backgroundColour,
                                 content.mobileContent.secondaryCta?.type ===
                                     SecondaryCtaType.ContributionsReminder,
+                                templateSettings.choiceCards,
                             )}
                         >
                             <MomentTemplateBannerHeader
@@ -103,16 +139,18 @@ export function getMomentTemplateBanner(
                             />
                         )}
 
-                        <section css={styles.ctasContainer}>
-                            <MomentTemplateBannerCtas
-                                mainOrMobileContent={mainOrMobileContent}
-                                onPrimaryCtaClick={onCtaClick}
-                                onSecondaryCtaClick={onSecondaryCtaClick}
-                                onReminderCtaClick={onReminderCtaClick}
-                                primaryCtaSettings={templateSettings.primaryCtaSettings}
-                                secondaryCtaSettings={templateSettings.secondaryCtaSettings}
-                            />
-                        </section>
+                        {!templateSettings.choiceCards && (
+                            <section css={styles.ctasContainer}>
+                                <MomentTemplateBannerCtas
+                                    mainOrMobileContent={mainOrMobileContent}
+                                    onPrimaryCtaClick={onCtaClick}
+                                    onSecondaryCtaClick={onSecondaryCtaClick}
+                                    onReminderCtaClick={onReminderCtaClick}
+                                    primaryCtaSettings={templateSettings.primaryCtaSettings}
+                                    secondaryCtaSettings={templateSettings.secondaryCtaSettings}
+                                />
+                            </section>
+                        )}
                     </div>
                 </Container>
 
@@ -149,7 +187,7 @@ const styles = {
             border-top: 1px solid ${neutral[0]};
         }
     `,
-    containerOverrides: css`
+    containerOverrides: (isChoiceCardsContainer?: boolean) => css`
         ${from.tablet} {
             position: relative;
             width: 100%;
@@ -161,6 +199,10 @@ const styles = {
             display: flex;
             flex-direction: column;
 
+            ${isChoiceCardsContainer
+                ? 'flex-direction: column-reverse;'
+                : 'flex-direction: column;'}
+
             ${from.tablet} {
                 flex-direction: row-reverse;
             }
@@ -168,9 +210,8 @@ const styles = {
 
         ${bannerSpacing.heading};
     `,
-    bannerVisualContainer: (background: string) => css`
+    bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: none;
-        pointer-events: none;
 
         ${from.mobileMedium} {
             display: block;
@@ -198,6 +239,17 @@ const styles = {
             width: 370px;
             margin-left: ${space[9]}px;
         }
+
+        ${isChoiceCardsContainer
+            ? `
+        ${from.tablet} {
+            display: flex;
+            align-items: center;
+            width: 350px;
+        }
+    `
+            : `pointer-events: none;
+        `}
     `,
     contentContainer: css`
         ${from.tablet} {
@@ -213,7 +265,7 @@ const styles = {
             width: 780px;
         }
     `,
-    headerContainer: (background: string, hasReminderCta: boolean) => css`
+    headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
         max-width: calc(100% - 46px); // 46px approx close button size
         ${bannerSpacing.heading};
 
@@ -225,7 +277,7 @@ const styles = {
             // Mobile Sticky Header Styles
             background: ${background};
             position: sticky;
-            top: 140px; // 140px for banner visual
+            top: ${choiceCards ? '0px' : '140px'}; // 140px for banner visual
             z-index: 100;
             ${hasReminderCta
                 ? `

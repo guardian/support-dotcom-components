@@ -21,7 +21,10 @@ interface ChoiceCardProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
     componentId: ChoiceCardBannerComponentId;
-    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
+    getCtaText: (
+        contentType: 'mainContent' | 'mobileContent',
+        content?: BannerTextContent,
+    ) => string;
     amounts?: ContributionAmounts;
     amountsTestName?: string;
     amountsVariantName?: string;
@@ -135,6 +138,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     numArticles,
     getCtaText,
     cssCtaOverides,
+    content,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -208,6 +212,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                         selection={selection}
                         getCtaText={getCtaText}
                         cssOverrides={cssCtaOverides}
+                        content={content}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>
