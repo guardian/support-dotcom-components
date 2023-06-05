@@ -14,7 +14,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
-import { bannerSpacing } from './styles/templateStyles';
+import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
@@ -208,7 +208,7 @@ const styles = {
             }
         }
 
-        ${bannerSpacing.heading};
+        ${templateSpacing.heading};
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: none;
@@ -267,7 +267,7 @@ const styles = {
     `,
     headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
         max-width: calc(100% - 46px); // 46px approx close button size
-        ${bannerSpacing.heading};
+        ${templateSpacing.heading};
 
         ${from.mobileMedium} {
             max-width: initial;
@@ -296,7 +296,7 @@ const styles = {
         }
     `,
     bodyContainer: css`
-        ${bannerSpacing.bodyCopyAndArticleCount}
+        ${templateSpacing.bodyCopyAndArticleCount}
     `,
     ctasContainer: css`
         display: flex;
