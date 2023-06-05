@@ -1,9 +1,9 @@
-import { brand, neutral, brandAlt } from "@guardian/src-foundations";
-import { BannerProps } from "@sdc/shared/src/types";
-import { Story } from "@storybook/react";
-import { bannerWrapper } from "../../common/BannerWrapper";
-import { TopImage } from "../../worldPressFreedomDay/components/TopImage";
-import { getMomentTemplateBanner } from "../MomentTemplateBanner";
+import { brand, neutral, brandAlt } from '@guardian/src-foundations';
+import { BannerProps } from '@sdc/shared/src/types';
+import { Story } from '@storybook/react';
+import { bannerWrapper } from '../../common/BannerWrapper';
+import { TopImage } from '../../worldPressFreedomDay/components/TopImage';
+import { getMomentTemplateBanner } from '../MomentTemplateBanner';
 
 export const BannerWithHeaderImage = bannerWrapper(
     getMomentTemplateBanner({

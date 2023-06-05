@@ -1,8 +1,8 @@
-import { neutral } from "@guardian/src-foundations";
-import { BannerProps } from "@sdc/shared/src/types";
-import { Story } from "@storybook/react";
-import { bannerWrapper } from "../../common/BannerWrapper";
-import { getMomentTemplateBanner } from "../MomentTemplateBanner";
+import { neutral } from '@guardian/src-foundations';
+import { BannerProps } from '@sdc/shared/src/types';
+import { Story } from '@storybook/react';
+import { bannerWrapper } from '../../common/BannerWrapper';
+import { getMomentTemplateBanner } from '../MomentTemplateBanner';
 
 export const BannerWithReminder = bannerWrapper(
     getMomentTemplateBanner({

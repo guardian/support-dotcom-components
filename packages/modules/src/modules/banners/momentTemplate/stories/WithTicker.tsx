@@ -1,8 +1,8 @@
-import { brand, neutral, brandAlt } from "@guardian/src-foundations";
-import { BannerProps } from "@sdc/shared/src/types";
-import { Story } from "@storybook/react";
-import { bannerWrapper } from "../../common/BannerWrapper";
-import { getMomentTemplateBanner } from "../MomentTemplateBanner";
+import { brand, neutral, brandAlt } from '@guardian/src-foundations';
+import { BannerProps } from '@sdc/shared/src/types';
+import { Story } from '@storybook/react';
+import { bannerWrapper } from '../../common/BannerWrapper';
+import { getMomentTemplateBanner } from '../MomentTemplateBanner';
 
 export const BannerWithTicker = bannerWrapper(
     getMomentTemplateBanner({
@@ -76,7 +76,5 @@ export const BannerWithTicker = bannerWrapper(
 );
 
 export const BannerWithTickerTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <BannerWithTicker
-        {...props}
-    />
+    <BannerWithTicker {...props} />
 );
