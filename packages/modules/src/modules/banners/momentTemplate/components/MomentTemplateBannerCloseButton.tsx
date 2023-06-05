@@ -65,5 +65,6 @@ const styles = {
         height: 40px;
         min-height: 40px;
         width: 40px;
-        min-width: 40px;`
+        min-width: 40px;
+    `,
 };

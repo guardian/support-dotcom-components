@@ -46,6 +46,4 @@ const templateSpacing = {
     // },
 };
 
-// const template
-
-export {templateSpacing}
+export { templateSpacing };
