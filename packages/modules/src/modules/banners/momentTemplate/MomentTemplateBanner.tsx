@@ -242,6 +242,8 @@ const styles = {
 
         ${isChoiceCardsContainer
             ? `
+        display: block; // choice cards visible below mobileMedium
+
         ${from.tablet} {
             display: flex;
             align-items: center;
