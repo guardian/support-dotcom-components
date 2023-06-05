@@ -1,3 +1,4 @@
+import React from 'react';
 import { neutral } from '@guardian/src-foundations';
 import { BannerProps } from '@sdc/shared/src/types';
 import { Story } from '@storybook/react';
