@@ -4,7 +4,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 
 // WIP - Any styling changes made to base moment template styling here should be reviewed by a designer!
 
-export const bannerSpacing = {
+const templateSpacing = {
     heading: css`
         ${until.mobileMedium} {
             padding-top: 10px;
@@ -34,7 +34,7 @@ export const bannerSpacing = {
     `,
     // bannerVisual: {
     // },
-    ticker: css`
+    tickerContainer: css`
         ${until.tablet} {
             margin-bottom: ${space[4]}px;
         }
@@ -45,3 +45,7 @@ export const bannerSpacing = {
     // bannerCtas: {
     // },
 };
+
+// const template
+
+export {templateSpacing}

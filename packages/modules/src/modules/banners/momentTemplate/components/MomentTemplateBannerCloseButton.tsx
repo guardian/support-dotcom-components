@@ -8,8 +8,6 @@ import { SvgRoundelBrand, SvgRoundelDefault } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
-// ---- Component ---- //
-
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
     settings: CtaSettings;
@@ -31,7 +29,7 @@ export function MomentTemplateBannerCloseButton({
 
             <Button
                 onClick={onCloseClick}
-                cssOverrides={buttonStyles(settings)}
+                cssOverrides={buttonStyles(settings, styles.closeButtonOverrides)}
                 icon={<SvgCross />}
                 size="small"
                 hideLabel
@@ -42,8 +40,6 @@ export function MomentTemplateBannerCloseButton({
     );
 }
 
-// ---- Styles ---- //
-
 const styles = {
     container: css`
         display: flex;
@@ -53,10 +49,11 @@ const styles = {
     `,
     roundelContainer: css`
         display: none;
-        height: 36px;
+        height: 40px;
 
         svg {
-            height: 100%;
+            height: 40px;
+            width: 40px;
         }
 
         ${from.tablet} {
@@ -64,4 +61,9 @@ const styles = {
             margin-right: ${space[2]}px;
         }
     `,
+    closeButtonOverrides: css`
+        height: 40px;
+        min-height: 40px;
+        width: 40px;
+        min-width: 40px;`
 };
