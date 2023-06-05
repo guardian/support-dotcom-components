@@ -1,4 +1,3 @@
-import React from 'react';
 import { Meta } from '@storybook/react';
 import { props } from '../../utils/storybook';
 import { SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
