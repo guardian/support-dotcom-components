@@ -1,23 +1,30 @@
-import { BannerPayload, EpicPayload, HeaderPayload } from '../../shared/src/types/targeting';
-import { TestTracking } from '../../shared/src/types/abTests/shared';
-
-export interface ModuleData {
-    url: string;
-    name: string;
-    props: Record<string, unknown>; // the client doesn't need to know about the module props
-}
-
-export interface ModuleDataResponse {
-    data?: {
-        module: ModuleData,
-        meta: TestTracking,
-    };
-}
-
-// type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header';
+/**
+ * @typedef {import("../../shared/src/types/targeting").BannerPayload} BannerPayload
+ * @typedef {import("../../shared/src/types/targeting").EpicPayload} EpicPayload
+ * @typedef {import("../../shared/src/types/targeting").HeaderPayload} HeaderPayload
+ * @typedef {import("../../shared/src/types/abTests/shared").TestTracking} TestTracking
+ */
 
 /**
- * @param {'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header'} type
+ * @typedef {Object} ModuleData
+ * @property {string} url
+ * @property {string} name
+ * @property {Record<string, unknown>} props - the client doesn't need to know about the module props
+ */
+
+/**
+ * @typedef {Object} ModuleDataResponse
+ * @property {Object} [data] - The optional data object.
+ * @property {ModuleData} data.module - The module data.
+ * @property {TestTracking} data.meta - The meta information for test tracking.
+ */
+
+/**
+ * @typedef {'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header'} ModuleType
+ */
+
+/**
+ * @param {ModuleType} type
  * @returns {string | null}
  */
 const getForcedVariant = type => {
@@ -32,13 +39,17 @@ const getForcedVariant = type => {
     return null;
 };
 
-type Payload = EpicPayload | BannerPayload | HeaderPayload;
+/**
+ * @typedef { EpicPayload | BannerPayload | HeaderPayload } Payload
+ */
 
-const getModuleData = (
-    type: ModuleType,
-    baseUrl: string,
-    payload: Payload,
-): Promise<ModuleDataResponse> => {
+/**
+ * @param {ModuleType} type
+ * @param {string} baseUrl
+ * @param {Payload} payload
+ * @returns {Promise<ModuleDataResponse>}
+ */
+const getModuleData = (type, baseUrl, payload) => {
     const forcedVariant = getForcedVariant(type);
     const queryString = forcedVariant ? `?force=${forcedVariant}` : '';
     const url = `${baseUrl}/${type}${queryString}`;
@@ -48,7 +59,7 @@ const getModuleData = (
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
     })
-        .then((response: Response) => {
+        .then(response => {
             if (!response.ok) {
                 throw Error(
                     response.statusText ||
@@ -60,21 +71,38 @@ const getModuleData = (
         .then(response => response.json());
 };
 
-export const getEpic = (baseUrl: string, payload: EpicPayload): Promise<ModuleDataResponse> =>
-    getModuleData('epic', baseUrl, payload);
+/**
+ * @param {string} baseUrl
+ * @param {EpicPayload} payload
+ * @returns {Promise<ModuleDataResponse>}
+ */
+export const getEpic = (baseUrl, payload) => getModuleData('epic', baseUrl, payload);
 
-export const getLiveblogEpic = (
-    baseUrl: string,
-    payload: EpicPayload,
-): Promise<ModuleDataResponse> => getModuleData('liveblog-epic', baseUrl, payload);
+/**
+ * @param {string} baseUrl
+ * @param {EpicPayload} payload
+ * @returns {Promise<ModuleDataResponse}
+ */
+export const getLiveblogEpic = (baseUrl, payload) =>
+    getModuleData('liveblog-epic', baseUrl, payload);
 
-export const getBanner = (baseUrl: string, payload: BannerPayload): Promise<ModuleDataResponse> =>
-    getModuleData('banner', baseUrl, payload);
+/**
+ * @param {string} baseUrl
+ * @param {BannerPayload} payload
+ * @returns {Promise<ModuleDataResponse}
+ */
+export const getBanner = (baseUrl, payload) => getModuleData('banner', baseUrl, payload);
 
-export const getPuzzlesBanner = (
-    baseUrl: string,
-    payload: BannerPayload,
-): Promise<ModuleDataResponse> => getModuleData('puzzles', baseUrl, payload);
+/**
+ * @param {string} baseUrl
+ * @param {BannerPayload} payload
+ * @returns {Promise<ModuleDataResponse}
+ */
+export const getPuzzlesBanner = (baseUrl, payload) => getModuleData('puzzles', baseUrl, payload);
 
-export const getHeader = (baseUrl: string, payload: HeaderPayload): Promise<ModuleDataResponse> =>
-    getModuleData('header', baseUrl, payload);
+/**
+ * @param {string} baseUrl
+ * @param {HeaderPayload} payload
+ * @returns {Promise<ModuleDataResponse}
+ */
+export const getHeader = (baseUrl, payload) => getModuleData('header', baseUrl, payload);
