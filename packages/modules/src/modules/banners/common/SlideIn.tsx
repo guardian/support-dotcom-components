@@ -14,7 +14,7 @@ const SlideIn = ({
         margin-bottom: ${startAnimation ? `-${bannerRefClientHeight}` : '0'}px;
         opacity: ${startAnimation ? '1' : '0'};
         transition-property: margin-bottom, opacity;
-        transition-duration: 2s;
+        transition-duration: 6s;
     `;
 
     return <div css={slideInAnimation}>{children}</div>;
