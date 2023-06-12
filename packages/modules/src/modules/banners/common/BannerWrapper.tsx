@@ -6,7 +6,7 @@ import {
     createViewEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -33,6 +33,7 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
+import SlideIn from './SlideIn';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -83,13 +84,14 @@ const withBannerData = (
         choiceCardAmounts,
     } = bannerProps;
 
-    const [canShow, setCanShow] = useState<boolean>(false);
+    const [startAnimation, setStartAnimation] = useState<boolean>(false);
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
             threshold: 0,
         },
         true,
     ) as HasBeenSeen;
+    const slideInRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
@@ -106,7 +108,7 @@ const withBannerData = (
     useScrollDepth(
         depthPercent => {
             if (depthPercent > 25) {
-                setCanShow(true);
+                setStartAnimation(true);
             }
         },
         [],
@@ -248,7 +250,7 @@ const withBannerData = (
         const renderedContent = content && buildRenderedContent(content);
         const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
 
-        if (renderedContent && canShow) {
+        if (renderedContent && startAnimation) {
             const props: BannerRenderProps = {
                 onCtaClick,
                 onSecondaryCtaClick,
@@ -276,9 +278,14 @@ const withBannerData = (
             };
 
             return (
-                <div ref={setNode}>
-                    <Banner {...props} />
-                </div>
+                <SlideIn
+                    startAnimation={startAnimation}
+                    bannerRefClientHeight={slideInRef.current && slideInRef.current.clientHeight}
+                >
+                    <div ref={setNode}>
+                        <Banner {...props} />
+                    </div>
+                </SlideIn>
             );
         }
     } catch (err) {
