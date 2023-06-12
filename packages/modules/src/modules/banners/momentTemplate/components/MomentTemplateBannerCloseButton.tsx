@@ -4,7 +4,7 @@ import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
-import { SvgRoundelBrand, SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelBrand, SvgRoundelDefault, SvgRoundelInverse } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 
@@ -17,15 +17,27 @@ export function MomentTemplateBannerCloseButton({
     onCloseClick,
     settings,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
+    const { theme, guardianRoundel } = settings;
+
+    const getRoundel = () => {
+        if (guardianRoundel) {
+            if (guardianRoundel === 'brand') {
+                return <SvgRoundelBrand />;
+            }
+            if (guardianRoundel === 'inverse') {
+                return <SvgRoundelInverse />;
+            }
+            return <SvgRoundelDefault />;
+        }
+        if (theme && theme === 'brand') {
+            return <SvgRoundelBrand />;
+        }
+        return <SvgRoundelDefault />;
+    };
+
     return (
         <div css={styles.container}>
-            <div css={styles.roundelContainer}>
-                {settings.theme === 'default' || !settings.theme ? (
-                    <SvgRoundelDefault />
-                ) : (
-                    <SvgRoundelBrand />
-                )}
-            </div>
+            <div css={styles.roundelContainer}>{getRoundel()}</div>
 
             <Button
                 onClick={onCloseClick}

@@ -80,7 +80,12 @@ const Overlay: React.FC<OverlayProps> = ({
     settings,
 }: OverlayProps) => {
     return (
-        <div css={overlayStyles.overlayContainer(settings.containerSettings.backgroundColour)}>
+        <div
+            css={overlayStyles.overlayContainer(
+                settings.containerSettings.backgroundColour,
+                settings.articleCountTextColour,
+            )}
+        >
             <div css={overlayStyles.overlayHeader}>
                 <div css={overlayStyles.overlayHeaderText}>
                     {hasOptedOut ? "You've opted out" : "What's this?"}
@@ -126,7 +131,7 @@ const Overlay: React.FC<OverlayProps> = ({
                 </div>
             )}
 
-            <div css={overlayStyles.overlayNote}>
+            <div css={overlayStyles.overlayNote(settings.articleCountTextColour)}>
                 {hasOptedOut ? (
                     <span>
                         If you have any questions, please{' '}
@@ -177,13 +182,13 @@ const styles = {
 };
 
 const overlayStyles = {
-    overlayContainer: (backgroundColour: string) => css`
+    overlayContainer: (backgroundColour: string, textColour: string = neutral[0]) => css`
         ${textSans.medium()}
         padding: ${space[2]}px;
         background-color: ${backgroundColour};
-        border: 1px solid ${neutral[0]};
+        border: 1px solid ${textColour};
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        color: ${neutral[0]};
+        color: ${textColour};
         `,
     overlayHeader: css`
         display: flex;
@@ -213,13 +218,13 @@ const overlayStyles = {
             }
         }
     `,
-    overlayNote: css`
+    overlayNote: (textColour: string = neutral[0]) => css`
         margin-top: ${space[2]}px;
         ${textSans.xsmall()}
         font-style: italic;
 
         a {
-            color: ${neutral[0]} !important;
+            color: ${textColour} !important;
             text-decoration: underline !important;
         }
     `,
