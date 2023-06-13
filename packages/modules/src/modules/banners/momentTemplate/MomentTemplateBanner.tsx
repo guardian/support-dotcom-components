@@ -178,9 +178,9 @@ export function getMomentTemplateBanner(
 }
 
 const styles = {
-    outerContainer: (background: string, copyColor: string = 'inherit') => css`
+    outerContainer: (background: string, textColor: string = 'inherit') => css`
         background: ${background};
-        color: ${copyColor};
+        color: ${textColor};
         max-height: 100vh;
         overflow: auto;
 

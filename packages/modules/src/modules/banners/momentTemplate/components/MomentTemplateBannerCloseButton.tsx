@@ -21,13 +21,14 @@ export function MomentTemplateBannerCloseButton({
 
     const getRoundel = () => {
         if (guardianRoundel) {
-            if (guardianRoundel === 'brand') {
-                return <SvgRoundelBrand />;
+            switch (guardianRoundel) {
+                case 'brand':
+                    return <SvgRoundelBrand />;
+                case 'inverse':
+                    return <SvgRoundelInverse />;
+                default:
+                    return <SvgRoundelDefault />;
             }
-            if (guardianRoundel === 'inverse') {
-                return <SvgRoundelInverse />;
-            }
-            return <SvgRoundelDefault />;
         }
         if (theme && theme === 'brand') {
             return <SvgRoundelBrand />;
