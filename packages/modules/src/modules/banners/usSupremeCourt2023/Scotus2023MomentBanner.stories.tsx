@@ -73,7 +73,7 @@ const Scotus2023MomentBanner = bannerWrapper(
                 'https://i.guim.co.uk/img/media/359d8cde335895144b85a52ce0fe6b93fa8e1514/0_0_882_584/882.png?width=882&height=584&quality=75&s=da90ac1806631a1cb7f3903af88b5819',
             wideUrl:
                 'https://i.guim.co.uk/img/media/359d8cde335895144b85a52ce0fe6b93fa8e1514/0_0_882_584/882.png?width=882&height=584&quality=75&s=da90ac1806631a1cb7f3903af88b5819',
-            altText: 'Ukraine one year on',
+            altText: 'APPROPRIATE ALT TEXT HERE',
         },
         bannerId: 'scotus-2023-moment-banner',
     }),
