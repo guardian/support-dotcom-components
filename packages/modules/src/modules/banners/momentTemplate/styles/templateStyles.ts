@@ -7,12 +7,12 @@ import { from, until } from '@guardian/src-foundations/mq';
 export const bannerSpacing = {
     heading: css`
         ${until.mobileMedium} {
-            padding-top: 10px;
-            margin-bottom: ${space[4]}px;
+            padding-top: 12px;
+            margin-bottom: ${space[6]}px;
         }
         ${from.mobileMedium} {
-            padding-top: 8px;
-            margin-bottom: ${space[4]}px;
+            padding-top: 12px;
+            margin-bottom: ${space[6]}px;
         }
         ${from.tablet} {
             padding-top: ${space[3]}px;
