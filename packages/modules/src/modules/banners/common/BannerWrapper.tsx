@@ -84,7 +84,7 @@ const withBannerData = (
         choiceCardAmounts,
     } = bannerProps;
 
-    const [startAnimation, setStartAnimation] = useState<boolean>(false);
+    const [canShow, setCanShow] = useState<boolean>(false);
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
             threshold: 0,
@@ -108,7 +108,7 @@ const withBannerData = (
     useScrollDepth(
         depthPercent => {
             if (depthPercent > 25) {
-                setStartAnimation(true);
+                setCanShow(true);
             }
         },
         [],
@@ -250,7 +250,7 @@ const withBannerData = (
         const renderedContent = content && buildRenderedContent(content);
         const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
 
-        if (renderedContent && startAnimation) {
+        if (renderedContent && canShow) {
             const props: BannerRenderProps = {
                 onCtaClick,
                 onSecondaryCtaClick,
@@ -279,7 +279,7 @@ const withBannerData = (
 
             return (
                 <SlideIn
-                    startAnimation={startAnimation}
+                    canShow={canShow}
                     bannerRefClientHeight={slideInRef.current && slideInRef.current.clientHeight}
                 >
                     <div ref={setNode}>

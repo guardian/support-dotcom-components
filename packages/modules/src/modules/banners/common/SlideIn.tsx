@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
 const SlideIn = ({
     children,
-    startAnimation,
+    canShow,
     bannerRefClientHeight,
 }: {
     children: JSX.Element;
-    startAnimation: boolean;
+    canShow: boolean;
     bannerRefClientHeight: number | null;
 }): JSX.Element => {
+    const [startAnimation, setStartAnimation] = useState(false);
+
+    canShow && setTimeout(() => setStartAnimation(true) , 2000);
+
     const slideInAnimation = css`
         margin-bottom: ${startAnimation ? `-${bannerRefClientHeight}` : '0'}px;
-        opacity: ${startAnimation ? '1' : '0'};
-        transition-property: margin-bottom, opacity;
-        transition-duration: 6s;
+        transition-property: margin-bottom;
+        transition-duration: 2s;
     `;
 
     return <div css={slideInAnimation}>{children}</div>;
