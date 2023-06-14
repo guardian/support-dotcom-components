@@ -4,8 +4,7 @@ import { css } from '@emotion/react';
 const FadeIn = ({
     children,
     canShow,
-}:
-{
+}: {
     children: JSX.Element;
     canShow: boolean;
 }): JSX.Element => {

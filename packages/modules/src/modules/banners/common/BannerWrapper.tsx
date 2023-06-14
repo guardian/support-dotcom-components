@@ -33,7 +33,7 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
-import FadeIn from './SlideIn';
+import FadeIn from './FadeIn';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -277,9 +277,7 @@ const withBannerData = (
             };
 
             return (
-                <FadeIn
-                    canShow={canShow}
-                >
+                <FadeIn canShow={canShow}>
                     <div ref={setNode}>
                         <Banner {...props} />
                     </div>
