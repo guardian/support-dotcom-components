@@ -12,7 +12,7 @@ const SlideIn = ({
 }): JSX.Element => {
     const [startAnimation, setStartAnimation] = useState(false);
 
-    canShow && setTimeout(() => setStartAnimation(true) , 2000);
+    canShow && setTimeout(() => setStartAnimation(true), 2000);
 
     const slideInAnimation = css`
         margin-bottom: ${startAnimation ? `-${bannerRefClientHeight}` : '0'}px;
