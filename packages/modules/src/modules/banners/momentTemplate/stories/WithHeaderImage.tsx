@@ -3,8 +3,8 @@ import { brand, neutral, brandAlt } from '@guardian/src-foundations';
 import { BannerProps } from '@sdc/shared/src/types';
 import { Story } from '@storybook/react';
 import { bannerWrapper } from '../../common/BannerWrapper';
-import { TopImage } from '../../worldPressFreedomDay/components/TopImage';
 import { getMomentTemplateBanner } from '../MomentTemplateBanner';
+import { HeaderImage } from './components/HeaderImage';
 
 export const BannerWithHeaderImage = bannerWrapper(
     getMomentTemplateBanner({
@@ -13,7 +13,7 @@ export const BannerWithHeaderImage = bannerWrapper(
         },
         headerSettings: {
             textColour: '#0077B6',
-            image: <TopImage />,
+            image: <HeaderImage />,
         },
         primaryCtaSettings: {
             default: {
