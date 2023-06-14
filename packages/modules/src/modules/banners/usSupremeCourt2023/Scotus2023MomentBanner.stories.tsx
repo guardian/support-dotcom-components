@@ -62,17 +62,17 @@ const Scotus2023MomentBanner = bannerWrapper(
         articleCountTextColour: neutral[100],
         imageSettings: {
             mainUrl:
-                'https://i.guim.co.uk/img/media/5f55f84fbb107ad1539659d8caec5eeab7398dbc/0_0_1500_608/500.png?width=500&quality=75&s=2173abfa5e53fb64660c6596a887e9ac',
+                'https://i.guim.co.uk/img/media/d9439edc81326f0546960316bd1c84acaf974366/752_639_3258_1303/1000.jpg?width=500&quality=75&s=f19e815a62c8550748d9514d39298683',
             mobileUrl:
-                'https://i.guim.co.uk/img/media/5f55f84fbb107ad1539659d8caec5eeab7398dbc/0_0_1500_608/500.png?width=500&quality=75&s=2173abfa5e53fb64660c6596a887e9ac',
+                'https://i.guim.co.uk/img/media/d9439edc81326f0546960316bd1c84acaf974366/752_639_3258_1303/1000.jpg?width=500&quality=75&s=f19e815a62c8550748d9514d39298683',
             tabletUrl:
-                'https://i.guim.co.uk/img/media/4f2ec5867b1a111b78927547f2fdceb0066695f9/0_0_1024_920/500.png?width=500&quality=75&s=ef15b7ff812d997251a68b59a1b4279c',
+                'https://i.guim.co.uk/img/media/d9439edc81326f0546960316bd1c84acaf974366/1400_406_1772_1773/1000.jpg?width=500&quality=75&s=16e4aebfcbad771ee40c9b6f9fd99056',
             desktopUrl:
-                'https://i.guim.co.uk/img/media/8d9128c93a61155e0b84f0eb229edd57951ee3ff/0_0_1280_1168/500.png?width=500&quality=75&s=0d8ff342ffc3005186903969b22a4674',
+                'https://i.guim.co.uk/img/media/d9439edc81326f0546960316bd1c84acaf974366/1400_406_1772_1773/1000.jpg?width=500&quality=75&s=16e4aebfcbad771ee40c9b6f9fd99056',
             leftColUrl:
-                'https://i.guim.co.uk/img/media/359d8cde335895144b85a52ce0fe6b93fa8e1514/0_0_882_584/882.png?width=882&height=584&quality=75&s=da90ac1806631a1cb7f3903af88b5819',
+                'https://i.guim.co.uk/img/media/d9439edc81326f0546960316bd1c84acaf974366/1395_636_1953_1302/1953.jpg?width=900&quality=75&s=133c6e21b3a43c57f91fd16ecbe942ec',
             wideUrl:
-                'https://i.guim.co.uk/img/media/359d8cde335895144b85a52ce0fe6b93fa8e1514/0_0_882_584/882.png?width=882&height=584&quality=75&s=da90ac1806631a1cb7f3903af88b5819',
+                'https://i.guim.co.uk/img/media/d9439edc81326f0546960316bd1c84acaf974366/1395_636_1953_1302/1953.jpg?width=900&quality=75&s=133c6e21b3a43c57f91fd16ecbe942ec',
             altText: 'APPROPRIATE ALT TEXT HERE',
         },
         bannerId: 'scotus-2023-moment-banner',
