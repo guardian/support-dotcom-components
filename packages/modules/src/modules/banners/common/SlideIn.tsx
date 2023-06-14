@@ -4,19 +4,19 @@ import { css } from '@emotion/react';
 const SlideIn = ({
     children,
     canShow,
-    bannerRefClientHeight,
-}: {
+}: // bannerRefClientHeight,
+{
     children: JSX.Element;
     canShow: boolean;
-    bannerRefClientHeight: number | null;
+    // bannerRefClientHeight: number | null;
 }): JSX.Element => {
     const [startAnimation, setStartAnimation] = useState(false);
 
     canShow && setTimeout(() => setStartAnimation(true), 2000);
 
     const slideInAnimation = css`
-        margin-bottom: ${startAnimation ? `-${bannerRefClientHeight}` : '0'}px;
-        transition-property: margin-bottom;
+        opacity: ${startAnimation ? '1' : '0'};
+        transition-property: opacity;
         transition-duration: 2s;
     `;
 

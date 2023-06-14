@@ -6,7 +6,7 @@ import {
     createViewEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -91,7 +91,7 @@ const withBannerData = (
         },
         true,
     ) as HasBeenSeen;
-    const slideInRef = useRef<HTMLDivElement>(null);
+    // const slideInRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
@@ -280,7 +280,7 @@ const withBannerData = (
             return (
                 <SlideIn
                     canShow={canShow}
-                    bannerRefClientHeight={slideInRef.current && slideInRef.current.clientHeight}
+                    // bannerRefClientHeight={slideInRef.current && slideInRef.current.clientHeight}
                 >
                     <div ref={setNode}>
                         <Banner {...props} />
