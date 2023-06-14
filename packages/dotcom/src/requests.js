@@ -81,7 +81,7 @@ export const getEpic = (baseUrl, payload) => getModuleData('epic', baseUrl, payl
 /**
  * @param {string} baseUrl
  * @param {EpicPayload} payload
- * @returns {Promise<ModuleDataResponse}
+ * @returns {Promise<ModuleDataResponse>}
  */
 export const getLiveblogEpic = (baseUrl, payload) =>
     getModuleData('liveblog-epic', baseUrl, payload);
@@ -89,20 +89,20 @@ export const getLiveblogEpic = (baseUrl, payload) =>
 /**
  * @param {string} baseUrl
  * @param {BannerPayload} payload
- * @returns {Promise<ModuleDataResponse}
+ * @returns {Promise<ModuleDataResponse>}
  */
 export const getBanner = (baseUrl, payload) => getModuleData('banner', baseUrl, payload);
 
 /**
  * @param {string} baseUrl
  * @param {BannerPayload} payload
- * @returns {Promise<ModuleDataResponse}
+ * @returns {Promise<ModuleDataResponse>}
  */
 export const getPuzzlesBanner = (baseUrl, payload) => getModuleData('puzzles', baseUrl, payload);
 
 /**
  * @param {string} baseUrl
  * @param {HeaderPayload} payload
- * @returns {Promise<ModuleDataResponse}
+ * @returns {Promise<ModuleDataResponse>}
  */
 export const getHeader = (baseUrl, payload) => getModuleData('header', baseUrl, payload);
