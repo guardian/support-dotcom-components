@@ -10,7 +10,7 @@
         "noEmit": true,
 		"declaration": false,
 		"declarationMap": false,
-		"checkJs": true
+		"checkJs": true,
     },
     "include": [
         "src/index.js"

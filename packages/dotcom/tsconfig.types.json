@@ -7,9 +7,9 @@
         "declarationMap": true,
         "isolatedModules": false,
         "noEmit": false,
-        "allowJs": false,
+        "allowJs": true,
         "emitDeclarationOnly": true
     },
     "exclude": ["**/*.test.ts", "dist/**/*"],
-    "files": ["./src/index.ts","./src/types.ts"]
+    "files": ["./src/index.js","./src/types.js"]
 }

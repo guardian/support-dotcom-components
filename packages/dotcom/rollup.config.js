@@ -12,7 +12,7 @@ const extensions = [...DEFAULT_EXTENSIONS, '.ts', '.tsx'];
 
 export default [
     {
-        input: './src/index.ts',
+        input: './src/index.js',
         output: [
             {
                 file: pkg.main,
