@@ -33,7 +33,7 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
-import SlideIn from './SlideIn';
+import FadeIn from './SlideIn';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -91,7 +91,6 @@ const withBannerData = (
         },
         true,
     ) as HasBeenSeen;
-    // const slideInRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
@@ -278,14 +277,13 @@ const withBannerData = (
             };
 
             return (
-                <SlideIn
+                <FadeIn
                     canShow={canShow}
-                    // bannerRefClientHeight={slideInRef.current && slideInRef.current.clientHeight}
                 >
                     <div ref={setNode}>
                         <Banner {...props} />
                     </div>
-                </SlideIn>
+                </FadeIn>
             );
         }
     } catch (err) {

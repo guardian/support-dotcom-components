@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
-const SlideIn = ({
+const FadeIn = ({
     children,
     canShow,
-}: // bannerRefClientHeight,
+}:
 {
     children: JSX.Element;
     canShow: boolean;
-    // bannerRefClientHeight: number | null;
 }): JSX.Element => {
     const [startAnimation, setStartAnimation] = useState(false);
 
@@ -23,4 +22,4 @@ const SlideIn = ({
     return <div css={slideInAnimation}>{children}</div>;
 };
 
-export default SlideIn;
+export default FadeIn;
