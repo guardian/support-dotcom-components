@@ -57,7 +57,12 @@ export function getMomentTemplateBanner(
         const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
 
         return (
-            <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
+            <div
+                css={styles.outerContainer(
+                    templateSettings.containerSettings.backgroundColour,
+                    templateSettings.containerSettings.textColor,
+                )}
+            >
                 <Container cssOverrides={styles.containerOverrides(templateSettings.choiceCards)}>
                     <div css={styles.closeButtonContainer}>
                         <MomentTemplateBannerCloseButton
@@ -120,7 +125,6 @@ export function getMomentTemplateBanner(
                             <MomentTemplateBannerArticleCount
                                 numArticles={numArticles}
                                 settings={templateSettings}
-                                textColour={templateSettings.articleCountTextColour}
                             />
                         )}
 
@@ -174,8 +178,9 @@ export function getMomentTemplateBanner(
 }
 
 const styles = {
-    outerContainer: (background: string) => css`
+    outerContainer: (background: string, textColor: string = 'inherit') => css`
         background: ${background};
+        color: ${textColor};
         max-height: 100vh;
         overflow: auto;
 
