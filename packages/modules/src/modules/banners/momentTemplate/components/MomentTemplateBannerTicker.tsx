@@ -7,7 +7,7 @@ import useTicker from '../../../../hooks/useTicker';
 import { from } from '@guardian/src-foundations/mq';
 import { TickerStylingSettings } from '../settings';
 import { space } from '@guardian/src-foundations';
-import { bannerSpacing } from '../styles/templateStyles';
+import { templateSpacing } from '../styles/templateStyles';
 
 const progressBarHeight = 12;
 const tickerFillOffset = 15;
@@ -16,7 +16,7 @@ const overFilledTickerOffset = 10;
 const styles = {
     containerStyles: css`
         position: relative;
-        ${bannerSpacing.bannerTicker}
+        ${templateSpacing.bannerTicker}
     `,
     tickerLabelsContainer: css`
         display: flex;

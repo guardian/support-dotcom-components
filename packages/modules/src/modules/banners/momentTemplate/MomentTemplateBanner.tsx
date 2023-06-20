@@ -14,7 +14,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
-import { bannerSpacing } from './styles/templateStyles';
+import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
@@ -208,10 +208,10 @@ const styles = {
             }
         }
 
-        ${bannerSpacing.bannerContainer};
+        ${templateSpacing.bannerContainer};
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
-        ${bannerSpacing.bannerVisual}
+        ${templateSpacing.bannerVisual}
         display: none;
 
         ${from.mobileMedium} {
@@ -267,7 +267,7 @@ const styles = {
         }
     `,
     headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
-        ${bannerSpacing.bannerHeader}
+        ${templateSpacing.bannerHeader}
         max-width: calc(100% - 46px); // 46px approx close button size
 
         ${from.mobileMedium} {
@@ -295,14 +295,14 @@ const styles = {
         }
     `,
     bodyContainer: css`
-        ${bannerSpacing.bannerBodyCopy}
+        ${templateSpacing.bannerBodyCopy}
     `,
     ctasContainer: css`
         display: flex;
         flex-direction: row;
     `,
     closeButtonContainer: css`
-        ${bannerSpacing.bannerCloseButton}
+        ${templateSpacing.bannerCloseButton}
         z-index: 101;
         position: absolute;
     `,

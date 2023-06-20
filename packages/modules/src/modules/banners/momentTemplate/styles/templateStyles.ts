@@ -4,7 +4,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 
 // WIP - Any styling changes made to base moment template styling here should be reviewed by a designer!
 
-export const bannerSpacing = {
+export const templateSpacing = {
     bannerContainer: css`
         ${until.tablet} {
             margin-bottom: ${space[4]}px;
