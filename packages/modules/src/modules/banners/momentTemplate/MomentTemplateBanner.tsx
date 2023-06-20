@@ -263,7 +263,7 @@ const styles = {
             width: 700px;
         }
         ${from.wide} {
-            width: 780px;
+            width: 860px;
         }
     `,
     headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
