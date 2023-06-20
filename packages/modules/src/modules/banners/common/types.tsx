@@ -31,6 +31,7 @@ export type BannerId =
     | 'us-eoy-banner-v3'
     | 'aus-eoy-banner'
     | 'ukraine-moment-banner'
+    | 'scotus-2023-moment-banner'
     | 'wpfd-banner';
 
 export interface BannerEnrichedCta {

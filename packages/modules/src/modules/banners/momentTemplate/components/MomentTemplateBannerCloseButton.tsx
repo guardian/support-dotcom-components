@@ -4,11 +4,9 @@ import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
-import { SvgRoundelBrand, SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelBrand, SvgRoundelDefault, SvgRoundelInverse } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
-
-// ---- Component ---- //
 
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
@@ -19,19 +17,32 @@ export function MomentTemplateBannerCloseButton({
     onCloseClick,
     settings,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
+    const { theme, guardianRoundel } = settings;
+
+    const getRoundel = () => {
+        if (guardianRoundel) {
+            switch (guardianRoundel) {
+                case 'brand':
+                    return <SvgRoundelBrand />;
+                case 'inverse':
+                    return <SvgRoundelInverse />;
+                default:
+                    return <SvgRoundelDefault />;
+            }
+        }
+        if (theme && theme === 'brand') {
+            return <SvgRoundelBrand />;
+        }
+        return <SvgRoundelDefault />;
+    };
+
     return (
         <div css={styles.container}>
-            <div css={styles.roundelContainer}>
-                {settings.theme === 'default' || !settings.theme ? (
-                    <SvgRoundelDefault />
-                ) : (
-                    <SvgRoundelBrand />
-                )}
-            </div>
+            <div css={styles.roundelContainer}>{getRoundel()}</div>
 
             <Button
                 onClick={onCloseClick}
-                cssOverrides={buttonStyles(settings)}
+                cssOverrides={buttonStyles(settings, styles.closeButtonOverrides)}
                 icon={<SvgCross />}
                 size="small"
                 hideLabel
@@ -42,8 +53,6 @@ export function MomentTemplateBannerCloseButton({
     );
 }
 
-// ---- Styles ---- //
-
 const styles = {
     container: css`
         display: flex;
@@ -53,15 +62,22 @@ const styles = {
     `,
     roundelContainer: css`
         display: none;
-        height: 36px;
+        height: 40px;
 
         svg {
-            height: 100%;
+            height: 40px;
+            width: 40px;
         }
 
         ${from.tablet} {
             display: block;
             margin-right: ${space[2]}px;
         }
+    `,
+    closeButtonOverrides: css`
+        height: 40px;
+        min-height: 40px;
+        width: 40px;
+        min-width: 40px;
     `,
 };

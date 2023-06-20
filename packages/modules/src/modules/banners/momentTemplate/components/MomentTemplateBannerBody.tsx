@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { body } from '@guardian/src-foundations/typography';
 import { createBannerBodyCopy } from '../../common/BannerText';
@@ -39,7 +38,6 @@ export function MomentTemplateBannerBody({
 const getStyles = (settings: HighlightedTextSettings) => ({
     container: css`
         ${body.small()}
-        color: ${neutral[0]};
         font-size: 15px;
         line-height: 135%;
 
