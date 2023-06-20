@@ -294,6 +294,7 @@ const styles = {
         }
 
         ${from.tablet} {
+            padding-bottom: 0px;
             position: relative;
             z-index: initial;
             border-bottom: initial;
