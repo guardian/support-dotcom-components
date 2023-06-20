@@ -208,9 +208,10 @@ const styles = {
             }
         }
 
-        ${bannerSpacing.heading};
+        ${bannerSpacing.bannerContainer};
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
+        ${bannerSpacing.bannerVisual}
         display: none;
 
         ${from.mobileMedium} {
@@ -266,13 +267,11 @@ const styles = {
         }
     `,
     headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
+        ${bannerSpacing.bannerHeader}
         max-width: calc(100% - 46px); // 46px approx close button size
-        ${bannerSpacing.heading};
 
         ${from.mobileMedium} {
             max-width: initial;
-            margin-top: ${space[2]}px;
-            padding-bottom: ${space[2]}px;
 
             // Mobile Sticky Header Styles
             background: ${background};
@@ -296,22 +295,15 @@ const styles = {
         }
     `,
     bodyContainer: css`
-        ${bannerSpacing.bodyCopyAndArticleCount}
+        ${bannerSpacing.bannerBodyCopy}
     `,
     ctasContainer: css`
         display: flex;
         flex-direction: row;
-        margin-top: ${space[5]}px;
-
-        ${from.tablet} {
-            margin-top: ${space[6]}px;
-        }
     `,
     closeButtonContainer: css`
-        margin-left: ${space[3]}px;
+        ${bannerSpacing.bannerCloseButton}
         z-index: 101;
         position: absolute;
-        top: ${space[2]}px;
-        right: ${space[4]}px;
     `,
 };
