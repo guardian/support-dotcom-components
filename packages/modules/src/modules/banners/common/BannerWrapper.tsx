@@ -33,7 +33,7 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
-import FadeIn from './FadeIn';
+import SlideIn from './SlideIn';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -277,11 +277,11 @@ const withBannerData = (
             };
 
             return (
-                <FadeIn canShow={canShow}>
+                <SlideIn canShow={canShow}>
                     <div ref={setNode}>
                         <Banner {...props} />
                     </div>
-                </FadeIn>
+                </SlideIn>
             );
         }
     } catch (err) {
