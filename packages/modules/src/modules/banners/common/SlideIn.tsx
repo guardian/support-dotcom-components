@@ -17,7 +17,7 @@ const SlideIn = ({
     const slideInAnimation = css`
         transform: ${startAnimation ? 'translateY(0px)' : 'translateY(1000px)'};
         transition-property: transform;
-        transition-duration: 2s;
+        transition-duration: 0.25s;
     `;
 
     return <div css={slideInAnimation}>{children}</div>;
