@@ -216,7 +216,6 @@ const styles = {
         ${templateSpacing.bannerContainer};
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
-        ${templateSpacing.bannerVisual}
         display: none;
 
         ${from.mobileMedium} {
@@ -256,7 +255,8 @@ const styles = {
             width: 350px;
         }
     `
-            : `pointer-events: none;
+            : `
+                pointer-events: none;
         `}
     `,
     contentContainer: css`

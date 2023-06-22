@@ -16,11 +16,6 @@ const templateSpacing = {
         padding-top: ${space[3]}px;
         margin-bottom: ${space[6]}px;
     `,
-    bannerVisual: css`
-        ${from.mobileMedium} {
-            margin-bottom: ${space[6]}px;
-        }
-    `,
     bannerBodyCopy: css`
         ${until.tablet} {
             margin-bottom: ${space[4]}px;
