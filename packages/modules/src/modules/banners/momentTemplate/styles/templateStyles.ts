@@ -33,9 +33,8 @@ const templateSpacing = {
         }
     `,
     bannerCloseButton: css`
-        top: ${space[2]}px;
+        top: ${space[3]}px;
         right: ${space[3]}px;
-        padding-top: ${space[3]}px;
         margin-left: ${space[3]}px;
     `,
 };
