@@ -278,8 +278,6 @@ const styles = {
         max-width: calc(100% - 46px); // 46px approx close button size
 
         ${from.mobileMedium} {
-            max-width: initial;
-
             // Mobile Sticky Header Styles
             background: ${background};
             position: sticky;
@@ -294,12 +292,12 @@ const styles = {
         }
 
         ${from.tablet} {
-            padding-bottom: 0px;
-            position: relative;
-            z-index: initial;
-            border-bottom: initial;
-            top: initial;
             max-width: initial;
+            position: relative;
+            top: initial;
+            z-index: initial;
+            padding-bottom: 0px;
+            border-bottom: initial;
         }
     `,
     bodyContainer: css`
