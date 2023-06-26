@@ -12,8 +12,6 @@ const SlideIn = ({
 
     canShow && setTimeout(() => setStartAnimation(true), 2000);
 
-    console.log('startAnimation: ', startAnimation);
-
     const slideInAnimation = css`
         transform: ${startAnimation ? 'translateY(0%)' : 'translateY(100%)'};
         transition-property: transform;
