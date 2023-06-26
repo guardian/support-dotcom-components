@@ -15,7 +15,7 @@ const SlideIn = ({
     console.log('startAnimation: ', startAnimation);
 
     const slideInAnimation = css`
-        transform: ${startAnimation ? 'translateY(0px)' : 'translateY(1000px)'};
+        transform: ${startAnimation ? 'translateY(0%)' : 'translateY(100%)'};
         transition-property: transform;
         transition-duration: 0.75s;
     `;
