@@ -106,7 +106,7 @@ const withBannerData = (
 
     useScrollDepth(
         depthPercent => {
-            if (depthPercent > 25) {
+            if (depthPercent > 5) {
                 setCanShow(true);
             }
         },
