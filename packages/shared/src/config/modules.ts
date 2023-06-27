@@ -115,6 +115,11 @@ export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/ukraineMoment/UkraineMomentBanner',
 );
 
+export const scotus2023MomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'scotus-2023-moment-banner',
+    'banners/usSupremeCourt2023/Scotus2023MomentBanner',
+);
+
 export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
     'wpfd-banner',
     'banners/worldPressFreedomDay/WorldPressFreedomDayBanner',
@@ -142,5 +147,6 @@ export const moduleInfos: ModuleInfo[] = [
     header,
     signInPromptHeader,
     ukraineMomentBanner,
+    scotus2023MomentBanner,
     wpfdBanner,
 ];

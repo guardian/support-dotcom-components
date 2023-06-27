@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { MomentTemplateArticleCountOptOut } from './MomentTemplateBannerArticleCountOptOut';
@@ -11,16 +10,14 @@ import { BannerTemplateSettings } from '../settings';
 interface MomentTemplateBannerArticleCountProps {
     numArticles: number;
     settings: BannerTemplateSettings;
-    textColour?: string;
 }
 
 export function MomentTemplateBannerArticleCount({
     numArticles,
     settings,
-    textColour = neutral[0],
 }: MomentTemplateBannerArticleCountProps): JSX.Element {
     return (
-        <div css={styles.container(textColour)}>
+        <div css={styles.container(settings.articleCountTextColour)}>
             You&apos;ve read{' '}
             <MomentTemplateArticleCountOptOut
                 numArticles={numArticles}
@@ -35,7 +32,7 @@ export function MomentTemplateBannerArticleCount({
 // ---- Styles ---- //
 
 const styles = {
-    container: (textColor: string) => css`
+    container: (textColor: string = 'inherit') => css`
         ${headline.xxxsmall({ fontWeight: 'bold' })}
         font-size: 15px;
         color: ${textColor};

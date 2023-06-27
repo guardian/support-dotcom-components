@@ -4,6 +4,7 @@ import { BannerId } from '../common/types';
 
 export type ContainerSettings = {
     backgroundColour: string;
+    textColor?: string;
     paddingTop?: string;
 };
 
@@ -13,12 +14,16 @@ export type CtaStateSettings = {
     border?: string;
 };
 
+type GuardianRoundel = 'default' | 'brand' | 'inverse';
+type GuardianTheme = 'default' | 'brand';
+
 export interface CtaSettings {
     default: CtaStateSettings;
     hover: CtaStateSettings;
     mobile?: CtaStateSettings;
     desktop?: CtaStateSettings;
-    theme?: 'default' | 'brand';
+    theme?: GuardianTheme;
+    guardianRoundel?: GuardianRoundel;
 }
 
 export interface HighlightedTextSettings {
@@ -35,6 +40,7 @@ export interface TickerStylingSettings {
 
 export interface HeaderSettings {
     textColour: string;
+    image?: ReactNode;
 }
 
 export interface BannerTemplateSettings {
@@ -47,6 +53,7 @@ export interface BannerTemplateSettings {
     articleCountTextColour?: string;
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
+    choiceCards?: boolean;
     bannerId?: BannerId;
     tickerStylingSettings?: TickerStylingSettings;
     headerSettings?: HeaderSettings;

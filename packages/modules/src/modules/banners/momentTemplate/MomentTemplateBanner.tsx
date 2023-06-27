@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
-import { Container, Hide } from '@guardian/src-layout';
+import { Container } from '@guardian/src-layout';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';
@@ -14,14 +14,19 @@ import { from } from '@guardian/src-foundations/mq';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
-import { bannerSpacing } from './styles/templateStyles';
+import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
+import useChoiceCards from '../../../hooks/useChoiceCards';
+import { ChoiceCards } from '../choiceCardsBanner/components/ChoiceCards';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
 ): React.FC<BannerRenderProps> {
-    const hasVisual = templateSettings.imageSettings || templateSettings.alternativeVisual;
+    const hasVisual =
+        templateSettings.imageSettings ||
+        templateSettings.alternativeVisual ||
+        templateSettings.choiceCards;
 
     function MomentTemplateBanner({
         content,
@@ -32,36 +37,47 @@ export function getMomentTemplateBanner(
         reminderTracking,
         separateArticleCount,
         tickerSettings,
+        choiceCardAmounts,
+        countryCode,
+        submitComponentEvent,
+        tracking,
     }: BannerRenderProps): JSX.Element {
         const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
             reminderTracking,
         );
-
         const isTabletOrAbove = useMediaQuery(from.tablet);
+        const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-        const mainOrMobileContent = isTabletOrAbove ? 'mainContent' : 'mobileContent';
+        const {
+            choiceCardSelection,
+            setChoiceCardSelection,
+            getCtaText,
+            currencySymbol,
+        } = useChoiceCards(choiceCardAmounts, countryCode);
+        const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
 
         return (
-            <div css={styles.outerContainer(templateSettings.containerSettings.backgroundColour)}>
-                <Container
-                    cssOverrides={styles.mobileStickyHeaderContainer(
-                        templateSettings.containerSettings.backgroundColour,
-                        content.mobileContent.secondaryCta?.type ===
-                            SecondaryCtaType.ContributionsReminder,
-                        templateSettings.containerSettings.paddingTop,
-                    )}
-                >
+            <div
+                css={styles.outerContainer(
+                    templateSettings.containerSettings.backgroundColour,
+                    templateSettings.containerSettings.textColor,
+                )}
+            >
+                <Container cssOverrides={styles.containerOverrides(templateSettings.choiceCards)}>
                     <div css={styles.closeButtonContainer}>
-                        <Hide below="mobileMedium">
-                            <MomentTemplateBannerCloseButton
-                                onCloseClick={onCloseClick}
-                                settings={templateSettings.closeButtonSettings}
-                            />
-                        </Hide>
+                        <MomentTemplateBannerCloseButton
+                            onCloseClick={onCloseClick}
+                            settings={templateSettings.closeButtonSettings}
+                        />
                     </div>
 
                     {hasVisual && (
-                        <div css={styles.mobileVisualContainer}>
+                        <div
+                            css={styles.bannerVisualContainer(
+                                templateSettings.containerSettings.backgroundColour,
+                                templateSettings.choiceCards,
+                            )}
+                        >
                             {templateSettings.imageSettings && (
                                 <MomentTemplateBannerVisual
                                     settings={templateSettings.imageSettings}
@@ -69,88 +85,68 @@ export function getMomentTemplateBanner(
                                 />
                             )}
                             {templateSettings.alternativeVisual}
+                            {showChoiceCards && (
+                                <ChoiceCards
+                                    setSelectionsCallback={setChoiceCardSelection}
+                                    selection={choiceCardSelection}
+                                    submitComponentEvent={submitComponentEvent}
+                                    currencySymbol={currencySymbol}
+                                    componentId={'choice-cards-banner-blue'}
+                                    amounts={choiceCardAmounts.amounts}
+                                    amountsTestName={choiceCardAmounts?.testName}
+                                    amountsVariantName={choiceCardAmounts?.variantName}
+                                    countryCode={countryCode}
+                                    bannerTracking={tracking}
+                                    numArticles={numArticles}
+                                    content={content}
+                                    getCtaText={getCtaText}
+                                />
+                            )}
                         </div>
                     )}
 
-                    <div css={styles.headerContainer}>
-                        <MomentTemplateBannerHeader
-                            heading={content.mainContent.heading}
-                            mobileHeading={content.mobileContent.heading}
-                            headerSettings={templateSettings.headerSettings}
-                        />
-
-                        <Hide above="mobileMedium" cssOverrides={styles.mobileCloseButtonContainer}>
-                            <MomentTemplateBannerCloseButton
-                                onCloseClick={onCloseClick}
-                                settings={templateSettings.closeButtonSettings}
+                    <div css={styles.contentContainer}>
+                        <div
+                            css={styles.headerContainer(
+                                templateSettings.containerSettings.backgroundColour,
+                                content.mobileContent.secondaryCta?.type ===
+                                    SecondaryCtaType.ContributionsReminder,
+                                templateSettings.choiceCards,
+                            )}
+                        >
+                            <MomentTemplateBannerHeader
+                                heading={content.mainContent.heading}
+                                mobileHeading={content.mobileContent.heading}
+                                headerSettings={templateSettings.headerSettings}
                             />
-                        </Hide>
-                    </div>
-                </Container>
-
-                <Container cssOverrides={styles.containerOverrides}>
-                    <div css={styles.container}>
-                        <div css={styles.closeButtonContainer}>
-                            <Hide below="tablet">
-                                <MomentTemplateBannerCloseButton
-                                    onCloseClick={onCloseClick}
-                                    settings={templateSettings.closeButtonSettings}
-                                />
-                            </Hide>
                         </div>
 
-                        {hasVisual && (
-                            <div css={styles.desktopVisualContainer}>
-                                {templateSettings.imageSettings && (
-                                    <MomentTemplateBannerVisual
-                                        settings={templateSettings.imageSettings}
-                                        bannerId={templateSettings.bannerId}
-                                    />
-                                )}
-                                {templateSettings.alternativeVisual}
-                            </div>
+                        {separateArticleCount && numArticles !== undefined && numArticles > 5 && (
+                            <MomentTemplateBannerArticleCount
+                                numArticles={numArticles}
+                                settings={templateSettings}
+                            />
                         )}
 
-                        <div css={styles.contentContainer}>
-                            <div css={styles.desktopHeaderContainer}>
-                                <MomentTemplateBannerHeader
-                                    heading={content.mainContent.heading}
-                                    mobileHeading={content.mobileContent.heading}
-                                    headerSettings={templateSettings.headerSettings}
-                                />
-                            </div>
+                        <div css={styles.bodyContainer}>
+                            <MomentTemplateBannerBody
+                                mainContent={content.mainContent}
+                                mobileContent={content.mobileContent}
+                                highlightedTextSettings={templateSettings.highlightedTextSettings}
+                            />
+                        </div>
 
-                            {separateArticleCount &&
-                                numArticles !== undefined &&
-                                numArticles > 5 && (
-                                    <MomentTemplateBannerArticleCount
-                                        numArticles={numArticles}
-                                        settings={templateSettings}
-                                        textColour={templateSettings.articleCountTextColour}
-                                    />
-                                )}
+                        {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
+                            <MomentTemplateBannerTicker
+                                tickerSettings={tickerSettings}
+                                stylingSettings={templateSettings.tickerStylingSettings}
+                            />
+                        )}
 
-                            <div css={styles.bodyContainer}>
-                                <MomentTemplateBannerBody
-                                    mainContent={content.mainContent}
-                                    mobileContent={content.mobileContent}
-                                    highlightedTextSettings={
-                                        templateSettings.highlightedTextSettings
-                                    }
-                                />
-                            </div>
-
-                            {tickerSettings?.tickerData &&
-                                templateSettings.tickerStylingSettings && (
-                                    <MomentTemplateBannerTicker
-                                        tickerSettings={tickerSettings}
-                                        stylingSettings={templateSettings.tickerStylingSettings}
-                                    />
-                                )}
-
+                        {!templateSettings.choiceCards && (
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas
-                                    mainOrMobileContent={content[mainOrMobileContent]}
+                                    mainOrMobileContent={mainOrMobileContent}
                                     onPrimaryCtaClick={onCtaClick}
                                     onSecondaryCtaClick={onSecondaryCtaClick}
                                     onReminderCtaClick={onReminderCtaClick}
@@ -158,17 +154,16 @@ export function getMomentTemplateBanner(
                                     secondaryCtaSettings={templateSettings.secondaryCtaSettings}
                                 />
                             </section>
-                        </div>
+                        )}
                     </div>
                 </Container>
 
-                {content[mainOrMobileContent].secondaryCta?.type ===
+                {mainOrMobileContent.secondaryCta?.type ===
                     SecondaryCtaType.ContributionsReminder &&
                     isReminderActive && (
                         <MomentTemplateBannerReminder
                             reminderCta={
-                                content[mainOrMobileContent]
-                                    .secondaryCta as BannerEnrichedReminderCta
+                                mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
                             }
                             trackReminderSetClick={reminderTracking.onReminderSetClick}
                             setReminderCtaSettings={templateSettings.setReminderCtaSettings}
@@ -183,8 +178,9 @@ export function getMomentTemplateBanner(
 }
 
 const styles = {
-    outerContainer: (background: string) => css`
+    outerContainer: (background: string, textColor: string = 'inherit') => css`
         background: ${background};
+        color: ${textColor};
         max-height: 100vh;
         overflow: auto;
 
@@ -196,76 +192,71 @@ const styles = {
             border-top: 1px solid ${neutral[0]};
         }
     `,
-    containerOverrides: css`
-        position: relative;
-        width: 100%;
-        max-width: 1300px;
-        margin: 0 auto;
-    `,
-    container: css`
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-
+    containerOverrides: (isChoiceCardsContainer?: boolean) => css`
         ${from.tablet} {
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-        }
-    `,
-    mobileStickyHeaderContainer: (
-        background: string,
-        hasReminderCta: boolean,
-        paddingTop?: string,
-    ) => css`
-        background: ${background};
-        position: sticky;
-        top: 0px;
-        z-index: 100;
-        border-top: 1px solid ${neutral[0]};
-        ${paddingTop && `padding-top: ${paddingTop}px`};
-
-        ${hasReminderCta
-            ? `
-                border-bottom: 1px solid ${neutral[0]};
-                padding-bottom: ${space[2]}px;
-            `
-            : ''}
-
-        ${from.tablet} {
-            display: none;
+            position: relative;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
-        ${bannerSpacing.heading};
+        & > div {
+            display: flex;
+            flex-direction: column;
+
+            ${isChoiceCardsContainer
+                ? 'flex-direction: column-reverse;'
+                : 'flex-direction: column;'}
+
+            ${from.tablet} {
+                flex-direction: row-reverse;
+            }
+        }
+
+        ${templateSpacing.heading};
     `,
-    mobileVisualContainer: css`
+    bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: none;
-        pointer-events: none;
 
         ${from.mobileMedium} {
             display: block;
+
+            // Mobile Sticky Header Styles
+            background: ${background};
+            position: sticky;
+            top: 0px;
+            z-index: 100;
         }
-        ${from.tablet} {
-            display: none;
-        }
-    `,
-    desktopVisualContainer: css`
-        display: none;
-        pointer-events: none;
-        position: relative;
 
         ${from.tablet} {
-            display: block;
             width: 238px;
             margin-left: ${space[3]}px;
+            position: relative;
+            z-index: initial;
         }
+
         ${from.desktop} {
             width: 320px;
             margin-left: ${space[5]}px;
         }
+
         ${from.leftCol} {
             width: 370px;
             margin-left: ${space[9]}px;
         }
+
+        ${isChoiceCardsContainer
+            ? `
+        display: block; // choice cards visible below mobileMedium
+
+        ${from.tablet} {
+            display: flex;
+            align-items: center;
+            width: 350px;
+        }
+    `
+            : `pointer-events: none;
+        `}
     `,
     contentContainer: css`
         ${from.tablet} {
@@ -281,28 +272,38 @@ const styles = {
             width: 780px;
         }
     `,
-    headerContainer: css`
-        display: flex;
-        align-items: center;
+    headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
+        max-width: calc(100% - 46px); // 46px approx close button size
+        ${templateSpacing.heading};
 
         ${from.mobileMedium} {
+            max-width: initial;
             margin-top: ${space[2]}px;
-        }
+            padding-bottom: ${space[2]}px;
 
-        ${bannerSpacing.heading}
-    `,
-    desktopHeaderContainer: css`
-        display: none;
-        margin-top: ${space[2]}px;
+            // Mobile Sticky Header Styles
+            background: ${background};
+            position: sticky;
+            top: ${choiceCards ? '0px' : '140px'}; // 140px for banner visual
+            z-index: 100;
+            ${hasReminderCta
+                ? `
+                    border-bottom: 1px solid ${neutral[0]};
+                    padding-bottom: ${space[2]}px;
+                `
+                : ''}
+        }
 
         ${from.tablet} {
-            display: block;
+            position: relative;
+            z-index: initial;
+            border-bottom: initial;
+            top: initial;
+            max-width: initial;
         }
-
-        ${bannerSpacing.heading}
     `,
     bodyContainer: css`
-        ${bannerSpacing.bodyCopyAndArticleCount}
+        ${templateSpacing.bodyCopyAndArticleCount}
     `,
     ctasContainer: css`
         display: flex;
@@ -313,10 +314,9 @@ const styles = {
             margin-top: ${space[6]}px;
         }
     `,
-    mobileCloseButtonContainer: css`
-        margin-left: ${space[3]}px;
-    `,
     closeButtonContainer: css`
+        margin-left: ${space[3]}px;
+        z-index: 101;
         position: absolute;
         top: ${space[2]}px;
         right: ${space[4]}px;
