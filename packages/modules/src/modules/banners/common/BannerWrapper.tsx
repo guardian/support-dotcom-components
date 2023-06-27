@@ -33,6 +33,7 @@ import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
+import SlideIn from './SlideIn';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -105,7 +106,7 @@ const withBannerData = (
 
     useScrollDepth(
         depthPercent => {
-            if (depthPercent > 25) {
+            if (depthPercent > 5) {
                 setCanShow(true);
             }
         },
@@ -276,9 +277,11 @@ const withBannerData = (
             };
 
             return (
-                <div ref={setNode}>
-                    <Banner {...props} />
-                </div>
+                <SlideIn canShow={canShow}>
+                    <div ref={setNode}>
+                        <Banner {...props} />
+                    </div>
+                </SlideIn>
             );
         }
     } catch (err) {
