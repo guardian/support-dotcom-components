@@ -27,6 +27,8 @@ export function getMomentTemplateBanner(
         templateSettings.imageSettings ||
         templateSettings.alternativeVisual ||
         templateSettings.choiceCards;
+    const hasBannerAndHeaderVisuals =
+        !!templateSettings.imageSettings && !!templateSettings.headerSettings?.image;
 
     function MomentTemplateBanner({
         content,
@@ -75,6 +77,7 @@ export function getMomentTemplateBanner(
                         <div
                             css={styles.bannerVisualContainer(
                                 templateSettings.containerSettings.backgroundColour,
+                                hasBannerAndHeaderVisuals,
                                 templateSettings.choiceCards,
                             )}
                         >
@@ -215,10 +218,17 @@ const styles = {
 
         ${templateSpacing.bannerContainer};
     `,
-    bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
+    bannerVisualContainer: (
+        background: string,
+        hasBannerAndHeaderVisuals: boolean,
+        isChoiceCardsContainer?: boolean,
+    ) => css`
         display: none;
 
         ${from.mobileMedium} {
+            ${hasBannerAndHeaderVisuals
+                ? ``
+                : `
             display: block;
 
             // Mobile Sticky Header Styles
@@ -226,13 +236,19 @@ const styles = {
             position: sticky;
             top: 0px;
             z-index: 100;
+            `}
         }
 
         ${from.tablet} {
+            display: block;
+
+            // Mobile Sticky Header Styles
+            background: ${background};
+            top: 0px;
             width: 238px;
             margin-left: ${space[3]}px;
             position: relative;
-            z-index: initial;
+            z-index: 100;
         }
 
         ${from.desktop} {
@@ -277,7 +293,7 @@ const styles = {
         ${templateSpacing.bannerHeader}
         max-width: calc(100% - 46px); // 46px approx close button size
 
-        ${from.mobileMedium} {
+        ${from.tablet} {
             // Mobile Sticky Header Styles
             background: ${background};
             position: sticky;
