@@ -88,6 +88,12 @@ export const choiceCardsButtonsBannerYellow: ModuleInfo = getDefaultModuleInfo(
     'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerYellow',
 );
 
+
+export const guardianLogoWithHands3DBanner: ModuleInfo = getDefaultModuleInfo(
+    'guardian-logo-with-hands-3d',
+    'banners/guardianLogoWithHands3D/GuardianLogoWithHands3DBanner',
+);
+
 export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
     'guardian-weekly-banner',
     'banners/guardianWeekly/GuardianWeeklyBanner',

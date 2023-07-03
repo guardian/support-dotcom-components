@@ -32,6 +32,7 @@ export type BannerId =
     | 'aus-eoy-banner'
     | 'ukraine-moment-banner'
     | 'scotus-2023-moment-banner'
+    | 'guardian-logo-with-hands-3d'
     | 'wpfd-banner';
 
 export interface BannerEnrichedCta {

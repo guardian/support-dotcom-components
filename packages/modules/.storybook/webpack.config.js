@@ -18,6 +18,18 @@ module.exports = ({ config, mode }) => {
             ],
             plugins: ['@babel/plugin-proposal-numeric-separator'],
         },
+    }, {
+        test: /\.(glb|gltf)$/,
+        use:
+        [
+            {
+                loader: 'file-loader',
+                options:
+                {
+                    outputPath: 'assets/models/'
+                }
+            }
+        ]
     });
     config.resolve.extensions.push('.ts', '.tsx');
 

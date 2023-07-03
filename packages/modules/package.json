@@ -23,9 +23,15 @@
     "@guardian/src-layout": "3.8.0",
     "@guardian/src-link": "3.8.0",
     "@guardian/src-text-input": "3.8.0",
+    "@react-three/drei": "^9.77.10",
+    "@react-three/fiber": "^8.13.4",
     "@sdc/shared": "1.0.0",
     "@types/babel__standalone": "^7.1.2",
-    "react-spring": "^9.5.4",
+    "@types/three": "^0.152.1",
+    "file-loader": "^6.2.0",
+    "preact": "^10.15.1",
+    "react-spring": "^9.7.2",
+    "three": "^0.154.0",
     "zod": "^3.2.0"
   },
   "devDependencies": {
