@@ -28,43 +28,41 @@ export function MomentTemplateBannerCtas({
     const { primaryCta, secondaryCta } = mainOrMobileContent;
 
     return (
-        <div css={styles.container}>
-            <div>
-                <div css={styles.ctasContainer}>
-                    {primaryCta && (
-                        <LinkButton
-                            href={primaryCta?.ctaUrl}
-                            onClick={onPrimaryCtaClick}
-                            size="small"
-                            priority="primary"
-                            cssOverrides={buttonStyles(primaryCtaSettings)}
-                        >
-                            {primaryCta?.ctaText}
-                        </LinkButton>
-                    )}
+        <div>
+            <div css={styles.ctasContainer}>
+                {primaryCta && (
+                    <LinkButton
+                        href={primaryCta?.ctaUrl}
+                        onClick={onPrimaryCtaClick}
+                        size="small"
+                        priority="primary"
+                        cssOverrides={buttonStyles(primaryCtaSettings)}
+                    >
+                        {primaryCta?.ctaText}
+                    </LinkButton>
+                )}
 
-                    {secondaryCta?.type === SecondaryCtaType.Custom && (
-                        <LinkButton
-                            href={secondaryCta?.cta.ctaUrl}
-                            onClick={onSecondaryCtaClick}
-                            size="small"
-                            priority="tertiary"
-                            cssOverrides={buttonStyles(secondaryCtaSettings)}
-                        >
-                            {secondaryCta.cta.ctaText}
-                        </LinkButton>
-                    )}
+                {secondaryCta?.type === SecondaryCtaType.Custom && (
+                    <LinkButton
+                        href={secondaryCta?.cta.ctaUrl}
+                        onClick={onSecondaryCtaClick}
+                        size="small"
+                        priority="tertiary"
+                        cssOverrides={buttonStyles(secondaryCtaSettings)}
+                    >
+                        {secondaryCta.cta.ctaText}
+                    </LinkButton>
+                )}
 
-                    {secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
-                        <Button
-                            priority="subdued"
-                            onClick={onReminderCtaClick}
-                            cssOverrides={styles.reminderCta}
-                        >
-                            Remind me later
-                        </Button>
-                    )}
-                </div>
+                {secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
+                    <Button
+                        priority="subdued"
+                        onClick={onReminderCtaClick}
+                        cssOverrides={styles.reminderCta}
+                    >
+                        Remind me later
+                    </Button>
+                )}
             </div>
 
             <div>{primaryCta && <PaymentCards />}</div>
@@ -147,13 +145,6 @@ function PaymentCards() {
 }
 
 const styles = {
-    container: css`
-        padding-bottom: ${space[5]}px;
-
-        ${from.tablet} {
-            padding-bottom: ${space[6]}px;
-        }
-    `,
     ctasContainer: css`
         display: flex;
         flex-wrap: wrap;
@@ -167,7 +158,6 @@ const styles = {
         display: block;
         height: 1.1rem;
         width: auto;
-        margin-top: ${space[2]}px;
         margin-left: ${space[1]}px;
 
         ${from.tablet} {

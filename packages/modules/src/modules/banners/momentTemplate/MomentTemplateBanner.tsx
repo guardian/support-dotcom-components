@@ -27,6 +27,8 @@ export function getMomentTemplateBanner(
         templateSettings.imageSettings ||
         templateSettings.alternativeVisual ||
         templateSettings.choiceCards;
+    const hasBannerAndHeaderVisuals =
+        !!templateSettings.imageSettings && !!templateSettings.headerSettings?.image;
 
     function MomentTemplateBanner({
         content,
@@ -75,6 +77,7 @@ export function getMomentTemplateBanner(
                         <div
                             css={styles.bannerVisualContainer(
                                 templateSettings.containerSettings.backgroundColour,
+                                hasBannerAndHeaderVisuals,
                                 templateSettings.choiceCards,
                             )}
                         >
@@ -213,12 +216,19 @@ const styles = {
             }
         }
 
-        ${templateSpacing.heading};
+        ${templateSpacing.bannerContainer};
     `,
-    bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
+    bannerVisualContainer: (
+        background: string,
+        hasBannerAndHeaderVisuals: boolean,
+        isChoiceCardsContainer?: boolean,
+    ) => css`
         display: none;
 
         ${from.mobileMedium} {
+            ${hasBannerAndHeaderVisuals
+                ? ``
+                : `
             display: block;
 
             // Mobile Sticky Header Styles
@@ -226,13 +236,19 @@ const styles = {
             position: sticky;
             top: 0px;
             z-index: 100;
+            `}
         }
 
         ${from.tablet} {
+            display: block;
+
+            // Mobile Sticky Header Styles
+            background: ${background};
+            top: 0px;
             width: 238px;
             margin-left: ${space[3]}px;
             position: relative;
-            z-index: initial;
+            z-index: 100;
         }
 
         ${from.desktop} {
@@ -255,7 +271,8 @@ const styles = {
             width: 350px;
         }
     `
-            : `pointer-events: none;
+            : `
+                pointer-events: none;
         `}
     `,
     contentContainer: css`
@@ -269,18 +286,14 @@ const styles = {
             width: 700px;
         }
         ${from.wide} {
-            width: 780px;
+            width: 860px;
         }
     `,
     headerContainer: (background: string, hasReminderCta: boolean, choiceCards?: boolean) => css`
+        ${templateSpacing.bannerHeader}
         max-width: calc(100% - 46px); // 46px approx close button size
-        ${templateSpacing.heading};
 
-        ${from.mobileMedium} {
-            max-width: initial;
-            margin-top: ${space[2]}px;
-            padding-bottom: ${space[2]}px;
-
+        ${from.tablet} {
             // Mobile Sticky Header Styles
             background: ${background};
             position: sticky;
@@ -295,30 +308,24 @@ const styles = {
         }
 
         ${from.tablet} {
-            position: relative;
-            z-index: initial;
-            border-bottom: initial;
-            top: initial;
             max-width: initial;
+            position: relative;
+            top: initial;
+            z-index: initial;
+            padding-bottom: 0px;
+            border-bottom: initial;
         }
     `,
     bodyContainer: css`
-        ${templateSpacing.bodyCopyAndArticleCount}
+        ${templateSpacing.bannerBodyCopy}
     `,
     ctasContainer: css`
         display: flex;
         flex-direction: row;
-        margin-top: ${space[5]}px;
-
-        ${from.tablet} {
-            margin-top: ${space[6]}px;
-        }
     `,
     closeButtonContainer: css`
-        margin-left: ${space[3]}px;
+        ${templateSpacing.bannerCloseButton}
         z-index: 101;
         position: absolute;
-        top: ${space[2]}px;
-        right: ${space[4]}px;
     `,
 };

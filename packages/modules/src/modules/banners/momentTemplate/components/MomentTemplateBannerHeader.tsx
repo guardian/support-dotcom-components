@@ -46,11 +46,11 @@ const styles = {
             font-size: 24px;
             line-height: 115%;
 
-            ${from.desktop} {
+            ${from.tablet} {
                 font-size: 28px;
             }
 
-            ${from.leftCol} {
+            ${from.desktop} {
                 font-size: 34px;
             }
         }

@@ -16,7 +16,7 @@ const overFilledTickerOffset = 10;
 const styles = {
     containerStyles: css`
         position: relative;
-        ${templateSpacing.tickerContainer}
+        ${templateSpacing.bannerTicker}
     `,
     tickerLabelsContainer: css`
         display: flex;
