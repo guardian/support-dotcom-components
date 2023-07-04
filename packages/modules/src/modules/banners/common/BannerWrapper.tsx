@@ -14,6 +14,7 @@ import {
     Cta,
     SecondaryCta,
     SecondaryCtaType,
+    Tracking,
 } from '@sdc/shared/types';
 import {
     containsNonArticleCountPlaceholder,
@@ -64,6 +65,17 @@ export const getParagraphsOrMessageText = (
     return bodyCopy;
 };
 
+const scrollDepthForRender = (tracking: Tracking) => {
+    const isInTest = tracking.abTestName === 'RENDERDELAY';
+    const isInVariant = tracking.abTestVariant === 'VARIANT';
+
+    if (isInTest && isInVariant) {
+        return 5;
+    }
+
+    return 0;
+};
+
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
@@ -92,6 +104,8 @@ const withBannerData = (
         true,
     ) as HasBeenSeen;
 
+    const renderScrollThreshold = scrollDepthForRender(tracking);
+
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
             submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
@@ -106,7 +120,7 @@ const withBannerData = (
 
     useScrollDepth(
         depthPercent => {
-            if (depthPercent > 5) {
+            if (depthPercent >= renderScrollThreshold) {
                 setCanShow(true);
             }
         },

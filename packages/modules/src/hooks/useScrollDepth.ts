@@ -27,6 +27,9 @@ export function useScrollDepth(
             }
         }
 
+        // Call on initial render in case the target scroll depth is 0 and we want to render immediately
+        handleScroll();
+
         window.addEventListener('scroll', handleScroll);
 
         return () => window.removeEventListener('scroll', handleScroll);
