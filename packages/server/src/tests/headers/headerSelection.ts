@@ -144,13 +144,13 @@ const registerCTA = {
 const baseBenefits = ['Fewer interruptions', 'Newsletters and comments'];
 // Why are benefits repeated below? The header animation ends statically on last benefit so it should be the "strongest"
 const normalBenefits = [...baseBenefits, 'Manage your account', 'Fewer interruptions'];
-const digiSubBenefits = ['Ad free', ...baseBenefits, 'Ad free'];
+const supporterPlusBenefits = ['Ad free', ...baseBenefits, 'Ad free'];
 
 const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-new-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['DigitalPack'],
+        product: ['SupporterPlus'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -159,7 +159,7 @@ const signInPromptNewUserDigitalSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: registerCTA,
-                benefits: digiSubBenefits,
+                benefits: supporterPlusBenefits,
             },
         },
     ],
@@ -207,7 +207,7 @@ const signInPromptExistingUserDigitalSubscriberTest: HeaderTest = {
     name: 'header-sign-in-prompt-existing-user-digital-subscriber',
     ...baseSignInPromptTest,
     purchaseInfo: {
-        product: ['DigitalPack'],
+        product: ['SupporterPlus'],
         userType: ['current'],
     },
     variants: [
@@ -216,7 +216,7 @@ const signInPromptExistingUserDigitalSubscriberTest: HeaderTest = {
             content: {
                 ...subscriberContent,
                 primaryCta: signInCTA,
-                benefits: digiSubBenefits,
+                benefits: supporterPlusBenefits,
             },
         },
     ],
