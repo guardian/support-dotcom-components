@@ -91,10 +91,10 @@ type MomentTemplateBannerTickerProps = {
     stylingSettings: TickerStylingSettings;
 };
 
-const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
+export function MomentTemplateBannerTicker({
     tickerSettings,
     stylingSettings,
-}: MomentTemplateBannerTickerProps) => {
+}: MomentTemplateBannerTickerProps): JSX.Element {
     const [readyToAnimate, setReadyToAnimate] = useState(false);
 
     const debounce = true;
@@ -162,6 +162,6 @@ const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
             </div>
         </div>
     );
-};
+}
 
 export default MomentTemplateBannerTicker;
