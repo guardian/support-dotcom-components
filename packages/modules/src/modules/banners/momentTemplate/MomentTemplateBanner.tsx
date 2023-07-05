@@ -18,7 +18,7 @@ import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
-import { ChoiceCards } from '../choiceCardsBanner/components/ChoiceCards';
+import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -94,7 +94,7 @@ export function getMomentTemplateBanner(
                                     selection={choiceCardSelection}
                                     submitComponentEvent={submitComponentEvent}
                                     currencySymbol={currencySymbol}
-                                    componentId={'choice-cards-banner-blue'}
+                                    componentId={'choice-cards-buttons-banner-blue'}
                                     amounts={choiceCardAmounts.amounts}
                                     amountsTestName={choiceCardAmounts?.testName}
                                     amountsVariantName={choiceCardAmounts?.variantName}
