@@ -290,12 +290,20 @@ const withBannerData = (
                 submitComponentEvent,
             };
 
+            if (renderScrollThreshold > 0) {
+                return (
+                    <SlideIn canShow={canShow}>
+                        <div ref={setNode}>
+                            <Banner {...props} />
+                        </div>
+                    </SlideIn>
+                );
+            }
+
             return (
-                <SlideIn canShow={canShow}>
-                    <div ref={setNode}>
-                        <Banner {...props} />
-                    </div>
-                </SlideIn>
+                <div ref={setNode}>
+                    <Banner {...props} />
+                </div>
             );
         }
     } catch (err) {
