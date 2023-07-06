@@ -368,7 +368,7 @@ describe('selectBannerTest', () => {
             {
                 ...baseTest,
                 name: 'banner-existing-subscriber',
-                purchaseInfo: { product: ['DigitalPack'], userType: ['current'] },
+                purchaseInfo: { product: ['SupporterPlus'], userType: ['current'] },
             },
         ];
 
@@ -401,7 +401,7 @@ describe('selectBannerTest', () => {
         it('It should return a test matching a subscription from an existing user', async () => {
             const result = await runSelection({
                 ...baseTargeting,
-                purchaseInfo: { product: 'DigitalPack', userType: 'current' },
+                purchaseInfo: { product: 'SupporterPlus', userType: 'current' },
             });
 
             expect(result?.test.name).toEqual('banner-existing-subscriber');
