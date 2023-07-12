@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { ChoiceCardGroup } from '@guardian/src-choice-card';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
@@ -80,7 +79,7 @@ const styles = {
             border-radius: 10px;
         }
         legend {
-            ${visuallyHidden};
+            ${'\n\topacity: 0;\n\theight: 0;\n\twidth: 0;\n\ttop: 0;\n\tleft: 0;\n;'};
         }
     `,
     bannerAmountsContainer: css`
