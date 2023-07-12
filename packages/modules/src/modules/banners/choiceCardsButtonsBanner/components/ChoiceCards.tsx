@@ -116,7 +116,7 @@ const contributionType: ContributionType = {
     },
 };
 
-export function ChoiceCards({
+export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     selection,
     setSelectionsCallback,
     submitComponentEvent,
@@ -130,7 +130,7 @@ export function ChoiceCards({
     numArticles,
     getCtaText,
     cssCtaOverides,
-}: ChoiceCardProps): JSX.Element {
+}: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
     }
@@ -209,4 +209,4 @@ export function ChoiceCards({
             )}
         </div>
     );
-}
+};
