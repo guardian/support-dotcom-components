@@ -42,7 +42,7 @@ export const ContributionsEpicSignInCta: React.FC<ContributionsEpicSignInProps> 
             >
                 Sign in
             </Link>{' '}
-            and we promise to ask you less.
+            and you’ll see far fewer of these messages.
         </p>
     );
 };
