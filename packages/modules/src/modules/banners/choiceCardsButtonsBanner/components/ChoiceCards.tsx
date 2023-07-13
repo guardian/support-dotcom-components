@@ -79,7 +79,10 @@ const styles = {
             border-radius: 10px;
         }
         legend {
-            ${'\n\topacity: 0;\n\theight: 0;\n\twidth: 0;\n\ttop: 0;\n\tleft: 0;\n;'};
+            opacity: 0;
+            height: 0;
+            width: 0;
+            left: 0;
         }
     `,
     bannerAmountsContainer: css`
