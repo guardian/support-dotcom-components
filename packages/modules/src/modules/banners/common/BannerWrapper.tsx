@@ -6,7 +6,7 @@ import {
     createViewEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BannerContent,
     BannerProps,
@@ -14,6 +14,7 @@ import {
     Cta,
     SecondaryCta,
     SecondaryCtaType,
+    Tracking,
 } from '@sdc/shared/types';
 import {
     containsNonArticleCountPlaceholder,
@@ -32,6 +33,8 @@ import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
+import { useScrollDepth } from '../../../hooks/useScrollDepth';
+import SlideIn from './SlideIn';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -62,6 +65,17 @@ export const getParagraphsOrMessageText = (
     return bodyCopy;
 };
 
+const scrollDepthForRender = (tracking: Tracking) => {
+    const isInTest = tracking.abTestName === 'RENDERDELAY';
+    const isInVariant = tracking.abTestVariant === 'VARIANT';
+
+    if (isInTest && isInVariant) {
+        return 5;
+    }
+
+    return 0;
+};
+
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
@@ -82,12 +96,15 @@ const withBannerData = (
         choiceCardAmounts,
     } = bannerProps;
 
+    const [canShow, setCanShow] = useState<boolean>(false);
     const [hasBeenSeen, setNode] = useHasBeenSeen(
         {
             threshold: 0,
         },
         true,
     ) as HasBeenSeen;
+
+    const renderScrollThreshold = scrollDepthForRender(tracking);
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
@@ -100,6 +117,16 @@ const withBannerData = (
             submitComponentEvent(createInsertEventFromTracking(tracking, tracking.campaignCode));
         }
     }, [submitComponentEvent]);
+
+    useScrollDepth(
+        depthPercent => {
+            if (depthPercent >= renderScrollThreshold) {
+                setCanShow(true);
+            }
+        },
+        [],
+        1000,
+    );
 
     const cleanParagraphsOrMessageText = (
         paras: string[] | undefined,
@@ -236,7 +263,7 @@ const withBannerData = (
         const renderedContent = content && buildRenderedContent(content);
         const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
 
-        if (renderedContent) {
+        if (renderedContent && canShow) {
             const props: BannerRenderProps = {
                 onCtaClick,
                 onSecondaryCtaClick,
@@ -262,6 +289,16 @@ const withBannerData = (
                 tracking,
                 submitComponentEvent,
             };
+
+            if (renderScrollThreshold > 0) {
+                return (
+                    <SlideIn canShow={canShow}>
+                        <div ref={setNode}>
+                            <Banner {...props} />
+                        </div>
+                    </SlideIn>
+                );
+            }
 
             return (
                 <div ref={setNode}>

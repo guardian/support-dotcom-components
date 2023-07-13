@@ -482,7 +482,6 @@ const countryNames: CountryNameMap = {
     QA: 'Qatar',
     RE: 'Réunion',
     RO: 'Romania',
-    RS: 'Serbia',
     RU: 'Russia',
     RW: 'Rwanda',
     SA: 'Saudi Arabia',

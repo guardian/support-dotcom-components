@@ -7,7 +7,7 @@ import {
     ContributionType,
 } from '@sdc/shared/dist/types';
 import { trackClick } from './FrequencyTabs';
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
@@ -68,12 +68,14 @@ const ChoiceCardAmount = ({
     label,
     checked,
     handleUpdateAmount,
+    cssOverrides,
 }: {
     id: string;
     amount?: number;
     label: string;
     checked: boolean;
     handleUpdateAmount: (amount: number | 'other') => void;
+    cssOverrides: SerializedStyles;
 }) => {
     if (amount) {
         return (
@@ -85,6 +87,7 @@ const ChoiceCardAmount = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     e.target.id === id ? handleUpdateAmount(amount) : null
                 }
+                cssOverrides={cssOverrides}
             />
         );
     }
@@ -142,7 +145,7 @@ export const ChoiceCardAmountButtons = ({
             label={`${currencySymbol}${amount} ${contributionType[selection.frequency].suffix}`}
             checked={selection.amount === amount}
             handleUpdateAmount={() => handleUpdateAmount(amount)}
-            css={supporterPlusChoiceCardAmountOverrides}
+            cssOverrides={supporterPlusChoiceCardAmountOverrides}
         />
     ));
 

@@ -14,6 +14,7 @@ import {
     globalNewYearBanner,
     signInPromptBanner,
     ukraineMomentBanner,
+    scotus2023MomentBanner,
     ausAnniversaryBanner,
     wpfdBanner,
 } from '@sdc/shared/config';
@@ -51,6 +52,7 @@ export const BannerPaths: {
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.UkraineMomentBanner]: ukraineMomentBanner.endpointPathBuilder,
+    [BannerTemplate.Scotus2023MomentBanner]: scotus2023MomentBanner.endpointPathBuilder,
     [BannerTemplate.WorldPressFreedomDayBanner]: wpfdBanner.endpointPathBuilder,
 };
 

@@ -137,6 +137,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     numArticles,
     getCtaText,
     cssCtaOverides,
+    content,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -210,6 +211,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
                         selection={selection}
                         getCtaText={getCtaText}
                         cssOverrides={cssCtaOverides}
+                        content={content}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>

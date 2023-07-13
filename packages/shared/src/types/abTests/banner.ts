@@ -30,6 +30,7 @@ export enum BannerTemplate {
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     SignInPromptBanner = 'SignInPromptBanner',
     UkraineMomentBanner = 'UkraineMomentBanner',
+    Scotus2023MomentBanner = 'Scotus2023MomentBanner',
     WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
 }
 
