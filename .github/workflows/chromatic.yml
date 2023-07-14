@@ -1,0 +1,32 @@
+name: Chromatic
+on:
+  push:
+jobs:
+  upload-storybook:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/modules
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install Node
+        uses: guardian/actions-setup-node@v2.4.1
+
+      # Cache npm dependencies using https://github.com/bahmutov/npm-install
+      - name: Cache dependencies
+        uses: bahmutov/npm-install@v1
+        # with:
+        #   working-directory: packages/modules
+
+      - name: Install
+        run: yarn
+      - uses: chromaui/action@v1
+        with:
+          workingDir: packages/modules
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exitOnceUploaded: true
+          onlyChanged: "!(main)" # only turbosnap on non-main branches
