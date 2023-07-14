@@ -8,7 +8,7 @@ import { DefaultTemplate } from './Default';
 import { BannerWithTickerTemplate } from './WithTicker';
 
 export default {
-    title: 'Banners/DesignableMomentBannerExamples',
+    title: 'Banners/DesignableMomentBanner',
     args: props,
 } as Meta;
 
