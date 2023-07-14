@@ -64,7 +64,9 @@ export const BannerWithChoiceCardsTemplate: Story<BannerProps> = (props: BannerP
         choiceCardAmounts={{
             testName: 'Storybook_test',
             variantName: 'Control',
-            amounts: {
+            defaultContributionType: 'MONTHLY',
+            displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+            amountsCardData: {
                 ONE_OFF: {
                     amounts: [5, 10, 15, 20],
                     defaultAmount: 5,

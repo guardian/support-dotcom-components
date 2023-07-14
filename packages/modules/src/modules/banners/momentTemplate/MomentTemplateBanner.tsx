@@ -56,7 +56,7 @@ export function getMomentTemplateBanner(
             getCtaText,
             currencySymbol,
         } = useChoiceCards(choiceCardAmounts, countryCode);
-        const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
+        const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amountsCardData);
 
         return (
             <div
@@ -95,7 +95,7 @@ export function getMomentTemplateBanner(
                                     submitComponentEvent={submitComponentEvent}
                                     currencySymbol={currencySymbol}
                                     componentId={'choice-cards-banner-blue'}
-                                    amounts={choiceCardAmounts.amounts}
+                                    amounts={choiceCardAmounts.amountsCardData}
                                     amountsTestName={choiceCardAmounts?.testName}
                                     amountsVariantName={choiceCardAmounts?.variantName}
                                     countryCode={countryCode}
