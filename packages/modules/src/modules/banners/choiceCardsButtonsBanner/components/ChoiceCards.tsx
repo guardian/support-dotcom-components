@@ -79,10 +79,17 @@ const styles = {
             border-radius: 10px;
         }
         legend {
-            opacity: 0;
-            height: 0;
-            width: 0;
-            left: 0;
+            position: absolute;
+            overflow: hidden; /* gets rid of horizontal scrollbar that appears in some circumstances */
+            white-space: nowrap; /* The white-space property forces the content to render on one line. */
+            width: 1px; /* ensures content is announced by VoiceOver. */
+            height: 1px; /* ensures content is announced by VoiceOver. */
+            margin: -1px; /* hide or clip content that does not fit into a 1-pixel visible area. */
+            padding: 0; /* hide or clip content that does not fit into a 1-pixel visible area. */
+            border: 0;
+            clip: rect(1px, 1px, 1px, 1px); /* clip removes any visible trace of the element */
+            -webkit-clip-path: inset(50%); /* clip removes any visible trace of the element */
+            clip-path: inset(50%); /* clip removes any visible trace of the element */
         }
     `,
     bannerAmountsContainer: css`
