@@ -12,7 +12,10 @@ export function useScrollDepth(
     function onScroll() {
         const currentPosition = window.scrollY;
         const percentScroll = (currentPosition / pageHeight.current) * 100;
-        effect(percentScroll);
+
+        const normalisedPercentScroll = Number.isNaN(percentScroll) ? 0 : percentScroll;
+
+        effect(normalisedPercentScroll);
         throttleTimeout = null;
     }
 
