@@ -907,7 +907,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
               "Resource": Array [
                 "arn:aws:s3:::support-admin-console/TEST/banner-deploy/*",
                 "arn:aws:s3:::support-admin-console/TEST/channel-switches.json",
-                "arn:aws:s3:::support-admin-console/TEST/configured-amounts.json",
+                "arn:aws:s3:::support-admin-console/TEST/configured-amounts-v2.json",
                 "arn:aws:s3:::support-admin-console/TEST/guardian-weekly-propensity-test/*",
               ],
             },
