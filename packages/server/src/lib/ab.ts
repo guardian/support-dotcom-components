@@ -68,7 +68,7 @@ export const selectAmountsTestVariant = (
 ): SelectedAmountsVariant | undefined => {
     // Two-tier amounts - check for country test, then region test
     let testArray = tests.filter(t => t.target === countryCode);
-    if (testArray.length) {
+    if (!testArray.length) {
         testArray = tests.filter(t => t.target === countryGroupId);
     }
 
