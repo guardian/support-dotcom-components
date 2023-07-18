@@ -151,7 +151,7 @@ export function getMomentTemplateBanner(
                             />
                         )}
 
-                        <div css={styles.bodyContainer} id="bodyContainer">
+                        <div css={styles.bodyContainer}>
                             <MomentTemplateBannerBody
                                 mainContent={content.mainContent}
                                 mobileContent={content.mobileContent}
