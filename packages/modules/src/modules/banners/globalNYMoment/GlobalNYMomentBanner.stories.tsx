@@ -8,6 +8,11 @@ import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 
 export default {
     title: 'Banners/MomentTemplate',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     args: props,
 } as Meta;
 

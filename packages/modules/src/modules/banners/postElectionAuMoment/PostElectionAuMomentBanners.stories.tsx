@@ -8,6 +8,11 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
     title: 'Banners/MomentTemplate/PostElectionAuMoment',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     args: props,
 } as Meta;
 

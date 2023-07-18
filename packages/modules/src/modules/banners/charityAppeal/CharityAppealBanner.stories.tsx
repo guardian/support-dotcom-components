@@ -7,6 +7,11 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 export default {
     component: CharityAppealBanner,
     title: 'Banners/CharityAppeal',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     args: props,
 } as Meta;
 

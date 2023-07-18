@@ -7,6 +7,11 @@ import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 export default {
     component: PrintSubscriptionsBanner,
     title: 'Banners/Subscriptions/PrintSubscriptionsBanner',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     decorators: [
         withKnobs({
             escapeHTML: false,
