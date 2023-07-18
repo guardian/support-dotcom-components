@@ -31,10 +31,11 @@ interface ChoiceCardProps {
     numArticles?: number;
     content?: BannerTextContent;
     cssCtaOverides?: SerializedStyles;
+    verticalPosAdjust?: number;
 }
 
 const styles = {
-    container: css`
+    container: (verticalPosAdjust?: number) => css`
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
         margin: ${space[3]}px 0 ${space[5]}px;
@@ -53,13 +54,12 @@ const styles = {
         }
 
         ${from.tablet} {
-            margin: 108px 0 ${space[5]}px;
+            margin: ${verticalPosAdjust}px 0 ${space[5]}px;
         }
 
         ${from.desktop} {
             min-height: 208px;
             max-width: 380px;
-            margin-top: 120px;
         }
     `,
     bannerFrequenciesGroupOverrides: css`
@@ -139,6 +139,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     numArticles,
     getCtaText,
     cssCtaOverides,
+    verticalPosAdjust,
 }: ChoiceCardProps) => {
     if (!selection || !amounts) {
         return <></>;
@@ -166,7 +167,7 @@ export const ChoiceCards: React.FC<ChoiceCardProps> = ({
     }, [hasBeenSeen, submitComponentEvent]);
 
     return (
-        <div ref={setNode} css={styles.container}>
+        <div ref={setNode} css={styles.container(verticalPosAdjust)}>
             <ChoiceCardGroup
                 name="contribution-frequency"
                 columns={3}
