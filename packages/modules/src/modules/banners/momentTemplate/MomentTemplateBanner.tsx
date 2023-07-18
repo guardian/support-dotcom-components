@@ -51,13 +51,13 @@ export function getMomentTemplateBanner(
     }: BannerRenderProps): JSX.Element {
         const [headerHeight, setHeaderHeight] = useState<number>();
         useEffect(() => {
-            handleResize();
+            function handleResize() {
+                setHeaderHeight(getHeightHeader('headerContainer'));
+            }
             window.addEventListener('resize', handleResize);
+            handleResize();
+            return () => window.removeEventListener('resize', handleResize);
         }, []);
-
-        function handleResize() {
-            setHeaderHeight(getHeightHeader('headerContainer'));
-        }
 
         const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
             reminderTracking,
