@@ -54,12 +54,13 @@ const styles = {
         }
 
         ${from.tablet} {
-            margin: ${verticalPosAdjust}px 0 ${space[5]}px;
+            margin: ${verticalPosAdjust ?? 108}px 0 ${space[5]}px;
         }
 
         ${from.desktop} {
             min-height: 208px;
             max-width: 380px;
+            margin-top: ${verticalPosAdjust ?? 120}px;
         }
     `,
     bannerFrequenciesGroupOverrides: css`
