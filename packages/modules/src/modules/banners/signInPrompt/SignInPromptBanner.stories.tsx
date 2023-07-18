@@ -8,6 +8,11 @@ import { SignInPromptBannerUnvalidated as SignInPromptBanner } from './SignInPro
 export default {
     component: SignInPromptBanner,
     title: 'Banners/SignInPromptBanner',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
 } as ComponentMeta<typeof SignInPromptBanner>;
 
 const Template: ComponentStory<typeof SignInPromptBanner> = props => (

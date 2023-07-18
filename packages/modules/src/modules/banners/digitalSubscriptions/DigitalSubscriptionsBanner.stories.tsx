@@ -7,6 +7,11 @@ import { BannerContent, BannerProps, SecondaryCtaType, Tracking } from '@sdc/sha
 export default {
     component: DigitalSubscriptionsBanner,
     title: 'Banners/Subscriptions/DigitalSubscriptionsBanner',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     decorators: [
         withKnobs({
             escapeHTML: false,

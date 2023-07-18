@@ -9,6 +9,11 @@ import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 export default {
     title: 'Banners/MomentTemplate',
     args: props,
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
 } as Meta;
 
 const AusBanner = bannerWrapper(

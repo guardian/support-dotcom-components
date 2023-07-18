@@ -7,6 +7,11 @@ import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
 export default {
     component: GuardianWeeklyBanner,
     title: 'Banners/Subscriptions/GuardianWeeklyBanner',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     decorators: [
         withKnobs({
             escapeHTML: false,
