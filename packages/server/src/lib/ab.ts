@@ -67,17 +67,16 @@ export const selectAmountsTestVariant = (
     mvtId: number,
 ): SelectedAmountsVariant | undefined => {
     // Two-tier amounts - check for country test, then region test
-    let testArray = tests.filter(t => t.target === countryCode);
+    let targetTest = tests.find(t => t.target === countryCode && t.isLive);
     // If there is a country level test we need to discount it if its isLive boolean is false
-    if (!testArray.length || !testArray[0].isLive) {
-        testArray = tests.filter(t => t.target === countryGroupId);
+    if (!targetTest) {
+        targetTest = tests.find(t => t.target === countryGroupId);
     }
 
-    if (!testArray.length) {
+    if (!targetTest) {
         return undefined;
     }
 
-    const targetTest = testArray[0];
     const { testName, liveTestName, isLive, seed, variants } = targetTest;
 
     // No control or variants in data

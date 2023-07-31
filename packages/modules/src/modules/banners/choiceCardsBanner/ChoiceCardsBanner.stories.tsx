@@ -119,7 +119,6 @@ ChoiceCardsBannerBlue.args = {
         variantName: 'CONTROL',
         defaultContributionType: 'MONTHLY',
         displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
-        // displayContributionType: ['ONE_OFF', 'ANNUAL'],
         amountsCardData: {
             ONE_OFF: {
                 amounts: [5, 10, 15, 20],
