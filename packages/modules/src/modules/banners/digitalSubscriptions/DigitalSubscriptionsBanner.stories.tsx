@@ -195,4 +195,4 @@ DefaultStory.args = {
     },
 };
 
-DefaultStory.storyName = 'Digital Subscriptions Banner';
+DefaultStory.storyName = 'Default Story';

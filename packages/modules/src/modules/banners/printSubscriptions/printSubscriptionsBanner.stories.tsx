@@ -57,4 +57,4 @@ DefaultStory.args = {
     tracking,
 };
 
-DefaultStory.storyName = 'Print Subscriptions Banner';
+DefaultStory.storyName = 'Default Story';
