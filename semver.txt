@@ -1,0 +1,37 @@
+info => Found "semver@6.3.1"
+info => Found "normalize-package-data#semver@5.7.2"
+info => Found "eslint#semver@7.5.4"
+info => Found "ts-loader#semver@7.5.4"
+info => Found "ts-jest#semver@7.5.4"
+info => Found "nodemon#semver@5.7.2"
+info => Found "@sdc/server#semver@7.5.4"
+info => Found "@typescript-eslint/eslint-plugin#semver@7.5.4"
+info => Found "chromatic#semver@7.5.4"
+info => Found "@sdc/modules#core-js-compat#semver@7.0.0"
+info => Found "@babel/preset-env#core-js-compat#semver@7.0.0"
+info => Found "@typescript-eslint/typescript-estree#semver@7.5.4"
+info => Found "@storybook/builder-webpack5#semver@7.5.4"
+info => Found "@storybook/cli#semver@7.5.4"
+info => Found "@storybook/manager-api#semver@7.5.4"
+info => Found "@storybook/preset-react-webpack#semver@7.5.4"
+info => Found "babel-plugin-polyfill-corejs3#semver@7.0.0"
+info => Found "sane#semver@5.7.2"
+info => Found "yarn-or-npm#semver@5.7.2"
+info => Found "babel-plugin-polyfill-corejs3#@babel/helper-define-polyfill-provider#semver@6.3.1"
+info => Found "@storybook/cli#@babel/core#semver@6.3.1"
+info => Found "@storybook/cli#@babel/preset-env#semver@6.3.1"
+info => Found "jest-snapshot#semver@7.5.4"
+info => Found "meow#semver@7.5.4"
+info => Found "npm-package-arg#semver@7.5.4"
+info => Found "npm-pick-manifest#semver@7.5.4"
+info => Found "@npmcli/git#semver@7.5.4"
+info => Found "fork-ts-checker-webpack-plugin#semver@7.5.4"
+info => Found "@storybook/core-server#semver@7.5.4"
+info => Found "css-loader#semver@7.5.4"
+info => Found "simple-update-notifier#semver@7.0.0"
+info => Found "@storybook/cli#@babel/helper-compilation-targets#semver@6.3.1"
+info => Found "npm-install-checks#semver@7.5.4"
+info => Found "node-gyp#semver@7.5.4"
+info => Found "node-notifier#semver@7.5.4"
+info => Found "@npmcli/fs#semver@7.5.4"
+info => Found "@babel/register#semver@5.7.2"
