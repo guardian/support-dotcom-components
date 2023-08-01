@@ -1,13 +1,9 @@
 module.exports = {
     stories: ['../src/modules/**/*.stories.tsx'],
-    addons: [
-        '@storybook/addon-essentials',
-        '@storybook/addon-links',
-        '@storybook/addon-knobs',
-    ],
+    addons: ['@storybook/addon-essentials', '@storybook/addon-links'],
     framework: {
         name: '@storybook/react-webpack5',
-        options: {}
+        options: {},
     },
     typescript: {
         reactDocgen: 'none',
