@@ -47,7 +47,7 @@ const mobileContent: BannerContent = {
 
 const Template: StoryFn<BannerProps> = (props: BannerProps) => <GuardianWeeklyBanner {...props} />;
 
-const DefaultStory = Template.bind({});
+export const DefaultStory = Template.bind({});
 
 DefaultStory.args = {
     bannerChannel: 'subscriptions',

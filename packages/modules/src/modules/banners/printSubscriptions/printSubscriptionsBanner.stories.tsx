@@ -47,7 +47,7 @@ const Template: StoryFn<BannerProps> = (props: BannerProps) => (
     <PrintSubscriptionsBanner {...props} />
 );
 
-const DefaultStory = Template.bind({});
+export const DefaultStory = Template.bind({});
 
 DefaultStory.args = {
     bannerChannel: 'subscriptions',
