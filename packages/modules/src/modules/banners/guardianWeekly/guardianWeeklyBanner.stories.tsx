@@ -57,4 +57,4 @@ DefaultStory.args = {
     tracking,
 };
 
-DefaultStory.storyName = 'Default Story';
+DefaultStory.storyName = 'Guardian Weekly Banner';
