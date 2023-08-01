@@ -2,6 +2,7 @@ import React from 'react';
 import { DigitalSubscriptionsBanner } from './DigitalSubscriptionsBanner';
 import { BannerContent, BannerProps, SecondaryCtaType, Tracking } from '@sdc/shared/types';
 import { StoryFn } from '@storybook/react';
+import { BannerWrapper } from '../../../utils/StorybookWrapper';
 
 export default {
     component: DigitalSubscriptionsBanner,
@@ -26,7 +27,9 @@ const tracking: Tracking = {
 };
 
 const Template: StoryFn<BannerProps> = (props: BannerProps) => (
-    <DigitalSubscriptionsBanner {...props} />
+    <BannerWrapper>
+        <DigitalSubscriptionsBanner {...props} />
+    </BannerWrapper>
 );
 
 export const DefaultStory = Template.bind({});
