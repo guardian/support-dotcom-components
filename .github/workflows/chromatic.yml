@@ -2,7 +2,7 @@ name: Chromatic
 on:
   push:
 jobs:
-  upload-storybook:
+  update-chromatic:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
