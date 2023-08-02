@@ -134,10 +134,10 @@ export const EnvironmentMomentBannerHeader: React.FC = () => (
                         </div>
                     </Hide>
 
-                    <span>Cop27:</span>
+                    <span>Support impactful</span>
                 </div>
 
-                <span>no more hot air</span>
+                <span>climate journalism</span>
             </div>
         </div>
 
