@@ -1,5 +1,0 @@
-{
-  "main": "../dist/lib",
-  "types": "../dist/lib",
-  "what is this?": "this is a hack to get @sdc/shared/* submodules working with dist"
-}
