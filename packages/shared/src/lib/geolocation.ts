@@ -547,17 +547,6 @@ const extendedCurrencySymbol = {
     International: '$',
 };
 
-export const isRegion = (val: string): boolean => {
-    return Object.keys(countryGroups).includes(val);
-};
-
-export const getTargetName = (val: string): string => {
-    if (isRegion(val)) {
-        return countryGroups[val].name;
-    }
-    return countryNames[val] || '';
-};
-
 export const countryCodeToCountryGroupId = (countryCode?: string): CountryGroupId => {
     const availableCountryGroupIds = Object.keys(countryGroups) as CountryGroupId[];
 
