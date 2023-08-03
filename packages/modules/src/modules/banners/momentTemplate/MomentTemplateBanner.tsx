@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Container } from '@guardian/src-layout';
@@ -30,6 +30,11 @@ export function getMomentTemplateBanner(
     const hasBannerAndHeaderVisuals =
         !!templateSettings.imageSettings && !!templateSettings.headerSettings?.image;
 
+    function getHeightHeader(id: string) {
+        const element = document.getElementById(id);
+        return (element?.offsetHeight || 0) + space[6];
+    }
+
     function MomentTemplateBanner({
         content,
         onCloseClick,
@@ -44,6 +49,16 @@ export function getMomentTemplateBanner(
         submitComponentEvent,
         tracking,
     }: BannerRenderProps): JSX.Element {
+        const [headerHeight, setHeaderHeight] = useState<number>();
+        useEffect(() => {
+            function handleResize() {
+                setHeaderHeight(getHeightHeader('headerContainer'));
+            }
+            window.addEventListener('resize', handleResize);
+            handleResize();
+            return () => window.removeEventListener('resize', handleResize);
+        }, []);
+
         const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
             reminderTracking,
         );
@@ -103,6 +118,7 @@ export function getMomentTemplateBanner(
                                     numArticles={numArticles}
                                     content={content}
                                     getCtaText={getCtaText}
+                                    verticalPosAdjust={headerHeight}
                                 />
                             )}
                         </div>
@@ -116,6 +132,7 @@ export function getMomentTemplateBanner(
                                     SecondaryCtaType.ContributionsReminder,
                                 templateSettings.choiceCards,
                             )}
+                            id="headerContainer"
                         >
                             <MomentTemplateBannerHeader
                                 heading={content.mainContent.heading}
@@ -266,8 +283,6 @@ const styles = {
         display: block; // choice cards visible below mobileMedium
 
         ${from.tablet} {
-            display: flex;
-            align-items: center;
             width: 350px;
         }
     `
