@@ -19,7 +19,7 @@ import {
     paragraph,
     columnMarginOverrides,
     ctaOverridesBlue,
-    eol_choiceCardverticlaAlignment,
+    choiceCardVerticalAlignment,
 } from './choiceCardsButtonsBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
@@ -155,7 +155,7 @@ export const ChoiceCardsButtonsBanner = ({
                         cssOverrides={[
                             choiceCardsColumn,
                             columnMarginOverrides,
-                            eol_choiceCardverticlaAlignment,
+                            choiceCardVerticalAlignment,
                         ]}
                     >
                         {choiceCardAmounts && (

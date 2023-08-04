@@ -60,7 +60,7 @@ export const columnMarginOverrides = css`
     }
 `;
 
-export const eol_choiceCardverticlaAlignment = css`
+export const choiceCardVerticalAlignment = css`
     ${from.tablet} {
         justify-content: flex-start;
         margin-top: 6.6rem;
