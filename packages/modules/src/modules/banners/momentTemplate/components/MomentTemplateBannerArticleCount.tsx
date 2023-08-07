@@ -38,12 +38,8 @@ const styles = {
         color: ${textColor};
         margin: 0;
 
-        ${from.tablet} {
-            font-size: 17px;
-        }
-
         ${from.desktop} {
-            font-size: 20px;
+            font-size: 17px;
         }
     `,
 };

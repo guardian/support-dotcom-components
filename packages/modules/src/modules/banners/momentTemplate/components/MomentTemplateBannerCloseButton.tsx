@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import { SvgCross } from '@guardian/src-icons';
 import { Button } from '@guardian/src-button';
 import { buttonStyles } from '../styles/buttonStyles';
@@ -11,11 +11,13 @@ import { space } from '@guardian/src-foundations';
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
     settings: CtaSettings;
+    styleOverides?: SerializedStyles;
 }
 
 export function MomentTemplateBannerCloseButton({
     onCloseClick,
     settings,
+    styleOverides,
 }: MomentTemplateBannerCloseButtonProps): JSX.Element {
     const { theme, guardianRoundel } = settings;
 
@@ -37,7 +39,11 @@ export function MomentTemplateBannerCloseButton({
     };
 
     return (
-        <div css={styles.container}>
+        <div
+            css={css`
+                ${styles.container} ${styleOverides || ''}
+            `}
+        >
             <div css={styles.roundelContainer}>{getRoundel()}</div>
 
             <Button
