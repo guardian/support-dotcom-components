@@ -353,7 +353,9 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount
     );
 
-    const regionCode = countryCodeToCountryGroupId(countryCode);
+    const region = countryCodeToCountryGroupId(countryCode);
+    const displaySignInBottom =
+        region === 'AUDCountries' && variant.choiceCardAmounts && variant.name === 'V1_SIGN_IN';
 
     return (
         <section ref={setNode} css={wrapperStyles}>
@@ -408,9 +410,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 <BylineWithHeadshot bylineWithImage={variant.bylineWithImage} />
             )}
 
-            {variant.showSignInLink && regionCode !== 'AUDCountries' && (
-                <ContributionsEpicSignInCta />
-            )}
+            {variant.showSignInLink && !displaySignInBottom && <ContributionsEpicSignInCta />}
 
             {choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
@@ -442,9 +442,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 />
             )}
 
-            {variant.showSignInLink && regionCode === 'AUDCountries' && (
-                <ContributionsEpicSignInCta />
-            )}
+            {variant.showSignInLink && displaySignInBottom && <ContributionsEpicSignInCta />}
         </section>
     );
 };
