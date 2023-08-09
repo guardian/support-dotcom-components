@@ -260,6 +260,15 @@ WithSignInLink.args = {
     },
 };
 
+export const WithSignInLinkAUS = Template.bind({});
+WithSignInLinkAUS.args = {
+    variant: {
+        ...props.variant,
+        showSignInLink: true,
+    },
+    countryCode: 'AU',
+};
+
 export const WithReminderAndSignInLink = Template.bind({});
 WithReminderAndSignInLink.args = {
     variant: {
