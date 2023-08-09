@@ -11,6 +11,7 @@ import {
     createViewEventFromTracking,
     logEpicView,
     createInsertEventFromTracking,
+    countryCodeToCountryGroupId,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
@@ -352,6 +353,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
         variant.separateArticleCount?.type === 'above' && hasConsentForArticleCount
     );
 
+    const regionCode = countryCodeToCountryGroupId(countryCode);
+
     return (
         <section ref={setNode} css={wrapperStyles}>
             {showAboveArticleCount && (
@@ -405,6 +408,10 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 <BylineWithHeadshot bylineWithImage={variant.bylineWithImage} />
             )}
 
+            {variant.showSignInLink && regionCode !== 'AUDCountries' && (
+                <ContributionsEpicSignInCta />
+            )}
+
             {choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
                     setSelectionsCallback={setChoiceCardSelection}
@@ -435,7 +442,9 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 />
             )}
 
-            {variant.showSignInLink && <ContributionsEpicSignInCta />}
+            {variant.showSignInLink && regionCode === 'AUDCountries' && (
+                <ContributionsEpicSignInCta />
+            )}
         </section>
     );
 };
