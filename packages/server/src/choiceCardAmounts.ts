@@ -6,7 +6,7 @@ import { buildReloader, ValueReloader } from './utils/valueReloader';
 const getChoiceCardAmounts = (): Promise<AmountsTests> =>
     fetchS3Data(
         'support-admin-console',
-        `${isProd ? 'PROD' : 'CODE'}/configured-amounts-v2.json`,
+        `${isProd ? 'PROD' : 'CODE'}/configured-amounts-v3.json`,
     ).then(JSON.parse);
 
 const buildChoiceCardAmountsReloader = (): Promise<ValueReloader<AmountsTests>> =>

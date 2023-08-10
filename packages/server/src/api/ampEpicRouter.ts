@@ -118,7 +118,7 @@ export const buildAmpEpicRouter = (
                     countryCode,
                 );
                 const regionAmounts = choiceCardAmountsSettings.filter(
-                    t => countryGroupId === t.target,
+                    t => countryGroupId === t.region,
                 );
                 const defaultChoiceCardFrequency =
                     regionAmounts[0].variants[0].defaultContributionType;

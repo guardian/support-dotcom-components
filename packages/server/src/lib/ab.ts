@@ -67,9 +67,14 @@ export const selectAmountsTestVariant = (
     mvtId: number,
 ): SelectedAmountsVariant | undefined => {
     // Two-tier amounts - check for live country test, else get a region test
-    let targetTest = tests.find(t => t.target === countryCode && t.isLive);
+    const targetTestArray = tests.filter(t => t.isLive && t.country.includes(countryCode));
+    let targetTest;
+    if (targetTestArray.length) {
+        targetTestArray.sort((a, b) => a.order - b.order);
+        targetTest = targetTestArray[0];
+    }
     if (!targetTest) {
-        targetTest = tests.find(t => t.target === countryGroupId);
+        targetTest = tests.find(t => t.region === countryGroupId);
     }
 
     if (!targetTest) {
