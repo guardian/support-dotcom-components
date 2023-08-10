@@ -132,8 +132,8 @@ WithReminder.args = {
     stage: 'DEV',
 };
 
-export const WithPrefilledReminder = Template.bind({});
-WithPrefilledReminder.args = {
+export const WithReminderPrefilled = Template.bind({});
+WithReminderPrefilled.args = {
     fetchEmail: () => {
         return new Promise(resolve => {
             setTimeout(() => {
@@ -143,6 +143,22 @@ WithPrefilledReminder.args = {
     },
     variant: {
         ...props.variant,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+        showReminderFields: {
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
+        },
+    },
+};
+
+export const WithReminderAndSignInLink = Template.bind({});
+WithReminderAndSignInLink.args = {
+    variant: {
+        ...props.variant,
+        showSignInLink: true,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
@@ -251,9 +267,8 @@ WithChoiceCards.args = {
         },
     },
 };
-
-export const WithChoiceCardsSignInLinkAUS = Template.bind({});
-WithChoiceCardsSignInLinkAUS.args = {
+export const WithChoiceCardsAndSignInLink = Template.bind({});
+WithChoiceCardsAndSignInLink.args = {
     variant: {
         ...props.variant,
         name: 'V1_SIGN_IN',
@@ -289,22 +304,6 @@ WithSignInLink.args = {
     variant: {
         ...props.variant,
         showSignInLink: true,
-    },
-};
-
-export const WithReminderAndSignInLink = Template.bind({});
-WithReminderAndSignInLink.args = {
-    variant: {
-        ...props.variant,
-        showSignInLink: true,
-        secondaryCta: {
-            type: SecondaryCtaType.ContributionsReminder,
-        },
-        showReminderFields: {
-            reminderCta: 'Remind me in May',
-            reminderPeriod: '2020-05-01',
-            reminderLabel: 'May',
-        },
     },
 };
 
