@@ -11,7 +11,6 @@ import {
     createViewEventFromTracking,
     logEpicView,
     createInsertEventFromTracking,
-    countryCodeToCountryGroupId,
 } from '@sdc/shared/lib';
 import { ContributionFrequency, EpicProps, epicPropsSchema, Stage } from '@sdc/shared/types';
 import { BylineWithHeadshot } from './BylineWithHeadshot';
