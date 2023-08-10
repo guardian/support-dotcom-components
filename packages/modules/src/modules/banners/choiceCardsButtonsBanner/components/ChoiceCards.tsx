@@ -3,7 +3,6 @@ import { ChoiceCardGroup } from '@guardian/src-choice-card';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import { space } from '@guardian/src-foundations';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs } from './ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
@@ -42,7 +41,6 @@ const styles = {
     container: css`
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
-        margin: ${space[3]}px 0 ${space[5]}px;
         max-width: 296px;
 
         ${from.mobile} {
@@ -57,21 +55,16 @@ const styles = {
             max-width: 716px;
         }
 
-        ${from.tablet} {
-            margin: 108px 0 ${space[5]}px;
-        }
-
         ${from.desktop} {
             min-height: 208px;
             max-width: 380px;
-            margin-top: 120px;
         }
     `,
     bannerFrequenciesGroupOverrides: css`
         display: grid;
 
         ${from.tablet} {
-            grid-template-columns: repeat(3, minmax(100px, 200px));
+            grid-template-columns: repeat(3, minmax(93px, 200px));
         }
 
         > div:first-of-type {

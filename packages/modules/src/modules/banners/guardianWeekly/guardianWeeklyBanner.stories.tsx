@@ -1,17 +1,16 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { GuardianWeeklyBanner } from './GuardianWeeklyBanner';
-import { withKnobs, text, array } from '@storybook/addon-knobs';
-import { StorybookWrapper } from '../../../utils/StorybookWrapper';
 import { BannerContent, BannerProps, Tracking } from '@sdc/shared/types';
+import { StoryFn } from '@storybook/react';
 
 export default {
     component: GuardianWeeklyBanner,
     title: 'Banners/Subscriptions/GuardianWeeklyBanner',
-    decorators: [
-        withKnobs({
-            escapeHTML: false,
-        }),
-    ],
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
 };
 
 const tracking: Tracking = {
@@ -26,51 +25,36 @@ const tracking: Tracking = {
     products: ['PRINT_SUBSCRIPTION'],
 };
 
-export const defaultStory = (): ReactElement => {
-    const content: BannerContent = {
-        heading: text('heading', 'Open up your world view'),
-        messageText: text(
-            'messageText',
-            'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
-        ),
-        paragraphs: array(
-            'paragraphs',
-            [
-                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
-                '<strong>For a limited time, save 35% on an annual subscription.</strong>',
-            ],
-            '|',
-        ),
-    };
-
-    const mobileContent: BannerContent = {
-        heading: text('Mobile heading', 'Open up your world view'),
-        messageText: text(
-            'Mobile messageText',
-            'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine.',
-        ),
-        paragraphs: array(
-            'Mobile paragraphs',
-            [
-                'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
-                '<strong>For a limited time, save 35% on an annual subscription.</strong>',
-            ],
-            '|',
-        ),
-    };
-
-    const props: BannerProps = {
-        bannerChannel: 'subscriptions',
-        content,
-        mobileContent,
-        isSupporter: false,
-        tracking,
-    };
-    return (
-        <StorybookWrapper>
-            <GuardianWeeklyBanner {...props} />
-        </StorybookWrapper>
-    );
+const content: BannerContent = {
+    heading: 'Open up your world view',
+    messageText:
+        'More people across Europe are reading the Guardian. Pause to consider a whole new perspective with the Guardian’s weekly news magazine. Home delivery available wherever you are.',
+    paragraphs: [
+        'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+        '<strong>For a limited time, save 35% on an annual subscription.</strong>',
+    ],
 };
 
-defaultStory.story = { name: 'Guardian Weekly Banner' };
+const mobileContent: BannerContent = {
+    heading: 'Open up your world view',
+    messageText:
+        'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine.',
+    paragraphs: [
+        'Gain a deeper understanding of the issues that matter with the Guardian Weekly magazine. Every week, take your time over handpicked articles from the Guardian and Observer, delivered for free to wherever you are in the world.',
+        '<strong>For a limited time, save 35% on an annual subscription.</strong>',
+    ],
+};
+
+const Template: StoryFn<BannerProps> = (props: BannerProps) => <GuardianWeeklyBanner {...props} />;
+
+export const DefaultStory = Template.bind({});
+
+DefaultStory.args = {
+    bannerChannel: 'subscriptions',
+    content,
+    mobileContent,
+    isSupporter: false,
+    tracking,
+};
+
+DefaultStory.storyName = 'Guardian Weekly Banner';

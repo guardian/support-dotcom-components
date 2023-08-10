@@ -19,6 +19,7 @@ import {
     paragraph,
     columnMarginOverrides,
     ctaOverridesBlue,
+    choiceCardVerticalAlignment,
 } from './choiceCardsButtonsBannerStyles';
 import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 import { ChoiceCards } from './components/ChoiceCards';
@@ -150,7 +151,14 @@ export const ChoiceCardsButtonsBanner = ({
                             articleCount={showArticleCount ? articleCount : undefined}
                         />
                     </Column>
-                    <Column width={1 / 2} cssOverrides={[choiceCardsColumn, columnMarginOverrides]}>
+                    <Column
+                        width={1 / 2}
+                        cssOverrides={[
+                            choiceCardsColumn,
+                            columnMarginOverrides,
+                            choiceCardVerticalAlignment,
+                        ]}
+                    >
                         {choiceCardAmounts && (
                             <ChoiceCards
                                 setSelectionsCallback={setChoiceCardSelection}

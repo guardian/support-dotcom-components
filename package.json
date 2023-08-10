@@ -35,5 +35,8 @@
     "ts-loader": "^9.2.5",
     "typescript": "^4.8.3",
     "webpack": "^5.81.0"
+  },
+  "resolutions": {
+    "**/simple-update-notifier/**/semver": "7.5.2"
   }
 }

@@ -126,3 +126,6 @@ AusElection.args = {
     numArticles: 50,
     tickerSettings: undefined,
 };
+AusElection.parameters = {
+    chromatic: { delay: 300 },
+};

@@ -10,6 +10,11 @@ import { BannerWithChoiceCardsHeaderImageTemplate } from './WithChoiceCardsHeade
 
 export default {
     title: 'Banners/MomentTemplateExamples',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     args: props,
 } as Meta;
 
