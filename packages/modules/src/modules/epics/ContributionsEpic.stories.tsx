@@ -296,7 +296,6 @@ WithChoiceCardsAndSignInLink.args = {
             },
         },
     },
-    countryCode: 'AU',
 };
 
 export const WithSignInLink = Template.bind({});
