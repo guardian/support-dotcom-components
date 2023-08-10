@@ -102,7 +102,7 @@ export interface AmountsTest {
     testName: string;
     liveTestName?: string;
     isLive: boolean;
-    region: CountryGroupId | "";
+    region: CountryGroupId | '';
     country: string[];
     order: number;
     seed: number;
