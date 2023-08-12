@@ -101,6 +101,7 @@ export interface SelectedAmountsVariant extends AmountsVariant {
 export interface AmountsTest {
     testName: string;
     liveTestName?: string;
+    testLabel?: string;
     isLive: boolean;
     region: CountryGroupId | '';
     country: string[];
