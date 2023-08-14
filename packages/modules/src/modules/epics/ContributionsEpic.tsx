@@ -405,8 +405,6 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                 <BylineWithHeadshot bylineWithImage={variant.bylineWithImage} />
             )}
 
-            {variant.showSignInLink && <ContributionsEpicSignInCta />}
-
             {choiceCardAmounts && (
                 <ContributionsEpicChoiceCards
                     setSelectionsCallback={setChoiceCardSelection}
@@ -434,6 +432,8 @@ const ContributionsEpic: React.FC<EpicProps> = ({
                     choiceCardSelection={choiceCardSelection}
                 />
             )}
+
+            {variant.showSignInLink && <ContributionsEpicSignInCta />}
         </section>
     );
 };
