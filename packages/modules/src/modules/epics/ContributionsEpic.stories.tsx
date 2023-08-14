@@ -269,36 +269,6 @@ WithChoiceCards.args = {
         },
     },
 };
-export const WithChoiceCardsAndSignInLink = Template.bind({});
-WithChoiceCardsAndSignInLink.args = {
-    variant: {
-        ...props.variant,
-        name: 'V1_SIGN_IN',
-        showSignInLink: true,
-        showChoiceCards: true,
-        choiceCardAmounts: {
-            testName: 'Storybook_test',
-            variantName: 'Control',
-            amounts: {
-                ONE_OFF: {
-                    amounts: [5, 10, 15, 20],
-                    defaultAmount: 5,
-                    hideChooseYourAmount: false,
-                },
-                MONTHLY: {
-                    amounts: [6, 12, 18, 24],
-                    defaultAmount: 12,
-                    hideChooseYourAmount: true,
-                },
-                ANNUAL: {
-                    amounts: [50, 100, 150, 200],
-                    defaultAmount: 100,
-                    hideChooseYourAmount: true,
-                },
-            },
-        },
-    },
-};
 
 export const WithChoiceCardsAndSignInLink = Template.bind({});
 WithChoiceCardsAndSignInLink.args = {
@@ -332,6 +302,7 @@ WithChoiceCardsAndSignInLink.args = {
         },
     },
 };
+
 export const WithSignInLink = Template.bind({});
 WithSignInLink.args = {
     variant: {
