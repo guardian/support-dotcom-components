@@ -279,16 +279,16 @@ WithReminderAndSignInLink.args = {
     },
 };
 
-// export const WithoutSupportUrl = Template.bind({});
-// WithoutSupportUrl.args = {
-//     variant: {
-//         ...props.variant,
-//         cta: {
-//             baseUrl: 'https://theguardian.com',
-//             text: 'The Guardian',
-//         },
-//     },
-// };
+export const WithoutSupportUrl = Template.bind({});
+WithoutSupportUrl.args = {
+    variant: {
+        ...props.variant,
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'The Guardian',
+        },
+    },
+};
 
 export const WithNewsletterSignup = Template.bind({});
 WithNewsletterSignup.args = {
