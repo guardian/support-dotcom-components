@@ -254,6 +254,38 @@ WithChoiceCards.args = {
     },
 };
 
+export const WithChoiceCardsAndSignInLink = Template.bind({});
+WithChoiceCardsAndSignInLink.args = {
+    variant: {
+        ...props.variant,
+        name: 'V1_SIGN_IN',
+        showSignInLink: true,
+        showChoiceCards: true,
+        choiceCardAmounts: {
+            testName: 'Storybook_test',
+            variantName: 'Control',
+            defaultContributionType: 'MONTHLY',
+            displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+            amountsCardData: {
+                ONE_OFF: {
+                    amounts: [5, 10, 15, 20],
+                    defaultAmount: 5,
+                    hideChooseYourAmount: false,
+                },
+                MONTHLY: {
+                    amounts: [6, 12],
+                    defaultAmount: 12,
+                    hideChooseYourAmount: true,
+                },
+                ANNUAL: {
+                    amounts: [50, 100, 150, 200],
+                    defaultAmount: 100,
+                    hideChooseYourAmount: true,
+                },
+            },
+        },
+    },
+};
 export const WithSignInLink = Template.bind({});
 WithSignInLink.args = {
     variant: {
@@ -278,16 +310,16 @@ WithReminderAndSignInLink.args = {
     },
 };
 
-// export const WithoutSupportUrl = Template.bind({});
-// WithoutSupportUrl.args = {
-//     variant: {
-//         ...props.variant,
-//         cta: {
-//             baseUrl: 'https://theguardian.com',
-//             text: 'The Guardian',
-//         },
-//     },
-// };
+export const WithoutSupportUrl = Template.bind({});
+WithoutSupportUrl.args = {
+    variant: {
+        ...props.variant,
+        cta: {
+            baseUrl: 'https://theguardian.com',
+            text: 'The Guardian',
+        },
+    },
+};
 
 export const WithNewsletterSignup = Template.bind({});
 WithNewsletterSignup.args = {
