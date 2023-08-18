@@ -6,7 +6,8 @@ type LocalLanguageHeaders = Record<string, LocalLanguageHeader>;
 
 const localLanguagesHeaders: LocalLanguageHeaders = {
     FR: {
-        header: 'Faites partie de notre aventure européenne !',
+        header:
+            'Faites partie de notre <span style="color:red;font-weight:bold">aventure</span> européenne !',
     },
     DE: {
         header: 'hallo (German)',
@@ -30,5 +31,7 @@ export const LocalLanguageBannerTestName = 'PD-TEST';
 export const LocalLanguageBannerVariant = 'CONTROL';
 
 export const countryCodeToLocalLanguageHeader = (countryCode?: string): string => {
-    return localLanguagesHeaders[countryCode].header || '';
+    return localLanguagesHeaders[countryCode]
+        ? localLanguagesHeaders[countryCode].header
+        : 'default (English)';
 };
