@@ -125,6 +125,11 @@ export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/worldPressFreedomDay/WorldPressFreedomDayBanner',
 );
 
+export const localLanguageMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'local-language-moment-banner',
+    'banners/localLanguageMoment/localLanguageMomentBanner',
+);
+
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
@@ -149,4 +154,5 @@ export const moduleInfos: ModuleInfo[] = [
     ukraineMomentBanner,
     scotus2023MomentBanner,
     wpfdBanner,
+    localLanguageMomentBanner,
 ];
