@@ -19,6 +19,9 @@ import {
     buildBannerCampaignCode,
     countryCodeToCountryGroupId,
     countryCodeToLocalLanguageHeader,
+    LocalLanguageBannerTemplateName,
+    LocalLanguageBannerTestName,
+    LocalLanguageBannerVariant,
 } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
@@ -105,7 +108,11 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
-            if (testTracking.campaignCode === 'PD-TEST_CONTROL') {
+            if (
+                moduleName === LocalLanguageBannerTemplateName &&
+                test.name === LocalLanguageBannerTestName &&
+                variant.name === LocalLanguageBannerVariant
+            ) {
                 const localLanguageHeader = countryCodeToLocalLanguageHeader(
                     targeting.countryCode ?? 'GB',
                 );
