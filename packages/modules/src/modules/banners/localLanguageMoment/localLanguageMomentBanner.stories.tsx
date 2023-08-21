@@ -2,9 +2,10 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 import { props } from '../utils/storybook';
-import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
+import { BannerProps } from '@sdc/shared/types';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { brand, brandAlt, neutral } from '@guardian/src-foundations';
+import { HeaderVisual } from './components/headerVisual';
 
 export default {
     title: 'Banners/MomentTemplate',
@@ -19,10 +20,11 @@ export default {
 const LocalLanguageMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
-            backgroundColour: '#0000FF',
+            backgroundColour: '#F1F8FC',
         },
         headerSettings: {
-            textColour: '#0077B6',
+            textColour: '#052962',
+            image: <HeaderVisual />,
         },
         primaryCtaSettings: {
             default: {
@@ -63,73 +65,68 @@ const LocalLanguageMomentBanner = bannerWrapper(
             textColour: neutral[0],
             highlightColour: brandAlt[400],
         },
-        imageSettings: {
-            mainUrl:
-                'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
-            mobileUrl:
-                'https://i.guim.co.uk/img/media/630a3735c02e195be89ab06fd1b8192959e282ab/0_0_1172_560/500.png?width=500&quality=75&s=937595b3f471d6591475955335c7c023',
-            tabletUrl:
-                'https://i.guim.co.uk/img/media/d1af2bcab927ca0ad247522105fe41a52a474d27/0_0_1080_1000/500.png?width=500&quality=75&s=af39fa30f36fce453eabaef3063a3180',
-            desktopUrl:
-                'https://i.guim.co.uk/img/media/20cc6e0fa146574bb9c4ed410ac1a089fab02ce0/0_0_1428_1344/500.png?width=500&quality=75&s=fe64f647f74a3cb671f8035a473b895f',
-            wideUrl:
-                'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
-            altText: 'Guardian logo being held up by supporters of the Guardian',
-        },
+        choiceCards: true,
         bannerId: 'local-language-moment-banner',
     }),
     'local-language-moment-banner',
 );
 
 const LocalLanguageMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <LocalLanguageMomentBanner {...props} />
+    <LocalLanguageMomentBanner
+        {...props}
+        choiceCardAmounts={{
+            testName: 'Storybook_localLanguage',
+            variantName: 'Control',
+            amounts: {
+                ONE_OFF: {
+                    amounts: [5, 10, 15, 20],
+                    defaultAmount: 5,
+                    hideChooseYourAmount: false,
+                },
+                MONTHLY: {
+                    amounts: [3, 6, 10],
+                    defaultAmount: 10,
+                    hideChooseYourAmount: true,
+                },
+                ANNUAL: {
+                    amounts: [100],
+                    defaultAmount: 100,
+                    hideChooseYourAmount: true,
+                },
+            },
+        }}
+    />
 );
 
 export const LocalLanguageMoment = LocalLanguageMomentTemplate.bind({});
 LocalLanguageMoment.args = {
     ...props,
     content: {
-        heading: 'Show your support for reader-funded journalism',
+        heading: 'Local Language Replace',
         messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         paragraphs: [
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
-            'We do not shy away. And we provide all this for free, for everyone.',
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. ',
         ],
         highlightedText:
-            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+            'Nullam dictum felis eu pede mollis pretium. Integeir tincidunt. Thank you.',
         cta: {
-            text: 'Support once',
+            text: 'Contribute',
             baseUrl: 'https://support.theguardian.com/contribute/one-off',
-        },
-        secondaryCta: {
-            type: SecondaryCtaType.Custom,
-            cta: {
-                text: 'Support monthly',
-                baseUrl: 'https://support.theguardian.com/contribute/recurring',
-            },
         },
     },
     mobileContent: {
-        heading: 'Show your support for reader-funded journalism',
+        heading: 'Local Language Replace (mobile)',
         messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         paragraphs: [
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
-            'We do not shy away. And we provide all this for free, for everyone.',
+            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. ',
         ],
         highlightedText:
-            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+            'Nullam dictum felis eu pede mollis pretium. Integeir tincidunt. Thank you.',
         cta: {
-            text: 'Support us',
+            text: 'Contribute',
             baseUrl: 'https://support.theguardian.com/contribute/one-off',
-        },
-        secondaryCta: {
-            type: SecondaryCtaType.Custom,
-            cta: {
-                text: 'Learn more',
-                baseUrl: 'https://support.theguardian.com/contribute/recurring',
-            },
         },
     },
     numArticles: 50,
