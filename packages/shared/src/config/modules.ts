@@ -127,7 +127,7 @@ export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
 
 export const localLanguageMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'local-language-moment-banner',
-    'banners/localLanguageMoment/localLanguageMomentBanner',
+    'banners/localLanguageMoment/LocalLanguageMomentBanner',
 );
 
 export const moduleInfos: ModuleInfo[] = [
