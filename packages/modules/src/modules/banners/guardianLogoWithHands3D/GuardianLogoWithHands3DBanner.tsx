@@ -4,7 +4,6 @@ import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 import { GuardianLogoWithHandsVisual } from './components/GuardianLogoWithHandsVisual';
 
-
 const GuardianLogoWithHands3DBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: '#005689',
