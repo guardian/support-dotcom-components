@@ -62,6 +62,7 @@ export function Hands({
 
     return (
         <group dispose={null}>
+            {/* @ts-expect-error Reactnode return type */}
             <a.mesh
                 ref={handsRef}
                 castShadow

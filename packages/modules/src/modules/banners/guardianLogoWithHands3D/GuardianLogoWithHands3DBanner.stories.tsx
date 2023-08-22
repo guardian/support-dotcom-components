@@ -69,7 +69,10 @@ const GuardianLogoWithHands3DBanner = bannerWrapper(
 );
 
 const GuardianLogoWithHands3DTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <GuardianLogoWithHands3DBanner {...props} />
+    <>
+        {/* @ts-expect-error Reactnode return type */}
+        <GuardianLogoWithHands3DBanner {...props} />
+    </>
 );
 
 export const GuardianLogoWithHands = GuardianLogoWithHands3DTemplate.bind({});

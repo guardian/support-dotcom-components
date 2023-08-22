@@ -31,6 +31,7 @@ export function Logo({
 
     return (
         <group dispose={null}>
+            {/* @ts-expect-error Reactnode return type */}
             <a.mesh
                 ref={logoRef}
                 castShadow

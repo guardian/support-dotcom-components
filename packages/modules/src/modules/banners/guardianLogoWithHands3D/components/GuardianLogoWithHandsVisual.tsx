@@ -86,6 +86,7 @@ export function GuardianLogoWithHandsVisual({
 }): JSX.Element {
     return (
         <div css={[canvasContainer, cssOverrides]}>
+            {/* @ts-expect-error Reactnode return type */}
             <Canvas css={canvasOverlay}>
                 <SoftShadows />
                 <color attach="background" args={['#005689']} />
@@ -94,6 +95,7 @@ export function GuardianLogoWithHandsVisual({
                 <pointLight position={[15, 15, 15]} />
                 <pointLight position={[-12, 200, -12]} intensity={3} />
 
+                {/* @ts-expect-error Reactnode return type */}
                 <Suspense fallback={null}>
                     <LogoWithHands />
                 </Suspense>
