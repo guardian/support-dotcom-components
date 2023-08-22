@@ -65,7 +65,7 @@ const LocalLanguageMomentBanner = bannerWrapper(
             textColour: neutral[0],
             highlightColour: brandAlt[400],
         },
-        choiceCards: true,
+        // choiceCards: true,
         bannerId: 'local-language-moment-banner',
     }),
     'local-language-moment-banner',
@@ -106,27 +106,27 @@ LocalLanguageMoment.args = {
             baseUrl: 'https://support.theguardian.com/contribute/one-off',
         },
     },
-    choiceCardAmounts: {
-        testName: 'Storybook_localLanguage',
-        variantName: 'Control',
-        amounts: {
-            ONE_OFF: {
-                amounts: [5, 10, 15, 20],
-                defaultAmount: 5,
-                hideChooseYourAmount: false,
-            },
-            MONTHLY: {
-                amounts: [3, 6, 10],
-                defaultAmount: 10,
-                hideChooseYourAmount: true,
-            },
-            ANNUAL: {
-                amounts: [100],
-                defaultAmount: 100,
-                hideChooseYourAmount: true,
-            },
-        },
-    },
+    // choiceCardAmounts: {
+    //     testName: 'Storybook_localLanguage',
+    //     variantName: 'Control',
+    //     amounts: {
+    //         ONE_OFF: {
+    //             amounts: [5, 10, 15, 20],
+    //             defaultAmount: 5,
+    //             hideChooseYourAmount: false,
+    //         },
+    //         MONTHLY: {
+    //             amounts: [3, 6, 10],
+    //             defaultAmount: 10,
+    //             hideChooseYourAmount: true,
+    //         },
+    //         ANNUAL: {
+    //             amounts: [100],
+    //             defaultAmount: 100,
+    //             hideChooseYourAmount: true,
+    //         },
+    //     },
+    // },
     numArticles: 50,
     tickerSettings: undefined,
 };
