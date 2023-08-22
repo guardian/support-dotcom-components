@@ -49,6 +49,7 @@ const LocalLanguageMomentBanner = getMomentTemplateBanner({
     },
     highlightedTextSettings: {
         textColour: neutral[0],
+        highlightColour: brandAlt[400],
     },
     choiceCards: true,
     bannerId: 'local-language-moment-banner',
