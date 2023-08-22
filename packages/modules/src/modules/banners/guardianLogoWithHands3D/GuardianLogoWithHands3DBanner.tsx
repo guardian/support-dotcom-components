@@ -31,7 +31,7 @@ const GuardianLogoWithHands3DBanner = getMomentTemplateBanner({
         },
         hover: {
             backgroundColour: '#149bc7',
-            textColour: 'white',
+            textColour: '#fff',
             border: `1px solid #149bc7`,
         },
     },
