@@ -5,7 +5,7 @@ import { props } from '../utils/storybook';
 import { BannerProps } from '@sdc/shared/types';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { brand, brandAlt, neutral } from '@guardian/src-foundations';
-import { HeaderVisual } from './components/headerVisual';
+//import { HeaderVisual } from './components/headerVisual';
 
 export default {
     title: 'Banners/MomentTemplate',
@@ -24,7 +24,7 @@ const LocalLanguageMomentBanner = bannerWrapper(
         },
         headerSettings: {
             textColour: '#052962',
-            image: <HeaderVisual />,
+            // image: <HeaderVisual />,
         },
         primaryCtaSettings: {
             default: {

@@ -1,8 +1,8 @@
-import React from 'react';
+//import React from 'react';
 import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
-import { HeaderVisual } from './components/headerVisual';
+//import { HeaderVisual } from './components/headerVisual';
 
 const LocalLanguageMomentBanner = getMomentTemplateBanner({
     containerSettings: {
@@ -10,7 +10,7 @@ const LocalLanguageMomentBanner = getMomentTemplateBanner({
     },
     headerSettings: {
         textColour: '#052962',
-        image: <HeaderVisual />,
+        // image: <HeaderVisual />,
     },
     primaryCtaSettings: {
         default: {
