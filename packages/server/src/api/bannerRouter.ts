@@ -15,7 +15,14 @@ import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
+import {
+    buildBannerCampaignCode,
+    countryCodeToCountryGroupId,
+    countryCodeToLocalLanguageHeader,
+    LocalLanguageBannerTemplateName,
+    LocalLanguageBannerTestName,
+    LocalLanguageBannerVariant,
+} from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
@@ -100,6 +107,19 @@ export const buildBannerRouter = (
             const tickerSettings =
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
+
+            if (
+                moduleName === LocalLanguageBannerTemplateName &&
+                test.name === LocalLanguageBannerTestName &&
+                variant.name === LocalLanguageBannerVariant
+            ) {
+                const localLanguageHeader = countryCodeToLocalLanguageHeader(
+                    targeting.countryCode ?? 'GB',
+                );
+                if (variant.bannerContent && localLanguageHeader !== '') {
+                    variant.bannerContent.heading = localLanguageHeader;
+                }
+            }
 
             const contributionAmounts = choiceCardAmounts.get();
             const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
