@@ -5,6 +5,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { BannerProps } from '@sdc/shared/src/types';
 import { Meta, Story } from '@storybook/react';
 import { props } from '../utils/storybook';
+import { HeaderImage } from './components/headerImage';
 
 export default {
     title: 'Banners/MomentTemplate',
@@ -22,7 +23,8 @@ const LocalLanguageMomentBanner = bannerWrapper(
             backgroundColour: '#F1F8FC',
         },
         headerSettings: {
-            textColour: brand[400],
+            textColour: '#052962',
+            image: <HeaderImage />,
         },
         primaryCtaSettings: {
             default: {
