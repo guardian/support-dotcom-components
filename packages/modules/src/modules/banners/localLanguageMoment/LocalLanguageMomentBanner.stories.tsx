@@ -51,7 +51,7 @@ const LocalLanguageMomentBanner = bannerWrapper(
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: culture[800],
+                backgroundColour: '#F1F8FC',
                 textColour: brand[400],
                 border: `1px solid ${brand[400]}`,
             },
@@ -59,6 +59,7 @@ const LocalLanguageMomentBanner = bannerWrapper(
                 backgroundColour: '#E5E5E5',
                 textColour: brand[400],
             },
+            theme: 'brand',
         },
         highlightedTextSettings: {
             textColour: neutral[0],
