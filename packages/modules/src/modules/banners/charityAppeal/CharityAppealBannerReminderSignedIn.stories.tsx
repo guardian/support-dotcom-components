@@ -21,6 +21,11 @@ const BannerDecorator = (Story: Story): JSX.Element => (
 export default {
     component: CharityAppealBannerReminderSignedIn,
     title: 'Banners/CharityAppeal/BannerReminderSignedIn',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     args: {
         reminderCta: {
             type: SecondaryCtaType.ContributionsReminder,

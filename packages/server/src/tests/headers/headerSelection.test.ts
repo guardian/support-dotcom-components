@@ -151,7 +151,7 @@ const header_existing_subscriber: HeaderTest = {
         'International',
     ],
     purchaseInfo: {
-        product: ['DigitalPack'],
+        product: ['SupporterPlus'],
         userType: ['current'],
     },
     variants: [
@@ -386,7 +386,7 @@ describe('selectBestTest', () => {
             modulesVersion: 'v3',
             mvtId: 900263,
             purchaseInfo: {
-                product: 'DigitalPack',
+                product: 'SupporterPlus',
                 userType: 'current',
             },
             isSignedIn: false,

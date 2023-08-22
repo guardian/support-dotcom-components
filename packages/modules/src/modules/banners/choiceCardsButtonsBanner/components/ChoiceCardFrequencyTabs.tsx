@@ -16,6 +16,12 @@ const container = css`
     > label {
         margin-right: ${space[2]}px !important;
         margin-bottom: ${space[3]}px !important;
+        min-width: 0;
+    }
+
+    > label > div {
+        padding-left: 0;
+        padding-right: 0;
     }
 
     > label:last-of-type {

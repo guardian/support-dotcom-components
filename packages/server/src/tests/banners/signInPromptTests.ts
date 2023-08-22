@@ -41,15 +41,15 @@ const dismissAction = {
 
 const baseBenefits = ['Fewer interruptions', 'Newsletters and comments'];
 const normalBenefits = [...baseBenefits, 'Manage your account'];
-const digiSubBenefits = ['Ad free', ...baseBenefits];
+const supporterPlusBenefits = ['Ad free', ...baseBenefits];
 const paragraphs = [subheading, ...normalBenefits];
-const digiSubParagraphs = [subheading, ...digiSubBenefits];
+const supporterPlusParagraphs = [subheading, ...supporterPlusBenefits];
 
 const signInPromptNewUserDigitalSubscriberTest: BannerTest = {
     ...baseSignInPromptTest,
     name: 'banner-sign-in-prompt-new-user-digital-subscriber',
     purchaseInfo: {
-        product: ['DigitalPack'],
+        product: ['SupporterPlus'],
         userType: ['new', 'guest'],
     },
     variants: [
@@ -57,7 +57,7 @@ const signInPromptNewUserDigitalSubscriberTest: BannerTest = {
             ...baseSignInPromptVariant,
             bannerContent: {
                 heading: subscriberHeading,
-                paragraphs: digiSubParagraphs,
+                paragraphs: supporterPlusParagraphs,
                 cta: registerCTA,
                 secondaryCta: dismissAction,
             },
@@ -109,7 +109,7 @@ const signInPromptExistingUserDigitalSubscriberTest: BannerTest = {
     ...baseSignInPromptTest,
     name: 'banner-sign-in-prompt-existing-user-digital-subscriber',
     purchaseInfo: {
-        product: ['DigitalPack'],
+        product: ['SupporterPlus'],
         userType: ['current'],
     },
     variants: [
@@ -117,7 +117,7 @@ const signInPromptExistingUserDigitalSubscriberTest: BannerTest = {
             ...baseSignInPromptVariant,
             bannerContent: {
                 heading: subscriberHeading,
-                paragraphs: digiSubParagraphs,
+                paragraphs: supporterPlusParagraphs,
                 cta: signInCTA,
                 secondaryCta: dismissAction,
             },

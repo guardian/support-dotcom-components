@@ -132,8 +132,8 @@ WithReminder.args = {
     stage: 'DEV',
 };
 
-export const WithPrefilledReminder = Template.bind({});
-WithPrefilledReminder.args = {
+export const WithReminderPrefilled = Template.bind({});
+WithReminderPrefilled.args = {
     fetchEmail: () => {
         return new Promise(resolve => {
             setTimeout(() => {
@@ -143,6 +143,22 @@ WithPrefilledReminder.args = {
     },
     variant: {
         ...props.variant,
+        secondaryCta: {
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+        showReminderFields: {
+            reminderCta: 'Remind me in May',
+            reminderPeriod: '2020-05-01',
+            reminderLabel: 'May',
+        },
+    },
+};
+
+export const WithReminderAndSignInLink = Template.bind({});
+WithReminderAndSignInLink.args = {
+    variant: {
+        ...props.variant,
+        showSignInLink: true,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
         },
@@ -251,28 +267,42 @@ WithChoiceCards.args = {
         },
     },
 };
+export const WithChoiceCardsAndSignInLink = Template.bind({});
+WithChoiceCardsAndSignInLink.args = {
+    variant: {
+        ...props.variant,
+        name: 'V1_SIGN_IN',
+        showSignInLink: true,
+        showChoiceCards: true,
+        choiceCardAmounts: {
+            testName: 'Storybook_test',
+            variantName: 'Control',
+            amounts: {
+                ONE_OFF: {
+                    amounts: [5, 10, 15, 20],
+                    defaultAmount: 5,
+                    hideChooseYourAmount: false,
+                },
+                MONTHLY: {
+                    amounts: [6, 12, 18, 24],
+                    defaultAmount: 12,
+                    hideChooseYourAmount: true,
+                },
+                ANNUAL: {
+                    amounts: [50, 100, 150, 200],
+                    defaultAmount: 100,
+                    hideChooseYourAmount: true,
+                },
+            },
+        },
+    },
+};
 
 export const WithSignInLink = Template.bind({});
 WithSignInLink.args = {
     variant: {
         ...props.variant,
         showSignInLink: true,
-    },
-};
-
-export const WithReminderAndSignInLink = Template.bind({});
-WithReminderAndSignInLink.args = {
-    variant: {
-        ...props.variant,
-        showSignInLink: true,
-        secondaryCta: {
-            type: SecondaryCtaType.ContributionsReminder,
-        },
-        showReminderFields: {
-            reminderCta: 'Remind me in May',
-            reminderPeriod: '2020-05-01',
-            reminderLabel: 'May',
-        },
     },
 };
 

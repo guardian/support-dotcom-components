@@ -60,6 +60,16 @@ export const columnMarginOverrides = css`
     }
 `;
 
+export const choiceCardVerticalAlignment = css`
+    ${from.tablet} {
+        justify-content: flex-start;
+        margin-top: 6.6rem;
+    }
+    ${from.desktop} {
+        margin-top: 7.6rem;
+    }
+`;
+
 export const heading = (headingColor: string): SerializedStyles => css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     font-size: 22px;

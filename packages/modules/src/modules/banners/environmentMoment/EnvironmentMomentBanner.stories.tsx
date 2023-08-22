@@ -7,6 +7,11 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 export default {
     component: EnvironmentMomentBanner,
     title: 'Banners/EnvironmentMomentBanner',
+    parameters: {
+        chromatic: {
+            delay: 300,
+        },
+    },
     args: props,
 } as Meta;
 
