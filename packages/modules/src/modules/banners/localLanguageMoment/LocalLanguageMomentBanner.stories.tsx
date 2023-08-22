@@ -1,3 +1,4 @@
+import React from 'react';
 import { brand, brandAlt, culture, neutral } from '@guardian/src-foundations';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
