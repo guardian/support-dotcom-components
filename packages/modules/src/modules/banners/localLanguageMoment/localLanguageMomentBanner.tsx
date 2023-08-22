@@ -52,14 +52,13 @@ const LocalLanguageMomentBanner = getMomentTemplateBanner({
         highlightColour: brandAlt[400],
     },
     choiceCards: true,
-
     bannerId: 'local-language-moment-banner',
 });
 
-const unvalidated = bannerWrapper(LocalLanguageMomentBanner, 'local-language-moment-banner');
 const validated = validatedBannerWrapper(LocalLanguageMomentBanner, 'local-language-moment-banner');
+const unvalidated = bannerWrapper(LocalLanguageMomentBanner, 'local-language-moment-banner');
 
 export {
     validated as LocalLanguageMomentBanner,
-    unvalidated as LocalLanguageMomentBannerUnvalidated,
+    unvalidated as LocalLanguageMomentBannerUnValidated,
 };

@@ -72,30 +72,7 @@ const LocalLanguageMomentBanner = bannerWrapper(
 );
 
 const LocalLanguageMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <LocalLanguageMomentBanner
-        {...props}
-        choiceCardAmounts={{
-            testName: 'Storybook_localLanguage',
-            variantName: 'Control',
-            amounts: {
-                ONE_OFF: {
-                    amounts: [5, 10, 15, 20],
-                    defaultAmount: 5,
-                    hideChooseYourAmount: false,
-                },
-                MONTHLY: {
-                    amounts: [3, 6, 10],
-                    defaultAmount: 10,
-                    hideChooseYourAmount: true,
-                },
-                ANNUAL: {
-                    amounts: [100],
-                    defaultAmount: 100,
-                    hideChooseYourAmount: true,
-                },
-            },
-        }}
-    />
+    <LocalLanguageMomentBanner {...props} />
 );
 
 export const LocalLanguageMoment = LocalLanguageMomentTemplate.bind({});
@@ -127,6 +104,27 @@ LocalLanguageMoment.args = {
         cta: {
             text: 'Contribute',
             baseUrl: 'https://support.theguardian.com/contribute/one-off',
+        },
+    },
+    choiceCardAmounts: {
+        testName: 'Storybook_localLanguage',
+        variantName: 'Control',
+        amounts: {
+            ONE_OFF: {
+                amounts: [5, 10, 15, 20],
+                defaultAmount: 5,
+                hideChooseYourAmount: false,
+            },
+            MONTHLY: {
+                amounts: [3, 6, 10],
+                defaultAmount: 10,
+                hideChooseYourAmount: true,
+            },
+            ANNUAL: {
+                amounts: [100],
+                defaultAmount: 100,
+                hideChooseYourAmount: true,
+            },
         },
     },
     numArticles: 50,
