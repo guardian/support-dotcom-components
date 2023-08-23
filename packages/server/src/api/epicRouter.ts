@@ -10,17 +10,20 @@ import {
     TestTracking,
     WeeklyArticleLog,
 } from '@sdc/shared/dist/types';
+import {
+    buildCampaignCode,
+    getReminderFields,
+    countryCodeToCountryGroupId,
+    LocalLanguageEpicTestName,
+    LocalLanguageEpicVariant,
+    countryCodeToLocalLanguageEpic,
+} from '@sdc/shared/dist/lib';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
 import { ChannelSwitches } from '../channelSwitches';
 import { Debug, findForcedTestAndVariant, findTestAndVariant } from '../tests/epics/epicSelection';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import {
-    buildCampaignCode,
-    getReminderFields,
-    countryCodeToCountryGroupId,
-} from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import {
     epic as epicModule,
@@ -118,6 +121,15 @@ export const buildEpicRouter = (
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
+
+        if (test.name === LocalLanguageEpicTestName && variant.name === LocalLanguageEpicVariant) {
+            const localLanguageEpicHeader = countryCodeToLocalLanguageEpic(
+                targeting.countryCode ?? 'GB',
+            );
+            if (variant.heading && localLanguageEpicHeader !== '') {
+                variant.heading = localLanguageEpicHeader;
+            }
+        }
 
         const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
