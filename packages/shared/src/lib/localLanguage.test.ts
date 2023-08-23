@@ -12,9 +12,9 @@ describe('getCountryCodeToLocalLanguageHeader', () => {
         { input: 'NL', output: 'hallo (Dutch)' },
         { input: 'SE', output: 'halla' },
         { input: 'SP', output: 'hola' },
-        { input: 'GB', output: 'default (English)' },
-        { input: 'US', output: 'default (English)' },
-        { input: '', output: 'default (English)' },
+        { input: 'GB', output: '' },
+        { input: 'US', output: '' },
+        { input: '', output: '' },
     ];
 
     countries.forEach(({ input, output }) => {

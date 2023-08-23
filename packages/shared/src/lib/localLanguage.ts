@@ -29,7 +29,5 @@ export const LocalLanguageBannerTestName = 'PD-TEST';
 export const LocalLanguageBannerVariant = 'CONTROL';
 
 export const countryCodeToLocalLanguageHeader = (countryCode?: string): string => {
-    return localLanguagesHeaders[countryCode]
-        ? localLanguagesHeaders[countryCode].header
-        : 'default (English)';
+    return localLanguagesHeaders[countryCode] ? localLanguagesHeaders[countryCode].header : '';
 };
