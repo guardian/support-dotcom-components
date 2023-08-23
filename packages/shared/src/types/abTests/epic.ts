@@ -98,13 +98,16 @@ export interface SelectedAmountsVariant extends AmountsVariant {
     testName: string;
 }
 
+export type AmountsTestTargeting =
+    | { targetingType: 'Region'; region: CountryGroupId }
+    | { targetingType: 'Country'; countries: string[] };
+
 export interface AmountsTest {
     testName: string;
     liveTestName?: string;
     testLabel?: string;
     isLive: boolean;
-    region: CountryGroupId | '';
-    country: string[];
+    targeting: AmountsTestTargeting;
     order: number;
     seed: number;
     variants: AmountsVariant[];

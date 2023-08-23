@@ -117,13 +117,15 @@ export const buildAmpEpicRouter = (
                     tickerData,
                     countryCode,
                 );
-                const regionAmounts = choiceCardAmountsSettings.filter(
-                    t => countryGroupId === t.region,
+                const regionAmounts = choiceCardAmountsSettings.find(
+                    t =>
+                        t.targeting.targetingType === 'Region' &&
+                        t.targeting.region === countryGroupId,
                 );
                 const defaultChoiceCardFrequency =
-                    regionAmounts[0].variants[0].defaultContributionType;
+                    regionAmounts?.variants[0].defaultContributionType;
                 const choiceCardAmountsData: AmountsCardData | undefined =
-                    regionAmounts[0]?.variants[0]?.amountsCardData;
+                    regionAmounts?.variants[0]?.amountsCardData;
 
                 const acquisitionData = {
                     source: 'GOOGLE_AMP',
