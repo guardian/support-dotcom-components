@@ -1,9 +1,8 @@
 export const LocalLanguageBannerTemplateName = 'LocalLanguageMomentBanner';
-export const LocalLanguageBannerTestName = 'PD-TEST';
-export const LocalLanguageBannerVariant = 'CONTROL';
-
-export const LocalLanguageEpicTestName = 'PD-TEST';
-export const LocalLanguageEpicVariant = 'CONTROL';
+const LocalLanguageBannerTestName = 'PD-TEST';
+const LocalLanguageBannerVariant = 'CONTROL';
+const LocalLanguageEpicTestName = 'PD-TEST';
+const LocalLanguageEpicVariant = 'CONTROL';
 
 export type LocalLanguage = {
     bannerHeader: string;
@@ -38,11 +37,21 @@ const localLanguages: LocalLanguages = {
     },
 };
 
-export const countryCodeToLocalLanguage = (countryCode?: string): LocalLanguage => {
-    return (
-        localLanguages[countryCode] ?? {
-            bannerHeader: '',
-            epicHeader: '',
-        }
-    );
+export const countryCodeToVerfiedLocalLanguage = (
+    testName: string,
+    variantName: string,
+    countryCode?: string,
+    dfltLocalLanguage?: LocalLanguage,
+): LocalLanguage => {
+    if (
+        testName === (LocalLanguageEpicTestName || LocalLanguageBannerTestName) &&
+        variantName === (LocalLanguageEpicVariant || LocalLanguageBannerVariant)
+    ) {
+        return (
+            localLanguages[countryCode] ?? {
+                bannerHeader: dfltLocalLanguage ? dfltLocalLanguage.bannerHeader : '',
+                epicHeader: dfltLocalLanguage ? dfltLocalLanguage.epicHeader : '',
+            }
+        );
+    }
 };

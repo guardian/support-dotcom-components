@@ -14,9 +14,7 @@ import {
     buildCampaignCode,
     getReminderFields,
     countryCodeToCountryGroupId,
-    LocalLanguageEpicTestName,
-    LocalLanguageEpicVariant,
-    countryCodeToLocalLanguage,
+    countryCodeToVerfiedLocalLanguage,
 } from '@sdc/shared/dist/lib';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
@@ -122,12 +120,13 @@ export const buildEpicRouter = (
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
-        if (test.name === LocalLanguageEpicTestName && variant.name === LocalLanguageEpicVariant) {
-            const localLanguage = countryCodeToLocalLanguage(targeting.countryCode);
-            if (variant.heading && localLanguage.epicHeader !== '') {
-                variant.heading = localLanguage.epicHeader;
-            }
-        }
+        const localLanguage = countryCodeToVerfiedLocalLanguage(
+            test.name,
+            variant.name,
+            targeting.countryCode,
+            { bannerHeader: '', epicHeader: variant.heading ?? '' },
+        );
+        variant.heading = localLanguage.epicHeader;
 
         const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
