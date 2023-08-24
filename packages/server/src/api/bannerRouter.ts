@@ -18,7 +18,7 @@ import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import {
     buildBannerCampaignCode,
     countryCodeToCountryGroupId,
-    countryCodeToLocalLanguageHeader,
+    countryCodeToLocalLanguage,
     LocalLanguageBannerTemplateName,
     LocalLanguageBannerTestName,
     LocalLanguageBannerVariant,
@@ -113,11 +113,9 @@ export const buildBannerRouter = (
                 test.name === LocalLanguageBannerTestName &&
                 variant.name === LocalLanguageBannerVariant
             ) {
-                const localLanguageHeader = countryCodeToLocalLanguageHeader(
-                    targeting.countryCode ?? 'GB',
-                );
-                if (variant.bannerContent && localLanguageHeader !== '') {
-                    variant.bannerContent.heading = localLanguageHeader;
+                const localLanguage = countryCodeToLocalLanguage(targeting.countryCode);
+                if (variant.bannerContent && localLanguage.bannerHeader !== '') {
+                    variant.bannerContent.heading = localLanguage.bannerHeader;
                 }
             }
 
