@@ -16,7 +16,7 @@ export default {
     args: props,
 } as Meta;
 
-const LocalLanguageMomentBanner = bannerWrapper(
+const EuropeMomentLocalLanguageBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
             backgroundColour: '#F1F8FC',
@@ -64,17 +64,17 @@ const LocalLanguageMomentBanner = bannerWrapper(
             highlightColour: brandAlt[400],
         },
         choiceCards: true,
-        bannerId: 'local-language-moment-banner',
+        bannerId: 'europe-moment-local-language-banner',
     }),
-    'local-language-moment-banner',
+    'europe-moment-local-language-banner',
 );
 
-const LocalLanguageMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <LocalLanguageMomentBanner {...props} />
+const EuropeMomentLocalLanguageTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <EuropeMomentLocalLanguageBanner {...props} />
 );
 
-export const LocalLanguageMoment = LocalLanguageMomentTemplate.bind({});
-LocalLanguageMoment.args = {
+export const EuropeMomentLocalLanguage = EuropeMomentLocalLanguageTemplate.bind({});
+EuropeMomentLocalLanguage.args = {
     ...props,
     content: {
         heading: 'Local Language Replace',
@@ -105,7 +105,7 @@ LocalLanguageMoment.args = {
         },
     },
     choiceCardAmounts: {
-        testName: 'Storybook_localLanguage',
+        testName: 'Storybook_europeLocalLanguage',
         variantName: 'Control',
         amounts: {
             ONE_OFF: {

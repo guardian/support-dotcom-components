@@ -2,7 +2,7 @@ import { brand, brandAlt, culture, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const LocalLanguageMomentBanner = getMomentTemplateBanner({
+const EuropeMomentLocalLanguageBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: '#F1F8FC',
     },
@@ -49,13 +49,19 @@ const LocalLanguageMomentBanner = getMomentTemplateBanner({
         highlightColour: brandAlt[400],
     },
     choiceCards: true,
-    bannerId: 'local-language-moment-banner',
+    bannerId: 'europe-moment-local-language-banner',
 });
 
-const unvalidated = bannerWrapper(LocalLanguageMomentBanner, 'local-language-moment-banner');
-const validated = validatedBannerWrapper(LocalLanguageMomentBanner, 'local-language-moment-banner');
+const unvalidated = bannerWrapper(
+    EuropeMomentLocalLanguageBanner,
+    'europe-moment-local-language-banner',
+);
+const validated = validatedBannerWrapper(
+    EuropeMomentLocalLanguageBanner,
+    'europe-moment-local-language-banner',
+);
 
 export {
-    validated as LocalLanguageMomentBanner,
-    unvalidated as LocalLanguageMomentBannerUnValidated,
+    validated as EuropeMomentLocalLanguageBanner,
+    unvalidated as EuropeMomentLocalLanguageBannerUnValidated,
 };
