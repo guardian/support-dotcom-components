@@ -1,49 +1,75 @@
-import { countryCodeToLocalLanguageEpic, countryCodeToLocalLanguageHeader } from './localLanguage';
+import { countryCodeToLocalLanguage } from './localLanguage';
 
-describe('getCountryCodeToLocalLanguageHeader', () => {
+describe('getCountryCodeToLocalLanguage', () => {
     const countries = [
         {
             input: 'FR',
-            output:
-                'Faites partie de notre <span style="color:red;font-weight:bold">aventure</span> européenne !',
+            output: {
+                bannerHeader: 'Faites partie de notre aventure européenne !',
+                epicHeader: 'Faites partie de notre aventure européenne !',
+            },
         },
-        { input: 'DE', output: 'hallo (German)' },
-        { input: 'IT', output: 'Prendi parte alla nostra nuova avventura europea!' },
-        { input: 'NL', output: 'hallo (Dutch)' },
-        { input: 'SE', output: 'halla' },
-        { input: 'SP', output: 'hola' },
-        { input: 'GB', output: '' },
-        { input: 'US', output: '' },
-        { input: '', output: '' },
+        {
+            input: 'DE',
+            output: {
+                bannerHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
+                epicHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
+            },
+        },
+        {
+            input: 'IT',
+            output: {
+                bannerHeader: 'Prendi parte alla nostra nuova avventura europea!',
+                epicHeader: 'Prendi parte alla nostra nuova avventura europea!',
+            },
+        },
+        {
+            input: 'NL',
+            output: {
+                bannerHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
+                epicHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
+            },
+        },
+        {
+            input: 'SE',
+            output: {
+                bannerHeader: 'Ta del av vårt nya europeiska äventyr!',
+                epicHeader: 'Ta del av vårt nya europeiska äventyr!',
+            },
+        },
+        {
+            input: 'SP',
+            output: {
+                bannerHeader: '¡Participa en nuestra nueva aventura europea!',
+                epicHeader: '¡Participa en nuestra nueva aventura europea!',
+            },
+        },
+        {
+            input: 'GB',
+            output: {
+                bannerHeader: '',
+                epicHeader: '',
+            },
+        },
+        {
+            input: 'US',
+            output: {
+                bannerHeader: '',
+                epicHeader: '',
+            },
+        },
+        {
+            input: '',
+            output: {
+                bannerHeader: '',
+                epicHeader: '',
+            },
+        },
     ];
 
     countries.forEach(({ input, output }) => {
         it(`returns ${output}, given ${input}`, () => {
-            expect(countryCodeToLocalLanguageHeader(input)).toEqual(output);
-        });
-    });
-});
-
-describe('getCountryCodeToLocalLanguageEpic', () => {
-    const countries = [
-        {
-            input: 'FR',
-            output:
-                'epic Faites partie de notre <span style="color:red;font-weight:bold">aventure</span> européenne !',
-        },
-        { input: 'DE', output: 'epic hallo (German)' },
-        { input: 'IT', output: 'epic Prendi parte alla nostra nuova avventura europea!' },
-        { input: 'NL', output: 'epic hallo (Dutch)' },
-        { input: 'SE', output: 'epic halla' },
-        { input: 'SP', output: 'epic hola' },
-        { input: 'GB', output: '' },
-        { input: 'US', output: '' },
-        { input: '', output: '' },
-    ];
-
-    countries.forEach(({ input, output }) => {
-        it(`returns ${output}, given ${input}`, () => {
-            expect(countryCodeToLocalLanguageEpic(input)).toEqual(output);
+            expect(countryCodeToLocalLanguage(input)).toEqual(output);
         });
     });
 });

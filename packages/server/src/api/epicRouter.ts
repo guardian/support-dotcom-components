@@ -16,7 +16,7 @@ import {
     countryCodeToCountryGroupId,
     LocalLanguageEpicTestName,
     LocalLanguageEpicVariant,
-    countryCodeToLocalLanguageEpic,
+    countryCodeToLocalLanguage,
 } from '@sdc/shared/dist/lib';
 import { getQueryParams, Params } from '../lib/params';
 import { baseUrl } from '../lib/env';
@@ -123,11 +123,9 @@ export const buildEpicRouter = (
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
         if (test.name === LocalLanguageEpicTestName && variant.name === LocalLanguageEpicVariant) {
-            const localLanguageEpicHeader = countryCodeToLocalLanguageEpic(
-                targeting.countryCode ?? 'GB',
-            );
-            if (variant.heading && localLanguageEpicHeader !== '') {
-                variant.heading = localLanguageEpicHeader;
+            const localLanguage = countryCodeToLocalLanguage(targeting.countryCode);
+            if (variant.heading && localLanguage.epicHeader !== '') {
+                variant.heading = localLanguage.epicHeader;
             }
         }
 
