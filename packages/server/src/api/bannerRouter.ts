@@ -18,10 +18,8 @@ import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import {
     buildBannerCampaignCode,
     countryCodeToCountryGroupId,
-    countryCodeToLocalLanguage,
+    countryCodeToVerfiedLocalLanguage,
     LocalLanguageBannerTemplateName,
-    LocalLanguageBannerTestName,
-    LocalLanguageBannerVariant,
 } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
@@ -108,15 +106,14 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
-            if (
-                moduleName === LocalLanguageBannerTemplateName &&
-                test.name === LocalLanguageBannerTestName &&
-                variant.name === LocalLanguageBannerVariant
-            ) {
-                const localLanguage = countryCodeToLocalLanguage(targeting.countryCode);
-                if (variant.bannerContent && localLanguage.bannerHeader !== '') {
-                    variant.bannerContent.heading = localLanguage.bannerHeader;
-                }
+            if (moduleName === LocalLanguageBannerTemplateName && variant.bannerContent) {
+                const localLanguage = countryCodeToVerfiedLocalLanguage(
+                    test.name,
+                    variant.name,
+                    targeting.countryCode,
+                    { bannerHeader: variant.bannerContent.heading ?? '', epicHeader: '' },
+                );
+                variant.bannerContent.heading = localLanguage.bannerHeader;
             }
 
             const contributionAmounts = choiceCardAmounts.get();
