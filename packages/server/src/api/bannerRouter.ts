@@ -110,6 +110,9 @@ export const buildBannerRouter = (
             const bannerContent: BannerContent = {
                 ...variant?.bannerContent,
             };
+            const bannerMobileContent: BannerContent = {
+                ...variant?.mobileBannerContent,
+            };
 
             if (moduleName === LocalLanguageBannerTemplateName) {
                 const localLanguage = countryCodeToVerfiedLocalLanguage(
@@ -119,6 +122,8 @@ export const buildBannerRouter = (
                     { bannerHeader: variant.bannerContent?.heading },
                 );
                 bannerContent?.heading && (bannerContent.heading = localLanguage.bannerHeader);
+                bannerMobileContent?.heading &&
+                    (bannerMobileContent.heading = localLanguage.bannerHeader);
             }
 
             const contributionAmounts = choiceCardAmounts.get();
