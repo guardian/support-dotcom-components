@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import { getQueryParams, Params } from '../lib/params';
 import {
+    BannerContent,
     BannerProps,
     BannerTargeting,
     BannerTest,
@@ -106,6 +107,10 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
+            const bannerContent: BannerContent = {
+                ...variant?.bannerContent,
+            };
+
             if (moduleName === LocalLanguageBannerTemplateName) {
                 const localLanguage = countryCodeToVerfiedLocalLanguage(
                     test.name,
@@ -113,8 +118,7 @@ export const buildBannerRouter = (
                     targeting.countryCode,
                     { bannerHeader: variant.bannerContent?.heading },
                 );
-                variant.bannerContent?.heading &&
-                    (variant.bannerContent.heading = localLanguage.bannerHeader);
+                bannerContent?.heading && (bannerContent.heading = localLanguage.bannerHeader);
             }
 
             const contributionAmounts = choiceCardAmounts.get();
@@ -131,7 +135,7 @@ export const buildBannerRouter = (
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
-                content: variant.bannerContent,
+                content: bannerContent,
                 mobileContent: variant.mobileBannerContent,
                 numArticles: getArticleViewCountForWeeks(
                     targeting.weeklyArticleHistory,
