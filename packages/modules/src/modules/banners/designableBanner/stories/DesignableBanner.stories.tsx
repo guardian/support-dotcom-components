@@ -4,7 +4,7 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { DefaultTemplate } from './Default';
 
 export default {
-    title: 'Banners/MomentTemplateExamples',
+    title: 'Banners/DesignableBanner',
     parameters: {
         chromatic: {
             delay: 300,
