@@ -106,14 +106,15 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
-            if (moduleName === LocalLanguageBannerTemplateName && variant.bannerContent) {
+            if (moduleName === LocalLanguageBannerTemplateName) {
                 const localLanguage = countryCodeToVerfiedLocalLanguage(
                     test.name,
                     variant.name,
                     targeting.countryCode,
-                    { bannerHeader: variant.bannerContent.heading ?? '', epicHeader: '' },
+                    { bannerHeader: variant.bannerContent?.heading },
                 );
-                variant.bannerContent.heading = localLanguage.bannerHeader;
+                variant.bannerContent?.heading &&
+                    (variant.bannerContent.heading = localLanguage.bannerHeader);
             }
 
             const contributionAmounts = choiceCardAmounts.get();

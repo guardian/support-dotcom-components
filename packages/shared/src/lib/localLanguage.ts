@@ -5,8 +5,8 @@ const LocalLanguageEpicTestName = 'PD-TEST';
 const LocalLanguageEpicVariant = 'CONTROL';
 
 export type LocalLanguage = {
-    bannerHeader: string;
-    epicHeader: string;
+    bannerHeader?: string;
+    epicHeader?: string;
 };
 
 type LocalLanguages = Record<string, LocalLanguage>;
@@ -50,9 +50,9 @@ export const countryCodeToVerfiedLocalLanguage = (
     ) {
         return (
             localLanguages[countryCode] ?? {
-                bannerHeader: dfltLocalLanguage ? dfltLocalLanguage.bannerHeader : '',
+                bannerHeader: dfltLocalLanguage?.bannerHeader,
 
-                epicHeader: dfltLocalLanguage ? dfltLocalLanguage.epicHeader : '',
+                epicHeader: dfltLocalLanguage?.epicHeader,
             }
         );
     }
