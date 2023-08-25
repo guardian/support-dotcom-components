@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { MomentTemplateArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
+import { DesignableBannerArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
 
 // ---- Component ---- //
@@ -19,7 +19,7 @@ export function DesignableBannerArticleCount({
     return (
         <div css={styles.container(settings.articleCountTextColour)}>
             You&apos;ve read{' '}
-            <MomentTemplateArticleCountOptOut
+            <DesignableBannerArticleCountOptOut
                 numArticles={numArticles}
                 nextWord=" articles"
                 settings={settings}

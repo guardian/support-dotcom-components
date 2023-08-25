@@ -14,17 +14,17 @@ import { buttonStyles } from '../styles/buttonStyles';
 
 // ---- Component ---- //
 
-export interface MomentTemplateArticleCountOptOutProps {
+export interface DesignableBannerArticleCountOptOutProps {
     numArticles: number;
     nextWord: string | null;
     settings: BannerTemplateSettings;
 }
 
-export const MomentTemplateArticleCountOptOut: React.FC<MomentTemplateArticleCountOptOutProps> = ({
+export const DesignableBannerArticleCountOptOut: React.FC<DesignableBannerArticleCountOptOutProps> = ({
     numArticles,
     nextWord,
     settings,
-}: MomentTemplateArticleCountOptOutProps) => {
+}: DesignableBannerArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
