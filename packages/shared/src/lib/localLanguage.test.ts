@@ -4,7 +4,7 @@ describe('getCountryCodeToLocalLanguage', () => {
     const countries = [
         {
             inputCountryCode: 'FR',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Faites partie de notre aventure européenne !',
@@ -13,7 +13,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: 'DE',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
@@ -22,7 +22,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: 'IT',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Prendi parte alla nostra nuova avventura europea!',
@@ -31,7 +31,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: 'NL',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
@@ -40,7 +40,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: 'SE',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Ta del av vårt nya europeiska äventyr!',
@@ -49,7 +49,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: 'SP',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: '¡Participa en nuestra nueva aventura europea!',
@@ -58,13 +58,13 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: 'GB',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {},
         },
         {
             inputCountryCode: 'US',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
                 bannerHeader: 'BannerHeaderTest',
@@ -77,7 +77,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         },
         {
             inputCountryCode: '',
-            inputTestName: 'PD-TEST',
+            inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
                 bannerHeader: 'BannerHeaderTest',

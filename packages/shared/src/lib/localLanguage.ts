@@ -1,7 +1,7 @@
-export const LocalLanguageBannerTemplateName = 'LocalLanguageMomentBanner';
-const LocalLanguageBannerTestName = 'PD-TEST';
+export const LocalLanguageBannerTemplateName = 'EuropeMomentLocalLanguageBanner';
+const LocalLanguageBannerTestName = 'LOCAL-LANGUAGE';
 const LocalLanguageBannerVariant = 'CONTROL';
-const LocalLanguageEpicTestName = 'PD-TEST';
+const LocalLanguageEpicTestName = 'LOCAL-LANGUAGE';
 const LocalLanguageEpicVariant = 'CONTROL';
 
 export type LocalLanguage = {
