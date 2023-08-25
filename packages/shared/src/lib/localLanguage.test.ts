@@ -6,7 +6,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'FR',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: undefined,
             output: {
                 bannerHeader: 'Faites partie de notre aventure européenne !',
                 epicHeader: 'Faites partie de notre aventure européenne !',
@@ -16,7 +15,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'DE',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: undefined,
             output: {
                 bannerHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
                 epicHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
@@ -26,7 +24,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'IT',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefainputDefaultLocalLanguageultLL: undefined,
             output: {
                 bannerHeader: 'Prendi parte alla nostra nuova avventura europea!',
                 epicHeader: 'Prendi parte alla nostra nuova avventura europea!',
@@ -36,7 +33,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'NL',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: undefined,
             output: {
                 bannerHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
                 epicHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
@@ -46,7 +42,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'SE',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: undefined,
             output: {
                 bannerHeader: 'Ta del av vårt nya europeiska äventyr!',
                 epicHeader: 'Ta del av vårt nya europeiska äventyr!',
@@ -56,7 +51,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'SP',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: undefined,
             output: {
                 bannerHeader: '¡Participa en nuestra nueva aventura europea!',
                 epicHeader: '¡Participa en nuestra nueva aventura europea!',
@@ -66,11 +60,7 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'GB',
             inputTestName: 'PD-TEST',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: undefined,
-            output: {
-                bannerHeader: '',
-                epicHeader: '',
-            },
+            output: {},
         },
         {
             inputCountryCode: 'US',

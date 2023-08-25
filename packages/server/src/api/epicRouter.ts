@@ -124,7 +124,7 @@ export const buildEpicRouter = (
             test.name,
             variant.name,
             targeting.countryCode,
-            { bannerHeader: '', epicHeader: variant.heading ?? '' },
+            { epicHeader: variant.heading },
         );
         variant.heading = localLanguage.epicHeader;
 
