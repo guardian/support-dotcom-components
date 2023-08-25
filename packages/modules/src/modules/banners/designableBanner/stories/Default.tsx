@@ -3,10 +3,12 @@ import { brand, neutral, brandAlt } from '@guardian/src-foundations';
 import { BannerProps } from '@sdc/shared/src/types';
 import { Story } from '@storybook/react';
 import { bannerWrapper } from '../../common/BannerWrapper';
-import { getDesignableBanner } from '../DesignableBanner';
+import { DesignableBanner } from '../DesignableBanner';
+import { BannerRenderProps } from '../../common/types';
+import { BannerTemplateSettings } from '../settings';
 
-export const DefaultBanner = bannerWrapper(
-    getDesignableBanner({
+export const DefaultBanner: React.FC<BannerProps> = bannerWrapper((props: BannerRenderProps) => {
+    const designSettings: BannerTemplateSettings = {
         containerSettings: {
             backgroundColour: '#F1F8FC',
         },
@@ -65,10 +67,11 @@ export const DefaultBanner = bannerWrapper(
                 'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
             altText: 'Guardian logo being held up by supporters of the Guardian',
         },
-        bannerId: 'global-new-year-banner',
-    }),
-    'global-new-year-banner',
-);
+        bannerId: 'designable-banner',
+    };
+
+    return <DesignableBanner {...props} designSettings={designSettings} />;
+}, 'designable-banner');
 
 export const DefaultTemplate: Story<BannerProps> = (props: BannerProps) => (
     <DefaultBanner {...props} />

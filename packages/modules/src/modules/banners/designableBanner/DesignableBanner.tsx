@@ -19,151 +19,147 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 
-export function getDesignableBanner(
-    templateSettings: BannerTemplateSettings,
-): React.FC<BannerRenderProps> {
-    function DesignableBanner({
-        content,
-        onCloseClick,
-        numArticles,
-        onCtaClick,
-        onSecondaryCtaClick,
+export type DesignableBannerRenderProps = BannerRenderProps & {
+    designSettings: BannerTemplateSettings;
+};
+
+export const DesignableBanner: React.FC<DesignableBannerRenderProps> = ({
+    content,
+    onCloseClick,
+    numArticles,
+    onCtaClick,
+    onSecondaryCtaClick,
+    reminderTracking,
+    separateArticleCount,
+    tickerSettings,
+    choiceCardAmounts,
+    countryCode,
+    submitComponentEvent,
+    tracking,
+    designSettings: templateSettings,
+}: DesignableBannerRenderProps): JSX.Element => {
+    const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
         reminderTracking,
-        separateArticleCount,
-        tickerSettings,
-        choiceCardAmounts,
-        countryCode,
-        submitComponentEvent,
-        tracking,
-    }: BannerRenderProps): JSX.Element {
-        const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
-            reminderTracking,
-        );
-        const isTabletOrAbove = useMediaQuery(from.tablet);
-        const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
+    );
+    const isTabletOrAbove = useMediaQuery(from.tablet);
+    const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-        const {
-            choiceCardSelection,
-            setChoiceCardSelection,
-            getCtaText,
-            currencySymbol,
-        } = useChoiceCards(choiceCardAmounts, countryCode);
-        const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
+    const {
+        choiceCardSelection,
+        setChoiceCardSelection,
+        getCtaText,
+        currencySymbol,
+    } = useChoiceCards(choiceCardAmounts, countryCode);
+    const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
 
-        return (
-            <div
-                css={styles.outerContainer(
-                    templateSettings.containerSettings.backgroundColour,
-                    templateSettings.containerSettings.textColor,
-                )}
-            >
-                <div css={styles.containerOverrides}>
-                    <DesignableBannerCloseButton
-                        onCloseClick={onCloseClick}
-                        settings={templateSettings.closeButtonSettings}
-                        styleOverides={styles.closeButtonOverrides}
+    return (
+        <div
+            css={styles.outerContainer(
+                templateSettings.containerSettings.backgroundColour,
+                templateSettings.containerSettings.textColor,
+            )}
+        >
+            <div css={styles.containerOverrides}>
+                <DesignableBannerCloseButton
+                    onCloseClick={onCloseClick}
+                    settings={templateSettings.closeButtonSettings}
+                    styleOverides={styles.closeButtonOverrides}
+                />
+
+                <div
+                    css={styles.headerContainer(
+                        templateSettings.containerSettings.backgroundColour,
+                        !!templateSettings.imageSettings,
+                    )}
+                >
+                    <DesignableBannerHeader
+                        heading={content.mainContent.heading}
+                        mobileHeading={content.mobileContent.heading}
+                        headerSettings={templateSettings.headerSettings}
                     />
-
-                    <div
-                        css={styles.headerContainer(
-                            templateSettings.containerSettings.backgroundColour,
-                            !!templateSettings.imageSettings,
-                        )}
-                    >
-                        <DesignableBannerHeader
-                            heading={content.mainContent.heading}
-                            mobileHeading={content.mobileContent.heading}
-                            headerSettings={templateSettings.headerSettings}
-                        />
-                    </div>
-
-                    <div css={styles.contentContainer}>
-                        {separateArticleCount && Number(numArticles) > 5 && (
-                            <DesignableBannerArticleCount
-                                numArticles={numArticles as number}
-                                settings={templateSettings}
-                            />
-                        )}
-
-                        <div css={templateSpacing.bannerBodyCopy}>
-                            <DesignableBannerBody
-                                mainContent={content.mainContent}
-                                mobileContent={content.mobileContent}
-                                highlightedTextSettings={templateSettings.highlightedTextSettings}
-                            />
-                        </div>
-
-                        {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
-                            <DesignableBannerTicker
-                                tickerSettings={tickerSettings}
-                                stylingSettings={templateSettings.tickerStylingSettings}
-                            />
-                        )}
-
-                        {!templateSettings.choiceCards && (
-                            <section css={styles.ctasContainer}>
-                                <DesignableBannerCtas
-                                    mainOrMobileContent={mainOrMobileContent}
-                                    onPrimaryCtaClick={onCtaClick}
-                                    onSecondaryCtaClick={onSecondaryCtaClick}
-                                    onReminderCtaClick={onReminderCtaClick}
-                                    primaryCtaSettings={templateSettings.primaryCtaSettings}
-                                    secondaryCtaSettings={templateSettings.secondaryCtaSettings}
-                                />
-                            </section>
-                        )}
-                    </div>
-
-                    <div
-                        css={styles.bannerVisualContainer(
-                            templateSettings.containerSettings.backgroundColour,
-                            templateSettings.choiceCards,
-                        )}
-                    >
-                        {templateSettings.imageSettings && (
-                            <DesignableBannerVisual
-                                settings={templateSettings.imageSettings}
-                                bannerId={templateSettings.bannerId}
-                            />
-                        )}
-                        {templateSettings.alternativeVisual}
-                        {showChoiceCards && (
-                            <ChoiceCards
-                                setSelectionsCallback={setChoiceCardSelection}
-                                selection={choiceCardSelection}
-                                submitComponentEvent={submitComponentEvent}
-                                currencySymbol={currencySymbol}
-                                componentId={'choice-cards-buttons-banner-blue'}
-                                amounts={choiceCardAmounts.amounts}
-                                amountsTestName={choiceCardAmounts?.testName}
-                                amountsVariantName={choiceCardAmounts?.variantName}
-                                countryCode={countryCode}
-                                bannerTracking={tracking}
-                                numArticles={numArticles}
-                                content={content}
-                                getCtaText={getCtaText}
-                            />
-                        )}
-                    </div>
                 </div>
-                {mainOrMobileContent.secondaryCta?.type ===
-                    SecondaryCtaType.ContributionsReminder &&
-                    isReminderActive && (
-                        <DesignableBannerReminder
-                            reminderCta={
-                                mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
-                            }
-                            trackReminderSetClick={reminderTracking.onReminderSetClick}
-                            setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                            mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+
+                <div css={styles.contentContainer}>
+                    {separateArticleCount && Number(numArticles) > 5 && (
+                        <DesignableBannerArticleCount
+                            numArticles={numArticles as number}
+                            settings={templateSettings}
                         />
                     )}
-            </div>
-        );
-    }
 
-    return DesignableBanner;
-}
+                    <div css={templateSpacing.bannerBodyCopy}>
+                        <DesignableBannerBody
+                            mainContent={content.mainContent}
+                            mobileContent={content.mobileContent}
+                            highlightedTextSettings={templateSettings.highlightedTextSettings}
+                        />
+                    </div>
+
+                    {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
+                        <DesignableBannerTicker
+                            tickerSettings={tickerSettings}
+                            stylingSettings={templateSettings.tickerStylingSettings}
+                        />
+                    )}
+
+                    {!templateSettings.choiceCards && (
+                        <section css={styles.ctasContainer}>
+                            <DesignableBannerCtas
+                                mainOrMobileContent={mainOrMobileContent}
+                                onPrimaryCtaClick={onCtaClick}
+                                onSecondaryCtaClick={onSecondaryCtaClick}
+                                onReminderCtaClick={onReminderCtaClick}
+                                primaryCtaSettings={templateSettings.primaryCtaSettings}
+                                secondaryCtaSettings={templateSettings.secondaryCtaSettings}
+                            />
+                        </section>
+                    )}
+                </div>
+
+                <div
+                    css={styles.bannerVisualContainer(
+                        templateSettings.containerSettings.backgroundColour,
+                        templateSettings.choiceCards,
+                    )}
+                >
+                    {templateSettings.imageSettings && (
+                        <DesignableBannerVisual
+                            settings={templateSettings.imageSettings}
+                            bannerId={templateSettings.bannerId}
+                        />
+                    )}
+                    {templateSettings.alternativeVisual}
+                    {showChoiceCards && (
+                        <ChoiceCards
+                            setSelectionsCallback={setChoiceCardSelection}
+                            selection={choiceCardSelection}
+                            submitComponentEvent={submitComponentEvent}
+                            currencySymbol={currencySymbol}
+                            componentId={'choice-cards-buttons-banner-blue'}
+                            amounts={choiceCardAmounts.amounts}
+                            amountsTestName={choiceCardAmounts?.testName}
+                            amountsVariantName={choiceCardAmounts?.variantName}
+                            countryCode={countryCode}
+                            bannerTracking={tracking}
+                            numArticles={numArticles}
+                            content={content}
+                            getCtaText={getCtaText}
+                        />
+                    )}
+                </div>
+            </div>
+            {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
+                isReminderActive && (
+                    <DesignableBannerReminder
+                        reminderCta={mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta}
+                        trackReminderSetClick={reminderTracking.onReminderSetClick}
+                        setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                        mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+                    />
+                )}
+        </div>
+    );
+};
 
 const styles = {
     outerContainer: (background: string, textColor: string = 'inherit') => css`
