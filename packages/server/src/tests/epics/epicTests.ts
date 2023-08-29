@@ -7,7 +7,7 @@ export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {
     const { paragraphs, heading, highlightedText } = variant;
     return (
         (!!heading && containsArticleCountPlaceholder(heading)) ||
-        paragraphs?.some(containsArticleCountPlaceholder) ||
+        paragraphs.some(containsArticleCountPlaceholder) ||
         (!!highlightedText && containsArticleCountPlaceholder(highlightedText))
     );
 };

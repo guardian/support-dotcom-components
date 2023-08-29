@@ -32,8 +32,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Prendi parte alla nostra nuova avventura europea!',
-                epicHeader: 'Prendi parte alla nostra nuova avventura europea!',
-                epicParagraphs: ['1', '2', '3', '4'],
             },
         },
         {
@@ -43,7 +41,7 @@ describe('getCountryCodeToLocalLanguage', () => {
             output: {
                 bannerHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
                 epicHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
-                epicParagraphs: ['1', '2', '3', '4'],
+                epicParagraphs: ['1', '2', '3'],
             },
         },
         {
@@ -52,8 +50,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Ta del av vårt nya europeiska äventyr!',
-                epicHeader: 'Ta del av vårt nya europeiska äventyr!',
-                epicParagraphs: ['1', '2', '3', '4'],
             },
         },
         {
@@ -62,8 +58,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputVariant: 'CONTROL',
             output: {
                 bannerHeader: '¡Participa en nuestra nueva aventura europea!',
-                epicHeader: '¡Participa en nuestra nueva aventura europea!',
-                epicParagraphs: ['1', '2', '3', '4'],
             },
         },
         {
@@ -79,12 +73,12 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputDefaultLocalLanguage: {
                 bannerHeader: 'BannerHeaderTest',
                 epicHeader: 'EpicHeaderTest',
-                epicParagraphs: ['1', '2', '3', '4'],
+                epicParagraphs: ['1', '2', '3', '4', '5'],
             },
             output: {
                 bannerHeader: 'BannerHeaderTest',
                 epicHeader: 'EpicHeaderTest',
-                epicParagraphs: ['1', '2', '3', '4'],
+                epicParagraphs: ['1', '2', '3', '4', '5'],
             },
         },
         {
@@ -94,12 +88,12 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputDefaultLocalLanguage: {
                 bannerHeader: 'BannerHeaderTest',
                 epicHeader: 'EpicHeaderTest',
-                epicParagraphs: ['1', '2', '3', '4'],
+                epicParagraphs: ['1', '2', '3', '4', '5'],
             },
             output: {
                 bannerHeader: 'BannerHeaderTest',
                 epicHeader: 'EpicHeaderTest',
-                epicParagraphs: ['1', '2', '3', '4'],
+                epicParagraphs: ['1', '2', '3', '4', '5'],
             },
         },
     ];

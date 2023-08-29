@@ -38,7 +38,7 @@ export interface NewsletterSignup {
 export interface EpicVariant extends Variant {
     name: string;
     heading?: string;
-    paragraphs?: string[];
+    paragraphs: string[];
     highlightedText?: string;
     tickerSettings?: TickerSettings;
     cta?: Cta;

@@ -28,23 +28,17 @@ const localLanguages: LocalLanguages = {
     },
     IT: {
         bannerHeader: 'Prendi parte alla nostra nuova avventura europea!',
-        epicHeader: 'Prendi parte alla nostra nuova avventura europea!',
-        epicParagraphs: ['1', '2', '3', '4'],
     },
     NL: {
         bannerHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
         epicHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
-        epicParagraphs: ['1', '2', '3', '4'],
+        epicParagraphs: ['1', '2', '3'],
     },
     SE: {
         bannerHeader: 'Ta del av vårt nya europeiska äventyr!',
-        epicHeader: 'Ta del av vårt nya europeiska äventyr!',
-        epicParagraphs: ['1', '2', '3', '4'],
     },
     SP: {
         bannerHeader: '¡Participa en nuestra nueva aventura europea!',
-        epicHeader: '¡Participa en nuestra nueva aventura europea!',
-        epicParagraphs: ['1', '2', '3', '4'],
     },
 };
 
