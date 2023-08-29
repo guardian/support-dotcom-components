@@ -26,6 +26,12 @@ import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTime
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 import { brazeMessagesMiddleware } from './middleware/brazeMessagesMiddleware';
+import {
+    brazeLiveblogEpicSchema,
+    BrazeLiveBlogEpic,
+    BrazeEpicTest,
+    transformBrazeLiveblogEpicToTest,
+} from './lib/brazeMessages';
 
 const brazeApiKeySchema = z.object({
     key: z.string(),
@@ -130,16 +136,6 @@ const buildApp = async (): Promise<Express> => {
 
     app.use(errorHandlingMiddleware);
 
-    const brazeLiveblogEpicSchema = z.object({
-        brazeUuid: z.string(),
-        testName: z.string(),
-        variantName: z.string(),
-        paragraphs: z.string(),
-        ctaText: z.string(),
-        ctaBaseUrl: z.string(),
-    });
-    type BrazeLiveBlogEpic = z.infer<typeof brazeLiveblogEpicSchema>;
-
     app.post('/braze/liveblogEpic', (req: express.Request, res: express.Response) => {
         // No need for CORS here, this endpoint is requested server-to-server
         res.removeHeader('Access-Control-Allow-Origin');
@@ -158,7 +154,8 @@ const buildApp = async (): Promise<Express> => {
             return;
         }
 
-        const message: BrazeLiveBlogEpic = parseResult.data;
+        const message: BrazeEpicTest = transformBrazeLiveblogEpicToTest(parseResult.data);
+
         console.log(message);
         res.status(201);
     });
