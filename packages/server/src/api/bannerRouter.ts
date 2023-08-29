@@ -141,7 +141,10 @@ export const buildBannerRouter = (
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
                 content: bannerContent,
-                mobileContent: bannerMobileContent,
+                mobileContent:
+                    variant.mobileBannerContent === null
+                        ? variant.mobileBannerContent
+                        : bannerMobileContent,
                 numArticles: getArticleViewCountForWeeks(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
