@@ -1,7 +1,9 @@
+import fs from 'fs/promises';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
 import express, { Express } from 'express';
+import { z } from 'zod';
 import { isDev } from './lib/env';
 import {
     errorHandling as errorHandlingMiddleware,
@@ -23,6 +25,22 @@ import { buildBannerTestsReloader } from './tests/banners/bannerTests';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
+
+const brazeApiKeySchema = z.object({
+    key: z.string(),
+});
+
+const readBrazeApiKey = async (stage: string | undefined): Promise<string> => {
+    switch (stage) {
+        case 'PROD':
+        case 'CODE':
+            const fileContents = await fs.readFile('./braze-api-key.json', 'utf8');
+            const rawJson = JSON.parse(fileContents);
+            return brazeApiKeySchema.parse(rawJson).key;
+        default:
+            return 'dev-key';
+    }
+};
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -48,6 +66,8 @@ const buildApp = async (): Promise<Express> => {
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
+
+    const brazeApiKey: string = await readBrazeApiKey(process.env.stage);
 
     // Initialise dependencies
     const [
@@ -106,6 +126,19 @@ const buildApp = async (): Promise<Express> => {
     }
 
     app.use(errorHandlingMiddleware);
+
+    app.post('/braze/liveblogEpic', (req: express.Request, res: express.Response) => {
+        // No need for CORS here, this endpoint is requested server-to-server
+        res.removeHeader('Access-Control-Allow-Origin');
+
+        if (req.header('X-Api-Key') === brazeApiKey) {
+            res.status(200);
+            res.send();
+        } else {
+            res.status(401);
+            res.send();
+        }
+    });
 
     app.get('/healthcheck', (req: express.Request, res: express.Response) => {
         res.header('Content-Type', 'text/plain');

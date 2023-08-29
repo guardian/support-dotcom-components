@@ -99,6 +99,10 @@ chown -R dotcom-components:support ${appName}
 
 cd ${appName}
 
+aws --region eu-west-1 s3 cp s3://gu-reader-revenue-private/support-dotcom-components/${
+			this.stage
+		}/braze-api-key.json ./
+
 export TERM=xterm-256color
 export NODE_ENV=production
 export stage=${this.stage}
