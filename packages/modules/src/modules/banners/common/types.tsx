@@ -22,7 +22,6 @@ export type BannerId =
     | 'choice-cards-banner-yellow'
     | 'choice-cards-buttons-banner-blue'
     | 'choice-cards-buttons-banner-yellow'
-    | 'europe-moment-local-language-banner'
     | 'global-new-year-banner'
     | 'election-au-moment-banner'
     | 'sign-in-prompt-banner'
