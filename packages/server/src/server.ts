@@ -130,17 +130,37 @@ const buildApp = async (): Promise<Express> => {
 
     app.use(errorHandlingMiddleware);
 
+    const brazeLiveblogEpicSchema = z.object({
+        brazeUuid: z.string(),
+        testName: z.string(),
+        variantName: z.string(),
+        paragraphs: z.string(),
+        ctaText: z.string(),
+        ctaBaseUrl: z.string(),
+    });
+    type BrazeLiveBlogEpic = z.infer<typeof brazeLiveblogEpicSchema>;
+
     app.post('/braze/liveblogEpic', (req: express.Request, res: express.Response) => {
         // No need for CORS here, this endpoint is requested server-to-server
         res.removeHeader('Access-Control-Allow-Origin');
 
-        if (req.header('X-Api-Key') === brazeApiKey) {
-            res.status(200);
-            res.send();
-        } else {
+        if (req.header('X-Api-Key') !== brazeApiKey) {
             res.status(401);
             res.send();
+            return;
         }
+
+        const parseResult = brazeLiveblogEpicSchema.safeParse(req.body);
+
+        if (!parseResult.success) {
+            res.status(400);
+            res.send(parseResult.error);
+            return;
+        }
+
+        const message: BrazeLiveBlogEpic = parseResult.data;
+        console.log(message);
+        res.status(201);
     });
 
     app.get('/healthcheck', (req: express.Request, res: express.Response) => {
