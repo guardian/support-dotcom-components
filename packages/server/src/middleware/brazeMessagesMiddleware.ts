@@ -8,9 +8,9 @@ export const brazeMessagesMiddleware = async (
 ): Promise<void> => {
     const brazeUUID = req.body?.targeting?.brazeUUID;
     if (brazeUUID) {
-        const test = await fetchBrazeEpicTests(brazeUUID);
-        if (test) {
-            res.locals.brazeMessages = test;
+        const tests = await fetchBrazeEpicTests(brazeUUID);
+        if (tests && tests.length > 0) {
+            res.locals.brazeMessages = tests;
         }
     }
     next();

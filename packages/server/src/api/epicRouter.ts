@@ -80,6 +80,15 @@ export const buildEpicRouter = (
         }
     };
 
+    const getBrazeMessage = (
+        clientTagIds: string[],
+        brazeTests: BrazeEpicTest[],
+    ): BrazeEpicTest | undefined =>
+        brazeTests.find(
+            test =>
+                test.tagIds.length === 0 || test.tagIds.some(tagId => clientTagIds.includes(tagId)),
+        );
+
     const buildEpicData = (
         pageTracking: PageTracking,
         targeting: EpicTargeting,
@@ -94,9 +103,12 @@ export const buildEpicRouter = (
             return {};
         }
 
-        if (res.locals.brazeMessages) {
-            const brazeTest = res.locals.brazeMessages as BrazeEpicTest;
+        const brazeTest = getBrazeMessage(
+            targeting.tags.map(tag => tag.id),
+            res.locals.brazeMessages ?? [],
+        );
 
+        if (brazeTest) {
             const testTracking: TestTracking = {
                 abTestName: brazeTest.testName,
                 abTestVariant: brazeTest.variantName,
