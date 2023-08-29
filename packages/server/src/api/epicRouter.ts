@@ -124,7 +124,11 @@ export const buildEpicRouter = (
             test.name,
             variant.name,
             targeting.countryCode,
-            { epicHeader: variant.heading, epicParagraphs: variant.paragraphs },
+            {
+                epicHeader: variant.heading,
+                epicParagraphs: variant.paragraphs,
+                epicHighlightedText: variant.highlightedText,
+            },
         );
 
         const contributionAmounts = choiceCardAmounts.get();
@@ -141,6 +145,7 @@ export const buildEpicRouter = (
             ...variant,
             heading: localLanguage.epicHeader ?? variant.heading,
             paragraphs: localLanguage.epicParagraphs ?? variant.paragraphs,
+            highlightedText: localLanguage.epicHighlightedText ?? variant.highlightedText,
             tickerSettings,
             showReminderFields,
             choiceCardAmounts: variantAmounts,
