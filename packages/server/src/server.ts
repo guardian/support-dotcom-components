@@ -23,6 +23,7 @@ import { buildBannerTestsReloader } from './tests/banners/bannerTests';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
+import {brazeMessagesMiddleware} from "./middleware/brazeMessagesMiddleware";
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -48,6 +49,8 @@ const buildApp = async (): Promise<Express> => {
     app.use(cors(corsOptions));
     app.use(loggingMiddleware);
     app.use(bodyParser.urlencoded({ extended: true }));
+
+    app.use(brazeMessagesMiddleware);
 
     // Initialise dependencies
     const [
