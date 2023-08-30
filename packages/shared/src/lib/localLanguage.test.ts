@@ -5,7 +5,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'FR',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Faites partie de notre aventure européenne !',
                 epicHeader: 'Faites partie de notre aventure européenne !',
@@ -20,7 +20,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'DE',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
                 epicHeader: 'Nehmen Sie an unserem neuen europäischen Abenteuer teil!',
@@ -31,7 +31,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'IT',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Prendi parte alla nostra nuova avventura europea!',
             },
@@ -39,7 +39,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'NL',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
                 epicHeader: 'Neem deel aan ons nieuwe Europese avontuur!',
@@ -50,7 +50,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'SE',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {
                 bannerHeader: 'Ta del av vårt nya europeiska äventyr!',
             },
@@ -58,7 +58,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'SP',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {
                 bannerHeader: '¡Participa en nuestra nueva aventura europea!',
             },
@@ -66,13 +66,13 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: 'GB',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             output: {},
         },
         {
             inputCountryCode: 'US',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
                 bannerHeader: 'BannerHeaderTest',
                 epicHeader: 'EpicHeaderTest',
@@ -89,7 +89,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         {
             inputCountryCode: '',
             inputTestName: 'LOCAL-LANGUAGE',
-            inputVariant: 'VARIANT',
+            inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
                 bannerHeader: 'BannerHeaderTest',
                 epicHeader: 'EpicHeaderTest',
