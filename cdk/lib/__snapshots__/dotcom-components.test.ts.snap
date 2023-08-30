@@ -15,6 +15,7 @@ Object {
       "GuDynamoDBReadPolicy",
       "GuPutCloudwatchMetricsPolicy",
       "GuDynamoDBReadPolicy",
+      "GuGetS3ObjectsPolicy",
       "GuVpcParameter",
       "GuSubnetListParameter",
       "GuCertificate",
@@ -866,6 +867,27 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "Version": "2012-10-17",
         },
         "PolicyName": "parameter-store-read-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "S3ReadPolicyApiKey9C903D94": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Resource": "arn:aws:s3:::gu-reader-revenue-private/support-dotcom-components/TEST/braze-api-key.json",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "S3ReadPolicyApiKey9C903D94",
         "Roles": Array [
           Object {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
