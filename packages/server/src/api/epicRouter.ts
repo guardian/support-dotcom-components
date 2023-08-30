@@ -116,6 +116,7 @@ export const buildEpicRouter = (
                 campaignId: `${brazeTest.testName}_${brazeTest.variantName}`,
                 componentType: 'ACQUISITIONS_EPIC',
                 products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+                brazeMessageIdentifier: brazeTest.testName,
             };
 
             const props: EpicProps = {

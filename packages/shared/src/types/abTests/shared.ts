@@ -56,6 +56,7 @@ export type TestTracking = {
     products?: OphanProduct[];
     labels?: string[];
     targetingAbTest?: TargetingAbTest;
+    brazeMessageIdentifier?: string;
 };
 
 export type DeviceType = 'Mobile' | 'Desktop' | 'All';

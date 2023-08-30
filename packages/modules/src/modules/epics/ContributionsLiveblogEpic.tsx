@@ -11,11 +11,12 @@ import {
     createViewEventFromTracking,
     createInsertEventFromTracking,
 } from '@sdc/shared/lib';
-import { EpicProps } from '@sdc/shared/types';
+import { EpicProps, Stage } from '@sdc/shared/types';
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { logEpicView } from '@sdc/shared/lib';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
+import { isProd } from '../shared/helpers/stage';
 
 const container = (clientName: string) => css`
     padding: 6px 10px 28px 10px;
@@ -115,14 +116,41 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
     );
 };
 
+const sendBrazeImpression = (
+    brazeMessageIdentifier: string,
+    brazeUUID: string,
+    stage?: Stage,
+): void => {
+    const path = 'braze/epic-view';
+    const host = isProd(stage)
+        ? 'https://contributions.guardianapis.com'
+        : 'https://contributions.code.dev-guardianapis.com';
+    const body = JSON.stringify({
+        brazeMessageIdentifier,
+        brazeUUID,
+    });
+
+    fetch(`${host}/${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+    }).then(response => {
+        if (!response.ok) {
+            console.log('Epic view event request failed', response);
+        }
+    });
+};
+
 export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
     variant,
     countryCode,
     articleCounts,
     tracking,
     submitComponentEvent,
+    fetchBrazeUUID,
     onReminderOpen,
     fetchEmail,
+    stage,
 }: EpicProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
@@ -134,6 +162,15 @@ export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
             // For ophan
             if (submitComponentEvent) {
                 submitComponentEvent(createViewEventFromTracking(tracking, tracking.campaignCode));
+            }
+
+            const { brazeMessageIdentifier } = tracking;
+            if (brazeMessageIdentifier && fetchBrazeUUID) {
+                fetchBrazeUUID().then(brazeUUID => {
+                    if (brazeUUID) {
+                        sendBrazeImpression(brazeMessageIdentifier, brazeUUID, stage);
+                    }
+                });
             }
         }
     }, [hasBeenSeen, submitComponentEvent]);
