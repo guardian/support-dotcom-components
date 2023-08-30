@@ -127,14 +127,18 @@ chown -R dotcom-components:support /var/log/dotcom-components
 					`${this.stage}/guardian-weekly-propensity-test/*`,
 				],
 			}),
-			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyGuContributionsPublic', {
-				bucketName: 'gu-contributions-public',
-				paths: [
-					`epic/${this.stage}/*`,
-					`header/${this.stage}/*`,
-					`banner/${this.stage}/*`,
-				],
-			}),
+			new GuGetS3ObjectsPolicy(
+				this,
+				'S3ReadPolicyGuContributionsPublic',
+				{
+					bucketName: 'gu-contributions-public',
+					paths: [
+						`epic/${this.stage}/*`,
+						`header/${this.stage}/*`,
+						`banner/${this.stage}/*`,
+					],
+				},
+			),
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
 				tableName: `super-mode-${this.stage}`,
 			}),
@@ -148,7 +152,9 @@ chown -R dotcom-components:support /var/log/dotcom-components
 			}),
 			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyApiKey', {
 				bucketName: 'gu-reader-revenue-private',
-				paths: [`support-dotcom-components/${this.stage}/braze-api-key.json`],
+				paths: [
+					`support-dotcom-components/${this.stage}/braze-api-key.json`,
+				],
 			}),
 		];
 
