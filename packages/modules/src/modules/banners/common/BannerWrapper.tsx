@@ -94,6 +94,7 @@ const withBannerData = (
         isSupporter,
         separateArticleCount,
         choiceCardAmounts,
+        design,
     } = bannerProps;
 
     const [canShow, setCanShow] = useState<boolean>(false);
@@ -288,6 +289,7 @@ const withBannerData = (
                 choiceCardAmounts,
                 tracking,
                 submitComponentEvent,
+                design,
             };
 
             if (renderScrollThreshold > 0) {

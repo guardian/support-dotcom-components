@@ -5,6 +5,7 @@ import {
     SelectedAmountsVariant,
     TickerSettings,
     Tracking,
+    ConfigurableDesign,
 } from '@sdc/shared/types';
 
 export type BannerId =
@@ -91,4 +92,5 @@ export interface BannerRenderProps {
     choiceCardAmounts?: SelectedAmountsVariant;
     tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    design?: ConfigurableDesign;
 }

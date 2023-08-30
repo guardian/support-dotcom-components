@@ -32,6 +32,7 @@ export const DesignableBanner: React.FC<BannerRenderProps> = ({
     countryCode,
     submitComponentEvent,
     tracking,
+    design,
 }: BannerRenderProps): JSX.Element => {
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
@@ -95,6 +96,20 @@ export const DesignableBanner: React.FC<BannerRenderProps> = ({
         bannerId: 'designable-banner',
     };
 
+    // We can't render anything without a design
+    if (!design) {
+        return <></>;
+    }
+
+    const imageSettings = {
+        mainUrl: design.image.mobileUrl,
+        mobileUrl: design.image.mobileUrl,
+        tabletUrl: design.image.tabletDesktopUrl,
+        desktopUrl: design.image.tabletDesktopUrl,
+        wideUrl: design.image.wideUrl,
+        altText: design.image.altText,
+    };
+
     const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
         reminderTracking,
     );
@@ -126,7 +141,7 @@ export const DesignableBanner: React.FC<BannerRenderProps> = ({
                 <div
                     css={styles.headerContainer(
                         templateSettings.containerSettings.backgroundColour,
-                        !!templateSettings.imageSettings,
+                        !!imageSettings,
                     )}
                 >
                     <DesignableBannerHeader
@@ -179,9 +194,9 @@ export const DesignableBanner: React.FC<BannerRenderProps> = ({
                         templateSettings.choiceCards,
                     )}
                 >
-                    {templateSettings.imageSettings && (
+                    {imageSettings && (
                         <DesignableBannerVisual
-                            settings={templateSettings.imageSettings}
+                            settings={imageSettings}
                             bannerId={templateSettings.bannerId}
                         />
                     )}
