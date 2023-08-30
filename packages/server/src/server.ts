@@ -31,6 +31,7 @@ import {
     BrazeEpicTest,
     transformBrazeLiveblogEpicToTest,
     addBrazeEpicTest,
+    removeBrazeEpicTest,
 } from './lib/brazeMessages';
 
 const brazeApiKeySchema = z.object({
@@ -160,6 +161,16 @@ const buildApp = async (): Promise<Express> => {
         await addBrazeEpicTest(liveblogEpic.brazeUUID, message);
 
         res.status(201);
+        res.send();
+    });
+
+    app.post('/braze/epic-view', async (req: express.Request, res: express.Response) => {
+        const { brazeMessageIdentifier, brazeUUID } = req.body;
+        if (brazeUUID && brazeMessageIdentifier) {
+            await removeBrazeEpicTest(brazeUUID, brazeMessageIdentifier);
+            res.status(200);
+        }
+        res.status(400);
         res.send();
     });
 
