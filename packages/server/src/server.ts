@@ -28,9 +28,9 @@ import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
 import { brazeMessagesMiddleware } from './middleware/brazeMessagesMiddleware';
 import {
     brazeLiveblogEpicSchema,
-    BrazeLiveBlogEpic,
     BrazeEpicTest,
     transformBrazeLiveblogEpicToTest,
+    addBrazeEpicTest,
 } from './lib/brazeMessages';
 
 const brazeApiKeySchema = z.object({
@@ -136,7 +136,7 @@ const buildApp = async (): Promise<Express> => {
 
     app.use(errorHandlingMiddleware);
 
-    app.post('/braze/liveblogEpic', (req: express.Request, res: express.Response) => {
+    app.post('/braze/liveblogEpic', async (req: express.Request, res: express.Response) => {
         // No need for CORS here, this endpoint is requested server-to-server
         res.removeHeader('Access-Control-Allow-Origin');
 
@@ -154,10 +154,13 @@ const buildApp = async (): Promise<Express> => {
             return;
         }
 
-        const message: BrazeEpicTest = transformBrazeLiveblogEpicToTest(parseResult.data);
+        const liveblogEpic = parseResult.data;
+        const message: BrazeEpicTest = transformBrazeLiveblogEpicToTest(liveblogEpic);
 
-        console.log(message);
+        await addBrazeEpicTest(liveblogEpic.brazeUUID, message);
+
         res.status(201);
+        res.send();
     });
 
     app.get('/healthcheck', (req: express.Request, res: express.Response) => {
