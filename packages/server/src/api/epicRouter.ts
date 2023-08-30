@@ -32,7 +32,7 @@ import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
-import {BrazeEpicTest} from "../lib/brazeMessages";
+import { BrazeEpicTest } from '../lib/brazeMessages';
 
 interface EpicDataResponse {
     data?: {
