@@ -213,6 +213,8 @@ chown -R dotcom-components:support dotcom-components
 
 cd dotcom-components
 
+aws --region eu-west-1 s3 cp s3://gu-reader-revenue-private/support-dotcom-components/TEST/braze-api-key.json ./
+
 export TERM=xterm-256color
 export NODE_ENV=production
 export stage=TEST
