@@ -121,6 +121,7 @@ export const buildEpicRouter = (
             const props: EpicProps = {
                 variant: {
                     name: brazeTest.testName,
+                    heading: brazeTest.heading,
                     paragraphs: brazeTest.paragraphs,
                     highlightedText: brazeTest.highlightedText,
                     cta: brazeTest.cta,

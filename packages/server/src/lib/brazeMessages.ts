@@ -11,6 +11,7 @@ export interface BrazeEpicTest {
     testName: string;
     variantName: string;
     tagIds: string[];
+    heading?: string;
     paragraphs: string[];
     highlightedText?: string;
     cta: Cta;
@@ -60,6 +61,7 @@ export const brazeLiveblogEpicSchema = z.object({
     testName: z.string(),
     variantName: z.string(),
     tagIds: z.string(),
+    heading: z.string().optional(),
     paragraphs: z.string(),
     ctaText: z.string(),
     ctaBaseUrl: z.string(),
@@ -74,6 +76,7 @@ export const transformBrazeLiveblogEpicToTest = (
     return {
         testName: liveblogEpic.testName,
         variantName: liveblogEpic.variantName,
+        heading: liveblogEpic.heading,
         highlightedText: liveblogEpic.highlightedText,
         paragraphs: liveblogEpic.paragraphs.split('|'),
         tagIds: liveblogEpic.tagIds.split('|'),
