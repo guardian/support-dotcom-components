@@ -10,6 +10,7 @@ import {
 } from '@guardian/cdk/lib/constructs/core';
 import {
 	GuDynamoDBReadPolicy,
+	GuDynamoDBWritePolicy,
 	GuGetS3ObjectsPolicy,
 	GuPutCloudwatchMetricsPolicy,
 } from '@guardian/cdk/lib/constructs/iam';
@@ -155,6 +156,12 @@ chown -R dotcom-components:support /var/log/dotcom-components
 				paths: [
 					`support-dotcom-components/${this.stage}/braze-api-key.json`,
 				],
+			}),
+			new GuDynamoDBReadPolicy(this, 'BrazeDynamoReadPolicy', {
+				tableName: `braze-messages-${this.stage}`,
+			}),
+			new GuDynamoDBWritePolicy(this, 'BrazeDynamoWritePolicy', {
+				tableName: `braze-messages-${this.stage}`,
 			}),
 		];
 
