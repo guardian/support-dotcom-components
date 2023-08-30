@@ -1,4 +1,3 @@
-export * from './localLanguage';
 export * from './geolocation';
 export * from './placeholders';
 export * from './reminderFields';

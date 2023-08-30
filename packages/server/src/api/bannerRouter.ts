@@ -1,7 +1,6 @@
 import express, { Router } from 'express';
 import { getQueryParams, Params } from '../lib/params';
 import {
-    BannerContent,
     BannerProps,
     BannerTargeting,
     BannerTest,
@@ -16,12 +15,7 @@ import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import {
-    buildBannerCampaignCode,
-    countryCodeToCountryGroupId,
-    countryCodeToVerfiedLocalLanguage,
-    LocalLanguageBannerTemplateName,
-} from '@sdc/shared/dist/lib';
+import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
@@ -107,25 +101,6 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
-            const bannerContent: BannerContent = {
-                ...variant?.bannerContent,
-            };
-            const bannerMobileContent: BannerContent = {
-                ...variant?.mobileBannerContent,
-            };
-
-            if (moduleName === LocalLanguageBannerTemplateName) {
-                const localLanguage = countryCodeToVerfiedLocalLanguage(
-                    test.name,
-                    variant.name,
-                    targeting.countryCode,
-                    { bannerHeader: variant.bannerContent?.heading },
-                );
-                bannerContent?.heading && (bannerContent.heading = localLanguage.bannerHeader);
-                bannerMobileContent?.heading &&
-                    (bannerMobileContent.heading = localLanguage.bannerHeader);
-            }
-
             const contributionAmounts = choiceCardAmounts.get();
             const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
             const targetingMvtId = targeting.mvtId || 1;
@@ -140,8 +115,8 @@ export const buildBannerRouter = (
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
-                content: bannerContent,
-                mobileContent: bannerMobileContent,
+                content: variant.bannerContent,
+                mobileContent: variant.mobileBannerContent,
                 numArticles: getArticleViewCountForWeeks(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,

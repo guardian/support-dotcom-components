@@ -26,7 +26,6 @@ export enum BannerTemplate {
     ChoiceCardsBannerYellow = 'ChoiceCardsBannerYellow',
     ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',
     ChoiceCardsButtonsBannerYellow = 'ChoiceCardsButtonsBannerYellow',
-    EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     SignInPromptBanner = 'SignInPromptBanner',
