@@ -51,10 +51,12 @@ export const countryCodeToVerfiedLocalLanguage = (
     variantName: string,
     countryCode?: string,
     dfltLocalLanguage?: LocalLanguage,
-): LocalLanguage => {
+): LocalLanguage | undefined => {
+    const hasCountryLanguageOrDefault = localLanguages[countryCode] || dfltLocalLanguage;
     if (
         testName === (LocalLanguageEpicTestName || LocalLanguageBannerTestName) &&
-        variantName === (LocalLanguageEpicVariant || LocalLanguageBannerVariant)
+        variantName === (LocalLanguageEpicVariant || LocalLanguageBannerVariant) &&
+        hasCountryLanguageOrDefault
     ) {
         return (
             localLanguages[countryCode] ?? {

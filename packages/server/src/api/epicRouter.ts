@@ -143,9 +143,9 @@ export const buildEpicRouter = (
 
         const propsVariant = {
             ...variant,
-            heading: localLanguage.epicHeader ?? variant.heading,
-            paragraphs: localLanguage.epicParagraphs ?? variant.paragraphs,
-            highlightedText: localLanguage.epicHighlightedText ?? variant.highlightedText,
+            heading: localLanguage?.epicHeader ?? variant.heading,
+            paragraphs: localLanguage?.epicParagraphs ?? variant.paragraphs,
+            highlightedText: localLanguage?.epicHighlightedText ?? variant.highlightedText,
             tickerSettings,
             showReminderFields,
             choiceCardAmounts: variantAmounts,
