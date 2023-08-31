@@ -169,8 +169,9 @@ const buildApp = async (): Promise<Express> => {
         if (brazeUUID && brazeMessageIdentifier) {
             await removeBrazeEpicTest(brazeUUID, brazeMessageIdentifier);
             res.status(200);
+        } else {
+            res.status(400);
         }
-        res.status(400);
         res.send();
     });
 
