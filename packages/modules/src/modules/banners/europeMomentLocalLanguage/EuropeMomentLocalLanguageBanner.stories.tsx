@@ -106,8 +106,10 @@ EuropeMomentLocalLanguage.args = {
     },
     choiceCardAmounts: {
         testName: 'Storybook_europeLocalLanguage',
-        variantName: 'Control',
-        amounts: {
+        variantName: 'CONTROL',
+        defaultContributionType: 'MONTHLY',
+        displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+        amountsCardData: {
             ONE_OFF: {
                 amounts: [5, 10, 15, 20],
                 defaultAmount: 5,
