@@ -65,7 +65,14 @@ export const configurableDesignSchema = z.object({
     }),
 });
 
-export type ConfigurableDesign = z.infer<typeof configurableDesignSchema>;
+export interface ConfigurableDesign {
+    image: {
+        mobileUrl: string;
+        tabletDesktopUrl: string;
+        wideUrl: string;
+        altText: string;
+    };
+}
 
 export const bannerSchema = z.object({
     tracking: trackingSchema,
