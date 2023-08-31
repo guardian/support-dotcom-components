@@ -121,9 +121,9 @@ export const buildBannerRouter = (
                     targeting.countryCode,
                     { bannerHeader: variant.bannerContent?.heading },
                 );
-                bannerContent?.heading && (bannerContent.heading = localLanguage.bannerHeader);
+                bannerContent?.heading && (bannerContent.heading = localLanguage?.bannerHeader);
                 bannerMobileContent?.heading &&
-                    (bannerMobileContent.heading = localLanguage.bannerHeader);
+                    (bannerMobileContent.heading = localLanguage?.bannerHeader);
             }
 
             const contributionAmounts = choiceCardAmounts.get();

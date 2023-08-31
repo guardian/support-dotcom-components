@@ -48,6 +48,24 @@ describe('getCountryCodeToLocalLanguage', () => {
             },
         },
         {
+            inputCountryCode: 'NL',
+            inputTestName: 'LOCAL-LANGUAGE1',
+            inputVariant: 'CONTROL',
+            output: undefined,
+        },
+        {
+            inputCountryCode: 'NL',
+            inputTestName: 'LOCAL-LANGUAGE',
+            inputVariant: 'CONTROL1',
+            output: undefined,
+        },
+        {
+            inputCountryCode: 'NL',
+            inputTestName: '',
+            inputVariant: '',
+            output: undefined,
+        },
+        {
             inputCountryCode: 'SE',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
@@ -67,7 +85,13 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'GB',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {},
+            output: undefined,
+        },
+        {
+            inputCountryCode: 'GB',
+            inputTestName: '',
+            inputVariant: '',
+            output: undefined,
         },
         {
             inputCountryCode: 'US',
@@ -102,6 +126,24 @@ describe('getCountryCodeToLocalLanguage', () => {
                 epicParagraphs: ['1', '2', '3', '4', '5'],
                 epicHighlightedText: `Highlight`,
             },
+        },
+        {
+            inputCountryCode: '',
+            inputTestName: '',
+            inputVariant: '',
+            output: undefined,
+        },
+        {
+            inputCountryCode: '',
+            inputTestName: '',
+            inputVariant: '',
+            inputDefaultLocalLanguage: {
+                bannerHeader: 'BannerHeaderTest',
+                epicHeader: 'EpicHeaderTest',
+                epicParagraphs: ['1', '2', '3', '4', '5'],
+                epicHighlightedText: `Highlight`,
+            },
+            output: undefined,
         },
     ];
 
