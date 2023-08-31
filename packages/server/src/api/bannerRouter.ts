@@ -142,11 +142,11 @@ export const buildBannerRouter = (
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
-                content: bannerContent,
+                content: variant.bannerContent === null ? variant.bannerContent : bannerContent, // TODO: refactor this so that you don't have to pass through an explicit null
                 mobileContent:
                     variant.mobileBannerContent === null
                         ? variant.mobileBannerContent
-                        : bannerMobileContent,
+                        : bannerMobileContent, // TODO: refactor this so that you don't have to pass through an explicit null
                 numArticles: getArticleViewCountForWeeks(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
