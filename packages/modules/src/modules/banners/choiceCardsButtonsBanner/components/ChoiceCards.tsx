@@ -4,12 +4,17 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
-import { ChoiceCardFrequencyTabs, ContributionType } from './ChoiceCardFrequencyTabs';
+import { ChoiceCardFrequencyTabs } from './ChoiceCardFrequencyTabs';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
-import { OphanComponentEvent, ContributionAmounts, Tracking } from '@sdc/shared/src/types';
+import {
+    OphanComponentEvent,
+    AmountsCardData,
+    ContributionType,
+    Tracking,
+} from '@sdc/shared/src/types';
 
 export type ChoiceCardBannerComponentId =
     | 'choice-cards-buttons-banner-yellow'
@@ -22,7 +27,7 @@ interface ChoiceCardProps {
     currencySymbol: string;
     componentId: ChoiceCardBannerComponentId;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
-    amounts?: ContributionAmounts;
+    amounts?: AmountsCardData;
     amountsTestName?: string;
     amountsVariantName?: string;
     countryCode?: string;
@@ -103,17 +108,14 @@ const styles = {
 const contributionType: ContributionType = {
     ONE_OFF: {
         label: 'Single',
-        frequency: 'ONE_OFF',
         suffix: '',
     },
     MONTHLY: {
         label: 'Monthly',
-        frequency: 'MONTHLY',
         suffix: 'per month',
     },
     ANNUAL: {
         label: 'Annual',
-        frequency: 'ANNUAL',
         suffix: 'per year',
     },
 };

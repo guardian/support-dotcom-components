@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import {
-    ModifiedChoiceCardAmounts,
+    AmountsTests,
     EpicProps,
     EpicTargeting,
     EpicTest,
@@ -54,7 +54,7 @@ export const buildEpicRouter = (
     superModeArticles: ValueProvider<SuperModeArticle[]>,
     articleEpicTests: ValueProvider<EpicTest[]>,
     liveblogEpicTests: ValueProvider<EpicTest[]>,
-    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
 ): Router => {
     const router = Router();
@@ -120,9 +120,11 @@ export const buildEpicRouter = (
         const showReminderFields = variant.showReminderFields ?? getReminderFields();
 
         const contributionAmounts = choiceCardAmounts.get();
-        const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
+        const requiredCountry = targeting.countryCode ?? 'GB';
+        const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
         const variantAmounts = selectAmountsTestVariant(
             contributionAmounts,
+            requiredCountry,
             requiredRegion,
             targetingMvtId,
         );

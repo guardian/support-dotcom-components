@@ -1,11 +1,12 @@
 import React from 'react';
 import { ChoiceCard } from '@guardian/src-choice-card';
 import {
-    ContributionAmounts,
+    AmountsCardData,
     ContributionFrequency,
     OphanComponentEvent,
+    ContributionType,
 } from '@sdc/shared/dist/types';
-import { ContributionType, trackClick } from './FrequencyTabs';
+import { trackClick } from './FrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { between, from, until } from '@guardian/src-foundations/mq';
@@ -104,7 +105,7 @@ export const ChoiceCardAmountButtons = ({
 }: {
     contributionType: ContributionType;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
-    amounts: ContributionAmounts;
+    amounts: AmountsCardData;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     selection: ChoiceCardSelection;
     currencySymbol: string;

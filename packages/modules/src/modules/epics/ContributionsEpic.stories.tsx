@@ -247,14 +247,16 @@ WithChoiceCards.args = {
         choiceCardAmounts: {
             testName: 'Storybook_test',
             variantName: 'Control',
-            amounts: {
+            defaultContributionType: 'MONTHLY',
+            displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+            amountsCardData: {
                 ONE_OFF: {
                     amounts: [5, 10, 15, 20],
                     defaultAmount: 5,
                     hideChooseYourAmount: false,
                 },
                 MONTHLY: {
-                    amounts: [6, 12, 18, 24],
+                    amounts: [6, 12],
                     defaultAmount: 12,
                     hideChooseYourAmount: true,
                 },
@@ -267,6 +269,7 @@ WithChoiceCards.args = {
         },
     },
 };
+
 export const WithChoiceCardsAndSignInLink = Template.bind({});
 WithChoiceCardsAndSignInLink.args = {
     variant: {
@@ -277,14 +280,16 @@ WithChoiceCardsAndSignInLink.args = {
         choiceCardAmounts: {
             testName: 'Storybook_test',
             variantName: 'Control',
-            amounts: {
+            defaultContributionType: 'MONTHLY',
+            displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+            amountsCardData: {
                 ONE_OFF: {
                     amounts: [5, 10, 15, 20],
                     defaultAmount: 5,
                     hideChooseYourAmount: false,
                 },
                 MONTHLY: {
-                    amounts: [6, 12, 18, 24],
+                    amounts: [6, 12],
                     defaultAmount: 12,
                     hideChooseYourAmount: true,
                 },

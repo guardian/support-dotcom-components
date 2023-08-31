@@ -4,7 +4,7 @@ import {
     BannerProps,
     BannerTargeting,
     BannerTest,
-    ModifiedChoiceCardAmounts,
+    AmountsTests,
     PageTracking,
     Prices,
     PuzzlesBannerProps,
@@ -53,7 +53,7 @@ export const buildBannerRouter = (
     productPrices: ValueProvider<Prices | undefined>,
     bannerTests: ValueProvider<BannerTest[]>,
     bannerDeployTimes: BannerDeployTimesProvider,
-    choiceCardAmounts: ValueProvider<ModifiedChoiceCardAmounts>,
+    choiceCardAmounts: ValueProvider<AmountsTests>,
 ): Router => {
     const router = Router();
 
@@ -102,10 +102,12 @@ export const buildBannerRouter = (
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
             const contributionAmounts = choiceCardAmounts.get();
-            const requiredRegion = countryCodeToCountryGroupId(targeting.countryCode ?? 'GB');
+            const requiredCountry = targeting.countryCode ?? 'GB';
+            const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
             const targetingMvtId = targeting.mvtId || 1;
             const variantAmounts = selectAmountsTestVariant(
                 contributionAmounts,
+                requiredCountry,
                 requiredRegion,
                 targetingMvtId,
             );

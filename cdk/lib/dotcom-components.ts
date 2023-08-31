@@ -119,7 +119,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
 				paths: [
 					`${this.stage}/banner-deploy/*`,
 					`${this.stage}/channel-switches.json`,
-					`${this.stage}/configured-amounts.json`,
+					`${this.stage}/configured-amounts-v3.json`,
 					`${this.stage}/guardian-weekly-propensity-test/*`,
 				],
 			}),

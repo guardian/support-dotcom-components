@@ -301,6 +301,8 @@ const countryGroups: CountryGroups = {
     },
 };
 
+export type Region = keyof typeof countryGroups;
+
 type CountryNameMap = Record<string, string>;
 
 const countryNames: CountryNameMap = {

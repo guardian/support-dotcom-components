@@ -1,22 +1,12 @@
 import React from 'react';
 import {
-    ContributionAmounts,
+    AmountsCardData,
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
 import { BannerChoiceCardsPaymentFrequencyTabs } from './paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from './paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
-
-interface ContributionTypeItem {
-    label: string;
-    frequency: ContributionFrequency;
-    suffix: string;
-}
-
-export type ContributionType = {
-    [key in ContributionFrequency]: ContributionTypeItem;
-};
 
 export const trackClick = (
     type: 'amount' | 'frequency',
@@ -41,7 +31,7 @@ export const FrequencyTabs = ({
     selection,
 }: {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
-    amounts: ContributionAmounts;
+    amounts: AmountsCardData;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     selection: ChoiceCardSelection;
 }): JSX.Element => {
