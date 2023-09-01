@@ -1,11 +1,7 @@
 import { CountryGroupId, ReminderFields } from '../../lib';
 import {
-    AmountsVariant,
     ArticlesViewedSettings,
-    ContributionAmounts,
-    ContributionFrequency,
     ControlProportionSettings,
-    SelectedAmountsVariant,
     Test,
     TestStatus,
     UserCohort,
@@ -69,6 +65,8 @@ export interface EpicVariant extends Variant {
     showSignInLink?: boolean;
 }
 
+export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
+
 export const contributionTabFrequencies: ContributionFrequency[] = ['ONE_OFF', 'MONTHLY', 'ANNUAL'];
 
 interface ContributionTypeItem {
@@ -105,6 +103,27 @@ Region test:
     - users will be randomly segregated into an AB test and see the appropriate variant
     - analytics will use the `liveTestName` label
 */
+interface AmountValuesObject {
+    amounts: number[];
+    defaultAmount: number;
+    hideChooseYourAmount?: boolean;
+}
+
+export type AmountsCardData = {
+    [key in ContributionFrequency]: AmountValuesObject;
+};
+
+export interface AmountsVariant {
+    variantName: string;
+    defaultContributionType: ContributionFrequency;
+    displayContributionType: ContributionFrequency[];
+    amountsCardData: AmountsCardData;
+}
+
+export interface SelectedAmountsVariant extends AmountsVariant {
+    testName: string;
+}
+
 export type AmountsTestTargeting =
     | { targetingType: 'Region'; region: CountryGroupId }
     | { targetingType: 'Country'; countries: string[] };
@@ -121,15 +140,6 @@ export interface AmountsTest {
 }
 
 export type AmountsTests = AmountsTest[];
-
-export type ConfiguredRegionAmounts = {
-    control: ContributionAmounts;
-    test?: AmountsTest;
-};
-
-export type ChoiceCardAmounts = {
-    [key in CountryGroupId]: ConfiguredRegionAmounts;
-};
 
 export interface EpicTest extends Test<EpicVariant> {
     name: string;
