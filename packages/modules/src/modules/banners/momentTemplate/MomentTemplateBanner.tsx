@@ -261,11 +261,4 @@ const styles = {
         display: flex;
         flex-direction: row;
     `,
-    ctaPrimaryColors: (backColor: string, textColor: string, hoverColor: string) => css`
-        background: ${backColor};
-        color: ${textColor} !important;
-        &:hover {
-            background-color: ${hoverColor};
-        }
-    `,
 };
