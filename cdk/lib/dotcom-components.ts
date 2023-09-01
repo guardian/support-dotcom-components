@@ -10,6 +10,7 @@ import {
 } from '@guardian/cdk/lib/constructs/core';
 import {
 	GuDynamoDBReadPolicy,
+	GuDynamoDBWritePolicy,
 	GuGetS3ObjectsPolicy,
 	GuPutCloudwatchMetricsPolicy,
 } from '@guardian/cdk/lib/constructs/iam';
@@ -99,6 +100,10 @@ chown -R dotcom-components:support ${appName}
 
 cd ${appName}
 
+aws --region eu-west-1 s3 cp s3://gu-reader-revenue-private/support-dotcom-components/${
+			this.stage
+		}/braze-api-key.json ./
+
 export TERM=xterm-256color
 export NODE_ENV=production
 export stage=${this.stage}
@@ -145,6 +150,18 @@ chown -R dotcom-components:support /var/log/dotcom-components
 			new GuPutCloudwatchMetricsPolicy(this),
 			new GuDynamoDBReadPolicy(this, 'DynamoTestsReadPolicy', {
 				tableName: `support-admin-console-channel-tests-${this.stage}`,
+			}),
+			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyApiKey', {
+				bucketName: 'gu-reader-revenue-private',
+				paths: [
+					`support-dotcom-components/${this.stage}/braze-api-key.json`,
+				],
+			}),
+			new GuDynamoDBReadPolicy(this, 'BrazeDynamoReadPolicy', {
+				tableName: `braze-messages-${this.stage}`,
+			}),
+			new GuDynamoDBWritePolicy(this, 'BrazeDynamoWritePolicy', {
+				tableName: `braze-messages-${this.stage}`,
 			}),
 		];
 

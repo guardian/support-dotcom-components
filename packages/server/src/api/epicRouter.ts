@@ -32,6 +32,7 @@ import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
+import { BrazeEpicTest } from '../lib/brazeMessages';
 
 interface EpicDataResponse {
     data?: {
@@ -79,6 +80,15 @@ export const buildEpicRouter = (
         }
     };
 
+    const getBrazeMessage = (
+        clientTagIds: string[],
+        brazeTests: BrazeEpicTest[],
+    ): BrazeEpicTest | undefined =>
+        brazeTests.find(
+            test =>
+                test.tagIds.length === 0 || test.tagIds.some(tagId => clientTagIds.includes(tagId)),
+        );
+
     const buildEpicData = (
         pageTracking: PageTracking,
         targeting: EpicTargeting,
@@ -86,10 +96,58 @@ export const buildEpicRouter = (
         params: Params,
         baseUrl: string,
         req: express.Request,
+        res: express.Response,
     ): EpicDataResponse => {
         const { enableEpics, enableSuperMode, enableHardcodedEpicTests } = channelSwitches.get();
         if (!enableEpics) {
             return {};
+        }
+
+        const brazeTest = getBrazeMessage(
+            targeting.tags.map(tag => tag.id),
+            res.locals.brazeMessages ?? [],
+        );
+
+        if (brazeTest) {
+            const testTracking: TestTracking = {
+                abTestName: brazeTest.testName,
+                abTestVariant: brazeTest.variantName,
+                campaignCode: `${brazeTest.testName}_${brazeTest.variantName}`,
+                campaignId: `${brazeTest.testName}_${brazeTest.variantName}`,
+                componentType: 'ACQUISITIONS_EPIC',
+                products: ['CONTRIBUTION', 'MEMBERSHIP_SUPPORTER'],
+                brazeMessageIdentifier: brazeTest.testName,
+            };
+
+            const props: EpicProps = {
+                variant: {
+                    name: brazeTest.testName,
+                    heading: brazeTest.heading,
+                    paragraphs: brazeTest.paragraphs,
+                    highlightedText: brazeTest.highlightedText,
+                    cta: brazeTest.cta,
+                },
+                tracking: { ...pageTracking, ...testTracking },
+                articleCounts: { for52Weeks: 0, forTargetedWeeks: 0 },
+                countryCode: targeting.countryCode,
+            };
+
+            const module: ModuleInfo = type === 'ARTICLE' ? epicModule : liveblogEpicModule;
+
+            const modulePathBuilder: (version?: string) => string = module.endpointPathBuilder;
+
+            return {
+                data: {
+                    variant: props.variant,
+                    meta: testTracking,
+                    module: {
+                        url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
+                        name:
+                            type === 'ARTICLE' ? 'ContributionsEpic' : 'ContributionsLiveblogEpic',
+                        props,
+                    },
+                },
+            };
         }
 
         const targetingMvtId = targeting.mvtId || 1;
@@ -191,6 +249,7 @@ export const buildEpicRouter = (
                     params,
                     baseUrl(req),
                     req,
+                    res,
                 );
 
                 // for response logging
@@ -224,6 +283,7 @@ export const buildEpicRouter = (
                     params,
                     baseUrl(req),
                     req,
+                    res,
                 );
 
                 // for response logging

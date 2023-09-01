@@ -28,6 +28,7 @@ export type EpicTargeting = {
     url?: string;
     browserId?: string; // Only present if the user has consented to browserId-based targeting
     isSignedIn?: boolean;
+    brazeUUID?: string;
 };
 
 export type EpicPayload = {

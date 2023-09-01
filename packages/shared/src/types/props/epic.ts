@@ -29,6 +29,7 @@ export interface EpicProps extends EmotionJSX.IntrinsicAttributes {
     // eslint-disable-next-line @typescript-eslint/ban-types
     onReminderOpen?: Function;
     fetchEmail?: () => Promise<string | null>;
+    fetchBrazeUUID?: () => Promise<string | null>;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     openCmp?: () => void;
     hasConsentForArticleCount?: boolean;
