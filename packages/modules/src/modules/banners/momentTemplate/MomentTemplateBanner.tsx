@@ -18,6 +18,7 @@ import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
+import { buttonStyles } from './styles/buttonStyles';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -144,6 +145,7 @@ export function getMomentTemplateBanner(
                                 numArticles={numArticles}
                                 content={content}
                                 getCtaText={getCtaText}
+                                cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
                             />
                         )}
                     </div>
@@ -258,5 +260,12 @@ const styles = {
     ctasContainer: css`
         display: flex;
         flex-direction: row;
+    `,
+    ctaPrimaryColors: (backColor: string, textColor: string, hoverColor: string) => css`
+        background: ${backColor};
+        color: ${textColor} !important;
+        &:hover {
+            background-color: ${hoverColor};
+        }
     `,
 };
