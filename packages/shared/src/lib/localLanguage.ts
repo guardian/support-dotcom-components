@@ -1,4 +1,4 @@
-export const LocalLanguageBannerTemplateName = 'LocalLanguageMomentBanner';
+export const LocalLanguageBannerTemplateName = 'EuropeMomentLocalLanguageBanner';
 const LocalLanguageBannerTestName = 'LOCAL-LANGUAGE';
 const LocalLanguageBannerVariant = 'CONTROL';
 const LocalLanguageEpicTestName = 'LOCAL-LANGUAGE';
