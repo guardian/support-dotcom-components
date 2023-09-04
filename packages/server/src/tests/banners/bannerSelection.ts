@@ -14,6 +14,7 @@ import {
     audienceMatches,
     correctSignedInStatus,
     deviceTypeMatches,
+    pageContextMatches,
     userIsInTest,
 } from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
@@ -134,6 +135,7 @@ const TAYLOR_REPORT_TAG_ID = 'news/series/cotton-capital';
 const isTaylorReportPage = (targeting: BannerTargeting): boolean => {
     return Boolean(targeting.tagIds?.includes(TAYLOR_REPORT_TAG_ID));
 };
+
 export const selectBannerTest = (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
@@ -189,7 +191,8 @@ export const selectBannerTest = (
                 now,
                 deploySchedule,
             ) &&
-            correctSignedInStatus(targeting.isSignedIn, test.signedInStatus)
+            correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
+            pageContextMatches(targeting, test)
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 

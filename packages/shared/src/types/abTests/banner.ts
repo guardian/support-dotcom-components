@@ -65,6 +65,10 @@ export interface BannerTest extends Test<BannerVariant> {
     audience?: number;
     controlProportionSettings?: ControlProportionSettings;
     purchaseInfo?: PurchaseInfoTest;
+    tagIds?: string[];
+    sectionIds?: string[];
+    excludedTagIds?: string[];
+    excludedSectionIds?: string[];
 }
 
 // The result of selecting a test+variant for a user
