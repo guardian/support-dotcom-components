@@ -120,7 +120,7 @@ interface PageContextTargeting {
 const pageHasATag = (tagIds: string[], pageTagIds?: string[]): boolean =>
     !!pageTagIds && tagIds.some(tagId => pageTagIds.includes(tagId));
 
-const pageHasSection = (sectionIds: string[], pageSectionId?: string): boolean =>
+const pageHasASection = (sectionIds: string[], pageSectionId?: string): boolean =>
     !!pageSectionId && sectionIds.includes(pageSectionId);
 
 export const pageContextMatches = (
@@ -136,9 +136,9 @@ export const pageContextMatches = (
 
     return (
         (tagIds.length === 0 || pageHasATag(tagIds, pageContext.tagIds)) &&
-        (sectionIds.length === 0 || pageHasSection(sectionIds, pageContext.sectionId)) &&
+        (sectionIds.length === 0 || pageHasASection(sectionIds, pageContext.sectionId)) &&
         (excludedTagIds.length === 0 || !pageHasATag(excludedTagIds, pageContext.tagIds)) &&
         (excludedSectionIds.length === 0 ||
-            !pageHasSection(excludedSectionIds, pageContext.sectionId))
+            !pageHasASection(excludedSectionIds, pageContext.sectionId))
     );
 };
