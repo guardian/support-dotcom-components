@@ -16,6 +16,7 @@ import { isInSuperMode, superModeify } from '../../lib/superMode';
 import {
     correctSignedInStatus,
     deviceTypeMatches,
+    pageContextMatches,
     shouldNotRenderEpic,
     shouldThrottle,
     userIsInTest,
@@ -62,47 +63,20 @@ export const correctSignedInStatusFilter: Filter = {
     test: (test, targeting) => correctSignedInStatus(!!targeting.isSignedIn, test.signedInStatus),
 };
 
-export const hasSectionOrTags: Filter = {
-    id: 'hasSectionOrTags',
+export const pageContextFilter: Filter = {
+    id: 'pageContextFilter',
     test: (test, targeting) => {
-        const cleanedTags = test.tagIds.filter(tagId => tagId !== '');
-
-        if (cleanedTags.length === 0 && test.sections.length === 0) {
-            return true;
-        }
-
-        const intersectingTags = cleanedTags.filter(tagId =>
-            targeting.tags.map(tag => tag.id).includes(tagId),
-        );
-
-        const section = targeting.sectionId || targeting.sectionName;
-        const hasSection = !!section && test.sections.includes(section);
-        const hasTags = intersectingTags.length > 0;
-
-        return hasSection || hasTags;
-    },
-};
-
-export const excludeSection: Filter = {
-    id: 'excludeSection',
-    test: (test, targeting) => {
-        const section = targeting.sectionId || targeting.sectionName;
-        if (section) {
-            return !test.excludedSections.includes(section);
-        }
-        return true;
-    },
-};
-
-export const excludeTags: Filter = {
-    id: 'excludeTags',
-    test: (test, targeting) => {
-        if (test.excludedTagIds.length < 1) {
-            return true;
-        }
-
-        const contentTagIds = targeting.tags.map(tag => tag.id);
-        return !contentTagIds.some(contentTag => test.excludedTagIds.includes(contentTag));
+        const pageContext = {
+            tagIds: targeting.tags.map(tag => tag.id),
+            sectionId: targeting.sectionId,
+        };
+        const pageContextTargeting = {
+            tagIds: test.tagIds,
+            sectionIds: test.sections,
+            excludedTagIds: test.excludedTagIds,
+            excludedSectionIds: test.excludedSections,
+        };
+        return pageContextMatches(pageContext, pageContextTargeting);
     },
 };
 
@@ -235,11 +209,9 @@ export const findTestAndVariant = (
             isLive,
             canShow(targeting),
             isNotExpired(),
-            hasSectionOrTags,
+            pageContextFilter,
             userInTest(targeting.mvtId || 1),
             inCorrectCohort(userCohorts, isSuperModePass),
-            excludeSection,
-            excludeTags,
             hasCountryCode,
             matchesCountryGroups,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
