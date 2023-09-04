@@ -18,6 +18,7 @@ import {
     ausAnniversaryBanner,
     wpfdBanner,
     supporterMomentBanner,
+    europeMomentLocalLanguageBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -51,6 +52,8 @@ export const BannerPaths: {
     [BannerTemplate.ChoiceCardsButtonsBannerYellow]:
         choiceCardsButtonsBannerYellow.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,
+    [BannerTemplate.EuropeMomentLocalLanguageBanner]:
+        europeMomentLocalLanguageBanner.endpointPathBuilder,
     [BannerTemplate.GuardianWeeklyBanner]: guardianWeekly.endpointPathBuilder,
     [BannerTemplate.SignInPromptBanner]: signInPromptBanner.endpointPathBuilder,
     [BannerTemplate.UkraineMomentBanner]: ukraineMomentBanner.endpointPathBuilder,
