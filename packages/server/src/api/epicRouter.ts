@@ -32,6 +32,7 @@ import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { isMobile } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
+import { localLanguagesEpicTests } from '../tests/epics/hardCodedTests/localLanguageCopy';
 
 interface EpicDataResponse {
     data?: {
@@ -47,7 +48,7 @@ interface EpicDataResponse {
 }
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [];
+const hardcodedEpicTests: EpicTest[] = [...localLanguagesEpicTests];
 
 export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
