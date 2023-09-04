@@ -176,14 +176,14 @@ describe('pageContextMatches', () => {
     });
 
     // Required tags
-    it('returns true if pageHasRequiredTagId', () => {
+    it('returns true if page has required tag', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             tagIds: ['politics/politics'],
         });
         expect(result).toBe(true);
     });
-    it('returns false if !pageHasRequiredTagId', () => {
+    it('returns false if page does not have required tag', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             tagIds: ['environment/environment'],
@@ -192,14 +192,14 @@ describe('pageContextMatches', () => {
     });
 
     // Required sections
-    it('returns true if pageHasRequiredSectionId', () => {
+    it('returns true if page has required section', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             sectionIds: ['politics'],
         });
         expect(result).toBe(true);
     });
-    it('returns false if !pageHasRequiredSectionId', () => {
+    it('returns false if page does not have required section', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             sectionIds: ['environment'],
@@ -208,14 +208,14 @@ describe('pageContextMatches', () => {
     });
 
     // Excluded tags
-    it('returns false if pageHasExcludedTagId', () => {
+    it('returns false if page has excluded tag', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             excludedTagIds: ['politics/politics'],
         });
         expect(result).toBe(false);
     });
-    it('returns true if !pageHasExcludedTagId', () => {
+    it('returns true if page does not have excluded tag', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             excludedTagIds: ['environment/environment'],
@@ -224,14 +224,14 @@ describe('pageContextMatches', () => {
     });
 
     // Excluded sections
-    it('returns false if pageHasExcludedSectionId', () => {
+    it('returns false if page has excluded section', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             excludedSectionIds: ['politics'],
         });
         expect(result).toBe(false);
     });
-    it('returns true if !pageHasExcludedSectionId', () => {
+    it('returns true if page does not have excluded section', () => {
         const result = pageContextMatches(pageContext, {
             ...pageContextTargeting,
             excludedSectionIds: ['environment'],
