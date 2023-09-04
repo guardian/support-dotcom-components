@@ -2,6 +2,7 @@ import { BannerChannel, BannerContent, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
+    PageContextTargeting,
     TargetingAbTest,
     Test,
     TestStatus,
@@ -65,10 +66,7 @@ export interface BannerTest extends Test<BannerVariant> {
     audience?: number;
     controlProportionSettings?: ControlProportionSettings;
     purchaseInfo?: PurchaseInfoTest;
-    tagIds?: string[];
-    sectionIds?: string[];
-    excludedTagIds?: string[];
-    excludedSectionIds?: string[];
+    contextTargeting?: PageContextTargeting;
 }
 
 // The result of selecting a test+variant for a user

@@ -192,7 +192,15 @@ export const selectBannerTest = (
                 deploySchedule,
             ) &&
             correctSignedInStatus(targeting.isSignedIn, test.signedInStatus) &&
-            pageContextMatches(targeting, test)
+            pageContextMatches(
+                targeting,
+                test.contextTargeting ?? {
+                    tagIds: [],
+                    sectionIds: [],
+                    excludedTagIds: [],
+                    excludedSectionIds: [],
+                },
+            )
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 

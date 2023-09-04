@@ -5,6 +5,7 @@ import {
     Test,
     Variant,
     SignedInStatus,
+    PageContextTargeting,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
@@ -110,12 +111,6 @@ interface PageContext {
     tagIds?: string[];
     sectionId?: string;
 }
-interface PageContextTargeting {
-    tagIds?: string[]; // tags must include one of these
-    sectionIds?: string[]; // section must be one of these
-    excludedTagIds?: string[]; // tags must not include one of these
-    excludedSectionIds?: string[]; // section must not be one of these
-}
 
 const pageHasATag = (tagIds: string[], pageTagIds?: string[]): boolean =>
     !!pageTagIds && tagIds.some(tagId => pageTagIds.includes(tagId));
@@ -127,12 +122,7 @@ export const pageContextMatches = (
     pageContext: PageContext,
     testTargeting: PageContextTargeting,
 ): boolean => {
-    const {
-        tagIds = [],
-        sectionIds = [],
-        excludedTagIds = [],
-        excludedSectionIds = [],
-    } = testTargeting;
+    const { tagIds, sectionIds, excludedTagIds, excludedSectionIds } = testTargeting;
 
     return (
         (tagIds.length === 0 || pageHasATag(tagIds, pageContext.tagIds)) &&
