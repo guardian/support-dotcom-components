@@ -1,4 +1,4 @@
-import { BannerChannel, BannerContent, TickerSettings } from '../props';
+import { BannerChannel, BannerContent, ConfigurableDesign, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
@@ -56,6 +56,7 @@ export interface BannerVariant extends Variant {
     componentType: OphanComponentType;
     products?: OphanProduct[];
     separateArticleCount?: boolean;
+    design?: ConfigurableDesign;
 }
 
 export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
