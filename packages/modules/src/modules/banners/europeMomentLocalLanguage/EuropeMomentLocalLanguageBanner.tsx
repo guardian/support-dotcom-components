@@ -11,12 +11,12 @@ const EuropeMomentLocalLanguageBanner = getMomentTemplateBanner({
     },
     primaryCtaSettings: {
         default: {
-            backgroundColour: brand[400],
-            textColour: 'white',
+            backgroundColour: brandAlt[400],
+            textColour: 'black',
         },
         hover: {
             backgroundColour: brandAlt[200],
-            textColour: brand[400],
+            textColour: 'black',
         },
     },
     secondaryCtaSettings: {
