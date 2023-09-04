@@ -17,7 +17,13 @@ export function MomentTemplateBannerHeader({
     return (
         <div css={styles.container}>
             <header css={styles.header(headerSettings)}>
-                <h2>{headerSettings?.image ? headerSettings.image : mainOrMobileContent}</h2>
+                <h2>
+                    {// show headerText if a textColour supplied or headerImage missing
+                    headerSettings?.textColour || !headerSettings?.image
+                        ? mainOrMobileContent
+                        : null}
+                    {headerSettings?.image}
+                </h2>
             </header>
         </div>
     );

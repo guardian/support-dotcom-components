@@ -39,7 +39,7 @@ export interface TickerStylingSettings {
 }
 
 export interface HeaderSettings {
-    textColour: string;
+    textColour?: string;
     image?: ReactNode;
 }
 
