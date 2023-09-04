@@ -17,6 +17,7 @@ import {
     withinMaxViews,
     deviceTypeMatchesFilter,
     correctSignedInStatusFilter,
+    matchesCountryCodes,
 } from './epicSelection';
 
 const testDefault: EpicTest = {
@@ -533,6 +534,68 @@ describe('matchesCountryGroups filter', () => {
         };
 
         const got = matchesCountryGroups.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+});
+
+describe('matchesCountryCodes filter', () => {
+    it('should pass if no location or country code location set in the test', () => {
+        const test = {
+            ...testDefault,
+            locations: [],
+            countryCodeLocations: [],
+        };
+
+        const got = matchesCountryCodes.test(test, targetingDefault);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if location and country code location is set but user location unknown', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['GBPCountries'],
+            countryCodeLocations: ['GB'],
+        };
+        const targeting = {
+            ...targetingDefault,
+            countryCode: undefined,
+        };
+
+        const got = matchesCountryCodes.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass if user in country group and country code location', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            countryCodeLocations: ['PT'],
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'PT',
+        };
+
+        const got = matchesCountryCodes.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail if user in country group but not country code location', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            locations: ['EURCountries'],
+            countryCodeLocations: ['GB'],
+        };
+        const targeting: EpicTargeting = {
+            ...targetingDefault,
+            countryCode: 'PT',
+        };
+
+        const got = matchesCountryCodes.test(test, targeting);
 
         expect(got).toBe(false);
     });
