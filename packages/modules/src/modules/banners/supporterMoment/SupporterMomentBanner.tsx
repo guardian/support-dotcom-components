@@ -15,7 +15,7 @@ const SupporterMomentBanner = getMomentTemplateBanner({
             textColour: 'white',
         },
         hover: {
-            backgroundColour: '#721765',
+            backgroundColour: '#2D0427',
             textColour: 'white',
         },
     },
