@@ -105,7 +105,7 @@ SupporterMoment.args = {
         },
     },
     choiceCardAmounts: {
-        testName: 'Storybook_europeLocalLanguage',
+        testName: 'Storybook_test',
         variantName: 'CONTROL',
         defaultContributionType: 'MONTHLY',
         displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
