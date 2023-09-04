@@ -64,3 +64,37 @@ export interface PurchaseInfoTest {
     userType: purchaseInfoUser[];
     product: purchaseInfoProduct[];
 }
+
+export interface AmountSelection {
+    amounts: number[];
+    defaultAmount: number;
+    hideChooseYourAmount?: boolean;
+}
+
+export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
+
+export type ContributionAmounts = {
+    [key in ContributionFrequency]: AmountSelection;
+};
+
+interface AmountValuesObject {
+    amounts: number[];
+    defaultAmount: number;
+    hideChooseYourAmount?: boolean;
+}
+
+export type AmountsCardData = {
+    [key in ContributionFrequency]: AmountValuesObject;
+};
+
+export interface AmountsVariant {
+    variantName: string;
+    defaultContributionType: ContributionFrequency;
+    displayContributionType: ContributionFrequency[];
+    amountsCardData: AmountsCardData;
+}
+
+export interface SelectedAmountsVariant extends AmountsVariant {
+    testName: string;
+    amounts?: ContributionAmounts;
+}
