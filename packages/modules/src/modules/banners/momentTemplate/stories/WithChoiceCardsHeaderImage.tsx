@@ -17,13 +17,12 @@ export const BannerWithChoiceCardsHeaderImage = bannerWrapper(
         },
         primaryCtaSettings: {
             default: {
-                backgroundColour: '#0077B6',
-                textColour: 'white',
+                backgroundColour: brandAlt[400],
+                textColour: 'black',
             },
             hover: {
-                backgroundColour: '#004E7C',
-                textColour: 'white',
-                border: '1px solid #004E7C',
+                backgroundColour: brandAlt[200],
+                textColour: 'black',
             },
         },
         secondaryCtaSettings: {

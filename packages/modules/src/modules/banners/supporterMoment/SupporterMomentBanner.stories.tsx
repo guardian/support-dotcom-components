@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, brandAlt, culture, neutral } from '@guardian/src-foundations';
+import { brand, culture } from '@guardian/src-foundations';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 import { BannerProps } from '@sdc/shared/src/types';
@@ -16,22 +16,22 @@ export default {
     args: props,
 } as Meta;
 
-const EuropeMomentLocalLanguageBanner = bannerWrapper(
+const SupporterMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
-            backgroundColour: '#F1F8FC',
+            backgroundColour: '#FDF1F8',
         },
         headerSettings: {
-            textColour: '#052962',
+            textColour: '#721765',
         },
         primaryCtaSettings: {
             default: {
-                backgroundColour: brandAlt[400],
-                textColour: 'black',
+                backgroundColour: '#721765',
+                textColour: 'white',
             },
             hover: {
-                backgroundColour: brandAlt[200],
-                textColour: 'black',
+                backgroundColour: '#2D0427',
+                textColour: 'white',
             },
         },
         secondaryCtaSettings: {
@@ -49,35 +49,35 @@ const EuropeMomentLocalLanguageBanner = bannerWrapper(
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: '#F1F8FC',
+                backgroundColour: '#FDF1F8',
                 textColour: brand[400],
                 border: `1px solid ${brand[400]}`,
             },
             hover: {
-                backgroundColour: '#E5E5E5',
+                backgroundColour: '#FDF1F8',
                 textColour: brand[400],
             },
             theme: 'brand',
         },
         highlightedTextSettings: {
-            textColour: neutral[0],
-            highlightColour: brandAlt[400],
+            textColour: 'white',
+            highlightColour: '#721765',
         },
         choiceCards: true,
-        bannerId: 'europe-moment-local-language-banner',
+        bannerId: 'supporter-moment-banner',
     }),
-    'europe-moment-local-language-banner',
+    'supporter-moment-banner',
 );
 
-const EuropeMomentLocalLanguageTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <EuropeMomentLocalLanguageBanner {...props} />
+const SupporterMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <SupporterMomentBanner {...props} />
 );
 
-export const EuropeMomentLocalLanguage = EuropeMomentLocalLanguageTemplate.bind({});
-EuropeMomentLocalLanguage.args = {
+export const SupporterMoment = SupporterMomentTemplate.bind({});
+SupporterMoment.args = {
     ...props,
     content: {
-        heading: 'Local Language Replace',
+        heading: 'The only pocket we’re in is yours',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         paragraphs: [
@@ -91,7 +91,7 @@ EuropeMomentLocalLanguage.args = {
         },
     },
     mobileContent: {
-        heading: 'Local Language Replace (mobile)',
+        heading: 'The only pocket we’re in is yours',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         paragraphs: [

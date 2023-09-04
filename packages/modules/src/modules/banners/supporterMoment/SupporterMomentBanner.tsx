@@ -1,22 +1,22 @@
-import { brand, brandAlt, culture, neutral } from '@guardian/src-foundations';
+import { brand, culture } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const EuropeMomentLocalLanguageBanner = getMomentTemplateBanner({
+const SupporterMomentBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: '#F1F8FC',
     },
     headerSettings: {
-        textColour: '#052962',
+        textColour: '#721765',
     },
     primaryCtaSettings: {
         default: {
-            backgroundColour: brandAlt[400],
-            textColour: 'black',
+            backgroundColour: '#721765',
+            textColour: 'white',
         },
         hover: {
-            backgroundColour: brandAlt[200],
-            textColour: 'black',
+            backgroundColour: '#2D0427',
+            textColour: 'white',
         },
     },
     secondaryCtaSettings: {
@@ -39,29 +39,20 @@ const EuropeMomentLocalLanguageBanner = getMomentTemplateBanner({
             border: `1px solid ${brand[400]}`,
         },
         hover: {
-            backgroundColour: '#E5E5E5',
+            backgroundColour: '#F1F8FC',
             textColour: brand[400],
         },
         theme: 'brand',
     },
     highlightedTextSettings: {
-        textColour: neutral[0],
-        highlightColour: brandAlt[400],
+        textColour: 'white',
+        highlightColour: '#721765',
     },
     choiceCards: true,
-    bannerId: 'europe-moment-local-language-banner',
+    bannerId: 'supporter-moment-banner',
 });
 
-const unvalidated = bannerWrapper(
-    EuropeMomentLocalLanguageBanner,
-    'europe-moment-local-language-banner',
-);
-const validated = validatedBannerWrapper(
-    EuropeMomentLocalLanguageBanner,
-    'europe-moment-local-language-banner',
-);
+const unvalidated = bannerWrapper(SupporterMomentBanner, 'supporter-moment-banner');
+const validated = validatedBannerWrapper(SupporterMomentBanner, 'supporter-moment-banner');
 
-export {
-    validated as EuropeMomentLocalLanguageBanner,
-    unvalidated as EuropeMomentLocalLanguageBannerUnValidated,
-};
+export { validated as SupporterMomentBanner, unvalidated as SupporterMomentBannerUnValidated };

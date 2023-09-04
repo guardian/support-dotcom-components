@@ -88,6 +88,11 @@ export const choiceCardsButtonsBannerYellow: ModuleInfo = getDefaultModuleInfo(
     'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerYellow',
 );
 
+export const supporterMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'supporter-moment-banner',
+    'banners/supporterMoment/SupporterMomentBanner',
+);
+
 export const europeMomentLocalLanguageBanner: ModuleInfo = getDefaultModuleInfo(
     'europe-moment-local-language-banner',
     'banners/europeMomentLocalLanguage/EuropeMomentLocalLanguageBanner',
@@ -146,6 +151,7 @@ export const moduleInfos: ModuleInfo[] = [
     choiceCardsBannerYellow,
     choiceCardsButtonsBannerBlue,
     choiceCardsButtonsBannerYellow,
+    supporterMomentBanner,
     europeMomentLocalLanguageBanner,
     guardianWeekly,
     puzzlesBanner,
