@@ -1,5 +1,10 @@
 import { factories } from '../factories';
-import { audienceMatches, shouldNotRenderEpic, shouldThrottle } from './targeting';
+import {
+    audienceMatches,
+    pageContextMatches,
+    shouldNotRenderEpic,
+    shouldThrottle,
+} from './targeting';
 
 describe('shouldNotRenderEpic', () => {
     it('returns true for blacklisted section', () => {
@@ -150,5 +155,87 @@ describe('shouldThrottle', () => {
         const now = new Date('2019-09-01T10:24:00');
         const got = shouldThrottle(viewLog, config, 'A', now);
         expect(got).toBe(false);
+    });
+});
+
+describe('pageContextMatches', () => {
+    const pageContext = {
+        tagIds: ['politics/politics'],
+        sectionId: 'politics',
+    };
+    const pageContextTargeting = {
+        tagIds: [],
+        sectionIds: [],
+        excludedTagIds: [],
+        excludedSectionIds: [],
+    };
+
+    it('returns true if no context targeting', () => {
+        const result = pageContextMatches(pageContext, pageContextTargeting);
+        expect(result).toBe(true);
+    });
+
+    // Required tags
+    it('returns true if pageHasRequiredTagId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            tagIds: ['politics/politics'],
+        });
+        expect(result).toBe(true);
+    });
+    it('returns false if !pageHasRequiredTagId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            tagIds: ['environment/environment'],
+        });
+        expect(result).toBe(false);
+    });
+
+    // Required sections
+    it('returns true if pageHasRequiredSectionId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            sectionIds: ['politics'],
+        });
+        expect(result).toBe(true);
+    });
+    it('returns false if !pageHasRequiredSectionId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            sectionIds: ['environment'],
+        });
+        expect(result).toBe(false);
+    });
+
+    // Excluded tags
+    it('returns false if pageHasExcludedTagId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            excludedTagIds: ['politics/politics'],
+        });
+        expect(result).toBe(false);
+    });
+    it('returns true if !pageHasExcludedTagId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            excludedTagIds: ['environment/environment'],
+        });
+        expect(result).toBe(true);
+    });
+
+    // Excluded sections
+    it('returns false if pageHasExcludedSectionId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            excludedSectionIds: ['politics'],
+        });
+        expect(result).toBe(false);
+    });
+    it('returns true if !pageHasExcludedSectionId', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            excludedSectionIds: ['environment'],
+        });
+        expect(result).toBe(true);
     });
 });
