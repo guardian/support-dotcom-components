@@ -36,11 +36,21 @@ export enum BannerTemplate {
     WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
 }
 
+export interface BannerDesignName {
+    designName: string;
+}
+
+type BannerUi = BannerTemplate | BannerDesignName;
+
+export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
+    return (ui as BannerDesignName).designName !== undefined;
+}
+
 export interface BannerVariant extends Variant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePathBuilder: (version?: string) => string;
-    template: BannerTemplate;
+    template: BannerUi;
     bannerContent?: BannerContent;
     mobileBannerContent?: BannerContent;
     componentType: OphanComponentType;
