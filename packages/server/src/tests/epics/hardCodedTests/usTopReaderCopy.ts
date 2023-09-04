@@ -6,8 +6,10 @@ const paragraphs: string[] = [
     'And we provide all this for free, for everyone to read. We do this because we believe in information equality. Greater numbers of people can keep track of the global events shaping our world, understand their impact on people and communities, and become inspired to take meaningful action. Millions can benefit from open access to quality, truthful news, regardless of their ability to pay for it.',
     'If there were ever a time to join us, it is now. Every contribution, however big or small, powers our journalism and sustains our future.',
 ];
+
 const highlightedText =
     'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – it only takes a minute. Thank you.';
+
 const cta: Cta = {
     text: 'Support the Guardian',
     baseUrl: 'https://support.theguardian.com/contribute',
