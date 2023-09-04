@@ -135,7 +135,7 @@ export const pageContextMatches = (
     } = testTargeting;
 
     return (
-        (tagIds?.length === 0 || pageHasATag(tagIds, pageContext.tagIds)) &&
+        (tagIds.length === 0 || pageHasATag(tagIds, pageContext.tagIds)) &&
         (sectionIds.length === 0 || pageHasSection(sectionIds, pageContext.sectionId)) &&
         (excludedTagIds.length === 0 || !pageHasATag(excludedTagIds, pageContext.tagIds)) &&
         (excludedSectionIds.length === 0 ||
