@@ -537,6 +537,8 @@ const countryNames: CountryNameMap = {
     ZW: 'Zimbabwe',
 };
 
+export type CountryCodes = keyof typeof countryNames;
+
 const extendedCurrencySymbol = {
     GBPCountries: '£',
     UnitedStates: '$',
@@ -572,6 +574,28 @@ export const inCountryGroups = (
     }
 
     return countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()));
+};
+
+export const inCountryCodeArray = (
+    countryCode?: string,
+    countryCodeLocations?: CountryCodes[],
+): boolean => {
+    // Always True if no country codes set for the test
+    if (!countryCodeLocations) {
+        return true;
+    }
+
+    // Always True if no country codes set for the test
+    if (countryCodeLocations.length === 0) {
+        return true;
+    }
+
+    // Always False if user location unknown
+    if (!countryCode) {
+        return false;
+    }
+
+    return countryCodeLocations.includes(countryCode.toUpperCase());
 };
 
 const defaultCurrencySymbol = '£';

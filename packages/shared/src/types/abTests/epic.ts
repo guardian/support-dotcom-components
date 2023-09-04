@@ -1,4 +1,4 @@
-import { CountryGroupId, ReminderFields } from '../../lib';
+import { CountryCodes, CountryGroupId, ReminderFields } from '../../lib';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
@@ -145,6 +145,7 @@ export interface EpicTest extends Test<EpicVariant> {
     name: string;
     status: TestStatus;
     locations: CountryGroupId[];
+    countryCodeLocations?: CountryCodes[];
     tagIds: string[];
     sections: string[]; // section IDs
     excludedTagIds: string[];

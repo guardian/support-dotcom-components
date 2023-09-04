@@ -1,4 +1,9 @@
-import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '@sdc/shared/lib';
+import {
+    countryCodeToCountryGroupId,
+    getCountryName,
+    inCountryCodeArray,
+    inCountryGroups,
+} from '@sdc/shared/lib';
 import {
     EpicTargeting,
     EpicTest,
@@ -132,6 +137,12 @@ export const matchesCountryGroups: Filter = {
     test: (test, targeting): boolean => inCountryGroups(targeting.countryCode, test.locations),
 };
 
+export const matchesCountryCodes: Filter = {
+    id: 'matchesCountryCodes',
+    test: (test, targeting): boolean =>
+        inCountryCodeArray(targeting.countryCode, test.countryCodeLocations),
+};
+
 export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
     id: 'shouldThrottle',
     test: (test): boolean => {
@@ -242,6 +253,7 @@ export const findTestAndVariant = (
             excludeTags,
             hasCountryCode,
             matchesCountryGroups,
+            matchesCountryCodes,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
             respectArticleCountOptOut,
