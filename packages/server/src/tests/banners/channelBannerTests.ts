@@ -3,6 +3,7 @@ import {
     contributionsBannerWithSignIn,
     charityAppealBanner,
     digiSubs,
+    designableBanner,
     printSubs,
     choiceCardsBannerBlue,
     choiceCardsBannerYellow,
@@ -19,7 +20,6 @@ import {
     wpfdBanner,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
-    getDefaultModuleInfo,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -81,10 +81,7 @@ export const BannerTemplateProducts: {
 
 const modulePathBuilder = (variant: BannerVariantFromTool) => (version?: string): string => {
     if (uiIsDesign(variant.template)) {
-        return getDefaultModuleInfo(
-            'designable-banner',
-            'banners/designableBanner/DesignableBanner',
-        ).endpointPathBuilder(version);
+        return designableBanner.endpointPathBuilder(version);
     } else {
         return BannerPaths[variant.template](version);
     }

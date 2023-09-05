@@ -43,6 +43,11 @@ export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
     'banners/contributions/ContributionsBannerWithSignIn',
 );
 
+export const designableBanner: ModuleInfo = getDefaultModuleInfo(
+    'designable-banner',
+    'banners/designableBanner/DesignableBanner',
+);
+
 export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'investigations-moment-banner',
     'banners/investigationsMoment/InvestigationsMomentBanner',
@@ -161,4 +166,5 @@ export const moduleInfos: ModuleInfo[] = [
     ukraineMomentBanner,
     scotus2023MomentBanner,
     wpfdBanner,
+    designableBanner,
 ];
