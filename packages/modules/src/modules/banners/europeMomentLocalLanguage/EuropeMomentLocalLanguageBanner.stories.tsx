@@ -79,7 +79,7 @@ export const EuropeMomentLocalLanguage = EuropeMomentLocalLanguageTemplate.bind(
 EuropeMomentLocalLanguage.args = {
     ...props,
     content: {
-        heading: 'Local Language Replace',
+        heading: 'Lorem ipsum dolor sit amet, et lorem do Europe!',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         paragraphs: [
@@ -93,7 +93,7 @@ EuropeMomentLocalLanguage.args = {
         },
     },
     mobileContent: {
-        heading: 'Local Language Replace (mobile)',
+        heading: 'Lorem ipsum dolor sit amet, et lorem do Europe!',
         messageText:
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
         paragraphs: [

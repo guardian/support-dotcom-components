@@ -12,10 +12,6 @@ import {
 } from './headerImageSvg';
 
 const styles = css`
-    padding-right: 50px; // prevent overlap with close button
-    ${from.tablet} {
-        padding-right: 0;
-    }
     svg {
         max-width: 100%;
     }

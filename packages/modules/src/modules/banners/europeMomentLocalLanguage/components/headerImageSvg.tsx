@@ -3,11 +3,11 @@ import React from 'react';
 export function HeaderImageSvgMobileSmall(): JSX.Element {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="300"
-            height="38"
-            viewBox="0 0 300 38"
+            width="274"
+            height="40"
+            viewBox="0 0 274 40"
             fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 d="M61.3483 35.8789L85.0001 35.9999L83.482 26.7649L58.2051 24.8996L61.3483 35.8789Z"
@@ -50,10 +50,6 @@ export function HeaderImageSvgMobileSmall(): JSX.Element {
                 fill="#FFCB00"
             />
             <path
-                d="M148.064 40.9771L173.408 40.0213L172.461 44.8472L145.759 45.378L148.064 40.9771Z"
-                fill="#0053D8"
-            />
-            <path
                 d="M220.152 15.1023L245.649 15.1023L244.702 19.9282L218 20.4591L220.152 15.1023Z"
                 fill="#0053D8"
             />
@@ -68,11 +64,11 @@ export function HeaderImageSvgMobileSmall(): JSX.Element {
 export function HeaderImageSvgMobileMedium(): JSX.Element {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="300"
-            height="38"
-            viewBox="0 0 300 38"
+            height="40"
+            viewBox="0 0 300 40"
             fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 d="M61.3483 35.8789L85.0001 35.9999L83.482 26.7649L58.2051 24.8996L61.3483 35.8789Z"
@@ -133,11 +129,11 @@ export function HeaderImageSvgMobileMedium(): JSX.Element {
 export function HeaderImageSvgTablet(): JSX.Element {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="360"
             height="40"
             viewBox="0 0 360 40"
             fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 d="M61.3483 35.8789L85.0001 35.9999L83.482 26.7649L58.2051 24.8996L61.3483 35.8789Z"
@@ -157,10 +153,6 @@ export function HeaderImageSvgTablet(): JSX.Element {
             />
             <path
                 d="M301.3 18.0615L278.312 19.3031L274 15.7579L300.537 15.3102L301.3 18.0615Z"
-                fill="#4DA65C"
-            />
-            <path
-                d="M340.841 51.0659L306.957 53.5231L300.164 41.4514L339.392 41.8842L340.841 51.0659Z"
                 fill="#4DA65C"
             />
             <path
@@ -200,10 +192,6 @@ export function HeaderImageSvgTablet(): JSX.Element {
                 fill="#FFCB00"
             />
             <path
-                d="M148.064 40.9771L173.408 40.0213L172.461 44.8472L145.759 45.378L148.064 40.9771Z"
-                fill="#0053D8"
-            />
-            <path
                 d="M218.5 19.4085L243.997 19.4085L243.049 24.2344L216.348 24.7652L218.5 19.4085Z"
                 fill="#0053D8"
             />
@@ -218,11 +206,11 @@ export function HeaderImageSvgTablet(): JSX.Element {
 export function HeaderImageSvgDesktop(): JSX.Element {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="400"
             height="40"
             viewBox="0 0 400 40"
             fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 d="M61.3482 35.8789L85 35.9999L83.4819 26.7649L58.205 24.8996L61.3482 35.8789Z"
@@ -242,10 +230,6 @@ export function HeaderImageSvgDesktop(): JSX.Element {
             />
             <path
                 d="M301.3 18.0615L278.312 19.3031L274 15.7579L300.537 15.3102L301.3 18.0615Z"
-                fill="#4DA65C"
-            />
-            <path
-                d="M340.841 51.0659L306.957 53.5231L300.164 41.4514L339.392 41.8842L340.841 51.0659Z"
                 fill="#4DA65C"
             />
             <path
@@ -290,10 +274,6 @@ export function HeaderImageSvgDesktop(): JSX.Element {
                 fill="#FFCB00"
             />
             <path
-                d="M148.064 40.9771L173.408 40.0213L172.461 44.8472L145.759 45.378L148.064 40.9771Z"
-                fill="#0053D8"
-            />
-            <path
                 d="M218.5 19.4085L243.997 19.4085L243.049 24.2344L216.348 24.7652L218.5 19.4085Z"
                 fill="#0053D8"
             />
@@ -308,11 +288,11 @@ export function HeaderImageSvgDesktop(): JSX.Element {
 export function HeaderImageSvgLeftCol(): JSX.Element {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="560"
             height="40"
             viewBox="0 0 560 40"
             fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 d="M61.3482 35.8789L85 35.9999L83.4819 26.7649L58.205 24.8996L61.3482 35.8789Z"
@@ -412,7 +392,7 @@ export function HeaderImageSvgLeftCol(): JSX.Element {
                 fill="black"
             />
             <path
-                d="M541.528 21.5748L558.52 21.4145L558.235 29.5192L539.6 31.5647L541.528 21.5748Z"
+                d="M541.528 21.5751L558.52 21.4147L558.235 29.5194L539.6 31.5649L541.528 21.5751Z"
                 fill="#FCCC08"
             />
         </svg>
@@ -422,11 +402,11 @@ export function HeaderImageSvgLeftCol(): JSX.Element {
 export function HeaderImageSvgWide(): JSX.Element {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="640"
             height="40"
             viewBox="0 0 640 40"
             fill="none"
+            xmlns="http://www.w3.org/2000/svg"
         >
             <path
                 d="M61.3482 35.8789L85 35.9999L83.4819 26.7649L58.205 24.8996L61.3482 35.8789Z"
@@ -441,7 +421,7 @@ export function HeaderImageSvgWide(): JSX.Element {
                 fill="black"
             />
             <path
-                d="M46.7077 13.3267L69.9996 13L73.1169 18.4726L43.0495 20.3337L46.7077 13.3267Z"
+                d="M46.7076 13.3267L69.9996 13L73.1169 18.4726L43.0494 20.3337L46.7076 13.3267Z"
                 fill="#24ADC8"
             />
             <path
@@ -461,7 +441,7 @@ export function HeaderImageSvgWide(): JSX.Element {
                 fill="#4DA65C"
             />
             <path
-                d="M347.064 35.9795L316.755 35.9973L311 29L347.065 26.899L347.064 35.9795Z"
+                d="M347.065 35.9795L316.755 35.9973L311 29L347.065 26.899L347.065 35.9795Z"
                 fill="#4DA65C"
             />
             <path
@@ -473,7 +453,7 @@ export function HeaderImageSvgWide(): JSX.Element {
                 fill="#F50000"
             />
             <path
-                d="M638.091 25.9064L639.075 33.3475L619.745 33.6951L615.069 25.8979L638.091 25.9064Z"
+                d="M638.091 25.9061L639.075 33.3473L619.745 33.6948L615.069 25.8976L638.091 25.9061Z"
                 fill="#F50000"
             />
             <path
