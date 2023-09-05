@@ -17,7 +17,7 @@ import {
     withinMaxViews,
     deviceTypeMatchesFilter,
     correctSignedInStatusFilter,
-    matchesCountryCodes,
+    matchesCountryCodeLocations,
 } from './epicSelection';
 
 const testDefault: EpicTest = {
@@ -547,7 +547,7 @@ describe('matchesCountryCodes filter', () => {
             countryCodeLocations: [],
         };
 
-        const got = matchesCountryCodes.test(test, targetingDefault);
+        const got = matchesCountryCodeLocations.test(test, targetingDefault);
 
         expect(got).toBe(true);
     });
@@ -563,7 +563,7 @@ describe('matchesCountryCodes filter', () => {
             countryCode: undefined,
         };
 
-        const got = matchesCountryCodes.test(test, targeting);
+        const got = matchesCountryCodeLocations.test(test, targeting);
 
         expect(got).toBe(false);
     });
@@ -579,7 +579,7 @@ describe('matchesCountryCodes filter', () => {
             countryCode: 'PT',
         };
 
-        const got = matchesCountryCodes.test(test, targeting);
+        const got = matchesCountryCodeLocations.test(test, targeting);
 
         expect(got).toBe(true);
     });
@@ -595,7 +595,7 @@ describe('matchesCountryCodes filter', () => {
             countryCode: 'PT',
         };
 
-        const got = matchesCountryCodes.test(test, targeting);
+        const got = matchesCountryCodeLocations.test(test, targeting);
 
         expect(got).toBe(false);
     });
