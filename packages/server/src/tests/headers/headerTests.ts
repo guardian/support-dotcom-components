@@ -1,5 +1,5 @@
 import { HeaderTest } from '@sdc/shared/types';
-import { getTests } from '../testsStore';
+import { getTests } from '../store';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 const buildHeaderTestsReloader = (): Promise<ValueReloader<HeaderTest[]>> =>

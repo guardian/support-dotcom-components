@@ -56,7 +56,6 @@ export interface BannerVariant extends Variant {
     componentType: OphanComponentType;
     products?: OphanProduct[];
     separateArticleCount?: boolean;
-    design?: ConfigurableDesign;
 }
 
 export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
@@ -97,3 +96,5 @@ export type BannerVariantFromTool = Omit<
 export type BannerTestFromTool = Omit<BannerTest, 'bannerChannel' | 'isHardcoded'> & {
     variants: BannerVariantFromTool[];
 };
+
+export type BannerDesignFromTool = { name: string } & ConfigurableDesign;
