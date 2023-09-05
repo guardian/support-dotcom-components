@@ -576,7 +576,7 @@ export const inCountryGroups = (
     return countryGroups.includes(countryCodeToCountryGroupId(countryCode.toUpperCase()));
 };
 
-export const inCountryCodeArray = (
+export const inCountryCodeLocations = (
     countryCode?: string,
     countryCodeLocations?: CountryCodes[],
 ): boolean => {

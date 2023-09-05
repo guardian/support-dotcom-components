@@ -1,7 +1,7 @@
 import {
     countryCodeToCountryGroupId,
     getCountryName,
-    inCountryCodeArray,
+    inCountryCodeLocations,
     inCountryGroups,
 } from '@sdc/shared/lib';
 import {
@@ -137,10 +137,10 @@ export const matchesCountryGroups: Filter = {
     test: (test, targeting): boolean => inCountryGroups(targeting.countryCode, test.locations),
 };
 
-export const matchesCountryCodes: Filter = {
-    id: 'matchesCountryCodes',
+export const matchesCountryCodeLocations: Filter = {
+    id: 'matchesCountryCodeLocations',
     test: (test, targeting): boolean =>
-        inCountryCodeArray(targeting.countryCode, test.countryCodeLocations),
+        inCountryCodeLocations(targeting.countryCode, test.countryCodeLocations),
 };
 
 export const withinMaxViews = (log: EpicViewLog, now: Date = new Date()): Filter => ({
@@ -253,7 +253,7 @@ export const findTestAndVariant = (
             excludeTags,
             hasCountryCode,
             matchesCountryGroups,
-            matchesCountryCodes,
+            matchesCountryCodeLocations,
             // For the super mode pass, we treat all tests as "always ask" so disable this filter
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
             respectArticleCountOptOut,
