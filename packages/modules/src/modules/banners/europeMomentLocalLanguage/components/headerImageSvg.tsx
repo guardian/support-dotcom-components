@@ -129,9 +129,9 @@ export function HeaderImageSvgMobileMedium(): JSX.Element {
 export function HeaderImageSvgTablet(): JSX.Element {
     return (
         <svg
-            width="360"
+            width="300"
             height="40"
-            viewBox="0 0 360 40"
+            viewBox="0 0 300 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >
@@ -160,10 +160,6 @@ export function HeaderImageSvgTablet(): JSX.Element {
                 fill="#4DA65C"
             />
             <path
-                d="M349.027 35.9785L317.068 35.9973L311 29.0002L349.028 26.898L349.027 35.9785Z"
-                fill="#4DA65C"
-            />
-            <path
                 d="M279.669 25.6465L280.942 30.2622L250.141 31.258L243 26.5682L279.669 25.6465Z"
                 fill="#F50000"
             />
@@ -172,19 +168,11 @@ export function HeaderImageSvgTablet(): JSX.Element {
                 fill="#4DA65C"
             />
             <path
-                d="M340.654 13.0031L306.526 12.0023L309.889 5.0243L349.66 3.50334L340.654 13.0031Z"
-                fill="#0053D8"
-            />
-            <path
                 d="M208.305 21.3413L169.011 23.6419L178 13.5L208.297 12.0002L208.305 21.3413Z"
                 fill="#24ADC8"
             />
             <path
                 d="M149.22 24.5843L126 25.4913L126.265 19.2489L152.431 17.1857L149.22 24.5843Z"
-                fill="#FFCB00"
-            />
-            <path
-                d="M326.14 29.4392L302.92 30.1148L303.185 25.4654L329.351 23.9287L326.14 29.4392Z"
                 fill="#FFCB00"
             />
             <path
@@ -206,9 +194,9 @@ export function HeaderImageSvgTablet(): JSX.Element {
 export function HeaderImageSvgDesktop(): JSX.Element {
     return (
         <svg
-            width="400"
+            width="460"
             height="40"
-            viewBox="0 0 400 40"
+            viewBox="0 0 460 40"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >
@@ -233,6 +221,10 @@ export function HeaderImageSvgDesktop(): JSX.Element {
                 fill="#4DA65C"
             />
             <path
+                d="M340.841 51.0659L306.957 53.5231L300.164 41.4514L339.392 41.8842L340.841 51.0659Z"
+                fill="#4DA65C"
+            />
+            <path
                 d="M10.3519 18.27L22.0983 18.5303L21.472 12.4613L0.276392 11.992L10.3519 18.27Z"
                 fill="#4DA65C"
             />
@@ -250,11 +242,15 @@ export function HeaderImageSvgDesktop(): JSX.Element {
             />
             <path d="M346 13L310 12.0003L313.548 5.02217L355.5 3.49992L346 13Z" fill="#0053D8" />
             <path
-                d="M366 28.0298L396.754 28.6133L397.75 36.5142L370.292 36.5359L366 28.0298Z"
+                d="M366 28.0298L402.707 28.6086L403.895 36.5094L371.121 36.5353L366 28.0298Z"
                 fill="#F50000"
             />
             <path
                 d="M208.305 21.3413L169.011 23.6419L178 13.5L208.297 12.0002L208.305 21.3413Z"
+                fill="#24ADC8"
+            />
+            <path
+                d="M445.305 24.3413L406.011 26.6419L410.649 15.8487L445.297 15.0002L445.305 24.3413Z"
                 fill="#24ADC8"
             />
             <path
@@ -274,11 +270,19 @@ export function HeaderImageSvgDesktop(): JSX.Element {
                 fill="#FFCB00"
             />
             <path
+                d="M148.064 40.9771L173.408 40.0213L172.461 44.8472L145.759 45.378L148.064 40.9771Z"
+                fill="#0053D8"
+            />
+            <path
                 d="M218.5 19.4085L243.997 19.4085L243.049 24.2344L216.348 24.7652L218.5 19.4085Z"
                 fill="#0053D8"
             />
             <path
                 d="M176.068 32.4849L159.963 33.2898L159.957 27.005L178.181 28.0469L176.068 32.4849Z"
+                fill="black"
+            />
+            <path
+                d="M418.725 9.89941L402.62 9.0945L402.614 15.3792L420.838 14.3374L418.725 9.89941Z"
                 fill="black"
             />
         </svg>
