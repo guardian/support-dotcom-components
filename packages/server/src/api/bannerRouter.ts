@@ -156,6 +156,7 @@ export const buildBannerRouter = (
                 separateArticleCount: variant.separateArticleCount,
                 prices: productPrices.get(),
                 choiceCardAmounts: variantAmounts,
+                design: variant.design,
             };
 
             return {

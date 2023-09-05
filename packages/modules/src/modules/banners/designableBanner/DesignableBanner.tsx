@@ -18,8 +18,9 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 import { BannerTemplateSettings } from './settings';
+import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 
-export const DesignableBanner: React.FC<BannerRenderProps> = ({
+const DesignableBanner: React.FC<BannerRenderProps> = ({
     content,
     onCloseClick,
     numArticles,
@@ -326,3 +327,8 @@ const styles = {
         flex-direction: row;
     `,
 };
+
+const unvalidated = bannerWrapper(DesignableBanner, 'designable-banner');
+const validated = validatedBannerWrapper(DesignableBanner, 'designable-banner');
+
+export { validated as DesignableBanner, unvalidated as DesignableBannerUnvalidated };
