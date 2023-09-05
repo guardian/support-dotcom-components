@@ -122,7 +122,7 @@ export const DesignableBanner: React.FC<BannerRenderProps> = ({
         getCtaText,
         currencySymbol,
     } = useChoiceCards(choiceCardAmounts, countryCode);
-    const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amounts);
+    const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amountsCardData);
 
     return (
         <div
@@ -208,9 +208,9 @@ export const DesignableBanner: React.FC<BannerRenderProps> = ({
                             submitComponentEvent={submitComponentEvent}
                             currencySymbol={currencySymbol}
                             componentId={'choice-cards-buttons-banner-blue'}
-                            amounts={choiceCardAmounts.amounts}
-                            amountsTestName={choiceCardAmounts?.testName}
-                            amountsVariantName={choiceCardAmounts?.variantName}
+                            amounts={choiceCardAmounts.amountsCardData}
+                            amountsTestName={choiceCardAmounts.testName}
+                            amountsVariantName={choiceCardAmounts.variantName}
                             countryCode={countryCode}
                             bannerTracking={tracking}
                             numArticles={numArticles}
