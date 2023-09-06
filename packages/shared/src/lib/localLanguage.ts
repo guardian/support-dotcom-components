@@ -1,8 +1,8 @@
-export type LocalLanguage = {
+type LocalLanguageBannerHeader = {
     bannerHeader?: string;
 };
 
-const localLanguageBannerHeaders: Record<string, LocalLanguage> = {
+const localLanguageBannerHeaders: Record<string, LocalLanguageBannerHeader> = {
     FR: {
         bannerHeader: 'Soutenez un journalisme européen et indépendant ',
     },
@@ -27,8 +27,8 @@ export const countryCodeToLocalLanguageBannerHeader = (
     testName: string,
     variantName: string,
     countryCode?: string,
-    defaultBannerHeader?: LocalLanguage,
-): LocalLanguage | undefined => {
+    defaultBannerHeader?: LocalLanguageBannerHeader,
+): LocalLanguageBannerHeader | undefined => {
     if (
         testName === 'LOCAL-LANGUAGE' &&
         variantName === 'CONTROL' &&
