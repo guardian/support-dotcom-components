@@ -12,6 +12,7 @@ export const BannerWithHeaderImage = bannerWrapper(
             backgroundColour: '#F1F8FC',
         },
         headerSettings: {
+            showHeader: { text: false, image: true },
             image: <TopImage />,
         },
         primaryCtaSettings: {

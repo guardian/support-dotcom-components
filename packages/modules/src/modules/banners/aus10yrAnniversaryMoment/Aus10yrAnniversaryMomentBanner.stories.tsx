@@ -22,6 +22,7 @@ const AusBanner = bannerWrapper(
             backgroundColour: neutral[93],
         },
         headerSettings: {
+            showHeader: { text: true },
             textColour: brand[400],
         },
         primaryCtaSettings: {

@@ -9,6 +9,7 @@ const EuropeMomentLocalLanguageBanner = getMomentTemplateBanner({
         backgroundColour: '#F1F8FC',
     },
     headerSettings: {
+        showHeader: { text: true, image: true },
         textColour: '#052962',
         image: <HeaderImage />,
     },

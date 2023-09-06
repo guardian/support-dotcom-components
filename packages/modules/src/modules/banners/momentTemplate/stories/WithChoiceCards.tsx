@@ -11,6 +11,7 @@ export const BannerWithChoiceCards = bannerWrapper(
             backgroundColour: '#F1F8FC',
         },
         headerSettings: {
+            showHeader: { text: true },
             textColour: '#0077B6',
         },
         primaryCtaSettings: {
