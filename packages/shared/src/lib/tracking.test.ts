@@ -136,7 +136,7 @@ describe('buildCampaignCode', () => {
         const test = factories.test.build({
             name: 'enviro_fossil_fuel_r2_Epic__no_article_count',
         });
-        const variant = factories.variant.build({ name: 'Control' });
+        const variant = factories.epicVariant.build({ name: 'Control' });
 
         const campaignCode = buildCampaignCode(test, variant);
 

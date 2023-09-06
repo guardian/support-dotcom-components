@@ -2,7 +2,7 @@ import { register } from 'fishery';
 import targeting from './targeting';
 import test from './test';
 import { pageTracking, testTracking, tracking } from './tracking';
-import variant from './variant';
+import epicVariant from './epicVariant';
 
 export const factories = register({
     pageTracking,
@@ -10,5 +10,5 @@ export const factories = register({
     test,
     testTracking,
     tracking,
-    variant,
+    epicVariant,
 });

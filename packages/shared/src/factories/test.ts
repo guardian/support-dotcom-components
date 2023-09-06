@@ -20,6 +20,6 @@ export default Factory.define<EpicTest>(({ factories }) => ({
     hasCountryName: false,
     highPriority: false,
     useLocalViewLog: false,
-    variants: factories.variant.buildList(1),
+    variants: factories.epicVariant.buildList(1),
     hasArticleCountInCopy: false,
 }));
