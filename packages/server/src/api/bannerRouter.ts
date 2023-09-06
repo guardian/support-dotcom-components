@@ -20,7 +20,6 @@ import {
     buildBannerCampaignCode,
     countryCodeToCountryGroupId,
     countryCodeToVerfiedLocalLanguage,
-    LocalLanguageBannerTemplateName,
 } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
@@ -114,7 +113,7 @@ export const buildBannerRouter = (
                 ...variant?.mobileBannerContent,
             };
 
-            if (moduleName === LocalLanguageBannerTemplateName) {
+            if (moduleName === 'EuropeMomentLocalLanguageBanner') {
                 const localLanguage = countryCodeToVerfiedLocalLanguage(
                     test.name,
                     variant.name,

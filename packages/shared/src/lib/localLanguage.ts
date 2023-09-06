@@ -1,5 +1,3 @@
-export const LocalLanguageBannerTemplateName = 'EuropeMomentLocalLanguageBanner';
-
 export type LocalLanguage = {
     testName: string;
     variantName: string;
