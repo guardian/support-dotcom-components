@@ -4,6 +4,9 @@ import { settings } from './settings';
 
 const PostElectionAuMomentHungBanner = getMomentTemplateBanner({
     ...settings,
+    headerSettings: {
+        showHeader: { text: true },
+    },
     imageSettings: {
         mainUrl:
             'https://i.guim.co.uk/img/media/96891616b71f3e15d7865d200215249a2174a124/0_0_1480_1240/500.png?quality=85&s=8a6fdf090ef6a8e734eedac798f3519d',

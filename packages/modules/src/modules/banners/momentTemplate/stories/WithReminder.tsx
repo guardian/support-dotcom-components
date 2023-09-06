@@ -10,6 +10,9 @@ export const BannerWithReminder = bannerWrapper(
         containerSettings: {
             backgroundColour: '#e4e4e3',
         },
+        headerSettings: {
+            showHeader: { text: true },
+        },
         primaryCtaSettings: {
             default: {
                 backgroundColour: '#121212',
