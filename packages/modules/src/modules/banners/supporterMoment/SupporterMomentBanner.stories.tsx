@@ -22,6 +22,7 @@ const SupporterMomentBanner = bannerWrapper(
             backgroundColour: '#FDF1F8',
         },
         headerSettings: {
+            showHeader: { text: true },
             textColour: '#721765',
         },
         primaryCtaSettings: {

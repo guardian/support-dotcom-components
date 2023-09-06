@@ -7,6 +7,7 @@ const SupporterMomentBanner = getMomentTemplateBanner({
         backgroundColour: '#F1F8FC',
     },
     headerSettings: {
+        showHeader: { text: true },
         textColour: '#721765',
     },
     primaryCtaSettings: {
