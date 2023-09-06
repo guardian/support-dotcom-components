@@ -35,6 +35,11 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
     tracking,
     design,
 }: BannerRenderProps): JSX.Element => {
+    // We can't render anything without a design
+    if (!design) {
+        return <></>;
+    }
+
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
             backgroundColour: '#F1F8FC',
@@ -82,33 +87,14 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
             highlightColour: brandAlt[400],
         },
         imageSettings: {
-            mainUrl:
-                'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
-            mobileUrl:
-                'https://i.guim.co.uk/img/media/630a3735c02e195be89ab06fd1b8192959e282ab/0_0_1172_560/500.png?width=500&quality=75&s=937595b3f471d6591475955335c7c023',
-            tabletUrl:
-                'https://i.guim.co.uk/img/media/d1af2bcab927ca0ad247522105fe41a52a474d27/0_0_1080_1000/500.png?width=500&quality=75&s=af39fa30f36fce453eabaef3063a3180',
-            desktopUrl:
-                'https://i.guim.co.uk/img/media/20cc6e0fa146574bb9c4ed410ac1a089fab02ce0/0_0_1428_1344/500.png?width=500&quality=75&s=fe64f647f74a3cb671f8035a473b895f',
-            wideUrl:
-                'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
-            altText: 'Guardian logo being held up by supporters of the Guardian',
+            mainUrl: design.image.mobileUrl,
+            mobileUrl: design.image.mobileUrl,
+            tabletUrl: design.image.tabletDesktopUrl,
+            desktopUrl: design.image.tabletDesktopUrl,
+            wideUrl: design.image.wideUrl,
+            altText: design.image.altText,
         },
         bannerId: 'designable-banner',
-    };
-
-    // We can't render anything without a design
-    if (!design) {
-        return <></>;
-    }
-
-    const imageSettings = {
-        mainUrl: design.image.mobileUrl,
-        mobileUrl: design.image.mobileUrl,
-        tabletUrl: design.image.tabletDesktopUrl,
-        desktopUrl: design.image.tabletDesktopUrl,
-        wideUrl: design.image.wideUrl,
-        altText: design.image.altText,
     };
 
     const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
@@ -142,7 +128,7 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
                 <div
                     css={styles.headerContainer(
                         templateSettings.containerSettings.backgroundColour,
-                        !!imageSettings,
+                        !!templateSettings.imageSettings,
                     )}
                 >
                     <DesignableBannerHeader
@@ -195,9 +181,9 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
                         templateSettings.choiceCards,
                     )}
                 >
-                    {imageSettings && (
+                    {templateSettings.imageSettings && (
                         <DesignableBannerVisual
-                            settings={imageSettings}
+                            settings={templateSettings.imageSettings}
                             bannerId={templateSettings.bannerId}
                         />
                     )}
