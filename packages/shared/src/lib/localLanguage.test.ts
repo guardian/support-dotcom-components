@@ -1,4 +1,4 @@
-import { countryCodeToVerfiedLocalLanguage } from './localLanguage';
+import { countryCodeToLocalLanguageBannerHeader } from './localLanguage';
 
 describe('getCountryCodeToLocalLanguage', () => {
     const countries = [
@@ -6,41 +6,25 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'FR',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'Soutenez un journalisme européen et indépendant ',
-            },
+            output: { bannerHeader: 'Soutenez un journalisme européen et indépendant ' },
         },
         {
             inputCountryCode: 'DE',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'Unterstützen Sie unabhängigen europäischen Journalismus',
-            },
+            output: { bannerHeader: 'Unterstützen Sie unabhängigen europäischen Journalismus' },
         },
         {
             inputCountryCode: 'IT',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'Sostieni un giornalismo europeo indipendente',
-            },
+            output: { bannerHeader: 'Sostieni un giornalismo europeo indipendente' },
         },
         {
             inputCountryCode: 'NL',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'Steun de onafhankelijke journalistiek',
-            },
+            output: { bannerHeader: 'Steun de onafhankelijke journalistiek' },
         },
         {
             inputCountryCode: 'NL',
@@ -64,21 +48,13 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'SE',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'Var med och stöd oberoende journalistik i Europa',
-            },
+            output: { bannerHeader: 'Var med och stöd oberoende journalistik i Europa' },
         },
         {
             inputCountryCode: 'SP',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'Fomentar el periodismo europeo independiente',
-            },
+            output: { bannerHeader: 'Fomentar el periodismo europeo independiente' },
         },
         {
             inputCountryCode: 'GB',
@@ -96,31 +72,15 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: 'US',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'BannerHeaderTest',
-            },
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'BannerHeaderTest',
-            },
+            inputDefaultLocalLanguage: { bannerHeader: 'BannerHeaderTest' },
+            output: { bannerHeader: 'BannerHeaderTest' },
         },
         {
             inputCountryCode: '',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
-            inputDefaultLocalLanguage: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'BannerHeaderTest',
-            },
-            output: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'BannerHeaderTest',
-            },
+            inputDefaultLocalLanguage: { bannerHeader: 'BannerHeaderTest' },
+            output: { bannerHeader: 'BannerHeaderTest' },
         },
         {
             inputCountryCode: '',
@@ -132,12 +92,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputCountryCode: '',
             inputTestName: '',
             inputVariant: '',
-            inputDefaultLocalLanguage: {
-                testName: 'LOCAL-LANGUAGE',
-                variantName: 'CONTROL',
-                bannerHeader: 'BannerHeaderTest',
-            },
-            output: undefined,
+            inputDefaultLocalLanguage: { bannerHeader: 'BannerHeaderTest' },
+            output: { bannerHeader: 'BannerHeaderTest' },
         },
     ];
 
@@ -145,7 +101,7 @@ describe('getCountryCodeToLocalLanguage', () => {
         ({ inputTestName, inputVariant, inputCountryCode, inputDefaultLocalLanguage, output }) => {
             it(`returns ${output}, given ${inputCountryCode}`, () => {
                 expect(
-                    countryCodeToVerfiedLocalLanguage(
+                    countryCodeToLocalLanguageBannerHeader(
                         inputTestName,
                         inputVariant,
                         inputCountryCode,

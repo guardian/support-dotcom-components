@@ -19,7 +19,7 @@ import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import {
     buildBannerCampaignCode,
     countryCodeToCountryGroupId,
-    countryCodeToVerfiedLocalLanguage,
+    countryCodeToLocalLanguageBannerHeader,
 } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
@@ -114,15 +114,11 @@ export const buildBannerRouter = (
             };
 
             if (moduleName === 'EuropeMomentLocalLanguageBanner') {
-                const localLanguage = countryCodeToVerfiedLocalLanguage(
+                const localLanguage = countryCodeToLocalLanguageBannerHeader(
                     test.name,
                     variant.name,
                     targeting.countryCode,
-                    {
-                        testName: test.name,
-                        variantName: variant.name,
-                        bannerHeader: variant.bannerContent?.heading,
-                    },
+                    { bannerHeader: variant.bannerContent?.heading },
                 );
                 bannerContent?.heading && (bannerContent.heading = localLanguage?.bannerHeader);
                 bannerMobileContent?.heading &&

@@ -1,60 +1,40 @@
 export type LocalLanguage = {
-    testName: string;
-    variantName: string;
     bannerHeader?: string;
 };
-type LocalLanguages = Record<string, LocalLanguage>;
 
-const localLanguages: LocalLanguages = {
+const localLanguageBannerHeaders: Record<string, LocalLanguage> = {
     FR: {
-        testName: 'LOCAL-LANGUAGE',
-        variantName: 'CONTROL',
         bannerHeader: 'Soutenez un journalisme européen et indépendant ',
     },
     DE: {
-        testName: 'LOCAL-LANGUAGE',
-        variantName: 'CONTROL',
         bannerHeader: 'Unterstützen Sie unabhängigen europäischen Journalismus',
     },
     IT: {
-        testName: 'LOCAL-LANGUAGE',
-        variantName: 'CONTROL',
         bannerHeader: 'Sostieni un giornalismo europeo indipendente',
     },
     NL: {
-        testName: 'LOCAL-LANGUAGE',
-        variantName: 'CONTROL',
         bannerHeader: 'Steun de onafhankelijke journalistiek',
     },
     SE: {
-        testName: 'LOCAL-LANGUAGE',
-        variantName: 'CONTROL',
         bannerHeader: 'Var med och stöd oberoende journalistik i Europa',
     },
     SP: {
-        testName: 'LOCAL-LANGUAGE',
-        variantName: 'CONTROL',
         bannerHeader: 'Fomentar el periodismo europeo independiente',
     },
 };
 
-export const countryCodeToVerfiedLocalLanguage = (
+export const countryCodeToLocalLanguageBannerHeader = (
     testName: string,
     variantName: string,
     countryCode?: string,
-    dfltLocalLanguage?: LocalLanguage,
+    defaultBannerHeader?: LocalLanguage,
 ): LocalLanguage | undefined => {
-    const hasCountryLanguageOrDefault = localLanguages[countryCode] || dfltLocalLanguage;
     if (
-        testName === hasCountryLanguageOrDefault?.testName &&
-        variantName === hasCountryLanguageOrDefault?.variantName
+        testName === 'LOCAL-LANGUAGE' &&
+        variantName === 'CONTROL' &&
+        localLanguageBannerHeaders[countryCode]
     ) {
-        return (
-            localLanguages[countryCode] ?? {
-                testName: dfltLocalLanguage.testName,
-                variantName: dfltLocalLanguage.variantName,
-                bannerHeader: dfltLocalLanguage?.bannerHeader,
-            }
-        );
+        return localLanguageBannerHeaders[countryCode];
     }
+    return defaultBannerHeader;
 };
