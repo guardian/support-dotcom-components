@@ -18,8 +18,8 @@ export function MomentTemplateBannerHeader({
         <div css={styles.container}>
             <header css={styles.header(headerSettings)}>
                 <h2>
-                    {headerSettings?.showHeader.text ? mainOrMobileContent : null}
-                    {headerSettings?.showHeader.image ? headerSettings?.image : null}
+                    {headerSettings?.showHeader.text === false ? null : mainOrMobileContent}
+                    {headerSettings?.showHeader.image === false ? null : headerSettings?.image}
                 </h2>
             </header>
         </div>
