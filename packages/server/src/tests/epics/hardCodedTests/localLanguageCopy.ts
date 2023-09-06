@@ -29,7 +29,7 @@ const localLanguagesEpicCopy = {
 // Epic Tests below & variant info to be finalised
 const getEpicVariant = (countryCode: keyof typeof localLanguagesEpicCopy) => {
     const variant: EpicVariant = {
-        name: 'variant',
+        name: 'CONTROL',
         heading: localLanguagesEpicCopy[countryCode].heading,
         paragraphs: localLanguagesEpicCopy[countryCode].paragraphs,
         highlightedText: localLanguagesEpicCopy[countryCode].highlightedText,
@@ -45,11 +45,11 @@ const getEpicVariant = (countryCode: keyof typeof localLanguagesEpicCopy) => {
 };
 
 const franceCopyTest: EpicTest = {
-    name: 'EPIC_LOCAL_LANGUAGE_SEPT_2023_FRANCE',
+    name: 'LOCAL_LANGUAGE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
-    campaignId: 'EPIC_LOCAL_LANGUAGE_SEPT_2023_FRANCE',
+    campaignId: '',
 
     hasArticleCountInCopy: true,
     status: 'Live',
@@ -74,11 +74,11 @@ const franceCopyTest: EpicTest = {
 };
 
 const germanCopyTest: EpicTest = {
-    name: 'EPIC_LOCAL_LANGUAGE_SEPT_2023_GERMANY',
+    name: 'LOCAL_LANGUAGE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
-    campaignId: 'EPIC_LOCAL_LANGUAGE_SEPT_2023_GERMANY',
+    campaignId: '',
 
     audience: 1,
     alwaysAsk: false,
@@ -99,11 +99,11 @@ const germanCopyTest: EpicTest = {
 };
 
 const netherlandsCopyTest: EpicTest = {
-    name: 'EPIC_LOCAL_LANGUAGE_SEPT_2023_NETHERLANDS',
+    name: 'LOCAL_LANGUAGE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
-    campaignId: 'EPIC_LOCAL_LANGUAGE_SEPT_2023_NETHERLANDS',
+    campaignId: '',
 
     audience: 1,
     alwaysAsk: false,
