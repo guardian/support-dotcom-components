@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brand, brandAlt, neutral, space } from '@guardian/src-foundations';
+import { brand, neutral, space, specialReport } from '@guardian/src-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -17,6 +17,7 @@ import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
+import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 
@@ -42,50 +43,52 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
 
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
-            backgroundColour: '#F1F8FC',
+            backgroundColour: specialReport[100],
+            textColor: neutral[100],
         },
         headerSettings: {
-            textColour: '#0077B6',
+            textColour: neutral[100],
         },
         primaryCtaSettings: {
             default: {
-                backgroundColour: '#0077B6',
-                textColour: 'white',
+                backgroundColour: brand[500],
+                textColour: neutral[100],
             },
             hover: {
-                backgroundColour: '#004E7C',
-                textColour: 'white',
-                border: '1px solid #004E7C',
+                backgroundColour: neutral[100],
+                textColour: brand[500],
             },
         },
         secondaryCtaSettings: {
             default: {
-                backgroundColour: '#F1F8FC',
-                textColour: '#004E7C',
-                border: '1px solid #004E7C',
+                backgroundColour: specialReport[100],
+                textColour: neutral[100],
+                border: `1px solid ${neutral[100]}`,
             },
             hover: {
-                backgroundColour: '#E5E5E5',
-                textColour: '#004E7C',
-                border: '1px solid #004E7C',
+                backgroundColour: neutral[100],
+                textColour: specialReport[100],
+                border: `1px solid ${specialReport[100]}`,
             },
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: '#F1F8FC',
-                textColour: brand[400],
-                border: `1px solid ${brand[400]}`,
+                backgroundColour: neutral[100],
+                textColour: specialReport[100],
+                border: `1px solid ${specialReport[100]}`,
             },
             hover: {
-                backgroundColour: '#E5E5E5',
-                textColour: brand[400],
+                backgroundColour: specialReport[100],
+                textColour: neutral[100],
+                border: `1px solid ${neutral[100]}`,
             },
-            theme: 'brand',
+            guardianRoundel: 'inverse',
         },
         highlightedTextSettings: {
-            textColour: neutral[0],
-            highlightColour: brandAlt[400],
+            textColour: specialReport[100],
+            highlightColour: neutral[100],
         },
+        articleCountTextColour: neutral[100],
         imageSettings: {
             mainUrl: design.image.mobileUrl,
             mobileUrl: design.image.mobileUrl,
@@ -203,6 +206,7 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
                             numArticles={numArticles}
                             content={content}
                             getCtaText={getCtaText}
+                            cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
                         />
                     )}
                 </div>
