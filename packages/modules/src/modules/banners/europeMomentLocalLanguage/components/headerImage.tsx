@@ -1,15 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
-import {
-    HeaderImageSvgDesktop,
-    HeaderImageSvgLeftCol,
-    HeaderImageSvgMobileMedium,
-    HeaderImageSvgMobileSmall,
-    HeaderImageSvgTablet,
-    HeaderImageSvgWide,
-    HeaderImageSvg,
-} from './headerImageSvg';
+import { HeaderImageSvg } from './headerImageSvg';
 
 const styles = css`
     svg {
