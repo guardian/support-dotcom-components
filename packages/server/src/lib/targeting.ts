@@ -5,6 +5,7 @@ import {
     Test,
     Variant,
     SignedInStatus,
+    PageContextTargeting,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
@@ -104,4 +105,30 @@ export const correctSignedInStatus = (
         default:
             return true;
     }
+};
+
+interface PageContext {
+    tagIds?: string[];
+    sectionId?: string;
+}
+
+const pageHasATag = (tagIds: string[], pageTagIds?: string[]): boolean =>
+    !!pageTagIds && tagIds.some(tagId => pageTagIds.includes(tagId));
+
+const pageHasASection = (sectionIds: string[], pageSectionId?: string): boolean =>
+    !!pageSectionId && sectionIds.includes(pageSectionId);
+
+export const pageContextMatches = (
+    pageContext: PageContext,
+    testTargeting: PageContextTargeting,
+): boolean => {
+    const { tagIds, sectionIds, excludedTagIds, excludedSectionIds } = testTargeting;
+
+    return (
+        (tagIds.length === 0 || pageHasATag(tagIds, pageContext.tagIds)) &&
+        (sectionIds.length === 0 || pageHasASection(sectionIds, pageContext.sectionId)) &&
+        (excludedTagIds.length === 0 || !pageHasATag(excludedTagIds, pageContext.tagIds)) &&
+        (excludedSectionIds.length === 0 ||
+            !pageHasASection(excludedSectionIds, pageContext.sectionId))
+    );
 };
