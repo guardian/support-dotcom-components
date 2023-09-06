@@ -119,7 +119,11 @@ export const buildBannerRouter = (
                     test.name,
                     variant.name,
                     targeting.countryCode,
-                    { bannerHeader: variant.bannerContent?.heading },
+                    {
+                        testName: test.name,
+                        variantName: variant.name,
+                        bannerHeader: variant.bannerContent?.heading,
+                    },
                 );
                 bannerContent?.heading && (bannerContent.heading = localLanguage?.bannerHeader);
                 bannerMobileContent?.heading &&

@@ -7,6 +7,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'Soutenez un journalisme européen et indépendant ',
             },
         },
@@ -15,6 +17,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'Unterstützen Sie unabhängigen europäischen Journalismus',
             },
         },
@@ -23,6 +27,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'Sostieni un giornalismo europeo indipendente',
             },
         },
@@ -31,6 +37,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'Steun de onafhankelijke journalistiek',
             },
         },
@@ -57,6 +65,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'Var med och stöd oberoende journalistik i Europa',
             },
         },
@@ -65,6 +75,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'Fomentar el periodismo europeo independiente',
             },
         },
@@ -85,9 +97,13 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'BannerHeaderTest',
             },
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'BannerHeaderTest',
             },
         },
@@ -96,9 +112,13 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'BannerHeaderTest',
             },
             output: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'BannerHeaderTest',
             },
         },
@@ -113,6 +133,8 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputTestName: '',
             inputVariant: '',
             inputDefaultLocalLanguage: {
+                testName: 'LOCAL-LANGUAGE',
+                variantName: 'CONTROL',
                 bannerHeader: 'BannerHeaderTest',
             },
             output: undefined,
