@@ -26,9 +26,9 @@ const localLanguageBannerHeaders: Record<string, LocalLanguageBannerHeader> = {
 export const countryCodeToLocalLanguageBannerHeader = (
     testName: string,
     variantName: string,
-    countryCode?: string,
-    defaultBannerHeader?: LocalLanguageBannerHeader,
-): LocalLanguageBannerHeader | undefined => {
+    countryCode: string,
+    defaultBannerHeader: LocalLanguageBannerHeader,
+): LocalLanguageBannerHeader => {
     if (
         testName === 'LOCAL-LANGUAGE' &&
         variantName === 'CONTROL' &&

@@ -113,18 +113,6 @@ export const buildBannerRouter = (
                 ...variant?.mobileBannerContent,
             };
 
-            if (moduleName === 'EuropeMomentLocalLanguageBanner') {
-                const localLanguage = countryCodeToLocalLanguageBannerHeader(
-                    test.name,
-                    variant.name,
-                    targeting.countryCode,
-                    { bannerHeader: variant.bannerContent?.heading },
-                );
-                bannerContent?.heading && (bannerContent.heading = localLanguage?.bannerHeader);
-                bannerMobileContent?.heading &&
-                    (bannerMobileContent.heading = localLanguage?.bannerHeader);
-            }
-
             const contributionAmounts = choiceCardAmounts.get();
             const requiredCountry = targeting.countryCode ?? 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
@@ -135,6 +123,18 @@ export const buildBannerRouter = (
                 requiredRegion,
                 targetingMvtId,
             );
+
+            if (moduleName === 'EuropeMomentLocalLanguageBanner') {
+                const localLanguage = countryCodeToLocalLanguageBannerHeader(
+                    test.name,
+                    variant.name,
+                    requiredCountry,
+                    { bannerHeader: variant.bannerContent?.heading },
+                );
+                bannerContent?.heading && (bannerContent.heading = localLanguage?.bannerHeader);
+                bannerMobileContent?.heading &&
+                    (bannerMobileContent.heading = localLanguage?.bannerHeader);
+            }
 
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
