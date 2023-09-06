@@ -8,6 +8,7 @@ import {
     HeaderImageSvgMobileSmall,
     HeaderImageSvgTablet,
     HeaderImageSvgWide,
+    HeaderImageSvg,
 } from './headerImageSvg';
 
 const styles = css`
@@ -16,26 +17,38 @@ const styles = css`
     }
 `;
 
+export type ImageSize = {
+    width: string;
+    height: string;
+};
+
+const mobileSmall: ImageSize = { width: '270', height: '40' };
+const mobileMedium: ImageSize = { width: '300', height: '40' };
+const tablet: ImageSize = { width: '300', height: '40' };
+const desktop: ImageSize = { width: '450', height: '40' };
+const leftCol: ImageSize = { width: '562', height: '40' };
+const wide: ImageSize = { width: '640', height: '40' };
+
 export function HeaderImage(): JSX.Element {
     return (
         <div css={styles}>
             <Hide above="mobileMedium">
-                <HeaderImageSvgMobileSmall />
+                <HeaderImageSvg imageSize={mobileSmall} />
             </Hide>
             <Hide below="mobileMedium" above="tablet">
-                <HeaderImageSvgMobileMedium />
+                <HeaderImageSvg imageSize={mobileMedium} />
             </Hide>
             <Hide below="tablet" above="desktop">
-                <HeaderImageSvgTablet />
+                <HeaderImageSvg imageSize={tablet} />
             </Hide>
             <Hide below="desktop" above="leftCol">
-                <HeaderImageSvgDesktop />
+                <HeaderImageSvg imageSize={desktop} />
             </Hide>
             <Hide below="leftCol" above="wide">
-                <HeaderImageSvgLeftCol />
+                <HeaderImageSvg imageSize={leftCol} />
             </Hide>
             <Hide below="wide">
-                <HeaderImageSvgWide />
+                <HeaderImageSvg imageSize={wide} />
             </Hide>
         </div>
     );
