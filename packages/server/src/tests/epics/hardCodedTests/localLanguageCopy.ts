@@ -61,11 +61,11 @@ const getEpicVariant = (countryCode: keyof typeof localLanguagesEpicCopy) => {
 };
 
 const franceCopyTest: EpicTest = {
-    name: 'LOCAL-LANGUAGE',
+    name: 'LOCAL-LANGUAGE-FR',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
-    campaignId: '',
+    campaignId: 'NOT_IN_CAMPAIGN',
 
     hasArticleCountInCopy: true,
     status: 'Live',
@@ -90,11 +90,11 @@ const franceCopyTest: EpicTest = {
 };
 
 const germanCopyTest: EpicTest = {
-    name: 'LOCAL-LANGUAGE',
+    name: 'LOCAL-LANGUAGE-DE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
-    campaignId: '',
+    campaignId: 'NOT_IN_CAMPAIGN',
 
     audience: 1,
     alwaysAsk: false,
@@ -115,11 +115,11 @@ const germanCopyTest: EpicTest = {
 };
 
 const netherlandsCopyTest: EpicTest = {
-    name: 'LOCAL-LANGUAGE',
+    name: 'LOCAL-LANGUAGE-NL',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
-    campaignId: '',
+    campaignId: 'NOT_IN_CAMPAIGN',
 
     audience: 1,
     alwaysAsk: false,
