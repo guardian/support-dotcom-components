@@ -15,6 +15,7 @@ Object {
       "GuDynamoDBReadPolicy",
       "GuPutCloudwatchMetricsPolicy",
       "GuDynamoDBReadPolicy",
+      "GuDynamoDBReadPolicy",
       "GuVpcParameter",
       "GuSubnetListParameter",
       "GuCertificate",
@@ -341,6 +342,48 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "Version": "2012-10-17",
         },
         "PolicyName": "describe-ec2-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DynamoBannerDesignsReadPolicyFFB6E89F": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:GetRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:dynamodb:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":table/support-admin-console-banner-designs-TEST",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DynamoBannerDesignsReadPolicyFFB6E89F",
         "Roles": Array [
           Object {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
