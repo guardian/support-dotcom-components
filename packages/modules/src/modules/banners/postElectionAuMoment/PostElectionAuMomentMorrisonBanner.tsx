@@ -4,6 +4,9 @@ import { settings } from './settings';
 
 const PostElectionAuMomentMorrisonBanner = getMomentTemplateBanner({
     ...settings,
+    headerSettings: {
+        showHeader: { text: true },
+    },
     imageSettings: {
         mainUrl:
             'https://i.guim.co.uk/img/media/20b836a4e03e506009d94de14ede430255f7fd4b/0_0_1480_1240/500.png?quality=85&s=ffee1d2cf7c63748a06acd7de11365d1',

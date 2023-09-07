@@ -22,6 +22,7 @@ const UkraineMomentBanner = bannerWrapper(
             backgroundColour: culture[800],
         },
         headerSettings: {
+            showHeader: { text: true },
             textColour: brand[400],
         },
         primaryCtaSettings: {

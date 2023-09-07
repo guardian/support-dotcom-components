@@ -74,8 +74,7 @@ export function getMomentTemplateBanner(
                         )}
                     >
                         <MomentTemplateBannerHeader
-                            heading={content.mainContent.heading}
-                            mobileHeading={content.mobileContent.heading}
+                            mainOrMobileContent={mainOrMobileContent.heading}
                             headerSettings={templateSettings.headerSettings}
                         />
                     </div>

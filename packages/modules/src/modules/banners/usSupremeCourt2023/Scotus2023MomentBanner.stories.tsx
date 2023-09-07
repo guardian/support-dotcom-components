@@ -23,6 +23,7 @@ const Scotus2023MomentBanner = bannerWrapper(
             textColor: neutral[100],
         },
         headerSettings: {
+            showHeader: { text: true },
             textColour: neutral[100],
         },
         primaryCtaSettings: {
