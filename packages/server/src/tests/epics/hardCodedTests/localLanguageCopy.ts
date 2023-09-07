@@ -45,7 +45,7 @@ const getEpicVariant = (countryCode: keyof typeof localLanguagesEpicCopy) => {
 };
 
 const franceCopyTest: EpicTest = {
-    name: 'LOCAL_LANGUAGE',
+    name: 'LOCAL-LANGUAGE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
@@ -74,7 +74,7 @@ const franceCopyTest: EpicTest = {
 };
 
 const germanCopyTest: EpicTest = {
-    name: 'LOCAL_LANGUAGE',
+    name: 'LOCAL-LANGUAGE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
@@ -99,7 +99,7 @@ const germanCopyTest: EpicTest = {
 };
 
 const netherlandsCopyTest: EpicTest = {
-    name: 'LOCAL_LANGUAGE',
+    name: 'LOCAL-LANGUAGE',
 
     // These are specific to hardcoded tests
     // expiry: '2023-09-01',
