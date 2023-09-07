@@ -49,7 +49,8 @@ export class DotcomComponents extends GuStack {
 		new GuAlarm(this, 'SuperModeAlarm', {
 			app: appName,
 			alarmName: `support-${appName}: Super Mode error - ${this.stage}`,
-			alarmDescription: 'Error fetching Epic Super Mode data from Dynamodb',
+			alarmDescription:
+				'Error fetching Epic Super Mode data from Dynamodb',
 			snsTopicName,
 			metric: new Metric({
 				metricName: 'super-mode-error',
@@ -59,7 +60,8 @@ export class DotcomComponents extends GuStack {
 			}),
 			threshold: 1,
 			evaluationPeriods: 1,
-			comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
@@ -76,7 +78,8 @@ export class DotcomComponents extends GuStack {
 			}),
 			threshold: 1,
 			evaluationPeriods: 1,
-			comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
@@ -120,14 +123,18 @@ chown -R dotcom-components:support /var/log/dotcom-components
 					`${this.stage}/guardian-weekly-propensity-test/*`,
 				],
 			}),
-			new GuGetS3ObjectsPolicy(this, 'S3ReadPolicyGuContributionsPublic', {
-				bucketName: 'gu-contributions-public',
-				paths: [
-					`epic/${this.stage}/*`,
-					`header/${this.stage}/*`,
-					`banner/${this.stage}/*`,
-				],
-			}),
+			new GuGetS3ObjectsPolicy(
+				this,
+				'S3ReadPolicyGuContributionsPublic',
+				{
+					bucketName: 'gu-contributions-public',
+					paths: [
+						`epic/${this.stage}/*`,
+						`header/${this.stage}/*`,
+						`banner/${this.stage}/*`,
+					],
+				},
+			),
 			new GuDynamoDBReadPolicy(this, 'DynamoReadPolicy', {
 				tableName: `super-mode-${this.stage}`,
 			}),
@@ -163,7 +170,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
 				: { noMonitoring: true };
 
 		const ec2App = new GuEc2App(this, {
-			instanceType: InstanceType.of(InstanceClass.T4G, InstanceSize.SMALL),
+			instanceType: InstanceType.of(
+				InstanceClass.T4G,
+				InstanceSize.SMALL,
+			),
 			applicationPort: 3030,
 			app: appName,
 			access: { scope: AccessScope.PUBLIC },
