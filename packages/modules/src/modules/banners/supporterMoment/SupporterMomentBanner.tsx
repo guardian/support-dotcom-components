@@ -4,7 +4,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 
 const SupporterMomentBanner = getMomentTemplateBanner({
     containerSettings: {
-        backgroundColour: '#F1F8FC',
+        backgroundColour: '#FDF1F8',
     },
     headerSettings: {
         showHeader: { text: true },
@@ -16,7 +16,7 @@ const SupporterMomentBanner = getMomentTemplateBanner({
             textColour: 'white',
         },
         hover: {
-            backgroundColour: '#2D0427',
+            backgroundColour: '#55114C',
             textColour: 'white',
         },
     },

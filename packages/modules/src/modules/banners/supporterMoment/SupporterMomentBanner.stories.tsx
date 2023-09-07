@@ -31,7 +31,7 @@ const SupporterMomentBanner = bannerWrapper(
                 textColour: 'white',
             },
             hover: {
-                backgroundColour: '#2D0427',
+                backgroundColour: '#55114C',
                 textColour: 'white',
             },
         },
