@@ -146,6 +146,9 @@ chown -R dotcom-components:support /var/log/dotcom-components
 			new GuDynamoDBReadPolicy(this, 'DynamoTestsReadPolicy', {
 				tableName: `support-admin-console-channel-tests-${this.stage}`,
 			}),
+			new GuDynamoDBReadPolicy(this, 'DynamoBannerDesignsReadPolicy', {
+				tableName: `support-admin-console-banner-designs-${this.stage}`,
+			}),
 		];
 
 		const scaling: GuAsgCapacity = {

@@ -6,6 +6,7 @@ import {
     BannerTestSelection,
     BannerVariant,
     PageTracking,
+    uiIsDesign,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
@@ -88,6 +89,12 @@ export const canShowBannerAgain = (
     );
 };
 
+const DESIGNABLE_BANNER_TEMPLATE_NAME = 'DesignableBanner';
+
+const getModuleNameForVariant = (variant: BannerVariant): string => {
+    return uiIsDesign(variant.template) ? DESIGNABLE_BANNER_TEMPLATE_NAME : variant.template;
+};
+
 const getForcedVariant = (
     forcedTestVariant: TestVariant,
     tests: BannerTest[],
@@ -106,7 +113,7 @@ const getForcedVariant = (
             test,
             variant,
             moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-            moduleName: variant.template,
+            moduleName: getModuleNameForVariant(variant),
         };
     }
     return null;
@@ -208,7 +215,7 @@ export const selectBannerTest = (
                 test,
                 variant,
                 moduleUrl: `${baseUrl}/${variant.modulePathBuilder(targeting.modulesVersion)}`,
-                moduleName: variant.template,
+                moduleName: getModuleNameForVariant(variant),
                 targetingAbTest: targetingTest ? targetingTest.test : undefined,
             };
         }

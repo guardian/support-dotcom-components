@@ -1,4 +1,4 @@
-import { BannerChannel, BannerContent, TickerSettings } from '../props';
+import { BannerChannel, BannerContent, ConfigurableDesign, TickerSettings } from '../props';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
@@ -37,11 +37,21 @@ export enum BannerTemplate {
     WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
 }
 
+export interface BannerDesignName {
+    designName: string;
+}
+
+type BannerUi = BannerTemplate | BannerDesignName;
+
+export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
+    return (ui as BannerDesignName).designName !== undefined;
+}
+
 export interface BannerVariant extends Variant {
     name: string;
     tickerSettings?: TickerSettings;
     modulePathBuilder: (version?: string) => string;
-    template: BannerTemplate;
+    template: BannerUi;
     bannerContent?: BannerContent;
     mobileBannerContent?: BannerContent;
     componentType: OphanComponentType;
@@ -88,3 +98,5 @@ export type BannerVariantFromTool = Omit<
 export type BannerTestFromTool = Omit<BannerTest, 'bannerChannel' | 'isHardcoded'> & {
     variants: BannerVariantFromTool[];
 };
+
+export type BannerDesignFromTool = { name: string } & ConfigurableDesign;

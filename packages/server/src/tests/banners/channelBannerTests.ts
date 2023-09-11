@@ -3,6 +3,7 @@ import {
     contributionsBannerWithSignIn,
     charityAppealBanner,
     digiSubs,
+    designableBanner,
     printSubs,
     choiceCardsBannerBlue,
     choiceCardsBannerYellow,
@@ -29,9 +30,12 @@ import {
     OphanProduct,
     BannerTestFromTool,
     BannerVariantFromTool,
+    uiIsDesign,
+    ConfigurableDesign,
+    BannerDesignFromTool,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
-import { getTests } from '../testsStore';
+import { getTests } from '../store';
 
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
@@ -76,13 +80,40 @@ export const BannerTemplateProducts: {
     [BannerTemplate.GuardianWeeklyBanner]: ['PRINT_SUBSCRIPTION'],
 };
 
+const modulePathBuilder = (variant: BannerVariantFromTool) => (version?: string): string => {
+    if (uiIsDesign(variant.template)) {
+        return designableBanner.endpointPathBuilder(version);
+    } else {
+        return BannerPaths[variant.template](version);
+    }
+};
+
+const getProductsForVariant = (variant: BannerVariantFromTool) => {
+    if (uiIsDesign(variant.template)) {
+        return [];
+    } else {
+        return BannerTemplateProducts[variant.template];
+    }
+};
+
+export const getDesignForVariant = (
+    variant: BannerVariant,
+    designs: BannerDesignFromTool[],
+): ConfigurableDesign | undefined => {
+    const bannerUi = variant.template;
+
+    if (uiIsDesign(bannerUi)) {
+        return designs.find(design => design.name === bannerUi.designName);
+    }
+};
+
 const buildBannerVariant = (forChannel: BannerChannel) => (
     variant: BannerVariantFromTool,
 ): BannerVariant => ({
     ...variant,
-    modulePathBuilder: BannerPaths[variant.template],
+    modulePathBuilder: modulePathBuilder(variant),
     componentType: BannerTemplateComponentTypes[forChannel],
-    products: BannerTemplateProducts[variant.template],
+    products: getProductsForVariant(variant),
 });
 
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {

@@ -53,6 +53,25 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     separateArticleCount?: boolean;
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
+    design?: ConfigurableDesign;
+}
+
+export const configurableDesignSchema = z.object({
+    image: z.object({
+        mobileUrl: z.string(),
+        tabletDesktopUrl: z.string(),
+        wideUrl: z.string(),
+        altText: z.string(),
+    }),
+});
+
+export interface ConfigurableDesign {
+    image: {
+        mobileUrl: string;
+        tabletDesktopUrl: string;
+        wideUrl: string;
+        altText: string;
+    };
 }
 
 export const bannerSchema = z.object({
@@ -68,6 +87,7 @@ export const bannerSchema = z.object({
     hasOptedOutOfArticleCount: z.boolean().nullish(),
     fetchEmail: z.any().nullish(),
     separateArticleCount: z.boolean().nullish(),
+    design: configurableDesignSchema.nullish(),
 });
 
 export interface PuzzlesBannerProps extends Partial<BannerProps> {

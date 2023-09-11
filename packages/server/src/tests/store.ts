@@ -1,3 +1,4 @@
+import { BannerDesignFromTool } from '@sdc/shared/src/types';
 import * as AWS from 'aws-sdk';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
@@ -41,3 +42,13 @@ function queryChannel(channel: ChannelTypes, stage: string) {
         })
         .promise();
 }
+
+export const getBannerDesigns = (): Promise<BannerDesignFromTool[]> => {
+    const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
+    return docClient
+        .scan({
+            TableName: `support-admin-console-banner-designs-${stage.toUpperCase()}`,
+        })
+        .promise()
+        .then(results => (results.Items || []) as BannerDesignFromTool[]);
+};

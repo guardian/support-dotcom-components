@@ -10,6 +10,7 @@ import {
     Prices,
     PuzzlesBannerProps,
     TestTracking,
+    BannerDesignFromTool,
 } from '@sdc/shared/dist/types';
 import { selectAmountsTestVariant } from '../lib/ab';
 import { ChannelSwitches } from '../channelSwitches';
@@ -27,6 +28,7 @@ import { Debug } from '../tests/epics/epicSelection';
 import { isMobile } from '../lib/deviceType';
 import { puzzlesBanner } from '@sdc/shared/dist/config';
 import { ValueProvider } from '../utils/valueReloader';
+import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 
 interface BannerDataResponse {
     data?: {
@@ -59,6 +61,7 @@ export const buildBannerRouter = (
     bannerTests: ValueProvider<BannerTest[]>,
     bannerDeployTimes: BannerDeployTimesProvider,
     choiceCardAmounts: ValueProvider<AmountsTests>,
+    bannerDesigns: ValueProvider<BannerDesignFromTool[]>,
 ): Router => {
     const router = Router();
 
@@ -155,6 +158,7 @@ export const buildBannerRouter = (
                 separateArticleCount: variant.separateArticleCount,
                 prices: productPrices.get(),
                 choiceCardAmounts: variantAmounts,
+                design: getDesignForVariant(variant, bannerDesigns.get()),
             };
 
             return {

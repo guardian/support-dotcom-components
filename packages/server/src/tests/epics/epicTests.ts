@@ -1,6 +1,6 @@
 import { containsArticleCountPlaceholder } from '@sdc/shared/lib';
 import { EpicTest, EpicVariant } from '@sdc/shared/types';
-import { ChannelTypes, getTests } from '../testsStore';
+import { ChannelTypes, getTests } from '../store';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
 export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {

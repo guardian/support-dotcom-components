@@ -5,6 +5,7 @@ import {
     SelectedAmountsVariant,
     TickerSettings,
     Tracking,
+    ConfigurableDesign,
 } from '@sdc/shared/types';
 
 export type BannerId =
@@ -34,7 +35,8 @@ export type BannerId =
     | 'aus-eoy-banner'
     | 'ukraine-moment-banner'
     | 'scotus-2023-moment-banner'
-    | 'wpfd-banner';
+    | 'wpfd-banner'
+    | 'designable-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;
@@ -90,4 +92,5 @@ export interface BannerRenderProps {
     choiceCardAmounts?: SelectedAmountsVariant;
     tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
+    design?: ConfigurableDesign;
 }

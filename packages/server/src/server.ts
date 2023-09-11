@@ -23,6 +23,7 @@ import { buildBannerTestsReloader } from './tests/banners/bannerTests';
 import { buildBannerDeployTimesReloader } from './tests/banners/bannerDeployTimes';
 import { buildHeaderTestsReloader } from './tests/headers/headerTests';
 import { buildAmpEpicTestsReloader } from './tests/amp/ampEpicTests';
+import { buildBannerDesignsReloader } from './tests/banners/bannerDesigns';
 
 const buildApp = async (): Promise<Express> => {
     const app = express();
@@ -62,6 +63,7 @@ const buildApp = async (): Promise<Express> => {
         bannerTests,
         bannerDeployTimes,
         headerTests,
+        bannerDesigns,
     ] = await Promise.all([
         buildChannelSwitchesReloader(),
         buildSuperModeArticlesReloader(),
@@ -74,6 +76,7 @@ const buildApp = async (): Promise<Express> => {
         buildBannerTestsReloader(),
         buildBannerDeployTimesReloader(),
         buildHeaderTestsReloader(),
+        buildBannerDesignsReloader(),
     ]);
 
     // Build the routers
@@ -95,6 +98,7 @@ const buildApp = async (): Promise<Express> => {
             bannerTests,
             bannerDeployTimes,
             choiceCardAmounts,
+            bannerDesigns,
         ),
     );
     app.use(buildHeaderRouter(channelSwitches, headerTests));

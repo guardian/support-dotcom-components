@@ -1,4 +1,4 @@
-import { getTests } from '../testsStore';
+import { getTests } from '../store';
 import { AmpEpicTest } from './ampEpicModels';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
