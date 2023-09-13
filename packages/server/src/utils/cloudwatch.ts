@@ -7,7 +7,7 @@ const cloudwatch = new AWS.CloudWatch({ region: 'eu-west-1' });
 const stage = isProd ? 'PROD' : 'CODE';
 const namespace = `support-dotcom-components-${stage}`;
 
-type Metric = 'super-mode-error' | 'channel-tests-error';
+type Metric = 'super-mode-error' | 'channel-tests-error' | 'banner-designs-load-error';
 
 // Sends a single metric to cloudwatch.
 // Avoid doing this per-request, to avoid high costs. This should instead be called from within a cacheAsync

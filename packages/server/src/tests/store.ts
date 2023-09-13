@@ -50,5 +50,10 @@ export const getBannerDesigns = (): Promise<BannerDesignFromTool[]> => {
             TableName: `support-admin-console-banner-designs-${stage.toUpperCase()}`,
         })
         .promise()
-        .then(results => (results.Items || []) as BannerDesignFromTool[]);
+        .then(results => (results.Items || []) as BannerDesignFromTool[])
+        .catch(error => {
+            logError(`Error reading banner designs from Dynamo: ${error.message}`);
+            putMetric('banner-designs-load-error');
+            return error;
+        });
 };
