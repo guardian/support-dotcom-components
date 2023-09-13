@@ -22,7 +22,7 @@ export const getTests = <T>(channel: ChannelTypes): Promise<T[]> =>
         .catch(error => {
             logError(`Error reading tests from Dynamo: ${error.message}`);
             putMetric('channel-tests-error');
-            return [];
+            return error;
         });
 
 function queryChannel(channel: ChannelTypes, stage: string) {
