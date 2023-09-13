@@ -8,6 +8,7 @@ Object {
       "GuStringParameter",
       "GuAlarm",
       "GuAlarm",
+      "GuAlarm",
       "GuDistributionBucketParameter",
       "GuGetS3ObjectsPolicy",
       "GuGetS3ObjectsPolicy",
@@ -855,6 +856,40 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "ToPort": 3030,
       },
       "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "LoadBannerDesignsAlarmE829BAEA": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error fetching banner designs from Dynamodb",
+        "AlarmName": "support-dotcom-components: Banner Designs loading error - TEST",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "banner-designs-load-error",
+        "Namespace": "support-dotcom-components-TEST",
+        "Period": 3600,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
     },
     "ParameterStoreReadDotcomcomponents7A7C8BD4": Object {
       "Properties": Object {

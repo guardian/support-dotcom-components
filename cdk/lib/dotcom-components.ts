@@ -83,6 +83,24 @@ export class DotcomComponents extends GuStack {
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
+		new GuAlarm(this, 'LoadBannerDesignsAlarm', {
+			app: appName,
+			alarmName: `support-${appName}: Banner Designs loading error - ${this.stage}`,
+			alarmDescription: 'Error fetching banner designs from Dynamodb',
+			snsTopicName,
+			metric: new Metric({
+				metricName: 'banner-designs-load-error',
+				namespace,
+				period: Duration.minutes(60),
+				statistic: 'sum',
+			}),
+			threshold: 1,
+			evaluationPeriods: 1,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			treatMissingData: TreatMissingData.NOT_BREACHING,
+		});
+
 		const userData = `#!/bin/bash
 
 groupadd support
