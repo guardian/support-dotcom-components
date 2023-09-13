@@ -1,7 +1,6 @@
 import { getDesignForVariant } from './channelBannerTests';
 import { factories } from '../../factories/';
-import { BannerTemplate } from '@sdc/shared/src/types';
-import { BannerDesignFromTool } from '@sdc/shared/dist/types';
+import { BannerDesignFromTool, BannerTemplate } from '@sdc/shared/src/types';
 
 describe('getDesignForVariant', () => {
     it('returns undefined if the variant specifies a template', () => {
