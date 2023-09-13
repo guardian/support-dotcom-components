@@ -15,6 +15,22 @@ const globals = {
     react: 'guardian.automat.react',
 };
 
+const commonPlugins = [
+    resolveNode(),
+    commonjs(),
+    json(),
+    typescript(),
+    babel({
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
+        babelHelpers: 'bundled',
+    }),
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
+    externalGlobals(globals),
+    filesize(),
+];
+
 const config = args => {
     const modules = args.moduleName
         ? [moduleInfos.find(i => i.name === args.moduleName)]
@@ -33,20 +49,7 @@ const config = args => {
             external: id => Object.keys(globals).some(key => key == id),
 
             plugins: [
-                resolveNode(),
-                commonjs(),
-                json(),
-                typescript(),
-                babel({
-                    extensions: ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'],
-                    babelHelpers: 'bundled',
-                }),
-
-                // eslint-disable-next-line @typescript-eslint/camelcase
-                terser({ compress: { global_defs: { 'process.env.NODE_ENV': 'production' } } }),
-                externalGlobals(globals),
-                filesize(),
-
+                ...commonPlugins,
                 // Note, visualizer is useful for *relative* sizes, but reports
                 // pre-minification.
                 visualizer({
