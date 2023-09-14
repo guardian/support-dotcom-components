@@ -73,7 +73,7 @@ export const choiceCardVerticalAlignment = css`
 export const heading = (headingColor: string): SerializedStyles => css`
     ${headline.xxsmall({ fontWeight: 'bold' })};
     font-size: 22px;
-    margin: 0 0 ${space[4]}px;
+    margin: 0 ${space[12]}px ${space[4]}px 0;
     color: ${headingColor};
 
     ${from.mobileMedium} {
