@@ -110,11 +110,6 @@ export const highlightedTextBlueBanner = css`
     font-weight: bold;
 `;
 
-export const highlightedTextYellowBanner = css`
-    background-color: ${brandAlt[400]};
-    font-weight: bold;
-`;
-
 export const iconAndClosePosition = css`
     padding-top: ${space[3]}px;
     position: absolute;
@@ -139,14 +134,5 @@ export const logoContainer = css`
     }
     ${from.leftCol} {
         margin-left: ${space[3]}px;
-    }
-`;
-
-export const ctaOverridesBlue = css`
-    background: ${neutral[0]};
-    color: ${neutral[100]} !important;
-
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.75);
     }
 `;

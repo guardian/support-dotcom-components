@@ -6,9 +6,7 @@ import {
     designableBanner,
     printSubs,
     choiceCardsBannerBlue,
-    choiceCardsBannerYellow,
     choiceCardsButtonsBannerBlue,
-    choiceCardsButtonsBannerYellow,
     environmentMomentBanner,
     guardianWeekly,
     investigationsMomentBanner,
@@ -51,10 +49,7 @@ export const BannerPaths: {
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsBannerBlue]: choiceCardsBannerBlue.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsBannerYellow]: choiceCardsBannerYellow.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsButtonsBannerYellow]:
-        choiceCardsButtonsBannerYellow.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,
     [BannerTemplate.EuropeMomentLocalLanguageBanner]:
         europeMomentLocalLanguageBanner.endpointPathBuilder,

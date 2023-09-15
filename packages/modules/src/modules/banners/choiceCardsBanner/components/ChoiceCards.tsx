@@ -18,7 +18,7 @@ import {
     Tracking,
 } from '@sdc/shared/src/types';
 
-export type ChoiceCardBannerComponentId = 'choice-cards-banner-yellow' | 'choice-cards-banner-blue';
+export type ChoiceCardBannerComponentId = 'choice-cards-banner-blue';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;

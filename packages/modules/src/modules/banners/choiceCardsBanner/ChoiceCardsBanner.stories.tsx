@@ -7,10 +7,6 @@ import {
     headingColor as blueBannerHeadingColor,
     borderTopColorStyle as blueBorderTopColorStyle,
 } from './ChoiceCardsBannerBlue';
-import {
-    backgroundColor as yellowBannerBackgroundColor,
-    headingColor as yellowBannerHeadingColor,
-} from './ChoiceCardsBannerYellow';
 import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
@@ -143,14 +139,4 @@ ChoiceCardsBannerBlue.args = {
     onCloseClick: () => null,
     separateArticleCount: true,
     numArticles: 15,
-};
-
-const { bannerId, backgroundColor, headingColor, ...rest } = ChoiceCardsBannerBlue.args;
-
-export const ChoiceCardsBannerYellow = Template.bind({});
-ChoiceCardsBannerYellow.args = {
-    ...rest,
-    bannerId: 'choice-cards-banner-yellow',
-    backgroundColor: yellowBannerBackgroundColor,
-    headingColor: yellowBannerHeadingColor,
 };
