@@ -78,6 +78,7 @@ export const heading = (headingColor: string): SerializedStyles => css`
 
     ${from.mobileMedium} {
         font-size: 24px;
+        margin-right: 0px;
         max-width: calc(100% - ${height.ctaSmall * 2 + space[2]}px);
     }
 
