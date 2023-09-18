@@ -242,7 +242,7 @@ describe('selectBannerTest', () => {
                 {
                     name: 'variant',
                     modulePathBuilder: digiSubs.endpointPathBuilder,
-                    template: BannerTemplate.DigitalSubscriptionsBanner,
+                    template: BannerTemplate.GuardianWeeklyBanner,
                     bannerContent: {
                         messageText: 'body',
                         cta: {

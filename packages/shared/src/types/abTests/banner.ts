@@ -19,7 +19,6 @@ export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
     ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',
-    DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     PrintSubscriptionsBanner = 'PrintSubscriptionsBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     InvestigationsMomentBanner = 'InvestigationsMomentBanner',
