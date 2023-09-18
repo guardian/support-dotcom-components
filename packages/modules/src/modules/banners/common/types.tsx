@@ -11,7 +11,6 @@ import {
 export type BannerId =
     | 'climate-crisis-moment-banner'
     | 'contributions-banner'
-    | 'charity-appeal-banner'
     | 'research-survey-banner'
     | 'aus-anniversary-banner'
     | 'investigations-moment-banner'
