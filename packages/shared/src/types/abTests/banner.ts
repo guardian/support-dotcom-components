@@ -17,21 +17,21 @@ import { PurchaseInfoTest } from './shared';
 export enum BannerTemplate {
     AusAnniversaryBanner = 'AusAnniversaryBanner',
     ContributionsBanner = 'ContributionsBanner',
-    CharityAppealBanner = 'CharityAppealBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
-    InvestigationsMomentBanner = 'InvestigationsMomentBanner',
-    EnvironmentMomentBanner = 'EnvironmentMomentBanner',
+    ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     PrintSubscriptionsBanner = 'PrintSubscriptionsBanner',
-    ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',
-    SupporterMomentBanner = 'SupporterMomentBanner',
-    EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
+    InvestigationsMomentBanner = 'InvestigationsMomentBanner',
+    EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     SignInPromptBanner = 'SignInPromptBanner',
+    CharityAppealBanner = 'CharityAppealBanner',
     UkraineMomentBanner = 'UkraineMomentBanner',
-    Scotus2023MomentBanner = 'Scotus2023MomentBanner',
     WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
+    Scotus2023MomentBanner = 'Scotus2023MomentBanner',
+    EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
+    SupporterMomentBanner = 'SupporterMomentBanner',
 }
 
 export interface BannerDesignName {
