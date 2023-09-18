@@ -19,7 +19,6 @@ export type BannerId =
     | 'subscription-banner'
     | 'weekly-banner'
     | 'print-subscriptions-banner'
-    | 'choice-cards-banner-blue'
     | 'choice-cards-buttons-banner-blue'
     | 'supporter-moment-banner'
     | 'europe-moment-local-language-banner'

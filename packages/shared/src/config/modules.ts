@@ -73,11 +73,6 @@ export const printSubs: ModuleInfo = getDefaultModuleInfo(
     'banners/printSubscriptions/PrintSubscriptionsBanner',
 );
 
-export const choiceCardsBannerBlue: ModuleInfo = getDefaultModuleInfo(
-    'choice-cards-banner-blue',
-    'banners/choiceCardsBanner/ChoiceCardsBannerBlue',
-);
-
 export const choiceCardsButtonsBannerBlue: ModuleInfo = getDefaultModuleInfo(
     'choice-cards-buttons-banner-blue',
     'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerBlue',
@@ -142,7 +137,6 @@ export const moduleInfos: ModuleInfo[] = [
     globalNewYearBanner,
     digiSubs,
     printSubs,
-    choiceCardsBannerBlue,
     choiceCardsButtonsBannerBlue,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
