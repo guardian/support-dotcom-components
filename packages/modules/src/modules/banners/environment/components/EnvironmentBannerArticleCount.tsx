@@ -18,13 +18,13 @@ const styles = {
     `,
 };
 
-interface EnvironmentMomentBannerArticleCountProps {
+interface EnvironmentBannerArticleCountProps {
     numArticles: number;
 }
 
-export function EnvironmentMomentBannerArticleCount({
+export function EnvironmentBannerArticleCount({
     numArticles,
-}: EnvironmentMomentBannerArticleCountProps): JSX.Element {
+}: EnvironmentBannerArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}

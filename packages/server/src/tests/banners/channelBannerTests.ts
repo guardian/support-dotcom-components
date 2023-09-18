@@ -3,7 +3,7 @@ import {
     contributionsBannerWithSignIn,
     designableBanner,
     choiceCardsButtonsBannerBlue,
-    environmentMomentBanner,
+    environmentBanner,
     guardianWeekly,
     investigationsMomentBanner,
     globalNewYearBanner,
@@ -39,7 +39,7 @@ export const BannerPaths: {
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
-    [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
+    [BannerTemplate.EnvironmentBanner]: environmentBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,

@@ -7,13 +7,13 @@ const button = css`
     border: 1px solid white;
 `;
 
-interface EnvironmentMomentBannerCloseButtonProps {
+interface EnvironmentBannerCloseButtonProps {
     onClick: () => void;
 }
 
-export const EnvironmentMomentBannerCloseButton: React.FC<EnvironmentMomentBannerCloseButtonProps> = ({
+export const EnvironmentBannerCloseButton: React.FC<EnvironmentBannerCloseButtonProps> = ({
     onClick,
-}: EnvironmentMomentBannerCloseButtonProps) => (
+}: EnvironmentBannerCloseButtonProps) => (
     <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
         <Button onClick={onClick} css={button} size="small" icon={<SvgCross />} hideLabel>
             Dismiss the banner

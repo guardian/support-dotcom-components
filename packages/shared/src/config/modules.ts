@@ -48,9 +48,9 @@ export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/investigationsMoment/InvestigationsMomentBanner',
 );
 
-export const environmentMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'environment-moment-banner',
-    'banners/environmentMoment/EnvironmentMomentBanner',
+export const environmentBanner: ModuleInfo = getDefaultModuleInfo(
+    'environment-banner',
+    'banners/environment/EnvironmentBanner',
 );
 
 export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
@@ -117,7 +117,7 @@ export const moduleInfos: ModuleInfo[] = [
     contributionsBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
-    environmentMomentBanner,
+    environmentBanner,
     globalNewYearBanner,
     choiceCardsButtonsBannerBlue,
     supporterMomentBanner,

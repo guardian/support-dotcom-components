@@ -22,15 +22,15 @@ const styles: BannerTextStyles = {
     `,
 };
 
-interface EnvironmentMomentBannerBodyProps {
+interface EnvironmentBannerBodyProps {
     messageText: (JSX.Element | JSX.Element[])[];
     mobileMessageText: (JSX.Element | JSX.Element[])[] | null;
 }
 
-export const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = ({
+export const EnvironmentBannerBody: React.FC<EnvironmentBannerBodyProps> = ({
     messageText,
     mobileMessageText,
-}: EnvironmentMomentBannerBodyProps) => (
+}: EnvironmentBannerBodyProps) => (
     <div css={styles.container}>
         <Hide above="tablet">
             {createBannerBodyCopy(mobileMessageText ?? messageText, null, styles)}

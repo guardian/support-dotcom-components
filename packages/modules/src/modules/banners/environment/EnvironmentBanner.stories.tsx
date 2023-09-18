@@ -1,12 +1,12 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
-import { EnvironmentMomentBannerUnvalidated as EnvironmentMomentBanner } from './EnvironmentMomentBanner';
+import { EnvironmentBannerUnvalidated as EnvironmentBanner } from './EnvironmentBanner';
 import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
-    component: EnvironmentMomentBanner,
-    title: 'Banners/EnvironmentMomentBanner',
+    component: EnvironmentBanner,
+    title: 'Banners/Moment/Retired',
     parameters: {
         chromatic: {
             delay: 300,
@@ -15,10 +15,10 @@ export default {
     args: props,
 } as Meta;
 
-const Template: Story<BannerProps> = (props: BannerProps) => <EnvironmentMomentBanner {...props} />;
+const Template: Story<BannerProps> = (props: BannerProps) => <EnvironmentBanner {...props} />;
 
-export const WithoutArticleCount = Template.bind({});
-WithoutArticleCount.args = {
+export const WithArticleCount = Template.bind({});
+WithArticleCount.args = {
     ...props,
     mobileContent: {
         heading: '',
@@ -59,11 +59,6 @@ WithoutArticleCount.args = {
             },
         },
     },
-};
-
-export const WithArticleCount = Template.bind({});
-WithArticleCount.args = {
-    ...WithoutArticleCount.args,
     numArticles: 99,
 };
 
