@@ -23,7 +23,6 @@ export enum BannerTemplate {
     EnvironmentMomentBanner = 'EnvironmentMomentBanner',
     DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
     PrintSubscriptionsBanner = 'PrintSubscriptionsBanner',
-    ChoiceCardsBannerBlue = 'ChoiceCardsBannerBlue',
     ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',
     SupporterMomentBanner = 'SupporterMomentBanner',
     EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',

@@ -5,7 +5,6 @@ import {
     digiSubs,
     designableBanner,
     printSubs,
-    choiceCardsBannerBlue,
     choiceCardsButtonsBannerBlue,
     environmentMomentBanner,
     guardianWeekly,
@@ -48,7 +47,6 @@ export const BannerPaths: {
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
     [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
     [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsBannerBlue]: choiceCardsBannerBlue.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,
     [BannerTemplate.EuropeMomentLocalLanguageBanner]:
