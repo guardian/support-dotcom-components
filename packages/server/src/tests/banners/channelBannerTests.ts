@@ -2,7 +2,6 @@ import {
     contributionsBanner,
     contributionsBannerWithSignIn,
     designableBanner,
-    printSubs,
     choiceCardsButtonsBannerBlue,
     environmentMomentBanner,
     guardianWeekly,
@@ -42,7 +41,6 @@ export const BannerPaths: {
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
-    [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,
     [BannerTemplate.EuropeMomentLocalLanguageBanner]:

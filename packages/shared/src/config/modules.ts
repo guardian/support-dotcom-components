@@ -58,11 +58,6 @@ export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/globalNYMoment/GlobalNYMomentBanner',
 );
 
-export const printSubs: ModuleInfo = getDefaultModuleInfo(
-    'print-subscriptions-banner',
-    'banners/printSubscriptions/PrintSubscriptionsBanner',
-);
-
 export const choiceCardsButtonsBannerBlue: ModuleInfo = getDefaultModuleInfo(
     'choice-cards-buttons-banner-blue',
     'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerBlue',
@@ -124,7 +119,6 @@ export const moduleInfos: ModuleInfo[] = [
     investigationsMomentBanner,
     environmentMomentBanner,
     globalNewYearBanner,
-    printSubs,
     choiceCardsButtonsBannerBlue,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
