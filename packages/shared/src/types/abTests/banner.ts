@@ -15,7 +15,7 @@ import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
 
 export enum BannerTemplate {
-    AusAnniversaryBanner = 'AusAnniversaryBanner',
+    AusAnniversaryMomentBanner = 'AusAnniversaryMomentBanner',
     ContributionsBanner = 'ContributionsBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
     ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',

@@ -23,8 +23,8 @@ export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'epics/ContributionsLiveblogEpic',
 );
 
-export const ausAnniversaryBanner: ModuleInfo = getDefaultModuleInfo(
-    'aus-anniversary-banner',
+export const ausAnniversaryMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'aus-anniversary-moment-banner',
     'banners/aus10yrAnniversaryMoment/Aus10yrAnniversaryMomentBanner',
 );
 
@@ -113,7 +113,7 @@ export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
-    ausAnniversaryBanner,
+    ausAnniversaryMomentBanner,
     contributionsBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,

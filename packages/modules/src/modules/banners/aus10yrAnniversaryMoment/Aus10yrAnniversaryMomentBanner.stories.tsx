@@ -16,7 +16,7 @@ export default {
     },
 } as Meta;
 
-const AusBanner = bannerWrapper(
+const AusMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
             backgroundColour: neutral[93],
@@ -72,14 +72,16 @@ const AusBanner = bannerWrapper(
             progressBarBackgroundColour: '#fff',
             goalMarkerColour: 'black',
         },
-        bannerId: 'aus-anniversary-banner',
+        bannerId: 'aus-anniversary-moment-banner',
     }),
-    'aus-anniversary-banner',
+    'aus-anniversary-moment-banner',
 );
 
-const AusBannerTemplate: Story<BannerProps> = (props: BannerProps) => <AusBanner {...props} />;
+const AusMomentBannerTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <AusMomentBanner {...props} />
+);
 
-export const Aus10yrAnniversaryMomentBanner = AusBannerTemplate.bind({});
+export const Aus10yrAnniversaryMomentBanner = AusMomentBannerTemplate.bind({});
 Aus10yrAnniversaryMomentBanner.args = {
     ...props,
     content: {

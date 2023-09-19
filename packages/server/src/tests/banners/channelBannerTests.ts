@@ -10,7 +10,7 @@ import {
     signInPromptBanner,
     ukraineMomentBanner,
     scotus2023MomentBanner,
-    ausAnniversaryBanner,
+    ausAnniversaryMomentBanner,
     wpfdBanner,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
@@ -34,7 +34,7 @@ import { getTests } from '../store';
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
-    [BannerTemplate.AusAnniversaryBanner]: ausAnniversaryBanner.endpointPathBuilder,
+    [BannerTemplate.AusAnniversaryMomentBanner]: ausAnniversaryMomentBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
