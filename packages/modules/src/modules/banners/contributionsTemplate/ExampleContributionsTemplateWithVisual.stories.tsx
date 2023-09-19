@@ -10,8 +10,6 @@ export default {
     args: props,
 } as Meta;
 
-const Template: Story<BannerProps> = (props: BannerProps) => <Example {...props} />;
-
 const TemplateWithTicker: Story<BannerProps> = (props: BannerProps) => (
     <ExampleWithTicker {...props} />
 );
