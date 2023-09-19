@@ -6,7 +6,7 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
     component: EnvironmentBanner,
-    title: 'Banners/Moment/Retired',
+    title: 'Banners/Retired',
     parameters: {
         chromatic: {
             delay: 300,
@@ -17,8 +17,8 @@ export default {
 
 const Template: Story<BannerProps> = (props: BannerProps) => <EnvironmentBanner {...props} />;
 
-export const WithArticleCount = Template.bind({});
-WithArticleCount.args = {
+export const Environment = Template.bind({});
+Environment.args = {
     ...props,
     mobileContent: {
         heading: '',
@@ -60,10 +60,4 @@ WithArticleCount.args = {
         },
     },
     numArticles: 99,
-};
-
-export const Supporter = Template.bind({});
-Supporter.args = {
-    ...WithArticleCount.args,
-    isSupporter: true,
 };

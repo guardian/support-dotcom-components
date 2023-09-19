@@ -7,7 +7,7 @@ import { Meta, Story } from '@storybook/react';
 import { props } from '../utils/storybook';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/Moment',
     parameters: {
         chromatic: {
             delay: 300,
@@ -74,8 +74,8 @@ const SupporterMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
     <SupporterMomentBanner {...props} />
 );
 
-export const SupporterMoment = SupporterMomentTemplate.bind({});
-SupporterMoment.args = {
+export const SupporterMoment2023 = SupporterMomentTemplate.bind({});
+SupporterMoment2023.args = {
     ...props,
     content: {
         heading: 'The only pocket we’re in is yours',
