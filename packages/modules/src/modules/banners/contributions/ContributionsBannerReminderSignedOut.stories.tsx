@@ -21,7 +21,7 @@ const BannerDecorator = (Story: Story): JSX.Element => (
 
 export default {
     component: ContributionsBannerReminderSignedOut,
-    title: 'Banners/ContributionsBannerReminderSignedOut',
+    title: 'Banners/Custom/Contributions/ReminderSignedOut',
     parameters: {
         chromatic: {
             delay: 300,
@@ -50,11 +50,6 @@ export const Default = Template.bind({});
 export const Completed = Template.bind({});
 Completed.args = {
     reminderStatus: ReminderStatus.Completed,
-};
-
-export const Submitting = Template.bind({});
-Submitting.args = {
-    reminderStatus: ReminderStatus.Submitting,
 };
 
 export const Error = Template.bind({});

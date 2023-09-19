@@ -6,7 +6,7 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
     component: ContributionsBanner,
-    title: 'Banners/Contributions',
+    title: 'Banners/Custom/Contributions',
     parameters: {
         chromatic: {
             delay: 300,
@@ -25,31 +25,6 @@ WithReminder.args = {
         ...content,
         secondaryCta: {
             type: SecondaryCtaType.ContributionsReminder,
-        },
-    },
-};
-
-export const WithPrefilledReminder = Template.bind({});
-WithPrefilledReminder.args = {
-    ...WithReminder.args,
-
-    fetchEmail: () => {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve('test@guardian.co.uk');
-            }, 500);
-        });
-    },
-};
-
-export const WithoutSupportUrl = Template.bind({});
-WithoutSupportUrl.args = {
-    ...WithReminder.args,
-    content: {
-        ...content,
-        cta: {
-            baseUrl: 'https://theguardian.com',
-            text: 'The Guardian',
         },
     },
 };
