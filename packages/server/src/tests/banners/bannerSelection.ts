@@ -168,6 +168,12 @@ export const selectBannerTest = (
         return null;
     }
 
+    // Temporary code to suppress showing banners on the new Europe edition front
+    // To be removed as soon as Marketing colleagues give us the go-ahead
+    if (pageTracking?.referrerUrl === 'https://www.theguardian.com/europe') {
+        return null;
+    }
+
     for (const test of tests) {
         const deploySchedule = enableScheduledDeploys
             ? targetingTest?.deploySchedule ?? defaultDeploySchedule
