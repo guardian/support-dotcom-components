@@ -7,7 +7,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { props } from '../utils/storybook';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/Moment',
     parameters: {
         chromatic: {
             delay: 300,
@@ -86,8 +86,8 @@ const UkraineMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
     <UkraineMomentBanner {...props} />
 );
 
-export const UkraineMoment = UkraineMomentTemplate.bind({});
-UkraineMoment.args = {
+export const UkraineMoment2023 = UkraineMomentTemplate.bind({});
+UkraineMoment2023.args = {
     ...props,
     content: {
         heading: 'A year on, we’ll keep on covering every minute',
