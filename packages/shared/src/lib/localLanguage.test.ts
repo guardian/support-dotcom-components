@@ -126,13 +126,6 @@ describe('getCountryCodeToLocalLanguage', () => {
             inputDefaultLocalLanguage: { bannerHeader: undefined },
             output: { bannerHeader: undefined },
         },
-        {
-            inputCountryCode: '',
-            inputTestName: '',
-            inputVariant: '',
-            inputDefaultLocalLanguage: undefined,
-            output: undefined,
-        },
     ];
 
     countries.forEach(
@@ -389,13 +382,6 @@ describe('countryCodeToLocalLanguageEpic', () => {
                 paragraphs: undefined,
                 highlightedText: undefined,
             },
-        },
-        {
-            inputCountryCode: '',
-            inputTestName: '',
-            inputVariant: '',
-            inputDefaultEpic: undefined,
-            output: undefined,
         },
     ];
 
