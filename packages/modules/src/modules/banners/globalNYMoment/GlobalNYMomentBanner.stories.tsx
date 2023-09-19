@@ -7,7 +7,7 @@ import { bannerWrapper } from '../common/BannerWrapper';
 import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/Moment',
     parameters: {
         chromatic: {
             delay: 300,
@@ -16,7 +16,7 @@ export default {
     args: props,
 } as Meta;
 
-const GlobalNewYearBanner = bannerWrapper(
+const GlobalNewYearMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
             backgroundColour: '#F1F8FC',
@@ -77,17 +77,17 @@ const GlobalNewYearBanner = bannerWrapper(
                 'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
             altText: 'Guardian logo being held up by supporters of the Guardian',
         },
-        bannerId: 'global-new-year-banner',
+        bannerId: 'global-new-year-moment-banner',
     }),
-    'global-new-year-banner',
+    'global-new-year-moment-banner',
 );
 
-const GlobalNewYearTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <GlobalNewYearBanner {...props} />
+const GlobalNewYearMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <GlobalNewYearMomentBanner {...props} />
 );
 
-export const GlobalNY = GlobalNewYearTemplate.bind({});
-GlobalNY.args = {
+export const GlobalNewYearMoment2022 = GlobalNewYearMomentTemplate.bind({});
+GlobalNewYearMoment2022.args = {
     ...props,
     content: {
         heading: 'Show your support for reader-funded journalism',

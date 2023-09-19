@@ -2,7 +2,7 @@ import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const GlobalNewYearBanner = getMomentTemplateBanner({
+const GlobalNewYearMomentBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: '#F1F8FC',
     },
@@ -62,10 +62,16 @@ const GlobalNewYearBanner = getMomentTemplateBanner({
             'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
         altText: 'Guardian logo being held up by supporters of the Guardian',
     },
-    bannerId: 'global-new-year-banner',
+    bannerId: 'global-new-year-moment-banner',
 });
 
-const unvalidated = bannerWrapper(GlobalNewYearBanner, 'global-new-year-banner');
-const validated = validatedBannerWrapper(GlobalNewYearBanner, 'global-new-year-banner');
+const unvalidated = bannerWrapper(GlobalNewYearMomentBanner, 'global-new-year-moment-banner');
+const validated = validatedBannerWrapper(
+    GlobalNewYearMomentBanner,
+    'global-new-year-moment-banner',
+);
 
-export { validated as GlobalNewYearBanner, unvalidated as GlobalNewYearBannerUnvalidated };
+export {
+    validated as GlobalNewYearMomentBanner,
+    unvalidated as GlobalNewYearMomentBannerUnvalidated,
+};

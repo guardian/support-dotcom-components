@@ -20,7 +20,7 @@ export type BannerId =
     | 'choice-cards-buttons-banner-blue'
     | 'supporter-moment-banner'
     | 'europe-moment-local-language-banner'
-    | 'global-new-year-banner'
+    | 'global-new-year-moment-banner'
     | 'election-au-moment-banner'
     | 'sign-in-prompt-banner'
     | 'au-brand-moment-banner'

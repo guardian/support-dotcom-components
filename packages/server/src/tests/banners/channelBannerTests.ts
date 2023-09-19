@@ -6,7 +6,7 @@ import {
     environmentBanner,
     guardianWeekly,
     investigationsMomentBanner,
-    globalNewYearBanner,
+    globalNewYearMomentBanner,
     signInPromptBanner,
     ukraineMomentBanner,
     scotus2023MomentBanner,
@@ -40,7 +40,7 @@ export const BannerPaths: {
         contributionsBannerWithSignIn.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentBanner]: environmentBanner.endpointPathBuilder,
-    [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
+    [BannerTemplate.GlobalNewYearBanner]: globalNewYearMomentBanner.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,
     [BannerTemplate.EuropeMomentLocalLanguageBanner]:
