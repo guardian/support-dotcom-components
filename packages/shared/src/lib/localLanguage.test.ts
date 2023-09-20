@@ -51,7 +51,7 @@ describe('getCountryCodeToLocalLanguage', () => {
             output: { bannerHeader: 'Var med och stöd oberoende journalistik i Europa' },
         },
         {
-            inputCountryCode: 'SP',
+            inputCountryCode: 'ES',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             inputDefaultLocalLanguage: {
@@ -279,7 +279,7 @@ describe('countryCodeToLocalLanguageEpic', () => {
             },
         },
         {
-            inputCountryCode: 'SP',
+            inputCountryCode: 'ES',
             inputTestName: 'LOCAL-LANGUAGE',
             inputVariant: 'CONTROL',
             inputDefaultEpic: {

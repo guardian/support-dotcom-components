@@ -23,7 +23,7 @@ const localLanguageBannerHeaders: Record<string, LocalLanguageBannerHeader> = {
     SE: {
         bannerHeader: 'Var med och stöd oberoende journalistik i Europa',
     },
-    SP: {
+    ES: {
         bannerHeader: 'Fomentar el periodismo europeo independiente',
     },
 };
