@@ -6,7 +6,7 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 
 export default {
     component: InvestigationsMoment,
-    title: 'Banners/InvestigationsMoment',
+    title: 'Banners/Custom',
     parameters: {
         chromatic: {
             delay: 300,
@@ -17,8 +17,8 @@ export default {
 
 const Template: Story<BannerProps> = (props: BannerProps) => <InvestigationsMoment {...props} />;
 
-export const WithoutArticleCount = Template.bind({});
-WithoutArticleCount.args = {
+export const Investigations = Template.bind({});
+Investigations.args = {
     ...props,
     mobileContent: {
         heading: 'Show your support for reader-funded journalism',
@@ -62,11 +62,5 @@ WithoutArticleCount.args = {
             },
         },
     },
-    numArticles: 0,
-};
-
-export const WithArticleCount = Template.bind({});
-WithArticleCount.args = {
-    ...WithoutArticleCount.args,
     numArticles: 50,
 };

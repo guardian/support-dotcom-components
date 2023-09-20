@@ -11,7 +11,7 @@ import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
     component: ChoiceCardsButtonsBanner,
-    title: 'Banners/ChoiceCardsButtonsBanner',
+    title: 'Banners/Custom',
 } as Meta;
 
 type ChoiceCardStoryProps = Omit<
@@ -56,8 +56,8 @@ const tracking: Tracking = {
     ...testTracking,
 };
 
-export const Blue = Template.bind({});
-Blue.args = {
+export const ChoiceCardsButtonsBlue = Template.bind({});
+ChoiceCardsButtonsBlue.args = {
     bannerId: 'choice-cards-buttons-banner-blue',
     countryCode: 'GB',
     content: {

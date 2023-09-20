@@ -4,7 +4,7 @@ import { SecondaryCtaType } from '@sdc/shared/types';
 import { DefaultTemplate } from './Default';
 
 export default {
-    title: 'Banners/DesignableBanner',
+    title: 'Banners/Custom',
     parameters: {
         chromatic: {
             delay: 300,
@@ -13,8 +13,8 @@ export default {
     args: props,
 } as Meta;
 
-export const Default = DefaultTemplate.bind({});
-Default.args = {
+export const Designable = DefaultTemplate.bind({});
+Designable.args = {
     ...props,
     content: {
         heading: 'Show your support for reader-funded journalism',
