@@ -72,5 +72,19 @@ Designable.args = {
                 'https://i.guim.co.uk/img/media/6c933a058d1ce37a5ad17f79895906150812dfee/0_0_1768_1420/500.png?width=500&quality=75&s=9277532ddf184a308e14218e3576543b',
             altText: 'Example alt text',
         },
+        colours: {
+            basic: {
+                background: {
+                    r: '22',
+                    g: '25',
+                    b: '27',
+                },
+                bodyText: {
+                    r: 'FF',
+                    g: 'FF',
+                    b: 'FF',
+                },
+            },
+        },
     },
 };
