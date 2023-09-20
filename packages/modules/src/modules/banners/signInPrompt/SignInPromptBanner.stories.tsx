@@ -7,7 +7,7 @@ import { SignInPromptBannerUnvalidated as SignInPromptBanner } from './SignInPro
 
 export default {
     component: SignInPromptBanner,
-    title: 'Banners/SignInPromptBanner',
+    title: 'Banners/Retired',
     parameters: {
         chromatic: {
             delay: 300,
@@ -45,5 +45,5 @@ const baseArgs = {
     content,
 };
 
-export const DefaultBanner = Template.bind({});
-DefaultBanner.args = baseArgs;
+export const SignInPrompt = Template.bind({});
+SignInPrompt.args = baseArgs;
