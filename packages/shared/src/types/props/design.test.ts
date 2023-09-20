@@ -1,4 +1,4 @@
-import { hexColourSchema } from './design';
+import { HexColour, hexColourSchema, hexColourToString } from './design';
 
 describe('hexValueColourSchema', () => {
     it('successfully parses valid hex colours', () => {
@@ -30,5 +30,19 @@ describe('hexValueColourSchema', () => {
         const result = hexColourSchema.safeParse(badHexColour);
 
         expect(result.success).toBeFalsy();
+    });
+});
+
+describe('hexColourToString', () => {
+    it('returns a CSS colour string for a HexColour object', () => {
+        const hexColour: HexColour = {
+            r: 'FF',
+            g: '00',
+            b: '1F',
+        };
+
+        const cssString = hexColourToString(hexColour);
+
+        expect(cssString).toEqual('#FF001F');
     });
 });
