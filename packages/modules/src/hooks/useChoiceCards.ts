@@ -43,7 +43,7 @@ const useChoiceCards = (
     ): string => {
         const primaryCtaText = content?.[contentType]?.primaryCta?.ctaText;
 
-        return primaryCtaText ? primaryCtaText : 'Contribute';
+        return primaryCtaText ? primaryCtaText : 'Continue';
     };
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
