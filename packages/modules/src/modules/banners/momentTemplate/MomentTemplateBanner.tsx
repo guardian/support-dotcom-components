@@ -48,7 +48,8 @@ export function getMomentTemplateBanner(
             setChoiceCardSelection,
             getCtaText,
             currencySymbol,
-        } = useChoiceCards(choiceCardAmounts, countryCode);
+        } = useChoiceCards(choiceCardAmounts, countryCode, content);
+
         const showChoiceCards = !!(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData
         );

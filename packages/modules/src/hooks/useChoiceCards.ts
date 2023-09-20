@@ -11,13 +11,11 @@ export interface ChoiceCardSelection {
 const useChoiceCards = (
     choiceCardAmounts: SelectedAmountsVariant | undefined,
     countryCode: string | undefined,
+    content: BannerTextContent,
 ): {
     choiceCardSelection: ChoiceCardSelection | undefined;
     setChoiceCardSelection: (choiceCardSelection: ChoiceCardSelection) => void;
-    getCtaText: (
-        contentType: 'mainContent' | 'mobileContent',
-        content?: BannerTextContent,
-    ) => string;
+    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
     currencySymbol: string;
 } => {
     const [choiceCardSelection, setChoiceCardSelection] = useState<
@@ -37,13 +35,10 @@ const useChoiceCards = (
         }
     }, [choiceCardAmounts]);
 
-    const getCtaText = (
-        contentType: 'mainContent' | 'mobileContent',
-        content?: BannerTextContent,
-    ): string => {
+    const getCtaText = (contentType: 'mainContent' | 'mobileContent'): string => {
         const primaryCtaText = content?.[contentType]?.primaryCta?.ctaText;
 
-        return primaryCtaText ? primaryCtaText : 'Continue';
+        return primaryCtaText ? primaryCtaText : 'Contribute';
     };
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
