@@ -52,7 +52,7 @@ type HexChar =
 
 type HexValue = `${HexChar}${HexChar}`;
 
-interface HexColour {
+export interface HexColour {
     r: HexValue;
     g: HexValue;
     b: HexValue;
