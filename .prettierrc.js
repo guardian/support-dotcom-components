@@ -1,7 +1,6 @@
 module.exports = {
-    semi: true,
-    trailingComma: 'all',
-    singleQuote: true,
+    ...require('@guardian/prettier'),
+    useTabs: false,
     printWidth: 100,
     tabWidth: 4,
 };
