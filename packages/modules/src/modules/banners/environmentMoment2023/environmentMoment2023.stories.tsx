@@ -5,6 +5,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { BannerProps } from '@sdc/shared/src/types';
 import { Meta, Story } from '@storybook/react';
 import { props } from '../utils/storybook';
+import { HeaderImageEnvironment } from './components/headerImageEnvironment';
 
 export default {
     title: 'Banners/Moment',
@@ -22,8 +23,9 @@ const EnvironmentMoment2023Banner = bannerWrapper(
             backgroundColour: neutral[100],
         },
         headerSettings: {
-            showHeader: { text: true },
+            showHeader: { text: false, image: true },
             textColour: neutral[0],
+            image: <HeaderImageEnvironment />,
         },
         primaryCtaSettings: {
             default: {
