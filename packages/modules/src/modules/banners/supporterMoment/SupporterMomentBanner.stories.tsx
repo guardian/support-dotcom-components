@@ -87,7 +87,7 @@ SupporterMoment.args = {
         highlightedText:
             'Nullam dictum felis eu pede mollis pretium. Integeir tincidunt. Thank you.',
         cta: {
-            text: 'Contribute',
+            text: 'Continue',
             baseUrl: 'https://support.theguardian.com/contribute/one-off',
         },
     },
@@ -101,7 +101,7 @@ SupporterMoment.args = {
         highlightedText:
             'Nullam dictum felis eu pede mollis pretium. Integeir tincidunt. Thank you.',
         cta: {
-            text: 'Contribute',
+            text: 'Continue',
             baseUrl: 'https://support.theguardian.com/contribute/one-off',
         },
     },
