@@ -72,12 +72,9 @@ export interface CharityAppealBannerReminderSignedInProps {
     onReminderCloseClick: () => void;
 }
 
-export const CharityAppealBannerReminderSignedIn: React.FC<CharityAppealBannerReminderSignedInProps> = ({
-    reminderCta,
-    reminderStatus,
-    onReminderSetClick,
-    onReminderCloseClick,
-}) => {
+export const CharityAppealBannerReminderSignedIn: React.FC<
+    CharityAppealBannerReminderSignedInProps
+> = ({ reminderCta, reminderStatus, onReminderSetClick, onReminderCloseClick }) => {
     const reminderDateWithPreposition = ensureHasPreposition(
         reminderCta.reminderFields.reminderLabel,
     );

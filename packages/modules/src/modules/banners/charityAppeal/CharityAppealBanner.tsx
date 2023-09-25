@@ -198,159 +198,161 @@ const columnCounts = {
     wide: 16,
 };
 
-export const getCharityAppealBanner = (
-    backColor: string,
-    foreColor: string,
-    headingColor?: string,
-    subHeadingColor?: string,
-): React.FC<BannerRenderProps> => ({
-    onCtaClick,
-    onSecondaryCtaClick,
-    reminderTracking,
-    onCloseClick,
-    content,
-    fetchEmail,
-}: BannerRenderProps) => {
-    const [isReminderOpen, setIsReminderOpen] = useState(false);
-    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
+export const getCharityAppealBanner =
+    (
+        backColor: string,
+        foreColor: string,
+        headingColor?: string,
+        subHeadingColor?: string,
+    ): React.FC<BannerRenderProps> =>
+    ({
+        onCtaClick,
+        onSecondaryCtaClick,
+        reminderTracking,
+        onCloseClick,
+        content,
+        fetchEmail,
+    }: BannerRenderProps) => {
+        const [isReminderOpen, setIsReminderOpen] = useState(false);
+        const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
 
-    const onReminderCtaClick = () => {
-        reminderTracking.onReminderCtaClick();
+        const onReminderCtaClick = () => {
+            reminderTracking.onReminderCtaClick();
 
-        if (fetchEmail) {
-            fetchEmail().then((resolvedEmail) => {
-                if (resolvedEmail) {
-                    setFetchedEmail(resolvedEmail);
-                }
+            if (fetchEmail) {
+                fetchEmail().then((resolvedEmail) => {
+                    if (resolvedEmail) {
+                        setFetchedEmail(resolvedEmail);
+                    }
+                    setIsReminderOpen(!isReminderOpen);
+                });
+            } else {
                 setIsReminderOpen(!isReminderOpen);
-            });
-        } else {
-            setIsReminderOpen(!isReminderOpen);
-        }
-    };
+            }
+        };
 
-    const onReminderCloseClick = () => {
-        reminderTracking.onReminderCloseClick();
-        setIsReminderOpen(false);
-    };
+        const onReminderCloseClick = () => {
+            reminderTracking.onReminderCloseClick();
+            setIsReminderOpen(false);
+        };
 
-    const BodyAndHeading = () => (
-        <BannerText
-            styles={{
-                desktop: {
-                    container: styles.bodyAndHeading(foreColor),
-                    heading: styles.heading(headingColor ?? foreColor),
-                    subheading: styles.subHeading(subHeadingColor ?? foreColor),
-                    body: styles.body,
-                    copy: [commonStyles.copy, styles.copy],
-                    highlightedText: commonStyles.highlightedText,
-                },
-            }}
-            content={content}
-        />
-    );
-
-    const buttons = (
-        <div css={styles.buttonsContainer}>
-            <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
-
-            <img
-                src="https://i.guim.co.uk/img/media/84b058fa1cb168d9cd5ac4efa04812d082cc3ba6/0_0_512_409/500.png?quality=85&s=8045440d41d4e23f1baaf0b3341804c6"
-                alt="charity appeal banner roundel"
-                css={styles.imageReCentre}
+        const BodyAndHeading = () => (
+            <BannerText
+                styles={{
+                    desktop: {
+                        container: styles.bodyAndHeading(foreColor),
+                        heading: styles.heading(headingColor ?? foreColor),
+                        subheading: styles.subHeading(subHeadingColor ?? foreColor),
+                        body: styles.body,
+                        copy: [commonStyles.copy, styles.copy],
+                        highlightedText: commonStyles.highlightedText,
+                    },
+                }}
+                content={content}
             />
-            <div css={styles.ctasContainer}>
-                {content.mainContent.primaryCta && (
-                    <CharityAppealBannerCta
-                        onContributeClick={onCtaClick}
-                        ctaText={content.mainContent.primaryCta.ctaText}
-                        ctaUrl={content.mainContent.primaryCta.ctaUrl}
-                        stacked={true}
-                    />
-                )}
+        );
 
-                {content.mainContent.secondaryCta && (
-                    <CharityAppealBannerSecondaryCta
-                        secondaryCta={content.mainContent.secondaryCta}
-                        onReminderCtaClick={onReminderCtaClick}
-                        onCustomCtaClick={onSecondaryCtaClick}
-                    />
-                )}
-            </div>
-        </div>
-    );
+        const buttons = (
+            <div css={styles.buttonsContainer}>
+                <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
 
-    return (
-        <div css={styles.bannerContainer(backColor, foreColor)}>
-            <CharityAppealBannerMobile
-                onCloseClick={onCloseClick}
-                onContributeClick={onCtaClick}
-                onSecondaryCtaClick={onSecondaryCtaClick}
-                content={content.mobileContent}
-                onReminderCtaClick={onReminderCtaClick}
-                isReminderOpen={isReminderOpen}
-                onReminderCloseClick={onReminderCloseClick}
-                trackReminderSetClick={reminderTracking.onReminderSetClick}
-                email={fetchedEmail}
-            />
-
-            <Container>
-                <div css={styles.tabletAndDesktop}>
-                    <Columns>
-                        <Column width={8 / columnCounts.tablet}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={4 / columnCounts.tablet}>{buttons}</Column>
-                    </Columns>
-                </div>
-                <div css={styles.leftCol}>
-                    <Columns>
-                        <Column width={2 / columnCounts.leftCol}> </Column>
-                        <Column width={8 / columnCounts.leftCol}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={4 / columnCounts.leftCol}>{buttons}</Column>
-                    </Columns>
-                </div>
-                <div css={styles.wide}>
-                    <Columns>
-                        <Column width={3 / columnCounts.wide}> </Column>
-                        <Column width={8 / columnCounts.wide}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={4 / columnCounts.wide}>{buttons}</Column>
-                        <Column width={1 / columnCounts.wide}> </Column>
-                    </Columns>
-                </div>
-            </Container>
-
-            <Hide below="tablet">
-                {isReminderOpen &&
-                    content.mainContent.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder && (
-                        <div css={styles.reminderContainer}>
-                            <div css={styles.reminderLine(backColor, foreColor)} />
-
-                            <Container>
-                                <Columns>
-                                    <Column width={1}>
-                                        <CharityAppealBannerReminder
-                                            reminderCta={content.mainContent.secondaryCta}
-                                            trackReminderSetClick={
-                                                reminderTracking.onReminderSetClick
-                                            }
-                                            onReminderCloseClick={onReminderCloseClick}
-                                            email={fetchedEmail}
-                                        />
-                                    </Column>
-                                </Columns>
-                            </Container>
-                        </div>
+                <img
+                    src="https://i.guim.co.uk/img/media/84b058fa1cb168d9cd5ac4efa04812d082cc3ba6/0_0_512_409/500.png?quality=85&s=8045440d41d4e23f1baaf0b3341804c6"
+                    alt="charity appeal banner roundel"
+                    css={styles.imageReCentre}
+                />
+                <div css={styles.ctasContainer}>
+                    {content.mainContent.primaryCta && (
+                        <CharityAppealBannerCta
+                            onContributeClick={onCtaClick}
+                            ctaText={content.mainContent.primaryCta.ctaText}
+                            ctaUrl={content.mainContent.primaryCta.ctaUrl}
+                            stacked={true}
+                        />
                     )}
-            </Hide>
-        </div>
-    );
-};
+
+                    {content.mainContent.secondaryCta && (
+                        <CharityAppealBannerSecondaryCta
+                            secondaryCta={content.mainContent.secondaryCta}
+                            onReminderCtaClick={onReminderCtaClick}
+                            onCustomCtaClick={onSecondaryCtaClick}
+                        />
+                    )}
+                </div>
+            </div>
+        );
+
+        return (
+            <div css={styles.bannerContainer(backColor, foreColor)}>
+                <CharityAppealBannerMobile
+                    onCloseClick={onCloseClick}
+                    onContributeClick={onCtaClick}
+                    onSecondaryCtaClick={onSecondaryCtaClick}
+                    content={content.mobileContent}
+                    onReminderCtaClick={onReminderCtaClick}
+                    isReminderOpen={isReminderOpen}
+                    onReminderCloseClick={onReminderCloseClick}
+                    trackReminderSetClick={reminderTracking.onReminderSetClick}
+                    email={fetchedEmail}
+                />
+
+                <Container>
+                    <div css={styles.tabletAndDesktop}>
+                        <Columns>
+                            <Column width={8 / columnCounts.tablet}>
+                                <BodyAndHeading />
+                            </Column>
+                            <Column width={4 / columnCounts.tablet}>{buttons}</Column>
+                        </Columns>
+                    </div>
+                    <div css={styles.leftCol}>
+                        <Columns>
+                            <Column width={2 / columnCounts.leftCol}> </Column>
+                            <Column width={8 / columnCounts.leftCol}>
+                                <BodyAndHeading />
+                            </Column>
+                            <Column width={4 / columnCounts.leftCol}>{buttons}</Column>
+                        </Columns>
+                    </div>
+                    <div css={styles.wide}>
+                        <Columns>
+                            <Column width={3 / columnCounts.wide}> </Column>
+                            <Column width={8 / columnCounts.wide}>
+                                <BodyAndHeading />
+                            </Column>
+                            <Column width={4 / columnCounts.wide}>{buttons}</Column>
+                            <Column width={1 / columnCounts.wide}> </Column>
+                        </Columns>
+                    </div>
+                </Container>
+
+                <Hide below="tablet">
+                    {isReminderOpen &&
+                        content.mainContent.secondaryCta?.type ===
+                            SecondaryCtaType.ContributionsReminder && (
+                            <div css={styles.reminderContainer}>
+                                <div css={styles.reminderLine(backColor, foreColor)} />
+
+                                <Container>
+                                    <Columns>
+                                        <Column width={1}>
+                                            <CharityAppealBannerReminder
+                                                reminderCta={content.mainContent.secondaryCta}
+                                                trackReminderSetClick={
+                                                    reminderTracking.onReminderSetClick
+                                                }
+                                                onReminderCloseClick={onReminderCloseClick}
+                                                email={fetchedEmail}
+                                            />
+                                        </Column>
+                                    </Columns>
+                                </Container>
+                            </div>
+                        )}
+                </Hide>
+            </div>
+        );
+    };
 
 const CharityAppealBanner = getCharityAppealBanner(
     '#313433',

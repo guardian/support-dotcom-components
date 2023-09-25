@@ -99,11 +99,9 @@ export interface CharityAppealBannerReminderSignedOutProps {
     onReminderSetClick: (email: string) => void;
 }
 
-export const CharityAppealBannerReminderSignedOut: React.FC<CharityAppealBannerReminderSignedOutProps> = ({
-    reminderCta,
-    reminderStatus,
-    onReminderSetClick,
-}) => {
+export const CharityAppealBannerReminderSignedOut: React.FC<
+    CharityAppealBannerReminderSignedOutProps
+> = ({ reminderCta, reminderStatus, onReminderSetClick }) => {
     const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();
 
     const reminderLabelWithPreposition = ensureHasPreposition(

@@ -80,13 +80,15 @@ export const BannerTemplateProducts: {
     [BannerTemplate.GuardianWeeklyBanner]: ['PRINT_SUBSCRIPTION'],
 };
 
-const modulePathBuilder = (variant: BannerVariantFromTool) => (version?: string): string => {
-    if (uiIsDesign(variant.template)) {
-        return designableBanner.endpointPathBuilder(version);
-    } else {
-        return BannerPaths[variant.template](version);
-    }
-};
+const modulePathBuilder =
+    (variant: BannerVariantFromTool) =>
+    (version?: string): string => {
+        if (uiIsDesign(variant.template)) {
+            return designableBanner.endpointPathBuilder(version);
+        } else {
+            return BannerPaths[variant.template](version);
+        }
+    };
 
 const getProductsForVariant = (variant: BannerVariantFromTool) => {
     if (uiIsDesign(variant.template)) {
@@ -107,29 +109,27 @@ export const getDesignForVariant = (
     }
 };
 
-const buildBannerVariant = (forChannel: BannerChannel) => (
-    variant: BannerVariantFromTool,
-): BannerVariant => ({
-    ...variant,
-    modulePathBuilder: modulePathBuilder(variant),
-    componentType: BannerTemplateComponentTypes[forChannel],
-    products: getProductsForVariant(variant),
-});
+const buildBannerVariant =
+    (forChannel: BannerChannel) =>
+    (variant: BannerVariantFromTool): BannerVariant => ({
+        ...variant,
+        modulePathBuilder: modulePathBuilder(variant),
+        componentType: BannerTemplateComponentTypes[forChannel],
+        products: getProductsForVariant(variant),
+    });
 
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     return (): Promise<BannerTest[]> =>
         getTests<BannerTestFromTool>(channel).then((tests) => {
-            return tests.map(
-                (testParams: BannerTestFromTool): BannerTest => {
-                    return {
-                        ...testParams,
-                        bannerChannel,
-                        isHardcoded: false,
-                        variants: testParams.variants.map(buildBannerVariant(bannerChannel)),
-                    };
-                },
-            );
+            return tests.map((testParams: BannerTestFromTool): BannerTest => {
+                return {
+                    ...testParams,
+                    bannerChannel,
+                    isHardcoded: false,
+                    variants: testParams.variants.map(buildBannerVariant(bannerChannel)),
+                };
+            });
         });
 };
 

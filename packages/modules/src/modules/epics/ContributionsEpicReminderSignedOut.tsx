@@ -121,7 +121,9 @@ export interface ContributionsEpicReminderSignedOutProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminderSignedOut: React.FC<ContributionsEpicReminderSignedOutProps> = ({
+export const ContributionsEpicReminderSignedOut: React.FC<
+    ContributionsEpicReminderSignedOutProps
+> = ({
     reminderLabel,
     reminderStatus,
     onSetReminderClick,

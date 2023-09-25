@@ -20,11 +20,9 @@ export interface DesignableBannerArticleCountOptOutProps {
     settings: BannerTemplateSettings;
 }
 
-export const DesignableBannerArticleCountOptOut: React.FC<DesignableBannerArticleCountOptOutProps> = ({
-    numArticles,
-    nextWord,
-    settings,
-}: DesignableBannerArticleCountOptOutProps) => {
+export const DesignableBannerArticleCountOptOut: React.FC<
+    DesignableBannerArticleCountOptOutProps
+> = ({ numArticles, nextWord, settings }: DesignableBannerArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
@@ -189,7 +187,7 @@ const overlayStyles = {
         border: 1px solid ${textColour};
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         color: ${textColour};
-        `,
+    `,
     overlayHeader: css`
         display: flex;
         align-items: center;

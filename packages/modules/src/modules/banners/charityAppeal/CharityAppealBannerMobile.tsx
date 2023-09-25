@@ -118,82 +118,85 @@ interface CharityAppealBannerMobileProps {
     children?: React.ReactNode;
 }
 
-export const getCharityAppealBannerMobile = (
-    backgroundColor: string,
-    foreColor: string,
-): React.FC<CharityAppealBannerMobileProps> => ({
-    onContributeClick,
-    onSecondaryCtaClick,
-    onCloseClick,
-    content,
-    onReminderCtaClick,
-    isReminderOpen,
-    onReminderCloseClick,
-    trackReminderSetClick,
-    email,
-    children,
-}: CharityAppealBannerMobileProps) => {
-    const reminderRef = useRef<HTMLDivElement>(null);
+export const getCharityAppealBannerMobile =
+    (backgroundColor: string, foreColor: string): React.FC<CharityAppealBannerMobileProps> =>
+    ({
+        onContributeClick,
+        onSecondaryCtaClick,
+        onCloseClick,
+        content,
+        onReminderCtaClick,
+        isReminderOpen,
+        onReminderCloseClick,
+        trackReminderSetClick,
+        email,
+        children,
+    }: CharityAppealBannerMobileProps) => {
+        const reminderRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (reminderRef.current && isReminderOpen) {
-            reminderRef.current.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [reminderRef.current, isReminderOpen]);
+        useEffect(() => {
+            if (reminderRef.current && isReminderOpen) {
+                reminderRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, [reminderRef.current, isReminderOpen]);
 
-    return (
-        <div css={styles.container(isReminderOpen, foreColor)}>
-            <div css={styles.headingContainer(foreColor, backgroundColor)}>
-                <div css={styles.heading}>{content.heading}</div>
-                <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
-            </div>
-            <div css={[commonStyles.copy, styles.copy]}>
-                {content.subheading && <div css={styles.subheading}>{content.subheading}</div>}
-                {createBannerBodyCopy(content.paragraphs, content.highlightedText, commonStyles)}
-                {children}
-            </div>
+        return (
+            <div css={styles.container(isReminderOpen, foreColor)}>
+                <div css={styles.headingContainer(foreColor, backgroundColor)}>
+                    <div css={styles.heading}>{content.heading}</div>
+                    <CharityAppealBannerCloseButton onCloseClick={onCloseClick} />
+                </div>
+                <div css={[commonStyles.copy, styles.copy]}>
+                    {content.subheading && <div css={styles.subheading}>{content.subheading}</div>}
+                    {createBannerBodyCopy(
+                        content.paragraphs,
+                        content.highlightedText,
+                        commonStyles,
+                    )}
+                    {children}
+                </div>
 
-            <div css={styles.ctasContainer}>
-                {content.primaryCta && (
-                    <div css={styles.ctaContainer}>
-                        <CharityAppealBannerCta
-                            onContributeClick={onContributeClick}
-                            ctaText={content.primaryCta.ctaText}
-                            ctaUrl={content.primaryCta.ctaUrl}
-                            stacked={true}
-                        />
-                    </div>
-                )}
-
-                {content.secondaryCta && (
-                    <div>
-                        <CharityAppealBannerSecondaryCta
-                            secondaryCta={content.secondaryCta}
-                            onReminderCtaClick={onReminderCtaClick}
-                            onCustomCtaClick={onSecondaryCtaClick}
-                        />
-                    </div>
-                )}
-            </div>
-
-            <div ref={reminderRef} css={isReminderOpen ? styles.show : styles.hide}>
-                {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
-                    <div css={styles.reminderAndLineContainer}>
-                        <div css={styles.reminderLine(backgroundColor, foreColor)}></div>
-
-                        <div css={styles.reminderContainer}>
-                            <CharityAppealBannerReminder
-                                reminderCta={content.secondaryCta}
-                                trackReminderSetClick={trackReminderSetClick}
-                                onReminderCloseClick={onReminderCloseClick}
-                                email={email}
+                <div css={styles.ctasContainer}>
+                    {content.primaryCta && (
+                        <div css={styles.ctaContainer}>
+                            <CharityAppealBannerCta
+                                onContributeClick={onContributeClick}
+                                ctaText={content.primaryCta.ctaText}
+                                ctaUrl={content.primaryCta.ctaUrl}
+                                stacked={true}
                             />
                         </div>
-                    </div>
-                )}
+                    )}
+
+                    {content.secondaryCta && (
+                        <div>
+                            <CharityAppealBannerSecondaryCta
+                                secondaryCta={content.secondaryCta}
+                                onReminderCtaClick={onReminderCtaClick}
+                                onCustomCtaClick={onSecondaryCtaClick}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                <div ref={reminderRef} css={isReminderOpen ? styles.show : styles.hide}>
+                    {content.secondaryCta?.type === SecondaryCtaType.ContributionsReminder && (
+                        <div css={styles.reminderAndLineContainer}>
+                            <div css={styles.reminderLine(backgroundColor, foreColor)}></div>
+
+                            <div css={styles.reminderContainer}>
+                                <CharityAppealBannerReminder
+                                    reminderCta={content.secondaryCta}
+                                    trackReminderSetClick={trackReminderSetClick}
+                                    onReminderCloseClick={onReminderCloseClick}
+                                    email={email}
+                                />
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
-    );
-};
+        );
+    };
 
 export const CharityAppealBannerMobile = getCharityAppealBannerMobile('#313433', neutral[100]);

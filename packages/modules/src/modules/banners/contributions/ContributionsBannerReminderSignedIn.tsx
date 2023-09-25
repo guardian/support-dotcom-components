@@ -60,12 +60,9 @@ export interface ContributionsBannerReminderSignedInProps {
     onReminderCloseClick: () => void;
 }
 
-export const ContributionsBannerReminderSignedIn: React.FC<ContributionsBannerReminderSignedInProps> = ({
-    reminderCta,
-    reminderStatus,
-    onReminderSetClick,
-    onReminderCloseClick,
-}) => {
+export const ContributionsBannerReminderSignedIn: React.FC<
+    ContributionsBannerReminderSignedInProps
+> = ({ reminderCta, reminderStatus, onReminderSetClick, onReminderCloseClick }) => {
     const reminderDateWithPreposition = ensureHasPreposition(
         reminderCta.reminderFields.reminderLabel,
     );

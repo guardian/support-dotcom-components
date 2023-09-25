@@ -11,9 +11,9 @@ interface EnvironmentMomentBannerCloseButtonProps {
     onClick: () => void;
 }
 
-export const EnvironmentMomentBannerCloseButton: React.FC<EnvironmentMomentBannerCloseButtonProps> = ({
-    onClick,
-}: EnvironmentMomentBannerCloseButtonProps) => (
+export const EnvironmentMomentBannerCloseButton: React.FC<
+    EnvironmentMomentBannerCloseButtonProps
+> = ({ onClick }: EnvironmentMomentBannerCloseButtonProps) => (
     <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
         <Button onClick={onClick} css={button} size="small" icon={<SvgCross />} hideLabel>
             Dismiss the banner

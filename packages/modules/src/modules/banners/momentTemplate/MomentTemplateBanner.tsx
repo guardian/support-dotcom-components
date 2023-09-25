@@ -37,18 +37,13 @@ export function getMomentTemplateBanner(
         submitComponentEvent,
         tracking,
     }: BannerRenderProps): JSX.Element {
-        const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
-            reminderTracking,
-        );
+        const { isReminderActive, onReminderCtaClick, mobileReminderRef } =
+            useReminder(reminderTracking);
         const isTabletOrAbove = useMediaQuery(from.tablet);
         const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-        const {
-            choiceCardSelection,
-            setChoiceCardSelection,
-            getCtaText,
-            currencySymbol,
-        } = useChoiceCards(choiceCardAmounts, countryCode);
+        const { choiceCardSelection, setChoiceCardSelection, getCtaText, currencySymbol } =
+            useChoiceCards(choiceCardAmounts, countryCode);
         const showChoiceCards = !!(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData
         );

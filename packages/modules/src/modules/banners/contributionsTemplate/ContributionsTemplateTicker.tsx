@@ -73,17 +73,16 @@ const filledProgressStyles = (
     runningTotal: number,
     total: number,
     colour: string,
-): SerializedStyles =>
-    css`
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transform: ${progressBarTransform(end, runningTotal, total)};
-        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${colour};
-    `;
+): SerializedStyles => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: ${progressBarTransform(end, runningTotal, total)};
+    transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+    background-color: ${colour};
+`;
 
 const goalContainerStyles = css`
     position: absolute;

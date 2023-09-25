@@ -87,11 +87,9 @@ export interface ContributionsBannerReminderSignedOutProps {
     onReminderSetClick: (email: string) => void;
 }
 
-export const ContributionsBannerReminderSignedOut: React.FC<ContributionsBannerReminderSignedOutProps> = ({
-    reminderCta,
-    reminderStatus,
-    onReminderSetClick,
-}) => {
+export const ContributionsBannerReminderSignedOut: React.FC<
+    ContributionsBannerReminderSignedOutProps
+> = ({ reminderCta, reminderStatus, onReminderSetClick }) => {
     const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();
 
     const reminderLabelWithPreposition = ensureHasPreposition(
