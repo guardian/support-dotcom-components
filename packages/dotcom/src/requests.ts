@@ -53,7 +53,7 @@ const getModuleData = (
             }
             return response;
         })
-        .then(response => response.json());
+        .then((response) => response.json());
 };
 
 export const getEpic = (baseUrl: string, payload: EpicPayload): Promise<ModuleDataResponse> =>

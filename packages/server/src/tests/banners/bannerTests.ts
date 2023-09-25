@@ -21,7 +21,7 @@ const testGenerators: BannerTestGenerator[] = [
 
 const getTests = (): Promise<BannerTest[]> =>
     Promise.all(
-        testGenerators.map(testGenerator => testGenerator()),
+        testGenerators.map((testGenerator) => testGenerator()),
     ).then((bannerTests: BannerTest[][]) => flattenArray(bannerTests));
 
 const buildBannerTestsReloader = (): Promise<ValueReloader<BannerTest[]>> =>

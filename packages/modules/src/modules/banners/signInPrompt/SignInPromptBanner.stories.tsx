@@ -15,7 +15,7 @@ export default {
     },
 } as ComponentMeta<typeof SignInPromptBanner>;
 
-const Template: ComponentStory<typeof SignInPromptBanner> = props => (
+const Template: ComponentStory<typeof SignInPromptBanner> = (props) => (
     <SignInPromptBanner {...props} />
 );
 

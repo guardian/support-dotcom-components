@@ -35,17 +35,17 @@ export const shouldThrottle = (
     let views = log;
 
     if (testId) {
-        views = log.filter(view => view.testId === testId);
+        views = log.filter((view) => view.testId === testId);
     }
 
-    const viewsInThrottleWindow = views.filter(view => {
+    const viewsInThrottleWindow = views.filter((view) => {
         return daysSince(new Date(view.date), now) < config.maxViewsDays;
     });
 
     const hasReachedViewsLimitInWindow = viewsInThrottleWindow.length >= config.maxViewsCount;
 
     const withinMinDaysSinceLastView = viewsInThrottleWindow.some(
-        view => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
+        (view) => daysSince(new Date(view.date), now) < config.minDaysBetweenViews,
     );
 
     return hasReachedViewsLimitInWindow || withinMinDaysSinceLastView;
@@ -54,7 +54,7 @@ export const shouldThrottle = (
 export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
     const section = meta.sectionId || meta.sectionName;
     const isLowValueSection = !!section && lowValueSections.includes(section);
-    const isLowValueTag = lowValueTags.some(id => meta.tags.some(pageTag => pageTag.id === id));
+    const isLowValueTag = lowValueTags.some((id) => meta.tags.some((pageTag) => pageTag.id === id));
 
     return meta.shouldHideReaderRevenue || isLowValueSection || isLowValueTag || meta.isPaidContent;
 };
@@ -113,7 +113,7 @@ interface PageContext {
 }
 
 const pageHasATag = (tagIds: string[], pageTagIds?: string[]): boolean =>
-    !!pageTagIds && tagIds.some(tagId => pageTagIds.includes(tagId));
+    !!pageTagIds && tagIds.some((tagId) => pageTagIds.includes(tagId));
 
 const pageHasASection = (sectionIds: string[], pageSectionId?: string): boolean =>
     !!pageSectionId && sectionIds.includes(pageSectionId);

@@ -62,7 +62,7 @@ export const getLastScheduledDeploy = (
     date: Date,
     scheduledDeploys: ScheduledBannerDeploy[],
 ): Date => {
-    const deployDateTimes = scheduledDeploys.map(deploy =>
+    const deployDateTimes = scheduledDeploys.map((deploy) =>
         previousScheduledDate(date, deploy.dayOfWeek, deploy.hour),
     );
     const sorted = deployDateTimes.sort(compareDesc);

@@ -8,7 +8,7 @@ export function useTabDetection(tabThreshold = 5): boolean {
 
     function handleTabPress(event: KeyboardEvent): void {
         if (event.key === 'Tab') {
-            setTabPressCount(count => {
+            setTabPressCount((count) => {
                 if (count < tabThreshold) {
                     return count + 1;
                 }

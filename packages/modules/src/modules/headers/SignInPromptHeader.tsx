@@ -89,7 +89,7 @@ const visible = css`
     opacity: 1;
 `;
 
-const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
+const SignInPromptHeader: React.FC<HeaderRenderProps> = (props) => {
     const { heading, subheading, primaryCta, benefits } = props.content;
     const [benefitIndex, setBenefitIndex] = useState(-1);
     const [benefitVisible, setBenefitVisible] = useState<boolean>(false);
@@ -126,7 +126,7 @@ const SignInPromptHeader: React.FC<HeaderRenderProps> = props => {
             const delay = i === 0 ? 0 : FADE_TIME_MS + ANIMATION_DELAY_MS;
             // Fade in individual dots
             queueAnimation(() => {
-                setDotsVisible(currentState => {
+                setDotsVisible((currentState) => {
                     const newState = [...currentState];
                     newState.splice(i, 1, true);
                     return newState;

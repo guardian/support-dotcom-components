@@ -88,7 +88,7 @@ const logo = css`
     height: 42px;
 `;
 
-const SignInPromptBanner: React.FC<BannerRenderProps> = props => {
+const SignInPromptBanner: React.FC<BannerRenderProps> = (props) => {
     const { heading, paragraphs, primaryCta, secondaryCta } = props.content.mainContent;
     const [subheading, ...bullets] = paragraphs;
 

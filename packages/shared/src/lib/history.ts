@@ -86,7 +86,7 @@ const tagsOfInterest = new Set<string>([
  * Actually mutates and returns the given currentTagCounts for efficiency.
  */
 const updateTagsCounts = (tagIds: string[], currentTagCounts: TagCounts = {}): TagCounts => {
-    tagIds.forEach(tagId => {
+    tagIds.forEach((tagId) => {
         if (tagsOfInterest.has(tagId)) {
             currentTagCounts[tagId] = (currentTagCounts[tagId] ?? 0) + 1;
         }

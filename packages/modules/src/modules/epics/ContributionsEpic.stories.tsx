@@ -135,7 +135,7 @@ WithReminder.args = {
 export const WithReminderPrefilled = Template.bind({});
 WithReminderPrefilled.args = {
     fetchEmail: () => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             setTimeout(() => {
                 resolve('test@guardian.co.uk');
             }, 500);

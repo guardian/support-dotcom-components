@@ -18,8 +18,8 @@ export type ChannelTypes =
 
 export const getTests = <T>(channel: ChannelTypes): Promise<T[]> =>
     queryChannel(channel, stage)
-        .then(tests => (tests.Items ?? []).sort((a, b) => a.priority - b.priority) as T[])
-        .catch(error => {
+        .then((tests) => (tests.Items ?? []).sort((a, b) => a.priority - b.priority) as T[])
+        .catch((error) => {
             logError(`Error reading tests from Dynamo: ${error.message}`);
             putMetric('channel-tests-error');
             return error;
@@ -50,8 +50,8 @@ export const getBannerDesigns = (): Promise<BannerDesignFromTool[]> => {
             TableName: `support-admin-console-banner-designs-${stage.toUpperCase()}`,
         })
         .promise()
-        .then(results => (results.Items || []) as BannerDesignFromTool[])
-        .catch(error => {
+        .then((results) => (results.Items || []) as BannerDesignFromTool[])
+        .catch((error) => {
             logError(`Error reading banner designs from Dynamo: ${error.message}`);
             putMetric('banner-designs-load-error');
             return error;

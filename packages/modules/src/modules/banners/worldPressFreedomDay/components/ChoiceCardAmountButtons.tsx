@@ -137,7 +137,7 @@ export const ChoiceCardAmountButtons = ({
     const handleUpdateAmount = (amount: number | 'other') =>
         updateAmount(amount, setSelectionsCallback, selection.frequency, submitComponentEvent);
 
-    const choiceCardAmounts = requiredAmounts.map(amount => (
+    const choiceCardAmounts = requiredAmounts.map((amount) => (
         <ChoiceCardAmount
             key={amount}
             id={`wpfd-banner-${amount}`}

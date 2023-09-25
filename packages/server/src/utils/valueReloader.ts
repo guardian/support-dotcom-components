@@ -26,7 +26,7 @@ export class ValueReloader<T> implements ValueProvider<T> {
 
     refresh(): void {
         this.load()
-            .then(result => (this.value = result))
+            .then((result) => (this.value = result))
             .finally(() => {
                 setTimeout(() => {
                     this.refresh();
@@ -39,4 +39,4 @@ export const buildReloader = <T>(
     load: () => Promise<T>,
     ttlSec: number,
 ): Promise<ValueReloader<T>> =>
-    load().then(initialValue => new ValueReloader(initialValue, load, ttlSec));
+    load().then((initialValue) => new ValueReloader(initialValue, load, ttlSec));
