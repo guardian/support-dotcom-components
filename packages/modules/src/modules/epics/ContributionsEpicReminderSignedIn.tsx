@@ -101,7 +101,9 @@ export interface ContributionsEpicReminderSignedInProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> = ({
+export const ContributionsEpicReminderSignedIn: React.FC<
+    ContributionsEpicReminderSignedInProps
+> = ({
     reminderLabel,
     reminderStatus,
     onSetReminderClick,

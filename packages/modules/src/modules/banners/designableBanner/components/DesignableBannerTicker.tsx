@@ -61,14 +61,13 @@ const styles = {
         total: number,
         colour: string,
         isGoalReached: boolean,
-    ): SerializedStyles =>
-        css`
-            height: ${progressBarHeight}px;
-            width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
-            transform: ${styles.progressBarTransform(end, runningTotal, total)};
-            transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-            background-color: ${colour};
-        `,
+    ): SerializedStyles => css`
+        height: ${progressBarHeight}px;
+        width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
+        transform: ${styles.progressBarTransform(end, runningTotal, total)};
+        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+        background-color: ${colour};
+    `,
     soFarContainerStyles: css`
         padding-right: ${space[5]}px;
     `,

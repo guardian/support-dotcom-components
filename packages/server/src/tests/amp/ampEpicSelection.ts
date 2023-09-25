@@ -52,12 +52,9 @@ export const selectAmpEpic = async (
     tickerData: TickerDataProvider,
     countryCode?: string,
 ): Promise<AMPEpic | null> =>
-    selectAmpEpicTestAndVariant(
-        tests,
-        ampVariantAssignments,
-        tickerData,
-        countryCode,
-    ).then((test) => (!!test && hasPlaceholder(test) ? null : test));
+    selectAmpEpicTestAndVariant(tests, ampVariantAssignments, tickerData, countryCode).then(
+        (test) => (!!test && hasPlaceholder(test) ? null : test),
+    );
 
 const selectAmpEpicTestAndVariant = async (
     tests: AmpEpicTest[],

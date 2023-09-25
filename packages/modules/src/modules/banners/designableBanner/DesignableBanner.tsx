@@ -100,18 +100,13 @@ const DesignableBanner: React.FC<BannerRenderProps> = ({
         bannerId: 'designable-banner',
     };
 
-    const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
-        reminderTracking,
-    );
+    const { isReminderActive, onReminderCtaClick, mobileReminderRef } =
+        useReminder(reminderTracking);
     const isTabletOrAbove = useMediaQuery(from.tablet);
     const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-    const {
-        choiceCardSelection,
-        setChoiceCardSelection,
-        getCtaText,
-        currencySymbol,
-    } = useChoiceCards(choiceCardAmounts, countryCode, content);
+    const { choiceCardSelection, setChoiceCardSelection, getCtaText, currencySymbol } =
+        useChoiceCards(choiceCardAmounts, countryCode, content);
     const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amountsCardData);
 
     return (

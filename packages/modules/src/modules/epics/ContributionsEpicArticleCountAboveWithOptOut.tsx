@@ -30,7 +30,9 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
 
-export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<ContributionsEpicArticleCountAboveWithOptOutProps> = ({
+export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<
+    ContributionsEpicArticleCountAboveWithOptOutProps
+> = ({
     articleCounts,
     copy,
     countType,

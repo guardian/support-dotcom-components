@@ -66,17 +66,20 @@ const progressBarTransform = (end: number, runningTotal: number, total: number):
     return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
 };
 
-const filledProgressStyles = (end: number, runningTotal: number, total: number): SerializedStyles =>
-    css`
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transform: ${progressBarTransform(end, runningTotal, total)};
-        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${palette.news[400]};
-    `;
+const filledProgressStyles = (
+    end: number,
+    runningTotal: number,
+    total: number,
+): SerializedStyles => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: ${progressBarTransform(end, runningTotal, total)};
+    transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+    background-color: ${palette.news[400]};
+`;
 
 const goalContainerStyles: SerializedStyles = css`
     position: absolute;
