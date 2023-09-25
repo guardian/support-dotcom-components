@@ -55,7 +55,7 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
                     }
 
                     if (fetchEmail) {
-                        fetchEmail().then(resolvedEmail => {
+                        fetchEmail().then((resolvedEmail) => {
                             if (resolvedEmail) {
                                 setFetchedEmail(resolvedEmail);
                             }

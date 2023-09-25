@@ -218,7 +218,7 @@ export const getCharityAppealBanner = (
         reminderTracking.onReminderCtaClick();
 
         if (fetchEmail) {
-            fetchEmail().then(resolvedEmail => {
+            fetchEmail().then((resolvedEmail) => {
                 if (resolvedEmail) {
                     setFetchedEmail(resolvedEmail);
                 }

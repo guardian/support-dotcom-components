@@ -192,7 +192,7 @@ const ContributionsBanner: React.FC<BannerRenderProps> = ({
         reminderTracking.onReminderCtaClick();
 
         if (fetchEmail) {
-            fetchEmail().then(resolvedEmail => {
+            fetchEmail().then((resolvedEmail) => {
                 if (resolvedEmail) {
                     setFetchedEmail(resolvedEmail);
                 }

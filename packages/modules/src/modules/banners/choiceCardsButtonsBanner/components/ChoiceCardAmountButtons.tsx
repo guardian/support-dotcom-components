@@ -145,7 +145,7 @@ export const ChoiceCardAmountButtons = ({
             submitComponentEvent,
         );
 
-    const choiceCardAmounts = requiredAmounts.map(amount => (
+    const choiceCardAmounts = requiredAmounts.map((amount) => (
         <ChoiceCardAmount
             key={amount}
             id={`${componentId}-${amount}`}

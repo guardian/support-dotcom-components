@@ -79,7 +79,7 @@ const scrollDepthForRender = (tracking: Tracking) => {
 const withBannerData = (
     Banner: React.FC<BannerRenderProps>,
     bannerId: BannerId,
-): React.FC<CloseableBannerProps> => bannerProps => {
+): React.FC<CloseableBannerProps> => (bannerProps) => {
     const {
         tracking,
         submitComponentEvent,
@@ -120,7 +120,7 @@ const withBannerData = (
     }, [submitComponentEvent]);
 
     useScrollDepth(
-        depthPercent => {
+        (depthPercent) => {
             if (depthPercent >= renderScrollThreshold) {
                 setCanShow(true);
             }
@@ -135,17 +135,17 @@ const withBannerData = (
     ): string[] => {
         const originalCopy = getParagraphsOrMessageText(paras, text);
 
-        return originalCopy.map(p =>
+        return originalCopy.map((p) =>
             replaceNonArticleCountPlaceholders(p, countryCode, prices).trim(),
         );
     };
 
     const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
-        return paras.map(p => replaceArticleCount(p, numArticles, 'banner'));
+        return paras.map((p) => replaceArticleCount(p, numArticles, 'banner'));
     };
 
     const paragraphsContainNonArticleCountPlaceholder = (paras: string[]): boolean =>
-        paras.some(p => containsNonArticleCountPlaceholder(p));
+        paras.some((p) => containsNonArticleCountPlaceholder(p));
 
     const componentIds = getComponentIds(bannerId);
 

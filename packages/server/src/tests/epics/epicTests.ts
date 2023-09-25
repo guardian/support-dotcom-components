@@ -13,7 +13,7 @@ export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {
 };
 
 const fetchConfiguredEpicTests = (channel: ChannelTypes) => (): Promise<EpicTest[]> => {
-    return getTests<EpicTest>(channel).then(tests => {
+    return getTests<EpicTest>(channel).then((tests) => {
         return tests.map((test: EpicTest) => {
             const hasArticleCountInCopy = test.variants.some(variantHasArticleCountCopy);
 

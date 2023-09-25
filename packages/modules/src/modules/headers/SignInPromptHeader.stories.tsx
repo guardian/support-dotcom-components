@@ -10,7 +10,7 @@ export default {
     decorators: [HeaderDecorator],
 } as ComponentMeta<typeof SignInPromptHeader>;
 
-const Template: ComponentStory<typeof SignInPromptHeader> = props => (
+const Template: ComponentStory<typeof SignInPromptHeader> = (props) => (
     <SignInPromptHeader {...props} />
 );
 

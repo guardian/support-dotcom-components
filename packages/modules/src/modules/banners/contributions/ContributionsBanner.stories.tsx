@@ -34,7 +34,7 @@ WithPrefilledReminder.args = {
     ...WithReminder.args,
 
     fetchEmail: () => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             setTimeout(() => {
                 resolve('test@guardian.co.uk');
             }, 500);

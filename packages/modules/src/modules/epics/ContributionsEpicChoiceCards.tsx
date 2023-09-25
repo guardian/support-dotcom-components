@@ -214,7 +214,7 @@ export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
                 css={[frequencyChoiceCardGroupOverrides, hideChoiceCardGroupLegend]}
                 label="Contribution frequency"
             >
-                {displayContributionType.map(f => generateChoiceCardFrequencyTab(f))}
+                {displayContributionType.map((f) => generateChoiceCardFrequencyTab(f))}
             </ChoiceCardGroup>
             <br />
             <ChoiceCardGroup

@@ -72,7 +72,7 @@ export const ChoiceCardFrequencyTabs = ({
     const getRecurringLabelText = (tabFrequency: ContributionFrequency) =>
         tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
 
-    const tabList = tabFrequencies.map(tabFrequency => ({
+    const tabList = tabFrequencies.map((tabFrequency) => ({
         frequency: tabFrequency,
         id: `banner-${tabFrequency}`,
         labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
@@ -81,7 +81,7 @@ export const ChoiceCardFrequencyTabs = ({
 
     return (
         <div css={container}>
-            {tabList.map(tab => (
+            {tabList.map((tab) => (
                 <ChoiceCard
                     key={tab.id}
                     label={tab.labelText}

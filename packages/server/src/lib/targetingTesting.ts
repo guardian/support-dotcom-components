@@ -31,7 +31,7 @@ export const selectTargetingTest = <T>(
     targeting: T,
     targetingTests: TargetingTest<T>[],
 ): TargetingTestDecision | null => {
-    const test: TargetingTest<T> | undefined = targetingTests.find(test =>
+    const test: TargetingTest<T> | undefined = targetingTests.find((test) =>
         test.canInclude(targeting),
     );
 

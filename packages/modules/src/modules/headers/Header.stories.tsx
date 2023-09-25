@@ -10,7 +10,7 @@ export default {
     decorators: [HeaderDecorator],
 } as ComponentMeta<typeof Header>;
 
-const Template: ComponentStory<typeof Header> = props => <Header {...props} />;
+const Template: ComponentStory<typeof Header> = (props) => <Header {...props} />;
 
 export const DefaultHeader = Template.bind({});
 DefaultHeader.args = {

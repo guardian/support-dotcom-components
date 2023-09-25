@@ -118,7 +118,7 @@ export const buildAmpEpicRouter = (
                     countryCode,
                 );
                 const regionAmounts = choiceCardAmountsSettings.find(
-                    t =>
+                    (t) =>
                         t.targeting.targetingType === 'Region' &&
                         t.targeting.region === countryGroupId,
                 );
@@ -240,7 +240,7 @@ export const buildAmpEpicRouter = (
                     JSON.stringify(ophanComponentEvent),
                 )}`;
 
-                fetch(ophanUrl).then(ophanResponse => {
+                fetch(ophanUrl).then((ophanResponse) => {
                     res.json({
                         ophanUrl: ophanUrl,
                         ophanResponseStatus: ophanResponse.status,

@@ -12,7 +12,7 @@ export const bodyContainsAllFields = (fields: string[]) => (
     res: express.Response,
     next: express.NextFunction,
 ): void => {
-    if (fields.every(f => f in req.body)) {
+    if (fields.every((f) => f in req.body)) {
         next();
     } else {
         res.sendStatus(400);

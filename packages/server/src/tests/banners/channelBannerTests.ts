@@ -103,7 +103,7 @@ export const getDesignForVariant = (
     const bannerUi = variant.template;
 
     if (uiIsDesign(bannerUi)) {
-        return designs.find(design => design.name === bannerUi.designName);
+        return designs.find((design) => design.name === bannerUi.designName);
     }
 };
 
@@ -119,7 +119,7 @@ const buildBannerVariant = (forChannel: BannerChannel) => (
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     return (): Promise<BannerTest[]> =>
-        getTests<BannerTestFromTool>(channel).then(tests => {
+        getTests<BannerTestFromTool>(channel).then((tests) => {
             return tests.map(
                 (testParams: BannerTestFromTool): BannerTest => {
                     return {
