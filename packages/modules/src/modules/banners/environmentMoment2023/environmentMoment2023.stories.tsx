@@ -19,19 +19,19 @@ export default {
 
 const image = {
     mainUrl:
-        'https://i.guim.co.uk/img/media/bfaa2726d4a36b469cbfb1aca58b6b7c4ae218f7/0_0_698_183/698.jpg?width=698&height=183&quality=75&s=d126720d69997803f760cc7ef8f7eb9c',
+        'https://i.guim.co.uk/img/media/ba2437f7a1155a099f6f113954bc3bd7ed401d73/0_0_254_75/254.jpg?width=254&height=75&quality=100&s=a14ef5687682810756d65e1587c2e768',
     mobileSmallUrl:
-        'https://i.guim.co.uk/img/media/424f0c9baa84eb37617f4afe33a461f5ce464b6c/0_0_320_96/320.jpg?width=320&height=96&quality=100&s=920c49ccba8021182316b310d42777c1',
+        'https://i.guim.co.uk/img/media/ba2437f7a1155a099f6f113954bc3bd7ed401d73/0_0_254_75/254.jpg?width=254&height=75&quality=100&s=a14ef5687682810756d65e1587c2e768',
     mobileMediumUrl:
-        'https://i.guim.co.uk/img/media/8c17fd216b9af51a439c3cc9a16d63135465428b/0_0_375_110/375.png?width=375&height=110&quality=75&s=9a0abbe5748c650e0525430cf034520c',
+        'https://i.guim.co.uk/img/media/e647cb47eca617faf786eb15af4b7ef6f5c25fa3/0_0_310_90/310.jpg?width=310&height=90&quality=100&s=2e624f870b0d77b6ea36c26a9fa967e7',
     tabletUrl:
-        'https://i.guim.co.uk/img/media/1d3acb76721ea9e7037c98ddae2196ae6a15391a/0_0_354_126/354.jpg?width=354&height=126&quality=75&s=3fda53959a96845a7cec6987915680f6',
+        'https://i.guim.co.uk/img/media/ac03495630fae05beabbd095cce5828351e31b6a/0_0_382_126/382.jpg?width=382&height=126&quality=100&s=4825923ef1a230932c95798ce58329b2',
     desktopUrl:
-        'https://i.guim.co.uk/img/media/1eed686ab18e2e32e042dcdabe3fc1316e99d3de/0_0_481_183/481.jpg?width=481&height=183&quality=75&s=62dcdbf760ebe1b2d0628a488d75c7d0',
+        'https://i.guim.co.uk/img/media/a59af1e144ce90288369f1c0f6d80972d8069813/0_0_528_183/528.jpg?width=582&height=183&quality=100&s=cdd4c3cb890d50eb9acb021b032dc29b',
     leftColUrl:
-        'https://i.guim.co.uk/img/media/7137a960abda3518f8632f4ecb63b453efc5f2cc/0_0_640_183/640.jpg?width=640&height=183&quality=75&s=135bb3d64f7392f11995dea22000e750',
+        'https://i.guim.co.uk/img/media/a392a7a01cdd8c38a482449a5ff558bef5747021/0_0_624_179/624.jpg?width=624&height=179&quality=100&s=c905f89ad165021e596b6b5dc94fec7f',
     wideUrl:
-        'https://i.guim.co.uk/img/media/bfaa2726d4a36b469cbfb1aca58b6b7c4ae218f7/0_0_698_183/698.jpg?width=698&height=183&quality=75&s=d126720d69997803f760cc7ef8f7eb9c',
+        'https://i.guim.co.uk/img/media/f5b89e25ec6c34d18db071b9d47078d998f0501d/0_0_696_183/696.jpg?width=696&height=183&quality=100&s=a5f3cbc0bdb85e6cff40c0a6cc6519b2',
     altText: 'Guardian Our Planet cant Speak for itself',
 };
 
