@@ -4,6 +4,7 @@ import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from '@emotion/react';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
+import type { ReactComponent } from '../../types';
 
 // Custom theme for Button/LinkButton
 // See also `tertiaryButtonOverrides` below.
@@ -48,7 +49,7 @@ const tertiaryButtonOverrides = css`
     }
 `;
 
-export const Button: React.FC<Props> = (allProps: Props) => {
+export const Button: ReactComponent<Props> = (allProps: Props) => {
     const {
         onClickAction,
         children,

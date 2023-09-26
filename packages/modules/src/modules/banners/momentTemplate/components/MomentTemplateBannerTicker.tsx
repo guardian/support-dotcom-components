@@ -8,6 +8,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { TickerStylingSettings } from '../settings';
 import { space } from '@guardian/src-foundations';
 import { templateSpacing } from '../styles/templateStyles';
+import type { ReactComponent } from '../../../../types';
 
 const progressBarHeight = 12;
 const tickerFillOffset = 15;
@@ -90,7 +91,7 @@ type MomentTemplateBannerTickerProps = {
     stylingSettings: TickerStylingSettings;
 };
 
-const MomentTemplateBannerTicker: React.FC<MomentTemplateBannerTickerProps> = ({
+const MomentTemplateBannerTicker: ReactComponent<MomentTemplateBannerTickerProps> = ({
     tickerSettings,
     stylingSettings,
 }: MomentTemplateBannerTickerProps) => {

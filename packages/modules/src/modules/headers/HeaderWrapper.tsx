@@ -9,6 +9,7 @@ import {
 import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { withParsedProps } from '../shared/ModuleWrapper';
+import type { ReactComponent } from '../../types';
 
 export interface HeaderEnrichedCta {
     ctaUrl: string;
@@ -29,8 +30,10 @@ export interface HeaderRenderProps {
     onCtaClick?: () => void; // only used by sign in prompt header
 }
 
-export const headerWrapper = (Header: React.FC<HeaderRenderProps>): React.FC<HeaderProps> => {
-    const Wrapped: React.FC<HeaderProps> = ({
+export const headerWrapper = (
+    Header: ReactComponent<HeaderRenderProps>,
+): ReactComponent<HeaderProps> => {
+    const Wrapped: ReactComponent<HeaderProps> = ({
         content,
         mobileContent,
         tracking,
@@ -148,5 +151,5 @@ const validate = (props: unknown): props is HeaderProps => {
 };
 
 export const validatedHeaderWrapper = (
-    Header: React.FC<HeaderRenderProps>,
-): React.FC<HeaderProps> => withParsedProps(headerWrapper(Header), validate);
+    Header: ReactComponent<HeaderRenderProps>,
+): ReactComponent<HeaderProps> => withParsedProps(headerWrapper(Header), validate);

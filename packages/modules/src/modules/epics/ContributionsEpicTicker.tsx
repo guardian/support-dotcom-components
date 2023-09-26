@@ -5,6 +5,7 @@ import { textSans } from '@guardian/src-foundations/typography';
 import { useHasBeenSeen, HasBeenSeen } from '../../hooks/useHasBeenSeen';
 import useTicker from '../../hooks/useTicker';
 import { TickerSettings } from '@sdc/shared/types';
+import type { ReactComponent } from '../../types';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -102,14 +103,14 @@ type MarkerProps = {
     end: number;
 };
 
-const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
+const Marker: ReactComponent<MarkerProps> = ({ goal, end }: MarkerProps) => {
     if (end > goal) {
         const markerTranslate = (goal / end) * 100 - 100;
         const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
 
         return <div css={goalMarkerStyles(markerTransform)} />;
     } else {
-        return null;
+        return <></>;
     }
 };
 
@@ -119,7 +120,11 @@ export type Props = {
     goal: number;
 };
 
-export const ContributionsEpicTicker: React.FC<Props> = ({ settings, total, goal }: Props) => {
+export const ContributionsEpicTicker: ReactComponent<Props> = ({
+    settings,
+    total,
+    goal,
+}: Props) => {
     const [readyToAnimate, setReadyToAnimate] = useState<boolean>(false);
 
     const debounce = true;

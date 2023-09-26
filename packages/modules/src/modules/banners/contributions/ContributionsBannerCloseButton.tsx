@@ -7,6 +7,7 @@ import { SvgCross } from '@guardian/src-icons';
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     roundelAndCloseButtonContainer: css`
@@ -41,7 +42,7 @@ interface ContributionsCloseButtonProps {
     onCloseClick: () => void;
 }
 
-export const ContributionsBannerCloseButton: React.FC<ContributionsCloseButtonProps> = ({
+export const ContributionsBannerCloseButton: ReactComponent<ContributionsCloseButtonProps> = ({
     onCloseClick,
 }: ContributionsCloseButtonProps) => {
     return (

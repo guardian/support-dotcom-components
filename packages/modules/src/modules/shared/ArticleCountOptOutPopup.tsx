@@ -16,6 +16,7 @@ import {
     addArticleCountOptOutCookie,
     removeArticleCountFromLocalStorage,
 } from './helpers/articleCountOptOut';
+import type { ReactComponent } from '../../types';
 
 export type ArticleCountOptOutType =
     | 'epic'
@@ -96,7 +97,7 @@ export interface ArticleCountOptOutProps {
     tracking?: OphanTracking;
 }
 
-export const ArticleCountOptOutPopup: React.FC<ArticleCountOptOutProps> = ({
+export const ArticleCountOptOutPopup: ReactComponent<ArticleCountOptOutProps> = ({
     numArticles,
     nextWord,
     type,

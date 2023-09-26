@@ -5,6 +5,7 @@ import { body } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import { OPHAN_COMPONENT_SIGN_IN } from './utils/ophan';
+import type { ReactComponent } from '../../types';
 
 const signInLink = css`
     margin: 0;
@@ -22,7 +23,7 @@ interface ContributionsEpicSignInProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
 }
 
-export const ContributionsEpicSignInCta: React.FC<ContributionsEpicSignInProps> = ({
+export const ContributionsEpicSignInCta: ReactComponent<ContributionsEpicSignInProps> = ({
     submitComponentEvent,
 }: ContributionsEpicSignInProps) => {
     const onSignInClick = () => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
+import type { ReactComponent } from '../../../../types';
 
 type TabletAndDesktopSquaresProps = {
     minimiseHint: React.ReactNode;
@@ -48,7 +49,7 @@ function gridPlacement(row: number, column: number) {
     `;
 }
 
-export const TabletDesktopSquares: React.FC<TabletAndDesktopSquaresProps> = ({
+export const TabletDesktopSquares: ReactComponent<TabletAndDesktopSquaresProps> = ({
     minimiseHint,
     isKeyboardUser,
 }) => {

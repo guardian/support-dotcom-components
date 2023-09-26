@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { IconRedEarth } from './IconRedEarth';
 import { IconBlueEarth } from './IconBlueEarth';
+import type { ReactComponent } from '../../../../types';
 
 const container = css`
     position: relative;
@@ -60,7 +61,7 @@ const redEarthContainer = css`
     animation-direction: normal, alternate;
 `;
 
-export const EnvironmentBannerEarth: React.FC = () => (
+export const EnvironmentBannerEarth: ReactComponent = () => (
     <div css={container}>
         <div css={blueEarthContainer}>
             <IconBlueEarth />

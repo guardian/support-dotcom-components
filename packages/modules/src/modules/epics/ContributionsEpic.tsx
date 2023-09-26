@@ -26,6 +26,7 @@ import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './Contributio
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
+import type { ReactComponent } from '../../types';
 
 // CSS Styling
 // -------------------------------------------
@@ -107,7 +108,7 @@ interface EpicHeaderProps {
     showAboveArticleCount: boolean;
 }
 
-const EpicHeader: React.FC<EpicHeaderProps> = ({
+const EpicHeader: ReactComponent<EpicHeaderProps> = ({
     text,
     numArticles,
     tracking,
@@ -133,7 +134,7 @@ type HighlightedProps = {
     showAboveArticleCount: boolean;
 };
 
-const Highlighted: React.FC<HighlightedProps> = ({
+const Highlighted: ReactComponent<HighlightedProps> = ({
     highlightedText,
     numArticles,
     tracking,
@@ -165,7 +166,7 @@ interface EpicBodyParagraphProps {
     showAboveArticleCount: boolean;
 }
 
-const EpicBodyParagraph: React.FC<EpicBodyParagraphProps> = ({
+const EpicBodyParagraph: ReactComponent<EpicBodyParagraphProps> = ({
     paragraph,
     numArticles,
     highlighted,
@@ -199,7 +200,7 @@ type BodyProps = {
     showAboveArticleCount: boolean;
 };
 
-const EpicBody: React.FC<BodyProps> = ({
+const EpicBody: ReactComponent<BodyProps> = ({
     countryCode,
     numArticles,
     paragraphs,
@@ -237,7 +238,7 @@ const EpicBody: React.FC<BodyProps> = ({
 
 // ContributionsEpic - exported component
 // -------------------------------------------
-const ContributionsEpic: React.FC<EpicProps> = ({
+const ContributionsEpic: ReactComponent<EpicProps> = ({
     variant,
     tracking,
     countryCode,
@@ -340,7 +341,7 @@ const ContributionsEpic: React.FC<EpicProps> = ({
             containsNonArticleCountPlaceholder,
         )
     ) {
-        return null; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
+        return <></>; // quick exit if something goes wrong. Ideally we'd throw and caller would catch/log but TODO that separately
     }
 
     const ophanTracking: OphanTracking | undefined = submitComponentEvent && {

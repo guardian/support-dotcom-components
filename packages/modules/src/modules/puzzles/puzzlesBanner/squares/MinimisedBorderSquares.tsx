@@ -5,6 +5,7 @@ import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
+import type { ReactComponent } from '../../../../types';
 
 const smallSquareSizes = {
     mobile: 33,
@@ -72,7 +73,7 @@ type MinimisedBorderSquaresProps = {
     minimiseButton: React.ReactNode;
 };
 
-export const MinimisedBorderSquares: React.FC<MinimisedBorderSquaresProps> = ({
+export const MinimisedBorderSquares: ReactComponent<MinimisedBorderSquaresProps> = ({
     minimiseButton,
 }) => {
     return (

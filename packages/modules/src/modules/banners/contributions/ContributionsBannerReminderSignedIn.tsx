@@ -9,6 +9,7 @@ import { SvgCheckmark } from '@guardian/src-icons';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
+import type { ReactComponent } from '../../../types';
 
 const bodyContainerStyles = css`
     padding: 10px 0;
@@ -60,7 +61,7 @@ export interface ContributionsBannerReminderSignedInProps {
     onReminderCloseClick: () => void;
 }
 
-export const ContributionsBannerReminderSignedIn: React.FC<
+export const ContributionsBannerReminderSignedIn: ReactComponent<
     ContributionsBannerReminderSignedInProps
 > = ({ reminderCta, reminderStatus, onReminderSetClick, onReminderCloseClick }) => {
     const reminderDateWithPreposition = ensureHasPreposition(

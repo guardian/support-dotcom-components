@@ -35,6 +35,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
 import SlideIn from './SlideIn';
+import type { ReactComponent } from '../../../types';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
@@ -77,7 +78,10 @@ const scrollDepthForRender = (tracking: Tracking) => {
 };
 
 const withBannerData =
-    (Banner: React.FC<BannerRenderProps>, bannerId: BannerId): React.FC<CloseableBannerProps> =>
+    (
+        Banner: ReactComponent<BannerRenderProps>,
+        bannerId: BannerId,
+    ): ReactComponent<CloseableBannerProps> =>
     (bannerProps) => {
         const {
             tracking,
@@ -314,13 +318,13 @@ const withBannerData =
             console.log(err);
         }
 
-        return null;
+        return <></>;
     };
 
 export const bannerWrapper = (
-    Banner: React.FC<BannerRenderProps>,
+    Banner: ReactComponent<BannerRenderProps>,
     bannerId: BannerId,
-): React.FC<BannerProps> => withCloseable(withBannerData(Banner, bannerId));
+): ReactComponent<BannerProps> => withCloseable(withBannerData(Banner, bannerId));
 
 const validate = (props: unknown): props is BannerProps => {
     const result = bannerSchema.safeParse(props);
@@ -328,9 +332,9 @@ const validate = (props: unknown): props is BannerProps => {
 };
 
 export const validatedBannerWrapper = (
-    Banner: React.FC<BannerRenderProps>,
+    Banner: ReactComponent<BannerRenderProps>,
     bannerId: BannerId,
-): React.FC<BannerProps> => {
+): ReactComponent<BannerProps> => {
     const withoutValidation = bannerWrapper(Banner, bannerId);
     return withParsedProps(withoutValidation, validate);
 };

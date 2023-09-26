@@ -23,6 +23,7 @@ import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_gWeekly&CMP_TU=mrtn&CMP_BUNIT=subs';
@@ -81,7 +82,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => (
     </Button>
 );
 
-const GuardianWeeklyBanner: React.FC<BannerRenderProps> = ({
+const GuardianWeeklyBanner: ReactComponent<BannerRenderProps> = ({
     onCtaClick,
     onCloseClick,
     onSignInClick,

@@ -20,8 +20,9 @@ import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards'
 import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
+import type { ReactComponent } from '../../../types';
 
-const DesignableBanner: React.FC<BannerRenderProps> = ({
+const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     content,
     onCloseClick,
     numArticles,

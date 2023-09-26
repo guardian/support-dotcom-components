@@ -3,6 +3,7 @@ import { BannerEnrichedReminderCta } from '../common/types';
 import { ContributionsBannerReminderSignedIn } from './ContributionsBannerReminderSignedIn';
 import { ContributionsBannerReminderSignedOut } from './ContributionsBannerReminderSignedOut';
 import { useContributionsReminderSignup } from '../../../hooks/useContributionsReminderSignup';
+import type { ReactComponent } from '../../../types';
 
 export interface ContributionsBannerReminderProps {
     reminderCta: BannerEnrichedReminderCta;
@@ -11,7 +12,7 @@ export interface ContributionsBannerReminderProps {
     email?: string;
 }
 
-export const ContributionsBannerReminder: React.FC<ContributionsBannerReminderProps> = ({
+export const ContributionsBannerReminder: ReactComponent<ContributionsBannerReminderProps> = ({
     reminderCta,
     trackReminderSetClick,
     onReminderCloseClick,

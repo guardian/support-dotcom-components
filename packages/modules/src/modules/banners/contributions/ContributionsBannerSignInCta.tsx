@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/src-foundations';
 import { Link } from '@guardian/src-link';
+import type { ReactComponent } from '../../../types';
 
 // TODO: replace with correct UTM parameters
 const signInUrl =
@@ -22,7 +23,9 @@ type BannerSignInCtaProps = {
     onSignInClick?: () => void;
 };
 
-export const ContributionsBannerSignInCta: React.FC<BannerSignInCtaProps> = ({ onSignInClick }) => {
+export const ContributionsBannerSignInCta: ReactComponent<BannerSignInCtaProps> = ({
+    onSignInClick,
+}) => {
     return (
         <p css={[signInCta, boldText]}>
             Already a supporter?{' '}

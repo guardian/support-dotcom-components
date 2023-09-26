@@ -3,6 +3,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
+import type { ReactComponent } from '../../../../types';
 
 type MobileSquaresProps = {
     cssOverrides?: SerializedStyles | string;
@@ -37,7 +38,7 @@ const noLeftBorderOnSmallestScreens = css`
     }
 `;
 
-export const MobileSquares: React.FC<MobileSquaresProps> = ({ cssOverrides }) => {
+export const MobileSquares: ReactComponent<MobileSquaresProps> = ({ cssOverrides }) => {
     return (
         <div css={[mobileSquareGrid, cssOverrides]}>
             <Square colour="purple" cssOverrides={firstRow} removeBorder={['right']} />

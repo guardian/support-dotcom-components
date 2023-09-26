@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { body } from '@guardian/src-foundations/typography';
 import { BylineWithImage } from '@sdc/shared/types';
+import type { ReactComponent } from '../../types';
 
 interface BylineWithHeadshotProps {
     bylineWithImage: BylineWithImage;
@@ -64,7 +65,7 @@ const bylineBottomDecoration = css`
     );
 `;
 
-export const BylineWithHeadshot: React.FC<BylineWithHeadshotProps> = ({
+export const BylineWithHeadshot: ReactComponent<BylineWithHeadshotProps> = ({
     bylineWithImage,
 }: BylineWithHeadshotProps) => {
     const { name, description, headshot } = bylineWithImage;
