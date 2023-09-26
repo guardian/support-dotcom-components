@@ -1,6 +1,7 @@
 import React from 'react';
 import { BannerTextContent, BannerRenderedContent } from './types';
 import { Hide } from '@guardian/src-layout';
+import type { ReactComponent } from '../../../types';
 
 type BannerContentForRender = {
     renderContent: BannerRenderedContent;
@@ -12,7 +13,7 @@ type BannerContentRendererProps = {
     render: (breakpointContent: BannerContentForRender) => JSX.Element;
 };
 
-export const BannerContentRenderer: React.FC<BannerContentRendererProps> = ({
+export const BannerContentRenderer: ReactComponent<BannerContentRendererProps> = ({
     content,
     render,
 }) => {

@@ -12,6 +12,7 @@ import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerRenderedContent } from '../common/types';
 import { createBannerBodyCopy } from '../common/BannerText';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     container: (isReminderOpen: boolean) => css`
@@ -123,7 +124,7 @@ interface ContributionsBannerMobileProps {
     children?: React.ReactNode;
 }
 
-export const ContributionsBannerMobile: React.FC<ContributionsBannerMobileProps> = ({
+export const ContributionsBannerMobile: ReactComponent<ContributionsBannerMobileProps> = ({
     onContributeClick,
     onSecondaryCtaClick,
     onCloseClick,

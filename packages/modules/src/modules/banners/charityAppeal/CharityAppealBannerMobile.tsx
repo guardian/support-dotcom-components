@@ -12,6 +12,7 @@ import { CharityAppealBannerReminder } from './CharityAppealBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerRenderedContent } from '../common/types';
 import { createBannerBodyCopy } from '../common/BannerText';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     container: (isReminderOpen: boolean, foreColor: string) => css`
@@ -119,7 +120,7 @@ interface CharityAppealBannerMobileProps {
 }
 
 export const getCharityAppealBannerMobile =
-    (backgroundColor: string, foreColor: string): React.FC<CharityAppealBannerMobileProps> =>
+    (backgroundColor: string, foreColor: string): ReactComponent<CharityAppealBannerMobileProps> =>
     ({
         onContributeClick,
         onSecondaryCtaClick,

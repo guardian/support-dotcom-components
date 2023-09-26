@@ -11,6 +11,7 @@ import {
 } from '../../../shared/helpers/articleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
 import { buttonStyles } from '../styles/buttonStyles';
+import type { ReactComponent } from '../../../../types';
 
 // ---- Component ---- //
 
@@ -20,7 +21,7 @@ export interface DesignableBannerArticleCountOptOutProps {
     settings: BannerTemplateSettings;
 }
 
-export const DesignableBannerArticleCountOptOut: React.FC<
+export const DesignableBannerArticleCountOptOut: ReactComponent<
     DesignableBannerArticleCountOptOutProps
 > = ({ numArticles, nextWord, settings }: DesignableBannerArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -71,7 +72,7 @@ export interface OverlayProps {
     settings: BannerTemplateSettings;
 }
 
-const Overlay: React.FC<OverlayProps> = ({
+const Overlay: ReactComponent<OverlayProps> = ({
     hasOptedOut,
     onClose,
     onOptOut,

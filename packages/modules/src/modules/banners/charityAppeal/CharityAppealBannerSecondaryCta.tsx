@@ -10,6 +10,7 @@ import { Button } from '@guardian/src-button';
 import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';
+import type { ReactComponent } from '../../../types';
 
 const dfltForeColor = neutral[100];
 
@@ -24,11 +25,9 @@ export interface CharityAppealBannerSecondaryCtaProps {
     onReminderCtaClick: () => void;
 }
 
-export const CharityAppealBannerSecondaryCta: React.FC<CharityAppealBannerSecondaryCtaProps> = ({
-    secondaryCta,
-    onCustomCtaClick,
-    onReminderCtaClick,
-}) => {
+export const CharityAppealBannerSecondaryCta: ReactComponent<
+    CharityAppealBannerSecondaryCtaProps
+> = ({ secondaryCta, onCustomCtaClick, onReminderCtaClick }) => {
     return (
         <>
             {secondaryCta.type === SecondaryCtaType.Custom && (

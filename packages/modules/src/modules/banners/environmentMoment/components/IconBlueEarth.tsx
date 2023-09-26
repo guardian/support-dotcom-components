@@ -1,6 +1,7 @@
 import React from 'react';
+import type { ReactComponent } from '../../../../types';
 
-export const IconBlueEarth: React.FC = () => (
+export const IconBlueEarth: ReactComponent = () => (
     <img
         src="https://uploads.guim.co.uk/2020/09/22/Earth-A.min.620.png"
         srcSet="https://uploads.guim.co.uk/2020/09/22/Earth-A.min.620.png 620w,

@@ -6,6 +6,7 @@ import { space } from '@guardian/src-foundations';
 import { Hide } from '@guardian/src-layout';
 import { IconEarth } from './IconEarth';
 import { GREEN_HEX } from '../utils/constants';
+import type { ReactComponent } from '../../../../types';
 
 const container = css`
     position: relative;
@@ -117,7 +118,7 @@ const line = css`
     border-top: 1px solid ${GREEN_HEX};
 `;
 
-export const EnvironmentMomentBannerHeader: React.FC = () => (
+export const EnvironmentMomentBannerHeader: ReactComponent = () => (
     <header css={container}>
         <div css={iconAndTextContainer}>
             <Hide below="desktop">

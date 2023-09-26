@@ -18,6 +18,7 @@ import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-fo
 import { from } from '@guardian/src-foundations/mq';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOutPopup';
+import type { ReactComponent } from '../../types';
 
 const COLOURS = {
     epic: 'white',
@@ -215,7 +216,7 @@ export interface ArticleCountOptOutOverlayProps {
     onClose: () => void;
 }
 
-export const ArticleCountOptOutOverlay: React.FC<ArticleCountOptOutOverlayProps> = ({
+export const ArticleCountOptOutOverlay: ReactComponent<ArticleCountOptOutOverlayProps> = ({
     type,
     hasOptedOut,
     onClose,

@@ -11,6 +11,7 @@ import { Button } from '@guardian/src-button';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import { ensureHasPreposition, ReminderStatus } from '../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../hooks/useContributionsReminderEmailForm';
+import type { ReactComponent } from '../../types';
 
 // --- Styles --- //
 
@@ -121,7 +122,7 @@ export interface ContributionsEpicReminderSignedOutProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminderSignedOut: React.FC<
+export const ContributionsEpicReminderSignedOut: ReactComponent<
     ContributionsEpicReminderSignedOutProps
 > = ({
     reminderLabel,

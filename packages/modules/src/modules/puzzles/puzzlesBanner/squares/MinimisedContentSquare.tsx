@@ -5,6 +5,7 @@ import { space } from '@guardian/src-foundations';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { from } from '@guardian/src-foundations/mq';
+import type { ReactComponent } from '../../../../types';
 
 const squareContainer = css`
     position: absolute;
@@ -40,7 +41,7 @@ const content = css`
     }
 `;
 
-export const MinimisedContentSquare: React.FC = () => {
+export const MinimisedContentSquare: ReactComponent = () => {
     return (
         <div css={squareContainer}>
             <Square colour="purple" cssOverrides={removeTopBorder}>

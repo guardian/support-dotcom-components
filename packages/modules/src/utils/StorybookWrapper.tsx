@@ -1,11 +1,12 @@
 import React from 'react';
 import { fontFaces, cssResets, previewStyles } from './renderHtmlDocument';
+import type { ReactComponent } from '../types';
 
 type Props = {
     children: React.ReactElement;
 };
 
-export const StorybookWrapper: React.FC<Props> = ({ children }: Props) => (
+export const StorybookWrapper: ReactComponent<Props> = ({ children }: Props) => (
     <div>
         <style>
             {fontFaces}
@@ -16,7 +17,7 @@ export const StorybookWrapper: React.FC<Props> = ({ children }: Props) => (
     </div>
 );
 
-export const BannerWrapper: React.FC<Props> = ({ children }: Props) => (
+export const BannerWrapper: ReactComponent<Props> = ({ children }: Props) => (
     <div
         style={{
             position: 'absolute',

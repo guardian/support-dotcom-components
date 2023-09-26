@@ -8,6 +8,7 @@ import { Hide } from '@guardian/src-layout';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
+import type { ReactComponent } from '../../types';
 
 const messageStyles = (isThankYouMessage: boolean) => css`
     color: ${brandAlt[400]};
@@ -52,7 +53,7 @@ const headingStyles = css`
     font-size: 100%;
 `;
 
-const Header: React.FC<HeaderRenderProps> = (props: HeaderRenderProps) => {
+const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
     return (

@@ -30,6 +30,7 @@ import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { getComponentIds } from '../common/getComponentIds';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=SubsBanner_Existing&CMP_TU=mrtn&CMP_BUNIT=subs';
@@ -63,7 +64,7 @@ const getBaseImg = (countryCode: string | undefined): Img => ({
 const fallbackCta = 'Subscribe';
 const fallbackSecondaryCta = 'Not now';
 
-const DigitalSubscriptionsBanner: React.FC<BannerRenderProps> = ({
+const DigitalSubscriptionsBanner: ReactComponent<BannerRenderProps> = ({
     onCtaClick,
     onCloseClick,
     onNotNowClick,

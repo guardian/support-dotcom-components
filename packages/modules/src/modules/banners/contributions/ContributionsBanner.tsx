@@ -14,6 +14,7 @@ import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton
 import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     bannerContainer: (backgroundColor: string) => css`
@@ -190,7 +191,7 @@ const columnCounts = {
 };
 
 export const getContributionsBanner =
-    (backgroundColor: string): React.FC<BannerRenderProps> =>
+    (backgroundColor: string): ReactComponent<BannerRenderProps> =>
     ({
         onCtaClick,
         onSecondaryCtaClick,

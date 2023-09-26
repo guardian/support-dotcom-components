@@ -11,6 +11,7 @@ import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
+import type { ReactComponent } from '../../../types';
 
 const bodyContainerStyles = css`
     padding: 10px 0;
@@ -87,7 +88,7 @@ export interface ContributionsBannerReminderSignedOutProps {
     onReminderSetClick: (email: string) => void;
 }
 
-export const ContributionsBannerReminderSignedOut: React.FC<
+export const ContributionsBannerReminderSignedOut: ReactComponent<
     ContributionsBannerReminderSignedOutProps
 > = ({ reminderCta, reminderStatus, onReminderSetClick }) => {
     const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();

@@ -13,6 +13,7 @@ import { EnvironmentMomentBannerRoundel } from './components/EnvironmentMomentBa
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { GREEN_HEX } from './utils/constants';
+import type { ReactComponent } from '../../../types';
 
 const container = css`
     position: relative;
@@ -181,7 +182,7 @@ const line = css`
     border-top: 1px solid ${GREEN_HEX};
 `;
 
-const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
+const EnvironmentMomentBanner: ReactComponent<BannerRenderProps> = ({
     content,
     onCloseClick,
     onCtaClick,

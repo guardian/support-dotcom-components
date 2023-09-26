@@ -19,10 +19,11 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
+import type { ReactComponent } from '../../../types';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
-): React.FC<BannerRenderProps> {
+): ReactComponent<BannerRenderProps> {
     function MomentTemplateBanner({
         content,
         onCloseClick,

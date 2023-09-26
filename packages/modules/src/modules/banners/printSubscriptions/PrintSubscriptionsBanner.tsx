@@ -23,6 +23,7 @@ import { BannerContentRenderer } from '../common/BannerContentRenderer';
 import { BannerRenderProps } from '../common/types';
 import { validatedBannerWrapper } from '../common/BannerWrapper';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const signInUrl = 'https://profile.theguardian.com/signin';
 const bannerId = 'print-subscriptions-banner';
@@ -80,7 +81,7 @@ const CloseButton = (props: ButtonPropTypes): ReactElement => (
     </Button>
 );
 
-const PrintSubscriptionsBanner: React.FC<BannerRenderProps> = ({
+const PrintSubscriptionsBanner: ReactComponent<BannerRenderProps> = ({
     onCtaClick,
     onCloseClick,
     onSignInClick,

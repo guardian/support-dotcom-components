@@ -15,6 +15,7 @@ import {
     ContributionType,
     Tracking,
 } from '@sdc/shared/src/types';
+import type { ReactComponent } from '../../../../types';
 
 export type ChoiceCardBannerComponentId =
     | 'choice-cards-buttons-banner-yellow'
@@ -120,7 +121,7 @@ const contributionType: ContributionType = {
     },
 };
 
-export const ChoiceCards: React.FC<ChoiceCardProps> = ({
+export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     selection,
     setSelectionsCallback,
     submitComponentEvent,

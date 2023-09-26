@@ -16,6 +16,7 @@ import {
     OPHAN_COMPONENT_ARTICLE_COUNT_OPT_IN,
 } from './utils/ophan';
 import { from, until } from '@guardian/src-foundations/mq';
+import type { ReactComponent } from '../../types';
 
 // --- Component --- //
 
@@ -30,7 +31,7 @@ export interface ContributionsEpicArticleCountAboveWithOptOutProps {
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
 }
 
-export const ContributionsEpicArticleCountAboveWithOptOut: React.FC<
+export const ContributionsEpicArticleCountAboveWithOptOut: ReactComponent<
     ContributionsEpicArticleCountAboveWithOptOutProps
 > = ({
     articleCounts,
@@ -172,7 +173,7 @@ interface ArticleCountWithToggleProps {
     copy?: string;
 }
 
-const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
+const ArticleCountWithToggle: ReactComponent<ArticleCountWithToggleProps> = ({
     isArticleCountOn,
     articleCount,
     onToggleClick,
@@ -212,7 +213,7 @@ const ArticleCountWithToggle: React.FC<ArticleCountWithToggleProps> = ({
         );
     }
 
-    return null;
+    return <></>;
 };
 
 const ARTICLE_COUNT_TEMPLATE = '%%ARTICLE_COUNT%%';
@@ -224,7 +225,10 @@ interface CustomArticleCountCopyProps {
     copy: string;
 }
 
-const CustomArticleCountCopy: React.FC<CustomArticleCountCopyProps> = ({ articleCount, copy }) => {
+const CustomArticleCountCopy: ReactComponent<CustomArticleCountCopyProps> = ({
+    articleCount,
+    copy,
+}) => {
     const [copyHead, copyTail] = copy.split(ARTICLE_COUNT_TEMPLATE);
 
     return (
@@ -241,7 +245,7 @@ interface ArticleCountProps {
     copy?: string;
 }
 
-const ArticleCount: React.FC<ArticleCountProps> = ({ articleCount, copy }) => {
+const ArticleCount: ReactComponent<ArticleCountProps> = ({ articleCount, copy }) => {
     if (copy && containsArticleCountTemplate(copy)) {
         // Custom article count message
         return <CustomArticleCountCopy articleCount={articleCount} copy={copy} />;

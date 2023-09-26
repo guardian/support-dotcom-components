@@ -7,6 +7,7 @@ import { LinkButton } from '@guardian/src-button';
 import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BLUE_HEX, GREEN_HEX } from '../utils/constants';
+import type { ReactComponent } from '../../../../types';
 
 const container = css`
     display: flex;
@@ -55,7 +56,7 @@ interface CtaProps {
     ctas: BreakpointCtas;
 }
 
-export const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = ({
+export const EnvironmentMomentBannerCtas: ReactComponent<EnvironmentMomentBannerCtasProps> = ({
     desktopCtas,
     mobileCtas: maybeMobileCtas,
     onPrimaryCtaClick,
@@ -63,7 +64,7 @@ export const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasPr
 }: EnvironmentMomentBannerCtasProps) => {
     const mobileCtas = maybeMobileCtas ?? desktopCtas;
 
-    const PrimaryCta: React.FC<CtaProps> = ({ size, ctas }: CtaProps) => (
+    const PrimaryCta: ReactComponent<CtaProps> = ({ size, ctas }: CtaProps) => (
         <>
             {ctas.primary && (
                 <LinkButton
@@ -78,7 +79,7 @@ export const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasPr
         </>
     );
 
-    const SecondaryCta: React.FC<CtaProps> = ({ size, ctas }: CtaProps) => (
+    const SecondaryCta: ReactComponent<CtaProps> = ({ size, ctas }: CtaProps) => (
         <>
             {ctas.secondary && ctas.secondary.type === SecondaryCtaType.Custom && (
                 <LinkButton

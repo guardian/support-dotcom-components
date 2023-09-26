@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { PuzzlesBanner } from './PuzzlesBanner';
 import { StorybookWrapper, BannerWrapper } from '../../../utils/StorybookWrapper';
 import { Tracking } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 export default {
     component: PuzzlesBanner,
@@ -30,7 +31,7 @@ export const defaultStory = (): ReactElement => {
 defaultStory.story = {
     name: 'Puzzles Banner',
     decorators: [
-        (Story: React.FC): ReactElement => (
+        (Story: ReactComponent): ReactElement => (
             <BannerWrapper>
                 <Story />
             </BannerWrapper>

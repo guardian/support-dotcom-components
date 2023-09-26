@@ -3,6 +3,7 @@ import { SerializedStyles } from '@emotion/utils';
 import { BannerTextContent } from './types';
 import { BannerContentRenderer } from './BannerContentRenderer';
 import { css } from '@emotion/react';
+import type { ReactComponent } from '../../../types';
 
 type BannerTextStyleableAreas =
     | 'container'
@@ -77,7 +78,7 @@ export const createBannerBodyCopy = (
     );
 };
 
-export const BannerText: React.FC<BannerTextProps> = ({
+export const BannerText: ReactComponent<BannerTextProps> = ({
     styles,
     content,
     children,

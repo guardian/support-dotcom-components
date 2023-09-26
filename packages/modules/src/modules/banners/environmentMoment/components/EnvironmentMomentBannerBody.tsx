@@ -5,6 +5,7 @@ import { Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 
 import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText';
+import type { ReactComponent } from '../../../../types';
 
 const styles: BannerTextStyles = {
     container: css`
@@ -27,7 +28,7 @@ interface EnvironmentMomentBannerBodyProps {
     mobileMessageText: (JSX.Element | JSX.Element[])[] | null;
 }
 
-export const EnvironmentMomentBannerBody: React.FC<EnvironmentMomentBannerBodyProps> = ({
+export const EnvironmentMomentBannerBody: ReactComponent<EnvironmentMomentBannerBodyProps> = ({
     messageText,
     mobileMessageText,
 }: EnvironmentMomentBannerBodyProps) => (

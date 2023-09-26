@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Hide } from '@guardian/src-layout';
+import type { ReactComponent } from '../../../types';
 
 const container = css`
     display: flex;
@@ -23,7 +24,7 @@ interface ContributionsTemplateCloseButtonProps {
     roundel: React.ReactElement;
 }
 
-const ContributionsTemplateCloseButton: React.FC<ContributionsTemplateCloseButtonProps> = ({
+const ContributionsTemplateCloseButton: ReactComponent<ContributionsTemplateCloseButtonProps> = ({
     closeButton,
     roundel,
 }: ContributionsTemplateCloseButtonProps) => (

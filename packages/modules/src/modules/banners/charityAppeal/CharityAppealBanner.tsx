@@ -14,6 +14,7 @@ import { CharityAppealBannerCloseButton } from './CharityAppealBannerCloseButton
 import { BannerText } from '../common/BannerText';
 import { CharityAppealBannerReminder } from './CharityAppealBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     // foreBorderColor links the foreground colour with the borders around it
@@ -204,7 +205,7 @@ export const getCharityAppealBanner =
         foreColor: string,
         headingColor?: string,
         subHeadingColor?: string,
-    ): React.FC<BannerRenderProps> =>
+    ): ReactComponent<BannerRenderProps> =>
     ({
         onCtaClick,
         onSecondaryCtaClick,

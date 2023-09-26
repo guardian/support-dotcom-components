@@ -5,6 +5,7 @@ import { headline } from '@guardian/src-foundations/typography';
 import useTicker from '../../../hooks/useTicker';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { TickerSettings } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -105,14 +106,14 @@ type MarkerProps = {
     end: number;
 };
 
-const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
+const Marker: ReactComponent<MarkerProps> = ({ goal, end }: MarkerProps) => {
     if (end > goal) {
         const markerTranslate = (goal / end) * 100 - 100;
         const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
 
         return <div css={goalMarkerStyles(markerTransform)} />;
     } else {
-        return null;
+        return <></>;
     }
 };
 
@@ -121,7 +122,7 @@ type ContributionsTemplateTickerProps = {
     accentColour: string;
 };
 
-const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = ({
+const ContributionsTemplateTicker: ReactComponent<ContributionsTemplateTickerProps> = ({
     settings,
     accentColour,
 }: ContributionsTemplateTickerProps) => {

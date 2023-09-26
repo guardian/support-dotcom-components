@@ -11,6 +11,7 @@ import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
+import type { ReactComponent } from '../../types';
 
 // CSS Styling
 // -------------------------------------------
@@ -70,7 +71,7 @@ interface EpicChoiceCardProps {
     amountsTest: SelectedAmountsVariant;
 }
 
-export const ContributionsEpicChoiceCards: React.FC<EpicChoiceCardProps> = ({
+export const ContributionsEpicChoiceCards: ReactComponent<EpicChoiceCardProps> = ({
     selection,
     setSelectionsCallback,
     submitComponentEvent,

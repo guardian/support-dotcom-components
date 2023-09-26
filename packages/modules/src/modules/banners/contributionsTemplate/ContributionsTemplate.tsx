@@ -4,6 +4,7 @@ import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
+import type { ReactComponent } from '../../../types';
 
 const banner = (backgroundColour: string): SerializedStyles => css`
     box-sizing: border-box;
@@ -156,7 +157,7 @@ export interface ContributionsTemplateProps {
     backgroundColour: string;
 }
 
-const ContributionsTemplate: React.FC<ContributionsTemplateProps> = ({
+const ContributionsTemplate: ReactComponent<ContributionsTemplateProps> = ({
     closeButton,
     header,
     body,

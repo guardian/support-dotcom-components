@@ -10,6 +10,7 @@ import { Container, Column, Columns } from '@guardian/src-layout';
 
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
+import type { ReactComponent } from '../../../types';
 
 const bannerStyles = css`
     background-color: ${brand[400]};
@@ -88,7 +89,7 @@ const logo = css`
     height: 42px;
 `;
 
-const SignInPromptBanner: React.FC<BannerRenderProps> = (props) => {
+const SignInPromptBanner: ReactComponent<BannerRenderProps> = (props) => {
     const { heading, paragraphs, primaryCta, secondaryCta } = props.content.mainContent;
     const [subheading, ...bullets] = paragraphs;
 

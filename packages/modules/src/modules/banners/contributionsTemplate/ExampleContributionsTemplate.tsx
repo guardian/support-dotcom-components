@@ -13,6 +13,7 @@ import ContributionsTemplateSupportingText from './ContributionsTemplateSupporti
 import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps, TickerSettings } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const closeButtonStyles = css`
     color: ${neutral[7]};
@@ -113,7 +114,7 @@ const cta = (
     />
 );
 
-export const Example: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
+export const Example: ReactComponent<BannerProps> = ({ tickerSettings }: BannerProps) => {
     return (
         <ContributionsTemplate
             backgroundColour="#DDDBD1"

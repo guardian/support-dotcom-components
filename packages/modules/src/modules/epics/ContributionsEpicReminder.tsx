@@ -10,6 +10,7 @@ import {
 } from './utils/ophan';
 import { useContributionsReminderSignup } from '../../hooks/useContributionsReminderSignup';
 import { ReminderFields } from '@sdc/shared/dist/lib';
+import type { ReactComponent } from '../../types';
 
 // --- Types --- //
 
@@ -22,7 +23,7 @@ export interface ContributionsEpicReminderProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminder: React.FC<ContributionsEpicReminderProps> = ({
+export const ContributionsEpicReminder: ReactComponent<ContributionsEpicReminderProps> = ({
     initialEmailAddress,
     reminderFields,
     onCloseReminderClick,

@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { neutral } from '@guardian/src-foundations/palette';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
+import type { ReactComponent } from '../../../../types';
 
 const squareSide = css`
     position: relative;
@@ -36,6 +37,6 @@ type SquareSideProps = {
     small?: boolean;
 };
 
-export const SquareSide: React.FC<SquareSideProps> = ({ small }) => {
+export const SquareSide: ReactComponent<SquareSideProps> = ({ small }) => {
     return <div css={[squareSide, small ? squareSideSmall : '']}></div>;
 };
