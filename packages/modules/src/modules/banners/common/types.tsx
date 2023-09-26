@@ -15,7 +15,7 @@ export type BannerId =
     | 'aus-anniversary-moment-banner'
     | 'investigations-moment-banner'
     | 'environment-banner'
-    | 'environment-moment-banner-2023'
+    | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner'
     | 'choice-cards-buttons-banner-blue'

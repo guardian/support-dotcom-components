@@ -35,7 +35,7 @@ const image = {
     altText: 'Guardian Our Planet cant Speak for itself',
 };
 
-const EnvironmentMoment2023Banner = bannerWrapper(
+const EnvironmentMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
             backgroundColour: neutral[100],
@@ -43,9 +43,7 @@ const EnvironmentMoment2023Banner = bannerWrapper(
         headerSettings: {
             showHeader: { text: false, image: true },
             textColour: neutral[0],
-            image: (
-                <EnvironmentVisual settings={image} bannerId={'environment-moment-banner-2023'} />
-            ),
+            image: <EnvironmentVisual settings={image} bannerId={'environment-moment-banner'} />,
         },
         primaryCtaSettings: {
             default: {
@@ -87,16 +85,16 @@ const EnvironmentMoment2023Banner = bannerWrapper(
             highlightColour: '#F55D1E',
         },
         choiceCards: true,
-        bannerId: 'environment-moment-banner-2023',
+        bannerId: 'environment-moment-banner',
     }),
-    'environment-moment-banner-2023',
+    'environment-moment-banner',
 );
 
-const EnvironmentMoment2023Template: Story<BannerProps> = (props: BannerProps) => (
-    <EnvironmentMoment2023Banner {...props} />
+const EnvironmentMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <EnvironmentMomentBanner {...props} />
 );
 
-export const EnvironmentMoment2023 = EnvironmentMoment2023Template.bind({});
+export const EnvironmentMoment2023 = EnvironmentMomentTemplate.bind({});
 EnvironmentMoment2023.args = {
     ...props,
     content: {

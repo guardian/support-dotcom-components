@@ -22,14 +22,14 @@ const image = {
     altText: 'Guardian Our Planet cant Speak for itself',
 };
 
-const EnvironmentMoment2023Banner = getMomentTemplateBanner({
+const EnvironmentMomentBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: neutral[100],
     },
     headerSettings: {
         showHeader: { text: false, image: true },
         textColour: neutral[0],
-        image: <EnvironmentVisual settings={image} bannerId={'environment-moment-banner-2023'} />,
+        image: <EnvironmentVisual settings={image} bannerId={'environment-moment-banner'} />,
     },
     primaryCtaSettings: {
         default: {
@@ -71,13 +71,10 @@ const EnvironmentMoment2023Banner = getMomentTemplateBanner({
         highlightColour: '#F55D1E',
     },
     choiceCards: true,
-    bannerId: 'environment-moment-banner-2023',
+    bannerId: 'environment-moment-banner',
 });
 
-const unvalidated = bannerWrapper(EnvironmentMoment2023Banner, 'supporter-moment-banner');
-const validated = validatedBannerWrapper(EnvironmentMoment2023Banner, 'supporter-moment-banner');
+const unvalidated = bannerWrapper(EnvironmentMomentBanner, 'environment-moment-banner');
+const validated = validatedBannerWrapper(EnvironmentMomentBanner, 'environment-moment-banner');
 
-export {
-    validated as EnvironmentMoment2023Banner,
-    unvalidated as EnvironmentMoment2023BannerUnValidated,
-};
+export { validated as EnvironmentMomentBanner, unvalidated as EnvironmentMomentBannerUnValidated };
