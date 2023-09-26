@@ -29,7 +29,7 @@ const image = {
     desktopUrl:
         'https://i.guim.co.uk/img/media/a59af1e144ce90288369f1c0f6d80972d8069813/0_0_528_183/528.jpg?width=582&height=183&quality=100&s=cdd4c3cb890d50eb9acb021b032dc29b',
     leftColUrl:
-        'https://i.guim.co.uk/img/media/a392a7a01cdd8c38a482449a5ff558bef5747021/0_0_624_179/624.jpg?width=624&height=179&quality=100&s=c905f89ad165021e596b6b5dc94fec7f',
+        'https://i.guim.co.uk/img/media/9fadcec3889f15b45dc9a8177bd30e57b16494dc/0_0_624_179/624.jpg?width=624&height=179&quality=100&s=cc28f5ac1d180132105db70b750f0223',
     wideUrl:
         'https://i.guim.co.uk/img/media/f5b89e25ec6c34d18db071b9d47078d998f0501d/0_0_696_183/696.jpg?width=696&height=183&quality=100&s=a5f3cbc0bdb85e6cff40c0a6cc6519b2',
     altText: 'Guardian Our Planet cant Speak for itself',
