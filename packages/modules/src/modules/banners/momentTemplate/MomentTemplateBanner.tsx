@@ -222,11 +222,11 @@ const styles = {
     headerContainer: (background: string, bannerHasImage: boolean) => css`
         order: 1;
         ${until.tablet} {
-            max-width: calc(100% - 40px - ${space[3]}px);
+            max-width: calc(100% - 34px - ${space[3]}px);
         }
         ${between.mobileMedium.and.tablet} {
             order: ${bannerHasImage ? '2' : '1'};
-            max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
+            max-width: ${bannerHasImage ? '100%' : 'calc(100% - 34px - ${space[3]}px)'};
         }
         ${from.tablet} {
             grid-column: 1 / span 1;
