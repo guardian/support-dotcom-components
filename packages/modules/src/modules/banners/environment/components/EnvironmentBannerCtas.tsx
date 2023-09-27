@@ -43,7 +43,7 @@ interface BreakpointCtas {
     secondary: BannerEnrichedSecondaryCta | null;
 }
 
-interface EnvironmentMomentBannerCtasProps {
+interface EnvironmentBannerCtasProps {
     mobileCtas: BreakpointCtas | null;
     desktopCtas: BreakpointCtas;
     onPrimaryCtaClick: () => void;
@@ -55,12 +55,12 @@ interface CtaProps {
     ctas: BreakpointCtas;
 }
 
-export const EnvironmentMomentBannerCtas: React.FC<EnvironmentMomentBannerCtasProps> = ({
+export const EnvironmentBannerCtas: React.FC<EnvironmentBannerCtasProps> = ({
     desktopCtas,
     mobileCtas: maybeMobileCtas,
     onPrimaryCtaClick,
     onSecondaryCtaClick,
-}: EnvironmentMomentBannerCtasProps) => {
+}: EnvironmentBannerCtasProps) => {
     const mobileCtas = maybeMobileCtas ?? desktopCtas;
 
     const PrimaryCta: React.FC<CtaProps> = ({ size, ctas }: CtaProps) => (

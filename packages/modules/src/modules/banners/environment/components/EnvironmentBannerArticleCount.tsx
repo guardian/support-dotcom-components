@@ -3,13 +3,14 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
-import { space } from '@guardian/src-foundations';
+import { GREEN_HEX } from '../utils/constants';
 
 const styles = {
     container: css`
         ${headline.xxxsmall({ fontWeight: 'bold' })}
         font-size: 15px;
-        margin: 0 0 ${space[1]}px;
+        margin: 0;
+        color: ${GREEN_HEX};
 
         ${from.tablet} {
             font-size: 17px;
@@ -17,13 +18,13 @@ const styles = {
     `,
 };
 
-interface ChoiceCardsBannerArticleCountProps {
+interface EnvironmentBannerArticleCountProps {
     numArticles: number;
 }
 
-export function ChoiceCardsBannerArticleCount({
+export function EnvironmentBannerArticleCount({
     numArticles,
-}: ChoiceCardsBannerArticleCountProps): JSX.Element {
+}: EnvironmentBannerArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}

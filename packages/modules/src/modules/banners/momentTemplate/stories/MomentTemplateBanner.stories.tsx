@@ -9,7 +9,7 @@ import { BannerWithTickerTemplate } from './WithTicker';
 import { BannerWithChoiceCardsHeaderImageTemplate } from './WithChoiceCardsHeaderImage';
 
 export default {
-    title: 'Banners/MomentTemplateExamples',
+    title: 'Banners/MomentTemplate',
     parameters: {
         chromatic: {
             delay: 300,

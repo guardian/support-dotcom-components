@@ -1,4 +1,4 @@
-import { contributionsBanner, digiSubs, signInPromptBanner } from '@sdc/shared/config';
+import { contributionsBanner, guardianWeekly, signInPromptBanner } from '@sdc/shared/config';
 import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
@@ -241,8 +241,8 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePathBuilder: digiSubs.endpointPathBuilder,
-                    template: BannerTemplate.DigitalSubscriptionsBanner,
+                    modulePathBuilder: guardianWeekly.endpointPathBuilder,
+                    template: BannerTemplate.GuardianWeeklyBanner,
                     bannerContent: {
                         messageText: 'body',
                         cta: {

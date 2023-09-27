@@ -8,7 +8,7 @@ import { props } from '../utils/storybook';
 import { HeaderImage } from './components/headerImage';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/Moment',
     parameters: {
         chromatic: {
             delay: 300,
@@ -76,8 +76,8 @@ const EuropeMomentLocalLanguageTemplate: Story<BannerProps> = (props: BannerProp
     <EuropeMomentLocalLanguageBanner {...props} />
 );
 
-export const EuropeMomentLocalLanguage = EuropeMomentLocalLanguageTemplate.bind({});
-EuropeMomentLocalLanguage.args = {
+export const EuropeMomentLocalLanguage2023 = EuropeMomentLocalLanguageTemplate.bind({});
+EuropeMomentLocalLanguage2023.args = {
     ...props,
     content: {
         heading: 'Lorem ipsum dolor sit amet, et lorem do Europe!',

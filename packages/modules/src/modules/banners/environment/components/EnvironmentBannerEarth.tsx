@@ -60,7 +60,7 @@ const redEarthContainer = css`
     animation-direction: normal, alternate;
 `;
 
-export const EnvironmentMomentBannerEarth: React.FC = () => (
+export const EnvironmentBannerEarth: React.FC = () => (
     <div css={container}>
         <div css={blueEarthContainer}>
             <IconBlueEarth />

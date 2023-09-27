@@ -3,13 +3,13 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
-import { EnvironmentMomentBannerEarth } from './components/EnvironmentMomentBannerEarth';
-import { EnvironmentMomentBannerHeader } from './components/EnvironmentMomentBannerHeader';
-import { EnvironmentMomentBannerArticleCount } from './components/EnvironmentMomentBannerArticleCount';
-import { EnvironmentMomentBannerBody } from './components/EnvironmentMomentBannerBody';
-import { EnvironmentMomentBannerCtas } from './components/EnvironmentMomentBannerCtas';
-import { EnvironmentMomentBannerCloseButton } from './components/EnvironmentMomentBannerCloseButton';
-import { EnvironmentMomentBannerRoundel } from './components/EnvironmentMomentBannerRoundel';
+import { EnvironmentBannerEarth } from './components/EnvironmentBannerEarth';
+import { EnvironmentBannerHeader } from './components/EnvironmentBannerHeader';
+import { EnvironmentBannerArticleCount } from './components/EnvironmentBannerArticleCount';
+import { EnvironmentBannerBody } from './components/EnvironmentBannerBody';
+import { EnvironmentBannerCtas } from './components/EnvironmentBannerCtas';
+import { EnvironmentBannerCloseButton } from './components/EnvironmentBannerCloseButton';
+import { EnvironmentBannerRoundel } from './components/EnvironmentBannerRoundel';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { GREEN_HEX } from './utils/constants';
@@ -181,7 +181,7 @@ const line = css`
     border-top: 1px solid ${GREEN_HEX};
 `;
 
-const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
+const EnvironmentBanner: React.FC<BannerRenderProps> = ({
     content,
     onCloseClick,
     onCtaClick,
@@ -200,36 +200,34 @@ const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
             </div>
             <div css={banner}>
                 <div css={closeButtonAndRoundelContainer}>
-                    <EnvironmentMomentBannerRoundel />
-                    <EnvironmentMomentBannerCloseButton onClick={onCloseClick} />
+                    <EnvironmentBannerRoundel />
+                    <EnvironmentBannerCloseButton onClick={onCloseClick} />
                 </div>
                 <div css={contentContainer}>
                     <div css={earthContainerContainer}>
                         <div css={earthContainer}>
-                            <EnvironmentMomentBannerEarth />
+                            <EnvironmentBannerEarth />
                         </div>
                     </div>
                     <div css={textContainer}>
-                        <EnvironmentMomentBannerHeader />
+                        <EnvironmentBannerHeader />
 
                         <div css={bodyAndCtasContainer}>
                             {showArticleCount && (
                                 <div>
-                                    <EnvironmentMomentBannerArticleCount
-                                        numArticles={numArticles}
-                                    />
+                                    <EnvironmentBannerArticleCount numArticles={numArticles} />
                                 </div>
                             )}
 
                             <div css={bodyContainer}>
-                                <EnvironmentMomentBannerBody
+                                <EnvironmentBannerBody
                                     messageText={content.mainContent.paragraphs}
                                     mobileMessageText={content.mobileContent?.paragraphs ?? null}
                                 />
                             </div>
 
                             <div css={ctasContainer}>
-                                <EnvironmentMomentBannerCtas
+                                <EnvironmentBannerCtas
                                     desktopCtas={{
                                         primary: content.mainContent.primaryCta,
                                         secondary: content.mainContent.secondaryCta,
@@ -254,7 +252,7 @@ const EnvironmentMomentBanner: React.FC<BannerRenderProps> = ({
     );
 };
 
-const unvalidated = bannerWrapper(EnvironmentMomentBanner, 'environment-moment-banner');
-const validated = validatedBannerWrapper(EnvironmentMomentBanner, 'environment-moment-banner');
+const unvalidated = bannerWrapper(EnvironmentBanner, 'environment-banner');
+const validated = validatedBannerWrapper(EnvironmentBanner, 'environment-banner');
 
-export { validated as EnvironmentMomentBanner, unvalidated as EnvironmentMomentBannerUnvalidated };
+export { validated as EnvironmentBanner, unvalidated as EnvironmentBannerUnvalidated };

@@ -7,7 +7,7 @@ import { bannerWrapper } from '../common/BannerWrapper';
 import { brand, brandAlt, neutral } from '@guardian/src-foundations';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/Moment',
     args: props,
     parameters: {
         chromatic: {
@@ -16,7 +16,7 @@ export default {
     },
 } as Meta;
 
-const AusBanner = bannerWrapper(
+const AusMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
             backgroundColour: neutral[93],
@@ -72,15 +72,17 @@ const AusBanner = bannerWrapper(
             progressBarBackgroundColour: '#fff',
             goalMarkerColour: 'black',
         },
-        bannerId: 'aus-anniversary-banner',
+        bannerId: 'aus-anniversary-moment-banner',
     }),
-    'aus-anniversary-banner',
+    'aus-anniversary-moment-banner',
 );
 
-const AusBannerTemplate: Story<BannerProps> = (props: BannerProps) => <AusBanner {...props} />;
+const AusMomentBannerTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <AusMomentBanner {...props} />
+);
 
-export const Aus10yrAnniversaryMomentBanner = AusBannerTemplate.bind({});
-Aus10yrAnniversaryMomentBanner.args = {
+export const AusAnniversaryMoment2023 = AusMomentBannerTemplate.bind({});
+AusAnniversaryMoment2023.args = {
     ...props,
     content: {
         heading: 'Show your support for reader-funded journalism',

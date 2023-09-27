@@ -6,7 +6,7 @@ const container = css`
     width: 36px;
 `;
 
-export const EnvironmentMomentBannerRoundel: React.FC = () => (
+export const EnvironmentBannerRoundel: React.FC = () => (
     <div css={container}>
         <svg
             width="36"

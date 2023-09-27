@@ -5,7 +5,7 @@ import { StoryFn } from '@storybook/react';
 
 export default {
     component: GuardianWeeklyBanner,
-    title: 'Banners/Subscriptions/GuardianWeeklyBanner',
+    title: 'Banners/Custom',
     parameters: {
         chromatic: {
             delay: 300,
@@ -47,9 +47,9 @@ const mobileContent: BannerContent = {
 
 const Template: StoryFn<BannerProps> = (props: BannerProps) => <GuardianWeeklyBanner {...props} />;
 
-export const DefaultStory = Template.bind({});
+export const GuardianWeekly = Template.bind({});
 
-DefaultStory.args = {
+GuardianWeekly.args = {
     bannerChannel: 'subscriptions',
     content,
     mobileContent,
@@ -57,4 +57,4 @@ DefaultStory.args = {
     tracking,
 };
 
-DefaultStory.storyName = 'Guardian Weekly Banner';
+GuardianWeekly.storyName = 'Guardian Weekly Banner';

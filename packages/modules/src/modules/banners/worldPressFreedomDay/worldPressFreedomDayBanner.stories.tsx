@@ -11,7 +11,7 @@ import { WorldPressFreedomDayBannerUnValidated as WorldPressFreedomDayBanner } f
 
 export default {
     component: WorldPressFreedomDayBanner,
-    title: 'Banners/WorldPressFreedomDayBanner',
+    title: 'Banners/Custom',
     parameters: {
         chromatic: {
             delay: 300,
@@ -47,8 +47,8 @@ const tracking: Tracking = {
     ...testTracking,
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const WorldPressFreedomDay = Template.bind({});
+WorldPressFreedomDay.args = {
     countryCode: 'GB',
     content: {
         heading: '',

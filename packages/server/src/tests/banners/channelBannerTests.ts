@@ -1,22 +1,16 @@
 import {
     contributionsBanner,
     contributionsBannerWithSignIn,
-    charityAppealBanner,
-    digiSubs,
     designableBanner,
-    printSubs,
-    choiceCardsBannerBlue,
-    choiceCardsBannerYellow,
     choiceCardsButtonsBannerBlue,
-    choiceCardsButtonsBannerYellow,
-    environmentMomentBanner,
+    environmentBanner,
     guardianWeekly,
     investigationsMomentBanner,
-    globalNewYearBanner,
+    globalNewYearMomentBanner,
     signInPromptBanner,
     ukraineMomentBanner,
     scotus2023MomentBanner,
-    ausAnniversaryBanner,
+    ausAnniversaryMomentBanner,
     wpfdBanner,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
@@ -40,21 +34,14 @@ import { getTests } from '../store';
 export const BannerPaths: {
     [key in BannerTemplate]: (version?: string) => string;
 } = {
-    [BannerTemplate.AusAnniversaryBanner]: ausAnniversaryBanner.endpointPathBuilder,
+    [BannerTemplate.AusAnniversaryMomentBanner]: ausAnniversaryMomentBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
-    [BannerTemplate.CharityAppealBanner]: charityAppealBanner.endpointPathBuilder,
     [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
-    [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
-    [BannerTemplate.GlobalNewYearBanner]: globalNewYearBanner.endpointPathBuilder,
-    [BannerTemplate.DigitalSubscriptionsBanner]: digiSubs.endpointPathBuilder,
-    [BannerTemplate.PrintSubscriptionsBanner]: printSubs.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsBannerBlue]: choiceCardsBannerBlue.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsBannerYellow]: choiceCardsBannerYellow.endpointPathBuilder,
+    [BannerTemplate.EnvironmentBanner]: environmentBanner.endpointPathBuilder,
+    [BannerTemplate.GlobalNewYearBanner]: globalNewYearMomentBanner.endpointPathBuilder,
     [BannerTemplate.ChoiceCardsButtonsBannerBlue]: choiceCardsButtonsBannerBlue.endpointPathBuilder,
-    [BannerTemplate.ChoiceCardsButtonsBannerYellow]:
-        choiceCardsButtonsBannerYellow.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,
     [BannerTemplate.EuropeMomentLocalLanguageBanner]:
         europeMomentLocalLanguageBanner.endpointPathBuilder,
@@ -76,7 +63,6 @@ export const BannerTemplateComponentTypes: {
 export const BannerTemplateProducts: {
     [key in BannerTemplate]?: OphanProduct[];
 } = {
-    [BannerTemplate.DigitalSubscriptionsBanner]: ['DIGITAL_SUBSCRIPTION'],
     [BannerTemplate.GuardianWeeklyBanner]: ['PRINT_SUBSCRIPTION'],
 };
 

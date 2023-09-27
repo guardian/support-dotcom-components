@@ -15,26 +15,20 @@ import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
 
 export enum BannerTemplate {
-    AusAnniversaryBanner = 'AusAnniversaryBanner',
+    AusAnniversaryMomentBanner = 'AusAnniversaryMomentBanner',
     ContributionsBanner = 'ContributionsBanner',
-    CharityAppealBanner = 'CharityAppealBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
-    InvestigationsMomentBanner = 'InvestigationsMomentBanner',
-    EnvironmentMomentBanner = 'EnvironmentMomentBanner',
-    DigitalSubscriptionsBanner = 'DigitalSubscriptionsBanner',
-    PrintSubscriptionsBanner = 'PrintSubscriptionsBanner',
-    ChoiceCardsBannerBlue = 'ChoiceCardsBannerBlue',
-    ChoiceCardsBannerYellow = 'ChoiceCardsBannerYellow',
     ChoiceCardsButtonsBannerBlue = 'ChoiceCardsButtonsBannerBlue',
-    ChoiceCardsButtonsBannerYellow = 'ChoiceCardsButtonsBannerYellow',
-    SupporterMomentBanner = 'SupporterMomentBanner',
-    EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
     GuardianWeeklyBanner = 'GuardianWeeklyBanner',
+    InvestigationsMomentBanner = 'InvestigationsMomentBanner',
+    EnvironmentBanner = 'EnvironmentBanner',
     GlobalNewYearBanner = 'GlobalNewYearBanner',
     SignInPromptBanner = 'SignInPromptBanner',
     UkraineMomentBanner = 'UkraineMomentBanner',
-    Scotus2023MomentBanner = 'Scotus2023MomentBanner',
     WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
+    Scotus2023MomentBanner = 'Scotus2023MomentBanner',
+    EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
+    SupporterMomentBanner = 'SupporterMomentBanner',
 }
 
 export interface BannerDesignName {

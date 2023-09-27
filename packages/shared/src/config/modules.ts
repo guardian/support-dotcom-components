@@ -23,19 +23,14 @@ export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
     'epics/ContributionsLiveblogEpic',
 );
 
-export const ausAnniversaryBanner: ModuleInfo = getDefaultModuleInfo(
-    'aus-anniversary-banner',
+export const ausAnniversaryMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'aus-anniversary-moment-banner',
     'banners/aus10yrAnniversaryMoment/Aus10yrAnniversaryMomentBanner',
 );
 
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
     'banners/contributions/ContributionsBanner',
-);
-
-export const charityAppealBanner: ModuleInfo = getDefaultModuleInfo(
-    'charity-appeal-banner',
-    'banners/charityAppeal/CharityAppealBanner',
 );
 
 export const contributionsBannerWithSignIn: ModuleInfo = getDefaultModuleInfo(
@@ -53,44 +48,19 @@ export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/investigationsMoment/InvestigationsMomentBanner',
 );
 
-export const environmentMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'environment-moment-banner',
-    'banners/environmentMoment/EnvironmentMomentBanner',
+export const environmentBanner: ModuleInfo = getDefaultModuleInfo(
+    'environment-banner',
+    'banners/environment/EnvironmentBanner',
 );
 
-export const globalNewYearBanner: ModuleInfo = getDefaultModuleInfo(
-    'global-new-year-banner',
+export const globalNewYearMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'global-new-year-moment-banner',
     'banners/globalNYMoment/GlobalNYMomentBanner',
-);
-
-export const digiSubs: ModuleInfo = getDefaultModuleInfo(
-    'digital-subscriptions-banner',
-    'banners/digitalSubscriptions/DigitalSubscriptionsBanner',
-);
-
-export const printSubs: ModuleInfo = getDefaultModuleInfo(
-    'print-subscriptions-banner',
-    'banners/printSubscriptions/PrintSubscriptionsBanner',
-);
-
-export const choiceCardsBannerBlue: ModuleInfo = getDefaultModuleInfo(
-    'choice-cards-banner-blue',
-    'banners/choiceCardsBanner/ChoiceCardsBannerBlue',
-);
-
-export const choiceCardsBannerYellow: ModuleInfo = getDefaultModuleInfo(
-    'choice-cards-banner-yellow',
-    'banners/choiceCardsBanner/ChoiceCardsBannerYellow',
 );
 
 export const choiceCardsButtonsBannerBlue: ModuleInfo = getDefaultModuleInfo(
     'choice-cards-buttons-banner-blue',
     'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerBlue',
-);
-
-export const choiceCardsButtonsBannerYellow: ModuleInfo = getDefaultModuleInfo(
-    'choice-cards-buttons-banner-yellow',
-    'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerYellow',
 );
 
 export const supporterMomentBanner: ModuleInfo = getDefaultModuleInfo(
@@ -143,19 +113,13 @@ export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
 export const moduleInfos: ModuleInfo[] = [
     epic,
     liveblogEpic,
-    ausAnniversaryBanner,
+    ausAnniversaryMomentBanner,
     contributionsBanner,
-    charityAppealBanner,
     contributionsBannerWithSignIn,
     investigationsMomentBanner,
-    environmentMomentBanner,
-    globalNewYearBanner,
-    digiSubs,
-    printSubs,
-    choiceCardsBannerBlue,
-    choiceCardsBannerYellow,
+    environmentBanner,
+    globalNewYearMomentBanner,
     choiceCardsButtonsBannerBlue,
-    choiceCardsButtonsBannerYellow,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
     guardianWeekly,

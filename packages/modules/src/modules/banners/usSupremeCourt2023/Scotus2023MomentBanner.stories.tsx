@@ -7,7 +7,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { props } from '../utils/storybook';
 
 export default {
-    title: 'Banners/MomentTemplate',
+    title: 'Banners/Moment',
     parameters: {
         chromatic: {
             delay: 300,
@@ -90,8 +90,8 @@ const Scotus2023MomentTemplate: Story<BannerProps> = (props: BannerProps) => (
     <Scotus2023MomentBanner {...props} />
 );
 
-export const Scotus2023Moment = Scotus2023MomentTemplate.bind({});
-Scotus2023Moment.args = {
+export const USSupremeCourtMoment2023 = Scotus2023MomentTemplate.bind({});
+USSupremeCourtMoment2023.args = {
     ...props,
     content: {
         heading: 'One year ago, they set women’s rights back by half a century',

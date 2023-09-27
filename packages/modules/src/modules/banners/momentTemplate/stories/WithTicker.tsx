@@ -72,9 +72,9 @@ export const BannerWithTicker = bannerWrapper(
             progressBarBackgroundColour: '#fff',
             goalMarkerColour: 'black',
         },
-        bannerId: 'global-new-year-banner',
+        bannerId: 'global-new-year-moment-banner',
     }),
-    'global-new-year-banner',
+    'global-new-year-moment-banner',
 );
 
 export const BannerWithTickerTemplate: Story<BannerProps> = (props: BannerProps) => (

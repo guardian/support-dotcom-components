@@ -7,15 +7,11 @@ import {
     headingColor as blueBannerHeadingColor,
     borderTopColorStyle as blueBorderTopColorStyle,
 } from './ChoiceCardsButtonsBannerBlue';
-import {
-    backgroundColor as yellowBannerBackgroundColor,
-    headingColor as yellowBannerHeadingColor,
-} from './ChoiceCardsButtonsBannerYellow';
 import { PageTracking, TestTracking, Tracking } from '@sdc/shared/src/types';
 
 export default {
     component: ChoiceCardsButtonsBanner,
-    title: 'Banners/ChoiceCardsButtonsBanner',
+    title: 'Banners/Custom',
 } as Meta;
 
 type ChoiceCardStoryProps = Omit<
@@ -60,8 +56,8 @@ const tracking: Tracking = {
     ...testTracking,
 };
 
-export const Blue = Template.bind({});
-Blue.args = {
+export const ChoiceCardsButtonsBlue = Template.bind({});
+ChoiceCardsButtonsBlue.args = {
     bannerId: 'choice-cards-buttons-banner-blue',
     countryCode: 'GB',
     content: {
@@ -144,14 +140,4 @@ Blue.args = {
     onCloseClick: () => null,
     separateArticleCount: true,
     numArticles: 15,
-};
-
-const { bannerId, backgroundColor, headingColor, ...rest } = Blue.args;
-
-export const Yellow = Template.bind({});
-Yellow.args = {
-    ...rest,
-    bannerId: 'choice-cards-buttons-banner-yellow',
-    backgroundColor: yellowBannerBackgroundColor,
-    headingColor: yellowBannerHeadingColor,
 };

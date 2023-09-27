@@ -117,7 +117,7 @@ const line = css`
     border-top: 1px solid ${GREEN_HEX};
 `;
 
-export const EnvironmentMomentBannerHeader: React.FC = () => (
+export const EnvironmentBannerHeader: React.FC = () => (
     <header css={container}>
         <div css={iconAndTextContainer}>
             <Hide below="desktop">
