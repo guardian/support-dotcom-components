@@ -48,6 +48,13 @@ export const getBannerDesigns = (): Promise<BannerDesignFromTool[]> => {
     return docClient
         .scan({
             TableName: `support-admin-console-banner-designs-${stage.toUpperCase()}`,
+            ExpressionAttributeValues: {
+                ':draft': 'Draft',
+            },
+            ExpressionAttributeNames: {
+                '#status': 'status', // Necessary because status is a reserved word in dynamodb
+            },
+            FilterExpression: '#status <> :draft',
         })
         .promise()
         .then(results => (results.Items || []) as BannerDesignFromTool[])
