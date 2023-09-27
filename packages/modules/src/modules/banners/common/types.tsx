@@ -32,7 +32,8 @@ export type BannerId =
     | 'ukraine-moment-banner'
     | 'scotus-2023-moment-banner'
     | 'wpfd-banner'
-    | 'designable-banner';
+    | 'designable-banner'
+    | 'choice-cards-moment-banner';
 
 export interface BannerEnrichedCta {
     ctaUrl: string;

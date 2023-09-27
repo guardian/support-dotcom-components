@@ -15,6 +15,7 @@ import {
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,
     environmentMomentBanner,
+    choiceCardsMomentBanner,
 } from '@sdc/shared/config';
 import {
     BannerChannel,
@@ -52,6 +53,7 @@ export const BannerPaths: {
     [BannerTemplate.Scotus2023MomentBanner]: scotus2023MomentBanner.endpointPathBuilder,
     [BannerTemplate.WorldPressFreedomDayBanner]: wpfdBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentMomentBanner]: environmentMomentBanner.endpointPathBuilder,
+    [BannerTemplate.ChoiceCardsMomentBanner]: choiceCardsMomentBanner.endpointPathBuilder,
 };
 
 export const BannerTemplateComponentTypes: {

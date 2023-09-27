@@ -63,6 +63,11 @@ export const choiceCardsButtonsBannerBlue: ModuleInfo = getDefaultModuleInfo(
     'banners/choiceCardsButtonsBanner/ChoiceCardsButtonsBannerBlue',
 );
 
+export const choiceCardsMomentBanner: ModuleInfo = getDefaultModuleInfo(
+    'choice-cards-moment-banner',
+    'banners/choiceCardsMoment/ChoiceCardsMomentBanner',
+);
+
 export const supporterMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'supporter-moment-banner',
     'banners/supporterMoment/SupporterMomentBanner',
