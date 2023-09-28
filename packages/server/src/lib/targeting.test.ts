@@ -207,6 +207,24 @@ describe('pageContextMatches', () => {
         expect(result).toBe(false);
     });
 
+    // Required tags *and* sections
+    it('returns true if page has required tag or required section', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            tagIds: ['politics/politics'],
+            sectionIds: ['environment'],
+        });
+        expect(result).toBe(true);
+    });
+    it('returns false if page does not have required tag or required section', () => {
+        const result = pageContextMatches(pageContext, {
+            ...pageContextTargeting,
+            tagIds: ['environment/environment'],
+            sectionIds: ['environment'],
+        });
+        expect(result).toBe(false);
+    });
+
     // Excluded tags
     it('returns false if page has excluded tag', () => {
         const result = pageContextMatches(pageContext, {
@@ -221,6 +239,17 @@ describe('pageContextMatches', () => {
             excludedTagIds: ['environment/environment'],
         });
         expect(result).toBe(true);
+    });
+    it('returns false if page has required tag but also excluded tag', () => {
+        const result = pageContextMatches(
+            { ...pageContext, tagIds: ['politics/politics', 'environment/environment'] },
+            {
+                ...pageContextTargeting,
+                tagIds: ['politics/politics'],
+                excludedTagIds: ['environment/environment'],
+            },
+        );
+        expect(result).toBe(false);
     });
 
     // Excluded sections

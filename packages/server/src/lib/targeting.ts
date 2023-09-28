@@ -124,11 +124,17 @@ export const pageContextMatches = (
 ): boolean => {
     const { tagIds, sectionIds, excludedTagIds, excludedSectionIds } = testTargeting;
 
-    return (
-        (tagIds.length === 0 || pageHasATag(tagIds, pageContext.tagIds)) &&
-        (sectionIds.length === 0 || pageHasASection(sectionIds, pageContext.sectionId)) &&
-        (excludedTagIds.length === 0 || !pageHasATag(excludedTagIds, pageContext.tagIds)) &&
-        (excludedSectionIds.length === 0 ||
-            !pageHasASection(excludedSectionIds, pageContext.sectionId))
-    );
+    const noTargeting = tagIds.length === 0 && sectionIds.length === 0;
+
+    const inclusionsMatch: boolean =
+        noTargeting ||
+        pageHasATag(tagIds, pageContext.tagIds) ||
+        pageHasASection(sectionIds, pageContext.sectionId);
+
+    const exclusionsMatch: boolean =
+        (excludedTagIds.length > 0 && pageHasATag(excludedTagIds, pageContext.tagIds)) ||
+        (excludedSectionIds.length > 0 &&
+            pageHasASection(excludedSectionIds, pageContext.sectionId));
+
+    return inclusionsMatch && !exclusionsMatch;
 };
