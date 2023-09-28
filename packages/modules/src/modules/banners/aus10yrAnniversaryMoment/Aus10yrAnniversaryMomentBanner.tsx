@@ -32,7 +32,7 @@ const AusAnniversaryMomentBanner = getMomentTemplateBanner({
     },
     closeButtonSettings: {
         default: {
-            backgroundColour: '#F1F8FC',
+            backgroundColour: neutral[93],
             textColour: brand[400],
             border: `1px solid ${brand[400]}`,
         },

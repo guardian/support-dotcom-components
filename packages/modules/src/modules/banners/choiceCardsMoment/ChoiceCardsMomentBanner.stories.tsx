@@ -55,7 +55,7 @@ const ChoiceCardsMomentBanner = bannerWrapper(
                 border: `1px solid ${brand[400]}`,
             },
             hover: {
-                backgroundColour: '#F1F8FC',
+                backgroundColour: '#E5E5E5',
                 textColour: brand[400],
             },
             theme: 'brand',
@@ -74,8 +74,8 @@ const ChoiceCardsMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
     <ChoiceCardsMomentBanner {...props} />
 );
 
-export const ChoiceCardsButtonsMoment2023 = ChoiceCardsMomentTemplate.bind({});
-ChoiceCardsButtonsMoment2023.args = {
+export const ChoiceCardsMoment2023 = ChoiceCardsMomentTemplate.bind({});
+ChoiceCardsMoment2023.args = {
     ...props,
     content: {
         heading: 'As 2023 unfolds, will you support us?',

@@ -129,6 +129,7 @@ export const moduleInfos: ModuleInfo[] = [
     investigationsMomentBanner,
     environmentBanner,
     globalNewYearMomentBanner,
+    choiceCardsMomentBanner,
     choiceCardsButtonsBannerBlue,
     supporterMomentBanner,
     europeMomentLocalLanguageBanner,

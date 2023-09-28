@@ -55,7 +55,7 @@ const SupporterMomentBanner = bannerWrapper(
                 border: `1px solid ${brand[400]}`,
             },
             hover: {
-                backgroundColour: '#FDF1F8',
+                backgroundColour: '#E5E5E5',
                 textColour: brand[400],
             },
             theme: 'brand',

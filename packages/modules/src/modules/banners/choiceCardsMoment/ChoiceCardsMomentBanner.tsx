@@ -40,7 +40,7 @@ const ChoiceCardsMomentBanner = getMomentTemplateBanner({
             border: `1px solid ${brand[400]}`,
         },
         hover: {
-            backgroundColour: '#F1F8FC',
+            backgroundColour: '#E5E5E5',
             textColour: brand[400],
         },
         theme: 'brand',
