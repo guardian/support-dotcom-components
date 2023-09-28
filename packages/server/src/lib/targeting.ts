@@ -124,8 +124,10 @@ export const pageContextMatches = (
 ): boolean => {
     const { tagIds, sectionIds, excludedTagIds, excludedSectionIds } = testTargeting;
 
+    const noTargeting = tagIds.length === 0 && sectionIds.length === 0;
+    
     const inclusionsMatch: boolean =
-        (tagIds.length === 0 && sectionIds.length === 0) || // no targeting
+        noTargeting ||
         pageHasATag(tagIds, pageContext.tagIds) ||
         pageHasASection(sectionIds, pageContext.sectionId);
 
