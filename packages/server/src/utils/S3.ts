@@ -29,7 +29,7 @@ export const fetchS3Data = (bucket: string, key: string): Promise<string> => {
                 );
             }
         })
-        .catch(err => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
+        .catch((err) => Promise.reject(`Failed to fetch S3 object ${bucket}/${key}: ${err}`));
 };
 
 interface S3StreamConfig {
@@ -55,5 +55,7 @@ export const streamS3DataByLine = ({ bucket, key, onLine, onComplete }: S3Stream
     if (onComplete) {
         stream.on('close', onComplete);
     }
-    stream.on('error', error => logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`));
+    stream.on('error', (error) =>
+        logError(`Error streaming from S3 for ${bucket}/${key}: ${error}`),
+    );
 };

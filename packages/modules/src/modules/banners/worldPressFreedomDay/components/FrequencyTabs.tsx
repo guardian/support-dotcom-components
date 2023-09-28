@@ -50,7 +50,7 @@ export const FrequencyTabs = ({
         tabFrequency[0] + tabFrequency.slice(1).toLowerCase();
 
     const getTabList = () => {
-        return tabFrequencies.map(tabFrequency => ({
+        return tabFrequencies.map((tabFrequency) => ({
             frequency: tabFrequency,
             id: `banner-${tabFrequency}`,
             labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),

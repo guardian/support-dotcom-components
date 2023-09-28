@@ -204,7 +204,7 @@ export const getContributionsBanner = (backgroundColor: string): React.FC<Banner
         reminderTracking.onReminderCtaClick();
 
         if (fetchEmail) {
-            fetchEmail().then(resolvedEmail => {
+            fetchEmail().then((resolvedEmail) => {
                 if (resolvedEmail) {
                     setFetchedEmail(resolvedEmail);
                 }

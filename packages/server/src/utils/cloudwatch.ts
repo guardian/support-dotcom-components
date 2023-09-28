@@ -28,5 +28,5 @@ export const putMetric = (
             ],
         })
         .promise()
-        .catch(error => logError(`Error putting cloudwatch metric: ${error}`));
+        .catch((error) => logError(`Error putting cloudwatch metric: ${error}`));
 };

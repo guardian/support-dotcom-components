@@ -102,10 +102,10 @@ const getForcedVariant = (
     targeting: BannerTargeting,
 ): BannerTestSelection | null => {
     const test = tests.find(
-        test => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
+        (test) => test.name.toLowerCase() === forcedTestVariant.testName.toLowerCase(),
     );
     const variant = test?.variants.find(
-        v => v.name.toLowerCase() === forcedTestVariant.variantName.toLowerCase(),
+        (v) => v.name.toLowerCase() === forcedTestVariant.variantName.toLowerCase(),
     );
 
     if (test && variant) {

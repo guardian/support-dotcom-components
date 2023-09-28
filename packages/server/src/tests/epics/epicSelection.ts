@@ -67,7 +67,7 @@ export const pageContextFilter: Filter = {
     id: 'pageContextFilter',
     test: (test, targeting) => {
         const pageContext = {
-            tagIds: targeting.tags.map(tag => tag.id),
+            tagIds: targeting.tags.map((tag) => tag.id),
             sectionId: targeting.sectionId,
         };
         const pageContextTargeting = {
@@ -224,8 +224,8 @@ export const findTestAndVariant = (
     };
 
     const filterTests = (tests: EpicTest[], filters: Filter[]): EpicTest | undefined => {
-        const test = tests.find(test =>
-            filters.every(filter => {
+        const test = tests.find((test) =>
+            filters.every((filter) => {
                 const got = filter.test(test, targeting);
 
                 if (debug[test.name]) {
@@ -257,8 +257,8 @@ export const findTestAndVariant = (
     };
 
     const priorityOrdered = ([] as EpicTest[]).concat(
-        tests.filter(test => test.highPriority),
-        tests.filter(test => !test.highPriority),
+        tests.filter((test) => test.highPriority),
+        tests.filter((test) => !test.highPriority),
     );
 
     const isSuperMode =
@@ -287,8 +287,8 @@ export const findTestAndVariant = (
 };
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
-    const test = tests.find(test => test.name === force.testName);
-    const variant = test?.variants.find(v => v.name === force.variantName);
+    const test = tests.find((test) => test.name === force.testName);
+    const variant = test?.variants.find((v) => v.name === force.variantName);
 
     return test && variant ? { result: { test, variant } } : {};
 };

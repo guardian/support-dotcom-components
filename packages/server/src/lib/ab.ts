@@ -37,7 +37,7 @@ export const selectWithSeed = <V extends Variant>(
  * Otherwise we evenly distribute all variants across maxMvt.
  */
 export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvtId: number): V => {
-    const control = test.variants.find(v => v.name.toLowerCase() === 'control');
+    const control = test.variants.find((v) => v.name.toLowerCase() === 'control');
     const seed = test.name.split('__')[0];
 
     if (test.controlProportionSettings && control) {
@@ -50,7 +50,7 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
         ) {
             return control;
         } else {
-            const otherVariants = test.variants.filter(v => v.name.toLowerCase() !== 'control');
+            const otherVariants = test.variants.filter((v) => v.name.toLowerCase() !== 'control');
             if (otherVariants.length > 0) {
                 return selectWithSeed(mvtId, seed, otherVariants);
             }
@@ -68,7 +68,7 @@ export const selectAmountsTestVariant = (
 ): SelectedAmountsVariant | undefined => {
     // Two-tier amounts - check for live country test, else get a region test
     const targetTestArray = tests.filter(
-        t =>
+        (t) =>
             t.isLive &&
             t.targeting.targetingType === 'Country' &&
             t.targeting.countries.includes(countryCode),
@@ -80,7 +80,7 @@ export const selectAmountsTestVariant = (
     }
     if (!targetTest) {
         targetTest = tests.find(
-            t => t.targeting.targetingType === 'Region' && t.targeting.region === countryGroupId,
+            (t) => t.targeting.targetingType === 'Region' && t.targeting.region === countryGroupId,
         );
     }
 

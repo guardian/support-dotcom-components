@@ -6,7 +6,7 @@ const useTicker = (total: number, readyToAnimate: boolean): number => {
     useEffect(() => {
         if (readyToAnimate && runningTotal < total) {
             window.requestAnimationFrame(() => {
-                setRunningTotal(prevRunningTotal => {
+                setRunningTotal((prevRunningTotal) => {
                     const newRunningTotal = prevRunningTotal + Math.floor(total / 100);
 
                     if (newRunningTotal > total) {

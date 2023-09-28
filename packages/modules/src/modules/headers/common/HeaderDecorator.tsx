@@ -8,7 +8,7 @@ const background = css`
     padding: 10px;
 `;
 
-const HeaderDecorator: DecoratorFn = Story => (
+const HeaderDecorator: DecoratorFn = (Story) => (
     <div css={background}>
         <Story />
     </div>

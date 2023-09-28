@@ -58,7 +58,7 @@ export const replaceNonArticleCountPlaceholders = (
         return '';
     }
 
-    return content.replace(PLACEHOLDER_RE, placeholder => {
+    return content.replace(PLACEHOLDER_RE, (placeholder) => {
         const trimmed = placeholder.substring(2, placeholder.length - 2); // remove %%
         const rule = placeholderRules[trimmed];
         if (rule) {
@@ -74,7 +74,7 @@ export const replaceNonArticleCountPlaceholders = (
 // Nb. don't attempt to use lookbehind (?<!) here, as IE 11 will break alas
 const PLACEHOLDER_RE = /%%.*?%%/g;
 export const containsNonArticleCountPlaceholder = (text: string): boolean => {
-    const matches = text.match(PLACEHOLDER_RE)?.filter(str => str !== '%%ARTICLE_COUNT%%');
+    const matches = text.match(PLACEHOLDER_RE)?.filter((str) => str !== '%%ARTICLE_COUNT%%');
     return !!matches && matches.length > 0;
 };
 

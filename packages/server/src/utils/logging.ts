@@ -25,7 +25,7 @@ const logFields = (logEvent: LoggingEvent) => {
 };
 
 addLayout('json', () => {
-    return logEvent => {
+    return (logEvent) => {
         return JSON.stringify(logFields(logEvent));
     };
 });

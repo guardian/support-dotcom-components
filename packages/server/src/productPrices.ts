@@ -6,7 +6,7 @@ import { buildReloader, ValueReloader } from './utils/valueReloader';
 const getProductPrices = (): Promise<Prices | undefined> =>
     fetchSupportFrontendData('prices')
         .then(JSON.parse)
-        .catch(error => {
+        .catch((error) => {
             logError(`Failed to fetch prices data: ${error.message}`);
             return undefined;
         });

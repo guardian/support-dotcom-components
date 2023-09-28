@@ -120,12 +120,12 @@ const buildApp = async (): Promise<Express> => {
 };
 
 buildApp()
-    .then(app => {
+    .then((app) => {
         const PORT = process.env.PORT || 3030;
 
         app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
     })
-    .catch(err => {
+    .catch((err) => {
         logError(`Failed to start server: ${String(err)}`);
         throw err;
     });

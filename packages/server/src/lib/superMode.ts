@@ -16,7 +16,7 @@ export interface SuperModeArticle {
 
 const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
-    const records = await queryActiveArticles(stage, docClient).catch(error => {
+    const records = await queryActiveArticles(stage, docClient).catch((error) => {
         logError(`Error fetching super mode articles from dynamo: ${error}`);
         putMetric('super-mode-error');
         return [];
@@ -24,7 +24,7 @@ const fetchSuperModeArticles = async (): Promise<SuperModeArticle[]> => {
 
     logInfo(`Got super mode articles from dynamo, number of records: ${records.length}`);
 
-    return records.map(record => ({
+    return records.map((record) => ({
         url: record.url,
         countryGroupId: regionToCountryGroupId(record.region),
     }));
@@ -38,7 +38,7 @@ export const isInSuperMode = (
     countryGroupId: CountryGroupId,
     superModeArticles: SuperModeArticle[],
 ): boolean => {
-    return superModeArticles.some(a => a.url === url && a.countryGroupId === countryGroupId);
+    return superModeArticles.some((a) => a.url === url && a.countryGroupId === countryGroupId);
 };
 
 export const superModeify = (test?: EpicTest): EpicTest | undefined => {

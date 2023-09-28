@@ -31,10 +31,10 @@ export const getAmpExperimentData = async (tests: AmpEpicTest[]): Promise<AmpExp
     tests.forEach((test: AmpEpicTest) => {
         const variants: Record<string, number> = {};
 
-        const variantNames = test.variants.map(variant => variant.name);
+        const variantNames = test.variants.map((variant) => variant.name);
         const variantAudiencePercentage = 100 / variantNames.length;
 
-        variantNames.forEach(variantName => {
+        variantNames.forEach((variantName) => {
             variants[variantName] = variantAudiencePercentage - 0.0000000001;
         });
 
@@ -52,9 +52,12 @@ export const selectAmpEpic = async (
     tickerData: TickerDataProvider,
     countryCode?: string,
 ): Promise<AMPEpic | null> =>
-    selectAmpEpicTestAndVariant(tests, ampVariantAssignments, tickerData, countryCode).then(test =>
-        !!test && hasPlaceholder(test) ? null : test,
-    );
+    selectAmpEpicTestAndVariant(
+        tests,
+        ampVariantAssignments,
+        tickerData,
+        countryCode,
+    ).then((test) => (!!test && hasPlaceholder(test) ? null : test));
 
 const selectAmpEpicTestAndVariant = async (
     tests: AmpEpicTest[],
@@ -63,7 +66,7 @@ const selectAmpEpicTestAndVariant = async (
     countryCode?: string,
 ): Promise<AMPEpic | null> => {
     const test = tests.find(
-        test => test.status === 'Live' && inCountryGroups(countryCode, test.locations),
+        (test) => test.status === 'Live' && inCountryGroups(countryCode, test.locations),
     );
 
     if (test && test.variants) {
@@ -74,7 +77,7 @@ const selectAmpEpicTestAndVariant = async (
         }
 
         const variant = test.variants.find(
-            variant => variant.name.toUpperCase() === assignedVariantName.toUpperCase(),
+            (variant) => variant.name.toUpperCase() === assignedVariantName.toUpperCase(),
         );
 
         if (variant) {
@@ -83,7 +86,7 @@ const selectAmpEpicTestAndVariant = async (
                 testName: test.name,
                 variantName: variant.name,
                 heading: replaceNonArticleCountPlaceholders(variant.heading, countryCode),
-                paragraphs: variant.paragraphs.map(p =>
+                paragraphs: variant.paragraphs.map((p) =>
                     replaceNonArticleCountPlaceholders(p, countryCode),
                 ),
                 highlightedText: replaceNonArticleCountPlaceholders(
@@ -119,5 +122,5 @@ const selectAmpEpicTestAndVariant = async (
 // These should have been replaced, but do a final check just in case
 const hasPlaceholder = (epic: AMPEpic): boolean =>
     (!!epic.heading && epic.heading.includes('%%')) ||
-    epic.paragraphs.some(p => p.includes('%%')) ||
+    epic.paragraphs.some((p) => p.includes('%%')) ||
     (!!epic.highlightedText && epic.highlightedText.includes('%%'));

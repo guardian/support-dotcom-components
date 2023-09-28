@@ -14,13 +14,13 @@ export const fetchSupportFrontendData = (endpoint: string): Promise<string> => {
         const apiUrl = `${supportUrl}/${endpoint}`;
 
         fetch(apiUrl)
-            .then(packet => {
+            .then((packet) => {
                 if (!packet.ok) {
                     reject(`{"error": "HTTP error! Status: ${packet.status}"}`);
                 }
                 return packet.text();
             })
-            .then(res => resolve(res))
-            .catch(err => reject(`{"error": "Data fetch error: ${err.message}"}`));
+            .then((res) => resolve(res))
+            .catch((err) => reject(`{"error": "Data fetch error: ${err.message}"}`));
     });
 };
