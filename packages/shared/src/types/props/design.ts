@@ -3,10 +3,10 @@ import * as z from 'zod';
 const hexValueRegex = /^[0-9A-F]{2}$/;
 
 const hexValueSchema = z.string().refine(
-    val => {
+    (val) => {
         return hexValueRegex.test(val);
     },
-    val => {
+    (val) => {
         return { message: `"${val}" is not a valid hex value` };
     },
 );
