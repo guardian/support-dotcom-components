@@ -125,7 +125,7 @@ export const pageContextMatches = (
     const { tagIds, sectionIds, excludedTagIds, excludedSectionIds } = testTargeting;
 
     const noTargeting = tagIds.length === 0 && sectionIds.length === 0;
-    
+
     const inclusionsMatch: boolean =
         noTargeting ||
         pageHasATag(tagIds, pageContext.tagIds) ||
