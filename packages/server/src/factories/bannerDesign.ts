@@ -18,11 +18,13 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 r: 'FF',
                 g: '00',
                 b: '00',
+                kind: 'hex',
             },
             bodyText: {
                 r: '00',
                 g: '00',
                 b: '00',
+                kind: 'hex',
             },
         },
     },

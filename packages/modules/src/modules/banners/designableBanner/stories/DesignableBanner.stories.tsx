@@ -78,11 +78,13 @@ Designable.args = {
                     r: '22',
                     g: '25',
                     b: '27',
+                    kind: 'hex',
                 },
                 bodyText: {
                     r: 'FF',
                     g: 'FF',
                     b: 'FF',
+                    kind: 'hex',
                 },
             },
         },

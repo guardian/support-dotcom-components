@@ -15,6 +15,7 @@ export const hexColourSchema = z.object({
     r: hexValueSchema,
     g: hexValueSchema,
     b: hexValueSchema,
+    kind: z.literal('hex'),
 });
 
 export const configurableDesignSchema = z.object({
@@ -56,6 +57,7 @@ export interface HexColour {
     r: HexValue;
     g: HexValue;
     b: HexValue;
+    kind: 'hex';
 }
 
 export const hexColourToString = (h: HexColour): string => `#${h.r}${h.g}${h.b}`;

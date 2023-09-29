@@ -2,7 +2,7 @@ import { HexColour, hexColourSchema, hexColourToString } from './design';
 
 describe('hexValueColourSchema', () => {
     it('successfully parses valid hex colours', () => {
-        const goodHexColour = { r: 'AC', g: 'AA', b: 'AF' };
+        const goodHexColour = { r: 'AC', g: 'AA', b: 'AF', kind: 'hex' };
 
         const result = hexColourSchema.safeParse(goodHexColour);
 
@@ -14,6 +14,7 @@ describe('hexValueColourSchema', () => {
             r: 'AC',
             g: 'AA',
             b: 'ZZ',
+            kind: 'hex',
         };
 
         const result = hexColourSchema.safeParse(badHexColour);
@@ -25,6 +26,7 @@ describe('hexValueColourSchema', () => {
         const badHexColour = {
             r: 'AC',
             g: 'AA',
+            kind: 'hex',
         };
 
         const result = hexColourSchema.safeParse(badHexColour);
@@ -39,6 +41,7 @@ describe('hexColourToString', () => {
             r: 'FF',
             g: '00',
             b: '1F',
+            kind: 'hex',
         };
 
         const cssString = hexColourToString(hexColour);
