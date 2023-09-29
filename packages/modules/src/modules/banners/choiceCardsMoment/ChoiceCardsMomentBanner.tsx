@@ -1,41 +1,41 @@
-import { brand, culture } from '@guardian/src-foundations';
+import { brand, brandAlt, culture } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const SupporterMomentBanner = getMomentTemplateBanner({
+const ChoiceCardsMomentTemplateBanner = getMomentTemplateBanner({
     containerSettings: {
-        backgroundColour: '#FDF1F8',
+        backgroundColour: '#F1F8FC',
     },
     headerSettings: {
         showHeader: { text: true },
-        textColour: '#721765',
+        textColour: brand[400],
     },
     primaryCtaSettings: {
         default: {
-            backgroundColour: '#721765',
-            textColour: 'white',
+            backgroundColour: brandAlt[400],
+            textColour: 'black',
         },
         hover: {
-            backgroundColour: '#55114C',
-            textColour: 'white',
+            backgroundColour: brandAlt[200],
+            textColour: 'black',
         },
     },
     secondaryCtaSettings: {
         default: {
             backgroundColour: culture[800],
             textColour: brand[400],
-            border: '1px solid #052962',
+            border: `1px solid ${brand[400]}`,
         },
         hover: {
             backgroundColour: '#E5E5E5',
             textColour: brand[400],
-            border: '1px solid #052962',
+            border: `1px solid ${brand[400]}`,
         },
         theme: 'brand',
     },
     closeButtonSettings: {
         default: {
-            backgroundColour: '#FDF1F8',
+            backgroundColour: '#F1F8FC',
             textColour: brand[400],
             border: `1px solid ${brand[400]}`,
         },
@@ -46,14 +46,20 @@ const SupporterMomentBanner = getMomentTemplateBanner({
         theme: 'brand',
     },
     highlightedTextSettings: {
-        textColour: 'white',
-        highlightColour: '#721765',
+        textColour: 'black',
+        highlightColour: brandAlt[400],
     },
     choiceCards: true,
-    bannerId: 'supporter-moment-banner',
+    bannerId: 'choice-cards-moment-banner',
 });
 
-const unvalidated = bannerWrapper(SupporterMomentBanner, 'supporter-moment-banner');
-const validated = validatedBannerWrapper(SupporterMomentBanner, 'supporter-moment-banner');
+const ChoiceCardsMomentBannerUnValidated = bannerWrapper(
+    ChoiceCardsMomentTemplateBanner,
+    'choice-cards-moment-banner',
+);
+const ChoiceCardsMomentBanner = validatedBannerWrapper(
+    ChoiceCardsMomentTemplateBanner,
+    'choice-cards-moment-banner',
+);
 
-export { validated as SupporterMomentBanner, unvalidated as SupporterMomentBannerUnValidated };
+export { ChoiceCardsMomentBanner, ChoiceCardsMomentBannerUnValidated };

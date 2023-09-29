@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, culture } from '@guardian/src-foundations';
+import { brand, brandAlt, culture } from '@guardian/src-foundations';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 import { BannerProps } from '@sdc/shared/src/types';
@@ -16,41 +16,41 @@ export default {
     args: props,
 } as Meta;
 
-const SupporterMomentBanner = bannerWrapper(
+const ChoiceCardsMomentBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
-            backgroundColour: '#FDF1F8',
+            backgroundColour: '#F1F8FC',
         },
         headerSettings: {
             showHeader: { text: true },
-            textColour: '#721765',
+            textColour: brand[400],
         },
         primaryCtaSettings: {
             default: {
-                backgroundColour: '#721765',
-                textColour: 'white',
+                backgroundColour: brandAlt[400],
+                textColour: 'black',
             },
             hover: {
-                backgroundColour: '#55114C',
-                textColour: 'white',
+                backgroundColour: brandAlt[200],
+                textColour: 'black',
             },
         },
         secondaryCtaSettings: {
             default: {
                 backgroundColour: culture[800],
                 textColour: brand[400],
-                border: '1px solid #052962',
+                border: `1px solid ${brand[400]}`,
             },
             hover: {
                 backgroundColour: '#E5E5E5',
                 textColour: brand[400],
-                border: '1px solid #052962',
+                border: `1px solid ${brand[400]}`,
             },
             theme: 'brand',
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: '#FDF1F8',
+                backgroundColour: '#F1F8FC',
                 textColour: brand[400],
                 border: `1px solid ${brand[400]}`,
             },
@@ -61,31 +61,31 @@ const SupporterMomentBanner = bannerWrapper(
             theme: 'brand',
         },
         highlightedTextSettings: {
-            textColour: 'white',
-            highlightColour: '#721765',
+            textColour: 'black',
+            highlightColour: brandAlt[400],
         },
         choiceCards: true,
-        bannerId: 'supporter-moment-banner',
+        bannerId: 'choice-cards-moment-banner',
     }),
-    'supporter-moment-banner',
+    'choice-cards-moment-banner',
 );
 
-const SupporterMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
-    <SupporterMomentBanner {...props} />
+const ChoiceCardsMomentTemplate: Story<BannerProps> = (props: BannerProps) => (
+    <ChoiceCardsMomentBanner {...props} />
 );
 
-export const SupporterMoment2023 = SupporterMomentTemplate.bind({});
-SupporterMoment2023.args = {
+export const ChoiceCardsMoment2023 = ChoiceCardsMomentTemplate.bind({});
+ChoiceCardsMoment2023.args = {
     ...props,
     content: {
-        heading: 'The only pocket we’re in is yours',
+        heading: 'As 2023 unfolds, will you support us?',
         messageText:
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.',
+            'We’re a reader-funded news organisation, with more than 1.5 million supporters in 180 countries. With this vital support, our reporting remains fiercely independent, and is never manipulated by commercial or political ties. And it’s free, for everyone. But if you can support us, we need you.',
         paragraphs: [
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, semi. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. ',
+            'We’re a reader-funded news organisation, with more than 1.5 million supporters in 180 countries. With this vital support, our reporting remains fiercely independent, and is never manipulated by commercial or political ties. And it’s free, for everyone. But if you can support us, we need you.',
         ],
         highlightedText:
-            'Nullam dictum felis eu pede mollis pretium. Integeir tincidunt. Thank you.',
+            'Give just once from £1, or better yet, power us every month with a little more. Thank you.',
         cta: {
             text: 'Continue',
             baseUrl: 'https://support.theguardian.com/contribute/one-off',

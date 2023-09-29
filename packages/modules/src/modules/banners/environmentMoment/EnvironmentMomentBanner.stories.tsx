@@ -75,7 +75,7 @@ const EnvironmentMomentBanner = bannerWrapper(
                 border: `1px solid ${neutral[0]}`,
             },
             hover: {
-                backgroundColour: '#FDF1F8',
+                backgroundColour: '#E5E5E5',
                 textColour: neutral[0],
             },
             theme: 'brand',
