@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
+import type { ReactComponent } from '../../../types';
 
 const container = css`
     width: 100%;
@@ -38,7 +39,7 @@ interface ContributionsTemplateVisualProps {
     image: React.ReactElement;
 }
 
-const ContributionsTemplateVisual: React.FC<ContributionsTemplateVisualProps> = ({
+const ContributionsTemplateVisual: ReactComponent<ContributionsTemplateVisualProps> = ({
     image,
 }: ContributionsTemplateVisualProps) => (
     <div css={container}>

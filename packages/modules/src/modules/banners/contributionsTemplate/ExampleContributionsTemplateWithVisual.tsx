@@ -13,6 +13,7 @@ import ContributionsTemplateBody from './ContributionsTemplateBody';
 import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps, TickerSettings } from '@sdc/shared/types';
+import { ReactComponent } from '../../../types';
 
 const closeButtonStyles = css`
     color: ${neutral[7]};
@@ -137,7 +138,7 @@ const bannerStyles = css`
     background-color: #dddbd1;
 `;
 
-export const Example: React.FC<BannerProps> = ({}: BannerProps) => {
+export const Example: ReactComponent<BannerProps> = ({}: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
             cssOverrides={bannerStyles}
@@ -150,7 +151,7 @@ export const Example: React.FC<BannerProps> = ({}: BannerProps) => {
     );
 };
 
-export const ExampleWithTicker: React.FC<BannerProps> = ({ tickerSettings }: BannerProps) => {
+export const ExampleWithTicker: ReactComponent<BannerProps> = ({ tickerSettings }: BannerProps) => {
     return (
         <ContributionsTemplateWithVisual
             cssOverrides={bannerStyles}

@@ -7,14 +7,12 @@ import express from 'express';
 // will require a bit of a refactor to avoid bundling zod into the dotcom package.
 //
 // TODO: Remove this middleware after adding proper validation.
-export const bodyContainsAllFields = (fields: string[]) => (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
-): void => {
-    if (fields.every((f) => f in req.body)) {
-        next();
-    } else {
-        res.sendStatus(400);
-    }
-};
+export const bodyContainsAllFields =
+    (fields: string[]) =>
+    (req: express.Request, res: express.Response, next: express.NextFunction): void => {
+        if (fields.every((f) => f in req.body)) {
+            next();
+        } else {
+            res.sendStatus(400);
+        }
+    };

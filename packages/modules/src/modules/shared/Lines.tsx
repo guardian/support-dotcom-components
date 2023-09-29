@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { border } from '@guardian/src-foundations/palette';
 import { remSpace } from '@guardian/src-foundations';
+import type { ReactComponent } from '../../types';
 
 const lineGap = remSpace[1];
 
@@ -22,6 +23,6 @@ const straightLines = css`
 
 // Note, we should replace with @guardian/src-ed-lines once it is smaller in
 // size/better suited to tree-shaking.
-export const Lines: React.FC = ({}) => {
+export const Lines: ReactComponent = ({}) => {
     return <div css={straightLines} />;
 };

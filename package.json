@@ -26,14 +26,16 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@guardian/eslint-config-typescript": "^7.0.0",
     "@guardian/node-riffraff-artifact": "^0.3.2",
-    "@guardian/eslint-config-typescript": "^0.6.0",
-    "@guardian/prettier": "^0.6.0",
-    "eslint": "^7.31.0",
-    "eslint-plugin-react": "^7.24.0",
-    "prettier": "^1.19.1",
+    "@guardian/prettier": "^5.0.0",
+    "eslint": "^8.47.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.0.0",
     "ts-loader": "^9.2.5",
-    "typescript": "^4.8.3",
+    "tslib": "^2.5.3",
+    "typescript": "~5.1.3",
     "webpack": "^5.81.0"
   },
   "resolutions": {

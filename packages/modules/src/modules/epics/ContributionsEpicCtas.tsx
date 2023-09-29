@@ -3,6 +3,7 @@ import { EpicProps } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
+import type { ReactComponent } from '../../types';
 
 interface OnReminderOpen {
     buttonCopyAsString: string;
@@ -15,7 +16,7 @@ type ContributionsEpicCtasProps = EpicProps & {
     amountsVariantName?: string;
 };
 
-export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
+export const ContributionsEpicCtas: ReactComponent<ContributionsEpicCtasProps> = ({
     variant,
     countryCode,
     articleCounts,
@@ -27,7 +28,7 @@ export const ContributionsEpicCtas: React.FC<ContributionsEpicCtasProps> = ({
     choiceCardSelection,
     amountsTestName,
     amountsVariantName,
-}: ContributionsEpicCtasProps): JSX.Element | null => {
+}: ContributionsEpicCtasProps): JSX.Element => {
     const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
     const [isReminderActive, setIsReminderActive] = useState(false);
     const showReminderFields = variant.showReminderFields;

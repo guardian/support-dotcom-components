@@ -36,6 +36,7 @@ import {
 } from './puzzlesBannerStyles';
 import { appStore, packshot } from './images';
 import { setBannerState, getBannerState } from '../localStorage';
+import type { ReactComponent } from '../../../types';
 
 type AppStore = 'apple' | 'google';
 type BannerState = 'minimised' | 'expanded';
@@ -73,7 +74,10 @@ const signInUrl =
     'https://profile.theguardian.com/signin?utm_source=gdnwb&utm_medium=banner&utm_campaign=PuzzleSignin&CMP_TU=mrtn&CMP_BUNIT=digipac';
 const signInComponentId = `${bannerId} : sign in`;
 
-export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitComponentEvent }) => {
+export const PuzzlesBanner: ReactComponent<PuzzlesBannerProps> = ({
+    tracking,
+    submitComponentEvent,
+}) => {
     const [isMinimised, setIsMinimised] = useState<boolean>(getBannerState());
     const isKeyboardUser = useTabDetection();
 
@@ -82,7 +86,7 @@ export const PuzzlesBanner: React.FC<PuzzlesBannerProps> = ({ tracking, submitCo
 
     // Exclude IE
     if (window?.navigator?.userAgent?.match(/MSIE|Trident/)) {
-        return null;
+        return <></>;
     }
 
     function handleAppStoreClickFor(store: AppStore) {

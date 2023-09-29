@@ -19,10 +19,11 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
+import type { ReactComponent } from '../../../types';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
-): React.FC<BannerRenderProps> {
+): ReactComponent<BannerRenderProps> {
     function MomentTemplateBanner({
         content,
         onCloseClick,
@@ -37,18 +38,13 @@ export function getMomentTemplateBanner(
         submitComponentEvent,
         tracking,
     }: BannerRenderProps): JSX.Element {
-        const { isReminderActive, onReminderCtaClick, mobileReminderRef } = useReminder(
-            reminderTracking,
-        );
+        const { isReminderActive, onReminderCtaClick, mobileReminderRef } =
+            useReminder(reminderTracking);
         const isTabletOrAbove = useMediaQuery(from.tablet);
         const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-        const {
-            choiceCardSelection,
-            setChoiceCardSelection,
-            getCtaText,
-            currencySymbol,
-        } = useChoiceCards(choiceCardAmounts, countryCode, content);
+        const { choiceCardSelection, setChoiceCardSelection, getCtaText, currencySymbol } =
+            useChoiceCards(choiceCardAmounts, countryCode, content);
 
         const showChoiceCards = !!(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData

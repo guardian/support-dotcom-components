@@ -10,6 +10,7 @@ import { Button } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
 import { ensureHasPreposition, ReminderStatus } from '../utils/reminders';
+import type { ReactComponent } from '../../types';
 
 // --- Styles --- //
 
@@ -101,7 +102,9 @@ export interface ContributionsEpicReminderSignedInProps {
 
 // --- Components --- //
 
-export const ContributionsEpicReminderSignedIn: React.FC<ContributionsEpicReminderSignedInProps> = ({
+export const ContributionsEpicReminderSignedIn: ReactComponent<
+    ContributionsEpicReminderSignedInProps
+> = ({
     reminderLabel,
     reminderStatus,
     onSetReminderClick,

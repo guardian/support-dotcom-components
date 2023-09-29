@@ -1,12 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import type { ReactComponent } from '../../../../types';
 
 const container = css`
     height: 36px;
     width: 36px;
 `;
 
-export const EnvironmentBannerRoundel: React.FC = () => (
+export const EnvironmentBannerRoundel: ReactComponent = () => (
     <div css={container}>
         <svg
             width="36"

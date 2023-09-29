@@ -2,6 +2,7 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
 import { squareBorder } from '../puzzlesStyleUtils';
+import type { ReactComponent } from '../../../../types';
 
 type SquareColour = 'white' | 'grey' | 'pink' | 'purple';
 
@@ -63,7 +64,7 @@ function getBorderRemoval(borderSide: BorderSide) {
     return borderRemovals[borderSide];
 }
 
-export const Square: React.FC<SquareProps> = ({
+export const Square: ReactComponent<SquareProps> = ({
     colour,
     children,
     cssOverrides,

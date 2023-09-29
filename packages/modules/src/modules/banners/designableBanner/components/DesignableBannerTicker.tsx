@@ -8,6 +8,7 @@ import { from } from '@guardian/src-foundations/mq';
 import { TickerStylingSettings } from '../settings';
 import { space } from '@guardian/src-foundations';
 import { templateSpacing } from '../styles/templateStyles';
+import type { ReactComponent } from '../../../../types';
 
 const progressBarHeight = 12;
 const tickerFillOffset = 15;
@@ -61,14 +62,13 @@ const styles = {
         total: number,
         colour: string,
         isGoalReached: boolean,
-    ): SerializedStyles =>
-        css`
-            height: ${progressBarHeight}px;
-            width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
-            transform: ${styles.progressBarTransform(end, runningTotal, total)};
-            transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-            background-color: ${colour};
-        `,
+    ): SerializedStyles => css`
+        height: ${progressBarHeight}px;
+        width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
+        transform: ${styles.progressBarTransform(end, runningTotal, total)};
+        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+        background-color: ${colour};
+    `,
     soFarContainerStyles: css`
         padding-right: ${space[5]}px;
     `,
@@ -91,7 +91,7 @@ type DesignableBannerTickerProps = {
     stylingSettings: TickerStylingSettings;
 };
 
-const DesignableBannerTicker: React.FC<DesignableBannerTickerProps> = ({
+const DesignableBannerTicker: ReactComponent<DesignableBannerTickerProps> = ({
     tickerSettings,
     stylingSettings,
 }: DesignableBannerTickerProps) => {

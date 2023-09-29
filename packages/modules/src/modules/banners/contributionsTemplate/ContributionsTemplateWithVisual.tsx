@@ -2,6 +2,7 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
+import type { ReactComponent } from '../../../types';
 
 const banner = (cssOverrides?: SerializedStyles): SerializedStyles => css`
     ${cssOverrides};
@@ -120,7 +121,7 @@ export interface ContributionsTemplateWithVisualProps {
     cssOverrides?: SerializedStyles;
 }
 
-const ContributionsTemplateWithVisual: React.FC<ContributionsTemplateWithVisualProps> = ({
+const ContributionsTemplateWithVisual: ReactComponent<ContributionsTemplateWithVisualProps> = ({
     visual,
     closeButton,
     header,

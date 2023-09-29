@@ -6,6 +6,7 @@ import { LinkButton, buttonBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { from, until } from '@guardian/src-foundations/mq';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
+import type { ReactComponent } from '../../types';
 
 const FADE_TIME_MS = 300;
 const TEXT_DELAY_MS = 1500;
@@ -89,7 +90,7 @@ const visible = css`
     opacity: 1;
 `;
 
-const SignInPromptHeader: React.FC<HeaderRenderProps> = (props) => {
+const SignInPromptHeader: ReactComponent<HeaderRenderProps> = (props) => {
     const { heading, subheading, primaryCta, benefits } = props.content;
     const [benefitIndex, setBenefitIndex] = useState(-1);
     const [benefitVisible, setBenefitVisible] = useState<boolean>(false);

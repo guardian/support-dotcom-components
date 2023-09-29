@@ -14,6 +14,7 @@ import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton
 import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     bannerContainer: (backgroundColor: string) => css`
@@ -189,149 +190,151 @@ const columnCounts = {
     wide: 16,
 };
 
-export const getContributionsBanner = (backgroundColor: string): React.FC<BannerRenderProps> => ({
-    onCtaClick,
-    onSecondaryCtaClick,
-    reminderTracking,
-    onCloseClick,
-    content,
-    fetchEmail,
-}: BannerRenderProps) => {
-    const [isReminderOpen, setIsReminderOpen] = useState(false);
-    const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
+export const getContributionsBanner =
+    (backgroundColor: string): ReactComponent<BannerRenderProps> =>
+    ({
+        onCtaClick,
+        onSecondaryCtaClick,
+        reminderTracking,
+        onCloseClick,
+        content,
+        fetchEmail,
+    }: BannerRenderProps) => {
+        const [isReminderOpen, setIsReminderOpen] = useState(false);
+        const [fetchedEmail, setFetchedEmail] = useState<string | undefined>(undefined);
 
-    const onReminderCtaClick = () => {
-        reminderTracking.onReminderCtaClick();
+        const onReminderCtaClick = () => {
+            reminderTracking.onReminderCtaClick();
 
-        if (fetchEmail) {
-            fetchEmail().then((resolvedEmail) => {
-                if (resolvedEmail) {
-                    setFetchedEmail(resolvedEmail);
-                }
+            if (fetchEmail) {
+                fetchEmail().then((resolvedEmail) => {
+                    if (resolvedEmail) {
+                        setFetchedEmail(resolvedEmail);
+                    }
+                    setIsReminderOpen(!isReminderOpen);
+                });
+            } else {
                 setIsReminderOpen(!isReminderOpen);
-            });
-        } else {
-            setIsReminderOpen(!isReminderOpen);
-        }
-    };
+            }
+        };
 
-    const onReminderCloseClick = () => {
-        reminderTracking.onReminderCloseClick();
-        setIsReminderOpen(false);
-    };
+        const onReminderCloseClick = () => {
+            reminderTracking.onReminderCloseClick();
+            setIsReminderOpen(false);
+        };
 
-    const BodyAndHeading = () => (
-        <BannerText
-            styles={{
-                desktop: {
-                    container: styles.bodyAndHeading,
-                    heading: styles.heading,
-                    subheading: styles.subheading,
-                    body: styles.body,
-                    copy: [commonStyles.copy, styles.copy],
-                    highlightedText: commonStyles.highlightedText,
-                },
-            }}
-            content={content}
-        />
-    );
-
-    const buttons = (
-        <div css={styles.buttonsContainer}>
-            <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
-
-            <div css={styles.ctasContainer}>
-                {content.mainContent.primaryCta && (
-                    <ContributionsBannerCta
-                        onContributeClick={onCtaClick}
-                        ctaText={content.mainContent.primaryCta.ctaText}
-                        ctaUrl={content.mainContent.primaryCta.ctaUrl}
-                        stacked={true}
-                    />
-                )}
-
-                {content.mainContent.secondaryCta && (
-                    <ContributionsBannerSecondaryCta
-                        secondaryCta={content.mainContent.secondaryCta}
-                        onReminderCtaClick={onReminderCtaClick}
-                        onCustomCtaClick={onSecondaryCtaClick}
-                    />
-                )}
-            </div>
-        </div>
-    );
-
-    return (
-        <div css={styles.bannerContainer(backgroundColor)}>
-            <ContributionsBannerMobile
-                onCloseClick={onCloseClick}
-                onContributeClick={onCtaClick}
-                onSecondaryCtaClick={onSecondaryCtaClick}
-                content={content.mobileContent}
-                onReminderCtaClick={onReminderCtaClick}
-                isReminderOpen={isReminderOpen}
-                onReminderCloseClick={onReminderCloseClick}
-                trackReminderSetClick={reminderTracking.onReminderSetClick}
-                email={fetchedEmail}
+        const BodyAndHeading = () => (
+            <BannerText
+                styles={{
+                    desktop: {
+                        container: styles.bodyAndHeading,
+                        heading: styles.heading,
+                        subheading: styles.subheading,
+                        body: styles.body,
+                        copy: [commonStyles.copy, styles.copy],
+                        highlightedText: commonStyles.highlightedText,
+                    },
+                }}
+                content={content}
             />
+        );
 
-            <Container>
-                <div css={styles.tabletAndDesktop}>
-                    <Columns>
-                        <Column width={8 / columnCounts.tablet}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={4 / columnCounts.tablet}>{buttons}</Column>
-                    </Columns>
-                </div>
-                <div css={styles.leftCol}>
-                    <Columns>
-                        <Column width={2 / columnCounts.leftCol}> </Column>
-                        <Column width={8 / columnCounts.leftCol}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={4 / columnCounts.leftCol}>{buttons}</Column>
-                    </Columns>
-                </div>
-                <div css={styles.wide}>
-                    <Columns>
-                        <Column width={3 / columnCounts.wide}> </Column>
-                        <Column width={8 / columnCounts.wide}>
-                            <BodyAndHeading />
-                        </Column>
-                        <Column width={4 / columnCounts.wide}>{buttons}</Column>
-                        <Column width={1 / columnCounts.wide}> </Column>
-                    </Columns>
-                </div>
-            </Container>
+        const buttons = (
+            <div css={styles.buttonsContainer}>
+                <ContributionsBannerCloseButton onCloseClick={onCloseClick} />
 
-            <Hide below="tablet">
-                {isReminderOpen &&
-                    content.mainContent.secondaryCta?.type ===
-                        SecondaryCtaType.ContributionsReminder && (
-                        <div css={styles.reminderContainer}>
-                            <div css={styles.reminderLine} />
-
-                            <Container>
-                                <Columns>
-                                    <Column width={1}>
-                                        <ContributionsBannerReminder
-                                            reminderCta={content.mainContent.secondaryCta}
-                                            trackReminderSetClick={
-                                                reminderTracking.onReminderSetClick
-                                            }
-                                            onReminderCloseClick={onReminderCloseClick}
-                                            email={fetchedEmail}
-                                        />
-                                    </Column>
-                                </Columns>
-                            </Container>
-                        </div>
+                <div css={styles.ctasContainer}>
+                    {content.mainContent.primaryCta && (
+                        <ContributionsBannerCta
+                            onContributeClick={onCtaClick}
+                            ctaText={content.mainContent.primaryCta.ctaText}
+                            ctaUrl={content.mainContent.primaryCta.ctaUrl}
+                            stacked={true}
+                        />
                     )}
-            </Hide>
-        </div>
-    );
-};
+
+                    {content.mainContent.secondaryCta && (
+                        <ContributionsBannerSecondaryCta
+                            secondaryCta={content.mainContent.secondaryCta}
+                            onReminderCtaClick={onReminderCtaClick}
+                            onCustomCtaClick={onSecondaryCtaClick}
+                        />
+                    )}
+                </div>
+            </div>
+        );
+
+        return (
+            <div css={styles.bannerContainer(backgroundColor)}>
+                <ContributionsBannerMobile
+                    onCloseClick={onCloseClick}
+                    onContributeClick={onCtaClick}
+                    onSecondaryCtaClick={onSecondaryCtaClick}
+                    content={content.mobileContent}
+                    onReminderCtaClick={onReminderCtaClick}
+                    isReminderOpen={isReminderOpen}
+                    onReminderCloseClick={onReminderCloseClick}
+                    trackReminderSetClick={reminderTracking.onReminderSetClick}
+                    email={fetchedEmail}
+                />
+
+                <Container>
+                    <div css={styles.tabletAndDesktop}>
+                        <Columns>
+                            <Column width={8 / columnCounts.tablet}>
+                                <BodyAndHeading />
+                            </Column>
+                            <Column width={4 / columnCounts.tablet}>{buttons}</Column>
+                        </Columns>
+                    </div>
+                    <div css={styles.leftCol}>
+                        <Columns>
+                            <Column width={2 / columnCounts.leftCol}> </Column>
+                            <Column width={8 / columnCounts.leftCol}>
+                                <BodyAndHeading />
+                            </Column>
+                            <Column width={4 / columnCounts.leftCol}>{buttons}</Column>
+                        </Columns>
+                    </div>
+                    <div css={styles.wide}>
+                        <Columns>
+                            <Column width={3 / columnCounts.wide}> </Column>
+                            <Column width={8 / columnCounts.wide}>
+                                <BodyAndHeading />
+                            </Column>
+                            <Column width={4 / columnCounts.wide}>{buttons}</Column>
+                            <Column width={1 / columnCounts.wide}> </Column>
+                        </Columns>
+                    </div>
+                </Container>
+
+                <Hide below="tablet">
+                    {isReminderOpen &&
+                        content.mainContent.secondaryCta?.type ===
+                            SecondaryCtaType.ContributionsReminder && (
+                            <div css={styles.reminderContainer}>
+                                <div css={styles.reminderLine} />
+
+                                <Container>
+                                    <Columns>
+                                        <Column width={1}>
+                                            <ContributionsBannerReminder
+                                                reminderCta={content.mainContent.secondaryCta}
+                                                trackReminderSetClick={
+                                                    reminderTracking.onReminderSetClick
+                                                }
+                                                onReminderCloseClick={onReminderCloseClick}
+                                                email={fetchedEmail}
+                                            />
+                                        </Column>
+                                    </Columns>
+                                </Container>
+                            </div>
+                        )}
+                </Hide>
+            </div>
+        );
+    };
 
 const ContributionsBanner = getContributionsBanner(brandAlt[400]);
 

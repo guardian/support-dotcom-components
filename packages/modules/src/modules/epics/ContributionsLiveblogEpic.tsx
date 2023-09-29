@@ -16,6 +16,7 @@ import { replaceArticleCount } from '../../lib/replaceArticleCount';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { logEpicView } from '@sdc/shared/lib';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
+import type { ReactComponent } from '../../types';
 
 const container = (clientName: string) => css`
     padding: 6px 10px 28px 10px;
@@ -84,7 +85,7 @@ interface LiveblogEpicBodyParagraphProps {
     numArticles: number;
 }
 
-const LiveblogEpicBodyParagraph: React.FC<LiveblogEpicBodyParagraphProps> = ({
+const LiveblogEpicBodyParagraph: ReactComponent<LiveblogEpicBodyParagraphProps> = ({
     paragraph,
     numArticles,
 }: LiveblogEpicBodyParagraphProps) => {
@@ -98,7 +99,7 @@ interface LiveblogEpicBodyProps {
     numArticles: number;
 }
 
-const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
+const LiveblogEpicBody: ReactComponent<LiveblogEpicBodyProps> = ({
     numArticles,
     paragraphs,
 }: LiveblogEpicBodyProps) => {
@@ -115,7 +116,7 @@ const LiveblogEpicBody: React.FC<LiveblogEpicBodyProps> = ({
     );
 };
 
-export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
+export const ContributionsLiveblogEpic: ReactComponent<EpicProps> = ({
     variant,
     countryCode,
     articleCounts,
@@ -123,7 +124,7 @@ export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
     submitComponentEvent,
     onReminderOpen,
     fetchEmail,
-}: EpicProps): JSX.Element | null => {
+}: EpicProps): JSX.Element => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
     useEffect(() => {
@@ -154,7 +155,7 @@ export const ContributionsLiveblogEpic: React.FC<EpicProps> = ({
         cleanParagraphs.some(containsNonArticleCountPlaceholder) ||
         containsNonArticleCountPlaceholder(cleanHeading)
     ) {
-        return null;
+        return <></>;
     }
 
     return (

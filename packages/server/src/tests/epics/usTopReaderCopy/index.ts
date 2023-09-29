@@ -21,8 +21,7 @@ const control: EpicVariant = {
     showChoiceCards,
     separateArticleCount: {
         type: 'above',
-        copy:
-            "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year.",
+        copy: "Congratulations on being one of our top readers globally - you've read %%ARTICLE_COUNT%% articles in the last year.",
     },
     name: 'control',
 };
@@ -34,8 +33,7 @@ const variant: EpicVariant = {
     showChoiceCards,
     separateArticleCount: {
         type: 'above',
-        copy:
-            "You've read %%ARTICLE_COUNT%% articles in the last year, making you one of our top readers globally.",
+        copy: "You've read %%ARTICLE_COUNT%% articles in the last year, making you one of our top readers globally.",
     },
     name: 'variant',
 };

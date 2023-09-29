@@ -7,6 +7,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     ctaButton: (stacked: boolean): SerializedStyles => css`
@@ -30,7 +31,7 @@ interface ContributionsBannerCtaProps {
     stacked: boolean;
 }
 
-export const ContributionsBannerCta: React.FC<ContributionsBannerCtaProps> = ({
+export const ContributionsBannerCta: ReactComponent<ContributionsBannerCtaProps> = ({
     onContributeClick,
     ctaText,
     ctaUrl,

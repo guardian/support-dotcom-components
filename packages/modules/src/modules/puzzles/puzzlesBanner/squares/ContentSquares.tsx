@@ -7,6 +7,7 @@ import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
+import type { ReactComponent } from '../../../../types';
 // import { qrCode } from '../images';
 
 function desktopGridPlacement(row: number, column: number) {
@@ -212,7 +213,7 @@ type ContentSquaresProps = {
     minimiseButton: React.ReactNode;
 };
 
-const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = [] }) => {
+const ContentSquare: ReactComponent<ContentSquareProps> = ({ children, cssOverrides = [] }) => {
     return (
         <Square colour="white" cssOverrides={[contentSquare, ...cssOverrides]}>
             <SquareSide />
@@ -221,7 +222,7 @@ const ContentSquare: React.FC<ContentSquareProps> = ({ children, cssOverrides = 
     );
 };
 
-export const ContentSquares: React.FC<ContentSquaresProps> = ({ minimiseButton }) => {
+export const ContentSquares: ReactComponent<ContentSquaresProps> = ({ minimiseButton }) => {
     return (
         <div css={contentSquaresGrid}>
             <ContentSquare cssOverrides={[bottomRightOnMobile, desktopGridPlacement(1, 1)]}>

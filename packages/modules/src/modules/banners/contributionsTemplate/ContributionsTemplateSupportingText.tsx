@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { headline } from '@guardian/src-foundations/typography';
 import { from } from '@guardian/src-foundations/mq';
+import type { ReactComponent } from '../../../types';
 
 const container = css`
     ${headline.xxxsmall()}
@@ -16,7 +17,7 @@ interface ContributionsTemplateSupportingProps {
     copy: React.ReactElement;
 }
 
-const ContributionsTemplateSupporting: React.FC<ContributionsTemplateSupportingProps> = ({
+const ContributionsTemplateSupporting: ReactComponent<ContributionsTemplateSupportingProps> = ({
     copy,
 }: ContributionsTemplateSupportingProps) => <div css={container}>{copy}</div>;
 

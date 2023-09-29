@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { BannerProps } from '@sdc/shared/types';
 import { setChannelClosedTimestamp } from '../localStorage';
 import { useEscapeShortcut } from '../../../hooks/useEscapeShortcut';
+import type { ReactComponent } from '../../../types';
 
 export interface CloseableBannerProps extends BannerProps {
     onClose: () => void;
 }
 
-const withCloseable = (CloseableBanner: React.FC<CloseableBannerProps>): React.FC<BannerProps> => {
-    const Banner: React.FC<BannerProps> = (bannerProps: BannerProps) => {
+const withCloseable = (
+    CloseableBanner: ReactComponent<CloseableBannerProps>,
+): ReactComponent<BannerProps> => {
+    const Banner: ReactComponent<BannerProps> = (bannerProps: BannerProps) => {
         const [isOpen, setIsOpen] = useState(true);
 
         const onClose = (): void => {
@@ -19,7 +22,7 @@ const withCloseable = (CloseableBanner: React.FC<CloseableBannerProps>): React.F
 
         useEscapeShortcut(onClose, []);
 
-        return isOpen ? <CloseableBanner onClose={onClose} {...bannerProps} /> : null;
+        return isOpen ? <CloseableBanner onClose={onClose} {...bannerProps} /> : <></>;
     };
     return Banner;
 };

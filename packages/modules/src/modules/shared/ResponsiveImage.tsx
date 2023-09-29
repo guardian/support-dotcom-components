@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 import React, { ReactElement } from 'react';
 import { BannerId } from '../banners/common/types';
+import type { ReactComponent } from '../../types';
 
 export type ImageAttrs = {
     url: string;
@@ -18,7 +19,7 @@ function createSource(image: ImageAttrs): ReactElement {
     return <source media={image.media} srcSet={image.url} key={image.url} />;
 }
 
-export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
+export const ResponsiveImage: ReactComponent<ResponsiveImageProps> = ({
     images,
     baseImage,
     bannerId,

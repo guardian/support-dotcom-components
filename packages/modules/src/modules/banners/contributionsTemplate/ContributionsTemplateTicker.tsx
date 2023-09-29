@@ -5,6 +5,7 @@ import { headline } from '@guardian/src-foundations/typography';
 import useTicker from '../../../hooks/useTicker';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { TickerSettings } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 // This ticker component provides an animated progress bar and counter for the
 // epic. It mirrors the behaviour of the "unlimited" ticker type from frontend.
@@ -73,17 +74,16 @@ const filledProgressStyles = (
     runningTotal: number,
     total: number,
     colour: string,
-): SerializedStyles =>
-    css`
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transform: ${progressBarTransform(end, runningTotal, total)};
-        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
-        background-color: ${colour};
-    `;
+): SerializedStyles => css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: ${progressBarTransform(end, runningTotal, total)};
+    transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+    background-color: ${colour};
+`;
 
 const goalContainerStyles = css`
     position: absolute;
@@ -106,14 +106,14 @@ type MarkerProps = {
     end: number;
 };
 
-const Marker: React.FC<MarkerProps> = ({ goal, end }: MarkerProps) => {
+const Marker: ReactComponent<MarkerProps> = ({ goal, end }: MarkerProps) => {
     if (end > goal) {
         const markerTranslate = (goal / end) * 100 - 100;
         const markerTransform = `translate3d(${markerTranslate}%, 0, 0)`;
 
         return <div css={goalMarkerStyles(markerTransform)} />;
     } else {
-        return null;
+        return <></>;
     }
 };
 
@@ -122,7 +122,7 @@ type ContributionsTemplateTickerProps = {
     accentColour: string;
 };
 
-const ContributionsTemplateTicker: React.FC<ContributionsTemplateTickerProps> = ({
+const ContributionsTemplateTicker: ReactComponent<ContributionsTemplateTickerProps> = ({
     settings,
     accentColour,
 }: ContributionsTemplateTickerProps) => {

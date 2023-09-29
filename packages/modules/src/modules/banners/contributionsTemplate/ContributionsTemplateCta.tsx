@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
+import type { ReactComponent } from '../../../types';
 
 const container = css`
     display: flex;
@@ -29,7 +30,7 @@ interface ContributionsTemplateCtaProps {
     secondaryCta: React.ReactElement | null;
 }
 
-const ContributionsTemplateCta: React.FC<ContributionsTemplateCtaProps> = ({
+const ContributionsTemplateCta: ReactComponent<ContributionsTemplateCtaProps> = ({
     primaryCta,
     secondaryCta,
 }: ContributionsTemplateCtaProps) => (

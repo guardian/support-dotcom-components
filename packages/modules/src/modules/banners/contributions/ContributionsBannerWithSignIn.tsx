@@ -15,6 +15,7 @@ import { BannerText } from '../common/BannerText';
 import { ContributionsBannerReminder } from './ContributionsBannerReminder';
 import { ContributionsBannerSignInCta } from './ContributionsBannerSignInCta';
 import { SecondaryCtaType } from '@sdc/shared/types';
+import type { ReactComponent } from '../../../types';
 
 const styles = {
     bannerContainer: css`
@@ -176,7 +177,7 @@ const columnCounts = {
     wide: 16,
 };
 
-const ContributionsBanner: React.FC<BannerRenderProps> = ({
+const ContributionsBanner: ReactComponent<BannerRenderProps> = ({
     onCtaClick,
     onSignInClick,
     onSecondaryCtaClick,
