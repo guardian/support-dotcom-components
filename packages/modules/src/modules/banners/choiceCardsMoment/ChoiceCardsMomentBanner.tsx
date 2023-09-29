@@ -2,7 +2,7 @@ import { brand, brandAlt, culture } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
-const ChoiceCardsMomentBanner = getMomentTemplateBanner({
+const ChoiceCardsMomentTemplateBanner = getMomentTemplateBanner({
     containerSettings: {
         backgroundColour: '#F1F8FC',
     },
@@ -53,7 +53,13 @@ const ChoiceCardsMomentBanner = getMomentTemplateBanner({
     bannerId: 'choice-cards-moment-banner',
 });
 
-const unvalidated = bannerWrapper(ChoiceCardsMomentBanner, 'choice-cards-moment-banner');
-const validated = validatedBannerWrapper(ChoiceCardsMomentBanner, 'choice-cards-moment-banner');
+const ChoiceCardsMomentBannerUnValidated = bannerWrapper(
+    ChoiceCardsMomentTemplateBanner,
+    'choice-cards-moment-banner',
+);
+const ChoiceCardsMomentBanner = validatedBannerWrapper(
+    ChoiceCardsMomentTemplateBanner,
+    'choice-cards-moment-banner',
+);
 
-export { validated as ChoiceCardsMomentBanner, unvalidated as ChoiceCardsMomentBannerUnValidated };
+export { ChoiceCardsMomentBanner, ChoiceCardsMomentBannerUnValidated };
