@@ -55,6 +55,7 @@ export function getMomentTemplateBanner(
                 css={styles.outerContainer(
                     templateSettings.containerSettings.backgroundColour,
                     templateSettings.containerSettings.textColor,
+                    templateSettings.containerSettings.backgroundImage,
                 )}
             >
                 <div css={styles.containerOverrides}>
@@ -167,8 +168,9 @@ export function getMomentTemplateBanner(
 }
 
 const styles = {
-    outerContainer: (background: string, textColor: string = 'inherit') => css`
-        background: ${background};
+    outerContainer: (backgroundColour: string, textColor: string = 'inherit', backgroundImage? : string) => css`
+        ${backgroundColour && `background-color: ${backgroundColour};`}
+        ${backgroundImage && `background-image: url(${backgroundImage});`}
         color: ${textColor};
         max-height: 100vh;
         overflow: auto;
@@ -228,7 +230,6 @@ const styles = {
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
-            background: ${background};
         }
         ${templateSpacing.bannerHeader}
     `,
@@ -242,7 +243,6 @@ const styles = {
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
-        background: ${background};
         ${from.mobileMedium} {
             display: block;
         }

@@ -4,6 +4,7 @@ import { BannerId } from '../common/types';
 
 export type ContainerSettings = {
     backgroundColour: string;
+    backgroundImage?: string;
     textColor?: string;
     paddingTop?: string;
 };
