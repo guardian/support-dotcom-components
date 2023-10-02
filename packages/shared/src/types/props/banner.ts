@@ -13,7 +13,7 @@ import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
-import { ConfigurableDesign, configurableDesignSchema, hexColourToString } from './design';
+import { ConfigurableDesign, configurableDesignSchema } from './design';
 
 export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
 
