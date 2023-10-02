@@ -76,5 +76,3 @@ export const bannerSchema = z.object({
 export interface PuzzlesBannerProps extends Partial<BannerProps> {
     tracking: Tracking;
 }
-
-export { ConfigurableDesign, hexColourToString };
