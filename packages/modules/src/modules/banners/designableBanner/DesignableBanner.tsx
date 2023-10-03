@@ -9,7 +9,7 @@ import { DesignableBannerCtas } from './components/DesignableBannerCtas';
 import { DesignableBannerCloseButton } from './components/DesignableBannerCloseButton';
 import { DesignableBannerVisual } from './components/DesignableBannerVisual';
 import { between, from, until } from '@guardian/src-foundations/mq';
-import { SecondaryCtaType } from '@sdc/shared/types';
+import { SecondaryCtaType, hexColourToString } from '@sdc/shared/types';
 import { DesignableBannerReminder } from './components/DesignableBannerReminder';
 import DesignableBannerTicker from './components/DesignableBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
@@ -44,8 +44,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
 
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
-            backgroundColour: specialReport[100],
-            textColor: neutral[100],
+            backgroundColour: hexColourToString(design.colours.basic.background),
+            textColor: hexColourToString(design.colours.basic.bodyText),
         },
         headerSettings: {
             textColour: neutral[100],

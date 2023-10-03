@@ -13,6 +13,7 @@ import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
+import { ConfigurableDesign, configurableDesignSchema } from './design';
 
 export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
 
@@ -54,24 +55,6 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
     design?: ConfigurableDesign;
-}
-
-export const configurableDesignSchema = z.object({
-    image: z.object({
-        mobileUrl: z.string(),
-        tabletDesktopUrl: z.string(),
-        wideUrl: z.string(),
-        altText: z.string(),
-    }),
-});
-
-export interface ConfigurableDesign {
-    image: {
-        mobileUrl: string;
-        tabletDesktopUrl: string;
-        wideUrl: string;
-        altText: string;
-    };
 }
 
 export const bannerSchema = z.object({
