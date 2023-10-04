@@ -9,8 +9,13 @@ export const WithBackDropBanner = bannerWrapper(
     getMomentTemplateBanner({
         containerSettings: {
             backgroundColour: '#F1F8FC',
-            backgroundImage:
-                'https://i.guim.co.uk/img/media/6b024b25e355d89385a87fe08a05cdf9d44f2db1/0_0_5000_5000/500.jpg?width=500&height=500&quality=75&s=8dc82adf770733853e5b180f965a313f',
+            backgroundImages: {
+                mainUrl:
+                    'https://i.guim.co.uk/img/media/6b024b25e355d89385a87fe08a05cdf9d44f2db1/0_0_5000_5000/500.jpg?width=500&height=500&quality=75&s=8dc82adf770733853e5b180f965a313f',
+                wideUrl:
+                    'https://i.guim.co.uk/img/media/bcd3d16ac69232a046033cef0898abb85d593cdd/0_240_3500_2100/500.jpg?width=500&quality=100&s=b1adde7f66fa2741af911f5493ec2df7',
+                altText: 'Currency backdrop',
+            },
         },
         headerSettings: {
             showHeader: { text: true },
