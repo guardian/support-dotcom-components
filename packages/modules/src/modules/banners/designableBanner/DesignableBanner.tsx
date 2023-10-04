@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brand, neutral, space, specialReport } from '@guardian/src-foundations';
+import { neutral, space, specialReport } from '@guardian/src-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -42,54 +42,56 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         return <></>;
     }
 
+    const { basic, primaryCta, secondaryCta, highlightedText, closeButton } = design.colours;
+
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
-            backgroundColour: hexColourToString(design.colours.basic.background),
-            textColor: hexColourToString(design.colours.basic.bodyText),
+            backgroundColour: hexColourToString(basic.background),
+            textColor: hexColourToString(basic.bodyText),
         },
         headerSettings: {
-            textColour: neutral[100],
+            textColour: hexColourToString(basic.headerText),
         },
         primaryCtaSettings: {
             default: {
-                backgroundColour: brand[500],
-                textColour: neutral[100],
+                backgroundColour: hexColourToString(primaryCta.default.background),
+                textColour: hexColourToString(primaryCta.default.text),
             },
             hover: {
-                backgroundColour: neutral[100],
-                textColour: brand[500],
+                backgroundColour: hexColourToString(primaryCta.hover.background),
+                textColour: hexColourToString(primaryCta.hover.text),
             },
         },
         secondaryCtaSettings: {
             default: {
-                backgroundColour: specialReport[100],
-                textColour: neutral[100],
-                border: `1px solid ${neutral[100]}`,
+                backgroundColour: hexColourToString(secondaryCta.default.background),
+                textColour: hexColourToString(secondaryCta.default.text),
+                border: `1px solid ${secondaryCta.default.border || neutral[100]}`,
             },
             hover: {
                 backgroundColour: neutral[100],
                 textColour: specialReport[100],
-                border: `1px solid ${specialReport[100]}`,
+                border: `1px solid ${secondaryCta.hover.border || specialReport[100]}`,
             },
         },
         closeButtonSettings: {
             default: {
-                backgroundColour: neutral[100],
-                textColour: specialReport[100],
+                backgroundColour: hexColourToString(closeButton.default.background),
+                textColour: hexColourToString(closeButton.default.text),
                 border: `1px solid ${specialReport[100]}`,
             },
             hover: {
-                backgroundColour: specialReport[100],
-                textColour: neutral[100],
+                backgroundColour: hexColourToString(closeButton.hover.background),
+                textColour: hexColourToString(closeButton.hover.text),
                 border: `1px solid ${neutral[100]}`,
             },
-            guardianRoundel: 'inverse',
+            guardianRoundel: 'inverse', // TODO - should this be configurable?
         },
         highlightedTextSettings: {
-            textColour: specialReport[100],
-            highlightColour: neutral[100],
+            textColour: hexColourToString(highlightedText.text),
+            highlightColour: hexColourToString(highlightedText.highlight),
         },
-        articleCountTextColour: neutral[100],
+        articleCountTextColour: hexColourToString(basic.articleCountText),
         imageSettings: {
             mainUrl: design.image.mobileUrl,
             mobileUrl: design.image.mobileUrl,
