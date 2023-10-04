@@ -58,12 +58,12 @@ const design: ConfigurableDesign = {
             default: {
                 text: hexColourFromString('004E7C'),
                 background: hexColourFromString('F1F8FC'),
-                border: hexColourFromString('FFFFFF'),
+                border: hexColourFromString('004E7C'),
             },
             hover: {
                 text: hexColourFromString('004E7C'),
                 background: hexColourFromString('E5E5E5'),
-                border: hexColourFromString('222527'),
+                border: hexColourFromString('004E7C'),
             },
         },
         closeButton: {

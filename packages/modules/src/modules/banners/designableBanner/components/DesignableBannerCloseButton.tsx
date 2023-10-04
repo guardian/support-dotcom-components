@@ -19,7 +19,7 @@ export function DesignableBannerCloseButton({
     settings,
     styleOverides,
 }: DesignableBannerCloseButtonProps): JSX.Element {
-    const { theme, guardianRoundel } = settings;
+    const { guardianRoundel } = settings;
 
     const getRoundel = () => {
         if (guardianRoundel) {
@@ -32,10 +32,6 @@ export function DesignableBannerCloseButton({
                     return <SvgRoundelDefault />;
             }
         }
-        if (theme && theme === 'brand') {
-            return <SvgRoundelBrand />;
-        }
-        return <SvgRoundelDefault />;
     };
 
     return (

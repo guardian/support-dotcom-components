@@ -72,6 +72,8 @@ export interface CtaDesign {
     hover: CtaStateDesign;
 }
 
+export type GuardianRoundel = 'default' | 'brand' | 'inverse';
+
 export interface ConfigurableDesign {
     image: {
         mobileUrl: string;
@@ -93,5 +95,6 @@ export interface ConfigurableDesign {
         primaryCta: CtaDesign;
         secondaryCta: CtaDesign;
         closeButton: CtaDesign;
+        guardianRoundel?: GuardianRoundel;
     };
 }

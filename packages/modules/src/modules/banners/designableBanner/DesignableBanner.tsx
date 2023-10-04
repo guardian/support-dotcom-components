@@ -42,7 +42,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         return <></>;
     }
 
-    const { basic, primaryCta, secondaryCta, highlightedText, closeButton } = design.colours;
+    const { basic, primaryCta, secondaryCta, highlightedText, closeButton, guardianRoundel } =
+        design.colours;
 
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
@@ -66,26 +67,42 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             default: {
                 backgroundColour: hexColourToString(secondaryCta.default.background),
                 textColour: hexColourToString(secondaryCta.default.text),
-                border: `1px solid ${secondaryCta.default.border || neutral[100]}`,
+                border: `1px solid ${
+                    secondaryCta.default.border
+                        ? hexColourToString(secondaryCta.default.border)
+                        : neutral[100]
+                }`,
             },
             hover: {
                 backgroundColour: neutral[100],
                 textColour: specialReport[100],
-                border: `1px solid ${secondaryCta.hover.border || specialReport[100]}`,
+                border: `1px solid ${
+                    secondaryCta.hover.border
+                        ? hexColourToString(secondaryCta.hover.border)
+                        : specialReport[100]
+                }`,
             },
         },
         closeButtonSettings: {
             default: {
                 backgroundColour: hexColourToString(closeButton.default.background),
                 textColour: hexColourToString(closeButton.default.text),
-                border: `1px solid ${specialReport[100]}`,
+                border: `1px solid ${
+                    closeButton.default.border
+                        ? hexColourToString(closeButton.default.border)
+                        : specialReport[100]
+                }`,
             },
             hover: {
                 backgroundColour: hexColourToString(closeButton.hover.background),
                 textColour: hexColourToString(closeButton.hover.text),
-                border: `1px solid ${neutral[100]}`,
+                border: `1px solid ${
+                    closeButton.hover.border
+                        ? hexColourToString(closeButton.hover.border)
+                        : neutral[100]
+                }`,
             },
-            guardianRoundel: 'inverse', // TODO - should this be configurable?
+            guardianRoundel: guardianRoundel || 'default',
         },
         highlightedTextSettings: {
             textColour: hexColourToString(highlightedText.text),
