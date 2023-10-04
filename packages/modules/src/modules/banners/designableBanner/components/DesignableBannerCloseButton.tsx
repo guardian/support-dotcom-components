@@ -22,15 +22,13 @@ export function DesignableBannerCloseButton({
     const { guardianRoundel } = settings;
 
     const getRoundel = () => {
-        if (guardianRoundel) {
-            switch (guardianRoundel) {
-                case 'brand':
-                    return <SvgRoundelBrand />;
-                case 'inverse':
-                    return <SvgRoundelInverse />;
-                default:
-                    return <SvgRoundelDefault />;
-            }
+        switch (guardianRoundel) {
+            case 'brand':
+                return <SvgRoundelBrand />;
+            case 'inverse':
+                return <SvgRoundelInverse />;
+            default:
+                return <SvgRoundelDefault />;
         }
     };
 
