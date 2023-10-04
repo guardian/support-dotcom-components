@@ -1,5 +1,14 @@
-import { BannerDesignFromTool } from '@sdc/shared/types';
+import { BannerDesignFromTool, HexColour } from '@sdc/shared/types';
 import { Factory } from 'fishery';
+
+// Unsafe - do not use outside of factories
+const hexColourFromString = (s: string): HexColour =>
+    ({
+        r: s[0] + s[1],
+        g: s[2] + s[3],
+        b: s[4] + s[5],
+        kind: 'hex',
+    }) as HexColour;
 
 export default Factory.define<BannerDesignFromTool>(() => ({
     name: 'EXAMPLE_DESIGN',
@@ -14,17 +23,46 @@ export default Factory.define<BannerDesignFromTool>(() => ({
     },
     colours: {
         basic: {
-            background: {
-                r: 'FF',
-                g: '00',
-                b: '00',
-                kind: 'hex',
+            background: hexColourFromString('F1F8FC'),
+            bodyText: hexColourFromString('000000'),
+            headerText: hexColourFromString('000000'),
+            articleCountText: hexColourFromString('000000'),
+        },
+        highlightedText: {
+            text: hexColourFromString('000000'),
+            highlight: hexColourFromString('FFE500'),
+        },
+        primaryCta: {
+            default: {
+                text: hexColourFromString('FFFFFF'),
+                background: hexColourFromString('0077B6'),
             },
-            bodyText: {
-                r: '00',
-                g: '00',
-                b: '00',
-                kind: 'hex',
+            hover: {
+                text: hexColourFromString('FFFFFF'),
+                background: hexColourFromString('004E7C'),
+            },
+        },
+        secondaryCta: {
+            default: {
+                text: hexColourFromString('004E7C'),
+                background: hexColourFromString('F1F8FC'),
+                border: hexColourFromString('FFFFFF'),
+            },
+            hover: {
+                text: hexColourFromString('004E7C'),
+                background: hexColourFromString('E5E5E5'),
+                border: hexColourFromString('222527'),
+            },
+        },
+        closeButton: {
+            default: {
+                text: hexColourFromString('052962'),
+                background: hexColourFromString('F1F8FC'),
+                border: hexColourFromString('052962'),
+            },
+            hover: {
+                text: hexColourFromString('052962'),
+                background: hexColourFromString('E5E5E5'),
             },
         },
     },
