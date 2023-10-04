@@ -1,14 +1,20 @@
 import { BannerDesignFromTool, HexColour } from '@sdc/shared/types';
 import { Factory } from 'fishery';
 
-// Unsafe - do not use outside of factories
-const hexColourFromString = (s: string): HexColour =>
-    ({
-        r: s[0] + s[1],
-        g: s[2] + s[3],
-        b: s[4] + s[5],
-        kind: 'hex',
-    }) as HexColour;
+const hexColourStringRegex = /^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$/i;
+const stringToHexColour = (colourString: string): HexColour => {
+    if (hexColourStringRegex.test(colourString)) {
+        const matches = hexColourStringRegex.exec(colourString);
+        return {
+            r: (matches?.[1] as string).toUpperCase(),
+            g: (matches?.[2] as string).toUpperCase(),
+            b: (matches?.[3] as string).toUpperCase(),
+            kind: 'hex',
+        } as HexColour;
+    } else {
+        throw new Error('Invalid hex colour string!');
+    }
+};
 
 export default Factory.define<BannerDesignFromTool>(() => ({
     name: 'EXAMPLE_DESIGN',
@@ -23,46 +29,46 @@ export default Factory.define<BannerDesignFromTool>(() => ({
     },
     colours: {
         basic: {
-            background: hexColourFromString('F1F8FC'),
-            bodyText: hexColourFromString('000000'),
-            headerText: hexColourFromString('000000'),
-            articleCountText: hexColourFromString('000000'),
+            background: stringToHexColour('F1F8FC'),
+            bodyText: stringToHexColour('000000'),
+            headerText: stringToHexColour('000000'),
+            articleCountText: stringToHexColour('000000'),
         },
         highlightedText: {
-            text: hexColourFromString('000000'),
-            highlight: hexColourFromString('FFE500'),
+            text: stringToHexColour('000000'),
+            highlight: stringToHexColour('FFE500'),
         },
         primaryCta: {
             default: {
-                text: hexColourFromString('FFFFFF'),
-                background: hexColourFromString('0077B6'),
+                text: stringToHexColour('FFFFFF'),
+                background: stringToHexColour('0077B6'),
             },
             hover: {
-                text: hexColourFromString('FFFFFF'),
-                background: hexColourFromString('004E7C'),
+                text: stringToHexColour('FFFFFF'),
+                background: stringToHexColour('004E7C'),
             },
         },
         secondaryCta: {
             default: {
-                text: hexColourFromString('004E7C'),
-                background: hexColourFromString('F1F8FC'),
-                border: hexColourFromString('FFFFFF'),
+                text: stringToHexColour('004E7C'),
+                background: stringToHexColour('F1F8FC'),
+                border: stringToHexColour('FFFFFF'),
             },
             hover: {
-                text: hexColourFromString('004E7C'),
-                background: hexColourFromString('E5E5E5'),
-                border: hexColourFromString('222527'),
+                text: stringToHexColour('004E7C'),
+                background: stringToHexColour('E5E5E5'),
+                border: stringToHexColour('222527'),
             },
         },
         closeButton: {
             default: {
-                text: hexColourFromString('052962'),
-                background: hexColourFromString('F1F8FC'),
-                border: hexColourFromString('052962'),
+                text: stringToHexColour('052962'),
+                background: stringToHexColour('F1F8FC'),
+                border: stringToHexColour('052962'),
             },
             hover: {
-                text: hexColourFromString('052962'),
-                background: hexColourFromString('E5E5E5'),
+                text: stringToHexColour('052962'),
+                background: stringToHexColour('E5E5E5'),
             },
         },
     },
