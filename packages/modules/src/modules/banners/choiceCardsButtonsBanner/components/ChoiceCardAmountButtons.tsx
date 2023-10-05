@@ -45,19 +45,9 @@ const choiceCardsContainer = (backgroundColour?: string) => css`
     }
 `;
 
-const choiceCardOrOtherAmountContainer = (backgroundColour?: string) => css`
+const choiceCardOrOtherAmount = (isAmountMissing: boolean, backgroundColour?: string) => css`
     margin-bottom: ${space[1]}px;
-    ${from.mobileLandscape} {
-        margin-bottom: ${space[3]}px;
-    }
-
-    > label {
-        background-color: ${backgroundColour ?? ''};
-    }
-`;
-
-const choiceCardOrOtherAmountMissing = (backgroundColour?: string) => css`
-    margin-bottom: ${space[1]}px;
+    ${isAmountMissing ? `` : `${from.mobileLandscape} { margin-bottom: ${space[3]}px; }`}
 
     > label {
         background-color: ${backgroundColour ?? ''};
@@ -178,16 +168,20 @@ export const ChoiceCardAmountButtons = ({
 
             {hideChooseYourAmount ? (
                 <div
-                    css={
-                        !choiceCardAmounts[2]
-                            ? choiceCardOrOtherAmountMissing(amountsButtonColours?.buttonColour)
-                            : choiceCardOrOtherAmountContainer(amountsButtonColours?.buttonColour)
-                    }
+                    css={choiceCardOrOtherAmount(
+                        !choiceCardAmounts[2],
+                        amountsButtonColours?.buttonColour,
+                    )}
                 >
                     {choiceCardAmounts[2]}
                 </div>
             ) : (
-                <div css={choiceCardOrOtherAmountContainer(amountsButtonColours?.buttonColour)}>
+                <div
+                    css={choiceCardOrOtherAmount(
+                        hideChooseYourAmount,
+                        amountsButtonColours?.buttonColour,
+                    )}
+                >
                     <ChoiceCard
                         value="other"
                         label="Other"
