@@ -12,19 +12,21 @@ import { space } from '@guardian/src-foundations';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCardBannerComponentId } from './ChoiceCards';
+import { ChoiceCardSettings } from '../../momentTemplate/settings';
 
 const container = css`
     display: flex;
     flex-direction: column;
 `;
 
-const choiceCardsContainer = css`
+const choiceCardsContainer = (backgroundColour?: string) => css`
     display: flex;
     flex-direction: row;
     margin-bottom: ${space[2]}px;
 
     > label {
         margin: 0 !important;
+        background-color: ${backgroundColour ?? ''};
     }
 
     > label:first-of-type {
@@ -43,15 +45,23 @@ const choiceCardsContainer = css`
     }
 `;
 
-const choiceCardOrOtherAmountContainer = css`
+const choiceCardOrOtherAmountContainer = (backgroundColour?: string) => css`
     margin-bottom: ${space[1]}px;
     ${from.mobileLandscape} {
         margin-bottom: ${space[3]}px;
     }
+
+    > label {
+        background-color: ${backgroundColour ?? ''};
+    }
 `;
 
-const choiceCardOrOtherAmountMissing = css`
+const choiceCardOrOtherAmountMissing = (backgroundColour?: string) => css`
     margin-bottom: ${space[1]}px;
+
+    > label {
+        background-color: ${backgroundColour ?? ''};
+    }
 `;
 
 const supporterPlusChoiceCardAmountOverrides = css`
@@ -99,6 +109,7 @@ export const ChoiceCardAmountButtons = ({
     contributionType,
     submitComponentEvent,
     amounts,
+    amountsButtonColours,
     setSelectionsCallback,
     selection,
     currencySymbol,
@@ -107,6 +118,7 @@ export const ChoiceCardAmountButtons = ({
     contributionType: ContributionType;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: AmountsCardData;
+    amountsButtonColours?: ChoiceCardSettings;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     selection: ChoiceCardSelection;
     currencySymbol: string;
@@ -159,7 +171,7 @@ export const ChoiceCardAmountButtons = ({
 
     return (
         <div css={container}>
-            <div css={choiceCardsContainer}>
+            <div css={choiceCardsContainer(amountsButtonColours?.buttonColour)}>
                 {choiceCardAmounts[0]}
                 {choiceCardAmounts[1]}
             </div>
@@ -168,14 +180,14 @@ export const ChoiceCardAmountButtons = ({
                 <div
                     css={
                         !choiceCardAmounts[2]
-                            ? choiceCardOrOtherAmountMissing
-                            : choiceCardOrOtherAmountContainer
+                            ? choiceCardOrOtherAmountMissing(amountsButtonColours?.buttonColour)
+                            : choiceCardOrOtherAmountContainer(amountsButtonColours?.buttonColour)
                     }
                 >
                     {choiceCardAmounts[2]}
                 </div>
             ) : (
-                <div css={choiceCardOrOtherAmountContainer}>
+                <div css={choiceCardOrOtherAmountContainer(amountsButtonColours?.buttonColour)}>
                     <ChoiceCard
                         value="other"
                         label="Other"
