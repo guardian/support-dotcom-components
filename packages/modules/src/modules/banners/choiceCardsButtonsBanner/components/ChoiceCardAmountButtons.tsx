@@ -26,7 +26,7 @@ const choiceCardsContainer = (backgroundColour?: string) => css`
 
     > label {
         margin: 0 !important;
-        background-color: ${backgroundColour ?? ''};
+        background-color: ${backgroundColour ?? 'transparent'};
     }
 
     > label:first-of-type {
@@ -50,7 +50,7 @@ const choiceCardOrOtherAmount = (isAmountMissing: boolean, backgroundColour?: st
     ${isAmountMissing ? `` : `${from.mobileLandscape} { margin-bottom: ${space[3]}px; }`}
 
     > label {
-        background-color: ${backgroundColour ?? ''};
+        background-color: ${backgroundColour ?? 'transparent'};
     }
 `;
 
