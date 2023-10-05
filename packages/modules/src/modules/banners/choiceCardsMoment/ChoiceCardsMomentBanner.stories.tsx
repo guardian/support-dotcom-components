@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, brandAlt, culture } from '@guardian/src-foundations';
+import { neutral, brand, brandAlt, culture } from '@guardian/src-foundations';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 import { BannerProps } from '@sdc/shared/src/types';
@@ -65,6 +65,9 @@ const ChoiceCardsMomentBanner = bannerWrapper(
             highlightColour: brandAlt[400],
         },
         choiceCards: true,
+        choiceCardSettings: {
+            buttonColour: neutral[100],
+        },
         bannerId: 'choice-cards-moment-banner',
     }),
     'choice-cards-moment-banner',

@@ -53,7 +53,7 @@ export const BannerWithChoiceCards = bannerWrapper(
             highlightColour: brandAlt[400],
         },
         choiceCardSettings: {
-            buttonColour: 'white',
+            buttonColour: neutral[100],
         },
         choiceCards: true,
         bannerId: 'global-new-year-moment-banner',

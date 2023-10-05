@@ -1,4 +1,4 @@
-import { brand, brandAlt, culture } from '@guardian/src-foundations';
+import { neutral, brand, brandAlt, culture } from '@guardian/src-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 
@@ -50,6 +50,9 @@ const ChoiceCardsMomentTemplateBanner = getMomentTemplateBanner({
         highlightColour: brandAlt[400],
     },
     choiceCards: true,
+    choiceCardSettings: {
+        buttonColour: neutral[100],
+    },
     bannerId: 'choice-cards-moment-banner',
 });
 

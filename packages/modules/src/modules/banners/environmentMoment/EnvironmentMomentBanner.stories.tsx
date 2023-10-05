@@ -90,6 +90,9 @@ const EnvironmentMomentBanner = bannerWrapper(
             highlightColour: '#F55D1E',
         },
         choiceCards: true,
+        choiceCardSettings: {
+            buttonColour: neutral[100],
+        },
         bannerId: 'environment-moment-banner',
     }),
     'environment-moment-banner',
