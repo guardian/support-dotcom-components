@@ -95,6 +95,6 @@ export interface ConfigurableDesign {
         primaryCta: CtaDesign;
         secondaryCta: CtaDesign;
         closeButton: CtaDesign;
-        guardianRoundel?: GuardianRoundel;
+        guardianRoundel: GuardianRoundel;
     };
 }

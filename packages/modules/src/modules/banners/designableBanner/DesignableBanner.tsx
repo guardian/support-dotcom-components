@@ -102,7 +102,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         : neutral[100]
                 }`,
             },
-            guardianRoundel: guardianRoundel || 'default',
+            guardianRoundel: guardianRoundel,
         },
         highlightedTextSettings: {
             textColour: hexColourToString(highlightedText.text),
