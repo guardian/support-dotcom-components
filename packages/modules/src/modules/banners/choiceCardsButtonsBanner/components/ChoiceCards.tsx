@@ -16,6 +16,7 @@ import {
     Tracking,
 } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
+import { ChoiceCardSettings } from '../../momentTemplate/settings';
 
 export type ChoiceCardBannerComponentId = 'choice-cards-buttons-banner-blue';
 
@@ -29,6 +30,7 @@ interface ChoiceCardProps {
     amounts?: AmountsCardData;
     amountsTestName?: string;
     amountsVariantName?: string;
+    amountsButtonColour?: ChoiceCardSettings;
     countryCode?: string;
     bannerTracking?: Tracking;
     numArticles?: number;
@@ -128,6 +130,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     amounts,
     amountsTestName = 'test_undefined',
     amountsVariantName = 'variant_undefined',
+    amountsButtonColour,
     countryCode,
     bannerTracking,
     numArticles,
@@ -174,6 +177,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                     componentId={componentId}
                     submitComponentEvent={submitComponentEvent}
                     amounts={amounts}
+                    amountsButtonColours={amountsButtonColour}
                     setSelectionsCallback={setSelectionsCallback}
                     selection={selection}
                 />
@@ -189,6 +193,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                     componentId={componentId}
                     contributionType={contributionType}
                     amounts={amounts}
+                    amountsButtonColours={amountsButtonColour}
                     setSelectionsCallback={setSelectionsCallback}
                     selection={selection}
                     currencySymbol={currencySymbol}

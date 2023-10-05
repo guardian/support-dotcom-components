@@ -54,6 +54,9 @@ export const BannerWithChoiceCardsHeaderImage = bannerWrapper(
             highlightColour: brandAlt[400],
         },
         choiceCards: true,
+        choiceCardSettings: {
+            buttonColour: neutral[100],
+        },
         bannerId: 'global-new-year-moment-banner',
     }),
     'global-new-year-moment-banner',

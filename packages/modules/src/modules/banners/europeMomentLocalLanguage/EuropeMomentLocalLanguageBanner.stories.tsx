@@ -67,6 +67,9 @@ const EuropeMomentLocalLanguageBanner = bannerWrapper(
             highlightColour: brandAlt[400],
         },
         choiceCards: true,
+        choiceCardSettings: {
+            buttonColour: neutral[100],
+        },
         bannerId: 'europe-moment-local-language-banner',
     }),
     'europe-moment-local-language-banner',

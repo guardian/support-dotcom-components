@@ -9,14 +9,16 @@ import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCard } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
+import { ChoiceCardSettings } from '../../momentTemplate/settings';
 
-const container = css`
+const container = (backgroundColour?: string) => css`
     display: flex;
 
     > label {
         margin-right: ${space[2]}px !important;
         margin-bottom: ${space[3]}px !important;
         min-width: 0;
+        background-color: ${backgroundColour ?? 'transparent'};
     }
 
     > label > div {
@@ -49,12 +51,14 @@ export const ChoiceCardFrequencyTabs = ({
     componentId,
     submitComponentEvent,
     amounts,
+    amountsButtonColours,
     setSelectionsCallback,
     selection,
 }: {
     componentId: ChoiceCardBannerComponentId;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: AmountsCardData;
+    amountsButtonColours?: ChoiceCardSettings;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     selection: ChoiceCardSelection;
 }): JSX.Element => {
@@ -80,7 +84,7 @@ export const ChoiceCardFrequencyTabs = ({
     }));
 
     return (
-        <div css={container}>
+        <div css={container(amountsButtonColours?.buttonColour)}>
             {tabList.map((tab) => (
                 <ChoiceCard
                     key={tab.id}

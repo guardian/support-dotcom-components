@@ -26,6 +26,10 @@ export interface CtaSettings {
     guardianRoundel?: GuardianRoundel;
 }
 
+export interface ChoiceCardSettings {
+    buttonColour?: string;
+}
+
 export interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;
@@ -60,6 +64,7 @@ export interface BannerTemplateSettings {
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
     choiceCards?: boolean;
+    choiceCardSettings?: ChoiceCardSettings;
     bannerId?: BannerId;
     tickerStylingSettings?: TickerStylingSettings;
     headerSettings?: HeaderSettings;

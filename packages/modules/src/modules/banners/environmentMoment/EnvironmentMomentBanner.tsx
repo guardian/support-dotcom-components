@@ -73,6 +73,9 @@ const EnvironmentMomentBanner = getMomentTemplateBanner({
         highlightColour: '#F55D1E',
     },
     choiceCards: true,
+    choiceCardSettings: {
+        buttonColour: neutral[100],
+    },
     bannerId: 'environment-moment-banner',
 });
 
