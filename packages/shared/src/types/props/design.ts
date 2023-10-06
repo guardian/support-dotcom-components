@@ -62,6 +62,18 @@ export interface HexColour {
 
 export const hexColourToString = (h: HexColour): string => `#${h.r}${h.g}${h.b}`;
 
+interface CtaStateDesign {
+    text: HexColour;
+    background: HexColour;
+    border?: HexColour;
+}
+export interface CtaDesign {
+    default: CtaStateDesign;
+    hover: CtaStateDesign;
+}
+
+export type GuardianRoundel = 'default' | 'brand' | 'inverse';
+
 export interface ConfigurableDesign {
     image: {
         mobileUrl: string;
@@ -73,6 +85,16 @@ export interface ConfigurableDesign {
         basic: {
             background: HexColour;
             bodyText: HexColour;
+            headerText: HexColour;
+            articleCountText: HexColour;
         };
+        highlightedText: {
+            text: HexColour;
+            highlight: HexColour;
+        };
+        primaryCta: CtaDesign;
+        secondaryCta: CtaDesign;
+        closeButton: CtaDesign;
+        guardianRoundel: GuardianRoundel;
     };
 }

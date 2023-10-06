@@ -1,5 +1,20 @@
-import { BannerDesignFromTool } from '@sdc/shared/types';
+import { BannerDesignFromTool, HexColour } from '@sdc/shared/types';
 import { Factory } from 'fishery';
+
+const hexColourStringRegex = /^([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$/i;
+const stringToHexColour = (colourString: string): HexColour => {
+    if (hexColourStringRegex.test(colourString)) {
+        const matches = hexColourStringRegex.exec(colourString);
+        return {
+            r: (matches?.[1] as string).toUpperCase(),
+            g: (matches?.[2] as string).toUpperCase(),
+            b: (matches?.[3] as string).toUpperCase(),
+            kind: 'hex',
+        } as HexColour;
+    } else {
+        throw new Error('Invalid hex colour string!');
+    }
+};
 
 export default Factory.define<BannerDesignFromTool>(() => ({
     name: 'EXAMPLE_DESIGN',
@@ -14,18 +29,48 @@ export default Factory.define<BannerDesignFromTool>(() => ({
     },
     colours: {
         basic: {
-            background: {
-                r: 'FF',
-                g: '00',
-                b: '00',
-                kind: 'hex',
+            background: stringToHexColour('F1F8FC'),
+            bodyText: stringToHexColour('000000'),
+            headerText: stringToHexColour('000000'),
+            articleCountText: stringToHexColour('000000'),
+        },
+        highlightedText: {
+            text: stringToHexColour('000000'),
+            highlight: stringToHexColour('FFE500'),
+        },
+        primaryCta: {
+            default: {
+                text: stringToHexColour('FFFFFF'),
+                background: stringToHexColour('0077B6'),
             },
-            bodyText: {
-                r: '00',
-                g: '00',
-                b: '00',
-                kind: 'hex',
+            hover: {
+                text: stringToHexColour('FFFFFF'),
+                background: stringToHexColour('004E7C'),
             },
         },
+        secondaryCta: {
+            default: {
+                text: stringToHexColour('004E7C'),
+                background: stringToHexColour('F1F8FC'),
+                border: stringToHexColour('FFFFFF'),
+            },
+            hover: {
+                text: stringToHexColour('004E7C'),
+                background: stringToHexColour('E5E5E5'),
+                border: stringToHexColour('222527'),
+            },
+        },
+        closeButton: {
+            default: {
+                text: stringToHexColour('052962'),
+                background: stringToHexColour('F1F8FC'),
+                border: stringToHexColour('052962'),
+            },
+            hover: {
+                text: stringToHexColour('052962'),
+                background: stringToHexColour('E5E5E5'),
+            },
+        },
+        guardianRoundel: 'inverse',
     },
 }));

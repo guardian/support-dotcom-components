@@ -1,4 +1,4 @@
-import { Image } from '@sdc/shared/dist/types';
+import { GuardianRoundel, Image } from '@sdc/shared/dist/types';
 import { ReactNode } from 'react';
 import { BannerId } from '../common/types';
 
@@ -14,15 +14,11 @@ export type CtaStateSettings = {
     border?: string;
 };
 
-type GuardianRoundel = 'default' | 'brand' | 'inverse';
-type GuardianTheme = 'default' | 'brand';
-
 export interface CtaSettings {
     default: CtaStateSettings;
     hover: CtaStateSettings;
     mobile?: CtaStateSettings;
     desktop?: CtaStateSettings;
-    theme?: GuardianTheme;
     guardianRoundel?: GuardianRoundel;
 }
 
