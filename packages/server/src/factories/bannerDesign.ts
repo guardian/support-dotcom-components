@@ -71,5 +71,6 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 background: stringToHexColour('E5E5E5'),
             },
         },
+        guardianRoundel: 'inverse',
     },
 }));
