@@ -75,10 +75,10 @@ export interface CtaDesign {
 export type GuardianRoundel = 'default' | 'brand' | 'inverse';
 
 interface TickerDesign {
-    textColour: HexColour;
-    filledProgressColour: HexColour;
-    progressBarBackgroundColour: HexColour;
-    goalMarkerColour: HexColour;
+    text: HexColour;
+    filledProgress: HexColour;
+    progressBarBackground: HexColour;
+    goalMarker: HexColour;
 }
 
 export interface ConfigurableDesign {

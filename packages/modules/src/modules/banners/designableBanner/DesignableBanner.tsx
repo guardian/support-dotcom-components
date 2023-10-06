@@ -126,10 +126,10 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         },
         bannerId: 'designable-banner',
         tickerStylingSettings: {
-            textColour: hexColourToString(ticker.textColour),
-            filledProgressColour: hexColourToString(ticker.filledProgressColour),
-            progressBarBackgroundColour: hexColourToString(ticker.progressBarBackgroundColour),
-            goalMarkerColour: hexColourToString(ticker.goalMarkerColour),
+            textColour: hexColourToString(ticker.text),
+            filledProgressColour: hexColourToString(ticker.filledProgress),
+            progressBarBackgroundColour: hexColourToString(ticker.progressBarBackground),
+            goalMarkerColour: hexColourToString(ticker.goalMarker),
         },
     };
 

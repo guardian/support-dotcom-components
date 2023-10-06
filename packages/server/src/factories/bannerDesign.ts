@@ -73,10 +73,10 @@ export default Factory.define<BannerDesignFromTool>(() => ({
         },
         guardianRoundel: 'inverse',
         ticker: {
-            textColour: stringToHexColour('052962'),
-            filledProgressColour: stringToHexColour('052962'),
-            progressBarBackgroundColour: stringToHexColour('ffffff'),
-            goalMarkerColour: stringToHexColour('000000'),
+            text: stringToHexColour('052962'),
+            filledProgress: stringToHexColour('052962'),
+            progressBarBackground: stringToHexColour('ffffff'),
+            goalMarker: stringToHexColour('000000'),
         },
     },
 }));
