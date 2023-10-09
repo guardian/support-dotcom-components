@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 import { props } from '../../utils/storybook';
-import { HexColour, SecondaryCtaType } from '@sdc/shared/types';
+import { HexColour, SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
 import { DefaultTemplate } from './Default';
 import { ConfigurableDesign } from '@sdc/shared/dist/types';
 
@@ -84,6 +84,12 @@ const design: ConfigurableDesign = {
             },
         },
         guardianRoundel: 'inverse',
+        ticker: {
+            text: stringToHexColour('052962'),
+            filledProgress: stringToHexColour('052962'),
+            progressBarBackground: stringToHexColour('ffffff'),
+            goalMarker: stringToHexColour('000000'),
+        },
     },
 };
 
@@ -135,6 +141,20 @@ Designable.args = {
         },
     },
     numArticles: 50,
-    tickerSettings: undefined,
+    tickerSettings: {
+        countType: TickerCountType.money,
+        endType: TickerEndType.hardstop,
+        currencySymbol: '',
+        copy: {
+            countLabel: 'contributions in May',
+            goalReachedPrimary: "We've met our goal - thank you!",
+            goalReachedSecondary: '',
+        },
+        tickerData: {
+            total: 4_000,
+            goal: 50_000,
+        },
+        name: 'AU_2022',
+    },
     design,
 };

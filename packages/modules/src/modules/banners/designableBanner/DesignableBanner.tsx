@@ -42,8 +42,15 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         return <></>;
     }
 
-    const { basic, primaryCta, secondaryCta, highlightedText, closeButton, guardianRoundel } =
-        design.colours;
+    const {
+        basic,
+        primaryCta,
+        secondaryCta,
+        highlightedText,
+        closeButton,
+        guardianRoundel,
+        ticker,
+    } = design.colours;
 
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
@@ -118,6 +125,12 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             altText: design.image.altText,
         },
         bannerId: 'designable-banner',
+        tickerStylingSettings: {
+            textColour: hexColourToString(ticker.text),
+            filledProgressColour: hexColourToString(ticker.filledProgress),
+            progressBarBackgroundColour: hexColourToString(ticker.progressBarBackground),
+            goalMarkerColour: hexColourToString(ticker.goalMarker),
+        },
     };
 
     const { isReminderActive, onReminderCtaClick, mobileReminderRef } =
