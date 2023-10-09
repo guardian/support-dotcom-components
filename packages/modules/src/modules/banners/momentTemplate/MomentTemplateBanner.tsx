@@ -20,6 +20,7 @@ import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
+import { Image } from '@sdc/shared/dist/types';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -55,6 +56,7 @@ export function getMomentTemplateBanner(
                 css={styles.outerContainer(
                     templateSettings.containerSettings.backgroundColour,
                     templateSettings.containerSettings.textColor,
+                    templateSettings.containerSettings.backgroundImages,
                 )}
             >
                 <div css={styles.containerOverrides}>
@@ -167,8 +169,13 @@ export function getMomentTemplateBanner(
 }
 
 const styles = {
-    outerContainer: (background: string, textColor: string = 'inherit') => css`
+    outerContainer: (
+        background: string,
+        textColor: string = 'inherit',
+        backgroundImages?: Image,
+    ) => css`
         background: ${background};
+        ${backgroundImages?.mainUrl && `background-image: url(${backgroundImages.mainUrl});`}
         color: ${textColor};
         max-height: 100vh;
         overflow: auto;
@@ -176,9 +183,28 @@ const styles = {
         * {
             box-sizing: border-box;
         }
+        ${until.tablet} {
+            ${backgroundImages?.mobileUrl &&
+            `background-image: url(${backgroundImages.mobileUrl});`}
+        }
         ${from.tablet} {
             border-top: 1px solid ${neutral[0]};
             padding: 0 ${space[5]}px;
+        }
+        ${between.tablet.and.desktop} {
+            ${backgroundImages?.tabletUrl &&
+            `background-image: url(${backgroundImages.tabletUrl});`}
+        }
+        ${between.desktop.and.leftCol} {
+            ${backgroundImages?.desktopUrl &&
+            `background-image: url(${backgroundImages.desktopUrl});`}
+        }
+        ${between.leftCol.and.wide} {
+            ${backgroundImages?.leftColUrl &&
+            `background-image: url(${backgroundImages.leftColUrl});`}
+        }
+        ${from.wide} {
+            ${backgroundImages?.wideUrl && `background-image: url(${backgroundImages.wideUrl});`}
         }
     `,
     containerOverrides: css`
@@ -228,7 +254,6 @@ const styles = {
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
-            background: ${background};
         }
         ${templateSpacing.bannerHeader}
     `,
@@ -242,7 +267,6 @@ const styles = {
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
-        background: ${background};
         ${from.mobileMedium} {
             display: block;
         }
