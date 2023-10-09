@@ -39,6 +39,10 @@ export interface HeaderSettings {
     image?: ReactNode;
 }
 
+export interface ChoiceCardSettings {
+    buttonColour?: string;
+}
+
 export interface BannerTemplateSettings {
     containerSettings: ContainerSettings;
     primaryCtaSettings: CtaSettings;
@@ -49,7 +53,7 @@ export interface BannerTemplateSettings {
     articleCountTextColour?: string;
     imageSettings?: Image;
     alternativeVisual?: ReactNode;
-    choiceCards?: boolean;
+    choiceCardSettings?: ChoiceCardSettings;
     bannerId?: BannerId;
     tickerStylingSettings?: TickerStylingSettings;
     headerSettings?: HeaderSettings;

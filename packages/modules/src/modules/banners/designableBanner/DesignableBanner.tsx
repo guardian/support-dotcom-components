@@ -9,7 +9,7 @@ import { DesignableBannerCtas } from './components/DesignableBannerCtas';
 import { DesignableBannerCloseButton } from './components/DesignableBannerCloseButton';
 import { DesignableBannerVisual } from './components/DesignableBannerVisual';
 import { between, from, until } from '@guardian/src-foundations/mq';
-import { SecondaryCtaType, hexColourToString } from '@sdc/shared/types';
+import { SecondaryCtaType, hexColourToString, ConfigurableDesign, Image } from '@sdc/shared/types';
 import { DesignableBannerReminder } from './components/DesignableBannerReminder';
 import DesignableBannerTicker from './components/DesignableBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
@@ -18,9 +18,30 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
-import { BannerTemplateSettings } from './settings';
+import { BannerTemplateSettings, ChoiceCardSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
+
+const buildImageSettings = (design: ConfigurableDesign): Image => {
+    if (design.visual.kind === 'Image') {
+        return {
+            mainUrl: design.visual.mobileUrl,
+            mobileUrl: design.visual.mobileUrl,
+            tabletUrl: design.visual.tabletDesktopUrl,
+            desktopUrl: design.visual.tabletDesktopUrl,
+            wideUrl: design.visual.wideUrl,
+            altText: design.visual.altText,
+        };
+    }
+};
+const buildChoiceCardSettings = (design: ConfigurableDesign): ChoiceCardSettings | undefined => {
+    if (design.visual.kind === 'ChoiceCards') {
+        const { buttonColour } = design.visual;
+        return {
+            buttonColour: buttonColour ? hexColourToString(buttonColour) : undefined,
+        };
+    }
+};
 
 const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     content,
@@ -51,6 +72,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         guardianRoundel,
         ticker,
     } = design.colours;
+
+    const imageSettings = buildImageSettings(design);
+    const choiceCardSettings = buildChoiceCardSettings(design);
 
     const templateSettings: BannerTemplateSettings = {
         containerSettings: {
@@ -116,14 +140,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             highlightColour: hexColourToString(highlightedText.highlight),
         },
         articleCountTextColour: hexColourToString(basic.articleCountText),
-        imageSettings: {
-            mainUrl: design.image.mobileUrl,
-            mobileUrl: design.image.mobileUrl,
-            tabletUrl: design.image.tabletDesktopUrl,
-            desktopUrl: design.image.tabletDesktopUrl,
-            wideUrl: design.image.wideUrl,
-            altText: design.image.altText,
-        },
+        choiceCardSettings,
+        imageSettings,
         bannerId: 'designable-banner',
         tickerStylingSettings: {
             textColour: hexColourToString(ticker.text),
@@ -140,7 +158,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
 
     const { choiceCardSelection, setChoiceCardSelection, getCtaText, currencySymbol } =
         useChoiceCards(choiceCardAmounts, countryCode, content);
-    const showChoiceCards = !!(templateSettings.choiceCards && choiceCardAmounts?.amountsCardData);
+    const showChoiceCards = !!(
+        templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData
+    );
 
     return (
         <div
@@ -192,7 +212,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         />
                     )}
 
-                    {!templateSettings.choiceCards && (
+                    {!templateSettings.choiceCardSettings && (
                         <section css={styles.ctasContainer}>
                             <DesignableBannerCtas
                                 mainOrMobileContent={mainOrMobileContent}
@@ -209,7 +229,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 <div
                     css={styles.bannerVisualContainer(
                         templateSettings.containerSettings.backgroundColour,
-                        templateSettings.choiceCards,
+                        !!templateSettings.choiceCardSettings,
                     )}
                 >
                     {templateSettings.imageSettings && (
@@ -226,9 +246,10 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             submitComponentEvent={submitComponentEvent}
                             currencySymbol={currencySymbol}
                             componentId={'choice-cards-buttons-banner-blue'}
-                            amounts={choiceCardAmounts.amountsCardData}
-                            amountsTestName={choiceCardAmounts.testName}
-                            amountsVariantName={choiceCardAmounts.variantName}
+                            amounts={choiceCardAmounts?.amountsCardData}
+                            amountsTestName={choiceCardAmounts?.testName}
+                            amountsVariantName={choiceCardAmounts?.variantName}
+                            design={templateSettings.choiceCardSettings}
                             countryCode={countryCode}
                             bannerTracking={tracking}
                             numArticles={numArticles}
