@@ -170,7 +170,21 @@ WithChoiceCards.args = {
     content,
     mobileContent,
     numArticles: 50,
-    tickerSettings: undefined,
+    tickerSettings: {
+        countType: TickerCountType.money,
+        endType: TickerEndType.hardstop,
+        currencySymbol: '',
+        copy: {
+            countLabel: 'contributions in May',
+            goalReachedPrimary: "We've met our goal - thank you!",
+            goalReachedSecondary: '',
+        },
+        tickerData: {
+            total: 4_000,
+            goal: 50_000,
+        },
+        name: 'AU_2022',
+    },
     design: {
         ...design,
         visual: {
