@@ -22,7 +22,7 @@ import { BannerTemplateSettings, ChoiceCardSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 
-const buildImageSettings = (design: ConfigurableDesign): Image => {
+const buildImageSettings = (design: ConfigurableDesign): Image | undefined => {
     if (design.visual.kind === 'Image') {
         return {
             mainUrl: design.visual.mobileUrl,
