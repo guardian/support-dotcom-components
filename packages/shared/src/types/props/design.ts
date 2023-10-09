@@ -34,7 +34,7 @@ const choiceCardsSchema = z.object({
 const visualSchema = z.discriminatedUnion('kind', [imageSchema, choiceCardsSchema]);
 
 export const configurableDesignSchema = z.object({
-    visual: visualSchema,
+    visual: z.optional(visualSchema),
     colours: z.object({
         basic: z.object({
             background: hexColourSchema,

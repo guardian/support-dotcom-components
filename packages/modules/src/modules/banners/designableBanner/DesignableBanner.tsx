@@ -23,7 +23,7 @@ import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 
 const buildImageSettings = (design: ConfigurableDesign): Image | undefined => {
-    if (design.visual.kind === 'Image') {
+    if (design.visual?.kind === 'Image') {
         return {
             mainUrl: design.visual.mobileUrl,
             mobileUrl: design.visual.mobileUrl,
@@ -33,14 +33,16 @@ const buildImageSettings = (design: ConfigurableDesign): Image | undefined => {
             altText: design.visual.altText,
         };
     }
+    return undefined;
 };
 const buildChoiceCardSettings = (design: ConfigurableDesign): ChoiceCardSettings | undefined => {
-    if (design.visual.kind === 'ChoiceCards') {
+    if (design.visual?.kind === 'ChoiceCards') {
         const { buttonColour } = design.visual;
         return {
             buttonColour: buttonColour ? hexColourToString(buttonColour) : undefined,
         };
     }
+    return undefined;
 };
 
 const DesignableBanner: ReactComponent<BannerRenderProps> = ({
