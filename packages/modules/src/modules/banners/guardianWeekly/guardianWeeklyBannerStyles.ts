@@ -128,3 +128,9 @@ export const logoContainer = css`
         margin-left: ${space[3]}px;
     }
 `;
+
+export const svgDisplayNoneImportantBleedReproduce = css`
+    svg {
+        display: none !important;
+    }
+`;

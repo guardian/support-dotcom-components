@@ -16,6 +16,7 @@ import {
     logoContainer,
     paragraph,
     siteMessage,
+    svgDisplayNoneImportantBleedReproduce,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
 import { BannerText } from '../common/BannerText';
@@ -91,79 +92,81 @@ const GuardianWeeklyBanner: ReactComponent<BannerRenderProps> = ({
 }) => {
     return (
         <section css={banner} data-target={bannerId}>
-            <Container>
-                <Columns>
-                    <Column width={1} cssOverrides={iconAndClosePosition}>
-                        <Inline space={1}>
-                            <div css={logoContainer}>
-                                <SvgRoundelDefault />
-                            </div>
-                            <CloseButton onClick={onCloseClick} />
-                        </Inline>
-                    </Column>
-                </Columns>
-                <Columns collapseBelow="tablet">
-                    <Column width={1 / 2} cssOverrides={copyColumn}>
-                        <BannerText
-                            styles={{
-                                desktop: {
-                                    heading,
-                                    copy: paragraph,
-                                },
-                            }}
-                            content={content}
-                        />
-                        <BannerContentRenderer
-                            content={content}
-                            render={({ renderContent }) => {
-                                const { primaryCta, secondaryCta } = renderContent;
-                                return (
-                                    <Inline space={3}>
-                                        <ThemeProvider theme={buttonReaderRevenue}>
-                                            <LinkButton
-                                                href={primaryCta?.ctaUrl}
-                                                data-link-name={ctaComponentId}
-                                                icon={<SvgArrowRightStraight />}
-                                                iconSide="right"
-                                                onClick={onCtaClick}
-                                                tabIndex={0}
+            <div css={svgDisplayNoneImportantBleedReproduce}>
+                <Container>
+                    <Columns>
+                        <Column width={1} cssOverrides={iconAndClosePosition}>
+                            <Inline space={1}>
+                                <div css={logoContainer}>
+                                    <SvgRoundelDefault />
+                                </div>
+                                <CloseButton onClick={onCloseClick} />
+                            </Inline>
+                        </Column>
+                    </Columns>
+                    <Columns collapseBelow="tablet">
+                        <Column width={1 / 2} cssOverrides={copyColumn}>
+                            <BannerText
+                                styles={{
+                                    desktop: {
+                                        heading,
+                                        copy: paragraph,
+                                    },
+                                }}
+                                content={content}
+                            />
+                            <BannerContentRenderer
+                                content={content}
+                                render={({ renderContent }) => {
+                                    const { primaryCta, secondaryCta } = renderContent;
+                                    return (
+                                        <Inline space={3}>
+                                            <ThemeProvider theme={buttonReaderRevenue}>
+                                                <LinkButton
+                                                    href={primaryCta?.ctaUrl}
+                                                    data-link-name={ctaComponentId}
+                                                    icon={<SvgArrowRightStraight />}
+                                                    iconSide="right"
+                                                    onClick={onCtaClick}
+                                                    tabIndex={0}
+                                                >
+                                                    {primaryCta?.ctaText || defaultCta}
+                                                </LinkButton>
+                                            </ThemeProvider>
+                                            <Button
+                                                priority="subdued"
+                                                data-link-name={notNowComponentId}
+                                                onClick={onNotNowClick}
                                             >
-                                                {primaryCta?.ctaText || defaultCta}
-                                            </LinkButton>
-                                        </ThemeProvider>
-                                        <Button
-                                            priority="subdued"
-                                            data-link-name={notNowComponentId}
-                                            onClick={onNotNowClick}
-                                        >
-                                            {(secondaryCta?.type === SecondaryCtaType.Custom &&
-                                                secondaryCta.cta.ctaText) ||
-                                                defaultSecondaryCta}
-                                        </Button>
-                                    </Inline>
-                                );
-                            }}
-                        />
-                        <div css={siteMessage}>
-                            Already a subscriber?{' '}
-                            <Link
-                                data-link-name={signInComponentId}
-                                onClick={onSignInClick}
-                                href={signInUrl}
-                                subdued
-                            >
-                                Sign in
-                            </Link>{' '}
-                            to not see this again
-                        </div>
-                    </Column>
-                    <Column width={1 / 2} cssOverrides={imageColumn}>
-                        <div css={imageContainer}>
-                            <ResponsiveImage images={images} baseImage={baseImg} />
-                        </div>
-                    </Column>
-                </Columns>
-            </Container>
+                                                {(secondaryCta?.type === SecondaryCtaType.Custom &&
+                                                    secondaryCta.cta.ctaText) ||
+                                                    defaultSecondaryCta}
+                                            </Button>
+                                        </Inline>
+                                    );
+                                }}
+                            />
+                            <div css={siteMessage}>
+                                Already a subscriber?{' '}
+                                <Link
+                                    data-link-name={signInComponentId}
+                                    onClick={onSignInClick}
+                                    href={signInUrl}
+                                    subdued
+                                >
+                                    Sign in
+                                </Link>{' '}
+                                to not see this again
+                            </div>
+                        </Column>
+                        <Column width={1 / 2} cssOverrides={imageColumn}>
+                            <div css={imageContainer}>
+                                <ResponsiveImage images={images} baseImage={baseImg} />
+                            </div>
+                        </Column>
+                    </Columns>
+                </Container>
+            </div>
         </section>
     );
 };
