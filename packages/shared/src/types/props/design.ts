@@ -27,7 +27,7 @@ const imageSchema = z.object({
 });
 
 const choiceCardsSchema = z.object({
-    buttonColour: hexColourSchema,
+    buttonColour: z.optional(hexColourSchema),
     kind: z.literal('ChoiceCards'),
 });
 
