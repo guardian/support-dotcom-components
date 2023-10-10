@@ -6,6 +6,8 @@ import { Link } from '@guardian/src-link';
 import { SvgRoundelDefault } from '@guardian/src-brand';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
 import {
+    SvgDisplay,
+    svgDisplayNoneImportantBleedReproduce,
     banner,
     closeButtonStyles,
     copyColumn,
@@ -16,7 +18,6 @@ import {
     logoContainer,
     paragraph,
     siteMessage,
-    svgDisplayNoneImportantBleedReproduce,
 } from './guardianWeeklyBannerStyles';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
 import { BannerText } from '../common/BannerText';
@@ -71,7 +72,7 @@ type ButtonPropTypes = {
 
 const CloseButton = (props: ButtonPropTypes): ReactElement => (
     <Button
-        css={closeButtonStyles}
+        cssOverrides={[closeButtonStyles, SvgDisplay]}
         data-link-name={closeComponentId}
         onClick={props.onClick}
         icon={<SvgCross />}
@@ -97,7 +98,7 @@ const GuardianWeeklyBanner: ReactComponent<BannerRenderProps> = ({
                     <Columns>
                         <Column width={1} cssOverrides={iconAndClosePosition}>
                             <Inline space={1}>
-                                <div css={logoContainer}>
+                                <div css={[logoContainer, SvgDisplay]}>
                                     <SvgRoundelDefault />
                                 </div>
                                 <CloseButton onClick={onCloseClick} />
@@ -124,6 +125,7 @@ const GuardianWeeklyBanner: ReactComponent<BannerRenderProps> = ({
                                             <ThemeProvider theme={buttonReaderRevenue}>
                                                 <LinkButton
                                                     href={primaryCta?.ctaUrl}
+                                                    cssOverrides={SvgDisplay}
                                                     data-link-name={ctaComponentId}
                                                     icon={<SvgArrowRightStraight />}
                                                     iconSide="right"

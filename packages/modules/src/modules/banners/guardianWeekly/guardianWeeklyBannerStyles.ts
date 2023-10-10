@@ -129,6 +129,13 @@ export const logoContainer = css`
     }
 `;
 
+// Guards against a 'DIV SECTION DIV SVG display: none!important' coming from Europe Pollution Divide area map
+export const SvgDisplay = css`
+    svg {
+        display: block !important;
+    }
+`;
+
 export const svgDisplayNoneImportantBleedReproduce = css`
     svg {
         display: none !important;
