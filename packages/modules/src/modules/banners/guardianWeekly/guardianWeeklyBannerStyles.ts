@@ -135,9 +135,3 @@ export const SvgDisplay = css`
         display: block !important;
     }
 `;
-
-export const svgDisplayNoneImportantBleedReproduce = css`
-    svg {
-        display: none !important;
-    }
-`;
