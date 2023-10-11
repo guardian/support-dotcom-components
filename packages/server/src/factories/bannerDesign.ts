@@ -18,7 +18,8 @@ const stringToHexColour = (colourString: string): HexColour => {
 
 export default Factory.define<BannerDesignFromTool>(() => ({
     name: 'EXAMPLE_DESIGN',
-    image: {
+    visual: {
+        kind: 'Image',
         mobileUrl:
             'https://i.guim.co.uk/img/media/630a3735c02e195be89ab06fd1b8192959e282ab/0_0_1172_560/500.png?width=500&quality=75&s=937595b3f471d6591475955335c7c023',
         tabletDesktopUrl:

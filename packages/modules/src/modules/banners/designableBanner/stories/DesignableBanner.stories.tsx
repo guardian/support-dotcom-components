@@ -5,7 +5,7 @@ import { DefaultTemplate } from './Default';
 import { ConfigurableDesign } from '@sdc/shared/dist/types';
 
 export default {
-    title: 'Banners/Custom',
+    title: 'Banners/Designable',
     parameters: {
         chromatic: {
             delay: 300,
@@ -30,7 +30,8 @@ const stringToHexColour = (colourString: string): HexColour => {
 };
 
 const design: ConfigurableDesign = {
-    image: {
+    visual: {
+        kind: 'Image',
         mobileUrl:
             'https://i.guim.co.uk/img/media/630a3735c02e195be89ab06fd1b8192959e282ab/0_0_1172_560/500.png?width=500&quality=75&s=937595b3f471d6591475955335c7c023',
         tabletDesktopUrl:
@@ -93,53 +94,57 @@ const design: ConfigurableDesign = {
     },
 };
 
-export const Designable = DefaultTemplate.bind({});
-Designable.args = {
+const content = {
+    heading: 'Show your support for reader-funded journalism',
+    messageText:
+        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+    paragraphs: [
+        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+        'We do not shy away. And we provide all this for free, for everyone.',
+    ],
+    highlightedText:
+        'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+    cta: {
+        text: 'Support once',
+        baseUrl: 'https://support.theguardian.com/contribute/one-off',
+    },
+    secondaryCta: {
+        type: SecondaryCtaType.Custom,
+        cta: {
+            text: 'Support monthly',
+            baseUrl: 'https://support.theguardian.com/contribute/recurring',
+        },
+    },
+};
+
+const mobileContent = {
+    heading: 'Show your support for reader-funded journalism',
+    messageText:
+        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
+    paragraphs: [
+        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+        'We do not shy away. And we provide all this for free, for everyone.',
+    ],
+    highlightedText:
+        'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
+    cta: {
+        text: 'Support us',
+        baseUrl: 'https://support.theguardian.com/contribute/one-off',
+    },
+    secondaryCta: {
+        type: SecondaryCtaType.Custom,
+        cta: {
+            text: 'Learn more',
+            baseUrl: 'https://support.theguardian.com/contribute/recurring',
+        },
+    },
+};
+
+export const WithImage = DefaultTemplate.bind({});
+WithImage.args = {
     ...props,
-    content: {
-        heading: 'Show your support for reader-funded journalism',
-        messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
-        paragraphs: [
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
-            'We do not shy away. And we provide all this for free, for everyone.',
-        ],
-        highlightedText:
-            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
-        cta: {
-            text: 'Support once',
-            baseUrl: 'https://support.theguardian.com/contribute/one-off',
-        },
-        secondaryCta: {
-            type: SecondaryCtaType.Custom,
-            cta: {
-                text: 'Support monthly',
-                baseUrl: 'https://support.theguardian.com/contribute/recurring',
-            },
-        },
-    },
-    mobileContent: {
-        heading: 'Show your support for reader-funded journalism',
-        messageText:
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
-        paragraphs: [
-            'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
-            'We do not shy away. And we provide all this for free, for everyone.',
-        ],
-        highlightedText:
-            'Show your support today from just %%CURRENCY_SYMBOL%%1, or sustain us long term with a little more. Thank you.',
-        cta: {
-            text: 'Support us',
-            baseUrl: 'https://support.theguardian.com/contribute/one-off',
-        },
-        secondaryCta: {
-            type: SecondaryCtaType.Custom,
-            cta: {
-                text: 'Learn more',
-                baseUrl: 'https://support.theguardian.com/contribute/recurring',
-            },
-        },
-    },
+    content,
+    mobileContent,
     numArticles: 50,
     tickerSettings: {
         countType: TickerCountType.money,
@@ -157,4 +162,57 @@ Designable.args = {
         name: 'AU_2022',
     },
     design,
+};
+
+export const WithChoiceCards = DefaultTemplate.bind({});
+WithChoiceCards.args = {
+    ...props,
+    content,
+    mobileContent,
+    numArticles: 50,
+    tickerSettings: {
+        countType: TickerCountType.money,
+        endType: TickerEndType.hardstop,
+        currencySymbol: '',
+        copy: {
+            countLabel: 'contributions in May',
+            goalReachedPrimary: "We've met our goal - thank you!",
+            goalReachedSecondary: '',
+        },
+        tickerData: {
+            total: 4_000,
+            goal: 50_000,
+        },
+        name: 'AU_2022',
+    },
+    design: {
+        ...design,
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+    },
+    choiceCardAmounts: {
+        testName: 'Storybook_test',
+        variantName: 'CONTROL',
+        defaultContributionType: 'MONTHLY',
+        displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+        amountsCardData: {
+            ONE_OFF: {
+                amounts: [5, 10, 15, 20],
+                defaultAmount: 5,
+                hideChooseYourAmount: false,
+            },
+            MONTHLY: {
+                amounts: [3, 6, 10],
+                defaultAmount: 10,
+                hideChooseYourAmount: true,
+            },
+            ANNUAL: {
+                amounts: [100],
+                defaultAmount: 100,
+                hideChooseYourAmount: true,
+            },
+        },
+    },
 };

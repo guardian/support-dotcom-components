@@ -30,7 +30,7 @@ interface ChoiceCardProps {
     amounts?: AmountsCardData;
     amountsTestName?: string;
     amountsVariantName?: string;
-    amountsButtonColour?: ChoiceCardSettings;
+    design?: ChoiceCardSettings;
     countryCode?: string;
     bannerTracking?: Tracking;
     numArticles?: number;
@@ -130,7 +130,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     amounts,
     amountsTestName = 'test_undefined',
     amountsVariantName = 'variant_undefined',
-    amountsButtonColour,
+    design,
     countryCode,
     bannerTracking,
     numArticles,
@@ -177,7 +177,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                     componentId={componentId}
                     submitComponentEvent={submitComponentEvent}
                     amounts={amounts}
-                    amountsButtonColours={amountsButtonColour}
+                    amountsButtonColours={design}
                     setSelectionsCallback={setSelectionsCallback}
                     selection={selection}
                 />
@@ -193,7 +193,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                     componentId={componentId}
                     contributionType={contributionType}
                     amounts={amounts}
-                    amountsButtonColours={amountsButtonColour}
+                    amountsButtonColours={design}
                     setSelectionsCallback={setSelectionsCallback}
                     selection={selection}
                     currencySymbol={currencySymbol}

@@ -20,18 +20,21 @@ describe('getDesignForVariant', () => {
         });
         const fooDesign = factories.bannerDesign.build({
             name: 'FOO',
-            image: { altText: 'Foo Alt' },
+            visual: { kind: 'Image', altText: 'Foo Alt' },
         });
         const barDesign = factories.bannerDesign.build({
             name: 'BAR',
-            image: { altText: 'Bar Alt' },
+            visual: { kind: 'Image', altText: 'Bar Alt' },
         });
         const designs: BannerDesignFromTool[] = [fooDesign, barDesign];
 
         const design = getDesignForVariant(variantWithDesign, designs);
 
         expect(design).toBeDefined();
-        expect(design?.image.altText).toBe('Bar Alt');
+        expect(design?.visual?.kind).toBe('Image');
+        if (design?.visual?.kind === 'Image') {
+            expect(design?.visual?.altText).toBe('Bar Alt');
+        }
     });
 
     it('returns undefined if the variant specifies a design that does not exist', () => {
@@ -40,11 +43,11 @@ describe('getDesignForVariant', () => {
         });
         const fooDesign = factories.bannerDesign.build({
             name: 'FOO',
-            image: { altText: 'Foo Alt' },
+            visual: { kind: 'Image', altText: 'Foo Alt' },
         });
         const barDesign = factories.bannerDesign.build({
             name: 'BAR',
-            image: { altText: 'Bar Alt' },
+            visual: { kind: 'Image', altText: 'Bar Alt' },
         });
         const designs: BannerDesignFromTool[] = [fooDesign, barDesign];
 

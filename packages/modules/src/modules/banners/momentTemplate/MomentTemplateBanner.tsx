@@ -138,7 +138,7 @@ export function getMomentTemplateBanner(
                                 amounts={choiceCardAmounts.amountsCardData}
                                 amountsTestName={choiceCardAmounts.testName}
                                 amountsVariantName={choiceCardAmounts.variantName}
-                                amountsButtonColour={templateSettings.choiceCardSettings}
+                                design={templateSettings.choiceCardSettings}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
                                 numArticles={numArticles}

@@ -18,17 +18,28 @@ export const hexColourSchema = z.object({
     kind: z.literal('hex'),
 });
 
+const imageSchema = z.object({
+    mobileUrl: z.string(),
+    tabletDesktopUrl: z.string(),
+    wideUrl: z.string(),
+    altText: z.string(),
+    kind: z.literal('Image'),
+});
+
+const choiceCardsSchema = z.object({
+    buttonColour: z.optional(hexColourSchema),
+    kind: z.literal('ChoiceCards'),
+});
+
+const visualSchema = z.discriminatedUnion('kind', [imageSchema, choiceCardsSchema]);
+
 export const configurableDesignSchema = z.object({
-    image: z.object({
-        mobileUrl: z.string(),
-        tabletDesktopUrl: z.string(),
-        wideUrl: z.string(),
-        altText: z.string(),
-    }),
+    visual: z.optional(visualSchema),
     colours: z.object({
         basic: z.object({
             background: hexColourSchema,
             bodyText: hexColourSchema,
+            // TODO - more colours
         }),
     }),
 });
@@ -81,13 +92,22 @@ interface TickerDesign {
     goalMarker: HexColour;
 }
 
+interface BannerDesignImage {
+    kind: 'Image';
+    mobileUrl: string;
+    tabletDesktopUrl: string;
+    wideUrl: string;
+    altText: string;
+}
+
+interface ChoiceCardsDesign {
+    kind: 'ChoiceCards';
+    buttonColour?: HexColour;
+}
+type Visual = BannerDesignImage | ChoiceCardsDesign;
+
 export interface ConfigurableDesign {
-    image: {
-        mobileUrl: string;
-        tabletDesktopUrl: string;
-        wideUrl: string;
-        altText: string;
-    };
+    visual?: Visual;
     colours: {
         basic: {
             background: HexColour;
