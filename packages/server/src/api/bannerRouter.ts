@@ -5,6 +5,7 @@ import {
     BannerProps,
     BannerTargeting,
     BannerTest,
+    BannerVariant,
     AmountsTests,
     PageTracking,
     Prices,
@@ -53,6 +54,45 @@ interface PuzzlesDataResponse {
     };
     debug?: Debug;
 }
+
+const addLocalLanguageContent = (
+    test: BannerTest,
+    variant: BannerVariant,
+    country: string,
+    moduleName: string,
+): { bannerContent?: BannerContent; mobileBannerContent?: BannerContent } => {
+    const { bannerContent, mobileBannerContent } = variant;
+
+    if (moduleName === 'EuropeMomentLocalLanguageBanner') {
+        const localLanguage = countryCodeToLocalLanguageBannerHeader(
+            test.name,
+            variant.name,
+            country,
+            { bannerHeader: variant.bannerContent?.heading },
+        );
+
+        const replaceHeading = (content?: BannerContent): BannerContent | undefined => {
+            if (content?.heading) {
+                return {
+                    ...content,
+                    heading: localLanguage?.bannerHeader,
+                };
+            } else {
+                return content;
+            }
+        };
+
+        return {
+            bannerContent: replaceHeading(bannerContent),
+            mobileBannerContent: replaceHeading(mobileBannerContent),
+        };
+    }
+
+    return {
+        bannerContent,
+        mobileBannerContent,
+    };
+};
 
 export const buildBannerRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
@@ -106,13 +146,6 @@ export const buildBannerRouter = (
                 variant.tickerSettings &&
                 tickerData.addTickerDataToSettings(variant.tickerSettings);
 
-            const bannerContent: BannerContent = {
-                ...variant?.bannerContent,
-            };
-            const bannerMobileContent: BannerContent = {
-                ...variant?.mobileBannerContent,
-            };
-
             const contributionAmounts = choiceCardAmounts.get();
             const requiredCountry = targeting.countryCode ?? 'GB';
             const requiredRegion = countryCodeToCountryGroupId(requiredCountry);
@@ -124,28 +157,20 @@ export const buildBannerRouter = (
                 targetingMvtId,
             );
 
-            if (moduleName === 'EuropeMomentLocalLanguageBanner') {
-                const localLanguage = countryCodeToLocalLanguageBannerHeader(
-                    test.name,
-                    variant.name,
-                    requiredCountry,
-                    { bannerHeader: variant.bannerContent?.heading },
-                );
-                bannerContent?.heading && (bannerContent.heading = localLanguage?.bannerHeader);
-                bannerMobileContent?.heading &&
-                    (bannerMobileContent.heading = localLanguage?.bannerHeader);
-            }
+            const { bannerContent, mobileBannerContent } = addLocalLanguageContent(
+                test,
+                variant,
+                requiredCountry,
+                moduleName,
+            );
 
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
-                content: variant.bannerContent === null ? variant.bannerContent : bannerContent, // TODO: refactor this so that you don't have to pass through an explicit null
-                mobileContent:
-                    variant.mobileBannerContent === null
-                        ? variant.mobileBannerContent
-                        : bannerMobileContent, // TODO: refactor this so that you don't have to pass through an explicit null
+                content: bannerContent,
+                mobileContent: mobileBannerContent,
                 numArticles: getArticleViewCountForWeeks(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
