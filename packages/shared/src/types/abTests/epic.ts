@@ -63,6 +63,7 @@ export interface EpicVariant extends Variant {
     // with lower priority.
     maxViews?: MaxViews;
     showSignInLink?: boolean;
+    showApplePay?: boolean;
 }
 
 export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';

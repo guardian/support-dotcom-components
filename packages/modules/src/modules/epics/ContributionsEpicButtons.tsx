@@ -44,6 +44,7 @@ const PrimaryCtaButton = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
+    showApplePay,
 }: {
     cta?: Cta;
     tracking: Tracking;
@@ -51,12 +52,13 @@ const PrimaryCtaButton = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     numArticles: number;
+    showApplePay?: boolean;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
     }
 
-    const buttonText = cta.text || 'Support The Guardian';
+    const buttonText = showApplePay ? 'Support With ' : cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
@@ -85,12 +87,15 @@ const SecondaryCtaButton = ({
     tracking,
     numArticles,
     countryCode,
+    showApplePay,
 }: {
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
     numArticles: number;
+    showApplePay?: boolean;
 }): JSX.Element | null => {
+    const buttonText = showApplePay ? 'Support With ' : cta.text;
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
@@ -101,7 +106,7 @@ const SecondaryCtaButton = ({
     return (
         <div css={buttonMargins}>
             <Button onClickAction={url} showArrow priority="secondary">
-                {cta.text}
+                {buttonText}
             </Button>
         </div>
     );
@@ -120,6 +125,7 @@ interface ContributionsEpicButtonsProps {
     amountsVariantName?: string;
     choiceCardSelection?: ChoiceCardSelection;
     numArticles: number;
+    showApplePay?: boolean;
 }
 
 export const ContributionsEpicButtons = ({
@@ -135,6 +141,7 @@ export const ContributionsEpicButtons = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
+    showApplePay,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
     const { cta, secondaryCta, showReminderFields } = variant;
@@ -183,6 +190,7 @@ export const ContributionsEpicButtons = ({
                         amountsTestName={amountsTestName}
                         amountsVariantName={amountsVariantName}
                         countryCode={countryCode}
+                        showApplePay={showApplePay}
                     />
 
                     {secondaryCta?.type === SecondaryCtaType.Custom &&
@@ -193,6 +201,7 @@ export const ContributionsEpicButtons = ({
                             tracking={tracking}
                             countryCode={countryCode}
                             numArticles={numArticles}
+                            showApplePay={showApplePay}
                         />
                     ) : (
                         secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
@@ -206,7 +215,7 @@ export const ContributionsEpicButtons = ({
                         )
                     )}
 
-                    {hasSupportCta && (
+                    {hasSupportCta && !showApplePay && (
                         <img
                             width={422}
                             height={60}
