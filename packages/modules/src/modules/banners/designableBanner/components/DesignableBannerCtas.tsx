@@ -151,8 +151,8 @@ const styles = {
 
         & a:not(:last-child) {
             margin-right: ${space[3]}px;
-            margin-bottom: ${space[2]}px;
         }
+        margin-bottom: ${space[2]}px;
     `,
     paymentMethods: css`
         display: block;
