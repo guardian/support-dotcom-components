@@ -64,15 +64,14 @@ const addLocalLanguageContent = (
     const { bannerContent, mobileBannerContent } = variant;
 
     if (moduleName === 'EuropeMomentLocalLanguageBanner') {
-        const localLanguage = countryCodeToLocalLanguageBannerHeader(
-            test.name,
-            variant.name,
-            country,
-            { bannerHeader: variant.bannerContent?.heading },
-        );
-
         const replaceHeading = (content?: BannerContent): BannerContent | undefined => {
             if (content?.heading) {
+                const localLanguage = countryCodeToLocalLanguageBannerHeader(
+                    test.name,
+                    variant.name,
+                    country,
+                    { bannerHeader: content.heading },
+                );
                 return {
                     ...content,
                     heading: localLanguage?.bannerHeader,
