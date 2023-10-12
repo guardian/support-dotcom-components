@@ -128,3 +128,10 @@ export const logoContainer = css`
         margin-left: ${space[3]}px;
     }
 `;
+
+// Guards against a 'DIV SECTION DIV SVG display: none!important' coming from Europe Pollution Divide area map
+export const SvgDisplay = css`
+    svg {
+        display: block !important;
+    }
+`;
