@@ -250,7 +250,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay } = variant;
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
@@ -427,6 +427,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                     onReminderOpen={onReminderOpen}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
+                    showApplePay={showApplePay}
                     showChoiceCards={showChoiceCards}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
