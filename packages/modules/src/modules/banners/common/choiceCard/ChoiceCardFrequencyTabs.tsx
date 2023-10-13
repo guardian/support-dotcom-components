@@ -4,8 +4,7 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import { ChoiceCardBannerComponentId } from './ChoiceCards';
-import { ChoiceCardSelection } from './choiceCards';
+import { ChoiceCardBannerComponentId, ChoiceCardSelection } from './ChoiceCards';
 import { ChoiceCard } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
