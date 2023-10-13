@@ -14,6 +14,9 @@ import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
+import { ApplePaySvg } from './ApplePaySvg';
+import { PaymentCardSvg } from './PaymentCardsSvg';
+import { ButtonApplePay } from './ButtonApplePay';
 
 const buttonWrapperStyles = css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
@@ -31,6 +34,10 @@ const paymentImageStyles = css`
     width: auto;
     height: 25px;
     margin: ${space[1]}px 0;
+`;
+
+const svgPositionStyles = css`
+    margin: ${space[1]}px -${space[2]}px;
 `;
 
 const buttonMargins = css`
@@ -58,7 +65,7 @@ const PrimaryCtaButton = ({
         return null;
     }
 
-    const buttonText = showApplePay ? 'Support With ' : cta.text || 'Support The Guardian';
+    const buttonText = showApplePay ? 'Support with' : cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
@@ -71,13 +78,23 @@ const PrimaryCtaButton = ({
 
     return (
         <div css={buttonMargins}>
-            <Button
-                onClickAction={urlWithRegionAndTracking}
-                showArrow
-                data-ignore="global-link-styling"
-            >
-                {buttonText}
-            </Button>
+            {showApplePay ? (
+                <ButtonApplePay
+                    onClickAction={urlWithRegionAndTracking}
+                    icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
+                    priority="primary"
+                >
+                    {buttonText}
+                </ButtonApplePay>
+            ) : (
+                <Button
+                    onClickAction={urlWithRegionAndTracking}
+                    showArrow
+                    data-ignore="global-link-styling"
+                >
+                    {buttonText}
+                </Button>
+            )}
         </div>
     );
 };
@@ -95,7 +112,7 @@ const SecondaryCtaButton = ({
     numArticles: number;
     showApplePay?: boolean;
 }): JSX.Element | null => {
-    const buttonText = showApplePay ? 'Support With ' : cta.text;
+    const buttonText = showApplePay ? 'Support with' : cta.text;
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
@@ -105,9 +122,19 @@ const SecondaryCtaButton = ({
 
     return (
         <div css={buttonMargins}>
-            <Button onClickAction={url} showArrow priority="secondary">
-                {buttonText}
-            </Button>
+            {showApplePay ? (
+                <ButtonApplePay
+                    onClickAction={url}
+                    icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
+                    priority="secondary"
+                >
+                    {buttonText}
+                </ButtonApplePay>
+            ) : (
+                <Button onClickAction={url} showArrow priority="secondary">
+                    {buttonText}
+                </Button>
+            )}
         </div>
     );
 };
