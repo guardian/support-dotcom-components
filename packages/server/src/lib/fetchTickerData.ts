@@ -39,20 +39,19 @@ const parse = (json: any): Promise<TickerData> => {
     }
 };
 
-const getTickerDataForTickerTypeFetcher = (stage: Stage, name: TickerName) => (): Promise<
-    TickerData
-> => {
-    return fetch(tickerUrl(stage, name), {
-        timeout: 1000 * 20,
-    })
-        .then((response) => checkForErrors(response))
-        .then((response) => response.json())
-        .then(parse)
-        .catch((error) => {
-            logError(`Error fetching ${name} ticker data: ${error}`);
-            return Promise.reject(error);
-        });
-};
+const getTickerDataForTickerTypeFetcher =
+    (stage: Stage, name: TickerName) => (): Promise<TickerData> => {
+        return fetch(tickerUrl(stage, name), {
+            timeout: 1000 * 20,
+        })
+            .then((response) => checkForErrors(response))
+            .then((response) => response.json())
+            .then(parse)
+            .catch((error) => {
+                logError(`Error fetching ${name} ticker data: ${error}`);
+                return Promise.reject(error);
+            });
+    };
 
 // Maps each ticker campaign name to a ValueProvider
 type TickerDataProviders = {
