@@ -16,7 +16,7 @@ import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
-import { ChoiceCards } from '../choiceCardsButtonsBanner/components/ChoiceCards';
+import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings, ChoiceCardSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
