@@ -19,14 +19,14 @@ const buttonStyles: Record<string, LinkButtonColourStyles> = {
         background: palette.neutral[7],
         hover: palette.neutral[20],
         border: palette.neutral[7],
-        widthSvg: `44px`,
+        widthSvg: `42px`,
     },
     secondary: {
         text: palette.neutral[7],
         background: palette.neutral[93],
         hover: palette.neutral[86],
         border: palette.neutral[0],
-        widthSvg: `160px`,
+        widthSvg: `140px`,
     },
 };
 
@@ -40,6 +40,8 @@ type Props = {
 };
 
 const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): SerializedStyles => css`
+    width: 100%;
+    justify-content: center;
     border: 1px solid ${buttonStyles.border}!important;
     background-color: ${buttonStyles.background} !important;
     color: ${buttonStyles.text} !important;

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
+import { from } from '@guardian/src-foundations/mq';
 import { space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
@@ -18,11 +19,12 @@ import { ApplePaySvg } from './ApplePaySvg';
 import { PaymentCardSvg } from './PaymentCardsSvg';
 import { ButtonApplePay } from './ButtonApplePay';
 
-const buttonWrapperStyles = css`
+const buttonWrapperStyles = (showApplePay?: boolean): SerializedStyles => css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    ${showApplePay
+        ? `flex-direction: column; margin-right: 0px; ${from.desktop} {flex-direction: row;}`
+        : `flex-wrap: wrap; align-items: center;`}
 
     &.hidden {
         display: none;
@@ -40,8 +42,10 @@ const svgPositionStyles = css`
     margin: ${space[1]}px -${space[2]}px;
 `;
 
-const buttonMargins = css`
-    margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;
+const buttonMarginStyles = (showApplePay?: boolean): SerializedStyles => css`
+    ${showApplePay
+        ? `margin: ${space[1]}px; ${from.desktop} {width: 100%;}`
+        : `margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;`};
 `;
 
 const PrimaryCtaButton = ({
@@ -77,7 +81,7 @@ const PrimaryCtaButton = ({
     );
 
     return (
-        <div css={buttonMargins}>
+        <div css={buttonMarginStyles(showApplePay)}>
             {showApplePay ? (
                 <ButtonApplePay
                     onClickAction={urlWithRegionAndTracking}
@@ -121,7 +125,7 @@ const SecondaryCtaButton = ({
     );
 
     return (
-        <div css={buttonMargins}>
+        <div css={buttonMarginStyles(showApplePay)}>
             {showApplePay ? (
                 <ButtonApplePay
                     onClickAction={url}
@@ -207,7 +211,7 @@ export const ContributionsEpicButtons = ({
         (secondaryCta?.type === SecondaryCtaType.Custom && isSupportUrl(secondaryCta.cta.baseUrl));
 
     return (
-        <div ref={setNode} css={buttonWrapperStyles} data-testid="epic=buttons">
+        <div ref={setNode} css={buttonWrapperStyles(showApplePay)} data-testid="epic=buttons">
             {!isReminderActive && (
                 <>
                     <PrimaryCtaButton
@@ -234,7 +238,7 @@ export const ContributionsEpicButtons = ({
                         secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
                         showReminderFields &&
                         !hasSetReminder() && (
-                            <div css={buttonMargins}>
+                            <div css={buttonMarginStyles(showApplePay)}>
                                 <Button onClickAction={openReminder} isTertiary>
                                     {showReminderFields.reminderCta}
                                 </Button>
