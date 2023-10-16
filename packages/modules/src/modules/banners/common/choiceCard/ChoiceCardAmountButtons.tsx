@@ -10,7 +10,7 @@ import { trackClick } from './ChoiceCardFrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { between, from, until } from '@guardian/src-foundations/mq';
-import { ChoiceCardBannerComponentId, ChoiceCardSelection } from './ChoiceCards';
+import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSettings } from '../../momentTemplate/settings';
 
 const container = css`
@@ -103,7 +103,7 @@ export const ChoiceCardAmountButtons = ({
     selection,
     currencySymbol,
 }: {
-    componentId: ChoiceCardBannerComponentId;
+    componentId: string;
     contributionType: ContributionType;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: AmountsCardData;

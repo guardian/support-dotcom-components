@@ -4,7 +4,7 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-import { ChoiceCardBannerComponentId, ChoiceCardSelection } from './ChoiceCards';
+import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCard } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
@@ -32,7 +32,7 @@ const container = (backgroundColour?: string) => css`
 
 export const trackClick = (
     type: 'amount' | 'frequency',
-    componentId: ChoiceCardBannerComponentId,
+    componentId: string,
     submitComponentEvent?: (event: OphanComponentEvent) => void,
 ): void => {
     if (submitComponentEvent) {
@@ -54,7 +54,7 @@ export const ChoiceCardFrequencyTabs = ({
     setSelectionsCallback,
     selection,
 }: {
-    componentId: ChoiceCardBannerComponentId;
+    componentId: string;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     amounts: AmountsCardData;
     amountsButtonColours?: ChoiceCardSettings;
