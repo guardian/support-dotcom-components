@@ -27,6 +27,7 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
+import { isValidApplePaySessionTestingOn } from '../utils/applePay';
 
 // CSS Styling
 // -------------------------------------------
@@ -252,6 +253,8 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay } = variant;
 
+    const showValidApplePay = showApplePay && isValidApplePaySessionTestingOn();
+
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
     >();
@@ -427,7 +430,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                     onReminderOpen={onReminderOpen}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
-                    showApplePay={showApplePay}
+                    showApplePay={showValidApplePay}
                     showChoiceCards={showChoiceCards}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
