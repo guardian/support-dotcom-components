@@ -5,7 +5,8 @@ import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
 import { Button } from './Button';
-import { ChoiceCardSelection } from './ChoiceCards';
+// import { ChoiceCardSelection } from './ChoiceCards';
+import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
