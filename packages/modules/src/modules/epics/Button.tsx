@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from '@emotion/react';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
@@ -36,6 +36,7 @@ type Props = {
     priority?: 'primary' | 'secondary';
     showArrow?: boolean;
     isTertiary?: boolean;
+    cssOverrides?: SerializedStyles;
 };
 
 // Overrides for tertiary button
@@ -56,6 +57,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
         showArrow = false,
         priority = 'primary',
         isTertiary,
+        cssOverrides,
         ...props
     } = allProps;
 
@@ -72,7 +74,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     priority={isTertiary ? 'primary' : priority}
-                    css={isTertiary ? tertiaryButtonOverrides : undefined}
+                    css={isTertiary ? [tertiaryButtonOverrides, cssOverrides] : cssOverrides}
                     {...props}
                 >
                     {children}
@@ -87,7 +89,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
                 icon={showArrow ? <SvgArrowRightStraight /> : undefined}
                 onClick={(): void => onClickAction()}
                 priority={isTertiary ? 'primary' : priority}
-                css={isTertiary ? tertiaryButtonOverrides : undefined}
+                css={isTertiary ? [tertiaryButtonOverrides, cssOverrides] : cssOverrides}
                 {...props}
             >
                 {children}

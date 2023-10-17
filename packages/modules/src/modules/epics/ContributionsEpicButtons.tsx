@@ -48,6 +48,14 @@ const buttonMarginStyles = (showApplePay?: boolean): SerializedStyles => css`
         : `margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;`};
 `;
 
+const reminderDesktopHideStyle = (showApplePay?: boolean): SerializedStyles => css`
+    ${showApplePay ? `${from.desktop} {display: none;}` : ``};
+`;
+
+const buttonFullWidthStyle = (showApplePay?: boolean): SerializedStyles => css`
+    ${showApplePay ? `width: 100%;justify-content: center;` : ``};
+`;
+
 const PrimaryCtaButton = ({
     cta,
     tracking,
@@ -223,9 +231,19 @@ export const ContributionsEpicButtons = ({
                         countryCode={countryCode}
                         showApplePay={showApplePay}
                     />
+                    {showApplePay && (
+                        <SecondaryCtaButton
+                            cta={getCta(cta)}
+                            tracking={tracking}
+                            countryCode={countryCode}
+                            numArticles={numArticles}
+                            showApplePay={showApplePay}
+                        />
+                    )}
 
                     {secondaryCta?.type === SecondaryCtaType.Custom &&
                     secondaryCta.cta.baseUrl &&
+                    !showApplePay &&
                     secondaryCta.cta.text ? (
                         <SecondaryCtaButton
                             cta={secondaryCta.cta}
@@ -238,8 +256,17 @@ export const ContributionsEpicButtons = ({
                         secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
                         showReminderFields &&
                         !hasSetReminder() && (
-                            <div css={buttonMarginStyles(showApplePay)}>
-                                <Button onClickAction={openReminder} isTertiary>
+                            <div
+                                css={[
+                                    buttonMarginStyles(showApplePay),
+                                    reminderDesktopHideStyle(showApplePay),
+                                ]}
+                            >
+                                <Button
+                                    onClickAction={openReminder}
+                                    isTertiary
+                                    cssOverrides={buttonFullWidthStyle(showApplePay)}
+                                >
                                     {showReminderFields.reminderCta}
                                 </Button>
                             </div>

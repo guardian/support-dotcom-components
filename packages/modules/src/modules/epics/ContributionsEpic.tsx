@@ -251,9 +251,13 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay } = variant;
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay, name } =
+        variant;
 
-    const showValidApplePay = showApplePay && isValidApplePaySession();
+    /** Pre-defined storybook Epic variant name with either
+    1. showApplePay overide (storybook)
+    2. valid ApplePay browser https session  */
+    const showValidApplePay = name === 'V1_APPLE_PAY' && (showApplePay || isValidApplePaySession());
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
