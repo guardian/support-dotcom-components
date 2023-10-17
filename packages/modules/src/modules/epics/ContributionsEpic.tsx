@@ -27,7 +27,7 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
-import { isValidApplePaySessionTestingOn } from '../utils/applePay';
+import { isValidApplePaySession } from '../utils/applePay';
 
 // CSS Styling
 // -------------------------------------------
@@ -253,7 +253,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
 }: EpicProps) => {
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay } = variant;
 
-    const showValidApplePay = showApplePay && isValidApplePaySessionTestingOn();
+    const showValidApplePay = showApplePay && isValidApplePaySession();
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined

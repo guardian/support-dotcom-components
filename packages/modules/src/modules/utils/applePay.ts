@@ -1,18 +1,11 @@
-export const isValidApplePaySessionTestingOn = (): boolean => {
-    return true;
-};
-export const isValidApplePaySessionTestingOff = (): boolean => {
+export const isValidApplePaySession = (): boolean => {
+    const protocol = window.location.protocol;
+    /**
+     * Need to check protocol to prevent 'Trying to start an Apple Pay
+     * session from an insecure document' error which will break
+     * storybook otherwise */
+    if (protocol === 'https:' && window.ApplePaySession) {
+        return window.ApplePaySession.canMakePayments();
+    }
     return false;
 };
-
-// export const isValidApplePaySession = (): boolean => {
-//     const tempWindow: any = window;
-//     const applePaySession = tempWindow.ApplePaySession;
-
-//     if (applePaySession) {
-//         if (applePaySession.canMakePayments) {
-//             return true;
-//         }
-//     }
-//     return false;
-// };
