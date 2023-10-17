@@ -6,11 +6,7 @@ import { ChoiceCardInteractive } from './ChoiceCardInteractive';
 import { SupportCta } from './SupportCta';
 import { PaymentCards } from '../PaymentCards';
 import { BannerTextContent } from '../../common/types';
-import {
-    OphanComponentEvent,
-    SelectedAmountsVariant,
-    Tracking,
-} from '@sdc/shared/src/types';
+import { OphanComponentEvent, SelectedAmountsVariant, Tracking } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 
@@ -84,15 +80,9 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
         return <></>;
     }
 
-    // Temporary!
-    console.log(design);
-
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
-    const {
-        testName,
-        variantName,
-    } = amountsTest;
+    const { testName, variantName } = amountsTest;
 
     useEffect(() => {
         if (hasBeenSeen) {
@@ -116,13 +106,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     return (
         <div ref={setNode} css={styles.container}>
             <ChoiceCardInteractive
-                // name="contribution-frequency"
-                // columns={3}
-                // cssOverrides={[
-                //     styles.hideChoiceCardGroupLegend,
-                //     styles.bannerFrequenciesGroupOverrides,
-                // ]}
-                // label="Contribution frequency"
+                design={design}
                 selection={selection}
                 setSelectionsCallback={setSelectionsCallback}
                 submitComponentEvent={submitComponentEvent}
@@ -136,8 +120,6 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                     <SupportCta
                         countryCode={countryCode}
                         tracking={bannerTracking}
-                        // amountsTestName={amountsTestName}
-                        // amountsVariantName={amountsVariantName}
                         amountsTestName={testName}
                         amountsVariantName={variantName}
                         numArticles={numArticles ?? 0}
