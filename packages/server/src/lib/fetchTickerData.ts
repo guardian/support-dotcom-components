@@ -39,9 +39,8 @@ const parse = (json: any): Promise<TickerData> => {
     }
 };
 
-const getTickerDataForTickerTypeFetcher = (stage: Stage, name: TickerName) => (): Promise<
-    TickerData
-> => {
+const getTickerDataForTickerTypeFetcher =
+    (stage: Stage, name: TickerName) => (): Promise<TickerData> => {
     return fetch(tickerUrl(stage, name), {
         timeout: 1000 * 20,
     })
