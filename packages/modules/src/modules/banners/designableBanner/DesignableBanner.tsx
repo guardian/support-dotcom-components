@@ -16,10 +16,8 @@ import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
-// import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { ChoiceCards, ChoiceCardSettings } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
-// import { BannerTemplateSettings, ChoiceCardSettings } from './settings';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
@@ -250,9 +248,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             submitComponentEvent={submitComponentEvent}
                             currencySymbol={currencySymbol}
                             componentId={'contributions-banner-choice-cards'}
-                            // amounts={choiceCardAmounts?.amountsCardData}
-                            // amountsTestName={choiceCardAmounts?.testName}
-                            // amountsVariantName={choiceCardAmounts?.variantName}
                             amountsTest={choiceCardAmounts}
                             design={templateSettings.choiceCardSettings}
                             countryCode={countryCode}

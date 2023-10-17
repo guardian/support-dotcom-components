@@ -4,13 +4,11 @@ import {
     ContributionFrequency,
     OphanComponentEvent,
 } from '@sdc/shared/dist/types';
-// import { ChoiceCardBannerComponentId } from './ChoiceCards';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCard } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
-// import { ChoiceCardSettings } from '../../momentTemplate/settings';
 
 const container = (backgroundColour?: string) => css`
     display: flex;

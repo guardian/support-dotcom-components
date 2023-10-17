@@ -1,4 +1,3 @@
-// import React, { useEffect } from 'react';
 import React from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
 import {
@@ -8,56 +7,11 @@ import {
     OphanComponentEvent,
 } from '@sdc/shared/types';
 import { css } from '@emotion/react';
-// import { until } from '@guardian/src-foundations/mq';
-// import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { from } from '@guardian/src-foundations/mq';
-// import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import type { ReactComponent } from '../../../../types';
 
-// CSS Styling
-// -------------------------------------------
-// const frequencyChoiceCardGroupOverrides = css`
-//     ${until.mobileLandscape} {
-//         > div {
-//             display: flex !important;
-//         }
-
-//         > div label:nth-of-type(2) {
-//             margin-left: 4px !important;
-//             margin-right: 4px !important;
-//         }
-//     }
-// `;
-
-// const hideChoiceCardGroupLegend = css`
-//     legend {
-//         ${visuallyHidden};
-//     }
-// `;
 const styles = {
-    // container: css`
-    //     // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
-    //     position: relative;
-    //     max-width: 296px;
-
-    //     ${from.mobile} {
-    //         max-width: 351px;
-    //     }
-
-    //     ${from.mobileMedium} {
-    //         max-width: 456px;
-    //     }
-
-    //     ${from.mobileLandscape} {
-    //         max-width: 716px;
-    //     }
-
-    //     ${from.desktop} {
-    //         min-height: 208px;
-    //         max-width: 380px;
-    //     }
-    // `,
     bannerFrequenciesGroupOverrides: css`
         display: grid;
 
@@ -93,23 +47,8 @@ const styles = {
             display: block !important;
         }
     `,
-
-    // ctaAndPaymentCardsContainer: css`
-    //     display: flex;
-    //     align-items: center;
-    // `,
-    // paymentCardsSvgOverrides: css`
-    //     margin-top: -10px;
-    // `,
 };
 
-// This `position: relative` is necessary to stop it jumping to the top of the page when a button is clicked
-// const container = css`
-//     position: relative;
-// `;
-
-// ChoiceCardInteractive - exported component
-// -------------------------------------------
 interface ChoiceCardInteractiveProps {
     selection?: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
@@ -132,8 +71,6 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     }
 
     const {
-        // testName = 'test_undefined',
-        // variantName = 'variant_undefined',
         displayContributionType = contributionTabFrequencies,
         amountsCardData,
     } = amountsTest;
@@ -141,27 +78,6 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     if (!amountsCardData) {
         return <></>;
     }
-
-    // const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
-
-    // useEffect(() => {
-    //     if (hasBeenSeen) {
-    //         // For ophan
-    //         if (submitComponentEvent) {
-    //             submitComponentEvent({
-    //                 component: {
-    //                     componentType: 'ACQUISITIONS_OTHER',
-    //                     id: 'contributions-banner-choice-cards',
-    //                 },
-    //                 action: 'VIEW',
-    //                 abTest: {
-    //                     name: testName,
-    //                     variant: variantName,
-    //                 },
-    //             });
-    //         }
-    //     }
-    // }, [hasBeenSeen, submitComponentEvent]);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {

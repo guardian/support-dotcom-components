@@ -28,10 +28,6 @@ export interface CtaSettings {
     guardianRoundel?: GuardianRoundel;
 }
 
-// export interface ChoiceCardSettings {
-//     buttonColour?: string;
-// }
-
 export interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;

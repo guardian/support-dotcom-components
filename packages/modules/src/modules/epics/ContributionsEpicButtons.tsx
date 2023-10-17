@@ -13,7 +13,6 @@ import {
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-// import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 
 const buttonWrapperStyles = css`

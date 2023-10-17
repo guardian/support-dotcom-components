@@ -40,10 +40,6 @@ export interface HeaderSettings {
     image?: ReactNode;
 }
 
-// export interface ChoiceCardSettings {
-//     buttonColour?: string;
-// }
-
 export interface BannerTemplateSettings {
     containerSettings: ContainerSettings;
     primaryCtaSettings: CtaSettings;
