@@ -376,6 +376,6 @@ WithTicker.args = {
             total: 4_000,
             goal: 50_000,
         },
-        name: 'AU_2022',
+        name: 'AU',
     },
 };
