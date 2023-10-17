@@ -18,7 +18,11 @@ import {
 import type { ReactComponent } from '../../../../types';
 // import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
-import { ChoiceCardSettings } from '../../momentTemplate/settings';
+// import { ChoiceCardSettings } from '../../momentTemplate/settings';
+
+export interface ChoiceCardSettings {
+    buttonColour?: string;
+}
 
 // export type ChoiceCardBannerComponentId = 'choice-cards-buttons-banner-blue';
 
@@ -133,14 +137,17 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
         return <></>;
     }
 
+    // Temporary!
+    console.log(design);
+
     const [hasBeenSeen, setNode] = useHasBeenSeen({ threshold: 0 }, true) as HasBeenSeen;
 
     const {
         testName,
         variantName,
-        defaultContributionType,
-        displayContributionType,
-        amountsCardData,
+        // defaultContributionType,
+        // displayContributionType,
+        // amountsCardData,
     } = amountsTest;
 
     useEffect(() => {

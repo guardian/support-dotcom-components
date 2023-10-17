@@ -1,6 +1,7 @@
 import { Image } from '@sdc/shared/dist/types';
 import { ReactNode } from 'react';
 import { BannerId } from '../common/types';
+import { ChoiceCardSettings } from '../common/choiceCard/ChoiceCards';
 
 export type ContainerSettings = {
     backgroundColour: string;
@@ -27,9 +28,9 @@ export interface CtaSettings {
     guardianRoundel?: GuardianRoundel;
 }
 
-export interface ChoiceCardSettings {
-    buttonColour?: string;
-}
+// export interface ChoiceCardSettings {
+//     buttonColour?: string;
+// }
 
 export interface HighlightedTextSettings {
     textColour: string;

@@ -132,8 +132,8 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     }
 
     const {
-        testName = 'test_undefined',
-        variantName = 'variant_undefined',
+        // testName = 'test_undefined',
+        // variantName = 'variant_undefined',
         displayContributionType = contributionTabFrequencies,
         amountsCardData,
     } = amountsTest;
