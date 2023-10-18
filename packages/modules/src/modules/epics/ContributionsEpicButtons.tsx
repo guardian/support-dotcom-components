@@ -105,6 +105,7 @@ const PrimaryCtaButton = ({
                     onClickAction={openApplePay()}
                     icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
                     priority="primary"
+                    title="apple pay"
                 >
                     {buttonText}
                 </ButtonApplePay>
@@ -148,6 +149,7 @@ const SecondaryCtaButton = ({
                     onClickAction={url}
                     icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
                     priority="secondary"
+                    title="card"
                 >
                     {buttonText}
                 </ButtonApplePay>

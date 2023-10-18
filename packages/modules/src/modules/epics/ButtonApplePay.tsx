@@ -38,6 +38,7 @@ type Props = {
     children: React.ReactElement | string;
     icon: React.ReactElement;
     priority?: 'primary' | 'secondary';
+    title?: string;
 };
 
 const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): SerializedStyles => css`
@@ -62,7 +63,7 @@ const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): Serialized
 `;
 
 export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
-    const { onClickAction, children, icon, priority = 'primary', ...props } = allProps;
+    const { onClickAction, children, icon, priority = 'primary', title, ...props } = allProps;
     return (
         <ThemeProvider theme={buttonStyles}>
             <LinkButton
@@ -73,6 +74,7 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
                 rel="noopener noreferrer"
                 priority={priority}
                 css={linkButtonColorStyles(buttonStyles[priority])}
+                title={title ?? ''}
                 {...props}
             >
                 {children}
