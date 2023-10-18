@@ -4,6 +4,7 @@ import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from '@emotion/react';
 import { LinkButton } from '@guardian/src-button';
 import type { ReactComponent } from '../../types';
+import { from } from '@guardian/src-foundations/mq';
 
 type LinkButtonColourStyles = {
     text: string;
@@ -42,9 +43,14 @@ type Props = {
 const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): SerializedStyles => css`
     width: 100%;
     justify-content: center;
+    padding: 0 10px;
     border: 1px solid ${buttonStyles.border}!important;
     background-color: ${buttonStyles.background} !important;
     color: ${buttonStyles.text} !important;
+
+    ${from.mobileMedium} {
+        padding: 0 20px;
+    }
 
     :hover {
         background-color: ${buttonStyles.hover} !important;
