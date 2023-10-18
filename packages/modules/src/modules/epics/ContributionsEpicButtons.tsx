@@ -8,6 +8,7 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     getReminderViewEvent,
+    OPHAN_COMPONENT_EVENT_CTAS_APPLEPAY,
     OPHAN_COMPONENT_EVENT_CTAS_VIEW,
     OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
 } from './utils/ophan';
@@ -64,6 +65,7 @@ const PrimaryCtaButton = ({
     amountsVariantName,
     numArticles,
     showApplePay,
+    submitComponentEvent,
 }: {
     cta?: Cta;
     tracking: Tracking;
@@ -72,6 +74,7 @@ const PrimaryCtaButton = ({
     amountsVariantName?: string;
     numArticles: number;
     showApplePay?: boolean;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
@@ -88,11 +91,18 @@ const PrimaryCtaButton = ({
         amountsVariantName,
     );
 
+    const openApplePay = (): string => {
+        if (submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_CTAS_APPLEPAY);
+        }
+        return urlWithRegionAndTracking;
+    };
+
     return (
         <div css={buttonMarginStyles(showApplePay)}>
             {showApplePay ? (
                 <ButtonApplePay
-                    onClickAction={urlWithRegionAndTracking}
+                    onClickAction={openApplePay()}
                     icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
                     priority="primary"
                 >
@@ -131,7 +141,6 @@ const SecondaryCtaButton = ({
         numArticles,
         countryCode,
     );
-
     return (
         <div css={buttonMarginStyles(showApplePay)}>
             {showApplePay ? (
@@ -230,6 +239,7 @@ export const ContributionsEpicButtons = ({
                         amountsVariantName={amountsVariantName}
                         countryCode={countryCode}
                         showApplePay={showApplePay}
+                        submitComponentEvent={submitComponentEvent}
                     />
                     {showApplePay && (
                         <SecondaryCtaButton
