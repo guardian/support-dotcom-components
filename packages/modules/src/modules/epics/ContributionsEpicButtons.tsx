@@ -64,7 +64,7 @@ const PrimaryCtaButton = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
-    showApplePay,
+    showApplePayButton,
     submitComponentEvent,
 }: {
     cta?: Cta;
@@ -73,14 +73,14 @@ const PrimaryCtaButton = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     numArticles: number;
-    showApplePay?: boolean;
+    showApplePayButton?: boolean;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
     }
 
-    const buttonText = showApplePay ? 'Support with' : cta.text || 'Support The Guardian';
+    const buttonText = showApplePayButton ? 'Support with' : cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
@@ -99,8 +99,8 @@ const PrimaryCtaButton = ({
     };
 
     return (
-        <div css={buttonMarginStyles(showApplePay)}>
-            {showApplePay ? (
+        <div css={buttonMarginStyles(showApplePayButton)}>
+            {showApplePayButton ? (
                 <ButtonApplePay
                     onClickAction={openApplePay()}
                     icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
@@ -127,15 +127,15 @@ const SecondaryCtaButton = ({
     tracking,
     numArticles,
     countryCode,
-    showApplePay,
+    showApplePayButton,
 }: {
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
     numArticles: number;
-    showApplePay?: boolean;
+    showApplePayButton?: boolean;
 }): JSX.Element | null => {
-    const buttonText = showApplePay ? 'Support with' : cta.text;
+    const buttonText = showApplePayButton ? 'Support with' : cta.text;
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
@@ -143,8 +143,8 @@ const SecondaryCtaButton = ({
         countryCode,
     );
     return (
-        <div css={buttonMarginStyles(showApplePay)}>
-            {showApplePay ? (
+        <div css={buttonMarginStyles(showApplePayButton)}>
+            {showApplePayButton ? (
                 <ButtonApplePay
                     onClickAction={url}
                     icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
@@ -175,7 +175,7 @@ interface ContributionsEpicButtonsProps {
     amountsVariantName?: string;
     choiceCardSelection?: ChoiceCardSelection;
     numArticles: number;
-    showApplePay?: boolean;
+    showApplePayButton?: boolean;
 }
 
 export const ContributionsEpicButtons = ({
@@ -191,7 +191,7 @@ export const ContributionsEpicButtons = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
-    showApplePay,
+    showApplePayButton,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
     const { cta, secondaryCta, showReminderFields } = variant;
@@ -230,7 +230,7 @@ export const ContributionsEpicButtons = ({
         (secondaryCta?.type === SecondaryCtaType.Custom && isSupportUrl(secondaryCta.cta.baseUrl));
 
     return (
-        <div ref={setNode} css={buttonWrapperStyles(showApplePay)} data-testid="epic=buttons">
+        <div ref={setNode} css={buttonWrapperStyles(showApplePayButton)} data-testid="epic=buttons">
             {!isReminderActive && (
                 <>
                     <PrimaryCtaButton
@@ -240,29 +240,29 @@ export const ContributionsEpicButtons = ({
                         amountsTestName={amountsTestName}
                         amountsVariantName={amountsVariantName}
                         countryCode={countryCode}
-                        showApplePay={showApplePay}
+                        showApplePayButton={showApplePayButton}
                         submitComponentEvent={submitComponentEvent}
                     />
-                    {showApplePay && (
+                    {showApplePayButton && (
                         <SecondaryCtaButton
                             cta={getCta(cta)}
                             tracking={tracking}
                             countryCode={countryCode}
                             numArticles={numArticles}
-                            showApplePay={showApplePay}
+                            showApplePayButton={showApplePayButton}
                         />
                     )}
 
                     {secondaryCta?.type === SecondaryCtaType.Custom &&
                     secondaryCta.cta.baseUrl &&
-                    !showApplePay &&
+                    !showApplePayButton &&
                     secondaryCta.cta.text ? (
                         <SecondaryCtaButton
                             cta={secondaryCta.cta}
                             tracking={tracking}
                             countryCode={countryCode}
                             numArticles={numArticles}
-                            showApplePay={showApplePay}
+                            showApplePayButton={showApplePayButton}
                         />
                     ) : (
                         secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
@@ -270,14 +270,14 @@ export const ContributionsEpicButtons = ({
                         !hasSetReminder() && (
                             <div
                                 css={[
-                                    buttonMarginStyles(showApplePay),
-                                    reminderDesktopHideStyle(showApplePay),
+                                    buttonMarginStyles(showApplePayButton),
+                                    reminderDesktopHideStyle(showApplePayButton),
                                 ]}
                             >
                                 <Button
                                     onClickAction={openReminder}
                                     isTertiary
-                                    cssOverrides={buttonFullWidthStyle(showApplePay)}
+                                    cssOverrides={buttonFullWidthStyle(showApplePayButton)}
                                 >
                                     {showReminderFields.reminderCta}
                                 </Button>
@@ -285,7 +285,7 @@ export const ContributionsEpicButtons = ({
                         )
                     )}
 
-                    {hasSupportCta && !showApplePay && (
+                    {hasSupportCta && !showApplePayButton && (
                         <img
                             width={422}
                             height={60}

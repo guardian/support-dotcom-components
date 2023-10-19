@@ -27,7 +27,7 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
-import { isValidApplePaySession } from '../utils/applePay';
+import { isValidApplePayWalletSession } from '../utils/applePay';
 
 // CSS Styling
 // -------------------------------------------
@@ -251,13 +251,23 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
+    const [showApplePayButton, setShowApplePayButton] = useState(false);
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay, name } =
         variant;
 
-    /** Pre-defined storybook Epic variant name with either
-    1. showApplePay overide (storybook)
-    2. valid ApplePay browser https session  */
-    const showValidApplePay = name === 'V1_APPLE_PAY' && (showApplePay || isValidApplePaySession());
+    useEffect(() => {
+        /** Pre-defined storybook Epic variant name with either
+                1. showApplePay overide (storybook)
+                2. valid ApplePay with Wallet browser https session  */
+        const showApplePayValid = name === 'V1_APPLE_PAY' && showApplePay;
+        if (showApplePayValid) {
+            setShowApplePayButton(showApplePay);
+        } else {
+            isValidApplePayWalletSession().then((result) => {
+                setShowApplePayButton(name === 'V1_APPLE_PAY' && result);
+            });
+        }
+    }, []);
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
@@ -434,7 +444,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                     onReminderOpen={onReminderOpen}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
-                    showApplePay={showValidApplePay}
+                    showApplePayButton={showApplePayButton}
                     showChoiceCards={showChoiceCards}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}

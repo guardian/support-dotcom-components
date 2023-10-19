@@ -10,7 +10,7 @@ interface OnReminderOpen {
 }
 
 type ContributionsEpicCtasProps = EpicProps & {
-    showApplePay?: boolean;
+    showApplePayButton?: boolean;
     showChoiceCards?: boolean;
     choiceCardSelection?: ChoiceCardSelection;
     amountsTestName?: string;
@@ -25,7 +25,7 @@ export const ContributionsEpicCtas: ReactComponent<ContributionsEpicCtasProps> =
     submitComponentEvent,
     onReminderOpen,
     fetchEmail,
-    showApplePay,
+    showApplePayButton,
     showChoiceCards,
     choiceCardSelection,
     amountsTestName,
@@ -71,7 +71,7 @@ export const ContributionsEpicCtas: ReactComponent<ContributionsEpicCtasProps> =
                 submitComponentEvent={submitComponentEvent}
                 isReminderActive={isReminderActive}
                 isSignedIn={Boolean(fetchedEmail)}
-                showApplePay={showApplePay}
+                showApplePayButton={showApplePayButton}
                 showChoiceCards={showChoiceCards}
                 choiceCardSelection={choiceCardSelection}
                 amountsTestName={amountsTestName}
