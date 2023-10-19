@@ -187,7 +187,7 @@ const withBannerData =
 
                 return {
                     type: SecondaryCtaType.ContributionsReminder,
-                    reminderFields: getReminderFields(),
+                    reminderFields: getReminderFields(countryCode),
                 };
             };
 
