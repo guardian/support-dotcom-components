@@ -259,7 +259,9 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                 1. showApplePay overide (storybook)
                 2. valid ApplePay with Wallet browser https session  */
         // const showApplePayValid = name === 'V1_APPLE_PAY' && showApplePay;
+        console.log(`useEffect.isValidApplePayWalletSession STARTED`);
         isValidApplePayWalletSession().then((result) => {
+            console.log(`useEffect.isValidApplePayWalletSession ENDED -> ${result}`);
             setShowApplePayButton(result);
         });
 

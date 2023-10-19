@@ -1,4 +1,5 @@
 export const isValidApplePayWalletSession = (): Promise<boolean> => {
+    console.log(`isValidApplePayWalletSession -> IN`);
     const protocol = window.location.protocol;
     const merchantIdentifier = 'merchant.uk.co.guardian.contributions';
     /**
@@ -10,13 +11,17 @@ export const isValidApplePayWalletSession = (): Promise<boolean> => {
             if (window.ApplePaySession) {
                 window.ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier).then(
                     (result) => {
+                        console.log(`canMakePaymentsWithActiveCard -> ${result}`);
+                        console.log(`isValidApplePayWalletSession -> OUT`);
                         resolve(result);
                     },
                 );
             } else {
+                console.log(`window.ApplePaySession -> false`);
                 resolve(false);
             }
         });
     }
+    console.log(`https -> false`);
     return Promise.resolve(false);
 };
