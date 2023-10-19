@@ -252,21 +252,24 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     stage,
 }: EpicProps) => {
     const [showApplePayButton, setShowApplePayButton] = useState(false);
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay, name } =
-        variant;
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
 
     useEffect(() => {
         /** Pre-defined storybook Epic variant name with either
                 1. showApplePay overide (storybook)
                 2. valid ApplePay with Wallet browser https session  */
-        const showApplePayValid = name === 'V1_APPLE_PAY' && showApplePay;
-        if (showApplePayValid) {
-            setShowApplePayButton(showApplePay);
-        } else {
-            isValidApplePayWalletSession().then((result) => {
-                setShowApplePayButton(name === 'V1_APPLE_PAY' && result);
-            });
-        }
+        // const showApplePayValid = name === 'V1_APPLE_PAY' && showApplePay;
+        isValidApplePayWalletSession().then((result) => {
+            setShowApplePayButton(result);
+        });
+
+        // if (showApplePayValid) {
+        //     setShowApplePayButton(showApplePay);
+        // } else {
+        //     isValidApplePayWalletSession().then((result) => {
+        //         setShowApplePayButton(name === 'V1_APPLE_PAY' && result);
+        //     });
+        // }
     }, []);
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<
