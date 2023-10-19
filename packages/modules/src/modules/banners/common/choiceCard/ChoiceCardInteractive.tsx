@@ -3,7 +3,6 @@ import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
 import {
     ContributionFrequency,
     SelectedAmountsVariant,
-    // contributionTabFrequencies,
     OphanComponentEvent,
 } from '@sdc/shared/types';
 import { css } from '@emotion/react';
@@ -13,13 +12,7 @@ import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/c
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 
-const buildStyles = (
-    design: ChoiceCardSettings | undefined,
-    frequencyColumns: number,
-    hideChooseYourAmount: boolean,
-    thirdAmount: boolean,
-) => {
-
+const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: number) => {
     const buttonColour = design?.buttonColour ?? 'transparent';
 
     return {
@@ -88,7 +81,7 @@ const buildStyles = (
 
             > label {
                 margin: 0 !important;
-                background-color: buttonColour};
+                background-color: ${buttonColour};
             }
 
             > label:first-of-type {
@@ -106,14 +99,26 @@ const buildStyles = (
                 }
             }
         `,
+        amountsOrOtherButton: css`
+            margin-bottom: ${space[1]}px;
+
+            > label {
+                background-color: ${buttonColour};
+            }
+
+            ${from.mobileLandscape} { 
+                margin-bottom: ${space[3]}px;
+            }}
+        `,
+
         amountsButtonOverride: css`
             border-radius: ${space[3]}px;
             ${until.mobileMedium} {
                 font-size: 10px;
             }
         `,
-    }
-}
+    };
+};
 
 interface ChoiceCardInteractiveProps {
     selection?: ChoiceCardSelection;
@@ -147,12 +152,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     const noOfContributionTabs = displayContributionType.length > 2 ? 3 : 2;
     const hideChooseYourAmount = !!amountsCardData[selection.frequency].hideChooseYourAmount;
 
-    const style = buildStyles(
-        design,
-        noOfContributionTabs,
-        hideChooseYourAmount,
-        true,
-    );
+    const style = buildStyles(design, noOfContributionTabs);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
@@ -193,6 +193,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                     id={`contributions-banner-${amount}`}
                     checked={selection.amount === amount}
                     onChange={() => updateAmount(amount)}
+                    cssOverrides={style.amountsButtonOverride}
                 />
             );
         }
@@ -202,17 +203,19 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     const generateChoiceCardAmountsButtons = () => {
         const productData = amountsCardData[selection.frequency];
         const requiredAmounts = productData.amounts;
-        // const hideChooseYourAmount = productData.hideChooseYourAmount ?? false;
 
         // Something is wrong with the data
         if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
             return (
-                <ChoiceCard
-                    value="third"
-                    label="Other"
-                    id="contributions-banner-third"
-                    checked={true}
-                />
+                <div css={style.amountsOrOtherButton}>
+                    <ChoiceCard
+                        value="third"
+                        label="Other"
+                        id="contributions-banner-third"
+                        checked={true}
+                        cssOverrides={style.amountsButtonOverride}
+                    />
+                </div>
             );
         }
 
@@ -223,16 +226,20 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                     <ChoiceCardAmount amount={requiredAmounts[1]} />
                 </div>
                 {hideChooseYourAmount ? (
-                    <ChoiceCardAmount amount={requiredAmounts[2]} />
+                    <div css={style.amountsOrOtherButton}>
+                        <ChoiceCardAmount amount={requiredAmounts[2]} />
+                    </div>
                 ) : (
-                    <ChoiceCard
-                        value="other"
-                        label="Other"
-                        id="contributions-banner-other"
-                        cssOverrides={style.amountsButtonOverride}
-                        checked={selection.amount == 'other'}
-                        onChange={() => updateAmount('other')}
-                    />
+                    <div css={style.amountsOrOtherButton}>
+                        <ChoiceCard
+                            value="other"
+                            label="Other"
+                            id="contributions-banner-other"
+                            checked={selection.amount === 'other'}
+                            onChange={() => updateAmount('other')}
+                            cssOverrides={style.amountsButtonOverride}
+                        />
+                    </div>
                 )}
             </>
         );
@@ -241,7 +248,6 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     const generateChoiceCardFrequencyTab = (frequency: ContributionFrequency) => {
         const label = contributionType[frequency].label;
         return (
-            <div css={style.frequencyContainer}>
             <ChoiceCard
                 key={label}
                 label={label}
@@ -250,7 +256,6 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 checked={selection.frequency === frequency}
                 onChange={() => updateFrequency(frequency)}
             />
-            </div>
         );
     };
 
@@ -265,20 +270,17 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                     style.bannerFrequenciesGroupOverrides,
                 ]}
             >
-                {displayContributionType.map((f) => generateChoiceCardFrequencyTab(f))}
+                <div css={style.frequencyContainer}>
+                    {displayContributionType.map((f) => generateChoiceCardFrequencyTab(f))}
+                </div>
             </ChoiceCardGroup>
             <ChoiceCardGroup
                 name="contribution-amount"
                 label="Contribution amount"
-                cssOverrides={[
-                    style.hideChoiceCardGroupLegend, 
-                    style.bannerAmountsGroupOverrides,
-                ]}
+                cssOverrides={[style.hideChoiceCardGroupLegend, style.bannerAmountsGroupOverrides]}
                 aria-labelledby={selection.frequency}
             >
-                <div css={style.amountsContainer}>
-                    {generateChoiceCardAmountsButtons()}
-                </div>
+                <div css={style.amountsContainer}>{generateChoiceCardAmountsButtons()}</div>
             </ChoiceCardGroup>
         </>
     );
