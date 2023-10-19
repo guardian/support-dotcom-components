@@ -24,7 +24,7 @@ const useChoiceCards = (
 
     useEffect(() => {
         if (choiceCardAmounts?.amountsCardData) {
-            const defaultFrequency: ContributionFrequency = 'MONTHLY';
+            const defaultFrequency: ContributionFrequency = choiceCardAmounts.defaultContributionType || 'MONTHLY';
             const localAmounts = choiceCardAmounts.amountsCardData[defaultFrequency];
             const defaultAmount = localAmounts.defaultAmount || localAmounts.amounts[1] || 1;
 
