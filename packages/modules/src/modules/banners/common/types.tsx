@@ -18,7 +18,6 @@ export type BannerId =
     | 'environment-moment-banner'
     | 'subscription-banner'
     | 'weekly-banner'
-    | 'choice-cards-buttons-banner-blue'
     | 'supporter-moment-banner'
     | 'europe-moment-local-language-banner'
     | 'global-new-year-moment-banner'
