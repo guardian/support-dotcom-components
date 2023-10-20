@@ -8,7 +8,8 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     getReminderViewEvent,
-    OPHAN_COMPONENT_EVENT_CTAS_APPLEPAY,
+    OPHAN_COMPONENT_EVENT_APPLEPAY_CTA,
+    OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW,
     OPHAN_COMPONENT_EVENT_CTAS_VIEW,
     OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
 } from './utils/ophan';
@@ -93,7 +94,7 @@ const PrimaryCtaButton = ({
 
     const openApplePay = (): string => {
         if (submitComponentEvent) {
-            submitComponentEvent(OPHAN_COMPONENT_EVENT_CTAS_APPLEPAY);
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
         }
         return urlWithRegionAndTracking;
     };
@@ -211,7 +212,9 @@ export const ContributionsEpicButtons = ({
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
             submitComponentEvent(OPHAN_COMPONENT_EVENT_CTAS_VIEW);
-
+            if (showApplePayButton) {
+                submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW);
+            }
             if (showReminderFields && !hasSetReminder()) {
                 submitComponentEvent(getReminderViewEvent(isSignedIn));
             }
