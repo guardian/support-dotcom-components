@@ -11,8 +11,7 @@ import { SerializedStyles, css } from '@emotion/react';
 import { space } from '@guardian/src-foundations';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
-import { ChoiceCardBannerComponentId } from './ChoiceCards';
-import { ChoiceCardSettings } from '../../momentTemplate/settings';
+import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 
 const container = css`
     display: flex;

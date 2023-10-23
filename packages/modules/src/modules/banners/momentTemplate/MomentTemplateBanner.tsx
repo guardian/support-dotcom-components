@@ -135,9 +135,7 @@ export function getMomentTemplateBanner(
                                 submitComponentEvent={submitComponentEvent}
                                 currencySymbol={currencySymbol}
                                 componentId={'choice-cards-buttons-banner-blue'}
-                                amounts={choiceCardAmounts.amountsCardData}
-                                amountsTestName={choiceCardAmounts.testName}
-                                amountsVariantName={choiceCardAmounts.variantName}
+                                amountsTest={choiceCardAmounts}
                                 design={templateSettings.choiceCardSettings}
                                 countryCode={countryCode}
                                 bannerTracking={tracking}
