@@ -125,7 +125,7 @@ interface ChoiceCardInteractiveProps {
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
-    amountsTest: SelectedAmountsVariant;
+    amountsTest?: SelectedAmountsVariant;
     componentId: string;
     design?: ChoiceCardSettings;
 }

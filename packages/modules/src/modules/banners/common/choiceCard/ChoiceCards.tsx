@@ -21,7 +21,7 @@ interface ChoiceCardProps {
     currencySymbol: string;
     componentId: string;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
-    amountsTest: SelectedAmountsVariant;
+    amountsTest?: SelectedAmountsVariant;
     design?: ChoiceCardSettings;
     countryCode?: string;
     bannerTracking?: Tracking;
