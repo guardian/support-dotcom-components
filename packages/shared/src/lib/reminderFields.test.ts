@@ -58,6 +58,22 @@ describe('getReminderFields', () => {
         });
     });
 
+    describe('when in the US, between Giving Tuesday and the day before New Years Eve', () => {
+        it('should return New Years Eve reminder fields', () => {
+            const inTheNewYearsEveReminderPeriod = new Date('2023-12-15');
+
+            const actual = getReminderFields('US', inTheNewYearsEveReminderPeriod);
+
+            const expected = {
+                reminderCta: 'Remind me on New Years Eve',
+                reminderPeriod: '2023-12-01',
+                reminderLabel: 'on New Years Eve',
+                reminderOption: 'new-years-eve-2023',
+            };
+            expect(actual).toEqual(expected);
+        });
+    });
+
     describe('when outside the US, during the giving Tuesday period', () => {
         it('should return standard reminder fields', () => {
             const inTheGivingTuesdayPeriod = new Date('2023-11-15');
@@ -68,6 +84,21 @@ describe('getReminderFields', () => {
                 reminderCta: `Remind me in December`,
                 reminderPeriod: `2023-12-01`,
                 reminderLabel: `December 2023`,
+            };
+            expect(actual).toEqual(expected);
+        });
+    });
+
+    describe('when outside the US, between Giving Tuesday and the day before New Years Eve', () => {
+        it('should return standard reminder fields', () => {
+            const inTheNewYearsEveReminderPeriod = new Date('2023-12-15');
+
+            const actual = getReminderFields('FR', inTheNewYearsEveReminderPeriod);
+
+            const expected = {
+                reminderCta: `Remind me in January`,
+                reminderPeriod: `2024-01-01`,
+                reminderLabel: `January 2024`,
             };
             expect(actual).toEqual(expected);
         });
