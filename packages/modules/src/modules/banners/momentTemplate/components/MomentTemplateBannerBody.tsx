@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { body } from '@guardian/src-foundations/typography';
 import { createBannerBodyCopy } from '../../common/BannerText';
 import { HighlightedTextSettings } from '../settings';
@@ -23,7 +23,7 @@ export function MomentTemplateBannerBody({
     const isTabletOrAbove = useMediaQuery(from.tablet);
 
     return (
-        <div css={styles.container}>
+        <div css={[styles.commonFontSizing, styles.container]}>
             {isTabletOrAbove
                 ? createBannerBodyCopy(mainContent.paragraphs, mainContent.highlightedText, styles)
                 : createBannerBodyCopy(
@@ -36,25 +36,27 @@ export function MomentTemplateBannerBody({
 }
 
 const getStyles = (settings: HighlightedTextSettings) => ({
-    container: css`
-        ${body.small()}
-        font-size: 15px;
-        line-height: 135%;
-
-        ${from.desktop} {
-            font-size: 17px;
+    commonFontSizing: css`
+        ${body.small({ lineHeight: 'loose' })};
+        ${until.tablet} {
+            strong {
+                font-weight: 800;
+            }
         }
-
+        ${from.tablet} {
+            ${body.medium({ lineHeight: 'loose' })};
+            strong {
+                ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
+            }
+        }
+    `,
+    container: css`
+        line-height: 135%;
         ${from.wide} {
             line-height: 150%;
         }
-
         p {
             margin: 0 0 0.5em 0;
-        }
-
-        strong {
-            font-weight: bold;
         }
     `,
     highlightedText: css`
