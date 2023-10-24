@@ -34,11 +34,11 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-const givingTuesdayStart = new Date('2023-11-01'); // TODO: confirm this start date
-const givingTuesdayCutOff = new Date('2023-11-28');
+const givingTuesdayStart = new Date('2023-11-10');
+const givingTuesdayCutOff = new Date('2023-11-27');
 
 const givingTuesdayIsActive = (date: Date): boolean =>
-    date >= givingTuesdayStart && date < givingTuesdayCutOff;
+    date >= givingTuesdayStart && date <= givingTuesdayCutOff;
 
 export const getReminderFields = (
     countryCode?: string,
