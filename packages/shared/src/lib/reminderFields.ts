@@ -41,11 +41,9 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-const givingTuesdayStart = new Date('2023-11-10');
 const givingTuesdayCutOff = new Date('2023-11-27');
 
-const givingTuesdayIsActive = (date: Date): boolean =>
-    date >= givingTuesdayStart && date <= givingTuesdayCutOff;
+const givingTuesdayIsActive = (date: Date): boolean => date <= givingTuesdayCutOff;
 
 const newYearsEveStart = new Date('2023-11-28');
 const newYearsEveCutOff = new Date('2023-12-30');
