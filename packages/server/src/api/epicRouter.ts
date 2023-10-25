@@ -118,7 +118,8 @@ export const buildEpicRouter = (
 
         const tickerSettings =
             variant.tickerSettings && tickerData.addTickerDataToSettings(variant.tickerSettings);
-        const showReminderFields = variant.showReminderFields ?? getReminderFields();
+        const showReminderFields =
+            variant.showReminderFields ?? getReminderFields(targeting.countryCode);
 
         const contributionAmounts = choiceCardAmounts.get();
         const requiredCountry = targeting.countryCode ?? 'GB';
