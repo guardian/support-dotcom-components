@@ -46,12 +46,12 @@ const getStyles = (settings: HighlightedTextSettings) => ({
         }
 
         ${body.small({ lineHeight: 'loose' })};
-        ${until.tablet} {
+        ${until.desktop} {
             strong {
                 font-weight: 800;
             }
         }
-        ${from.tablet} {
+        ${from.desktop} {
             ${body.medium({ lineHeight: 'loose' })};
             strong {
                 ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
@@ -72,10 +72,10 @@ const getStyles = (settings: HighlightedTextSettings) => ({
 
         padding: 0.15rem 0.15rem;
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
-        ${until.tablet} {
+        ${until.desktop} {
             font-weight: 800;
         }
-        ${from.tablet} {
+        ${from.desktop} {
             ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         }
     `,
