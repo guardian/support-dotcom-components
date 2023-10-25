@@ -32,18 +32,16 @@ const styles = {
     `,
     header: (headerSettings: HeaderSettings | undefined) => css`
         h2 {
-            ${headline.xsmall({ fontWeight: 'bold' })}
             margin: 0;
             color: ${headerSettings?.textColour ?? neutral[0]};
-            font-size: 24px;
             line-height: 115%;
 
+            ${headline.xsmall({ fontWeight: 'bold' })}
             ${from.tablet} {
-                font-size: 28px;
+                ${headline.small({ fontWeight: 'bold' })}
             }
-
             ${from.desktop} {
-                font-size: 34px;
+                ${headline.medium({ fontWeight: 'bold' })}
             }
         }
     `,
