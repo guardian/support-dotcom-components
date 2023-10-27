@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { body } from '@guardian/src-foundations/typography';
 import { createBannerBodyCopy } from '../../common/BannerText';
 import { HighlightedTextSettings } from '../settings';
@@ -46,16 +46,8 @@ const getStyles = (settings: HighlightedTextSettings) => ({
         }
 
         ${body.small({ lineHeight: 'loose' })};
-        ${until.desktop} {
-            strong {
-                font-weight: 800;
-            }
-        }
         ${from.desktop} {
             ${body.medium({ lineHeight: 'loose' })};
-            strong {
-                ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
-            }
         }
     `,
     highlightedText: css`
@@ -72,9 +64,6 @@ const getStyles = (settings: HighlightedTextSettings) => ({
 
         padding: 0.15rem 0.15rem;
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
-        ${until.desktop} {
-            font-weight: 800;
-        }
         ${from.desktop} {
             ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         }
