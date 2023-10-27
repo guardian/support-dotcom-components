@@ -38,7 +38,7 @@ const styles = {
         ${headline.xxxsmall({ fontWeight: 'bold' })};
         font-size: 94%;
         ${from.desktop} {
-            ${headline.xxxsmall({ fontWeight: 'bold' })}
+            font-size: ${(100 / 94) * 100}%;
         }
     `,
 };
