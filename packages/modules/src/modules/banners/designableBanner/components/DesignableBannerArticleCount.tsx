@@ -36,9 +36,9 @@ const styles = {
         margin: 0;
         color: ${textColor};
         ${headline.xxxsmall({ fontWeight: 'bold' })};
-        font-size: 94%;
+        font-size: 94%; /* headline reduced to 15px whilst allowing browser to font resize */
         ${from.desktop} {
-            font-size: ${(100 / 94) * 100}%;
+            font-size: ${(100 / 94) * 100}%; /* headline scaled back to 17px/xxxsmall */
         }
     `,
 };
