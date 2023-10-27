@@ -37,17 +37,12 @@ export function DesignableBannerBody({
 
 const getStyles = (settings: HighlightedTextSettings) => ({
     container: css`
-        line-height: 135%;
-        ${from.wide} {
-            line-height: 150%;
-        }
         p {
             margin: 0 0 0.5em 0;
         }
-
         ${body.small({ lineHeight: 'loose' })};
         ${from.desktop} {
-            ${body.medium({ lineHeight: 'loose' })};
+            ${body.medium({ lineHeight: 'regular' })};
         }
     `,
     highlightedText: css`

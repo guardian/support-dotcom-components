@@ -42,9 +42,8 @@ const styles = {
         h2 {
             margin: 0;
             color: ${headerSettings?.textColour ?? neutral[0]};
-            line-height: 115%;
 
-            ${headline.xsmall({ fontWeight: 'bold' })}
+            ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
             ${from.tablet} {
                 ${headline.small({ fontWeight: 'bold' })}
             }
