@@ -108,7 +108,7 @@ const styles = {
 
 const contributionType: ContributionType = {
     ONE_OFF: {
-        label: 'Single',
+        label: 'One-time',
         suffix: '',
     },
     MONTHLY: {
