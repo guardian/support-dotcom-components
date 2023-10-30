@@ -53,7 +53,8 @@ export const FrequencyTabs = ({
         return tabFrequencies.map((tabFrequency) => ({
             frequency: tabFrequency,
             id: `banner-${tabFrequency}`,
-            labelText: tabFrequency === 'ONE_OFF' ? 'Single' : getRecurringLabelText(tabFrequency),
+            labelText:
+                tabFrequency === 'ONE_OFF' ? 'One-time' : getRecurringLabelText(tabFrequency),
             selected: selection.frequency === tabFrequency,
         }));
     };
