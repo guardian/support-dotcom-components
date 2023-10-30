@@ -37,24 +37,12 @@ export function DesignableBannerBody({
 
 const getStyles = (settings: HighlightedTextSettings) => ({
     container: css`
-        ${body.small()}
-        font-size: 15px;
-        line-height: 135%;
-
-        ${from.desktop} {
-            font-size: 17px;
-        }
-
-        ${from.wide} {
-            line-height: 150%;
-        }
-
         p {
             margin: 0 0 0.5em 0;
         }
-
-        strong {
-            font-weight: bold;
+        ${body.small({ lineHeight: 'loose' })};
+        ${from.desktop} {
+            ${body.medium({ lineHeight: 'regular' })};
         }
     `,
     highlightedText: css`
@@ -71,10 +59,8 @@ const getStyles = (settings: HighlightedTextSettings) => ({
 
         padding: 0.15rem 0.15rem;
         ${body.small({ fontWeight: 'bold', lineHeight: 'loose' })};
-        font-size: 15px;
-
         ${from.desktop} {
-            font-size: 17px;
+            ${body.medium({ fontWeight: 'bold', lineHeight: 'loose' })};
         }
     `,
 });

@@ -33,13 +33,12 @@ export function MomentTemplateBannerArticleCount({
 
 const styles = {
     container: (textColor: string = 'inherit') => css`
-        ${headline.xxxsmall({ fontWeight: 'bold' })}
-        font-size: 15px;
-        color: ${textColor};
         margin: 0;
-
+        color: ${textColor};
+        ${headline.xxxsmall({ fontWeight: 'bold' })};
+        font-size: ${15 / 16}rem; /* root element 16px, headline 15px, allows browser font resize */
         ${from.desktop} {
-            font-size: 17px;
+            font-size: ${17 / 16}rem; /* root element 16px, headline.xxxsmall 17px */
         }
     `,
 };
