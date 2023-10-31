@@ -78,7 +78,7 @@ const givingTuesdayReminderStart = (date: Date): Date => {
     return new Date(date.getFullYear(), 9, 20); // October 20th (provisional auto start date, to be confirmed)
 };
 
-// Giving Tuesday is 'active' from November 1st until the day before Giving Tuesday
+// Giving Tuesday is 'active' from October 20th until the day before Giving Tuesday
 const givingTuesdayIsActive = (date: Date): boolean =>
     date >= givingTuesdayReminderStart(date) && date < givingTuesday(date.getFullYear());
 
