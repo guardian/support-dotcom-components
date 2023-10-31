@@ -5,6 +5,16 @@ export interface ReminderFields {
     reminderOption?: string;
 }
 
+const thanksgiving = (year: number = new Date().getFullYear()): Date => {
+    const novemberFirst = new Date(year, 10, 1).getDay();
+
+    return new Date(year, 10, 22 + ((11 - novemberFirst) % 7));
+};
+
+const givingTuesday = (year: number = new Date().getFullYear()): Date => {
+    return new Date(year, 10, thanksgiving(year).getDate() + 5);
+};
+
 const getReminderDate = (date: Date): Date => {
     const monthsAhead = date.getDate() < 20 ? 1 : 2;
     date.setMonth(date.getMonth() + monthsAhead);
@@ -41,9 +51,7 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-const givingTuesdayCutOff = new Date('2023-11-27');
-
-const givingTuesdayIsActive = (date: Date): boolean => date <= givingTuesdayCutOff;
+const givingTuesdayIsActive = (date: Date): boolean => date < givingTuesday();
 
 const newYearsEveStart = new Date('2023-11-28');
 const newYearsEveCutOff = new Date('2023-12-30');
