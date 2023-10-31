@@ -75,7 +75,7 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
 
 const newYearsEve = new Date('2023-12-31');
 const givingTuesdayReminderStart = (date: Date): Date => {
-    return new Date(date.getFullYear(), 10, 1); // November 1st (provisional auto start date, to be confirmed)
+    return new Date(date.getFullYear(), 9, 20); // October 20th (provisional auto start date, to be confirmed)
 };
 
 // Giving Tuesday is 'active' from November 1st until the day before Giving Tuesday
