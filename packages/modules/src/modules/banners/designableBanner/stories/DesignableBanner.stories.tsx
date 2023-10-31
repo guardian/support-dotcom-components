@@ -192,24 +192,86 @@ WithChoiceCards.args = {
             buttonColour: stringToHexColour('E5E5E5'),
         },
     },
+    // Note: the CTA will show "Support once" - this is an artefact of sharing content data across several tests and can be set by users to more appropriate copy in RRCP
     choiceCardAmounts: {
         testName: 'Storybook_test',
         variantName: 'CONTROL',
         defaultContributionType: 'MONTHLY',
         displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
         amountsCardData: {
+            // Card should show £5 (default), £10 and "other" buttons
             ONE_OFF: {
                 amounts: [5, 10, 15, 20],
                 defaultAmount: 5,
                 hideChooseYourAmount: false,
             },
+            // Card should initially display showing Monthly amounts
+            // Card should show £3, £6 and £10 (default) buttons
             MONTHLY: {
                 amounts: [3, 6, 10],
                 defaultAmount: 10,
                 hideChooseYourAmount: true,
             },
+            // Card should only show £100 (default) with no "other" button
             ANNUAL: {
                 amounts: [100],
+                defaultAmount: 100,
+                hideChooseYourAmount: true,
+            },
+        },
+    },
+};
+
+export const WithChoiceCardsEdgeCases = DefaultTemplate.bind({});
+WithChoiceCardsEdgeCases.args = {
+    ...props,
+    content,
+    mobileContent,
+    numArticles: 50,
+    tickerSettings: {
+        countType: TickerCountType.money,
+        endType: TickerEndType.hardstop,
+        currencySymbol: '',
+        copy: {
+            countLabel: 'contributions in May',
+            goalReachedPrimary: "We've met our goal - thank you!",
+            goalReachedSecondary: '',
+        },
+        tickerData: {
+            total: 4_000,
+            goal: 50_000,
+        },
+        name: 'AU',
+    },
+    design: {
+        ...design,
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+    },
+    choiceCardAmounts: {
+        testName: 'Storybook_test',
+        variantName: 'CONTROL',
+        defaultContributionType: 'ANNUAL',
+        displayContributionType: ['ONE_OFF', 'ANNUAL'],
+        amountsCardData: {
+            // Card should show only the "other" button (overrides hidden requirement)
+            ONE_OFF: {
+                amounts: [],
+                defaultAmount: 1,
+                hideChooseYourAmount: true,
+            },
+            // Card should not include a monthly tab or monthly amounts
+            MONTHLY: {
+                amounts: [3, 6, 10],
+                defaultAmount: 10,
+                hideChooseYourAmount: true,
+            },
+            // Card should initially display showing Annual amounts
+            // Card should show £100 (default), £200 and £300 buttons
+            ANNUAL: {
+                amounts: [100, 200, 300],
                 defaultAmount: 100,
                 hideChooseYourAmount: true,
             },

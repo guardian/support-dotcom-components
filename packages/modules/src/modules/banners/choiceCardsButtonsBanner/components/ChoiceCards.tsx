@@ -16,7 +16,10 @@ import {
     Tracking,
 } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
-import { ChoiceCardSettings } from '../../momentTemplate/settings';
+
+export interface ChoiceCardSettings {
+    buttonColour?: string;
+}
 
 export type ChoiceCardBannerComponentId = 'choice-cards-buttons-banner-blue';
 
@@ -108,7 +111,7 @@ const styles = {
 
 const contributionType: ContributionType = {
     ONE_OFF: {
-        label: 'Single',
+        label: 'One-time',
         suffix: '',
     },
     MONTHLY: {

@@ -12,6 +12,20 @@ const getReminderDate = (date: Date): Date => {
     return date;
 };
 
+export const GIVING_TUESDAY_REMINDER_FIELDS: ReminderFields = {
+    reminderCta: 'Remind me on Giving Tuesday',
+    reminderPeriod: '2023-11-01',
+    reminderLabel: 'on Giving Tuesday',
+    reminderOption: 'giving-tuesday-2023',
+};
+
+export const NEW_YEARS_EVE_REMINDER_FIELDS: ReminderFields = {
+    reminderCta: 'Remind me on New Years Eve',
+    reminderPeriod: '2023-12-01',
+    reminderLabel: 'on New Years Eve',
+    reminderOption: 'new-years-eve-2023',
+};
+
 export const buildReminderFields = (today: Date = new Date()): ReminderFields => {
     const reminderDate = getReminderDate(today);
 
@@ -27,7 +41,27 @@ export const buildReminderFields = (today: Date = new Date()): ReminderFields =>
     };
 };
 
-export const getReminderFields = (): ReminderFields => {
-    // Add campaign-specific reminders here, e.g. Giving Tuesday
-    return buildReminderFields();
+const givingTuesdayCutOff = new Date('2023-11-27');
+
+const givingTuesdayIsActive = (date: Date): boolean => date <= givingTuesdayCutOff;
+
+const newYearsEveStart = new Date('2023-11-28');
+const newYearsEveCutOff = new Date('2023-12-30');
+
+const newYearsEveIsActive = (date: Date): boolean =>
+    date >= newYearsEveStart && date <= newYearsEveCutOff;
+
+export const getReminderFields = (
+    countryCode?: string,
+    date: Date = new Date(),
+): ReminderFields => {
+    if (countryCode === 'US' && givingTuesdayIsActive(date)) {
+        return GIVING_TUESDAY_REMINDER_FIELDS;
+    }
+
+    if (countryCode === 'US' && newYearsEveIsActive(date)) {
+        return NEW_YEARS_EVE_REMINDER_FIELDS;
+    }
+
+    return buildReminderFields(date);
 };

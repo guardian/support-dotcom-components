@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
 import {
     ContributionFrequency,
-    ContributionType,
     SelectedAmountsVariant,
     contributionTabFrequencies,
     OphanComponentEvent,
@@ -11,6 +10,7 @@ import { css } from '@emotion/react';
 import { until } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
+import { contributionType, ChoiceCardSelection } from '../shared/helpers/choiceCards';
 import type { ReactComponent } from '../../types';
 
 // CSS Styling
@@ -39,30 +39,8 @@ const container = css`
     position: relative;
 `;
 
-// Static data + type defs
-// -------------------------------------------
-const contributionType: ContributionType = {
-    ONE_OFF: {
-        label: 'Single',
-        suffix: '',
-    },
-    MONTHLY: {
-        label: 'Monthly',
-        suffix: 'per month',
-    },
-    ANNUAL: {
-        label: 'Annual',
-        suffix: 'per year',
-    },
-};
-
 // ContributionsEpicChoiceCards - exported component
 // -------------------------------------------
-export interface ChoiceCardSelection {
-    frequency: ContributionFrequency;
-    amount: number | 'other';
-}
-
 interface EpicChoiceCardProps {
     selection?: ChoiceCardSelection;
     setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;

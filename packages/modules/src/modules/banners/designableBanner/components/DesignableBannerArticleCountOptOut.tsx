@@ -195,12 +195,11 @@ const overlayStyles = {
         justify-content: space-between;
     `,
     overlayHeaderText: css`
-        font-size: 17px;
-        font-weight: bold;
+        ${textSans.medium({ fontWeight: 'bold' })};
     `,
     overlayBody: css`
         margin-top: ${space[1]}px;
-        font-size: 15px;
+        ${textSans.small()};
     `,
     overlayCtaContainer: css`
         margin-top: ${space[3]}px;

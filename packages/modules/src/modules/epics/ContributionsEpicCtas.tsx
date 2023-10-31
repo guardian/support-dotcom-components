@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { EpicProps } from '@sdc/shared/types';
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
-import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
+import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 import type { ReactComponent } from '../../types';
 
 interface OnReminderOpen {

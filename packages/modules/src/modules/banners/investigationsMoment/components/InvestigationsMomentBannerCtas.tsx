@@ -173,6 +173,8 @@ const buttonWithPaymentIconStyles = {
         }
     `,
     paymentIconsContainer: css`
+        margin-top: ${space[2]}px;
+
         img {
             height: 14px;
             width: auto;
