@@ -22,7 +22,12 @@ const thanksgivingUSA = (year: number): Date => {
 
 // Giving Tuesday is always the Tuesday following Thanksgiving, i.e. five days after Thanksgiving
 const givingTuesday = (year: number): Date => {
-    return new Date(year, 10, thanksgivingUSA(year).getDate() + 5);
+    const date = thanksgivingUSA(year);
+    // We cannot simply query the date of the month for Thanksgiving and add 5 to it, we need to allow for Giving Tuesday
+    // to be in the first week of December
+    date.setDate(date.getDate() + 5);
+
+    return date;
 };
 
 const getReminderDate = (date: Date): Date => {
@@ -33,9 +38,12 @@ const getReminderDate = (date: Date): Date => {
 };
 
 const givingTuesdayReminderFields = (year: number): ReminderFields => {
+    // Giving Tuesday can be in either November or December
+    // Months in JS run from 0-11, we want 01-12 for the reminderPeriod field
+    const givingTuesdayMonth = (givingTuesday(year).getMonth() + 1).toString().padStart(0, '2');
     return {
         reminderCta: 'Remind me on Giving Tuesday',
-        reminderPeriod: `${year}-11-01`,
+        reminderPeriod: `${year}-${givingTuesdayMonth}-01`,
         reminderLabel: 'on Giving Tuesday',
         reminderOption: `giving-tuesday-${year}`,
     };
