@@ -1,5 +1,5 @@
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
-import { z } from 'zod';
+import * as z from 'zod';
 import {
     bylineWithImageSchema,
     ctaSchema,
