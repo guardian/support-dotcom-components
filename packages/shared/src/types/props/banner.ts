@@ -10,7 +10,7 @@ import {
     trackingSchema,
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
-import { z } from 'zod';
+import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
