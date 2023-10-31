@@ -74,7 +74,7 @@ const givingTuesdayReminderStart = (date: Date): Date => {
 const givingTuesdayIsActive = (date: Date): boolean =>
     date >= givingTuesdayReminderStart(date) && date < givingTuesday(date.getFullYear());
 
-// Giving Tuesday is 'active' from Giving Tuesday until the day before NYE
+// New Years Eve is 'active' from Giving Tuesday until the day before NYE
 const newYearsEveIsActive = (date: Date): boolean =>
     date >= givingTuesday(date.getFullYear()) && date < newYearsEve;
 
