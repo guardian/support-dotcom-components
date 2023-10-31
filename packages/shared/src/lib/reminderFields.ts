@@ -5,14 +5,14 @@ export interface ReminderFields {
     reminderOption?: string;
 }
 
-const thanksgiving = (year: number = new Date().getFullYear()): Date => {
+const thanksgivingUsa = (year: number = new Date().getFullYear()): Date => {
     const novemberFirst = new Date(year, 10, 1).getDay();
 
     return new Date(year, 10, 22 + ((11 - novemberFirst) % 7));
 };
 
 const givingTuesday = (year: number = new Date().getFullYear()): Date => {
-    return new Date(year, 10, thanksgiving(year).getDate() + 5);
+    return new Date(year, 10, thanksgivingUsa(year).getDate() + 5);
 };
 
 const getReminderDate = (date: Date): Date => {
