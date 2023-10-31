@@ -16,10 +16,10 @@ import {
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-import { ChoiceCardSelection } from './ContributionsEpicChoiceCards';
 import { ApplePaySvg } from './ApplePaySvg';
 import { PaymentCardSvg } from './PaymentCardsSvg';
 import { ButtonApplePay } from './ButtonApplePay';
+import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 
 const buttonWrapperStyles = (showApplePay?: boolean): SerializedStyles => css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;

@@ -22,12 +22,13 @@ import { useArticleCountOptOut } from '../../hooks/useArticleCountOptOut';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { isProd } from '../shared/helpers/stage';
 import { withParsedProps } from '../shared/ModuleWrapper';
-import { ChoiceCardSelection, ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
+import { ContributionsEpicChoiceCards } from './ContributionsEpicChoiceCards';
 import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
 import { isValidApplePayWalletSession } from '../utils/applePay';
+import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 
 // CSS Styling
 // -------------------------------------------
