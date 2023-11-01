@@ -26,7 +26,7 @@
     "@guardian/src-text-input": "3.8.0",
     "@sdc/shared": "1.0.0",
     "@types/babel__standalone": "^7.1.6",
-    "zod": "3.12.0"
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",
