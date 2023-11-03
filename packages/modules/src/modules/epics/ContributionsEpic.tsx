@@ -253,6 +253,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     stage,
 }: EpicProps) => {
     const [showApplePayButton, setShowApplePayButton] = useState(false);
+    const [applePayAuthorised, setApplePayAuthorised] = useState(false);
     const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay, name } =
         variant;
 
@@ -267,6 +268,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
             console.log(`useEffect.isValidApplePayWalletSession STARTED`);
             isValidApplePayWalletSession().then((result) => {
                 console.log(`useEffect.isValidApplePayWalletSession ENDED -> ${result}`);
+                setApplePayAuthorised(result);
                 setShowApplePayButton(name === 'V1_APPLE_PAY' && result);
             });
         }
@@ -448,6 +450,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                     showApplePayButton={showApplePayButton}
+                    applePayAuthorised={applePayAuthorised}
                     showChoiceCards={showChoiceCards}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
