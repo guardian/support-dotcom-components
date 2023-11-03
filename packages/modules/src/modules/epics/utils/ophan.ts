@@ -1,6 +1,7 @@
 import { OphanComponentEvent } from '@sdc/shared/types';
 
 const OPHAN_COMPONENT_ID_CTAS_VIEW = 'contributions-epic-ctas-view';
+const OPHAN_COMPONENT_ID_APPLEPAY_AUTHORISED = 'contributions-epic-applepay-authorised';
 const OPHAN_COMPONENT_ID_APPLEPAY_VIEW = 'contributions-epic-applepay-view';
 const OPHAN_COMPONENT_ID_APPLEPAY_CTA = 'contributions-epic-applepay-cta';
 const OPHAN_COMPONENT_ID_REMINDER_VIEW = 'contributions-epic-reminder-view';
@@ -36,6 +37,14 @@ export const OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW: OphanComponentEvent = {
     component: {
         componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_APPLEPAY_VIEW,
+    },
+    action: 'CLICK',
+};
+
+export const OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED: OphanComponentEvent = {
+    component: {
+        componentType: 'ACQUISITIONS_OTHER',
+        id: OPHAN_COMPONENT_ID_APPLEPAY_AUTHORISED,
     },
     action: 'CLICK',
 };

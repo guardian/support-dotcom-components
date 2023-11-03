@@ -177,7 +177,6 @@ interface ContributionsEpicButtonsProps {
     choiceCardSelection?: ChoiceCardSelection;
     numArticles: number;
     showApplePayButton?: boolean;
-    applePayAuthorised?: boolean;
 }
 
 export const ContributionsEpicButtons = ({
@@ -194,7 +193,6 @@ export const ContributionsEpicButtons = ({
     amountsVariantName,
     numArticles,
     showApplePayButton,
-    applePayAuthorised,
 }: ContributionsEpicButtonsProps): JSX.Element | null => {
     const [hasBeenSeen, setNode] = useHasBeenSeen({}, true);
     const { cta, secondaryCta, showReminderFields } = variant;
@@ -214,7 +212,7 @@ export const ContributionsEpicButtons = ({
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
             submitComponentEvent(OPHAN_COMPONENT_EVENT_CTAS_VIEW);
-            if (applePayAuthorised) {
+            if (showApplePayButton) {
                 submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW);
             }
             if (showReminderFields && !hasSetReminder()) {

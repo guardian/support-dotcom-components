@@ -309,7 +309,7 @@ WithReminderChoiceCardsAndApplePay.args = {
         ...props.variant,
         name: 'V1_APPLE_PAY',
         showChoiceCards: true,
-        showApplePay: true,
+        forceApplePay: true,
         choiceCardAmounts: {
             testName: 'Storybook_test',
             variantName: 'Control',
@@ -350,7 +350,7 @@ WithChoiceCardsAndApplePay.args = {
         ...props.variant,
         name: 'V1_APPLE_PAY',
         showChoiceCards: true,
-        showApplePay: true,
+        forceApplePay: true,
         choiceCardAmounts: {
             testName: 'Storybook_test',
             variantName: 'Control',

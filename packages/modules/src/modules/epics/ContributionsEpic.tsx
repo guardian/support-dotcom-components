@@ -29,6 +29,7 @@ import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
 import { isValidApplePayWalletSession } from '../utils/applePay';
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
+import { OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED } from './utils/ophan';
 
 // CSS Styling
 // -------------------------------------------
@@ -252,24 +253,21 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    const [showApplePayButton, setShowApplePayButton] = useState(false);
-    const [applePayAuthorised, setApplePayAuthorised] = useState(false);
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, showApplePay, name } =
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, forceApplePay, name } =
         variant;
+    const [showApplePayButton, setShowApplePayButton] =
+        useState(forceApplePay); /* forceApplePay displays ApplePay button in storybook */
 
     useEffect(() => {
-        /** Pre-defined storybook Epic variant name with either
-                1. showApplePay overide (storybook)
-                2. valid ApplePay with Wallet browser https session  */
-        const showApplePayValid = name === 'V1_APPLE_PAY' && showApplePay;
-        if (showApplePayValid) {
-            setShowApplePayButton(showApplePay);
-        } else {
-            console.log(`useEffect.isValidApplePayWalletSession STARTED`);
-            isValidApplePayWalletSession().then((result) => {
-                console.log(`useEffect.isValidApplePayWalletSession ENDED -> ${result}`);
-                setApplePayAuthorised(result);
-                setShowApplePayButton(name === 'V1_APPLE_PAY' && result);
+        const isInApplePayEpicTest = tracking.abTestName.includes('APPLE-PAY');
+        if (isInApplePayEpicTest) {
+            isValidApplePayWalletSession().then((validApplePayWalletSession) => {
+                if (validApplePayWalletSession) {
+                    if (submitComponentEvent) {
+                        submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED);
+                    }
+                    setShowApplePayButton(name === 'V1_APPLE_PAY');
+                }
             });
         }
     }, []);
@@ -450,7 +448,6 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
                     showApplePayButton={showApplePayButton}
-                    applePayAuthorised={applePayAuthorised}
                     showChoiceCards={showChoiceCards}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
