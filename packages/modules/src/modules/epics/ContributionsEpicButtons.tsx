@@ -43,13 +43,6 @@ const svgPositionStyles = css`
     margin: ${space[1]}px -${space[2]}px;
 `;
 
-const buttonMarginApplePayStyles = (): SerializedStyles => css`
-    margin: ${space[1]}px;
-    ${from.desktop} {
-        width: 100%;
-    }
-`;
-
 const buttonMarginStyles = (showApplePay?: boolean): SerializedStyles => css`
     ${showApplePay
         ? `margin: ${space[1]}px; ${from.desktop} {width: 100%;}`
@@ -78,8 +71,6 @@ const PrimaryCtaButton = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     numArticles: number;
-    showApplePayButton?: boolean;
-    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
@@ -120,7 +111,6 @@ const SecondaryCtaButton = ({
     countryCode?: string;
     numArticles: number;
 }): JSX.Element | null => {
-    const buttonText = cta.text;
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
@@ -130,13 +120,13 @@ const SecondaryCtaButton = ({
     return (
         <div css={buttonMarginStyles()}>
             <Button onClickAction={url} showArrow priority="secondary">
-                {buttonText}
+                {cta.text}
             </Button>
         </div>
     );
 };
 
-const PrimaryCtaButtonApple = ({
+const PrimaryCtaButtonApplePay = ({
     cta,
     tracking,
     countryCode,
@@ -167,7 +157,7 @@ const PrimaryCtaButtonApple = ({
     );
 
     return (
-        <div css={buttonMarginApplePayStyles()}>
+        <div css={buttonMarginStyles(true)}>
             <ButtonApplePay
                 onClickAction={urlWithRegionAndTracking}
                 icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
@@ -180,7 +170,7 @@ const PrimaryCtaButtonApple = ({
     );
 };
 
-const SecondaryCtaButtonApple = ({
+const SecondaryCtaButtonApplePay = ({
     cta,
     tracking,
     numArticles,
@@ -199,7 +189,7 @@ const SecondaryCtaButtonApple = ({
         countryCode,
     );
     return (
-        <div css={buttonMarginApplePayStyles()}>
+        <div css={buttonMarginStyles(true)}>
             <ButtonApplePay
                 onClickAction={url}
                 icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
@@ -287,7 +277,7 @@ export const ContributionsEpicButtons = ({
                 <>
                     {showApplePayButton ? (
                         <>
-                            <PrimaryCtaButtonApple
+                            <PrimaryCtaButtonApplePay
                                 cta={getCta(cta)}
                                 tracking={tracking}
                                 numArticles={numArticles}
@@ -295,7 +285,7 @@ export const ContributionsEpicButtons = ({
                                 amountsVariantName={amountsVariantName}
                                 countryCode={countryCode}
                             />
-                            <SecondaryCtaButtonApple
+                            <SecondaryCtaButtonApplePay
                                 cta={getCta(cta)}
                                 tracking={tracking}
                                 countryCode={countryCode}

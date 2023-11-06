@@ -8,10 +8,8 @@ const applePayStyles = css`
     height: 1.1rem;
     width: auto;
     margin-top: ${space[2]}px;
-    /* margin-left: ${space[1]}px; */
 
     ${from.tablet} {
-        /* margin-left: ${space[1]}px; */
         height: 1.25rem;
     }
 `;

@@ -48,7 +48,7 @@ const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): Serialized
     width: 100%;
     justify-content: center;
     padding: 0 10px;
-    border: 1px solid ${buttonStyles.border}!important;
+    border: 1px solid ${buttonStyles.border} !important;
     background-color: ${buttonStyles.background} !important;
     color: ${buttonStyles.text} !important;
 
@@ -77,7 +77,6 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
     } = allProps;
 
     const onApplePayCtaClick = () => {
-        console.log('onApplePayCtaClick called');
         if (submitComponentEvent) {
             submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
         }
