@@ -5,6 +5,8 @@ import { ThemeProvider } from '@emotion/react';
 import { LinkButton } from '@guardian/src-button';
 import type { ReactComponent } from '../../types';
 import { from } from '@guardian/src-foundations/mq';
+import { OphanComponentEvent } from '@sdc/shared/types';
+import { OPHAN_COMPONENT_EVENT_APPLEPAY_CTA } from './utils/ophan';
 
 type LinkButtonColourStyles = {
     text: string;
@@ -35,6 +37,7 @@ type Url = string;
 
 type Props = {
     onClickAction: Url;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
     children: React.ReactElement | string;
     icon: React.ReactElement;
     priority?: 'primary' | 'secondary';
@@ -63,11 +66,28 @@ const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): Serialized
 `;
 
 export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
-    const { onClickAction, children, icon, priority = 'primary', title, ...props } = allProps;
+    const {
+        onClickAction,
+        submitComponentEvent,
+        children,
+        icon,
+        priority = 'primary',
+        title,
+        ...props
+    } = allProps;
+
+    const onApplePayCtaClick = () => {
+        console.log('onApplePayCtaClick called');
+        if (submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
+        }
+    };
+
     return (
         <ThemeProvider theme={buttonStyles}>
             <LinkButton
                 href={onClickAction}
+                onClick={onApplePayCtaClick}
                 icon={icon}
                 iconSide="right"
                 target="_blank"

@@ -8,7 +8,6 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import {
     getReminderViewEvent,
-    OPHAN_COMPONENT_EVENT_APPLEPAY_CTA,
     OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW,
     OPHAN_COMPONENT_EVENT_CTAS_VIEW,
     OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
@@ -66,7 +65,6 @@ const PrimaryCtaButton = ({
     amountsVariantName,
     numArticles,
     showApplePayButton,
-    submitComponentEvent,
 }: {
     cta?: Cta;
     tracking: Tracking;
@@ -92,18 +90,11 @@ const PrimaryCtaButton = ({
         amountsVariantName,
     );
 
-    const openApplePay = (): string => {
-        if (submitComponentEvent) {
-            submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
-        }
-        return urlWithRegionAndTracking;
-    };
-
     return (
         <div css={buttonMarginStyles(showApplePayButton)}>
             {showApplePayButton ? (
                 <ButtonApplePay
-                    onClickAction={openApplePay()}
+                    onClickAction={urlWithRegionAndTracking}
                     icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
                     priority="primary"
                     title="apple pay"
