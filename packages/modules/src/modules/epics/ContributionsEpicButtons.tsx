@@ -43,17 +43,24 @@ const svgPositionStyles = css`
     margin: ${space[1]}px -${space[2]}px;
 `;
 
+const buttonMarginApplePayStyles = (): SerializedStyles => css`
+    margin: ${space[1]}px;
+    ${from.desktop} {
+        width: 100%;
+    }
+`;
+
 const buttonMarginStyles = (showApplePay?: boolean): SerializedStyles => css`
     ${showApplePay
         ? `margin: ${space[1]}px; ${from.desktop} {width: 100%;}`
         : `margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;`};
 `;
 
-const reminderDesktopHideStyle = (showApplePay?: boolean): SerializedStyles => css`
+const reminderDesktopHideStyles = (showApplePay?: boolean): SerializedStyles => css`
     ${showApplePay ? `${from.desktop} {display: none;}` : ``};
 `;
 
-const buttonFullWidthStyle = (showApplePay?: boolean): SerializedStyles => css`
+const buttonFullWidthStyles = (showApplePay?: boolean): SerializedStyles => css`
     ${showApplePay ? `width: 100%;justify-content: center;` : ``};
 `;
 
@@ -64,7 +71,6 @@ const PrimaryCtaButton = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
-    showApplePayButton,
 }: {
     cta?: Cta;
     tracking: Tracking;
@@ -79,7 +85,7 @@ const PrimaryCtaButton = ({
         return null;
     }
 
-    const buttonText = showApplePayButton ? 'Support with' : cta.text || 'Support The Guardian';
+    const buttonText = cta.text || 'Support The Guardian';
     const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
     const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
         baseUrl,
@@ -91,25 +97,14 @@ const PrimaryCtaButton = ({
     );
 
     return (
-        <div css={buttonMarginStyles(showApplePayButton)}>
-            {showApplePayButton ? (
-                <ButtonApplePay
-                    onClickAction={urlWithRegionAndTracking}
-                    icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
-                    priority="primary"
-                    title="apple pay"
-                >
-                    {buttonText}
-                </ButtonApplePay>
-            ) : (
-                <Button
-                    onClickAction={urlWithRegionAndTracking}
-                    showArrow
-                    data-ignore="global-link-styling"
-                >
-                    {buttonText}
-                </Button>
-            )}
+        <div css={buttonMarginStyles()}>
+            <Button
+                onClickAction={urlWithRegionAndTracking}
+                showArrow
+                data-ignore="global-link-styling"
+            >
+                {buttonText}
+            </Button>
         </div>
     );
 };
@@ -119,15 +114,13 @@ const SecondaryCtaButton = ({
     tracking,
     numArticles,
     countryCode,
-    showApplePayButton,
 }: {
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
     numArticles: number;
-    showApplePayButton?: boolean;
 }): JSX.Element | null => {
-    const buttonText = showApplePayButton ? 'Support with' : cta.text;
+    const buttonText = cta.text;
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
         tracking,
@@ -135,21 +128,86 @@ const SecondaryCtaButton = ({
         countryCode,
     );
     return (
-        <div css={buttonMarginStyles(showApplePayButton)}>
-            {showApplePayButton ? (
-                <ButtonApplePay
-                    onClickAction={url}
-                    icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
-                    priority="secondary"
-                    title="card"
-                >
-                    {buttonText}
-                </ButtonApplePay>
-            ) : (
-                <Button onClickAction={url} showArrow priority="secondary">
-                    {buttonText}
-                </Button>
-            )}
+        <div css={buttonMarginStyles()}>
+            <Button onClickAction={url} showArrow priority="secondary">
+                {buttonText}
+            </Button>
+        </div>
+    );
+};
+
+const PrimaryCtaButtonApple = ({
+    cta,
+    tracking,
+    countryCode,
+    amountsTestName,
+    amountsVariantName,
+    numArticles,
+}: {
+    cta?: Cta;
+    tracking: Tracking;
+    countryCode?: string;
+    amountsTestName?: string;
+    amountsVariantName?: string;
+    numArticles: number;
+}): JSX.Element | null => {
+    if (!cta) {
+        return null;
+    }
+
+    const buttonText = 'Support with';
+    const baseUrl = cta.baseUrl || 'https://support.theguardian.com/contribute';
+    const urlWithRegionAndTracking = addRegionIdAndTrackingParamsToSupportUrl(
+        baseUrl,
+        tracking,
+        numArticles,
+        countryCode,
+        amountsTestName,
+        amountsVariantName,
+    );
+
+    return (
+        <div css={buttonMarginApplePayStyles()}>
+            <ButtonApplePay
+                onClickAction={urlWithRegionAndTracking}
+                icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
+                priority="primary"
+                title="apple pay"
+            >
+                {buttonText}
+            </ButtonApplePay>
+        </div>
+    );
+};
+
+const SecondaryCtaButtonApple = ({
+    cta,
+    tracking,
+    numArticles,
+    countryCode,
+}: {
+    cta: Cta;
+    tracking: Tracking;
+    countryCode?: string;
+    numArticles: number;
+}): JSX.Element | null => {
+    const buttonText = 'Support with';
+    const url = addRegionIdAndTrackingParamsToSupportUrl(
+        cta.baseUrl,
+        tracking,
+        numArticles,
+        countryCode,
+    );
+    return (
+        <div css={buttonMarginApplePayStyles()}>
+            <ButtonApplePay
+                onClickAction={url}
+                icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
+                priority="secondary"
+                title="card"
+            >
+                {buttonText}
+            </ButtonApplePay>
         </div>
     );
 };
@@ -227,57 +285,64 @@ export const ContributionsEpicButtons = ({
         <div ref={setNode} css={buttonWrapperStyles(showApplePayButton)} data-testid="epic=buttons">
             {!isReminderActive && (
                 <>
-                    <PrimaryCtaButton
-                        cta={getCta(cta)}
-                        tracking={tracking}
-                        numArticles={numArticles}
-                        amountsTestName={amountsTestName}
-                        amountsVariantName={amountsVariantName}
-                        countryCode={countryCode}
-                        showApplePayButton={showApplePayButton}
-                        submitComponentEvent={submitComponentEvent}
-                    />
-                    {showApplePayButton && (
-                        <SecondaryCtaButton
-                            cta={getCta(cta)}
-                            tracking={tracking}
-                            countryCode={countryCode}
-                            numArticles={numArticles}
-                            showApplePayButton={showApplePayButton}
-                        />
+                    {showApplePayButton ? (
+                        <>
+                            <PrimaryCtaButtonApple
+                                cta={getCta(cta)}
+                                tracking={tracking}
+                                numArticles={numArticles}
+                                amountsTestName={amountsTestName}
+                                amountsVariantName={amountsVariantName}
+                                countryCode={countryCode}
+                            />
+                            <SecondaryCtaButtonApple
+                                cta={getCta(cta)}
+                                tracking={tracking}
+                                countryCode={countryCode}
+                                numArticles={numArticles}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <PrimaryCtaButton
+                                cta={getCta(cta)}
+                                tracking={tracking}
+                                numArticles={numArticles}
+                                amountsTestName={amountsTestName}
+                                amountsVariantName={amountsVariantName}
+                                countryCode={countryCode}
+                            />
+                            {secondaryCta?.type === SecondaryCtaType.Custom &&
+                                secondaryCta.cta.baseUrl &&
+                                secondaryCta.cta.text && (
+                                    <SecondaryCtaButton
+                                        cta={secondaryCta.cta}
+                                        tracking={tracking}
+                                        countryCode={countryCode}
+                                        numArticles={numArticles}
+                                    />
+                                )}
+                        </>
                     )}
 
-                    {secondaryCta?.type === SecondaryCtaType.Custom &&
-                    secondaryCta.cta.baseUrl &&
-                    !showApplePayButton &&
-                    secondaryCta.cta.text ? (
-                        <SecondaryCtaButton
-                            cta={secondaryCta.cta}
-                            tracking={tracking}
-                            countryCode={countryCode}
-                            numArticles={numArticles}
-                            showApplePayButton={showApplePayButton}
-                        />
-                    ) : (
-                        secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
+                    {secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
                         showReminderFields &&
                         !hasSetReminder() && (
                             <div
                                 css={[
                                     buttonMarginStyles(showApplePayButton),
-                                    reminderDesktopHideStyle(showApplePayButton),
+                                    reminderDesktopHideStyles(showApplePayButton),
                                 ]}
                             >
                                 <Button
                                     onClickAction={openReminder}
                                     isTertiary
-                                    cssOverrides={buttonFullWidthStyle(showApplePayButton)}
+                                    cssOverrides={buttonFullWidthStyles(showApplePayButton)}
                                 >
                                     {showReminderFields.reminderCta}
                                 </Button>
                             </div>
-                        )
-                    )}
+                        )}
 
                     {hasSupportCta && !showApplePayButton && (
                         <img
