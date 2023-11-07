@@ -37,6 +37,7 @@ type Props = {
     showArrow?: boolean;
     isTertiary?: boolean;
     cssOverrides?: SerializedStyles;
+    icon?: React.ReactElement;
 };
 
 // Overrides for tertiary button
@@ -58,6 +59,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
         priority = 'primary',
         isTertiary,
         cssOverrides,
+        icon,
         ...props
     } = allProps;
 
@@ -69,7 +71,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
             <ThemeProvider theme={contributionsTheme}>
                 <LinkButton
                     href={onClickAction}
-                    icon={<SvgArrowRightStraight />}
+                    icon={icon ?? <SvgArrowRightStraight />}
                     iconSide="right"
                     target="_blank"
                     rel="noopener noreferrer"

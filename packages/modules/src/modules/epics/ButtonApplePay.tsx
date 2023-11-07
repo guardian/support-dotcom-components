@@ -8,31 +8,6 @@ import { from } from '@guardian/src-foundations/mq';
 import { OphanComponentEvent } from '@sdc/shared/types';
 import { OPHAN_COMPONENT_EVENT_APPLEPAY_CTA } from './utils/ophan';
 
-type LinkButtonColourStyles = {
-    text: string;
-    background: string;
-    hover: string;
-    border: string;
-    widthSvg: string;
-};
-
-const buttonStyles: Record<string, LinkButtonColourStyles> = {
-    primary: {
-        text: palette.neutral[100],
-        background: palette.neutral[7],
-        hover: palette.neutral[20],
-        border: palette.neutral[7],
-        widthSvg: `42px`,
-    },
-    secondary: {
-        text: palette.neutral[7],
-        background: palette.neutral[93],
-        hover: palette.neutral[86],
-        border: palette.neutral[0],
-        widthSvg: `140px`,
-    },
-};
-
 type Url = string;
 
 type Props = {
@@ -44,24 +19,24 @@ type Props = {
     title?: string;
 };
 
-const linkButtonColorStyles = (buttonStyles: LinkButtonColourStyles): SerializedStyles => css`
+const buttonStyles = (): SerializedStyles => css`
     width: 100%;
     justify-content: center;
     padding: 0 10px;
-    border: 1px solid ${buttonStyles.border} !important;
-    background-color: ${buttonStyles.background} !important;
-    color: ${buttonStyles.text} !important;
+    border: 1px solid ${palette.neutral[7]} !important;
+    background-color: ${palette.neutral[7]} !important;
+    color: ${palette.neutral[100]} !important;
 
     ${from.mobileMedium} {
         padding: 0 20px;
     }
 
     :hover {
-        background-color: ${buttonStyles.hover} !important;
+        background-color: ${palette.neutral[20]} !important;
     }
 
     svg {
-        width: ${buttonStyles.widthSvg};
+        width: 42px;
     }
 `;
 
@@ -92,7 +67,7 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 priority={priority}
-                css={linkButtonColorStyles(buttonStyles[priority])}
+                css={buttonStyles}
                 title={title ?? ''}
                 {...props}
             >

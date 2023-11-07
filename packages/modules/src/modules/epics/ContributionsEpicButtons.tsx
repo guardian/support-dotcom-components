@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { SerializedStyles, css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { palette, space } from '@guardian/src-foundations';
 import { Button } from './Button';
 import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
@@ -20,6 +20,17 @@ import { PaymentCardSvg } from './PaymentCardsSvg';
 import { ButtonApplePay } from './ButtonApplePay';
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 
+const paymentImageStyles = css`
+    display: inline-block;
+    width: auto;
+    height: 25px;
+    margin: ${space[1]}px 0;
+`;
+
+const svgPositionStyles = css`
+    margin: ${space[1]}px -${space[2]}px;
+`;
+
 const buttonWrapperStyles = (showApplePay?: boolean): SerializedStyles => css`
     margin: ${space[6]}px ${space[2]}px ${space[1]}px 0;
     display: flex;
@@ -32,29 +43,37 @@ const buttonWrapperStyles = (showApplePay?: boolean): SerializedStyles => css`
     }
 `;
 
-const paymentImageStyles = css`
-    display: inline-block;
-    width: auto;
-    height: 25px;
-    margin: ${space[1]}px 0;
-`;
-
-const svgPositionStyles = css`
-    margin: ${space[1]}px -${space[2]}px;
-`;
-
 const buttonMarginStyles = (showApplePay?: boolean): SerializedStyles => css`
     ${showApplePay
         ? `margin: ${space[1]}px; ${from.desktop} {width: 100%;}`
         : `margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;`};
 `;
 
-const reminderDesktopHideStyles = (showApplePay?: boolean): SerializedStyles => css`
-    ${showApplePay ? `${from.desktop} {display: none;}` : ``};
+const buttonStyles = (showApplePay?: boolean): SerializedStyles => css`
+    ${showApplePay
+        ? `width: 100%;
+           justify-content: center;
+           padding: 0 10px;
+           border: 1px solid ${palette.neutral[0]} !important;
+           background-color: ${palette.neutral[93]} !important;
+           color: ${palette.neutral[7]} !important;
+
+           ${from.mobileMedium} {
+            padding: 0 20px;
+           }
+
+           :hover {
+            background-color: ${palette.neutral[86]} !important;
+           }
+
+           svg {
+            width: 140px;
+           }`
+        : ``};
 `;
 
-const buttonFullWidthStyles = (showApplePay?: boolean): SerializedStyles => css`
-    ${showApplePay ? `width: 100%;justify-content: center;` : ``};
+const reminderDesktopHideStyles = (showApplePay?: boolean): SerializedStyles => css`
+    ${showApplePay ? `${from.desktop} {display: none;}` : ``};
 `;
 
 const PrimaryCtaButton = ({
@@ -190,14 +209,14 @@ const SecondaryCtaButtonApplePay = ({
     );
     return (
         <div css={buttonMarginStyles(true)}>
-            <ButtonApplePay
+            <Button
                 onClickAction={url}
+                cssOverrides={buttonStyles(true)}
                 icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
                 priority="secondary"
-                title="card"
             >
                 {buttonText}
-            </ButtonApplePay>
+            </Button>
         </div>
     );
 };
@@ -326,8 +345,8 @@ export const ContributionsEpicButtons = ({
                             >
                                 <Button
                                     onClickAction={openReminder}
+                                    cssOverrides={buttonStyles(showApplePayButton)}
                                     isTertiary
-                                    cssOverrides={buttonFullWidthStyles(showApplePayButton)}
                                 >
                                     {showReminderFields.reminderCta}
                                 </Button>
