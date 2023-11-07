@@ -15,7 +15,6 @@ import {
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { hasSetReminder } from '../utils/reminders';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-import { ApplePaySvg } from './ApplePaySvg';
 import { PaymentCardSvg } from './PaymentCardsSvg';
 import { ButtonApplePay } from './ButtonApplePay';
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
@@ -49,27 +48,25 @@ const buttonMarginStyles = (showApplePay?: boolean): SerializedStyles => css`
         : `margin: ${space[1]}px ${space[2]}px ${space[1]}px 0;`};
 `;
 
-const buttonStyles = (showApplePay?: boolean): SerializedStyles => css`
-    ${showApplePay
-        ? `width: 100%;
-           justify-content: center;
-           padding: 0 10px;
-           border: 1px solid ${palette.neutral[0]} !important;
-           background-color: ${palette.neutral[93]} !important;
-           color: ${palette.neutral[7]} !important;
+const ApplePayButtonOverrides = css`
+    width: 100%;
+    justify-content: center;
+    padding: 0 10px;
+    border: 1px solid ${palette.neutral[0]} !important;
+    background-color: ${palette.neutral[93]} !important;
+    color: ${palette.neutral[7]} !important;
 
-           ${from.mobileMedium} {
-            padding: 0 20px;
-           }
+    ${from.mobileMedium} {
+        padding: 0 20px;
+    }
 
-           :hover {
-            background-color: ${palette.neutral[86]} !important;
-           }
+    :hover {
+        background-color: ${palette.neutral[86]} !important;
+    }
 
-           svg {
-            width: 140px;
-           }`
-        : ``};
+    svg {
+        width: 140px;
+    }
 `;
 
 const reminderDesktopHideStyles = (showApplePay?: boolean): SerializedStyles => css`
@@ -177,14 +174,7 @@ const PrimaryCtaButtonApplePay = ({
 
     return (
         <div css={buttonMarginStyles(true)}>
-            <ButtonApplePay
-                onClickAction={urlWithRegionAndTracking}
-                icon={<ApplePaySvg cssOverrides={svgPositionStyles} />}
-                priority="primary"
-                title="apple pay"
-            >
-                {buttonText}
-            </ButtonApplePay>
+            <ButtonApplePay onClickAction={urlWithRegionAndTracking}>{buttonText}</ButtonApplePay>
         </div>
     );
 };
@@ -211,7 +201,7 @@ const SecondaryCtaButtonApplePay = ({
         <div css={buttonMarginStyles(true)}>
             <Button
                 onClickAction={url}
-                cssOverrides={buttonStyles(true)}
+                cssOverrides={ApplePayButtonOverrides}
                 icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
                 priority="secondary"
             >
@@ -345,7 +335,9 @@ export const ContributionsEpicButtons = ({
                             >
                                 <Button
                                     onClickAction={openReminder}
-                                    cssOverrides={buttonStyles(showApplePayButton)}
+                                    cssOverrides={
+                                        showApplePayButton ? ApplePayButtonOverrides : css``
+                                    }
                                     isTertiary
                                 >
                                     {showReminderFields.reminderCta}

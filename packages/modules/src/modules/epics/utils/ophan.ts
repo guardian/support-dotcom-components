@@ -38,7 +38,7 @@ export const OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW: OphanComponentEvent = {
         componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_APPLEPAY_VIEW,
     },
-    action: 'CLICK',
+    action: 'VIEW',
 };
 
 export const OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED: OphanComponentEvent = {
