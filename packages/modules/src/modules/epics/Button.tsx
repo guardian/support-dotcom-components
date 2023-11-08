@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '@emotion/react';
+import { SerializedStyles, css } from '@emotion/react';
 import { palette } from '@guardian/src-foundations';
 import { ThemeProvider } from '@emotion/react';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
@@ -36,6 +36,8 @@ type Props = {
     priority?: 'primary' | 'secondary';
     showArrow?: boolean;
     isTertiary?: boolean;
+    cssOverrides?: SerializedStyles;
+    icon?: React.ReactElement;
 };
 
 // Overrides for tertiary button
@@ -56,6 +58,8 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
         showArrow = false,
         priority = 'primary',
         isTertiary,
+        cssOverrides,
+        icon,
         ...props
     } = allProps;
 
@@ -67,12 +71,12 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
             <ThemeProvider theme={contributionsTheme}>
                 <LinkButton
                     href={onClickAction}
-                    icon={<SvgArrowRightStraight />}
+                    icon={icon ?? <SvgArrowRightStraight />}
                     iconSide="right"
                     target="_blank"
                     rel="noopener noreferrer"
                     priority={isTertiary ? 'primary' : priority}
-                    css={isTertiary ? tertiaryButtonOverrides : undefined}
+                    css={isTertiary ? [tertiaryButtonOverrides, cssOverrides] : cssOverrides}
                     {...props}
                 >
                     {children}
@@ -87,7 +91,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
                 icon={showArrow ? <SvgArrowRightStraight /> : undefined}
                 onClick={(): void => onClickAction()}
                 priority={isTertiary ? 'primary' : priority}
-                css={isTertiary ? tertiaryButtonOverrides : undefined}
+                css={isTertiary ? [tertiaryButtonOverrides, cssOverrides] : cssOverrides}
                 {...props}
             >
                 {children}

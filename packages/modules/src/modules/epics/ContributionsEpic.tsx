@@ -27,7 +27,9 @@ import { ContributionsEpicSignInCta } from './ContributionsEpicSignInCta';
 import NewsletterSignup from './NewsletterSignup';
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
+import { isValidApplePayWalletSession } from '../utils/applePay';
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
+import { OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED } from './utils/ophan';
 
 // CSS Styling
 // -------------------------------------------
@@ -251,7 +253,24 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
     hasConsentForArticleCount,
     stage,
 }: EpicProps) => {
-    const { image, tickerSettings, showChoiceCards, choiceCardAmounts } = variant;
+    const { image, tickerSettings, showChoiceCards, choiceCardAmounts, forceApplePay, name } =
+        variant;
+    const [showApplePayButton, setShowApplePayButton] =
+        useState(forceApplePay); /* forceApplePay displays ApplePay button in storybook */
+
+    useEffect(() => {
+        const isInApplePayEpicTest = tracking.abTestName.includes('APPLE-PAY');
+        if (isInApplePayEpicTest) {
+            isValidApplePayWalletSession().then((validApplePayWalletSession) => {
+                if (validApplePayWalletSession) {
+                    if (submitComponentEvent) {
+                        submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED);
+                    }
+                    setShowApplePayButton(name === 'V1_APPLE_PAY');
+                }
+            });
+        }
+    }, []);
 
     const [choiceCardSelection, setChoiceCardSelection] = useState<
         ChoiceCardSelection | undefined
@@ -428,6 +447,7 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
                     onReminderOpen={onReminderOpen}
                     fetchEmail={fetchEmail}
                     submitComponentEvent={submitComponentEvent}
+                    showApplePayButton={showApplePayButton}
                     showChoiceCards={showChoiceCards}
                     amountsTestName={choiceCardAmounts?.testName}
                     amountsVariantName={choiceCardAmounts?.variantName}
