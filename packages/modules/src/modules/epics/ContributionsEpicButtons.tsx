@@ -157,7 +157,7 @@ const PrimaryCtaButtonApplePay = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     numArticles: number;
-    submitComponentEvent: (event: OphanComponentEvent) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
