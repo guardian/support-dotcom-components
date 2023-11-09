@@ -20,7 +20,6 @@ import {
     buildCampaignCode,
     getReminderFields,
     countryCodeToCountryGroupId,
-    countryCodeToLocalLanguageEpic,
 } from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
 import {
@@ -131,22 +130,8 @@ export const buildEpicRouter = (
             targetingMvtId,
         );
 
-        const localLanguage = countryCodeToLocalLanguageEpic(
-            test.name,
-            variant.name,
-            requiredCountry,
-            {
-                heading: variant.heading,
-                paragraphs: variant.paragraphs,
-                highlightedText: variant.highlightedText,
-            },
-        );
-
         const propsVariant = {
             ...variant,
-            heading: localLanguage?.heading ?? variant.heading,
-            paragraphs: localLanguage?.paragraphs ?? variant.paragraphs,
-            highlightedText: localLanguage?.highlightedText ?? variant.highlightedText,
             tickerSettings,
             showReminderFields,
             choiceCardAmounts: variantAmounts,
