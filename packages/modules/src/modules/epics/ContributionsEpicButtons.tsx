@@ -300,6 +300,7 @@ export const ContributionsEpicButtons = ({
                                 amountsTestName={amountsTestName}
                                 amountsVariantName={amountsVariantName}
                                 countryCode={countryCode}
+                                submitComponentEvent={submitComponentEvent}
                             />
                             <SecondaryCtaButtonApplePay
                                 cta={getCta(cta)}

@@ -13,7 +13,7 @@ type Url = string;
 
 type Props = {
     onClickAction: Url;
-    submitComponentEvent: (event: OphanComponentEvent) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
     children: React.ReactElement | string;
 };
 
@@ -46,7 +46,9 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
     const { onClickAction, submitComponentEvent, children, ...props } = allProps;
 
     const onApplePayCtaClick = () => {
-        submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
+        if (submitComponentEvent) {
+            submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
+        }
     };
 
     return (
