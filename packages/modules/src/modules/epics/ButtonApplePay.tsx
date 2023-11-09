@@ -46,7 +46,7 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
     const { onClickAction, submitComponentEvent, children, ...props } = allProps;
 
     const onApplePayCtaClick = () => {
-       submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
+        submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
     };
 
     return (
