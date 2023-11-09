@@ -13,7 +13,7 @@ type Url = string;
 
 type Props = {
     onClickAction: Url;
-    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    submitComponentEvent: (event: OphanComponentEvent) => void;
     children: React.ReactElement | string;
 };
 
@@ -45,15 +45,10 @@ const buttonStyles = (): SerializedStyles => css`
 export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
     const { onClickAction, submitComponentEvent, children, ...props } = allProps;
 
-    const onApplePayCtaClick = (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault();
-
-        if (submitComponentEvent) {
-            submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
-        }
-
-        window.open(onClickAction);
+    const onApplePayCtaClick = () => {
+       submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
     };
+
     return (
         <ThemeProvider theme={buttonStyles}>
             <LinkButton
