@@ -45,10 +45,14 @@ const buttonStyles = (): SerializedStyles => css`
 export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
     const { onClickAction, submitComponentEvent, children, ...props } = allProps;
 
-    const onApplePayCtaClick = () => {
+    const onApplePayCtaClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.preventDefault();
+
         if (submitComponentEvent) {
             submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
         }
+
+        window.open(onClickAction);
     };
     return (
         <ThemeProvider theme={buttonStyles}>
