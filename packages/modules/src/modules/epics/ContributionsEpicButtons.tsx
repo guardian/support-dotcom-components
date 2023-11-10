@@ -149,6 +149,7 @@ const PrimaryCtaButtonApplePay = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
+    submitComponentEvent,
 }: {
     cta?: Cta;
     tracking: Tracking;
@@ -156,6 +157,7 @@ const PrimaryCtaButtonApplePay = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     numArticles: number;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
@@ -174,7 +176,12 @@ const PrimaryCtaButtonApplePay = ({
 
     return (
         <div css={buttonMarginStyles(true)}>
-            <ButtonApplePay onClickAction={urlWithRegionAndTracking}>{buttonText}</ButtonApplePay>
+            <ButtonApplePay
+                submitComponentEvent={submitComponentEvent}
+                onClickAction={urlWithRegionAndTracking}
+            >
+                {buttonText}
+            </ButtonApplePay>
         </div>
     );
 };
@@ -293,6 +300,7 @@ export const ContributionsEpicButtons = ({
                                 amountsTestName={amountsTestName}
                                 amountsVariantName={amountsVariantName}
                                 countryCode={countryCode}
+                                submitComponentEvent={submitComponentEvent}
                             />
                             <SecondaryCtaButtonApplePay
                                 cta={getCta(cta)}

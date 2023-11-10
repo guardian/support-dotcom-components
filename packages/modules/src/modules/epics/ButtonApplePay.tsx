@@ -50,6 +50,7 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
             submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
         }
     };
+
     return (
         <ThemeProvider theme={buttonStyles}>
             <LinkButton
