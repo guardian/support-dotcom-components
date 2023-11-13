@@ -1,11 +1,9 @@
 import express, { Router } from 'express';
 import { getQueryParams, Params } from '../lib/params';
 import {
-    BannerContent,
     BannerProps,
     BannerTargeting,
     BannerTest,
-    BannerVariant,
     AmountsTests,
     PageTracking,
     Prices,
@@ -18,11 +16,7 @@ import { ChannelSwitches } from '../channelSwitches';
 import { selectBannerTest } from '../tests/banners/bannerSelection';
 import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
-import {
-    buildBannerCampaignCode,
-    countryCodeToCountryGroupId,
-    countryCodeToLocalLanguageBannerHeader,
-} from '@sdc/shared/dist/lib';
+import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
@@ -54,44 +48,6 @@ interface PuzzlesDataResponse {
     };
     debug?: Debug;
 }
-
-const addLocalLanguageContent = (
-    test: BannerTest,
-    variant: BannerVariant,
-    country: string,
-    moduleName: string,
-): { bannerContent?: BannerContent; mobileBannerContent?: BannerContent } => {
-    const { bannerContent, mobileBannerContent } = variant;
-
-    if (moduleName === 'EuropeMomentLocalLanguageBanner') {
-        const replaceHeading = (content?: BannerContent): BannerContent | undefined => {
-            if (content?.heading) {
-                const localLanguage = countryCodeToLocalLanguageBannerHeader(
-                    test.name,
-                    variant.name,
-                    country,
-                    { bannerHeader: content.heading },
-                );
-                return {
-                    ...content,
-                    heading: localLanguage?.bannerHeader,
-                };
-            } else {
-                return content;
-            }
-        };
-
-        return {
-            bannerContent: replaceHeading(bannerContent),
-            mobileBannerContent: replaceHeading(mobileBannerContent),
-        };
-    }
-
-    return {
-        bannerContent,
-        mobileBannerContent,
-    };
-};
 
 export const buildBannerRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
@@ -156,20 +112,13 @@ export const buildBannerRouter = (
                 targetingMvtId,
             );
 
-            const { bannerContent, mobileBannerContent } = addLocalLanguageContent(
-                test,
-                variant,
-                requiredCountry,
-                moduleName,
-            );
-
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
                 bannerChannel: test.bannerChannel,
                 isSupporter: !targeting.showSupportMessaging,
                 countryCode: targeting.countryCode,
-                content: bannerContent,
-                mobileContent: mobileBannerContent,
+                content: variant.bannerContent,
+                mobileContent: variant.mobileBannerContent,
                 numArticles: getArticleViewCountForWeeks(
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
