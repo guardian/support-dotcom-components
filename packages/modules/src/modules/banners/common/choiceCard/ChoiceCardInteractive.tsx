@@ -145,6 +145,8 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
 
     const { displayContributionType, amountsCardData } = amountsTest;
 
+    const contributionTypeTabOrder: ContributionFrequency[] = ['ONE_OFF', 'MONTHLY', 'ANNUAL'];
+
     if (!amountsCardData) {
         return <></>;
     }
@@ -271,7 +273,11 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 ]}
             >
                 <div css={style.frequencyContainer}>
-                    {displayContributionType.map((f) => generateChoiceCardFrequencyTab(f))}
+                    {contributionTypeTabOrder.map((f) =>
+                        displayContributionType.includes(f)
+                            ? generateChoiceCardFrequencyTab(f)
+                            : null,
+                    )}
                 </div>
             </ChoiceCardGroup>
             <ChoiceCardGroup
