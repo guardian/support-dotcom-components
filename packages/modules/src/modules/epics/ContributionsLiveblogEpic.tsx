@@ -6,15 +6,23 @@ import { palette } from '@guardian/src-foundations';
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
 import { space } from '@guardian/src-foundations';
 import {
+    // this is used server-side for AMP, so needs to be shared
     replaceNonArticleCountPlaceholders,
     containsNonArticleCountPlaceholder,
+
+    // all of tracking.ts can be moved to DCR
     createViewEventFromTracking,
     createInsertEventFromTracking,
 } from '@sdc/shared/lib';
+// props must be shared
 import { EpicProps } from '@sdc/shared/types';
+// move to DCR
 import { replaceArticleCount } from '../../lib/replaceArticleCount';
+// move or use DCR equivalent
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
+// all of viewLog.ts can be moved to DCR
 import { logEpicView } from '@sdc/shared/lib';
+// move to DCR
 import { ContributionsEpicCtas } from './ContributionsEpicCtas';
 import type { ReactComponent } from '../../types';
 
