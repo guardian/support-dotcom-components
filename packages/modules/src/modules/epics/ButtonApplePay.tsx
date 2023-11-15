@@ -46,7 +46,9 @@ export const ButtonApplePay: ReactComponent<Props> = (allProps: Props) => {
     const { onClickAction, submitComponentEvent, children, ...props } = allProps;
 
     const onApplePayCtaClick = () => {
+        console.log(`Ophan event fired: ${'OPHAN_COMPONENT_EVENT_APPLEPAY_CTA'}`);
         if (submitComponentEvent) {
+            console.log(`IN Ophan event fired: ${'OPHAN_COMPONENT_EVENT_APPLEPAY_CTA'}`);
             submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_CTA);
         }
     };

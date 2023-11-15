@@ -279,8 +279,10 @@ export const ContributionsEpicButtons = ({
 
     useEffect(() => {
         if (hasBeenSeen && submitComponentEvent) {
+            console.log(`IN Ophan event fired: ${'OPHAN_COMPONENT_EVENT_CTAS_VIEW'}`);
             submitComponentEvent(OPHAN_COMPONENT_EVENT_CTAS_VIEW);
             if (showApplePayButton) {
+                console.log(`IN Ophan event fired: ${'OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW'}`);
                 submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW);
             }
             if (showReminderFields && !hasSetReminder()) {
