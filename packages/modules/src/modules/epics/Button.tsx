@@ -5,6 +5,11 @@ import { ThemeProvider } from '@emotion/react';
 import { Button as DSButton, LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import type { ReactComponent } from '../../types';
+import {
+    OPHAN_COMPONENT_EVENT_PRIMARY_CTA,
+    OPHAN_COMPONENT_EVENT_SECONDARY_CTA,
+} from './utils/ophan';
+import { OphanComponentEvent } from '@sdc/shared/src/types';
 
 // Custom theme for Button/LinkButton
 // See also `tertiaryButtonOverrides` below.
@@ -32,6 +37,7 @@ type Props = {
     // Both using the same interface
     // eslint-disable-next-line @typescript-eslint/ban-types
     onClickAction: Function | Url;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
     children: React.ReactElement | string;
     priority?: 'primary' | 'secondary';
     showArrow?: boolean;
@@ -54,6 +60,7 @@ const tertiaryButtonOverrides = css`
 export const Button: ReactComponent<Props> = (allProps: Props) => {
     const {
         onClickAction,
+        submitComponentEvent,
         children,
         showArrow = false,
         priority = 'primary',
@@ -62,6 +69,16 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
         icon,
         ...props
     } = allProps;
+
+    const onButtonCtaClick = () => {
+        if (submitComponentEvent) {
+            submitComponentEvent(
+                priority == 'primary'
+                    ? OPHAN_COMPONENT_EVENT_PRIMARY_CTA
+                    : OPHAN_COMPONENT_EVENT_SECONDARY_CTA,
+            );
+        }
+    };
 
     if (typeof onClickAction === 'string') {
         // LinkButton doesn't support 'tertiary' priority (unlike Button)
@@ -73,6 +90,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
                     href={onClickAction}
                     icon={icon ?? <SvgArrowRightStraight />}
                     iconSide="right"
+                    onClick={onButtonCtaClick}
                     target="_blank"
                     rel="noopener noreferrer"
                     priority={isTertiary ? 'primary' : priority}

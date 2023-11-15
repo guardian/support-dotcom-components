@@ -80,6 +80,7 @@ const PrimaryCtaButton = ({
     amountsTestName,
     amountsVariantName,
     numArticles,
+    submitComponentEvent,
 }: {
     cta?: Cta;
     tracking: Tracking;
@@ -87,6 +88,7 @@ const PrimaryCtaButton = ({
     amountsTestName?: string;
     amountsVariantName?: string;
     numArticles: number;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     if (!cta) {
         return null;
@@ -107,6 +109,7 @@ const PrimaryCtaButton = ({
         <div css={buttonMarginStyles()}>
             <Button
                 onClickAction={urlWithRegionAndTracking}
+                submitComponentEvent={submitComponentEvent}
                 showArrow
                 data-ignore="global-link-styling"
             >
@@ -121,11 +124,13 @@ const SecondaryCtaButton = ({
     tracking,
     numArticles,
     countryCode,
+    submitComponentEvent,
 }: {
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
     numArticles: number;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     const url = addRegionIdAndTrackingParamsToSupportUrl(
         cta.baseUrl,
@@ -135,7 +140,12 @@ const SecondaryCtaButton = ({
     );
     return (
         <div css={buttonMarginStyles()}>
-            <Button onClickAction={url} showArrow priority="secondary">
+            <Button
+                onClickAction={url}
+                submitComponentEvent={submitComponentEvent}
+                showArrow
+                priority="secondary"
+            >
                 {cta.text}
             </Button>
         </div>
@@ -177,8 +187,8 @@ const PrimaryCtaButtonApplePay = ({
     return (
         <div css={buttonMarginStyles(true)}>
             <ButtonApplePay
-                submitComponentEvent={submitComponentEvent}
                 onClickAction={urlWithRegionAndTracking}
+                submitComponentEvent={submitComponentEvent}
             >
                 {buttonText}
             </ButtonApplePay>
@@ -191,11 +201,13 @@ const SecondaryCtaButtonApplePay = ({
     tracking,
     numArticles,
     countryCode,
+    submitComponentEvent,
 }: {
     cta: Cta;
     tracking: Tracking;
     countryCode?: string;
     numArticles: number;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
 }): JSX.Element | null => {
     const buttonText = 'Support with';
     const url = addRegionIdAndTrackingParamsToSupportUrl(
@@ -208,6 +220,7 @@ const SecondaryCtaButtonApplePay = ({
         <div css={buttonMarginStyles(true)}>
             <Button
                 onClickAction={url}
+                submitComponentEvent={submitComponentEvent}
                 cssOverrides={ApplePayButtonOverrides}
                 icon={<PaymentCardSvg cssOverrides={svgPositionStyles} />}
                 priority="secondary"
@@ -318,6 +331,7 @@ export const ContributionsEpicButtons = ({
                                 amountsTestName={amountsTestName}
                                 amountsVariantName={amountsVariantName}
                                 countryCode={countryCode}
+                                submitComponentEvent={submitComponentEvent}
                             />
                             {secondaryCta?.type === SecondaryCtaType.Custom &&
                                 secondaryCta.cta.baseUrl &&
@@ -327,6 +341,7 @@ export const ContributionsEpicButtons = ({
                                         tracking={tracking}
                                         countryCode={countryCode}
                                         numArticles={numArticles}
+                                        submitComponentEvent={submitComponentEvent}
                                     />
                                 )}
                         </>
