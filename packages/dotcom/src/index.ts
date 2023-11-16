@@ -4,5 +4,5 @@ export { replaceNonArticleCountPlaceholders, containsNonArticleCountPlaceholder 
 export * from '../../shared/src/lib/geolocation';
 export * from '../../shared/src/lib/viewLog';
 export * from '../../shared/src/lib/reminderFields';
-export * from '../../shared/src/types/reminders';
+export { SecondaryCtaType } from '../../shared/src/types/props/shared';
 export * from './requests';
