@@ -264,9 +264,6 @@ const ContributionsEpic: ReactComponent<EpicProps> = ({
             isValidApplePayWalletSession().then((validApplePayWalletSession) => {
                 if (validApplePayWalletSession) {
                     if (submitComponentEvent) {
-                        console.log(
-                            `IN Ophan event fired: ${'OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED'}`,
-                        );
                         submitComponentEvent(OPHAN_COMPONENT_EVENT_APPLEPAY_AUTHORISED);
                     }
                     setShowApplePayButton(name === 'V1_APPLE_PAY');

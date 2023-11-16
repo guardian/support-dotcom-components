@@ -71,21 +71,7 @@ export const Button: ReactComponent<Props> = (allProps: Props) => {
     } = allProps;
 
     const onButtonCtaClick = () => {
-        console.log(
-            `Ophan event fired: ${
-                priority == 'primary'
-                    ? 'OPHAN_COMPONENT_EVENT_PRIMARY_CTA'
-                    : 'OPHAN_COMPONENT_EVENT_SECONDARY_CTA'
-            }`,
-        );
         if (submitComponentEvent) {
-            console.log(
-                `IN Ophan event fired: ${
-                    priority == 'primary'
-                        ? 'OPHAN_COMPONENT_EVENT_PRIMARY_CTA'
-                        : 'OPHAN_COMPONENT_EVENT_SECONDARY_CTA'
-                }`,
-            );
             submitComponentEvent(
                 priority == 'primary'
                     ? OPHAN_COMPONENT_EVENT_PRIMARY_CTA
