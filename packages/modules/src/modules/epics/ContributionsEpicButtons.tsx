@@ -320,8 +320,9 @@ export const ContributionsEpicButtons = ({
                             <SecondaryCtaButtonApplePay
                                 cta={getCta(cta)}
                                 tracking={tracking}
-                                countryCode={countryCode}
                                 numArticles={numArticles}
+                                countryCode={countryCode}
+                                submitComponentEvent={submitComponentEvent}
                             />
                         </>
                     ) : (
