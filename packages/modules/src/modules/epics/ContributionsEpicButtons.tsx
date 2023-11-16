@@ -2,32 +2,21 @@ import React, { useEffect } from 'react';
 import { SerializedStyles, css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { palette, space } from '@guardian/src-foundations';
-// move to DCR
 import { Button } from './Button';
-// share
 import { EpicVariant, SecondaryCtaType, Tracking, Cta } from '@sdc/shared/types';
-// most of tracking.ts can be moved to DCR, just 3 functions are used by server (buildCampaignCode etc)
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/lib';
-// use DCR types?
 import { OphanComponentEvent } from '@sdc/shared/types';
-// move to DCR
 import {
     getReminderViewEvent,
     OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW,
     OPHAN_COMPONENT_EVENT_CTAS_VIEW,
     OPHAN_COMPONENT_EVENT_REMINDER_OPEN,
 } from './utils/ophan';
-// move or use DCR equivalent
 import { useHasBeenSeen } from '../../hooks/useHasBeenSeen';
-// move to DCR
 import { hasSetReminder } from '../utils/reminders';
-// move to DCR
 import { isSupportUrl } from '@sdc/shared/dist/lib';
-// move to DCR
 import { PaymentCardSvg } from './PaymentCardsSvg';
-// move to DCR
 import { ButtonApplePay } from './ButtonApplePay';
-// move to DCR
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 
 const paymentImageStyles = css`

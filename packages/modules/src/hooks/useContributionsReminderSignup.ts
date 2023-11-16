@@ -1,12 +1,10 @@
 import {
-    //shared
     OneOffSignupRequest,
     ReminderComponent,
     ReminderPlatform,
     ReminderStage,
 } from '@sdc/shared/dist/types';
 import { useState } from 'react';
-// move to dcr
 import { addContributionReminderCookie, ReminderStatus } from '../modules/utils/reminders';
 
 const CREATE_ONE_OFF_REMINDER_ENDPOINT = 'https://support.theguardian.com/reminders/create/one-off';

@@ -5,12 +5,10 @@ import { css } from '@emotion/react';
 import { headline, textSans, body } from '@guardian/src-foundations/typography';
 import { palette, space } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-// move to DCR
 import { Lines } from '../shared/Lines';
 import { Button } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
 import { SvgCheckmark, SvgCross } from '@guardian/src-icons';
-// move to DCR
 import { ensureHasPreposition, ReminderStatus } from '../utils/reminders';
 import type { ReactComponent } from '../../types';
 

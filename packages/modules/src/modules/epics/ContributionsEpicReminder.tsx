@@ -1,20 +1,14 @@
 // --- Imports --- //
 
 import React from 'react';
-// move to DCR
 import { ContributionsEpicReminderSignedIn } from './ContributionsEpicReminderSignedIn';
-// move to DCR
 import { ContributionsEpicReminderSignedOut } from './ContributionsEpicReminderSignedOut';
-// shared
 import { OphanComponentEvent } from '@sdc/shared/types';
-// move to DCR
 import {
     OPHAN_COMPONENT_EVENT_REMINDER_CLOSE,
     OPHAN_COMPONENT_EVENT_REMINDER_SET,
 } from './utils/ophan';
-// move to DCR
 import { useContributionsReminderSignup } from '../../hooks/useContributionsReminderSignup';
-// shared
 import { ReminderFields } from '@sdc/shared/dist/lib';
 import type { ReactComponent } from '../../types';
 

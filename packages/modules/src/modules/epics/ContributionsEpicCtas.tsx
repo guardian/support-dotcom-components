@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-// shared
 import { EpicProps } from '@sdc/shared/types';
-// move to DCR
 import { ContributionsEpicReminder } from './ContributionsEpicReminder';
-// move to DCR
 import { ContributionsEpicButtons } from './ContributionsEpicButtons';
-// move to DCR
 import { ChoiceCardSelection } from '../shared/helpers/choiceCards';
 import type { ReactComponent } from '../../types';
 
