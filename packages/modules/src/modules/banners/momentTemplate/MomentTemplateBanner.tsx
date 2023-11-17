@@ -230,7 +230,7 @@ const styles = {
     `,
     closeButtonOverrides: css`
         ${until.tablet} {
-            position: absolute;
+            position: fixed;
             top: ${space[3]}px;
             right: 0;
         }
