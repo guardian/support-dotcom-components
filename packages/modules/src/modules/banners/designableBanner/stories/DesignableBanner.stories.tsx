@@ -96,10 +96,8 @@ const design: ConfigurableDesign = {
 
 const content = {
     heading: 'Show your support for reader-funded journalism',
-    messageText:
-        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
     paragraphs: [
-        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. <strong>We have no shareholders.</strong> No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
         'We do not shy away. And we provide all this for free, for everyone.',
     ],
     highlightedText:
@@ -119,10 +117,8 @@ const content = {
 
 const mobileContent = {
     heading: 'Show your support for reader-funded journalism',
-    messageText:
-        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations. We do not shy away. And we provide all this for free, for everyone.',
     paragraphs: [
-        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. We have no shareholders. No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
+        'Fearless, investigative reporting shapes a fairer world. At the Guardian, our independence allows us to chase the truth wherever it takes us. <strong>We have no shareholders.</strong> No vested interests. Just the determination and passion to bring readers quality reporting, including groundbreaking investigations.',
         'We do not shy away. And we provide all this for free, for everyone.',
     ],
     highlightedText:

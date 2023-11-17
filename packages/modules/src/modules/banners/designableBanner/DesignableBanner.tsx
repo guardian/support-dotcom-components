@@ -287,6 +287,10 @@ const styles = {
             border-top: 1px solid ${neutral[0]};
             padding: 0 ${space[5]}px;
         }
+        b,
+        strong {
+            font-weight: bold;
+        }
     `,
     containerOverrides: css`
         display: flex;
