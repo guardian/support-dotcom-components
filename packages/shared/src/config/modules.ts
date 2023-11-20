@@ -43,11 +43,6 @@ export const designableBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/designableBanner/DesignableBanner',
 );
 
-export const investigationsMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'investigations-moment-banner',
-    'banners/investigationsMoment/InvestigationsMomentBanner',
-);
-
 export const environmentBanner: ModuleInfo = getDefaultModuleInfo(
     'environment-banner',
     'banners/environment/EnvironmentBanner',
@@ -121,7 +116,6 @@ export const moduleInfos: ModuleInfo[] = [
     ausAnniversaryMomentBanner,
     contributionsBanner,
     contributionsBannerWithSignIn,
-    investigationsMomentBanner,
     environmentBanner,
     globalNewYearMomentBanner,
     choiceCardsMomentBanner,
