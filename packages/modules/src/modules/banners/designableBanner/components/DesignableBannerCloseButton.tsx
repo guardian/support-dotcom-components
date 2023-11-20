@@ -56,8 +56,9 @@ export function DesignableBannerCloseButton({
 const styles = {
     container: css`
         display: flex;
-        justify-content: end;
-        position: relative;
+        position: fixed;
+        right: 0;
+        padding-right: 20px;
         z-index: 100;
     `,
     roundelContainer: css`
