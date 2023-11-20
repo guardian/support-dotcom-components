@@ -231,7 +231,7 @@ const styles = {
     closeButtonOverrides: css`
         ${until.tablet} {
             position: fixed;
-            top: ${space[3]}px;
+            margin-top: ${space[3]}px;
             right: 0;
         }
         ${from.tablet} {
