@@ -159,7 +159,7 @@ export const ContributionsLiveblogEpic: ReactComponent<EpicProps> = ({
     }
 
     return (
-        <div data-cy="contributions-liveblog-epic" ref={setNode}>
+        <div data-testid="contributions-liveblog-epic" ref={setNode}>
             {cleanHeading && <div css={yellowHeading(tracking.clientName)}>{cleanHeading}</div>}
             <section css={container(tracking.clientName)}>
                 <LiveblogEpicBody
