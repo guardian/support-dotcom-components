@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { body } from '@guardian/src-foundations/typography';
 import { BylineWithImage } from '@sdc/shared/types';
 import type { ReactComponent } from '../../types';
+import { until } from '@guardian/src-foundations/mq';
 
 interface BylineWithHeadshotProps {
     bylineWithImage: BylineWithImage;
@@ -24,7 +25,9 @@ const bylineCopyContainer = css`
 `;
 
 const bylineImageContainer = css`
-    width: 30%;
+    ${until.tablet} {
+        max-width: 30%;
+    }
     height: 100%;
     position: absolute;
     top: 0;
