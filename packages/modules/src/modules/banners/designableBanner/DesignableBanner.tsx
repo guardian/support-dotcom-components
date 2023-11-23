@@ -9,7 +9,13 @@ import { DesignableBannerCtas } from './components/DesignableBannerCtas';
 import { DesignableBannerCloseButton } from './components/DesignableBannerCloseButton';
 import { DesignableBannerVisual } from './components/DesignableBannerVisual';
 import { between, from, until } from '@guardian/src-foundations/mq';
-import { SecondaryCtaType, hexColourToString, ConfigurableDesign, Image } from '@sdc/shared/types';
+import {
+    SecondaryCtaType,
+    hexColourToString,
+    ConfigurableDesign,
+    BannerDesignImage,
+    Image,
+} from '@sdc/shared/types';
 import { DesignableBannerReminder } from './components/DesignableBannerReminder';
 import DesignableBannerTicker from './components/DesignableBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
@@ -22,19 +28,29 @@ import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 
-const buildImageSettings = (design: ConfigurableDesign): Image | undefined => {
+const buildImageSettings = (design: BannerDesignImage): Image | undefined => {
+    return {
+        mainUrl: design.mobileUrl,
+        mobileUrl: design.mobileUrl,
+        tabletUrl: design.tabletDesktopUrl,
+        desktopUrl: design.tabletDesktopUrl,
+        wideUrl: design.wideUrl,
+        altText: design.altText,
+    };
+};
+const buildMainImageSettings = (design: ConfigurableDesign): Image | undefined => {
     if (design.visual?.kind === 'Image') {
-        return {
-            mainUrl: design.visual.mobileUrl,
-            mobileUrl: design.visual.mobileUrl,
-            tabletUrl: design.visual.tabletDesktopUrl,
-            desktopUrl: design.visual.tabletDesktopUrl,
-            wideUrl: design.visual.wideUrl,
-            altText: design.visual.altText,
-        };
+        return buildImageSettings(design.visual);
     }
     return undefined;
 };
+const buildHeaderImageSettings = (design: ConfigurableDesign): Image | undefined => {
+    if (design.headerImage) {
+        return buildImageSettings(design.headerImage);
+    }
+    return undefined;
+};
+
 const buildChoiceCardSettings = (design: ConfigurableDesign): ChoiceCardSettings | undefined => {
     if (design.visual?.kind === 'ChoiceCards') {
         const { buttonColour } = design.visual;
@@ -75,7 +91,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         ticker,
     } = design.colours;
 
-    const imageSettings = buildImageSettings(design);
+    const imageSettings = buildMainImageSettings(design);
     const choiceCardSettings = buildChoiceCardSettings(design);
 
     const templateSettings: BannerTemplateSettings = {
@@ -85,6 +101,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         },
         headerSettings: {
             textColour: hexColourToString(basic.headerText),
+            headerImage: buildHeaderImageSettings(design),
         },
         primaryCtaSettings: {
             default: {
@@ -164,6 +181,20 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData
     );
 
+    const useHeaderImage = !!templateSettings?.headerSettings?.headerImage;
+    const getHeaderContainerCss = () => {
+        if (useHeaderImage) {
+            return styles.headerWithImageContainer(
+                templateSettings.containerSettings.backgroundColour,
+                !!templateSettings.imageSettings,
+            );
+        }
+        return styles.headerContainer(
+            templateSettings.containerSettings.backgroundColour,
+            !!templateSettings.imageSettings,
+        );
+    };
+
     return (
         <div
             css={styles.outerContainer(
@@ -178,12 +209,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     styleOverides={styles.closeButtonOverrides}
                 />
 
-                <div
-                    css={styles.headerContainer(
-                        templateSettings.containerSettings.backgroundColour,
-                        !!templateSettings.imageSettings,
-                    )}
-                >
+                <div css={getHeaderContainerCss()}>
                     <DesignableBannerHeader
                         heading={content.mainContent.heading}
                         mobileHeading={content.mobileContent.heading}
@@ -240,6 +266,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             bannerId={templateSettings.bannerId}
                         />
                     )}
+                    {/* 
+                        I think `alternativeVisual` was for using SVG as the image, which is currently beyond the scope of the design tool. Suggest we remove?
+                    */}
                     {templateSettings.alternativeVisual}
                     {showChoiceCards && (
                         <ChoiceCards
@@ -328,6 +357,24 @@ const styles = {
         }
     `,
     headerContainer: (background: string, bannerHasImage: boolean) => css`
+        order: 1;
+        ${until.tablet} {
+            max-width: calc(100% - 40px - ${space[3]}px);
+        }
+        ${between.mobileMedium.and.tablet} {
+            order: ${bannerHasImage ? '2' : '1'};
+            max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
+        }
+        ${from.tablet} {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+            background: ${background};
+        }
+        ${templateSpacing.bannerHeader}
+    `,
+    // This will change to match requirements for the image header
+    // I'm wondering if these sit better in the component
+    headerWithImageContainer: (background: string, bannerHasImage: boolean) => css`
         order: 1;
         ${until.tablet} {
             max-width: calc(100% - 40px - ${space[3]}px);

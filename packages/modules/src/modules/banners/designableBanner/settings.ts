@@ -36,8 +36,8 @@ export interface TickerStylingSettings {
 }
 
 export interface HeaderSettings {
-    textColour: string;
-    image?: ReactNode;
+    textColour?: string;
+    headerImage?: Image;
 }
 
 export interface BannerTemplateSettings {

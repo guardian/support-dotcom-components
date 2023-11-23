@@ -3,8 +3,10 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
+import { DesignableBannerHeaderVisual } from './DesignableBannerHeaderVisual';
 import { HeaderSettings } from '../settings';
 import useMediaQuery from '../../../../hooks/useMediaQuery';
+import { Image } from '@sdc/shared/types';
 
 interface DesignableBannerHeaderProps {
     heading: JSX.Element | JSX.Element[] | null;
@@ -19,16 +21,19 @@ export function DesignableBannerHeader({
 }: DesignableBannerHeaderProps): JSX.Element {
     const isTabletOrAbove = useMediaQuery(from.tablet);
 
+    const resolveImage = (settings: Image) => {
+        return <DesignableBannerHeaderVisual settings={settings} />;
+    };
+
+    const resolveCopy = () => {
+        return <h2>{isTabletOrAbove ? heading : mobileHeading}</h2>;
+    };
+
     return (
         <div css={styles.container}>
             <header css={styles.header(headerSettings)}>
-                <h2>
-                    {headerSettings?.image
-                        ? headerSettings.image
-                        : isTabletOrAbove
-                        ? heading
-                        : mobileHeading}
-                </h2>
+                {headerSettings?.headerImage && resolveImage(headerSettings.headerImage)}
+                {(heading || mobileHeading) && resolveCopy()}
             </header>
         </div>
     );
