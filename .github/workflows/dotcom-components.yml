@@ -64,3 +64,39 @@ jobs:
           npm install -g yarn
           yarn install
           yarn run riffraff
+
+  release:
+    name: Release
+    needs: [ dotcom-components ]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # in order to write labels to main branch?
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Build
+        run: |
+          npm install -g yarn
+          yarn install
+          yarn dotcom build
+          yarn dotcom types
+
+      - name: Release
+        uses: changesets/action@v1
+        with:
+          publish: yarn dotcom changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
