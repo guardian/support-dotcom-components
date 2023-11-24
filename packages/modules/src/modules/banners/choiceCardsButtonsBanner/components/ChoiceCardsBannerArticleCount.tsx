@@ -30,7 +30,7 @@ export function ChoiceCardsBannerArticleCount({
             <ArticleCountOptOutPopup
                 numArticles={numArticles}
                 nextWord=" articles"
-                type="investigations-moment-banner"
+                type="global-new-year-moment-banner"
             />{' '}
             in the last year
         </p>

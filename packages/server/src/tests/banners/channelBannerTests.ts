@@ -4,7 +4,6 @@ import {
     designableBanner,
     environmentBanner,
     guardianWeekly,
-    investigationsMomentBanner,
     globalNewYearMomentBanner,
     signInPromptBanner,
     ukraineMomentBanner,
@@ -39,7 +38,6 @@ export const BannerPaths: {
     [BannerTemplate.ContributionsBanner]: contributionsBanner.endpointPathBuilder,
     [BannerTemplate.ContributionsBannerWithSignIn]:
         contributionsBannerWithSignIn.endpointPathBuilder,
-    [BannerTemplate.InvestigationsMomentBanner]: investigationsMomentBanner.endpointPathBuilder,
     [BannerTemplate.EnvironmentBanner]: environmentBanner.endpointPathBuilder,
     [BannerTemplate.GlobalNewYearBanner]: globalNewYearMomentBanner.endpointPathBuilder,
     [BannerTemplate.SupporterMomentBanner]: supporterMomentBanner.endpointPathBuilder,

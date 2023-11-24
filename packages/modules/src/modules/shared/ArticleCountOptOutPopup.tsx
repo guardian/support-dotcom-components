@@ -21,13 +21,11 @@ import type { ReactComponent } from '../../types';
 export type ArticleCountOptOutType =
     | 'epic'
     | 'banner'
-    | 'investigations-moment-banner'
     | 'us-eoy-moment-banner'
     | 'global-new-year-moment-banner'
     | 'election-au-moment-banner';
 const isBanner = (type: ArticleCountOptOutType): boolean =>
     type === 'banner' ||
-    type === 'investigations-moment-banner' ||
     type === 'us-eoy-moment-banner' ||
     type === 'global-new-year-moment-banner' ||
     type === 'election-au-moment-banner';
