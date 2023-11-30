@@ -81,7 +81,7 @@ export const buildBannerRouter = (
             bannerTests.get(),
             bannerDeployTimes,
             enableHardcodedBannerTests,
-            enableScheduledBannerDeploys && targeting.countryCode !== 'US', // disable scheduled deploys in the US
+            enableScheduledBannerDeploys,
             params.force,
         );
 
