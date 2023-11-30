@@ -1,6 +1,6 @@
 {
     "name": "@sdc/server",
-    "version": "1.0.0",
+    "private": true,
     "license": "MIT",
     "main": "dist/server.js",
     "scripts": {
