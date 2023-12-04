@@ -300,10 +300,13 @@ WithChoiceCardsAndImage.args = {
         ...design,
         headerImage: {
             kind: 'Image',
-            mobileUrl: 'https://i.guim.co.uk/img/media/036510bc15ecdba97355f464006e3db5fbde9129/0_0_620_180/master/620.jpg?width=310&height=90&quality=100&s=01c604815a2f9980a1227c0d91ffa6b1',
-            tabletDesktopUrl: 'https://i.guim.co.uk/img/media/7030f9d98e368d6e5c7a34c643c76d7d1f5ac63c/0_0_1056_366/master/1056.jpg?width=528&height=183&quality=100&s=f0c02cddda84dfaf4ef261d91bd26159',
-            wideUrl: 'https://i.guim.co.uk/img/media/3c1cb611785d3dccc2674636a6f692da1e2fcdb6/0_0_1392_366/master/1392.jpg?width=696&height=183&quality=100&s=5935c1ae5e8cbc5d9ed616bbadb3b09e',
-            altText: 'Guardian: Our Planet can\'t Speak for itself',
+            mobileUrl:
+                'https://i.guim.co.uk/img/media/036510bc15ecdba97355f464006e3db5fbde9129/0_0_620_180/master/620.jpg?width=310&height=90&quality=100&s=01c604815a2f9980a1227c0d91ffa6b1',
+            tabletDesktopUrl:
+                'https://i.guim.co.uk/img/media/7030f9d98e368d6e5c7a34c643c76d7d1f5ac63c/0_0_1056_366/master/1056.jpg?width=528&height=183&quality=100&s=f0c02cddda84dfaf4ef261d91bd26159',
+            wideUrl:
+                'https://i.guim.co.uk/img/media/3c1cb611785d3dccc2674636a6f692da1e2fcdb6/0_0_1392_366/master/1392.jpg?width=696&height=183&quality=100&s=5935c1ae5e8cbc5d9ed616bbadb3b09e',
+            altText: "Guardian: Our Planet can't Speak for itself",
         },
         visual: {
             kind: 'ChoiceCards',
@@ -359,4 +362,3 @@ NoChoiceCardOrImage.args = {
     },
     tickerSettings: undefined,
 };
-
