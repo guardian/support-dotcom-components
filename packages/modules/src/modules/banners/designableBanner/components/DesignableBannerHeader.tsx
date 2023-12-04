@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { neutral } from '@guardian/src-foundations/palette';
-import { DesignableBannerHeaderVisual } from './DesignableBannerHeaderVisual';
+import { DesignableBannerVisual } from './DesignableBannerVisual';
 import { HeaderSettings } from '../settings';
 import useMediaQuery from '../../../../hooks/useMediaQuery';
 import { Image } from '@sdc/shared/types';
@@ -22,7 +22,7 @@ export function DesignableBannerHeader({
     const isTabletOrAbove = useMediaQuery(from.tablet);
 
     const resolveImage = (settings: Image) => {
-        return <DesignableBannerHeaderVisual settings={settings} />;
+        return <DesignableBannerVisual settings={settings} />;
     };
 
     const resolveCopy = () => {

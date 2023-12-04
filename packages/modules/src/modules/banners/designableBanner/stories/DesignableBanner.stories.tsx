@@ -88,7 +88,7 @@ const design: ConfigurableDesign = {
         ticker: {
             text: stringToHexColour('052962'),
             filledProgress: stringToHexColour('052962'),
-            progressBarBackground: stringToHexColour('ffffff'),
+            progressBarBackground: stringToHexColour('cccccc'),
             goalMarker: stringToHexColour('000000'),
         },
     },
@@ -274,3 +274,89 @@ WithChoiceCardsEdgeCases.args = {
         },
     },
 };
+
+export const WithChoiceCardsAndImage = DefaultTemplate.bind({});
+WithChoiceCardsAndImage.args = {
+    ...props,
+    content,
+    mobileContent,
+    numArticles: 50,
+    tickerSettings: {
+        countType: TickerCountType.money,
+        endType: TickerEndType.hardstop,
+        currencySymbol: '',
+        copy: {
+            countLabel: 'contributions in May',
+            goalReachedPrimary: "We've met our goal - thank you!",
+            goalReachedSecondary: '',
+        },
+        tickerData: {
+            total: 4_000,
+            goal: 50_000,
+        },
+        name: 'AU',
+    },
+    design: {
+        ...design,
+        headerImage: {
+            kind: 'Image',
+            mobileUrl: 'https://i.guim.co.uk/img/media/036510bc15ecdba97355f464006e3db5fbde9129/0_0_620_180/master/620.jpg?width=310&height=90&quality=100&s=01c604815a2f9980a1227c0d91ffa6b1',
+            tabletDesktopUrl: 'https://i.guim.co.uk/img/media/7030f9d98e368d6e5c7a34c643c76d7d1f5ac63c/0_0_1056_366/master/1056.jpg?width=528&height=183&quality=100&s=f0c02cddda84dfaf4ef261d91bd26159',
+            wideUrl: 'https://i.guim.co.uk/img/media/3c1cb611785d3dccc2674636a6f692da1e2fcdb6/0_0_1392_366/master/1392.jpg?width=696&height=183&quality=100&s=5935c1ae5e8cbc5d9ed616bbadb3b09e',
+            altText: 'Guardian: Our Planet can\'t Speak for itself',
+        },
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+        colours: {
+            ...design.colours,
+            basic: {
+                ...design.colours.basic,
+                background: stringToHexColour('FFFFFF'),
+            },
+        },
+    },
+    // Note: the CTA will show "Support once" - this is an artefact of sharing content data across several tests and can be set by users to more appropriate copy in RRCP
+    choiceCardAmounts: {
+        testName: 'Storybook_test',
+        variantName: 'CONTROL',
+        defaultContributionType: 'MONTHLY',
+        displayContributionType: ['ONE_OFF', 'MONTHLY', 'ANNUAL'],
+        amountsCardData: {
+            // Card should show £5 (default), £10 and "other" buttons
+            ONE_OFF: {
+                amounts: [5, 10, 15, 20],
+                defaultAmount: 5,
+                hideChooseYourAmount: false,
+            },
+            // Card should initially display showing Monthly amounts
+            // Card should show £3, £6 and £10 (default) buttons
+            MONTHLY: {
+                amounts: [3, 6, 10],
+                defaultAmount: 10,
+                hideChooseYourAmount: true,
+            },
+            // Card should only show £100 (default) with no "other" button
+            ANNUAL: {
+                amounts: [100],
+                defaultAmount: 100,
+                hideChooseYourAmount: true,
+            },
+        },
+    },
+};
+
+export const NoChoiceCardOrImage = DefaultTemplate.bind({});
+NoChoiceCardOrImage.args = {
+    ...props,
+    content,
+    mobileContent,
+    numArticles: 50,
+    design: {
+        ...design,
+        visual: undefined,
+    },
+    tickerSettings: undefined,
+};
+
