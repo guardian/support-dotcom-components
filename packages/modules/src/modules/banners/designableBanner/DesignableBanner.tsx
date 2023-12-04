@@ -181,12 +181,10 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData
     );
 
-    const useHeaderImage = !!templateSettings?.headerSettings?.headerImage;
     const getHeaderContainerCss = () => {
-        if (useHeaderImage) {
+        if (!!templateSettings?.headerSettings?.headerImage) {
             return styles.headerWithImageContainer(
                 templateSettings.containerSettings.backgroundColour,
-                !!templateSettings.imageSettings,
             );
         }
         return styles.headerContainer(
@@ -372,25 +370,19 @@ const styles = {
         }
         ${templateSpacing.bannerHeader}
     `,
-    // This will change to match requirements for the image header
-    // I'm wondering if these sit better in the component
-    headerWithImageContainer: (background: string, headerHasNoImage: boolean) => {
-        const spacing = headerHasNoImage ? templateSpacing.bannerHeader : templateSpacing.bannerHeaderWithImage;
-
-        return css`
-            order: 1;
-            max-width: ${headerHasNoImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
-            ${between.mobileMedium.and.tablet} {
-                order: ${headerHasNoImage ? '2' : '1'};
-            }
-            ${from.tablet} {
-                grid-column: 1 / span 1;
-                grid-row: 1 / span 1;
-                background: ${background};
-            }
-            ${spacing}
-        `;
-    },
+    headerWithImageContainer: (background: string) => css`
+        order: 1;
+        max-width: '100%';
+        ${between.mobileMedium.and.tablet} {
+            order: '2';
+        }
+        ${from.tablet} {
+            grid-column: 1 / span 1;
+            grid-row: 1 / span 1;
+            background: ${background};
+        }
+        ${templateSpacing.bannerHeaderWithImage}
+    `,
     contentContainer: css`
         order: 2;
         ${from.tablet} {
