@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral, space } from '@guardian/src-foundations';
 import { DesignableBannerVisual } from './DesignableBannerVisual';
 import { HeaderSettings } from '../settings';
 import useMediaQuery from '../../../../hooks/useMediaQuery';
@@ -20,9 +20,10 @@ export function DesignableBannerHeader({
     headerSettings,
 }: DesignableBannerHeaderProps): JSX.Element {
     const isTabletOrAbove = useMediaQuery(from.tablet);
+    const styles = getStyles(headerSettings);
 
     const resolveImage = (settings: Image) => {
-        return <DesignableBannerVisual settings={settings} />;
+        return <DesignableBannerVisual settings={settings} isHeaderImage={true} />;
     };
 
     const resolveCopy = () => {
@@ -31,7 +32,7 @@ export function DesignableBannerHeader({
 
     return (
         <div css={styles.container}>
-            <header css={styles.header(headerSettings)}>
+            <header css={styles.header}>
                 {headerSettings?.headerImage && resolveImage(headerSettings.headerImage)}
                 {(heading || mobileHeading) && resolveCopy()}
             </header>
@@ -39,22 +40,29 @@ export function DesignableBannerHeader({
     );
 }
 
-const styles = {
-    container: css`
-        position: relative;
-    `,
-    header: (headerSettings: HeaderSettings | undefined) => css`
-        h2 {
-            margin: 0;
-            color: ${headerSettings?.textColour ?? neutral[0]};
+const getStyles = (headerSettings: HeaderSettings | undefined) => {
+    const color = headerSettings?.textColour ?? neutral[0];
+    const copyMargin = headerSettings?.headerImage ? `${space[6]}px 0 ${space[6]}px` : `${space[3]}px 0 ${space[6]}px`;
+    const containerMargin = headerSettings?.headerImage ? `${space[6]}px` : '0'
 
-            ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
-            ${from.tablet} {
-                ${headline.small({ fontWeight: 'bold' })}
+    return {
+        container: css`
+            position: relative;
+            margin-bottom: ${containerMargin};
+        `,
+        header: css`
+            h2 {
+                margin: ${copyMargin};
+                color: ${color};
+
+                ${headline.xsmall({ fontWeight: 'bold', lineHeight: 'tight' })}
+                ${from.tablet} {
+                    ${headline.small({ fontWeight: 'bold' })}
+                }
+                ${from.desktop} {
+                    ${headline.medium({ fontWeight: 'bold' })}
+                }
             }
-            ${from.desktop} {
-                ${headline.medium({ fontWeight: 'bold' })}
-            }
-        }
-    `,
+        `,
+    };
 };

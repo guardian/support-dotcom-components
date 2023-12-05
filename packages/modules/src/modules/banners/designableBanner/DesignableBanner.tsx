@@ -381,7 +381,7 @@ const styles = {
             grid-row: 1 / span 1;
             background: ${background};
         }
-        ${templateSpacing.bannerHeaderWithImage}
+        ${templateSpacing.bannerHeader}
     `,
     contentContainer: css`
         order: 2;

@@ -12,11 +12,7 @@ const templateSpacing = {
         }
     `,
     bannerHeader: css`
-        padding-top: ${space[3]}px;
-        margin-bottom: ${space[6]}px;
-    `,
-    bannerHeaderWithImage: css`
-        margin-bottom: ${space[6]}px;
+        margin: 0;
     `,
     bannerBodyCopy: css`
         ${until.tablet} {
