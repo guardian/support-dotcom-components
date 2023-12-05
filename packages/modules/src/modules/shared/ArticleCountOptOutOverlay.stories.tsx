@@ -29,8 +29,3 @@ export const Banner = Template.bind({});
 Banner.args = {
     type: 'banner',
 };
-
-export const InvestigationsMoment = Template.bind({});
-InvestigationsMoment.args = {
-    type: 'investigations-moment-banner',
-};

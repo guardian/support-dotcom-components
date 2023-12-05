@@ -23,7 +23,6 @@ import type { ReactComponent } from '../../types';
 const COLOURS = {
     epic: 'white',
     banner: brandAltText.primary,
-    ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-moment-banner']: neutral[0],
     ['election-au-moment-banner']: neutral[0],
@@ -32,7 +31,6 @@ const COLOURS = {
 const BACKGROUND_COLOURS = {
     epic: brand[400],
     banner: brandAltBackground.primary,
-    ['investigations-moment-banner']: neutral[100],
     ['us-eoy-moment-banner']: '#FFEEDB',
     ['global-new-year-moment-banner']: '#F79E1B',
     ['election-au-moment-banner']: '#e4e4e3',
@@ -41,7 +39,6 @@ const BACKGROUND_COLOURS = {
 const BORDER_COLOURS = {
     epic: 'transparent',
     banner: brandAltLine.primary,
-    ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-moment-banner']: neutral[0],
     ['election-au-moment-banner']: neutral[0],
@@ -50,7 +47,6 @@ const BORDER_COLOURS = {
 const BUTTON_THEMES = {
     epic: brandTheme,
     banner: brandAltTheme,
-    ['investigations-moment-banner']: buttonDefaultTheme,
     ['us-eoy-moment-banner']: buttonDefaultTheme,
     ['global-new-year-moment-banner']: buttonDefaultTheme,
     ['election-au-moment-banner']: buttonDefaultTheme,
@@ -100,7 +96,6 @@ const overlayCtaContainer = css`
 const NOTE_LINK_COLOURS = {
     epic: neutral[100],
     banner: brandAltText.primary,
-    ['investigations-moment-banner']: neutral[0],
     ['us-eoy-moment-banner']: neutral[0],
     ['global-new-year-moment-banner']: neutral[0],
     ['election-au-moment-banner']: neutral[0],
@@ -109,15 +104,6 @@ const NOTE_LINK_COLOURS = {
 const BUTTON_OVERRIDES = {
     epic: css``,
     banner: css``,
-    ['investigations-moment-banner']: css`
-        background-color: ${neutral[100]};
-        color: ${neutral[0]};
-        border: 1px solid ${neutral[0]};
-
-        &:hover {
-            background-color: ${neutral[86]};
-        }
-    `,
     ['us-eoy-moment-banner']: css`
         color: ${neutral[7]};
         border: 1px solid ${neutral[7]};
@@ -153,16 +139,6 @@ const BUTTON_OVERRIDES = {
 const PRIMARY_BUTTON_OVERRIDES = {
     epic: css``,
     banner: css``,
-    ['investigations-moment-banner']: css`
-        background-color: ${neutral[0]};
-        color: ${neutral[100]};
-        border: 1px solid ${neutral[0]};
-
-        &:hover {
-            background-color: ${neutral[46]};
-            border-color: ${neutral[46]};
-        }
-    `,
     ['us-eoy-moment-banner']: css`
         background-color: ${neutral[7]};
         color: ${neutral[100]};

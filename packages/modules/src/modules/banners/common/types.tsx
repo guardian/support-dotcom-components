@@ -13,7 +13,6 @@ export type BannerId =
     | 'contributions-banner'
     | 'research-survey-banner'
     | 'aus-anniversary-moment-banner'
-    | 'investigations-moment-banner'
     | 'environment-banner'
     | 'environment-moment-banner'
     | 'subscription-banner'
