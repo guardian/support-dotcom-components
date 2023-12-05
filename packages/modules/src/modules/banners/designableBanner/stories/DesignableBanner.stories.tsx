@@ -1,6 +1,15 @@
 import { Meta } from '@storybook/react';
 import { props } from '../../utils/storybook';
-import { BannerDesignImage, HexColour, SecondaryCtaType, TickerCountType, TickerEndType, TickerSettings, SelectedAmountsVariant, ConfigurableDesign } from '@sdc/shared/types';
+import {
+    BannerDesignImage,
+    HexColour,
+    SecondaryCtaType,
+    TickerCountType,
+    TickerEndType,
+    TickerSettings,
+    SelectedAmountsVariant,
+    ConfigurableDesign,
+} from '@sdc/shared/types';
 import { DefaultTemplate } from './Default';
 
 export default {

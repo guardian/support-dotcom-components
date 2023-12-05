@@ -65,7 +65,7 @@ const getStyles = (isHeaderImage = false) => {
                     display: block;
                 }
             `,
-        }
+        };
     }
     return {
         container: css`
@@ -86,5 +86,5 @@ const getStyles = (isHeaderImage = false) => {
                 align-items: center;
             }
         `,
-    }
+    };
 };
