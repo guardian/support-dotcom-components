@@ -14,6 +14,7 @@ import {
     hexColourToString,
     ConfigurableDesign,
     BannerDesignImage,
+    BannerDesignHeaderImage,
     Image,
 } from '@sdc/shared/types';
 import { DesignableBannerReminder } from './components/DesignableBannerReminder';
@@ -28,7 +29,9 @@ import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 
-const buildImageSettings = (design: BannerDesignImage): Image | undefined => {
+const buildImageSettings = (
+    design: BannerDesignImage | BannerDesignHeaderImage,
+): Image | undefined => {
     return {
         mainUrl: design.mobileUrl,
         mobileUrl: design.mobileUrl,
