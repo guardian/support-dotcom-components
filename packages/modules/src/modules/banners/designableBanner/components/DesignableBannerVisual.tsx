@@ -10,11 +10,13 @@ import { BannerId } from '../../common/types';
 interface DesignableBannerVisualProps {
     settings: Image;
     bannerId?: BannerId;
+    isHeaderImage?: boolean;
 }
 
 export function DesignableBannerVisual({
     settings,
     bannerId,
+    isHeaderImage,
 }: DesignableBannerVisualProps): JSX.Element {
     const baseImage: ImageAttrs = {
         url: settings.mainUrl,
@@ -23,6 +25,7 @@ export function DesignableBannerVisual({
     };
 
     const images: ImageAttrs[] = [];
+    const styles = getStyles(isHeaderImage);
     if (settings.mobileUrl) {
         images.push({ url: settings.mobileUrl, media: '(max-width: 739px)' });
     }
@@ -48,23 +51,40 @@ export function DesignableBannerVisual({
 
 // ---- Styles ---- //
 
-const styles = {
-    container: css`
-        height: 140px;
-        display: flex;
-        justify-content: center;
+const getStyles = (isHeaderImage = false) => {
+    if (isHeaderImage) {
+        return {
+            container: css`
+                height: 100%;
+                width: 100%;
 
-        img {
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-            display: block;
-        }
+                img {
+                    height: 100%;
+                    width: 100%;
+                    object-fit: contain;
+                    display: block;
+                }
+            `,
+        };
+    }
+    return {
+        container: css`
+            height: 140px;
+            display: flex;
+            justify-content: center;
 
-        ${from.tablet} {
-            height: 100%;
-            width: 100%;
-            align-items: center;
-        }
-    `,
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: contain;
+                display: block;
+            }
+
+            ${from.tablet} {
+                height: 100%;
+                width: 100%;
+                align-items: center;
+            }
+        `,
+    };
 };

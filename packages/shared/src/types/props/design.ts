@@ -92,12 +92,15 @@ interface TickerDesign {
     goalMarker: HexColour;
 }
 
-interface BannerDesignImage {
-    kind: 'Image';
+export interface BannerDesignHeaderImage {
     mobileUrl: string;
     tabletDesktopUrl: string;
     wideUrl: string;
     altText: string;
+}
+
+export interface BannerDesignImage extends BannerDesignHeaderImage {
+    kind: 'Image';
 }
 
 interface ChoiceCardsDesign {
@@ -108,6 +111,7 @@ type Visual = BannerDesignImage | ChoiceCardsDesign;
 
 export interface ConfigurableDesign {
     visual?: Visual;
+    headerImage?: BannerDesignHeaderImage;
     colours: {
         basic: {
             background: HexColour;
