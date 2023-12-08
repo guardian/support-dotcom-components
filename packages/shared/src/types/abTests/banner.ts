@@ -64,7 +64,6 @@ export interface BannerTest extends Test<BannerVariant> {
     isHardcoded: boolean;
     userCohort: UserCohort;
     canRun?: CanRun;
-    minArticlesBeforeShowingBanner: number;
     variants: BannerVariant[];
     locations?: CountryGroupId[];
     articlesViewedSettings?: ArticlesViewedSettings;
