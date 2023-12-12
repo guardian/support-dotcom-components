@@ -1,7 +1,6 @@
 import { PageTracking, WeeklyArticleHistory, PurchaseInfo } from './shared';
 
 export type BannerTargeting = {
-    alreadyVisitedCount: number;
     shouldHideReaderRevenue?: boolean;
     isPaidContent?: boolean;
     showSupportMessaging: boolean;

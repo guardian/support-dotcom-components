@@ -181,7 +181,6 @@ export const selectBannerTest = (
             !targeting.isPaidContent &&
             audienceMatches(targeting.showSupportMessaging, test.userCohort) &&
             inCountryGroups(targeting.countryCode, test.locations) &&
-            targeting.alreadyVisitedCount >= test.minArticlesBeforeShowingBanner &&
             !(test.articlesViewedSettings && targeting.hasOptedOutOfArticleCount) &&
             historyWithinArticlesViewedSettings(
                 test.articlesViewedSettings,

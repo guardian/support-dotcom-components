@@ -13,14 +13,13 @@ const bannerTargetingTests: TargetingTest<BannerTargeting>[] = [
             },
             {
                 name: 'Variant',
-                canShow: (targeting: BannerTargeting) => targeting.alreadyVisitedCount >= 5,
+                canShow: (targeting: BannerTargeting) => targeting.sectionId == 'politics',
             },
         ],
     },
 ];
 
 const targeting: BannerTargeting = {
-    alreadyVisitedCount: 2,
     shouldHideReaderRevenue: false,
     isPaidContent: false,
     showSupportMessaging: true,
@@ -67,7 +66,7 @@ describe('selectTargetingTest', () => {
     it('should include user in a targeting test and return Variant, with canShow of true', () => {
         const decision = selectTargetingTest(
             1,
-            { ...targeting, alreadyVisitedCount: 5 },
+            { ...targeting, sectionId: 'politics' },
             bannerTargetingTests,
         );
         expect(decision).toEqual({

@@ -40,7 +40,6 @@ describe('selectBannerTest', () => {
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
 
         const targeting: BannerTargeting = {
-            alreadyVisitedCount: 3,
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
@@ -65,7 +64,6 @@ describe('selectBannerTest', () => {
             bannerChannel: 'contributions',
             isHardcoded: false,
             userCohort: 'Everyone',
-            minArticlesBeforeShowingBanner: 2,
             variants: [
                 {
                     name: 'variant',
@@ -212,7 +210,6 @@ describe('selectBannerTest', () => {
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
 
         const targeting: BannerTargeting = {
-            alreadyVisitedCount: 3,
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
@@ -237,7 +234,6 @@ describe('selectBannerTest', () => {
             bannerChannel: 'subscriptions',
             isHardcoded: false,
             userCohort: 'Everyone',
-            minArticlesBeforeShowingBanner: 2,
             variants: [
                 {
                     name: 'variant',
@@ -325,7 +321,6 @@ describe('selectBannerTest', () => {
         const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
 
         const baseTargeting: BannerTargeting = {
-            alreadyVisitedCount: 0,
             shouldHideReaderRevenue: false,
             isPaidContent: false,
             showSupportMessaging: true,
@@ -348,7 +343,6 @@ describe('selectBannerTest', () => {
             isHardcoded: true,
             userCohort: 'Everyone',
             status: 'Live',
-            minArticlesBeforeShowingBanner: 0,
             variants: [
                 {
                     name: 'control',

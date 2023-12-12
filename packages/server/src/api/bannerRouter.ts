@@ -163,7 +163,6 @@ export const buildBannerRouter = (
                 res.locals.bannerTargeting = {
                     shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
                     showSupportMessaging: targeting.showSupportMessaging,
-                    alreadyVisitedCount: targeting.alreadyVisitedCount,
                     countryCode: targeting.countryCode,
                     engagementBannerLastClosedAt: targeting.engagementBannerLastClosedAt,
                     subscriptionBannerLastClosedAt: targeting.subscriptionBannerLastClosedAt,
@@ -223,7 +222,6 @@ export const buildBannerRouter = (
         res.locals.bannerTargeting = {
             shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
             showSupportMessaging: targeting.showSupportMessaging,
-            alreadyVisitedCount: targeting.alreadyVisitedCount,
             countryCode: targeting.countryCode,
             engagementBannerLastClosedAt: targeting.engagementBannerLastClosedAt,
             subscriptionBannerLastClosedAt: targeting.subscriptionBannerLastClosedAt,
