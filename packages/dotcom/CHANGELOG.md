@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 1.1.0
+
+### Minor Changes
+
+-   Remove alreadyVisitedCount from banner payload
+
 ## 1.0.11
 
 ### Patch Changes
