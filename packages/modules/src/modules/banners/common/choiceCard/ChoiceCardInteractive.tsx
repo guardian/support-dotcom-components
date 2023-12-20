@@ -13,12 +13,15 @@ import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 
 const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: number) => {
-    const buttonColour = design?.buttonColour ?? 'transparent';
-    const buttonTextColour = design?.buttonTextColour ?? '#767676';
-    const buttonBorderColour = design?.buttonBorderColour ?? '#999999';
-    const buttonSelectColour = design?.buttonSelectColour ?? '#E3F6FF';
-    const buttonSelectTextColour = design?.buttonSelectTextColour ?? '#062962';
-    const buttonSelectBorderColour = design?.buttonSelectBorderColour ?? '#017ABC';
+    const {
+        buttonColour,
+        buttonTextColour,
+        buttonBorderColour,
+        buttonSelectColour,
+        buttonSelectTextColour,
+        buttonSelectBorderColour,
+    } = design || {};
+
     return {
         hideChoiceCardGroupLegend: css`
             label {
@@ -75,23 +78,27 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             }
 
             & + label {
-                color: ${buttonTextColour};
-                background-color: ${buttonColour};
-                box-shadow: inset 0 0 0 2px ${buttonBorderColour};
+                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
+                ${buttonColour ? `background-color: ${buttonColour};` : ''}
+                ${buttonBorderColour ? `box-shadow: inset 0 0 0 2px ${buttonBorderColour};` : ''}
             }
 
             &:hover + label {
-                color: ${buttonTextColour};
-                background-color: ${buttonColour};
-                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
+                ${buttonColour ? `background-color: ${buttonColour};` : ''}
+                ${buttonBorderColour
+                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    : ''}
             }
 
             &:checked + label {
-                background-color: ${buttonSelectColour};
-                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+                ${buttonColour ? `background-color: ${buttonSelectColour};` : ''}
+                ${buttonBorderColour
+                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    : ''}
             }
             &:checked + label > * {
-                color: ${buttonSelectTextColour};
+                ${buttonTextColour ? `color: ${buttonSelectTextColour};` : ''}
             }
         `,
         bannerAmountsGroupOverrides: css`
@@ -142,23 +149,27 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             }
 
             & + label {
-                color: ${buttonTextColour};
-                background-color: ${buttonColour};
-                box-shadow: inset 0 0 0 2px ${buttonBorderColour};
+                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
+                ${buttonColour ? `background-color: ${buttonColour};` : ''}
+                ${buttonBorderColour ? `box-shadow: inset 0 0 0 2px ${buttonBorderColour};` : ''}
             }
 
             &:hover + label {
-                color: ${buttonTextColour};
-                background-color: ${buttonColour};
-                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
+                ${buttonColour ? `background-color: ${buttonColour};` : ''}
+                ${buttonBorderColour
+                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    : ''}
             }
 
             &:checked + label {
-                background-color: ${buttonSelectColour};
-                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+                ${buttonColour ? `background-color: ${buttonSelectColour};` : ''}
+                ${buttonBorderColour
+                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    : ''}
             }
             &:checked + label > * {
-                color: ${buttonSelectTextColour};
+                ${buttonTextColour ? `color: ${buttonSelectTextColour};` : ''}
             }
         `,
     };
