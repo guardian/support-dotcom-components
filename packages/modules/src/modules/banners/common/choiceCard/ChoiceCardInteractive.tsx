@@ -14,7 +14,11 @@ import type { ReactComponent } from '../../../../types';
 
 const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: number) => {
     const buttonColour = design?.buttonColour ?? 'transparent';
-
+    const buttonTextColour = design?.buttonTextColour ?? '#767676';
+    const buttonBorderColour = design?.buttonBorderColour ?? '#999999';
+    const buttonSelectColour = design?.buttonSelectColour ?? '#E3F6FF';
+    const buttonSelectTextColour = design?.buttonSelectTextColour ?? '#062962';
+    const buttonSelectBorderColour = design?.buttonSelectBorderColour ?? '#017ABC';
     return {
         hideChoiceCardGroupLegend: css`
             label {
@@ -53,7 +57,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 margin-right: ${space[2]}px !important;
                 margin-bottom: ${space[3]}px !important;
                 min-width: 0;
-                background-color: ${buttonColour};
             }
 
             > label > div {
@@ -63,6 +66,32 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
 
             > label:last-of-type {
                 margin-right: 0 !important;
+            }
+        `,
+        frequencyButtonOverride: css`
+            border-radius: ${space[3]}px;
+            ${until.mobileMedium} {
+                font-size: 10px;
+            }
+
+            & + label {
+                color: ${buttonTextColour};
+                background-color: ${buttonColour};
+                box-shadow: inset 0 0 0 2px ${buttonBorderColour};
+            }
+
+            &:hover + label {
+                color: ${buttonTextColour};
+                background-color: ${buttonColour};
+                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+            }
+
+            &:checked + label {
+                background-color: ${buttonSelectColour};
+                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+            }
+            &:checked + label > * {
+                color: ${buttonSelectTextColour};
             }
         `,
         bannerAmountsGroupOverrides: css`
@@ -81,7 +110,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
 
             > label {
                 margin: 0 !important;
-                background-color: ${buttonColour};
             }
 
             > label:first-of-type {
@@ -102,10 +130,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
         amountsOrOtherButton: css`
             margin-bottom: ${space[1]}px;
 
-            > label {
-                background-color: ${buttonColour};
-            }
-
             ${from.mobileLandscape} { 
                 margin-bottom: ${space[3]}px;
             }}
@@ -115,6 +139,26 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             border-radius: ${space[3]}px;
             ${until.mobileMedium} {
                 font-size: 10px;
+            }
+
+            & + label {
+                color: ${buttonTextColour};
+                background-color: ${buttonColour};
+                box-shadow: inset 0 0 0 2px ${buttonBorderColour};
+            }
+
+            &:hover + label {
+                color: ${buttonTextColour};
+                background-color: ${buttonColour};
+                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+            }
+
+            &:checked + label {
+                background-color: ${buttonSelectColour};
+                box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};
+            }
+            &:checked + label > * {
+                color: ${buttonSelectTextColour};
             }
         `,
     };
@@ -257,6 +301,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 id={`contributions-banner-${frequency}`}
                 checked={selection.frequency === frequency}
                 onChange={() => updateFrequency(frequency)}
+                cssOverrides={style.frequencyButtonOverride}
             />
         );
     };

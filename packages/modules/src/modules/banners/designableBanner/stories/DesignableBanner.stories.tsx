@@ -260,7 +260,7 @@ DesignTwoRegularAmounts.args = {
         ...design,
         visual: {
             kind: 'ChoiceCards',
-            buttonColour: stringToHexColour('E5E5E5'),
+            // buttonColour: stringToHexColour('E5E5E5'),
         },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
@@ -277,7 +277,13 @@ DesignTwoEdgeCaseAmounts.args = {
         ...design,
         visual: {
             kind: 'ChoiceCards',
-            buttonColour: stringToHexColour('E5E5E5'),
+            // buttonColour: stringToHexColour('E5E5E5'),
+            buttonColour: stringToHexColour('883333'),
+            buttonTextColour: stringToHexColour('FFFFFF'),
+            buttonBorderColour: stringToHexColour('8888FF'),
+            buttonSelectColour: stringToHexColour('338833'),
+            buttonSelectTextColour: stringToHexColour('FFFF88'),
+            buttonSelectBorderColour: stringToHexColour('88FF88'),
         },
     },
     choiceCardAmounts: edgeCaseChoiceCardAmounts,
@@ -295,7 +301,7 @@ DesignThreeHeaderImageOnly.args = {
         headerImage,
         visual: {
             kind: 'ChoiceCards',
-            buttonColour: stringToHexColour('E5E5E5'),
+            // buttonColour: stringToHexColour('E5E5E5'),
         },
         colours: {
             ...design.colours,
@@ -320,7 +326,7 @@ DesignFourHeaderImageAndCopy.args = {
         headerImage,
         visual: {
             kind: 'ChoiceCards',
-            buttonColour: stringToHexColour('E5E5E5'),
+            // buttonColour: stringToHexColour('E5E5E5'),
         },
         colours: {
             ...design.colours,

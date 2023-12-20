@@ -56,9 +56,29 @@ const buildHeaderImageSettings = (design: ConfigurableDesign): Image | undefined
 
 const buildChoiceCardSettings = (design: ConfigurableDesign): ChoiceCardSettings | undefined => {
     if (design.visual?.kind === 'ChoiceCards') {
-        const { buttonColour } = design.visual;
+        const {
+            buttonColour,
+            buttonTextColour,
+            buttonBorderColour,
+            buttonSelectColour,
+            buttonSelectTextColour,
+            buttonSelectBorderColour,
+        } = design.visual;
         return {
             buttonColour: buttonColour ? hexColourToString(buttonColour) : undefined,
+            buttonTextColour: buttonTextColour ? hexColourToString(buttonTextColour) : undefined,
+            buttonBorderColour: buttonBorderColour
+                ? hexColourToString(buttonBorderColour)
+                : undefined,
+            buttonSelectColour: buttonSelectColour
+                ? hexColourToString(buttonSelectColour)
+                : undefined,
+            buttonSelectTextColour: buttonSelectTextColour
+                ? hexColourToString(buttonSelectTextColour)
+                : undefined,
+            buttonSelectBorderColour: buttonSelectBorderColour
+                ? hexColourToString(buttonSelectBorderColour)
+                : undefined,
         };
     }
     return undefined;
