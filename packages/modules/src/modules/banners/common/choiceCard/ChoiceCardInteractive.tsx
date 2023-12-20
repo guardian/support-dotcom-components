@@ -86,19 +86,19 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             &:hover + label {
                 ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
                 ${buttonColour ? `background-color: ${buttonColour};` : ''}
-                ${buttonBorderColour
+                ${buttonSelectBorderColour
                     ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
 
             &:checked + label {
-                ${buttonColour ? `background-color: ${buttonSelectColour};` : ''}
-                ${buttonBorderColour
+                ${buttonSelectColour ? `background-color: ${buttonSelectColour};` : ''}
+                ${buttonSelectBorderColour
                     ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
             &:checked + label > * {
-                ${buttonTextColour ? `color: ${buttonSelectTextColour};` : ''}
+                ${buttonSelectTextColour ? `color: ${buttonSelectTextColour};` : ''}
             }
         `,
         bannerAmountsGroupOverrides: css`
@@ -157,19 +157,19 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             &:hover + label {
                 ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
                 ${buttonColour ? `background-color: ${buttonColour};` : ''}
-                ${buttonBorderColour
+                ${buttonSelectBorderColour
                     ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
 
             &:checked + label {
-                ${buttonColour ? `background-color: ${buttonSelectColour};` : ''}
-                ${buttonBorderColour
+                ${buttonSelectColour ? `background-color: ${buttonSelectColour};` : ''}
+                ${buttonSelectBorderColour
                     ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
             &:checked + label > * {
-                ${buttonTextColour ? `color: ${buttonSelectTextColour};` : ''}
+                ${buttonSelectTextColour ? `color: ${buttonSelectTextColour};` : ''}
             }
         `,
     };
