@@ -87,14 +87,14 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
                 ${buttonColour ? `background-color: ${buttonColour};` : ''}
                 ${buttonBorderColour
-                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
 
             &:checked + label {
                 ${buttonColour ? `background-color: ${buttonSelectColour};` : ''}
                 ${buttonBorderColour
-                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
             &:checked + label > * {
@@ -158,14 +158,14 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
                 ${buttonColour ? `background-color: ${buttonColour};` : ''}
                 ${buttonBorderColour
-                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
 
             &:checked + label {
                 ${buttonColour ? `background-color: ${buttonSelectColour};` : ''}
                 ${buttonBorderColour
-                    ? `box-shadow: inset 0 0 0 2px ${buttonSelectBorderColour};`
+                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
                     : ''}
             }
             &:checked + label > * {
