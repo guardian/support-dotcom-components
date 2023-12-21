@@ -71,36 +71,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 margin-right: 0 !important;
             }
         `,
-        frequencyButtonOverride: css`
-            border-radius: ${space[3]}px;
-            ${until.mobileMedium} {
-                font-size: 10px;
-            }
-
-            & + label {
-                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
-                ${buttonColour ? `background-color: ${buttonColour};` : ''}
-                ${buttonBorderColour ? `box-shadow: inset 0 0 0 2px ${buttonBorderColour};` : ''}
-            }
-
-            &:hover + label {
-                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
-                ${buttonColour ? `background-color: ${buttonColour};` : ''}
-                ${buttonSelectBorderColour
-                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
-                    : ''}
-            }
-
-            &:checked + label {
-                ${buttonSelectColour ? `background-color: ${buttonSelectColour};` : ''}
-                ${buttonSelectBorderColour
-                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
-                    : ''}
-            }
-            &:checked + label > * {
-                ${buttonSelectTextColour ? `color: ${buttonSelectTextColour};` : ''}
-            }
-        `,
         bannerAmountsGroupOverrides: css`
             > div:first-of-type {
                 display: block !important;
@@ -142,34 +112,32 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             }}
         `,
 
-        amountsButtonOverride: css`
+        buttonOverride: css`
             border-radius: ${space[3]}px;
             ${until.mobileMedium} {
                 font-size: 10px;
             }
 
             & + label {
-                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
-                ${buttonColour ? `background-color: ${buttonColour};` : ''}
-                ${buttonBorderColour ? `box-shadow: inset 0 0 0 2px ${buttonBorderColour};` : ''}
+                ${buttonTextColour && `color: ${buttonTextColour};`}
+                ${buttonColour && `background-color: ${buttonColour};`}
+                ${buttonBorderColour && `box-shadow: inset 0 0 0 2px ${buttonBorderColour};`}
             }
 
             &:hover + label {
-                ${buttonTextColour ? `color: ${buttonTextColour};` : ''}
-                ${buttonColour ? `background-color: ${buttonColour};` : ''}
-                ${buttonSelectBorderColour
-                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
-                    : ''}
+                ${buttonTextColour && `color: ${buttonTextColour};`}
+                ${buttonColour && `background-color: ${buttonColour};`}
+                ${buttonSelectBorderColour &&
+                `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`}
             }
 
             &:checked + label {
-                ${buttonSelectColour ? `background-color: ${buttonSelectColour};` : ''}
-                ${buttonSelectBorderColour
-                    ? `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`
-                    : ''}
+                ${buttonSelectColour && `background-color: ${buttonSelectColour};`}
+                ${buttonSelectBorderColour &&
+                `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`}
             }
             &:checked + label > * {
-                ${buttonSelectTextColour ? `color: ${buttonSelectTextColour};` : ''}
+                ${buttonSelectTextColour && `color: ${buttonSelectTextColour};`}
             }
         `,
     };
@@ -250,7 +218,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                     id={`contributions-banner-${amount}`}
                     checked={selection.amount === amount}
                     onChange={() => updateAmount(amount)}
-                    cssOverrides={style.amountsButtonOverride}
+                    cssOverrides={style.buttonOverride}
                 />
             );
         }
@@ -270,7 +238,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                         label="Other"
                         id="contributions-banner-third"
                         checked={true}
-                        cssOverrides={style.amountsButtonOverride}
+                        cssOverrides={style.buttonOverride}
                     />
                 </div>
             );
@@ -294,7 +262,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                             id="contributions-banner-other"
                             checked={selection.amount === 'other'}
                             onChange={() => updateAmount('other')}
-                            cssOverrides={style.amountsButtonOverride}
+                            cssOverrides={style.buttonOverride}
                         />
                     </div>
                 )}
@@ -312,7 +280,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 id={`contributions-banner-${frequency}`}
                 checked={selection.frequency === frequency}
                 onChange={() => updateFrequency(frequency)}
-                cssOverrides={style.frequencyButtonOverride}
+                cssOverrides={style.buttonOverride}
             />
         );
     };
