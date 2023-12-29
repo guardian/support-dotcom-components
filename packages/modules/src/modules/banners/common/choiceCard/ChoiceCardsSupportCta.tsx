@@ -4,11 +4,14 @@ import { Tracking } from '@sdc/shared/dist/types';
 import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
-import { ChoiceCardsButton } from './ChoiceCardsButton';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
+import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { LinkButton } from '@guardian/src-button';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
+    // Always override the LinkButton border
+    border: none;
 `;
 
 export const ChoiceCardsSupportCta = ({
@@ -49,25 +52,33 @@ export const ChoiceCardsSupportCta = ({
     return (
         <>
             <Hide above="tablet">
-                <ChoiceCardsButton
-                    onClickAction={supportUrl}
-                    showArrow
-                    data-ignore="global-link-styling"
+                <LinkButton
+                    href={supportUrl}
+                    onClick={onCtaClick}
+                    priority="tertiary"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
-                    onCtaClick={onCtaClick}
-                    ctaText={mobileText}
-                />
+                    icon={<SvgArrowRightStraight />}
+                    iconSide="right"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {mobileText}
+                </LinkButton>
             </Hide>
 
             <Hide below="tablet">
-                <ChoiceCardsButton
-                    onClickAction={supportUrl}
-                    showArrow
-                    data-ignore="global-link-styling"
+                <LinkButton
+                    href={supportUrl}
+                    onClick={onCtaClick}
+                    priority="tertiary"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
-                    onCtaClick={onCtaClick}
-                    ctaText={desktopText}
-                />
+                    icon={<SvgArrowRightStraight />}
+                    iconSide="right"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {desktopText}
+                </LinkButton>
             </Hide>
         </>
     );
