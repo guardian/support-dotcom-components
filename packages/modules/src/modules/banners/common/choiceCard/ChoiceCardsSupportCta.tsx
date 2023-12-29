@@ -4,14 +4,14 @@ import { Tracking } from '@sdc/shared/dist/types';
 import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
-import { Button } from './Button';
+import { ChoiceCardsButton } from './ChoiceCardsButton';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
 `;
 
-export const SupportCta = ({
+export const ChoiceCardsSupportCta = ({
     tracking,
     numArticles,
     countryCode,
@@ -49,7 +49,7 @@ export const SupportCta = ({
     return (
         <>
             <Hide above="tablet">
-                <Button
+                <ChoiceCardsButton
                     onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"
@@ -60,7 +60,7 @@ export const SupportCta = ({
             </Hide>
 
             <Hide below="tablet">
-                <Button
+                <ChoiceCardsButton
                     onClickAction={supportUrl}
                     showArrow
                     data-ignore="global-link-styling"

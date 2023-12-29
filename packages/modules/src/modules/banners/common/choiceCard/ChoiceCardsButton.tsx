@@ -16,7 +16,7 @@ const style = css`
     border: none;
 `;
 
-export const Button: ReactComponent<Props> = (props: Props) => {
+export const ChoiceCardsButton: ReactComponent<Props> = (props: Props) => {
     const { ctaText, ctaUrl, onCtaClick, cssOverrides } = props;
     return (
         <LinkButton

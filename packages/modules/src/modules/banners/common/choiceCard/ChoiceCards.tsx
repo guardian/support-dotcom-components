@@ -3,7 +3,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { ChoiceCardInteractive } from './ChoiceCardInteractive';
-import { SupportCta } from './SupportCta';
+import { ChoiceCardsSupportCta } from './ChoiceCardsSupportCta';
 import { PaymentCards } from '../PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { OphanComponentEvent, SelectedAmountsVariant, Tracking } from '@sdc/shared/src/types';
@@ -119,7 +119,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
 
             {bannerTracking && (
                 <div css={styles.ctaAndPaymentCardsContainer}>
-                    <SupportCta
+                    <ChoiceCardsSupportCta
                         countryCode={countryCode}
                         tracking={bannerTracking}
                         amountsTestName={testName}
