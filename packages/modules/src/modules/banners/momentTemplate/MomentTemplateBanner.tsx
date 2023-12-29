@@ -143,6 +143,7 @@ export function getMomentTemplateBanner(
                                 content={content}
                                 getCtaText={getCtaText}
                                 cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
+                                onCtaClick={onCtaClick}
                             />
                         )}
                     </div>
