@@ -26,17 +26,15 @@ const contributionsTheme = {
 type Url = string;
 
 type Props = {
-    // Accept a function or a string;
-    // A function will render a <Button>
-    // A string will render a <LinkButton>
-    // Both using the same interface
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    ctaText: string;
+    ctaUrl: string;
     onClickAction: Function | Url;
-    children: React.ReactElement | string;
+    // children: React.ReactElement | string;
     priority?: 'primary' | 'secondary';
     showArrow?: boolean;
     isTertiary?: boolean;
     cssOverrides?: SerializedStyles | SerializedStyles[] | undefined;
+    onCtaClick: () => void;
 };
 
 // Overrides for tertiary button
@@ -52,49 +50,51 @@ const tertiaryButtonOverrides = css`
 
 export const Button: ReactComponent<Props> = (allProps: Props) => {
     const {
-        onClickAction,
-        children,
+        ctaText,
+        ctaUrl,
+        onCtaClick,
+        // children,
         showArrow = false,
-        priority = 'primary',
+        // priority = 'primary',
         isTertiary,
         cssOverrides,
         ...props
     } = allProps;
-
-    if (typeof onClickAction === 'string') {
-        // LinkButton doesn't support 'tertiary' priority (unlike Button)
-        // So we'll map that to 'primary' and apply a CSS override on both of
-        // them so they get the same styles for 'tertiary' priority
-        return (
-            <ThemeProvider theme={contributionsTheme}>
-                <LinkButton
-                    href={onClickAction}
-                    icon={<SvgArrowRightStraight />}
-                    iconSide="right"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    priority={isTertiary ? 'primary' : priority}
-                    css={isTertiary ? tertiaryButtonOverrides : undefined}
-                    cssOverrides={cssOverrides}
-                    {...props}
-                >
-                    {children}
-                </LinkButton>
-            </ThemeProvider>
-        );
-    }
+    // LinkButton doesn't support 'tertiary' priority (unlike Button)
+    // So we'll map that to 'primary' and apply a CSS override on both of
+    // them so they get the same styles for 'tertiary' priority
     return (
         <ThemeProvider theme={contributionsTheme}>
-            <DSButton
+            {/*<LinkButton*/}
+            {/*    href={ctaUrl}*/}
+            {/*    onClick={onCtaClick}*/}
+            {/*    icon={<SvgArrowRightStraight />}*/}
+            {/*    iconSide="right"*/}
+            {/*    target="_blank"*/}
+            {/*    rel="noopener noreferrer"*/}
+            {/*    // priority={isTertiary ? 'primary' : priority}*/}
+            {/*    priority="tertiary"*/}
+            {/*    css={isTertiary ? tertiaryButtonOverrides : undefined}*/}
+            {/*    cssOverrides={cssOverrides}*/}
+            {/*    {...props}*/}
+            {/*>*/}
+            {/*    {ctaText}*/}
+            {/*</LinkButton>*/}
+
+            <LinkButton
+                href={ctaUrl}
+                onClick={onCtaClick}
+                priority="tertiary"
+                cssOverrides={cssOverrides}
+
+                icon={<SvgArrowRightStraight />}
                 iconSide="right"
-                icon={showArrow ? <SvgArrowRightStraight /> : undefined}
-                onClick={(): void => onClickAction()}
-                priority={isTertiary ? 'primary' : priority}
-                css={isTertiary ? tertiaryButtonOverrides : undefined}
-                {...props}
+                target="_blank"
+                rel="noopener noreferrer"
             >
-                {children}
-            </DSButton>
+                {ctaText}
+            </LinkButton>
+
         </ThemeProvider>
     );
 };

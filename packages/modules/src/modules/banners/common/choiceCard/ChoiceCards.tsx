@@ -28,6 +28,7 @@ interface ChoiceCardProps {
     numArticles?: number;
     content?: BannerTextContent;
     cssCtaOverides?: SerializedStyles;
+    onCtaClick: () => void;
 }
 
 const styles = {
@@ -75,6 +76,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     numArticles,
     getCtaText,
     cssCtaOverides,
+    onCtaClick,
 }: ChoiceCardProps) => {
     if (!selection || !amountsTest) {
         return <></>;
@@ -126,6 +128,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                         selection={selection}
                         getCtaText={getCtaText}
                         cssOverrides={cssCtaOverides}
+                        onCtaClick={onCtaClick}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
                 </div>

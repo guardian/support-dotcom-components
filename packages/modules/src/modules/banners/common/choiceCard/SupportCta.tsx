@@ -20,6 +20,7 @@ export const SupportCta = ({
     selection,
     getCtaText,
     cssOverrides,
+    onCtaClick,
 }: {
     tracking: Tracking;
     numArticles: number;
@@ -29,6 +30,7 @@ export const SupportCta = ({
     selection: ChoiceCardSelection;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
     cssOverrides?: SerializedStyles;
+    onCtaClick: () => void;
 }): JSX.Element | null => {
     const url = `https://support.theguardian.com/contribute?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`;
 
@@ -52,9 +54,9 @@ export const SupportCta = ({
                     showArrow
                     data-ignore="global-link-styling"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
-                >
-                    {mobileText}
-                </Button>
+                    onCtaClick={onCtaClick}
+                    ctaText={mobileText}
+                />
             </Hide>
 
             <Hide below="tablet">
@@ -63,9 +65,9 @@ export const SupportCta = ({
                     showArrow
                     data-ignore="global-link-styling"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
-                >
-                    {desktopText}
-                </Button>
+                    onCtaClick={onCtaClick}
+                    ctaText={desktopText}
+                />
             </Hide>
         </>
     );

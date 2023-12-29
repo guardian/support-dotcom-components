@@ -267,7 +267,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             bannerId={templateSettings.bannerId}
                         />
                     )}
-                    {/* 
+                    {/*
                         I think `alternativeVisual` was for using SVG as the image, which is currently beyond the scope of the design tool. Suggest we remove?
                     */}
                     {templateSettings.alternativeVisual}
@@ -286,6 +286,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             content={content}
                             getCtaText={getCtaText}
                             cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
+                            onCtaClick={onCtaClick}
                         />
                     )}
                 </div>
