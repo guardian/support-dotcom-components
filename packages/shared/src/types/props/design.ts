@@ -28,6 +28,11 @@ const imageSchema = z.object({
 
 const choiceCardsSchema = z.object({
     buttonColour: z.optional(hexColourSchema),
+    buttonTextColour: z.optional(hexColourSchema),
+    buttonBorderColour: z.optional(hexColourSchema),
+    buttonSelectColour: z.optional(hexColourSchema),
+    buttonSelectTextColour: z.optional(hexColourSchema),
+    buttonSelectBorderColour: z.optional(hexColourSchema),
     kind: z.literal('ChoiceCards'),
 });
 
@@ -106,6 +111,11 @@ export interface BannerDesignImage extends BannerDesignHeaderImage {
 interface ChoiceCardsDesign {
     kind: 'ChoiceCards';
     buttonColour?: HexColour;
+    buttonTextColour?: HexColour;
+    buttonBorderColour?: HexColour;
+    buttonSelectColour?: HexColour;
+    buttonSelectTextColour?: HexColour;
+    buttonSelectBorderColour?: HexColour;
 }
 type Visual = BannerDesignImage | ChoiceCardsDesign;
 

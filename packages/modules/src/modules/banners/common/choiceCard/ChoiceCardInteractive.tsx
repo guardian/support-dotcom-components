@@ -13,7 +13,14 @@ import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 
 const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: number) => {
-    const buttonColour = design?.buttonColour ?? 'transparent';
+    const {
+        buttonColour,
+        buttonTextColour,
+        buttonBorderColour,
+        buttonSelectColour,
+        buttonSelectTextColour,
+        buttonSelectBorderColour,
+    } = design || {};
 
     return {
         hideChoiceCardGroupLegend: css`
@@ -53,7 +60,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 margin-right: ${space[2]}px !important;
                 margin-bottom: ${space[3]}px !important;
                 min-width: 0;
-                background-color: ${buttonColour};
             }
 
             > label > div {
@@ -81,7 +87,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
 
             > label {
                 margin: 0 !important;
-                background-color: ${buttonColour};
             }
 
             > label:first-of-type {
@@ -102,19 +107,37 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
         amountsOrOtherButton: css`
             margin-bottom: ${space[1]}px;
 
-            > label {
-                background-color: ${buttonColour};
-            }
-
             ${from.mobileLandscape} { 
                 margin-bottom: ${space[3]}px;
             }}
         `,
 
-        amountsButtonOverride: css`
+        buttonOverride: css`
             border-radius: ${space[3]}px;
             ${until.mobileMedium} {
                 font-size: 10px;
+            }
+
+            & + label {
+                ${buttonTextColour && `color: ${buttonTextColour};`}
+                ${buttonColour && `background-color: ${buttonColour};`}
+                ${buttonBorderColour && `box-shadow: inset 0 0 0 2px ${buttonBorderColour};`}
+            }
+
+            &:hover + label {
+                ${buttonTextColour && `color: ${buttonTextColour};`}
+                ${buttonColour && `background-color: ${buttonColour};`}
+                ${buttonSelectBorderColour &&
+                `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`}
+            }
+
+            &:checked + label {
+                ${buttonSelectColour && `background-color: ${buttonSelectColour};`}
+                ${buttonSelectBorderColour &&
+                `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`}
+            }
+            &:checked + label > * {
+                ${buttonSelectTextColour && `color: ${buttonSelectTextColour};`}
             }
         `,
     };
@@ -195,7 +218,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                     id={`contributions-banner-${amount}`}
                     checked={selection.amount === amount}
                     onChange={() => updateAmount(amount)}
-                    cssOverrides={style.amountsButtonOverride}
+                    cssOverrides={style.buttonOverride}
                 />
             );
         }
@@ -215,7 +238,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                         label="Other"
                         id="contributions-banner-third"
                         checked={true}
-                        cssOverrides={style.amountsButtonOverride}
+                        cssOverrides={style.buttonOverride}
                     />
                 </div>
             );
@@ -239,7 +262,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                             id="contributions-banner-other"
                             checked={selection.amount === 'other'}
                             onChange={() => updateAmount('other')}
-                            cssOverrides={style.amountsButtonOverride}
+                            cssOverrides={style.buttonOverride}
                         />
                     </div>
                 )}
@@ -257,6 +280,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 id={`contributions-banner-${frequency}`}
                 checked={selection.frequency === frequency}
                 onChange={() => updateFrequency(frequency)}
+                cssOverrides={style.buttonOverride}
             />
         );
     };

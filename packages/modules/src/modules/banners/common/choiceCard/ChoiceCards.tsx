@@ -12,6 +12,11 @@ import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 
 export interface ChoiceCardSettings {
     buttonColour?: string;
+    buttonTextColour?: string;
+    buttonBorderColour?: string;
+    buttonSelectColour?: string;
+    buttonSelectTextColour?: string;
+    buttonSelectBorderColour?: string;
 }
 
 interface ChoiceCardProps {
