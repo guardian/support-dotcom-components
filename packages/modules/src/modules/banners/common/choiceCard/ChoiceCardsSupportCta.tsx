@@ -4,14 +4,17 @@ import { Tracking } from '@sdc/shared/dist/types';
 import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
-import { Button } from './Button';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
+import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { LinkButton } from '@guardian/src-button';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
+    // Always override the LinkButton border
+    border: none;
 `;
 
-export const SupportCta = ({
+export const ChoiceCardsSupportCta = ({
     tracking,
     numArticles,
     countryCode,
@@ -20,6 +23,7 @@ export const SupportCta = ({
     selection,
     getCtaText,
     cssOverrides,
+    onCtaClick,
 }: {
     tracking: Tracking;
     numArticles: number;
@@ -29,6 +33,7 @@ export const SupportCta = ({
     selection: ChoiceCardSelection;
     getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
     cssOverrides?: SerializedStyles;
+    onCtaClick: () => void;
 }): JSX.Element | null => {
     const url = `https://support.theguardian.com/contribute?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`;
 
@@ -47,25 +52,33 @@ export const SupportCta = ({
     return (
         <>
             <Hide above="tablet">
-                <Button
-                    onClickAction={supportUrl}
-                    showArrow
-                    data-ignore="global-link-styling"
+                <LinkButton
+                    href={supportUrl}
+                    onClick={onCtaClick}
+                    priority="tertiary"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
+                    icon={<SvgArrowRightStraight />}
+                    iconSide="right"
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
                     {mobileText}
-                </Button>
+                </LinkButton>
             </Hide>
 
             <Hide below="tablet">
-                <Button
-                    onClickAction={supportUrl}
-                    showArrow
-                    data-ignore="global-link-styling"
+                <LinkButton
+                    href={supportUrl}
+                    onClick={onCtaClick}
+                    priority="tertiary"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
+                    icon={<SvgArrowRightStraight />}
+                    iconSide="right"
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
                     {desktopText}
-                </Button>
+                </LinkButton>
             </Hide>
         </>
     );
