@@ -56,6 +56,11 @@ const headingStyles = css`
 const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => {
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
+    const onClick = () => {
+        if (props.onCtaClick) {
+            props.onCtaClick();
+        }
+    };
     return (
         <div>
             <Hide below="tablet">
@@ -74,6 +79,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
                         <LinkButton
                             priority="primary"
                             href={primaryCta.ctaUrl}
+                            onClick={onClick}
                             icon={<SvgArrowRightStraight />}
                             iconSide="right"
                             nudgeIcon={true}
