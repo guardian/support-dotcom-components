@@ -61,7 +61,7 @@ export const OPHAN_COMPONENT_EVENT_APPLEPAY_CTA: OphanComponentEvent = {
 
 export const OPHAN_COMPONENT_EVENT_PRIMARY_CTA: OphanComponentEvent = {
     component: {
-        componentType: 'ACQUISITIONS_OTHER',
+        componentType: 'ACQUISITIONS_EPIC',
         id: OPHAN_COMPONENT_ID_PRIMARY_CTA,
     },
     action: 'CLICK',
