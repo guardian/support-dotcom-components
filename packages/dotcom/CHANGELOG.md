@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 1.1.1
+
+### Patch Changes
+
+-   More exports to support migration of epic to DCR
+
 ## 1.1.0
 
 ### Minor Changes
