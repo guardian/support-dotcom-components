@@ -57,9 +57,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
     const { heading, subheading, primaryCta, secondaryCta } = props.content;
 
     const onClick = () => {
-        if (props.onCtaClick) {
-            props.onCtaClick();
-        }
+        props.onCtaClick?.();
     };
     return (
         <div>
