@@ -32,7 +32,7 @@ export const OPHAN_COMPONENT_EVENT_CTAS_VIEW: OphanComponentEvent = {
         componentType: 'ACQUISITIONS_OTHER',
         id: OPHAN_COMPONENT_ID_CTAS_VIEW,
     },
-    action: 'CLICK',
+    action: 'VIEW',
 };
 
 export const OPHAN_COMPONENT_EVENT_APPLEPAY_VIEW: OphanComponentEvent = {
