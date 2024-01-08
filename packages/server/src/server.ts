@@ -32,6 +32,7 @@ const buildApp = async (): Promise<Express> => {
     app.use(compression());
 
     const dotcomDevOrigins = [
+        // see: https://github.com/guardian/dotcom-rendering/blob/f05969110b0ab9af18041bbe537f93f98d28ad8f/dotcom-rendering/scripts/nginx/setup.sh#L11
         'https://r.thegulocal.com',
         'http://localhost:3030',
         'http://localhost:9000',
