@@ -31,7 +31,11 @@ const buildApp = async (): Promise<Express> => {
     app.use(express.json({ limit: '50mb' }));
     app.use(compression());
 
-    const dotcomDevOrigins = ['http://localhost:3030', 'http://localhost:9000'];
+    const dotcomDevOrigins = [
+        'https://r.thegulocal.com',
+        'http://localhost:3030',
+        'http://localhost:9000',
+    ];
     const corsOrigin = () => {
         switch (process.env.stage) {
             case 'PROD':
