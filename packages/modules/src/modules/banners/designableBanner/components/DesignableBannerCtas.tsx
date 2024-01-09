@@ -8,7 +8,7 @@ import { PaymentCards } from '../../common/PaymentCards';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
-import { isSupportUrl } from '@sdc/shared/src/lib';
+import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 interface DesignableBannerCtasProps {
     mainOrMobileContent: BannerRenderedContent;
