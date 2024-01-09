@@ -2,8 +2,14 @@ import React, { useEffect } from 'react';
 import { FocusStyleManager } from '@guardian/src-foundations/utils';
 import { breakpoints } from '@guardian/src-foundations';
 import { StylesDecorator } from './StylesDecorator';
+import isChromatic from 'chromatic/isChromatic';
+import MockDate from 'mockdate';
 
 const isProd = process.env.NODE_ENV === 'production';
+
+if (isChromatic()){
+    MockDate.set('1 Jan 2024');
+}
 
 const viewportMeta = {
     mobile: {
