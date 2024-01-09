@@ -8,6 +8,7 @@ import { PaymentCards } from '../../common/PaymentCards';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
 import { from } from '@guardian/src-foundations/mq';
+import { isSupportUrl } from '@sdc/shared/src/lib';
 
 interface DesignableBannerCtasProps {
     mainOrMobileContent: BannerRenderedContent;
@@ -27,6 +28,7 @@ export function DesignableBannerCtas({
     secondaryCtaSettings,
 }: DesignableBannerCtasProps): JSX.Element {
     const { primaryCta, secondaryCta } = mainOrMobileContent;
+    const hasSupportCta = primaryCta ? isSupportUrl(primaryCta.ctaUrl) : false;
 
     return (
         <div>
@@ -66,7 +68,7 @@ export function DesignableBannerCtas({
                 )}
             </div>
 
-            <div>{primaryCta && <PaymentCards />}</div>
+            <div>{primaryCta && hasSupportCta && <PaymentCards />}</div>
         </div>
     );
 }
