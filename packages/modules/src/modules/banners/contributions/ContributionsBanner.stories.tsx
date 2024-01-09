@@ -28,3 +28,14 @@ WithReminder.args = {
         },
     },
 };
+
+export const WithNonSupportUrl = Template.bind({});
+WithNonSupportUrl.args = {
+    content: {
+        ...content,
+        cta: {
+            baseUrl: 'theguardian.com',
+            text: 'Continue to the Guardian',
+        },
+    },
+};

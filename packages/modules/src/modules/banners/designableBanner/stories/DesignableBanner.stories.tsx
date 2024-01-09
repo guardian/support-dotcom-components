@@ -350,3 +350,21 @@ NoChoiceCardOrImage.args = {
     },
     tickerSettings: undefined,
 };
+
+export const WithNonSupportUrl = DefaultTemplate.bind({});
+WithNonSupportUrl.args = {
+    ...props,
+    content: {
+        ...contentWithHeading,
+        cta: {
+            baseUrl: 'theguardian.com',
+            text: 'Continue to the Guardian',
+        },
+    },
+    numArticles: 50,
+    design: {
+        ...design,
+        visual: undefined,
+    },
+    tickerSettings: undefined,
+};
