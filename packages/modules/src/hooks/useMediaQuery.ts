@@ -16,21 +16,20 @@ const useMediaQuery = (breakpoint: string): boolean => {
             setMatches(media.matches);
         }
 
-        try {
-            // Chrome & Firefox
+        if (media.addEventListener) {
             media.addEventListener('change', handleChange);
-        } catch (e1) {
-            try {
-                // Safari - addEventListener supported from v14
-                media.addListener(handleChange);
-            } catch (e2) {
-                console.error(e2);
-            }
+        } else if (media.addListener) {
+            // Safari - addEventListener supported from v14
+            media.addListener(handleChange);
         }
 
         return () => {
-            media.removeEventListener('change', handleChange);
-            media.removeListener(handleChange);
+            if (media.removeEventListener) {
+                media.removeEventListener('change', handleChange);
+            } else if (media.removeListener) {
+                // Safari - removeEventListener supported from v14
+                media.removeListener(handleChange);
+            }
         };
     }, [matches, query]);
 
