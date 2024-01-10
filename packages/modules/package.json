@@ -9,7 +9,8 @@
     "start": "rollup --config --watch",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build -o storybook-static"
+    "build-storybook": "storybook build -o storybook-static",
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx-compat": "^7.22.5",
