@@ -22,11 +22,6 @@ import {
     countryCodeToCountryGroupId,
 } from '@sdc/shared/dist/lib';
 import { getArticleViewCounts } from '../lib/history';
-import {
-    epic as epicModule,
-    liveblogEpic as liveblogEpicModule,
-    ModuleInfo,
-} from '@sdc/shared/dist/config';
 import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
@@ -36,7 +31,6 @@ import { ValueProvider } from '../utils/valueReloader';
 interface EpicDataResponse {
     data?: {
         module: {
-            url: string;
             name: string;
             props: EpicProps;
         };
@@ -158,17 +152,11 @@ export const buildEpicRouter = (
             countryCode: targeting.countryCode,
         };
 
-        const module: ModuleInfo = type === 'ARTICLE' ? epicModule : liveblogEpicModule;
-
-        const modulePathBuilder: (version?: string) => string =
-            propsVariant.modulePathBuilder || module.endpointPathBuilder;
-
         return {
             data: {
                 variant: propsVariant,
                 meta: testTracking,
                 module: {
-                    url: `${baseUrl}/${modulePathBuilder(targeting.modulesVersion)}`,
                     name: type === 'ARTICLE' ? 'ContributionsEpic' : 'ContributionsLiveblogEpic',
                     props,
                 },
