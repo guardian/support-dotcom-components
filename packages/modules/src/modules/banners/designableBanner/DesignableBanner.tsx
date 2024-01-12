@@ -412,7 +412,7 @@ const styles = {
         order: 2;
         ${from.tablet} {
             grid-column: 1 / span 1;
-            grid-row: 2 / span 1;
+            grid-row: 2 / span 2;
         }
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
