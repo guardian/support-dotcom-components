@@ -308,19 +308,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         />
                     )}
                 </div>
-                <div
-                    css={css`
-                        display: none;
-                        position: fixed;
-                        right: 0;
-                        margin-right: ${space[5]}px;
-                        align-self: end;
-                        ${from.tablet} {
-                            display: block;
-                            width: 100px;
-                        }
-                    `}
-                >
+                <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo />
                 </div>
             </div>
@@ -364,7 +352,7 @@ const styles = {
             position: static;
             display: grid;
             grid-template-columns: 1.5fr 1fr;
-            grid-template-rows: auto 1fr;
+            grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
             position: relative;
             width: 100%;
@@ -445,6 +433,16 @@ const styles = {
     ctasContainer: css`
         display: flex;
         flex-direction: row;
+    `,
+    guardianLogoContainer: css`
+        display: none;
+        ${from.tablet} {
+            display: block;
+            width: 100px;
+        }
+        grid-column: 2 / span 1;
+        grid-row: 3 / span 1;
+        justify-self: end;
     `,
 };
 
