@@ -28,6 +28,7 @@ import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
+import { SvgGuardianLogo } from '@guardian/src-brand';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -229,7 +230,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     settings={templateSettings.closeButtonSettings}
                     styleOverides={styles.closeButtonOverrides}
                 />
-
                 <div css={getHeaderContainerCss()}>
                     <DesignableBannerHeader
                         heading={content.mainContent.heading}
@@ -237,7 +237,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         headerSettings={templateSettings.headerSettings}
                     />
                 </div>
-
                 <div css={styles.contentContainer}>
                     {separateArticleCount && Number(numArticles) > 5 && (
                         <DesignableBannerArticleCount
@@ -274,7 +273,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         </section>
                     )}
                 </div>
-
                 <div
                     css={styles.bannerVisualContainer(
                         templateSettings.containerSettings.backgroundColour,
@@ -309,6 +307,21 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             onCtaClick={onCtaClick}
                         />
                     )}
+                </div>
+                <div
+                    css={css`
+                        display: none;
+                        position: fixed;
+                        right: 0;
+                        margin-right: ${space[5]}px;
+                        align-self: end;
+                        ${from.tablet} {
+                            display: block;
+                            width: 100px;
+                        }
+                    `}
+                >
+                    <SvgGuardianLogo />
                 </div>
             </div>
             {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
