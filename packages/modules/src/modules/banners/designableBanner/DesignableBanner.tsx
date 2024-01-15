@@ -445,6 +445,7 @@ const styles = {
         position: fixed;
         right: 0;
         margin-right: ${space[5]}px;
+        padding-top: ${space[3]}px;
     `,
 };
 
