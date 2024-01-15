@@ -21,6 +21,7 @@ import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
 import { Image } from '@sdc/shared/dist/types';
+import { SvgGuardianLogo } from '@guardian/src-brand';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -147,6 +148,9 @@ export function getMomentTemplateBanner(
                             />
                         )}
                     </div>
+                    <div css={styles.guardianLogoContainer}>
+                        <SvgGuardianLogo />
+                    </div>
                 </div>
                 {mainOrMobileContent.secondaryCta?.type ===
                     SecondaryCtaType.ContributionsReminder &&
@@ -214,7 +218,7 @@ const styles = {
             position: static;
             display: grid;
             grid-template-columns: 1.5fr 1fr;
-            grid-template-rows: auto 1fr;
+            grid-template-rows: auto 1fr 32px;
             column-gap: ${space[5]}px;
             position: relative;
             width: 100%;
@@ -280,5 +284,18 @@ const styles = {
     ctasContainer: css`
         display: flex;
         flex-direction: row;
+    `,
+    guardianLogoContainer: css`
+        display: none;
+        ${from.tablet} {
+            display: block;
+            width: 100px;
+        }
+        grid-column: 2 / span 1;
+        grid-row: 3 / span 1;
+        position: fixed;
+        right: 0;
+        margin-right: ${space[5]}px;
+        padding-top: ${space[3]}px;
     `,
 };
