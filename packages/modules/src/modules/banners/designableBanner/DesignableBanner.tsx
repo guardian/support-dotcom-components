@@ -29,6 +29,7 @@ import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { SvgGuardianLogo } from '@guardian/src-brand';
+import { Hide } from '@guardian/src-layout';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -308,9 +309,11 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         />
                     )}
                 </div>
-                <div css={styles.guardianLogoContainer}>
-                    <SvgGuardianLogo />
-                </div>
+                <Hide below="tablet">
+                    <div css={styles.guardianLogoContainer}>
+                        <SvgGuardianLogo />
+                    </div>
+                </Hide>
             </div>
             {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
                 isReminderActive && (
@@ -435,11 +438,7 @@ const styles = {
         flex-direction: row;
     `,
     guardianLogoContainer: css`
-        display: none;
-        ${from.tablet} {
-            display: block;
-            width: 100px;
-        }
+        width: 100px;
         grid-column: 2 / span 1;
         grid-row: 3 / span 1;
         position: fixed;
