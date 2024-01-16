@@ -22,7 +22,6 @@ import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
 import { Image } from '@sdc/shared/dist/types';
 import { SvgGuardianLogo } from '@guardian/src-brand';
-import { Hide } from '@guardian/src-layout';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -149,11 +148,9 @@ export function getMomentTemplateBanner(
                             />
                         )}
                     </div>
-                    <Hide below="tablet">
-                        <div css={styles.guardianLogoContainer}>
-                            <SvgGuardianLogo />
-                        </div>
-                    </Hide>
+                    <div css={styles.guardianLogoContainer}>
+                        <SvgGuardianLogo />
+                    </div>
                 </div>
                 {mainOrMobileContent.secondaryCta?.type ===
                     SecondaryCtaType.ContributionsReminder &&
@@ -289,7 +286,11 @@ const styles = {
         flex-direction: row;
     `,
     guardianLogoContainer: css`
-        width: 100px;
+        display: none;
+        ${from.tablet} {
+            display: block;
+            width: 100px;
+        }
         grid-column: 2 / span 1;
         grid-row: 3 / span 1;
         position: fixed;
