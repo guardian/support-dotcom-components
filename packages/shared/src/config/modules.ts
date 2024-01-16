@@ -16,13 +16,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     devServerPath: `/../../modules/dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
-export const epic: ModuleInfo = getDefaultModuleInfo('epic', 'epics/ContributionsEpic');
-
-export const liveblogEpic: ModuleInfo = getDefaultModuleInfo(
-    'liveblog-epic',
-    'epics/ContributionsLiveblogEpic',
-);
-
 export const ausAnniversaryMomentBanner: ModuleInfo = getDefaultModuleInfo(
     'aus-anniversary-moment-banner',
     'banners/aus10yrAnniversaryMoment/Aus10yrAnniversaryMomentBanner',
@@ -111,8 +104,6 @@ export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
 );
 
 export const moduleInfos: ModuleInfo[] = [
-    epic,
-    liveblogEpic,
     ausAnniversaryMomentBanner,
     contributionsBanner,
     contributionsBannerWithSignIn,
