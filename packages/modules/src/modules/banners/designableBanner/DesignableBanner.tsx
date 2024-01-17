@@ -352,7 +352,7 @@ const styles = {
             position: static;
             display: grid;
             grid-template-columns: 1.5fr 1fr;
-            grid-template-rows: auto 1fr 32px;
+            grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
             position: relative;
             width: 100%;
@@ -443,7 +443,6 @@ const styles = {
         grid-column: 2 / span 1;
         grid-row: 3 / span 1;
         justify-self: end;
-        margin-right: ${space[5]}px;
         padding-top: ${space[3]}px;
     `,
 };
