@@ -40,6 +40,7 @@ This will start `tsc` in `watch` mode to recompile on file changes and `nodemon`
 
 The server runs on port 8082 locally.
 
+
 #### DCR
 
 A local instance of DCR will use the `SDC_URL` environment variable to get the url for requests to SDC. To point DCR at a local instance of SDC we can therefore run DCR like
@@ -47,6 +48,18 @@ A local instance of DCR will use the `SDC_URL` environment variable to get the u
 ```bash
 SDC_URL=http://localhost:8082 make dev
 ```
+
+
+#### Browserstack Local:
+If you need to test against local instances of SDC + DCR through Browserstack Local then it's necessary to use the `thegulocal.com` domain.
+To do this, in SDC:
+1. setup nginx with `packages/server/scripts/nginx/setup.sh`
+2. run `base_url=https://contributions.thegulocal.com yarn server start`
+
+Then in DCR:
+1. setup nginx with `scripts/nginx/setup.sh`
+2. run `SDC_URL=https://contributions.thegulocal.com make dev`
+3. use https://r.thegulocal.com, rather than localhost
 
 ### Modules
 
