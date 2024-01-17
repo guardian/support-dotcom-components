@@ -134,6 +134,6 @@ buildApp()
         app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
     })
     .catch((err) => {
-        logError(`Failed to start server: ${String(err)}`);
+        logError(`Failed to start server: ${err.stack}`);
         throw err;
     });
