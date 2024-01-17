@@ -38,9 +38,7 @@ export function DesignableBannerCloseButton({
 const styles = {
     container: css`
         display: flex;
-        position: fixed;
-        right: 0;
-        padding-right: 20px;
+        justify-self: end;
         z-index: 100;
     `,
     closeButtonOverrides: css`
