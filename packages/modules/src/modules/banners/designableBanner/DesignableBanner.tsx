@@ -442,8 +442,7 @@ const styles = {
         }
         grid-column: 2 / span 1;
         grid-row: 3 / span 1;
-        position: fixed;
-        right: 0;
+        justify-self: end;
         margin-right: ${space[5]}px;
         padding-top: ${space[3]}px;
     `,
