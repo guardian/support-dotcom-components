@@ -7,7 +7,6 @@ import {
     AmountsTests,
     PageTracking,
     Prices,
-    PuzzlesBannerProps,
     TestTracking,
     BannerDesignFromTool,
 } from '@sdc/shared/dist/types';
@@ -21,7 +20,6 @@ import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { isMobile } from '../lib/deviceType';
-import { puzzlesBanner } from '@sdc/shared/dist/config';
 import { ValueProvider } from '../utils/valueReloader';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 
@@ -33,18 +31,6 @@ interface BannerDataResponse {
             props: BannerProps;
         };
         meta: TestTracking;
-    };
-    debug?: Debug;
-}
-
-interface PuzzlesDataResponse {
-    data?: {
-        module: {
-            url: string;
-            name: string;
-            props: PuzzlesBannerProps;
-        };
-        meta: Record<string, unknown>;
     };
     debug?: Debug;
 }
@@ -175,60 +161,6 @@ export const buildBannerRouter = (
             }
         },
     );
-
-    const buildPuzzlesData = (
-        pageTracking: PageTracking,
-        targeting: BannerTargeting,
-        params: Params,
-        req: express.Request,
-    ): PuzzlesDataResponse => {
-        const { enableBanners } = channelSwitches.get();
-        if (!enableBanners) {
-            return {};
-        }
-        if (targeting.showSupportMessaging) {
-            return {
-                data: {
-                    module: {
-                        url: `${baseUrl(req)}/${puzzlesBanner.endpointPathBuilder(
-                            targeting ? targeting.modulesVersion : targeting,
-                        )}`,
-                        name: 'PuzzlesBanner',
-                        props: {
-                            tracking: {
-                                ...pageTracking,
-                                abTestName: 'default',
-                                abTestVariant: 'control',
-                                campaignCode: 'PUZZLES_BANNER',
-                                componentType: 'ACQUISITIONS_OTHER',
-                            },
-                        },
-                    },
-                    meta: {},
-                },
-            };
-        }
-        return {};
-    };
-
-    router.post('/puzzles', (req: express.Request, res: express.Response) => {
-        const { tracking, targeting } = req.body;
-        const response = buildPuzzlesData(tracking, targeting, req.params, req);
-
-        // for response logging
-        res.locals.didRenderBanner = !!response.data;
-        res.locals.clientName = tracking.clientName;
-        // be specific about which fields to log, to avoid accidentally logging inappropriate things in future
-        res.locals.bannerTargeting = {
-            shouldHideReaderRevenue: targeting.shouldHideReaderRevenue,
-            showSupportMessaging: targeting.showSupportMessaging,
-            countryCode: targeting.countryCode,
-            engagementBannerLastClosedAt: targeting.engagementBannerLastClosedAt,
-            subscriptionBannerLastClosedAt: targeting.subscriptionBannerLastClosedAt,
-            isPaidContent: targeting.isPaidContent,
-        };
-        res.send(response);
-    });
 
     return router;
 };
