@@ -1,4 +1,4 @@
-import { contributionsBanner, guardianWeekly, signInPromptBanner } from '@sdc/shared/config';
+import { contributionsBanner, signInPromptBanner } from '@sdc/shared/config';
 import { BannerTargeting, BannerTest, BannerTemplate } from '@sdc/shared/types';
 import { BannerDeployTimesProvider } from './bannerDeployTimes';
 import { selectBannerTest } from './bannerSelection';
@@ -237,8 +237,8 @@ describe('selectBannerTest', () => {
             variants: [
                 {
                     name: 'variant',
-                    modulePathBuilder: guardianWeekly.endpointPathBuilder,
-                    template: BannerTemplate.GuardianWeeklyBanner,
+                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
+                    template: BannerTemplate.ContributionsBanner,
                     bannerContent: {
                         messageText: 'body',
                         cta: {
