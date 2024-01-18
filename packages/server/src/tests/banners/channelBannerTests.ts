@@ -13,7 +13,6 @@ import {
     BannerTestGenerator,
     BannerVariant,
     OphanComponentType,
-    OphanProduct,
     BannerTestFromTool,
     BannerVariantFromTool,
     uiIsDesign,
