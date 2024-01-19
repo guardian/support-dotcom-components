@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonReaderRevenueBrandAlt } from '@guardian/source-react-components';
+import { Button, buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
 import { SvgCross } from '@guardian/source-react-components';
 import type { ReactComponent } from '../../../../types';
 
@@ -15,7 +15,7 @@ interface EnvironmentBannerCloseButtonProps {
 export const EnvironmentBannerCloseButton: ReactComponent<EnvironmentBannerCloseButtonProps> = ({
     onClick,
 }: EnvironmentBannerCloseButtonProps) => (
-    <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+    <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
         <Button onClick={onClick} css={button} size="small" icon={<SvgCross />} hideLabel>
             Dismiss the banner
         </Button>

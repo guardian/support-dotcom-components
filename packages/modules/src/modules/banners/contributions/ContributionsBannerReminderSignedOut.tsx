@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonBrandAlt } from '@guardian/source-react-components';
+import { Button, buttonThemeBrandAlt } from '@guardian/source-react-components';
 import { textSans } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import { Columns, Column, Hide } from '@guardian/source-react-components';
@@ -268,7 +268,7 @@ function Body({
                 />
 
                 <div>
-                    <ThemeProvider theme={buttonBrandAlt}>
+                    <ThemeProvider theme={buttonThemeBrandAlt}>
                         <Button
                             type="submit"
                             size="small"

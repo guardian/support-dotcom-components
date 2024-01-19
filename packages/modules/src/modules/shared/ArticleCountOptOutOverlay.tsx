@@ -10,7 +10,7 @@ import {
 } from '@guardian/source-foundations';
 import { textSans } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
-import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/source-react-components';
+import { Button, buttonThemeDefault } from '@guardian/source-react-components';
 import { background } from '@guardian/source-foundations';
 import { SvgCross } from '@guardian/source-react-components';
 import { ThemeProvider } from '@emotion/react';
@@ -47,9 +47,9 @@ const BORDER_COLOURS = {
 const BUTTON_THEMES = {
     epic: brandTheme,
     banner: brandAltTheme,
-    ['us-eoy-moment-banner']: buttonDefaultTheme,
-    ['global-new-year-moment-banner']: buttonDefaultTheme,
-    ['election-au-moment-banner']: buttonDefaultTheme,
+    ['us-eoy-moment-banner']: buttonThemeDefault,
+    ['global-new-year-moment-banner']: buttonThemeDefault,
+    ['election-au-moment-banner']: buttonThemeDefault,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`

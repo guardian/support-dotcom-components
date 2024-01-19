@@ -3,7 +3,7 @@ import { ThemeProvider, css } from '@emotion/react';
 import { brand, brandAlt, space, neutral } from '@guardian/source-foundations';
 import { headline } from '@guardian/source-foundations';
 import { until } from '@guardian/source-foundations';
-import { Button, LinkButton, buttonBrand } from '@guardian/source-react-components';
+import { Button, LinkButton, buttonThemeBrand } from '@guardian/source-react-components';
 import { SvgRoundelBrandInverse } from '@guardian/source-react-components';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { Container, Column, Columns } from '@guardian/source-react-components';
@@ -105,7 +105,7 @@ const SignInPromptBanner: ReactComponent<BannerRenderProps> = (props) => {
                     <div css={bulletStyles}>{bullets}</div>
 
                     <div css={actions}>
-                        <ThemeProvider theme={buttonBrand}>
+                        <ThemeProvider theme={buttonThemeBrand}>
                             {primaryCta && (
                                 <LinkButton
                                     priority="primary"

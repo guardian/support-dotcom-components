@@ -1,7 +1,7 @@
 import React from 'react';
 import { SvgRoundelDefault } from '@guardian/source-react-components';
 import { ThemeProvider } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/source-react-components';
+import { buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
 import { Button } from '@guardian/source-react-components';
 import { SvgCross } from '@guardian/source-react-components';
 import { css } from '@emotion/react';
@@ -53,7 +53,7 @@ export const ContributionsBannerCloseButton: ReactComponent<ContributionsCloseBu
                 </div>
             </div>
             <div css={styles.closeButtonContainer}>
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                     <Button
                         aria-label="Close"
                         data-link-name="contributions-banner : close"

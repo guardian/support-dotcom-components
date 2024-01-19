@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/source-react-components';
+import { buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
 import { LinkButton } from '@guardian/source-react-components';
 import { SvgArrowRightStraight } from '@guardian/source-react-components';
 import React from 'react';
@@ -40,7 +40,7 @@ export const ContributionsBannerCta: ReactComponent<ContributionsBannerCtaProps>
     const hasSupportCta = isSupportUrl(ctaUrl);
     return (
         <div>
-            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+            <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                 <LinkButton
                     data-link-name="contributions-banner : cta"
                     css={styles.ctaButton(stacked)}

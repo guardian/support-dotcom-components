@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { css } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/source-react-components';
+import { buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
 import { LinkButton } from '@guardian/source-react-components';
 import { SvgArrowRightStraight } from '@guardian/source-react-components';
 import { space } from '@guardian/source-foundations';
@@ -29,7 +29,7 @@ export const ContributionsBannerSecondaryCta: ReactComponent<
     return (
         <>
             {secondaryCta.type === SecondaryCtaType.Custom && (
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                     <LinkButton
                         priority="tertiary"
                         size="small"

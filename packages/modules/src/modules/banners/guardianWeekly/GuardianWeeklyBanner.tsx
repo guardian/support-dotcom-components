@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { Container, Columns, Column, Inline } from '@guardian/source-react-components';
-import { Button, LinkButton, buttonReaderRevenue } from '@guardian/source-react-components';
+import { Button, LinkButton, buttonThemeReaderRevenue } from '@guardian/source-react-components';
 import { Link } from '@guardian/source-react-components';
 import { SvgRoundelDefault } from '@guardian/source-react-components';
 import { SvgArrowRightStraight, SvgCross } from '@guardian/source-react-components';
@@ -120,7 +120,7 @@ const GuardianWeeklyBanner: ReactComponent<BannerRenderProps> = ({
                                 const { primaryCta, secondaryCta } = renderContent;
                                 return (
                                     <Inline space={3}>
-                                        <ThemeProvider theme={buttonReaderRevenue}>
+                                        <ThemeProvider theme={buttonThemeReaderRevenue}>
                                             <LinkButton
                                                 href={primaryCta?.ctaUrl}
                                                 cssOverrides={SvgDisplay}

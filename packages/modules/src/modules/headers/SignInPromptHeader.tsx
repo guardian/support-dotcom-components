@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, css } from '@emotion/react';
 import { brandAlt, brandText, space } from '@guardian/source-foundations';
 import { headline, lineHeights, textSans } from '@guardian/source-foundations';
-import { LinkButton, buttonBrand } from '@guardian/source-react-components';
+import { LinkButton, buttonThemeBrand } from '@guardian/source-react-components';
 import { Hide } from '@guardian/source-react-components';
 import { from, until } from '@guardian/source-foundations';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
@@ -206,7 +206,7 @@ const SignInPromptHeader: ReactComponent<HeaderRenderProps> = (props) => {
             </div>
 
             {primaryCta && (
-                <ThemeProvider theme={buttonBrand}>
+                <ThemeProvider theme={buttonThemeBrand}>
                     <LinkButton
                         priority="primary"
                         href={primaryCta.ctaUrl}

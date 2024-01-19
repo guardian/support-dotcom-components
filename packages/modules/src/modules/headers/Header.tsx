@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/source-foundations';
 import { brandAlt, brandText } from '@guardian/source-foundations';
 import { headline, textSans } from '@guardian/source-foundations';
-import { LinkButton, buttonReaderRevenueBrand } from '@guardian/source-react-components';
+import { LinkButton, buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
 import { Hide } from '@guardian/source-react-components';
 import { ThemeProvider } from '@emotion/react';
 import { SvgArrowRightStraight } from '@guardian/source-react-components';
@@ -72,7 +72,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
             </Hide>
 
             {primaryCta && (
-                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                     <Hide below="mobileLandscape">
                         <LinkButton
                             priority="primary"
@@ -101,7 +101,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
 
             {secondaryCta && (
                 <Hide below="tablet">
-                    <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                         <LinkButton
                             priority="primary"
                             href={secondaryCta.ctaUrl}
