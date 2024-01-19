@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { headline } from '@guardian/src-foundations/typography';
-import { from } from '@guardian/src-foundations/mq';
+import { headline } from '@guardian/source-foundations';
+import { from } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../types';
 
 const container = css`

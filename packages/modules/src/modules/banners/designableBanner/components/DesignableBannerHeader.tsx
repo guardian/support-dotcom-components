@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
-import { headline } from '@guardian/src-foundations/typography';
+import { from } from '@guardian/source-foundations';
+import { headline } from '@guardian/source-foundations';
 import { neutral, space } from '@guardian/source-foundations';
 import { DesignableBannerVisual } from './DesignableBannerVisual';
 import { HeaderSettings } from '../settings';

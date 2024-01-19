@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { ChoiceCardGroup } from '@guardian/src-choice-card';
 import { css, SerializedStyles } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
 import { ChoiceCardFrequencyTabs } from './ChoiceCardFrequencyTabs';

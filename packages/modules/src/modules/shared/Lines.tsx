@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { border } from '@guardian/src-foundations/palette';
+import { border } from '@guardian/source-foundations';
 import { remSpace } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../types';
 

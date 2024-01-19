@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { Button } from '@guardian/src-button';
-import { textSans } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/source-foundations';
 import { neutral, space } from '@guardian/source-foundations';
 import { TextInput } from '@guardian/src-text-input';
 import React from 'react';
@@ -9,7 +9,7 @@ import { BannerEnrichedReminderCta } from '../../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../../hooks/useContributionsReminderEmailForm';
 import { SvgCheckmark } from '@guardian/src-icons';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { CtaSettings } from '../settings';
 import { buttonStyles } from '../styles/buttonStyles';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../../shared/Reminders';

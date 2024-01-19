@@ -7,7 +7,7 @@ import { BannerRenderedContent } from '../../common/types';
 import { PaymentCards } from '../../common/PaymentCards';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 
 interface MomentTemplateBannerCtasProps {
     mainOrMobileContent: BannerRenderedContent;

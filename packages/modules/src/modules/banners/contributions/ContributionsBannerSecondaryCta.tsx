@@ -5,7 +5,7 @@ import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import { space } from '@guardian/source-foundations';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/source-foundations';
 import { Button } from '@guardian/src-button';
 import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';

@@ -7,15 +7,15 @@ import {
     brandAltText,
     culture,
     neutral,
-} from '@guardian/src-foundations/palette';
-import { textSans } from '@guardian/src-foundations/typography';
+} from '@guardian/source-foundations';
+import { textSans } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
-import { background } from '@guardian/src-foundations/palette';
+import { background } from '@guardian/source-foundations';
 import { SvgCross } from '@guardian/src-icons';
 import { ThemeProvider } from '@emotion/react';
-import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
-import { from } from '@guardian/src-foundations/mq';
+import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/source-foundations';
+import { from } from '@guardian/source-foundations';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOutPopup';
 import type { ReactComponent } from '../../types';

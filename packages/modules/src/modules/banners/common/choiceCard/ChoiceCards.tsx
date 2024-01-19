@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { ChoiceCardInteractive } from './ChoiceCardInteractive';
 import { ChoiceCardsSupportCta } from './ChoiceCardsSupportCta';

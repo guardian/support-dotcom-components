@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, css } from '@emotion/react';
 import { brandAlt, brandText, space } from '@guardian/source-foundations';
-import { headline, lineHeights, textSans } from '@guardian/src-foundations/typography';
+import { headline, lineHeights, textSans } from '@guardian/source-foundations';
 import { LinkButton, buttonBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/source-foundations';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
 

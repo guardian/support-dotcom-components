@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { neutral, lifestyle } from '@guardian/src-foundations/palette';
+import { neutral, lifestyle } from '@guardian/source-foundations';
 import { squareBorder } from '../puzzlesStyleUtils';
 import type { ReactComponent } from '../../../../types';
 

@@ -9,7 +9,7 @@ import { MomentTemplateBannerCtas } from './components/MomentTemplateBannerCtas'
 import { MomentTemplateBannerCloseButton } from './components/MomentTemplateBannerCloseButton';
 import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVisual';
 import { BannerTemplateSettings } from './settings';
-import { between, from, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/source-foundations';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
 import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';

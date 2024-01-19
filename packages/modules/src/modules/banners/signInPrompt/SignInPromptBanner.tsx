@@ -1,8 +1,8 @@
 import React from 'react';
 import { ThemeProvider, css } from '@emotion/react';
 import { brand, brandAlt, space, neutral } from '@guardian/source-foundations';
-import { headline } from '@guardian/src-foundations/typography';
-import { until } from '@guardian/src-foundations/mq';
+import { headline } from '@guardian/source-foundations';
+import { until } from '@guardian/source-foundations';
 import { Button, LinkButton, buttonBrand } from '@guardian/src-button';
 import { SvgRoundelBrandInverse } from '@guardian/src-brand';
 import { SecondaryCtaType } from '@sdc/shared/types';

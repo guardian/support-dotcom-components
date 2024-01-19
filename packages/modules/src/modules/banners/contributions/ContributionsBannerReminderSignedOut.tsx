@@ -1,10 +1,10 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
 import { Button, buttonBrandAlt } from '@guardian/src-button';
-import { textSans } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import { Columns, Column, Hide } from '@guardian/src-layout';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { TextInput } from '@guardian/src-text-input';
 import { SvgCheckmark } from '@guardian/src-icons';
 import { BannerEnrichedReminderCta } from '../common/types';

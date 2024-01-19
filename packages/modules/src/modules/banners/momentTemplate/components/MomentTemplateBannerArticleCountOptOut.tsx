@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-import { textSans } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/source-foundations';
 import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { neutral, space } from '@guardian/source-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import {
     addArticleCountOptOutCookie,
     removeArticleCountFromLocalStorage,

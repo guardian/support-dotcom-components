@@ -1,8 +1,8 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { space } from '@guardian/source-foundations';
-import { from } from '@guardian/src-foundations/mq';
-import { neutral } from '@guardian/src-foundations/palette';
+import { from } from '@guardian/source-foundations';
+import { neutral } from '@guardian/source-foundations';
 import { Hide } from '@guardian/src-layout';
 import type { ReactComponent } from '../../../types';
 

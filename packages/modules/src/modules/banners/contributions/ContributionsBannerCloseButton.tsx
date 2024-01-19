@@ -5,7 +5,7 @@ import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { neutral } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../types';
 

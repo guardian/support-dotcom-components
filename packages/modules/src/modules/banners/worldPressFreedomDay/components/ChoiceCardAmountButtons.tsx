@@ -9,7 +9,7 @@ import {
 import { trackClick } from './FrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
 import { space } from '@guardian/source-foundations';
-import { between, from, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/source-foundations';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
 
 const container = css`

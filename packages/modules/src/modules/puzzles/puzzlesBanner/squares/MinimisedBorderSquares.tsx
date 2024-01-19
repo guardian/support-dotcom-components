@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../../types';
 

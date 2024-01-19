@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/source-foundations';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 import type { ReactComponent } from '../../../../types';
 

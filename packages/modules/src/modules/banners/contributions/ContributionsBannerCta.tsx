@@ -4,7 +4,7 @@ import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 import type { ReactComponent } from '../../../types';

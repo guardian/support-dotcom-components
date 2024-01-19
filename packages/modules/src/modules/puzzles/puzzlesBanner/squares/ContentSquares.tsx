@@ -1,9 +1,9 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { headline } from '@guardian/src-foundations/typography';
-import { brandAlt, neutral } from '@guardian/src-foundations/palette';
+import { headline } from '@guardian/source-foundations';
+import { brandAlt, neutral } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/source-foundations';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';

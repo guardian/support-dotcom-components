@@ -8,7 +8,7 @@ import { DesignableBannerBody } from './components/DesignableBannerBody';
 import { DesignableBannerCtas } from './components/DesignableBannerCtas';
 import { DesignableBannerCloseButton } from './components/DesignableBannerCloseButton';
 import { DesignableBannerVisual } from './components/DesignableBannerVisual';
-import { between, from, until } from '@guardian/src-foundations/mq';
+import { between, from, until } from '@guardian/source-foundations';
 import {
     SecondaryCtaType,
     hexColourToString,

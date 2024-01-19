@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { css } from '@emotion/react';
 import { Button, LinkButton, buttonBrandAlt } from '@guardian/src-button';
-import { neutral } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/source-foundations';
 import { SvgCross } from '@guardian/src-icons';
 import { Hide } from '@guardian/src-layout';
 import ContributionsTemplateWithVisual from './ContributionsTemplateWithVisual';

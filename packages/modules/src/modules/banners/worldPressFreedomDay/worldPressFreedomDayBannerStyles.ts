@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import { body, headline } from '@guardian/src-foundations/typography';
-import { from } from '@guardian/src-foundations/mq';
+import { body, headline } from '@guardian/source-foundations';
+import { from } from '@guardian/source-foundations';
 import { brand, brandAlt, neutral, space } from '@guardian/source-foundations';
-import { height } from '@guardian/src-foundations/size';
+import { height } from '@guardian/source-foundations';
 
 export const banner = css`
     html {

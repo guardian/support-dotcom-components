@@ -1,10 +1,10 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { headline } from '@guardian/src-foundations/typography';
+import { headline } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
-import { from } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../../types';
 
 const squareContainer = css`

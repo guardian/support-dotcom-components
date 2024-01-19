@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { brand, neutral, space } from '@guardian/source-foundations';
 import { ReactNode } from 'react';
-import { textSans } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/source-foundations';
 
 const tabButtonStyles = css`
     ${textSans.medium({ fontWeight: 'bold' })}

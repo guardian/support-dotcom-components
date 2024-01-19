@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FocusStyleManager } from '@guardian/src-foundations/utils';
+import { FocusStyleManager } from '@guardian/source-foundations';
 import { breakpoints } from '@guardian/source-foundations';
 import { StylesDecorator } from './StylesDecorator';
 
