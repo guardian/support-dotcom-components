@@ -10,11 +10,15 @@ import {
     textSans,
     space,
     background,
-    brand as brandTheme,
-    brandAlt as brandAltTheme,
     from,
 } from '@guardian/source-foundations';
-import { Button, buttonThemeDefault, SvgCross } from '@guardian/source-react-components';
+import {
+    Button,
+    buttonThemeBrand,
+    buttonThemeBrandAlt,
+    buttonThemeDefault,
+    SvgCross,
+} from '@guardian/source-react-components';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOutPopup';
 import type { ReactComponent } from '../../types';
@@ -44,8 +48,8 @@ const BORDER_COLOURS = {
 };
 
 const BUTTON_THEMES = {
-    epic: brandTheme,
-    banner: brandAltTheme,
+    epic: buttonThemeBrand,
+    banner: buttonThemeBrandAlt,
     ['us-eoy-moment-banner']: buttonThemeDefault,
     ['global-new-year-moment-banner']: buttonThemeDefault,
     ['election-au-moment-banner']: buttonThemeDefault,
