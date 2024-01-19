@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ChoiceCardGroup } from '@guardian/src-choice-card';
+import { ChoiceCardGroup } from '@guardian/source-react-components';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/source-foundations';
 import { visuallyHidden } from '@guardian/source-foundations';

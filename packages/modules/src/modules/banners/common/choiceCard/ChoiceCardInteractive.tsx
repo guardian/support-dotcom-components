@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
+import { ChoiceCardGroup, ChoiceCard } from '@guardian/source-react-components';
 import {
     ContributionFrequency,
     SelectedAmountsVariant,

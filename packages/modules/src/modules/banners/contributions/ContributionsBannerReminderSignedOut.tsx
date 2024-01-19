@@ -5,7 +5,7 @@ import { textSans } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
 import { Columns, Column, Hide } from '@guardian/source-react-components';
 import { from } from '@guardian/source-foundations';
-import { TextInput } from '@guardian/src-text-input';
+import { TextInput } from '@guardian/source-react-components';
 import { SvgCheckmark } from '@guardian/source-react-components';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';

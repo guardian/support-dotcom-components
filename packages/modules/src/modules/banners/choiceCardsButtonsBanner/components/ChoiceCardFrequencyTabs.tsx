@@ -6,7 +6,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
-import { ChoiceCard } from '@guardian/src-choice-card';
+import { ChoiceCard } from '@guardian/source-react-components';
 import { css } from '@emotion/react';
 import { space } from '@guardian/source-foundations';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceCard } from '@guardian/src-choice-card';
+import { ChoiceCard } from '@guardian/source-react-components';
 import {
     AmountsCardData,
     ContributionFrequency,

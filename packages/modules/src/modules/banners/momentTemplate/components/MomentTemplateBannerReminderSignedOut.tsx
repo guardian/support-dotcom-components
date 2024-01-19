@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { Button } from '@guardian/source-react-components';
 import { textSans } from '@guardian/source-foundations';
 import { neutral, space } from '@guardian/source-foundations';
-import { TextInput } from '@guardian/src-text-input';
+import { TextInput } from '@guardian/source-react-components';
 import React from 'react';
 import { Container } from '@guardian/source-react-components';
 import { BannerEnrichedReminderCta } from '../../common/types';
