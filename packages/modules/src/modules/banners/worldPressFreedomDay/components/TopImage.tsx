@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { from } from '@guardian/source-foundations';
 import { TopImageSvgDesktop, TopImageSvgMobile, TopImageSvgTablet } from './TopImageSvg';
-import { Hide } from '@guardian/src-layout';
+import { Hide } from '@guardian/source-react-components';
 
 const styles = css`
     padding-right: 50px; // prevent overlap with close button

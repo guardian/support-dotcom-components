@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/source-foundations';
-import { Link } from '@guardian/src-link';
+import { Link } from '@guardian/source-react-components';
 import type { ReactComponent } from '../../../types';
 
 // TODO: replace with correct UTM parameters

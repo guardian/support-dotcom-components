@@ -3,10 +3,10 @@ import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
 import { space } from '@guardian/source-foundations';
 import { css, SerializedStyles } from '@emotion/react';
-import { Hide } from '@guardian/src-layout';
+import { Hide } from '@guardian/source-react-components';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
-import { LinkButton } from '@guardian/src-button';
+import { SvgArrowRightStraight } from '@guardian/source-react-components';
+import { LinkButton } from '@guardian/source-react-components';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;

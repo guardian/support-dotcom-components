@@ -3,10 +3,10 @@ import { ThemeProvider, css } from '@emotion/react';
 import { brand, brandAlt, space, neutral } from '@guardian/source-foundations';
 import { headline } from '@guardian/source-foundations';
 import { until } from '@guardian/source-foundations';
-import { Button, LinkButton, buttonBrand } from '@guardian/src-button';
-import { SvgRoundelBrandInverse } from '@guardian/src-brand';
+import { Button, LinkButton, buttonBrand } from '@guardian/source-react-components';
+import { SvgRoundelBrandInverse } from '@guardian/source-react-components';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { Container, Column, Columns } from '@guardian/src-layout';
+import { Container, Column, Columns } from '@guardian/source-react-components';
 
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';

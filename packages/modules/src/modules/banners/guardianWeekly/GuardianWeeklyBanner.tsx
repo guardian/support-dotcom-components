@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react';
 import { ThemeProvider } from '@emotion/react';
-import { Container, Columns, Column, Inline } from '@guardian/src-layout';
-import { Button, LinkButton, buttonReaderRevenue } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
-import { SvgRoundelDefault } from '@guardian/src-brand';
-import { SvgArrowRightStraight, SvgCross } from '@guardian/src-icons';
+import { Container, Columns, Column, Inline } from '@guardian/source-react-components';
+import { Button, LinkButton, buttonReaderRevenue } from '@guardian/source-react-components';
+import { Link } from '@guardian/source-react-components';
+import { SvgRoundelDefault } from '@guardian/source-react-components';
+import { SvgArrowRightStraight, SvgCross } from '@guardian/source-react-components';
 import {
     SvgDisplay,
     banner,

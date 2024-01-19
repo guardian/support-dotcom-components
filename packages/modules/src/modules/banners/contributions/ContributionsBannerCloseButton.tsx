@@ -1,9 +1,9 @@
 import React from 'react';
-import { SvgRoundelDefault } from '@guardian/src-brand';
+import { SvgRoundelDefault } from '@guardian/source-react-components';
 import { ThemeProvider } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
-import { Button } from '@guardian/src-button';
-import { SvgCross } from '@guardian/src-icons';
+import { buttonReaderRevenueBrandAlt } from '@guardian/source-react-components';
+import { Button } from '@guardian/source-react-components';
+import { SvgCross } from '@guardian/source-react-components';
 import { css } from '@emotion/react';
 import { from } from '@guardian/source-foundations';
 import { neutral } from '@guardian/source-foundations';

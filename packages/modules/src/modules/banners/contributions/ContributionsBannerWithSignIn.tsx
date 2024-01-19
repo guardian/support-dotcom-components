@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { Container, Columns, Column, Hide } from '@guardian/src-layout';
+import { Container, Columns, Column, Hide } from '@guardian/source-react-components';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/source-foundations';

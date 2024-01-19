@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
-import { LinkButton } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { buttonReaderRevenueBrandAlt } from '@guardian/source-react-components';
+import { LinkButton } from '@guardian/source-react-components';
+import { SvgArrowRightStraight } from '@guardian/source-react-components';
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/source-foundations';

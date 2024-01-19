@@ -1,12 +1,12 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonBrandAlt } from '@guardian/src-button';
+import { Button, buttonBrandAlt } from '@guardian/source-react-components';
 import { textSans } from '@guardian/source-foundations';
 import { space } from '@guardian/source-foundations';
-import { Columns, Column, Hide } from '@guardian/src-layout';
+import { Columns, Column, Hide } from '@guardian/source-react-components';
 import { from } from '@guardian/source-foundations';
 import { TextInput } from '@guardian/src-text-input';
-import { SvgCheckmark } from '@guardian/src-icons';
+import { SvgCheckmark } from '@guardian/source-react-components';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';

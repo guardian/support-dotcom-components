@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@guardian/src-layout';
-import { Button } from '@guardian/src-button';
-import { Link } from '@guardian/src-link';
-import { SvgArrowDownStraight, SvgArrowUpStraight, SvgInfo } from '@guardian/src-icons';
+import { Container } from '@guardian/source-react-components';
+import { Button } from '@guardian/source-react-components';
+import { Link } from '@guardian/source-react-components';
+import {
+    SvgArrowDownStraight,
+    SvgArrowUpStraight,
+    SvgInfo,
+} from '@guardian/source-react-components';
 import { createClickEventFromTracking, createViewEventFromTracking } from '@sdc/shared/lib';
 import { PuzzlesBannerProps } from '@sdc/shared/types';
 import { ResponsiveImage } from '../../shared/ResponsiveImage';
