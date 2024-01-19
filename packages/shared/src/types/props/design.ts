@@ -27,19 +27,19 @@ const imageSchema = z.object({
 });
 
 const choiceCardsSchema = z.object({
-    buttonColour: z.optional(hexColourSchema),
-    buttonTextColour: z.optional(hexColourSchema),
-    buttonBorderColour: z.optional(hexColourSchema),
-    buttonSelectColour: z.optional(hexColourSchema),
-    buttonSelectTextColour: z.optional(hexColourSchema),
-    buttonSelectBorderColour: z.optional(hexColourSchema),
+    buttonColour: hexColourSchema.nullish(),
+    buttonTextColour: hexColourSchema.nullish(),
+    buttonBorderColour: hexColourSchema.nullish(),
+    buttonSelectColour: hexColourSchema.nullish(),
+    buttonSelectTextColour: hexColourSchema.nullish(),
+    buttonSelectBorderColour: hexColourSchema.nullish(),
     kind: z.literal('ChoiceCards'),
 });
 
 const visualSchema = z.discriminatedUnion('kind', [imageSchema, choiceCardsSchema]);
 
 export const configurableDesignSchema = z.object({
-    visual: z.optional(visualSchema),
+    visual: visualSchema.nullish(),
     colours: z.object({
         basic: z.object({
             background: hexColourSchema,
