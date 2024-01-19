@@ -1,6 +1,7 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
     extends: [
+        'plugin:@guardian/eslint-plugin-source-foundations/recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:import/typescript',

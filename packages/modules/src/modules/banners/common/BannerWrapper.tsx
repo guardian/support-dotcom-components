@@ -5,6 +5,9 @@ import {
     createInsertEventFromTracking,
     createViewEventFromTracking,
     isProfileUrl,
+    containsNonArticleCountPlaceholder,
+    replaceNonArticleCountPlaceholders,
+    getReminderFields,
 } from '@sdc/shared/lib';
 import React, { useEffect, useState } from 'react';
 import {
@@ -16,10 +19,6 @@ import {
     SecondaryCtaType,
     Tracking,
 } from '@sdc/shared/types';
-import {
-    containsNonArticleCountPlaceholder,
-    replaceNonArticleCountPlaceholders,
-} from '@sdc/shared/lib';
 import withCloseable, { CloseableBannerProps } from '../hocs/withCloseable';
 import { replaceArticleCount } from '../../../lib/replaceArticleCount';
 import {
@@ -32,7 +31,6 @@ import {
 import { getComponentIds } from './getComponentIds';
 import { withParsedProps } from '../../shared/ModuleWrapper';
 import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
-import { getReminderFields } from '@sdc/shared/dist/lib';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
 import SlideIn from './SlideIn';
 import type { ReactComponent } from '../../../types';

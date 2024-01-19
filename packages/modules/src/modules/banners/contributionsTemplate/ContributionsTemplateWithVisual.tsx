@@ -1,7 +1,6 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { space } from '@guardian/source-foundations';
-import { from } from '@guardian/source-foundations';
+import { space, from } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../types';
 
 const banner = (cssOverrides?: SerializedStyles): SerializedStyles => css`

@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { headline } from '@guardian/source-foundations';
+import { from, headline } from '@guardian/source-foundations';
 import { MomentTemplateArticleCountOptOut } from './MomentTemplateBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
 

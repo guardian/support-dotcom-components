@@ -1,8 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { headline } from '@guardian/source-foundations';
-import { neutral } from '@guardian/source-foundations';
+import { from, headline, neutral } from '@guardian/source-foundations';
 import { HeaderSettings } from '../settings';
 
 interface MomentTemplateBannerHeaderProps {

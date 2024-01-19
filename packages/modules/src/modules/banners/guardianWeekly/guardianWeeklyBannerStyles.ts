@@ -1,9 +1,14 @@
 import { css } from '@emotion/react';
-import { body, headline, textSans } from '@guardian/source-foundations';
-import { neutral, text } from '@guardian/source-foundations';
-import { from } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
-import { height } from '@guardian/source-foundations';
+import {
+    body,
+    headline,
+    textSans,
+    neutral,
+    text,
+    from,
+    space,
+    height,
+} from '@guardian/source-foundations';
 
 const mainBannerBackground = '#cadbe8';
 

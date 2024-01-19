@@ -1,8 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { body } from '@guardian/source-foundations';
+import { body, from } from '@guardian/source-foundations';
 import { Hide } from '@guardian/source-react-components';
-import { from } from '@guardian/source-foundations';
 
 import { BannerTextStyles, createBannerBodyCopy } from '../../common/BannerText';
 import type { ReactComponent } from '../../../../types';

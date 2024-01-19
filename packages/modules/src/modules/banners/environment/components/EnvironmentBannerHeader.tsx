@@ -1,8 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { headline } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
+import { from, headline, space } from '@guardian/source-foundations';
 import { Hide } from '@guardian/source-react-components';
 import { IconEarth } from './IconEarth';
 import { GREEN_HEX } from '../utils/constants';

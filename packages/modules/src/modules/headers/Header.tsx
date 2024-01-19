@@ -1,12 +1,12 @@
 import React from 'react';
-import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { brandAlt, brandText } from '@guardian/source-foundations';
-import { headline, textSans } from '@guardian/source-foundations';
-import { LinkButton, buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
-import { Hide } from '@guardian/source-react-components';
-import { ThemeProvider } from '@emotion/react';
-import { SvgArrowRightStraight } from '@guardian/source-react-components';
+import { css, ThemeProvider } from '@emotion/react';
+import { from, brandAlt, brandText, headline, textSans } from '@guardian/source-foundations';
+import {
+    LinkButton,
+    buttonThemeReaderRevenueBrandAlt,
+    Hide,
+    SvgArrowRightStraight,
+} from '@guardian/source-react-components';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
 

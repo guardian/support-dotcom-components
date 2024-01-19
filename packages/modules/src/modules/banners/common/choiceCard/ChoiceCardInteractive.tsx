@@ -6,8 +6,7 @@ import {
     OphanComponentEvent,
 } from '@sdc/shared/types';
 import { css } from '@emotion/react';
-import { between, from, until } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
+import { between, from, until, space } from '@guardian/source-foundations';
 import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';

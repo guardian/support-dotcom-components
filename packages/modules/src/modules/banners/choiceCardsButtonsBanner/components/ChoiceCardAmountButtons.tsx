@@ -8,8 +8,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
-import { space } from '@guardian/source-foundations';
-import { between, from, until } from '@guardian/source-foundations';
+import { space, between, from, until } from '@guardian/source-foundations';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 

@@ -1,10 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
-import { brandAlt, neutral } from '@guardian/source-foundations';
-import { from } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
-import { headline } from '@guardian/source-foundations';
+import { brandAlt, neutral, from, space, headline } from '@guardian/source-foundations';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
 import { ContributionsBannerCloseButton } from './ContributionsBannerCloseButton';

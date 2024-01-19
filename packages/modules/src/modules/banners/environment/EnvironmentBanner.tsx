@@ -1,8 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
-import { neutral } from '@guardian/source-foundations';
+import { from, space, neutral } from '@guardian/source-foundations';
 import { EnvironmentBannerEarth } from './components/EnvironmentBannerEarth';
 import { EnvironmentBannerHeader } from './components/EnvironmentBannerHeader';
 import { EnvironmentBannerArticleCount } from './components/EnvironmentBannerArticleCount';

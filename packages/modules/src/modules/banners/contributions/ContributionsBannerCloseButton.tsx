@@ -1,12 +1,12 @@
 import React from 'react';
-import { SvgRoundelDefault } from '@guardian/source-react-components';
-import { ThemeProvider } from '@emotion/react';
-import { buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
-import { Button } from '@guardian/source-react-components';
-import { SvgCross } from '@guardian/source-react-components';
-import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { neutral } from '@guardian/source-foundations';
+import {
+    SvgRoundelDefault,
+    buttonThemeReaderRevenueBrandAlt,
+    Button,
+    SvgCross,
+} from '@guardian/source-react-components';
+import { ThemeProvider, css } from '@emotion/react';
+import { from, neutral } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../types';
 
 const styles = {

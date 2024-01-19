@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space, specialReport } from '@guardian/source-foundations';
+import { neutral, space, specialReport, between, from, until } from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -8,7 +8,6 @@ import { DesignableBannerBody } from './components/DesignableBannerBody';
 import { DesignableBannerCtas } from './components/DesignableBannerCtas';
 import { DesignableBannerCloseButton } from './components/DesignableBannerCloseButton';
 import { DesignableBannerVisual } from './components/DesignableBannerVisual';
-import { between, from, until } from '@guardian/source-foundations';
 import {
     SecondaryCtaType,
     hexColourToString,

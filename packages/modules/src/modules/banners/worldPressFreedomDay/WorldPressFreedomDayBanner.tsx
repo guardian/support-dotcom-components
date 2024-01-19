@@ -1,8 +1,13 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { Container, Columns, Column, Inline } from '@guardian/source-react-components';
-import { Button } from '@guardian/source-react-components';
-import { SvgRoundelBrand } from '@guardian/source-react-components';
-import { SvgCross } from '@guardian/source-react-components';
+import {
+    Container,
+    Columns,
+    Column,
+    Inline,
+    Button,
+    SvgRoundelBrand,
+    SvgCross,
+} from '@guardian/source-react-components';
 import { BannerText } from '../common/BannerText';
 import { BannerRenderProps } from '../common/types';
 import {

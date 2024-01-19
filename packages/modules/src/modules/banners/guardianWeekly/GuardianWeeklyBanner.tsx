@@ -1,10 +1,18 @@
 import React, { ReactElement } from 'react';
 import { ThemeProvider } from '@emotion/react';
-import { Container, Columns, Column, Inline } from '@guardian/source-react-components';
-import { Button, LinkButton, buttonThemeReaderRevenue } from '@guardian/source-react-components';
-import { Link } from '@guardian/source-react-components';
-import { SvgRoundelDefault } from '@guardian/source-react-components';
-import { SvgArrowRightStraight, SvgCross } from '@guardian/source-react-components';
+import {
+    Container,
+    Columns,
+    Column,
+    Inline,
+    Button,
+    LinkButton,
+    buttonThemeReaderRevenue,
+    Link,
+    SvgRoundelDefault,
+    SvgArrowRightStraight,
+    SvgCross,
+} from '@guardian/source-react-components';
 import {
     SvgDisplay,
     banner,

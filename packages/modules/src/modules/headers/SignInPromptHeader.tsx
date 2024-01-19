@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, css } from '@emotion/react';
-import { brandAlt, brandText, space } from '@guardian/source-foundations';
-import { headline, lineHeights, textSans } from '@guardian/source-foundations';
-import { LinkButton, buttonThemeBrand } from '@guardian/source-react-components';
-import { Hide } from '@guardian/source-react-components';
-import { from, until } from '@guardian/source-foundations';
+import {
+    brandAlt,
+    brandText,
+    space,
+    headline,
+    lineHeights,
+    textSans,
+    from,
+    until,
+} from '@guardian/source-foundations';
+import { LinkButton, buttonThemeBrand, Hide } from '@guardian/source-react-components';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
 

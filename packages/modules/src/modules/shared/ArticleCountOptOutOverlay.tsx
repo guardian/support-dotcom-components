@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles, ThemeProvider } from '@emotion/react';
 import {
     brand,
     brandAltBackground,
@@ -7,15 +7,14 @@ import {
     brandAltText,
     culture,
     neutral,
+    textSans,
+    space,
+    background,
+    brand as brandTheme,
+    brandAlt as brandAltTheme,
+    from,
 } from '@guardian/source-foundations';
-import { textSans } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
-import { Button, buttonThemeDefault } from '@guardian/source-react-components';
-import { background } from '@guardian/source-foundations';
-import { SvgCross } from '@guardian/source-react-components';
-import { ThemeProvider } from '@emotion/react';
-import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/source-foundations';
-import { from } from '@guardian/source-foundations';
+import { Button, buttonThemeDefault, SvgCross } from '@guardian/source-react-components';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOutPopup';
 import type { ReactComponent } from '../../types';

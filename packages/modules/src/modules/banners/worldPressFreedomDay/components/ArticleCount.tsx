@@ -1,9 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { headline } from '@guardian/source-foundations';
+import { from, headline, space } from '@guardian/source-foundations';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
-import { space } from '@guardian/source-foundations';
 
 const styles = {
     container: css`

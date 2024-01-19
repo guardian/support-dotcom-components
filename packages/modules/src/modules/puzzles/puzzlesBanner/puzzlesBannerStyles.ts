@@ -1,8 +1,15 @@
 import { css } from '@emotion/react';
-import { between, from, until } from '@guardian/source-foundations';
-import { neutral, lifestyle } from '@guardian/source-foundations';
-import { breakpoints, space } from '@guardian/source-foundations';
-import { headline, textSans } from '@guardian/source-foundations';
+import {
+    between,
+    from,
+    until,
+    neutral,
+    lifestyle,
+    breakpoints,
+    space,
+    headline,
+    textSans,
+} from '@guardian/source-foundations';
 import { squareBorder } from './puzzlesStyleUtils';
 
 export const puzzlesBanner = css`

@@ -1,10 +1,13 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { css } from '@emotion/react';
-import { Button, LinkButton, buttonThemeBrandAlt } from '@guardian/source-react-components';
+import { ThemeProvider, css } from '@emotion/react';
+import {
+    Button,
+    LinkButton,
+    buttonThemeBrandAlt,
+    SvgCross,
+    Hide,
+} from '@guardian/source-react-components';
 import { neutral } from '@guardian/source-foundations';
-import { SvgCross } from '@guardian/source-react-components';
-import { Hide } from '@guardian/source-react-components';
 import ContributionsTemplateWithVisual from './ContributionsTemplateWithVisual';
 import ContributionsTemplateVisual from './ContributionsTemplateVisual';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';

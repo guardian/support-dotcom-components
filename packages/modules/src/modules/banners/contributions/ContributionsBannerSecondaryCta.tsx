@@ -1,12 +1,12 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { css } from '@emotion/react';
-import { buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
-import { LinkButton } from '@guardian/source-react-components';
-import { SvgArrowRightStraight } from '@guardian/source-react-components';
-import { space } from '@guardian/source-foundations';
-import { neutral } from '@guardian/source-foundations';
-import { Button } from '@guardian/source-react-components';
+import { ThemeProvider, css } from '@emotion/react';
+import {
+    buttonThemeReaderRevenueBrandAlt,
+    LinkButton,
+    SvgArrowRightStraight,
+    Button,
+} from '@guardian/source-react-components';
+import { space, neutral } from '@guardian/source-foundations';
 import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';

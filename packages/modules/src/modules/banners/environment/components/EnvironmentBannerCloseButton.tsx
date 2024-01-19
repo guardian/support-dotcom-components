@@ -1,7 +1,10 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
-import { SvgCross } from '@guardian/source-react-components';
+import {
+    Button,
+    buttonThemeReaderRevenueBrandAlt,
+    SvgCross,
+} from '@guardian/source-react-components';
 import type { ReactComponent } from '../../../../types';
 
 const button = css`

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@guardian/source-react-components';
-import { Button } from '@guardian/source-react-components';
-import { Link } from '@guardian/source-react-components';
 import {
+    Container,
+    Button,
+    Link,
     SvgArrowDownStraight,
     SvgArrowUpStraight,
     SvgInfo,

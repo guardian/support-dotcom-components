@@ -1,11 +1,11 @@
-import { ThemeProvider } from '@emotion/react';
-import { buttonThemeReaderRevenueBrandAlt } from '@guardian/source-react-components';
-import { LinkButton } from '@guardian/source-react-components';
-import { SvgArrowRightStraight } from '@guardian/source-react-components';
+import { ThemeProvider, css, SerializedStyles } from '@emotion/react';
+import {
+    buttonThemeReaderRevenueBrandAlt,
+    LinkButton,
+    SvgArrowRightStraight,
+} from '@guardian/source-react-components';
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
+import { from, space } from '@guardian/source-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 import type { ReactComponent } from '../../../types';
 

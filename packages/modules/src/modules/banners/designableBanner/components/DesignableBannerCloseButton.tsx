@@ -1,16 +1,15 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { SvgCross } from '@guardian/source-react-components';
-import { Button } from '@guardian/source-react-components';
-import { buttonStyles } from '../styles/buttonStyles';
-import { CtaSettings } from '../settings';
 import {
+    SvgCross,
+    Button,
     SvgRoundelBrand,
     SvgRoundelDefault,
     SvgRoundelInverse,
 } from '@guardian/source-react-components';
-import { from } from '@guardian/source-foundations';
-import { space } from '@guardian/source-foundations';
+import { buttonStyles } from '../styles/buttonStyles';
+import { CtaSettings } from '../settings';
+import { from, space } from '@guardian/source-foundations';
 
 interface DesignableBannerCloseButtonProps {
     onCloseClick: () => void;
