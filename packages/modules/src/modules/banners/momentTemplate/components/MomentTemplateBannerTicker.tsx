@@ -6,7 +6,7 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import useTicker from '../../../../hooks/useTicker';
 import { from } from '@guardian/src-foundations/mq';
 import { TickerStylingSettings } from '../settings';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { templateSpacing } from '../styles/templateStyles';
 import type { ReactComponent } from '../../../../types';
 

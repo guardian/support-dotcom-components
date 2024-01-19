@@ -1,7 +1,7 @@
 import React from 'react';
 import { DecoratorFn } from '@storybook/react';
 import { css } from '@emotion/react';
-import { brand } from '@guardian/src-foundations';
+import { brand } from '@guardian/source-foundations';
 
 const background = css`
     background-color: ${brand[400]};

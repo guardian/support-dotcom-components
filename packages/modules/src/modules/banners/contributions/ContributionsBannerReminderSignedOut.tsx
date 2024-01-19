@@ -2,7 +2,7 @@ import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
 import { Button, buttonBrandAlt } from '@guardian/src-button';
 import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { Columns, Column, Hide } from '@guardian/src-layout';
 import { from } from '@guardian/src-foundations/mq';
 import { TextInput } from '@guardian/src-text-input';

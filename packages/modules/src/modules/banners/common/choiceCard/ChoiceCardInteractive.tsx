@@ -7,7 +7,7 @@ import {
 } from '@sdc/shared/types';
 import { css } from '@emotion/react';
 import { between, from, until } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';

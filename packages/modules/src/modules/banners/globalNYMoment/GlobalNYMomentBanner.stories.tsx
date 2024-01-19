@@ -4,7 +4,7 @@ import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner'
 import { props } from '../utils/storybook';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 import { bannerWrapper } from '../common/BannerWrapper';
-import { brand, brandAlt, neutral } from '@guardian/src-foundations';
+import { brand, brandAlt, neutral } from '@guardian/source-foundations';
 
 export default {
     title: 'Banners/Moment',

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 
 // WIP - Any styling changes made to base moment template styling here should be reviewed by a designer!

@@ -4,7 +4,7 @@ import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { squareBorder, squareBoxShadow } from '../puzzlesStyleUtils';
 import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../../types';
 
 const smallSquareSizes = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { MomentTemplateBannerHeader } from './components/MomentTemplateBannerHeader';
 import { MomentTemplateBannerArticleCount } from './components/MomentTemplateBannerArticleCount';

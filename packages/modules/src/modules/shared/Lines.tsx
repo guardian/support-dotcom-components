@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { border } from '@guardian/src-foundations/palette';
-import { remSpace } from '@guardian/src-foundations';
+import { remSpace } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../types';
 
 const lineGap = remSpace[1];

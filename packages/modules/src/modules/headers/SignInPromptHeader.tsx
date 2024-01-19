@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, css } from '@emotion/react';
-import { brandAlt, brandText, space } from '@guardian/src-foundations';
+import { brandAlt, brandText, space } from '@guardian/source-foundations';
 import { headline, lineHeights, textSans } from '@guardian/src-foundations/typography';
 import { LinkButton, buttonBrand } from '@guardian/src-button';
 import { Hide } from '@guardian/src-layout';

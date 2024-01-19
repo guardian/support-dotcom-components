@@ -1,5 +1,5 @@
 import React from 'react';
-import { brand, neutral, specialReport } from '@guardian/src-foundations';
+import { brand, neutral, specialReport } from '@guardian/source-foundations';
 import { BannerProps, SecondaryCtaType } from '@sdc/shared/dist/types';
 import { Meta, Story } from '@storybook/react';
 import { bannerWrapper } from '../common/BannerWrapper';

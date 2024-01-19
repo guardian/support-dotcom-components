@@ -4,7 +4,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { visuallyHidden } from '@guardian/src-foundations/accessibility';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import { neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/source-foundations';
 import { ChoiceCardAmountButtons } from './ChoiceCardAmountButtons';
 import { FrequencyTabs } from './FrequencyTabs';
 import { SupportCta } from './SupportCta';

@@ -6,7 +6,7 @@ import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
 import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { neutral } from '@guardian/src-foundations';
+import { neutral } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../types';
 
 const styles = {

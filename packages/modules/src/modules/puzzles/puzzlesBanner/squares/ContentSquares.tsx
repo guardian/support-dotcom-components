@@ -2,7 +2,7 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { headline } from '@guardian/src-foundations/typography';
 import { brandAlt, neutral } from '@guardian/src-foundations/palette';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { from, until } from '@guardian/src-foundations/mq';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';

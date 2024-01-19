@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 
 const styles = {
     container: css`

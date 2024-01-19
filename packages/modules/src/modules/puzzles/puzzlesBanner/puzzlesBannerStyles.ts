@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { neutral, lifestyle } from '@guardian/src-foundations/palette';
-import { breakpoints, space } from '@guardian/src-foundations';
+import { breakpoints, space } from '@guardian/source-foundations';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { squareBorder } from './puzzlesStyleUtils';
 

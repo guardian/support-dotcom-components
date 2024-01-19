@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Hide } from '@guardian/src-layout';
 import { LinkButton } from '@guardian/src-button';

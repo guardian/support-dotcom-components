@@ -9,7 +9,7 @@ import {
     neutral,
 } from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
 import { background } from '@guardian/src-foundations/palette';
 import { SvgCross } from '@guardian/src-icons';

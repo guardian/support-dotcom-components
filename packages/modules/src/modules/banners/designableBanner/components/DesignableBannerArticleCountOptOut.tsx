@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { textSans } from '@guardian/src-foundations/typography';
 import { Button } from '@guardian/src-button';
 import { SvgCross } from '@guardian/src-icons';
-import { neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/source-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import {
     addArticleCountOptOutCookie,

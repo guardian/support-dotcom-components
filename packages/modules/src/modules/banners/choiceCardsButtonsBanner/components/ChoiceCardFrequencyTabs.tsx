@@ -8,7 +8,7 @@ import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCard } from '@guardian/src-choice-card';
 import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 
 const container = (backgroundColour?: string) => css`
     display: flex;

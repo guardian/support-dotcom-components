@@ -6,7 +6,7 @@ import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
 import { between, from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
-import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/source-foundations';
 import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';

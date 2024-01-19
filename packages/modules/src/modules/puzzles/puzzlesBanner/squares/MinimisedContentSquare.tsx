@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { headline } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { Square } from './Square';
 import { SquareSide } from './SquareSide';
 import { from } from '@guardian/src-foundations/mq';

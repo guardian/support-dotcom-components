@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { brand, neutral, space } from '@guardian/src-foundations';
+import { brand, neutral, space } from '@guardian/source-foundations';
 import { ReactNode } from 'react';
 import { textSans } from '@guardian/src-foundations/typography';
 

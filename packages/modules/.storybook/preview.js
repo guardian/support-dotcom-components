@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FocusStyleManager } from '@guardian/src-foundations/utils';
-import { breakpoints } from '@guardian/src-foundations';
+import { breakpoints } from '@guardian/source-foundations';
 import { StylesDecorator } from './StylesDecorator';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -63,7 +63,7 @@ export const parameters = {
     layout: 'fullscreen',
 };
 
-const FocusManagerDecorator = storyFn => {
+const FocusManagerDecorator = (storyFn) => {
     useEffect(() => {
         FocusStyleManager.onlyShowFocusOnTabs();
     });

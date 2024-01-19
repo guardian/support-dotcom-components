@@ -6,7 +6,7 @@ import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
 import { SvgRoundelBrand, SvgRoundelDefault, SvgRoundelInverse } from '@guardian/src-brand';
 import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;

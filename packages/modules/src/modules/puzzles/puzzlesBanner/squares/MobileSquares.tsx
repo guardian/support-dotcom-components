@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { from, until } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { Square } from './Square';
 import type { ReactComponent } from '../../../../types';
 

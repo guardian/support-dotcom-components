@@ -8,7 +8,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { trackClick } from './FrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { between, from, until } from '@guardian/src-foundations/mq';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
 

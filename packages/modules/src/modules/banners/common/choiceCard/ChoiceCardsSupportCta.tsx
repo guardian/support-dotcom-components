@@ -1,7 +1,7 @@
 import React from 'react';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide } from '@guardian/src-layout';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';

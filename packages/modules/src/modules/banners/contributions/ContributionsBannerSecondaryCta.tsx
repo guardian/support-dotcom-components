@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
 import { LinkButton } from '@guardian/src-button';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Button } from '@guardian/src-button';
 import { BannerEnrichedSecondaryCta } from '../common/types';

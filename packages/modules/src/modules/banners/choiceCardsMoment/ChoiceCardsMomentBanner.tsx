@@ -1,4 +1,4 @@
-import { neutral, brand, brandAlt, culture } from '@guardian/src-foundations';
+import { neutral, brand, brandAlt, culture } from '@guardian/source-foundations';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 

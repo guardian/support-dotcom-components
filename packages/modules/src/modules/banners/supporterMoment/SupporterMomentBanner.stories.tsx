@@ -1,5 +1,5 @@
 import React from 'react';
-import { neutral, brand, culture } from '@guardian/src-foundations';
+import { neutral, brand, culture } from '@guardian/source-foundations';
 import { bannerWrapper } from '../common/BannerWrapper';
 import { getMomentTemplateBanner } from '../momentTemplate/MomentTemplateBanner';
 import { BannerProps } from '@sdc/shared/src/types';

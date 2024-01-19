@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider, css } from '@emotion/react';
-import { brand, brandAlt, space, neutral } from '@guardian/src-foundations';
+import { brand, brandAlt, space, neutral } from '@guardian/source-foundations';
 import { headline } from '@guardian/src-foundations/typography';
 import { until } from '@guardian/src-foundations/mq';
 import { Button, LinkButton, buttonBrand } from '@guardian/src-button';

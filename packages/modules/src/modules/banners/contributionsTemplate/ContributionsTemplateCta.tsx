@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import type { ReactComponent } from '../../../types';
 

@@ -5,7 +5,7 @@ import { SvgArrowRightStraight } from '@guardian/src-icons';
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
 import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { space } from '@guardian/source-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 import type { ReactComponent } from '../../../types';
 

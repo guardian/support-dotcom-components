@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
+import { neutral, space } from '@guardian/source-foundations';
 import { Button, LinkButton } from '@guardian/src-button';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerRenderedContent } from '../../common/types';
