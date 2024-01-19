@@ -377,7 +377,7 @@ const styles = {
         ${until.tablet} {
             position: fixed;
             margin-top: ${space[3]}px;
-            padding-right: ${space[5]}px;
+            padding-right: 10px;
             right: 0;
         }
         ${from.tablet} {
