@@ -14,7 +14,7 @@ export interface ModuleDataResponse {
     };
 }
 
-type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'puzzles' | 'header';
+type ModuleType = 'epic' | 'liveblog-epic' | 'banner' | 'header';
 
 const getForcedVariant = (type: ModuleType): string | null => {
     if (URLSearchParams) {
@@ -66,11 +66,6 @@ export const getLiveblogEpic = (
 
 export const getBanner = (baseUrl: string, payload: BannerPayload): Promise<ModuleDataResponse> =>
     getModuleData('banner', baseUrl, payload);
-
-export const getPuzzlesBanner = (
-    baseUrl: string,
-    payload: BannerPayload,
-): Promise<ModuleDataResponse> => getModuleData('puzzles', baseUrl, payload);
 
 export const getHeader = (baseUrl: string, payload: HeaderPayload): Promise<ModuleDataResponse> =>
     getModuleData('header', baseUrl, payload);
