@@ -28,6 +28,7 @@ import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
+import { SvgGuardianLogo } from '@guardian/src-brand';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -229,7 +230,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     settings={templateSettings.closeButtonSettings}
                     styleOverides={styles.closeButtonOverrides}
                 />
-
                 <div css={getHeaderContainerCss()}>
                     <DesignableBannerHeader
                         heading={content.mainContent.heading}
@@ -237,7 +237,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         headerSettings={templateSettings.headerSettings}
                     />
                 </div>
-
                 <div css={styles.contentContainer}>
                     {separateArticleCount && Number(numArticles) > 5 && (
                         <DesignableBannerArticleCount
@@ -274,7 +273,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         </section>
                     )}
                 </div>
-
                 <div
                     css={styles.bannerVisualContainer(
                         templateSettings.containerSettings.backgroundColour,
@@ -309,6 +307,15 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             onCtaClick={onCtaClick}
                         />
                     )}
+                </div>
+                <div css={styles.guardianLogoContainer}>
+                    <span
+                        css={css`
+                            fill: ${hexColourToString(basic.logo)};
+                        `}
+                    >
+                        <SvgGuardianLogo />
+                    </span>
                 </div>
             </div>
             {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
@@ -351,7 +358,7 @@ const styles = {
             position: static;
             display: grid;
             grid-template-columns: 1.5fr 1fr;
-            grid-template-rows: auto 1fr;
+            grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
             position: relative;
             width: 100%;
@@ -370,6 +377,7 @@ const styles = {
         ${until.tablet} {
             position: fixed;
             margin-top: ${space[3]}px;
+            padding-right: 10px;
             right: 0;
         }
         ${from.tablet} {
@@ -411,7 +419,7 @@ const styles = {
         order: 2;
         ${from.tablet} {
             grid-column: 1 / span 1;
-            grid-row: 2 / span 1;
+            grid-row: 2 / span 2;
         }
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
@@ -432,6 +440,17 @@ const styles = {
     ctasContainer: css`
         display: flex;
         flex-direction: row;
+    `,
+    guardianLogoContainer: css`
+        display: none;
+        ${from.tablet} {
+            display: block;
+            width: 100px;
+        }
+        grid-column: 2 / span 1;
+        grid-row: 3 / span 1;
+        justify-self: end;
+        padding-top: ${space[3]}px;
     `,
 };
 

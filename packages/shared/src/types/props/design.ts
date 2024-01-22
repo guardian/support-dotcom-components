@@ -128,6 +128,7 @@ export interface ConfigurableDesign {
             bodyText: HexColour;
             headerText: HexColour;
             articleCountText: HexColour;
+            logo: HexColour;
         };
         highlightedText: {
             text: HexColour;

@@ -8,7 +8,7 @@ const templateSpacing = {
             margin-bottom: ${space[4]}px;
         }
         ${from.tablet} {
-            margin-bottom: ${space[6]}px;
+            margin-bottom: ${space[3]}px;
         }
     `,
     bannerHeader: css`
