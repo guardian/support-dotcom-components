@@ -16,11 +16,6 @@ export const getDefaultModuleInfo = (name: string, path: string): ModuleInfo => 
     devServerPath: `/../../modules/dist/modules/${MODULES_VERSION}/${path}.js`,
 });
 
-export const ausAnniversaryMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'aus-anniversary-moment-banner',
-    'banners/aus10yrAnniversaryMoment/Aus10yrAnniversaryMomentBanner',
-);
-
 export const contributionsBanner: ModuleInfo = getDefaultModuleInfo(
     'contributions-banner',
     'banners/contributions/ContributionsBanner',
@@ -41,34 +36,9 @@ export const environmentBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/environment/EnvironmentBanner',
 );
 
-export const globalNewYearMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'global-new-year-moment-banner',
-    'banners/globalNYMoment/GlobalNYMomentBanner',
-);
-
-export const choiceCardsMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'choice-cards-moment-banner',
-    'banners/choiceCardsMoment/ChoiceCardsMomentBanner',
-);
-
-export const supporterMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'supporter-moment-banner',
-    'banners/supporterMoment/SupporterMomentBanner',
-);
-
 export const europeMomentLocalLanguageBanner: ModuleInfo = getDefaultModuleInfo(
     'europe-moment-local-language-banner',
     'banners/europeMomentLocalLanguage/EuropeMomentLocalLanguageBanner',
-);
-
-export const environmentMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'environment-moment-banner',
-    'banners/environmentMoment/EnvironmentMomentBanner',
-);
-
-export const guardianWeekly: ModuleInfo = getDefaultModuleInfo(
-    'guardian-weekly-banner',
-    'banners/guardianWeekly/GuardianWeeklyBanner',
 );
 
 export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
@@ -88,38 +58,20 @@ export const signInPromptHeader: ModuleInfo = getDefaultModuleInfo(
     'headers/SignInPromptHeader',
 );
 
-export const ukraineMomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'ukraine-moment-banner',
-    'banners/ukraineMoment/UkraineMomentBanner',
-);
-
-export const scotus2023MomentBanner: ModuleInfo = getDefaultModuleInfo(
-    'scotus-2023-moment-banner',
-    'banners/usSupremeCourt2023/Scotus2023MomentBanner',
-);
-
 export const wpfdBanner: ModuleInfo = getDefaultModuleInfo(
     'wpfd-banner',
     'banners/worldPressFreedomDay/WorldPressFreedomDayBanner',
 );
 
 export const moduleInfos: ModuleInfo[] = [
-    ausAnniversaryMomentBanner,
     contributionsBanner,
     contributionsBannerWithSignIn,
     environmentBanner,
-    globalNewYearMomentBanner,
-    choiceCardsMomentBanner,
-    supporterMomentBanner,
     europeMomentLocalLanguageBanner,
-    environmentMomentBanner,
-    guardianWeekly,
     puzzlesBanner,
     signInPromptBanner,
     header,
     signInPromptHeader,
-    ukraineMomentBanner,
-    scotus2023MomentBanner,
     wpfdBanner,
     designableBanner,
 ];
