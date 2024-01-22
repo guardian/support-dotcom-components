@@ -105,15 +105,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         return <></>;
     }
 
-    const {
-        basic,
-        primaryCta,
-        secondaryCta,
-        highlightedText,
-        closeButton,
-        guardianRoundel,
-        ticker,
-    } = design.colours;
+    const { basic, primaryCta, secondaryCta, highlightedText, closeButton, ticker } =
+        design.colours;
 
     const imageSettings = buildMainImageSettings(design);
     const choiceCardSettings = buildChoiceCardSettings(design);
@@ -176,7 +169,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         : neutral[100]
                 }`,
             },
-            guardianRoundel: guardianRoundel,
         },
         highlightedTextSettings: {
             textColour: hexColourToString(highlightedText.text),
