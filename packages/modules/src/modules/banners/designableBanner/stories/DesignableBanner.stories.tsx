@@ -227,7 +227,6 @@ const design: ConfigurableDesign = {
                 background: stringToHexColour('E5E5E5'),
             },
         },
-        guardianRoundel: 'default',
         ticker: {
             text: stringToHexColour('052962'),
             filledProgress: stringToHexColour('052962'),

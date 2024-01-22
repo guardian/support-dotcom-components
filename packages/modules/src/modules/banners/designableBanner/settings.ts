@@ -1,4 +1,4 @@
-import { GuardianRoundel, Image } from '@sdc/shared/dist/types';
+import { Image } from '@sdc/shared/dist/types';
 import { ReactNode } from 'react';
 import { BannerId } from '../common/types';
 import { ChoiceCardSettings } from '../common/choiceCard/ChoiceCards';
@@ -20,7 +20,6 @@ export interface CtaSettings {
     hover: CtaStateSettings;
     mobile?: CtaStateSettings;
     desktop?: CtaStateSettings;
-    guardianRoundel?: GuardianRoundel;
 }
 
 export interface HighlightedTextSettings {
