@@ -43,17 +43,6 @@ const formContainerStyles = css`
     display: flex;
     flex-direction: column;
 
-    // hack to tweak source text input
-    > label {
-        div {
-            font-size: 15px !important;
-        }
-
-        input {
-            height: 36px;
-        }
-    }
-
     & > * + * {
         margin-top: ${space[3]}px;
     }
@@ -66,14 +55,6 @@ const formContainerStyles = css`
             margin-top: 0;
             margin-left: ${space[5]}px;
         }
-    }
-`;
-
-const emailInputStyles = css`
-    max-width: 300px;
-
-    ${from.tablet} {
-        width: 300px;
     }
 `;
 
@@ -262,13 +243,15 @@ function Body({
         <div css={bodyContainerStyles}>
             <div css={bodyCopyContainerStyles}>Remind me {reminderDateWithPreposition}</div>
             <form onSubmit={onSubmit} css={formContainerStyles}>
-                <TextInput
-                    label="Email address"
-                    value={email}
-                    error={inputError}
-                    onChange={updateEmail}
-                    cssOverrides={emailInputStyles}
-                />
+                <div>
+                    <TextInput
+                        label="Email address"
+                        value={email}
+                        error={inputError}
+                        onChange={updateEmail}
+                        width={30}
+                    />
+                </div>
 
                 <div>
                     <ThemeProvider theme={buttonThemeBrandAlt}>
