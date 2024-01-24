@@ -1,15 +1,8 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import {
-    SvgCross,
-    Button,
-    SvgRoundelBrand,
-    SvgRoundelDefault,
-    SvgRoundelInverse,
-} from '@guardian/source-react-components';
+import { SvgCross, Button } from '@guardian/source-react-components';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
-import { from, space } from '@guardian/source-foundations';
 
 interface DesignableBannerCloseButtonProps {
     onCloseClick: () => void;
@@ -22,27 +15,12 @@ export function DesignableBannerCloseButton({
     settings,
     styleOverides,
 }: DesignableBannerCloseButtonProps): JSX.Element {
-    const { guardianRoundel } = settings;
-
-    const getRoundel = () => {
-        switch (guardianRoundel) {
-            case 'brand':
-                return <SvgRoundelBrand />;
-            case 'inverse':
-                return <SvgRoundelInverse />;
-            default:
-                return <SvgRoundelDefault />;
-        }
-    };
-
     return (
         <div
             css={css`
                 ${styles.container} ${styleOverides || ''}
             `}
         >
-            <div css={styles.roundelContainer}>{getRoundel()}</div>
-
             <Button
                 onClick={onCloseClick}
                 cssOverrides={buttonStyles(settings, styles.closeButtonOverrides)}
@@ -59,24 +37,8 @@ export function DesignableBannerCloseButton({
 const styles = {
     container: css`
         display: flex;
-        position: fixed;
-        right: 0;
-        padding-right: 20px;
+        justify-self: end;
         z-index: 100;
-    `,
-    roundelContainer: css`
-        display: none;
-        height: 40px;
-
-        svg {
-            height: 40px;
-            width: 40px;
-        }
-
-        ${from.tablet} {
-            display: block;
-            margin-right: ${space[2]}px;
-        }
     `,
     closeButtonOverrides: css`
         height: 40px;

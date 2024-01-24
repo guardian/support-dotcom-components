@@ -88,8 +88,6 @@ export interface CtaDesign {
     hover: CtaStateDesign;
 }
 
-export type GuardianRoundel = 'default' | 'brand' | 'inverse';
-
 interface TickerDesign {
     text: HexColour;
     filledProgress: HexColour;
@@ -128,6 +126,7 @@ export interface ConfigurableDesign {
             bodyText: HexColour;
             headerText: HexColour;
             articleCountText: HexColour;
+            logo: HexColour;
         };
         highlightedText: {
             text: HexColour;
@@ -136,7 +135,6 @@ export interface ConfigurableDesign {
         primaryCta: CtaDesign;
         secondaryCta: CtaDesign;
         closeButton: CtaDesign;
-        guardianRoundel: GuardianRoundel;
         ticker: TickerDesign;
     };
 }

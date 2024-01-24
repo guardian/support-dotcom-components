@@ -15,20 +15,12 @@ import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
 
 export enum BannerTemplate {
-    AusAnniversaryMomentBanner = 'AusAnniversaryMomentBanner',
     ContributionsBanner = 'ContributionsBanner',
     ContributionsBannerWithSignIn = 'ContributionsBannerWithSignIn',
-    GuardianWeeklyBanner = 'GuardianWeeklyBanner',
     EnvironmentBanner = 'EnvironmentBanner',
-    GlobalNewYearBanner = 'GlobalNewYearBanner',
     SignInPromptBanner = 'SignInPromptBanner',
-    UkraineMomentBanner = 'UkraineMomentBanner',
     WorldPressFreedomDayBanner = 'WorldPressFreedomDayBanner',
-    Scotus2023MomentBanner = 'Scotus2023MomentBanner',
     EuropeMomentLocalLanguageBanner = 'EuropeMomentLocalLanguageBanner',
-    SupporterMomentBanner = 'SupporterMomentBanner',
-    EnvironmentMomentBanner = 'EnvironmentMomentBanner',
-    ChoiceCardsMomentBanner = 'ChoiceCardsMomentBanner',
 }
 
 export interface BannerDesignName {

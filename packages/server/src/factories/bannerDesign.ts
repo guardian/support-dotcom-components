@@ -34,6 +34,7 @@ export default Factory.define<BannerDesignFromTool>(() => ({
             bodyText: stringToHexColour('000000'),
             headerText: stringToHexColour('000000'),
             articleCountText: stringToHexColour('000000'),
+            logo: stringToHexColour('000000'),
         },
         highlightedText: {
             text: stringToHexColour('000000'),
@@ -72,7 +73,6 @@ export default Factory.define<BannerDesignFromTool>(() => ({
                 background: stringToHexColour('E5E5E5'),
             },
         },
-        guardianRoundel: 'inverse',
         ticker: {
             text: stringToHexColour('052962'),
             filledProgress: stringToHexColour('052962'),
