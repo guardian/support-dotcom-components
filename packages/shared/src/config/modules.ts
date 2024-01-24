@@ -41,11 +41,6 @@ export const europeMomentLocalLanguageBanner: ModuleInfo = getDefaultModuleInfo(
     'banners/europeMomentLocalLanguage/EuropeMomentLocalLanguageBanner',
 );
 
-export const puzzlesBanner: ModuleInfo = getDefaultModuleInfo(
-    'puzzles-banner',
-    'puzzles/puzzlesBanner/PuzzlesBanner',
-);
-
 export const signInPromptBanner: ModuleInfo = getDefaultModuleInfo(
     'sign-in-prompt-banner',
     'banners/signInPrompt/SignInPromptBanner',
@@ -68,7 +63,6 @@ export const moduleInfos: ModuleInfo[] = [
     contributionsBannerWithSignIn,
     environmentBanner,
     europeMomentLocalLanguageBanner,
-    puzzlesBanner,
     signInPromptBanner,
     header,
     signInPromptHeader,

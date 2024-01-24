@@ -72,7 +72,3 @@ export const bannerSchema = z.object({
     separateArticleCount: z.boolean().nullish(),
     design: configurableDesignSchema.nullish(),
 });
-
-export interface PuzzlesBannerProps extends Partial<BannerProps> {
-    tracking: Tracking;
-}
