@@ -27,7 +27,7 @@ import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
-import { SvgGuardianLogo } from '@guardian/src-brand';
+import { SvgGuardianLogo } from '@guardian/source-react-components';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
