@@ -3,9 +3,9 @@ import { css, ThemeProvider } from '@emotion/react';
 import { from, brandAlt, brandText, headline, textSans } from '@guardian/source-foundations';
 import {
     LinkButton,
-    buttonThemeReaderRevenueBrandAlt,
     Hide,
     SvgArrowRightStraight,
+    buttonThemeReaderRevenueBrand,
 } from '@guardian/source-react-components';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
@@ -72,7 +72,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
             </Hide>
 
             {primaryCta && (
-                <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
+                <ThemeProvider theme={buttonThemeReaderRevenueBrand}>
                     <Hide below="mobileLandscape">
                         <LinkButton
                             priority="primary"
@@ -101,7 +101,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
 
             {secondaryCta && (
                 <Hide below="tablet">
-                    <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
+                    <ThemeProvider theme={buttonThemeReaderRevenueBrand}>
                         <LinkButton
                             priority="primary"
                             href={secondaryCta.ctaUrl}
