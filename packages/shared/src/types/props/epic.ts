@@ -50,8 +50,8 @@ const maxViewsSchema = z.object({
 });
 
 const separateArticleCountSchema = z.object({
-    type: z.string(),
-    copy: z.string().nullish(),
+    type: z.literal('above'),
+    copy: z.string().optional(),
 });
 
 const reminderFieldsSchema = z.object({
@@ -60,21 +60,21 @@ const reminderFieldsSchema = z.object({
     reminderPeriod: z.string(),
 });
 
-const variantSchema = z.object({
+export const variantSchema = z.object({
     name: z.string(),
-    heading: z.string().nullish(),
+    heading: z.string().optional(),
     paragraphs: z.array(z.string()),
-    highlightedText: z.string().nullish(),
-    tickerSettings: tickerSettingsSchema.nullish(),
-    cta: ctaSchema.nullish(),
-    secondaryCta: secondaryCtaSchema.nullish(),
-    footer: z.string().nullish(),
-    image: imageSchema.nullish(),
-    showReminderFields: reminderFieldsSchema.nullish(),
-    separateArticleCount: separateArticleCountSchema.nullish(),
-    maxViews: maxViewsSchema.nullish(),
-    showSignInLink: z.boolean().nullish(),
-    bylineWithImage: bylineWithImageSchema.nullish(),
+    highlightedText: z.string().optional(),
+    tickerSettings: tickerSettingsSchema.optional(),
+    cta: ctaSchema.optional(),
+    secondaryCta: secondaryCtaSchema.optional(),
+    footer: z.string().optional(),
+    image: imageSchema.optional(),
+    showReminderFields: reminderFieldsSchema.optional(),
+    separateArticleCount: separateArticleCountSchema.optional(),
+    maxViews: maxViewsSchema.optional(),
+    showSignInLink: z.boolean().optional(),
+    bylineWithImage: bylineWithImageSchema.optional(),
 });
 
 export const epicPropsSchema = z.object({

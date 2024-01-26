@@ -1,10 +1,12 @@
-import { CountryGroupId, ReminderFields } from '../../lib';
+import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
 import {
     ArticlesViewedSettings,
     ControlProportionSettings,
     Test,
     TestStatus,
+    testStatusSchema,
     UserCohort,
+    userCohortSchema,
     Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
@@ -15,7 +17,9 @@ import {
     Image,
     SecondaryCta,
     TickerSettings,
+    variantSchema,
 } from '../props';
+import { z } from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -173,3 +177,22 @@ export interface EpicTest extends Test<EpicVariant> {
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
 }
+
+export const EpicTestSchema = z.object({
+    name: z.string(),
+    status: testStatusSchema,
+    locations: z.array(countryGroupIdSchema),
+    tagIds: z.array(z.string()),
+    sections: z.array(z.string()),
+    excludedTagIds: z.array(z.string()),
+    excludedSections: z.array(z.string()),
+    alwaysAsk: z.boolean(),
+    userCohort: userCohortSchema,
+    isLiveBlog: z.boolean(),
+    hasCountryName: z.boolean(),
+    highPriority: z.boolean(),
+    useLocalViewLog: z.boolean(),
+    hasArticleCountInCopy: z.boolean(),
+    priority: z.number(),
+    variants: variantSchema.array(),
+});
