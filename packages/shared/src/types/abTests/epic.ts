@@ -19,7 +19,7 @@ import {
     TickerSettings,
     variantSchema,
 } from '../props';
-import { z } from 'zod';
+import { z, ZodSchema } from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 
@@ -178,7 +178,7 @@ export interface EpicTest extends Test<EpicVariant> {
     canShow?: (targeting: EpicTargeting) => boolean;
 }
 
-export const EpicTestSchema = z.object({
+export const EpicTestSchema: ZodSchema = z.object({
     name: z.string(),
     status: testStatusSchema,
     locations: z.array(countryGroupIdSchema),
