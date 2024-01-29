@@ -1,7 +1,6 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { SvgCross } from '@guardian/src-icons';
-import { Button } from '@guardian/src-button';
+import { SvgCross, Button } from '@guardian/source-react-components';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
 

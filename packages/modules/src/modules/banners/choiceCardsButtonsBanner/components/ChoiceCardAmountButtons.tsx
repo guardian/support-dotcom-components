@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceCard } from '@guardian/src-choice-card';
+import { ChoiceCard } from '@guardian/source-react-components';
 import {
     AmountsCardData,
     ContributionFrequency,
@@ -8,8 +8,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { trackClick } from './ChoiceCardFrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
-import { between, from, until } from '@guardian/src-foundations/mq';
+import { space, between, from, until } from '@guardian/source-foundations';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 

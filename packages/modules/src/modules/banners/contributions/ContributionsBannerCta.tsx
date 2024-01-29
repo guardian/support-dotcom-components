@@ -1,11 +1,11 @@
-import { ThemeProvider } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
-import { LinkButton } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { ThemeProvider, css, SerializedStyles } from '@emotion/react';
+import {
+    buttonThemeReaderRevenueBrandAlt,
+    LinkButton,
+    SvgArrowRightStraight,
+} from '@guardian/source-react-components';
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { from, space } from '@guardian/source-foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 import type { ReactComponent } from '../../../types';
 
@@ -40,7 +40,7 @@ export const ContributionsBannerCta: ReactComponent<ContributionsBannerCtaProps>
     const hasSupportCta = isSupportUrl(ctaUrl);
     return (
         <div>
-            <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+            <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                 <LinkButton
                     data-link-name="contributions-banner : cta"
                     css={styles.ctaButton(stacked)}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { space, from } from '@guardian/source-foundations';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
 import { OphanComponentEvent, OphanComponentType } from '@sdc/shared/types';

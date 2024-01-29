@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { Hide } from '@guardian/src-layout';
+import { Hide } from '@guardian/source-react-components';
 import { HeaderImageSvg } from './headerImageSvg';
 
 const styles = css`

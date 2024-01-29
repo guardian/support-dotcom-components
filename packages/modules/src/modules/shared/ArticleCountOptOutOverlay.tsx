@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles, ThemeProvider } from '@emotion/react';
 import {
     brand,
     brandAltBackground,
@@ -7,15 +7,18 @@ import {
     brandAltText,
     culture,
     neutral,
-} from '@guardian/src-foundations/palette';
-import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
-import { Button, buttonDefault as buttonDefaultTheme } from '@guardian/src-button';
-import { background } from '@guardian/src-foundations/palette';
-import { SvgCross } from '@guardian/src-icons';
-import { ThemeProvider } from '@emotion/react';
-import { brand as brandTheme, brandAlt as brandAltTheme } from '@guardian/src-foundations/themes';
-import { from } from '@guardian/src-foundations/mq';
+    textSans,
+    space,
+    background,
+    from,
+} from '@guardian/source-foundations';
+import {
+    Button,
+    buttonThemeBrand,
+    buttonThemeBrandAlt,
+    buttonThemeDefault,
+    SvgCross,
+} from '@guardian/source-react-components';
 
 import { ArticleCountOptOutType } from './ArticleCountOptOutPopup';
 import type { ReactComponent } from '../../types';
@@ -45,11 +48,11 @@ const BORDER_COLOURS = {
 };
 
 const BUTTON_THEMES = {
-    epic: brandTheme,
-    banner: brandAltTheme,
-    ['us-eoy-moment-banner']: buttonDefaultTheme,
-    ['global-new-year-moment-banner']: buttonDefaultTheme,
-    ['election-au-moment-banner']: buttonDefaultTheme,
+    epic: buttonThemeBrand,
+    banner: buttonThemeBrandAlt,
+    ['us-eoy-moment-banner']: buttonThemeDefault,
+    ['global-new-year-moment-banner']: buttonThemeDefault,
+    ['election-au-moment-banner']: buttonThemeDefault,
 };
 
 const overlayContainer = (type: ArticleCountOptOutType): SerializedStyles => css`

@@ -1,7 +1,6 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { neutral, space, from } from '@guardian/source-foundations';
 
 const mainStyles = css`
     display: block;
