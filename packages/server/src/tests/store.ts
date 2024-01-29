@@ -17,6 +17,10 @@ export type ChannelTypes =
     | 'Banner2'
     | 'Header';
 
+/*
+ * Removes fields with null values from an object, recursively.
+ * This is because DynamoDb can have null values for optional fields, which does not match our Typescript models, where optional fields should be undefined.
+ */
 export function removeNullValues(obj: object): object {
     return Object.entries(obj)
         .filter(([, v]) => v != null)
