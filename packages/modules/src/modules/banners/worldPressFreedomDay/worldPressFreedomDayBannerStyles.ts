@@ -1,8 +1,14 @@
 import { css } from '@emotion/react';
-import { body, headline } from '@guardian/src-foundations/typography';
-import { from } from '@guardian/src-foundations/mq';
-import { brand, brandAlt, neutral, space } from '@guardian/src-foundations';
-import { height } from '@guardian/src-foundations/size';
+import {
+    body,
+    headline,
+    from,
+    brand,
+    brandAlt,
+    neutral,
+    space,
+    height,
+} from '@guardian/source-foundations';
 
 export const banner = css`
     html {
@@ -98,7 +104,7 @@ export const iconAndClosePosition = css`
     padding-top: ${space[3]}px;
     position: absolute;
     right: 0;
-    width: max-content;
+    width: max-content !important; // Hacked in to override the column width set in source
 `;
 
 export const closeButtonStyles = css`

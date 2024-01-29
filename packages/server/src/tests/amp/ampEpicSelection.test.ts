@@ -19,6 +19,7 @@ const tickerSettings: TickerSettings = {
 
 const epicTest: AmpEpicTest = {
     name: 'TEST1',
+    priority: 1,
     nickname: 'TEST1',
     status: 'Live',
     locations: [],

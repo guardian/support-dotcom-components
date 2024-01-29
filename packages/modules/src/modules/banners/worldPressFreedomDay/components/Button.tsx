@@ -1,9 +1,11 @@
 import React from 'react';
-import { SerializedStyles, css } from '@emotion/react';
-import { palette } from '@guardian/src-foundations';
-import { ThemeProvider } from '@emotion/react';
-import { Button as DSButton, LinkButton } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { SerializedStyles, css, ThemeProvider } from '@emotion/react';
+import { palette } from '@guardian/source-foundations';
+import {
+    Button as DSButton,
+    LinkButton,
+    SvgArrowRightStraight,
+} from '@guardian/source-react-components';
 import type { ReactComponent } from '../../../../types';
 
 // Custom theme for Button/LinkButton

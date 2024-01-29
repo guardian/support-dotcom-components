@@ -1,7 +1,9 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { PaymentFrequencyTabButtonAttributes } from './PaymentFrequencyTabButton';
-import { PaymentFrequencyTabButton } from './PaymentFrequencyTabButton';
+import {
+    PaymentFrequencyTabButtonAttributes,
+    PaymentFrequencyTabButton,
+} from './PaymentFrequencyTabButton';
 import { ContributionFrequency } from '@sdc/shared/dist/types';
 
 const tabListStyles = css`

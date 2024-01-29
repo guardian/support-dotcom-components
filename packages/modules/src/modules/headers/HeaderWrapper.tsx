@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { HeaderProps, Cta, headerSchema } from '@sdc/shared/types';
+import { HeaderProps, Cta, headerSchema, OphanAction } from '@sdc/shared/types';
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     addTrackingParamsToProfileUrl,
     createClickEventFromTracking,
     isProfileUrl,
 } from '@sdc/shared/lib';
-import { OphanAction } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import type { ReactComponent } from '../../types';

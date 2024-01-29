@@ -1,13 +1,12 @@
 import React from 'react';
-import { ChoiceCardGroup, ChoiceCard } from '@guardian/src-choice-card';
+import { ChoiceCardGroup, ChoiceCard } from '@guardian/source-react-components';
 import {
     ContributionFrequency,
     SelectedAmountsVariant,
     OphanComponentEvent,
 } from '@sdc/shared/types';
 import { css } from '@emotion/react';
-import { between, from, until } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { between, from, until, space } from '@guardian/source-foundations';
 import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
@@ -23,24 +22,6 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
     } = design || {};
 
     return {
-        hideChoiceCardGroupLegend: css`
-            label {
-                border-radius: 10px;
-            }
-            legend {
-                position: absolute;
-                overflow: hidden; /* gets rid of horizontal scrollbar that appears in some circumstances */
-                white-space: nowrap; /* The white-space property forces the content to render on one line. */
-                width: 1px; /* ensures content is announced by VoiceOver. */
-                height: 1px; /* ensures content is announced by VoiceOver. */
-                margin: -1px; /* hide or clip content that does not fit into a 1-pixel visible area. */
-                padding: 0; /* hide or clip content that does not fit into a 1-pixel visible area. */
-                border: 0;
-                clip: rect(1px, 1px, 1px, 1px); /* clip removes any visible trace of the element */
-                -webkit-clip-path: inset(50%); /* clip removes any visible trace of the element */
-                clip-path: inset(50%); /* clip removes any visible trace of the element */
-            }
-        `,
         bannerFrequenciesGroupOverrides: css`
             display: grid;
 
@@ -291,10 +272,8 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 name="contribution-frequency"
                 label="Contribution frequency"
                 columns={noOfContributionTabs}
-                cssOverrides={[
-                    style.hideChoiceCardGroupLegend,
-                    style.bannerFrequenciesGroupOverrides,
-                ]}
+                hideLabel
+                cssOverrides={style.bannerFrequenciesGroupOverrides}
             >
                 <div css={style.frequencyContainer}>
                     {contributionTypeTabOrder.map((f) =>
@@ -307,7 +286,8 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
             <ChoiceCardGroup
                 name="contribution-amount"
                 label="Contribution amount"
-                cssOverrides={[style.hideChoiceCardGroupLegend, style.bannerAmountsGroupOverrides]}
+                hideLabel
+                cssOverrides={style.bannerAmountsGroupOverrides}
                 aria-labelledby={selection.frequency}
             >
                 <div css={style.amountsContainer}>{generateChoiceCardAmountsButtons()}</div>

@@ -4,6 +4,8 @@ import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 import type { ZodSchema } from 'zod';
+import { isNonNullable } from '@guardian/libs';
+import { removeNullValues } from '../utils/removeNullValues';
 
 const stage = isProd ? 'PROD' : 'CODE';
 
@@ -16,44 +18,6 @@ export type ChannelTypes =
     | 'Banner1'
     | 'Banner2'
     | 'Header';
-
-/*
- * Removes fields with null values from an object, recursively.
- * This is because DynamoDb can have null values for optional fields, which does not match our Typescript models, where optional fields should be undefined.
- */
-export function removeNullValues(obj: object): object {
-    return Object.entries(obj)
-        .filter(([, v]) => v != null)
-        .reduce((acc, [k, v]) => {
-            if (Array.isArray(v)) {
-                return {
-                    ...acc,
-                    [k]: v
-                        .filter((item) => item !== null)
-                        .map((item) => {
-                            if (item === Object(item)) {
-                                return removeNullValues(item);
-                            } else {
-                                return item;
-                            }
-                        }),
-                };
-            } else if (v === Object(v)) {
-                return {
-                    ...acc,
-                    [k]: removeNullValues(v),
-                };
-            }
-            return {
-                ...acc,
-                [k]: v,
-            };
-        }, {});
-}
-
-// Stolen from Guardian/libs! todo, actually import
-/** Type guard for values that are neither `null` nor `undefined` */
-export const isNonNullable = <T>(_: T): _ is NonNullable<T> => _ !== undefined && _ !== null;
 
 export const getTests = <T extends { priority: number }>(
     channel: ChannelTypes,

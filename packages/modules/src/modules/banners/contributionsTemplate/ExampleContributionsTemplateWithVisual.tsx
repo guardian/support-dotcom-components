@@ -1,10 +1,13 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { css } from '@emotion/react';
-import { Button, LinkButton, buttonBrandAlt } from '@guardian/src-button';
-import { neutral } from '@guardian/src-foundations/palette';
-import { SvgCross } from '@guardian/src-icons';
-import { Hide } from '@guardian/src-layout';
+import { ThemeProvider, css } from '@emotion/react';
+import {
+    Button,
+    LinkButton,
+    buttonThemeBrandAlt,
+    SvgCross,
+    Hide,
+} from '@guardian/source-react-components';
+import { neutral } from '@guardian/source-foundations';
 import ContributionsTemplateWithVisual from './ContributionsTemplateWithVisual';
 import ContributionsTemplateVisual from './ContributionsTemplateVisual';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';
@@ -104,7 +107,7 @@ const ticker = (tickerSettings: TickerSettings): React.ReactElement => (
 const cta = (
     <ContributionsTemplateCta
         primaryCta={
-            <ThemeProvider theme={buttonBrandAlt}>
+            <ThemeProvider theme={buttonThemeBrandAlt}>
                 <div>
                     <Hide above="tablet">
                         <LinkButton size="small">Support the Guardian</LinkButton>
@@ -116,7 +119,7 @@ const cta = (
             </ThemeProvider>
         }
         secondaryCta={
-            <ThemeProvider theme={buttonBrandAlt}>
+            <ThemeProvider theme={buttonThemeBrandAlt}>
                 <div>
                     <Hide above="tablet">
                         <LinkButton size="small" priority="subdued">

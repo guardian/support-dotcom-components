@@ -60,6 +60,7 @@ describe('selectBannerTest', () => {
 
         const test: BannerTest = {
             name: 'test',
+            priority: 1,
             status: 'Live',
             bannerChannel: 'contributions',
             isHardcoded: false,
@@ -230,6 +231,7 @@ describe('selectBannerTest', () => {
 
         const test: BannerTest = {
             name: 'test',
+            priority: 1,
             status: 'Live',
             bannerChannel: 'subscriptions',
             isHardcoded: false,
@@ -340,6 +342,7 @@ describe('selectBannerTest', () => {
 
         const baseTest: Omit<BannerTest, 'name'> = {
             bannerChannel: 'signIn',
+            priority: 1,
             isHardcoded: true,
             userCohort: 'Everyone',
             status: 'Live',

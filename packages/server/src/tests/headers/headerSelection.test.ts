@@ -6,6 +6,7 @@ const modulePathBuilder = header.endpointPathBuilder;
 
 const remote_nonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
+    priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: [
@@ -37,6 +38,7 @@ const remote_nonUK: HeaderTest = {
 };
 const remote_UK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
+    priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: ['GBPCountries'],
@@ -61,6 +63,7 @@ const remote_UK: HeaderTest = {
 };
 const locationsNotSet: HeaderTest = {
     name: 'LocationsArrayEmpty',
+    priority: 1,
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: [],
@@ -85,6 +88,7 @@ const locationsNotSet: HeaderTest = {
 };
 const header_supporter: HeaderTest = {
     name: 'header-supporter',
+    priority: 1,
     userCohort: 'AllExistingSupporters',
     status: 'Live',
     locations: [
@@ -110,6 +114,7 @@ const header_supporter: HeaderTest = {
 
 const header_new_supporter: HeaderTest = {
     name: 'header-new-supporter',
+    priority: 1,
     userCohort: 'Everyone',
     status: 'Live',
     locations: [
@@ -139,6 +144,7 @@ const header_new_supporter: HeaderTest = {
 
 const header_existing_subscriber: HeaderTest = {
     name: 'header-existing-subscriber',
+    priority: 1,
     userCohort: 'Everyone',
     status: 'Live',
     locations: [

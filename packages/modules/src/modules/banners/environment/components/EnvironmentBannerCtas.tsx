@@ -1,9 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { space } from '@guardian/src-foundations';
-import { neutral } from '@guardian/src-foundations/palette';
-import { Hide } from '@guardian/src-layout';
-import { LinkButton } from '@guardian/src-button';
+import { space, neutral } from '@guardian/source-foundations';
+import { Hide, LinkButton } from '@guardian/source-react-components';
 import { BannerEnrichedCta, BannerEnrichedSecondaryCta } from '../../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BLUE_HEX, GREEN_HEX } from '../utils/constants';
