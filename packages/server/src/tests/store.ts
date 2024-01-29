@@ -4,6 +4,7 @@ import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
 import type { ZodSchema } from 'zod';
+import { isNonNullable } from '@guardian/libs';
 
 const stage = isProd ? 'PROD' : 'CODE';
 
@@ -50,10 +51,6 @@ export function removeNullValues(obj: object): object {
             };
         }, {});
 }
-
-// Stolen from Guardian/libs! todo, actually import
-/** Type guard for values that are neither `null` nor `undefined` */
-export const isNonNullable = <T>(_: T): _ is NonNullable<T> => _ !== undefined && _ !== null;
 
 export const getTests = <T extends { priority: number }>(
     channel: ChannelTypes,
