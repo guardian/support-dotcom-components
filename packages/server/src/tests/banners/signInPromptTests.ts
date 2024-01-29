@@ -7,6 +7,7 @@ const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
     isHardcoded: true,
     userCohort: 'Everyone',
     status: 'Live',
+    priority: 99,
 };
 
 const baseSignInPromptVariant: Omit<BannerVariant, 'bannerContent'> = {

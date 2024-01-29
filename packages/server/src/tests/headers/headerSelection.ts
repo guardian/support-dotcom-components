@@ -18,6 +18,7 @@ const moduleName = 'Header';
 // --- hardcoded tests
 const nonSupportersTestNonUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__NonUK',
+    priority: 99,
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: [
@@ -51,6 +52,7 @@ const nonSupportersTestNonUK: HeaderTest = {
 
 const nonSupportersTestUK: HeaderTest = {
     name: 'RemoteRrHeaderLinksTest__UK',
+    priority: 99,
     userCohort: 'AllNonSupporters',
     status: 'Live',
     locations: ['GBPCountries'],
@@ -77,6 +79,7 @@ const nonSupportersTestUK: HeaderTest = {
 
 const supportersTest: HeaderTest = {
     name: 'header-supporter',
+    priority: 99,
     userCohort: 'AllExistingSupporters',
     status: 'Live',
     locations: [
@@ -103,6 +106,7 @@ const supportersTest: HeaderTest = {
 
 const baseSignInPromptTest: Omit<HeaderTest, 'name' | 'variants'> = {
     userCohort: 'Everyone',
+    priority: 99,
     status: 'Live',
     locations: [
         'AUDCountries',
