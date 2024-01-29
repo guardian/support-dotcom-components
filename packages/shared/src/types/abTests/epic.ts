@@ -163,7 +163,7 @@ export interface EpicTest extends Test<EpicVariant> {
     highPriority: boolean;
     useLocalViewLog: boolean;
     articlesViewedSettings?: ArticlesViewedSettings;
-    hasArticleCountInCopy: boolean;
+    hasArticleCountInCopy: boolean; // added by the server - we do not want to determine this for each client request
 
     audience?: number;
     audienceOffset?: number;
@@ -177,6 +177,9 @@ export interface EpicTest extends Test<EpicVariant> {
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
 }
+
+// The data in Dynamodb does not have the hasArticleCountInCopy, and it gets added to the data by the server. So validation should ignore it
+export type EpicTestWithoutHasArticleCountInCopy = Omit<EpicTest, 'hasArticleCountInCopy'>;
 
 export const EpicTestSchema: ZodSchema = z.object({
     name: z.string(),
@@ -192,7 +195,6 @@ export const EpicTestSchema: ZodSchema = z.object({
     hasCountryName: z.boolean(),
     highPriority: z.boolean(),
     useLocalViewLog: z.boolean(),
-    hasArticleCountInCopy: z.boolean(),
     priority: z.number(),
     variants: variantSchema.array(),
 });
