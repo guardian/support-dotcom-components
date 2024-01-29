@@ -16,7 +16,6 @@ export default Factory.define<EpicTest>(({ factories }) => ({
         minDaysBetweenViews: 0,
     },
     userCohort: 'Everyone',
-    isLiveBlog: false,
     hasCountryName: false,
     highPriority: false,
     useLocalViewLog: false,

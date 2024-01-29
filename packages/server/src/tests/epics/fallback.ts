@@ -18,7 +18,6 @@ export const fallbackEpicTest: EpicTest = {
         minDaysBetweenViews: 0,
     },
     userCohort: 'AllNonSupporters',
-    isLiveBlog: false,
     hasCountryName: false,
     variants: [
         {

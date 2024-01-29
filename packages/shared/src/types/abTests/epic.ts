@@ -157,7 +157,6 @@ export interface EpicTest extends Test<EpicVariant> {
     alwaysAsk: boolean;
     maxViews?: MaxViews;
     userCohort: UserCohort;
-    isLiveBlog: boolean;
     hasCountryName: boolean;
     variants: EpicVariant[];
     highPriority: boolean;
@@ -191,7 +190,6 @@ export const EpicTestSchema: ZodSchema = z.object({
     excludedSections: z.array(z.string()),
     alwaysAsk: z.boolean(),
     userCohort: userCohortSchema,
-    isLiveBlog: z.boolean(),
     hasCountryName: z.boolean(),
     highPriority: z.boolean(),
     useLocalViewLog: z.boolean(),
