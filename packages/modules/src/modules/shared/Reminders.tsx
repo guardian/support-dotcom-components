@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { error, neutral } from '@guardian/src-foundations';
-import { textSans } from '@guardian/src-foundations/typography';
+import { error, neutral, textSans } from '@guardian/source-foundations';
 
 // ---- Thank you component ---- //
 

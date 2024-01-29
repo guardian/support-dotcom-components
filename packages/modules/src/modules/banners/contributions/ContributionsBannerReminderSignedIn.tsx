@@ -1,11 +1,14 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonBrandAlt } from '@guardian/src-button';
-import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
-import { Columns, Column, Hide } from '@guardian/src-layout';
-import { from } from '@guardian/src-foundations/mq';
-import { SvgCheckmark } from '@guardian/src-icons';
+import {
+    Button,
+    buttonThemeBrandAlt,
+    Columns,
+    Column,
+    Hide,
+    SvgCheckmark,
+} from '@guardian/source-react-components';
+import { textSans, space, from } from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';
@@ -98,7 +101,7 @@ export const ContributionsBannerReminderSignedIn: ReactComponent<
     const Ctas = () => (
         <div css={ctaContainerStyles}>
             <div>
-                <ThemeProvider theme={buttonBrandAlt}>
+                <ThemeProvider theme={buttonThemeBrandAlt}>
                     <div>
                         <Button
                             onClick={onReminderSetClick}

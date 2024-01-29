@@ -1,12 +1,12 @@
 import React from 'react';
-import { ThemeProvider } from '@emotion/react';
-import { css } from '@emotion/react';
-import { buttonReaderRevenueBrandAlt } from '@guardian/src-button';
-import { LinkButton } from '@guardian/src-button';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
-import { space } from '@guardian/src-foundations';
-import { neutral } from '@guardian/src-foundations/palette';
-import { Button } from '@guardian/src-button';
+import { ThemeProvider, css } from '@emotion/react';
+import {
+    buttonThemeReaderRevenueBrandAlt,
+    LinkButton,
+    SvgArrowRightStraight,
+    Button,
+} from '@guardian/source-react-components';
+import { space, neutral } from '@guardian/source-foundations';
 import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';
@@ -29,7 +29,7 @@ export const ContributionsBannerSecondaryCta: ReactComponent<
     return (
         <>
             {secondaryCta.type === SecondaryCtaType.Custom && (
-                <ThemeProvider theme={buttonReaderRevenueBrandAlt}>
+                <ThemeProvider theme={buttonThemeReaderRevenueBrandAlt}>
                     <LinkButton
                         priority="tertiary"
                         size="small"

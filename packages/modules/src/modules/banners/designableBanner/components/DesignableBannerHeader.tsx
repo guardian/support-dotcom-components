@@ -1,8 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
-import { headline } from '@guardian/src-foundations/typography';
-import { neutral, space } from '@guardian/src-foundations';
+import { from, headline, neutral, space } from '@guardian/source-foundations';
 import { DesignableBannerVisual } from './DesignableBannerVisual';
 import { HeaderSettings } from '../settings';
 import useMediaQuery from '../../../../hooks/useMediaQuery';

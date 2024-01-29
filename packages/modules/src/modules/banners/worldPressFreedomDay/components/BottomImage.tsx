@@ -5,7 +5,7 @@ import {
     BottomImageSvgMobile,
     BottomImageSvgTablet,
 } from './BottomImageSvg';
-import { Hide } from '@guardian/src-layout';
+import { Hide } from '@guardian/source-react-components';
 
 const styles = css`
     svg {

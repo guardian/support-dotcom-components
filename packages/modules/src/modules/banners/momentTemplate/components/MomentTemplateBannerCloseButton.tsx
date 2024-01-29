@@ -1,12 +1,15 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { SvgCross } from '@guardian/src-icons';
-import { Button } from '@guardian/src-button';
+import {
+    SvgCross,
+    Button,
+    SvgRoundelBrand,
+    SvgRoundelDefault,
+    SvgRoundelInverse,
+} from '@guardian/source-react-components';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
-import { SvgRoundelBrand, SvgRoundelDefault, SvgRoundelInverse } from '@guardian/src-brand';
-import { from } from '@guardian/src-foundations/mq';
-import { space } from '@guardian/src-foundations';
+import { from, space } from '@guardian/source-foundations';
 
 interface MomentTemplateBannerCloseButtonProps {
     onCloseClick: () => void;
