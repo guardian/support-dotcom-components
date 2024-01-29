@@ -1,12 +1,15 @@
 import React from 'react';
 import { css, ThemeProvider } from '@emotion/react';
-import { Button, buttonBrandAlt } from '@guardian/src-button';
-import { textSans } from '@guardian/src-foundations/typography';
-import { space } from '@guardian/src-foundations';
-import { Columns, Column, Hide } from '@guardian/src-layout';
-import { from } from '@guardian/src-foundations/mq';
-import { TextInput } from '@guardian/src-text-input';
-import { SvgCheckmark } from '@guardian/src-icons';
+import {
+    Button,
+    buttonThemeBrandAlt,
+    Columns,
+    Column,
+    Hide,
+    TextInput,
+    SvgCheckmark,
+} from '@guardian/source-react-components';
+import { textSans, space, from } from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';
@@ -40,17 +43,6 @@ const formContainerStyles = css`
     display: flex;
     flex-direction: column;
 
-    // hack to tweak source text input
-    > label {
-        div {
-            font-size: 15px !important;
-        }
-
-        input {
-            height: 36px;
-        }
-    }
-
     & > * + * {
         margin-top: ${space[3]}px;
     }
@@ -63,14 +55,6 @@ const formContainerStyles = css`
             margin-top: 0;
             margin-left: ${space[5]}px;
         }
-    }
-`;
-
-const emailInputStyles = css`
-    max-width: 300px;
-
-    ${from.tablet} {
-        width: 300px;
     }
 `;
 
@@ -259,16 +243,18 @@ function Body({
         <div css={bodyContainerStyles}>
             <div css={bodyCopyContainerStyles}>Remind me {reminderDateWithPreposition}</div>
             <form onSubmit={onSubmit} css={formContainerStyles}>
-                <TextInput
-                    label="Email address"
-                    value={email}
-                    error={inputError}
-                    onChange={updateEmail}
-                    cssOverrides={emailInputStyles}
-                />
+                <div>
+                    <TextInput
+                        label="Email address"
+                        value={email}
+                        error={inputError}
+                        onChange={updateEmail}
+                        width={30}
+                    />
+                </div>
 
                 <div>
-                    <ThemeProvider theme={buttonBrandAlt}>
+                    <ThemeProvider theme={buttonThemeBrandAlt}>
                         <Button
                             type="submit"
                             size="small"

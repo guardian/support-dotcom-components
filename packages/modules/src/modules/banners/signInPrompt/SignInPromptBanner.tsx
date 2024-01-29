@@ -1,12 +1,16 @@
 import React from 'react';
 import { ThemeProvider, css } from '@emotion/react';
-import { brand, brandAlt, space, neutral } from '@guardian/src-foundations';
-import { headline } from '@guardian/src-foundations/typography';
-import { until } from '@guardian/src-foundations/mq';
-import { Button, LinkButton, buttonBrand } from '@guardian/src-button';
-import { SvgRoundelBrandInverse } from '@guardian/src-brand';
+import { brand, brandAlt, space, neutral, headline, until } from '@guardian/source-foundations';
+import {
+    Button,
+    LinkButton,
+    buttonThemeBrand,
+    SvgRoundelBrandInverse,
+    Container,
+    Column,
+    Columns,
+} from '@guardian/source-react-components';
 import { SecondaryCtaType } from '@sdc/shared/types';
-import { Container, Column, Columns } from '@guardian/src-layout';
 
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
@@ -105,7 +109,7 @@ const SignInPromptBanner: ReactComponent<BannerRenderProps> = (props) => {
                     <div css={bulletStyles}>{bullets}</div>
 
                     <div css={actions}>
-                        <ThemeProvider theme={buttonBrand}>
+                        <ThemeProvider theme={buttonThemeBrand}>
                             {primaryCta && (
                                 <LinkButton
                                     priority="primary"

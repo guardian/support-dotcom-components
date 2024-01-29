@@ -1,12 +1,12 @@
 import React from 'react';
-import { css } from '@emotion/react';
-import { from } from '@guardian/src-foundations/mq';
-import { brandAlt, brandText } from '@guardian/src-foundations';
-import { headline, textSans } from '@guardian/src-foundations/typography';
-import { LinkButton, buttonReaderRevenueBrand } from '@guardian/src-button';
-import { Hide } from '@guardian/src-layout';
-import { ThemeProvider } from '@emotion/react';
-import { SvgArrowRightStraight } from '@guardian/src-icons';
+import { css, ThemeProvider } from '@emotion/react';
+import { from, brandAlt, brandText, headline, textSans } from '@guardian/source-foundations';
+import {
+    LinkButton,
+    Hide,
+    SvgArrowRightStraight,
+    buttonThemeReaderRevenueBrand,
+} from '@guardian/source-react-components';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
 
@@ -72,7 +72,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
             </Hide>
 
             {primaryCta && (
-                <ThemeProvider theme={buttonReaderRevenueBrand}>
+                <ThemeProvider theme={buttonThemeReaderRevenueBrand}>
                     <Hide below="mobileLandscape">
                         <LinkButton
                             priority="primary"
@@ -101,7 +101,7 @@ const Header: ReactComponent<HeaderRenderProps> = (props: HeaderRenderProps) => 
 
             {secondaryCta && (
                 <Hide below="tablet">
-                    <ThemeProvider theme={buttonReaderRevenueBrand}>
+                    <ThemeProvider theme={buttonThemeReaderRevenueBrand}>
                         <LinkButton
                             priority="primary"
                             href={secondaryCta.ctaUrl}

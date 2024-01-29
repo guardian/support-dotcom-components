@@ -1,6 +1,9 @@
 import React from 'react';
-import { ArticleCountOptOutPopup, OphanTracking } from '../modules/shared/ArticleCountOptOutPopup';
-import { ArticleCountOptOutType } from '../modules/shared/ArticleCountOptOutPopup';
+import {
+    ArticleCountOptOutPopup,
+    OphanTracking,
+    ArticleCountOptOutType,
+} from '../modules/shared/ArticleCountOptOutPopup';
 
 export const replaceArticleCountWithLink = (
     text: string,

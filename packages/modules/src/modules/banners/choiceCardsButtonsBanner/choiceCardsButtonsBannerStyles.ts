@@ -1,8 +1,14 @@
 import { css, SerializedStyles } from '@emotion/react';
-import { body, headline } from '@guardian/src-foundations/typography';
-import { from } from '@guardian/src-foundations/mq';
-import { brand, brandAlt, neutral, space } from '@guardian/src-foundations';
-import { height } from '@guardian/src-foundations/size';
+import {
+    body,
+    headline,
+    from,
+    brand,
+    brandAlt,
+    neutral,
+    space,
+    height,
+} from '@guardian/source-foundations';
 
 export const banner = (backgroundColor: string): SerializedStyles => css`
     html {

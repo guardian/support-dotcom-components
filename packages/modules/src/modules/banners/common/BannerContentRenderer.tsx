@@ -1,6 +1,6 @@
 import React from 'react';
 import { BannerTextContent, BannerRenderedContent } from './types';
-import { Hide } from '@guardian/src-layout';
+import { Hide } from '@guardian/source-react-components';
 import type { ReactComponent } from '../../../types';
 
 type BannerContentForRender = {

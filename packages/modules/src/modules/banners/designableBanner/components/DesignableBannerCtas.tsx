@@ -1,13 +1,12 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space } from '@guardian/src-foundations';
-import { Button, LinkButton } from '@guardian/src-button';
+import { neutral, space, from } from '@guardian/source-foundations';
+import { Button, LinkButton } from '@guardian/source-react-components';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerRenderedContent } from '../../common/types';
 import { PaymentCards } from '../../common/PaymentCards';
 import { buttonStyles } from '../styles/buttonStyles';
 import { CtaSettings } from '../settings';
-import { from } from '@guardian/src-foundations/mq';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 
 interface DesignableBannerCtasProps {

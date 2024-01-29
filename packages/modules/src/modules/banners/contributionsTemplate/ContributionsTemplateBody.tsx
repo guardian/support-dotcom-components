@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { body } from '@guardian/src-foundations/typography';
+import { body } from '@guardian/source-foundations';
 import type { ReactComponent } from '../../../types';
 
 const container = css`

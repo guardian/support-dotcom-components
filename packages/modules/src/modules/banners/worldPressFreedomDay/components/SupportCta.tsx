@@ -1,9 +1,9 @@
 import React from 'react';
 import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
 import { Tracking } from '@sdc/shared/dist/types';
-import { brandAlt, neutral, space } from '@guardian/src-foundations';
+import { brandAlt, neutral, space } from '@guardian/source-foundations';
 import { css, SerializedStyles } from '@emotion/react';
-import { Hide } from '@guardian/src-layout';
+import { Hide } from '@guardian/source-react-components';
 import { Button } from './Button';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
 

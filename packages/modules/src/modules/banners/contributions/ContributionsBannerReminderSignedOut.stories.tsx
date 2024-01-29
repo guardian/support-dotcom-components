@@ -5,7 +5,7 @@ import {
     ContributionsBannerReminderSignedOutProps,
 } from './ContributionsBannerReminderSignedOut';
 import { css } from '@emotion/react';
-import { brandAlt } from '@guardian/src-foundations/palette';
+import { brandAlt } from '@guardian/source-foundations';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { ReminderStatus } from '../../utils/reminders';
 

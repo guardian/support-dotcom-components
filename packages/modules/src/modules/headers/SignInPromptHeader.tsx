@@ -1,10 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider, css } from '@emotion/react';
-import { brandAlt, brandText, space } from '@guardian/src-foundations';
-import { headline, lineHeights, textSans } from '@guardian/src-foundations/typography';
-import { LinkButton, buttonBrand } from '@guardian/src-button';
-import { Hide } from '@guardian/src-layout';
-import { from, until } from '@guardian/src-foundations/mq';
+import {
+    brandAlt,
+    brandText,
+    space,
+    headline,
+    lineHeights,
+    textSans,
+    from,
+    until,
+} from '@guardian/source-foundations';
+import { LinkButton, buttonThemeBrand, Hide } from '@guardian/source-react-components';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
 
@@ -206,7 +212,7 @@ const SignInPromptHeader: ReactComponent<HeaderRenderProps> = (props) => {
             </div>
 
             {primaryCta && (
-                <ThemeProvider theme={buttonBrand}>
+                <ThemeProvider theme={buttonThemeBrand}>
                     <LinkButton
                         priority="primary"
                         href={primaryCta.ctaUrl}
