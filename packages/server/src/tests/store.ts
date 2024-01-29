@@ -53,13 +53,18 @@ export const isNonNullable = <T>(_: T): _ is NonNullable<T> => _ !== undefined &
 
 export const getTests = <T extends { priority: number }>(
     channel: ChannelTypes,
-    schema: ZodSchema<T>,
+    schema?: ZodSchema<T>,
 ): Promise<T[]> =>
     queryChannel(channel, stage)
         .then((tests) =>
             (tests.Items ?? [])
                 .map((test) => {
                     const testWithNullValuesRemoved = removeNullValues(test);
+
+                    if (!schema) {
+                        return testWithNullValuesRemoved as T;
+                    }
+
                     const parseResult = schema.safeParse(testWithNullValuesRemoved);
 
                     if (parseResult.success) {
