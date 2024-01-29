@@ -18,6 +18,7 @@ import {
 
 const testDefault: EpicTest = {
     name: 'example-1',
+    priority: 1,
     status: 'Live',
     locations: [],
     audience: 1,

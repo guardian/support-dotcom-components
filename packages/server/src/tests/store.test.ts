@@ -1,4 +1,4 @@
-import { removeNullValues } from './store';
+import { removeNullValues } from '../utils/removeNullValues';
 const test = {
     channel: 'Banner2',
     name: 'CHANNEL2',
