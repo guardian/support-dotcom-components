@@ -88,6 +88,10 @@ const styles = {
     ctaOverrides: css`
         width: 100%;
         justify-content: center;
+
+        ${from.tablet} {
+            width: auto;
+        }
     `,
 };
 
