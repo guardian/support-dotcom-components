@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
+import { from, space } from '@guardian/source-foundations';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import { ChoiceCardInteractive } from './ChoiceCardInteractive';
 import { ChoiceCardsSupportCta } from './ChoiceCardsSupportCta';
@@ -62,9 +62,36 @@ const styles = {
     ctaAndPaymentCardsContainer: css`
         display: flex;
         align-items: center;
+        flex-direction: column;
+        gap: ${space[4]}px;
+        margin-bottom: ${space[2]}px;
+
+        > span {
+            width: 100%;
+        }
+
+        ${from.tablet} {
+            flex-direction: row;
+            gap: 0;
+            margin-bottom: 0;
+
+            > span {
+                width: auto;
+            }
+        }
     `,
     paymentCardsSvgOverrides: css`
-        margin-top: -10px;
+        ${from.tablet} {
+            margin-top: -10px;
+        }
+    `,
+    ctaOverrides: css`
+        width: 100%;
+        justify-content: center;
+
+        ${from.tablet} {
+            width: auto;
+        }
     `,
 };
 
@@ -132,7 +159,10 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                         numArticles={numArticles ?? 0}
                         selection={selection}
                         getCtaText={getCtaText}
-                        cssOverrides={cssCtaOverides}
+                        cssOverrides={css`
+                            ${cssCtaOverides}
+                            ${styles.ctaOverrides}
+                        `}
                         onCtaClick={onCtaClick}
                     />
                     <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
