@@ -38,7 +38,9 @@ export const getTests = <T extends { priority: number }>(
                     if (parseResult.success) {
                         return parseResult.data;
                     } else {
-                        logError(`Error parsing test from Dynamo: ${parseResult.error.message}`);
+                        logError(
+                            `Error parsing test (${test.name}) from Dynamo: ${parseResult.error.message}`,
+                        );
                         putMetric('channel-tests-error');
                         return null;
                     }
