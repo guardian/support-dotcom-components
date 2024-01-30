@@ -420,11 +420,26 @@ const styles = {
         ${templateSpacing.bannerHeader}
     `,
     contentContainer: css`
-        order: 2;
-        ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 2 / span 2;
-        }
+      order: 2;
+
+      ${from.tablet} {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 2;
+        max-width: 400px;
+      }
+
+      ${from.desktop} {
+        max-width: 460px;
+      }
+
+      ${from.leftCol} {
+        max-width: 620px;
+      }
+
+      ${from.leftCol}{
+        max-width: 700px;
+      }
+    }
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
