@@ -387,9 +387,22 @@ const styles = {
             max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
         }
         ${from.tablet} {
+            max-width: 400px;
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
             background: ${background};
+        }
+
+        ${from.desktop} {
+            max-width: 460px;
+        }
+
+        ${from.leftCol} {
+            max-width: 620px;
+        }
+
+        ${from.wide} {
+            max-width: 700px;
         }
         ${templateSpacing.bannerHeader}
     `,
@@ -417,6 +430,7 @@ const styles = {
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
         background: ${background};
+        //   aspect-ratio: 5/3;
         ${from.mobileMedium} {
             display: block;
         }
@@ -426,6 +440,7 @@ const styles = {
             grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
             align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
             margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
+            // aspect-ratio: 3/10;
         }
     `,
     ctasContainer: css`
