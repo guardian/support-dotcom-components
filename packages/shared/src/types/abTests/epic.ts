@@ -19,7 +19,8 @@ import {
     TickerSettings,
     variantSchema,
 } from '../props';
-import { z, ZodSchema } from 'zod';
+import { ZodSchema } from 'zod';
+import * as z from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
 

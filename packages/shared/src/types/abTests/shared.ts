@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
