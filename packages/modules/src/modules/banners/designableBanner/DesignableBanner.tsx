@@ -300,13 +300,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     )}
                 </div>
                 <div css={styles.guardianLogoContainer}>
-                    <span
-                        css={css`
-                            fill: ${hexColourToString(basic.logo)};
-                        `}
-                    >
-                        <SvgGuardianLogo />
-                    </span>
+                    <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
             </div>
             {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
