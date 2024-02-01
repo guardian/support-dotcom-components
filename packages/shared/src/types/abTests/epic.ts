@@ -1,6 +1,7 @@
 import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
 import {
     ArticlesViewedSettings,
+    articlesViewedSettingsSchema,
     ControlProportionSettings,
     Test,
     TestStatus,
@@ -22,6 +23,12 @@ import {
 import * as z from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
+
+export const maxViewsSchema = z.object({
+    maxViewsCount: z.number(),
+    maxViewsDays: z.number(),
+    minDaysBetweenViews: z.number(),
+});
 
 export interface MaxViews {
     maxViewsCount: number;
@@ -173,6 +180,7 @@ export interface EpicTest extends Test<EpicVariant> {
 
     controlProportionSettings?: ControlProportionSettings;
 
+    // added by the server
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
 }
@@ -189,10 +197,14 @@ export const EpicTestSchema = z.object({
     excludedTagIds: z.array(z.string()),
     excludedSections: z.array(z.string()),
     alwaysAsk: z.boolean(),
+    maxViews: maxViewsSchema.optional(),
     userCohort: userCohortSchema,
     hasCountryName: z.boolean(),
     highPriority: z.boolean(),
     useLocalViewLog: z.boolean(),
+    articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     priority: z.number(),
+    audience: z.number().optional(),
+    audienceOffset: z.number().optional(),
     variants: variantSchema.array(),
 });

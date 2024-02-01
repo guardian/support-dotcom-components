@@ -41,6 +41,13 @@ export const userCohortSchema = z.enum([
 
 export type SignedInStatus = 'SignedIn' | 'SignedOut' | 'All';
 
+export const articlesViewedSettingsSchema = z.object({
+    minViews: z.number(),
+    maxViews: z.number().optional(),
+    periodInWeeks: z.number(),
+    tagId: z.string().optional(),
+});
+
 export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;
