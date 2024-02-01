@@ -19,7 +19,6 @@ import {
     TickerSettings,
     variantSchema,
 } from '../props';
-import { ZodSchema } from 'zod';
 import * as z from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
@@ -181,21 +180,19 @@ export interface EpicTest extends Test<EpicVariant> {
 // The data in Dynamodb does not have the hasArticleCountInCopy, and it gets added to the data by the server. So validation should ignore it
 export type EpicTestWithoutHasArticleCountInCopy = Omit<EpicTest, 'hasArticleCountInCopy'>;
 
-export const EpicTestSchema: ZodSchema = z
-    .object({
-        name: z.string(),
-        status: testStatusSchema,
-        locations: z.array(countryGroupIdSchema),
-        tagIds: z.array(z.string()),
-        sections: z.array(z.string()),
-        excludedTagIds: z.array(z.string()),
-        excludedSections: z.array(z.string()),
-        alwaysAsk: z.boolean(),
-        userCohort: userCohortSchema,
-        hasCountryName: z.boolean(),
-        highPriority: z.boolean(),
-        useLocalViewLog: z.boolean(),
-        priority: z.number(),
-        variants: variantSchema.array(),
-    })
-    .passthrough();
+export const EpicTestSchema = z.object({
+    name: z.string(),
+    status: testStatusSchema,
+    locations: z.array(countryGroupIdSchema),
+    tagIds: z.array(z.string()),
+    sections: z.array(z.string()),
+    excludedTagIds: z.array(z.string()),
+    excludedSections: z.array(z.string()),
+    alwaysAsk: z.boolean(),
+    userCohort: userCohortSchema,
+    hasCountryName: z.boolean(),
+    highPriority: z.boolean(),
+    useLocalViewLog: z.boolean(),
+    priority: z.number(),
+    variants: variantSchema.array(),
+});
