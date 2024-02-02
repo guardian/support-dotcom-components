@@ -345,10 +345,15 @@ const styles = {
         display: flex;
         flex-direction: column;
         position: relative;
+        grid-template-columns: auto 320px;
+        ${from.mobileMedium} {
+            grid-template-columns: auto 375px;
+        }
+
         ${from.tablet} {
             position: static;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: auto 280px;
             grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
             position: relative;
@@ -358,6 +363,10 @@ const styles = {
         }
         ${from.desktop} {
             column-gap: 60px;
+            grid-template-columns: auto 420px;
+            :has(img) {
+                grid-template-columns: auto 460px;
+            }
         }
         ${from.wide} {
             column-gap: 100px;
@@ -445,7 +454,7 @@ const styles = {
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
         background: ${background};
-        ${from.mobileMedium} {
+        ${from.mobile} {
             display: block;
         }
         ${from.tablet} {
