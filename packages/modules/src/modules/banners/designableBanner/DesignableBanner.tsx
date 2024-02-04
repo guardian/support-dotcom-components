@@ -405,9 +405,6 @@ const styles = {
             background: ${background};
         }
 
-        ${from.wide} {
-            width: 700px;
-        }
         ${templateSpacing.bannerHeader}
     `,
     contentContainer: css`
