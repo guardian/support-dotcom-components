@@ -80,6 +80,15 @@ const getStyles = (isHeaderImage = false) => {
                 display: block;
             }
 
+            ${from.wide} {
+                img {
+                    height: 276px;
+                    width: 460px;
+                    object-fit: contain;
+                    display: block;
+                }
+            }
+
             ${from.tablet} {
                 height: 100%;
                 width: 100%;

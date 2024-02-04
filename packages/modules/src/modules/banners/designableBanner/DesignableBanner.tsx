@@ -355,6 +355,7 @@ const styles = {
         }
         ${from.wide} {
             column-gap: 100px;
+            grid-template-columns: auto 460px;
         }
         ${templateSpacing.bannerContainer};
     `,
@@ -385,6 +386,11 @@ const styles = {
             grid-row: 1 / span 1;
             background: ${background};
         }
+
+        ${from.wide} {
+            width: 700px;
+        }
+
         ${templateSpacing.bannerHeader}
     `,
     headerWithImageContainer: (background: string) => css`
@@ -398,6 +404,10 @@ const styles = {
             grid-row: 1 / span 1;
             background: ${background};
         }
+
+        ${from.wide} {
+            width: 700px;
+        }
         ${templateSpacing.bannerHeader}
     `,
     contentContainer: css`
@@ -405,6 +415,10 @@ const styles = {
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 2 / span 2;
+        }
+
+        ${from.wide} {
+            width: 700px;
         }
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
@@ -420,6 +434,7 @@ const styles = {
             grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
             align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
             margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
+            padding-top: ${space[3]}px;
         }
     `,
     ctasContainer: css`
