@@ -93,6 +93,13 @@ const getStyles = (isHeaderImage = false) => {
                 height: 100%;
                 width: 100%;
                 align-items: center;
+
+                img {
+                    height: 280px;
+                    width: 280px;
+                    object-fit: contain;
+                    display: block;
+                }
             }
         `,
     };
