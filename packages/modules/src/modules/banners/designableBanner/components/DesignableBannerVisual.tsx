@@ -80,7 +80,7 @@ const getStyles = (isHeaderImage = false) => {
                 display: block;
             }
 
-            ${from.wide} {
+            ${from.desktop} {
                 img {
                     height: 276px;
                     width: 460px;

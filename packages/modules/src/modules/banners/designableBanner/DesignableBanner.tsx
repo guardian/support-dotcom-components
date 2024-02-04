@@ -351,11 +351,11 @@ const styles = {
             margin: 0 auto;
         }
         ${from.desktop} {
-            column-gap: 60px;
+            column-gap: 20px;
+            grid-template-columns: auto 460px;
         }
         ${from.wide} {
             column-gap: 100px;
-            grid-template-columns: auto 460px;
         }
         ${templateSpacing.bannerContainer};
     `,
@@ -385,10 +385,6 @@ const styles = {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
             background: ${background};
-        }
-
-        ${from.wide} {
-            width: 700px;
         }
 
         ${templateSpacing.bannerHeader}
