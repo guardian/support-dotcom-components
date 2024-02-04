@@ -80,10 +80,26 @@ const getStyles = (isHeaderImage = false) => {
                 display: block;
             }
 
+            ${from.desktop} {
+                img {
+                    height: 276px;
+                    width: 460px;
+                    object-fit: contain;
+                    display: block;
+                }
+            }
+
             ${from.tablet} {
                 height: 100%;
                 width: 100%;
                 align-items: center;
+
+                img {
+                    height: 280px;
+                    width: 280px;
+                    object-fit: contain;
+                    display: block;
+                }
             }
         `,
     };
