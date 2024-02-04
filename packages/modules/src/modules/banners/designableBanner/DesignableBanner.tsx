@@ -418,7 +418,7 @@ const styles = {
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
         background: ${background};
-        ${from.mobileMedium} {
+        ${from.mobile} {
             display: block;
         }
         ${from.tablet} {
