@@ -1,10 +1,13 @@
-import { CountryGroupId, ReminderFields } from '../../lib';
+import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
 import {
     ArticlesViewedSettings,
+    articlesViewedSettingsSchema,
     ControlProportionSettings,
     Test,
     TestStatus,
+    testStatusSchema,
     UserCohort,
+    userCohortSchema,
     Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
@@ -15,9 +18,17 @@ import {
     Image,
     SecondaryCta,
     TickerSettings,
+    variantSchema,
 } from '../props';
+import * as z from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
+
+export const maxViewsSchema = z.object({
+    maxViewsCount: z.number(),
+    maxViewsDays: z.number(),
+    minDaysBetweenViews: z.number(),
+});
 
 export interface MaxViews {
     maxViewsCount: number;
@@ -153,13 +164,12 @@ export interface EpicTest extends Test<EpicVariant> {
     alwaysAsk: boolean;
     maxViews?: MaxViews;
     userCohort: UserCohort;
-    isLiveBlog: boolean;
     hasCountryName: boolean;
     variants: EpicVariant[];
     highPriority: boolean;
     useLocalViewLog: boolean;
     articlesViewedSettings?: ArticlesViewedSettings;
-    hasArticleCountInCopy: boolean;
+    hasArticleCountInCopy: boolean; // added by the server - we do not want to determine this for each client request
 
     audience?: number;
     audienceOffset?: number;
@@ -170,6 +180,31 @@ export interface EpicTest extends Test<EpicVariant> {
 
     controlProportionSettings?: ControlProportionSettings;
 
+    // added by the server
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
 }
+
+// The data in Dynamodb does not have the hasArticleCountInCopy, and it gets added to the data by the server. So validation should ignore it
+export type EpicTestWithoutHasArticleCountInCopy = Omit<EpicTest, 'hasArticleCountInCopy'>;
+
+export const EpicTestSchema = z.object({
+    name: z.string(),
+    status: testStatusSchema,
+    locations: z.array(countryGroupIdSchema),
+    tagIds: z.array(z.string()),
+    sections: z.array(z.string()),
+    excludedTagIds: z.array(z.string()),
+    excludedSections: z.array(z.string()),
+    alwaysAsk: z.boolean(),
+    maxViews: maxViewsSchema.optional(),
+    userCohort: userCohortSchema,
+    hasCountryName: z.boolean(),
+    highPriority: z.boolean(),
+    useLocalViewLog: z.boolean(),
+    articlesViewedSettings: articlesViewedSettingsSchema.optional(),
+    priority: z.number(),
+    audience: z.number().optional(),
+    audienceOffset: z.number().optional(),
+    variants: variantSchema.array(),
+});

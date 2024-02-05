@@ -18,6 +18,7 @@ import {
 
 const testDefault: EpicTest = {
     name: 'example-1',
+    priority: 1,
     status: 'Live',
     locations: [],
     audience: 1,
@@ -32,7 +33,6 @@ const testDefault: EpicTest = {
         minDaysBetweenViews: 0,
     },
     userCohort: 'AllNonSupporters',
-    isLiveBlog: false,
     hasCountryName: false,
     variants: [
         {

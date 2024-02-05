@@ -19,10 +19,7 @@ export enum SecondaryCtaType {
     ContributionsReminder = 'ContributionsReminderSecondaryCta',
 }
 
-export const secondaryCtaTypeSchema = z.enum([
-    'CustomSecondaryCta',
-    'ContributionsReminderSecondaryCta',
-]);
+export const secondaryCtaTypeSchema = z.nativeEnum(SecondaryCtaType);
 
 interface CustomSecondaryCta {
     type: SecondaryCtaType.Custom;
@@ -30,7 +27,7 @@ interface CustomSecondaryCta {
 }
 
 export const customSecondaryCtaSchema = z.object({
-    type: z.literal('CustomSecondaryCta'),
+    type: z.literal(SecondaryCtaType.Custom),
     cta: ctaSchema,
 });
 
@@ -39,12 +36,12 @@ interface ContributionsReminderSecondaryCta {
 }
 
 export const contributionsReminderSecondaryCtaSchema = z.object({
-    type: z.literal('ContributionsReminderSecondaryCta'),
+    type: z.literal(SecondaryCtaType.ContributionsReminder),
 });
 
 export type SecondaryCta = CustomSecondaryCta | ContributionsReminderSecondaryCta;
 
-export const secondaryCtaSchema = z.union([
+export const secondaryCtaSchema = z.discriminatedUnion('type', [
     customSecondaryCtaSchema,
     contributionsReminderSecondaryCtaSchema,
 ]);
@@ -54,13 +51,13 @@ export enum TickerEndType {
     hardstop = 'hardstop', // currently unsupported
 }
 
-export const tickerEndTypeSchema = z.enum(['unlimited', 'hardstop']);
+export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
 
 export enum TickerCountType {
     money = 'money',
 }
 
-export const tickerCountTypeSchema = z.enum(['money']);
+export const tickerCountTypeSchema = z.nativeEnum(TickerCountType);
 
 interface TickerCopy {
     countLabel: string;
@@ -87,6 +84,8 @@ export const tickerDataSchema = z.object({
 // Corresponds to .json file names in S3
 export type TickerName = 'US' | 'AU';
 
+const ticketNameSchema = z.enum(['US', 'AU']);
+
 export interface TickerSettings {
     endType: TickerEndType;
     countType: TickerCountType;
@@ -101,7 +100,8 @@ export const tickerSettingsSchema = z.object({
     countType: tickerCountTypeSchema,
     currencySymbol: z.string(),
     copy: tickerCopySchema,
-    tickerData: tickerDataSchema.nullish(),
+    name: ticketNameSchema,
+    tickerData: tickerDataSchema.optional(),
 });
 
 export const ophanProductSchema = z.enum([
@@ -146,11 +146,11 @@ export interface Image {
 
 export const imageSchema = z.object({
     mainUrl: z.string(),
-    mobileUrl: z.string().nullish(),
-    tabletUrl: z.string().nullish(),
-    desktopUrl: z.string().nullish(),
-    leftColUrl: z.string().nullish(),
-    wideUrl: z.string().nullish(),
+    mobileUrl: z.string().optional(),
+    tabletUrl: z.string().optional(),
+    desktopUrl: z.string().optional(),
+    leftColUrl: z.string().optional(),
+    wideUrl: z.string().optional(),
     altText: z.string(),
 });
 
@@ -162,6 +162,6 @@ export interface BylineWithImage {
 
 export const bylineWithImageSchema = z.object({
     name: z.string(),
-    description: z.string().nullish(),
-    headshot: imageSchema.nullish(),
+    description: z.string().optional(),
+    headshot: imageSchema.optional(),
 });

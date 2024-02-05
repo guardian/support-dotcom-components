@@ -3,6 +3,9 @@ import * as AWS from 'aws-sdk';
 import { isProd } from '../lib/env';
 import { putMetric } from '../utils/cloudwatch';
 import { logError } from '../utils/logging';
+import type { ZodSchema } from 'zod';
+import { isNonNullable } from '@guardian/libs';
+import { removeNullValues } from '../utils/removeNullValues';
 
 const stage = isProd ? 'PROD' : 'CODE';
 
@@ -16,13 +19,39 @@ export type ChannelTypes =
     | 'Banner2'
     | 'Header';
 
-export const getTests = <T>(channel: ChannelTypes): Promise<T[]> =>
+export const getTests = <T extends { priority: number }>(
+    channel: ChannelTypes,
+    schema?: ZodSchema<T>,
+): Promise<T[]> =>
     queryChannel(channel, stage)
-        .then((tests) => (tests.Items ?? []).sort((a, b) => a.priority - b.priority) as T[])
+        .then((tests) =>
+            (tests.Items ?? [])
+                .map((test) => {
+                    const testWithNullValuesRemoved = removeNullValues(test);
+
+                    if (!schema) {
+                        return testWithNullValuesRemoved as T;
+                    }
+
+                    const parseResult = schema.safeParse(testWithNullValuesRemoved);
+
+                    if (parseResult.success) {
+                        return parseResult.data;
+                    } else {
+                        logError(
+                            `Error parsing test (${test.name}) from Dynamo: ${parseResult.error.message}`,
+                        );
+                        putMetric('channel-tests-error');
+                        return null;
+                    }
+                })
+                .filter(isNonNullable)
+                .sort((a, b) => a.priority - b.priority),
+        )
         .catch((error) => {
             logError(`Error reading tests from Dynamo: ${error.message}`);
             putMetric('channel-tests-error');
-            return error;
+            return Promise.reject(error);
         });
 
 function queryChannel(channel: ChannelTypes, stage: string) {
