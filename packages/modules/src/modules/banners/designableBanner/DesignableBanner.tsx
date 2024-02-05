@@ -377,10 +377,8 @@ const styles = {
         ${until.tablet} {
             max-width: calc(100% - 40px - ${space[3]}px);
         }
-        ${between.mobileMedium.and.tablet} {
-            order: ${bannerHasImage ? '2' : '1'};
-            max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
-        }
+        order: ${bannerHasImage ? '2' : '1'};
+        max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;

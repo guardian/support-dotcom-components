@@ -69,14 +69,20 @@ const getStyles = (isHeaderImage = false) => {
     }
     return {
         container: css`
-            height: 140px;
             display: flex;
             justify-content: center;
+            margin: 0px -10px;
+            width: 320px;
+            height: 192px;
+
+            ${from.mobileMedium} {
+                width: 375px;
+                height: 225px;
+            }
 
             img {
                 height: 100%;
                 width: 100%;
-                object-fit: contain;
                 display: block;
             }
 
