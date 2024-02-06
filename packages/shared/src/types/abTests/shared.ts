@@ -2,9 +2,10 @@ import * as z from 'zod';
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
-export type TestStatus = 'Live' | 'Draft' | 'Archived';
+const TestStatus = ['Live', 'Draft', 'Archived'] as const;
+export type TestStatus = (typeof TestStatus)[number];
 
-export const testStatusSchema = z.enum(['Live', 'Draft', 'Archived']);
+export const testStatusSchema = z.enum(TestStatus);
 
 export interface Variant {
     name: string;
