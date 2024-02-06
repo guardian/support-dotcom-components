@@ -30,11 +30,7 @@ export const maxViewsSchema = z.object({
     minDaysBetweenViews: z.number(),
 });
 
-export interface MaxViews {
-    maxViewsCount: number;
-    maxViewsDays: number;
-    minDaysBetweenViews: number;
-}
+export type MaxViews = z.infer<typeof maxViewsSchema>;
 
 export interface SeparateArticleCount {
     type: 'above';
