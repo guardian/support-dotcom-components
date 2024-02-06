@@ -414,6 +414,7 @@ const styles = {
         display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
         background: ${background};
+        padding-top: ${space[3]}px;
         ${from.mobile} {
             display: block;
         }
@@ -423,7 +424,6 @@ const styles = {
             grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
             align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
             margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
-            padding-top: ${space[3]}px;
         }
     `,
     ctasContainer: css`
