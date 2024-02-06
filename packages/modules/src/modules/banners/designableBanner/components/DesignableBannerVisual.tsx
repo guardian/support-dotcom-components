@@ -72,46 +72,16 @@ const getStyles = (isHeaderImage = false) => {
             display: flex;
             justify-content: center;
             margin: 0px -10px;
-            width: 320px;
-            height: 192px;
-
-            ${from.mobileMedium} {
-                width: 375px;
-                height: 225px;
-            }
-
+            width: 100%;
             img {
-                height: 100%;
+                height: auto;
                 width: 100%;
                 display: block;
                 justify-content: center;
             }
 
-            ${from.phablet} {
-                width: 660px;
-                height: 396px;
-            }
-
-            ${from.desktop} {
-                img {
-                    height: 276px;
-                    width: 460px;
-                    object-fit: contain;
-                    display: block;
-                }
-            }
-
             ${from.tablet} {
-                height: 100%;
-                width: 100%;
                 align-items: center;
-
-                img {
-                    height: 280px;
-                    width: 280px;
-                    object-fit: contain;
-                    display: block;
-                }
             }
         `,
     };
