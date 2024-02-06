@@ -4,6 +4,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "composite": true,
+    "strict": true,
     "outDir": "dist",
     "rootDir": "src"
   },

@@ -40,6 +40,7 @@ export interface AmpEpicTestVariant {
 
 export interface AmpEpicTest {
     name: string;
+    priority: number;
     nickname?: string;
     status: TestStatus;
     locations: CountryGroupId[];

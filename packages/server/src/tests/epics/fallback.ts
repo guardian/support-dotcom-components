@@ -3,6 +3,7 @@ import { EpicTest } from '@sdc/shared/types';
 
 export const fallbackEpicTest: EpicTest = {
     name: 'FallbackEpicTest',
+    priority: 99,
     status: 'Live',
     locations: [],
     audience: 1,
@@ -17,7 +18,6 @@ export const fallbackEpicTest: EpicTest = {
         minDaysBetweenViews: 0,
     },
     userCohort: 'AllNonSupporters',
-    isLiveBlog: false,
     hasCountryName: false,
     variants: [
         {

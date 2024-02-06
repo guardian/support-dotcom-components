@@ -3,6 +3,7 @@ import { selectVariant, withinRange, selectWithSeed } from './ab';
 
 const test: EpicTest = {
     name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
+    priority: 1,
     status: 'Live',
     locations: [],
     tagIds: [],
@@ -16,7 +17,6 @@ const test: EpicTest = {
         minDaysBetweenViews: 0,
     },
     userCohort: 'AllNonSupporters',
-    isLiveBlog: false,
     hasCountryName: false,
     variants: [
         {

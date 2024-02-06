@@ -1,7 +1,10 @@
+import * as z from 'zod';
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
 export type TestStatus = 'Live' | 'Draft' | 'Archived';
+
+export const testStatusSchema = z.enum(['Live', 'Draft', 'Archived']);
 
 export interface Variant {
     name: string;
@@ -9,6 +12,7 @@ export interface Variant {
 export interface Test<V extends Variant> {
     name: string;
     status: TestStatus;
+    priority: number;
     variants: V[];
     controlProportionSettings?: ControlProportionSettings;
     audienceOffset?: number;
@@ -28,7 +32,21 @@ export type UserCohort =
     | 'Everyone'
     | 'PostAskPauseSingleContributors';
 
+export const userCohortSchema = z.enum([
+    'AllExistingSupporters',
+    'AllNonSupporters',
+    'Everyone',
+    'PostAskPauseSingleContributors',
+]);
+
 export type SignedInStatus = 'SignedIn' | 'SignedOut' | 'All';
+
+export const articlesViewedSettingsSchema = z.object({
+    minViews: z.number(),
+    maxViews: z.number().optional(),
+    periodInWeeks: z.number(),
+    tagId: z.string().optional(),
+});
 
 export interface ArticlesViewedSettings {
     minViews: number;
