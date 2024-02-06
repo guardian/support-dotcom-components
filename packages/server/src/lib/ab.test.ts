@@ -1,7 +1,7 @@
-import { EpicTest } from '@sdc/shared/types';
+import { EpicTestProcessed } from '@sdc/shared/types';
 import { selectVariant, withinRange, selectWithSeed } from './ab';
 
-const test: EpicTest = {
+const test: EpicTestProcessed = {
     name: 'example-1', // note - changing this name will change the results of the tests, as it's used for the seed
     priority: 1,
     status: 'Live',
