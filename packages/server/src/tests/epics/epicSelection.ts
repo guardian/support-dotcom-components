@@ -1,11 +1,11 @@
 import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '@sdc/shared/lib';
 import {
     EpicTargeting,
-    EpicTest,
     EpicVariant,
     UserCohort,
     EpicViewLog,
     WeeklyArticleHistory,
+    EpicTestProcessed,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
@@ -24,7 +24,7 @@ import {
 
 interface Filter {
     id: string;
-    test: (test: EpicTest, targeting: EpicTargeting) => boolean;
+    test: (test: EpicTestProcessed, targeting: EpicTargeting) => boolean;
 }
 
 export const getUserCohorts = (targeting: EpicTargeting): UserCohort[] => {
@@ -92,7 +92,7 @@ export const canShow = (targeting: EpicTargeting): Filter => ({
 
 export const userInTest = (mvtId: number): Filter => ({
     id: 'userInTest',
-    test: (test: EpicTest): boolean => userIsInTest(test, mvtId),
+    test: (test: EpicTestProcessed): boolean => userIsInTest(test, mvtId),
 });
 
 export const hasCountryCode: Filter = {
@@ -186,14 +186,14 @@ export type Debug = Record<string, FilterResults>;
 
 export interface Result {
     result?: {
-        test: EpicTest;
+        test: EpicTestProcessed;
         variant: EpicVariant;
     };
     debug?: Debug;
 }
 
 export const findTestAndVariant = (
-    tests: EpicTest[],
+    tests: EpicTestProcessed[],
     targeting: EpicTargeting,
     isMobile: boolean,
     superModeArticles: SuperModeArticle[],
@@ -223,7 +223,10 @@ export const findTestAndVariant = (
         ];
     };
 
-    const filterTests = (tests: EpicTest[], filters: Filter[]): EpicTest | undefined => {
+    const filterTests = (
+        tests: EpicTestProcessed[],
+        filters: Filter[],
+    ): EpicTestProcessed | undefined => {
         const test = tests.find((test) =>
             filters.every((filter) => {
                 const got = filter.test(test, targeting);
@@ -245,18 +248,22 @@ export const findTestAndVariant = (
         return test;
     };
 
-    const filterTestsWithSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
+    const filterTestsWithSuperModePass = (
+        tests: EpicTestProcessed[],
+    ): EpicTestProcessed | undefined => {
         return (
             filterTests(tests, getFilters(false)) ??
             superModeify(filterTests(tests, getFilters(true)))
         );
     };
 
-    const filterTestsWithoutSuperModePass = (tests: EpicTest[]): EpicTest | undefined => {
+    const filterTestsWithoutSuperModePass = (
+        tests: EpicTestProcessed[],
+    ): EpicTestProcessed | undefined => {
         return filterTests(tests, getFilters(false));
     };
 
-    const priorityOrdered = ([] as EpicTest[]).concat(
+    const priorityOrdered = ([] as EpicTestProcessed[]).concat(
         tests.filter((test) => test.highPriority),
         tests.filter((test) => !test.highPriority),
     );
@@ -286,7 +293,10 @@ export const findTestAndVariant = (
     return { debug: includeDebug ? debug : undefined };
 };
 
-export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
+export const findForcedTestAndVariant = (
+    tests: EpicTestProcessed[],
+    force: TestVariant,
+): Result => {
     const test = tests.find((test) => test.name === force.testName);
     const variant = test?.variants.find((v) => v.name === force.variantName);
 

@@ -1,5 +1,5 @@
 import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
-import { EpicTargeting, EpicTest } from '@sdc/shared/types';
+import { EpicTargeting, EpicTestProcessed } from '@sdc/shared/types';
 import { SuperModeArticle } from '../../lib/superMode';
 import { withNowAs } from '../../utils/withNowAs';
 import {
@@ -16,7 +16,7 @@ import {
     correctSignedInStatusFilter,
 } from './epicSelection';
 
-const testDefault: EpicTest = {
+const testDefault: EpicTestProcessed = {
     name: 'example-1',
     priority: 1,
     status: 'Live',
@@ -127,7 +127,7 @@ describe('findTestAndVariant', () => {
     });
 
     it('should not return showReminderFields if user is a supporter', () => {
-        const testWithoutArticlesViewedSettings: EpicTest = {
+        const testWithoutArticlesViewedSettings: EpicTestProcessed = {
             ...testDefault,
             articlesViewedSettings: undefined,
             userCohort: 'AllExistingSupporters',
@@ -213,7 +213,7 @@ describe('getUserCohort', () => {
 
 describe('hasCountryCode filter', () => {
     it('should fail when country name is invalid/unknown', () => {
-        const test: EpicTest = { ...testDefault, hasCountryName: true };
+        const test: EpicTestProcessed = { ...testDefault, hasCountryName: true };
         const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: 'UK',
@@ -225,7 +225,7 @@ describe('hasCountryCode filter', () => {
     });
 
     it('should pass when country name is valid', () => {
-        const test: EpicTest = { ...testDefault, hasCountryName: true };
+        const test: EpicTestProcessed = { ...testDefault, hasCountryName: true };
         const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: 'GB',
@@ -237,7 +237,7 @@ describe('hasCountryCode filter', () => {
     });
 
     it('should pass when country name irrelevant if test doesnt need it', () => {
-        const test: EpicTest = { ...testDefault, hasCountryName: false };
+        const test: EpicTestProcessed = { ...testDefault, hasCountryName: false };
         const targeting: EpicTargeting = {
             ...targetingDefault,
             countryCode: undefined,
@@ -270,7 +270,7 @@ describe('userInTest filter', () => {
 
 describe('inCorrectCohort filter', () => {
     it('should pass when overlapping cohorts', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             userCohort: 'AllNonSupporters',
         };
@@ -285,7 +285,7 @@ describe('inCorrectCohort filter', () => {
     });
 
     it('should fail when no overlapping cohorts', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             userCohort: 'AllExistingSupporters',
         };
@@ -297,7 +297,7 @@ describe('inCorrectCohort filter', () => {
     });
 
     it('should fail for super mode when test targets supporters', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             userCohort: 'AllExistingSupporters',
         };
@@ -322,7 +322,7 @@ describe('matchesCountryGroups filter', () => {
     });
 
     it('should fail if location is set but user location unknown', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             locations: ['GBPCountries'],
         };
@@ -337,7 +337,7 @@ describe('matchesCountryGroups filter', () => {
     });
 
     it('should pass if user in country group', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             locations: ['EURCountries'],
         };
@@ -352,7 +352,7 @@ describe('matchesCountryGroups filter', () => {
     });
 
     it('should fail if user not in country group', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             locations: ['EURCountries'],
         };
@@ -397,7 +397,7 @@ describe('withinArticleViewedSettings filter', () => {
     });
 
     it('should pass when below (or at) max articles viewed', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             articlesViewedSettings: {
                 minViews: 5,
@@ -418,7 +418,7 @@ describe('withinArticleViewedSettings filter', () => {
     });
 
     it('should fail when above max articles viewed', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             articlesViewedSettings: {
                 minViews: 5,
@@ -439,7 +439,7 @@ describe('withinArticleViewedSettings filter', () => {
     });
 
     it('should pass when no article viewed settings', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             articlesViewedSettings: undefined,
         };
@@ -651,7 +651,7 @@ describe('deviceTypeMatchesFilter', () => {
     });
 
     it('should return true if test.deviceType == All', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             deviceType: 'All',
         };
@@ -660,7 +660,7 @@ describe('deviceTypeMatchesFilter', () => {
     });
 
     it('should return true if test.deviceType == Desktop and not mobile', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             deviceType: 'Desktop',
         };
@@ -669,7 +669,7 @@ describe('deviceTypeMatchesFilter', () => {
     });
 
     it('should return true if test.deviceType == Mobile and is mobile', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             deviceType: 'Mobile',
         };
@@ -678,7 +678,7 @@ describe('deviceTypeMatchesFilter', () => {
     });
 
     it('should return false if test.deviceType == Mobile and is not mobile', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             deviceType: 'Mobile',
         };
@@ -689,7 +689,7 @@ describe('deviceTypeMatchesFilter', () => {
 
 describe('correctSignedInStatusFilter filter', () => {
     it('should pass if the test is requiring a user to be signed in and they are signed in', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'SignedIn',
         };
@@ -701,7 +701,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should fail if the test is requiring a user to be signed in and they are signed out', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'SignedIn',
         };
@@ -713,7 +713,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should pass if the test is requiring a user to be signed out and they are signed out', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'SignedOut',
         };
@@ -725,7 +725,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should fail if the test is requiring a user to be signed out and they are signed in', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'SignedOut',
         };
@@ -737,7 +737,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should pass if the test is requiring a user to be either signed in or signed out and they are signed in', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'All',
         };
@@ -749,7 +749,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should pass if the test is requiring a user to be either signed in or signed out and they are signed out', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'All',
         };
@@ -761,7 +761,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should fail if the test is requiring a user to be signed in and isSignedIn returns undefined', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'SignedIn',
         };
@@ -773,7 +773,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should pass if the test is requiring a user to be signed out and isSignedIn returns undefined', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'SignedOut',
         };
@@ -785,7 +785,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 
     it('should pass if the test is requiring a user to be either signed in or signed out and isSignedIn returns undefined', () => {
-        const test: EpicTest = {
+        const test: EpicTestProcessed = {
             ...testDefault,
             signedInStatus: 'All',
         };

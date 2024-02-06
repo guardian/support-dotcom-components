@@ -1,12 +1,8 @@
 import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
 import {
-    ArticlesViewedSettings,
     articlesViewedSettingsSchema,
-    ControlProportionSettings,
     Test,
-    TestStatus,
     testStatusSchema,
-    UserCohort,
     userCohortSchema,
     Variant,
 } from './shared';
@@ -149,40 +145,20 @@ export interface AmountsTest {
 
 export type AmountsTests = AmountsTest[];
 
-export interface EpicTest extends Test<EpicVariant> {
-    name: string;
-    status: TestStatus;
-    locations: CountryGroupId[];
-    tagIds: string[];
-    sections: string[]; // section IDs
-    excludedTagIds: string[];
-    excludedSections: string[];
-    alwaysAsk: boolean;
-    maxViews?: MaxViews;
-    userCohort: UserCohort;
-    hasCountryName: boolean;
-    variants: EpicVariant[];
-    highPriority: boolean;
-    useLocalViewLog: boolean;
-    articlesViewedSettings?: ArticlesViewedSettings;
-    hasArticleCountInCopy: boolean; // added by the server - we do not want to determine this for each client request
+// for validation from DynamoDB
+export type EpicTest = z.infer<typeof EpicTestSchema>;
 
-    audience?: number;
-    audienceOffset?: number;
-
-    // These are specific to hardcoded tests
-    expiry?: string;
-    campaignId?: string;
-
-    controlProportionSettings?: ControlProportionSettings;
-
-    // added by the server
+// with additional properties determined by the server
+export interface EpicTestProcessed extends EpicTest, Test<EpicVariant> {
+    hasArticleCountInCopy: boolean;
     isSuperMode?: boolean;
+    variants: EpicVariant[];
     canShow?: (targeting: EpicTargeting) => boolean;
-}
 
-// The data in Dynamodb does not have the hasArticleCountInCopy, and it gets added to the data by the server. So validation should ignore it
-export type EpicTestWithoutHasArticleCountInCopy = Omit<EpicTest, 'hasArticleCountInCopy'>;
+    // specific to hardcoded tests
+    campaignId?: string;
+    expiry?: string;
+}
 
 export const EpicTestSchema = z.object({
     name: z.string(),

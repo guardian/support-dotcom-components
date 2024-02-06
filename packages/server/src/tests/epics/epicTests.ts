@@ -1,10 +1,5 @@
 import { containsArticleCountPlaceholder } from '@sdc/shared/lib';
-import {
-    EpicTest,
-    EpicTestSchema,
-    EpicVariant,
-    EpicTestWithoutHasArticleCountInCopy,
-} from '@sdc/shared/types';
+import { EpicTest, EpicTestProcessed, EpicTestSchema, EpicVariant } from '@sdc/shared/types';
 import { ChannelTypes, getTests } from '../store';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
@@ -17,9 +12,9 @@ export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {
     );
 };
 
-const fetchConfiguredEpicTests = (channel: ChannelTypes) => (): Promise<EpicTest[]> => {
-    return getTests<EpicTestWithoutHasArticleCountInCopy>(channel, EpicTestSchema).then((tests) => {
-        return tests.map((test: EpicTestWithoutHasArticleCountInCopy) => {
+const fetchConfiguredEpicTests = (channel: ChannelTypes) => (): Promise<EpicTestProcessed[]> => {
+    return getTests<EpicTest>(channel, EpicTestSchema).then((tests) => {
+        return tests.map((test: EpicTest) => {
             const hasArticleCountInCopy = test.variants.some(variantHasArticleCountCopy);
 
             return {
@@ -30,8 +25,8 @@ const fetchConfiguredEpicTests = (channel: ChannelTypes) => (): Promise<EpicTest
     });
 };
 
-export const buildEpicTestsReloader = (): Promise<ValueReloader<EpicTest[]>> =>
+export const buildEpicTestsReloader = (): Promise<ValueReloader<EpicTestProcessed[]>> =>
     buildReloader(fetchConfiguredEpicTests('Epic'), 60);
 
-export const buildEpicLiveblogTestsReloader = (): Promise<ValueReloader<EpicTest[]>> =>
+export const buildEpicLiveblogTestsReloader = (): Promise<ValueReloader<EpicTestProcessed[]>> =>
     buildReloader(fetchConfiguredEpicTests('EpicLiveblog'), 60);

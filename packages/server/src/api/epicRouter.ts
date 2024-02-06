@@ -3,7 +3,7 @@ import {
     AmountsTests,
     EpicProps,
     EpicTargeting,
-    EpicTest,
+    EpicTestProcessed,
     EpicType,
     EpicVariant,
     PageTracking,
@@ -41,13 +41,13 @@ interface EpicDataResponse {
 }
 
 // Any hardcoded epic tests should go here. They will take priority over any tests from the epic tool.
-const hardcodedEpicTests: EpicTest[] = [];
+const hardcodedEpicTests: EpicTestProcessed[] = [];
 
 export const buildEpicRouter = (
     channelSwitches: ValueProvider<ChannelSwitches>,
     superModeArticles: ValueProvider<SuperModeArticle[]>,
-    articleEpicTests: ValueProvider<EpicTest[]>,
-    liveblogEpicTests: ValueProvider<EpicTest[]>,
+    articleEpicTests: ValueProvider<EpicTestProcessed[]>,
+    liveblogEpicTests: ValueProvider<EpicTestProcessed[]>,
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
 ): Router => {
@@ -57,7 +57,7 @@ export const buildEpicRouter = (
         mvtId: number,
         isForcingTest: boolean,
         enableHardcodedEpicTests: boolean,
-    ): EpicTest[] => {
+    ): EpicTestProcessed[] => {
         try {
             const hardcodedTests = enableHardcodedEpicTests ? hardcodedEpicTests : [];
 
