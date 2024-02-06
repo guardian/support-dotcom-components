@@ -84,6 +84,12 @@ const getStyles = (isHeaderImage = false) => {
                 height: 100%;
                 width: 100%;
                 display: block;
+                justify-content: center;
+            }
+
+            ${from.phablet} {
+                width: 660px;
+                height: 396px;
             }
 
             ${from.desktop} {
