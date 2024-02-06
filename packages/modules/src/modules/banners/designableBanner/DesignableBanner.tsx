@@ -384,7 +384,6 @@ const styles = {
             grid-row: 1 / span 1;
             background: ${background};
         }
-
         ${templateSpacing.bannerHeader}
     `,
     headerWithImageContainer: (background: string) => css`
@@ -398,7 +397,6 @@ const styles = {
             grid-row: 1 / span 1;
             background: ${background};
         }
-
         ${templateSpacing.bannerHeader}
     `,
     contentContainer: css`
