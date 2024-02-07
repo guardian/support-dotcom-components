@@ -152,7 +152,6 @@ export type EpicTestDB = z.infer<typeof epicTestDBSchema>;
 export interface EpicTest extends EpicTestDB {
     hasArticleCountInCopy: boolean;
     isSuperMode?: boolean;
-    variants: EpicVariant[];
     canShow?: (targeting: EpicTargeting) => boolean;
 
     // specific to hardcoded tests
