@@ -5,7 +5,6 @@ export const fallbackEpicTest: EpicTest = {
     priority: 99,
     status: 'Live',
     locations: [],
-    audience: 1,
     tagIds: [],
     sections: [],
     excludedTagIds: [],
