@@ -16,7 +16,6 @@ import {
     correctSignedInStatus,
     deviceTypeMatches,
     pageContextMatches,
-    userIsInTest,
 } from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
@@ -187,7 +186,6 @@ export const selectBannerTest = (
                 targeting.weeklyArticleHistory,
                 now,
             ) &&
-            userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
             canShowBannerAgain(

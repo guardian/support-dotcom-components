@@ -176,7 +176,5 @@ export const epicTestDBSchema = testSchema.extend({
     useLocalViewLog: z.boolean(),
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     priority: z.number(),
-    audience: z.number().optional(),
-    audienceOffset: z.number().optional(),
     variants: variantSchema.array(),
 });

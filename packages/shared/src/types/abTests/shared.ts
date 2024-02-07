@@ -26,8 +26,6 @@ export interface Test<V extends Variant> {
     priority: number;
     variants: V[];
     controlProportionSettings?: ControlProportionSettings;
-    audienceOffset?: number;
-    audience?: number;
     deviceType?: DeviceType;
     signedInStatus?: SignedInStatus;
 }
@@ -42,8 +40,6 @@ export const testSchema = z.object({
             offset: z.number(),
         })
         .optional(),
-    audienceOffset: z.number().optional(),
-    audience: z.number().optional(),
     deviceType: deviceTypeSchema.optional(),
     signedInStatus: signedInStatusSchema.optional(),
 });
