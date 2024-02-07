@@ -71,17 +71,46 @@ const getStyles = (isHeaderImage = false) => {
         container: css`
             display: flex;
             justify-content: center;
-            margin: 0px -10px;
             width: 100%;
-            img {
-                height: auto;
-                width: 100%;
-                display: block;
-                justify-content: center;
+            height: auto;
+
+            ${from.mobile} {
+                img {
+                    height: 100%;
+                    width: 320px;
+                    display: block;
+                    object-fit: contain;
+                }
+            }
+
+            ${from.mobileMedium} {
+                img {
+                    height: 100%;
+                    width: 375px;
+                }
+            }
+
+            ${from.phablet} {
+                img {
+                    height: 100%;
+                    width: 660px;
+                }
             }
 
             ${from.tablet} {
                 align-items: center;
+                img {
+                    height: 100%;
+                    width: 280px;
+                }
+            }
+
+            ${from.desktop} {
+                margin: 0px -10px;
+                img {
+                    height: 100%;
+                    width: 460px;
+                }
             }
         `,
     };
