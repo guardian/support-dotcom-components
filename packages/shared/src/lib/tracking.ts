@@ -6,7 +6,7 @@ import {
     BannerTest,
     BannerVariant,
     TargetingAbTest,
-    EpicTestProcessed,
+    EpicTest,
 } from '../types';
 
 // TRACKING VIA support.theguardian.com
@@ -201,7 +201,7 @@ export const addTrackingParamsToProfileUrl = (baseUrl: string, tracking: Trackin
 // SHARED TRACKING
 const campaignPrefix = 'gdnwb_copts_memco';
 
-export const buildCampaignCode = (test: EpicTestProcessed, variant: EpicVariant): string =>
+export const buildCampaignCode = (test: EpicTest, variant: EpicVariant): string =>
     `${campaignPrefix}_${test.campaignId || test.name}_${variant.name}`;
 
 export const buildBannerCampaignCode = (test: BannerTest, variant: BannerVariant): string =>

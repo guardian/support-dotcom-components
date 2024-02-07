@@ -1,7 +1,7 @@
-import { EpicTestProcessed } from '@sdc/shared/types';
+import { EpicTest } from '@sdc/shared/types';
 import { Factory } from 'fishery';
 
-export default Factory.define<EpicTestProcessed>(({ factories }) => ({
+export default Factory.define<EpicTest>(({ factories }) => ({
     name: '2020-02-11_enviro_fossil_fuel_r2_Epic__no_article_count',
     priority: 1,
     status: 'Live',

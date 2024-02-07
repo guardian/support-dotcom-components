@@ -1,7 +1,7 @@
 import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
 import {
     articlesViewedSettingsSchema,
-    Test,
+    testSchema,
     testStatusSchema,
     userCohortSchema,
     Variant,
@@ -146,10 +146,10 @@ export interface AmountsTest {
 export type AmountsTests = AmountsTest[];
 
 // for validation from DynamoDB
-export type EpicTest = z.infer<typeof EpicTestSchema>;
+export type EpicTestDB = z.infer<typeof epicTestDBSchema>;
 
 // with additional properties determined by the server
-export interface EpicTestProcessed extends EpicTest, Test<EpicVariant> {
+export interface EpicTest extends EpicTestDB {
     hasArticleCountInCopy: boolean;
     isSuperMode?: boolean;
     variants: EpicVariant[];
@@ -160,7 +160,7 @@ export interface EpicTestProcessed extends EpicTest, Test<EpicVariant> {
     expiry?: string;
 }
 
-export const EpicTestSchema = z.object({
+export const epicTestDBSchema = testSchema.extend({
     name: z.string(),
     status: testStatusSchema,
     locations: z.array(countryGroupIdSchema),

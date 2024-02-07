@@ -1,7 +1,7 @@
 import * as AWS from 'aws-sdk';
 import { isProd } from './env';
 import { addDays, format } from 'date-fns';
-import { EpicTestProcessed } from '@sdc/shared/types';
+import { EpicTest } from '@sdc/shared/types';
 import { CountryGroupId } from '@sdc/shared/lib';
 import { logError, logInfo } from '../utils/logging';
 import { putMetric } from '../utils/cloudwatch';
@@ -41,7 +41,7 @@ export const isInSuperMode = (
     return superModeArticles.some((a) => a.url === url && a.countryGroupId === countryGroupId);
 };
 
-export const superModeify = (test?: EpicTestProcessed): EpicTestProcessed | undefined => {
+export const superModeify = (test?: EpicTest): EpicTest | undefined => {
     return test && { ...test, isSuperMode: true };
 };
 

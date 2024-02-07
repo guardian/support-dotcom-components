@@ -1,6 +1,6 @@
-import { EpicTestProcessed, SecondaryCtaType } from '@sdc/shared/types';
+import { EpicTest, SecondaryCtaType } from '@sdc/shared/types';
 
-export const fallbackEpicTest: EpicTestProcessed = {
+export const fallbackEpicTest: EpicTest = {
     name: 'FallbackEpicTest',
     priority: 99,
     status: 'Live',
