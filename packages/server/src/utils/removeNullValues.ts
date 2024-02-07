@@ -4,7 +4,7 @@
  */
 export function removeNullValues(obj: object): object {
     return Object.entries(obj)
-        .filter(([, v]) => v != null)
+        .filter(([, v]) => v !== null)
         .reduce((acc, [k, v]) => {
             if (Array.isArray(v)) {
                 return {
