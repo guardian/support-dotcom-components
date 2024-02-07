@@ -106,7 +106,6 @@ const getStyles = (isHeaderImage = false) => {
             }
 
             ${from.desktop} {
-                margin: 0px -10px;
                 img {
                     height: 100%;
                     width: 460px;
