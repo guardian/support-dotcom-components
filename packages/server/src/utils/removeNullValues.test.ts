@@ -1,5 +1,13 @@
 import { removeNullValues } from './removeNullValues';
 const test = {
+    falsyObjects: {
+        undefinedField: undefined,
+        falseField: false,
+        nanField: NaN,
+        zeroField: 0,
+        negativeZeroField: -0,
+        emptyStringField: '',
+    },
     channel: 'Banner2',
     name: 'CHANNEL2',
     articlesViewedSettings: null,
@@ -45,6 +53,14 @@ const test = {
 };
 
 const testWithNoNulls = {
+    falsyObjects: {
+        undefinedField: undefined,
+        falseField: false,
+        nanField: NaN,
+        zeroField: 0,
+        negativeZeroField: -0,
+        emptyStringField: '',
+    },
     channel: 'Banner2',
     name: 'CHANNEL2',
     campaignName: 'NOT_IN_CAMPAIGN',
@@ -84,6 +100,6 @@ const testWithNoNulls = {
 describe('removeNullValues', () => {
     it('should remove all nulls from data', () => {
         const result = removeNullValues(test);
-        expect(result).toEqual(testWithNoNulls);
+        expect(result).toStrictEqual(testWithNoNulls);
     });
 });
