@@ -1,21 +1,12 @@
-import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
+import { CountryGroupId, countryGroupIdSchema } from '../../lib';
 import {
     articlesViewedSettingsSchema,
     testSchema,
     testStatusSchema,
     userCohortSchema,
-    Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
-import {
-    ArticleCountType,
-    BylineWithImage,
-    Cta,
-    Image,
-    SecondaryCta,
-    TickerSettings,
-    variantSchema,
-} from '../props';
+import { variantSchema } from '../props';
 import * as z from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
@@ -27,47 +18,6 @@ export const maxViewsSchema = z.object({
 });
 
 export type MaxViews = z.infer<typeof maxViewsSchema>;
-
-export interface SeparateArticleCount {
-    type: 'above';
-    copy?: string;
-    countType?: ArticleCountType; // defaults to `for52Weeks`
-}
-
-export interface NewsletterSignup {
-    url: string;
-}
-
-export interface EpicVariant extends Variant {
-    name: string;
-    heading?: string;
-    paragraphs: string[];
-    highlightedText?: string;
-    tickerSettings?: TickerSettings;
-    cta?: Cta;
-    secondaryCta?: SecondaryCta;
-    newsletterSignup?: NewsletterSignup;
-    footer?: string;
-    image?: Image;
-    showReminderFields?: ReminderFields;
-    modulePathBuilder?: (version?: string) => string;
-    separateArticleCount?: SeparateArticleCount;
-    showChoiceCards?: boolean;
-    choiceCardAmounts?: SelectedAmountsVariant;
-    defaultChoiceCardFrequency?: ContributionFrequency;
-    bylineWithImage?: BylineWithImage;
-
-    // Variant level maxViews are for special targeting tests. These
-    // are handled differently to our usual copy/design tests. To
-    // set up a targeting test, the test should be set to alwaysAsk
-    // and each variant should have a maxViews set. We then check if a
-    // a user should actually see an epic after they have been assigned to
-    // the test + variant. This means users **wont** fall through to a test
-    // with lower priority.
-    maxViews?: MaxViews;
-    showSignInLink?: boolean;
-    forceApplePay?: boolean;
-}
 
 export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
 
@@ -177,3 +127,5 @@ export const epicTestDBSchema = testSchema.extend({
     priority: z.number(),
     variants: variantSchema.array(),
 });
+
+export type EpicVariant = z.infer<typeof variantSchema>;
