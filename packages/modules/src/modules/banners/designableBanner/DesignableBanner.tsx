@@ -384,6 +384,19 @@ const styles = {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
             background: ${background};
+            width: 400px;
+        }
+
+        ${from.desktop} {
+            width:460px
+        }
+
+        ${from.leftCol} {
+            width: 620px;
+        }
+
+        ${from.wide} {
+            width: 700px;
         }
         ${templateSpacing.bannerHeader}
     `,
@@ -420,6 +433,18 @@ const styles = {
             grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
             align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
             margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
+            width: 400px;
+        }
+        ${from.desktop} {
+            width: 460px;
+        }
+
+        ${from.leftCol} {
+            width: 620px;
+        }
+
+        ${from.wide} {
+            width: 700px;
         }
     `,
     ctasContainer: css`
