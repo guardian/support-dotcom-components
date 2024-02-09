@@ -6,17 +6,20 @@ const paymentMethods = css`
     display: flex;
     margin-left: ${space[1]}px;
     gap: ${space[1]}px;
-    height: 1.1rem;
     align-self: center;
 
     > svg {
-        min-height: 1.1rem;
-        width: auto;
+        height: 1.25rem;
     }
 
     ${from.tablet} {
         margin-left: ${space[2]}px;
-        height: 1.25rem;
+    }
+`;
+
+const mobilePaymentMethod = css`
+    ${from.desktop} {
+        display: none;
     }
 `;
 
@@ -28,7 +31,12 @@ export const PaymentCards = ({ cssOverrides }: PaymentCardProps): JSX.Element =>
     return (
         <div css={[paymentMethods, cssOverrides]}>
             {/* ApplePay */}
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" fill="none">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 30 20"
+                fill="none"
+                css={mobilePaymentMethod}
+            >
                 <rect
                     width="29.5"
                     height="19.5"
@@ -45,7 +53,12 @@ export const PaymentCards = ({ cssOverrides }: PaymentCardProps): JSX.Element =>
                 />
             </svg>
             {/* GooglePay */}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 38 20">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 38 20"
+                css={mobilePaymentMethod}
+            >
                 <path
                     fill="#fff"
                     d="M27.8 0H10.2C4.7 0 .2 4.5.2 10s4.5 10 10 10h17.6c5.5 0 10-4.5 10-10s-4.5-10-10-10"
