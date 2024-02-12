@@ -387,6 +387,6 @@ WithMobileIcons.args = {
     tracking: {
         ...props.tracking,
         abTestName: 'MOBILE_PAYMENT_ICONS',
-        abTestVariant: 'SHOW-MOBILE-PAYMENT-ICONS',
+        abTestVariant: 'V1_SHOW_MOBILE_PAYMENT_ICONS',
     },
 };
