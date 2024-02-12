@@ -110,7 +110,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const { abTestName, abTestVariant } = tracking;
 
     const showMobilePaymentIcons =
-        abTestName === 'MOBILE_PAYMENT_ICONS' && abTestVariant === 'SHOW_MOBILE_PAYMENT_ICONS';
+        abTestName === 'MOBILE_PAYMENT_ICONS' && abTestVariant === 'SHOW-MOBILE-PAYMENT-ICONS';
 
     const imageSettings = buildMainImageSettings(design);
     const choiceCardSettings = buildChoiceCardSettings(design);
