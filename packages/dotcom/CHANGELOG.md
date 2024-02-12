@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 1.1.2
+
+### Patch Changes
+
+-   Infer epic types from zod schemas
+
 ## 1.1.1
 
 ### Patch Changes
