@@ -34,6 +34,7 @@ interface ChoiceCardProps {
     content?: BannerTextContent;
     cssCtaOverides?: SerializedStyles;
     onCtaClick: () => void;
+    showMobilePaymentIcons?: boolean;
 }
 
 const styles = {
@@ -109,6 +110,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     getCtaText,
     cssCtaOverides,
     onCtaClick,
+    showMobilePaymentIcons = false,
 }: ChoiceCardProps) => {
     if (!selection || !amountsTest) {
         return <></>;
@@ -165,7 +167,10 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                         `}
                         onCtaClick={onCtaClick}
                     />
-                    <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
+                    <PaymentCards
+                        cssOverrides={styles.paymentCardsSvgOverrides}
+                        showMobileIcons={showMobilePaymentIcons}
+                    />
                 </div>
             )}
         </div>
