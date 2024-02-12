@@ -384,6 +384,19 @@ const styles = {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
             background: ${background};
+            width: 400px;
+        }
+
+        ${from.desktop} {
+            width: 460px;
+        }
+
+        ${from.leftCol} {
+            width: 620px;
+        }
+
+        ${from.wide} {
+            width: 700px;
         }
         ${templateSpacing.bannerHeader}
     `,
@@ -405,6 +418,18 @@ const styles = {
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 2 / span 2;
+            width: 400px;
+        }
+        ${from.desktop} {
+            width: 460px;
+        }
+
+        ${from.leftCol} {
+            width: 620px;
+        }
+
+        ${from.wide} {
+            width: 700px;
         }
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
