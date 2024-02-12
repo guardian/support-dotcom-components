@@ -1,10 +1,5 @@
 import { containsArticleCountPlaceholder } from '@sdc/shared/lib';
-import {
-    EpicTest,
-    EpicTestSchema,
-    EpicVariant,
-    EpicTestWithoutHasArticleCountInCopy,
-} from '@sdc/shared/types';
+import { EpicTestDB, EpicTest, epicTestDBSchema, EpicVariant } from '@sdc/shared/types';
 import { ChannelTypes, getTests } from '../store';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
@@ -18,8 +13,8 @@ export const variantHasArticleCountCopy = (variant: EpicVariant): boolean => {
 };
 
 const fetchConfiguredEpicTests = (channel: ChannelTypes) => (): Promise<EpicTest[]> => {
-    return getTests<EpicTestWithoutHasArticleCountInCopy>(channel, EpicTestSchema).then((tests) => {
-        return tests.map((test: EpicTestWithoutHasArticleCountInCopy) => {
+    return getTests<EpicTestDB>(channel, epicTestDBSchema).then((tests) => {
+        return tests.map((test: EpicTestDB) => {
             const hasArticleCountInCopy = test.variants.some(variantHasArticleCountCopy);
 
             return {

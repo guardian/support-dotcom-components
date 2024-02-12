@@ -59,15 +59,6 @@ export const shouldNotRenderEpic = (meta: EpicTargeting): boolean => {
     return meta.shouldHideReaderRevenue || isLowValueSection || isLowValueTag || meta.isPaidContent;
 };
 
-// https://github.com/guardian/ab-testing/blob/main/packages/ab-core/src/core.ts#L56
-export const userIsInTest = <V extends Variant>(test: Test<V>, mvtId: number): boolean => {
-    const maxMVTId = 1000000;
-    const lowest = maxMVTId * (test.audienceOffset || 0);
-    const highest = lowest + maxMVTId * (test.audience || 1);
-
-    return mvtId >= lowest && mvtId <= highest;
-};
-
 export const audienceMatches = (
     showSupportMessaging: boolean,
     testAudience: UserCohort,

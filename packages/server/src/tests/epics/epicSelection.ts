@@ -1,11 +1,11 @@
 import { countryCodeToCountryGroupId, getCountryName, inCountryGroups } from '@sdc/shared/lib';
 import {
     EpicTargeting,
-    EpicTest,
     EpicVariant,
     UserCohort,
     EpicViewLog,
     WeeklyArticleHistory,
+    EpicTest,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
@@ -19,7 +19,6 @@ import {
     pageContextMatches,
     shouldNotRenderEpic,
     shouldThrottle,
-    userIsInTest,
 } from '../../lib/targeting';
 
 interface Filter {
@@ -88,11 +87,6 @@ export const isLive: Filter = {
 export const canShow = (targeting: EpicTargeting): Filter => ({
     id: 'canShow',
     test: (test): boolean => (test.canShow ? test.canShow(targeting) : true),
-});
-
-export const userInTest = (mvtId: number): Filter => ({
-    id: 'userInTest',
-    test: (test: EpicTest): boolean => userIsInTest(test, mvtId),
 });
 
 export const hasCountryCode: Filter = {
@@ -210,7 +204,6 @@ export const findTestAndVariant = (
             canShow(targeting),
             isNotExpired(),
             pageContextFilter,
-            userInTest(targeting.mvtId || 1),
             inCorrectCohort(userCohorts, isSuperModePass),
             hasCountryCode,
             matchesCountryGroups,

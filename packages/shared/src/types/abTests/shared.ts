@@ -2,9 +2,20 @@ import * as z from 'zod';
 import { OphanComponentType, OphanProduct } from '../ophan';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
-export type TestStatus = 'Live' | 'Draft' | 'Archived';
+const TestStatus = ['Live', 'Draft', 'Archived'] as const;
+export type TestStatus = (typeof TestStatus)[number];
 
-export const testStatusSchema = z.enum(['Live', 'Draft', 'Archived']);
+export const testStatusSchema = z.enum(TestStatus);
+
+const DeviceType = ['Mobile', 'Desktop', 'All'] as const;
+export type DeviceType = (typeof DeviceType)[number];
+
+export const deviceTypeSchema = z.enum(DeviceType);
+
+const SignedInStatus = ['SignedIn', 'SignedOut', 'All'] as const;
+export type SignedInStatus = (typeof SignedInStatus)[number];
+
+export const signedInStatusSchema = z.enum(SignedInStatus);
 
 export interface Variant {
     name: string;
@@ -15,11 +26,23 @@ export interface Test<V extends Variant> {
     priority: number;
     variants: V[];
     controlProportionSettings?: ControlProportionSettings;
-    audienceOffset?: number;
-    audience?: number;
     deviceType?: DeviceType;
     signedInStatus?: SignedInStatus;
 }
+
+export const testSchema = z.object({
+    name: z.string(),
+    status: testStatusSchema,
+    priority: z.number(),
+    controlProportionSettings: z
+        .object({
+            proportion: z.number(),
+            offset: z.number(),
+        })
+        .optional(),
+    deviceType: deviceTypeSchema.optional(),
+    signedInStatus: signedInStatusSchema.optional(),
+});
 
 export interface ControlProportionSettings {
     proportion: number;
@@ -38,8 +61,6 @@ export const userCohortSchema = z.enum([
     'Everyone',
     'PostAskPauseSingleContributors',
 ]);
-
-export type SignedInStatus = 'SignedIn' | 'SignedOut' | 'All';
 
 export const articlesViewedSettingsSchema = z.object({
     minViews: z.number(),
@@ -75,8 +96,6 @@ export type TestTracking = {
     labels?: string[];
     targetingAbTest?: TargetingAbTest;
 };
-
-export type DeviceType = 'Mobile' | 'Desktop' | 'All';
 
 export interface PurchaseInfoTest {
     userType: purchaseInfoUser[];
