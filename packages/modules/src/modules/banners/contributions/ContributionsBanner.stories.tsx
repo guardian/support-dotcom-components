@@ -7,11 +7,6 @@ import { BannerProps, SecondaryCtaType } from '@sdc/shared/types';
 export default {
     component: ContributionsBanner,
     title: 'Banners/Custom/Contributions',
-    parameters: {
-        chromatic: {
-            delay: 300,
-        },
-    },
     args: props,
 } as Meta;
 

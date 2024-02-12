@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { FocusStyleManager } from '@guardian/source-foundations';
 import { breakpoints } from '@guardian/source-foundations';
 import { StylesDecorator } from './StylesDecorator';
+import { Preview } from '@storybook/react';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -72,3 +73,24 @@ const FocusManagerDecorator = (storyFn) => {
 };
 
 export const decorators = [FocusManagerDecorator, StylesDecorator];
+
+const preview: Preview = {
+    parameters: {
+        chromatic: {
+            delay: 300,
+            modes: {
+                mobile: {
+                    viewport: 'mobile',
+                },
+                tablet: {
+                    viewport: 'tablet',
+                },
+                desktop: {
+                    viewport: 'desktop',
+                },
+            },
+        },
+    },
+};
+
+export default preview;

@@ -11,11 +11,6 @@ import { WithBackDropTemplate } from './WithBackDrop';
 
 export default {
     title: 'Banners/MomentTemplate',
-    parameters: {
-        chromatic: {
-            delay: 300,
-        },
-    },
     args: props,
 } as Meta;
 
