@@ -3,12 +3,7 @@ import { inCountryGroups } from '@sdc/shared/lib';
 import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
-import {
-    audienceMatches,
-    correctSignedInStatus,
-    deviceTypeMatches,
-    userIsInTest,
-} from '../../lib/targeting';
+import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
 
 import { TestVariant } from '../../lib/params';
 
@@ -310,7 +305,6 @@ export const selectBestTest = (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             inCountryGroups(countryCode, locations) &&
-            userIsInTest(test, targeting.mvtId) &&
             deviceTypeMatches(test, isMobile) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)

@@ -9,7 +9,6 @@ import {
     inCorrectCohort,
     isNotExpired,
     matchesCountryGroups,
-    userInTest,
     withinArticleViewedSettings,
     withinMaxViews,
     deviceTypeMatchesFilter,
@@ -21,7 +20,6 @@ const testDefault: EpicTest = {
     priority: 1,
     status: 'Live',
     locations: [],
-    audience: 1,
     tagIds: [],
     sections: ['environment'],
     excludedTagIds: [],
@@ -244,25 +242,6 @@ describe('hasCountryCode filter', () => {
         };
 
         const got = hasCountryCode.test(test, targeting);
-
-        expect(got).toBe(true);
-    });
-});
-
-describe('userInTest filter', () => {
-    const mvtId = 10;
-    it('should fail when user not in test', () => {
-        const test = { ...testDefault, audience: 1, audienceOffset: 0.5 };
-
-        const got = userInTest(mvtId).test(test, targetingDefault);
-
-        expect(got).toBe(false);
-    });
-
-    it('should pass when user in test', () => {
-        const test = { ...testDefault, audience: 0.1, audienceOffset: 0 };
-
-        const got = userInTest(mvtId).test(test, targetingDefault);
 
         expect(got).toBe(true);
     });

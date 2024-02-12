@@ -1,25 +1,12 @@
-import { CountryGroupId, ReminderFields, countryGroupIdSchema } from '../../lib';
+import { CountryGroupId, countryGroupIdSchema } from '../../lib';
 import {
-    ArticlesViewedSettings,
     articlesViewedSettingsSchema,
-    ControlProportionSettings,
-    Test,
-    TestStatus,
+    testSchema,
     testStatusSchema,
-    UserCohort,
     userCohortSchema,
-    Variant,
 } from './shared';
 import { EpicTargeting } from '../targeting';
-import {
-    ArticleCountType,
-    BylineWithImage,
-    Cta,
-    Image,
-    SecondaryCta,
-    TickerSettings,
-    variantSchema,
-} from '../props';
+import { variantSchema } from '../props';
 import * as z from 'zod';
 
 export type EpicType = 'ARTICLE' | 'LIVEBLOG';
@@ -30,52 +17,7 @@ export const maxViewsSchema = z.object({
     minDaysBetweenViews: z.number(),
 });
 
-export interface MaxViews {
-    maxViewsCount: number;
-    maxViewsDays: number;
-    minDaysBetweenViews: number;
-}
-
-export interface SeparateArticleCount {
-    type: 'above';
-    copy?: string;
-    countType?: ArticleCountType; // defaults to `for52Weeks`
-}
-
-export interface NewsletterSignup {
-    url: string;
-}
-
-export interface EpicVariant extends Variant {
-    name: string;
-    heading?: string;
-    paragraphs: string[];
-    highlightedText?: string;
-    tickerSettings?: TickerSettings;
-    cta?: Cta;
-    secondaryCta?: SecondaryCta;
-    newsletterSignup?: NewsletterSignup;
-    footer?: string;
-    image?: Image;
-    showReminderFields?: ReminderFields;
-    modulePathBuilder?: (version?: string) => string;
-    separateArticleCount?: SeparateArticleCount;
-    showChoiceCards?: boolean;
-    choiceCardAmounts?: SelectedAmountsVariant;
-    defaultChoiceCardFrequency?: ContributionFrequency;
-    bylineWithImage?: BylineWithImage;
-
-    // Variant level maxViews are for special targeting tests. These
-    // are handled differently to our usual copy/design tests. To
-    // set up a targeting test, the test should be set to alwaysAsk
-    // and each variant should have a maxViews set. We then check if a
-    // a user should actually see an epic after they have been assigned to
-    // the test + variant. This means users **wont** fall through to a test
-    // with lower priority.
-    maxViews?: MaxViews;
-    showSignInLink?: boolean;
-    forceApplePay?: boolean;
-}
+export type MaxViews = z.infer<typeof maxViewsSchema>;
 
 export type ContributionFrequency = 'ONE_OFF' | 'MONTHLY' | 'ANNUAL';
 
@@ -153,42 +95,21 @@ export interface AmountsTest {
 
 export type AmountsTests = AmountsTest[];
 
-export interface EpicTest extends Test<EpicVariant> {
-    name: string;
-    status: TestStatus;
-    locations: CountryGroupId[];
-    tagIds: string[];
-    sections: string[]; // section IDs
-    excludedTagIds: string[];
-    excludedSections: string[];
-    alwaysAsk: boolean;
-    maxViews?: MaxViews;
-    userCohort: UserCohort;
-    hasCountryName: boolean;
-    variants: EpicVariant[];
-    highPriority: boolean;
-    useLocalViewLog: boolean;
-    articlesViewedSettings?: ArticlesViewedSettings;
-    hasArticleCountInCopy: boolean; // added by the server - we do not want to determine this for each client request
+// for validation from DynamoDB
+export type EpicTestDB = z.infer<typeof epicTestDBSchema>;
 
-    audience?: number;
-    audienceOffset?: number;
-
-    // These are specific to hardcoded tests
-    expiry?: string;
-    campaignId?: string;
-
-    controlProportionSettings?: ControlProportionSettings;
-
-    // added by the server
+// with additional properties determined by the server
+export interface EpicTest extends EpicTestDB {
+    hasArticleCountInCopy: boolean;
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
+
+    // specific to hardcoded tests
+    campaignId?: string;
+    expiry?: string;
 }
 
-// The data in Dynamodb does not have the hasArticleCountInCopy, and it gets added to the data by the server. So validation should ignore it
-export type EpicTestWithoutHasArticleCountInCopy = Omit<EpicTest, 'hasArticleCountInCopy'>;
-
-export const EpicTestSchema = z.object({
+export const epicTestDBSchema = testSchema.extend({
     name: z.string(),
     status: testStatusSchema,
     locations: z.array(countryGroupIdSchema),
@@ -204,7 +125,7 @@ export const EpicTestSchema = z.object({
     useLocalViewLog: z.boolean(),
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     priority: z.number(),
-    audience: z.number().optional(),
-    audienceOffset: z.number().optional(),
     variants: variantSchema.array(),
 });
+
+export type EpicVariant = z.infer<typeof variantSchema>;

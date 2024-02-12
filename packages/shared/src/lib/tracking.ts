@@ -1,12 +1,12 @@
 import { OphanAction, OphanComponentEvent } from '../types/ophan';
 import { addRegionIdToSupportUrl } from './geolocation';
 import {
-    EpicTest,
-    EpicVariant,
     Tracking,
     BannerTest,
     BannerVariant,
     TargetingAbTest,
+    EpicTest,
+    EpicVariant,
 } from '../types';
 
 // TRACKING VIA support.theguardian.com

@@ -55,6 +55,10 @@ const styles = {
             max-width: 716px;
         }
 
+        ${from.tablet} {
+            max-width: 280px;
+        }
+
         ${from.desktop} {
             min-height: 208px;
             max-width: 380px;
