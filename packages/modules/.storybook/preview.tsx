@@ -55,15 +55,6 @@ const viewportEntries = Object.entries(breakpoints).map(([name, width]) => {
 });
 const viewports = Object.fromEntries(viewportEntries);
 
-export const parameters = {
-    options: {
-        isToolshown: !isProd,
-        isFullscreen: isProd,
-    },
-    viewport: { viewports },
-    layout: 'fullscreen',
-};
-
 const FocusManagerDecorator = (storyFn) => {
     useEffect(() => {
         FocusStyleManager.onlyShowFocusOnTabs();
@@ -90,6 +81,12 @@ const preview: Preview = {
                 },
             },
         },
+        options: {
+            isToolshown: !isProd,
+            isFullscreen: isProd,
+        },
+        viewport: { viewports },
+        layout: 'fullscreen',
     },
 };
 
