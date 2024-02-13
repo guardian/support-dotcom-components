@@ -1,22 +1,35 @@
-import { UserCohort, Test, Variant, TestStatus } from './shared';
-import { HeaderContent } from '../props';
-import { CountryGroupId } from '../../lib';
-import { PurchaseInfoTest } from '../abTests';
+import { testSchema, userCohortSchema, purchaseInfoTestSchema } from './shared';
+import { headerContentSchema } from '../props';
+import { countryGroupIdSchema } from '../../lib';
+import * as z from 'zod';
 
-export interface HeaderVariant extends Variant {
-    name: string;
-    content: HeaderContent;
-    mobileContent?: HeaderContent;
+/**
+ * Models and schemas for data from the database
+ */
+const headerVariantDBSchema = z.object({
+    name: z.string(),
+    content: headerContentSchema,
+    mobileContent: headerContentSchema.optional(),
+});
+export type HeaderVariantDB = z.infer<typeof headerVariantDBSchema>;
+
+export const headerTestDBSchema = testSchema.extend({
+    locations: z.array(countryGroupIdSchema),
+    userCohort: userCohortSchema,
+    purchaseInfo: purchaseInfoTestSchema.optional(),
+    variants: z.array(headerVariantDBSchema),
+});
+export type HeaderTestDB = z.infer<typeof headerTestDBSchema>;
+
+/**
+ * Models with additional properties determined by the server
+ */
+export interface HeaderVariant extends HeaderVariantDB {
     modulePathBuilder?: (version?: string) => string;
     moduleName?: string;
 }
 
-export interface HeaderTest extends Test<HeaderVariant> {
-    name: string;
-    status: TestStatus;
-    locations: CountryGroupId[];
-    userCohort: UserCohort;
-    purchaseInfo?: PurchaseInfoTest;
+export interface HeaderTest extends HeaderTestDB {
     variants: HeaderVariant[];
 }
 

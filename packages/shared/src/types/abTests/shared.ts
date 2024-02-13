@@ -1,6 +1,11 @@
 import * as z from 'zod';
 import { OphanComponentType, OphanProduct } from '../ophan';
-import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
+import {
+    purchaseInfoProduct,
+    purchaseInfoProductSchema,
+    purchaseInfoUser,
+    purchaseInfoUserSchema,
+} from '../purchaseInfo';
 
 const TestStatus = ['Live', 'Draft', 'Archived'] as const;
 export type TestStatus = (typeof TestStatus)[number];
@@ -101,6 +106,11 @@ export interface PurchaseInfoTest {
     userType: purchaseInfoUser[];
     product: purchaseInfoProduct[];
 }
+
+export const purchaseInfoTestSchema = z.object({
+    userType: z.array(purchaseInfoUserSchema),
+    product: z.array(purchaseInfoProductSchema),
+});
 
 export interface PageContextTargeting {
     tagIds: string[]; // tags must include one of these

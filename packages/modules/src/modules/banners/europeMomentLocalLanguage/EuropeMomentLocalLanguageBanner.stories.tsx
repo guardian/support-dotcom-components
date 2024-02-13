@@ -9,11 +9,6 @@ import { HeaderImage } from './components/headerImage';
 
 export default {
     title: 'Banners/Moment',
-    parameters: {
-        chromatic: {
-            delay: 300,
-        },
-    },
     args: props,
 } as Meta;
 

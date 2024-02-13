@@ -22,11 +22,6 @@ const BannerDecorator = (Story: Story): JSX.Element => (
 export default {
     component: ContributionsBannerReminderSignedOut,
     title: 'Banners/Custom/Contributions/ReminderSignedOut',
-    parameters: {
-        chromatic: {
-            delay: 300,
-        },
-    },
     args: {
         reminderCta: {
             type: SecondaryCtaType.ContributionsReminder,

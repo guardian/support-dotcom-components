@@ -14,11 +14,7 @@ import { DefaultTemplate } from './Default';
 
 export default {
     title: 'Banners/Designable',
-    parameters: {
-        chromatic: {
-            delay: 300,
-        },
-    },
+
     args: props,
 } as Meta;
 

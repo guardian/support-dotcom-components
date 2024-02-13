@@ -12,11 +12,6 @@ import { WorldPressFreedomDayBannerUnValidated as WorldPressFreedomDayBanner } f
 export default {
     component: WorldPressFreedomDayBanner,
     title: 'Banners/Custom',
-    parameters: {
-        chromatic: {
-            delay: 300,
-        },
-    },
 } as Meta;
 
 const Template: Story<BannerProps> = (props: BannerProps) => (

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HeaderProps, Cta, headerSchema, OphanAction } from '@sdc/shared/types';
+import { HeaderProps, Cta, headerPropsSchema, OphanAction } from '@sdc/shared/types';
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     addTrackingParamsToProfileUrl,
@@ -145,7 +145,7 @@ export const headerWrapper = (
 };
 
 const validate = (props: unknown): props is HeaderProps => {
-    const result = headerSchema.safeParse(props);
+    const result = headerPropsSchema.safeParse(props);
     return result.success;
 };
 
