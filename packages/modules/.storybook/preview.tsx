@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { FocusStyleManager } from '@guardian/source-foundations';
 import { breakpoints } from '@guardian/source-foundations';
 import { StylesDecorator } from './StylesDecorator';
+import { Preview } from '@storybook/react';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -54,15 +55,6 @@ const viewportEntries = Object.entries(breakpoints).map(([name, width]) => {
 });
 const viewports = Object.fromEntries(viewportEntries);
 
-export const parameters = {
-    options: {
-        isToolshown: !isProd,
-        isFullscreen: isProd,
-    },
-    viewport: { viewports },
-    layout: 'fullscreen',
-};
-
 const FocusManagerDecorator = (storyFn) => {
     useEffect(() => {
         FocusStyleManager.onlyShowFocusOnTabs();
@@ -72,3 +64,30 @@ const FocusManagerDecorator = (storyFn) => {
 };
 
 export const decorators = [FocusManagerDecorator, StylesDecorator];
+
+const preview: Preview = {
+    parameters: {
+        chromatic: {
+            delay: 300,
+            modes: {
+                mobile: {
+                    viewport: 'mobile',
+                },
+                tablet: {
+                    viewport: 'tablet',
+                },
+                desktop: {
+                    viewport: 'desktop',
+                },
+            },
+        },
+        options: {
+            isToolshown: !isProd,
+            isFullscreen: isProd,
+        },
+        viewport: { viewports },
+        layout: 'fullscreen',
+    },
+};
+
+export default preview;
