@@ -11,11 +11,12 @@ export interface HeaderContent {
     benefits?: string[];
 }
 
-const headerContentSchema = z.object({
+export const headerContentSchema = z.object({
     heading: z.string(),
     subheading: z.string(),
-    primaryCta: ctaSchema.nullish(),
-    secondaryCta: ctaSchema.nullish(),
+    primaryCta: ctaSchema.optional(),
+    secondaryCta: ctaSchema.optional(),
+    benefits: z.array(z.string()).optional(),
 });
 
 export interface HeaderProps extends EmotionJSX.IntrinsicAttributes {
@@ -27,11 +28,11 @@ export interface HeaderProps extends EmotionJSX.IntrinsicAttributes {
     numArticles?: number;
 }
 
-export const headerSchema = z.object({
+export const headerPropsSchema = z.object({
     content: headerContentSchema,
     tracking: trackingSchema,
-    mobileContent: headerContentSchema.nullish(),
-    countryCode: z.string().nullish(),
+    mobileContent: headerContentSchema.optional(),
+    countryCode: z.string().optional(),
     submitComponentEvent: z.any(),
-    numArticles: z.number().nullish(),
+    numArticles: z.number().optional(),
 });
