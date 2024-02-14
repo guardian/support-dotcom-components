@@ -68,7 +68,7 @@ export const decorators = [FocusManagerDecorator, StylesDecorator];
 const preview: Preview = {
     parameters: {
         chromatic: {
-            delay: 300,
+            delay: 1000,
             modes: {
                 mobile: {
                     viewport: 'mobile',
