@@ -17,6 +17,8 @@ export type ArticleCountType =
     | 'for52Weeks' // The user's total article view count, which currently goes back as far as 52 weeks
     | 'forTargetedWeeks'; // The user's article view count for the configured periodInWeeks/tag
 
+const articleCountTypeSchema = z.enum(['for52Weeks', 'forTargetedWeeks']);
+
 export type ArticleCounts = {
     [type in ArticleCountType]: number;
 };
@@ -52,6 +54,7 @@ const maxViewsSchema = z.object({
 const separateArticleCountSchema = z.object({
     type: z.literal('above'),
     copy: z.string().optional(),
+    countType: articleCountTypeSchema.optional(), // defaults to `for52Weeks`
 });
 
 const reminderFieldsSchema = z.object({
@@ -86,6 +89,10 @@ const selectedAmountsVariantSchema = z.object({
     }),
 });
 
+const newsletterSignupSchema = z.object({
+    url: z.string(),
+});
+
 export const variantSchema = z.object({
     name: z.string(),
     heading: z.string().optional(),
@@ -94,6 +101,7 @@ export const variantSchema = z.object({
     tickerSettings: tickerSettingsSchema.optional(),
     cta: ctaSchema.optional(),
     secondaryCta: secondaryCtaSchema.optional(),
+    newsletterSignup: newsletterSignupSchema.optional(),
     footer: z.string().optional(),
     image: imageSchema.optional(),
     showReminderFields: reminderFieldsSchema.optional(),
