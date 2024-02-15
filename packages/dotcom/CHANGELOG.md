@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 1.1.3
+
+### Patch Changes
+
+-   Add missing epic fields
+
 ## 1.1.2
 
 ### Patch Changes
