@@ -107,6 +107,12 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const { basic, primaryCta, secondaryCta, highlightedText, closeButton, ticker } =
         design.colours;
 
+    const { abTestName, abTestVariant } = tracking;
+
+    const showMobilePaymentIcons =
+        abTestName.includes('MOBILE_PAYMENT_ICONS') &&
+        abTestVariant === 'V1_SHOW_MOBILE_PAYMENT_ICONS';
+
     const imageSettings = buildMainImageSettings(design);
     const choiceCardSettings = buildChoiceCardSettings(design);
 
@@ -296,6 +302,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             getCtaText={getCtaText}
                             cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
                             onCtaClick={onCtaClick}
+                            showMobilePaymentIcons={showMobilePaymentIcons}
                         />
                     )}
                 </div>
