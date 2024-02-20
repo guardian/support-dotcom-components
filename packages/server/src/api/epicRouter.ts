@@ -25,7 +25,7 @@ import { getArticleViewCounts } from '../lib/history';
 import { fallbackEpicTest } from '../tests/epics/fallback';
 import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
-import { isMobile } from '../lib/deviceType';
+import { getMobileOS, isMobile } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 
 interface EpicDataResponse {
@@ -99,6 +99,7 @@ export const buildEpicRouter = (
                   tests,
                   targeting,
                   isMobile(req),
+                  getMobileOS(req),
                   enableSuperMode ? superModeArticles.get() : [],
                   params.debug,
               );

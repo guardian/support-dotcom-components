@@ -5,6 +5,7 @@ import {
     BannerTest,
     BannerTestSelection,
     BannerVariant,
+    MobileOS,
     PageTracking,
     uiIsDesign,
 } from '@sdc/shared/types';
@@ -146,6 +147,7 @@ export const selectBannerTest = (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
     isMobile: boolean,
+    mobileOS: MobileOS,
     baseUrl: string,
     tests: BannerTest[],
     bannerDeployTimes: BannerDeployTimesProvider,
@@ -186,7 +188,7 @@ export const selectBannerTest = (
                 targeting.weeklyArticleHistory,
                 now,
             ) &&
-            deviceTypeMatches(test, isMobile) &&
+            deviceTypeMatches(test, isMobile, mobileOS) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
             canShowBannerAgain(
                 targeting,

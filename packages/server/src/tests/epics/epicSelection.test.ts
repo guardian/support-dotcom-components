@@ -95,7 +95,7 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
@@ -109,7 +109,7 @@ describe('findTestAndVariant', () => {
             hasOptedOutOfArticleCount: true,
         };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
 
         expect(got.result).toBe(undefined);
     });
@@ -119,7 +119,7 @@ describe('findTestAndVariant', () => {
         const tests = [test];
         const targeting = { ...targetingDefault, sectionId: 'news' };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
 
         expect(got.result).toBe(undefined);
     });
@@ -136,7 +136,7 @@ describe('findTestAndVariant', () => {
             showSupportMessaging: false,
         };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);
     });
@@ -625,7 +625,10 @@ describe('isNotExpired filter', () => {
 
 describe('deviceTypeMatchesFilter', () => {
     it('should return true if test.deviceType == undefined', () => {
-        const result = deviceTypeMatchesFilter(false).test(testDefault, targetingDefault);
+        const result = deviceTypeMatchesFilter(false, undefined).test(
+            testDefault,
+            targetingDefault,
+        );
         expect(result).toBe(true);
     });
 
@@ -634,7 +637,7 @@ describe('deviceTypeMatchesFilter', () => {
             ...testDefault,
             deviceType: 'All',
         };
-        const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter(false, undefined).test(test, targetingDefault);
         expect(result).toBe(true);
     });
 
@@ -643,7 +646,7 @@ describe('deviceTypeMatchesFilter', () => {
             ...testDefault,
             deviceType: 'Desktop',
         };
-        const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter(false, undefined).test(test, targetingDefault);
         expect(result).toBe(true);
     });
 
@@ -652,7 +655,7 @@ describe('deviceTypeMatchesFilter', () => {
             ...testDefault,
             deviceType: 'Mobile',
         };
-        const result = deviceTypeMatchesFilter(true).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter(true, undefined).test(test, targetingDefault);
         expect(result).toBe(true);
     });
 
@@ -661,8 +664,28 @@ describe('deviceTypeMatchesFilter', () => {
             ...testDefault,
             deviceType: 'Mobile',
         };
-        const result = deviceTypeMatchesFilter(false).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter(false, undefined).test(test, targetingDefault);
         expect(result).toBe(false);
+    });
+
+    it('should return false if test.deviceType == iOS and it is not iOS', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            deviceType: 'iOS',
+        };
+
+        const result = deviceTypeMatchesFilter(true, 'Android').test(test, targetingDefault);
+        expect(result).toBe(false);
+    });
+
+    it('should return true if test.deviceType == iOS and it is iOS', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            deviceType: 'iOS',
+        };
+
+        const result = deviceTypeMatchesFilter(true, 'iOS').test(test, targetingDefault);
+        expect(result).toBe(true);
     });
 });
 

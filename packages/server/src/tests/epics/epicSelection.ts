@@ -6,6 +6,7 @@ import {
     EpicViewLog,
     WeeklyArticleHistory,
     EpicTest,
+    MobileOS,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
@@ -169,9 +170,9 @@ export const respectArticleCountOptOut: Filter = {
     },
 };
 
-export const deviceTypeMatchesFilter = (isMobile: boolean): Filter => ({
+export const deviceTypeMatchesFilter = (isMobile: boolean, mobileOS: MobileOS): Filter => ({
     id: 'deviceTypeMatches',
-    test: (test): boolean => deviceTypeMatches(test, isMobile),
+    test: (test): boolean => deviceTypeMatches(test, isMobile, mobileOS),
 });
 
 type FilterResults = Record<string, boolean>;
@@ -190,6 +191,7 @@ export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
     isMobile: boolean,
+    mobileOS: MobileOS,
     superModeArticles: SuperModeArticle[],
     includeDebug = false,
 ): Result => {
@@ -211,7 +213,7 @@ export const findTestAndVariant = (
             ...(isSuperModePass ? [] : [withinMaxViews(targeting.epicViewLog || [])]),
             respectArticleCountOptOut,
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
-            deviceTypeMatchesFilter(isMobile),
+            deviceTypeMatchesFilter(isMobile, mobileOS),
             correctSignedInStatusFilter,
         ];
     };

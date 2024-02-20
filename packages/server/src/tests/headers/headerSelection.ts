@@ -1,6 +1,12 @@
 import { header, signInPromptHeader } from '@sdc/shared/config';
 import { inCountryGroups } from '@sdc/shared/lib';
-import { HeaderTargeting, HeaderTest, HeaderTestSelection, HeaderVariant } from '@sdc/shared/types';
+import {
+    HeaderTargeting,
+    HeaderTest,
+    HeaderTestSelection,
+    HeaderVariant,
+    MobileOS,
+} from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
 import { audienceMatches, correctSignedInStatus, deviceTypeMatches } from '../../lib/targeting';
@@ -294,6 +300,7 @@ const purchaseMatches = (
 export const selectBestTest = (
     targeting: HeaderTargeting,
     isMobile: boolean,
+    mobileOS: MobileOS,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
     const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
@@ -305,7 +312,7 @@ export const selectBestTest = (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             inCountryGroups(countryCode, locations) &&
-            deviceTypeMatches(test, isMobile) &&
+            deviceTypeMatches(test, isMobile, mobileOS) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)
         );
@@ -352,6 +359,7 @@ export const selectHeaderTest = (
     targeting: HeaderTargeting,
     configuredTests: HeaderTest[],
     isMobile: boolean,
+    mobileOS: MobileOS,
     forcedTestVariant?: TestVariant,
 ): HeaderTestSelection | null => {
     const allTests = [...configuredTests, ...hardcodedTests];
@@ -359,5 +367,5 @@ export const selectHeaderTest = (
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, allTests);
     }
-    return selectBestTest(targeting, isMobile, allTests);
+    return selectBestTest(targeting, isMobile, mobileOS, allTests);
 };

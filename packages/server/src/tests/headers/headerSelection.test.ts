@@ -214,6 +214,7 @@ describe('selectBestTest', () => {
         const result_1: HeaderTestSelection | null = selectBestTest(
             mockTargetingObject_1,
             false,
+            undefined,
             mockTests,
         );
         const result_1_test: HeaderTest | NullReturn = result_1
@@ -244,6 +245,7 @@ describe('selectBestTest', () => {
         const result_2: HeaderTestSelection | null = selectBestTest(
             mockTargetingObject_2,
             false,
+            undefined,
             mockTests,
         );
         const result_2_test: HeaderTest | NullReturn = result_2
@@ -274,6 +276,7 @@ describe('selectBestTest', () => {
         const result_3: HeaderTestSelection | null = selectBestTest(
             mockTargetingObject_3,
             false,
+            undefined,
             mockTests,
         );
         const result_3_test: HeaderTest | NullReturn = result_3
@@ -304,6 +307,7 @@ describe('selectBestTest', () => {
         const result_4: HeaderTestSelection | null = selectBestTest(
             mockTargetingObject_4,
             false,
+            undefined,
             mockTests,
         );
         const result_4_test: HeaderTest | NullReturn = result_4
@@ -335,6 +339,7 @@ describe('selectBestTest', () => {
         const result_5: HeaderTestSelection | null = selectBestTest(
             mockTargetingObject_5,
             false,
+            undefined,
             mockTestEmptyLocations,
         );
         const result_5_test: HeaderTest | NullReturn = result_5
@@ -367,7 +372,7 @@ describe('selectBestTest', () => {
             isSignedIn: false,
         };
 
-        const result_6 = selectBestTest(mockTargetingObject_6, false, mockTests);
+        const result_6 = selectBestTest(mockTargetingObject_6, false, undefined, mockTests);
         const result_6_test: HeaderTest | NullReturn = result_6
             ? result_6.test
             : testHasReturnedNull;
@@ -398,7 +403,7 @@ describe('selectBestTest', () => {
             isSignedIn: false,
         };
 
-        const result_7 = selectBestTest(mockTargetingObject_7, false, mockTests);
+        const result_7 = selectBestTest(mockTargetingObject_7, false, undefined, mockTests);
         const result_7_test: HeaderTest | NullReturn = result_7
             ? result_7.test
             : testHasReturnedNull;
@@ -429,7 +434,7 @@ describe('selectBestTest', () => {
             isSignedIn: true,
         };
 
-        const result_8 = selectBestTest(mockTargetingObject_8, false, mockTests);
+        const result_8 = selectBestTest(mockTargetingObject_8, false, undefined, mockTests);
         const result_8_test: HeaderTest | NullReturn = result_8
             ? result_8.test
             : testHasReturnedNull;
