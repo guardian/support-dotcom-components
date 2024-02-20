@@ -5,7 +5,7 @@ import {
     HeaderTest,
     HeaderTestSelection,
     HeaderVariant,
-    MobileOS,
+    UserDeviceType,
 } from '@sdc/shared/types';
 
 import { selectVariant } from '../../lib/ab';
@@ -299,8 +299,7 @@ const purchaseMatches = (
 // Exported for Jest testing
 export const selectBestTest = (
     targeting: HeaderTargeting,
-    isMobile: boolean,
-    mobileOS: MobileOS,
+    userDeviceType: UserDeviceType,
     allTests: HeaderTest[],
 ): HeaderTestSelection | null => {
     const { showSupportMessaging, countryCode, purchaseInfo, isSignedIn } = targeting;
@@ -312,7 +311,7 @@ export const selectBestTest = (
             status === 'Live' &&
             audienceMatches(showSupportMessaging, userCohort) &&
             inCountryGroups(countryCode, locations) &&
-            deviceTypeMatches(test, isMobile, mobileOS) &&
+            deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, purchaseInfo, isSignedIn) &&
             correctSignedInStatus(isSignedIn, signedInStatus)
         );
@@ -358,8 +357,7 @@ const getForcedVariant = (
 export const selectHeaderTest = (
     targeting: HeaderTargeting,
     configuredTests: HeaderTest[],
-    isMobile: boolean,
-    mobileOS: MobileOS,
+    userDeviceType: UserDeviceType,
     forcedTestVariant?: TestVariant,
 ): HeaderTestSelection | null => {
     const allTests = [...configuredTests, ...hardcodedTests];
@@ -367,5 +365,5 @@ export const selectHeaderTest = (
     if (forcedTestVariant) {
         return getForcedVariant(forcedTestVariant, allTests);
     }
-    return selectBestTest(targeting, isMobile, mobileOS, allTests);
+    return selectBestTest(targeting, userDeviceType, allTests);
 };

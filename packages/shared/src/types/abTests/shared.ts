@@ -7,8 +7,6 @@ import {
     purchaseInfoUserSchema,
 } from '../purchaseInfo';
 
-export type MobileOS = 'iOS' | 'Android' | undefined;
-
 const TestStatus = ['Live', 'Draft', 'Archived'] as const;
 export type TestStatus = (typeof TestStatus)[number];
 
@@ -16,6 +14,7 @@ export const testStatusSchema = z.enum(TestStatus);
 
 const DeviceType = ['Mobile', 'Desktop', 'All', 'iOS', 'Android'] as const;
 export type DeviceType = (typeof DeviceType)[number];
+export type UserDeviceType = Exclude<DeviceType, 'Mobile' | 'All'>;
 
 export const deviceTypeSchema = z.enum(DeviceType);
 

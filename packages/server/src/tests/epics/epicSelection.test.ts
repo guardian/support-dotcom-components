@@ -1,4 +1,9 @@
-import { ArticlesViewedSettings, SecondaryCtaType } from '@sdc/shared/types';
+import {
+    ArticlesViewedSettings,
+    DeviceType,
+    SecondaryCtaType,
+    UserDeviceType,
+} from '@sdc/shared/types';
 import { EpicTargeting, EpicTest } from '@sdc/shared/types';
 import { SuperModeArticle } from '../../lib/superMode';
 import { withNowAs } from '../../utils/withNowAs';
@@ -81,7 +86,7 @@ const targetingDefault: EpicTargeting = {
 
 const superModeArticles: SuperModeArticle[] = [];
 
-const isMobile = false;
+const userDeviceType = 'Desktop';
 
 describe('findTestAndVariant', () => {
     it('should find the correct variant for test and targeting data', () => {
@@ -95,7 +100,7 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
@@ -109,7 +114,7 @@ describe('findTestAndVariant', () => {
             hasOptedOutOfArticleCount: true,
         };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
 
         expect(got.result).toBe(undefined);
     });
@@ -119,7 +124,7 @@ describe('findTestAndVariant', () => {
         const tests = [test];
         const targeting = { ...targetingDefault, sectionId: 'news' };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
 
         expect(got.result).toBe(undefined);
     });
@@ -136,7 +141,7 @@ describe('findTestAndVariant', () => {
             showSupportMessaging: false,
         };
 
-        const got = findTestAndVariant(tests, targeting, isMobile, undefined, superModeArticles);
+        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);
     });
@@ -625,10 +630,7 @@ describe('isNotExpired filter', () => {
 
 describe('deviceTypeMatchesFilter', () => {
     it('should return true if test.deviceType == undefined', () => {
-        const result = deviceTypeMatchesFilter(false, undefined).test(
-            testDefault,
-            targetingDefault,
-        );
+        const result = deviceTypeMatchesFilter('Desktop').test(testDefault, targetingDefault);
         expect(result).toBe(true);
     });
 
@@ -637,56 +639,80 @@ describe('deviceTypeMatchesFilter', () => {
             ...testDefault,
             deviceType: 'All',
         };
-        const result = deviceTypeMatchesFilter(false, undefined).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter('Desktop').test(test, targetingDefault);
         expect(result).toBe(true);
     });
 
-    it('should return true if test.deviceType == Desktop and not mobile', () => {
+    it('should return true if test.deviceType == Desktop and user device is desktop', () => {
         const test: EpicTest = {
             ...testDefault,
             deviceType: 'Desktop',
         };
-        const result = deviceTypeMatchesFilter(false, undefined).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter('Desktop').test(test, targetingDefault);
         expect(result).toBe(true);
     });
 
-    it('should return true if test.deviceType == Mobile and is mobile', () => {
+    it.each([['iOS'], ['Android']])(
+        'should return true if test.deviceType == Mobile and user device is %p',
+        (userDeviceType: string) => {
+            const test: EpicTest = {
+                ...testDefault,
+                deviceType: 'Mobile',
+            };
+            const result = deviceTypeMatchesFilter(userDeviceType as UserDeviceType).test(
+                test,
+                targetingDefault,
+            );
+            expect(result).toBe(true);
+        },
+    );
+
+    it('should return false if test.deviceType == Mobile and user device is desktop', () => {
         const test: EpicTest = {
             ...testDefault,
             deviceType: 'Mobile',
         };
-        const result = deviceTypeMatchesFilter(true, undefined).test(test, targetingDefault);
-        expect(result).toBe(true);
-    });
-
-    it('should return false if test.deviceType == Mobile and is not mobile', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            deviceType: 'Mobile',
-        };
-        const result = deviceTypeMatchesFilter(false, undefined).test(test, targetingDefault);
+        const result = deviceTypeMatchesFilter('Desktop').test(test, targetingDefault);
         expect(result).toBe(false);
     });
 
-    it('should return false if test.deviceType == iOS and it is not iOS', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            deviceType: 'iOS',
-        };
+    it.each([
+        ['Android', 'iOS'],
+        ['iOS', 'Android'],
+    ])(
+        'should return false if test.deviceType == %p and user device is %p',
+        (deviceType: string, userDeviceType: string) => {
+            const test: EpicTest = {
+                ...testDefault,
+                deviceType: deviceType as DeviceType,
+            };
 
-        const result = deviceTypeMatchesFilter(true, 'Android').test(test, targetingDefault);
-        expect(result).toBe(false);
-    });
+            const result = deviceTypeMatchesFilter(userDeviceType as UserDeviceType).test(
+                test,
+                targetingDefault,
+            );
+            expect(result).toBe(false);
+        },
+    );
 
-    it('should return true if test.deviceType == iOS and it is iOS', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            deviceType: 'iOS',
-        };
+    it.each([
+        ['iOS', 'iOS'],
+        ['Android', 'Android'],
+    ])(
+        'should return true if test.deviceType == %p and user device is %p',
+        (deviceType: string, userDeviceType: string) => {
+            const test: EpicTest = {
+                ...testDefault,
+                deviceType: deviceType as DeviceType,
+            };
 
-        const result = deviceTypeMatchesFilter(true, 'iOS').test(test, targetingDefault);
-        expect(result).toBe(true);
-    });
+            const result = deviceTypeMatchesFilter(userDeviceType as UserDeviceType).test(
+                test,
+                targetingDefault,
+            );
+            expect(result).toBe(true);
+        },
+    );
 });
 
 describe('correctSignedInStatusFilter filter', () => {

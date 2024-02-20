@@ -6,7 +6,7 @@ import {
     Variant,
     SignedInStatus,
     PageContextTargeting,
-    MobileOS,
+    UserDeviceType,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
@@ -76,18 +76,17 @@ export const audienceMatches = (
 
 export const deviceTypeMatches = <V extends Variant>(
     test: Test<V>,
-    isMobile: boolean,
-    mobileOS: MobileOS,
+    userDeviceType: UserDeviceType,
 ): boolean => {
     switch (test.deviceType) {
         case 'Mobile':
-            return isMobile;
+            return userDeviceType === 'Android' || userDeviceType === 'iOS';
         case 'Desktop':
-            return !isMobile;
+            return userDeviceType === 'Desktop';
         case 'iOS':
-            return mobileOS === 'iOS';
+            return userDeviceType === 'iOS';
         case 'Android':
-            return mobileOS === 'Android';
+            return userDeviceType === 'Android';
         default:
             return true;
     }
