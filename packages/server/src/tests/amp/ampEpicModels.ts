@@ -1,7 +1,12 @@
 import { ContributionFrequency } from '@sdc/shared/types';
 import { AMPTicker } from './ampTicker';
 import * as z from 'zod';
-import {contributionFrequencySchema, ctaSchema, testSchema, tickerSettingsSchema} from '@sdc/shared/dist/types';
+import {
+    contributionFrequencySchema,
+    ctaSchema,
+    testSchema,
+    tickerSettingsSchema,
+} from '@sdc/shared/dist/types';
 import { countryGroupIdSchema } from '@sdc/shared/dist/lib';
 
 /**
@@ -46,4 +51,4 @@ export const ampEpicTestSchema = testSchema.extend({
     variants: z.array(ampEpicTestVariantSchema),
 });
 
-export const AmpEpicTest = z.infer<typeof ampEpicTestSchema>;
+export type AmpEpicTest = z.infer<typeof ampEpicTestSchema>;
