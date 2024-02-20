@@ -63,7 +63,7 @@ const reminderFieldsSchema = z.object({
     reminderPeriod: z.string(),
 });
 
-const contributionFrequencySchema = z.enum(['ONE_OFF', 'MONTHLY', 'ANNUAL']);
+export const contributionFrequencySchema = z.enum(['ONE_OFF', 'MONTHLY', 'ANNUAL']);
 
 const selectedAmountsVariantSchema = z.object({
     testName: z.string(),

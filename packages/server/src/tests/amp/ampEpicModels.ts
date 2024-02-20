@@ -1,6 +1,8 @@
-import { CountryGroupId } from '@sdc/shared/lib';
-import { Cta, TickerSettings, ContributionFrequency, TestStatus } from '@sdc/shared/types';
+import { ContributionFrequency } from '@sdc/shared/types';
 import { AMPTicker } from './ampTicker';
+import * as z from 'zod';
+import {contributionFrequencySchema, ctaSchema, testSchema, tickerSettingsSchema} from '@sdc/shared/dist/types';
+import { countryGroupIdSchema } from '@sdc/shared/dist/lib';
 
 /**
  * Models for the data returned to AMP
@@ -27,22 +29,21 @@ export interface AMPEpic {
 /**
  * Models for the data published by the epic tool
  */
-export interface AmpEpicTestVariant {
-    name: string;
-    heading?: string;
-    paragraphs: string[];
-    highlightedText?: string;
-    cta?: Cta;
-    tickerSettings?: TickerSettings;
-    showChoiceCards?: boolean;
-    defaultChoiceCardFrequency?: ContributionFrequency;
-}
+const ampEpicTestVariantSchema = z.object({
+    name: z.string(),
+    heading: z.string().optional(),
+    paragraphs: z.array(z.string()),
+    highlightedText: z.string().optional(),
+    cta: ctaSchema.optional(),
+    tickerSettings: tickerSettingsSchema.optional(),
+    showChoiceCards: z.boolean().optional(),
+    defaultChoiceCardFrequency: contributionFrequencySchema.optional(),
+});
 
-export interface AmpEpicTest {
-    name: string;
-    priority: number;
-    nickname?: string;
-    status: TestStatus;
-    locations: CountryGroupId[];
-    variants: AmpEpicTestVariant[];
-}
+export const ampEpicTestSchema = testSchema.extend({
+    nickname: z.string().optional(),
+    locations: z.array(countryGroupIdSchema),
+    variants: z.array(ampEpicTestVariantSchema),
+});
+
+export const AmpEpicTest = z.infer<typeof ampEpicTestSchema>;
