@@ -30,13 +30,13 @@ export interface BannerContent {
 }
 
 export const bannerContentSchema = z.object({
-    heading: z.string().nullish(),
-    messageText: z.string().nullish(),
-    paragraphs: z.array(z.string()).nullish(),
-    mobileMessageText: z.string().nullish(),
-    highlightedText: z.string().nullish(),
-    cta: ctaSchema.nullish(),
-    secondaryCta: secondaryCtaSchema.nullish(),
+    heading: z.string().optional(),
+    messageText: z.string().optional(),
+    paragraphs: z.array(z.string()).optional(),
+    mobileMessageText: z.string().optional(),
+    highlightedText: z.string().optional(),
+    cta: ctaSchema.optional(),
+    secondaryCta: secondaryCtaSchema.optional(),
 });
 
 export interface BannerProps extends EmotionJSX.IntrinsicAttributes {

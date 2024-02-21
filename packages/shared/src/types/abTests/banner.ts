@@ -42,7 +42,7 @@ export const bannerVariantFromToolSchema = z.object({
     template: z.union([z.nativeEnum(BannerTemplate), z.object({ designName: z.string() })]),
     bannerContent: bannerContentSchema.optional(),
     mobileBannerContent: bannerContentSchema.optional(),
-    separatorArticleCount: z.boolean().optional(),
+    separateArticleCount: z.boolean().optional(),
 });
 
 export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;
