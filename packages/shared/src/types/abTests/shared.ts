@@ -12,8 +12,9 @@ export type TestStatus = (typeof TestStatus)[number];
 
 export const testStatusSchema = z.enum(TestStatus);
 
-const DeviceType = ['Mobile', 'Desktop', 'All'] as const;
+const DeviceType = ['Mobile', 'Desktop', 'All', 'iOS', 'Android'] as const;
 export type DeviceType = (typeof DeviceType)[number];
+export type UserDeviceType = Exclude<DeviceType, 'Mobile' | 'All'>;
 
 export const deviceTypeSchema = z.enum(DeviceType);
 

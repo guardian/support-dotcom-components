@@ -1,8 +1,21 @@
+import { UserDeviceType } from '@sdc/shared/src/types';
 import express from 'express';
 
 const isIOS = (ua: string) => /(iPad|iPhone|iPod touch)/i.test(ua);
 const isAndroid = (ua: string) => /Android/i.test(ua);
-export const isMobile = (req: express.Request): boolean => {
+
+export const getDeviceType = (req: express.Request): UserDeviceType => {
     const ua = req.get('User-Agent');
-    return !!ua && (isIOS(ua) || isAndroid(ua));
+    if (!ua) {
+        return 'Desktop';
+    }
+
+    if (isIOS(ua)) {
+        return 'iOS';
+    }
+    if (isAndroid(ua)) {
+        return 'Android';
+    }
+
+    return 'Desktop';
 };

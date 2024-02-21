@@ -19,7 +19,7 @@ import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/share
 import { TickerDataProvider } from '../lib/fetchTickerData';
 import { getArticleViewCountForWeeks } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
-import { isMobile } from '../lib/deviceType';
+import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 import { getDesignForVariant } from '../tests/banners/channelBannerTests';
 
@@ -62,7 +62,7 @@ export const buildBannerRouter = (
         const selectedTest = selectBannerTest(
             targeting,
             pageTracking,
-            isMobile(req),
+            getDeviceType(req),
             baseUrl(req),
             bannerTests.get(),
             bannerDeployTimes,

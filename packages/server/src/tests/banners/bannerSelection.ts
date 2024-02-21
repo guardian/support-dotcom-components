@@ -6,6 +6,7 @@ import {
     BannerTestSelection,
     BannerVariant,
     PageTracking,
+    UserDeviceType,
     uiIsDesign,
 } from '@sdc/shared/types';
 import { selectVariant } from '../../lib/ab';
@@ -145,7 +146,7 @@ const isTaylorReportPage = (targeting: BannerTargeting): boolean => {
 export const selectBannerTest = (
     targeting: BannerTargeting,
     pageTracking: PageTracking,
-    isMobile: boolean,
+    userDeviceType: UserDeviceType,
     baseUrl: string,
     tests: BannerTest[],
     bannerDeployTimes: BannerDeployTimesProvider,
@@ -186,7 +187,7 @@ export const selectBannerTest = (
                 targeting.weeklyArticleHistory,
                 now,
             ) &&
-            deviceTypeMatches(test, isMobile) &&
+            deviceTypeMatches(test, userDeviceType) &&
             purchaseMatches(test, targeting.purchaseInfo, targeting.isSignedIn) &&
             canShowBannerAgain(
                 targeting,

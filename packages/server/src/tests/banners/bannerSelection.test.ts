@@ -25,7 +25,7 @@ const getBannerDeployTimesReloader = (date: string) =>
         },
     });
 
-const isMobile = false;
+const userDeviceType = 'Desktop';
 
 describe('selectBannerTest', () => {
     const firstDate = 'Mon Jun 06 2020 19:20:10 GMT+0100';
@@ -93,7 +93,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [test],
                 bannerDeployTimes,
@@ -111,7 +111,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [{ ...test, isHardcoded: true }],
                 bannerDeployTimes,
@@ -129,7 +129,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [test],
                 bannerDeployTimes,
@@ -147,7 +147,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [
                     {
@@ -170,7 +170,7 @@ describe('selectBannerTest', () => {
                     hasOptedOutOfArticleCount: true,
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [test],
                 bannerDeployTimes,
@@ -191,7 +191,7 @@ describe('selectBannerTest', () => {
             const result = selectBannerTest(
                 targetingWithTaylorReportTag,
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [test],
                 bannerDeployTimes,
@@ -263,7 +263,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [test],
                 bannerDeployTimes,
@@ -281,7 +281,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [test],
                 bannerDeployTimes,
@@ -299,7 +299,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 1 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 [
                     {
@@ -375,7 +375,7 @@ describe('selectBannerTest', () => {
                     weeklyArticleHistory: [{ week: 18330, count: 6 }],
                 }),
                 tracking,
-                isMobile,
+                userDeviceType,
                 '',
                 tests,
                 bannerDeployTimes,

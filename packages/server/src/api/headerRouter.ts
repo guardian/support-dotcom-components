@@ -11,7 +11,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { ChannelSwitches } from '../channelSwitches';
 import { selectHeaderTest } from '../tests/headers/headerSelection';
-import { isMobile } from '../lib/deviceType';
+import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
 
 interface HeaderDataResponse {
@@ -42,7 +42,12 @@ export const buildHeaderRouter = (
         if (!enableHeaders) {
             return {};
         }
-        const testSelection = selectHeaderTest(targeting, tests.get(), isMobile(req), params.force);
+        const testSelection = selectHeaderTest(
+            targeting,
+            tests.get(),
+            getDeviceType(req),
+            params.force,
+        );
         if (testSelection) {
             const { test, variant, modulePathBuilder, moduleName } = testSelection;
             const testTracking: TestTracking = {
