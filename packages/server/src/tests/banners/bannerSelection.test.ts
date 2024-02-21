@@ -85,6 +85,13 @@ describe('selectBannerTest', () => {
                 minViews: 5,
                 periodInWeeks: 52,
             },
+            locations: [],
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
         };
 
         it('returns test if enough article views', () => {
@@ -255,6 +262,13 @@ describe('selectBannerTest', () => {
                 minViews: 5,
                 periodInWeeks: 52,
             },
+            locations: [],
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
         };
 
         it('returns test if enough article views', () => {
@@ -354,6 +368,13 @@ describe('selectBannerTest', () => {
                     componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
                 },
             ],
+            locations: [],
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
         };
 
         const tests: BannerTest[] = [
