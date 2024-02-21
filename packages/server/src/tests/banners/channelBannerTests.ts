@@ -18,6 +18,7 @@ import {
     uiIsDesign,
     ConfigurableDesign,
     BannerDesignFromTool,
+    bannerTestFromToolSchema,
 } from '@sdc/shared/types';
 import { BannerTemplate } from '@sdc/shared/types';
 import { getTests } from '../store';
@@ -75,7 +76,7 @@ const buildBannerVariant =
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     return (): Promise<BannerTest[]> =>
-        getTests<BannerTestFromTool>(channel).then((tests) => {
+        getTests<BannerTestFromTool>(channel, bannerTestFromToolSchema).then((tests) => {
             return tests.map((testParams: BannerTestFromTool): BannerTest => {
                 return {
                     ...testParams,
