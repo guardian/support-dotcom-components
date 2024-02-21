@@ -15,7 +15,7 @@ import { OphanComponentType, OphanProduct } from '../ophan';
 import { countryGroupIdSchema } from '../../lib';
 import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
-import { z } from 'zod';
+import * as z from 'zod';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
