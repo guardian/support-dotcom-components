@@ -113,9 +113,11 @@ export const purchaseInfoTestSchema = z.object({
     product: z.array(purchaseInfoProductSchema),
 });
 
-export interface PageContextTargeting {
-    tagIds: string[]; // tags must include one of these
-    sectionIds: string[]; // AND section must be one of these
-    excludedTagIds: string[]; // AND tags must not include one of these
-    excludedSectionIds: string[]; // AND section must not be one of these
-}
+export const pageContextTargetingSchema = z.object({
+    tagIds: z.array(z.string()), // tags must include one of these
+    sectionIds: z.array(z.string()), // AND section must be one of these
+    excludedTagIds: z.array(z.string()), // AND tags must not include one of these
+    excludedSectionIds: z.array(z.string()), // AND section must not be one of these
+});
+
+export type PageContextTargeting = z.infer<typeof pageContextTargetingSchema>;

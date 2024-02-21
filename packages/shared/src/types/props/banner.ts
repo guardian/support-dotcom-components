@@ -29,7 +29,7 @@ export interface BannerContent {
     secondaryCta?: SecondaryCta;
 }
 
-const bannerContentSchema = z.object({
+export const bannerContentSchema = z.object({
     heading: z.string().nullish(),
     messageText: z.string().nullish(),
     paragraphs: z.array(z.string()).nullish(),
