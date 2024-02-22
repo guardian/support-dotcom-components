@@ -102,7 +102,6 @@ export const variantSchema = z.object({
     cta: ctaSchema.optional(),
     secondaryCta: secondaryCtaSchema.optional(),
     newsletterSignup: newsletterSignupSchema.optional(),
-    footer: z.string().optional(),
     image: imageSchema.optional(),
     showReminderFields: reminderFieldsSchema.optional(),
     separateArticleCount: separateArticleCountSchema.optional(),
