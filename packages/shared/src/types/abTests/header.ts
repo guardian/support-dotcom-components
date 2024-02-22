@@ -6,30 +6,30 @@ import * as z from 'zod';
 /**
  * Models and schemas for data from the database
  */
-const headerVariantDBSchema = z.object({
+const headerVariantFromToolSchema = z.object({
     name: z.string(),
     content: headerContentSchema,
     mobileContent: headerContentSchema.optional(),
 });
-export type HeaderVariantDB = z.infer<typeof headerVariantDBSchema>;
+export type HeaderVariantFromTool = z.infer<typeof headerVariantFromToolSchema>;
 
-export const headerTestDBSchema = testSchema.extend({
+export const headerTestFromToolSchema = testSchema.extend({
     locations: z.array(countryGroupIdSchema),
     userCohort: userCohortSchema,
     purchaseInfo: purchaseInfoTestSchema.optional(),
-    variants: z.array(headerVariantDBSchema),
+    variants: z.array(headerVariantFromToolSchema),
 });
-export type HeaderTestDB = z.infer<typeof headerTestDBSchema>;
+export type HeaderTestFromTool = z.infer<typeof headerTestFromToolSchema>;
 
 /**
  * Models with additional properties determined by the server
  */
-export interface HeaderVariant extends HeaderVariantDB {
+export interface HeaderVariant extends HeaderVariantFromTool {
     modulePathBuilder?: (version?: string) => string;
     moduleName?: string;
 }
 
-export interface HeaderTest extends HeaderTestDB {
+export interface HeaderTest extends HeaderTestFromTool {
     variants: HeaderVariant[];
 }
 

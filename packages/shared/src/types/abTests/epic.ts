@@ -96,10 +96,10 @@ export interface AmountsTest {
 export type AmountsTests = AmountsTest[];
 
 // for validation from DynamoDB
-export type EpicTestDB = z.infer<typeof epicTestDBSchema>;
+export type EpicTestFromTool = z.infer<typeof epicTestFromToolSchema>;
 
 // with additional properties determined by the server
-export interface EpicTest extends EpicTestDB {
+export interface EpicTest extends EpicTestFromTool {
     hasArticleCountInCopy: boolean;
     isSuperMode?: boolean;
     canShow?: (targeting: EpicTargeting) => boolean;
@@ -109,7 +109,7 @@ export interface EpicTest extends EpicTestDB {
     expiry?: string;
 }
 
-export const epicTestDBSchema = testSchema.extend({
+export const epicTestFromToolSchema = testSchema.extend({
     name: z.string(),
     status: testStatusSchema,
     locations: z.array(countryGroupIdSchema),
