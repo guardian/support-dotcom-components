@@ -1,18 +1,21 @@
-import { BannerChannel, BannerContent, ConfigurableDesign, TickerSettings } from '../props';
 import {
-    ArticlesViewedSettings,
-    ControlProportionSettings,
-    PageContextTargeting,
+    BannerChannel,
+    bannerContentSchema,
+    ConfigurableDesign,
+    tickerSettingsSchema,
+} from '../props';
+import {
+    articlesViewedSettingsSchema,
+    pageContextTargetingSchema,
     TargetingAbTest,
-    Test,
-    TestStatus,
-    UserCohort,
-    Variant,
+    testSchema,
+    userCohortSchema,
 } from './shared';
 import { OphanComponentType, OphanProduct } from '../ophan';
-import { CountryGroupId } from '../../lib';
+import { countryGroupIdSchema } from '../../lib';
 import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
+import * as z from 'zod';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
@@ -33,38 +36,26 @@ export function uiIsDesign(ui: BannerUi): ui is BannerDesignName {
     return (ui as BannerDesignName).designName !== undefined;
 }
 
-export interface BannerVariant extends Variant {
-    name: string;
-    tickerSettings?: TickerSettings;
+export const bannerVariantFromToolSchema = z.object({
+    name: z.string(),
+    tickerSettings: tickerSettingsSchema.optional(),
+    template: z.union([z.nativeEnum(BannerTemplate), z.object({ designName: z.string() })]),
+    bannerContent: bannerContentSchema.optional(),
+    mobileBannerContent: bannerContentSchema.optional(),
+    separateArticleCount: z.boolean().optional(),
+});
+
+export type BannerVariantFromTool = z.infer<typeof bannerVariantFromToolSchema>;
+
+export interface BannerVariant extends BannerVariantFromTool {
     modulePathBuilder: (version?: string) => string;
-    template: BannerUi;
-    bannerContent?: BannerContent;
-    mobileBannerContent?: BannerContent;
     componentType: OphanComponentType;
     products?: OphanProduct[];
-    separateArticleCount?: boolean;
 }
 
 export type CanRun = (targeting: BannerTargeting, pageTracking: PageTracking) => boolean;
 
 export type BannerTestGenerator = () => Promise<BannerTest[]>;
-
-export interface BannerTest extends Test<BannerVariant> {
-    name: string;
-    status: TestStatus;
-    bannerChannel: BannerChannel;
-    isHardcoded: boolean;
-    userCohort: UserCohort;
-    canRun?: CanRun;
-    variants: BannerVariant[];
-    locations?: CountryGroupId[];
-    articlesViewedSettings?: ArticlesViewedSettings;
-    audienceOffset?: number;
-    audience?: number;
-    controlProportionSettings?: ControlProportionSettings;
-    purchaseInfo?: PurchaseInfoTest;
-    contextTargeting?: PageContextTargeting;
-}
 
 // The result of selecting a test+variant for a user
 export interface BannerTestSelection {
@@ -75,13 +66,22 @@ export interface BannerTestSelection {
     targetingAbTest?: TargetingAbTest;
 }
 
-// Models for the config from the RRCP
-export type BannerVariantFromTool = Omit<
-    BannerVariant,
-    'modulePathBuilder' | 'componentType' | 'products'
->;
-export type BannerTestFromTool = Omit<BannerTest, 'bannerChannel' | 'isHardcoded'> & {
-    variants: BannerVariantFromTool[];
-};
+export interface BannerTest extends BannerTestFromTool {
+    bannerChannel: BannerChannel;
+    isHardcoded: boolean;
+    canRun?: CanRun;
+    purchaseInfo?: PurchaseInfoTest;
+    variants: BannerVariant[];
+}
+
+export const bannerTestFromToolSchema = testSchema.extend({
+    userCohort: userCohortSchema,
+    locations: z.array(countryGroupIdSchema),
+    contextTargeting: pageContextTargetingSchema,
+    variants: z.array(bannerVariantFromToolSchema),
+    articlesViewedSettings: articlesViewedSettingsSchema.optional(),
+});
+
+export type BannerTestFromTool = z.infer<typeof bannerTestFromToolSchema>;
 
 export type BannerDesignFromTool = { name: string } & ConfigurableDesign;

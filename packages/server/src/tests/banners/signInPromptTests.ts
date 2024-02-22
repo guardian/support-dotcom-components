@@ -8,6 +8,8 @@ const baseSignInPromptTest: Omit<BannerTest, 'name' | 'variants'> = {
     userCohort: 'Everyone',
     status: 'Live',
     priority: 99,
+    locations: [],
+    contextTargeting: { tagIds: [], sectionIds: [], excludedTagIds: [], excludedSectionIds: [] },
 };
 
 const baseSignInPromptVariant: Omit<BannerVariant, 'bannerContent'> = {
