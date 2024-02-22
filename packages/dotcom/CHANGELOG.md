@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.0.0
+
+### Major Changes
+
+-   Remove footer prop
+
 ## 1.1.3
 
 ### Patch Changes
