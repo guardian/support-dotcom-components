@@ -71,7 +71,7 @@ const styles = {
             width: 100%;
         }
 
-        ${from.tablet} {
+        ${from.desktop} {
             flex-direction: row;
             gap: 0;
             margin-bottom: 0;
@@ -82,7 +82,7 @@ const styles = {
         }
     `,
     paymentCardsSvgOverrides: css`
-        ${from.tablet} {
+        ${from.desktop} {
             margin-top: -10px;
         }
     `,
@@ -90,7 +90,7 @@ const styles = {
         width: 100%;
         justify-content: center;
 
-        ${from.tablet} {
+        ${from.desktop} {
             width: auto;
         }
     `,

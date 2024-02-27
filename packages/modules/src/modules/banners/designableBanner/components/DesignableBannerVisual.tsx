@@ -32,20 +32,20 @@ export function DesignableBannerVisual({
     if (settings.tabletUrl) {
         images.push({ url: settings.tabletUrl, media: '(max-width: 979px)' });
     }
-    if (settings.desktopUrl) {
-        images.push({ url: settings.desktopUrl, media: '(max-width: 1139px)' });
-    }
     if (settings.leftColUrl) {
-        images.push({ url: settings.leftColUrl, media: '(max-width: 1299px)' });
+        images.push({ url: settings.leftColUrl, media: '(max-width: 1139px)' });
     }
     if (settings.wideUrl) {
         images.push({ url: settings.wideUrl, media: '' });
     }
 
     return (
-        <div css={styles.container}>
-            <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
-        </div>
+        <ResponsiveImage
+            baseImage={baseImage}
+            images={images}
+            bannerId={bannerId}
+            cssOverrides={styles.container}
+        />
     );
 }
 
@@ -69,15 +69,20 @@ const getStyles = (isHeaderImage = false) => {
     }
     return {
         container: css`
-            height: 140px;
-            display: flex;
-            justify-content: center;
+            display: block;
+            width: calc(100% + 20px);
+            margin-left: -10px;
+            margin-right: -10px;
 
             img {
-                height: 100%;
+                max-height: 225px;
                 width: 100%;
                 object-fit: contain;
                 display: block;
+
+                ${from.tablet} {
+                    max-height: none;
+                }
             }
 
             ${from.tablet} {
