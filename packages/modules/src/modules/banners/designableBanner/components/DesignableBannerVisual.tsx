@@ -75,7 +75,6 @@ const getStyles = (isHeaderImage = false) => {
             margin-right: -10px;
 
             img {
-                max-height: 225px;
                 width: 100%;
                 object-fit: contain;
                 display: block;
