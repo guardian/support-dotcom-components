@@ -415,10 +415,8 @@ const styles = {
         background: ${background};
         ${from.tablet} {
             grid-column: 2 / span 1;
-            grid-row-start: ${isChoiceCardsContainer ? '2' : '1'};
-            grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
-            align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
-            margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
+            grid-row: 2 / span 1;
+            align-self: flex-start;
         }
     `,
     ctasContainer: css`

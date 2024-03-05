@@ -88,6 +88,8 @@ const getStyles = (isHeaderImage = false) => {
                 height: 100%;
                 width: 100%;
                 align-items: center;
+                margin-left: 0;
+                margin-right: 0;
             }
         `,
     };
