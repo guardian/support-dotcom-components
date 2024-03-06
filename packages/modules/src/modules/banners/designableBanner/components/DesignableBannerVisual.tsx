@@ -32,8 +32,11 @@ export function DesignableBannerVisual({
     if (settings.tabletUrl) {
         images.push({ url: settings.tabletUrl, media: '(max-width: 979px)' });
     }
+    if (settings.desktopUrl) {
+        images.push({ url: settings.desktopUrl, media: '(max-width: 1139px)' });
+    }
     if (settings.leftColUrl) {
-        images.push({ url: settings.leftColUrl, media: '(max-width: 1139px)' });
+        images.push({ url: settings.leftColUrl, media: '(max-width: 1299px)' });
     }
     if (settings.wideUrl) {
         images.push({ url: settings.wideUrl, media: '' });
