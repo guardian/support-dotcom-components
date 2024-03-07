@@ -35,9 +35,9 @@ const buildImageSettings = (
     return {
         mainUrl: design.mobileUrl,
         mobileUrl: design.mobileUrl,
-        tabletUrl: design.tabletDesktopUrl,
-        desktopUrl: design.tabletDesktopUrl,
-        wideUrl: design.wideUrl,
+        tabletUrl: design.tabletUrl,
+        desktopUrl: design.desktopUrl,
+        wideUrl: design.desktopUrl,
         altText: design.altText,
     };
 };
