@@ -92,7 +92,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     const noOfContributionTabs = displayContributionType.length > 2 ? 3 : 2;
     const hideChooseYourAmount = !!amountsCardData[selection.frequency].hideChooseYourAmount;
 
-    const style = buildStyles(design, noOfContributionTabs);
+    const style = buildStyles(design);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
