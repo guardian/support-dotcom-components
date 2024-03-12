@@ -61,6 +61,8 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             }
         `,
         frequencyGroupOverride: css`
+            margin-bottom: ${space[1]}px;
+
             ${from.mobileLandscape} {
                 margin-bottom: ${space[3]}px;
             }
