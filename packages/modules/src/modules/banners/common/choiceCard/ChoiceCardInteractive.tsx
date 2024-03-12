@@ -180,26 +180,24 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
             );
         }
 
-        return (
-            <>
-                {choiceCardAmount(requiredAmounts[0])}
-                {choiceCardAmount(requiredAmounts[1])}
+        return [
+            choiceCardAmount(requiredAmounts[0]),
+            choiceCardAmount(requiredAmounts[1]),
 
-                {hideChooseYourAmount ? (
-                    choiceCardAmount(requiredAmounts[2])
-                ) : (
-                    <ChoiceCard
-                        key={2}
-                        value="other"
-                        label="Other"
-                        id="contributions-banner-other"
-                        checked={selection.amount === 'other'}
-                        onChange={() => updateAmount('other')}
-                        cssOverrides={style.buttonOverride}
-                    />
-                )}
-            </>
-        );
+            hideChooseYourAmount ? (
+                choiceCardAmount(requiredAmounts[2])
+            ) : (
+                <ChoiceCard
+                    key={2}
+                    value="other"
+                    label="Other"
+                    id="contributions-banner-other"
+                    checked={selection.amount === 'other'}
+                    onChange={() => updateAmount('other')}
+                    cssOverrides={style.buttonOverride}
+                />
+            ),
+        ];
     };
 
     const generateChoiceCardFrequencyTab = (frequency: ContributionFrequency) => {
