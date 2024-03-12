@@ -54,15 +54,17 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 ${buttonSelectTextColour && `color: ${buttonSelectTextColour};`}
             }
         `,
-        amountsOverride: css`
-            ${from.mobileLandscape} {
-                margin-bottom: ${space[3]}px;
-            }
-
+        cardPaddingOverride: css`
             > div > label > div {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
             }
+        `,
+        frequencyGroupOverride: css`
+            ${from.mobileLandscape} {
+                margin-bottom: ${space[3]}px;
+            }
+
             > div {
                 ${until.mobileLandscape} {
                     display: grid;
@@ -71,7 +73,7 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 }
             }
         `,
-        lastAmountOverride: css`
+        amountsOverride: css`
             > div > label:last-of-type {
                 grid-column-start: 1;
                 grid-column-end: 3;
@@ -220,7 +222,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 label="Contribution frequency"
                 columns={noOfContributionTabs}
                 hideLabel
-                cssOverrides={style.amountsOverride}
+                cssOverrides={[style.cardPaddingOverride, style.frequencyGroupOverride]}
             >
                 {contributionTypeTabOrder.map((f) =>
                     displayContributionType.includes(f) ? generateChoiceCardFrequencyTab(f) : <></>,
@@ -232,7 +234,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 columns={2}
                 hideLabel
                 aria-labelledby={selection.frequency}
-                cssOverrides={style.lastAmountOverride}
+                cssOverrides={[style.cardPaddingOverride, style.amountsOverride]}
             >
                 {generateChoiceCardAmountsButtons()}
             </ChoiceCardGroup>
