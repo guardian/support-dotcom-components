@@ -5,11 +5,21 @@ import {
     SelectedAmountsVariant,
     OphanComponentEvent,
 } from '@sdc/shared/types';
-import { css } from '@emotion/react';
-import { between, from, until, space } from '@guardian/source-foundations';
 import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
+import { css } from '@emotion/react';
+import { from, space, until } from '@guardian/source-foundations';
+
+interface ChoiceCardInteractiveProps {
+    selection?: ChoiceCardSelection;
+    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
+    submitComponentEvent?: (event: OphanComponentEvent) => void;
+    currencySymbol: string;
+    amountsTest?: SelectedAmountsVariant;
+    componentId: string;
+    design?: ChoiceCardSettings;
+}
 
 const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: number) => {
     const {
@@ -22,94 +32,17 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
     } = design || {};
 
     return {
-        bannerFrequenciesGroupOverrides: css`
-            display: grid;
-
-            ${from.tablet} {
-                grid-template-columns: repeat(${frequencyColumns}, minmax(93px, 200px));
-            }
-
-            > div:first-of-type {
-                display: inline;
-                grid-column: 1 / span ${frequencyColumns};
-            }
-        `,
-        frequencyContainer: css`
-            display: flex;
-
-            > label {
-                margin-right: ${space[2]}px !important;
-                margin-bottom: ${space[3]}px !important;
-                min-width: 0;
-            }
-
-            > label > div {
-                padding-left: 0;
-                padding-right: 0;
-            }
-
-            > label:last-of-type {
-                margin-right: 0 !important;
-            }
-        `,
-        bannerAmountsGroupOverrides: css`
-            > div:first-of-type {
-                display: block !important;
-            }
-        `,
-        amountsContainer: css`
-            display: flex;
-            flex-direction: column;
-        `,
-        amountsButton: css`
-            display: flex;
-            flex-direction: row;
-            margin-bottom: ${space[2]}px;
-
-            > label {
-                margin: 0 !important;
-            }
-
-            > label:first-of-type {
-                margin-right: ${space[2]}px !important;
-            }
-
-            > label:last-of-type {
-                margin-right: 0 !important;
-            }
-
-            > label > div {
-                ${between.tablet.and.desktop} {
-                    padding-left: 0 !important;
-                    padding-right: 0 !important;
-                }
-            }
-        `,
-        amountsOrOtherButton: css`
-            margin-bottom: ${space[1]}px;
-
-            ${from.mobileLandscape} { 
-                margin-bottom: ${space[3]}px;
-            }}
-        `,
-
         buttonOverride: css`
-            border-radius: ${space[3]}px;
-            ${until.mobileMedium} {
-                font-size: 10px;
-            }
-
             & + label {
                 ${buttonTextColour && `color: ${buttonTextColour};`}
                 ${buttonColour && `background-color: ${buttonColour};`}
-                ${buttonBorderColour && `box-shadow: inset 0 0 0 2px ${buttonBorderColour};`}
+    ${buttonBorderColour && `box-shadow: inset 0 0 0 2px ${buttonBorderColour};`}
             }
 
             &:hover + label {
                 ${buttonTextColour && `color: ${buttonTextColour};`}
                 ${buttonColour && `background-color: ${buttonColour};`}
-                ${buttonSelectBorderColour &&
-                `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`}
+    ${buttonSelectBorderColour && `box-shadow: inset 0 0 0 4px ${buttonSelectBorderColour};`}
             }
 
             &:checked + label {
@@ -121,18 +54,41 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
                 ${buttonSelectTextColour && `color: ${buttonSelectTextColour};`}
             }
         `,
+        cardPaddingOverride: css`
+            > div > label > div {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+        `,
+        frequencyGroupOverride: css`
+            margin-bottom: ${space[1]}px;
+
+            ${from.mobileLandscape} {
+                margin-bottom: ${space[3]}px;
+            }
+
+            > div {
+                ${until.mobileLandscape} {
+                    display: grid;
+                    column-gap: ${space[2]}px;
+                    grid-template-columns: repeat(${frequencyColumns}, 1fr);
+                }
+            }
+        `,
+        amountsOverride: css`
+            > div > label:last-of-type {
+                grid-column-start: 1;
+                grid-column-end: 3;
+            }
+            > div {
+                ${until.mobileLandscape} {
+                    display: grid;
+                    column-gap: ${space[2]}px;
+                }
+            }
+        `,
     };
 };
-
-interface ChoiceCardInteractiveProps {
-    selection?: ChoiceCardSelection;
-    setSelectionsCallback: (choiceCardSelection: ChoiceCardSelection) => void;
-    submitComponentEvent?: (event: OphanComponentEvent) => void;
-    currencySymbol: string;
-    amountsTest?: SelectedAmountsVariant;
-    componentId: string;
-    design?: ChoiceCardSettings;
-}
 
 export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> = ({
     selection,
@@ -188,10 +144,11 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
         });
     };
 
-    const ChoiceCardAmount = ({ amount }: { amount?: number }) => {
+    const choiceCardAmount = (amount?: number) => {
         if (amount) {
             return (
                 <ChoiceCard
+                    key={amount}
                     value={`${amount}`}
                     label={`${currencySymbol}${amount} ${
                         contributionType[selection.frequency].suffix
@@ -203,7 +160,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 />
             );
         }
-        return null;
+        return <></>;
     };
 
     const generateChoiceCardAmountsButtons = () => {
@@ -213,42 +170,34 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
         // Something is wrong with the data
         if (!Array.isArray(requiredAmounts) || !requiredAmounts.length) {
             return (
-                <div css={style.amountsOrOtherButton}>
-                    <ChoiceCard
-                        value="third"
-                        label="Other"
-                        id="contributions-banner-third"
-                        checked={true}
-                        cssOverrides={style.buttonOverride}
-                    />
-                </div>
+                <ChoiceCard
+                    value="third"
+                    label="Other"
+                    id="contributions-banner-third"
+                    checked={true}
+                    cssOverrides={style.buttonOverride}
+                />
             );
         }
 
-        return (
-            <>
-                <div css={style.amountsButton}>
-                    <ChoiceCardAmount amount={requiredAmounts[0]} />
-                    <ChoiceCardAmount amount={requiredAmounts[1]} />
-                </div>
-                {hideChooseYourAmount ? (
-                    <div css={style.amountsOrOtherButton}>
-                        <ChoiceCardAmount amount={requiredAmounts[2]} />
-                    </div>
-                ) : (
-                    <div css={style.amountsOrOtherButton}>
-                        <ChoiceCard
-                            value="other"
-                            label="Other"
-                            id="contributions-banner-other"
-                            checked={selection.amount === 'other'}
-                            onChange={() => updateAmount('other')}
-                            cssOverrides={style.buttonOverride}
-                        />
-                    </div>
-                )}
-            </>
-        );
+        return [
+            choiceCardAmount(requiredAmounts[0]),
+            choiceCardAmount(requiredAmounts[1]),
+
+            hideChooseYourAmount ? (
+                choiceCardAmount(requiredAmounts[2])
+            ) : (
+                <ChoiceCard
+                    key={2}
+                    value="other"
+                    label="Other"
+                    id="contributions-banner-other"
+                    checked={selection.amount === 'other'}
+                    onChange={() => updateAmount('other')}
+                    cssOverrides={style.buttonOverride}
+                />
+            ),
+        ];
     };
 
     const generateChoiceCardFrequencyTab = (frequency: ContributionFrequency) => {
@@ -273,24 +222,21 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
                 label="Contribution frequency"
                 columns={noOfContributionTabs}
                 hideLabel
-                cssOverrides={style.bannerFrequenciesGroupOverrides}
+                cssOverrides={[style.cardPaddingOverride, style.frequencyGroupOverride]}
             >
-                <div css={style.frequencyContainer}>
-                    {contributionTypeTabOrder.map((f) =>
-                        displayContributionType.includes(f)
-                            ? generateChoiceCardFrequencyTab(f)
-                            : null,
-                    )}
-                </div>
+                {contributionTypeTabOrder.map((f) =>
+                    displayContributionType.includes(f) ? generateChoiceCardFrequencyTab(f) : <></>,
+                )}
             </ChoiceCardGroup>
             <ChoiceCardGroup
                 name="contribution-amount"
                 label="Contribution amount"
+                columns={2}
                 hideLabel
-                cssOverrides={style.bannerAmountsGroupOverrides}
                 aria-labelledby={selection.frequency}
+                cssOverrides={[style.cardPaddingOverride, style.amountsOverride]}
             >
-                <div css={style.amountsContainer}>{generateChoiceCardAmountsButtons()}</div>
+                {generateChoiceCardAmountsButtons()}
             </ChoiceCardGroup>
         </>
     );

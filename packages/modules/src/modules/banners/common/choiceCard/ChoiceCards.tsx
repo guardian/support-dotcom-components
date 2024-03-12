@@ -65,6 +65,7 @@ const styles = {
         align-items: center;
         flex-direction: column;
         gap: ${space[4]}px;
+        margin-top: ${space[2]}px;
         margin-bottom: ${space[2]}px;
 
         > span {
@@ -75,6 +76,7 @@ const styles = {
             flex-direction: row;
             gap: 0;
             margin-bottom: 0;
+            margin-top: ${space[3]}px;
 
             > span {
                 width: auto;
