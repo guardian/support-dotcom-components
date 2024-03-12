@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceCardGroup, ChoiceCard, Stack } from '@guardian/source-react-components';
+import { ChoiceCardGroup, ChoiceCard } from '@guardian/source-react-components';
 import {
     ContributionFrequency,
     SelectedAmountsVariant,
@@ -9,7 +9,7 @@ import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/c
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 import { css } from '@emotion/react';
-import { space, until } from '@guardian/source-foundations';
+import { from, space, until } from '@guardian/source-foundations';
 
 interface ChoiceCardInteractiveProps {
     selection?: ChoiceCardSelection;
@@ -55,6 +55,10 @@ const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: n
             }
         `,
         amountsOverride: css`
+            ${from.mobileLandscape} {
+                margin-bottom: ${space[3]}px;
+            }
+
             > div > label > div {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
@@ -211,37 +215,27 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
 
     return (
         <>
-            <Stack space={3}>
-                <div>
-                    <ChoiceCardGroup
-                        name="contribution-frequency"
-                        label="Contribution frequency"
-                        columns={noOfContributionTabs}
-                        hideLabel
-                        cssOverrides={style.amountsOverride}
-                    >
-                        {contributionTypeTabOrder.map((f) =>
-                            displayContributionType.includes(f) ? (
-                                generateChoiceCardFrequencyTab(f)
-                            ) : (
-                                <></>
-                            ),
-                        )}
-                    </ChoiceCardGroup>
-                </div>
-                <div>
-                    <ChoiceCardGroup
-                        name="contribution-amount"
-                        label="Contribution amount"
-                        columns={2}
-                        hideLabel
-                        aria-labelledby={selection.frequency}
-                        cssOverrides={style.lastAmountOverride}
-                    >
-                        {generateChoiceCardAmountsButtons()}
-                    </ChoiceCardGroup>
-                </div>
-            </Stack>
+            <ChoiceCardGroup
+                name="contribution-frequency"
+                label="Contribution frequency"
+                columns={noOfContributionTabs}
+                hideLabel
+                cssOverrides={style.amountsOverride}
+            >
+                {contributionTypeTabOrder.map((f) =>
+                    displayContributionType.includes(f) ? generateChoiceCardFrequencyTab(f) : <></>,
+                )}
+            </ChoiceCardGroup>
+            <ChoiceCardGroup
+                name="contribution-amount"
+                label="Contribution amount"
+                columns={2}
+                hideLabel
+                aria-labelledby={selection.frequency}
+                cssOverrides={style.lastAmountOverride}
+            >
+                {generateChoiceCardAmountsButtons()}
+            </ChoiceCardGroup>
         </>
     );
 };
