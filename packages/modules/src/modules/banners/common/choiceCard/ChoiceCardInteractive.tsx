@@ -9,6 +9,7 @@ import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/c
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 import { css } from '@emotion/react';
+import { space, until } from '@guardian/source-foundations';
 
 interface ChoiceCardInteractiveProps {
     selection?: ChoiceCardSelection;
@@ -20,7 +21,7 @@ interface ChoiceCardInteractiveProps {
     design?: ChoiceCardSettings;
 }
 
-const buildStyles = (design: ChoiceCardSettings | undefined) => {
+const buildStyles = (design: ChoiceCardSettings | undefined, frequencyColumns: number) => {
     const {
         buttonColour,
         buttonTextColour,
@@ -58,11 +59,24 @@ const buildStyles = (design: ChoiceCardSettings | undefined) => {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
             }
+            > div {
+                ${until.mobileLandscape} {
+                    display: grid;
+                    column-gap: ${space[2]}px;
+                    grid-template-columns: repeat(${frequencyColumns}, 1fr);
+                }
+            }
         `,
         lastAmountOverride: css`
             > div > label:last-of-type {
                 grid-column-start: 1;
                 grid-column-end: 3;
+            }
+            > div {
+                ${until.mobileLandscape} {
+                    display: grid;
+                    column-gap: ${space[2]}px;
+                }
             }
         `,
     };
@@ -92,7 +106,7 @@ export const ChoiceCardInteractive: ReactComponent<ChoiceCardInteractiveProps> =
     const noOfContributionTabs = displayContributionType.length > 2 ? 3 : 2;
     const hideChooseYourAmount = !!amountsCardData[selection.frequency].hideChooseYourAmount;
 
-    const style = buildStyles(design);
+    const style = buildStyles(design, noOfContributionTabs);
 
     const trackClick = (type: 'amount' | 'frequency'): void => {
         if (submitComponentEvent) {
