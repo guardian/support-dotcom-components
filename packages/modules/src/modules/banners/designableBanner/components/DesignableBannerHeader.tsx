@@ -59,7 +59,7 @@ const getStyles = (headerSettings: HeaderSettings | undefined) => {
                 ${from.tablet} {
                     ${headline.small({ fontWeight: 'bold' })}
                 }
-                ${from.desktop} {
+                ${from.leftCol} {
                     ${headline.medium({ fontWeight: 'bold' })}
                 }
             }

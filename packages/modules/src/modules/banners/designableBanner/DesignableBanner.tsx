@@ -35,9 +35,9 @@ const buildImageSettings = (
     return {
         mainUrl: design.mobileUrl,
         mobileUrl: design.mobileUrl,
-        tabletUrl: design.tabletDesktopUrl,
-        desktopUrl: design.tabletDesktopUrl,
-        wideUrl: design.wideUrl,
+        tabletUrl: design.tabletUrl,
+        desktopUrl: design.desktopUrl,
+        wideUrl: design.desktopUrl,
         altText: design.altText,
     };
 };
@@ -349,7 +349,7 @@ const styles = {
         ${from.tablet} {
             position: static;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1fr 280px;
             grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
             position: relative;
@@ -359,6 +359,7 @@ const styles = {
         }
         ${from.desktop} {
             column-gap: 60px;
+            grid-template-columns: 1fr 460px;
         }
         ${from.wide} {
             column-gap: 100px;
@@ -379,19 +380,14 @@ const styles = {
         }
     `,
     headerContainer: (background: string, bannerHasImage: boolean) => css`
-        order: 1;
-        ${until.tablet} {
-            max-width: calc(100% - 40px - ${space[3]}px);
-        }
-        ${between.mobileMedium.and.tablet} {
-            order: ${bannerHasImage ? '2' : '1'};
-            max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
-        }
+        order: ${bannerHasImage ? '2' : '1'};
+
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
             background: ${background};
         }
+
         ${templateSpacing.bannerHeader}
     `,
     headerWithImageContainer: (background: string) => css`
@@ -415,18 +411,12 @@ const styles = {
         }
     `,
     bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
-        display: ${isChoiceCardsContainer ? 'block' : 'none'};
         order: ${isChoiceCardsContainer ? '3' : '1'};
         background: ${background};
-        ${from.mobileMedium} {
-            display: block;
-        }
         ${from.tablet} {
             grid-column: 2 / span 1;
-            grid-row-start: ${isChoiceCardsContainer ? '2' : '1'};
-            grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
-            align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
-            margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
+            grid-row: 2 / span 1;
+            align-self: flex-start;
         }
     `,
     ctasContainer: css`
