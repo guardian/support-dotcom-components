@@ -382,6 +382,15 @@ const styles = {
     headerContainer: (background: string, bannerHasImage: boolean) => css`
         order: ${bannerHasImage ? '2' : '1'};
 
+        ${bannerHasImage
+            ? ''
+            : `${until.tablet} {
+                max-width: calc(100% - 40px - ${space[3]}px);
+            }
+            ${between.mobileMedium.and.tablet} {
+                max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
+            }`}
+
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
