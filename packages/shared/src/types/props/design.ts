@@ -20,8 +20,8 @@ export const hexColourSchema = z.object({
 
 const imageSchema = z.object({
     mobileUrl: z.string(),
-    tabletDesktopUrl: z.string(),
-    wideUrl: z.string(),
+    tabletUrl: z.string(),
+    desktopUrl: z.string(),
     altText: z.string(),
     kind: z.literal('Image'),
 });
