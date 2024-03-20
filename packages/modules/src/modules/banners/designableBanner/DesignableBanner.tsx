@@ -222,11 +222,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             )}
         >
             <div css={styles.containerOverrides}>
-                <DesignableBannerCloseButton
-                    onCloseClick={onCloseClick}
-                    settings={templateSettings.closeButtonSettings}
-                    styleOverides={styles.closeButtonOverrides}
-                />
                 <div css={getHeaderContainerCss()}>
                     <DesignableBannerHeader
                         heading={content.mainContent.heading}
@@ -270,42 +265,60 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         </section>
                     )}
                 </div>
-                <div
-                    css={styles.bannerVisualContainer(
-                        templateSettings.containerSettings.backgroundColour,
-                        !!templateSettings.choiceCardSettings,
-                    )}
-                >
-                    {templateSettings.imageSettings && (
+                {templateSettings.imageSettings && (
+                    <div
+                        css={styles.bannerVisualContainer(
+                            templateSettings.containerSettings.backgroundColour,
+                        )}
+                    >
+                        <DesignableBannerCloseButton
+                            onCloseClick={onCloseClick}
+                            settings={templateSettings.closeButtonSettings}
+                            styleOverides={styles.closeButtonOverrides(false)}
+                        />
                         <DesignableBannerVisual
                             settings={templateSettings.imageSettings}
                             bannerId={templateSettings.bannerId}
                         />
-                    )}
-                    {/*
+
+                        {/*
                         I think `alternativeVisual` was for using SVG as the image, which is currently beyond the scope of the design tool. Suggest we remove?
                     */}
-                    {templateSettings.alternativeVisual}
-                    {showChoiceCards && (
-                        <ChoiceCards
-                            setSelectionsCallback={setChoiceCardSelection}
-                            selection={choiceCardSelection}
-                            submitComponentEvent={submitComponentEvent}
-                            currencySymbol={currencySymbol}
-                            componentId={'contributions-banner-choice-cards'}
-                            amountsTest={choiceCardAmounts}
-                            design={templateSettings.choiceCardSettings}
-                            countryCode={countryCode}
-                            bannerTracking={tracking}
-                            numArticles={numArticles}
-                            content={content}
-                            getCtaText={getCtaText}
-                            cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
-                            onCtaClick={onCtaClick}
-                            showMobilePaymentIcons={showMobilePaymentIcons}
+                        {templateSettings.alternativeVisual}
+                    </div>
+                )}
+                {showChoiceCards && (
+                    <>
+                        <DesignableBannerCloseButton
+                            onCloseClick={onCloseClick}
+                            settings={templateSettings.closeButtonSettings}
+                            styleOverides={styles.closeButtonOverrides(true)}
                         />
-                    )}
-                </div>
+                        <div
+                            css={styles.choiceCardsContainer(
+                                templateSettings.containerSettings.backgroundColour,
+                            )}
+                        >
+                            <ChoiceCards
+                                setSelectionsCallback={setChoiceCardSelection}
+                                selection={choiceCardSelection}
+                                submitComponentEvent={submitComponentEvent}
+                                currencySymbol={currencySymbol}
+                                componentId={'contributions-banner-choice-cards'}
+                                amountsTest={choiceCardAmounts}
+                                design={templateSettings.choiceCardSettings}
+                                countryCode={countryCode}
+                                bannerTracking={tracking}
+                                numArticles={numArticles}
+                                content={content}
+                                getCtaText={getCtaText}
+                                cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
+                                onCtaClick={onCtaClick}
+                                showMobilePaymentIcons={showMobilePaymentIcons}
+                            />
+                        </div>
+                    </>
+                )}
                 <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
@@ -366,7 +379,7 @@ const styles = {
         }
         ${templateSpacing.bannerContainer};
     `,
-    closeButtonOverrides: css`
+    closeButtonOverrides: (isGridCell: boolean) => css`
         ${until.tablet} {
             position: fixed;
             margin-top: ${space[3]}px;
@@ -375,8 +388,17 @@ const styles = {
         }
         ${from.tablet} {
             margin-top: ${space[3]}px;
-            grid-column: 2 / span 1;
-            grid-row: 1 / span 1;
+
+            ${isGridCell
+                ? css`
+                      grid-column: 2 / span 1;
+                      grid-row: 1 / span 1;
+                  `
+                : css`
+                      margin-bottom: ${space[3]}px;
+                      display: flex;
+                      justify-content: flex-end;
+                  `}
         }
     `,
     headerContainer: (background: string, bannerHasImage: boolean) => css`
@@ -413,13 +435,21 @@ const styles = {
             grid-row: 2 / span 2;
         }
     `,
-    bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
-        order: ${isChoiceCardsContainer ? '3' : '1'};
+    bannerVisualContainer: (background: string) => css`
+        order: 1;
+        background: ${background};
+        ${from.tablet} {
+            grid-column: 2 / span 1;
+            grid-row: 1 / span 2;
+            align-self: flex-start;
+        }
+    `,
+    choiceCardsContainer: (background: string) => css`
+        order: 3;
         background: ${background};
         ${from.tablet} {
             grid-column: 2 / span 1;
             grid-row: 2 / span 1;
-            align-self: flex-start;
         }
     `,
     ctasContainer: css`
