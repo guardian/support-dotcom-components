@@ -265,7 +265,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         </section>
                     )}
                 </div>
-                {templateSettings.imageSettings && (
+                {templateSettings.imageSettings ? (
                     <div
                         css={styles.bannerVisualContainer(
                             templateSettings.containerSettings.backgroundColour,
@@ -286,38 +286,37 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     */}
                         {templateSettings.alternativeVisual}
                     </div>
+                ) : (
+                    <DesignableBannerCloseButton
+                        onCloseClick={onCloseClick}
+                        settings={templateSettings.closeButtonSettings}
+                        styleOverides={styles.closeButtonOverrides(true)}
+                    />
                 )}
                 {showChoiceCards && (
-                    <>
-                        <DesignableBannerCloseButton
-                            onCloseClick={onCloseClick}
-                            settings={templateSettings.closeButtonSettings}
-                            styleOverides={styles.closeButtonOverrides(true)}
+                    <div
+                        css={styles.choiceCardsContainer(
+                            templateSettings.containerSettings.backgroundColour,
+                        )}
+                    >
+                        <ChoiceCards
+                            setSelectionsCallback={setChoiceCardSelection}
+                            selection={choiceCardSelection}
+                            submitComponentEvent={submitComponentEvent}
+                            currencySymbol={currencySymbol}
+                            componentId={'contributions-banner-choice-cards'}
+                            amountsTest={choiceCardAmounts}
+                            design={templateSettings.choiceCardSettings}
+                            countryCode={countryCode}
+                            bannerTracking={tracking}
+                            numArticles={numArticles}
+                            content={content}
+                            getCtaText={getCtaText}
+                            cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
+                            onCtaClick={onCtaClick}
+                            showMobilePaymentIcons={showMobilePaymentIcons}
                         />
-                        <div
-                            css={styles.choiceCardsContainer(
-                                templateSettings.containerSettings.backgroundColour,
-                            )}
-                        >
-                            <ChoiceCards
-                                setSelectionsCallback={setChoiceCardSelection}
-                                selection={choiceCardSelection}
-                                submitComponentEvent={submitComponentEvent}
-                                currencySymbol={currencySymbol}
-                                componentId={'contributions-banner-choice-cards'}
-                                amountsTest={choiceCardAmounts}
-                                design={templateSettings.choiceCardSettings}
-                                countryCode={countryCode}
-                                bannerTracking={tracking}
-                                numArticles={numArticles}
-                                content={content}
-                                getCtaText={getCtaText}
-                                cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
-                                onCtaClick={onCtaClick}
-                                showMobilePaymentIcons={showMobilePaymentIcons}
-                            />
-                        </div>
-                    </>
+                    </div>
                 )}
                 <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
@@ -450,6 +449,9 @@ const styles = {
         ${from.tablet} {
             grid-column: 2 / span 1;
             grid-row: 2 / span 1;
+            align-self: flex-start;
+            display: flex;
+            justify-content: flex-end;
         }
     `,
     ctasContainer: css`
