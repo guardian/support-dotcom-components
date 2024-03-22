@@ -334,20 +334,6 @@ DesignFourHeaderImageAndCopy.args = {
     choiceCardAmounts: regularChoiceCardAmounts,
 };
 
-export const DesignFiveHeaderImageAndImage = DefaultTemplate.bind({});
-DesignFiveHeaderImageAndImage.args = {
-    ...props,
-    content: contentWithHeading,
-    mobileContent: mobileContentWithHeading,
-    numArticles: 50,
-    tickerSettings,
-    design: {
-        ...design,
-        headerImage,
-        visual: regularImage,
-    },
-};
-
 export const NoChoiceCardOrImage = DefaultTemplate.bind({});
 NoChoiceCardOrImage.args = {
     ...props,
