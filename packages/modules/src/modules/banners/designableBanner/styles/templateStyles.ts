@@ -1,11 +1,10 @@
 import { css } from '@emotion/react';
-import { space, from, until } from '@guardian/source-foundations';
+import { space, from } from '@guardian/source-foundations';
 
 const templateSpacing = {
     bannerContainer: css`
-        ${until.tablet} {
-            margin-bottom: ${space[4]}px;
-        }
+        margin-bottom: ${space[4]}px;
+
         ${from.tablet} {
             margin-bottom: ${space[3]}px;
         }
@@ -14,17 +13,15 @@ const templateSpacing = {
         margin: 0;
     `,
     bannerBodyCopy: css`
-        ${until.tablet} {
-            margin-bottom: ${space[4]}px;
-        }
+        margin-bottom: ${space[4]}px;
+
         ${from.tablet} {
             margin-bottom: ${space[6]}px;
         }
     `,
     bannerTicker: css`
-        ${until.tablet} {
-            margin-bottom: ${space[4]}px;
-        }
+        margin-bottom: ${space[4]}px;
+
         ${from.tablet} {
             margin-bottom: ${space[3]}px;
         }

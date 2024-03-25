@@ -43,9 +43,12 @@ export function DesignableBannerVisual({
     }
 
     return (
-        <div css={styles.container}>
-            <ResponsiveImage baseImage={baseImage} images={images} bannerId={bannerId} />
-        </div>
+        <ResponsiveImage
+            baseImage={baseImage}
+            images={images}
+            bannerId={bannerId}
+            cssOverrides={styles.container}
+        />
     );
 }
 
@@ -69,21 +72,27 @@ const getStyles = (isHeaderImage = false) => {
     }
     return {
         container: css`
-            height: 140px;
-            display: flex;
-            justify-content: center;
+            display: block;
+            width: calc(100% + 20px);
+            margin-left: -10px;
+            margin-right: -10px;
 
             img {
-                height: 100%;
                 width: 100%;
                 object-fit: contain;
                 display: block;
+
+                ${from.tablet} {
+                    max-height: none;
+                }
             }
 
             ${from.tablet} {
                 height: 100%;
                 width: 100%;
                 align-items: center;
+                margin-left: 0;
+                margin-right: 0;
             }
         `,
     };

@@ -41,23 +41,13 @@ const styles = {
     container: css`
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
-        max-width: 296px;
 
-        ${from.mobile} {
-            max-width: 351px;
-        }
-
-        ${from.mobileMedium} {
-            max-width: 456px;
-        }
-
-        ${from.mobileLandscape} {
-            max-width: 716px;
+        ${from.tablet} {
+            width: 280px;
         }
 
         ${from.desktop} {
-            min-height: 208px;
-            max-width: 380px;
+            width: 380px;
         }
     `,
     ctaAndPaymentCardsContainer: css`
@@ -65,16 +55,18 @@ const styles = {
         align-items: center;
         flex-direction: column;
         gap: ${space[4]}px;
+        margin-top: ${space[2]}px;
         margin-bottom: ${space[2]}px;
 
         > span {
             width: 100%;
         }
 
-        ${from.tablet} {
+        ${from.desktop} {
             flex-direction: row;
             gap: 0;
             margin-bottom: 0;
+            margin-top: ${space[3]}px;
 
             > span {
                 width: auto;
@@ -82,7 +74,7 @@ const styles = {
         }
     `,
     paymentCardsSvgOverrides: css`
-        ${from.tablet} {
+        ${from.desktop} {
             margin-top: -10px;
         }
     `,
@@ -90,7 +82,7 @@ const styles = {
         width: 100%;
         justify-content: center;
 
-        ${from.tablet} {
+        ${from.desktop} {
             width: auto;
         }
     `,

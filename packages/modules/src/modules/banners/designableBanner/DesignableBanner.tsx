@@ -35,9 +35,9 @@ const buildImageSettings = (
     return {
         mainUrl: design.mobileUrl,
         mobileUrl: design.mobileUrl,
-        tabletUrl: design.tabletDesktopUrl,
-        desktopUrl: design.tabletDesktopUrl,
-        wideUrl: design.wideUrl,
+        tabletUrl: design.tabletUrl,
+        desktopUrl: design.desktopUrl,
+        wideUrl: design.desktopUrl,
         altText: design.altText,
     };
 };
@@ -216,11 +216,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             )}
         >
             <div css={styles.containerOverrides}>
-                <DesignableBannerCloseButton
-                    onCloseClick={onCloseClick}
-                    settings={templateSettings.closeButtonSettings}
-                    styleOverides={styles.closeButtonOverrides}
-                />
                 <div css={getHeaderContainerCss()}>
                     <DesignableBannerHeader
                         heading={content.mainContent.heading}
@@ -264,23 +259,40 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         </section>
                     )}
                 </div>
-                <div
-                    css={styles.bannerVisualContainer(
-                        templateSettings.containerSettings.backgroundColour,
-                        !!templateSettings.choiceCardSettings,
-                    )}
-                >
-                    {templateSettings.imageSettings && (
+                {templateSettings.imageSettings ? (
+                    <div
+                        css={styles.bannerVisualContainer(
+                            templateSettings.containerSettings.backgroundColour,
+                        )}
+                    >
+                        <DesignableBannerCloseButton
+                            onCloseClick={onCloseClick}
+                            settings={templateSettings.closeButtonSettings}
+                            styleOverides={styles.closeButtonOverrides(false)}
+                        />
                         <DesignableBannerVisual
                             settings={templateSettings.imageSettings}
                             bannerId={templateSettings.bannerId}
                         />
-                    )}
-                    {/*
+
+                        {/*
                         I think `alternativeVisual` was for using SVG as the image, which is currently beyond the scope of the design tool. Suggest we remove?
                     */}
-                    {templateSettings.alternativeVisual}
-                    {showChoiceCards && (
+                        {templateSettings.alternativeVisual}
+                    </div>
+                ) : (
+                    <DesignableBannerCloseButton
+                        onCloseClick={onCloseClick}
+                        settings={templateSettings.closeButtonSettings}
+                        styleOverides={styles.closeButtonOverrides(true)}
+                    />
+                )}
+                {showChoiceCards && (
+                    <div
+                        css={styles.choiceCardsContainer(
+                            templateSettings.containerSettings.backgroundColour,
+                        )}
+                    >
                         <ChoiceCards
                             setSelectionsCallback={setChoiceCardSelection}
                             selection={choiceCardSelection}
@@ -297,8 +309,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
                             onCtaClick={onCtaClick}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
                 <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
@@ -342,7 +354,7 @@ const styles = {
         ${from.tablet} {
             position: static;
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1fr 280px;
             grid-template-rows: auto 1fr auto;
             column-gap: ${space[5]}px;
             position: relative;
@@ -352,13 +364,14 @@ const styles = {
         }
         ${from.desktop} {
             column-gap: 60px;
+            grid-template-columns: 1fr 460px;
         }
         ${from.wide} {
             column-gap: 100px;
         }
         ${templateSpacing.bannerContainer};
     `,
-    closeButtonOverrides: css`
+    closeButtonOverrides: (isGridCell: boolean) => css`
         ${until.tablet} {
             position: fixed;
             margin-top: ${space[3]}px;
@@ -367,24 +380,31 @@ const styles = {
         }
         ${from.tablet} {
             margin-top: ${space[3]}px;
-            grid-column: 2 / span 1;
-            grid-row: 1 / span 1;
+
+            ${isGridCell
+                ? css`
+                      grid-column: 2 / span 1;
+                      grid-row: 1 / span 1;
+                  `
+                : css`
+                      margin-bottom: ${space[3]}px;
+                      display: flex;
+                      justify-content: flex-end;
+                  `}
         }
     `,
     headerContainer: (background: string, bannerHasImage: boolean) => css`
-        order: 1;
+        order: ${bannerHasImage ? '2' : '1'};
         ${until.tablet} {
-            max-width: calc(100% - 40px - ${space[3]}px);
+            ${bannerHasImage ? '' : `max-width: calc(100% - 40px - ${space[3]}px);`}
         }
-        ${between.mobileMedium.and.tablet} {
-            order: ${bannerHasImage ? '2' : '1'};
-            max-width: ${bannerHasImage ? '100%' : 'calc(100% - 40px - ${space[3]}px)'};
-        }
+
         ${from.tablet} {
             grid-column: 1 / span 1;
             grid-row: 1 / span 1;
             background: ${background};
         }
+
         ${templateSpacing.bannerHeader}
     `,
     headerWithImageContainer: (background: string) => css`
@@ -407,19 +427,24 @@ const styles = {
             grid-row: 2 / span 2;
         }
     `,
-    bannerVisualContainer: (background: string, isChoiceCardsContainer?: boolean) => css`
-        display: ${isChoiceCardsContainer ? 'block' : 'none'};
-        order: ${isChoiceCardsContainer ? '3' : '1'};
+    bannerVisualContainer: (background: string) => css`
+        order: 1;
         background: ${background};
-        ${from.mobileMedium} {
-            display: block;
-        }
         ${from.tablet} {
             grid-column: 2 / span 1;
-            grid-row-start: ${isChoiceCardsContainer ? '2' : '1'};
-            grid-row-end: span ${isChoiceCardsContainer ? '1' : '2'};
-            align-self: ${isChoiceCardsContainer ? 'start' : 'center'};
-            margin-top: ${isChoiceCardsContainer ? '0' : `calc(${space[3]}px + 40px)`};
+            grid-row: 1 / span 2;
+            align-self: flex-start;
+        }
+    `,
+    choiceCardsContainer: (background: string) => css`
+        order: 3;
+        background: ${background};
+        ${from.tablet} {
+            grid-column: 2 / span 1;
+            grid-row: 2 / span 1;
+            align-self: flex-start;
+            display: flex;
+            justify-content: flex-end;
         }
     `,
     ctasContainer: css`
