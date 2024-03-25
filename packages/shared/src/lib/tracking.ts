@@ -7,6 +7,7 @@ import {
     TargetingAbTest,
     EpicTest,
     EpicVariant,
+    ContributionFrequency,
 } from '../types';
 
 // TRACKING VIA support.theguardian.com
@@ -191,6 +192,16 @@ export const addProfileTrackingParams = (baseUrl: string, params: Tracking): str
     const alreadyHasQueryString = baseUrl.includes('?');
 
     return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString.join('&')}`;
+};
+
+export const addChoiceCardsParams = (
+    url: string,
+    frequency: ContributionFrequency,
+    amount: number | 'other',
+): string => {
+    const newParams = `selected-contribution-type=${frequency}&selected-amount=${amount}`;
+    const alreadyHasQueryString = url.includes('?');
+    return `${url}${alreadyHasQueryString ? '&' : '?'}${newParams}`;
 };
 
 export const isProfileUrl = (baseUrl: string): boolean => /\bprofile\./.test(baseUrl);
