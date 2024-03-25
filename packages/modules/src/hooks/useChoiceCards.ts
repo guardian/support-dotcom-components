@@ -1,12 +1,14 @@
 import { ContributionFrequency, SelectedAmountsVariant } from '@sdc/shared/src/types/abTests/epic';
 import { useState, useEffect } from 'react';
 import { BannerTextContent } from '../modules/banners/common/types';
-import { getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
+import { addChoiceCardsParams, getLocalCurrencySymbol } from '@sdc/shared/dist/lib';
 
 export interface ChoiceCardSelection {
     frequency: ContributionFrequency;
     amount: number | 'other';
 }
+
+export type ContentType = 'mainContent' | 'mobileContent';
 
 const useChoiceCards = (
     choiceCardAmounts: SelectedAmountsVariant | undefined,
@@ -15,7 +17,8 @@ const useChoiceCards = (
 ): {
     choiceCardSelection: ChoiceCardSelection | undefined;
     setChoiceCardSelection: (choiceCardSelection: ChoiceCardSelection) => void;
-    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
+    getCtaText: (contentType: ContentType) => string;
+    getCtaUrl: (contentType: ContentType) => string;
     currencySymbol: string;
 } => {
     const [choiceCardSelection, setChoiceCardSelection] = useState<
@@ -36,10 +39,25 @@ const useChoiceCards = (
         }
     }, [choiceCardAmounts]);
 
-    const getCtaText = (contentType: 'mainContent' | 'mobileContent'): string => {
+    const getCtaText = (contentType: ContentType): string => {
         const primaryCtaText = content?.[contentType]?.primaryCta?.ctaText;
 
         return primaryCtaText ? primaryCtaText : 'Contribute';
+    };
+    const getCtaUrl = (contentType: ContentType): string => {
+        const primaryCtaUrl =
+            content?.[contentType]?.primaryCta?.ctaUrl ??
+            'https://support.theguardian.com/contribute';
+
+        if (choiceCardSelection) {
+            return addChoiceCardsParams(
+                primaryCtaUrl,
+                choiceCardSelection.frequency,
+                choiceCardSelection.amount,
+            );
+        } else {
+            return primaryCtaUrl;
+        }
     };
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
@@ -48,6 +66,7 @@ const useChoiceCards = (
         choiceCardSelection,
         setChoiceCardSelection,
         getCtaText,
+        getCtaUrl,
         currencySymbol,
     };
 };
