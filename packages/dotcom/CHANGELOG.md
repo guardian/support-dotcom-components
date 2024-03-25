@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.0.1
+
+### Patch Changes
+
+-   Adds addChoiceCardsParams function
+
 ## 2.0.0
 
 ### Major Changes
