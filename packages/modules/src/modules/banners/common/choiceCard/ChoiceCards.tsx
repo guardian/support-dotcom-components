@@ -41,23 +41,13 @@ const styles = {
     container: css`
         // This position: relative is necessary to stop it jumping to the top of the page when a button is clicked
         position: relative;
-        max-width: 296px;
 
-        ${from.mobile} {
-            max-width: 351px;
-        }
-
-        ${from.mobileMedium} {
-            max-width: 456px;
-        }
-
-        ${from.mobileLandscape} {
-            max-width: 716px;
+        ${from.tablet} {
+            width: 280px;
         }
 
         ${from.desktop} {
-            min-height: 208px;
-            max-width: 380px;
+            width: 380px;
         }
     `,
     ctaAndPaymentCardsContainer: css`
