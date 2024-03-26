@@ -1,6 +1,14 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space, specialReport, between, from, until } from '@guardian/source-foundations';
+import {
+    neutral,
+    space,
+    specialReport,
+    between,
+    from,
+    until,
+    body,
+} from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -27,7 +35,7 @@ import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
-import { SvgGuardianLogo } from '@guardian/source-react-components';
+import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -214,6 +222,10 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         );
     };
 
+    const showReminder =
+        (abTestName.includes('REMIND_ME_LATER') && abTestVariant === 'V1_SHOW_REMIND_ME_LATER') ||
+        mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
+
     return (
         <div
             css={styles.outerContainer(
@@ -321,16 +333,34 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
-            </div>
-            {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
-                isReminderActive && (
-                    <DesignableBannerReminder
-                        reminderCta={mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta}
-                        trackReminderSetClick={reminderTracking.onReminderSetClick}
-                        setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                        mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
-                    />
+
+                {showReminder && (
+                    <>
+                        <div css={styles.reminderContainer}>
+                            <div css={styles.reminderCtaContainer}>
+                                Not ready to support today?{' '}
+                                <Button
+                                    priority="subdued"
+                                    onClick={onReminderCtaClick}
+                                    cssOverrides={styles.reminderCta}
+                                >
+                                    Remind me later
+                                </Button>
+                            </div>
+                        </div>
+                        {isReminderActive && (
+                            <DesignableBannerReminder
+                                reminderCta={
+                                    mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
+                                }
+                                trackReminderSetClick={reminderTracking.onReminderSetClick}
+                                setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                                mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+                            />
+                        )}
+                    </>
                 )}
+            </div>
         </div>
     );
 };
@@ -390,8 +420,8 @@ const styles = {
 
             ${isGridCell
                 ? css`
-                      grid-column: 2 / span 1;
-                      grid-row: 1 / span 1;
+                      grid-column: 2;
+                      grid-row: 1;
                   `
                 : css`
                       margin-bottom: ${space[3]}px;
@@ -407,8 +437,8 @@ const styles = {
         }
 
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 1 / span 1;
+            grid-column: 1;
+            grid-row: 1;
             background: ${background};
         }
 
@@ -421,8 +451,8 @@ const styles = {
             order: '2';
         }
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 1 / span 1;
+            grid-column: 1;
+            grid-row: 1;
             background: ${background};
         }
         ${templateSpacing.bannerHeader}
@@ -430,15 +460,15 @@ const styles = {
     contentContainer: css`
         order: 2;
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 2 / span 2;
+            grid-column: 1;
+            grid-row: 2;
         }
     `,
     bannerVisualContainer: (background: string) => css`
         order: 1;
         background: ${background};
         ${from.tablet} {
-            grid-column: 2 / span 1;
+            grid-column: 2;
             grid-row: 1 / span 2;
             align-self: flex-start;
         }
@@ -447,8 +477,8 @@ const styles = {
         order: 3;
         background: ${background};
         ${from.tablet} {
-            grid-column: 2 / span 1;
-            grid-row: 2 / span 1;
+            grid-column: 2;
+            grid-row: 2;
             align-self: flex-start;
             display: flex;
             justify-content: flex-end;
@@ -464,10 +494,26 @@ const styles = {
             display: block;
             width: 100px;
         }
-        grid-column: 2 / span 1;
-        grid-row: 3 / span 1;
+        grid-column: 2;
+        grid-row: 3;
         justify-self: end;
         padding-top: ${space[3]}px;
+    `,
+    reminderContainer: css`
+        ${body.small({ lineHeight: 'regular' })};
+        grid-column: 1;
+        grid-row: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    `,
+    reminderCtaContainer: css`
+        display: block;
+    `,
+    reminderCta: css`
+        ${body.small({ lineHeight: 'regular' })};
+        color: ${neutral[0]};
+        display: inline;
     `,
 };
 

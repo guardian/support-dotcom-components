@@ -180,6 +180,7 @@ const withBannerData =
                     return {
                         type: SecondaryCtaType.Custom,
                         cta: buildEnrichedCta(secondaryCta.cta),
+                        reminderFields: getReminderFields(countryCode),
                     };
                 }
 
