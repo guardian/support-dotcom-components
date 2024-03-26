@@ -1,10 +1,8 @@
 import React from 'react';
-import { addRegionIdAndTrackingParamsToSupportUrl } from '@sdc/shared/dist/lib';
-import { Tracking } from '@sdc/shared/dist/types';
 import { space } from '@guardian/source-foundations';
 import { css, SerializedStyles } from '@emotion/react';
 import { Hide, SvgArrowRightStraight, LinkButton } from '@guardian/source-react-components';
-import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
+import { ContentType } from '../../../../hooks/useChoiceCards';
 
 const buttonOverrides = css`
     margin-right: ${space[3]}px;
@@ -13,45 +11,27 @@ const buttonOverrides = css`
 `;
 
 export const ChoiceCardsSupportCta = ({
-    tracking,
-    numArticles,
-    countryCode,
-    amountsTestName,
-    amountsVariantName,
-    selection,
     getCtaText,
+    getCtaUrl,
     cssOverrides,
     onCtaClick,
 }: {
-    tracking: Tracking;
-    numArticles: number;
-    countryCode?: string;
-    amountsTestName?: string;
-    amountsVariantName?: string;
-    selection: ChoiceCardSelection;
-    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
+    getCtaText: (contentType: ContentType) => string;
+    getCtaUrl: (contentType: ContentType) => string;
     cssOverrides?: SerializedStyles;
     onCtaClick: () => void;
 }): JSX.Element | null => {
-    const url = `https://support.theguardian.com/contribute?selected-contribution-type=${selection.frequency}&selected-amount=${selection.amount}`;
-
     const mobileText = getCtaText('mobileContent');
     const desktopText = getCtaText('mainContent');
 
-    const supportUrl = addRegionIdAndTrackingParamsToSupportUrl(
-        url,
-        tracking,
-        numArticles,
-        countryCode,
-        amountsTestName,
-        amountsVariantName,
-    );
+    const mobileUrl = getCtaUrl('mobileContent');
+    const desktopUrl = getCtaUrl('mainContent');
 
     return (
         <>
             <Hide above="tablet">
                 <LinkButton
-                    href={supportUrl}
+                    href={mobileUrl}
                     onClick={onCtaClick}
                     priority="tertiary"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}
@@ -66,7 +46,7 @@ export const ChoiceCardsSupportCta = ({
 
             <Hide below="tablet">
                 <LinkButton
-                    href={supportUrl}
+                    href={desktopUrl}
                     onClick={onCtaClick}
                     priority="tertiary"
                     cssOverrides={[buttonOverrides, cssOverrides ?? css``]}

@@ -204,7 +204,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const isTabletOrAbove = useMediaQuery(from.tablet);
     const mainOrMobileContent = isTabletOrAbove ? content.mainContent : content.mobileContent;
 
-    const { choiceCardSelection, setChoiceCardSelection, getCtaText, currencySymbol } =
+    const { choiceCardSelection, setChoiceCardSelection, getCtaText, getCtaUrl, currencySymbol } =
         useChoiceCards(choiceCardAmounts, countryCode, content);
     const showChoiceCards = !!(
         templateSettings.choiceCardSettings && choiceCardAmounts?.amountsCardData
@@ -319,11 +319,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             componentId={'contributions-banner-choice-cards'}
                             amountsTest={choiceCardAmounts}
                             design={templateSettings.choiceCardSettings}
-                            countryCode={countryCode}
-                            bannerTracking={tracking}
-                            numArticles={numArticles}
                             content={content}
                             getCtaText={getCtaText}
+                            getCtaUrl={getCtaUrl}
                             cssCtaOverides={buttonStyles(templateSettings.primaryCtaSettings)}
                             onCtaClick={onCtaClick}
                             showMobilePaymentIcons={showMobilePaymentIcons}

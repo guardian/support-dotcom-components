@@ -6,9 +6,10 @@ import { ChoiceCardInteractive } from './ChoiceCardInteractive';
 import { ChoiceCardsSupportCta } from './ChoiceCardsSupportCta';
 import { PaymentCards } from '../PaymentCards';
 import { BannerTextContent } from '../../common/types';
-import { OphanComponentEvent, SelectedAmountsVariant, Tracking } from '@sdc/shared/src/types';
+import { OphanComponentEvent, SelectedAmountsVariant } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
+import { ContentType } from '../../../../hooks/useChoiceCards';
 
 export interface ChoiceCardSettings {
     buttonColour?: string;
@@ -25,12 +26,10 @@ interface ChoiceCardProps {
     submitComponentEvent?: (event: OphanComponentEvent) => void;
     currencySymbol: string;
     componentId: string;
-    getCtaText: (contentType: 'mainContent' | 'mobileContent') => string;
+    getCtaText: (contentType: ContentType) => string;
+    getCtaUrl: (contentType: ContentType) => string;
     amountsTest?: SelectedAmountsVariant;
     design?: ChoiceCardSettings;
-    countryCode?: string;
-    bannerTracking?: Tracking;
-    numArticles?: number;
     content?: BannerTextContent;
     cssCtaOverides?: SerializedStyles;
     onCtaClick: () => void;
@@ -96,10 +95,8 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     componentId,
     amountsTest,
     design,
-    countryCode,
-    bannerTracking,
-    numArticles,
     getCtaText,
+    getCtaUrl,
     cssCtaOverides,
     onCtaClick,
     showMobilePaymentIcons = false,
@@ -143,28 +140,21 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                 componentId={componentId}
             />
 
-            {bannerTracking && (
-                <div css={styles.ctaAndPaymentCardsContainer}>
-                    <ChoiceCardsSupportCta
-                        countryCode={countryCode}
-                        tracking={bannerTracking}
-                        amountsTestName={testName}
-                        amountsVariantName={variantName}
-                        numArticles={numArticles ?? 0}
-                        selection={selection}
-                        getCtaText={getCtaText}
-                        cssOverrides={css`
-                            ${cssCtaOverides}
-                            ${styles.ctaOverrides}
-                        `}
-                        onCtaClick={onCtaClick}
-                    />
-                    <PaymentCards
-                        cssOverrides={styles.paymentCardsSvgOverrides}
-                        showMobileIcons={showMobilePaymentIcons}
-                    />
-                </div>
-            )}
+            <div css={styles.ctaAndPaymentCardsContainer}>
+                <ChoiceCardsSupportCta
+                    getCtaText={getCtaText}
+                    getCtaUrl={getCtaUrl}
+                    cssOverrides={css`
+                        ${cssCtaOverides}
+                        ${styles.ctaOverrides}
+                    `}
+                    onCtaClick={onCtaClick}
+                />
+                <PaymentCards
+                    cssOverrides={styles.paymentCardsSvgOverrides}
+                    showMobileIcons={showMobilePaymentIcons}
+                />
+            </div>
         </div>
     );
 };

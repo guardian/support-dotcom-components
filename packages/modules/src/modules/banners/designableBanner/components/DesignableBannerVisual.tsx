@@ -63,9 +63,11 @@ const getStyles = (isHeaderImage = false) => {
 
                 img {
                     height: 100%;
-                    width: 100%;
                     object-fit: contain;
                     display: block;
+                    margin-left: -10px;
+                    margin-right: -10px;
+                    width: calc(100% + 20px);
                 }
             `,
         };
