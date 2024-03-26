@@ -96,7 +96,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     choiceCardAmounts,
     countryCode,
     submitComponentEvent,
-    tracking,
     design,
 }: BannerRenderProps): JSX.Element => {
     // We can't render anything without a design
