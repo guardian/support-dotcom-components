@@ -71,7 +71,8 @@ function Signup({
 
             <form css={styles.form} onSubmit={handleSubmit(() => onSubmit(email))}>
                 <TextInput
-                    label=""
+                    label="Email address"
+                    hideLabel
                     onChange={updateEmail}
                     error={inputError}
                     value={email}
