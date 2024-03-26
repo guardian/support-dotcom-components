@@ -99,7 +99,6 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
     getCtaUrl,
     cssCtaOverides,
     onCtaClick,
-    showMobilePaymentIcons = false,
 }: ChoiceCardProps) => {
     if (!selection || !amountsTest) {
         return <></>;
@@ -150,10 +149,7 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
                     `}
                     onCtaClick={onCtaClick}
                 />
-                <PaymentCards
-                    cssOverrides={styles.paymentCardsSvgOverrides}
-                    showMobileIcons={showMobilePaymentIcons}
-                />
+                <PaymentCards cssOverrides={styles.paymentCardsSvgOverrides} />
             </div>
         </div>
     );
