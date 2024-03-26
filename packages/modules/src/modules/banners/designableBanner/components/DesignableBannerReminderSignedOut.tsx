@@ -84,9 +84,10 @@ function Signup({
                         iconSide="right"
                         priority="primary"
                         disabled={reminderStatus === ReminderStatus.Submitting}
-                        cssOverrides={
-                            setReminderCtaSettings && buttonStyles(setReminderCtaSettings)
-                        }
+                        cssOverrides={css`
+                            ${styles.button}
+                            ${setReminderCtaSettings && buttonStyles(setReminderCtaSettings)}
+                        `}
                     >
                         Set reminder
                     </Button>
@@ -137,5 +138,13 @@ const styles = {
     `,
     infoCopyContainer: css`
         margin-top: ${space[3]}px;
+    `,
+    button: css`
+        width: 100%;
+        justify-content: center;
+
+        ${from.tablet} {
+            width: auto;
+        }
     `,
 };

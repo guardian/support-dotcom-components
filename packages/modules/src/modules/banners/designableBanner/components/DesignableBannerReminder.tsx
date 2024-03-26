@@ -19,6 +19,7 @@ const styles = {
         grid-column: 1 / span 2;
         margin-top: ${space[3]}px;
         padding-bottom: ${space[5]}px;
+        order: 5;
     `,
 
     rule: css`

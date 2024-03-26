@@ -336,7 +336,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     <>
                         <div css={styles.reminderContainer}>
                             <div css={styles.reminderCtaContainer}>
-                                Not ready to support today?{' '}
+                                <span css={styles.reminderText}>Not ready to support today? </span>
                                 <Button
                                     priority="subdued"
                                     onClick={onReminderCtaClick}
@@ -504,9 +504,22 @@ const styles = {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        order: 4;
+    `,
+    reminderText: css`
+        display: none;
+
+        ${from.tablet} {
+            display: inline;
+        }
     `,
     reminderCtaContainer: css`
-        display: block;
+        display: flex;
+        justify-content: center;
+
+        ${from.tablet} {
+            display: block;
+        }
     `,
     reminderCta: css`
         ${body.small({ lineHeight: 'regular' })};
