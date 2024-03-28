@@ -41,6 +41,7 @@ export interface BannerEnrichedCta {
 export interface BannerEnrichedCustomCta {
     type: SecondaryCtaType.Custom;
     cta: BannerEnrichedCta;
+    reminderFields?: ReminderFields;
 }
 
 export interface BannerEnrichedReminderCta {
@@ -88,4 +89,5 @@ export interface BannerRenderProps {
     tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     design?: ConfigurableDesign;
+    reminderFields: ReminderFields;
 }
