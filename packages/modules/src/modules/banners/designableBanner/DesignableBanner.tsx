@@ -105,6 +105,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     countryCode,
     submitComponentEvent,
     design,
+    tracking,
 }: BannerRenderProps): JSX.Element => {
     // We can't render anything without a design
     if (!design) {
@@ -214,6 +215,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             !!templateSettings.imageSettings,
         );
     };
+
+    const { abTestName, abTestVariant } = tracking;
 
     const showReminder =
         (abTestName.includes('REMIND_ME_LATER') && abTestVariant === 'V1_SHOW_REMIND_ME_LATER') ||
