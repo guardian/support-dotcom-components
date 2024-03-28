@@ -180,7 +180,6 @@ const withBannerData =
                     return {
                         type: SecondaryCtaType.Custom,
                         cta: buildEnrichedCta(secondaryCta.cta),
-                        reminderFields: getReminderFields(countryCode),
                     };
                 }
 
@@ -268,6 +267,7 @@ const withBannerData =
         try {
             const renderedContent = content && buildRenderedContent(content);
             const renderedMobileContent = mobileContent && buildRenderedContent(mobileContent);
+            const reminderFields = getReminderFields(countryCode);
 
             if (renderedContent && canShow) {
                 const props: BannerRenderProps = {
@@ -295,6 +295,7 @@ const withBannerData =
                     tracking,
                     submitComponentEvent,
                     design,
+                    reminderFields,
                 };
 
                 if (renderScrollThreshold > 0) {

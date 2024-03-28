@@ -5,12 +5,14 @@ import { CtaSettings } from '../settings';
 import { DesignableBannerReminderSignedOut } from './DesignableBannerReminderSignedOut';
 import { css } from '@emotion/react';
 import { neutral, space } from '@guardian/source-foundations';
+import { ReminderFields } from '@sdc/shared/src/lib';
 
 export interface DesignableBannerReminderProps {
     reminderCta: BannerEnrichedReminderCta;
     trackReminderSetClick: () => void;
     setReminderCtaSettings?: CtaSettings;
     mobileReminderRef: React.RefObject<HTMLDivElement> | null;
+    reminderFields: ReminderFields;
 }
 
 const styles = {
@@ -35,13 +37,14 @@ export function DesignableBannerReminder({
     trackReminderSetClick,
     setReminderCtaSettings,
     mobileReminderRef,
+    reminderFields,
 }: DesignableBannerReminderProps): JSX.Element {
     const { reminderStatus, createReminder } = useContributionsReminderSignup(
-        reminderCta.reminderFields.reminderPeriod,
+        /*reminderCta.*/ reminderFields.reminderPeriod,
         'WEB',
         'BANNER',
         'PRE',
-        reminderCta.reminderFields.reminderOption,
+        /*reminderCta.*/ reminderFields.reminderOption,
     );
 
     const onReminderSetClick = (email: string) => {
@@ -57,6 +60,7 @@ export function DesignableBannerReminder({
                 reminderStatus={reminderStatus}
                 onReminderSetClick={onReminderSetClick}
                 setReminderCtaSettings={setReminderCtaSettings}
+                reminderFields={reminderFields}
             />
         </div>
     );

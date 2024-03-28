@@ -89,4 +89,5 @@ export interface BannerRenderProps {
     tracking: Tracking;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     design?: ConfigurableDesign;
+    reminderFields: ReminderFields;
 }

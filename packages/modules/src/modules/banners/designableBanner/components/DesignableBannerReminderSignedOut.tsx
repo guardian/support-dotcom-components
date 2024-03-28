@@ -8,6 +8,7 @@ import { useContributionsReminderEmailForm } from '../../../../hooks/useContribu
 import { CtaSettings } from '../settings';
 import { buttonStyles } from '../styles/buttonStyles';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../../shared/Reminders';
+import { ReminderFields } from '@sdc/shared/src/lib';
 
 // ---- Component ---- //
 
@@ -16,16 +17,18 @@ export interface DesignableBannerReminderSignedOutProps {
     reminderStatus: ReminderStatus;
     onReminderSetClick: (email: string) => void;
     setReminderCtaSettings?: CtaSettings;
+    reminderFields: ReminderFields;
 }
 
 export function DesignableBannerReminderSignedOut({
-    reminderCta,
+    //reminderCta,
     reminderStatus,
     onReminderSetClick,
     setReminderCtaSettings,
+    reminderFields,
 }: DesignableBannerReminderSignedOutProps): JSX.Element {
     const reminderLabelWithPreposition = ensureHasPreposition(
-        reminderCta.reminderFields.reminderLabel,
+        /*reminderCta.*/ reminderFields.reminderLabel,
     );
 
     return (

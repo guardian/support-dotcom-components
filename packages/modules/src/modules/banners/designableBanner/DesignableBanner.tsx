@@ -106,6 +106,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     submitComponentEvent,
     design,
     tracking,
+    reminderFields,
 }: BannerRenderProps): JSX.Element => {
     // We can't render anything without a design
     if (!design) {
@@ -349,6 +350,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                                 trackReminderSetClick={reminderTracking.onReminderSetClick}
                                 setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                                 mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+                                reminderFields={reminderFields}
                             />
                         )}
                     </>
