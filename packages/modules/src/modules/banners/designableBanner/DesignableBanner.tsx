@@ -272,6 +272,20 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             />
                         </section>
                     )}
+                    {showReminder && (
+                        <div css={styles.reminderContainer}>
+                            <div css={styles.reminderCtaContainer}>
+                                <span css={styles.reminderText}>Not ready to support today? </span>
+                                <Button
+                                    priority="subdued"
+                                    onClick={onReminderCtaClick}
+                                    cssOverrides={styles.reminderCta}
+                                >
+                                    Remind me later
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 {templateSettings.imageSettings ? (
                     <div
@@ -327,31 +341,13 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
 
-                {showReminder && (
-                    <>
-                        <div css={styles.reminderContainer}>
-                            <div css={styles.reminderCtaContainer}>
-                                <span css={styles.reminderText}>Not ready to support today? </span>
-                                <Button
-                                    priority="subdued"
-                                    onClick={onReminderCtaClick}
-                                    cssOverrides={styles.reminderCta}
-                                >
-                                    Remind me later
-                                </Button>
-                            </div>
-                        </div>
-                        {isReminderActive && (
-                            <DesignableBannerReminder
-                                reminderCta={
-                                    mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
-                                }
-                                trackReminderSetClick={reminderTracking.onReminderSetClick}
-                                setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                                mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
-                            />
-                        )}
-                    </>
+                {showReminder && isReminderActive && (
+                    <DesignableBannerReminder
+                        reminderCta={mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta}
+                        trackReminderSetClick={reminderTracking.onReminderSetClick}
+                        setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                        mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+                    />
                 )}
             </div>
         </div>
@@ -454,7 +450,7 @@ const styles = {
         order: 2;
         ${from.tablet} {
             grid-column: 1;
-            grid-row: 2;
+            grid-row: 2 / span 2;
         }
     `,
     bannerVisualContainer: (background: string) => css`
