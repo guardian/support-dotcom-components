@@ -8,6 +8,8 @@ import {
     from,
     until,
     body,
+    textSans,
+    brand,
 } from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
@@ -36,6 +38,7 @@ import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
+import { getReminderFields } from '@sdc/shared/src/lib';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -106,7 +109,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     submitComponentEvent,
     design,
     tracking,
-    reminderFields,
 }: BannerRenderProps): JSX.Element => {
     // We can't render anything without a design
     if (!design) {
@@ -350,7 +352,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                                 trackReminderSetClick={reminderTracking.onReminderSetClick}
                                 setReminderCtaSettings={templateSettings.setReminderCtaSettings}
                                 mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
-                                reminderFields={reminderFields}
+                                reminderFields={getReminderFields(countryCode)}
                             />
                         )}
                     </>
@@ -504,6 +506,7 @@ const styles = {
         order: 4;
     `,
     reminderText: css`
+        ${textSans.medium()}
         display: none;
 
         ${from.tablet} {
@@ -519,8 +522,8 @@ const styles = {
         }
     `,
     reminderCta: css`
-        ${body.small({ lineHeight: 'regular' })};
-        color: ${neutral[0]};
+        ${textSans.medium({ lineHeight: 'regular', fontWeight: 'bold' })};
+        color: ${brand[400]};
         display: inline;
     `,
 };

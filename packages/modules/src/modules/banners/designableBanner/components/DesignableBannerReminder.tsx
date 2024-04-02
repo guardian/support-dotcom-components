@@ -25,7 +25,7 @@ const styles = {
     `,
 
     rule: css`
-        width: calc(100% + ${space[10]});
+        width: calc(100% + ${space[10]}px);
         border: 0;
         border-top: 2px solid ${neutral[0]};
         margin: 0 -${space[5]}px ${space[2]}px -${space[5]}px;
