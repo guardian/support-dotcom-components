@@ -506,7 +506,7 @@ const styles = {
         order: 4;
     `,
     reminderText: css`
-        ${textSans.medium()}
+        ${textSans.medium()};
         display: none;
 
         ${from.tablet} {
