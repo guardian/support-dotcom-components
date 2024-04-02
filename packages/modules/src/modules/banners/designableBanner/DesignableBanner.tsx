@@ -38,7 +38,7 @@ import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
-import { getReminderFields } from '@sdc/shared/src/lib';
+import { getReminderFields } from '@sdc/shared/lib';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -506,7 +506,7 @@ const styles = {
         order: 4;
     `,
     reminderText: css`
-        ${textSans.medium()};
+        ${textSans.medium()}
         display: none;
 
         ${from.tablet} {
@@ -522,7 +522,7 @@ const styles = {
         }
     `,
     reminderCta: css`
-        ${textSans.medium({ lineHeight: 'regular', fontWeight: 'bold' })};
+        ${textSans.medium({ lineHeight: 'regular', fontWeight: 'bold' })}
         color: ${brand[400]};
         display: inline;
     `,
