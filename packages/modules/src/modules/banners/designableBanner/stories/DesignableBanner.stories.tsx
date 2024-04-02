@@ -14,7 +14,6 @@ import { DefaultTemplate } from './Default';
 
 export default {
     title: 'Banners/Designable',
-
     args: props,
 } as Meta;
 
@@ -363,4 +362,26 @@ WithNonSupportUrl.args = {
         visual: undefined,
     },
     tickerSettings: undefined,
+};
+
+export const WithRemindMeLater = DefaultTemplate.bind({});
+WithRemindMeLater.args = {
+    ...props,
+    content: contentWithHeading,
+    mobileContent: mobileContentWithHeading,
+    numArticles: 50,
+    tickerSettings,
+    design: {
+        ...design,
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+    },
+    choiceCardAmounts: regularChoiceCardAmounts,
+    tracking: {
+        ...props.tracking,
+        abTestName: 'REMIND_ME_LATER',
+        abTestVariant: 'V1_SHOW_REMIND_ME_LATER',
+    },
 };

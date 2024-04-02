@@ -1,6 +1,16 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space, specialReport, between, from, until } from '@guardian/source-foundations';
+import {
+    neutral,
+    space,
+    specialReport,
+    between,
+    from,
+    until,
+    body,
+    textSans,
+    brand,
+} from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -27,7 +37,8 @@ import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
-import { SvgGuardianLogo } from '@guardian/source-react-components';
+import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
+import { getReminderFields } from '@sdc/shared/lib';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -97,6 +108,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     countryCode,
     submitComponentEvent,
     design,
+    tracking,
 }: BannerRenderProps): JSX.Element => {
     // We can't render anything without a design
     if (!design) {
@@ -207,6 +219,12 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         );
     };
 
+    const { abTestName, abTestVariant } = tracking;
+
+    const showReminder =
+        (abTestName.includes('REMIND_ME_LATER') && abTestVariant === 'V1_SHOW_REMIND_ME_LATER') ||
+        mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
+
     return (
         <div
             css={styles.outerContainer(
@@ -222,7 +240,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         headerSettings={templateSettings.headerSettings}
                     />
                 </div>
-                <div css={styles.contentContainer}>
+                <div css={styles.contentContainer(showReminder)}>
                     {separateArticleCount && Number(numArticles) > 5 && (
                         <DesignableBannerArticleCount
                             numArticles={numArticles as number}
@@ -311,16 +329,35 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
-            </div>
-            {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
-                isReminderActive && (
-                    <DesignableBannerReminder
-                        reminderCta={mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta}
-                        trackReminderSetClick={reminderTracking.onReminderSetClick}
-                        setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                        mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
-                    />
+
+                {showReminder && (
+                    <>
+                        <div css={styles.reminderContainer}>
+                            <div css={styles.reminderCtaContainer}>
+                                <span css={styles.reminderText}>Not ready to support today? </span>
+                                <Button
+                                    priority="subdued"
+                                    onClick={onReminderCtaClick}
+                                    cssOverrides={styles.reminderCta}
+                                >
+                                    Remind me later
+                                </Button>
+                            </div>
+                        </div>
+                        {isReminderActive && (
+                            <DesignableBannerReminder
+                                reminderCta={
+                                    mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
+                                }
+                                trackReminderSetClick={reminderTracking.onReminderSetClick}
+                                setReminderCtaSettings={templateSettings.setReminderCtaSettings}
+                                mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+                                reminderFields={getReminderFields(countryCode)}
+                            />
+                        )}
+                    </>
                 )}
+            </div>
         </div>
     );
 };
@@ -380,8 +417,8 @@ const styles = {
 
             ${isGridCell
                 ? css`
-                      grid-column: 2 / span 1;
-                      grid-row: 1 / span 1;
+                      grid-column: 2;
+                      grid-row: 1;
                   `
                 : css`
                       margin-bottom: ${space[3]}px;
@@ -397,8 +434,8 @@ const styles = {
         }
 
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 1 / span 1;
+            grid-column: 1;
+            grid-row: 1;
             background: ${background};
         }
 
@@ -411,24 +448,24 @@ const styles = {
             order: '2';
         }
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 1 / span 1;
+            grid-column: 1;
+            grid-row: 1;
             background: ${background};
         }
         ${templateSpacing.bannerHeader}
     `,
-    contentContainer: css`
+    contentContainer: (showRemindMeLater: boolean) => css`
         order: 2;
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 2 / span 2;
+            grid-column: 1;
+            grid-row: ${showRemindMeLater ? '2' : '2 / span 2'};
         }
     `,
     bannerVisualContainer: (background: string) => css`
         order: 1;
         background: ${background};
         ${from.tablet} {
-            grid-column: 2 / span 1;
+            grid-column: 2;
             grid-row: 1 / span 2;
             align-self: flex-start;
         }
@@ -437,8 +474,8 @@ const styles = {
         order: 3;
         background: ${background};
         ${from.tablet} {
-            grid-column: 2 / span 1;
-            grid-row: 2 / span 1;
+            grid-column: 2;
+            grid-row: 2;
             align-self: flex-start;
             display: flex;
             justify-content: flex-end;
@@ -454,10 +491,40 @@ const styles = {
             display: block;
             width: 100px;
         }
-        grid-column: 2 / span 1;
-        grid-row: 3 / span 1;
+        grid-column: 2;
+        grid-row: 3;
         justify-self: end;
         padding-top: ${space[3]}px;
+    `,
+    reminderContainer: css`
+        ${body.small({ lineHeight: 'regular' })};
+        grid-column: 1;
+        grid-row: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        order: 4;
+    `,
+    reminderText: css`
+        ${textSans.medium()}
+        display: none;
+
+        ${from.tablet} {
+            display: inline;
+        }
+    `,
+    reminderCtaContainer: css`
+        display: flex;
+        justify-content: center;
+
+        ${from.tablet} {
+            display: block;
+        }
+    `,
+    reminderCta: css`
+        ${textSans.medium({ lineHeight: 'regular', fontWeight: 'bold' })}
+        color: ${brand[400]};
+        display: inline;
     `,
 };
 
