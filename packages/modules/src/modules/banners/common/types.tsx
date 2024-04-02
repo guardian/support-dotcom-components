@@ -41,7 +41,6 @@ export interface BannerEnrichedCta {
 export interface BannerEnrichedCustomCta {
     type: SecondaryCtaType.Custom;
     cta: BannerEnrichedCta;
-    reminderFields?: ReminderFields;
 }
 
 export interface BannerEnrichedReminderCta {
