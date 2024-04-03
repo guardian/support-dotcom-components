@@ -7,6 +7,7 @@ import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { testBanditLocally } from './bandit/banditData';
 import { logError } from './utils/logging';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildBannerRouter } from './api/bannerRouter';
@@ -86,6 +87,10 @@ const buildApp = async (): Promise<Express> => {
         buildHeaderTestsReloader(),
         buildBannerDesignsReloader(),
     ]);
+
+    // little hack while developing bandit stuff :)
+    const bandit = await testBanditLocally();
+    console.log(bandit);
 
     // Build the routers
     app.use(
