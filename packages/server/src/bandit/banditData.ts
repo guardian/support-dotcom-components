@@ -11,6 +11,8 @@ const variantSampleSchema = z.object({
     views: z.number(),
 });
 
+type VariantSample = z.infer<typeof variantSampleSchema>;
+
 const testSampleSchema = z.object({
     testName: z.string(),
     variants: z.array(variantSampleSchema),
@@ -76,8 +78,7 @@ async function buildBanditDataForTest(testName: string): Promise<BanditData> {
             (variant) => variant.variantName === variantName,
         );
 
-        const sum = filteredVariantsData.reduce((acc, curr) => acc + curr.avGbpPerView, 0);
-        const mean = sum / filteredVariantsData.length;
+        const mean = sampleMean(filteredVariantsData);
 
         return {
             variantName,
@@ -91,13 +92,21 @@ async function buildBanditDataForTest(testName: string): Promise<BanditData> {
     };
 }
 
-// function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
-//     const testNames = epicTestsProvider.get().map((test) => test.name);
-//     return Promise.all(testNames.map((name) => buildBanditDataForTest(name)));
-// }
+function sampleMean(samples: VariantSample[]): number {
+    const population = samples.reduce((acc, sample) => acc + sample.views, 0);
+    return samples.reduce(
+        (acc, sample) => acc + (sample.views / population) * sample.avGbpPerView,
+        0,
+    );
+}
 
-// const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
-//     buildReloader(buildBanditData(epicTestsProvider), 60 * 1000);
+function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
+    const testNames = epicTestsProvider.get().map((test) => test.name);
+    return Promise.all(testNames.map((name) => buildBanditDataForTest(name)));
+}
 
-// // TODO - pass to epicRouter and use
-// export { getBanditSamplesForTest };
+const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
+    buildReloader(() => buildBanditData(epicTestsProvider), 60 * 1000);
+
+// TODO - pass to epicRouter and use
+export { buildBanditDataReloader };
