@@ -62,7 +62,7 @@ interface BanditVariantData {
     mean: number;
 }
 
-interface BanditData {
+export interface BanditData {
     testName: string;
     variants: BanditVariantData[];
 }

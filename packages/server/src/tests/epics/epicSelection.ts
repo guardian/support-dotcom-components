@@ -21,6 +21,7 @@ import {
     shouldNotRenderEpic,
     shouldThrottle,
 } from '../../lib/targeting';
+import { BanditData } from '../../bandit/banditData';
 
 interface Filter {
     id: string;
@@ -193,6 +194,7 @@ export const findTestAndVariant = (
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
     includeDebug = false,
+    banditData: BanditData[],
 ): Result => {
     const debug: Debug = {};
 
@@ -269,6 +271,10 @@ export const findTestAndVariant = (
         : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
+        if (test.banditTest) {
+            return selectVariantUsingEpsilonGreedy(banditData, test, includeDebug, debug);
+        }
+
         const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
         return {
@@ -279,6 +285,59 @@ export const findTestAndVariant = (
 
     return { debug: includeDebug ? debug : undefined };
 };
+
+function selectVariantUsingEpsilonGreedy(
+    banditData: BanditData[],
+    test: EpicTest,
+    includeDebug: boolean,
+    debug: Debug,
+): Result {
+    const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
+
+    if (!testBanditData) {
+        // TODO: what do we do if the bandit data isn't there for the test?
+        return { debug: includeDebug ? debug : undefined };
+    }
+
+    // Choose at random with probability epsilon
+    const epsilon = 0.1;
+    const random = Math.random();
+
+    if (epsilon > random) {
+        // Randomly pick a variant
+        const randomVariantIndex = Math.floor(Math.random() * testBanditData.variants.length);
+
+        const chosenVariant = testBanditData.variants[randomVariantIndex];
+        const chosenVariantData = test.variants.find((v) => v.name === chosenVariant.variantName);
+
+        if (!chosenVariantData) {
+            // TODO: what do we do if the chosen variant data is undefined?
+            return { debug: includeDebug ? debug : undefined };
+        }
+
+        return {
+            result: { test, variant: chosenVariantData },
+        };
+    }
+
+    // Pick the variant with the highest mean
+    const highestMeanVariant = testBanditData.variants.sort((a, b) => b.mean - a.mean)[0];
+    const highestMeanVariantData = test.variants.find(
+        (v) => v.name === highestMeanVariant.variantName,
+    );
+
+    if (!highestMeanVariantData) {
+        // TODO: what do we do if the chosen variant data is undefined?
+        return { debug: includeDebug ? debug : undefined };
+    }
+
+    return {
+        result: {
+            test,
+            variant: highestMeanVariantData,
+        },
+    };
+}
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
     const test = tests.find((test) => test.name === force.testName);

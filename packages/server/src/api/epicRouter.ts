@@ -27,6 +27,7 @@ import { logWarn } from '../utils/logging';
 import { SuperModeArticle } from '../lib/superMode';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
+import { BanditData } from '../bandit/banditData';
 
 interface EpicDataResponse {
     data?: {
@@ -50,6 +51,7 @@ export const buildEpicRouter = (
     liveblogEpicTests: ValueProvider<EpicTest[]>,
     choiceCardAmounts: ValueProvider<AmountsTests>,
     tickerData: TickerDataProvider,
+    banditData: ValueProvider<BanditData[]>,
 ): Router => {
     const router = Router();
 
@@ -101,6 +103,7 @@ export const buildEpicRouter = (
                   getDeviceType(req),
                   enableSuperMode ? superModeArticles.get() : [],
                   params.debug,
+                  banditData.get(),
               );
 
         if (!result.result) {
