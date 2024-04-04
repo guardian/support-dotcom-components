@@ -188,6 +188,7 @@ export interface Result {
     debug?: Debug;
 }
 
+//TODO can we get rid of includeDebug and Debug objects?
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
@@ -271,32 +272,55 @@ export const findTestAndVariant = (
         : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
-        if (test.banditTest) {
-            return selectVariantUsingEpsilonGreedy(banditData, test, includeDebug, debug);
-        }
 
-        const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
-
-        return {
-            result: { test, variant },
-            debug: includeDebug ? debug : undefined,
-        };
+        return selectEpicVariant(
+            test, 
+            banditData, 
+            targeting
+        );
+        
     }
 
     return { debug: includeDebug ? debug : undefined };
 };
 
+function selectEpicVariant(
+    test: EpicTest, 
+    banditData: BanditData[], 
+    targeting: EpicTargeting
+){
+    if (test.banditTest) {
+        return selectVariantUsingEpsilonGreedy(
+            banditData, 
+            test
+        );
+    }
+
+    const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
+
+    return {
+        result: { test, variant }
+    };
+}
+
+function selectRandomVariant(
+    testBanditData: BanditData,
+    test: EpicTest
+): EpicVariant {
+    const randomVariantIndex = Math.floor(Math.random() * testBanditData.variants.length);
+    const chosenVariantName = testBanditData.variants[randomVariantIndex].variantName;
+    return test.variants.find((v) => v.name === chosenVariantName);
+}
+
 function selectVariantUsingEpsilonGreedy(
     banditData: BanditData[],
-    test: EpicTest,
-    includeDebug: boolean,
-    debug: Debug,
+    test: EpicTest
 ): Result {
     const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
 
     if (!testBanditData) {
         // TODO: what do we do if the bandit data isn't there for the test?
-        return { debug: includeDebug ? debug : undefined };
+        return {};
     }
 
     // Choose at random with probability epsilon
@@ -304,19 +328,19 @@ function selectVariantUsingEpsilonGreedy(
     const random = Math.random();
 
     if (epsilon > random) {
-        // Randomly pick a variant
-        const randomVariantIndex = Math.floor(Math.random() * testBanditData.variants.length);
 
-        const chosenVariant = testBanditData.variants[randomVariantIndex];
-        const chosenVariantData = test.variants.find((v) => v.name === chosenVariant.variantName);
+        const randomVariantData = selectRandomVariant(
+            testBanditData,
+            test
+        );
 
-        if (!chosenVariantData) {
-            // TODO: what do we do if the chosen variant data is undefined?
-            return { debug: includeDebug ? debug : undefined };
+        if (!randomVariantData) {
+            // TODO: what do we do if the random variant data is undefined?
+            return {};
         }
 
         return {
-            result: { test, variant: chosenVariantData },
+            result: { test, variant: randomVariantData },
         };
     }
 
@@ -328,7 +352,7 @@ function selectVariantUsingEpsilonGreedy(
 
     if (!highestMeanVariantData) {
         // TODO: what do we do if the chosen variant data is undefined?
-        return { debug: includeDebug ? debug : undefined };
+        return {};
     }
 
     return {
