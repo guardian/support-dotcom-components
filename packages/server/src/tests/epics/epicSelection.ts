@@ -8,6 +8,8 @@ import {
     EpicTest,
     UserDeviceType,
 } from '@sdc/shared/types';
+import { BanditData } from '../../bandit/banditData';
+import { selectVariantUsingEpsilonGreedy } from '../../bandit/banditSelection';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
@@ -21,7 +23,6 @@ import {
     shouldNotRenderEpic,
     shouldThrottle,
 } from '../../lib/targeting';
-import { BanditData } from '../../bandit/banditData';
 
 interface Filter {
     id: string;
@@ -272,94 +273,21 @@ export const findTestAndVariant = (
         : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
-
-        return selectEpicVariant(
-            test, 
-            banditData, 
-            targeting
-        );
-        
+        return selectEpicVariant(test, banditData, targeting);
     }
 
     return { debug: includeDebug ? debug : undefined };
 };
 
-function selectEpicVariant(
-    test: EpicTest, 
-    banditData: BanditData[], 
-    targeting: EpicTargeting
-){
+function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: EpicTargeting) {
     if (test.banditTest) {
-        return selectVariantUsingEpsilonGreedy(
-            banditData, 
-            test
-        );
+        return selectVariantUsingEpsilonGreedy(banditData, test);
     }
 
     const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
 
     return {
-        result: { test, variant }
-    };
-}
-
-function selectRandomVariant(
-    testBanditData: BanditData,
-    test: EpicTest
-): EpicVariant {
-    const randomVariantIndex = Math.floor(Math.random() * testBanditData.variants.length);
-    const chosenVariantName = testBanditData.variants[randomVariantIndex].variantName;
-    return test.variants.find((v) => v.name === chosenVariantName);
-}
-
-function selectVariantUsingEpsilonGreedy(
-    banditData: BanditData[],
-    test: EpicTest
-): Result {
-    const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
-
-    if (!testBanditData) {
-        // TODO: what do we do if the bandit data isn't there for the test?
-        return {};
-    }
-
-    // Choose at random with probability epsilon
-    const epsilon = 0.1;
-    const random = Math.random();
-
-    if (epsilon > random) {
-
-        const randomVariantData = selectRandomVariant(
-            testBanditData,
-            test
-        );
-
-        if (!randomVariantData) {
-            // TODO: what do we do if the random variant data is undefined?
-            return {};
-        }
-
-        return {
-            result: { test, variant: randomVariantData },
-        };
-    }
-
-    // Pick the variant with the highest mean
-    const highestMeanVariant = testBanditData.variants.sort((a, b) => b.mean - a.mean)[0];
-    const highestMeanVariantData = test.variants.find(
-        (v) => v.name === highestMeanVariant.variantName,
-    );
-
-    if (!highestMeanVariantData) {
-        // TODO: what do we do if the chosen variant data is undefined?
-        return {};
-    }
-
-    return {
-        result: {
-            test,
-            variant: highestMeanVariantData,
-        },
+        result: { test, variant },
     };
 }
 
