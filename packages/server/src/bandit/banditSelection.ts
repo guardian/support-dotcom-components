@@ -15,15 +15,9 @@ function selectVariantWithHighestMean(
     return test.variants.find((v) => v.name === highestMeanVariant.variantName);
 }
 
-function selectRandomVariant(testBanditData: BanditData, test: EpicTest): EpicVariant | undefined {
-    const randomVariantIndex = Math.floor(Math.random() * testBanditData.variants.length);
-    const chosenVariant = testBanditData.variants[randomVariantIndex];
-
-    if (!chosenVariant) {
-        return undefined;
-    }
-
-    return test.variants.find((v) => v.name === chosenVariant.variantName);
+function selectRandomVariant(variants: EpicVariant[]): EpicVariant | undefined {
+    const randomVariantIndex = Math.floor(Math.random() * variants.length);
+    return variants[randomVariantIndex];
 }
 
 export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: EpicTest): Result {
@@ -39,7 +33,7 @@ export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: 
     const random = Math.random();
 
     if (epsilon > random) {
-        const randomVariantData = selectRandomVariant(testBanditData, test);
+        const randomVariantData = selectRandomVariant(test.variants);
 
         if (!randomVariantData) {
             // TODO: what do we do if the random variant data is undefined?

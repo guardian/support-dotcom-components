@@ -80,9 +80,11 @@ async function buildBanditDataForTest(testName: string): Promise<BanditData> {
         };
     });
 
+    const sortedVariantMeans = variantMeans.sort((a, b) => b.mean - a.mean);
+
     return {
         testName,
-        variants: variantMeans,
+        variants: sortedVariantMeans,
     };
 }
 
