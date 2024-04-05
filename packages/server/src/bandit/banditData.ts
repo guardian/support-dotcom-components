@@ -2,20 +2,27 @@ import { isProd } from '../lib/env';
 import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
 import { EpicTest } from '@sdc/shared/dist/types';
+import * as z from 'zod';
 
-interface VariantSample {
-    variantName: string;
-    avGbp: number;
-    avGbpPerView: number;
-    views: number;
-}
+const variantSampleSchema = z.object({
+    variantName: z.string(),
+    avGbp: z.number(),
+    avGbpPerView: z.number(),
+    views: z.number(),
+});
 
-export interface TestSample {
-    testName: string;
-    variants: VariantSample[];
+type VariantSample = z.infer<typeof variantSampleSchema>;
+
+const testSampleSchema = z.object({
+    testName: z.string(),
+    variants: z.array(variantSampleSchema),
     // the start of the interval
-    timestamp: string;
-}
+    timestamp: z.string(),
+});
+
+const queryResultSchema = z.array(testSampleSchema);
+
+type TestSample = z.infer<typeof testSampleSchema>;
 
 function queryForTestSamples(testName: string, nSamples: number) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
@@ -32,21 +39,61 @@ function queryForTestSamples(testName: string, nSamples: number) {
         .promise();
 }
 
-function getBanditSamplesForTest(testName: string): Promise<TestSample[]> {
-    // TODO - fetch + validate
-    return Promise.resolve([]);
+async function getBanditSamplesForTest(testName: string): Promise<TestSample[]> {
+    const queryResult = await queryForTestSamples(testName, 2);
+
+    const parsedResults = queryResultSchema.safeParse(queryResult.Items);
+
+    if (!parsedResults.success) {
+        throw new Error(`Error parsing bandit samples: ${parsedResults.error.toString()}`);
+    }
+
+    return parsedResults.data;
 }
 
-interface BanditData {
+interface BanditVariantData {
+    variantName: string;
+    mean: number;
+}
+
+export interface BanditData {
     testName: string;
-    variants: {
-        variantName: string;
-        mean: number;
+    variants: BanditVariantData[];
+}
+
+async function buildBanditDataForTest(testName: string): Promise<BanditData> {
+    const samples = await getBanditSamplesForTest(testName);
+
+    const variantsData = samples.flatMap((sample) => sample.variants);
+    const variantNames = Array.from(new Set(variantsData.map((variant) => variant.variantName)));
+
+    const variantMeans = variantNames.map((variantName) => {
+        const filteredVariantsData = variantsData.filter(
+            (variant) => variant.variantName === variantName,
+        );
+
+        const mean = sampleMean(filteredVariantsData);
+
+        return {
+            variantName,
+            mean,
+        };
+    });
+
+    const sortedVariantMeans = variantMeans.sort((a, b) => b.mean - a.mean);
+
+    return {
+        testName,
+        variants: sortedVariantMeans,
     };
 }
 
-function buildBanditDataForTest(testName: string): Promise<BanditData> {
-    // TODO - get samples and calculate variant means
+function sampleMean(samples: VariantSample[]): number {
+    const population = samples.reduce((acc, sample) => acc + sample.views, 0);
+    return samples.reduce(
+        (acc, sample) => acc + (sample.views / population) * sample.avGbpPerView,
+        0,
+    );
 }
 
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
@@ -55,7 +102,6 @@ function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<
 }
 
 const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
-    buildReloader(buildBanditData(epicTestsProvider), 60 * 1000);
+    buildReloader(() => buildBanditData(epicTestsProvider), 60 * 1000);
 
-// TODO - pass to epicRouter and use
-export { getBanditSamplesForTest };
+export { buildBanditDataReloader };

@@ -8,6 +8,8 @@ import {
     EpicTest,
     UserDeviceType,
 } from '@sdc/shared/types';
+import { BanditData } from '../../bandit/banditData';
+import { selectVariantUsingEpsilonGreedy } from '../../bandit/banditSelection';
 import { selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
@@ -192,6 +194,7 @@ export const findTestAndVariant = (
     targeting: EpicTargeting,
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
+    banditData: BanditData[],
     includeDebug = false,
 ): Result => {
     const debug: Debug = {};
@@ -269,16 +272,26 @@ export const findTestAndVariant = (
         : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
-        const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
-
         return {
-            result: { test, variant },
+            ...selectEpicVariant(test, banditData, targeting),
             debug: includeDebug ? debug : undefined,
         };
     }
 
     return { debug: includeDebug ? debug : undefined };
 };
+
+function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: EpicTargeting) {
+    if (test.banditTest) {
+        return selectVariantUsingEpsilonGreedy(banditData, test);
+    }
+
+    const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
+
+    return {
+        result: { test, variant },
+    };
+}
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
     const test = tests.find((test) => test.name === force.testName);

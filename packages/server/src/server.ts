@@ -7,6 +7,7 @@ import {
     errorHandling as errorHandlingMiddleware,
     logging as loggingMiddleware,
 } from './middleware';
+import { buildBanditDataReloader } from './bandit/banditData';
 import { logError } from './utils/logging';
 import { buildEpicRouter } from './api/epicRouter';
 import { buildBannerRouter } from './api/bannerRouter';
@@ -87,6 +88,8 @@ const buildApp = async (): Promise<Express> => {
         buildBannerDesignsReloader(),
     ]);
 
+    const banditData = await buildBanditDataReloader(articleEpicTests);
+
     // Build the routers
     app.use(
         buildEpicRouter(
@@ -96,6 +99,7 @@ const buildApp = async (): Promise<Express> => {
             liveblogEpicTests,
             choiceCardAmounts,
             tickerData,
+            banditData,
         ),
     );
     app.use(

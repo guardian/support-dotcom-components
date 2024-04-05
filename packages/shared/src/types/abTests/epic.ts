@@ -126,6 +126,7 @@ export const epicTestFromToolSchema = testSchema.extend({
     articlesViewedSettings: articlesViewedSettingsSchema.optional(),
     priority: z.number(),
     variants: variantSchema.array(),
+    banditTest: z.boolean().optional(),
 });
 
 export type EpicVariant = z.infer<typeof variantSchema>;
