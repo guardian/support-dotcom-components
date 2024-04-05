@@ -6,25 +6,14 @@ export function selectVariantWithHighestMean(
     testBanditData: BanditData,
     test: EpicTest,
 ): EpicVariant | undefined {
-    // The variants are sorted by mean
-    const highestMeanVariant = testBanditData.variants[0];
-
-    // If there's a tie then we will randomly select one of the top variants
-    const topVariants = [highestMeanVariant];
-    for (let i = 1; i < testBanditData.variants.length; i++) {
-        if (testBanditData.variants[i].mean === highestMeanVariant.mean) {
-            topVariants.push(testBanditData.variants[i]);
-        } else {
-            break;
-        }
-    }
-
     const variant =
-        topVariants.length < 2
-            ? highestMeanVariant
-            : topVariants[Math.floor(Math.random() * topVariants.length)];
+        testBanditData.bestVariants.length < 2
+            ? testBanditData.bestVariants[0]
+            : testBanditData.bestVariants[
+                  Math.floor(Math.random() * testBanditData.bestVariants.length)
+              ];
 
-    if (!highestMeanVariant) {
+    if (!variant) {
         return undefined;
     }
 

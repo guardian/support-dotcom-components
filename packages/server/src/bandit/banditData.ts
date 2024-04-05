@@ -58,7 +58,7 @@ interface BanditVariantData {
 
 export interface BanditData {
     testName: string;
-    variants: BanditVariantData[];
+    bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
 }
 
 async function buildBanditDataForTest(testName: string): Promise<BanditData> {
@@ -81,10 +81,12 @@ async function buildBanditDataForTest(testName: string): Promise<BanditData> {
     });
 
     const sortedVariantMeans = variantMeans.sort((a, b) => b.mean - a.mean);
+    const highestMean = sortedVariantMeans[0].mean;
+    const bestVariants = variantMeans.filter((variant) => variant.mean === highestMean);
 
     return {
         testName,
-        variants: sortedVariantMeans,
+        bestVariants,
     };
 }
 
