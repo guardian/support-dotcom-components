@@ -2,17 +2,33 @@ import { EpicTest, EpicVariant } from '@sdc/shared/dist/types';
 import { BanditData } from './banditData';
 import { Result } from '../tests/epics/epicSelection';
 
-function selectVariantWithHighestMean(
+export function selectVariantWithHighestMean(
     testBanditData: BanditData,
     test: EpicTest,
 ): EpicVariant | undefined {
-    const highestMeanVariant = testBanditData.variants.sort((a, b) => b.mean - a.mean)[0];
+    // The variants are sorted by mean
+    const highestMeanVariant = testBanditData.variants[0];
+
+    // If there's a tie then we will randomly select one of the top variants
+    const topVariants = [highestMeanVariant];
+    for (let i = 1; i < testBanditData.variants.length; i++) {
+        if (testBanditData.variants[i].mean === highestMeanVariant.mean) {
+            topVariants.push(testBanditData.variants[i]);
+        } else {
+            break;
+        }
+    }
+
+    const variant =
+        topVariants.length < 2
+            ? highestMeanVariant
+            : topVariants[Math.floor(Math.random() * topVariants.length)];
 
     if (!highestMeanVariant) {
         return undefined;
     }
 
-    return test.variants.find((v) => v.name === highestMeanVariant.variantName);
+    return test.variants.find((v) => v.name === variant.variantName);
 }
 
 function selectRandomVariant(variants: EpicVariant[]): EpicVariant | undefined {
