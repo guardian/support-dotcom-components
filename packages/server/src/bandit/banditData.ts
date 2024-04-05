@@ -24,12 +24,6 @@ const queryResultSchema = z.array(testSampleSchema);
 
 type TestSample = z.infer<typeof testSampleSchema>;
 
-export async function testBanditLocally(): Promise<string> {
-    const queryResult = await buildBanditDataForTest('2024-03-05_EPIC_PRIMARY__US');
-    console.log('buildBanditDataForTest', queryResult);
-    return 'success';
-}
-
 function queryForTestSamples(testName: string, nSamples: number) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     return docClient
@@ -108,5 +102,4 @@ function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<
 const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
     buildReloader(() => buildBanditData(epicTestsProvider), 60 * 1000);
 
-// TODO - pass to epicRouter and use
 export { buildBanditDataReloader };
