@@ -102,8 +102,8 @@ export const buildEpicRouter = (
                   targeting,
                   getDeviceType(req),
                   enableSuperMode ? superModeArticles.get() : [],
-                  params.debug,
                   banditData.get(),
+                  params.debug,
               );
 
         if (!result.result) {

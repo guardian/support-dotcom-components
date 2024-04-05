@@ -189,14 +189,13 @@ export interface Result {
     debug?: Debug;
 }
 
-//TODO can we get rid of includeDebug and Debug objects?
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
-    includeDebug = false,
     banditData: BanditData[],
+    includeDebug = false,
 ): Result => {
     const debug: Debug = {};
 
@@ -273,7 +272,10 @@ export const findTestAndVariant = (
         : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
-        return selectEpicVariant(test, banditData, targeting);
+        return {
+            ...selectEpicVariant(test, banditData, targeting),
+            debug: includeDebug ? debug : undefined,
+        };
     }
 
     return { debug: includeDebug ? debug : undefined };
