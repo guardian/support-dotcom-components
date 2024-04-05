@@ -34,7 +34,7 @@ function queryForTestSamples(testName: string, nSamples: number) {
                 ':testName': testName,
             },
             ScanIndexForward: false, // newest first
-            Limit: nSamples,
+            // Limit: nSamples,
         })
         .promise();
 }
@@ -61,18 +61,25 @@ export interface BanditData {
     bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
 }
 
-async function buildBanditDataForTest(testName: string): Promise<BanditData> {
-    const samples = await getBanditSamplesForTest(testName);
+async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
+    const samples = await getBanditSamplesForTest(epicTest.name);
+
+    if (samples.length === 0) {
+        return Promise.resolve({
+            testName: epicTest.name,
+            bestVariants: [],
+        });
+    }
 
     const variantsData = samples.flatMap((sample) => sample.variants);
-    const variantNames = Array.from(new Set(variantsData.map((variant) => variant.variantName)));
+    const variantNames = epicTest.variants.map((variant) => variant.name);
 
     const variantMeans = variantNames.map((variantName) => {
-        const filteredVariantsData = variantsData.filter(
-            (variant) => variant.variantName === variantName,
+        const variantSamples = variantsData.filter(
+            (variantSample) => variantSample.variantName === variantName,
         );
 
-        const mean = sampleMean(filteredVariantsData);
+        const mean = sampleMean(variantSamples);
 
         return {
             variantName,
@@ -85,7 +92,7 @@ async function buildBanditDataForTest(testName: string): Promise<BanditData> {
     const bestVariants = variantMeans.filter((variant) => variant.mean === highestMean);
 
     return {
-        testName,
+        testName: epicTest.name,
         bestVariants,
     };
 }
@@ -99,8 +106,8 @@ function sampleMean(samples: VariantSample[]): number {
 }
 
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
-    const testNames = epicTestsProvider.get().map((test) => test.name);
-    return Promise.all(testNames.map((name) => buildBanditDataForTest(name)));
+    const banditTests = epicTestsProvider.get().filter((epicTest) => epicTest.banditTest);
+    return Promise.all(banditTests.map((epicTest) => buildBanditDataForTest(epicTest)));
 }
 
 const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
