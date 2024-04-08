@@ -24,7 +24,8 @@ const queryResultSchema = z.array(testSampleSchema);
 
 type TestSample = z.infer<typeof testSampleSchema>;
 
-function queryForTestSamples(testName: string, nSamples: number) {
+// If sampleCount is not provided, all samples will be returned
+function queryForTestSamples(testName: string, sampleCount?: number) {
     const docClient = new AWS.DynamoDB.DocumentClient({ region: 'eu-west-1' });
     return docClient
         .query({
@@ -34,13 +35,13 @@ function queryForTestSamples(testName: string, nSamples: number) {
                 ':testName': testName,
             },
             ScanIndexForward: false, // newest first
-            // Limit: nSamples,
+            ...(sampleCount ? { Limit: sampleCount } : {}),
         })
         .promise();
 }
 
 async function getBanditSamplesForTest(testName: string): Promise<TestSample[]> {
-    const queryResult = await queryForTestSamples(testName, 2);
+    const queryResult = await queryForTestSamples(testName);
 
     const parsedResults = queryResultSchema.safeParse(queryResult.Items);
 
@@ -65,10 +66,14 @@ async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
     const samples = await getBanditSamplesForTest(epicTest.name);
 
     if (samples.length === 0) {
-        return Promise.resolve({
+        // No samples yet, set all means to zero to allow random selection
+        return {
             testName: epicTest.name,
-            bestVariants: [],
-        });
+            bestVariants: epicTest.variants.map((variant) => ({
+                variantName: variant.name,
+                mean: 0,
+            })),
+        };
     }
 
     const variantsData = samples.flatMap((sample) => sample.variants);
