@@ -2,6 +2,12 @@ import { EpicTest, EpicVariant } from '@sdc/shared/dist/types';
 import { BanditData } from './banditData';
 import { Result } from '../tests/epics/epicSelection';
 
+/**
+ * Select at random with probability epsilon.
+ * https://en.wikipedia.org/wiki/Multi-armed_bandit#Semi-uniform_strategies
+ */
+const EPSILON = 0.1;
+
 export function selectVariantWithHighestMean(
     testBanditData: BanditData,
     test: EpicTest,
@@ -34,10 +40,9 @@ export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: 
     }
 
     // Choose at random with probability epsilon
-    const epsilon = 0.1;
     const random = Math.random();
 
-    if (epsilon > random) {
+    if (EPSILON > random) {
         const randomVariantData = selectRandomVariant(test.variants);
 
         if (!randomVariantData) {
