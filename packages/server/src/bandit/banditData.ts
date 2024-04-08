@@ -111,7 +111,7 @@ function sampleMean(samples: VariantSample[]): number {
 }
 
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
-    const banditTests = epicTestsProvider.get().filter((epicTest) => epicTest.banditTest);
+    const banditTests = epicTestsProvider.get().filter((epicTest) => epicTest.isBanditTest);
     return Promise.all(banditTests.map((epicTest) => buildBanditDataForTest(epicTest)));
 }
 

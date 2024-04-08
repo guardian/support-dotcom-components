@@ -282,7 +282,7 @@ export const findTestAndVariant = (
 };
 
 function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: EpicTargeting) {
-    if (test.banditTest) {
+    if (test.isBanditTest) {
         return selectVariantUsingEpsilonGreedy(banditData, test);
     }
 
