@@ -1,6 +1,8 @@
 import { EpicTest, EpicVariant } from '@sdc/shared/dist/types';
 import { BanditData } from './banditData';
 import { Result } from '../tests/epics/epicSelection';
+import { putMetric } from '../utils/cloudwatch';
+import { logError } from '../utils/logging';
 
 /**
  * Select at random with probability epsilon.
@@ -26,39 +28,41 @@ export function selectVariantWithHighestMean(
     return test.variants.find((v) => v.name === variant.variantName);
 }
 
-function selectRandomVariant(variants: EpicVariant[]): EpicVariant | undefined {
-    const randomVariantIndex = Math.floor(Math.random() * variants.length);
-    return variants[randomVariantIndex];
+function selectRandomVariant(test: EpicTest): Result {
+    const randomVariantIndex = Math.floor(Math.random() * test.variants.length);
+    const randomVariantData = test.variants[randomVariantIndex];
+
+    if (!randomVariantData) {
+        logError(`Failed to select random variant for bandit test: ${test.name}`);
+        putMetric('bandit-selection-error');
+        return {};
+    }
+
+    return {
+        result: { test, variant: randomVariantData },
+    };
 }
 
 export function selectVariantUsingEpsilonGreedy(banditData: BanditData[], test: EpicTest): Result {
     const testBanditData = banditData.find((bandit) => bandit.testName === test.name);
 
     if (!testBanditData) {
-        // TODO: what do we do if the bandit data isn't there for the test?
-        return {};
+        // We don't yet have bandit data for this test, select a random variant
+        return selectRandomVariant(test);
     }
 
     // Choose at random with probability epsilon
     const random = Math.random();
 
     if (EPSILON > random) {
-        const randomVariantData = selectRandomVariant(test.variants);
-
-        if (!randomVariantData) {
-            // TODO: what do we do if the random variant data is undefined?
-            return {};
-        }
-
-        return {
-            result: { test, variant: randomVariantData },
-        };
+        return selectRandomVariant(test);
     }
 
     const highestMeanVariantData = selectVariantWithHighestMean(testBanditData, test);
 
     if (!highestMeanVariantData) {
-        // TODO: what do we do if the chosen variant data is undefined?
+        logError(`Failed to select best variant for bandit test: ${test.name}`);
+        putMetric('bandit-selection-error');
         return {};
     }
 
