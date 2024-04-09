@@ -9,6 +9,8 @@ Object {
       "GuAlarm",
       "GuAlarm",
       "GuAlarm",
+      "GuAlarm",
+      "GuAlarm",
       "GuDistributionBucketParameter",
       "GuGetS3ObjectsPolicy",
       "GuGetS3ObjectsPolicy",
@@ -259,6 +261,74 @@ chown -R dotcom-components:support /var/log/dotcom-components
         },
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
+    },
+    "BanditDataLoadError6659BF65": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error fetching bandit samples data from Dynamodb",
+        "AlarmName": "support-dotcom-components: Bandit Data loading error - TEST",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "bandit-data-load-error",
+        "Namespace": "support-dotcom-components-TEST",
+        "Period": 3600,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "BanditDataSelectionError8734AF1A": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error selecting variant for bandit test",
+        "AlarmName": "support-dotcom-components: Bandit Data selection error - TEST",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "bandit-selection-error",
+        "Namespace": "support-dotcom-components-TEST",
+        "Period": 3600,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
     },
     "CertificateDotcomcomponents88C2E1C7": Object {
       "DeletionPolicy": "Retain",

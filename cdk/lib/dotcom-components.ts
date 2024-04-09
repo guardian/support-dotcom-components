@@ -101,6 +101,43 @@ export class DotcomComponents extends GuStack {
 			treatMissingData: TreatMissingData.NOT_BREACHING,
 		});
 
+		new GuAlarm(this, 'BanditDataLoadError', {
+			app: appName,
+			alarmName: `support-${appName}: Bandit Data loading error - ${this.stage}`,
+			alarmDescription:
+				'Error fetching bandit samples data from Dynamodb',
+			snsTopicName,
+			metric: new Metric({
+				metricName: 'bandit-data-load-error',
+				namespace,
+				period: Duration.minutes(60),
+				statistic: 'sum',
+			}),
+			threshold: 1,
+			evaluationPeriods: 1,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			treatMissingData: TreatMissingData.NOT_BREACHING,
+		});
+
+		new GuAlarm(this, 'BanditDataSelectionError', {
+			app: appName,
+			alarmName: `support-${appName}: Bandit Data selection error - ${this.stage}`,
+			alarmDescription: 'Error selecting variant for bandit test',
+			snsTopicName,
+			metric: new Metric({
+				metricName: 'bandit-selection-error',
+				namespace,
+				period: Duration.minutes(60),
+				statistic: 'sum',
+			}),
+			threshold: 1,
+			evaluationPeriods: 1,
+			comparisonOperator:
+				ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+			treatMissingData: TreatMissingData.NOT_BREACHING,
+		});
+
 		const userData = `#!/bin/bash
 
 groupadd support
