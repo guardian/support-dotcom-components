@@ -116,6 +116,6 @@ function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<
 }
 
 const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
-    buildReloader(() => buildBanditData(epicTestsProvider), 60 * 1000);
+    buildReloader(() => buildBanditData(epicTestsProvider), 60);
 
 export { buildBanditDataReloader };
