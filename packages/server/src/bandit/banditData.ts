@@ -3,6 +3,8 @@ import * as AWS from 'aws-sdk';
 import { buildReloader, ValueProvider } from '../utils/valueReloader';
 import { EpicTest } from '@sdc/shared/dist/types';
 import * as z from 'zod';
+import { logError } from '../utils/logging';
+import { putMetric } from '../utils/cloudwatch';
 
 const variantSampleSchema = z.object({
     variantName: z.string(),
@@ -112,7 +114,17 @@ function sampleMean(samples: VariantSample[]): number {
 
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
     const banditTests = epicTestsProvider.get().filter((epicTest) => epicTest.isBanditTest);
-    return Promise.all(banditTests.map((epicTest) => buildBanditDataForTest(epicTest)));
+    return Promise.all(
+        banditTests.map((epicTest) =>
+            buildBanditDataForTest(epicTest).catch((error) => {
+                logError(
+                    `Error fetching bandit samples for test ${epicTest.name} from Dynamo: ${error.message}`,
+                );
+                putMetric('bandit-data-load-error');
+                return Promise.reject(error);
+            }),
+        ),
+    );
 }
 
 const buildBanditDataReloader = (epicTestsProvider: ValueProvider<EpicTest[]>) =>
