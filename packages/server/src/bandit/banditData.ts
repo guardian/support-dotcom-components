@@ -64,52 +64,63 @@ export interface BanditData {
     bestVariants: BanditVariantData[]; // will contain more than 1 variant if there is a tie
 }
 
-async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
-    const samples = await getBanditSamplesForTest(epicTest.name);
+function getDefaultWeighting(epicTest: EpicTest): BanditData {
+    // No samples yet, set all means to zero to allow random selection
+    return {
+        testName: epicTest.name,
+        bestVariants: epicTest.variants.map((variant) => ({
+            variantName: variant.name,
+            mean: 0,
+        })),
+    };
+}
 
-    if (samples.length === 0) {
-        // No samples yet, set all means to zero to allow random selection
-        return {
-            testName: epicTest.name,
-            bestVariants: epicTest.variants.map((variant) => ({
-                variantName: variant.name,
-                mean: 0,
-            })),
-        };
-    }
-
-    const variantsData = samples.flatMap((sample) => sample.variants);
+function calculateMeanPerVariant(samples: TestSample[], epicTest: EpicTest): BanditVariantData[] {
+    const allVariantSamples = samples.flatMap((sample) => sample.variants);
     const variantNames = epicTest.variants.map((variant) => variant.name);
 
-    const variantMeans = variantNames.map((variantName) => {
-        const variantSamples = variantsData.filter(
+    return variantNames.map((variantName) => {
+        const variantSamples = allVariantSamples.filter(
             (variantSample) => variantSample.variantName === variantName,
         );
 
-        const mean = sampleMean(variantSamples);
+        const mean = calculateWeightedMeanOfSamples(variantSamples);
 
         return {
             variantName,
             mean,
         };
     });
-
-    const sortedVariantMeans = variantMeans.sort((a, b) => b.mean - a.mean);
-    const highestMean = sortedVariantMeans[0].mean;
-    const bestVariants = variantMeans.filter((variant) => variant.mean === highestMean);
-
-    return {
-        testName: epicTest.name,
-        bestVariants,
-    };
 }
 
-function sampleMean(samples: VariantSample[]): number {
+function calculateWeightedMeanOfSamples(samples: VariantSample[]): number {
     const population = samples.reduce((acc, sample) => acc + sample.views, 0);
     return samples.reduce(
         (acc, sample) => acc + (sample.views / population) * sample.avGbpPerView,
         0,
     );
+}
+
+function calculateBestVariants(variantMeans: BanditVariantData[]): BanditVariantData[] {
+    const variantsSortedByMeanDescending = variantMeans.sort((a, b) => b.mean - a.mean);
+    const highestMean = variantsSortedByMeanDescending[0].mean;
+    return variantMeans.filter((variant) => variant.mean === highestMean);
+}
+
+async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
+    const samples = await getBanditSamplesForTest(epicTest.name);
+
+    if (samples.length === 0) {
+        return getDefaultWeighting(epicTest);
+    }
+
+    const variantMeans = calculateMeanPerVariant(samples, epicTest);
+    const bestVariants = calculateBestVariants(variantMeans);
+
+    return {
+        testName: epicTest.name,
+        bestVariants,
+    };
 }
 
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
