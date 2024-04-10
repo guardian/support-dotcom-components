@@ -84,7 +84,7 @@ function calculateMeanPerVariant(samples: TestSample[], epicTest: EpicTest): Ban
             (variantSample) => variantSample.variantName === variantName,
         );
 
-        const mean = calculateWeightedMeanOfSamples(variantSamples);
+        const mean = calculateOverallMeanForVariant(variantSamples);
 
         return {
             variantName,
@@ -93,7 +93,7 @@ function calculateMeanPerVariant(samples: TestSample[], epicTest: EpicTest): Ban
     });
 }
 
-function calculateWeightedMeanOfSamples(samples: VariantSample[]): number {
+function calculateOverallMeanForVariant(samples: VariantSample[]): number {
     const population = samples.reduce((acc, sample) => acc + sample.views, 0);
     return samples.reduce(
         (acc, sample) => acc + (sample.views / population) * sample.avGbpPerView,
