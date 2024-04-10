@@ -19,6 +19,7 @@ Object {
       "GuPutCloudwatchMetricsPolicy",
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
+      "GuDynamoDBReadPolicy",
       "GuVpcParameter",
       "GuSubnetListParameter",
       "GuCertificate",
@@ -413,6 +414,48 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "Version": "2012-10-17",
         },
         "PolicyName": "describe-ec2-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DynamoBanditReadPolicy18B1E556": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:GetRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:dynamodb:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":table/support-bandit-TEST",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DynamoBanditReadPolicy18B1E556",
         "Roles": Array [
           Object {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
