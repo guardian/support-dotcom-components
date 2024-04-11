@@ -6,7 +6,8 @@ import {
     Variant,
     SignedInStatus,
     PageContextTargeting,
-    UserDeviceType, ConsentStatus,
+    UserDeviceType,
+    ConsentStatus,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
