@@ -20,7 +20,7 @@ export type BannerTargeting = {
     purchaseInfo?: PurchaseInfo;
     isSignedIn: boolean;
     lastOneOffContributionDate?: string;
-    hasConsented?: boolean
+    hasConsented: boolean;
 };
 
 export type BannerPayload = {

@@ -6,7 +6,7 @@ import {
     Variant,
     SignedInStatus,
     PageContextTargeting,
-    UserDeviceType,
+    UserDeviceType, ConsentStatus,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
@@ -103,6 +103,20 @@ export const correctSignedInStatus = (
             return isSignedIn === false;
         default:
             return true;
+    }
+};
+
+export const hasConsentedStatus = (
+    hasConsented: boolean,
+    consentStatus?: ConsentStatus,
+): boolean => {
+    switch (consentStatus) {
+        case 'HasConsented':
+            return hasConsented === true;
+        case 'HasNotConsented':
+            return hasConsented === false;
+        default:
+            return false;
     }
 };
 
