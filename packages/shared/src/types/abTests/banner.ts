@@ -79,7 +79,7 @@ export const bannerTestFromToolSchema = testSchema.extend({
     locations: z.array(countryGroupIdSchema),
     contextTargeting: pageContextTargetingSchema,
     variants: z.array(bannerVariantFromToolSchema),
-    articlesViewedSettings: articlesViewedSettingsSchema.optional(),
+    articlesViewedSettings: articlesViewedSettingsSchema.optional(),    
 });
 
 export type BannerTestFromTool = z.infer<typeof bannerTestFromToolSchema>;

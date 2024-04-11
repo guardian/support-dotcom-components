@@ -38,6 +38,7 @@ export interface Test<V extends Variant> {
     controlProportionSettings?: ControlProportionSettings;
     deviceType?: DeviceType;
     signedInStatus?: SignedInStatus;
+    consentStatus?: ConsentStatus;
 }
 
 export const testSchema = z.object({
@@ -52,6 +53,7 @@ export const testSchema = z.object({
         .optional(),
     deviceType: deviceTypeSchema.optional(),
     signedInStatus: signedInStatusSchema.optional(),
+    consentStatus: ConsentStatusSchema.optional(),
 });
 
 export interface ControlProportionSettings {
