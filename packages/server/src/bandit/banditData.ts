@@ -8,8 +8,8 @@ import { putMetric } from '../utils/cloudwatch';
 
 const variantSampleSchema = z.object({
     variantName: z.string(),
-    avGbp: z.number(),
-    avGbpPerView: z.number(),
+    annualisedValueInGBP: z.number(),
+    annualisedValueInGBPPerView: z.number(),
     views: z.number(),
 });
 
@@ -96,7 +96,7 @@ function calculateMeanPerVariant(samples: TestSample[], epicTest: EpicTest): Ban
 function calculateOverallMeanForVariant(samples: VariantSample[]): number {
     const population = samples.reduce((acc, sample) => acc + sample.views, 0);
     return samples.reduce(
-        (acc, sample) => acc + (sample.views / population) * sample.avGbpPerView,
+        (acc, sample) => acc + (sample.views / population) * sample.annualisedValueInGBPPerView,
         0,
     );
 }
