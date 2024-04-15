@@ -19,6 +19,7 @@ import {
     deviceTypeMatchesFilter,
     correctSignedInStatusFilter,
 } from './epicSelection';
+import { BanditData } from '../../bandit/banditData';
 
 const testDefault: EpicTest = {
     name: 'example-1',
@@ -86,6 +87,8 @@ const targetingDefault: EpicTargeting = {
 
 const superModeArticles: SuperModeArticle[] = [];
 
+const banditData: BanditData[] = [];
+
 const userDeviceType = 'Desktop';
 
 describe('findTestAndVariant', () => {
@@ -100,7 +103,13 @@ describe('findTestAndVariant', () => {
             weeklyArticleHistory: [{ week: 18330, count: 45 }],
         };
 
-        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
+        const got = findTestAndVariant(
+            tests,
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+        );
 
         expect(got.result?.test.name).toBe('example-1');
         expect(got.result?.variant.name).toBe('control-example-1');
@@ -114,7 +123,13 @@ describe('findTestAndVariant', () => {
             hasOptedOutOfArticleCount: true,
         };
 
-        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
+        const got = findTestAndVariant(
+            tests,
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+        );
 
         expect(got.result).toBe(undefined);
     });
@@ -124,7 +139,13 @@ describe('findTestAndVariant', () => {
         const tests = [test];
         const targeting = { ...targetingDefault, sectionId: 'news' };
 
-        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
+        const got = findTestAndVariant(
+            tests,
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+        );
 
         expect(got.result).toBe(undefined);
     });
@@ -141,7 +162,13 @@ describe('findTestAndVariant', () => {
             showSupportMessaging: false,
         };
 
-        const got = findTestAndVariant(tests, targeting, userDeviceType, superModeArticles);
+        const got = findTestAndVariant(
+            tests,
+            targeting,
+            userDeviceType,
+            superModeArticles,
+            banditData,
+        );
 
         expect(got.result?.variant.showReminderFields).toBe(undefined);
     });
