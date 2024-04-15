@@ -1,6 +1,7 @@
 import {
     ArticlesViewedSettings,
     DeviceType,
+    EpicVariant,
     SecondaryCtaType,
     UserDeviceType,
 } from '@sdc/shared/types';
@@ -18,8 +19,32 @@ import {
     withinMaxViews,
     deviceTypeMatchesFilter,
     correctSignedInStatusFilter,
+    banditNullHypothesisFilter,
 } from './epicSelection';
 import { BanditData } from '../../bandit/banditData';
+
+const variantDefault: EpicVariant = {
+    name: 'control-example-1',
+    heading: "We've got an announcement…",
+    paragraphs: [
+        '… on our progress as an organisation. In service of the escalating climate emergency, we have made an important decision – <a href="https://www.theguardian.com/media/2020/jan/29/guardian-to-ban-advertising-from-fossil-fuel-firms-climate-crisis#show-draft-epics">to renounce fossil fuel advertising</a>, becoming the first major global news organisation to institute an outright ban on taking money from companies that extract fossil fuels.',
+        '',
+    ],
+    highlightedText:
+        'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
+    cta: {
+        text: 'Support The Guardian',
+        baseUrl: 'https://support.theguardian.com/contribute',
+    },
+    secondaryCta: {
+        type: SecondaryCtaType.Custom,
+        cta: {
+            text: 'Read our pledge',
+            baseUrl:
+                'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
+        },
+    },
+};
 
 const testDefault: EpicTest = {
     name: 'example-1',
@@ -38,30 +63,7 @@ const testDefault: EpicTest = {
     },
     userCohort: 'AllNonSupporters',
     hasCountryName: false,
-    variants: [
-        {
-            name: 'control-example-1',
-            heading: "We've got an announcement…",
-            paragraphs: [
-                '… on our progress as an organisation. In service of the escalating climate emergency, we have made an important decision – <a href="https://www.theguardian.com/media/2020/jan/29/guardian-to-ban-advertising-from-fossil-fuel-firms-climate-crisis#show-draft-epics">to renounce fossil fuel advertising</a>, becoming the first major global news organisation to institute an outright ban on taking money from companies that extract fossil fuels.',
-                '',
-            ],
-            highlightedText:
-                'Support the Guardian from as little as %%CURRENCY_SYMBOL%%1 – and it only takes a minute. Thank you.',
-            cta: {
-                text: 'Support The Guardian',
-                baseUrl: 'https://support.theguardian.com/contribute',
-            },
-            secondaryCta: {
-                type: SecondaryCtaType.Custom,
-                cta: {
-                    text: 'Read our pledge',
-                    baseUrl:
-                        'https://www.theguardian.com/environment/ng-interactive/2019/oct/16/the-guardians-climate-pledge-2019?INTCMP=pledge_Jan_2020',
-                },
-            },
-        },
-    ],
+    variants: [variantDefault],
     highPriority: false,
     useLocalViewLog: false,
     articlesViewedSettings: {
@@ -849,5 +851,139 @@ describe('correctSignedInStatusFilter filter', () => {
         const got = correctSignedInStatusFilter.test(test, targeting);
 
         expect(got).toBe(true);
+    });
+});
+
+describe('bandit null hypothesis', () => {
+    const variants = [
+        {
+            ...variantDefault,
+            name: 'control',
+        },
+        { ...variantDefault, name: 'variant' },
+    ];
+
+    const abTestTest: EpicTest = {
+        ...testDefault,
+        name: 'AB_TEST_NULL_HYPOTHESIS',
+        articlesViewedSettings: undefined,
+        variants: variants,
+    };
+
+    const banditTest: EpicTest = {
+        ...testDefault,
+        name: 'BANDIT_NULL_HYPOTHESIS',
+        isBanditTest: true,
+        articlesViewedSettings: undefined,
+        variants: variants,
+    };
+
+    const tests = [abTestTest, banditTest];
+
+    it('should return AB test and bandit ~ equally', () => {
+        const results: (string | undefined)[] = [];
+
+        for (let i = 0; i < 5000; i++) {
+            const targeting = { ...targetingDefault, mvtId: i };
+
+            const got = findTestAndVariant(
+                tests,
+                targeting,
+                userDeviceType,
+                superModeArticles,
+                banditData,
+                true,
+            );
+
+            results.push(got.result?.test.name);
+        }
+
+        const abTestChosen = results.filter((r) => r === 'AB_TEST_NULL_HYPOTHESIS');
+        expect(abTestChosen.length).toBe(2550);
+
+        const banditChosen = results.filter((r) => r === 'BANDIT_NULL_HYPOTHESIS');
+        expect(banditChosen.length).toBe(2450);
+    });
+});
+
+describe('banditNullHypothesisFilter filter', () => {
+    it('should pass for mvtId = 1 and test is AB test', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: 'AB_TEST_NULL_HYPOTHESIS',
+        };
+
+        const targeting = { ...targetingDefault, mvtId: 1 };
+        const got = banditNullHypothesisFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail for mvtId = 2 and test is AB test', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: 'AB_TEST_NULL_HYPOTHESIS',
+        };
+
+        const targeting = { ...targetingDefault, mvtId: 2 };
+        const got = banditNullHypothesisFilter.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass for mvtId = 2 and test is Bandit', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: 'BANDIT_NULL_HYPOTHESIS',
+        };
+
+        const targeting = { ...targetingDefault, mvtId: 2 };
+        const got = banditNullHypothesisFilter.test(test, targeting);
+
+        expect(got).toBe(true);
+    });
+
+    it('should fail for mvtId = 1 and test is Bandit', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: 'BANDIT_NULL_HYPOTHESIS',
+        };
+
+        const targeting = { ...targetingDefault, mvtId: 1 };
+        const got = banditNullHypothesisFilter.test(test, targeting);
+
+        expect(got).toBe(false);
+    });
+
+    it('should pass for ~50% of MVT IDs and test is AB test', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: 'AB_TEST_NULL_HYPOTHESIS',
+        };
+
+        const results: boolean[] = [];
+        for (let mvt = 0; mvt < 5000; mvt++) {
+            const targeting = { ...targetingDefault, mvtId: mvt };
+            const got = banditNullHypothesisFilter.test(test, targeting);
+            results.push(got);
+        }
+
+        expect(results.filter((r) => r).length).toBe(2550);
+    });
+
+    it('should pass for ~50% of MVT IDs and test is Bandit', () => {
+        const test: EpicTest = {
+            ...testDefault,
+            name: 'BANDIT_NULL_HYPOTHESIS',
+        };
+
+        const results: boolean[] = [];
+        for (let mvt = 0; mvt < 5000; mvt++) {
+            const targeting = { ...targetingDefault, mvtId: mvt };
+            const got = banditNullHypothesisFilter.test(test, targeting);
+            results.push(got);
+        }
+
+        expect(results.filter((r) => r).length).toBe(2450);
     });
 });
