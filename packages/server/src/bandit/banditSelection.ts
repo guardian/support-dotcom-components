@@ -8,7 +8,10 @@ import { logError } from '../utils/logging';
  * In general we select the best known variant, except with probability 'epsilon' when we select at random.
  * https://en.wikipedia.org/wiki/Multi-armed_bandit#Semi-uniform_strategies
  */
-const EPSILON = 0.1;
+//const EPSILON = 0.1;
+
+// NULL HYPOTHESIS - always pick at random
+const EPSILON = 1;
 
 export function selectVariantWithHighestMean(
     testBanditData: BanditData,

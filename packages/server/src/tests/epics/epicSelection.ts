@@ -10,7 +10,7 @@ import {
 } from '@sdc/shared/types';
 import { BanditData } from '../../bandit/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../../bandit/banditSelection';
-import { selectVariant } from '../../lib/ab';
+import { getRandomNumber, selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
@@ -189,6 +189,20 @@ export interface Result {
     debug?: Debug;
 }
 
+export const banditNullHypothesisFilter: Filter = {
+    id: 'matchesOneOfBanditNullHypothesisTests',
+    test: (test, targeting): boolean => {
+        const fiftyFiftyChance = getRandomNumber('NULL_HYPOTHESIS', targeting.mvtId) % 2;
+        if (test.name === 'AB_TEST_NULL_HYPOTHESIS') {
+            return fiftyFiftyChance === 0;
+        }
+        if (test.name === 'BANDIT_NULL_HYPOTHESIS') {
+            return fiftyFiftyChance === 1;
+        }
+        return true;
+    },
+};
+
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
@@ -217,6 +231,7 @@ export const findTestAndVariant = (
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
+            banditNullHypothesisFilter,
         ];
     };
 
@@ -286,7 +301,7 @@ function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: 
         return selectVariantUsingEpsilonGreedy(banditData, test);
     }
 
-    const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
+    const variant = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1);
 
     return {
         result: { test, variant },
