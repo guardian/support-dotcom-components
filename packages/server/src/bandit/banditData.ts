@@ -108,6 +108,14 @@ function calculateBestVariants(variantMeans: BanditVariantData[]): BanditVariant
 }
 
 async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
+    if (epicTest.variants.length === 0) {
+        // No variants have been added to the test yet
+        return {
+            testName: epicTest.name,
+            bestVariants: [],
+        };
+    }
+
     const samples = await getBanditSamplesForTest(epicTest.name);
 
     if (samples.length === 0) {
