@@ -116,6 +116,10 @@ export const hasConsentedStatus = (
             return hasConsented === true;
         case 'HasNotConsented':
             return hasConsented === false;
+        case 'Everyone':
+            return true;
+        case undefined:
+            return true;
         default:
             return false;
     }
