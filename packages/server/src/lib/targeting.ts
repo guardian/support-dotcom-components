@@ -120,8 +120,8 @@ export const hasConsentedStatus = (
             return true;
         case undefined:
             return true;
-        default:
-            return false;
+        default: 
+            return true;
     }
 };
 
