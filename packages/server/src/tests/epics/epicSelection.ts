@@ -193,10 +193,10 @@ export const banditNullHypothesisFilter: Filter = {
     id: 'matchesOneOfBanditNullHypothesisTests',
     test: (test, targeting): boolean => {
         const fiftyFiftyChance = getRandomNumber('NULL_HYPOTHESIS', targeting.mvtId) % 2;
-        if (test.name === 'AB_TEST_NULL_HYPOTHESIS') {
+        if (test.name === '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_AB') {
             return fiftyFiftyChance === 0;
         }
-        if (test.name === 'BANDIT_NULL_HYPOTHESIS') {
+        if (test.name === '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_BANDIT') {
             return fiftyFiftyChance === 1;
         }
         return true;

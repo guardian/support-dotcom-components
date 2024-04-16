@@ -854,6 +854,9 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 });
 
+const BANDIT_TEST_NAME = '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_BANDIT';
+const AB_TEST_TEST_NAME = '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_AB';
+
 describe('bandit null hypothesis', () => {
     const variants = [
         {
@@ -865,14 +868,14 @@ describe('bandit null hypothesis', () => {
 
     const abTestTest: EpicTest = {
         ...testDefault,
-        name: 'AB_TEST_NULL_HYPOTHESIS',
+        name: AB_TEST_TEST_NAME,
         articlesViewedSettings: undefined,
         variants: variants,
     };
 
     const banditTest: EpicTest = {
         ...testDefault,
-        name: 'BANDIT_NULL_HYPOTHESIS',
+        name: BANDIT_TEST_NAME,
         isBanditTest: true,
         articlesViewedSettings: undefined,
         variants: variants,
@@ -898,10 +901,10 @@ describe('bandit null hypothesis', () => {
             results.push(got.result?.test.name);
         }
 
-        const abTestChosen = results.filter((r) => r === 'AB_TEST_NULL_HYPOTHESIS');
+        const abTestChosen = results.filter((r) => r === AB_TEST_TEST_NAME);
         expect(abTestChosen.length).toBe(2550);
 
-        const banditChosen = results.filter((r) => r === 'BANDIT_NULL_HYPOTHESIS');
+        const banditChosen = results.filter((r) => r === BANDIT_TEST_NAME);
         expect(banditChosen.length).toBe(2450);
     });
 });
@@ -910,7 +913,7 @@ describe('banditNullHypothesisFilter filter', () => {
     it('should pass for mvtId = 1 and test is AB test', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: 'AB_TEST_NULL_HYPOTHESIS',
+            name: AB_TEST_TEST_NAME,
         };
 
         const targeting = { ...targetingDefault, mvtId: 1 };
@@ -922,7 +925,7 @@ describe('banditNullHypothesisFilter filter', () => {
     it('should fail for mvtId = 2 and test is AB test', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: 'AB_TEST_NULL_HYPOTHESIS',
+            name: AB_TEST_TEST_NAME,
         };
 
         const targeting = { ...targetingDefault, mvtId: 2 };
@@ -934,7 +937,7 @@ describe('banditNullHypothesisFilter filter', () => {
     it('should pass for mvtId = 2 and test is Bandit', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: 'BANDIT_NULL_HYPOTHESIS',
+            name: BANDIT_TEST_NAME,
         };
 
         const targeting = { ...targetingDefault, mvtId: 2 };
@@ -946,7 +949,7 @@ describe('banditNullHypothesisFilter filter', () => {
     it('should fail for mvtId = 1 and test is Bandit', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: 'BANDIT_NULL_HYPOTHESIS',
+            name: BANDIT_TEST_NAME,
         };
 
         const targeting = { ...targetingDefault, mvtId: 1 };
@@ -958,7 +961,7 @@ describe('banditNullHypothesisFilter filter', () => {
     it('should pass for ~50% of MVT IDs and test is AB test', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: 'AB_TEST_NULL_HYPOTHESIS',
+            name: AB_TEST_TEST_NAME,
         };
 
         const results: boolean[] = [];
@@ -974,7 +977,7 @@ describe('banditNullHypothesisFilter filter', () => {
     it('should pass for ~50% of MVT IDs and test is Bandit', () => {
         const test: EpicTest = {
             ...testDefault,
-            name: 'BANDIT_NULL_HYPOTHESIS',
+            name: BANDIT_TEST_NAME,
         };
 
         const results: boolean[] = [];
