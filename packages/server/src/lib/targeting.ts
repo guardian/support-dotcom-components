@@ -120,8 +120,6 @@ export const consentStatusMatches = (
             return true;
         case undefined:
             return true;
-        default: 
-            return true;
     }
 };
 

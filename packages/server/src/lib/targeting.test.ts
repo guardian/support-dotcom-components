@@ -271,15 +271,14 @@ describe('pageContextMatches', () => {
 });
 
 describe('consentStatusMatches', () => {
-    
     it('checks user consent when a test targets HasConsented', () => {
         expect(consentStatusMatches(true, 'HasConsented')).toBe(true);
         expect(consentStatusMatches(false, 'HasConsented')).toBe(false);
     });
 
     it('checks user consent when a test targets HasNotConsented', () => {
-        expect(consentStatusMatches(true, 'HasNotConsented')).toBe(true);
-        expect(consentStatusMatches(false, 'HasNotConsented')).toBe(false);
+        expect(consentStatusMatches(true, 'HasNotConsented')).toBe(false);
+        expect(consentStatusMatches(false, 'HasNotConsented')).toBe(true);
     });
 
     it('checks user consent when a test targets Everyone', () => {

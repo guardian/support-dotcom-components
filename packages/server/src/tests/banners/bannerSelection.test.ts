@@ -49,6 +49,7 @@ describe('selectBannerTest', () => {
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
             isSignedIn: false,
+            hasConsented: true,
         };
 
         const tracking = {
@@ -227,6 +228,7 @@ describe('selectBannerTest', () => {
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
             isSignedIn: false,
+            hasConsented: true,
         };
 
         const tracking = {
@@ -345,6 +347,7 @@ describe('selectBannerTest', () => {
             hasOptedOutOfArticleCount: false,
             contentType: 'Article',
             isSignedIn: false,
+            hasConsented: true,
         };
 
         const tracking = {
