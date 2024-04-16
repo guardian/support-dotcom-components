@@ -107,7 +107,7 @@ export const correctSignedInStatus = (
     }
 };
 
-export const hasConsentedStatus = (
+export const consentStatusMatches = (
     hasConsented: boolean,
     consentStatus?: ConsentStatus,
 ): boolean => {
