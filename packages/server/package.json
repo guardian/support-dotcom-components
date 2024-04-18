@@ -12,7 +12,7 @@
         "start-server": "stage=DEV PORT=8082 nodemon dist/server.js",
         "start": "concurrently --kill-others \"yarn start-watch\" \"yarn start-server\"",
         "test": "jest",
-        "bandit-data-report": "stage=PROD ts-node scripts/banditDataReport.ts"
+        "bandit-data-report": "stage=PROD ts-node scripts/bandit/banditDataReport.ts"
     },
     "devDependencies": {
         "@types/compression": "^1.7.0",

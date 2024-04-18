@@ -1,7 +1,7 @@
 import { EpicTest, EpicTestFromTool, epicTestFromToolSchema } from '@sdc/shared/dist/types';
 import fs from 'fs';
-import { getHourlyBanditDataForTest } from '../src/bandit/banditData';
-import { getTests } from '../src/tests/store';
+import { getHourlyBanditDataForTest } from '../../src/bandit/banditData';
+import { getTests } from '../../src/tests/store';
 
 const testName = process.env.TEST_NAME;
 if (!testName) {
