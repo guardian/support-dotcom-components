@@ -23,7 +23,7 @@ export type SignedInStatus = (typeof SignedInStatus)[number];
 
 export const signedInStatusSchema = z.enum(SignedInStatus);
 
-const ConsentStatus = ['HasConsented', 'HasNotConsented', 'Everyone'] as const;
+const ConsentStatus = ['HasConsented', 'HasNotConsented', 'All'] as const;
 export type ConsentStatus = (typeof ConsentStatus)[number];
 export const ConsentStatusSchema = z.enum(ConsentStatus);
 
