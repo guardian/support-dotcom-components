@@ -2,7 +2,7 @@
 
 `TEST_NAME=<test_name> yarn server bandit-data-report`
 
-Fetches all bandit sample data for the given test, and generates a csv report. Useful for plotting how each variant's mean changes over time.
+Fetches all bandit sample data for the given test, and generates a csv report. Useful for plotting how each variant's overall mean changes over time.
 
 The csv contains a row for each hour/variant, e.g.
 

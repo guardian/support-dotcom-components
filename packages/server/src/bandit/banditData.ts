@@ -131,6 +131,7 @@ async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
     };
 }
 
+// Gets overall mean for each variant, hour-by-hour
 interface BanditDataForHour {
     hour: number;
     variants: BanditVariantData[];
