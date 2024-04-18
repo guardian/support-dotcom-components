@@ -30,28 +30,31 @@ addLayout('json', () => {
     };
 });
 
-const log4jConfig = (layout: string): Configuration => ({
-    appenders: {
-        console: { type: 'console' },
-        fileAppender: {
-            type: 'file',
-            filename: logLocation,
-            maxLogSize: 10000000,
-            backups: 5,
-            compress: true,
-            layout: { type: layout, separator: ',' },
+const log4jConfig = (layout: string): Configuration => {
+    return {
+        appenders: {
+            console: { type: 'console' },
+            fileAppender: {
+                type: 'file',
+                filename: logLocation,
+                maxLogSize: 10000000,
+                backups: 5,
+                compress: true,
+                layout: { type: layout, separator: ',' },
+            },
         },
-    },
-    categories: {
-        default: { appenders: ['fileAppender'], level: 'info' },
-        production: { appenders: ['fileAppender'], level: 'info' },
-        development: { appenders: ['console'], level: 'info' },
-    },
-    pm2: true,
-});
+        categories: {
+            default: {
+                appenders: [process.env.NODE_ENV === 'production' ? 'fileAppender' : 'console'],
+                level: 'info',
+            },
+        },
+        pm2: true,
+    };
+};
 
 configure(log4jConfig('json'));
-export const logger = getLogger(process.env.NODE_ENV);
+export const logger = getLogger();
 logger.info('Created log4j logger');
 
 export function logInfo(message: string): void {

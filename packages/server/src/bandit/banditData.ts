@@ -131,6 +131,28 @@ async function buildBanditDataForTest(epicTest: EpicTest): Promise<BanditData> {
     };
 }
 
+interface BanditDataForHour {
+    hour: number;
+    variants: BanditVariantData[];
+}
+export async function getHourlyBanditDataForTest(epicTest: EpicTest): Promise<BanditDataForHour[]> {
+    const samples = (await getBanditSamplesForTest(epicTest.name)).reverse();
+
+    const results: BanditDataForHour[] = [];
+    for (let i = 0; i < samples.length; i++) {
+        const slice = samples.slice(0, i + 1);
+        const variantMeans = calculateMeanPerVariant(slice, epicTest).sort(
+            (a, b) => b.mean - a.mean,
+        );
+        results.push({
+            hour: i,
+            variants: variantMeans,
+        });
+    }
+
+    return results;
+}
+
 function buildBanditData(epicTestsProvider: ValueProvider<EpicTest[]>): Promise<BanditData[]> {
     const banditTests = epicTestsProvider.get().filter((epicTest) => epicTest.isBanditTest);
     return Promise.all(
