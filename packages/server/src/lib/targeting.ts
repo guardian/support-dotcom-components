@@ -7,6 +7,7 @@ import {
     SignedInStatus,
     PageContextTargeting,
     UserDeviceType,
+    ConsentStatus,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
@@ -102,6 +103,22 @@ export const correctSignedInStatus = (
         case 'SignedOut':
             return isSignedIn === false;
         default:
+            return true;
+    }
+};
+
+export const consentStatusMatches = (
+    hasConsented: boolean,
+    consentStatus?: ConsentStatus,
+): boolean => {
+    switch (consentStatus) {
+        case 'HasConsented':
+            return hasConsented === true;
+        case 'HasNotConsented':
+            return hasConsented === false;
+        case 'Everyone':
+            return true;
+        case undefined:
             return true;
     }
 };

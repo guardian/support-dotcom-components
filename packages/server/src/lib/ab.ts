@@ -15,7 +15,7 @@ export const withinRange = (lower: number, proportion: number, mvtId: number): b
     }
 };
 
-const getRandomNumber = (seed: string, mvtId: number | string = ''): number => {
+export const getRandomNumber = (seed: string, mvtId: number | string = ''): number => {
     const rng = seedrandom(mvtId + seed);
     return Math.abs(rng.int32());
 };

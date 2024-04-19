@@ -8,7 +8,9 @@ import {
     EpicTest,
     UserDeviceType,
 } from '@sdc/shared/types';
-import { selectVariant } from '../../lib/ab';
+import { BanditData } from '../../bandit/banditData';
+import { selectVariantUsingEpsilonGreedy } from '../../bandit/banditSelection';
+import { getRandomNumber, selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
@@ -187,11 +189,26 @@ export interface Result {
     debug?: Debug;
 }
 
+export const banditNullHypothesisFilter: Filter = {
+    id: 'matchesOneOfBanditNullHypothesisTests',
+    test: (test, targeting): boolean => {
+        const fiftyFiftyChance = getRandomNumber('NULL_HYPOTHESIS', targeting.mvtId) % 2;
+        if (test.name === '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_AB') {
+            return fiftyFiftyChance === 0;
+        }
+        if (test.name === '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_BANDIT') {
+            return fiftyFiftyChance === 1;
+        }
+        return true;
+    },
+};
+
 export const findTestAndVariant = (
     tests: EpicTest[],
     targeting: EpicTargeting,
     userDeviceType: UserDeviceType,
     superModeArticles: SuperModeArticle[],
+    banditData: BanditData[],
     includeDebug = false,
 ): Result => {
     const debug: Debug = {};
@@ -214,6 +231,7 @@ export const findTestAndVariant = (
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
+            banditNullHypothesisFilter,
         ];
     };
 
@@ -269,16 +287,26 @@ export const findTestAndVariant = (
         : filterTestsWithoutSuperModePass(priorityOrdered);
 
     if (test) {
-        const variant: EpicVariant = selectVariant(test, targeting.mvtId || 1);
-
         return {
-            result: { test, variant },
+            ...selectEpicVariant(test, banditData, targeting),
             debug: includeDebug ? debug : undefined,
         };
     }
 
     return { debug: includeDebug ? debug : undefined };
 };
+
+function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: EpicTargeting) {
+    if (test.isBanditTest) {
+        return selectVariantUsingEpsilonGreedy(banditData, test);
+    }
+
+    const variant = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1);
+
+    return {
+        result: { test, variant },
+    };
+}
 
 export const findForcedTestAndVariant = (tests: EpicTest[], force: TestVariant): Result => {
     const test = tests.find((test) => test.name === force.testName);

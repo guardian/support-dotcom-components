@@ -23,6 +23,10 @@ export type SignedInStatus = (typeof SignedInStatus)[number];
 
 export const signedInStatusSchema = z.enum(SignedInStatus);
 
+const ConsentStatus = ['HasConsented', 'HasNotConsented', 'Everyone'] as const;
+export type ConsentStatus = (typeof ConsentStatus)[number];
+export const ConsentStatusSchema = z.enum(ConsentStatus);
+
 export interface Variant {
     name: string;
 }
@@ -34,6 +38,7 @@ export interface Test<V extends Variant> {
     controlProportionSettings?: ControlProportionSettings;
     deviceType?: DeviceType;
     signedInStatus?: SignedInStatus;
+    consentStatus?: ConsentStatus;
 }
 
 export const testSchema = z.object({
@@ -48,6 +53,7 @@ export const testSchema = z.object({
         .optional(),
     deviceType: deviceTypeSchema.optional(),
     signedInStatus: signedInStatusSchema.optional(),
+    consentStatus: ConsentStatusSchema.optional(),
 });
 
 export interface ControlProportionSettings {
