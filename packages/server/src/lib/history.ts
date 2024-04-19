@@ -6,7 +6,7 @@ import {
 } from '@sdc/shared/types';
 import { getMondayFromDate } from '@sdc/shared/lib';
 
-const getWeeksInWindow = (
+export const getWeeksInWindow = (
     history: WeeklyArticleHistory = [],
     weeks = 52,
     rightNow: Date = new Date(),
@@ -32,6 +32,7 @@ export const getArticleViewCountForWeeks = (
         0,
     );
 };
+
 
 export const getArticleViewCountByTagForWeeks = (
     tagId: string,

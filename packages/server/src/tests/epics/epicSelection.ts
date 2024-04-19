@@ -23,8 +23,9 @@ import {
     shouldNotRenderEpic,
     shouldThrottle,
 } from '../../lib/targeting';
+import { momentumMatches } from "./momentumTest";
 
-interface Filter {
+export interface Filter {
     id: string;
     test: (test: EpicTest, targeting: EpicTargeting) => boolean;
 }
@@ -232,6 +233,7 @@ export const findTestAndVariant = (
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
             banditNullHypothesisFilter,
+            momentumMatches,
         ];
     };
 
