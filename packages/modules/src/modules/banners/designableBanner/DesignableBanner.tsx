@@ -489,6 +489,7 @@ const styles = {
         grid-row: 3;
         order: 4;
         align-self: center;
+        margin-top: ${space[2]}px;
 
         ${from.tablet} {
             align-self: end;

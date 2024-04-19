@@ -62,7 +62,6 @@ const styles = {
         display: flex;
         flex-wrap: wrap;
         gap: ${space[4]}px;
-        margin-bottom: ${space[2]}px;
         justify-content: center;
 
         > a {
