@@ -116,7 +116,7 @@ export const consentStatusMatches = (
             return hasConsented === true;
         case 'HasNotConsented':
             return hasConsented === false;
-        case 'Everyone':
+        case 'All':
             return true;
         case undefined:
             return true;

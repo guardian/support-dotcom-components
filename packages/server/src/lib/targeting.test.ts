@@ -281,9 +281,9 @@ describe('consentStatusMatches', () => {
         expect(consentStatusMatches(false, 'HasNotConsented')).toBe(true);
     });
 
-    it('checks user consent when a test targets Everyone', () => {
-        expect(consentStatusMatches(true, 'Everyone')).toBe(true);
-        expect(consentStatusMatches(false, 'Everyone')).toBe(true);
+    it('checks user consent when a test targets All', () => {
+        expect(consentStatusMatches(true, 'All')).toBe(true);
+        expect(consentStatusMatches(false, 'All')).toBe(true);
     });
 
     it('checks user consent when a test does not target by consent status', () => {
