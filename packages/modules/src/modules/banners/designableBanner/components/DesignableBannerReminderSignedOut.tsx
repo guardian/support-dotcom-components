@@ -8,7 +8,6 @@ import { useContributionsReminderEmailForm } from '../../../../hooks/useContribu
 import { CtaSettings } from '../settings';
 import { buttonStyles } from '../styles/buttonStyles';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../../shared/Reminders';
-import { ReminderFields } from '@sdc/shared/src/lib';
 
 // ---- Component ---- //
 
@@ -17,18 +16,16 @@ export interface DesignableBannerReminderSignedOutProps {
     reminderStatus: ReminderStatus;
     onReminderSetClick: (email: string) => void;
     setReminderCtaSettings?: CtaSettings;
-    reminderFields: ReminderFields;
 }
 
 export function DesignableBannerReminderSignedOut({
-    //reminderCta,
+    reminderCta,
     reminderStatus,
     onReminderSetClick,
     setReminderCtaSettings,
-    reminderFields,
 }: DesignableBannerReminderSignedOutProps): JSX.Element {
     const reminderLabelWithPreposition = ensureHasPreposition(
-        /*reminderCta.*/ reminderFields.reminderLabel,
+        reminderCta.reminderFields.reminderLabel,
     );
 
     return (
@@ -80,6 +77,7 @@ function Signup({
                     error={inputError}
                     value={email}
                     width={30}
+                    placeholder="Enter your email"
                 />
 
                 <div css={styles.ctaContainer}>
@@ -127,6 +125,14 @@ const styles = {
         ${from.tablet} {
             flex-direction: row;
             align-items: flex-end;
+        }
+
+        > input {
+            min-width: 100%;
+
+            ${from.tablet} {
+                min-width: auto;
+            }
         }
     `,
     ctaContainer: css`
