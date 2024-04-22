@@ -10,21 +10,27 @@ export const momentumMatches: Filter = {
                 return false;
             }
             const weeksInWindow = getWeeksInWindow(targeting.weeklyArticleHistory, 12, new Date());
-            console.log("weeksInWindow", weeksInWindow);
-            const categoryForThirdMonth = getCategoryOfArticleViewed(weeksInWindow.slice(0, 4));
-            const categoryForSecondMonth = getCategoryOfArticleViewed(weeksInWindow.slice(4, 8));
-            const categoryForFirstMonth = getCategoryOfArticleViewed(weeksInWindow.slice(8));
-            if (
-                categoryForThirdMonth >= categoryForSecondMonth &&
-                categoryForSecondMonth >= categoryForFirstMonth
-            ) {
-                return categoryForThirdMonth - categoryForFirstMonth >= 4;
+            if (weeksInWindow.length < 12) {
+                return false;
             }
-            return false;
+            return isIncreasedEngagement(weeksInWindow);
         }
         return true;
     },
 };
+
+function isIncreasedEngagement(weeksInWindow: WeeklyArticleHistory): boolean {
+    const categoryForThirdMonth = getCategoryOfArticleViewed(weeksInWindow.slice(0, 4));
+    const categoryForSecondMonth = getCategoryOfArticleViewed(weeksInWindow.slice(4, 8));
+    const categoryForFirstMonth = getCategoryOfArticleViewed(weeksInWindow.slice(8));
+    if (
+        categoryForThirdMonth >= categoryForSecondMonth &&
+        categoryForSecondMonth >= categoryForFirstMonth
+    ) {
+        return categoryForThirdMonth - categoryForFirstMonth >= 5;
+    }
+    return false;
+}
 
 const getCategoryOfArticleViewed = (history: WeeklyArticleHistory): number => {
     const sum = history.reduce(
@@ -34,9 +40,25 @@ const getCategoryOfArticleViewed = (history: WeeklyArticleHistory): number => {
     return getCategory(sum);
 };
 
+//We categorize into 6 buckets of article count/engagement.
+/*
+    1. 1-10
+    2. 11-20
+    3. 21-30
+    4. 31-40
+    5.41-50
+    6. 50+
+
+We use te below logic to measure the momentum of engagement.
+Low  -- jumped two categories
+Medium-- jumped three categories
+Medium-High-- jumped four categories
+High -- jumped five categories
+
+ */
 const getCategory = (count: number): number => {
-    if (count >= 50) {
-        return 5;
+    if (count > 50) {
+        return 6;
     }
     return Math.ceil(count / 10);
 };

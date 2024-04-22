@@ -43,45 +43,51 @@ const targetingDefault: EpicTargeting = {
 };
 
 const weeklyArticleHistory = [
-    { week: 19793, count: 24 },
-    { week: 19792, count: 22 },
-    { week: 19791, count: 20 },
-    { week: 19790, count: 18 },
-    { week: 19789, count: 6 },
-    { week: 19788, count: 14 },
-    { week: 19787, count: 12 },
-    { week: 19786, count: 3 },
-    { week: 19785, count: 0 },
-    { week: 19784, count: 6 },
-    { week: 19783, count: 4 },
-    { week: 19782, count: 0 },
-    { week: 19781, count: 0 }
-]
-const weeklyArticleHistoryIdentical = [
-    { week: 19793, count: 2 },
-    { week: 19792, count: 2 },
-    { week: 19791, count: 2 },
-    { week: 19790, count: 2 },
-    { week: 19789, count: 2 },
-    { week: 19788, count: 2 },
-    { week: 19787, count: 2 },
-    { week: 19786, count: 2 },
-    { week: 19785, count: 2 },
-    { week: 19784, count: 2 },
-    { week: 19783, count: 2 },
-    { week: 19782, count: 2 },
-    { week: 19781, count: 2 }
-]
+    { week: 19828, count: 24 },
+    { week: 19821, count: 22 },
+    { week: 19814, count: 20 },
+    { week: 19807, count: 18 },
+    { week: 19800, count: 6 },
+    { week: 19793, count: 14 },
+    { week: 19786, count: 12 },
+    { week: 19779, count: 3 },
+    { week: 19772, count: 0 },
+    { week: 19765, count: 6 },
+    { week: 19758, count: 4 },
+    { week: 19751, count: 0 },
+    { week: 19744, count: 0 },
+];
 
+const weeklyArticleHistoryIdentical = [
+    { week: 19828, count: 2 },
+    { week: 19821, count: 2 },
+    { week: 19814, count: 2 },
+    { week: 19807, count: 2 },
+    { week: 19800, count: 2 },
+    { week: 19793, count: 2 },
+    { week: 19786, count: 2 },
+    { week: 19779, count: 2 },
+    { week: 19772, count: 2 },
+    { week: 19765, count: 2 },
+    { week: 19758, count: 2 },
+    { week: 19751, count: 2 },
+    { week: 19744, count: 2 },
+];
 
 describe('momentumMatches', () => {
+    beforeAll(() => {
+        jest.spyOn(global.Date, 'UTC').mockImplementation(() => Date.parse('2024-04-19'));
+    });
+
+    afterAll(() => {
+        jest.spyOn(global.Date, 'UTC').mockRestore();
+    });
+
     it('should return true for momentum tests and increasing article count', () => {
         const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: weeklyArticleHistory,
         };
-        const NOW = '2023-01-18T08:00:00.000Z';
-
         const result = momentumMatches.test(testDefault, targeting);
         expect(result).toBe(true);
     });
@@ -91,42 +97,29 @@ describe('momentumMatches', () => {
             ...targetingDefault,
             weeklyArticleHistory: weeklyArticleHistoryIdentical,
         };
-        const NOW = '2024-01-18T08:00:00.000Z';
-        const mockDateNow = jest
-            .spyOn(global.Date, 'now')
-            .mockImplementation(() => new Date(NOW).getTime());
+
         const result = momentumMatches.test(testDefault, targeting);
         expect(result).toBe(false);
     });
 
     it('should return true for any tests other than momentum test', () => {
-        const test = { ...testDefault, name:'test'};
+        const test = { ...testDefault, name: 'test' };
         const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: weeklyArticleHistoryIdentical,
         };
-        const NOW = '2024-01-18T08:00:00.000Z';
-        const mockDateNow = jest
-            .spyOn(global.Date, 'now')
-            .mockImplementation(() => new Date(NOW).getTime());
 
         const result = momentumMatches.test(test, targeting);
         expect(result).toBe(true);
     });
 
     it('should return false if the article history count is less than 12 weeks ', () => {
-
         const targeting: EpicTargeting = {
             ...targetingDefault,
             weeklyArticleHistory: weeklyArticleHistory.slice(0, 4),
         };
-        const NOW = '2024-01-18T08:00:00.000Z';
-        const mockDateNow = jest
-            .spyOn(global.Date, 'now')
-            .mockImplementation(() => new Date(NOW).getTime());
 
         const result = momentumMatches.test(testDefault, targeting);
         expect(result).toBe(false);
     });
-
 });
