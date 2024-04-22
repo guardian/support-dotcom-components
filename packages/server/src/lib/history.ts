@@ -33,7 +33,6 @@ export const getArticleViewCountForWeeks = (
     );
 };
 
-
 export const getArticleViewCountByTagForWeeks = (
     tagId: string,
     history: WeeklyArticleHistory = [],

@@ -23,7 +23,7 @@ import {
     shouldNotRenderEpic,
     shouldThrottle,
 } from '../../lib/targeting';
-import { momentumMatches } from "./momentumTest";
+import { momentumMatches } from './momentumTest';
 
 export interface Filter {
     id: string;
