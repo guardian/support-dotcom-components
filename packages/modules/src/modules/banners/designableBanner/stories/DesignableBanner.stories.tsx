@@ -234,13 +234,38 @@ const design: ConfigurableDesign = {
 export const DesignOneImageOnly = DefaultTemplate.bind({});
 DesignOneImageOnly.args = {
     ...props,
-    content: contentWithHeading,
-    mobileContent: mobileContentWithHeading,
+    content: {
+        ...contentWithHeading,
+        secondaryCta: {
+            ...contentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    mobileContent: {
+        ...mobileContentWithHeading,
+        secondaryCta: {
+            ...mobileContentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
     numArticles: 50,
     tickerSettings,
     design: {
         ...design,
         visual: regularImage,
+        colours: {
+            ...design.colours,
+            secondaryCta: {
+                default: {
+                    background: stringToHexColour('052962'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+                hover: {
+                    background: stringToHexColour('234B8A'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+            },
+        },
     },
 };
 
@@ -367,8 +392,20 @@ WithNonSupportUrl.args = {
 export const WithRemindMeLater = DefaultTemplate.bind({});
 WithRemindMeLater.args = {
     ...props,
-    content: contentWithHeading,
-    mobileContent: mobileContentWithHeading,
+    content: {
+        ...contentWithHeading,
+        secondaryCta: {
+            ...contentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    mobileContent: {
+        ...mobileContentWithHeading,
+        secondaryCta: {
+            ...mobileContentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
     numArticles: 50,
     tickerSettings,
     design: {
@@ -377,11 +414,19 @@ WithRemindMeLater.args = {
             kind: 'ChoiceCards',
             buttonColour: stringToHexColour('E5E5E5'),
         },
+        colours: {
+            ...design.colours,
+            secondaryCta: {
+                default: {
+                    background: stringToHexColour('052962'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+                hover: {
+                    background: stringToHexColour('234B8A'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+            },
+        },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
-    tracking: {
-        ...props.tracking,
-        abTestName: 'REMIND_ME_LATER',
-        abTestVariant: 'V1_SHOW_REMIND_ME_LATER',
-    },
 };
