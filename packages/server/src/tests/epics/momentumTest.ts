@@ -23,7 +23,7 @@ const jumps = {
     low: 2,
     medium: 3,
     mediumHigh: 4,
-    high: 5
+    high: 5,
 } as const;
 
 function isIncreasedEngagement(weeksInWindow: WeeklyArticleHistory): boolean {
