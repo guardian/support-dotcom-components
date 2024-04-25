@@ -14,7 +14,6 @@ import { DefaultTemplate } from './Default';
 
 export default {
     title: 'Banners/Designable',
-
     args: props,
 } as Meta;
 
@@ -235,13 +234,38 @@ const design: ConfigurableDesign = {
 export const DesignOneImageOnly = DefaultTemplate.bind({});
 DesignOneImageOnly.args = {
     ...props,
-    content: contentWithHeading,
-    mobileContent: mobileContentWithHeading,
+    content: {
+        ...contentWithHeading,
+        secondaryCta: {
+            ...contentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    mobileContent: {
+        ...mobileContentWithHeading,
+        secondaryCta: {
+            ...mobileContentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
     numArticles: 50,
     tickerSettings,
     design: {
         ...design,
         visual: regularImage,
+        colours: {
+            ...design.colours,
+            secondaryCta: {
+                default: {
+                    background: stringToHexColour('052962'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+                hover: {
+                    background: stringToHexColour('234B8A'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+            },
+        },
     },
 };
 
@@ -363,4 +387,46 @@ WithNonSupportUrl.args = {
         visual: undefined,
     },
     tickerSettings: undefined,
+};
+
+export const WithRemindMeLater = DefaultTemplate.bind({});
+WithRemindMeLater.args = {
+    ...props,
+    content: {
+        ...contentWithHeading,
+        secondaryCta: {
+            ...contentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    mobileContent: {
+        ...mobileContentWithHeading,
+        secondaryCta: {
+            ...mobileContentWithHeading.secondaryCta,
+            type: SecondaryCtaType.ContributionsReminder,
+        },
+    },
+    numArticles: 50,
+    tickerSettings,
+    design: {
+        ...design,
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+        colours: {
+            ...design.colours,
+            secondaryCta: {
+                default: {
+                    background: stringToHexColour('052962'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+                hover: {
+                    background: stringToHexColour('234B8A'),
+                    text: stringToHexColour('FFFFFF'),
+                },
+            },
+        },
+    },
+    choiceCardAmounts: regularChoiceCardAmounts,
 };

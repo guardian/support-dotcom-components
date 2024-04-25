@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { error, neutral, textSans } from '@guardian/source-foundations';
+import { error, neutral, space, textSans } from '@guardian/source-foundations';
 
 // ---- Thank you component ---- //
 
@@ -96,6 +96,7 @@ const styles = {
     thankYouHeaderCopy: (foreColor: string) => css`
         ${textSans.small({ fontWeight: 'bold' })}
         margin: 0;
+        margin-bottom: ${space[3]}px;
         color: ${foreColor};
     `,
     thankYouBodyCopy: (foreColor: string) => css`

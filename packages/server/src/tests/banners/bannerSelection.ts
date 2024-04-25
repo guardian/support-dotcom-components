@@ -16,6 +16,7 @@ import {
     audienceMatches,
     correctSignedInStatus,
     deviceTypeMatches,
+    consentStatusMatches,
     pageContextMatches,
 } from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
@@ -205,7 +206,8 @@ export const selectBannerTest = (
                     excludedTagIds: [],
                     excludedSectionIds: [],
                 },
-            )
+            ) &&
+            consentStatusMatches(targeting.hasConsented, test.consentStatus)
         ) {
             const variant: BannerVariant = selectVariant(test, targeting.mvtId);
 

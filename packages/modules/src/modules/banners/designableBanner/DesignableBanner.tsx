@@ -1,6 +1,15 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { neutral, space, specialReport, between, from, until } from '@guardian/source-foundations';
+import {
+    neutral,
+    space,
+    specialReport,
+    between,
+    from,
+    until,
+    body,
+    textSans,
+} from '@guardian/source-foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -24,10 +33,10 @@ import useMediaQuery from '../../../hooks/useMediaQuery';
 import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards, ChoiceCardSettings } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
-import { BannerTemplateSettings } from './settings';
+import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
-import { SvgGuardianLogo } from '@guardian/source-react-components';
+import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -135,16 +144,16 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 border: `1px solid ${
                     secondaryCta.default.border
                         ? hexColourToString(secondaryCta.default.border)
-                        : neutral[100]
+                        : undefined
                 }`,
             },
             hover: {
-                backgroundColour: neutral[100],
-                textColour: specialReport[100],
+                backgroundColour: hexColourToString(secondaryCta.hover.background),
+                textColour: hexColourToString(secondaryCta.hover.text),
                 border: `1px solid ${
                     secondaryCta.hover.border
                         ? hexColourToString(secondaryCta.hover.border)
-                        : specialReport[100]
+                        : undefined
                 }`,
             },
         },
@@ -207,6 +216,9 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         );
     };
 
+    const showReminder =
+        mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
+
     return (
         <div
             css={styles.outerContainer(
@@ -222,7 +234,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         headerSettings={templateSettings.headerSettings}
                     />
                 </div>
-                <div css={styles.contentContainer}>
+                <div css={styles.contentContainer(showReminder)}>
                     {separateArticleCount && Number(numArticles) > 5 && (
                         <DesignableBannerArticleCount
                             numArticles={numArticles as number}
@@ -246,16 +258,13 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     )}
 
                     {!templateSettings.choiceCardSettings && (
-                        <section css={styles.ctasContainer}>
-                            <DesignableBannerCtas
-                                mainOrMobileContent={mainOrMobileContent}
-                                onPrimaryCtaClick={onCtaClick}
-                                onSecondaryCtaClick={onSecondaryCtaClick}
-                                onReminderCtaClick={onReminderCtaClick}
-                                primaryCtaSettings={templateSettings.primaryCtaSettings}
-                                secondaryCtaSettings={templateSettings.secondaryCtaSettings}
-                            />
-                        </section>
+                        <DesignableBannerCtas
+                            mainOrMobileContent={mainOrMobileContent}
+                            onPrimaryCtaClick={onCtaClick}
+                            onSecondaryCtaClick={onSecondaryCtaClick}
+                            primaryCtaSettings={templateSettings.primaryCtaSettings}
+                            secondaryCtaSettings={templateSettings.secondaryCtaSettings}
+                        />
                     )}
                 </div>
                 {templateSettings.imageSettings ? (
@@ -311,16 +320,35 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 <div css={styles.guardianLogoContainer}>
                     <SvgGuardianLogo textColor={hexColourToString(basic.logo)} />
                 </div>
-            </div>
-            {mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder &&
-                isReminderActive && (
-                    <DesignableBannerReminder
-                        reminderCta={mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta}
-                        trackReminderSetClick={reminderTracking.onReminderSetClick}
-                        setReminderCtaSettings={templateSettings.setReminderCtaSettings}
-                        mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
-                    />
+
+                {showReminder && (
+                    <div css={styles.reminderContainer}>
+                        <span css={styles.reminderText}>Not ready to support today? </span>
+                        <Button
+                            priority="subdued"
+                            onClick={onReminderCtaClick}
+                            cssOverrides={styles.reminderCta(templateSettings.secondaryCtaSettings)}
+                        >
+                            Remind me later
+                        </Button>
+                    </div>
                 )}
+            </div>
+
+            {isReminderActive && (
+                <div css={styles.reminderFormContainer}>
+                    <div css={styles.containerOverrides}>
+                        <DesignableBannerReminder
+                            reminderCta={
+                                mainOrMobileContent.secondaryCta as BannerEnrichedReminderCta
+                            }
+                            trackReminderSetClick={reminderTracking.onReminderSetClick}
+                            setReminderCtaSettings={templateSettings.secondaryCtaSettings}
+                            mobileReminderRef={isTabletOrAbove ? null : mobileReminderRef}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -331,13 +359,11 @@ const styles = {
         color: ${textColor};
         max-height: 100vh;
         overflow: auto;
-        padding: 0 10px;
         * {
             box-sizing: border-box;
         }
         ${from.tablet} {
             border-top: 1px solid ${neutral[0]};
-            padding: 0 ${space[5]}px;
         }
         b,
         strong {
@@ -348,6 +374,7 @@ const styles = {
         display: flex;
         flex-direction: column;
         position: relative;
+        padding: 0 10px;
         ${from.tablet} {
             position: static;
             display: grid;
@@ -358,6 +385,7 @@ const styles = {
             width: 100%;
             max-width: 1300px;
             margin: 0 auto;
+            padding: 0 ${space[5]}px;
         }
         ${from.desktop} {
             column-gap: 60px;
@@ -380,8 +408,8 @@ const styles = {
 
             ${isGridCell
                 ? css`
-                      grid-column: 2 / span 1;
-                      grid-row: 1 / span 1;
+                      grid-column: 2;
+                      grid-row: 1;
                   `
                 : css`
                       margin-bottom: ${space[3]}px;
@@ -397,8 +425,8 @@ const styles = {
         }
 
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 1 / span 1;
+            grid-column: 1;
+            grid-row: 1;
             background: ${background};
         }
 
@@ -411,24 +439,24 @@ const styles = {
             order: '2';
         }
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 1 / span 1;
+            grid-column: 1;
+            grid-row: 1;
             background: ${background};
         }
         ${templateSpacing.bannerHeader}
     `,
-    contentContainer: css`
+    contentContainer: (showRemindMeLater: boolean) => css`
         order: 2;
         ${from.tablet} {
-            grid-column: 1 / span 1;
-            grid-row: 2 / span 2;
+            grid-column: 1;
+            grid-row: ${showRemindMeLater ? '2' : '2 / span 2'};
         }
     `,
     bannerVisualContainer: (background: string) => css`
         order: 1;
         background: ${background};
         ${from.tablet} {
-            grid-column: 2 / span 1;
+            grid-column: 2;
             grid-row: 1 / span 2;
             align-self: flex-start;
         }
@@ -437,16 +465,12 @@ const styles = {
         order: 3;
         background: ${background};
         ${from.tablet} {
-            grid-column: 2 / span 1;
-            grid-row: 2 / span 1;
+            grid-column: 2;
+            grid-row: 2;
             align-self: flex-start;
             display: flex;
             justify-content: flex-end;
         }
-    `,
-    ctasContainer: css`
-        display: flex;
-        flex-direction: row;
     `,
     guardianLogoContainer: css`
         display: none;
@@ -454,10 +478,42 @@ const styles = {
             display: block;
             width: 100px;
         }
-        grid-column: 2 / span 1;
-        grid-row: 3 / span 1;
+        grid-column: 2;
+        grid-row: 3;
         justify-self: end;
         padding-top: ${space[3]}px;
+    `,
+    reminderContainer: css`
+        ${body.small({ lineHeight: 'regular' })};
+        grid-column: 1;
+        grid-row: 3;
+        order: 4;
+        align-self: center;
+        margin-top: ${space[2]}px;
+
+        ${from.tablet} {
+            align-self: end;
+        }
+    `,
+    reminderText: css`
+        ${textSans.medium()}
+        display: none;
+
+        ${from.tablet} {
+            display: inline;
+        }
+    `,
+    reminderCta: ({ default: defaultSettings }: CtaSettings) => css`
+        ${textSans.medium({ lineHeight: 'regular', fontWeight: 'bold' })}
+        color: ${defaultSettings.backgroundColour};
+        display: inline;
+        height: auto;
+        min-height: auto;
+    `,
+
+    reminderFormContainer: css`
+        border-top: 2px solid ${neutral[0]};
+        margin-top: ${space[3]}px;
     `,
 };
 

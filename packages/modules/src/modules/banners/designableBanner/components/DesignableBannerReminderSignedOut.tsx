@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import { Button, TextInput, Container, SvgCheckmark } from '@guardian/source-react-components';
-import { textSans, neutral, space, from } from '@guardian/source-foundations';
+import { Button, TextInput } from '@guardian/source-react-components';
+import { textSans, space, from } from '@guardian/source-foundations';
 import React from 'react';
 import { BannerEnrichedReminderCta } from '../../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../../utils/reminders';
@@ -29,22 +29,18 @@ export function DesignableBannerReminderSignedOut({
     );
 
     return (
-        <div css={styles.container}>
-            <Container>
-                {reminderStatus !== ReminderStatus.Completed && (
-                    <Signup
-                        reminderLabelWithPreposition={reminderLabelWithPreposition}
-                        reminderStatus={reminderStatus}
-                        onSubmit={onReminderSetClick}
-                        setReminderCtaSettings={setReminderCtaSettings}
-                    />
-                )}
-
-                {reminderStatus === ReminderStatus.Completed && (
-                    <ThankYou reminderLabelWithPreposition={reminderLabelWithPreposition} />
-                )}
-            </Container>
-        </div>
+        <>
+            {reminderStatus === ReminderStatus.Completed ? (
+                <ThankYou reminderLabelWithPreposition={reminderLabelWithPreposition} />
+            ) : (
+                <Signup
+                    reminderLabelWithPreposition={reminderLabelWithPreposition}
+                    reminderStatus={reminderStatus}
+                    onSubmit={onReminderSetClick}
+                    setReminderCtaSettings={setReminderCtaSettings}
+                />
+            )}
+        </>
     );
 }
 
@@ -66,7 +62,7 @@ function Signup({
     const { email, inputError, updateEmail, handleSubmit } = useContributionsReminderEmailForm();
 
     return (
-        <div>
+        <>
             <header>
                 <h3 css={styles.headerCopy}>
                     Remind me to support {reminderLabelWithPreposition} please
@@ -76,24 +72,26 @@ function Signup({
             <form css={styles.form} onSubmit={handleSubmit(() => onSubmit(email))}>
                 <TextInput
                     label="Email address"
+                    hideLabel
                     onChange={updateEmail}
                     error={inputError}
                     value={email}
                     width={30}
+                    placeholder="Enter your email"
                 />
 
                 <div css={styles.ctaContainer}>
                     <Button
                         type="submit"
-                        icon={<SvgCheckmark />}
                         iconSide="right"
-                        priority="tertiary"
+                        priority="primary"
                         disabled={reminderStatus === ReminderStatus.Submitting}
-                        cssOverrides={
-                            setReminderCtaSettings && buttonStyles(setReminderCtaSettings)
-                        }
+                        cssOverrides={css`
+                            ${styles.button}
+                            ${setReminderCtaSettings && buttonStyles(setReminderCtaSettings)}
+                        `}
                     >
-                        Set a reminder
+                        Set reminder
                     </Button>
                 </div>
 
@@ -107,21 +105,15 @@ function Signup({
             <div css={styles.infoCopyContainer}>
                 <InfoCopy reminderLabelWithPreposition={reminderLabelWithPreposition} />
             </div>
-        </div>
+        </>
     );
 }
 
 // ---- Styles ---- //
 
 const styles = {
-    container: css`
-        border-top: 2px solid ${neutral[0]};
-
-        padding-top: ${space[2]}px;
-        padding-bottom: ${space[5]}px;
-    `,
     headerCopy: css`
-        ${textSans.medium()};
+        ${textSans.medium({ fontWeight: 'bold' })};
         margin: 0;
     `,
     form: css`
@@ -133,6 +125,14 @@ const styles = {
         ${from.tablet} {
             flex-direction: row;
             align-items: flex-end;
+        }
+
+        > input {
+            min-width: 100%;
+
+            ${from.tablet} {
+                min-width: auto;
+            }
         }
     `,
     ctaContainer: css`
@@ -148,5 +148,13 @@ const styles = {
     `,
     infoCopyContainer: css`
         margin-top: ${space[3]}px;
+    `,
+    button: css`
+        width: 100%;
+        justify-content: center;
+
+        ${from.tablet} {
+            width: auto;
+        }
     `,
 };

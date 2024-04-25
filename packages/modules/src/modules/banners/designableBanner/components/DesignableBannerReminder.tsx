@@ -3,6 +3,8 @@ import { useContributionsReminderSignup } from '../../../../hooks/useContributio
 import { BannerEnrichedReminderCta } from '../../common/types';
 import { CtaSettings } from '../settings';
 import { DesignableBannerReminderSignedOut } from './DesignableBannerReminderSignedOut';
+import { css } from '@emotion/react';
+import { space } from '@guardian/source-foundations';
 
 export interface DesignableBannerReminderProps {
     reminderCta: BannerEnrichedReminderCta;
@@ -10,6 +12,15 @@ export interface DesignableBannerReminderProps {
     setReminderCtaSettings?: CtaSettings;
     mobileReminderRef: React.RefObject<HTMLDivElement> | null;
 }
+
+const styles = {
+    container: css`
+        grid-row: 4;
+        grid-column: 1 / span 2;
+        order: 5;
+        margin-top: ${space[3]}px;
+    `,
+};
 
 export function DesignableBannerReminder({
     reminderCta,
@@ -31,7 +42,7 @@ export function DesignableBannerReminder({
     };
 
     return (
-        <div ref={mobileReminderRef}>
+        <div ref={mobileReminderRef} css={styles.container}>
             <DesignableBannerReminderSignedOut
                 reminderCta={reminderCta}
                 reminderStatus={reminderStatus}

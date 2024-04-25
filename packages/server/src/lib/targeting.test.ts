@@ -1,6 +1,7 @@
 import { factories } from '../factories';
 import {
     audienceMatches,
+    consentStatusMatches,
     pageContextMatches,
     shouldNotRenderEpic,
     shouldThrottle,
@@ -266,5 +267,27 @@ describe('pageContextMatches', () => {
             excludedSectionIds: ['environment'],
         });
         expect(result).toBe(true);
+    });
+});
+
+describe('consentStatusMatches', () => {
+    it('checks user consent when a test targets HasConsented', () => {
+        expect(consentStatusMatches(true, 'HasConsented')).toBe(true);
+        expect(consentStatusMatches(false, 'HasConsented')).toBe(false);
+    });
+
+    it('checks user consent when a test targets HasNotConsented', () => {
+        expect(consentStatusMatches(true, 'HasNotConsented')).toBe(false);
+        expect(consentStatusMatches(false, 'HasNotConsented')).toBe(true);
+    });
+
+    it('checks user consent when a test targets All', () => {
+        expect(consentStatusMatches(true, 'All')).toBe(true);
+        expect(consentStatusMatches(false, 'All')).toBe(true);
+    });
+
+    it('checks user consent when a test does not target by consent status', () => {
+        expect(consentStatusMatches(true, undefined)).toBe(true);
+        expect(consentStatusMatches(false, undefined)).toBe(true);
     });
 });

@@ -30,6 +30,7 @@ const targeting: BannerTargeting = {
     hasOptedOutOfArticleCount: false,
     contentType: 'Article',
     isSignedIn: false,
+    hasConsented: true,
 };
 
 describe('selectTargetingTest', () => {

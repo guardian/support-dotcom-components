@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.1.0
+
+### Minor Changes
+
+-   Update to banner targeting model to include user consent as a targeting option
+
 ## 2.0.1
 
 ### Patch Changes

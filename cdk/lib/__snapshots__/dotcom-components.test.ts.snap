@@ -9,12 +9,15 @@ Object {
       "GuAlarm",
       "GuAlarm",
       "GuAlarm",
+      "GuAlarm",
+      "GuAlarm",
       "GuDistributionBucketParameter",
       "GuGetS3ObjectsPolicy",
       "GuGetS3ObjectsPolicy",
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
       "GuPutCloudwatchMetricsPolicy",
+      "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
       "GuDynamoDBReadPolicy",
       "GuVpcParameter",
@@ -260,6 +263,74 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::AutoScaling::ScalingPolicy",
     },
+    "BanditDataLoadError6659BF65": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error fetching bandit samples data from Dynamodb",
+        "AlarmName": "support-dotcom-components: Bandit Data loading error - TEST",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "bandit-data-load-error",
+        "Namespace": "support-dotcom-components-TEST",
+        "Period": 3600,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "BanditDataSelectionError8734AF1A": Object {
+      "Properties": Object {
+        "ActionsEnabled": true,
+        "AlarmActions": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:aws:sns:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":",
+                Object {
+                  "Ref": "AWS::AccountId",
+                },
+                ":reader-revenue-dev",
+              ],
+            ],
+          },
+        ],
+        "AlarmDescription": "Error selecting variant for bandit test",
+        "AlarmName": "support-dotcom-components: Bandit Data selection error - TEST",
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "MetricName": "bandit-selection-error",
+        "Namespace": "support-dotcom-components-TEST",
+        "Period": 3600,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
     "CertificateDotcomcomponents88C2E1C7": Object {
       "DeletionPolicy": "Retain",
       "Properties": Object {
@@ -343,6 +414,48 @@ chown -R dotcom-components:support /var/log/dotcom-components
           "Version": "2012-10-17",
         },
         "PolicyName": "describe-ec2-policy",
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DynamoBanditReadPolicy18B1E556": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:GetRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:dynamodb:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":table/support-bandit-TEST",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DynamoBanditReadPolicy18B1E556",
         "Roles": Array [
           Object {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
