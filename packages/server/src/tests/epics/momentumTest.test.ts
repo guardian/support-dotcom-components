@@ -1,5 +1,10 @@
 import { EpicTargeting, EpicTest } from '@sdc/shared/dist/types';
-import { momentumMatches } from './momentumTest';
+import {
+    getCategoriesForThreeMonths,
+    getThreeMonthsHistory,
+    isIncreasedEngagement,
+    momentumMatches,
+} from './momentumTest';
 
 const testDefault: EpicTest = {
     name: 'momentumEpic',
@@ -75,51 +80,135 @@ const weeklyArticleHistoryIdentical = [
 ];
 
 describe('momentumMatches', () => {
-    beforeAll(() => {
-        jest.spyOn(global.Date, 'UTC').mockImplementation(() => Date.parse('2024-04-19'));
-    });
-
-    afterAll(() => {
-        jest.spyOn(global.Date, 'UTC').mockRestore();
-    });
-
-    it('should return true for momentum tests and increasing article count', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: weeklyArticleHistory,
-        };
-        const result = momentumMatches.test(testDefault, targeting);
-        expect(result).toBe(true);
-    });
-
-    it('should return false for momentum tests and article count is same for all the months', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: weeklyArticleHistoryIdentical,
-        };
-
-        const result = momentumMatches.test(testDefault, targeting);
-        expect(result).toBe(false);
-    });
-
     it('should return true for any tests other than momentum test', () => {
         const test = { ...testDefault, name: 'test' };
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: weeklyArticleHistoryIdentical,
-        };
+        const result = momentumMatches.test(test, targetingDefault);
+        expect(result).toBe(true);
+    });
+});
 
-        const result = momentumMatches.test(test, targeting);
+describe('isIncreasedEngagement', () => {
+    const today = new Date('2024-04-23');
+
+    it('should return true for increasing article count', () => {
+        const result = isIncreasedEngagement(weeklyArticleHistory, today);
         expect(result).toBe(true);
     });
 
-    it('should return false if the article history count is less than 12 weeks ', () => {
-        const targeting: EpicTargeting = {
-            ...targetingDefault,
-            weeklyArticleHistory: weeklyArticleHistory.slice(0, 4),
-        };
+    it('should return true for increasing article count and missing weeks', () => {
+        // a missing week is equivalent to a zero count week
+        const weeklyArticleHistoryMissing = weeklyArticleHistory.filter((w) => w.week !== 19772);
+        const result = isIncreasedEngagement(weeklyArticleHistoryMissing, today);
+        expect(result).toBe(true);
+    });
 
-        const result = momentumMatches.test(testDefault, targeting);
+    it('should return false for article count the same for the months', () => {
+        const result = isIncreasedEngagement(weeklyArticleHistoryIdentical, today);
         expect(result).toBe(false);
+    });
+
+    it('should return false for article count the same for two months, then increased in the third', () => {
+        const weeklyArticleHistory = [...weeklyArticleHistoryIdentical, { week: 19828, count: 50 }];
+        const result = isIncreasedEngagement(weeklyArticleHistory, today);
+        expect(result).toBe(false);
+    });
+});
+
+describe('getThreeMonthsHistory', () => {
+    const weeklyArticleHistory = [
+        { week: 19835, count: 2 },
+        { week: 19828, count: 24 },
+        { week: 19821, count: 22 },
+        { week: 19814, count: 20 },
+        { week: 19807, count: 18 },
+
+        { week: 19800, count: 6 },
+        { week: 19793, count: 14 },
+        { week: 19786, count: 12 },
+        { week: 19779, count: 3 },
+
+        { week: 19772, count: 0 },
+        { week: 19765, count: 6 },
+        { week: 19758, count: 4 },
+        { week: 19751, count: 0 },
+        { week: 19744, count: 0 },
+    ];
+
+    it('gets correct Most Recent Month', () => {
+        const { mostRecentMonthHistory: result } = getThreeMonthsHistory(
+            weeklyArticleHistory,
+            new Date('2024-04-22'),
+        );
+        expect(result.length).toBe(5);
+        expect(result[0].week).toBe(19835);
+        expect(result[4].week).toBe(19807);
+    });
+
+    it('gets correct Second Most Recent Month, today is a Monday', () => {
+        const { secondMostRecentMonthHistory: result } = getThreeMonthsHistory(
+            weeklyArticleHistory,
+            new Date('2024-04-22'),
+        );
+        expect(result.length).toBe(4);
+        expect(result[0].week).toBe(19800);
+        expect(result[3].week).toBe(19779);
+    });
+
+    it('gets correct Third Most Recent Month, today is a Monday', () => {
+        const { thirdMostRecentMonthHistory: result } = getThreeMonthsHistory(
+            weeklyArticleHistory,
+            new Date('2024-04-22'),
+        );
+        expect(result.length).toBe(4);
+        expect(result[0].week).toBe(19772);
+        expect(result[3].week).toBe(19751);
+    });
+
+    it('gets correct Second Most Recent Month, today is a Tuesday', () => {
+        const { secondMostRecentMonthHistory: result } = getThreeMonthsHistory(
+            weeklyArticleHistory,
+            new Date('2024-04-23'),
+        );
+        expect(result.length).toBe(4);
+        expect(result[0].week).toBe(19800);
+        expect(result[3].week).toBe(19779);
+    });
+
+    it('gets correct Third Most Recent Month, today is a Tuesday', () => {
+        const { thirdMostRecentMonthHistory: result } = getThreeMonthsHistory(
+            weeklyArticleHistory,
+            new Date('2024-04-23'),
+        );
+        expect(result.length).toBe(4);
+        expect(result[0].week).toBe(19772);
+        expect(result[3].week).toBe(19751);
+    });
+});
+
+describe('getCategoriesForThreeMonths', () => {
+    const weeklyArticleHistory = [
+        { week: 19835, count: 2 },
+        { week: 19828, count: 24 },
+        { week: 19821, count: 22 },
+        { week: 19814, count: 20 },
+        { week: 19807, count: 18 },
+
+        { week: 19800, count: 6 },
+        { week: 19793, count: 14 },
+        { week: 19786, count: 12 },
+        { week: 19779, count: 3 },
+
+        { week: 19772, count: 0 },
+        { week: 19765, count: 6 },
+        { week: 19758, count: 4 },
+        { week: 19751, count: 0 },
+        { week: 19744, count: 0 },
+    ];
+
+    it('gets correct categories for each month', () => {
+        const result = getCategoriesForThreeMonths(weeklyArticleHistory, new Date('2024-04-23'));
+        expect(result.categoryForFirstMonth).toBe(1);
+        expect(result.categoryForSecondMonth).toBe(4);
+        expect(result.categoryForThirdMonth).toBe(6);
     });
 });

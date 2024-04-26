@@ -16,7 +16,8 @@ export const getWeeksInWindow = (
 
     // Filter only weeks within cutoff period
     return history.filter(
-        (weeklyArticleLog: WeeklyArticleLog) => weeklyArticleLog.week >= cutOffWeek,
+        (weeklyArticleLog: WeeklyArticleLog) =>
+            weeklyArticleLog.week <= mondayThisWeek && weeklyArticleLog.week >= cutOffWeek,
     );
 };
 
