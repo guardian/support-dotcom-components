@@ -55,6 +55,7 @@ export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
 
 export enum TickerCountType {
     money = 'money',
+    people = 'people',
 }
 
 export const tickerCountTypeSchema = z.nativeEnum(TickerCountType);
@@ -93,6 +94,7 @@ export interface TickerSettings {
     copy: TickerCopy;
     name: TickerName;
     tickerData?: TickerData;
+    headline: string;
 }
 
 export const tickerSettingsSchema = z.object({

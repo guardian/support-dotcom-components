@@ -1,55 +1,62 @@
-import type { Meta } from '@storybook/react';
-import { TickerCountType, TickerEndType, TickerSettings } from '@sdc/shared/types';
-import DesignableBannerTicker from '../banners/designableBanner/components/DesignableBannerTicker';
-import { TickerStylingSettings } from '../banners/designableBanner/settings';
-
-const tickerSettings: TickerSettings = {
-    countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
-    currencySymbol: '',
-    copy: {
-        countLabel: 'contributions in March',
-        goalReachedPrimary: "We've met our goal - thank you!",
-        goalReachedSecondary: '',
-    },
-    tickerData: {
-        total: 25_000,
-        goal: 50_000,
-    },
-    name: 'AU', //this comes from the .json file name in S3. Other option is US - maybe that needs expanded to include the UK?
-};
-
-const tickerStylingSettings: TickerStylingSettings = {
-    textColour: '#052962',
-    filledProgressColour: '#052962',
-    progressBarBackgroundColour: '#cccccc',
-    goalMarkerColour: '#000000',
-};
+import React from 'react';
+import {
+    DesignableBannerTicker,
+    TickerProps,
+} from '../banners/designableBanner/components/DesignableBannerTicker';
+import { TickerCountType, TickerEndType } from '@sdc/shared/dist/types';
 
 export default {
-    title: 'Components/Ticker',
+    title: 'Checkouts/Ticker',
     component: DesignableBannerTicker,
-    args: {
-        tickerSettings: tickerSettings,
-        stylingSettings: tickerStylingSettings,
-    },
-} as Meta<typeof DesignableBannerTicker>;
-
-export const Default = { args: {} };
-
-export const GoalReached = {
-    args: {
-        tickerSettings: {
-            ...tickerSettings,
-            tickerData: {
-                total: 50_000,
-                goal: 50_000,
+    argTypes: {
+        appearance: {
+            control: {
+                type: 'radio',
+                options: ['light', 'dark'],
             },
         },
-        stylingSettings: {
-            //not accurate colours - just for demo purposes
-            filledProgressColour: '#ecce43',
-            progressBarBackgroundColour: '#cccccc',
-        },
+        onGoalReached: { action: 'goal reached' },
     },
+    decorators: [
+        (Story: React.FC): JSX.Element => (
+            <div
+                style={{
+                    width: '100%',
+                    maxWidth: '500px',
+                }}
+            >
+                <Story />
+            </div>
+        ),
+    ],
+};
+
+function Template(args: TickerProps) {
+    return <DesignableBannerTicker {...args} />;
+}
+
+Template.args = {} as TickerProps;
+
+export const PeopleTicker = Template.bind({});
+
+PeopleTicker.args = {
+    total: 200000,
+    goal: 200000,
+    end: 250000,
+    countType: TickerCountType.people,
+    endType: TickerEndType.unlimited,
+    countryGroupId: 'AUDCountries',
+    headline: 'End of year campaign',
+};
+
+export const MoneyTicker = Template.bind({});
+
+MoneyTicker.args = {
+    total: 50000,
+    goal: 200000,
+    end: 230000,
+    countType: TickerCountType.money,
+    endType: TickerEndType.hardstop,
+    countryGroupId: 'UnitedStates',
+    headline: 'End of year campaign',
 };

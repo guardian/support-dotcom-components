@@ -26,7 +26,6 @@ import {
     Image,
 } from '@sdc/shared/types';
 import { DesignableBannerReminder } from './components/DesignableBannerReminder';
-import DesignableBannerTicker from './components/DesignableBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
@@ -37,6 +36,8 @@ import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
+import { DesignableBannerTicker } from './components/DesignableBannerTicker';
+import { TickerContainer } from './components/ticker/tickerContainer';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -241,7 +242,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             settings={templateSettings}
                         />
                     )}
-
                     <div css={templateSpacing.bannerBodyCopy}>
                         <DesignableBannerBody
                             mainContent={content.mainContent}
@@ -249,14 +249,13 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             highlightedTextSettings={templateSettings.highlightedTextSettings}
                         />
                     </div>
-
-                    {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
-                        <DesignableBannerTicker
-                            tickerSettings={tickerSettings}
-                            stylingSettings={templateSettings.tickerStylingSettings}
-                        />
-                    )}
-
+                    <TickerContainer
+                        countType={tickerSettings.countType}
+                        endType={tickerSettings.endType}
+                        headline={tickerSettings.headline}
+                        render={(tickerProps) => <DesignableBannerTicker {...tickerProps} />}
+                    />
+                    <div />
                     {!templateSettings.choiceCardSettings && (
                         <DesignableBannerCtas
                             mainOrMobileContent={mainOrMobileContent}
