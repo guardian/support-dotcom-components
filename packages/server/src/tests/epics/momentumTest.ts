@@ -31,7 +31,7 @@ export function getThreeMonthsHistory(
     articleHistory: WeeklyArticleHistory,
     now: Date = new Date(),
 ) {
-    const mostRecentMonthHistory = getWeeksInWindow(articleHistory, 4);
+    const mostRecentMonthHistory = getWeeksInWindow(articleHistory, 4, now);
 
     const startOfSecondMostRecentMonth = subWeeks(now, 4);
 
