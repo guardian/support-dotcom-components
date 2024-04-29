@@ -53,4 +53,19 @@ describe('getWeeksInWindow', () => {
         expect(result.length).toBe(5);
         expect(result[0].week).toBe(19835);
     });
+
+    it('cuts off entries after right now when it is in the past', () => {
+        const articleHistory = [
+            { week: 19835, count: 2 },
+            { week: 19828, count: 25 },
+            { week: 19821, count: 20 },
+            { week: 19814, count: 20 },
+            { week: 19807, count: 20 },
+            { week: 19800, count: 20 },
+        ];
+
+        const result = getWeeksInWindow(articleHistory, 4, new Date('2024-04-16'));
+        expect(result.length).toBe(5);
+        expect(result[0].week).toBe(19828);
+    });
 });
