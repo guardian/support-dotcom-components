@@ -7,7 +7,7 @@ import {
 } from './momentumTest';
 
 const testDefault: EpicTest = {
-    name: 'momentumEpic',
+    name: '2024-04-29_MOMENTUM_EPIC',
     priority: 1,
     status: 'Live',
     locations: [],

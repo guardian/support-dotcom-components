@@ -99,7 +99,7 @@ export function isIncreasedEngagement(
 export const momentumMatches: Filter = {
     id: 'momentumMatches',
     test: (test, targeting): boolean => {
-        if (test.name === 'momentumEpic') {
+        if (test.name.includes('MOMENTUM_EPIC')) {
             if (!targeting.weeklyArticleHistory) {
                 return false;
             }
