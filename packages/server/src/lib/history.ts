@@ -6,17 +6,22 @@ import {
 } from '@sdc/shared/types';
 import { getMondayFromDate } from '@sdc/shared/lib';
 
-const getWeeksInWindow = (
+/**
+ *    Gets a window of entries from the weekly article history array
+ *    Includes the week of the end date plus the number of window weeks
+ */
+export const getWeeksInWindow = (
     history: WeeklyArticleHistory = [],
-    weeks = 52,
-    rightNow: Date = new Date(),
+    windowWeeks = 52,
+    endDateInclusive: Date = new Date(),
 ): WeeklyArticleLog[] => {
-    const mondayThisWeek = getMondayFromDate(rightNow);
-    const cutOffWeek = mondayThisWeek - weeks * 7;
+    const mondayThisWeek = getMondayFromDate(endDateInclusive);
+    const cutOffWeek = mondayThisWeek - windowWeeks * 7;
 
     // Filter only weeks within cutoff period
     return history.filter(
-        (weeklyArticleLog: WeeklyArticleLog) => weeklyArticleLog.week >= cutOffWeek,
+        (weeklyArticleLog: WeeklyArticleLog) =>
+            weeklyArticleLog.week <= mondayThisWeek && weeklyArticleLog.week >= cutOffWeek,
     );
 };
 
