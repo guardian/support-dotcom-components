@@ -54,7 +54,7 @@ describe('getWeeksInWindow', () => {
         expect(result[0].week).toBe(19835);
     });
 
-    it('cuts off entries after right now when it is in the past', () => {
+    it('includes correct window when end date is in the past', () => {
         const articleHistory = [
             { week: 19835, count: 2 },
             { week: 19828, count: 25 },

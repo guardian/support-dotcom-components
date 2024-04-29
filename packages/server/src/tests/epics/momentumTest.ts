@@ -33,21 +33,21 @@ export function getThreeMonthsHistory(
 ) {
     const mostRecentMonthHistory = getWeeksInWindow(articleHistory, 4, now);
 
-    const startOfSecondMostRecentMonth = subWeeks(now, 4);
+    const startOfSecondMostRecentMonth = subWeeks(now, 5);
 
     const secondMostRecentMonthHistory = getWeeksInWindow(
         articleHistory,
-        4,
+        3,
         startOfSecondMostRecentMonth,
-    ).slice(1); // remove overlapping week
+    );
 
-    const startOfThirdMostRecentMonth = subWeeks(now, 8);
+    const startOfThirdMostRecentMonth = subWeeks(now, 9);
 
     const thirdMostRecentMonthHistory = getWeeksInWindow(
         articleHistory,
-        4,
+        3,
         startOfThirdMostRecentMonth,
-    ).slice(1); // remove overlapping week
+    );
 
     return { mostRecentMonthHistory, secondMostRecentMonthHistory, thirdMostRecentMonthHistory };
 }
