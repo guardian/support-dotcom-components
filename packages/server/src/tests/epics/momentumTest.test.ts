@@ -85,6 +85,12 @@ describe('momentumMatches', () => {
         const result = momentumMatches.test(test, targetingDefault);
         expect(result).toBe(true);
     });
+
+    it('should return false when no article history', () => {
+        const targeting = { ...targetingDefault, weeklyArticleHistory: [] };
+        const result = momentumMatches.test(testDefault, targeting);
+        expect(result).toBe(false);
+    });
 });
 
 describe('isIncreasedEngagement', () => {

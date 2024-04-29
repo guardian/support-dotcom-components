@@ -8,7 +8,7 @@ import { getMondayFromDate } from '@sdc/shared/lib';
 
 /**
  *    Gets a window of entries from the weekly article history array
- *    Includes the week of the end date
+ *    Includes the week of the end date plus the number of window weeks
  */
 export const getWeeksInWindow = (
     history: WeeklyArticleHistory = [],
