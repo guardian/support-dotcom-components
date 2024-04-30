@@ -80,7 +80,7 @@ export interface BannerRenderProps {
     content: BannerTextContent;
     countryCode?: string;
     fetchEmail?: () => Promise<string | null>;
-    tickerSettings: TickerSettings;
+    tickerSettings?: TickerSettings;
     isSupporter?: boolean;
     numArticles?: number;
     separateArticleCount?: boolean;

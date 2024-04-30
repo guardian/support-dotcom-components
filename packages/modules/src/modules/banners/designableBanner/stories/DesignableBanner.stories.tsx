@@ -2,13 +2,13 @@ import { Meta } from '@storybook/react';
 import { props } from '../../utils/storybook';
 import {
     BannerDesignImage,
+    ConfigurableDesign,
     HexColour,
     SecondaryCtaType,
+    SelectedAmountsVariant,
     TickerCountType,
     TickerEndType,
     TickerSettings,
-    SelectedAmountsVariant,
-    ConfigurableDesign,
 } from '@sdc/shared/types';
 import { DefaultTemplate } from './Default';
 
@@ -83,18 +83,14 @@ const mobileContentWithHeading = {
 };
 
 const tickerSettings: TickerSettings = {
-    countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
-    currencySymbol: '',
-    copy: {
-        countLabel: 'contributions in May',
-        goalReachedPrimary: "We've met our goal - thank you!",
-        goalReachedSecondary: '',
-    },
     tickerData: {
-        total: 4_000,
-        goal: 50_000,
+        total: 50000,
+        goal: 200000,
     },
+    end: 250000,
+    countType: TickerCountType.people,
+    endType: TickerEndType.unlimited,
+    countryGroupId: 'AUDCountries',
     name: 'AU',
 };
 
@@ -221,12 +217,6 @@ const design: ConfigurableDesign = {
                 text: stringToHexColour('052962'),
                 background: stringToHexColour('E5E5E5'),
             },
-        },
-        ticker: {
-            text: stringToHexColour('052962'),
-            filledProgress: stringToHexColour('052962'),
-            progressBarBackground: stringToHexColour('cccccc'),
-            goalMarker: stringToHexColour('000000'),
         },
     },
 };
@@ -368,7 +358,6 @@ NoChoiceCardOrImage.args = {
         ...design,
         visual: undefined,
     },
-    tickerSettings: undefined,
 };
 
 export const WithNonSupportUrl = DefaultTemplate.bind({});
@@ -386,7 +375,6 @@ WithNonSupportUrl.args = {
         ...design,
         visual: undefined,
     },
-    tickerSettings: undefined,
 };
 
 export const WithRemindMeLater = DefaultTemplate.bind({});

@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { PageTracking } from '../targeting';
 import { TestTracking } from '../abTests';
+import { CountryGroupId } from '../../lib';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
@@ -48,7 +49,7 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
 
 export enum TickerEndType {
     unlimited = 'unlimited',
-    hardstop = 'hardstop', // currently unsupported
+    hardstop = 'hardstop',
 }
 
 export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
@@ -59,12 +60,6 @@ export enum TickerCountType {
 }
 
 export const tickerCountTypeSchema = z.nativeEnum(TickerCountType);
-
-interface TickerCopy {
-    countLabel: string;
-    goalReachedPrimary: string;
-    goalReachedSecondary: string;
-}
 
 export const tickerCopySchema = z.object({
     countLabel: z.string(),
@@ -88,13 +83,13 @@ export type TickerName = 'US' | 'AU';
 const ticketNameSchema = z.enum(['US', 'AU']);
 
 export interface TickerSettings {
-    endType: TickerEndType;
+    tickerData: TickerData;
+    end: number;
     countType: TickerCountType;
-    currencySymbol: string;
-    copy: TickerCopy;
+    endType: TickerEndType;
+    countryGroupId: CountryGroupId;
+    headline?: string;
     name: TickerName;
-    tickerData?: TickerData;
-    headline: string;
 }
 
 export const tickerSettingsSchema = z.object({

@@ -88,13 +88,6 @@ export interface CtaDesign {
     hover: CtaStateDesign;
 }
 
-interface TickerDesign {
-    text: HexColour;
-    filledProgress: HexColour;
-    progressBarBackground: HexColour;
-    goalMarker: HexColour;
-}
-
 export interface BannerDesignHeaderImage {
     mobileUrl: string;
     tabletUrl: string;
@@ -135,6 +128,5 @@ export interface ConfigurableDesign {
         primaryCta: CtaDesign;
         secondaryCta: CtaDesign;
         closeButton: CtaDesign;
-        ticker: TickerDesign;
     };
 }

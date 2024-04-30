@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { from, palette, space, textSans, visuallyHidden } from '@guardian/source-foundations';
+import { palette, space, textSans } from '@guardian/source-foundations';
 import { templateSpacing } from '../../styles/templateStyles';
 
 export const tickerProgressBar = css`
@@ -31,10 +31,6 @@ export const tickerProgressBarFill = css`
 export const tickerHeadline = css`
     ${textSans.medium({ fontWeight: 'bold' })}
     margin-bottom: ${space[2]}px;
-
-    ${from.desktop} {
-        ${visuallyHidden}
-    }
 `;
 
 export const tickerLabelContainer = css`
@@ -56,6 +52,3 @@ export const containerStyles = css`
     position: relative;
     ${templateSpacing.bannerTicker}
 `;
-
-
-

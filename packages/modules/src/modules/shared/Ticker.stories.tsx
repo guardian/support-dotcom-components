@@ -1,12 +1,13 @@
 import React from 'react';
+import { DesignableBannerTicker } from '../banners/designableBanner/components/ticker/DesignableBannerTicker';
 import {
-    DesignableBannerTicker,
-    TickerProps,
-} from '../banners/designableBanner/components/DesignableBannerTicker';
-import { TickerCountType, TickerEndType } from '@sdc/shared/dist/types';
+    TickerCountType,
+    TickerEndType,
+    TickerSettings,
+} from '@sdc/shared/dist/types/props/shared';
 
 export default {
-    title: 'Checkouts/Ticker',
+    title: 'Components/Ticker',
     component: DesignableBannerTicker,
     argTypes: {
         appearance: {
@@ -18,7 +19,7 @@ export default {
         onGoalReached: { action: 'goal reached' },
     },
     decorators: [
-        (Story: React.FC): JSX.Element => (
+        (Story: React.FC): React.JSX.Element => (
             <div
                 style={{
                     width: '100%',
@@ -31,32 +32,37 @@ export default {
     ],
 };
 
-function Template(args: TickerProps) {
+function Template(args: TickerSettings) {
     return <DesignableBannerTicker {...args} />;
 }
 
-Template.args = {} as TickerProps;
+Template.args = {} as TickerSettings;
 
 export const PeopleTicker = Template.bind({});
 
 PeopleTicker.args = {
-    total: 200000,
-    goal: 200000,
+    tickerData: {
+        total: 50000,
+        goal: 200000,
+    },
     end: 250000,
     countType: TickerCountType.people,
     endType: TickerEndType.unlimited,
-    countryGroupId: 'AUDCountries',
-    headline: 'End of year campaign',
+    countryGroupId: 'GBPCountries',
+    name: 'AU',
 };
 
 export const MoneyTicker = Template.bind({});
 
 MoneyTicker.args = {
-    total: 50000,
-    goal: 200000,
-    end: 230000,
+    tickerData: {
+        total: 20000,
+        goal: 200000,
+    },
+    end: 200000,
     countType: TickerCountType.money,
     endType: TickerEndType.hardstop,
-    countryGroupId: 'UnitedStates',
+    countryGroupId: 'GBPCountries',
     headline: 'End of year campaign',
+    name: 'US',
 };

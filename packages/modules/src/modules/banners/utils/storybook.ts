@@ -1,10 +1,10 @@
 import {
     BannerProps,
+    SecondaryCtaType,
     TickerCountType,
     TickerEndType,
-    SecondaryCtaType,
-    Tracking,
     TickerSettings,
+    Tracking,
 } from '@sdc/shared/types';
 
 export const tracking: Tracking = {
@@ -43,19 +43,15 @@ export const content = {
 };
 
 export const tickerSettings: TickerSettings = {
-    countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
-    currencySymbol: '$',
-    copy: {
-        countLabel: 'contributed',
-        goalReachedPrimary: "It's not too late to give!",
-        goalReachedSecondary: '',
-    },
     tickerData: {
-        total: 120_000,
-        goal: 150_000,
+        total: 50000,
+        goal: 200000,
     },
-    name: 'US',
+    end: 250000,
+    countType: TickerCountType.people,
+    endType: TickerEndType.unlimited,
+    countryGroupId: 'AUDCountries',
+    name: 'AU',
 };
 
 export const props: BannerProps = {

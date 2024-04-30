@@ -36,8 +36,7 @@ import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
-import { DesignableBannerTicker } from './components/DesignableBannerTicker';
-import { TickerContainer } from './components/ticker/tickerContainer';
+import { DesignableBannerTicker } from './components/ticker/DesignableBannerTicker';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -107,14 +106,13 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     countryCode,
     submitComponentEvent,
     design,
-}: BannerRenderProps): JSX.Element => {
+}: BannerRenderProps): React.JSX.Element => {
     // We can't render anything without a design
     if (!design) {
         return <></>;
     }
 
-    const { basic, primaryCta, secondaryCta, highlightedText, closeButton, ticker } =
-        design.colours;
+    const { basic, primaryCta, secondaryCta, highlightedText, closeButton } = design.colours;
 
     const imageSettings = buildMainImageSettings(design);
     const choiceCardSettings = buildChoiceCardSettings(design);
@@ -186,12 +184,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
         choiceCardSettings,
         imageSettings,
         bannerId: 'designable-banner',
-        tickerStylingSettings: {
-            textColour: hexColourToString(ticker.text),
-            filledProgressColour: hexColourToString(ticker.filledProgress),
-            progressBarBackgroundColour: hexColourToString(ticker.progressBarBackground),
-            goalMarkerColour: hexColourToString(ticker.goalMarker),
-        },
     };
 
     const { isReminderActive, onReminderCtaClick, mobileReminderRef } =
@@ -249,12 +241,16 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             highlightedTextSettings={templateSettings.highlightedTextSettings}
                         />
                     </div>
-                    <TickerContainer
-                        countType={tickerSettings.countType}
-                        endType={tickerSettings.endType}
-                        headline={tickerSettings.headline}
-                        render={(tickerProps) => <DesignableBannerTicker {...tickerProps} />}
-                    />
+                    {tickerSettings && (
+                        <DesignableBannerTicker
+                            countType={tickerSettings.countType}
+                            countryGroupId={tickerSettings.countryGroupId}
+                            end={tickerSettings.end}
+                            endType={tickerSettings.endType}
+                            name={tickerSettings.name}
+                            tickerData={tickerSettings.tickerData}
+                        />
+                    )}
                     <div />
                     {!templateSettings.choiceCardSettings && (
                         <DesignableBannerCtas
