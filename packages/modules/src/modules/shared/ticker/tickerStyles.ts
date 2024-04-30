@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { palette, space, textSans } from '@guardian/source-foundations';
-import { templateSpacing } from '../../styles/templateStyles';
+import { templateSpacing } from '../../banners/designableBanner/styles/templateStyles';
 
 export const tickerProgressBar = css`
     position: relative;

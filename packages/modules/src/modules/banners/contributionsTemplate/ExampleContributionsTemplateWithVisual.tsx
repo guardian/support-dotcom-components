@@ -16,7 +16,7 @@ import ContributionsTemplateBody from './ContributionsTemplateBody';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps, TickerSettings } from '@sdc/shared/types';
 import { ReactComponent } from '../../../types';
-import { Ticker } from '../designableBanner/components/ticker/Ticker';
+import { Ticker } from '../../shared/ticker/Ticker';
 
 const closeButtonStyles = css`
     color: ${neutral[7]};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Ticker } from '../banners/designableBanner/components/ticker/Ticker';
+import { Ticker } from './Ticker';
 import {
     TickerCountType,
     TickerEndType,

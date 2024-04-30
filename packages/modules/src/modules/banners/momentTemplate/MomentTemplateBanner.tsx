@@ -18,7 +18,7 @@ import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
-import { Ticker } from '../designableBanner/components/ticker/Ticker';
+import { Ticker } from '../../shared/ticker/Ticker';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,

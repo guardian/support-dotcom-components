@@ -36,7 +36,7 @@ import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
-import { Ticker } from './components/ticker/Ticker';
+import { Ticker } from '../../shared/ticker/Ticker';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
