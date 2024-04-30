@@ -11,7 +11,6 @@ import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVis
 import { BannerTemplateSettings } from './settings';
 import { SecondaryCtaType, Image } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
-import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
@@ -19,6 +18,7 @@ import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
+import { Ticker } from '../designableBanner/components/ticker/Ticker';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,
@@ -95,14 +95,16 @@ export function getMomentTemplateBanner(
                                 highlightedTextSettings={templateSettings.highlightedTextSettings}
                             />
                         </div>
-
-                        {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
-                            <MomentTemplateBannerTicker
-                                tickerSettings={tickerSettings}
-                                stylingSettings={templateSettings.tickerStylingSettings}
+                        {tickerSettings && (
+                            <Ticker
+                                countType={tickerSettings.countType}
+                                countryGroupId={tickerSettings.countryGroupId}
+                                end={tickerSettings.end}
+                                endType={tickerSettings.endType}
+                                name={tickerSettings.name}
+                                tickerData={tickerSettings.tickerData}
                             />
                         )}
-
                         {!templateSettings.choiceCards && (
                             <section css={styles.ctasContainer}>
                                 <MomentTemplateBannerCtas

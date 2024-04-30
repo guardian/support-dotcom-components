@@ -36,7 +36,7 @@ import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
 import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
-import { DesignableBannerTicker } from './components/ticker/DesignableBannerTicker';
+import { Ticker } from './components/ticker/Ticker';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,
@@ -242,7 +242,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                         />
                     </div>
                     {tickerSettings && (
-                        <DesignableBannerTicker
+                        <Ticker
                             countType={tickerSettings.countType}
                             countryGroupId={tickerSettings.countryGroupId}
                             end={tickerSettings.end}

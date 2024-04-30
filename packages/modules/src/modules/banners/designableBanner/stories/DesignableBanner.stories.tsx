@@ -1,14 +1,11 @@
 import { Meta } from '@storybook/react';
-import { props } from '../../utils/storybook';
+import { props, tickerSettings } from '../../utils/storybook';
 import {
     BannerDesignImage,
     ConfigurableDesign,
     HexColour,
     SecondaryCtaType,
     SelectedAmountsVariant,
-    TickerCountType,
-    TickerEndType,
-    TickerSettings,
 } from '@sdc/shared/types';
 import { DefaultTemplate } from './Default';
 
@@ -80,18 +77,6 @@ const mobileContentNoHeading = {
 const mobileContentWithHeading = {
     ...mobileContentNoHeading,
     heading: 'Show your support for reader-funded journalism',
-};
-
-const tickerSettings: TickerSettings = {
-    tickerData: {
-        total: 50000,
-        goal: 200000,
-    },
-    end: 250000,
-    countType: TickerCountType.people,
-    endType: TickerEndType.unlimited,
-    countryGroupId: 'AUDCountries',
-    name: 'AU',
 };
 
 const regularChoiceCardAmounts: SelectedAmountsVariant = {
@@ -239,7 +224,6 @@ DesignOneImageOnly.args = {
         },
     },
     numArticles: 50,
-    tickerSettings,
     design: {
         ...design,
         visual: regularImage,
@@ -265,7 +249,6 @@ DesignTwoRegularAmounts.args = {
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
     numArticles: 50,
-    tickerSettings,
     design: {
         ...design,
         visual: {
@@ -282,7 +265,6 @@ DesignTwoEdgeCaseAmounts.args = {
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
     numArticles: 50,
-    tickerSettings,
     design: {
         ...design,
         visual: {
@@ -304,7 +286,6 @@ DesignThreeHeaderImageOnly.args = {
     content: contentNoHeading,
     mobileContent: mobileContentNoHeading,
     numArticles: 50,
-    tickerSettings,
     design: {
         ...design,
         headerImage,
@@ -329,7 +310,6 @@ DesignFourHeaderImageAndCopy.args = {
     content: contentWithHeading,
     mobileContent: mobileContentWithHeading,
     numArticles: 50,
-    tickerSettings,
     design: {
         ...design,
         headerImage,
@@ -395,7 +375,6 @@ WithRemindMeLater.args = {
         },
     },
     numArticles: 50,
-    tickerSettings,
     design: {
         ...design,
         visual: {
@@ -417,4 +396,21 @@ WithRemindMeLater.args = {
         },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
+};
+
+export const WithTicker = DefaultTemplate.bind({});
+WithTicker.args = {
+    ...props,
+    content: contentWithHeading,
+    mobileContent: mobileContentWithHeading,
+    numArticles: 50,
+    design: {
+        ...design,
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+    },
+    choiceCardAmounts: regularChoiceCardAmounts,
+    tickerSettings,
 };

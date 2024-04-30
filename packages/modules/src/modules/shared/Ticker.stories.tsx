@@ -1,5 +1,5 @@
 import React from 'react';
-import { DesignableBannerTicker } from '../banners/designableBanner/components/ticker/DesignableBannerTicker';
+import { Ticker } from '../banners/designableBanner/components/ticker/Ticker';
 import {
     TickerCountType,
     TickerEndType,
@@ -8,7 +8,7 @@ import {
 
 export default {
     title: 'Components/Ticker',
-    component: DesignableBannerTicker,
+    component: Ticker,
     argTypes: {
         appearance: {
             control: {
@@ -33,7 +33,7 @@ export default {
 };
 
 function Template(args: TickerSettings) {
-    return <DesignableBannerTicker {...args} />;
+    return <Ticker {...args} />;
 }
 
 Template.args = {} as TickerSettings;

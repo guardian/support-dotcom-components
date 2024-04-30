@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
-import { props } from '../../utils/storybook';
-import { SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { props, tickerSettings } from '../../utils/storybook';
+import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerWithReminderTemplate } from './WithReminder';
 import { BannerWithHeaderImageTemplate } from './WithHeaderImage';
 import { BannerWithChoiceCardsTemplate } from './WithChoiceCards';
@@ -358,19 +358,5 @@ WithTicker.args = {
         },
     },
     numArticles: 50,
-    tickerSettings: {
-        countType: TickerCountType.money,
-        endType: TickerEndType.hardstop,
-        currencySymbol: '',
-        copy: {
-            countLabel: 'contributions in May',
-            goalReachedPrimary: "We've met our goal - thank you!",
-            goalReachedSecondary: '',
-        },
-        tickerData: {
-            total: 4_000,
-            goal: 50_000,
-        },
-        name: 'AU',
-    },
+    tickerSettings,
 };

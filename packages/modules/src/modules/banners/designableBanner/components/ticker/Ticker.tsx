@@ -71,7 +71,7 @@ function TickerLabel(props: TickerLabelProps) {
     );
 }
 
-export function DesignableBannerTicker(props: TickerSettings): React.JSX.Element {
+export function Ticker(props: TickerSettings): React.JSX.Element {
     const progressBarTransform = `translate3d(${progressBarTranslation(
         props.tickerData.total,
         props.end,

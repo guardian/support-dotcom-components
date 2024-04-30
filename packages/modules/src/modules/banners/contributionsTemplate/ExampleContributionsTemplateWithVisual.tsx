@@ -13,10 +13,10 @@ import ContributionsTemplateVisual from './ContributionsTemplateVisual';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';
 import ContributionsTemplateHeader from './ContributionsTemplateHeader';
 import ContributionsTemplateBody from './ContributionsTemplateBody';
-import ContributionsTemplateTicker from './ContributionsTemplateTicker';
 import ContributionsTemplateCta from './ContributionsTemplateCta';
 import { BannerProps, TickerSettings } from '@sdc/shared/types';
 import { ReactComponent } from '../../../types';
+import { Ticker } from '../designableBanner/components/ticker/Ticker';
 
 const closeButtonStyles = css`
     color: ${neutral[7]};
@@ -101,7 +101,14 @@ const body = (
 );
 
 const ticker = (tickerSettings: TickerSettings): React.ReactElement => (
-    <ContributionsTemplateTicker settings={tickerSettings} accentColour={'#304F9E'} />
+    <Ticker
+        countType={tickerSettings.countType}
+        countryGroupId={tickerSettings.countryGroupId}
+        end={tickerSettings.end}
+        endType={tickerSettings.endType}
+        name={tickerSettings.name}
+        tickerData={tickerSettings.tickerData}
+    />
 );
 
 const cta = (

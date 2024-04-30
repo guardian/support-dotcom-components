@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { PageTracking } from '../targeting';
 import { TestTracking } from '../abTests';
-import { CountryGroupId } from '../../lib';
+import { CountryGroupId, countryGroupIdSchema } from '../../lib';
 
 export type Stage = 'PROD' | 'CODE' | 'DEV';
 
@@ -61,11 +61,11 @@ export enum TickerCountType {
 
 export const tickerCountTypeSchema = z.nativeEnum(TickerCountType);
 
-export const tickerCopySchema = z.object({
+/*export const tickerCopySchema = z.object({
     countLabel: z.string(),
     goalReachedPrimary: z.string(),
     goalReachedSecondary: z.string(),
-});
+});*/
 
 export interface TickerData {
     total: number;
@@ -93,12 +93,12 @@ export interface TickerSettings {
 }
 
 export const tickerSettingsSchema = z.object({
-    endType: tickerEndTypeSchema,
-    countType: tickerCountTypeSchema,
-    currencySymbol: z.string(),
-    copy: tickerCopySchema,
-    name: ticketNameSchema,
     tickerData: tickerDataSchema.optional(),
+    countType: tickerCountTypeSchema,
+    endType: tickerEndTypeSchema,
+    countryGroupId: countryGroupIdSchema,
+    headline: z.string().optional(),
+    name: ticketNameSchema,
 });
 
 export const ophanProductSchema = z.enum([
