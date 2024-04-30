@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.1.1
+
+### Patch Changes
+
+-   Mark Zod as peer dependency
+
 ## 2.1.0
 
 ### Minor Changes
