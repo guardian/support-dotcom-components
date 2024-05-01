@@ -79,6 +79,7 @@ const tagsOfInterest = new Set<string>([
     'inequality/inequality',
     'technology/technology',
     'business/business',
+    'tone/recipes',
 ]);
 
 /**
