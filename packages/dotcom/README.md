@@ -29,3 +29,11 @@ Not all PRs require releasing and therefore don't need a changeset. For example
 a change to the README.
 
 [changesets]: https://github.com/changesets/changesets
+
+### Updating in DCR
+
+You can manually bump the version of SDC in `package.json` and run `pnpm i`, or run
+
+`pnpm --filter=@guardian/dotcom-rendering i @guardian/support-dotcom-components@latest`
+
+from the root of the project.
