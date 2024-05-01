@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.2.0
+
+### Minor Changes
+
+-   Adding recipe tag to be tracked in WeeeklyArticleHistory
+
 ## 2.1.1
 
 ### Patch Changes
