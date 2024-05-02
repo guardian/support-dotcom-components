@@ -43,7 +43,7 @@ export class DotcomComponents extends GuStack {
 		});
 
 		// Cloudwatch alarms
-		const snsTopicName = 'reader-revenue-dev';
+		const snsTopicName = 'alarms-handler-topic-PROD';
 		const namespace = `support-${appName}-${this.stage}`;
 
 		new GuAlarm(this, 'SuperModeAlarm', {
