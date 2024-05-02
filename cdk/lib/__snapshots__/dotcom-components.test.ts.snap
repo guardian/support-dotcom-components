@@ -279,7 +279,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 Object {
                   "Ref": "AWS::AccountId",
                 },
-                ":reader-revenue-dev",
+                ":alarms-handler-topic-PROD",
               ],
             ],
           },
@@ -313,7 +313,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 Object {
                   "Ref": "AWS::AccountId",
                 },
-                ":reader-revenue-dev",
+                ":alarms-handler-topic-PROD",
               ],
             ],
           },
@@ -378,7 +378,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 Object {
                   "Ref": "AWS::AccountId",
                 },
-                ":reader-revenue-dev",
+                ":alarms-handler-topic-PROD",
               ],
             ],
           },
@@ -986,7 +986,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 Object {
                   "Ref": "AWS::AccountId",
                 },
-                ":reader-revenue-dev",
+                ":alarms-handler-topic-PROD",
               ],
             ],
           },
@@ -1166,7 +1166,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 Object {
                   "Ref": "AWS::AccountId",
                 },
-                ":reader-revenue-dev",
+                ":alarms-handler-topic-PROD",
               ],
             ],
           },
