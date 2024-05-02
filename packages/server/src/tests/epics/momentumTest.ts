@@ -2,6 +2,7 @@ import { getWeeksInWindow } from '../../lib/history';
 import { WeeklyArticleHistory, WeeklyArticleLog } from '@sdc/shared/types';
 import { Filter } from './epicSelection';
 import { subWeeks } from 'date-fns';
+import { logger } from '../../utils/logging';
 
 /*
 We categorize into 6 buckets of article count/engagement.
@@ -86,12 +87,38 @@ export function isIncreasedEngagement(
     const { categoryForThirdMonth, categoryForSecondMonth, categoryForFirstMonth } =
         getCategoriesForThreeMonths(articleHistory, now);
 
+    const articleHistoryWithoutTags = articleHistory.map(({ week, count }) => ({
+        week,
+        count,
+    }));
+
     if (
         categoryForThirdMonth > categoryForSecondMonth &&
         categoryForSecondMonth > categoryForFirstMonth
     ) {
-        return categoryForThirdMonth - categoryForFirstMonth >= jumps.mediumHigh;
+        const isIncreasedEngagement =
+            categoryForThirdMonth - categoryForFirstMonth >= jumps.mediumHigh;
+
+        logger.info({
+            message: 'Decision to show Momentum Epic',
+            isIncreasedEngagement,
+            categoryForFirstMonth,
+            categoryForSecondMonth,
+            categoryForThirdMonth,
+            articleHistoryWithoutTags,
+        });
+
+        return isIncreasedEngagement;
     }
+
+    logger.info({
+        message: 'Decision to show Momentum Epic',
+        isIncreasedEngagement: false,
+        categoryForFirstMonth,
+        categoryForSecondMonth,
+        categoryForThirdMonth,
+        articleHistoryWithoutTags,
+    });
 
     return false;
 }
