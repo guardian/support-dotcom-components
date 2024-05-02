@@ -1,103 +1,102 @@
 name: Build dotcom-components
 
 on:
-  pull_request:
-    branches:
-      - "**"
-  push:
-    branches:
-      - main
+    pull_request:
+        branches:
+            - '**'
+    push:
+        branches:
+            - main
 
 jobs:
-  dotcom-components:
-    if: >-
-      (github.actor != 'dependabot[bot]') &&
-        (github.event.pull_request.head.repo.owner.login == 'guardian' ||
-          github.event_name == 'push')
-    # Required by actions-assume-aws-role
-    permissions:
-      id-token: write
-      contents: read
+    dotcom-components:
+        if: >-
+            (github.event.pull_request.head.repo.owner.login == 'guardian' ||
+              github.event_name == 'push')
+        # Required by actions-assume-aws-role
+        permissions:
+            id-token: write
+            contents: read
 
-    name: dotcom-components
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+        name: dotcom-components
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-            node-version-file: '.nvmrc'
+            - name: Use Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version-file: '.nvmrc'
 
-      - name: Test + build
-        run: |
-          npm install -g yarn
-          yarn install
-          yarn setup
-          yarn lint
-          yarn test
+            - name: Test + build
+              run: |
+                  npm install -g yarn
+                  yarn install
+                  yarn setup
+                  yarn lint
+                  yarn test
 
-          NODE_ENV=production yarn server build
-          NODE_ENV=production NODE_OPTIONS="--max-old-space-size=16384" yarn modules build
+                  NODE_ENV=production yarn server build
+                  NODE_ENV=production NODE_OPTIONS="--max-old-space-size=16384" yarn modules build
 
-      - name: cdk
-        working-directory: ./cdk
-        run: |
-          npm install -g yarn
-          yarn install
-          yarn lint
-          yarn test
-          yarn synth
+            - name: cdk
+              working-directory: ./cdk
+              run: |
+                  npm install -g yarn
+                  yarn install
+                  yarn lint
+                  yarn test
+                  yarn synth
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2.2.0
-        with:
-          role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
-          aws-region: eu-west-1
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v2.2.0
+              with:
+                  role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+                  aws-region: eu-west-1
 
-      - name: riffraff
-        run: |
-          export LAST_TEAMCITY_BUILD=4000
-          export GITHUB_RUN_NUMBER=$(( $GITHUB_RUN_NUMBER + $LAST_TEAMCITY_BUILD ))
+            - name: riffraff
+              run: |
+                  export LAST_TEAMCITY_BUILD=4000
+                  export GITHUB_RUN_NUMBER=$(( $GITHUB_RUN_NUMBER + $LAST_TEAMCITY_BUILD ))
 
-          npm install -g yarn
-          yarn install
-          yarn run riffraff
+                  npm install -g yarn
+                  yarn install
+                  yarn run riffraff
 
-  release:
-    name: Release
-    needs: [ dotcom-components ]
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # in order to write labels to main branch?
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          persist-credentials: false
+    release:
+        name: Release
+        needs: [dotcom-components]
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # in order to write labels to main branch?
+            pull-requests: write # to be able to comment on released pull requests
+            id-token: write # to enable use of OIDC for npm provenance
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version-file: '.nvmrc'
 
-      - name: Build
-        run: |
-          npm install -g yarn
-          yarn install
-          yarn dotcom build
-          yarn dotcom types
+            - name: Build
+              run: |
+                  npm install -g yarn
+                  yarn install
+                  yarn dotcom build
+                  yarn dotcom types
 
-      - name: Release
-        uses: changesets/action@v1
-        with:
-          cwd: packages/dotcom
-          publish: yarn changeset publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+            - name: Release
+              uses: changesets/action@v1
+              with:
+                  cwd: packages/dotcom
+                  publish: yarn changeset publish
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
