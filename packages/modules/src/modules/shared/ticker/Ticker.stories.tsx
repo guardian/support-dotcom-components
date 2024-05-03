@@ -19,7 +19,7 @@ export default {
         onGoalReached: { action: 'goal reached' },
     },
     decorators: [
-        (Story: React.FC): React.JSX.Element => (
+        (Story: React.FC): JSX.Element => (
             <div
                 style={{
                     width: '100%',
