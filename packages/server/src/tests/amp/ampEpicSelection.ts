@@ -5,7 +5,6 @@ import {
 } from '@sdc/shared/lib';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
-import { ampTicker } from './ampTicker';
 import { TickerDataProvider } from '../../lib/fetchTickerData';
 
 // ---- Types --- //
@@ -104,8 +103,8 @@ const selectAmpEpicTestAndVariant = async (
 
             if (variant.tickerSettings) {
                 const tickerData = tickerDataProvider.getTickerData(variant.tickerSettings.name);
-                const ticker = tickerData && ampTicker(variant.tickerSettings, tickerData);
-                return { ...epicData, ticker };
+                const ticker = tickerData ? { ...variant.tickerSettings, tickerData } : null;
+                return { ...epicData, ...ticker };
             } else {
                 return epicData;
             }

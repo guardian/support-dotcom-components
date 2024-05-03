@@ -1,5 +1,4 @@
-import { ContributionFrequency } from '@sdc/shared/types';
-import { AMPTicker } from './ampTicker';
+import { ContributionFrequency, TickerSettings } from '@sdc/shared/types';
 import * as z from 'zod';
 import {
     contributionFrequencySchema,
@@ -26,7 +25,7 @@ export interface AMPEpic {
     paragraphs: string[];
     highlightedText?: string;
     cta: AMPCta;
-    ticker?: AMPTicker;
+    ticker?: TickerSettings;
     showChoiceCards?: boolean;
     defaultChoiceCardFrequency?: ContributionFrequency;
 }

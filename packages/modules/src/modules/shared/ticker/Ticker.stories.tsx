@@ -63,6 +63,32 @@ MoneyTicker.args = {
     countType: TickerCountType.money,
     endType: TickerEndType.hardstop,
     countryGroupId: 'GBPCountries',
-    headline: 'End of year campaign',
+    name: 'US',
+};
+
+export const TickerWithHeadline = Template.bind({});
+TickerWithHeadline.args = {
+    tickerData: {
+        total: 20000,
+        goal: 200000,
+    },
+    end: 200000,
+    countType: TickerCountType.money,
+    endType: TickerEndType.hardstop,
+    countryGroupId: 'GBPCountries',
+    headline: 'Help us reach our goal',
+    name: 'US',
+};
+
+export const TickerGoalExceeded = Template.bind({});
+TickerGoalExceeded.args = {
+    tickerData: {
+        total: 6000000,
+        goal: 200000,
+    },
+    end: 200000,
+    countType: TickerCountType.money,
+    endType: TickerEndType.hardstop,
+    countryGroupId: 'GBPCountries',
     name: 'US',
 };
