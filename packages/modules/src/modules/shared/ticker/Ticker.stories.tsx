@@ -18,18 +18,6 @@ export default {
         },
         onGoalReached: { action: 'goal reached' },
     },
-    decorators: [
-        (Story: React.FC): JSX.Element => (
-            <div
-                style={{
-                    width: '100%',
-                    maxWidth: '500px',
-                }}
-            >
-                <Story />
-            </div>
-        ),
-    ],
 };
 
 function Template(args: TickerSettings) {
