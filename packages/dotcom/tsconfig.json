@@ -3,7 +3,7 @@
         "module": "CommonJS",
         "target": "ES2020",
         "esModuleInterop": true,
-        "moduleResolution": "bundler",
+        "moduleResolution": "node",
         "sourceMap": true,
         "strict": true,
         "outDir": "dist"

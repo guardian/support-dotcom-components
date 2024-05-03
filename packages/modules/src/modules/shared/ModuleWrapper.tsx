@@ -1,8 +1,8 @@
 import React from 'react';
-import { JSX } from '@emotion/react/jsx-runtime';
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import type { ReactComponent } from '../../types';
 
-export function withParsedProps<ModuleProps extends JSX.IntrinsicAttributes>(
+export function withParsedProps<ModuleProps extends EmotionJSX.IntrinsicAttributes>(
     Module: ReactComponent<ModuleProps>,
     validate: (props: unknown) => props is ModuleProps,
 ): ReactComponent<unknown> {

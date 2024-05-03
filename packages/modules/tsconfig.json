@@ -3,7 +3,7 @@
     "module": "ESNext",
     "target": "ES2018",
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "sourceMap": true,
     "strict": true,
     "noImplicitReturns": true,
