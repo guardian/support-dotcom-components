@@ -257,6 +257,7 @@ DesignTwoRegularAmounts.args = {
         },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
+    tickerSettings,
 };
 
 export const DesignTwoEdgeCaseAmounts = DefaultTemplate.bind({});
@@ -278,6 +279,7 @@ DesignTwoEdgeCaseAmounts.args = {
         },
     },
     choiceCardAmounts: edgeCaseChoiceCardAmounts,
+    tickerSettings,
 };
 
 export const DesignThreeHeaderImageOnly = DefaultTemplate.bind({});
@@ -302,6 +304,7 @@ DesignThreeHeaderImageOnly.args = {
         },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
+    tickerSettings,
 };
 
 export const DesignFourHeaderImageAndCopy = DefaultTemplate.bind({});
@@ -326,6 +329,7 @@ DesignFourHeaderImageAndCopy.args = {
         },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
+    tickerSettings,
 };
 
 export const NoChoiceCardOrImage = DefaultTemplate.bind({});
@@ -338,6 +342,7 @@ NoChoiceCardOrImage.args = {
         ...design,
         visual: undefined,
     },
+    tickerSettings,
 };
 
 export const WithNonSupportUrl = DefaultTemplate.bind({});
@@ -355,6 +360,7 @@ WithNonSupportUrl.args = {
         ...design,
         visual: undefined,
     },
+    tickerSettings,
 };
 
 export const WithRemindMeLater = DefaultTemplate.bind({});
@@ -393,22 +399,6 @@ WithRemindMeLater.args = {
                     text: stringToHexColour('FFFFFF'),
                 },
             },
-        },
-    },
-    choiceCardAmounts: regularChoiceCardAmounts,
-};
-
-export const WithTicker = DefaultTemplate.bind({});
-WithTicker.args = {
-    ...props,
-    content: contentWithHeading,
-    mobileContent: mobileContentWithHeading,
-    numArticles: 50,
-    design: {
-        ...design,
-        visual: {
-            kind: 'ChoiceCards',
-            buttonColour: stringToHexColour('E5E5E5'),
         },
     },
     choiceCardAmounts: regularChoiceCardAmounts,
