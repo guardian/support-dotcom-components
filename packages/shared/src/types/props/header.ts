@@ -1,4 +1,4 @@
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { JSX } from '@emotion/react/jsx-runtime';
 import * as z from 'zod';
 import { OphanComponentEvent } from '../ophan';
 import { Tracking, trackingSchema, Cta, ctaSchema } from './shared';
@@ -19,7 +19,7 @@ export const headerContentSchema = z.object({
     benefits: z.array(z.string()).optional(),
 });
 
-export interface HeaderProps extends EmotionJSX.IntrinsicAttributes {
+export interface HeaderProps extends JSX.IntrinsicAttributes {
     content: HeaderContent;
     tracking: Tracking;
     mobileContent?: HeaderContent;
