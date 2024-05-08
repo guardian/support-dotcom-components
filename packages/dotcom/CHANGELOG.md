@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.2.1
+
+### Patch Changes
+
+-   Exports headerPropsSchema for use directly in DCR component
+
 ## 2.2.0
 
 ### Minor Changes
