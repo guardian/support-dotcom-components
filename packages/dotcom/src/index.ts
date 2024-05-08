@@ -13,5 +13,6 @@ export {
     TickerEndType,
 } from '../../shared/src/types/props/shared';
 export { contributionTabFrequencies } from '../../shared/src/types/abTests/epic';
+export { headerPropsSchema } from '../../shared/src/types/props/header';
 export { epicPropsSchema } from '../../shared/src/types/props/epic';
 export * from './requests';
