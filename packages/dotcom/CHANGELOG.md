@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.2.2
+
+### Patch Changes
+
+-   Fix zod dev dependency version
+
 ## 2.2.1
 
 ### Patch Changes
