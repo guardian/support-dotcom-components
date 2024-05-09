@@ -22,9 +22,11 @@ Object {
       "GuDynamoDBReadPolicy",
       "GuVpcParameter",
       "GuSubnetListParameter",
+      "GuSubnetListParameter",
+      "GuEc2App",
       "GuCertificate",
       "GuInstanceRole",
-      "GuSSMRunCommandPolicy",
+      "GuSsmSshPolicy",
       "GuDescribeEC2Policy",
       "GuLoggingStreamNameParameter",
       "GuLogShippingPolicy",
@@ -32,9 +34,8 @@ Object {
       "GuParameterStoreReadPolicy",
       "GuAmiParameter",
       "GuHttpsEgressSecurityGroup",
-      "GuAutoScalingGroup",
       "GuWazuhAccess",
-      "GuSubnetListParameter",
+      "GuAutoScalingGroup",
       "GuApplicationLoadBalancer",
       "GuApplicationTargetGroup",
       "GuHttpsApplicationListener",
@@ -96,8 +97,16 @@ Object {
       "Properties": Object {
         "HealthCheckGracePeriod": 120,
         "HealthCheckType": "ELB",
-        "LaunchConfigurationName": Object {
-          "Ref": "AutoScalingGroupDotcomcomponentsLaunchConfig85091051",
+        "LaunchTemplate": Object {
+          "LaunchTemplateId": Object {
+            "Ref": "supportTESTdotcomcomponentsE4D10170",
+          },
+          "Version": Object {
+            "Fn::GetAtt": Array [
+              "supportTESTdotcomcomponentsE4D10170",
+              "LatestVersionNumber",
+            ],
+          },
         },
         "MaxSize": "18",
         "MinSize": "3",
@@ -106,11 +115,6 @@ Object {
             "Key": "App",
             "PropagateAtLaunch": true,
             "Value": "dotcom-components",
-          },
-          Object {
-            "Key": "gu:cdk:pattern-name",
-            "PropagateAtLaunch": true,
-            "Value": "GuEc2App",
           },
           Object {
             "Key": "gu:cdk:version",
@@ -128,11 +132,6 @@ Object {
             "Value": Object {
               "Ref": "LoggingStreamName",
             },
-          },
-          Object {
-            "Key": "Name",
-            "PropagateAtLaunch": true,
-            "Value": "DotcomComponents/AutoScalingGroupDotcomcomponents",
           },
           Object {
             "Key": "Stack",
@@ -155,98 +154,6 @@ Object {
         },
       },
       "Type": "AWS::AutoScaling::AutoScalingGroup",
-    },
-    "AutoScalingGroupDotcomcomponentsInstanceProfile55946DEC": Object {
-      "Properties": Object {
-        "Roles": Array [
-          Object {
-            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::InstanceProfile",
-    },
-    "AutoScalingGroupDotcomcomponentsLaunchConfig85091051": Object {
-      "DependsOn": Array [
-        "InstanceRoleDotcomcomponents2E8FDE7D",
-      ],
-      "Properties": Object {
-        "IamInstanceProfile": Object {
-          "Ref": "AutoScalingGroupDotcomcomponentsInstanceProfile55946DEC",
-        },
-        "ImageId": Object {
-          "Ref": "AMIDotcomcomponents",
-        },
-        "InstanceType": "t4g.small",
-        "MetadataOptions": Object {
-          "HttpTokens": "required",
-        },
-        "SecurityGroups": Array [
-          Object {
-            "Fn::GetAtt": Array [
-              "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
-              "GroupId",
-            ],
-          },
-          Object {
-            "Fn::GetAtt": Array [
-              "WazuhSecurityGroup",
-              "GroupId",
-            ],
-          },
-        ],
-        "UserData": Object {
-          "Fn::Base64": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "#!/bin/bash
-
-groupadd support
-useradd -r -m -s /usr/bin/nologin -g support dotcom-components
-cd /home/dotcom-components
-
-aws --region eu-west-1 s3 cp s3://",
-                Object {
-                  "Ref": "DistributionBucketName",
-                },
-                "/support/TEST/dotcom-components/dotcom-components.tar ./
-mkdir dotcom-components
-tar -xvf dotcom-components.tar --directory dotcom-components
-
-chown -R dotcom-components:support dotcom-components
-
-cd dotcom-components
-
-export TERM=xterm-256color
-export NODE_ENV=production
-export stage=TEST
-export base_url=",
-                Object {
-                  "Ref": "BaseUrl",
-                },
-                "
-
-mkdir /var/log/dotcom-components
-chown -R dotcom-components:support /var/log/dotcom-components
-
-/usr/local/node/pm2 start --uid dotcom-components --gid support server.js
-
-/opt/aws-kinesis-agent/configure-aws-kinesis-agent ",
-                Object {
-                  "Ref": "AWS::Region",
-                },
-                " ",
-                Object {
-                  "Ref": "ELKStream",
-                },
-                " /var/log/dotcom-components/dotcom-components.log",
-              ],
-            ],
-          },
-        },
-      },
-      "Type": "AWS::AutoScaling::LaunchConfiguration",
     },
     "AutoScalingGroupDotcomcomponentsScalingPolicyCpuScalingPolicy29FF9AE6": Object {
       "Properties": Object {
@@ -349,6 +256,10 @@ chown -R dotcom-components:support /var/log/dotcom-components
             "Value": "guardian/support-dotcom-components",
           },
           Object {
+            "Key": "Name",
+            "Value": "DotcomComponents/CertificateDotcomcomponents",
+          },
+          Object {
             "Key": "Stack",
             "Value": "support",
           },
@@ -435,22 +346,40 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:dynamodb:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":table/support-bandit-TEST",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/support-bandit-TEST",
+                    ],
                   ],
-                ],
-              },
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/support-bandit-TEST/index/*",
+                    ],
+                  ],
+                },
+              ],
             },
           ],
           "Version": "2012-10-17",
@@ -477,22 +406,40 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:dynamodb:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":table/support-admin-console-banner-designs-TEST",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/support-admin-console-banner-designs-TEST",
+                    ],
                   ],
-                ],
-              },
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/support-admin-console-banner-designs-TEST/index/*",
+                    ],
+                  ],
+                },
+              ],
             },
           ],
           "Version": "2012-10-17",
@@ -519,22 +466,40 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:dynamodb:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":table/super-mode-TEST",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/super-mode-TEST",
+                    ],
                   ],
-                ],
-              },
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/super-mode-TEST/index/*",
+                    ],
+                  ],
+                },
+              ],
             },
           ],
           "Version": "2012-10-17",
@@ -561,22 +526,40 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:dynamodb:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":table/super-mode-TEST/index/*",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/super-mode-TEST/index/*",
+                    ],
                   ],
-                ],
-              },
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/super-mode-TEST/index/*/index/*",
+                    ],
+                  ],
+                },
+              ],
             },
           ],
           "Version": "2012-10-17",
@@ -603,22 +586,40 @@ chown -R dotcom-components:support /var/log/dotcom-components
                 "dynamodb:GetRecords",
               ],
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:dynamodb:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":table/support-admin-console-channel-tests-TEST",
+              "Resource": Array [
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/support-admin-console-channel-tests-TEST",
+                    ],
                   ],
-                ],
-              },
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      "arn:aws:dynamodb:",
+                      Object {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      Object {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/support-admin-console-channel-tests-TEST/index/*",
+                    ],
+                  ],
+                },
+              ],
             },
           ],
           "Version": "2012-10-17",
@@ -796,17 +797,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": Object {
-                "Service": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "ec2.",
-                      Object {
-                        "Ref": "AWS::URLSuffix",
-                      },
-                    ],
-                  ],
-                },
+                "Service": "ec2.amazonaws.com",
               },
             },
           ],
@@ -868,6 +859,14 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "LoadBalancerAttributes": Array [
           Object {
             "Key": "deletion_protection.enabled",
+            "Value": "true",
+          },
+          Object {
+            "Key": "routing.http.x_amzn_tls_version_and_cipher_suite.enabled",
+            "Value": "true",
+          },
+          Object {
+            "Key": "routing.http.drop_invalid_header_fields.enabled",
             "Value": "true",
           },
         ],
@@ -955,6 +954,27 @@ chown -R dotcom-components:support /var/log/dotcom-components
         "DestinationSecurityGroupId": Object {
           "Fn::GetAtt": Array [
             "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
+            "GroupId",
+          ],
+        },
+        "FromPort": 3030,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "ToPort": 3030,
+      },
+      "Type": "AWS::EC2::SecurityGroupEgress",
+    },
+    "LoadBalancerDotcomcomponentsSecurityGrouptoDotcomComponentsWazuhSecurityGroup719666953030B5341711": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "WazuhSecurityGroup",
             "GroupId",
           ],
         },
@@ -1114,7 +1134,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
       },
       "Type": "AWS::IAM::Policy",
     },
-    "SSMRunCommandPolicy244E1613": Object {
+    "SsmSshPolicy4CFC977E": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -1141,7 +1161,7 @@ chown -R dotcom-components:support /var/log/dotcom-components
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "ssm-run-command-policy",
+        "PolicyName": "ssm-ssh-policy",
         "Roles": Array [
           Object {
             "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
@@ -1275,6 +1295,217 @@ chown -R dotcom-components:support /var/log/dotcom-components
         },
       },
       "Type": "AWS::EC2::SecurityGroup",
+    },
+    "WazuhSecurityGroupfromDotcomComponentsLoadBalancerDotcomcomponentsSecurityGroup54E3D2CA30309C6E86B6": Object {
+      "Properties": Object {
+        "Description": "Load balancer to target",
+        "FromPort": 3030,
+        "GroupId": Object {
+          "Fn::GetAtt": Array [
+            "WazuhSecurityGroup",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": Object {
+          "Fn::GetAtt": Array [
+            "LoadBalancerDotcomcomponentsSecurityGroupD06C9706",
+            "GroupId",
+          ],
+        },
+        "ToPort": 3030,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
+    "supportTESTdotcomcomponentsE4D10170": Object {
+      "DependsOn": Array [
+        "InstanceRoleDotcomcomponents2E8FDE7D",
+      ],
+      "Properties": Object {
+        "LaunchTemplateData": Object {
+          "IamInstanceProfile": Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "supportTESTdotcomcomponentsProfile9246E2E0",
+                "Arn",
+              ],
+            },
+          },
+          "ImageId": Object {
+            "Ref": "AMIDotcomcomponents",
+          },
+          "InstanceType": "t4g.small",
+          "MetadataOptions": Object {
+            "HttpTokens": "required",
+          },
+          "SecurityGroupIds": Array [
+            Object {
+              "Fn::GetAtt": Array [
+                "GuHttpsEgressSecurityGroupDotcomcomponents3638A075",
+                "GroupId",
+              ],
+            },
+            Object {
+              "Fn::GetAtt": Array [
+                "WazuhSecurityGroup",
+                "GroupId",
+              ],
+            },
+          ],
+          "TagSpecifications": Array [
+            Object {
+              "ResourceType": "instance",
+              "Tags": Array [
+                Object {
+                  "Key": "App",
+                  "Value": "dotcom-components",
+                },
+                Object {
+                  "Key": "gu:cdk:version",
+                  "Value": "TEST",
+                },
+                Object {
+                  "Key": "gu:repo",
+                  "Value": "guardian/support-dotcom-components",
+                },
+                Object {
+                  "Key": "Name",
+                  "Value": "DotcomComponents/support-TEST-dotcom-components",
+                },
+                Object {
+                  "Key": "Stack",
+                  "Value": "support",
+                },
+                Object {
+                  "Key": "Stage",
+                  "Value": "TEST",
+                },
+              ],
+            },
+            Object {
+              "ResourceType": "volume",
+              "Tags": Array [
+                Object {
+                  "Key": "App",
+                  "Value": "dotcom-components",
+                },
+                Object {
+                  "Key": "gu:cdk:version",
+                  "Value": "TEST",
+                },
+                Object {
+                  "Key": "gu:repo",
+                  "Value": "guardian/support-dotcom-components",
+                },
+                Object {
+                  "Key": "Name",
+                  "Value": "DotcomComponents/support-TEST-dotcom-components",
+                },
+                Object {
+                  "Key": "Stack",
+                  "Value": "support",
+                },
+                Object {
+                  "Key": "Stage",
+                  "Value": "TEST",
+                },
+              ],
+            },
+          ],
+          "UserData": Object {
+            "Fn::Base64": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  "#!/bin/bash
+
+groupadd support
+useradd -r -m -s /usr/bin/nologin -g support dotcom-components
+cd /home/dotcom-components
+
+aws --region eu-west-1 s3 cp s3://",
+                  Object {
+                    "Ref": "DistributionBucketName",
+                  },
+                  "/support/TEST/dotcom-components/dotcom-components.tar ./
+mkdir dotcom-components
+tar -xvf dotcom-components.tar --directory dotcom-components
+
+chown -R dotcom-components:support dotcom-components
+
+cd dotcom-components
+
+export TERM=xterm-256color
+export NODE_ENV=production
+export stage=TEST
+export base_url=",
+                  Object {
+                    "Ref": "BaseUrl",
+                  },
+                  "
+
+mkdir /var/log/dotcom-components
+chown -R dotcom-components:support /var/log/dotcom-components
+
+/usr/local/node/pm2 start --uid dotcom-components --gid support server.js
+
+/opt/aws-kinesis-agent/configure-aws-kinesis-agent ",
+                  Object {
+                    "Ref": "AWS::Region",
+                  },
+                  " ",
+                  Object {
+                    "Ref": "ELKStream",
+                  },
+                  " /var/log/dotcom-components/dotcom-components.log",
+                ],
+              ],
+            },
+          },
+        },
+        "TagSpecifications": Array [
+          Object {
+            "ResourceType": "launch-template",
+            "Tags": Array [
+              Object {
+                "Key": "App",
+                "Value": "dotcom-components",
+              },
+              Object {
+                "Key": "gu:cdk:version",
+                "Value": "TEST",
+              },
+              Object {
+                "Key": "gu:repo",
+                "Value": "guardian/support-dotcom-components",
+              },
+              Object {
+                "Key": "Name",
+                "Value": "DotcomComponents/support-TEST-dotcom-components",
+              },
+              Object {
+                "Key": "Stack",
+                "Value": "support",
+              },
+              Object {
+                "Key": "Stage",
+                "Value": "TEST",
+              },
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::EC2::LaunchTemplate",
+    },
+    "supportTESTdotcomcomponentsProfile9246E2E0": Object {
+      "Properties": Object {
+        "Roles": Array [
+          Object {
+            "Ref": "InstanceRoleDotcomcomponents2E8FDE7D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::InstanceProfile",
     },
   },
 }
