@@ -47,7 +47,7 @@ PeopleTicker.args = {
     end: 250000,
     countType: TickerCountType.people,
     endType: TickerEndType.hardstop,
-    countryGroupId: 'GBPCountries',
+    countryGroupId: 'UnitedStates',
     name: 'AU',
 };
 
@@ -75,6 +75,6 @@ TickerGoalExceeded.args = {
     end: 200000,
     countType: TickerCountType.money,
     endType: TickerEndType.hardstop,
-    countryGroupId: 'GBPCountries',
-    name: 'US',
+    countryGroupId: 'AUDCountries',
+    name: 'AU',
 };
