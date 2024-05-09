@@ -5,6 +5,18 @@ import {
     TickerEndType,
     TickerSettings,
 } from '@sdc/shared/dist/types/props/shared';
+import { ComponentMeta, DecoratorFn } from '@storybook/react';
+
+const TickerDecorator: DecoratorFn = (Story) => (
+    <div
+        style={{
+            width: '100%',
+            maxWidth: '500px',
+        }}
+    >
+        <Story />
+    </div>
+);
 
 export default {
     title: 'Components/Ticker',
@@ -17,19 +29,8 @@ export default {
             },
         },
     },
-    decorators: [
-        (Story: React.FC): JSX.Element => (
-            <div
-                style={{
-                    width: '100%',
-                    maxWidth: '500px',
-                }}
-            >
-                <Story />
-            </div>
-        ),
-    ],
-};
+    decorators: [TickerDecorator],
+} as ComponentMeta<typeof Ticker>;
 
 function Template(args: TickerSettings) {
     return <Ticker {...args} />;
