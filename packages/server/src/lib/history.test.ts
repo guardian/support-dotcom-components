@@ -4,7 +4,6 @@ import {
     getArticleViewCountForWeeks,
     getWeeksInWindow,
 } from './history';
-import { WeeklyArticleHistory } from '@sdc/shared/dist/types';
 
 describe('getArticleViewCountForWeeks', () => {
     // Pass the current date into the tested function so the checks can be made
