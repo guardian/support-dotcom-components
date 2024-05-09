@@ -71,7 +71,7 @@ export const tickerDataSchema = z.object({
     goal: z.number(),
 });
 
-// Corresponds to .json file names in S3
+// Corresponds to .json file names in S3 currently only campaigns in the US and AU have been run
 export type TickerName = 'US' | 'AU';
 
 const tickerNameSchema = z.enum(['US', 'AU']);

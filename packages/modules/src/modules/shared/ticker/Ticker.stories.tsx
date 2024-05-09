@@ -16,8 +16,19 @@ export default {
                 options: ['light', 'dark'],
             },
         },
-        onGoalReached: { action: 'goal reached' },
     },
+    decorators: [
+        (Story: React.FC): JSX.Element => (
+            <div
+                style={{
+                    width: '100%',
+                    maxWidth: '500px',
+                }}
+            >
+                <Story />
+            </div>
+        ),
+    ],
 };
 
 function Template(args: TickerSettings) {
@@ -43,19 +54,6 @@ PeopleTicker.args = {
 export const MoneyTicker = Template.bind({});
 
 MoneyTicker.args = {
-    tickerData: {
-        total: 20000,
-        goal: 200000,
-    },
-    end: 200000,
-    countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
-    countryGroupId: 'GBPCountries',
-    name: 'US',
-};
-
-export const TickerWithHeadline = Template.bind({});
-TickerWithHeadline.args = {
     tickerData: {
         total: 20000,
         goal: 200000,
