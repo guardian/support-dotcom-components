@@ -1,6 +1,5 @@
 import {
     getArticleViewCountByMultipleTagForWeeks,
-    getArticleViewCountByTagForWeeks,
     getArticleViewCountForWeeks,
     getWeeksInWindow,
 } from './history';
@@ -75,51 +74,15 @@ describe('getWeeksInWindow', () => {
     });
 });
 
-describe(' getArticleViewCountByTagForWeeks/getArticleViewCountByMultipleTagForWeeks ', () => {
+describe(' getArticleViewCountByMultipleTagForWeeks ', () => {
     const rightNow = new Date('2020-03-16T09:30:00');
 
-    it('should count views for one week properly', () => {
-        const articleHistoryWithOneWeekOneTag = [
-            {
-                week: 18330,
-                count: 7,
-                tags: {
-                    'science/science': 1,
-                    'environment/environment': 1,
-                    'tone/recipes': 1,
-                },
-            },
-        ];
+    it('should count views for one week properly with multiple tags', () => {
         const numWeeks = 1;
-        const got = getArticleViewCountForWeeks(
-            articleHistoryWithOneWeekOneTag,
-            numWeeks,
-            rightNow,
-        );
-        const acTag = getArticleViewCountByTagForWeeks(
-            'science/science',
-            articleHistoryWithOneWeekOneTag,
-            numWeeks,
-            rightNow,
-        );
-        const acTag1 = getArticleViewCountByMultipleTagForWeeks(
-            ['science/science'],
-            articleHistoryWithOneWeekOneTag,
-            numWeeks,
-            rightNow,
-        );
-
-        expect(got).toBe(7);
-        expect(acTag).toBe(1);
-        expect(acTag1).toBe(1);
-    });
-
-    it('should count views for one  weeks properly with multiple tags', () => {
-        const numWeeks = 3;
         const articleHistoryWithOneWeekMultipleTags = [
             {
                 week: 18330,
-                count: 7,
+                count: 53,
                 tags: {
                     'environment/environment': 15,
                     'environment/climate-crisis': 6,
@@ -134,6 +97,12 @@ describe(' getArticleViewCountByTagForWeeks/getArticleViewCountByMultipleTagForW
                 },
             },
         ];
+        const got = getArticleViewCountForWeeks(
+            articleHistoryWithOneWeekMultipleTags,
+            numWeeks,
+            rightNow,
+        );
+
         const acTag = getArticleViewCountByMultipleTagForWeeks(
             ['science/science'],
             articleHistoryWithOneWeekMultipleTags,
@@ -146,6 +115,7 @@ describe(' getArticleViewCountByTagForWeeks/getArticleViewCountByMultipleTagForW
             numWeeks,
             rightNow,
         );
+        expect(got).toBe(53);
         expect(acTag).toBe(1);
         expect(acMultipleTag).toBe(19);
     });

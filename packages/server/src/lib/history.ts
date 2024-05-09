@@ -38,29 +38,15 @@ export const getArticleViewCountForWeeks = (
     );
 };
 
-export const getArticleViewCountByTagForWeeks = (
-    tagId: string,
-    history: WeeklyArticleHistory = [],
-    weeks = 52,
-    rightNow: Date = new Date(),
-): number => {
-    const weeksInWindow = getWeeksInWindow(history, weeks, rightNow);
-
-    return weeksInWindow.reduce((accumulator: number, articleLog: WeeklyArticleLog) => {
-        const countForTag = articleLog.tags?.[tagId] ?? 0;
-        return accumulator + countForTag;
-    }, 0);
-};
-
 export const getArticleViewCountByMultipleTagForWeeks = (
-    tagId: string[] = [],
+    tagIds: string[] = [],
     history: WeeklyArticleHistory = [],
     weeks = 52,
     rightNow: Date = new Date(),
 ): number => {
     const weeksInWindow = getWeeksInWindow(history, weeks, rightNow);
 
-    const tagCount = tagId.map((tagId) =>
+    const tagCount = tagIds.map((tagId) =>
         weeksInWindow.reduce((accumulator: number, articleLog: WeeklyArticleLog) => {
             const countForTag = articleLog.tags?.[tagId] ?? 0;
             return accumulator + countForTag;
@@ -73,13 +59,13 @@ export const getArticleViewCountByMultipleTagForWeeks = (
 export const getArticleViewCounts = (
     history: WeeklyArticleHistory = [],
     periodInWeeks = 52,
-    tagId: string[] = [],
+    tagIds: string[] = [],
 ): ArticleCounts => {
     const for52Weeks = getArticleViewCountForWeeks(history, 52);
 
     const getCountForTargetingWeeks = (): number => {
-        if (tagId) {
-            return getArticleViewCountByMultipleTagForWeeks(tagId, history, periodInWeeks);
+        if (tagIds) {
+            return getArticleViewCountByMultipleTagForWeeks(tagIds, history, periodInWeeks);
         }
         return periodInWeeks === 52
             ? for52Weeks
@@ -102,10 +88,10 @@ export const historyWithinArticlesViewedSettings = (
         return true;
     }
 
-    const { minViews, maxViews, periodInWeeks, tagId } = articlesViewedSettings;
+    const { minViews, maxViews, periodInWeeks, tagIds } = articlesViewedSettings;
 
-    const viewCountForWeeks = tagId
-        ? getArticleViewCountByMultipleTagForWeeks(tagId, history, periodInWeeks, now)
+    const viewCountForWeeks = tagIds
+        ? getArticleViewCountByMultipleTagForWeeks(tagIds, history, periodInWeeks, now)
         : getArticleViewCountForWeeks(history, periodInWeeks, now);
 
     const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
