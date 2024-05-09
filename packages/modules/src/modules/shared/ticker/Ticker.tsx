@@ -45,12 +45,6 @@ function TickerLabel(props: TickerLabelProps) {
                         {localiseAmount(props.total, props.countryGroupId)} supporters
                     </span>{' '}
                     of {localiseAmount(props.goal, props.countryGroupId)} goal
-                    {props.total >= props.goal && (
-                        <span>
-                            <br />
-                            Goal reached
-                        </span>
-                    )}
                 </p>
             </div>
         );
@@ -79,7 +73,11 @@ export function Ticker(props: TickerSettings): React.JSX.Element {
 
     return (
         <div>
-            <h2 css={tickerHeadline}>{props.headline}</h2>
+            {props.tickerData.total >= props.tickerData.goal ? (
+                <h2 css={tickerHeadline}>We&rsquo;ve met our goal but you can still contribute</h2>
+            ) : (
+                <h2 css={tickerHeadline}>{props.headline}</h2>
+            )}
             <div css={tickerProgressBar}>
                 <div css={tickerProgressBarBackground}>
                     <div

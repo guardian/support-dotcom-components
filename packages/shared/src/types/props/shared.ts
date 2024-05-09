@@ -48,7 +48,7 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
 ]);
 
 export enum TickerEndType {
-    unlimited = 'unlimited',
+    unlimited = 'unlimited', //deprecated as the progress bar will stop when the goal is met as per the design
     hardstop = 'hardstop',
 }
 
