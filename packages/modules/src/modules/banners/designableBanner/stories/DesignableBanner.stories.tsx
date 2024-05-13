@@ -358,6 +358,36 @@ DesignFourHeaderImageAndCopy.args = {
     choiceCardAmounts: regularChoiceCardAmounts,
 };
 
+export const DesignThreeAnimatedHeaderImage = DefaultTemplate.bind({});
+DesignThreeAnimatedHeaderImage.args = {
+    ...props,
+    content: contentNoHeading,
+    mobileContent: mobileContentNoHeading,
+    numArticles: 50,
+    tickerSettings,
+    design: {
+        ...design,
+        headerImage: {
+            mobileUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo.svg',
+            tabletUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo.svg',
+            desktopUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo.svg',
+            altText: 'Guardian: News provider of the year',
+        },
+        visual: {
+            kind: 'ChoiceCards',
+            buttonColour: stringToHexColour('E5E5E5'),
+        },
+        colours: {
+            ...design.colours,
+            basic: {
+                ...design.colours.basic,
+                background: stringToHexColour('FFFFFF'),
+            },
+        },
+    },
+    choiceCardAmounts: regularChoiceCardAmounts,
+};
+
 export const NoChoiceCardOrImage = DefaultTemplate.bind({});
 NoChoiceCardOrImage.args = {
     ...props,
