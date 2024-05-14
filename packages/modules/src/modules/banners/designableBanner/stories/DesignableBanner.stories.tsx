@@ -368,9 +368,9 @@ DesignThreeAnimatedHeaderImage.args = {
     design: {
         ...design,
         headerImage: {
-            mobileUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo.svg',
-            tabletUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo.svg',
-            desktopUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo.svg',
+            mobileUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo2.svg',
+            tabletUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo2.svg',
+            desktopUrl: 'https://uploads.guim.co.uk/2024/05/13/GuardianLogo2.svg',
             altText: 'Guardian: News provider of the year',
         },
         visual: {
