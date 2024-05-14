@@ -37,11 +37,12 @@ const styles = {
         position: relative;
     `,
     progressBarStyles: (backgroundColour: string) => css`
-        position: relative;
+        width: calc(100%);
+        height: ${space[3]}px;
         overflow: hidden;
-        width: 100%;
-        height: ${progressBarHeight}px;
-        background: ${backgroundColour};
+        background-color: ${backgroundColour};
+        position: absolute;
+        border-radius: ${space[2]}px;
     `,
     progressBarTransform: (end: number, runningTotal: number, total: number): string => {
         const haveStartedAnimating = runningTotal > 0;
@@ -54,26 +55,19 @@ const styles = {
 
         return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
     },
-    filledProgressStyles: (
-        end: number,
-        runningTotal: number,
-        total: number,
-        colour: string,
-        isGoalReached: boolean,
-    ): SerializedStyles => css`
-        height: ${progressBarHeight}px;
-        width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
-        transform: ${styles.progressBarTransform(end, runningTotal, total)};
-        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+    filledProgressStyles: (colour: string): SerializedStyles => css`
         background-color: ${colour};
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+        border-radius: ${space[2]}px;
     `,
     soFarContainerStyles: css`
         padding-right: ${space[5]}px;
-    `,
-    goalContainerStyles: css`
-        text-align: end;
-        margin-right: ${tickerFillOffset}%;
-        transform: translateX(50%);
     `,
     goalMarkerStyles: (colour: string): SerializedStyles => css`
         border-right: 2px solid ${colour};
@@ -84,7 +78,7 @@ const styles = {
     `,
 };
 
-type DesignableBannerTickerProps = {
+export type DesignableBannerTickerProps = {
     tickerSettings: TickerSettings;
     stylingSettings: TickerStylingSettings;
 };
@@ -135,7 +129,7 @@ const DesignableBannerTicker: ReactComponent<DesignableBannerTickerProps> = ({
                     </div>
                 </div>
 
-                <div css={styles.goalContainerStyles}>
+                <div>
                     <div css={styles.countLabelStyles(stylingSettings.textColour)}>
                         {currencySymbol}
                         {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}{' '}
@@ -146,15 +140,7 @@ const DesignableBannerTicker: ReactComponent<DesignableBannerTickerProps> = ({
 
             <div css={styles.progressBarContainerStyles}>
                 <div css={styles.progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
-                    <div
-                        css={styles.filledProgressStyles(
-                            goal,
-                            runningTotal,
-                            total,
-                            stylingSettings.filledProgressColour,
-                            isGoalReached,
-                        )}
-                    />
+                    <div css={styles.filledProgressStyles(stylingSettings.filledProgressColour)} />
                 </div>
                 <div css={styles.goalMarkerStyles(stylingSettings.goalMarkerColour)} />
             </div>
