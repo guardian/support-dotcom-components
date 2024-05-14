@@ -1,61 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
-import { textSans, from, space } from '@guardian/source-foundations';
-import { TickerSettings } from '@sdc/shared/types';
-import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import useTicker from '../../../../hooks/useTicker';
+import React from 'react';
+import { css } from '@emotion/react';
+import { textSans, space } from '@guardian/source-foundations';
+import { TickerCountType, TickerSettings } from '@sdc/shared/types';
 import { TickerStylingSettings } from '../settings';
 import { templateSpacing } from '../styles/templateStyles';
-import type { ReactComponent } from '../../../../types';
-
-const progressBarHeight = 12;
-const tickerFillOffset = 15;
-const overFilledTickerOffset = 10;
 
 const styles = {
-    containerStyles: css`
+    tickerProgressBar: css`
         position: relative;
-        ${templateSpacing.bannerTicker}
+        height: ${space[3]}px;
     `,
-    tickerLabelsContainer: css`
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        margin-bottom: ${space[1]}px;
-    `,
-    countLabelStyles: (colour: string) => css`
-        ${textSans.xsmall({ fontWeight: 'bold' })};
-        font-size: 13px;
-        color: ${colour};
-        line-height: 1.3;
 
-        ${from.desktop} {
-            font-size: 17px;
-        }
-    `,
-    progressBarContainerStyles: css`
-        position: relative;
-    `,
-    progressBarStyles: (backgroundColour: string) => css`
+    tickerProgressBarBackground: (colour: string) => css`
         width: calc(100%);
         height: ${space[3]}px;
         overflow: hidden;
-        background-color: ${backgroundColour};
+        background-color: ${colour};
         position: absolute;
         border-radius: ${space[2]}px;
     `,
-    progressBarTransform: (end: number, runningTotal: number, total: number): string => {
-        const haveStartedAnimating = runningTotal > 0;
 
-        if (!haveStartedAnimating) {
-            return 'translateX(-100%)';
-        }
-
-        const percentage = (total / end) * 100 - 100;
-
-        return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
-    },
-    filledProgressStyles: (colour: string): SerializedStyles => css`
+    tickerProgressBarFill: (colour: string) => css`
         background-color: ${colour};
         position: absolute;
         top: 0;
@@ -66,15 +31,29 @@ const styles = {
         transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
         border-radius: ${space[2]}px;
     `,
-    soFarContainerStyles: css`
-        padding-right: ${space[5]}px;
+
+    tickerHeadline: () => css`
+        ${textSans.medium({ fontWeight: 'bold' })}
+        margin-bottom: ${space[2]}px;
     `,
-    goalMarkerStyles: (colour: string): SerializedStyles => css`
-        border-right: 2px solid ${colour};
-        height: calc(100% + 6px);
-        position: absolute;
-        top: -3px;
-        right: ${tickerFillOffset}%;
+
+    tickerLabelContainer: () => css`
+        position: relative;
+        display: flex;
+        margin-top: ${space[1]}px;
+    `,
+
+    tickerLabel: () => css`
+        ${textSans.medium()}
+    `,
+
+    tickerLabelTotal: (colour: string) => css`
+        font-weight: 700;
+        color: ${colour};
+    `,
+    containerStyles: () => css`
+        position: relative;
+        ${templateSpacing.bannerTicker}
     `,
 };
 
@@ -83,69 +62,83 @@ export type DesignableBannerTickerProps = {
     stylingSettings: TickerStylingSettings;
 };
 
-const DesignableBannerTicker: ReactComponent<DesignableBannerTickerProps> = ({
-    tickerSettings,
-    stylingSettings,
-}: DesignableBannerTickerProps) => {
-    const [readyToAnimate, setReadyToAnimate] = useState(false);
-
-    const debounce = true;
-    const [hasBeenSeen, setNode] = useHasBeenSeen(
-        {
-            rootMargin: '-18px',
-            threshold: 0,
-        },
-        debounce,
-    ) as HasBeenSeen;
-
-    useEffect(() => {
-        if (hasBeenSeen) {
-            setTimeout(() => setReadyToAnimate(true), 500);
-        }
-    }, [hasBeenSeen]);
-
-    const total = tickerSettings.tickerData?.total || 1;
-    const goal = tickerSettings.tickerData?.goal || 1;
-    const isGoalReached = total >= goal;
-    const runningTotal = useTicker(total, readyToAnimate);
-
-    const currencySymbol =
-        tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
-
-    return (
-        <div ref={setNode} css={styles.containerStyles}>
-            <div css={styles.tickerLabelsContainer}>
-                <div css={styles.soFarContainerStyles}>
-                    <div css={styles.countLabelStyles(stylingSettings.textColour)}>
-                        {!isGoalReached && currencySymbol}
-                        {isGoalReached
-                            ? tickerSettings.copy.goalReachedPrimary
-                            : runningTotal.toLocaleString()}{' '}
-                        <span>
-                            {isGoalReached
-                                ? tickerSettings.copy.goalReachedSecondary
-                                : tickerSettings.copy.countLabel}
-                        </span>
-                    </div>
-                </div>
-
-                <div>
-                    <div css={styles.countLabelStyles(stylingSettings.textColour)}>
-                        {currencySymbol}
-                        {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}{' '}
-                        <span>{isGoalReached ? tickerSettings.copy.countLabel : 'goal'}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div css={styles.progressBarContainerStyles}>
-                <div css={styles.progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
-                    <div css={styles.filledProgressStyles(stylingSettings.filledProgressColour)} />
-                </div>
-                <div css={styles.goalMarkerStyles(stylingSettings.goalMarkerColour)} />
-            </div>
-        </div>
-    );
+type TickerLabelProps = {
+    total: number;
+    goal: number;
+    countType: TickerCountType;
+    currencySymbol: string;
 };
 
-export default DesignableBannerTicker;
+export function DesignableBannerTicker(props: DesignableBannerTickerProps): React.JSX.Element {
+    function progressBarTranslation(total: number, end: number) {
+        const percentage = (total / end) * 100 - 100;
+        return percentage > 0 ? 0 : percentage;
+    }
+
+    function TickerLabel(props: TickerLabelProps, style: TickerStylingSettings) {
+        if (props.countType === TickerCountType.people) {
+            return (
+                <div css={styles.tickerLabelContainer}>
+                    <p css={styles.tickerLabel}>
+                        <span css={styles.tickerLabelTotal(style.textColour)}>
+                            {props.total.toLocaleString()} supporters
+                        </span>{' '}
+                        of {props.goal.toLocaleString()} goal
+                    </p>
+                </div>
+            );
+        }
+
+        const currencySymbol = props.countType === 'money' ? props.currencySymbol : '';
+        return (
+            <div css={styles.tickerLabelContainer}>
+                <p css={styles.tickerLabel}>
+                    <span css={styles.tickerLabelTotal(style.textColour)}>
+                        {currencySymbol}
+                        {props.total.toLocaleString()}
+                    </span>{' '}
+                    of {currencySymbol}
+                    {props.goal.toLocaleString()} goal
+                </p>
+            </div>
+        );
+    }
+    const progressBarTransform = `translate3d(${progressBarTranslation(
+        props.tickerSettings.tickerData.total,
+        props.tickerSettings.tickerData.goal,
+    )}%, 0, 0)`;
+
+    return (
+        <div>
+            {props.tickerSettings.tickerData.total >= props.tickerSettings.tickerData.goal ? (
+                <h2 css={styles.tickerHeadline}>
+                    We&rsquo;ve met our goal but you can still contribute
+                </h2>
+            ) : (
+                <h2 css={styles.tickerHeadline}>{props.tickerSettings.tickerData.total}</h2>
+            )}
+            <div css={styles.tickerProgressBar}>
+                <div
+                    css={styles.tickerProgressBarBackground(
+                        props.stylingSettings.progressBarBackgroundColour,
+                    )}
+                >
+                    <div
+                        css={styles.tickerProgressBarFill(
+                            props.stylingSettings.filledProgressColour,
+                        )}
+                        style={{
+                            transform: progressBarTransform,
+                        }}
+                    />
+                </div>
+            </div>
+            <TickerLabel
+                countType={props.tickerSettings.countType}
+                total={props.tickerSettings.tickerData.total}
+                goal={props.tickerSettings.tickerData.goal}
+                currencySymbol={props.tickerSettings.currencySymbol}
+            />
+        </div>
+    );
+}

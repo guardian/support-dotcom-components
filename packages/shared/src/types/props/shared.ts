@@ -93,7 +93,7 @@ export interface TickerSettings {
     currencySymbol: string;
     copy: TickerCopy;
     name: TickerName;
-    tickerData?: TickerData;
+    tickerData: TickerData;
 }
 
 export const tickerSettingsSchema = z.object({
@@ -102,7 +102,7 @@ export const tickerSettingsSchema = z.object({
     currencySymbol: z.string(),
     copy: tickerCopySchema,
     name: ticketNameSchema,
-    tickerData: tickerDataSchema.optional(),
+    tickerData: tickerDataSchema,
 });
 
 export const ophanProductSchema = z.enum([

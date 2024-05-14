@@ -26,7 +26,7 @@ import {
     Image,
 } from '@sdc/shared/types';
 import { DesignableBannerReminder } from './components/DesignableBannerReminder';
-import DesignableBannerTicker from './components/DesignableBannerTicker';
+import { DesignableBannerTicker } from './components/DesignableBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
@@ -189,7 +189,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
             textColour: hexColourToString(ticker.text),
             filledProgressColour: hexColourToString(ticker.filledProgress),
             progressBarBackgroundColour: hexColourToString(ticker.progressBarBackground),
-            goalMarkerColour: hexColourToString(ticker.goalMarker),
         },
     };
 
@@ -252,8 +251,12 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
 
                     {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
                         <DesignableBannerTicker
-                            tickerSettings={tickerSettings}
-                            stylingSettings={templateSettings.tickerStylingSettings}
+                            copy={tickerSettings.copy}
+                            tickerData={tickerSettings.tickerData}
+                            countType={tickerSettings.countType}
+                            currencySymbol={tickerSettings.currencySymbol}
+                            endType={tickerSettings.endType}
+                            name={tickerSettings.name}
                         />
                     )}
 
