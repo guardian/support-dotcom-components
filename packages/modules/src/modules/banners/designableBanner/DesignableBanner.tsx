@@ -251,12 +251,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
 
                     {tickerSettings?.tickerData && templateSettings.tickerStylingSettings && (
                         <DesignableBannerTicker
-                            copy={tickerSettings.copy}
-                            tickerData={tickerSettings.tickerData}
-                            countType={tickerSettings.countType}
-                            currencySymbol={tickerSettings.currencySymbol}
-                            endType={tickerSettings.endType}
-                            name={tickerSettings.name}
+                            tickerSettings={tickerSettings}
+                            stylingSettings={templateSettings.tickerStylingSettings}
                         />
                     )}
 
