@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { textSans, space } from '@guardian/source-foundations';
-import { TickerCountType, TickerSettings } from '@sdc/shared/types';
+import { TickerSettings } from '@sdc/shared/types';
 import { TickerStylingSettings } from '../settings';
 import { templateSpacing } from '../styles/templateStyles';
 
@@ -62,60 +62,25 @@ export type DesignableBannerTickerProps = {
     stylingSettings: TickerStylingSettings;
 };
 
-type TickerLabelProps = {
-    total: number;
-    goal: number;
-    countType: TickerCountType;
-    currencySymbol: string;
-};
-
 export function DesignableBannerTicker(props: DesignableBannerTickerProps): React.JSX.Element {
-    function progressBarTranslation(total: number, end: number) {
-        const percentage = (total / end) * 100 - 100;
+    function progressBarTranslation(total: number, goal: number) {
+        const percentage = (total / goal) * 100 - 100;
         return percentage > 0 ? 0 : percentage;
-    }
-
-    function TickerLabel(props: TickerLabelProps, style: TickerStylingSettings) {
-        if (props.countType === TickerCountType.people) {
-            return (
-                <div css={styles.tickerLabelContainer}>
-                    <p css={styles.tickerLabel}>
-                        <span css={styles.tickerLabelTotal(style.textColour)}>
-                            {props.total.toLocaleString()} supporters
-                        </span>{' '}
-                        of {props.goal.toLocaleString()} goal
-                    </p>
-                </div>
-            );
-        }
-
-        const currencySymbol = props.countType === 'money' ? props.currencySymbol : '';
-        return (
-            <div css={styles.tickerLabelContainer}>
-                <p css={styles.tickerLabel}>
-                    <span css={styles.tickerLabelTotal(style.textColour)}>
-                        {currencySymbol}
-                        {props.total.toLocaleString()}
-                    </span>{' '}
-                    of {currencySymbol}
-                    {props.goal.toLocaleString()} goal
-                </p>
-            </div>
-        );
     }
     const progressBarTransform = `translate3d(${progressBarTranslation(
         props.tickerSettings.tickerData.total,
         props.tickerSettings.tickerData.goal,
     )}%, 0, 0)`;
 
+    const currencySymbol =
+        props.tickerSettings.countType === 'money' ? props.tickerSettings.currencySymbol : '';
+
     return (
         <div>
             {props.tickerSettings.tickerData.total >= props.tickerSettings.tickerData.goal ? (
-                <h2 css={styles.tickerHeadline}>
-                    We&rsquo;ve met our goal but you can still contribute
-                </h2>
+                <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.goalReachedPrimary}</h2>
             ) : (
-                <h2 css={styles.tickerHeadline}>{props.tickerSettings.tickerData.total}</h2>
+                <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.countLabel}</h2>
             )}
             <div css={styles.tickerProgressBar}>
                 <div
@@ -133,12 +98,27 @@ export function DesignableBannerTicker(props: DesignableBannerTickerProps): Reac
                     />
                 </div>
             </div>
-            <TickerLabel
-                countType={props.tickerSettings.countType}
-                total={props.tickerSettings.tickerData.total}
-                goal={props.tickerSettings.tickerData.goal}
-                currencySymbol={props.tickerSettings.currencySymbol}
-            />
+            {props.tickerSettings.countType === 'people' ? (
+                <div css={styles.tickerLabelContainer}>
+                    <p css={styles.tickerLabel}>
+                        <span css={styles.tickerLabelTotal(props.stylingSettings.textColour)}>
+                            {props.tickerSettings.tickerData.total.toLocaleString()} supporters
+                        </span>{' '}
+                        of {props.tickerSettings.tickerData.goal.toLocaleString()} goal
+                    </p>
+                </div>
+            ) : (
+                <div css={styles.tickerLabelContainer}>
+                    <p css={styles.tickerLabel}>
+                        <span css={styles.tickerLabelTotal(props.stylingSettings.textColour)}>
+                            {currencySymbol}
+                            {props.tickerSettings.tickerData.total.toLocaleString()}
+                        </span>{' '}
+                        of {currencySymbol}
+                        {props.tickerSettings.tickerData.goal.toLocaleString()} goal
+                    </p>
+                </div>
+            )}
         </div>
     );
 }
