@@ -437,7 +437,6 @@ describe('withinArticleViewedSettings filter', () => {
                 minViews: 5,
                 maxViews: 20,
                 periodInWeeks: 52,
-                tagIds: [],
             },
         };
         const history = [{ week: 18330, count: 21 }];
@@ -475,7 +474,7 @@ describe('withinArticleViewedSettings filter by tag', () => {
     const articlesViewedSettings: ArticlesViewedSettings = {
         minViews: 5,
         periodInWeeks: 52,
-        tagIds: ['environment/climate-change'],
+        tagId: 'environment/climate-change',
     };
 
     it('should pass when no articlesViewedByTagSettings', () => {

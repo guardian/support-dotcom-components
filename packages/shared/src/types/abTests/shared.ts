@@ -78,14 +78,14 @@ export const articlesViewedSettingsSchema = z.object({
     minViews: z.number(),
     maxViews: z.number().optional(),
     periodInWeeks: z.number(),
-    tagIds: z.array(z.string()).optional(),
+    tagId: z.string().optional(),
 });
 
 export interface ArticlesViewedSettings {
     minViews: number;
     maxViews?: number;
     periodInWeeks: number;
-    tagIds?: string[];
+    tagId?: string;
 }
 
 /**
