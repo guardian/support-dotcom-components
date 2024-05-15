@@ -363,7 +363,7 @@ WithTicker.args = {
         endType: TickerEndType.hardstop,
         currencySymbol: '',
         copy: {
-            countLabel: 'contributions in May',
+            countLabel: 'Contributions in May so far',
             goalReachedPrimary: "We've met our goal - thank you!",
             goalReachedSecondary: '',
         },

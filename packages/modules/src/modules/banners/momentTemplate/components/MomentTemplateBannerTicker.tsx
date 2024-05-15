@@ -1,98 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { css, SerializedStyles } from '@emotion/react';
-import { textSans, from, space } from '@guardian/source-foundations';
+import React, { useEffect, useState } from 'react';
+import { css } from '@emotion/react';
+import { textSans, space } from '@guardian/source-foundations';
 import { TickerSettings } from '@sdc/shared/types';
-import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
-import useTicker from '../../../../hooks/useTicker';
 import { TickerStylingSettings } from '../settings';
 import { templateSpacing } from '../styles/templateStyles';
-import type { ReactComponent } from '../../../../types';
-
-const progressBarHeight = 12;
-const tickerFillOffset = 15;
-const overFilledTickerOffset = 10;
+import useTicker from '../../../../hooks/useTicker';
+import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 
 const styles = {
-    containerStyles: css`
+    tickerProgressBar: css`
         position: relative;
-        ${templateSpacing.bannerTicker}
+        height: ${space[3]}px;
     `,
-    tickerLabelsContainer: css`
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-        margin-bottom: ${space[1]}px;
-    `,
-    countLabelStyles: (colour: string) => css`
-        ${textSans.xsmall({ fontWeight: 'bold' })};
-        font-size: 13px;
-        color: ${colour};
-        line-height: 1.3;
 
-        ${from.desktop} {
-            font-size: 17px;
-        }
-    `,
-    progressBarContainerStyles: css`
-        position: relative;
-    `,
-    progressBarStyles: (backgroundColour: string) => css`
-        position: relative;
+    tickerProgressBarBackground: (colour: string) => css`
+        width: calc(100%);
+        height: ${space[3]}px;
         overflow: hidden;
-        width: 100%;
-        height: ${progressBarHeight}px;
-        background: ${backgroundColour};
+        background-color: ${colour};
+        position: absolute;
+        border-radius: ${space[2]}px;
     `,
-    progressBarTransform: (end: number, runningTotal: number, total: number): string => {
-        const haveStartedAnimating = runningTotal > 0;
 
+    progressBarTransform: (goal: number, total: number, runningTotal: number): string => {
+        const haveStartedAnimating = runningTotal > 0;
         if (!haveStartedAnimating) {
             return 'translateX(-100%)';
         }
-
-        const percentage = (total / end) * 100 - 100;
-
+        const percentage = (total / goal) * 100 - 100;
         return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
     },
-    filledProgressStyles: (
-        end: number,
-        runningTotal: number,
-        total: number,
+
+    tickerProgressBarFill: (
         colour: string,
-        isGoalReached: boolean,
-    ): SerializedStyles => css`
-        height: ${progressBarHeight}px;
-        width: calc(100% - ${isGoalReached ? overFilledTickerOffset : tickerFillOffset}%);
-        transform: ${styles.progressBarTransform(end, runningTotal, total)};
-        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+        goal: number,
+        total: number,
+        runningTotal: number,
+    ) => css`
         background-color: ${colour};
-    `,
-    soFarContainerStyles: css`
-        padding-right: ${space[5]}px;
-    `,
-    goalContainerStyles: css`
-        text-align: end;
-        margin-right: ${tickerFillOffset}%;
-        transform: translateX(50%);
-    `,
-    goalMarkerStyles: (colour: string): SerializedStyles => css`
-        border-right: 2px solid ${colour};
-        height: calc(100% + 6px);
         position: absolute;
-        top: -3px;
-        right: ${tickerFillOffset}%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: ${styles.progressBarTransform(goal, total, runningTotal)};
+        transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
+        border-radius: ${space[2]}px;
+    `,
+
+    tickerHeadline: () => css`
+        ${textSans.medium({ fontWeight: 'bold' })}
+        margin-bottom: ${space[2]}px;
+    `,
+
+    tickerLabelContainer: () => css`
+        position: relative;
+        display: flex;
+        margin-top: ${space[1]}px;
+    `,
+
+    tickerLabel: () => css`
+        ${textSans.medium()}
+    `,
+
+    tickerLabelTotal: (colour: string) => css`
+        font-weight: 700;
+        color: ${colour};
+    `,
+    containerStyles: () => css`
+        position: relative;
+        ${templateSpacing.bannerTicker}
     `,
 };
 
-type MomentTemplateBannerTickerProps = {
+export type MomentTemplateBannerTicker = {
     tickerSettings: TickerSettings;
     stylingSettings: TickerStylingSettings;
 };
 
-const MomentTemplateBannerTicker: ReactComponent<MomentTemplateBannerTickerProps> = ({
-    tickerSettings,
-    stylingSettings,
-}: MomentTemplateBannerTickerProps) => {
+export function MomentTemplateBannerTicker(props: MomentTemplateBannerTicker): React.JSX.Element {
     const [readyToAnimate, setReadyToAnimate] = useState(false);
 
     const debounce = true;
@@ -110,56 +96,56 @@ const MomentTemplateBannerTicker: ReactComponent<MomentTemplateBannerTickerProps
         }
     }, [hasBeenSeen]);
 
-    const total = tickerSettings.tickerData?.total || 1;
-    const goal = tickerSettings.tickerData?.goal || 1;
-    const isGoalReached = total >= goal;
-    const runningTotal = useTicker(total, readyToAnimate);
-
     const currencySymbol =
-        tickerSettings.countType === 'money' ? tickerSettings.currencySymbol : '';
+        props.tickerSettings.countType === 'money' ? props.tickerSettings.currencySymbol : '';
+    const isGoalReached =
+        props.tickerSettings.tickerData.total >= props.tickerSettings.tickerData.goal;
+    const runningTotal = useTicker(props.tickerSettings.tickerData.total, readyToAnimate);
 
     return (
-        <div ref={setNode} css={styles.containerStyles}>
-            <div css={styles.tickerLabelsContainer}>
-                <div css={styles.soFarContainerStyles}>
-                    <div css={styles.countLabelStyles(stylingSettings.textColour)}>
-                        {!isGoalReached && currencySymbol}
-                        {isGoalReached
-                            ? tickerSettings.copy.goalReachedPrimary
-                            : runningTotal.toLocaleString()}{' '}
-                        <span>
-                            {isGoalReached
-                                ? tickerSettings.copy.goalReachedSecondary
-                                : tickerSettings.copy.countLabel}
-                        </span>
-                    </div>
-                </div>
-
-                <div css={styles.goalContainerStyles}>
-                    <div css={styles.countLabelStyles(stylingSettings.textColour)}>
-                        {currencySymbol}
-                        {isGoalReached ? runningTotal.toLocaleString() : goal.toLocaleString()}{' '}
-                        <span>{isGoalReached ? tickerSettings.copy.countLabel : 'goal'}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div css={styles.progressBarContainerStyles}>
-                <div css={styles.progressBarStyles(stylingSettings.progressBarBackgroundColour)}>
+        <div ref={setNode}>
+            {isGoalReached ? (
+                <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.goalReachedPrimary}</h2>
+            ) : (
+                <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.countLabel}</h2>
+            )}
+            <div css={styles.tickerProgressBar}>
+                <div
+                    css={styles.tickerProgressBarBackground(
+                        props.stylingSettings.progressBarBackgroundColour,
+                    )}
+                >
                     <div
-                        css={styles.filledProgressStyles(
-                            goal,
+                        css={styles.tickerProgressBarFill(
+                            props.stylingSettings.filledProgressColour,
+                            props.tickerSettings.tickerData.goal,
+                            props.tickerSettings.tickerData.total,
                             runningTotal,
-                            total,
-                            stylingSettings.filledProgressColour,
-                            isGoalReached,
                         )}
                     />
                 </div>
-                <div css={styles.goalMarkerStyles(stylingSettings.goalMarkerColour)} />
             </div>
+            {props.tickerSettings.countType === 'people' ? (
+                <div css={styles.tickerLabelContainer}>
+                    <p css={styles.tickerLabel}>
+                        <span css={styles.tickerLabelTotal(props.stylingSettings.textColour)}>
+                            {props.tickerSettings.tickerData.total.toLocaleString()} supporters
+                        </span>{' '}
+                        of {props.tickerSettings.tickerData.goal.toLocaleString()} goal
+                    </p>
+                </div>
+            ) : (
+                <div css={styles.tickerLabelContainer}>
+                    <p css={styles.tickerLabel}>
+                        <span css={styles.tickerLabelTotal(props.stylingSettings.textColour)}>
+                            {currencySymbol}
+                            {props.tickerSettings.tickerData.total.toLocaleString()}
+                        </span>{' '}
+                        of {currencySymbol}
+                        {props.tickerSettings.tickerData.goal.toLocaleString()} goal
+                    </p>
+                </div>
+            )}
         </div>
     );
-};
-
-export default MomentTemplateBannerTicker;
+}
