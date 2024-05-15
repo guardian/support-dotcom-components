@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { textSans, space } from '@guardian/source-foundations';
 import { TickerSettings } from '@sdc/shared/types';
-import { TickerStylingSettings } from '../settings';
 import { templateSpacing } from '../styles/templateStyles';
 import useTicker from '../../../../hooks/useTicker';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
+import { TickerStylingSettings } from '../../../shared/settings';
 
 const styles = {
     tickerProgressBar: css`
