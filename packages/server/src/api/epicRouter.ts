@@ -150,7 +150,7 @@ export const buildEpicRouter = (
             articleCounts: getArticleViewCounts(
                 targeting.weeklyArticleHistory,
                 test.articlesViewedSettings?.periodInWeeks,
-                test.articlesViewedSettings?.tagId,
+                test.articlesViewedSettings?.tagIds,
             ),
             countryCode: targeting.countryCode,
         };
