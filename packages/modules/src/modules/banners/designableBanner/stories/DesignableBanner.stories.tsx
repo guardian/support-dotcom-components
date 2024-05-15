@@ -87,7 +87,7 @@ const tickerSettings: TickerSettings = {
     endType: TickerEndType.hardstop,
     currencySymbol: '',
     copy: {
-        countLabel: 'Contributions in May - help us meet our goal',
+        countLabel: 'Contributions in May',
         goalReachedPrimary: "We've met our goal - thank you!",
         goalReachedSecondary: '',
     },

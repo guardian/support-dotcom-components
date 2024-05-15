@@ -60,7 +60,7 @@ PeopleTickerGoalMet.args = {
         name: 'US',
         copy: {
             countLabel: 'Help us reach our goal',
-            goalReachedPrimary: 'Weve met our goal but you can still contribute',
+            goalReachedPrimary: "We've met our goal but you can still contribute",
             goalReachedSecondary: '',
         },
     },

@@ -103,7 +103,7 @@ export function DesignableBannerTicker(props: DesignableBannerTickerProps): Reac
     const runningTotal = useTicker(props.tickerSettings.tickerData.total, readyToAnimate);
 
     return (
-        <div ref={setNode}>
+        <div ref={setNode} css={styles.containerStyles}>
             {isGoalReached ? (
                 <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.goalReachedPrimary}</h2>
             ) : (
