@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import { textSans, space } from '@guardian/source-foundations';
 import { TickerSettings } from '@sdc/shared/types';
 import { TickerStylingSettings } from '../settings';
 import { templateSpacing } from '../styles/templateStyles';
+import useTicker from '../../../../hooks/useTicker';
+import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 
 const styles = {
     tickerProgressBar: css`
@@ -20,14 +22,28 @@ const styles = {
         border-radius: ${space[2]}px;
     `,
 
-    tickerProgressBarFill: (colour: string) => css`
+    progressBarTransform: (goal: number, total: number, runningTotal: number): string => {
+        const haveStartedAnimating = runningTotal > 0;
+        if (!haveStartedAnimating) {
+            return 'translateX(-100%)';
+        }
+        const percentage = (total / goal) * 100 - 100;
+        return `translate3d(${percentage >= 0 ? 0 : percentage}%, 0, 0)`;
+    },
+
+    tickerProgressBarFill: (
+        colour: string,
+        goal: number,
+        total: number,
+        runningTotal: number,
+    ) => css`
         background-color: ${colour};
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        transform: translateX(-100%);
+        transform: ${styles.progressBarTransform(goal, total, runningTotal)};
         transition: transform 3s cubic-bezier(0.25, 0.55, 0.2, 0.85);
         border-radius: ${space[2]}px;
     `,
@@ -63,21 +79,32 @@ export type DesignableBannerTickerProps = {
 };
 
 export function DesignableBannerTicker(props: DesignableBannerTickerProps): React.JSX.Element {
-    function progressBarTranslation(total: number, goal: number) {
-        const percentage = (total / goal) * 100 - 100;
-        return percentage > 0 ? 0 : percentage;
-    }
-    const progressBarTransform = `translate3d(${progressBarTranslation(
-        props.tickerSettings.tickerData.total,
-        props.tickerSettings.tickerData.goal,
-    )}%, 0, 0)`;
+    const [readyToAnimate, setReadyToAnimate] = useState(false);
+
+    const debounce = true;
+    const [hasBeenSeen, setNode] = useHasBeenSeen(
+        {
+            rootMargin: '-18px',
+            threshold: 0,
+        },
+        debounce,
+    ) as HasBeenSeen;
+
+    useEffect(() => {
+        if (hasBeenSeen) {
+            setTimeout(() => setReadyToAnimate(true), 500);
+        }
+    }, [hasBeenSeen]);
 
     const currencySymbol =
         props.tickerSettings.countType === 'money' ? props.tickerSettings.currencySymbol : '';
+    const isGoalReached =
+        props.tickerSettings.tickerData.total >= props.tickerSettings.tickerData.goal;
+    const runningTotal = useTicker(props.tickerSettings.tickerData.total, readyToAnimate);
 
     return (
-        <div>
-            {props.tickerSettings.tickerData.total >= props.tickerSettings.tickerData.goal ? (
+        <div ref={setNode}>
+            {isGoalReached ? (
                 <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.goalReachedPrimary}</h2>
             ) : (
                 <h2 css={styles.tickerHeadline}>{props.tickerSettings.copy.countLabel}</h2>
@@ -91,10 +118,10 @@ export function DesignableBannerTicker(props: DesignableBannerTickerProps): Reac
                     <div
                         css={styles.tickerProgressBarFill(
                             props.stylingSettings.filledProgressColour,
+                            props.tickerSettings.tickerData.goal,
+                            props.tickerSettings.tickerData.total,
+                            runningTotal,
                         )}
-                        style={{
-                            transform: progressBarTransform,
-                        }}
                     />
                 </div>
             </div>
