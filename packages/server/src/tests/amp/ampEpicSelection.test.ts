@@ -1,9 +1,13 @@
 import { CountryGroupId } from '@sdc/shared/lib';
-import { TickerCountType, TickerEndType, TickerSettings } from '@sdc/shared/types';
 import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicSelection';
 import { TickerDataProvider } from '../../lib/fetchTickerData';
+import {
+    TickerCountType,
+    TickerEndType,
+    TickerSettings,
+} from '@sdc/shared/dist/types/props/shared';
 
 const tickerSettings: TickerSettings = {
     endType: TickerEndType.unlimited,
@@ -15,6 +19,10 @@ const tickerSettings: TickerSettings = {
         goalReachedSecondary: 'but you can still support us',
     },
     name: 'US',
+    tickerData: {
+        total: 5000,
+        goal: 200000,
+    },
 };
 
 const epicTest: AmpEpicTest = {
