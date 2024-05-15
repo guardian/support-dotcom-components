@@ -60,18 +60,22 @@ export const getArticleViewCounts = (
     history: WeeklyArticleHistory = [],
     periodInWeeks = 52,
     tagIds: string[] = [],
+    rightNow: Date = new Date(),
 ): ArticleCounts => {
-    const for52Weeks = getArticleViewCountForWeeks(history, 52);
-
+    const for52Weeks = getArticleViewCountForWeeks(history, 52, rightNow);
     const getCountForTargetingWeeks = (): number => {
-        if (tagIds) {
-            return getArticleViewCountByMultipleTagForWeeks(tagIds, history, periodInWeeks);
+        if (tagIds.length !== 0) {
+            return getArticleViewCountByMultipleTagForWeeks(
+                tagIds,
+                history,
+                periodInWeeks,
+                rightNow,
+            );
         }
         return periodInWeeks === 52
             ? for52Weeks
-            : getArticleViewCountForWeeks(history, periodInWeeks);
+            : getArticleViewCountForWeeks(history, periodInWeeks, rightNow);
     };
-
     return {
         for52Weeks,
         forTargetedWeeks: getCountForTargetingWeeks(),
