@@ -4,7 +4,7 @@ import {
     DesignableBannerTicker,
     DesignableBannerTickerProps,
 } from '../components/DesignableBannerTicker';
-import { TickerCountType, TickerEndType } from '@sdc/shared/dist/types';
+import { TickerCountType } from '@sdc/shared/dist/types';
 
 const TickerDecorator: DecoratorFn = (Story) => (
     <div style={{ margin: '20px' }}>
@@ -31,7 +31,6 @@ PeopleTicker.args = {
             goal: 200000,
         },
         countType: TickerCountType.people,
-        endType: TickerEndType.hardstop,
         currencySymbol: '',
         name: 'AU',
         copy: {
@@ -55,7 +54,6 @@ PeopleTickerGoalMet.args = {
             goal: 200000,
         },
         countType: TickerCountType.money,
-        endType: TickerEndType.hardstop,
         currencySymbol: '$',
         name: 'US',
         copy: {
@@ -79,7 +77,6 @@ MoneyTicker.args = {
             goal: 200000,
         },
         countType: TickerCountType.money,
-        endType: TickerEndType.hardstop,
         currencySymbol: '$',
         name: 'US',
         copy: {

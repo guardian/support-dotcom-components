@@ -46,13 +46,6 @@ export const secondaryCtaSchema = z.discriminatedUnion('type', [
     contributionsReminderSecondaryCtaSchema,
 ]);
 
-export enum TickerEndType {
-    unlimited = 'unlimited',
-    hardstop = 'hardstop', // currently unsupported
-}
-
-export const tickerEndTypeSchema = z.nativeEnum(TickerEndType);
-
 export enum TickerCountType {
     money = 'money',
     people = 'people',
@@ -88,7 +81,6 @@ export type TickerName = 'US' | 'AU';
 const ticketNameSchema = z.enum(['US', 'AU']);
 
 export interface TickerSettings {
-    endType: TickerEndType;
     countType: TickerCountType;
     currencySymbol: string;
     copy: TickerCopy;
@@ -97,7 +89,6 @@ export interface TickerSettings {
 }
 
 export const tickerSettingsSchema = z.object({
-    endType: tickerEndTypeSchema,
     countType: tickerCountTypeSchema,
     currencySymbol: z.string(),
     copy: tickerCopySchema,

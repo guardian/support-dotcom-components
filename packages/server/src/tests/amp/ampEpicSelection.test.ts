@@ -3,14 +3,9 @@ import { AmpVariantAssignments } from '../../lib/ampVariantAssignments';
 import { AMPEpic, AmpEpicTest } from './ampEpicModels';
 import { selectAmpEpic } from './ampEpicSelection';
 import { TickerDataProvider } from '../../lib/fetchTickerData';
-import {
-    TickerCountType,
-    TickerEndType,
-    TickerSettings,
-} from '@sdc/shared/dist/types/props/shared';
+import { TickerCountType, TickerSettings } from '@sdc/shared/dist/types/props/shared';
 
 const tickerSettings: TickerSettings = {
-    endType: TickerEndType.unlimited,
     countType: TickerCountType.money,
     currencySymbol: '$',
     copy: {

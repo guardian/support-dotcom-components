@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 import { props } from '../../utils/storybook';
-import { SecondaryCtaType, TickerCountType, TickerEndType } from '@sdc/shared/types';
+import { SecondaryCtaType, TickerCountType } from '@sdc/shared/types';
 import { BannerWithReminderTemplate } from './WithReminder';
 import { BannerWithHeaderImageTemplate } from './WithHeaderImage';
 import { BannerWithChoiceCardsTemplate } from './WithChoiceCards';
@@ -360,7 +360,6 @@ WithTicker.args = {
     numArticles: 50,
     tickerSettings: {
         countType: TickerCountType.money,
-        endType: TickerEndType.hardstop,
         currencySymbol: '',
         copy: {
             countLabel: 'Contributions in May so far',

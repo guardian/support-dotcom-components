@@ -5,7 +5,6 @@ import {
     HexColour,
     SecondaryCtaType,
     TickerCountType,
-    TickerEndType,
     TickerSettings,
     SelectedAmountsVariant,
     ConfigurableDesign,
@@ -84,7 +83,6 @@ const mobileContentWithHeading = {
 
 const tickerSettings: TickerSettings = {
     countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
     currencySymbol: '',
     copy: {
         countLabel: 'Contributions in May',
