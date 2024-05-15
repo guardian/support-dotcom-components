@@ -6,7 +6,6 @@ import {
     Tracking,
     TickerSettings,
 } from '@sdc/shared/types';
-import { TickerStylingSettings } from '../designableBanner/settings';
 
 export const tracking: Tracking = {
     ophanPageId: 'kbluzw2csbf83eabedel',
