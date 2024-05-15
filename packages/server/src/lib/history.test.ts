@@ -1,8 +1,10 @@
 import {
     getArticleViewCountByMultipleTagForWeeks,
     getArticleViewCountForWeeks,
+    getArticleViewCounts,
     getWeeksInWindow,
 } from './history';
+import { WeeklyArticleHistory } from '@sdc/shared/dist/types/targeting/shared';
 
 describe('getArticleViewCountForWeeks', () => {
     // Pass the current date into the tested function so the checks can be made
@@ -118,5 +120,75 @@ describe(' getArticleViewCountByMultipleTagForWeeks ', () => {
         expect(got).toBe(53);
         expect(acTag).toBe(1);
         expect(acMultipleTag).toBe(19);
+    });
+});
+
+describe(' getArticleViewCounts ', () => {
+    const rightNow = new Date('2020-03-16T09:30:00');
+
+    it('should count views for one week properly with multiple tags', () => {
+        const numWeeks = 52;
+        const articleHistoryWithOneWeekMultipleTags = [
+            {
+                week: 18330,
+                count: 53,
+                tags: {
+                    'environment/environment': 15,
+                    'environment/climate-crisis': 6,
+                    'world/world': 5,
+                    'business/business': 3,
+                    'us-news/us-politics': 1,
+                    'technology/technology': 1,
+                    'science/science': 1,
+                    'politics/politics': 3,
+                    'books/books': 1,
+                    'culture/culture': 1,
+                },
+            },
+        ];
+        const tagIds = ['science/science', 'environment/environment'];
+
+        const got = getArticleViewCounts(
+            articleHistoryWithOneWeekMultipleTags,
+            numWeeks,
+            tagIds,
+            rightNow,
+        );
+
+        expect(got.for52Weeks).toBe(53);
+        expect(got.forTargetedWeeks).toBe(16);
+    });
+
+    it('should count views for one week properly without tags ', () => {
+        const numWeeks = 52;
+        const articleHistoryWithOneWeekMultipleTags = [
+            {
+                week: 18330,
+                count: 53,
+                tags: {
+                    'environment/environment': 15,
+                    'environment/climate-crisis': 6,
+                    'world/world': 5,
+                    'business/business': 3,
+                    'us-news/us-politics': 1,
+                    'technology/technology': 1,
+                    'science/science': 1,
+                    'politics/politics': 3,
+                    'books/books': 1,
+                    'culture/culture': 1,
+                },
+            },
+        ];
+        const tagIds: string[] = [];
+
+        const got = getArticleViewCounts(
+            articleHistoryWithOneWeekMultipleTags,
+            numWeeks,
+            tagIds,
+            rightNow,
+        );
+
+        expect(got.for52Weeks).toBe(53);
+        expect(got.forTargetedWeeks).toBe(53);
     });
 });
