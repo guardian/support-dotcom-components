@@ -2,6 +2,7 @@ import { Image } from '@sdc/shared/dist/types';
 import { ReactNode } from 'react';
 import { BannerId } from '../common/types';
 import { ChoiceCardSettings } from '../common/choiceCard/ChoiceCards';
+import { TickerStylingSettings } from '../../shared/settings';
 
 export type ContainerSettings = {
     backgroundColour: string;
@@ -25,12 +26,6 @@ export interface CtaSettings {
 export interface HighlightedTextSettings {
     textColour: string;
     highlightColour?: string;
-}
-
-export interface TickerStylingSettings {
-    textColour: string;
-    filledProgressColour: string;
-    progressBarBackgroundColour: string;
 }
 
 export interface HeaderSettings {
