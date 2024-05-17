@@ -96,10 +96,9 @@ export const historyWithinArticlesViewedSettings = (
 
     const { minViews, maxViews, periodInWeeks, tagIds } = articlesViewedSettings;
 
-    const viewCountForWeeks =
-        tagIds?.length === 0
-            ? getArticleViewCountForWeeks(history, periodInWeeks, now)
-            : getArticleViewCountByMultipleTagForWeeks(tagIds, history, periodInWeeks, now);
+    const viewCountForWeeks = tagIds
+        ? getArticleViewCountByMultipleTagForWeeks(tagIds, history, periodInWeeks, now)
+        : getArticleViewCountForWeeks(history, periodInWeeks, now);
 
     const minViewsOk = minViews ? viewCountForWeeks >= minViews : true;
     const maxViewsOk = maxViews ? viewCountForWeeks <= maxViews : true;
