@@ -1,3 +1,4 @@
+import * as z from 'zod';
 import { purchaseInfoProduct, purchaseInfoUser } from '../purchaseInfo';
 
 export type PageTracking = {
@@ -33,3 +34,12 @@ export interface PurchaseInfo {
     userType: purchaseInfoUser;
     product: purchaseInfoProduct;
 }
+
+export const AbandonedBasketSchema = z.object({
+    amount: z.union([z.number(), z.literal('other')]),
+    billingPeriod: z.string(),
+    product: z.string(),
+    region: z.string(),
+});
+
+export type AbandonedBasket = z.infer<typeof AbandonedBasketSchema>;
