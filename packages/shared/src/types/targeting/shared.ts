@@ -35,11 +35,11 @@ export interface PurchaseInfo {
     product: purchaseInfoProduct;
 }
 
-export const AbandonedBasketSchema = z.object({
+export const abandonedBasketSchema = z.object({
     amount: z.union([z.number(), z.literal('other')]),
     billingPeriod: z.string(),
     product: z.string(),
     region: z.string(),
 });
 
-export type AbandonedBasket = z.infer<typeof AbandonedBasketSchema>;
+export type AbandonedBasket = z.infer<typeof abandonedBasketSchema>;
