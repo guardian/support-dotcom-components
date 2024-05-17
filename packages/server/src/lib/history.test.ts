@@ -5,7 +5,7 @@ import {
     getWeeksInWindow,
     historyWithinArticlesViewedSettings,
 } from './history';
-import { ArticlesViewedSettings, EpicTest } from '@sdc/shared/dist/types';
+import { ArticlesViewedSettings } from '@sdc/shared/dist/types';
 
 describe('getArticleViewCountForWeeks', () => {
     // Pass the current date into the tested function so the checks can be made
