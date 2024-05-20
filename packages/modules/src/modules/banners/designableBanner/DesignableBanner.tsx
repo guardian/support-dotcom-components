@@ -102,6 +102,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     reminderTracking,
     separateArticleCount,
     tickerSettings,
+    articleCounts,
     choiceCardAmounts,
     countryCode,
     submitComponentEvent,
@@ -237,6 +238,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 <div css={styles.contentContainer(showReminder)}>
                     {separateArticleCount && Number(numArticles) > 5 && (
                         <DesignableBannerArticleCount
+                            articleCount={articleCounts}
                             numArticles={numArticles as number}
                             settings={templateSettings}
                         />

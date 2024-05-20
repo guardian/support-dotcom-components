@@ -3,15 +3,18 @@ import { css } from '@emotion/react';
 import { from, headline } from '@guardian/source-foundations';
 import { DesignableBannerArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
+import { ArticleCounts } from "@sdc/shared/dist/types";
 
 // ---- Component ---- //
 
 interface DesignableBannerArticleCountProps {
+    articleCount: ArticleCounts;
     numArticles: number;
     settings: BannerTemplateSettings;
 }
 
 export function DesignableBannerArticleCount({
+    articleCount,
     numArticles,
     settings,
 }: DesignableBannerArticleCountProps): JSX.Element {
@@ -19,6 +22,7 @@ export function DesignableBannerArticleCount({
         <div css={styles.container(settings.articleCountTextColour)}>
             You&apos;ve read{' '}
             <DesignableBannerArticleCountOptOut
+                articleCount={articleCount}
                 numArticles={numArticles}
                 nextWord=" articles"
                 settings={settings}

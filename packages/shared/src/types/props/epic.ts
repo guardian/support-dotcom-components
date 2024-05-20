@@ -1,6 +1,7 @@
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import * as z from 'zod';
 import {
+    articleCountsSchema,
     bylineWithImageSchema,
     ctaSchema,
     imageSchema,
@@ -8,7 +9,7 @@ import {
     Stage,
     tickerSettingsSchema,
     Tracking,
-    trackingSchema,
+    trackingSchema
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';
@@ -40,10 +41,6 @@ export interface EpicProps extends EmotionJSX.IntrinsicAttributes {
 /**
  * Props validation
  */
-const articleCountsSchema = z.object({
-    for52Weeks: z.number(),
-    forTargetedWeeks: z.number(),
-});
 
 const maxViewsSchema = z.object({
     maxViewsCount: z.number(),

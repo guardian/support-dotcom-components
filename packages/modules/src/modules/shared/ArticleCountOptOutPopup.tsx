@@ -3,7 +3,7 @@ import { css, SerializedStyles } from '@emotion/react';
 import { space, from } from '@guardian/source-foundations';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
-import { OphanComponentEvent, OphanComponentType } from '@sdc/shared/types';
+import { ArticleCounts, OphanComponentEvent, OphanComponentType } from "@sdc/shared/types";
 import {
     ophanComponentEventOptOutClose,
     ophanComponentEventOptOutConfirm,
@@ -88,6 +88,7 @@ export interface OphanTracking {
 }
 
 export interface ArticleCountOptOutProps {
+    articleCount: ArticleCounts,
     numArticles: number;
     nextWord: string | null;
     type: ArticleCountOptOutType;
@@ -95,6 +96,7 @@ export interface ArticleCountOptOutProps {
 }
 
 export const ArticleCountOptOutPopup: ReactComponent<ArticleCountOptOutProps> = ({
+    articleCount,
     numArticles,
     nextWord,
     type,

@@ -9,10 +9,12 @@ import {
 import { BannerTemplateSettings } from '../settings';
 import { buttonStyles } from '../styles/buttonStyles';
 import type { ReactComponent } from '../../../../types';
+import { ArticleCounts } from "@sdc/shared/dist/types";
 
 // ---- Component ---- //
 
 export interface DesignableBannerArticleCountOptOutProps {
+    articleCount: ArticleCounts;
     numArticles: number;
     nextWord: string | null;
     settings: BannerTemplateSettings;
@@ -20,7 +22,7 @@ export interface DesignableBannerArticleCountOptOutProps {
 
 export const DesignableBannerArticleCountOptOut: ReactComponent<
     DesignableBannerArticleCountOptOutProps
-> = ({ numArticles, nextWord, settings }: DesignableBannerArticleCountOptOutProps) => {
+> = ({ articleCount,numArticles, nextWord, settings }: DesignableBannerArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 

@@ -1,5 +1,6 @@
 import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 import {
+    articleCountsSchema,
     Cta,
     ctaSchema,
     SecondaryCta,
@@ -7,13 +8,14 @@ import {
     TickerSettings,
     tickerSettingsSchema,
     Tracking,
-    trackingSchema,
+    trackingSchema
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
+import { ArticleCounts } from './epic';
 
 export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
 
@@ -47,6 +49,7 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
+    articleCounts: ArticleCounts;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
     hasOptedOutOfArticleCount?: boolean;
@@ -65,6 +68,7 @@ export const bannerSchema = z.object({
     countryCode: z.string().nullish(),
     isSupporter: z.boolean().nullish(),
     tickerSettings: tickerSettingsSchema.nullish(),
+    articleCounts: articleCountsSchema,
     submitComponentEvent: z.any(),
     numArticles: z.number().nullish(),
     hasOptedOutOfArticleCount: z.boolean().nullish(),
