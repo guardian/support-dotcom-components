@@ -43,7 +43,17 @@ export const abandonedBasketSchema = z.object({
         z.literal('SupporterPlus'),
         z.literal('SubscriptionProduct'),
     ]),
-    region: z.string(),
+    //values for region should match allowable values for supportInternationalisationId in
+    //support-frontend/assets/helpers/internationalisation/countryGroup.ts
+    region: z.union([
+        z.literal('uk'),
+        z.literal('us'),
+        z.literal('au'),
+        z.literal('eu'),
+        z.literal('int'),
+        z.literal('nz'),
+        z.literal('ca'),
+    ]),
 });
 
 export type AbandonedBasket = z.infer<typeof abandonedBasketSchema>;
