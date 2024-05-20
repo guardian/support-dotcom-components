@@ -37,7 +37,11 @@ export interface PurchaseInfo {
 
 export const abandonedBasketSchema = z.object({
     amount: z.union([z.number(), z.literal('other')]),
-    billingPeriod: z.string(),
+    billingPeriod: z.union([
+        z.literal('Contribution'),
+        z.literal('SupporterPlus'),
+        z.literal('SubscriptionProduct'),
+    ]),
     product: z.string(),
     region: z.string(),
 });
