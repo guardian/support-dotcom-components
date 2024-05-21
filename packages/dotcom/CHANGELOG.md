@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.3.0
+
+### Minor Changes
+
+-   Add abandonedBasket schema and type and add to BannerPayload type
+
 ## 2.2.2
 
 ### Patch Changes
