@@ -21,7 +21,7 @@ Medium-High -- jumped four categories
 High -- jumped five categories
  */
 
-const jumps = {
+const JUMPS = {
     low: 2,
     medium: 3,
     mediumHigh: 4,
@@ -92,12 +92,14 @@ export function isIncreasedEngagement(
         count,
     }));
 
+    const categoryJumps = categoryForThirdMonth - categoryForFirstMonth;
+
     if (
+        // must be an increase month on month
         categoryForThirdMonth > categoryForSecondMonth &&
         categoryForSecondMonth > categoryForFirstMonth
     ) {
-        const isIncreasedEngagement =
-            categoryForThirdMonth - categoryForFirstMonth >= jumps.mediumHigh;
+        const isIncreasedEngagement = categoryJumps >= JUMPS.medium;
 
         logger.info({
             message: 'Decision to show Momentum Epic',
@@ -106,6 +108,7 @@ export function isIncreasedEngagement(
             categoryForSecondMonth,
             categoryForThirdMonth,
             articleHistoryWithoutTags,
+            categoryJumps,
         });
 
         return isIncreasedEngagement;
@@ -118,6 +121,7 @@ export function isIncreasedEngagement(
         categoryForSecondMonth,
         categoryForThirdMonth,
         articleHistoryWithoutTags,
+        categoryJumps,
     });
 
     return false;
