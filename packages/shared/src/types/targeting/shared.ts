@@ -41,7 +41,11 @@ export const abandonedBasketSchema = z.object({
     product: z.union([
         z.literal('Contribution'),
         z.literal('SupporterPlus'),
-        z.literal('SubscriptionProduct'),
+        z.literal('PremiumTier'),
+        z.literal('DailyEdition'),
+        z.literal('GuardianWeekly'),
+        z.literal('Paper'),
+        z.literal('PaperAndDigital'),
     ]),
     //values for region should match allowable values for supportInternationalisationId in
     //support-frontend/assets/helpers/internationalisation/countryGroup.ts
