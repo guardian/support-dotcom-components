@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.3.1
+
+### Patch Changes
+
+-   export abandonedBasketSchema
+
 ## 2.3.0
 
 ### Minor Changes
