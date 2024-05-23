@@ -60,6 +60,11 @@ export const selectVariant = <V extends Variant, T extends Test<V>>(test: T, mvt
     return selectWithSeed(mvtId, seed, test.variants);
 };
 
+export const selectVariantNonSticky = <V extends Variant, T extends Test<V>>(test: T): V => {
+    const index = Math.floor(Math.random() * test.variants.length);
+    return test.variants[index];
+};
+
 export const selectAmountsTestVariant = (
     tests: AmountsTests,
     countryCode: string,
