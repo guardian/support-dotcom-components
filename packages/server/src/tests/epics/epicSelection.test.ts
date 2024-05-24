@@ -864,22 +864,22 @@ describe('bandit null hypothesis', () => {
         { ...variantDefault, name: 'variant' },
     ];
 
-    const abTestTest: EpicTest = {
+    const stickyTest: EpicTest = {
         ...testDefault,
-        name: NonStickyVariantsTestNames.Sticky,
+        name: `${NonStickyVariantsTestNames.Sticky}__UK`,
         articlesViewedSettings: undefined,
         variants: variants,
     };
 
-    const banditTest: EpicTest = {
+    const nonStickyTest: EpicTest = {
         ...testDefault,
-        name: NonStickyVariantsTestNames.NonSticky,
+        name: `${NonStickyVariantsTestNames.NonSticky}__UK`,
         isBanditTest: true,
         articlesViewedSettings: undefined,
         variants: variants,
     };
 
-    const tests = [abTestTest, banditTest];
+    const tests = [stickyTest, nonStickyTest];
 
     it('should return sticky and non-sticky ~ equally', () => {
         const results: (string | undefined)[] = [];
@@ -899,11 +899,11 @@ describe('bandit null hypothesis', () => {
             results.push(got.result?.test.name);
         }
 
-        const stickyChosen = results.filter((r) => r === NonStickyVariantsTestNames.Sticky);
+        const stickyChosen = results.filter((r) => r === stickyTest.name);
         expect(stickyChosen.length).toBeGreaterThan(2400);
         expect(stickyChosen.length).toBeLessThan(2600);
 
-        const nonStickyChosen = results.filter((r) => r === NonStickyVariantsTestNames.NonSticky);
+        const nonStickyChosen = results.filter((r) => r === nonStickyTest.name);
         expect(nonStickyChosen.length).toBeGreaterThan(2400);
         expect(nonStickyChosen.length).toBeLessThan(2600);
     });

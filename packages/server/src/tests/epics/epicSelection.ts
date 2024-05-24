@@ -198,10 +198,10 @@ export const nonStickyVariantsTestFilter: Filter = {
     id: 'matchesNonStickyVariantsTests',
     test: (test, targeting): boolean => {
         const fiftyFiftyChance = getRandomNumber('NON_STICKY', targeting.mvtId) % 2;
-        if (test.name === NonStickyVariantsTestNames.Sticky) {
+        if (test.name.startsWith(NonStickyVariantsTestNames.Sticky)) {
             return fiftyFiftyChance === 0;
         }
-        if (test.name === NonStickyVariantsTestNames.NonSticky) {
+        if (test.name.startsWith(NonStickyVariantsTestNames.NonSticky)) {
             return fiftyFiftyChance === 1;
         }
         return true;
@@ -307,7 +307,7 @@ function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: 
         return selectVariantUsingEpsilonGreedy(banditData, test);
     }
 
-    if (test.name === NonStickyVariantsTestNames.NonSticky) {
+    if (test.name.startsWith(NonStickyVariantsTestNames.NonSticky)) {
         // Do not use the mvt value
         const variant = selectVariantNonSticky<EpicVariant, EpicTest>(test);
         return {
