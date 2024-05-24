@@ -855,7 +855,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 });
 
-describe('bandit null hypothesis', () => {
+describe('sticky variant test', () => {
     const variants = [
         {
             ...variantDefault,
