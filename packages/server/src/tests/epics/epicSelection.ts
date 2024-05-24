@@ -307,7 +307,7 @@ function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: 
         return selectVariantUsingEpsilonGreedy(banditData, test);
     }
 
-    if (test.name.includes(NonStickyVariantsTestNames.NonSticky)) {
+    if (test.name === NonStickyVariantsTestNames.NonSticky) {
         // Do not use the mvt value
         const variant = selectVariantNonSticky<EpicVariant, EpicTest>(test);
         return {
