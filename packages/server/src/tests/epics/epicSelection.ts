@@ -191,8 +191,8 @@ export interface Result {
 }
 
 export const NonStickyVariantsTestNames = {
-    Sticky: '2024-05-29_STICKY_VARIANTS',
-    NonSticky: '2024-05-29_NON_STICKY_VARIANTS',
+    Sticky: '2024-05-24_STICKY_VARIANTS',
+    NonSticky: '2024-05-24_NON_STICKY_VARIANTS',
 };
 export const nonStickyVariantsTestFilter: Filter = {
     id: 'matchesNonStickyVariantsTests',
