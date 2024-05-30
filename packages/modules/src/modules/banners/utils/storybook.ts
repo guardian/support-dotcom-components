@@ -1,7 +1,6 @@
 import {
     BannerProps,
     TickerCountType,
-    TickerEndType,
     SecondaryCtaType,
     Tracking,
     TickerSettings,
@@ -44,7 +43,6 @@ export const content = {
 
 export const tickerSettings: TickerSettings = {
     countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
     currencySymbol: '$',
     copy: {
         countLabel: 'contributed',

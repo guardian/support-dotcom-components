@@ -5,7 +5,6 @@ import {
     HexColour,
     SecondaryCtaType,
     TickerCountType,
-    TickerEndType,
     TickerSettings,
     SelectedAmountsVariant,
     ConfigurableDesign,
@@ -84,10 +83,9 @@ const mobileContentWithHeading = {
 
 const tickerSettings: TickerSettings = {
     countType: TickerCountType.money,
-    endType: TickerEndType.hardstop,
     currencySymbol: '',
     copy: {
-        countLabel: 'contributions in May',
+        countLabel: 'Contributions in May',
         goalReachedPrimary: "We've met our goal - thank you!",
         goalReachedSecondary: '',
     },

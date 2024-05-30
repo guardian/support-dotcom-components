@@ -11,7 +11,6 @@ import { MomentTemplateBannerVisual } from './components/MomentTemplateBannerVis
 import { BannerTemplateSettings } from './settings';
 import { SecondaryCtaType, Image } from '@sdc/shared/types';
 import { MomentTemplateBannerReminder } from './components/MomentTemplateBannerReminder';
-import MomentTemplateBannerTicker from './components/MomentTemplateBannerTicker';
 import { templateSpacing } from './styles/templateStyles';
 import useReminder from '../../../hooks/useReminder';
 import useMediaQuery from '../../../hooks/useMediaQuery';
@@ -19,6 +18,7 @@ import useChoiceCards from '../../../hooks/useChoiceCards';
 import { ChoiceCards } from '../common/choiceCard/ChoiceCards';
 import { buttonStyles } from './styles/buttonStyles';
 import { ReactComponent } from '../../../types';
+import { MomentTemplateBannerTicker } from './components/MomentTemplateBannerTicker';
 
 export function getMomentTemplateBanner(
     templateSettings: BannerTemplateSettings,

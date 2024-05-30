@@ -70,7 +70,6 @@ export const BannerWithTicker = bannerWrapper(
             textColour: '#052962',
             filledProgressColour: '#052962',
             progressBarBackgroundColour: '#fff',
-            goalMarkerColour: 'black',
         },
         bannerId: 'global-new-year-moment-banner',
     }),
