@@ -6,6 +6,7 @@ import {
     AmountsCardData,
     OneOffSignupRequest,
     OphanComponentEvent,
+    SecondaryCtaType,
 } from '@sdc/shared/dist/types';
 import fetch from 'node-fetch';
 import {
@@ -150,7 +151,7 @@ export const buildAmpEpicRouter = (
                         hideReminderWrapper: true,
                         hideSuccessMessage: true,
                         hideFailureMessage: true,
-                        hideReminderCta: false,
+                        hideReminderCta: !epic.secondaryCta,
                         hideReminderForm: false,
                     },
                     choiceCards:
