@@ -6,7 +6,6 @@ import {
     AmountsCardData,
     OneOffSignupRequest,
     OphanComponentEvent,
-    SecondaryCtaType,
 } from '@sdc/shared/dist/types';
 import fetch from 'node-fetch';
 import {
