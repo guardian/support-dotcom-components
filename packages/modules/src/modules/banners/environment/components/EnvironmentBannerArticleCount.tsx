@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, headline } from '@guardian/source-foundations';
+import { from, headline } from '@guardian/source/foundations';
 import { ArticleCountOptOutPopup } from '../../../shared/ArticleCountOptOutPopup';
 import { GREEN_HEX } from '../utils/constants';
 

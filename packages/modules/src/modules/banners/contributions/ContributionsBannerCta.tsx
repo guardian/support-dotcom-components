@@ -3,9 +3,9 @@ import {
     buttonThemeReaderRevenueBrandAlt,
     LinkButton,
     SvgArrowRightStraight,
-} from '@guardian/source-react-components';
+} from '@guardian/source/react-components';
 import React from 'react';
-import { from, space } from '@guardian/source-foundations';
+import { from, space } from '@guardian/source/foundations';
 import { isSupportUrl } from '@sdc/shared/dist/lib';
 import type { ReactComponent } from '../../../types';
 

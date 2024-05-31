@@ -1,7 +1,7 @@
 import React from 'react';
-import { space } from '@guardian/source-foundations';
+import { space } from '@guardian/source/foundations';
 import { css, SerializedStyles } from '@emotion/react';
-import { Hide, SvgArrowRightStraight, LinkButton } from '@guardian/source-react-components';
+import { Hide, SvgArrowRightStraight, LinkButton } from '@guardian/source/react-components';
 import { ContentType } from '../../../../hooks/useChoiceCards';
 
 const buttonOverrides = css`

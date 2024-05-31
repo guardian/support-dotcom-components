@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, space } from '@guardian/source-foundations';
-import { LinkButton } from '@guardian/source-react-components';
+import { from, space } from '@guardian/source/foundations';
+import { LinkButton } from '@guardian/source/react-components';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { BannerRenderedContent } from '../../common/types';
 import { PaymentCards } from '../../common/PaymentCards';

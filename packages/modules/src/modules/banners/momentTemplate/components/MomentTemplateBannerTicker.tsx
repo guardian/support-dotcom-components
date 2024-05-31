@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { textSans, from, space } from '@guardian/source-foundations';
+import { textSans, from, space } from '@guardian/source/foundations';
 import { TickerSettings } from '@sdc/shared/types';
 import { HasBeenSeen, useHasBeenSeen } from '../../../../hooks/useHasBeenSeen';
 import useTicker from '../../../../hooks/useTicker';
