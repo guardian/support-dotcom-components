@@ -1,5 +1,12 @@
 # @guardian/support-dotcom-components
 
+## 2.3.2
+
+### Patch Changes
+
+-   Uses the new `@guardian/source` package.
+-   Adds compatability with projects that consume `package.json#exports`
+
 ## 2.3.1
 
 ### Patch Changes
