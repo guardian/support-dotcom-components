@@ -28,6 +28,7 @@ import {
     ScheduledBannerDeploys,
     defaultDeploySchedule,
 } from './bannerDeploySchedule';
+import { daysSince } from '../../lib/dates';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -70,8 +71,13 @@ export const canShowBannerAgain = (
         return !signInBannerLastClosedAt;
     }
 
+    // Don't show the abandonedBasket banner if it was closed less than 1 day ago
     if (bannerChannel === 'abandonedBasket') {
-        return !abandonedBasketBannerLastClosedAt; // ToDo can we show it again?
+        if (!abandonedBasketBannerLastClosedAt) {
+            return true;
+        }
+
+        return daysSince(new Date(abandonedBasketBannerLastClosedAt)) > 0;
     }
 
     const canShow = (lastClosedRaw: string | undefined): boolean => {
