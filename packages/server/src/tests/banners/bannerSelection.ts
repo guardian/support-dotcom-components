@@ -45,6 +45,17 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
     }
 };
 
+// Don't show the abandonedBasket banner if it was closed less than 1 day ago
+function canShowAbandonedBasketBanner(
+    abandonedBasketBannerLastClosedAt: string | undefined,
+): boolean {
+    if (!abandonedBasketBannerLastClosedAt) {
+        return true;
+    }
+
+    return daysSince(new Date(abandonedBasketBannerLastClosedAt)) > 0;
+}
+
 /**
  * If the banner has been closed previously, can we show it again?
  * e.g. if changes have been deployed
@@ -71,13 +82,8 @@ export const canShowBannerAgain = (
         return !signInBannerLastClosedAt;
     }
 
-    // Don't show the abandonedBasket banner if it was closed less than 1 day ago
     if (bannerChannel === 'abandonedBasket') {
-        if (!abandonedBasketBannerLastClosedAt) {
-            return true;
-        }
-
-        return daysSince(new Date(abandonedBasketBannerLastClosedAt)) > 0;
+        return canShowAbandonedBasketBanner(abandonedBasketBannerLastClosedAt);
     }
 
     const canShow = (lastClosedRaw: string | undefined): boolean => {
