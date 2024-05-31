@@ -6,9 +6,9 @@ import {
 } from '@sdc/shared/dist/types';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
-import { ChoiceCard } from '@guardian/source-react-components';
+import { ChoiceCard } from '@guardian/source/react-components';
 import { css } from '@emotion/react';
-import { space } from '@guardian/source-foundations';
+import { space } from '@guardian/source/foundations';
 
 const container = (backgroundColour?: string) => css`
     display: flex;

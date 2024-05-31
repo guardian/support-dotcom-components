@@ -1,5 +1,5 @@
 import { css, SerializedStyles } from '@emotion/react';
-import { from, until } from '@guardian/source-foundations';
+import { from, until } from '@guardian/source/foundations';
 import { CtaSettings } from '../settings';
 
 export function buttonStyles(

@@ -7,7 +7,7 @@ import {
     Button,
     SvgRoundelBrand,
     SvgCross,
-} from '@guardian/source-react-components';
+} from '@guardian/source/react-components';
 import { BannerText } from '../common/BannerText';
 import { BannerId, BannerRenderProps } from '../common/types';
 import {

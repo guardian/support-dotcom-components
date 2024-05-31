@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceCardGroup, ChoiceCard } from '@guardian/source-react-components';
+import { ChoiceCardGroup, ChoiceCard } from '@guardian/source/react-components';
 import {
     ContributionFrequency,
     SelectedAmountsVariant,
@@ -9,7 +9,7 @@ import { contributionType, ChoiceCardSelection } from '../../../shared/helpers/c
 import { ChoiceCardSettings } from './ChoiceCards';
 import type { ReactComponent } from '../../../../types';
 import { css } from '@emotion/react';
-import { from, space, until } from '@guardian/source-foundations';
+import { from, space, until } from '@guardian/source/foundations';
 
 interface ChoiceCardInteractiveProps {
     selection?: ChoiceCardSelection;

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { brandAlt, neutral, body, until, from } from '@guardian/source-foundations';
+import { brandAlt, neutral, body, until, from } from '@guardian/source/foundations';
 
 export const commonStyles = {
     copy: css`

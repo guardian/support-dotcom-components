@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider, css } from '@emotion/react';
-import { brand, brandAlt, space, neutral, headline, until } from '@guardian/source-foundations';
+import { brand, brandAlt, space, neutral, headline, until } from '@guardian/source/foundations';
 import {
     Button,
     LinkButton,
@@ -9,7 +9,7 @@ import {
     Container,
     Column,
     Columns,
-} from '@guardian/source-react-components';
+} from '@guardian/source/react-components';
 import { SecondaryCtaType } from '@sdc/shared/types';
 
 import { BannerRenderProps } from '../common/types';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChoiceCard } from '@guardian/source-react-components';
+import { ChoiceCard } from '@guardian/source/react-components';
 import {
     AmountsCardData,
     ContributionFrequency,
@@ -8,7 +8,7 @@ import {
 } from '@sdc/shared/dist/types';
 import { trackClick } from './FrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
-import { space, between, from, until } from '@guardian/source-foundations';
+import { space, between, from, until } from '@guardian/source/foundations';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
 
 const container = css`

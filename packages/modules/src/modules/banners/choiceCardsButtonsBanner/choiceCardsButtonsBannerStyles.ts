@@ -8,7 +8,7 @@ import {
     neutral,
     space,
     height,
-} from '@guardian/source-foundations';
+} from '@guardian/source/foundations';
 
 export const banner = (backgroundColor: string): SerializedStyles => css`
     html {

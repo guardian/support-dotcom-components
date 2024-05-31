@@ -18,8 +18,7 @@
     "@babel/standalone": "^7.23.2",
     "@emotion/react": "^11.1.5",
     "@guardian/libs": "16.0.0",
-    "@guardian/source-foundations": "14.1.2",
-    "@guardian/source-react-components": "19.0.0",
+    "@guardian/source": "2.0.0",
     "@sdc/shared": "1.0.0",
     "@types/babel__standalone": "^7.1.6",
     "zod": "3.22.4"

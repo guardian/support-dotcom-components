@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { palette, headline } from '@guardian/source-foundations';
+import { palette, headline } from '@guardian/source/foundations';
 import useTicker from '../../../hooks/useTicker';
 import { useHasBeenSeen, HasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { TickerSettings } from '@sdc/shared/types';

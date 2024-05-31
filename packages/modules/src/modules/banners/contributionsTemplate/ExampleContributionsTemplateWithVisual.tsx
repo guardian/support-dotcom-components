@@ -6,8 +6,8 @@ import {
     buttonThemeBrandAlt,
     SvgCross,
     Hide,
-} from '@guardian/source-react-components';
-import { neutral } from '@guardian/source-foundations';
+} from '@guardian/source/react-components';
+import { neutral } from '@guardian/source/foundations';
 import ContributionsTemplateWithVisual from './ContributionsTemplateWithVisual';
 import ContributionsTemplateVisual from './ContributionsTemplateVisual';
 import ContributionsTemplateCloseButton from './ContributionsTemplateCloseButton';

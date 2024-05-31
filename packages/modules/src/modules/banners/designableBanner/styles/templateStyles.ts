@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { space, from } from '@guardian/source-foundations';
+import { space, from } from '@guardian/source/foundations';
 
 const templateSpacing = {
     bannerContainer: css`
