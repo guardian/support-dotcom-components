@@ -1,4 +1,4 @@
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { JSX } from '@emotion/react/jsx-runtime';
 import * as z from 'zod';
 import {
     bylineWithImageSchema,
@@ -23,7 +23,7 @@ export type ArticleCounts = {
     [type in ArticleCountType]: number;
 };
 
-export interface EpicProps extends EmotionJSX.IntrinsicAttributes {
+export interface EpicProps extends JSX.IntrinsicAttributes {
     variant: EpicVariant;
     tracking: Tracking;
     countryCode?: string;
