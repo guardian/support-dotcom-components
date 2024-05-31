@@ -42,6 +42,7 @@ export const BannerTemplateComponentTypes: {
     contributions: 'ACQUISITIONS_ENGAGEMENT_BANNER',
     subscriptions: 'ACQUISITIONS_SUBSCRIPTIONS_BANNER',
     signIn: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+    abandonedBasket: 'ACQUISITIONS_ENGAGEMENT_BANNER',
 };
 
 const modulePathBuilder =
@@ -73,6 +74,17 @@ const buildBannerVariant =
         componentType: BannerTemplateComponentTypes[forChannel],
     });
 
+function addInAbandonedBasketChannel(
+    bannerChannel: BannerChannel,
+    testParams: BannerTestFromTool,
+): BannerChannel {
+    if (testParams.name.includes('ABANDONED_BASKET')) {
+        return 'abandonedBasket';
+    }
+
+    return bannerChannel;
+}
+
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     return (): Promise<BannerTest[]> =>
@@ -80,7 +92,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
             return tests.map((testParams: BannerTestFromTool): BannerTest => {
                 return {
                     ...testParams,
-                    bannerChannel,
+                    bannerChannel: addInAbandonedBasketChannel(bannerChannel, testParams),
                     isHardcoded: false,
                     variants: testParams.variants.map(buildBannerVariant(bannerChannel)),
                 };

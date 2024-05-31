@@ -115,6 +115,7 @@ export const buildBannerRouter = (
                 prices: productPrices.get(),
                 choiceCardAmounts: variantAmounts,
                 design: getDesignForVariant(variant, bannerDesigns.get()),
+                abandonedBasket: targeting.abandonedBasket,
             };
 
             return {

@@ -1,6 +1,12 @@
 import { BannerChannel } from '@sdc/shared/types';
 
-const setBannerClosedTimestamp = (name: string): void =>
+type BannerLastClosedAt =
+    | 'engagementBannerLastClosedAt'
+    | 'subscriptionBannerLastClosedAt'
+    | 'signInBannerLastClosedAt'
+    | 'abandonedBasketLastClosedAt';
+
+const setBannerClosedTimestamp = (name: BannerLastClosedAt): void =>
     localStorage.setItem(
         `gu.prefs.${name}`,
         JSON.stringify({
@@ -8,21 +14,13 @@ const setBannerClosedTimestamp = (name: string): void =>
         }),
     );
 
-const setContributionsBannerClosedTimestamp = (): void =>
-    setBannerClosedTimestamp('engagementBannerLastClosedAt');
-
-const setSubscriptionsBannerClosedTimestamp = (): void =>
-    setBannerClosedTimestamp('subscriptionBannerLastClosedAt');
-
-const setSignInBannerClosedTimestamp = (): void =>
-    setBannerClosedTimestamp('signInBannerLastClosedAt');
+const bannerChannelToLastClosedMap = {
+    contributions: 'engagementBannerLastClosedAt',
+    subscriptions: 'subscriptionBannerLastClosedAt',
+    signIn: 'signInBannerLastClosedAt',
+    abandonedBasket: 'abandonedBasketLastClosedAt',
+} as const satisfies Record<BannerChannel, BannerLastClosedAt>;
 
 export const setChannelClosedTimestamp = (channel: BannerChannel): void => {
-    if (channel === 'contributions') {
-        setContributionsBannerClosedTimestamp();
-    } else if (channel === 'subscriptions') {
-        setSubscriptionsBannerClosedTimestamp();
-    } else if (channel === 'signIn') {
-        setSignInBannerClosedTimestamp();
-    }
+    setBannerClosedTimestamp(bannerChannelToLastClosedMap[channel]);
 };
