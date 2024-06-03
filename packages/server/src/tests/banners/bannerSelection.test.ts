@@ -448,4 +448,127 @@ describe('selectBannerTest', () => {
             expect(result).toBeNull();
         });
     });
+
+    describe('Abandoned basket banner rules', () => {
+        const now = new Date('2020-03-31T12:30:00');
+
+        const bannerDeployTimes = getBannerDeployTimesReloader(secondDate);
+
+        const targeting: BannerTargeting = {
+            shouldHideReaderRevenue: false,
+            isPaidContent: false,
+            showSupportMessaging: true,
+            mvtId: 3,
+            countryCode: 'AU',
+            engagementBannerLastClosedAt: firstDate,
+            hasOptedOutOfArticleCount: false,
+            contentType: 'Article',
+            isSignedIn: false,
+            hasConsented: true,
+        };
+
+        const tracking = {
+            ophanPageId: '',
+            platformId: '',
+            referrerUrl: '',
+            clientName: '',
+        };
+
+        const test: BannerTest = {
+            name: 'abandonedBasket',
+            priority: 1,
+            status: 'Live',
+            bannerChannel: 'abandonedBasket',
+            isHardcoded: false,
+            userCohort: 'Everyone',
+            variants: [
+                {
+                    name: 'variant',
+                    modulePathBuilder: contributionsBanner.endpointPathBuilder,
+                    template: BannerTemplate.ContributionsBanner,
+                    bannerContent: {
+                        messageText: 'body',
+                        highlightedText: 'highlighted text',
+                        cta: {
+                            text: 'cta',
+                            baseUrl: 'https://support.theguardian.com',
+                        },
+                    },
+                    componentType: 'ACQUISITIONS_ENGAGEMENT_BANNER',
+                },
+            ],
+            locations: [],
+            contextTargeting: {
+                tagIds: [],
+                sectionIds: [],
+                excludedTagIds: [],
+                excludedSectionIds: [],
+            },
+        };
+
+        it('returns abandoned basket banner when abandoned basket property present and not recently closed', () => {
+            const result = selectBannerTest(
+                {
+                    ...targeting,
+                    abandonedBasket: {
+                        amount: 5,
+                        billingPeriod: 'ANNUAL',
+                        region: 'au',
+                        product: 'Contribution',
+                    },
+                },
+                tracking,
+                userDeviceType,
+                '',
+                [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                undefined,
+                now,
+            );
+            expect(result && result.test.name).toBe('abandonedBasket');
+        });
+
+        it('returns null when abandoned basket property present and recently closed', () => {
+            const result = selectBannerTest(
+                {
+                    ...targeting,
+                    abandonedBasket: {
+                        amount: 5,
+                        billingPeriod: 'ANNUAL',
+                        region: 'au',
+                        product: 'Contribution',
+                    },
+                    abandonedBasketBannerLastClosedAt: now.toISOString(),
+                },
+                tracking,
+                userDeviceType,
+                '',
+                [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                undefined,
+                now,
+            );
+            expect(result).toBe(null);
+        });
+
+        it('returns null when abandoned basket property not present', () => {
+            const result = selectBannerTest(
+                targeting,
+                tracking,
+                userDeviceType,
+                '',
+                [test],
+                bannerDeployTimes,
+                enableHardcodedBannerTests,
+                enableScheduledBannerDeploys,
+                undefined,
+                now,
+            );
+            expect(result).toBe(null);
+        });
+    });
 });

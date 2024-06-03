@@ -18,6 +18,7 @@ import {
     deviceTypeMatches,
     consentStatusMatches,
     pageContextMatches,
+    abandonedBasketMatches,
 } from '../../lib/targeting';
 import { BannerDeployTimesProvider, ReaderRevenueRegion } from './bannerDeployTimes';
 import { selectTargetingTest } from '../../lib/targetingTesting';
@@ -27,6 +28,7 @@ import {
     ScheduledBannerDeploys,
     defaultDeploySchedule,
 } from './bannerDeploySchedule';
+import { daysSince } from '../../lib/dates';
 
 export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderRevenueRegion => {
     switch (true) {
@@ -42,6 +44,18 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
             return 'RestOfWorld';
     }
 };
+
+// Don't show the abandonedBasket banner if it was closed less than 1 day ago
+function canShowAbandonedBasketBanner(
+    abandonedBasketBannerLastClosedAt: string | undefined,
+    now: Date,
+): boolean {
+    if (!abandonedBasketBannerLastClosedAt) {
+        return true;
+    }
+
+    return daysSince(new Date(abandonedBasketBannerLastClosedAt), now) > 0;
+}
 
 /**
  * If the banner has been closed previously, can we show it again?
@@ -59,6 +73,7 @@ export const canShowBannerAgain = (
         subscriptionBannerLastClosedAt,
         engagementBannerLastClosedAt,
         signInBannerLastClosedAt,
+        abandonedBasketBannerLastClosedAt,
     } = targeting;
 
     const region = readerRevenueRegionFromCountryCode(targeting.countryCode);
@@ -66,6 +81,10 @@ export const canShowBannerAgain = (
     // Never show a sign in prompt banner if it has been closed previously
     if (bannerChannel === 'signIn') {
         return !signInBannerLastClosedAt;
+    }
+
+    if (bannerChannel === 'abandonedBasket') {
+        return canShowAbandonedBasketBanner(abandonedBasketBannerLastClosedAt, now);
     }
 
     const canShow = (lastClosedRaw: string | undefined): boolean => {
@@ -207,9 +226,10 @@ export const selectBannerTest = (
                     excludedSectionIds: [],
                 },
             ) &&
-            consentStatusMatches(targeting.hasConsented, test.consentStatus)
+            consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
+            abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket)
         ) {
-            const variant: BannerVariant = selectVariant(test, targeting.mvtId);
+            const variant = selectVariant<BannerVariant, BannerTest>(test, targeting.mvtId);
 
             return {
                 test,

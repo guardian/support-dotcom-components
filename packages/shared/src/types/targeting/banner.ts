@@ -7,6 +7,7 @@ export type BannerTargeting = {
     engagementBannerLastClosedAt?: string;
     subscriptionBannerLastClosedAt?: string;
     signInBannerLastClosedAt?: string;
+    abandonedBasketBannerLastClosedAt?: string;
     mvtId: number;
     countryCode: string;
     weeklyArticleHistory?: WeeklyArticleHistory;

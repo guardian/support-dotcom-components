@@ -8,6 +8,8 @@ import {
     PageContextTargeting,
     UserDeviceType,
     ConsentStatus,
+    AbandonedBasket,
+    BannerChannel,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
@@ -122,6 +124,17 @@ export const consentStatusMatches = (
             return true;
     }
 };
+
+export function abandonedBasketMatches(
+    bannerChannel: BannerChannel,
+    abandonedBasket: AbandonedBasket | undefined,
+): boolean {
+    if (bannerChannel === 'abandonedBasket') {
+        return !!abandonedBasket;
+    }
+
+    return true;
+}
 
 interface PageContext {
     tagIds?: string[];

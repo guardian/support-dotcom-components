@@ -14,8 +14,14 @@ import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
+import { AbandonedBasket } from '../targeting';
 
-export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
+export const bannerChannelSchema = z.enum([
+    'contributions',
+    'subscriptions',
+    'signIn',
+    'abandonedBasket',
+]);
 
 export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 
@@ -55,6 +61,7 @@ export interface BannerProps extends JSX.IntrinsicAttributes {
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
     design?: ConfigurableDesign;
+    abandonedBasket?: AbandonedBasket;
 }
 
 export const bannerSchema = z.object({
