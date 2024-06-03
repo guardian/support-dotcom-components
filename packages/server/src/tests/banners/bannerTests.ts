@@ -10,10 +10,10 @@ import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 const flattenArray = <T>(array: T[][]): T[] => ([] as T[]).concat(...array);
 
 const testGenerators: BannerTestGenerator[] = [
+    abandonedBasketTests,
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     signInPromptTests,
-    abandonedBasketTests,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>
