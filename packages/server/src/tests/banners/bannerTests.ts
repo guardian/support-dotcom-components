@@ -3,6 +3,7 @@ import {
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
 } from './channelBannerTests';
+import { abandonedBasketTests } from './abandonedBasketTests';
 import { signInPromptTests } from './signInPromptTests';
 import { buildReloader, ValueReloader } from '../../utils/valueReloader';
 
@@ -12,6 +13,7 @@ const testGenerators: BannerTestGenerator[] = [
     channel1BannersAllTestsGenerator,
     channel2BannersAllTestsGenerator,
     signInPromptTests,
+    abandonedBasketTests,
 ];
 
 const getTests = (): Promise<BannerTest[]> =>

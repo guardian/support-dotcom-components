@@ -74,17 +74,6 @@ const buildBannerVariant =
         componentType: BannerTemplateComponentTypes[forChannel],
     });
 
-function addInAbandonedBasketChannel(
-    bannerChannel: BannerChannel,
-    testParams: BannerTestFromTool,
-): BannerChannel {
-    if (testParams.name.includes('ABANDONED_BASKET')) {
-        return 'abandonedBasket';
-    }
-
-    return bannerChannel;
-}
-
 const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTestGenerator => {
     const channel = bannerChannel === 'contributions' ? 'Banner1' : 'Banner2';
     return (): Promise<BannerTest[]> =>
@@ -92,7 +81,7 @@ const createTestsGeneratorForChannel = (bannerChannel: BannerChannel): BannerTes
             return tests.map((testParams: BannerTestFromTool): BannerTest => {
                 return {
                     ...testParams,
-                    bannerChannel: addInAbandonedBasketChannel(bannerChannel, testParams),
+                    bannerChannel,
                     isHardcoded: false,
                     variants: testParams.variants.map(buildBannerVariant(bannerChannel)),
                 };
