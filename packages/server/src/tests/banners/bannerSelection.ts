@@ -48,12 +48,13 @@ export const readerRevenueRegionFromCountryCode = (countryCode: string): ReaderR
 // Don't show the abandonedBasket banner if it was closed less than 1 day ago
 function canShowAbandonedBasketBanner(
     abandonedBasketBannerLastClosedAt: string | undefined,
+    now: Date,
 ): boolean {
     if (!abandonedBasketBannerLastClosedAt) {
         return true;
     }
 
-    return daysSince(new Date(abandonedBasketBannerLastClosedAt)) > 0;
+    return daysSince(new Date(abandonedBasketBannerLastClosedAt), now) > 0;
 }
 
 /**
@@ -83,7 +84,7 @@ export const canShowBannerAgain = (
     }
 
     if (bannerChannel === 'abandonedBasket') {
-        return canShowAbandonedBasketBanner(abandonedBasketBannerLastClosedAt);
+        return canShowAbandonedBasketBanner(abandonedBasketBannerLastClosedAt, now);
     }
 
     const canShow = (lastClosedRaw: string | undefined): boolean => {
