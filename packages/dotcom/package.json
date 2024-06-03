@@ -1,6 +1,6 @@
 {
     "name": "@guardian/support-dotcom-components",
-    "version": "2.3.2",
+    "version": "2.3.3",
     "license": "MIT",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",

@@ -1,5 +1,11 @@
 # @guardian/support-dotcom-components
 
+## 2.3.3
+
+### Patch Changes
+
+-   Add abandonedBasketLastClosedAt to targeting type and new channel
+
 ## 2.3.2
 
 ### Patch Changes
