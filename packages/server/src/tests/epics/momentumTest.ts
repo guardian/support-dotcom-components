@@ -99,7 +99,7 @@ export function isIncreasedEngagement(
         categoryForThirdMonth > categoryForSecondMonth &&
         categoryForSecondMonth > categoryForFirstMonth
     ) {
-        const isIncreasedEngagement = categoryJumps >= JUMPS.medium;
+        const isIncreasedEngagement = categoryJumps >= JUMPS.low;
 
         logger.info({
             message: 'Decision to show Momentum Epic',
