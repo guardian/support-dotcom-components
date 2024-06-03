@@ -1,4 +1,4 @@
-import { ContributionFrequency } from '@sdc/shared/types';
+import { ContributionFrequency, SecondaryCta, secondaryCtaSchema } from '@sdc/shared/types';
 import { AMPTicker } from './ampTicker';
 import * as z from 'zod';
 import {
@@ -26,6 +26,7 @@ export interface AMPEpic {
     paragraphs: string[];
     highlightedText?: string;
     cta: AMPCta;
+    secondaryCta?: SecondaryCta;
     ticker?: AMPTicker;
     showChoiceCards?: boolean;
     defaultChoiceCardFrequency?: ContributionFrequency;
@@ -40,6 +41,7 @@ const ampEpicTestVariantSchema = z.object({
     paragraphs: z.array(z.string()),
     highlightedText: z.string().optional(),
     cta: ctaSchema.optional(),
+    secondaryCta: secondaryCtaSchema.optional(),
     tickerSettings: tickerSettingsSchema.optional(),
     showChoiceCards: z.boolean().optional(),
     defaultChoiceCardFrequency: contributionFrequencySchema.optional(),

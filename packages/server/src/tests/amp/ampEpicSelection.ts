@@ -98,6 +98,7 @@ const selectAmpEpicTestAndVariant = async (
                     componentId: campaignCode,
                     campaignCode: campaignCode,
                 },
+                secondaryCta: variant.secondaryCta,
                 showChoiceCards: variant.showChoiceCards,
                 defaultChoiceCardFrequency: variant.defaultChoiceCardFrequency,
             };

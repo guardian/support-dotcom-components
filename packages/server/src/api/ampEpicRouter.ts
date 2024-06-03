@@ -150,7 +150,7 @@ export const buildAmpEpicRouter = (
                         hideReminderWrapper: true,
                         hideSuccessMessage: true,
                         hideFailureMessage: true,
-                        hideReminderCta: false,
+                        hideReminderCta: !epic.secondaryCta,
                         hideReminderForm: false,
                     },
                     choiceCards:
