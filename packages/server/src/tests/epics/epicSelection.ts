@@ -10,7 +10,7 @@ import {
 } from '@sdc/shared/types';
 import { BanditData } from '../../bandit/banditData';
 import { selectVariantUsingEpsilonGreedy } from '../../bandit/banditSelection';
-import { getRandomNumber, selectVariant } from '../../lib/ab';
+import { getRandomNumber, selectVariantNonSticky, selectVariant } from '../../lib/ab';
 import { isRecentOneOffContributor } from '../../lib/dates';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
@@ -190,14 +190,18 @@ export interface Result {
     debug?: Debug;
 }
 
-export const banditNullHypothesisFilter: Filter = {
-    id: 'matchesOneOfBanditNullHypothesisTests',
+export const NonStickyVariantsTestNames = {
+    Sticky: '2024-05-24_STICKY_VARIANTS',
+    NonSticky: '2024-05-24_NON_STICKY_VARIANTS',
+};
+export const nonStickyVariantsTestFilter: Filter = {
+    id: 'matchesNonStickyVariantsTests',
     test: (test, targeting): boolean => {
-        const fiftyFiftyChance = getRandomNumber('NULL_HYPOTHESIS', targeting.mvtId) % 2;
-        if (test.name === '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_AB') {
+        const fiftyFiftyChance = getRandomNumber('NON_STICKY', targeting.mvtId) % 2;
+        if (test.name.startsWith(NonStickyVariantsTestNames.Sticky)) {
             return fiftyFiftyChance === 0;
         }
-        if (test.name === '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_BANDIT') {
+        if (test.name.startsWith(NonStickyVariantsTestNames.NonSticky)) {
             return fiftyFiftyChance === 1;
         }
         return true;
@@ -232,7 +236,7 @@ export const findTestAndVariant = (
             withinArticleViewedSettings(targeting.weeklyArticleHistory || []),
             deviceTypeMatchesFilter(userDeviceType),
             correctSignedInStatusFilter,
-            banditNullHypothesisFilter,
+            nonStickyVariantsTestFilter,
             momentumMatches,
         ];
     };
@@ -301,6 +305,14 @@ export const findTestAndVariant = (
 function selectEpicVariant(test: EpicTest, banditData: BanditData[], targeting: EpicTargeting) {
     if (test.isBanditTest) {
         return selectVariantUsingEpsilonGreedy(banditData, test);
+    }
+
+    if (test.name.startsWith(NonStickyVariantsTestNames.NonSticky)) {
+        // Do not use the mvt value
+        const variant = selectVariantNonSticky<EpicVariant, EpicTest>(test);
+        return {
+            result: { test, variant },
+        };
     }
 
     const variant = selectVariant<EpicVariant, EpicTest>(test, targeting.mvtId || 1);

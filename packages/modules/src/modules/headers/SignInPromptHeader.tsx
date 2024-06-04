@@ -9,8 +9,8 @@ import {
     textSans,
     from,
     until,
-} from '@guardian/source-foundations';
-import { LinkButton, buttonThemeBrand, Hide } from '@guardian/source-react-components';
+} from '@guardian/source/foundations';
+import { LinkButton, buttonThemeBrand, Hide } from '@guardian/source/react-components';
 import { HeaderRenderProps, headerWrapper, validatedHeaderWrapper } from './HeaderWrapper';
 import type { ReactComponent } from '../../types';
 

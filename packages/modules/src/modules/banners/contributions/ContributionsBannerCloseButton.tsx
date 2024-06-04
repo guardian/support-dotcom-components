@@ -4,9 +4,9 @@ import {
     buttonThemeReaderRevenueBrandAlt,
     Button,
     SvgCross,
-} from '@guardian/source-react-components';
+} from '@guardian/source/react-components';
 import { ThemeProvider, css } from '@emotion/react';
-import { from, neutral } from '@guardian/source-foundations';
+import { from, neutral } from '@guardian/source/foundations';
 import type { ReactComponent } from '../../../types';
 
 const styles = {

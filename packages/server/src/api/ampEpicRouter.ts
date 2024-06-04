@@ -13,6 +13,7 @@ import {
     buildReminderFields,
     countryCodeToCountryGroupId,
     getLocalCurrencySymbol,
+    isSupportUrl,
 } from '@sdc/shared/dist/lib';
 import { getAmpVariantAssignments } from '../lib/ampVariantAssignments';
 import { ampEpic } from '../tests/amp/ampEpic';
@@ -142,13 +143,14 @@ export const buildAmpEpicRouter = (
                     ctaUrl: `${epic.cta.url}?INTCMP=${
                         epic.cta.campaignCode
                     }&acquisitionData=${JSON.stringify(acquisitionData)}`,
+                    hidePaymentIcons: !isSupportUrl(epic.cta.url),
                     reminder: {
                         ...buildReminderFields(),
                         hideButtons: false,
                         hideReminderWrapper: true,
                         hideSuccessMessage: true,
                         hideFailureMessage: true,
-                        hideReminderCta: false,
+                        hideReminderCta: !epic.secondaryCta,
                         hideReminderForm: false,
                     },
                     choiceCards:

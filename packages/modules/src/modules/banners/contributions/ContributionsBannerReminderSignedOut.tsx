@@ -8,8 +8,8 @@ import {
     Hide,
     TextInput,
     SvgCheckmark,
-} from '@guardian/source-react-components';
-import { textSans, space, from } from '@guardian/source-foundations';
+} from '@guardian/source/react-components';
+import { textSans, space, from } from '@guardian/source/foundations';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { useContributionsReminderEmailForm } from '../../../hooks/useContributionsReminderEmailForm';

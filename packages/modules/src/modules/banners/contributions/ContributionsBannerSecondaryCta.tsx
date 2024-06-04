@@ -5,8 +5,8 @@ import {
     LinkButton,
     SvgArrowRightStraight,
     Button,
-} from '@guardian/source-react-components';
-import { space, neutral } from '@guardian/source-foundations';
+} from '@guardian/source/react-components';
+import { space, neutral } from '@guardian/source/foundations';
 import { BannerEnrichedSecondaryCta } from '../common/types';
 import { SecondaryCtaType } from '@sdc/shared/types';
 import { hasSetReminder } from '../../utils/reminders';

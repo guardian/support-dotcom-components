@@ -1,5 +1,30 @@
 # @guardian/support-dotcom-components
 
+## 2.3.3
+
+### Patch Changes
+
+-   Add abandonedBasketLastClosedAt to targeting type and new channel
+
+## 2.3.2
+
+### Patch Changes
+
+-   Uses the new `@guardian/source` package.
+-   Adds compatability with projects that consume `package.json#exports`
+
+## 2.3.1
+
+### Patch Changes
+
+-   export abandonedBasketSchema
+
+## 2.3.0
+
+### Minor Changes
+
+-   Add abandonedBasket schema and type and add to BannerPayload type
+
 ## 2.2.2
 
 ### Patch Changes

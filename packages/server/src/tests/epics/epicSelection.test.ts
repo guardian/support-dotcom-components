@@ -19,7 +19,7 @@ import {
     withinMaxViews,
     deviceTypeMatchesFilter,
     correctSignedInStatusFilter,
-    banditNullHypothesisFilter,
+    NonStickyVariantsTestNames,
 } from './epicSelection';
 import { BanditData } from '../../bandit/banditData';
 
@@ -855,10 +855,7 @@ describe('correctSignedInStatusFilter filter', () => {
     });
 });
 
-const BANDIT_TEST_NAME = '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_BANDIT';
-const AB_TEST_TEST_NAME = '2024-04-16_BANDIT_NULL_HYPOTHESIS_TEST_AB';
-
-describe('bandit null hypothesis', () => {
+describe('sticky variant test', () => {
     const variants = [
         {
             ...variantDefault,
@@ -867,24 +864,24 @@ describe('bandit null hypothesis', () => {
         { ...variantDefault, name: 'variant' },
     ];
 
-    const abTestTest: EpicTest = {
+    const stickyTest: EpicTest = {
         ...testDefault,
-        name: AB_TEST_TEST_NAME,
+        name: `${NonStickyVariantsTestNames.Sticky}__UK`,
         articlesViewedSettings: undefined,
         variants: variants,
     };
 
-    const banditTest: EpicTest = {
+    const nonStickyTest: EpicTest = {
         ...testDefault,
-        name: BANDIT_TEST_NAME,
+        name: `${NonStickyVariantsTestNames.NonSticky}__UK`,
         isBanditTest: true,
         articlesViewedSettings: undefined,
         variants: variants,
     };
 
-    const tests = [abTestTest, banditTest];
+    const tests = [stickyTest, nonStickyTest];
 
-    it('should return AB test and bandit ~ equally', () => {
+    it('should return sticky and non-sticky ~ equally', () => {
         const results: (string | undefined)[] = [];
 
         for (let i = 0; i < 5000; i++) {
@@ -902,92 +899,12 @@ describe('bandit null hypothesis', () => {
             results.push(got.result?.test.name);
         }
 
-        const abTestChosen = results.filter((r) => r === AB_TEST_TEST_NAME);
-        expect(abTestChosen.length).toBe(2550);
+        const stickyChosen = results.filter((r) => r === stickyTest.name);
+        expect(stickyChosen.length).toBeGreaterThan(2400);
+        expect(stickyChosen.length).toBeLessThan(2600);
 
-        const banditChosen = results.filter((r) => r === BANDIT_TEST_NAME);
-        expect(banditChosen.length).toBe(2450);
-    });
-});
-
-describe('banditNullHypothesisFilter filter', () => {
-    it('should pass for mvtId = 1 and test is AB test', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: AB_TEST_TEST_NAME,
-        };
-
-        const targeting = { ...targetingDefault, mvtId: 1 };
-        const got = banditNullHypothesisFilter.test(test, targeting);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail for mvtId = 2 and test is AB test', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: AB_TEST_TEST_NAME,
-        };
-
-        const targeting = { ...targetingDefault, mvtId: 2 };
-        const got = banditNullHypothesisFilter.test(test, targeting);
-
-        expect(got).toBe(false);
-    });
-
-    it('should pass for mvtId = 2 and test is Bandit', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: BANDIT_TEST_NAME,
-        };
-
-        const targeting = { ...targetingDefault, mvtId: 2 };
-        const got = banditNullHypothesisFilter.test(test, targeting);
-
-        expect(got).toBe(true);
-    });
-
-    it('should fail for mvtId = 1 and test is Bandit', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: BANDIT_TEST_NAME,
-        };
-
-        const targeting = { ...targetingDefault, mvtId: 1 };
-        const got = banditNullHypothesisFilter.test(test, targeting);
-
-        expect(got).toBe(false);
-    });
-
-    it('should pass for ~50% of MVT IDs and test is AB test', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: AB_TEST_TEST_NAME,
-        };
-
-        const results: boolean[] = [];
-        for (let mvt = 0; mvt < 5000; mvt++) {
-            const targeting = { ...targetingDefault, mvtId: mvt };
-            const got = banditNullHypothesisFilter.test(test, targeting);
-            results.push(got);
-        }
-
-        expect(results.filter((r) => r).length).toBe(2550);
-    });
-
-    it('should pass for ~50% of MVT IDs and test is Bandit', () => {
-        const test: EpicTest = {
-            ...testDefault,
-            name: BANDIT_TEST_NAME,
-        };
-
-        const results: boolean[] = [];
-        for (let mvt = 0; mvt < 5000; mvt++) {
-            const targeting = { ...targetingDefault, mvtId: mvt };
-            const got = banditNullHypothesisFilter.test(test, targeting);
-            results.push(got);
-        }
-
-        expect(results.filter((r) => r).length).toBe(2450);
+        const nonStickyChosen = results.filter((r) => r === nonStickyTest.name);
+        expect(nonStickyChosen.length).toBeGreaterThan(2400);
+        expect(nonStickyChosen.length).toBeLessThan(2600);
     });
 });

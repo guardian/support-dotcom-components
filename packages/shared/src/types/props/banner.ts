@@ -1,4 +1,4 @@
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { JSX } from '@emotion/react/jsx-runtime';
 import {
     articleCountsSchema,
     Cta,
@@ -16,8 +16,14 @@ import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
 import { ArticleCounts } from './epic';
+import { AbandonedBasket } from '../targeting';
 
-export const bannerChannelSchema = z.enum(['contributions', 'subscriptions', 'signIn']);
+export const bannerChannelSchema = z.enum([
+    'contributions',
+    'subscriptions',
+    'signIn',
+    'abandonedBasket',
+]);
 
 export type BannerChannel = z.infer<typeof bannerChannelSchema>;
 
@@ -41,7 +47,7 @@ export const bannerContentSchema = z.object({
     secondaryCta: secondaryCtaSchema.optional(),
 });
 
-export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
+export interface BannerProps extends JSX.IntrinsicAttributes {
     tracking: Tracking;
     bannerChannel: BannerChannel;
     content?: BannerContent;
@@ -58,6 +64,7 @@ export interface BannerProps extends EmotionJSX.IntrinsicAttributes {
     prices?: Prices;
     choiceCardAmounts?: SelectedAmountsVariant;
     design?: ConfigurableDesign;
+    abandonedBasket?: AbandonedBasket;
 }
 
 export const bannerSchema = z.object({

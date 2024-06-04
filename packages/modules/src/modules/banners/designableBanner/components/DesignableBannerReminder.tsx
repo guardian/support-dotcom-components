@@ -4,7 +4,7 @@ import { BannerEnrichedReminderCta } from '../../common/types';
 import { CtaSettings } from '../settings';
 import { DesignableBannerReminderSignedOut } from './DesignableBannerReminderSignedOut';
 import { css } from '@emotion/react';
-import { space } from '@guardian/source-foundations';
+import { space } from '@guardian/source/foundations';
 
 export interface DesignableBannerReminderProps {
     reminderCta: BannerEnrichedReminderCta;

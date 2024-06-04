@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from } from '@guardian/source-foundations';
+import { from } from '@guardian/source/foundations';
 import { ImageAttrs, ResponsiveImage } from '../../../shared/ResponsiveImage';
 import { Image } from '@sdc/shared/types';
 import { BannerId } from '../../common/types';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/react';
-import { space, from, neutral } from '@guardian/source-foundations';
-import { Hide } from '@guardian/source-react-components';
+import { space, from, neutral } from '@guardian/source/foundations';
+import { Hide } from '@guardian/source/react-components';
 import type { ReactComponent } from '../../../types';
 
 const banner = (backgroundColour: string): SerializedStyles => css`

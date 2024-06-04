@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import { Button, TextInput } from '@guardian/source-react-components';
-import { textSans, space, from } from '@guardian/source-foundations';
+import { Button, TextInput } from '@guardian/source/react-components';
+import { textSans, space, from } from '@guardian/source/foundations';
 import React from 'react';
 import { BannerEnrichedReminderCta } from '../../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../../utils/reminders';

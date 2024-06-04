@@ -9,7 +9,7 @@ import {
     until,
     body,
     textSans,
-} from '@guardian/source-foundations';
+} from '@guardian/source/foundations';
 import { BannerEnrichedReminderCta, BannerRenderProps } from '../common/types';
 import { DesignableBannerHeader } from './components/DesignableBannerHeader';
 import { DesignableBannerArticleCount } from './components/DesignableBannerArticleCount';
@@ -36,7 +36,7 @@ import { buttonStyles } from './styles/buttonStyles';
 import { BannerTemplateSettings, CtaSettings } from './settings';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import type { ReactComponent } from '../../../types';
-import { Button, SvgGuardianLogo } from '@guardian/source-react-components';
+import { Button, SvgGuardianLogo } from '@guardian/source/react-components';
 
 const buildImageSettings = (
     design: BannerDesignImage | BannerDesignHeaderImage,

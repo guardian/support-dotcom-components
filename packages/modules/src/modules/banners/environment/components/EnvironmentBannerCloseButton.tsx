@@ -4,7 +4,7 @@ import {
     Button,
     buttonThemeReaderRevenueBrandAlt,
     SvgCross,
-} from '@guardian/source-react-components';
+} from '@guardian/source/react-components';
 import type { ReactComponent } from '../../../../types';
 
 const button = css`

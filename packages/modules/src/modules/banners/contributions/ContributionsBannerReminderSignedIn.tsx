@@ -7,8 +7,8 @@ import {
     Column,
     Hide,
     SvgCheckmark,
-} from '@guardian/source-react-components';
-import { textSans, space, from } from '@guardian/source-foundations';
+} from '@guardian/source/react-components';
+import { textSans, space, from } from '@guardian/source/foundations';
 import { BannerEnrichedReminderCta } from '../common/types';
 import { ensureHasPreposition, ReminderStatus } from '../../utils/reminders';
 import { ErrorCopy, InfoCopy, ThankYou } from '../../shared/Reminders';

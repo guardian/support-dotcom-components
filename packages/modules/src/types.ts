@@ -1,4 +1,4 @@
-import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
+import { JSX } from '@emotion/react/jsx-runtime';
 
 // This type can be used in place of React.FC<T> which was previously widespread
 // in this codebase but is no longer recommended. In many cases it's possible to
@@ -12,4 +12,4 @@ import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 
 export type ReactComponent<GenericProps = Record<string, never>> = (
     props: GenericProps,
-) => EmotionJSX.Element;
+) => JSX.Element;

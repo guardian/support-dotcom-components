@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
-import { Container, Columns, Column, Hide } from '@guardian/source-react-components';
+import { Container, Columns, Column, Hide } from '@guardian/source/react-components';
 import { commonStyles } from './ContributionsBannerCommonStyles';
 import { css } from '@emotion/react';
-import { between, from, headline, brandAlt, neutral, space } from '@guardian/source-foundations';
+import { between, from, headline, brandAlt, neutral, space } from '@guardian/source/foundations';
 import { ContributionsBannerMobile } from './ContributionsBannerMobile';
 import { ContributionsBannerCta } from './ContributionsBannerCta';
 import { ContributionsBannerSecondaryCta } from './ContributionsBannerSecondaryCta';
