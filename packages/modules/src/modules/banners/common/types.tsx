@@ -5,8 +5,9 @@ import {
     SelectedAmountsVariant,
     TickerSettings,
     Tracking,
-    ConfigurableDesign, ArticleCounts
-} from "@sdc/shared/types";
+    ConfigurableDesign,
+} from '@sdc/shared/types';
+import { ArticleCounts, ArticleCountType } from '@sdc/shared/dist/types';
 
 export type BannerId =
     | 'climate-crisis-moment-banner'
@@ -81,8 +82,10 @@ export interface BannerRenderProps {
     countryCode?: string;
     fetchEmail?: () => Promise<string | null>;
     tickerSettings?: TickerSettings;
-    articleCounts: ArticleCounts;
     isSupporter?: boolean;
+    numArticles?: number;
+    articleCounts: ArticleCounts;
+    countType?: ArticleCountType;
     separateArticleCount?: boolean;
     choiceCardAmounts?: SelectedAmountsVariant;
     tracking: Tracking;

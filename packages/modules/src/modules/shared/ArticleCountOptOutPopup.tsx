@@ -90,6 +90,7 @@ export interface OphanTracking {
 export interface ArticleCountOptOutProps {
     articleCount: ArticleCounts,
     numArticles: number;
+    numOfArticles: number,
     nextWord: string | null;
     type: ArticleCountOptOutType;
     tracking?: OphanTracking;
@@ -98,6 +99,7 @@ export interface ArticleCountOptOutProps {
 export const ArticleCountOptOutPopup: ReactComponent<ArticleCountOptOutProps> = ({
     articleCount,
     numArticles,
+    numOfArticles,
     nextWord,
     type,
     tracking,
@@ -143,7 +145,7 @@ export const ArticleCountOptOutPopup: ReactComponent<ArticleCountOptOutProps> = 
     return (
         <div ref={setNode} css={optOutContainer(type)}>
             <button css={articleCountButton} onClick={onToggle}>
-                {`${numArticles}${nextWord ? nextWord : ''}`}
+                {`${numOfArticles} and then ${numArticles}${nextWord ? nextWord : ''}`}
             </button>
             {isOpen && (
                 <div css={overlayContainer(type)}>

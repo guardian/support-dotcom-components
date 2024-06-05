@@ -4,12 +4,11 @@ import {
     OphanTracking,
     ArticleCountOptOutType,
 } from '../modules/shared/ArticleCountOptOutPopup';
-import { ArticleCounts } from '@sdc/shared/dist/types';
 
 export const replaceArticleCountWithLink = (
     text: string,
-    articleCount: ArticleCounts,
     numArticles: number,
+    numOfArticles: number,
     articleCountOptOutType: ArticleCountOptOutType,
     tracking?: OphanTracking,
 ): Array<JSX.Element> => {
@@ -28,8 +27,8 @@ export const replaceArticleCountWithLink = (
         );
         elements.push(
             <ArticleCountOptOutPopup
-                articleCount={articleCount}
                 numArticles={numArticles}
+                numOfArticles={numOfArticles}
                 nextWord={nextWords[i] as string}
                 type={articleCountOptOutType}
                 tracking={tracking}
@@ -51,8 +50,8 @@ export const replaceArticleCountWithLink = (
 
 export const replaceArticleCount = (
     text: string,
-    articleCount: ArticleCounts,
     numArticles: number,
+    numOfArticles: number,
     articleCountOptOutType: ArticleCountOptOutType,
     tracking?: OphanTracking,
     optOutLink: boolean = true,
@@ -60,8 +59,8 @@ export const replaceArticleCount = (
     if (optOutLink) {
         return replaceArticleCountWithLink(
             text,
-            articleCount,
             numArticles,
+            numOfArticles,
             articleCountOptOutType,
             tracking,
         );
@@ -69,7 +68,10 @@ export const replaceArticleCount = (
     return (
         <span
             dangerouslySetInnerHTML={{
-                __html: text.replace(/%%ARTICLE_COUNT%%/, `${numArticles}`),
+                __html: text.replace(
+                    /%%ARTICLE_COUNT%%/,
+                    `${numOfArticles} and this ${numArticles}`,
+                ),
             }}
         />
     );

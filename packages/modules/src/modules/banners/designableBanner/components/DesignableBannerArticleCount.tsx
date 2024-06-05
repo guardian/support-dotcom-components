@@ -10,12 +10,14 @@ import { ArticleCounts } from "@sdc/shared/dist/types";
 interface DesignableBannerArticleCountProps {
     articleCount: ArticleCounts;
     numArticles: number;
+    numOfArticles: number;
     settings: BannerTemplateSettings;
 }
 
 export function DesignableBannerArticleCount({
     articleCount,
     numArticles,
+    numOfArticles,
     settings,
 }: DesignableBannerArticleCountProps): JSX.Element {
     return (
@@ -24,6 +26,7 @@ export function DesignableBannerArticleCount({
             <DesignableBannerArticleCountOptOut
                 articleCount={articleCount}
                 numArticles={numArticles}
+                numOfArticles={numOfArticles}
                 nextWord=" articles"
                 settings={settings}
             />{' '}

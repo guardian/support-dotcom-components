@@ -97,12 +97,13 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     content,
     onCloseClick,
     numArticles,
+    articleCounts,
+    countType,
     onCtaClick,
     onSecondaryCtaClick,
     reminderTracking,
     separateArticleCount,
     tickerSettings,
-    articleCounts,
     choiceCardAmounts,
     countryCode,
     submitComponentEvent,
@@ -220,6 +221,8 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const showReminder =
         mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
 
+    const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
+
     return (
         <div
             css={styles.outerContainer(
@@ -236,13 +239,15 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     />
                 </div>
                 <div css={styles.contentContainer(showReminder)}>
-                    {separateArticleCount && Number(numArticles) > 5 && (
-                        <DesignableBannerArticleCount
-                            articleCount={articleCounts}
-                            numArticles={numArticles as number}
-                            settings={templateSettings}
-                        />
-                    )}
+                    {separateArticleCount &&
+                        Number(numArticles) > 5 &&
+                        Number(numOfArticles) > 5 && (
+                            <DesignableBannerArticleCount
+                                numArticles={numArticles as number}
+                                numOfArticles={numOfArticles as number}
+                                settings={templateSettings}
+                            />
+                        )}
 
                     <div css={templateSpacing.bannerBodyCopy}>
                         <DesignableBannerBody

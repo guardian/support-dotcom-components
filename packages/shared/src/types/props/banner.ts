@@ -17,6 +17,7 @@ import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
 import { ArticleCounts } from './epic';
 import { AbandonedBasket } from '../targeting';
+import { ArticleCounts, ArticleCountType } from "./epic";
 
 export const bannerChannelSchema = z.enum([
     'contributions',
@@ -58,6 +59,8 @@ export interface BannerProps extends JSX.IntrinsicAttributes {
     articleCounts: ArticleCounts;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
     numArticles?: number;
+    articleCounts: ArticleCounts;
+    countType?: ArticleCountType;
     hasOptedOutOfArticleCount?: boolean;
     fetchEmail?: () => Promise<string | null>;
     separateArticleCount?: boolean;
@@ -78,6 +81,7 @@ export const bannerSchema = z.object({
     articleCounts: articleCountsSchema,
     submitComponentEvent: z.any(),
     numArticles: z.number().nullish(),
+    articleCounts: articleCountsSchema,
     hasOptedOutOfArticleCount: z.boolean().nullish(),
     fetchEmail: z.any().nullish(),
     separateArticleCount: z.boolean().nullish(),

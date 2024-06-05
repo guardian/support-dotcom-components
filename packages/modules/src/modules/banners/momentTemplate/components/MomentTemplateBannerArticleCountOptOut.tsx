@@ -14,13 +14,14 @@ import type { ReactComponent } from '../../../../types';
 
 export interface MomentTemplateArticleCountOptOutProps {
     numArticles: number;
+    numOfArticles: number;
     nextWord: string | null;
     settings: BannerTemplateSettings;
 }
 
 export const MomentTemplateArticleCountOptOut: ReactComponent<
     MomentTemplateArticleCountOptOutProps
-> = ({ numArticles, nextWord, settings }: MomentTemplateArticleCountOptOutProps) => {
+> = ({ numArticles,numOfArticles, nextWord, settings }: MomentTemplateArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
@@ -43,7 +44,7 @@ export const MomentTemplateArticleCountOptOut: ReactComponent<
     return (
         <div css={styles.optOutContainer}>
             <button css={styles.articleCountButton} onClick={onToggle}>
-                {`${numArticles}${nextWord ? nextWord : ''}`}
+                {`${numOfArticles} and yes ${numArticles}${nextWord ? nextWord : ''}`}
             </button>
 
             {isOpen && (
