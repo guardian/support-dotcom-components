@@ -8,16 +8,15 @@ import {
     TickerSettings,
     tickerSettingsSchema,
     Tracking,
-    trackingSchema
+    trackingSchema,
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
-import { ArticleCounts } from './epic';
 import { AbandonedBasket } from '../targeting';
-import { ArticleCounts, ArticleCountType } from "./epic";
+import { ArticleCounts, ArticleCountType } from './epic';
 
 export const bannerChannelSchema = z.enum([
     'contributions',
@@ -56,9 +55,7 @@ export interface BannerProps extends JSX.IntrinsicAttributes {
     countryCode?: string;
     isSupporter?: boolean;
     tickerSettings?: TickerSettings;
-    articleCounts: ArticleCounts;
     submitComponentEvent?: (componentEvent: OphanComponentEvent) => void;
-    numArticles?: number;
     articleCounts: ArticleCounts;
     countType?: ArticleCountType;
     hasOptedOutOfArticleCount?: boolean;
@@ -78,9 +75,7 @@ export const bannerSchema = z.object({
     countryCode: z.string().nullish(),
     isSupporter: z.boolean().nullish(),
     tickerSettings: tickerSettingsSchema.nullish(),
-    articleCounts: articleCountsSchema,
     submitComponentEvent: z.any(),
-    numArticles: z.number().nullish(),
     articleCounts: articleCountsSchema,
     hasOptedOutOfArticleCount: z.boolean().nullish(),
     fetchEmail: z.any().nullish(),

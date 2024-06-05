@@ -9,7 +9,7 @@ import {
     Stage,
     tickerSettingsSchema,
     Tracking,
-    trackingSchema
+    trackingSchema,
 } from './shared';
 import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';

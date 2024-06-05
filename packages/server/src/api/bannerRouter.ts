@@ -17,7 +17,7 @@ import { baseUrl } from '../lib/env';
 import { BannerDeployTimesProvider } from '../tests/banners/bannerDeployTimes';
 import { buildBannerCampaignCode, countryCodeToCountryGroupId } from '@sdc/shared/dist/lib';
 import { TickerDataProvider } from '../lib/fetchTickerData';
-import { getArticleViewCountForWeeks, getArticleViewCounts } from '../lib/history';
+import { getArticleViewCounts } from '../lib/history';
 import { Debug } from '../tests/epics/epicSelection';
 import { getDeviceType } from '../lib/deviceType';
 import { ValueProvider } from '../utils/valueReloader';
@@ -98,7 +98,6 @@ export const buildBannerRouter = (
                 targetingMvtId,
             );
 
-
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
                 bannerChannel: test.bannerChannel,
@@ -110,10 +109,6 @@ export const buildBannerRouter = (
                     targeting.weeklyArticleHistory,
                     test.articlesViewedSettings?.periodInWeeks,
                     test.articlesViewedSettings?.tagIds,
-                ),
-                numArticles: getArticleViewCountForWeeks(
-                    targeting.weeklyArticleHistory,
-                    test.articlesViewedSettings?.periodInWeeks,
                 ),
                 hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
                 tickerSettings,

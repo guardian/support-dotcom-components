@@ -83,7 +83,6 @@ export interface BannerRenderProps {
     fetchEmail?: () => Promise<string | null>;
     tickerSettings?: TickerSettings;
     isSupporter?: boolean;
-    numArticles?: number;
     articleCounts: ArticleCounts;
     countType?: ArticleCountType;
     separateArticleCount?: boolean;

@@ -185,21 +185,14 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
     onCloseClick,
     onCtaClick,
     onSecondaryCtaClick,
-    numArticles,
     articleCounts,
     countType,
     isSupporter,
     separateArticleCount,
 }: BannerRenderProps) => {
-
-    const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
+    const numArticles = articleCounts[countType ?? 'for52Weeks'];
     const showArticleCount =
-        separateArticleCount &&
-        !isSupporter &&
-        numArticles !== undefined &&
-        numArticles > 5 &&
-        numOfArticles !== undefined &&
-        numOfArticles > 5;
+        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
 
     return (
         <div css={container}>
@@ -223,10 +216,7 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
                         <div css={bodyAndCtasContainer}>
                             {showArticleCount && (
                                 <div>
-                                    <EnvironmentBannerArticleCount
-                                        numArticles={numArticles}
-                                        numOfArticles={numOfArticles}
-                                    />
+                                    <EnvironmentBannerArticleCount numArticles={numArticles} />
                                 </div>
                             )}
 

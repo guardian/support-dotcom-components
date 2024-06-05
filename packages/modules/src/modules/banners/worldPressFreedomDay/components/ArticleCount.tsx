@@ -17,16 +17,14 @@ const styles = {
 
 interface ArticleCountProps {
     numArticles: number;
-    numOfArticles: number;
 }
 
-export function ArticleCount({ numArticles, numOfArticles }: ArticleCountProps): JSX.Element {
+export function ArticleCount({ numArticles }: ArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}
             <ArticleCountOptOutPopup
                 numArticles={numArticles}
-                numOfArticles={numOfArticles}
                 nextWord=" articles"
                 type="global-new-year-moment-banner"
             />{' '}

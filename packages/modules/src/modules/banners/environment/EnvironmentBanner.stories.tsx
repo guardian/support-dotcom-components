@@ -54,5 +54,8 @@ Environment.args = {
             },
         },
     },
-    numArticles: 99,
+    articleCounts: {
+        for52Weeks: 99,
+        forTargetedWeeks: 99,
+    },
 };

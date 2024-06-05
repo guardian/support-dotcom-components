@@ -39,16 +39,14 @@ import { ArticleCounts, ArticleCountType } from '@sdc/shared/dist/types';
 // A separate article count is rendered as a subheading
 const buildSubheading = (
     articleCounts: ArticleCounts,
-    numArticles: number,
     separateArticleCount: boolean,
     countType?: ArticleCountType,
 ): JSX.Element | JSX.Element[] | null => {
-    const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
-    if (separateArticleCount && numArticles >= 5 && numOfArticles >= 5) {
+    const numArticles = articleCounts[countType ?? 'for52Weeks'];
+    if (separateArticleCount && numArticles >= 5) {
         return replaceArticleCount(
             `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
             numArticles,
-            numOfArticles,
             'banner',
         );
     }
@@ -95,7 +93,6 @@ const withBannerData =
             countryCode,
             prices,
             fetchEmail,
-            numArticles = 0,
             articleCounts,
             countType,
             tickerSettings,
@@ -151,8 +148,8 @@ const withBannerData =
         };
 
         const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
-            const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
-            return paras.map((p) => replaceArticleCount(p, numArticles, numOfArticles, 'banner'));
+            const numArticles = articleCounts[countType ?? 'for52Weeks'];
+            return paras.map((p) => replaceArticleCount(p, numArticles, 'banner'));
         };
 
         const paragraphsContainNonArticleCountPlaceholder = (paras: string[]): boolean =>
@@ -227,21 +224,16 @@ const withBannerData =
                     containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
                 (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
-            const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
+            const numArticles = articleCounts[countType ?? 'for52Weeks'];
             const headingWithArticleCount = !!cleanHeading
-                ? replaceArticleCount(cleanHeading, numArticles, numOfArticles, 'banner')
+                ? replaceArticleCount(cleanHeading, numArticles, 'banner')
                 : null;
 
             const highlightedTextWithArticleCount = !!cleanHighlightedText
-                ? replaceArticleCount(cleanHighlightedText, numArticles, numOfArticles, 'banner')
+                ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
                 : null;
 
-            const subheading = buildSubheading(
-                articleCounts,
-                numArticles,
-                !!separateArticleCount,
-                countType,
-            );
+            const subheading = buildSubheading(articleCounts, !!separateArticleCount, countType);
 
             if (copyHasPlaceholder) {
                 throw Error('Banner copy contains placeholders, abandoning.');
@@ -302,7 +294,6 @@ const withBannerData =
                     fetchEmail,
                     tickerSettings,
                     isSupporter,
-                    numArticles,
                     articleCounts,
                     countType,
                     separateArticleCount,

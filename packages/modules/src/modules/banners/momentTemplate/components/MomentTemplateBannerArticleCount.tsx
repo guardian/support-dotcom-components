@@ -8,13 +8,11 @@ import { BannerTemplateSettings } from '../settings';
 
 interface MomentTemplateBannerArticleCountProps {
     numArticles: number;
-    numOfArticles: number;
     settings: BannerTemplateSettings;
 }
 
 export function MomentTemplateBannerArticleCount({
     numArticles,
-    numOfArticles,
     settings,
 }: MomentTemplateBannerArticleCountProps): JSX.Element {
     return (
@@ -22,7 +20,6 @@ export function MomentTemplateBannerArticleCount({
             You&apos;ve read{' '}
             <MomentTemplateArticleCountOptOut
                 numArticles={numArticles}
-                numOfArticles={numOfArticles}
                 nextWord=" articles"
                 settings={settings}
             />{' '}

@@ -61,12 +61,15 @@ Default.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: undefined,
 };
 
 export const WithBackDrop = WithBackDropTemplate.bind({});
-Default.args = {
+WithBackDrop.args = {
     ...props,
     content: {
         heading: 'Show your support for reader-funded journalism',
@@ -112,7 +115,10 @@ Default.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: undefined,
 };
 
@@ -163,7 +169,10 @@ WithChoiceCards.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: undefined,
 };
 
@@ -214,7 +223,10 @@ WithChoiceCardsHeaderImage.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: undefined,
 };
 
@@ -265,7 +277,10 @@ WithHeaderImage.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: undefined,
 };
 
@@ -307,7 +322,10 @@ WithReminder.args = {
             type: SecondaryCtaType.ContributionsReminder,
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
 };
 
 export const WithTicker = BannerWithTickerTemplate.bind({});
@@ -357,7 +375,10 @@ WithTicker.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: {
         countType: TickerCountType.money,
         endType: TickerEndType.hardstop,

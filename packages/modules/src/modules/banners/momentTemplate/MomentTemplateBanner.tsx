@@ -26,7 +26,6 @@ export function getMomentTemplateBanner(
     function MomentTemplateBanner({
         content,
         onCloseClick,
-        numArticles,
         articleCounts,
         countType,
         onCtaClick,
@@ -55,8 +54,7 @@ export function getMomentTemplateBanner(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData
         );
 
-        const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
-
+        const numArticles = articleCounts[countType ?? 'for52Weeks'];
 
         return (
             <div
@@ -86,10 +84,9 @@ export function getMomentTemplateBanner(
                     </div>
 
                     <div css={styles.contentContainer}>
-                        {separateArticleCount && Number(numArticles) > 5 &&  Number(numOfArticles) > 5 && (
+                        {separateArticleCount && Number(numArticles) > 5 && (
                             <MomentTemplateBannerArticleCount
                                 numArticles={numArticles as number}
-                                numOfArticles={numOfArticles}
                                 settings={templateSettings}
                             />
                         )}

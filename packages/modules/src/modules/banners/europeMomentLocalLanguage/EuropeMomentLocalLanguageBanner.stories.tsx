@@ -128,6 +128,9 @@ EuropeMomentLocalLanguage2023.args = {
             },
         },
     },
-    numArticles: 50,
+    articleCounts: {
+        for52Weeks: 50,
+        forTargetedWeeks: 50,
+    },
     tickerSettings: undefined,
 };

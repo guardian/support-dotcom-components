@@ -96,7 +96,6 @@ const buildChoiceCardSettings = (design: ConfigurableDesign): ChoiceCardSettings
 const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     content,
     onCloseClick,
-    numArticles,
     articleCounts,
     countType,
     onCtaClick,
@@ -221,7 +220,7 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
     const showReminder =
         mainOrMobileContent.secondaryCta?.type === SecondaryCtaType.ContributionsReminder;
 
-    const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
+    const numArticles = articleCounts[countType ?? 'for52Weeks'];
 
     return (
         <div
@@ -239,15 +238,12 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                     />
                 </div>
                 <div css={styles.contentContainer(showReminder)}>
-                    {separateArticleCount &&
-                        Number(numArticles) > 5 &&
-                        Number(numOfArticles) > 5 && (
-                            <DesignableBannerArticleCount
-                                numArticles={numArticles as number}
-                                numOfArticles={numOfArticles as number}
-                                settings={templateSettings}
-                            />
-                        )}
+                    {separateArticleCount && Number(numArticles) > 5 && (
+                        <DesignableBannerArticleCount
+                            numArticles={numArticles as number}
+                            settings={templateSettings}
+                        />
+                    )}
 
                     <div css={templateSpacing.bannerBodyCopy}>
                         <DesignableBannerBody

@@ -75,7 +75,8 @@ export const ChoiceCardsButtonsBanner = ({
     countryCode,
     submitComponentEvent,
     tracking,
-    numArticles,
+    articleCounts,
+    countType,
     isSupporter,
     separateArticleCount,
 }: Omit<
@@ -108,6 +109,8 @@ export const ChoiceCardsButtonsBanner = ({
     };
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
+
+    const numArticles = articleCounts[countType ?? 'for52Weeks'];
 
     const showArticleCount =
         separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
