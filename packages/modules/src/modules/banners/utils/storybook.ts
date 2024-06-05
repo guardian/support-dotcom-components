@@ -67,4 +67,9 @@ export const props: BannerProps = {
     tickerSettings,
     separateArticleCount: true,
     numArticles: 6,
+    articleCounts: {
+        for52Weeks: 6,
+        forTargetedWeeks: 6,
+    },
+    countType: 'for52Weeks',
 };

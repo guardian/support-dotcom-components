@@ -1,6 +1,7 @@
 import { JSX } from '@emotion/react/jsx-runtime';
 import * as z from 'zod';
 import {
+    articleCountsSchema,
     bylineWithImageSchema,
     ctaSchema,
     imageSchema,
@@ -40,10 +41,6 @@ export interface EpicProps extends JSX.IntrinsicAttributes {
 /**
  * Props validation
  */
-const articleCountsSchema = z.object({
-    for52Weeks: z.number(),
-    forTargetedWeeks: z.number(),
-});
 
 const maxViewsSchema = z.object({
     maxViewsCount: z.number(),

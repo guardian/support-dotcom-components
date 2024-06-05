@@ -34,16 +34,21 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
 import SlideIn from './SlideIn';
 import type { ReactComponent } from '../../../types';
+import { ArticleCounts, ArticleCountType } from '@sdc/shared/dist/types';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
+    articleCounts: ArticleCounts,
     numArticles: number,
     separateArticleCount: boolean,
+    countType?: ArticleCountType,
 ): JSX.Element | JSX.Element[] | null => {
-    if (separateArticleCount && numArticles >= 5) {
+    const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
+    if (separateArticleCount && numArticles >= 5 && numOfArticles >= 5) {
         return replaceArticleCount(
             `You’ve read %%ARTICLE_COUNT%% articles in the last year`,
             numArticles,
+            numOfArticles,
             'banner',
         );
     }
@@ -91,6 +96,8 @@ const withBannerData =
             prices,
             fetchEmail,
             numArticles = 0,
+            articleCounts,
+            countType,
             tickerSettings,
             isSupporter,
             separateArticleCount,
@@ -144,7 +151,8 @@ const withBannerData =
         };
 
         const finaliseParagraphs = (paras: string[]): (Array<JSX.Element> | JSX.Element)[] => {
-            return paras.map((p) => replaceArticleCount(p, numArticles, 'banner'));
+            const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
+            return paras.map((p) => replaceArticleCount(p, numArticles, numOfArticles, 'banner'));
         };
 
         const paragraphsContainNonArticleCountPlaceholder = (paras: string[]): boolean =>
@@ -219,15 +227,21 @@ const withBannerData =
                     containsNonArticleCountPlaceholder(cleanHighlightedText)) ||
                 (!!cleanHeading && containsNonArticleCountPlaceholder(cleanHeading));
 
+            const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
             const headingWithArticleCount = !!cleanHeading
-                ? replaceArticleCount(cleanHeading, numArticles, 'banner')
+                ? replaceArticleCount(cleanHeading, numArticles, numOfArticles, 'banner')
                 : null;
 
             const highlightedTextWithArticleCount = !!cleanHighlightedText
-                ? replaceArticleCount(cleanHighlightedText, numArticles, 'banner')
+                ? replaceArticleCount(cleanHighlightedText, numArticles, numOfArticles, 'banner')
                 : null;
 
-            const subheading = buildSubheading(numArticles, !!separateArticleCount);
+            const subheading = buildSubheading(
+                articleCounts,
+                numArticles,
+                !!separateArticleCount,
+                countType,
+            );
 
             if (copyHasPlaceholder) {
                 throw Error('Banner copy contains placeholders, abandoning.');
@@ -289,6 +303,8 @@ const withBannerData =
                     tickerSettings,
                     isSupporter,
                     numArticles,
+                    articleCounts,
+                    countType,
                     separateArticleCount,
                     choiceCardAmounts,
                     tracking,

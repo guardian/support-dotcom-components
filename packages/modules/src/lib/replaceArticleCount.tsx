@@ -8,6 +8,7 @@ import {
 export const replaceArticleCountWithLink = (
     text: string,
     numArticles: number,
+    numOfArticles: number,
     articleCountOptOutType: ArticleCountOptOutType,
     tracking?: OphanTracking,
 ): Array<JSX.Element> => {
@@ -27,6 +28,7 @@ export const replaceArticleCountWithLink = (
         elements.push(
             <ArticleCountOptOutPopup
                 numArticles={numArticles}
+                numOfArticles={numOfArticles}
                 nextWord={nextWords[i] as string}
                 type={articleCountOptOutType}
                 tracking={tracking}
@@ -49,17 +51,24 @@ export const replaceArticleCountWithLink = (
 export const replaceArticleCount = (
     text: string,
     numArticles: number,
+    numOfArticles: number,
     articleCountOptOutType: ArticleCountOptOutType,
     tracking?: OphanTracking,
     optOutLink: boolean = true,
 ): Array<JSX.Element> | JSX.Element => {
     if (optOutLink) {
-        return replaceArticleCountWithLink(text, numArticles, articleCountOptOutType, tracking);
+        return replaceArticleCountWithLink(
+            text,
+            numArticles,
+            numOfArticles,
+            articleCountOptOutType,
+            tracking,
+        );
     }
     return (
         <span
             dangerouslySetInnerHTML={{
-                __html: text.replace(/%%ARTICLE_COUNT%%/, `${numArticles}`),
+                __html: text.replace(/%%ARTICLE_COUNT%%/, `${numOfArticles} and this ${numArticles}`),
             }}
         />
     );

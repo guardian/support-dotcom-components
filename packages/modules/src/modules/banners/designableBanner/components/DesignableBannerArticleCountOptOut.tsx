@@ -14,13 +14,14 @@ import type { ReactComponent } from '../../../../types';
 
 export interface DesignableBannerArticleCountOptOutProps {
     numArticles: number;
+    numOfArticles: number;
     nextWord: string | null;
     settings: BannerTemplateSettings;
 }
 
 export const DesignableBannerArticleCountOptOut: ReactComponent<
     DesignableBannerArticleCountOptOutProps
-> = ({ numArticles, nextWord, settings }: DesignableBannerArticleCountOptOutProps) => {
+> = ({ numArticles,numOfArticles, nextWord, settings }: DesignableBannerArticleCountOptOutProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [hasOptedOut, setHasOptedOut] = useState(false);
 
@@ -43,7 +44,7 @@ export const DesignableBannerArticleCountOptOut: ReactComponent<
     return (
         <div css={styles.optOutContainer}>
             <button css={styles.articleCountButton} onClick={onToggle}>
-                {`${numArticles}${nextWord ? nextWord : ''}`}
+                {`${numOfArticles} and  this one ${numArticles}${nextWord ? nextWord : ''}`}
             </button>
 
             {isOpen && (

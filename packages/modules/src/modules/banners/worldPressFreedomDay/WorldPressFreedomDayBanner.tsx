@@ -66,6 +66,8 @@ const WorldPressFreedomDayBanner = ({
     submitComponentEvent,
     tracking,
     numArticles,
+    articleCounts,
+    countType,
     isSupporter,
     separateArticleCount,
 }: BannerRenderProps): JSX.Element => {
@@ -95,10 +97,19 @@ const WorldPressFreedomDayBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const showArticleCount =
-        separateArticleCount && !isSupporter && numArticles !== undefined && numArticles > 5;
+    const numOfArticles = articleCounts[countType ?? 'for52Weeks'];
 
-    const articleCount = <ArticleCount numArticles={numArticles ?? 0} />;
+    const showArticleCount =
+        separateArticleCount &&
+        !isSupporter &&
+        numArticles !== undefined &&
+        numArticles > 5 &&
+        numOfArticles !== undefined &&
+        numOfArticles > 5;
+
+    const articleCount = (
+        <ArticleCount numArticles={numArticles ?? 0} numOfArticles={numOfArticles ?? 0} />
+    );
 
     return (
         <section css={banner} data-target="wpfd-banner">

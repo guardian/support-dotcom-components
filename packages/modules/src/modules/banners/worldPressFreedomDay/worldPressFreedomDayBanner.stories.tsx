@@ -106,4 +106,9 @@ WorldPressFreedomDay.args = {
     },
     separateArticleCount: true,
     numArticles: 15,
+    articleCounts: {
+        for52Weeks: 6,
+        forTargetedWeeks: 6,
+    },
+    countType: 'for52Weeks',
 };

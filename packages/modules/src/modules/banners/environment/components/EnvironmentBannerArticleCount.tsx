@@ -19,16 +19,19 @@ const styles = {
 
 interface EnvironmentBannerArticleCountProps {
     numArticles: number;
+    numOfArticles: number;
 }
 
 export function EnvironmentBannerArticleCount({
     numArticles,
+    numOfArticles,
 }: EnvironmentBannerArticleCountProps): JSX.Element {
     return (
         <p css={styles.container}>
             You&apos;ve read{' '}
             <ArticleCountOptOutPopup
                 numArticles={numArticles}
+                numOfArticles={numOfArticles}
                 nextWord=" articles"
                 type="global-new-year-moment-banner"
             />{' '}

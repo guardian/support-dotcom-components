@@ -104,6 +104,11 @@ export const tickerSettingsSchema = z.object({
     tickerData: tickerDataSchema.optional(),
 });
 
+export const articleCountsSchema = z.object({
+    for52Weeks: z.number(),
+    forTargetedWeeks: z.number(),
+});
+
 export const ophanProductSchema = z.enum([
     'CONTRIBUTION',
     'MEMBERSHIP_SUPPORTER',

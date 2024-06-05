@@ -8,11 +8,13 @@ import { BannerTemplateSettings } from '../settings';
 
 interface DesignableBannerArticleCountProps {
     numArticles: number;
+    numOfArticles: number;
     settings: BannerTemplateSettings;
 }
 
 export function DesignableBannerArticleCount({
     numArticles,
+    numOfArticles,
     settings,
 }: DesignableBannerArticleCountProps): JSX.Element {
     return (
@@ -20,6 +22,7 @@ export function DesignableBannerArticleCount({
             You&apos;ve read{' '}
             <DesignableBannerArticleCountOptOut
                 numArticles={numArticles}
+                numOfArticles={numOfArticles}
                 nextWord=" articles"
                 settings={settings}
             />{' '}
