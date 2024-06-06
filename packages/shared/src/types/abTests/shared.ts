@@ -75,14 +75,14 @@ export const userCohortSchema = z.enum([
 ]);
 
 export const articlesViewedSettingsSchema = z.object({
-    minViews: z.number(),
+    minViews: z.number().optional(),
     maxViews: z.number().optional(),
     periodInWeeks: z.number(),
     tagIds: z.array(z.string()).optional(),
 });
 
 export interface ArticlesViewedSettings {
-    minViews: number;
+    minViews?: number;
     maxViews?: number;
     periodInWeeks: number;
     tagIds?: string[];
