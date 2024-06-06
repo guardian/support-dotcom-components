@@ -8,6 +8,7 @@ import {
     EpicTest,
     EpicVariant,
     ContributionFrequency,
+    AbandonedBasket,
 } from '../types';
 
 // TRACKING VIA support.theguardian.com
@@ -106,6 +107,26 @@ export const addTrackingParams = (
     const queryString = generateQueryString(params, acquisitionData, numArticles ?? 0);
     const alreadyHasQueryString = baseUrl.includes('?');
     return `${baseUrl}${alreadyHasQueryString ? '&' : '?'}${queryString}`;
+};
+
+const addAbandonedBasketContributionParams = (
+    baseUrl: string,
+    { region, amount, billingPeriod }: AbandonedBasket,
+): string => {
+    return `${baseUrl}/${region}/contribute/checkout?selected-amount=${amount}&selected-contribution-type=${billingPeriod}`;
+};
+
+export const addAbandonedBasketParamsToUrl = (
+    baseUrl: string,
+    abandonedBasket: AbandonedBasket,
+): string => {
+    switch (abandonedBasket.product) {
+        case 'Contribution':
+        case 'SupporterPlus':
+            return addAbandonedBasketContributionParams(baseUrl, abandonedBasket);
+        default:
+            return baseUrl;
+    }
 };
 
 export const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);

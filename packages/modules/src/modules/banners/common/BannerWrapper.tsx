@@ -1,4 +1,5 @@
 import {
+    addAbandonedBasketParamsToUrl,
     addRegionIdAndTrackingParamsToSupportUrl,
     addTrackingParamsToProfileUrl,
     createClickEventFromTracking,
@@ -96,6 +97,8 @@ const withBannerData =
             separateArticleCount,
             choiceCardAmounts,
             design,
+            bannerChannel,
+            abandonedBasket,
         } = bannerProps;
 
         const [canShow, setCanShow] = useState<boolean>(false);
@@ -158,6 +161,13 @@ const withBannerData =
                 if (isProfileUrl(cta.baseUrl)) {
                     return {
                         ctaUrl: addTrackingParamsToProfileUrl(cta.baseUrl, tracking),
+                        ctaText: cta.text,
+                    };
+                }
+
+                if (bannerChannel === 'abandonedBasket' && abandonedBasket) {
+                    return {
+                        ctaUrl: addAbandonedBasketParamsToUrl(cta.baseUrl, abandonedBasket),
                         ctaText: cta.text,
                     };
                 }
