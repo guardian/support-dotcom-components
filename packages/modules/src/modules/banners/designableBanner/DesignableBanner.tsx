@@ -357,7 +357,10 @@ const styles = {
     outerContainer: (background: string, textColor: string = 'inherit') => css`
         background: ${background};
         color: ${textColor};
-        max-height: 100vh;
+        max-height: 60vh;
+        ${from.tablet} {
+            max-height: 100vh;
+        }
         overflow: auto;
         * {
             box-sizing: border-box;
