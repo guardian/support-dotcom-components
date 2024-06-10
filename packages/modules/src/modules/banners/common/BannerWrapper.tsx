@@ -1,5 +1,4 @@
 import {
-    addAbandonedBasketParamsToUrl,
     addRegionIdAndTrackingParamsToSupportUrl,
     addTrackingParamsToProfileUrl,
     createClickEventFromTracking,
@@ -9,6 +8,7 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
     getReminderFields,
+    addAbandonedBasketAndTrackingParamsToUrl,
 } from '@sdc/shared/lib';
 import React, { useEffect, useState } from 'react';
 import {
@@ -167,7 +167,11 @@ const withBannerData =
 
                 if (bannerChannel === 'abandonedBasket' && abandonedBasket) {
                     return {
-                        ctaUrl: addAbandonedBasketParamsToUrl(cta.baseUrl, abandonedBasket),
+                        ctaUrl: addAbandonedBasketAndTrackingParamsToUrl(
+                            cta.baseUrl,
+                            abandonedBasket,
+                            tracking,
+                        ),
                         ctaText: cta.text,
                     };
                 }

@@ -129,6 +129,14 @@ export const addAbandonedBasketParamsToUrl = (
     }
 };
 
+export const addAbandonedBasketAndTrackingParamsToUrl = (
+    baseUrl: string,
+    abandonedBasket: AbandonedBasket,
+    tracking: Tracking,
+) => {
+    return addTrackingParams(addAbandonedBasketParamsToUrl(baseUrl, abandonedBasket), tracking);
+};
+
 export const isSupportUrl = (baseUrl: string): boolean => /\bsupport\./.test(baseUrl);
 
 export const addRegionIdAndTrackingParamsToSupportUrl = (
