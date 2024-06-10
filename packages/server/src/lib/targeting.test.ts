@@ -1,5 +1,7 @@
+import { AbandonedBasket } from '@sdc/shared/dist/types';
 import { factories } from '../factories';
 import {
+    abandonedBasketMatches,
     audienceMatches,
     consentStatusMatches,
     pageContextMatches,
@@ -9,13 +11,13 @@ import {
 
 describe('shouldNotRenderEpic', () => {
     it('returns true for blacklisted section', () => {
-        const data = factories.targeting.build({ sectionId: 'careers' });
+        const data = factories.epicTargeting.build({ sectionId: 'careers' });
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(true);
     });
 
     it('returns false for valid data', () => {
-        const data = factories.targeting.build();
+        const data = factories.epicTargeting.build();
         const got = shouldNotRenderEpic(data);
         expect(got).toBe(false);
     });
@@ -289,5 +291,41 @@ describe('consentStatusMatches', () => {
     it('checks user consent when a test does not target by consent status', () => {
         expect(consentStatusMatches(true, undefined)).toBe(true);
         expect(consentStatusMatches(false, undefined)).toBe(true);
+    });
+});
+
+describe('abandonedBasketMatches', () => {
+    const abandonedBasketCookieData: AbandonedBasket = {
+        product: 'Contribution',
+        region: 'au',
+        billingPeriod: 'MONTHLY',
+        amount: 5,
+    };
+
+    const targeting = factories.bannerTargeting.build({
+        abandonedBasket: abandonedBasketCookieData,
+    });
+
+    it('basket banner test matches user with cookie set and mvtId in variant', () => {
+        const mvtId = 1;
+        expect(abandonedBasketMatches('abandonedBasket', { ...targeting, mvtId })).toBe(true);
+    });
+
+    it('basket banner test does not match user with cookie set and mvtId in control', () => {
+        const mvtId = 2;
+        expect(abandonedBasketMatches('abandonedBasket', { ...targeting, mvtId })).toBe(false);
+    });
+
+    it('basket banner test does not match user with no cookie', () => {
+        expect(
+            abandonedBasketMatches('abandonedBasket', {
+                ...targeting,
+                abandonedBasket: undefined,
+            }),
+        ).toBe(false);
+    });
+
+    it('non basket banner test passes filter', () => {
+        expect(abandonedBasketMatches('contributions', targeting)).toBe(true);
     });
 });

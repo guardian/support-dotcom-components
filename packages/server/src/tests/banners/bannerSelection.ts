@@ -227,7 +227,7 @@ export const selectBannerTest = (
                 },
             ) &&
             consentStatusMatches(targeting.hasConsented, test.consentStatus) &&
-            abandonedBasketMatches(test.bannerChannel, targeting.abandonedBasket)
+            abandonedBasketMatches(test.bannerChannel, targeting)
         ) {
             const variant = selectVariant<BannerVariant, BannerTest>(test, targeting.mvtId);
 

@@ -8,11 +8,12 @@ import {
     PageContextTargeting,
     UserDeviceType,
     ConsentStatus,
-    AbandonedBasket,
     BannerChannel,
+    BannerTargeting,
 } from '@sdc/shared/types';
 
 import { daysSince } from './dates';
+import { getRandomNumber } from './ab';
 
 const lowValueSections = ['money', 'education', 'games', 'teacher-network', 'careers'];
 
@@ -125,12 +126,19 @@ export const consentStatusMatches = (
     }
 };
 
+// this logic is repeated in support-frontend when the cookie is set
+function userIsInVariantCohort(mvtId: number): boolean {
+    const randomNumber = getRandomNumber('1', mvtId) % 2;
+
+    return randomNumber === 1;
+}
+
 export function abandonedBasketMatches(
     bannerChannel: BannerChannel,
-    abandonedBasket: AbandonedBasket | undefined,
+    { abandonedBasket: cookieData, mvtId }: BannerTargeting,
 ): boolean {
     if (bannerChannel === 'abandonedBasket') {
-        return !!abandonedBasket;
+        return cookieData != undefined && userIsInVariantCohort(mvtId);
     }
 
     return true;
