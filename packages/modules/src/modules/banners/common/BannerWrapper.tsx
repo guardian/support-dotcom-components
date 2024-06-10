@@ -8,6 +8,7 @@ import {
     containsNonArticleCountPlaceholder,
     replaceNonArticleCountPlaceholders,
     getReminderFields,
+    addAbandonedBasketAndTrackingParamsToUrl,
 } from '@sdc/shared/lib';
 import React, { useEffect, useState } from 'react';
 import {
@@ -96,6 +97,8 @@ const withBannerData =
             separateArticleCount,
             choiceCardAmounts,
             design,
+            bannerChannel,
+            abandonedBasket,
         } = bannerProps;
 
         const [canShow, setCanShow] = useState<boolean>(false);
@@ -158,6 +161,17 @@ const withBannerData =
                 if (isProfileUrl(cta.baseUrl)) {
                     return {
                         ctaUrl: addTrackingParamsToProfileUrl(cta.baseUrl, tracking),
+                        ctaText: cta.text,
+                    };
+                }
+
+                if (bannerChannel === 'abandonedBasket' && abandonedBasket) {
+                    return {
+                        ctaUrl: addAbandonedBasketAndTrackingParamsToUrl(
+                            cta.baseUrl,
+                            abandonedBasket,
+                            tracking,
+                        ),
                         ctaText: cta.text,
                     };
                 }
