@@ -11,11 +11,11 @@ import {
     testSchema,
     userCohortSchema,
 } from './shared';
-import { OphanComponentType, OphanProduct } from '../ophan';
 import { countryGroupIdSchema } from '../../lib';
 import { BannerTargeting, PageTracking } from '../targeting';
 import { PurchaseInfoTest } from './shared';
 import * as z from 'zod';
+import { OphanComponentType, OphanProduct } from '@guardian/libs';
 
 export enum BannerTemplate {
     ContributionsBanner = 'ContributionsBanner',
