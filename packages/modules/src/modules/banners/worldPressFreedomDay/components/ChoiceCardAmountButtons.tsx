@@ -3,13 +3,13 @@ import { ChoiceCard } from '@guardian/source/react-components';
 import {
     AmountsCardData,
     ContributionFrequency,
-    OphanComponentEvent,
     ContributionType,
 } from '@sdc/shared/dist/types';
 import { trackClick } from './FrequencyTabs';
 import { SerializedStyles, css } from '@emotion/react';
 import { space, between, from, until } from '@guardian/source/foundations';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
+import { OphanComponentEvent } from '@guardian/libs';
 
 const container = css`
     display: flex;

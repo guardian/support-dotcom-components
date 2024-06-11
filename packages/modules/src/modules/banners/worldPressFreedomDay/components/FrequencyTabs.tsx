@@ -2,11 +2,11 @@ import React from 'react';
 import {
     AmountsCardData,
     ContributionFrequency,
-    OphanComponentEvent,
 } from '@sdc/shared/dist/types';
 import { BannerChoiceCardsPaymentFrequencyTabs } from './paymentFrequencyTabs/PaymentFrequencyTabs';
 import { Box } from './paymentFrequencyTabs/PaymentFrequencyTabsBox';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export const trackClick = (
     type: 'amount' | 'frequency',

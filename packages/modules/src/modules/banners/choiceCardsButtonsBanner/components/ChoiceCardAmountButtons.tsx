@@ -3,7 +3,6 @@ import { ChoiceCard } from '@guardian/source/react-components';
 import {
     AmountsCardData,
     ContributionFrequency,
-    OphanComponentEvent,
     ContributionType,
 } from '@sdc/shared/dist/types';
 import { trackClick } from './ChoiceCardFrequencyTabs';
@@ -11,6 +10,7 @@ import { SerializedStyles, css } from '@emotion/react';
 import { space, between, from, until } from '@guardian/source/foundations';
 import { ChoiceCardSelection } from '../ChoiceCardsButtonsBanner';
 import { ChoiceCardBannerComponentId, ChoiceCardSettings } from './ChoiceCards';
+import { OphanComponentEvent } from '@guardian/libs';
 
 const container = css`
     display: flex;

@@ -10,8 +10,8 @@ import {
     Tracking,
     trackingSchema,
 } from './shared';
-import { OphanComponentEvent } from '../ophan';
 import { EpicVariant } from '../abTests';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export type ArticleCountType =
     | 'for52Weeks' // The user's total article view count, which currently goes back as far as 52 weeks

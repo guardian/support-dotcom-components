@@ -3,7 +3,6 @@ import { css, SerializedStyles } from '@emotion/react';
 import { space, from } from '@guardian/source/foundations';
 
 import { ArticleCountOptOutOverlay } from './ArticleCountOptOutOverlay';
-import { OphanComponentEvent, OphanComponentType } from '@sdc/shared/types';
 import {
     ophanComponentEventOptOutClose,
     ophanComponentEventOptOutConfirm,
@@ -16,6 +15,7 @@ import {
     removeArticleCountFromLocalStorage,
 } from './helpers/articleCountOptOut';
 import type { ReactComponent } from '../../types';
+import { OphanComponentEvent, OphanComponentType } from '@guardian/libs';
 
 export type ArticleCountOptOutType =
     | 'epic'

@@ -10,12 +10,12 @@ import { PaymentCards } from './PaymentCards';
 import { BannerTextContent } from '../../common/types';
 import { ChoiceCardSelection } from '../WorldPressFreedomDayBanner';
 import {
-    OphanComponentEvent,
     AmountsCardData,
     ContributionType,
     Tracking,
 } from '@sdc/shared/src/types';
 import type { ReactComponent } from '../../../../types';
+import { OphanComponentEvent } from '@guardian/libs';
 
 interface ChoiceCardProps {
     selection?: ChoiceCardSelection;

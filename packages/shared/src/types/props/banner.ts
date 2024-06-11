@@ -9,12 +9,12 @@ import {
     Tracking,
     trackingSchema,
 } from './shared';
-import { OphanComponentEvent } from '../ophan';
 import * as z from 'zod';
 import { Prices } from '../prices';
 import { SelectedAmountsVariant } from '../abTests';
 import { ConfigurableDesign, configurableDesignSchema } from './design';
 import { AbandonedBasket } from '../targeting';
+import { OphanComponentEvent } from '@guardian/libs';
 
 export const bannerChannelSchema = z.enum([
     'contributions',
