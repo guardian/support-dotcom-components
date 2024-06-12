@@ -9,7 +9,7 @@ import {
     UserDeviceType,
     uiIsDesign,
 } from '@sdc/shared/types';
-import {selectVariant, selectVariantNonSticky} from '../../lib/ab';
+import { selectVariant, selectVariantNonSticky } from '../../lib/ab';
 import { historyWithinArticlesViewedSettings } from '../../lib/history';
 import { TestVariant } from '../../lib/params';
 import {
