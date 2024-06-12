@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { HeaderProps, Cta, headerPropsSchema, OphanAction } from '@sdc/shared/types';
+import { HeaderProps, Cta, headerPropsSchema } from '@sdc/shared/types';
 import {
     addRegionIdAndTrackingParamsToSupportUrl,
     addTrackingParamsToProfileUrl,
@@ -9,6 +9,7 @@ import {
 import { HasBeenSeen, useHasBeenSeen } from '../../hooks/useHasBeenSeen';
 import { withParsedProps } from '../shared/ModuleWrapper';
 import type { ReactComponent } from '../../types';
+import { OphanAction } from '@guardian/libs';
 
 export interface HeaderEnrichedCta {
     ctaUrl: string;
