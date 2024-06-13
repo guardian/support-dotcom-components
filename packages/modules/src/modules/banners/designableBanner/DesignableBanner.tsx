@@ -301,11 +301,6 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                             styles.choiceCardsContainer(
                                 templateSettings.containerSettings.backgroundColour,
                             ),
-                            css`
-                                ${until.mobileMedium} {
-                                    display: none;
-                                }
-                            `,
                         ]}
                     >
                         <ChoiceCards

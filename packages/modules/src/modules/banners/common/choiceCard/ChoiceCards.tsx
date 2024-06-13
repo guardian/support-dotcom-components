@@ -10,6 +10,7 @@ import { OphanComponentEvent, SelectedAmountsVariant } from '@sdc/shared/src/typ
 import type { ReactComponent } from '../../../../types';
 import { ChoiceCardSelection } from '../../../shared/helpers/choiceCards';
 import { ContentType } from '../../../../hooks/useChoiceCards';
+import { Hide } from '@guardian/source/react-components';
 
 export interface ChoiceCardSettings {
     buttonColour?: string;
@@ -129,15 +130,17 @@ export const ChoiceCards: ReactComponent<ChoiceCardProps> = ({
 
     return (
         <div ref={setNode} css={styles.container}>
-            <ChoiceCardInteractive
-                design={design}
-                selection={selection}
-                setSelectionsCallback={setSelectionsCallback}
-                submitComponentEvent={submitComponentEvent}
-                currencySymbol={currencySymbol}
-                amountsTest={amountsTest}
-                componentId={componentId}
-            />
+            <Hide until="mobileLandscape">
+                <ChoiceCardInteractive
+                    design={design}
+                    selection={selection}
+                    setSelectionsCallback={setSelectionsCallback}
+                    submitComponentEvent={submitComponentEvent}
+                    currencySymbol={currencySymbol}
+                    amountsTest={amountsTest}
+                    componentId={componentId}
+                />
+            </Hide>
 
             <div css={styles.ctaAndPaymentCardsContainer}>
                 <ChoiceCardsSupportCta
