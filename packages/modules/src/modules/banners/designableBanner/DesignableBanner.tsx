@@ -297,9 +297,16 @@ const DesignableBanner: ReactComponent<BannerRenderProps> = ({
                 )}
                 {showChoiceCards && (
                     <div
-                        css={styles.choiceCardsContainer(
-                            templateSettings.containerSettings.backgroundColour,
-                        )}
+                        css={[
+                            styles.choiceCardsContainer(
+                                templateSettings.containerSettings.backgroundColour,
+                            ),
+                            css`
+                                ${until.mobileMedium} {
+                                    display: none;
+                                }
+                            `,
+                        ]}
                     >
                         <ChoiceCards
                             setSelectionsCallback={setChoiceCardSelection}
