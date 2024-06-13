@@ -12,10 +12,7 @@ import { BannerRenderProps } from '../common/types';
 import { bannerWrapper, validatedBannerWrapper } from '../common/BannerWrapper';
 import { GREEN_HEX } from './utils/constants';
 import type { ReactComponent } from '../../../types';
-import {
-    ArticleCount,
-    CustomArticleCountCopy,
-} from '../worldPressFreedomDay/components/ArticleCount';
+import { CustomArticleCountCopy } from '../worldPressFreedomDay/components/ArticleCount';
 
 const container = css`
     position: relative;
@@ -193,15 +190,20 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
     isSupporter,
     separateArticleCountSettings,
 }: BannerRenderProps) => {
-    const { copy, countType, type } = separateArticleCountSettings;
-    const numArticles = articleCounts[countType ?? 'for52Weeks'];
+    const { copy, countType, type } = separateArticleCountSettings ?? {
+        copy: '',
+        countType: '',
+        type: 'above',
+    };
+    const numArticles =
+        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
     const showAboveArticleCount = !!(type === 'above');
     const showCustomArticleCount =
         separateArticleCountSettings &&
         showAboveArticleCount &&
         !isSupporter &&
-        articleCounts['forTargetedWeeks'] !== undefined &&
-        articleCounts['forTargetedWeeks'] > 5;
+        numArticles !== undefined &&
+        numArticles > 5;
 
     return (
         <div css={container}>
@@ -231,7 +233,8 @@ const EnvironmentBanner: ReactComponent<BannerRenderProps> = ({
                             ) : (
                                 <div>
                                     <EnvironmentBannerArticleCount
-                                        numArticles={articleCounts['for52Weeks']}
+                                        numArticles={numArticles ?? 0}
+                                        copy={copy}
                                     />
                                 </div>
                             )}

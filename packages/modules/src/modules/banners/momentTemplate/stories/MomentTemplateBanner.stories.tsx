@@ -62,8 +62,8 @@ Default.args = {
         },
     },
     articleCounts: {
-        for52Weeks: 50,
-        forTargetedWeeks: 50,
+        for52Weeks: 40,
+        forTargetedWeeks: 40,
     },
     separateArticleCountSettings: {
         type: 'above',
@@ -119,11 +119,10 @@ WithBackDrop.args = {
         },
     },
     articleCounts: {
-        for52Weeks: 50,
-        forTargetedWeeks: 50,
+        for52Weeks: 40,
+        forTargetedWeeks: 40,
     },
     separateArticleCountSettings: {
-        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
         type: 'above',
     },
     tickerSettings: undefined,
@@ -403,7 +402,6 @@ WithTicker.args = {
         forTargetedWeeks: 50,
     },
     separateArticleCountSettings: {
-        copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last few weeks.',
         type: 'above',
     },
     tickerSettings: {

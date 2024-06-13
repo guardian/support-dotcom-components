@@ -95,8 +95,13 @@ const WorldPressFreedomDayBanner = ({
 
     const currencySymbol = getLocalCurrencySymbol(countryCode);
 
-    const { copy, countType, type } = separateArticleCountSettings;
-    const numArticles = articleCounts[countType ?? 'for52Weeks'];
+    const { copy, countType, type } = separateArticleCountSettings ?? {
+        copy: '',
+        countType: '',
+        type: 'above',
+    };
+    const numArticles =
+        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
 
     const showAboveArticleCount = !!(type === 'above');
 
@@ -104,8 +109,8 @@ const WorldPressFreedomDayBanner = ({
         separateArticleCountSettings &&
         showAboveArticleCount &&
         !isSupporter &&
-        articleCounts['forTargetedWeeks'] !== undefined &&
-        articleCounts['forTargetedWeeks'] > 5;
+        numArticles !== undefined &&
+        numArticles > 5;
 
     const articleCount =
         copy && showCustomArticleCount ? (
@@ -114,7 +119,7 @@ const WorldPressFreedomDayBanner = ({
                 numArticles={articleCounts['forTargetedWeeks'] ?? 0}
             />
         ) : (
-            <ArticleCount numArticles={articleCounts['for52Weeks'] ?? 0} />
+            <ArticleCount numArticles={numArticles ?? 0} copy={copy} />
         );
 
     return (

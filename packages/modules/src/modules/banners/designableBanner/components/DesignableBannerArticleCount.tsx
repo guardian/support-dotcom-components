@@ -1,59 +1,48 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, headline } from '@guardian/source/foundations';
+import { from, headline, palette } from '@guardian/source/foundations';
 import { DesignableBannerArticleCountOptOut } from './DesignableBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
+import {
+    containsArticleCountTemplate,
+    CustomArticleCountCopy,
+} from '../../worldPressFreedomDay/components/ArticleCount';
 
 // ---- Component ---- //
 
 interface DesignableBannerArticleCountProps {
     numArticles: number;
     settings: BannerTemplateSettings;
-}
-
-interface DesignableBannerCustomArticleCountProps {
     copy?: string;
-    numArticles: number;
-    settings: BannerTemplateSettings;
 }
-
-const ARTICLE_COUNT_TEMPLATE = '%%ARTICLE_COUNT%%';
-
 export function DesignableBannerArticleCount({
-    numArticles,
-    settings,
-}: DesignableBannerArticleCountProps): JSX.Element {
-    return (
-        <div css={styles.container(settings.articleCountTextColour)}>
-            You&apos;ve read{' '}
-            <DesignableBannerArticleCountOptOut
-                numArticles={numArticles}
-                nextWord=" articles"
-                settings={settings}
-            />{' '}
-            in the last year
-        </div>
-    );
-}
-
-export function DesignableBannerCustomArticleCount({
     copy,
     numArticles,
     settings,
-}: DesignableBannerCustomArticleCountProps): JSX.Element {
-    let copyHead = '';
-    let copyTail = '';
-    if (copy) {
-        [copyHead, copyTail] = copy.split(ARTICLE_COUNT_TEMPLATE);
+}: DesignableBannerArticleCountProps): JSX.Element {
+    if (copy && containsArticleCountTemplate(copy)) {
+        // Custom article count message
+        return <CustomArticleCountCopy numArticles={numArticles} copy={copy} />;
+    } else if (numArticles >= 50) {
+        return (
+            <div css={styles.container(settings.articleCountTextColour)}>
+                Congratulations on being one of our top readers globally – you&apos;ve read{' '}
+                <span css={optOutContainer}>{numArticles} articles</span> in the last year
+            </div>
+        );
+    } else {
+        return (
+            <div css={styles.container(settings.articleCountTextColour)}>
+                You&apos;ve read{' '}
+                <DesignableBannerArticleCountOptOut
+                    numArticles={numArticles}
+                    nextWord=" articles"
+                    settings={settings}
+                />{' '}
+                in the last year
+            </div>
+        );
     }
-
-    return (
-        <div css={styles.container(settings.articleCountTextColour)}>
-            {copyHead}
-            <span>{numArticles}&nbsp;articles</span>
-            {copyTail?.substring(1, 9) === 'articles' ? copyTail.substring(9) : copyTail}
-        </div>
-    );
 }
 
 // ---- Styles ---- //
@@ -69,3 +58,7 @@ const styles = {
         }
     `,
 };
+
+const optOutContainer = css`
+    color: ${palette.opinion[400]};
+`;

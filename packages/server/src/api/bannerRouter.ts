@@ -103,6 +103,10 @@ export const buildBannerRouter = (
             //     copy: 'You’ve read %%ARTICLE_COUNT%% articles in the last month.',
             // };
 
+            const countType = !variant.separateArticleCountSettings?.copy
+                ? 'for52Weeks'
+                : 'forTargetedWeeks';
+
             const props: BannerProps = {
                 tracking: { ...pageTracking, ...testTracking },
                 bannerChannel: test.bannerChannel,
@@ -115,6 +119,7 @@ export const buildBannerRouter = (
                     test.articlesViewedSettings?.periodInWeeks,
                     test.articlesViewedSettings?.tagIds,
                 ),
+                countType: countType,
                 hasOptedOutOfArticleCount: targeting.hasOptedOutOfArticleCount,
                 tickerSettings,
                 separateArticleCount: variant.separateArticleCount,

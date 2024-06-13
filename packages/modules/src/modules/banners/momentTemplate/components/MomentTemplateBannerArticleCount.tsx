@@ -1,31 +1,49 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { from, headline } from '@guardian/source/foundations';
+import { from, headline, palette } from '@guardian/source/foundations';
 import { MomentTemplateArticleCountOptOut } from './MomentTemplateBannerArticleCountOptOut';
 import { BannerTemplateSettings } from '../settings';
+import {
+    containsArticleCountTemplate,
+    CustomArticleCountCopy,
+} from '../../worldPressFreedomDay/components/ArticleCount';
 
 // ---- Component ---- //
 
 interface MomentTemplateBannerArticleCountProps {
     numArticles: number;
     settings: BannerTemplateSettings;
+    copy?: string;
 }
 
 export function MomentTemplateBannerArticleCount({
     numArticles,
     settings,
+    copy,
 }: MomentTemplateBannerArticleCountProps): JSX.Element {
-    return (
-        <div css={styles.container(settings.articleCountTextColour)}>
-            You&apos;ve read{' '}
-            <MomentTemplateArticleCountOptOut
-                numArticles={numArticles}
-                nextWord=" articles"
-                settings={settings}
-            />{' '}
-            in the last year
-        </div>
-    );
+    if (copy && containsArticleCountTemplate(copy)) {
+        // Custom article count message
+        return <CustomArticleCountCopy numArticles={numArticles} copy={copy} />;
+    } else if (numArticles >= 50) {
+        return (
+            <div css={styles.container(settings.articleCountTextColour)}>
+                Congratulations on being one of our top readers globally – you&apos;ve read{' '}
+                <span css={optOutContainer}>{numArticles} articles</span> in the last year
+            </div>
+        );
+    } else {
+        return (
+            <div css={styles.container(settings.articleCountTextColour)}>
+                You&apos;ve read{' '}
+                <MomentTemplateArticleCountOptOut
+                    numArticles={numArticles}
+                    nextWord=" articles"
+                    settings={settings}
+                />{' '}
+                in the last year
+            </div>
+        );
+    }
 }
 
 // ---- Styles ---- //
@@ -41,3 +59,7 @@ const styles = {
         }
     `,
 };
+
+const optOutContainer = css`
+    color: ${palette.opinion[400]};
+`;

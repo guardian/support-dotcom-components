@@ -31,7 +31,6 @@ export function getMomentTemplateBanner(
         onCtaClick,
         onSecondaryCtaClick,
         reminderTracking,
-        separateArticleCount,
         separateArticleCountSettings,
         tickerSettings,
         choiceCardAmounts,
@@ -55,8 +54,13 @@ export function getMomentTemplateBanner(
             templateSettings.choiceCards && choiceCardAmounts?.amountsCardData
         );
 
-        const { copy, countType, type } = separateArticleCountSettings;
-        const numArticles = articleCounts[countType ?? 'for52Weeks'];
+        const { copy, countType, type } = separateArticleCountSettings ?? {
+            copy: '',
+            countType: '',
+            type: 'above',
+        };
+        const numArticles =
+            articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
 
         const showAboveArticleCount = !!(type === 'above');
 
@@ -64,8 +68,8 @@ export function getMomentTemplateBanner(
             separateArticleCountSettings &&
             showAboveArticleCount &&
             copy &&
-            articleCounts['forTargetedWeeks'] !== undefined &&
-            articleCounts['forTargetedWeeks'] > 5;
+            numArticles !== undefined &&
+            numArticles > 5;
 
         return (
             <div
@@ -95,7 +99,7 @@ export function getMomentTemplateBanner(
                     </div>
 
                     <div css={styles.contentContainer}>
-                        {showCustomArticleCount ? (
+                        {showCustomArticleCount && copy ? (
                             <div>
                                 <CustomArticleCountCopy
                                     copy={copy}
@@ -104,8 +108,9 @@ export function getMomentTemplateBanner(
                             </div>
                         ) : (
                             <MomentTemplateBannerArticleCount
-                                numArticles={articleCounts['for52Weeks'] as number}
+                                numArticles={numArticles as number}
                                 settings={templateSettings}
+                                copy={copy}
                             />
                         )}
                         <div css={templateSpacing.bannerBodyCopy}>

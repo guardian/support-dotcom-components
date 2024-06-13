@@ -34,24 +34,31 @@ import { HasBeenSeen, useHasBeenSeen } from '../../../hooks/useHasBeenSeen';
 import { useScrollDepth } from '../../../hooks/useScrollDepth';
 import SlideIn from './SlideIn';
 import type { ReactComponent } from '../../../types';
-import { ArticleCounts, SeparateArticleCountSettings } from '@sdc/shared/dist/types';
+import { ArticleCounts, SeparateArticleCount } from '@sdc/shared/dist/types';
 import { containsArticleCountTemplate } from '../worldPressFreedomDay/components/ArticleCount';
 
 // A separate article count is rendered as a subheading
 const buildSubheading = (
     articleCounts: ArticleCounts,
     separateArticleCount: boolean,
-    separateArticleCountSettings: SeparateArticleCountSettings,
+    separateArticleCountSettings?: SeparateArticleCount,
 ): JSX.Element | JSX.Element[] | null => {
-    const { copy, countType } = separateArticleCountSettings;
-    const numArticles = articleCounts[countType ?? 'for52Weeks'];
+    const { copy, countType, type } = separateArticleCountSettings ?? {
+        copy: '',
+        countType: '',
+        type: 'above',
+    };
+    const numArticles =
+        articleCounts[countType as keyof typeof articleCounts] ?? articleCounts['for52Weeks'];
 
-    if (
+    const showAboveArticleCount = !!(type === 'above');
+    const showCustomArticleCount =
         separateArticleCountSettings &&
-        numArticles >= 5 &&
-        copy &&
-        containsArticleCountTemplate(copy)
-    ) {
+        showAboveArticleCount &&
+        numArticles !== undefined &&
+        numArticles > 5;
+
+    if (showCustomArticleCount && copy && containsArticleCountTemplate(copy)) {
         return replaceArticleCount(copy, articleCounts['forTargetedWeeks'], 'banner');
     } else if (separateArticleCountSettings && numArticles >= 5 && !copy) {
         return replaceArticleCount(
@@ -310,7 +317,6 @@ const withBannerData =
                     tickerSettings,
                     isSupporter,
                     articleCounts,
-                    countType,
                     separateArticleCount,
                     separateArticleCountSettings,
                     choiceCardAmounts,
