@@ -1,11 +1,7 @@
 import express, { Router } from 'express';
 import { getAmpExperimentData } from '../tests/amp/ampEpicSelection';
 import cors from 'cors';
-import {
-    AmountsTests,
-    AmountsCardData,
-    OneOffSignupRequest,
-} from '@sdc/shared/dist/types';
+import { AmountsTests, AmountsCardData, OneOffSignupRequest } from '@sdc/shared/dist/types';
 import fetch from 'node-fetch';
 import {
     buildAmpEpicCampaignCode,
